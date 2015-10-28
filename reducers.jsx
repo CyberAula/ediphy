@@ -1,5 +1,5 @@
 import {combineReducers} from 'redux';
-import {SET_SLIDE, ADD_SLIDE, ADD_BOX, SELECT_BOX} from './actions';
+import {SELECT_SLIDE, ADD_SLIDE, ADD_BOX, SELECT_BOX} from './actions';
 
 function slideCreator(state = {}, action = {}){
     switch (action.type){
@@ -32,9 +32,12 @@ function slidesById(state = {}, action = {}){
     }
 }
 
-function slideSelected(state = 0, action = {}) {
+function slideSelected(state = -1, action = {}) {
     switch (action.type) {
-        case SET_SLIDE:
+        case ADD_SLIDE:
+            console.log("Setting slide");
+            return action.slideId;
+        case SELECT_SLIDE:
             console.log("Setting slide");
             return action.index;
         default:

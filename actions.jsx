@@ -1,10 +1,10 @@
-export const SET_SLIDE = 'SET_SLIDE';
+export const SELECT_SLIDE = 'SELECT_SLIDE';
 export const ADD_SLIDE = 'ADD_SLIDE';
 export const ADD_BOX = 'ADD_BOX';
 export const SELECT_BOX = 'SELECT_BOX';
 
-export function setSlide(index){
-    return {type: SET_SLIDE, index};
+export function selectSlide(index){
+    return {type: SELECT_SLIDE, index};
 }
 
 export function addSlide(id){
