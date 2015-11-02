@@ -1,28 +1,20 @@
 import React, {Component} from 'react';
+import DaliBox from '../components/DaliBox';
 
 export default class DaliCanvas extends Component{
     render(){
         return(
             <div style={{display: 'table-cell', backgroundColor: 'green', position: 'relative', height: '700px'}}>
-                {this.props.ids.map((id, index) =>{
+                {this.props.ids.map(id =>{
                     let box = this.props.boxes[id];
                     if(box.slideId === this.props.slide) {
-                        box.style['position'] = 'absolute';
-                        box.style['left'] = box.position.x + '%';
-                        box.style['top'] = box.position.y + '%';
-                        box.style['borderColor'] = (id === this.props.box) ? 'red' : 'black';
-                        return <div key={index}
-                                    style={box.style}
-                                    dangerouslySetInnerHTML={{__html: box.content}}
-                                    onClick={e => this.handleBoxSelection(id)}>
-                        </div>;
+                        let isSelected = (id === this.props.box);
+                        return <DaliBox key={id} box={box} id={id}
+                                        isSelected={isSelected}
+                                        onSelectBox={this.props.onSelectBox} />
                     }
                 })}
             </div>
         );
-    }
-
-    handleBoxSelection(id){
-        this.props.onSelectBox(id)
     }
 }
