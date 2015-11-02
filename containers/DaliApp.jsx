@@ -14,7 +14,7 @@ class DaliApp extends Component{
                     <button onClick={() => dispatch(addBox(slideSelected, boxIds.length, 'text'))}>Add box</button>
                 </div>
                 <div style={{display: 'table', backgroundColor: '#CCCCCC', width: '100%', height: '700px'}}>
-                    <DaliCarousel slides={slides} ids={slideIds} onSelectSlide={id => dispatch(selectSlide(id))} />
+                    <DaliCarousel slides={slides} ids={slideIds} slide={slideSelected} onSelectSlide={id => dispatch(selectSlide(id))} />
                     <DaliCanvas boxes={boxes} ids={boxIds} slide={slideSelected} box={boxSelected} onSelectBox={id => dispatch(selectBox(id))} />
                 </div>
             </div>
