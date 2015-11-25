@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
-import {addBox, addSlide, selectSlide, selectBox} from '../actions';
+import {addBox, addSlide, selectSlide, selectBox, moveBox} from '../actions';
 import DaliCanvas from '../components/DaliCanvas';
 import DaliCarousel from '../components/DaliCarousel';
 
@@ -15,7 +15,13 @@ class DaliApp extends Component{
                 </div>
                 <div style={{display: 'table', backgroundColor: '#CCCCCC', width: '100%', height: '700px'}}>
                     <DaliCarousel slides={slides} ids={slideIds} slide={slideSelected} onSelectSlide={id => dispatch(selectSlide(id))} />
-                    <DaliCanvas boxes={boxes} ids={boxIds} slide={slideSelected} box={boxSelected} onSelectBox={id => dispatch(selectBox(id))} />
+                    <DaliCanvas boxes={boxes}
+                                ids={boxIds}
+                                slide={slideSelected}
+                                box={boxSelected}
+                                onSelectBox={id => dispatch(selectBox(id))}
+                                onMoveBox={(id, x, y) => dispatch(moveBox(id, x, y))}
+                        />
                 </div>
             </div>
         );

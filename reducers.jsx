@@ -1,5 +1,5 @@
 import {combineReducers} from 'redux';
-import {SELECT_SLIDE, ADD_SLIDE, ADD_BOX, SELECT_BOX} from './actions';
+import {SELECT_SLIDE, ADD_SLIDE, ADD_BOX, SELECT_BOX, MOVE_BOX} from './actions';
 
 function slideCreator(state = {}, action = {}){
     switch (action.type){
@@ -48,7 +48,7 @@ function slideSelected(state = -1, action = {}) {
 function boxCreator(state = {}, action = {}){
     switch (action.type){
         case ADD_BOX:
-            let styleStr = "width: '100px'; height: '100px'; border: 'solid black 5px'; background-color: 'yellow'".split(';');
+            let styleStr = "width: '100px'; height: '100px'; background-color: 'yellow'".split(';');
             let style = {};
             styleStr.forEach(item =>{
                 let keyValue = item.split(':');
@@ -59,11 +59,15 @@ function boxCreator(state = {}, action = {}){
             return {
                 slideId: action.payload.slideId,
                 type: action.payload.type,
-                position: {x: Math.floor(Math.random() * 100), y: Math.floor(Math.random() * 100)},
+                position: {x: Math.floor(Math.random() * 500), y: Math.floor(Math.random() * 500)},
+                width: parseInt(style['width']),
+                height: parseInt(style['height']),
                 style: style,
                 content: "<h1>Hola</h1>",
                 fragment: {}
             };
+        case MOVE_BOX:
+            return Object.assign({}, state, {position: {x: action.payload.x, y: action.payload.y}});
         default:
             return state;
     }
@@ -74,7 +78,12 @@ function boxesById(state = {}, action = {}){
         case ADD_BOX:
             console.log("Adding box to boxesById with id: " + action.payload.boxId + " to slide with id: " + action.payload.slideId);
             return Object.assign({}, state, {
-                [action.payload.boxId]: boxCreator(state[action.boxId], action)
+                [action.payload.boxId]: boxCreator(state[action.payload.boxId], action)
+            });
+        case MOVE_BOX:
+            console.log("Moving box to " + action.payload.x);
+            return Object.assign({}, state, {
+                [action.payload.id]: boxCreator(state[action.payload.id], action)
             });
         default:
             return state;
