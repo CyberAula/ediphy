@@ -1,4 +1,4 @@
 node_modules
 .idea
-dist/bundle*
+dist/bundle.js.map
 dist/bundle.js
