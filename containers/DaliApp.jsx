@@ -9,11 +9,11 @@ class DaliApp extends Component{
         const{ dispatch, slides, slideIds, slideSelected, boxes, boxIds, boxSelected } = this.props;
         return(
             <div style={{width: '100%', height: '100%'}}>
-                <div style={{display: 'table', height: '10%', width: '100%', backgroundColor: 'blue'}}>
-                    <button onClick={() => dispatch(addSlide(slideIds.length))}>Add slide</button>
-                    <button onClick={() => dispatch(addBox(slideSelected, boxIds.length, 'text'))}>Add box</button>
+                <div style={{height: '10%', width: '100%', backgroundColor: 'blue'}}>
+                    <button style={{marginLeft: '15%', minWidth: '5%', height: '100%'}} onClick={() => dispatch(addSlide(slideIds.length))}>Add slide</button>
+                    <button style={{marginLeft: '1%', minWidth: '5%', height: '100%'}} onClick={() => dispatch(addBox(slideSelected, boxIds.length, 'text'))}>Add box</button>
                 </div>
-                <div style={{display: 'table', backgroundColor: '#CCCCCC', width: '100%', height: '700px'}}>
+                <div style={{display: 'table', backgroundColor: '#CCCCCC', width: '100%', height: '90%'}}>
                     <DaliCarousel slides={slides} ids={slideIds} slide={slideSelected} onSelectSlide={id => dispatch(selectSlide(id))} />
                     <DaliCanvas boxes={boxes}
                                 ids={boxIds}

@@ -1,25 +1,16 @@
 import React, {Component} from 'react';
+import SlideThumbnail from '../components/SlideThumbnail'
 import {selectSlide} from '../actions'
 
 export default class DaliCarousel extends Component{
     render(){
         return(
-            <div style={{display: 'table-cell', width: '100px', height: '700px'}}>
+            <div style={{display: 'table-cell', width: '15%', height: '100%', padding: '1%'}}>
                 {this.props.ids.map((id, index) =>{
-                    let slide = this.props.slides[id];
-                    let border = (this.props.slide === id) ? 'solid red 2px' : 'solid black 2px';
-                    return <div key={index}
-                                style={{backgroundColor: 'gray', width: '80px', height: '80px', border: border, margin: '5px'}}
-                                onClick={(e) => this.handleSlideSelection(id)}
-                                onTouchStart={(e) => this.handleSlideSelection(id)}>
-                        <p>{index}</p>
-                    </div>;
+                    let isSelected = (this.props.slide === id);
+                    return <SlideThumbnail key={index} id={id} slide={this.props.slides[id]} isSelected={isSelected} onSelectSlide={this.props.onSelectSlide} />;
                 })}
             </div>
         );
-    }
-
-    handleSlideSelection(e){
-        this.props.onSelectSlide(e);
     }
 }
