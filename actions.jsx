@@ -1,5 +1,5 @@
-export const SELECT_SLIDE = 'SELECT_SLIDE';
-export const ADD_SLIDE = 'ADD_SLIDE';
+export const SELECT_PAGE = 'SELECT_PAGE';
+export const ADD_PAGE = 'ADD_PAGE';
 export const ADD_BOX = 'ADD_BOX';
 export const SELECT_BOX = 'SELECT_BOX';
 export const MOVE_BOX = 'MOVE_BOX';
@@ -10,12 +10,12 @@ export const EXPAND_SECTION = 'EXPAND_SECTION';
 export const REMOVE_SECTION = 'REMOVE_SECTION';
 export const DUPLICATE_SECTION = 'DUPLICATE_SECTION';
 
-export function selectSlide(index){
-    return {type: SELECT_SLIDE, index};
+export function selectPage(index){
+    return {type: SELECT_PAGE, index};
 }
 
-export function addSlide(id){
-    return {type: ADD_SLIDE, slideId: id};
+export function addPage(id){
+    return {type: ADD_PAGE, slideId: id};
 }
 
 export function addBox(slideId, boxId, type){

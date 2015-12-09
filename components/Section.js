@@ -24,7 +24,8 @@ export default class Section extends Component {
                                                      sectionsIds={this.props.sectionsIds}
                                                      sections={this.props.sections}
                                                      sectionSelected={this.props.sectionSelected}
-                                                     onAddSection={this.props.onAddSection}
+                                                     onPageAdded={this.props.onPageAdded}
+                                                     onSectionAdded={this.props.onSectionAdded}
                                                      onSectionSelected={this.props.onSectionSelected}
                                                      onSectionExpanded={this.props.onSectionExpanded}
                                         />;
@@ -33,11 +34,9 @@ export default class Section extends Component {
                     </div>
                     <div style={{marginTop: 10, marginLeft: 30}}>
                         <button onClick={e =>
-                            this.props.onAddSection(Date.now(), this.props.id, (section.name + "." + (++section.childrenNumber)), 0)
+                            this.props.onSectionAdded(Date.now(), this.props.id, (section.name + "." + (++section.childrenNumber)), 0)
                         }><i className="fa fa-folder-o"></i></button>
-                        <button onClick={e =>
-                            this.props.onAddSection(Date.now(), this.props.id, (section.name + ".1"))
-                        }><i className="fa fa-file-o"></i></button>
+                        <button onClick={e => this.props.onPageAdded(Date.now())}><i className="fa fa-file-o"></i></button>
                     </div>
                 </div>
             </div>

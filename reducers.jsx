@@ -1,44 +1,38 @@
 import {combineReducers} from 'redux';
-import {SELECT_SLIDE, ADD_SLIDE, ADD_BOX, SELECT_BOX, MOVE_BOX, ADD_SECTION, SELECT_SECTION, EXPAND_SECTION, REMOVE_SECTION} from './actions';
+import {SELECT_PAGE, ADD_PAGE, ADD_BOX, SELECT_BOX, MOVE_BOX, ADD_SECTION, SELECT_SECTION, EXPAND_SECTION, REMOVE_SECTION} from './actions';
 
-function slideCreator(state = {}, action = {}){
+function pageCreator(state = {}, action = {}){
     switch (action.type){
-        case ADD_SLIDE:
+        case ADD_PAGE:
             return state;
         default:
             return state;
     }
 }
 
-function slides(state = [], action = {}){
+function pages(state = [], action = {}){
     switch (action.type){
-        case ADD_SLIDE:
-            console.log("Adding slide to slides with id: " + action.slideId);
+        case ADD_PAGE:
             return [...state, action.slideId];
         default:
             return state;
     }
 }
 
-function slidesById(state = {}, action = {}){
+function pagesById(state = {}, action = {}){
     switch (action.type){
-        case ADD_SLIDE:
-            console.log("Adding slide to slidesById with id: " + action.slideId);
-            return Object.assign({}, state, {
-                [action.slideId]: slideCreator(state[action.slideId], action)
-            });
+        case ADD_PAGE:
+            return Object.assign({}, state, {[action.slideId]: pageCreator(state[action.slideId], action)});
         default:
             return state;
     }
 }
 
-function slideSelected(state = -1, action = {}) {
+function pageSelected(state = -1, action = {}) {
     switch (action.type) {
-        case ADD_SLIDE:
-            console.log("Setting slide");
+        case ADD_PAGE:
             return action.slideId;
-        case SELECT_SLIDE:
-            console.log("Setting slide");
+        case SELECT_PAGE:
             return action.index;
         default:
             return state;
@@ -169,9 +163,9 @@ function sectionSelected(state = -1, action = {}){
 }
 
 const GlobalState = combineReducers({
-    slideSelected: slideSelected, //0
-    slides: slides, //[0, 1]
-    slidesById: slidesById, //{0: slide0, 1: slide1}
+    pageSelected: pageSelected, //0
+    pages: pages, //[0, 1]
+    pagesById: pagesById, //{0: page0, 1: page1}
     boxesById: boxesById, //{0: box0, 1: box1}
     boxSelected: boxSelected, //0
     boxes: boxes, //[0, 1]

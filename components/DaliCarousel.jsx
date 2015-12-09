@@ -29,8 +29,8 @@ export default class DaliCarousel extends Component{
                             this.props.sections[this.props.sectionSelected].parent === 0}>&gt;</button>
                 </div>
                 {/*this.props.ids.map((id, index) =>{
-                    let isSelected = (this.props.slide === id);
-                    return <SlideThumbnail key={index} id={id} slide={this.props.slides[id]} isSelected={isSelected} onSelectSlide={this.props.onSelectSlide} />;
+                    let isSelected = (this.props.pageSelected === id);
+                    return <SlideThumbnail key={index} id={id} page={this.props.pages[id]} isSelected={isSelected} onPageSelected={this.props.onPageSelected} />;
                 })*/}
                 {this.props.sectionsIds.map((id, index) =>{
                     if(this.props.sections[id].parent === 0)
@@ -39,17 +39,16 @@ export default class DaliCarousel extends Component{
                                         sectionsIds={this.props.sectionsIds}
                                         sections={this.props.sections}
                                         sectionSelected={this.props.sectionSelected}
-                                        onAddSection={this.props.onAddSection}
+                                        onPageAdded={this.props.onPageAdded}
+                                        onSectionAdded={this.props.onSectionAdded}
                                         onSectionSelected={this.props.onSectionSelected}
                                         onSectionExpanded={this.props.onSectionExpanded}
                             />;
                 })}
                 <button onClick={e =>
-                            this.props.onAddSection(Date.now(), 0, ++(this.props.sections[0].childrenNumber), 0)
+                            this.props.onSectionAdded(Date.now(), 0, ++(this.props.sections[0].childrenNumber), 0)
                         }><i className="fa fa-folder-o"></i></button>
-                <button onClick={e =>
-                            this.props.onAddSection(Date.now(), 0, (this.props.sectionsIds.length))
-                        }><i className="fa fa-file-o"></i></button>
+                <button onClick={e => this.props.onPageAdded(Date.now())}><i className="fa fa-file-o"></i></button>
             </div>
         );
     }

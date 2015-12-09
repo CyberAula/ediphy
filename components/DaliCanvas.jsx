@@ -7,7 +7,7 @@ export default class DaliCanvas extends Component{
             <div style={{display: 'table-cell', backgroundColor: 'green', position: 'relative', height: '100%'}}>
                 {this.props.ids.map(id =>{
                     let box = this.props.boxes[id];
-                    if(box.slideId === this.props.slide) {
+                    if(box.slideId === this.props.page) {
                         let isSelected = (id === this.props.box);
                         return <DaliBox key={id} box={box} id={id}
                                         isSelected={isSelected}
