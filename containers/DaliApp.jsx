@@ -1,20 +1,37 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
-import {addBox, addSlide, selectSlide, selectBox, moveBox} from '../actions';
+import {addBox, addSlide, selectSlide, selectBox, moveBox, addSection, selectSection, expandSection, removeSection, duplicateSection} from '../actions';
 import DaliCanvas from '../components/DaliCanvas';
 import DaliCarousel from '../components/DaliCarousel';
 
 class DaliApp extends Component{
     render(){
-        const{ dispatch, slides, slideIds, slideSelected, boxes, boxIds, boxSelected } = this.props;
+        const{ dispatch, sections, sectionsIds, sectionSelected, slides, slideIds, slideSelected, boxes, boxIds, boxSelected } = this.props;
         return(
             <div style={{width: '100%', height: '100%'}}>
                 <div style={{height: '10%', width: '100%', backgroundColor: 'blue'}}>
                     <button style={{marginLeft: '15%', minWidth: '5%', height: '100%'}} onClick={() => dispatch(addSlide(slideIds.length))}>Add slide</button>
                     <button style={{marginLeft: '1%', minWidth: '5%', height: '100%'}} onClick={() => dispatch(addBox(slideSelected, boxIds.length, 'text'))}>Add box</button>
+                    <button style={{marginLeft: '1%', minWidth: '5%', height: '100%'}} onClick={() => dispatch(addBox(slideSelected, boxIds.length, 'text'))}>Add box</button>
+                    <button style={{marginLeft: '1%', minWidth: '5%', height: '100%'}} onClick={() => dispatch(addBox(slideSelected, boxIds.length, 'text'))}>Add box</button>
+                    <button style={{marginLeft: '1%', minWidth: '5%', height: '100%'}} onClick={() => dispatch(addBox(slideSelected, boxIds.length, 'text'))}>Add box</button>
+                    <button style={{marginLeft: '1%', minWidth: '5%', height: '100%'}} onClick={() => dispatch(addBox(slideSelected, boxIds.length, 'text'))}>Add box</button>
+                    <button style={{marginLeft: '1%', minWidth: '5%', height: '100%'}} onClick={() => dispatch(addBox(slideSelected, boxIds.length, 'text'))}>Add box</button>
                 </div>
                 <div style={{display: 'table', backgroundColor: '#CCCCCC', width: '100%', height: '90%'}}>
-                    <DaliCarousel slides={slides} ids={slideIds} slide={slideSelected} onSelectSlide={id => dispatch(selectSlide(id))} />
+                    <DaliCarousel sections={sections}
+                                  sectionsIds={sectionsIds}
+                                  sectionSelected={sectionSelected}
+                                  slides={slides}
+                                  ids={slideIds}
+                                  slide={slideSelected}
+                                  onSelectSlide={id => dispatch(selectSlide(id))}
+                                  onAddSection={(id, parent, name, children) => dispatch(addSection(id, parent, name, children))}
+                                  onSectionSelected={id => dispatch(selectSection(id))}
+                                  onSectionExpanded={(id, newValue) => dispatch(expandSection(id, newValue))}
+                                  onSectionRemoved={ids => dispatch(removeSection(ids))}
+                                  onSectionDuplicated={id => dispatch(duplicateSection(id))}
+                        />
                     <DaliCanvas boxes={boxes}
                                 ids={boxIds}
                                 slide={slideSelected}
@@ -28,25 +45,11 @@ class DaliApp extends Component{
     }
 }
 
-/*
-DaliApp.propTypes = {
-    slides: PropTypes.array.isRequired,
-    slideSelected: PropTypes.shape({
-        components: PropTypes.arrayOf(PropTypes.shape({
-            type: PropTypes.string.isRequired,
-            position: PropTypes.shape({
-                x: PropTypes.number.isRequired,
-                y: PropTypes.number.isRequired
-            }),
-            style: PropTypes.string.isRequired,
-            content: PropTypes.string.isRequired
-        }))
-    })
-};
-*/
-
 function mapStateToProps(state){
     return{
+        sections: state.sectionsById,
+        sectionsIds: state.sections,
+        sectionSelected: state.sectionSelected,
         slides: state.slidesById,
         slideIds: state.slides,
         slideSelected: state.slideSelected,

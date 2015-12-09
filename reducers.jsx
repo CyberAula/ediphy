@@ -1,5 +1,5 @@
 import {combineReducers} from 'redux';
-import {SELECT_SLIDE, ADD_SLIDE, ADD_BOX, SELECT_BOX, MOVE_BOX} from './actions';
+import {SELECT_SLIDE, ADD_SLIDE, ADD_BOX, SELECT_BOX, MOVE_BOX, ADD_SECTION, SELECT_SECTION, EXPAND_SECTION, REMOVE_SECTION} from './actions';
 
 function slideCreator(state = {}, action = {}){
     switch (action.type){
@@ -113,13 +113,71 @@ function boxes(state = [], action = {}){
     }
 }
 
+function sectionsIds(state = [0], action = {}){
+    switch(action.type){
+        case ADD_SECTION:
+            return [...state, action.payload.id];
+        case REMOVE_SECTION:
+            let newState = state.slice();
+            action.payload.ids.forEach(index =>{
+                newState.splice(newState.indexOf(index), 1);
+            });
+            return newState;
+        default:
+            return state;
+    }
+}
+
+function sectionCreator(state = {}, action = {}){
+    switch (action.type){
+        case ADD_SECTION:
+            return {id: action.payload.id, parent: action.payload.parent, name: action.payload.name, isExpanded: true, childrenNumber: action.payload.children};
+        case EXPAND_SECTION:
+            return Object.assign({}, state, {isExpanded: action.payload.newValue});
+        default:
+            return state;
+    }
+}
+
+function sectionsById(state = {0: {id: 0, childrenNumber: 0}}, action = {}){
+    switch(action.type){
+        case ADD_SECTION:
+        case EXPAND_SECTION:
+            return Object.assign({}, state, {[action.payload.id]: sectionCreator(state[action.payload.id], action)});
+        case REMOVE_SECTION:
+            let newState = Object.assign({}, state);
+            action.payload.ids.map(id =>{
+                delete newState[id];
+            });
+            return newState;
+        default:
+            return state;
+    }
+}
+
+function sectionSelected(state = -1, action = {}){
+    switch(action.type){
+        case SELECT_SECTION:
+            return action.payload.id;
+        case ADD_SECTION:
+            return action.payload.id;
+        case REMOVE_SECTION:
+            return -1;
+        default:
+            return state;
+    }
+}
+
 const GlobalState = combineReducers({
     slideSelected: slideSelected, //0
     slides: slides, //[0, 1]
     slidesById: slidesById, //{0: slide0, 1: slide1}
     boxesById: boxesById, //{0: box0, 1: box1}
     boxSelected: boxSelected, //0
-    boxes: boxes //[0, 1]
+    boxes: boxes, //[0, 1]
+    sections: sectionsIds, //[0, 1]
+    sectionsById: sectionsById, //{0: section0, 1: section1}
+    sectionSelected: sectionSelected
 });
 
 export default GlobalState;
