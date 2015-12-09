@@ -39,16 +39,25 @@ export default class DaliCarousel extends Component{
                                         sectionsIds={this.props.sectionsIds}
                                         sections={this.props.sections}
                                         sectionSelected={this.props.sectionSelected}
+                                        pagesIds={this.props.pagesIds}
+                                        pages={this.props.pages}
+                                        pageSelected={this.props.pageSelected}
                                         onPageAdded={this.props.onPageAdded}
+                                        onPageSelected={this.props.onPageSelected}
                                         onSectionAdded={this.props.onSectionAdded}
                                         onSectionSelected={this.props.onSectionSelected}
                                         onSectionExpanded={this.props.onSectionExpanded}
                             />;
                 })}
+                {this.props.pagesIds.map((id, index) => {
+                    let color = (this.props.pageSelected === id) ? 'green' : 'black';
+                    if(this.props.pages[id].parent === 0)
+                        return <div style={{marginLeft: 20, color: color}} onClick={e => this.props.onPageSelected(id)}>Page {this.props.pages[id].name}</div>;
+                })}
                 <button onClick={e =>
                             this.props.onSectionAdded(Date.now(), 0, ++(this.props.sections[0].childrenNumber), 0)
                         }><i className="fa fa-folder-o"></i></button>
-                <button onClick={e => this.props.onPageAdded(Date.now())}><i className="fa fa-file-o"></i></button>
+                <button onClick={e => this.props.onPageAdded(Date.now(), (this.props.pagesIds.length + 1), 0)}><i className="fa fa-file-o"></i></button>
             </div>
         );
     }

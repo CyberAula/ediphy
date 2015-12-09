@@ -10,12 +10,8 @@ class DaliApp extends Component{
         return(
             <div style={{width: '100%', height: '100%'}}>
                 <div style={{height: '10%', width: '100%', backgroundColor: 'blue'}}>
-                    <button style={{marginLeft: '15%', minWidth: '5%', height: '100%'}} onClick={() => dispatch(addBox(pageSelected, boxIds.length, 'text'))}>Add box</button>
-                    <button style={{marginLeft: '1%', minWidth: '5%', height: '100%'}} onClick={() => dispatch(addBox(pageSelected, boxIds.length, 'text'))}>Add box</button>
-                    <button style={{marginLeft: '1%', minWidth: '5%', height: '100%'}} onClick={() => dispatch(addBox(pageSelected, boxIds.length, 'text'))}>Add box</button>
-                    <button style={{marginLeft: '1%', minWidth: '5%', height: '100%'}} onClick={() => dispatch(addBox(pageSelected, boxIds.length, 'text'))}>Add box</button>
-                    <button style={{marginLeft: '1%', minWidth: '5%', height: '100%'}} onClick={() => dispatch(addBox(pageSelected, boxIds.length, 'text'))}>Add box</button>
-                    <button style={{marginLeft: '1%', minWidth: '5%', height: '100%'}} onClick={() => dispatch(addBox(pageSelected, boxIds.length, 'text'))}>Add box</button>
+                    <button style={{marginLeft: '15%', minWidth: '5%', height: '100%'}} onClick={() => dispatch(addBox(pageSelected, Date.now(), 'text'))}>Add box</button>
+                    <button style={{marginLeft: '1%', minWidth: '5%', height: '100%'}} disabled onClick={() => dispatch(addBox(pageSelected, Date.now(), 'text'))}>Add box</button>
                 </div>
                 <div style={{display: 'table', backgroundColor: '#CCCCCC', width: '100%', height: '90%'}}>
                     <DaliCarousel sections={sections}
@@ -24,7 +20,7 @@ class DaliApp extends Component{
                                   pages={pages}
                                   pagesIds={pagesIds}
                                   pageSelected={pageSelected}
-                                  onPageAdded={id => dispatch(addPage(id))}
+                                  onPageAdded={(id, name, parent) => dispatch(addPage(id, name, parent))}
                                   onPageSelected={id => dispatch(selectPage(id))}
                                   onSectionAdded={(id, parent, name, children) => dispatch(addSection(id, parent, name, children))}
                                   onSectionSelected={id => dispatch(selectSection(id))}

@@ -4,7 +4,7 @@ import {SELECT_PAGE, ADD_PAGE, ADD_BOX, SELECT_BOX, MOVE_BOX, ADD_SECTION, SELEC
 function pageCreator(state = {}, action = {}){
     switch (action.type){
         case ADD_PAGE:
-            return state;
+            return {id: action.payload.id, name: action.payload.name, parent: action.payload.parent};
         default:
             return state;
     }
@@ -13,7 +13,7 @@ function pageCreator(state = {}, action = {}){
 function pages(state = [], action = {}){
     switch (action.type){
         case ADD_PAGE:
-            return [...state, action.slideId];
+            return [...state, action.payload.id];
         default:
             return state;
     }
@@ -22,7 +22,7 @@ function pages(state = [], action = {}){
 function pagesById(state = {}, action = {}){
     switch (action.type){
         case ADD_PAGE:
-            return Object.assign({}, state, {[action.slideId]: pageCreator(state[action.slideId], action)});
+            return Object.assign({}, state, {[action.payload.id]: pageCreator(state[action.payload.id], action)});
         default:
             return state;
     }
@@ -31,9 +31,9 @@ function pagesById(state = {}, action = {}){
 function pageSelected(state = -1, action = {}) {
     switch (action.type) {
         case ADD_PAGE:
-            return action.slideId;
+            return action.payload.id;
         case SELECT_PAGE:
-            return action.index;
+            return action.payload.index;
         default:
             return state;
     }

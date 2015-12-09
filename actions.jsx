@@ -11,11 +11,11 @@ export const REMOVE_SECTION = 'REMOVE_SECTION';
 export const DUPLICATE_SECTION = 'DUPLICATE_SECTION';
 
 export function selectPage(index){
-    return {type: SELECT_PAGE, index};
+    return {type: SELECT_PAGE, payload: {index}};
 }
 
-export function addPage(id){
-    return {type: ADD_PAGE, slideId: id};
+export function addPage(id, name, parent){
+    return {type: ADD_PAGE, payload: {id, name, parent}};
 }
 
 export function addBox(slideId, boxId, type){
