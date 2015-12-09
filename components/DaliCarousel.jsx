@@ -7,7 +7,9 @@ export default class DaliCarousel extends Component{
         return(
             <div style={{display: 'table-cell', width: '15%', height: '100%', padding: '1%'}}>
                 <div>
-                    <button style={{width: '20%', minWidth: 40, display: 'inline-block'}} disabled={this.props.sectionsIds.length <= 1}>&lt;</button>
+                    <button style={{width: '20%', minWidth: 40, display: 'inline-block'}}
+                            disabled={this.props.sectionSelected === -1 ||
+                            this.props.sections[this.props.sectionSelected].parent === 0}>&lt;</button>
                     <button style={{width: '20%', minWidth: 40, display: 'inline-block'}}
                             disabled={this.props.sectionSelected === -1}
                             onClick={e => {
@@ -22,7 +24,9 @@ export default class DaliCarousel extends Component{
                                     this.props.onSectionDuplicated(this.props.sectionSelected);
                                 }
                             }><i className="fa fa-files-o"></i></button>
-                    <button style={{width: '20%', minWidth: 40, display: 'inline-block'}} disabled={this.props.sectionsIds.length <= 1}>&gt;</button>
+                    <button style={{width: '20%', minWidth: 40, display: 'inline-block'}}
+                            disabled={this.props.sectionSelected === -1 ||
+                            this.props.sections[this.props.sectionSelected].parent === 0}>&gt;</button>
                 </div>
                 {/*this.props.ids.map((id, index) =>{
                     let isSelected = (this.props.slide === id);
