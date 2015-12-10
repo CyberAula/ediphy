@@ -4,7 +4,7 @@ import {SELECT_PAGE, ADD_PAGE, ADD_BOX, SELECT_BOX, MOVE_BOX, ADD_SECTION, SELEC
 function pageCreator(state = {}, action = {}){
     switch (action.type){
         case ADD_PAGE:
-            return {id: action.payload.id, name: action.payload.name, parent: action.payload.parent};
+            return {id: action.payload.id, name: action.payload.name, parent: action.payload.parent, level: action.payload.level};
         default:
             return state;
     }
@@ -42,7 +42,8 @@ function pageSelected(state = -1, action = {}) {
 function boxCreator(state = {}, action = {}){
     switch (action.type){
         case ADD_BOX:
-            let styleStr = "width: '100px'; height: '100px'; background-color: 'yellow'".split(';');
+            /*
+            let styleStr = "min-width: '100px'; min-height: '100px'; background-color: 'yellow'".split(';');
             let style = {};
             styleStr.forEach(item =>{
                 let keyValue = item.split(':');
@@ -50,14 +51,30 @@ function boxCreator(state = {}, action = {}){
                 let key = keyValue[0].trim().replace(/-./g,function(char){return char.toUpperCase()[1]});
                 style[key] = keyValue[1].trim().replace(/'/g, "");
             });
+            */
+            let content = "<h1>Hola</h1>";
+
+            let position, width, height;
+            switch(action.payload.type){
+                case 'sortable':
+                    position = {x: 0, y: 0};
+                    width = '100%';
+                    break;
+                default:
+                    position = {x: Math.floor(Math.random() * 500), y: Math.floor(Math.random() * 500)}
+                    width = 100;
+                    height = 100;
+                    break;
+            }
+
             return {
-                slideId: action.payload.slideId,
+                parent: action.payload.parent,
                 type: action.payload.type,
-                position: {x: Math.floor(Math.random() * 500), y: Math.floor(Math.random() * 500)},
-                width: parseInt(style['width']),
-                height: parseInt(style['height']),
-                style: style,
-                content: "<h1>Hola</h1>",
+                position: position,
+                width: width,
+                height: height,
+                style: {position: 'absolute', width: width, height: height},
+                content: content,
                 fragment: {}
             };
         case MOVE_BOX:
@@ -70,12 +87,10 @@ function boxCreator(state = {}, action = {}){
 function boxesById(state = {}, action = {}){
     switch (action.type){
         case ADD_BOX:
-            console.log("Adding box to boxesById with id: " + action.payload.boxId + " to slide with id: " + action.payload.slideId);
             return Object.assign({}, state, {
-                [action.payload.boxId]: boxCreator(state[action.payload.boxId], action)
+                [action.payload.id]: boxCreator(state[action.payload.id], action)
             });
         case MOVE_BOX:
-            console.log("Moving box to " + action.payload.x);
             return Object.assign({}, state, {
                 [action.payload.id]: boxCreator(state[action.payload.id], action)
             });
@@ -87,11 +102,9 @@ function boxesById(state = {}, action = {}){
 function boxSelected(state = -1, action = {}) {
     switch (action.type) {
         case ADD_BOX:
-            console.log("Selecting box with id: " + action.payload.boxId);
-            return action.payload.boxId;
+            return action.payload.id;
         case SELECT_BOX:
-            console.log("Selecting box");
-            return action.id;
+            return action.payload.id;
         default:
             return state;
     }
@@ -100,8 +113,7 @@ function boxSelected(state = -1, action = {}) {
 function boxes(state = [], action = {}){
     switch (action.type){
         case ADD_BOX:
-            console.log("Adding box to boxes with id: " + action.payload.boxId);
-            return [...state, action.payload.boxId];
+            return [...state, action.payload.id];
         default:
             return state;
     }
@@ -125,7 +137,7 @@ function sectionsIds(state = [0], action = {}){
 function sectionCreator(state = {}, action = {}){
     switch (action.type){
         case ADD_SECTION:
-            return {id: action.payload.id, parent: action.payload.parent, name: action.payload.name, isExpanded: true, childrenNumber: action.payload.children};
+            return {id: action.payload.id, parent: action.payload.parent, name: action.payload.name, isExpanded: true, childrenNumber: action.payload.children, level: action.payload.level};
         case EXPAND_SECTION:
             return Object.assign({}, state, {isExpanded: action.payload.newValue});
         default:
