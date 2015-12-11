@@ -5,7 +5,7 @@ import Section from '../components/Section';
 export default class DaliCarousel extends Component{
     render(){
         return(
-            <div style={{display: 'table-cell', width: '15%', height: '100%', padding: '1%'}}>
+            <div style={{position: 'absolute', top: '10%', width: '15%', height: '100%', float: 'left', backgroundColor: '#CCC'}}>
                 <div>
                     <button style={{width: '20%', minWidth: 40, display: 'inline-block'}}
                             disabled={this.props.sectionSelected === -1 ||
@@ -52,12 +52,12 @@ export default class DaliCarousel extends Component{
                 {this.props.pagesIds.map((id, index) => {
                     let color = (this.props.pageSelected === id) ? 'green' : 'black';
                     if(this.props.pages[id].parent === 0)
-                        return <div style={{marginLeft: 20, color: color}} onClick={e => this.props.onPageSelected(id)}>Page {this.props.pages[id].name}</div>;
+                        return <div key={index} style={{marginLeft: 20, color: color}} onClick={e => this.props.onPageSelected(id)}>Page {this.props.pages[id].name}</div>;
                 })}
                 <button onClick={e =>
-                            this.props.onSectionAdded(Date.now(), 0, ++(this.props.sections[0].childrenNumber), 0)
+                            this.props.onSectionAdded(Date.now(), 0, ++(this.props.sections[0].childrenNumber), 0, 1)
                         }><i className="fa fa-folder-o"></i></button>
-                <button onClick={e => this.props.onPageAdded(Date.now(), (this.props.pagesIds.length + 1), 0)}><i className="fa fa-file-o"></i></button>
+                <button onClick={e => this.props.onPageAdded(Date.now(), (this.props.pagesIds.length + 1), 0, 1)}><i className="fa fa-file-o"></i></button>
             </div>
         );
     }

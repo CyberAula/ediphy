@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import interact from 'interact.js';
 
 export default class DaliBox extends Component{
     render(){
@@ -6,37 +7,51 @@ export default class DaliBox extends Component{
         let cornerSize = 15;
 
         let box = this.props.box;
-        box.style['position'] = 'absolute';
-        box.style['left'] = (cornerSize / 2 + borderSize);
-        box.style['top'] = (cornerSize / 2 + borderSize);
+
+        let content;
+        switch(box.type){
+            case 'normal':
+                content = (<div style={box.style}><div dangerouslySetInnerHTML={{__html: box.content}}></div></div>);
+                break;
+            case 'sortable':
+                content = (
+                    <div style={box.style}>
+                        <div>
+                            <button style={{width: '100%', height: 80}}>a</button>
+                            <button style={{width: '100%', height: 80}}>b</button>
+                            <button style={{width: '100%', height: 80}}>c</button>
+                            <button style={{width: '100%', height: 80}}>d</button>
+                        </div>
+                        <button style={{display: 'block', width: 75, height: 75, margin: 'auto'}} ><i className="fa fa-plus-circle fa-5x"></i></button>
+                    </div>
+                );
+                break;
+        }
 
         return (<div onClick={e => this.handleBoxSelection(this.props.id)}
                      onTouchStart={e => this.handleBoxSelection(this.props.id)}
                      style={{position: 'absolute',
                             left: box.position.x,
                             top: box.position.y,
-                            width: box.width + (cornerSize + borderSize * 2),
-                            height: box.height + (cornerSize + borderSize * 2)}}>
-                    <div style={{visibility: (this.props.isSelected ? 'visible' : 'hidden'), width: '100%', height: '100%'}}>
-                        <div style={{position: 'absolute', left: 0,  top: 0,    width: cornerSize, height: cornerSize, backgroundColor: 'gray'}}></div>
-                        <div style={{position: 'absolute', right: 0, top: 0,    width: cornerSize, height: cornerSize, backgroundColor: 'gray'}}></div>
-                        <div style={{position: 'absolute', left: 0,  bottom: 0, width: cornerSize, height: cornerSize, backgroundColor: 'gray'}}></div>
-                        <div style={{position: 'absolute', right: 0, bottom: 0, width: cornerSize, height: cornerSize, backgroundColor: 'gray'}}></div>
-                        <div style={{position: 'absolute', left: (cornerSize / 2), top: (cornerSize / 2), width: box.width, height: box.height, border: (borderSize + "px dashed black")}}></div>
-                    </div>
-                    <div style={box.style} dangerouslySetInnerHTML={{__html: box.content}}></div>
+                            width: box.width,
+                            height: box.height}}>
+            <div style={{visibility: (this.props.isSelected ? 'visible' : 'hidden')}}>
+                <div style={{position: 'absolute', width: '100%', height: '100%', border: (borderSize + "px dashed black"), boxSizing: 'border-box'}}></div>
+                <div style={{position: 'absolute', left:  -cornerSize/2, top: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray'}}></div>
+                <div style={{position: 'absolute', right: -cornerSize/2, top: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray'}}></div>
+                <div style={{position: 'absolute', left:  -cornerSize/2, bottom: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray'}}></div>
+                <div style={{position: 'absolute', right: -cornerSize/2, bottom: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray'}}></div>
+            </div>
+            {content}
         </div>);
     }
-
 
     handleBoxSelection(id){
         this.props.onSelectBox(id);
     }
 
     componentDidMount() {
-
-        this.interactable = interact(React.findDOMNode(this));
-        this.interactable
+        interact(React.findDOMNode(this))
             .draggable({
                 restrict: {
                     restriction: "parent",
@@ -53,6 +68,29 @@ export default class DaliBox extends Component{
                 onend: (event) => {
                     this.props.onMoveBox(this.props.id, parseInt(event.target.style.left), parseInt(event.target.style.top));
                 }
+            });
+        interact(React.findDOMNode(this))
+            .resizable({
+                edges: { left: true, right: true, bottom: true, top: true }
+            })
+            .on('resizemove', function (event) {
+                var target = event.target,
+                    x = (parseFloat(target.getAttribute('data-x')) || 0),
+                    y = (parseFloat(target.getAttribute('data-y')) || 0);
+
+                // update the element's style
+                target.style.width  = event.rect.width + 'px';
+                target.style.height = event.rect.height + 'px';
+
+                // translate when resizing from top or left edges
+                x += event.deltaRect.left;
+                y += event.deltaRect.top;
+
+                target.style.webkitTransform = target.style.transform =
+                    'translate(' + x + 'px,' + y + 'px)';
+
+                target.setAttribute('data-x', x);
+                target.setAttribute('data-y', y);
             });
     }
 

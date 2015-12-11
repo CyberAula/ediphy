@@ -14,24 +14,24 @@ export function selectPage(index){
     return {type: SELECT_PAGE, payload: {index}};
 }
 
-export function addPage(id, name, parent){
-    return {type: ADD_PAGE, payload: {id, name, parent}};
+export function addPage(id, name, parent, level){
+    return {type: ADD_PAGE, payload: {id, name, parent, level}};
 }
 
-export function addBox(slideId, boxId, type){
-    return {type: ADD_BOX, payload: {slideId, boxId, type}};
+export function addBox(parent, id, type){
+    return {type: ADD_BOX, payload: {parent, id, type}};
 }
 
 export function selectBox(id){
-    return {type: SELECT_BOX, id};
+    return {type: SELECT_BOX, payload: {id}};
 }
 
 export function moveBox(id, x, y){
     return {type: MOVE_BOX, payload: {id, x, y}}
 }
 
-export function addSection(id, parent, name, children){
-    return {type: ADD_SECTION, payload: {id, parent, name, children}};
+export function addSection(id, parent, name, children, level){
+    return {type: ADD_SECTION, payload: {id, parent, name, children, level}};
 }
 
 export function selectSection(id){

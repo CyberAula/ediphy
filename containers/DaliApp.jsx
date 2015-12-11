@@ -10,32 +10,30 @@ class DaliApp extends Component{
         return(
             <div style={{width: '100%', height: '100%'}}>
                 <div style={{height: '10%', width: '100%', backgroundColor: 'blue'}}>
-                    <button style={{marginLeft: '15%', minWidth: '5%', height: '100%'}} onClick={() => dispatch(addBox(pageSelected, Date.now(), 'text'))}>Add box</button>
-                    <button style={{marginLeft: '1%', minWidth: '5%', height: '100%'}} disabled onClick={() => dispatch(addBox(pageSelected, Date.now(), 'text'))}>Add box</button>
+                    <button style={{marginLeft: '15%', minWidth: '5%', height: '100%'}} onClick={() => dispatch(addBox(pageSelected, Date.now(), 'normal'))}>Add box</button>
+                    <button style={{marginLeft: '1%', minWidth: '5%', height: '100%'}} onClick={() => dispatch(addBox(pageSelected, Date.now(), 'sortable'))}>Add sortable</button>
                 </div>
-                <div style={{display: 'table', backgroundColor: '#CCCCCC', width: '100%', height: '90%'}}>
-                    <DaliCarousel sections={sections}
-                                  sectionsIds={sectionsIds}
-                                  sectionSelected={sectionSelected}
-                                  pages={pages}
-                                  pagesIds={pagesIds}
-                                  pageSelected={pageSelected}
-                                  onPageAdded={(id, name, parent) => dispatch(addPage(id, name, parent))}
-                                  onPageSelected={id => dispatch(selectPage(id))}
-                                  onSectionAdded={(id, parent, name, children) => dispatch(addSection(id, parent, name, children))}
-                                  onSectionSelected={id => dispatch(selectSection(id))}
-                                  onSectionExpanded={(id, newValue) => dispatch(expandSection(id, newValue))}
-                                  onSectionRemoved={ids => dispatch(removeSection(ids))}
-                                  onSectionDuplicated={id => dispatch(duplicateSection(id))}
-                        />
-                    <DaliCanvas boxes={boxes}
-                                ids={boxIds}
-                                page={pageSelected}
-                                box={boxSelected}
-                                onSelectBox={id => dispatch(selectBox(id))}
-                                onMoveBox={(id, x, y) => dispatch(moveBox(id, x, y))}
-                        />
-                </div>
+                <DaliCanvas boxes={boxes}
+                            ids={boxIds}
+                            pageSelected={pageSelected}
+                            boxSelected={boxSelected}
+                            onSelectBox={id => dispatch(selectBox(id))}
+                            onMoveBox={(id, x, y) => dispatch(moveBox(id, x, y))}
+                    />
+                <DaliCarousel sections={sections}
+                              sectionsIds={sectionsIds}
+                              sectionSelected={sectionSelected}
+                              pages={pages}
+                              pagesIds={pagesIds}
+                              pageSelected={pageSelected}
+                              onPageAdded={(id, name, parent, level) => dispatch(addPage(id, name, parent, level))}
+                              onPageSelected={id => dispatch(selectPage(id))}
+                              onSectionAdded={(id, parent, name, children, level) => dispatch(addSection(id, parent, name, children, level))}
+                              onSectionSelected={id => dispatch(selectSection(id))}
+                              onSectionExpanded={(id, newValue) => dispatch(expandSection(id, newValue))}
+                              onSectionRemoved={ids => dispatch(removeSection(ids))}
+                              onSectionDuplicated={id => dispatch(duplicateSection(id))}
+                    />
             </div>
         );
     }

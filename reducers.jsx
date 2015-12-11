@@ -73,7 +73,7 @@ function boxCreator(state = {}, action = {}){
                 position: position,
                 width: width,
                 height: height,
-                style: {position: 'absolute', width: width, height: height},
+                style: {width: width, height: height},
                 content: content,
                 fragment: {}
             };
