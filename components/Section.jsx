@@ -11,7 +11,7 @@ export default class Section extends Component {
                 e.stopPropagation();
             }}>
                 <div>
-                    <button onClick={e => this.props.onSectionExpanded(section.id, !section.isExpanded)}>{section.isExpanded ? "-" : "+"}</button>
+                    <button onClick={e => this.props.onSectionExpanded(section.id, !section.isExpanded)}><i className={section.isExpanded ? "fa fa-minus-square-o" : "fa fa-plus-square-o"}></i></button>
                     <h3 style={{color: color, display: 'inline'}}>Section {section.name}</h3>
                 </div>
                 <div style={{display: (section.isExpanded ? 'block' : 'none'), borderLeft: '1px dotted black'}}>
@@ -43,9 +43,9 @@ export default class Section extends Component {
                     </div>
                     <div style={{marginTop: 10, marginLeft: 30}}>
                         <button onClick={e =>
-                            this.props.onSectionAdded(Date.now(), section.id, (section.name + "." + (++section.childrenNumber)), 0)
+                            this.props.onSectionAdded(Date.now(), section.id, (section.name + "." + (++section.childrenNumber)), 0, section.level + 1)
                         }><i className="fa fa-folder-o"></i></button>
-                        <button onClick={e => this.props.onPageAdded(Date.now(), (this.props.pagesIds.length + 1), section.id)}><i className="fa fa-file-o"></i></button>
+                        <button onClick={e => this.props.onPageAdded(Date.now(), (this.props.pagesIds.length + 1), section.id, section.level + 1)}><i className="fa fa-file-o"></i></button>
                     </div>
                 </div>
             </div>
