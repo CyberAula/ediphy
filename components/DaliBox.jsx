@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import DaliBoxSortable from '../components/DaliBoxSortable';
 import interact from 'interact.js';
 
 export default class DaliBox extends Component{
@@ -14,17 +15,7 @@ export default class DaliBox extends Component{
                 content = (<div style={{width: '100%', height: '100%'}} dangerouslySetInnerHTML={{__html: box.content}}></div>);
                 break;
             case 'sortable':
-                content = (
-                    <div>
-                        <div>
-                            <button style={{width: '100%', height: 80}}>a</button>
-                            <button style={{width: '100%', height: 80}}>b</button>
-                            <button style={{width: '100%', height: 80}}>c</button>
-                            <button style={{width: '100%', height: 80}}>d</button>
-                        </div>
-                        <button style={{display: 'block', width: 75, height: 75, margin: 'auto'}} ><i className="fa fa-plus-circle fa-5x"></i></button>
-                    </div>
-                );
+                content = (<DaliBoxSortable />);
                 break;
         }
 
@@ -51,48 +42,50 @@ export default class DaliBox extends Component{
     }
 
     componentDidMount() {
-        interact(React.findDOMNode(this))
-            .draggable({
-                enabled: this.props.box.draggable,
-                restrict: {
-                    restriction: "parent",
-                    endOnly: true,
-                    elementRect: { top: 0, left: 0, bottom: 1, right: 1 }
-                },
-                autoScroll: true,
-                onmove: (event) => {
-                    var target = event.target;
+        if(this.props.box.type !== 'sortable') {
+            interact(React.findDOMNode(this))
+                .draggable({
+                    enabled: this.props.box.draggable,
+                    restrict: {
+                        restriction: "parent",
+                        endOnly: true,
+                        elementRect: {top: 0, left: 0, bottom: 1, right: 1}
+                    },
+                    autoScroll: true,
+                    onmove: (event) => {
+                        var target = event.target;
 
-                    target.style.left = (parseInt(target.style.left)||0) + event.dx + 'px';
-                    target.style.top  = (parseInt(target.style.top )||0) + event.dy + 'px';
-                },
-                onend: (event) => {
-                    this.props.onMoveBox(this.props.id, parseInt(event.target.style.left), parseInt(event.target.style.top));
-                }
-            })
-            .resizable({
-                enabled: this.props.box.resizable,
-                edges: { left: true, right: true, bottom: true, top: true }
-            })
-            .on('resizemove', function (event) {
-                var target = event.target,
-                    x = (parseFloat(target.getAttribute('data-x')) || 0),
-                    y = (parseFloat(target.getAttribute('data-y')) || 0);
+                        target.style.left = (parseInt(target.style.left) || 0) + event.dx + 'px';
+                        target.style.top = (parseInt(target.style.top) || 0) + event.dy + 'px';
+                    },
+                    onend: (event) => {
+                        this.props.onMoveBox(this.props.id, parseInt(event.target.style.left), parseInt(event.target.style.top));
+                    }
+                })
+                .resizable({
+                    enabled: this.props.box.resizable,
+                    edges: {left: true, right: true, bottom: true, top: true}
+                })
+                .on('resizemove', function (event) {
+                    var target = event.target,
+                        x = (parseFloat(target.getAttribute('data-x')) || 0),
+                        y = (parseFloat(target.getAttribute('data-y')) || 0);
 
-                // update the element's style
-                target.style.width  = event.rect.width + 'px';
-                target.style.height = event.rect.height + 'px';
+                    // update the element's style
+                    target.style.width = event.rect.width + 'px';
+                    target.style.height = event.rect.height + 'px';
 
-                // translate when resizing from top or left edges
-                x += event.deltaRect.left;
-                y += event.deltaRect.top;
+                    // translate when resizing from top or left edges
+                    x += event.deltaRect.left;
+                    y += event.deltaRect.top;
 
-                target.style.webkitTransform = target.style.transform =
-                    'translate(' + x + 'px,' + y + 'px)';
+                    target.style.webkitTransform = target.style.transform =
+                        'translate(' + x + 'px,' + y + 'px)';
 
-                target.setAttribute('data-x', x);
-                target.setAttribute('data-y', y);
-            });
+                    target.setAttribute('data-x', x);
+                    target.setAttribute('data-y', y);
+                });
+        }
     }
 
     componentWillUnmount() {
