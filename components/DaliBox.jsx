@@ -11,11 +11,11 @@ export default class DaliBox extends Component{
         let content;
         switch(box.type){
             case 'normal':
-                content = (<div style={box.style}><div dangerouslySetInnerHTML={{__html: box.content}}></div></div>);
+                content = (<div style={{width: '100%', height: '100%'}} dangerouslySetInnerHTML={{__html: box.content}}></div>);
                 break;
             case 'sortable':
                 content = (
-                    <div style={box.style}>
+                    <div>
                         <div>
                             <button style={{width: '100%', height: 80}}>a</button>
                             <button style={{width: '100%', height: 80}}>b</button>
@@ -53,6 +53,7 @@ export default class DaliBox extends Component{
     componentDidMount() {
         interact(React.findDOMNode(this))
             .draggable({
+                enabled: this.props.box.draggable,
                 restrict: {
                     restriction: "parent",
                     endOnly: true,
@@ -68,9 +69,9 @@ export default class DaliBox extends Component{
                 onend: (event) => {
                     this.props.onMoveBox(this.props.id, parseInt(event.target.style.left), parseInt(event.target.style.top));
                 }
-            });
-        interact(React.findDOMNode(this))
+            })
             .resizable({
+                enabled: this.props.box.resizable,
                 edges: { left: true, right: true, bottom: true, top: true }
             })
             .on('resizemove', function (event) {

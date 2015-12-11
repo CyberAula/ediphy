@@ -10,8 +10,8 @@ class DaliApp extends Component{
         return(
             <div style={{width: '100%', height: '100%'}}>
                 <div style={{height: '10%', width: '100%', backgroundColor: 'blue'}}>
-                    <button style={{marginLeft: '15%', minWidth: '5%', height: '100%'}} onClick={() => dispatch(addBox(pageSelected, Date.now(), 'normal'))}>Add box</button>
-                    <button style={{marginLeft: '1%', minWidth: '5%', height: '100%'}} onClick={() => dispatch(addBox(pageSelected, Date.now(), 'sortable'))}>Add sortable</button>
+                    <button style={{marginLeft: '15%', minWidth: '5%', height: '100%'}} onClick={() => dispatch(addBox(pageSelected, Date.now(), 'normal', true, true))}>Add box</button>
+                    <button style={{marginLeft: '1%', minWidth: '5%', height: '100%'}} onClick={() => dispatch(addBox(pageSelected, Date.now(), 'sortable', true, false))}>Add sortable</button>
                 </div>
                 <DaliCanvas boxes={boxes}
                             ids={boxIds}
