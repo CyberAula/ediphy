@@ -26,7 +26,7 @@ export default class DaliBox extends Component{
                             top: box.position.y,
                             width: box.width,
                             height: box.height}}>
-            <div style={{visibility: (this.props.isSelected ? 'visible' : 'hidden')}}>
+            <div style={{visibility: ((this.props.isSelected && box.type !== 'sortable') ? 'visible' : 'hidden')}}>
                 <div style={{position: 'absolute', width: '100%', height: '100%', border: (borderSize + "px dashed black"), boxSizing: 'border-box'}}></div>
                 <div style={{position: 'absolute', left:  -cornerSize/2, top: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray'}}></div>
                 <div style={{position: 'absolute', right: -cornerSize/2, top: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray'}}></div>
