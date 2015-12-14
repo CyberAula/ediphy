@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import {createStore} from 'redux';
 import {Provider} from 'react-redux';
 import DaliApp from './containers/DaliApp';
@@ -12,8 +13,8 @@ let initialState = {
 let store = createStore(GlobalState);
 
 let root = document.getElementById('root');
-React.render(
+ReactDOM.render(
     <Provider store={store}>
-        {() => <DaliApp />}
+        <DaliApp />
     </Provider>, root
     );
