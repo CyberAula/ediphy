@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Grid, Col, Row} from 'react-bootstrap';
+import {Grid, Col, Row, Button} from 'react-bootstrap';
 import SlideThumbnail from '../components/SlideThumbnail';
 import Section from '../components/Section';
 
@@ -8,26 +8,26 @@ export default class DaliCarousel extends Component{
         return(
             <div style={{backgroundColor: '#CCC', height: '100%'}}>
                 <div>
-                    <button style={{minWidth: 40}}
+                    <Button style={{minWidth: 40}}
                             disabled={this.props.sectionSelected === -1 ||
-                            this.props.sections[this.props.sectionSelected].parent === 0}>&lt;</button>
-                    <button style={{minWidth: 40}}
+                            this.props.sections[this.props.sectionSelected].parent === 0}>&lt;</Button>
+                    <Button style={{minWidth: 40}}
                             disabled={this.props.sectionSelected === -1}
                             onClick={e => {
                                     let ids = [this.props.sectionSelected];
                                     this.findChildren(ids);
                                     this.props.onSectionRemoved(ids);
                                 }
-                            }><i className="fa fa-trash-o"></i></button>
-                    <button style={{minWidth: 40}}
+                            }><i className="fa fa-trash-o"></i></Button>
+                    <Button style={{minWidth: 40}}
                             disabled={this.props.sectionSelected === -1}
                             onClick={e => {
                                     this.props.onSectionDuplicated(this.props.sectionSelected);
                                 }
-                            }><i className="fa fa-files-o"></i></button>
-                    <button style={{minWidth: 40}}
+                            }><i className="fa fa-files-o"></i></Button>
+                    <Button style={{minWidth: 40}}
                             disabled={this.props.sectionSelected === -1 ||
-                            this.props.sections[this.props.sectionSelected].parent === 0}>&gt;</button>
+                            this.props.sections[this.props.sectionSelected].parent === 0}>&gt;</Button>
                 </div>
                 {/*this.props.ids.map((id, index) =>{
                     let isSelected = (this.props.pageSelected === id);
@@ -53,12 +53,12 @@ export default class DaliCarousel extends Component{
                 {this.props.pagesIds.map((id, index) => {
                     let color = (this.props.pageSelected === id) ? 'green' : 'black';
                     if(this.props.pages[id].parent === 0)
-                        return <div key={index} style={{marginLeft: 20, color: color}} onClick={e => this.props.onPageSelected(id)}>Page {this.props.pages[id].name}</div>;
+                        return <h4 key={index} style={{color: color}} onClick={e => this.props.onPageSelected(id)}>Page {this.props.pages[id].name}</h4>;
                 })}
-                <button onClick={e =>
+                <Button onClick={e =>
                             this.props.onSectionAdded(Date.now(), 0, ++(this.props.sections[0].childrenNumber), 0, 1)
-                        }><i className="fa fa-folder-o"></i></button>
-                <button onClick={e => this.props.onPageAdded(Date.now(), (this.props.pagesIds.length + 1), 0, 1)}><i className="fa fa-file-o"></i></button>
+                        }><i className="fa fa-folder-o"></i></Button>
+                <Button onClick={e => this.props.onPageAdded(Date.now(), (this.props.pagesIds.length + 1), 0, 1)}><i className="fa fa-file-o"></i></Button>
             </div>
         );
     }
