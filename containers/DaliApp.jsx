@@ -13,7 +13,7 @@ class DaliApp extends Component{
             <Grid fluid={true} style={{height: '100%'}}>
                 <Row style={{backgroundColor: 'blue'}}>
                     <Col mdOffset={2}>
-                        <Button disabled={(pagesIds.length === 0 ? true : false)} onClick={() => dispatch(togglePluginModal(pageSelected, true))}>Add</Button>
+                        <Button disabled={(pagesIds.length === 0 ? true : false)} onClick={() => dispatch(togglePluginModal(pageSelected, false, true))}>Add</Button>
                     </Col>
                 </Row>
                 <Row style={{height: '100%'}}>
@@ -40,13 +40,14 @@ class DaliApp extends Component{
                                     boxSelected={boxSelected}
                                     onBoxSelected={id => dispatch(selectBox(id))}
                                     onBoxMoved={(id, x, y) => dispatch(moveBox(id, x, y))}
-                                    onVisibilityToggled={(caller, value) => dispatch(togglePluginModal(caller, value))}
+                                    onVisibilityToggled={(caller, fromSortable, value) => dispatch(togglePluginModal(caller, fromSortable, value))}
                             />
                     </Col>
                 </Row>
                 <BoxModal visibility={boxModalToggled.value}
-                          onVisibilityToggled={(caller, value) => dispatch(togglePluginModal(caller, value))}
+                          onVisibilityToggled={(caller, fromSortable, value) => dispatch(togglePluginModal(caller, fromSortable, value))}
                           caller={boxModalToggled.caller}
+                          fromSortable={boxModalToggled.fromSortable}
                           onBoxAdded={(parent, type, draggable, resizable) => dispatch(addBox(parent, Date.now(), type, draggable, resizable))}/>
             </Grid>
         );

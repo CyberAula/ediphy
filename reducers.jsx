@@ -179,7 +179,7 @@ function sectionSelected(state = -1, action = {}){
     }
 }
 
-function togglePluginModal(state = {value: false, caller: -1}, action = {}){
+function togglePluginModal(state = {value: false, caller: -1, fromSortable: false}, action = {}){
     switch(action.type){
         case TOGGLE_PLUGIN_MODAL:
             return action.payload;
