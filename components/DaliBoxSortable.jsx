@@ -17,7 +17,7 @@ export default class DaliBoxSortable extends Component{
     }
 
     componentDidMount(){
-        Sortable.create(this.refs.sortableContainer.getDOMNode(),{
+        Sortable.create(this.refs.sortableContainer,{
             onStart: evt => {
                 evt.oldIndex;  // element index within parent
             },
