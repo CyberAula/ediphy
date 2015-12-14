@@ -179,10 +179,10 @@ function sectionSelected(state = -1, action = {}){
     }
 }
 
-function togglePluginModal(state = false, action = {}){
+function togglePluginModal(state = {value: false, caller: -1}, action = {}){
     switch(action.type){
         case TOGGLE_PLUGIN_MODAL:
-            return action.payload.newValue;
+            return action.payload;
         case ADD_BOX:
             return false;
         default:
@@ -200,7 +200,7 @@ const GlobalState = combineReducers({
     sections: sectionsIds, //[0, 1]
     sectionsById: sectionsById, //{0: section0, 1: section1}
     sectionSelected: sectionSelected, //0
-    boxModalVisibility: togglePluginModal
+    boxModalToggled: togglePluginModal
 });
 
 export default GlobalState;

@@ -38,7 +38,7 @@ export default class Section extends Component {
                         {this.props.pagesIds.map((id, index) => {
                             let color = (this.props.pageSelected === id) ? 'green' : 'black';
                             if(this.props.pages[id].parent === section.id)
-                                return <div style={{marginLeft: 20, color: color}} onClick={e => this.props.onPageSelected(id)}>Page {this.props.pages[id].name}</div>;
+                                return <div key={index} style={{marginLeft: 20, color: color}} onClick={e => this.props.onPageSelected(id)}>Page {this.props.pages[id].name}</div>;
                         })}
                     </div>
                     <div style={{marginTop: 10, marginLeft: 30}}>

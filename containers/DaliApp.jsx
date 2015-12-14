@@ -8,12 +8,12 @@ import BoxModal from '../components/BoxModal';
 
 class DaliApp extends Component{
     render(){
-        const{ dispatch, sections, sectionsIds, sectionSelected, pages, pagesIds, pageSelected, boxes, boxIds, boxSelected, boxModalVisibility } = this.props;
+        const{ dispatch, sections, sectionsIds, sectionSelected, pages, pagesIds, pageSelected, boxes, boxIds, boxSelected, boxModalToggled } = this.props;
         return(
             <Grid fluid={true} style={{height: '100%'}}>
                 <Row style={{backgroundColor: 'blue'}}>
                     <Col mdOffset={2}>
-                        <Button disabled={(pagesIds.length === 0 ? true : false)} onClick={() => dispatch(togglePluginModal(true))}>Add</Button>
+                        <Button disabled={(pagesIds.length === 0 ? true : false)} onClick={() => dispatch(togglePluginModal(pageSelected, true))}>Add</Button>
                     </Col>
                 </Row>
                 <Row style={{height: '100%'}}>
@@ -40,13 +40,13 @@ class DaliApp extends Component{
                                     boxSelected={boxSelected}
                                     onBoxSelected={id => dispatch(selectBox(id))}
                                     onBoxMoved={(id, x, y) => dispatch(moveBox(id, x, y))}
-                                    onVisibilityToggled={(newValue) => dispatch(togglePluginModal(newValue))}
+                                    onVisibilityToggled={(caller, value) => dispatch(togglePluginModal(caller, value))}
                             />
                     </Col>
                 </Row>
-                <BoxModal visibility={boxModalVisibility}
-                          onVisibilityToggled={(newValue) => dispatch(togglePluginModal(newValue))}
-                          caller={pageSelected}
+                <BoxModal visibility={boxModalToggled.value}
+                          onVisibilityToggled={(caller, value) => dispatch(togglePluginModal(caller, value))}
+                          caller={boxModalToggled.caller}
                           onBoxAdded={(parent, type, draggable, resizable) => dispatch(addBox(parent, Date.now(), type, draggable, resizable))}/>
             </Grid>
         );
@@ -64,7 +64,7 @@ function mapStateToProps(state){
         boxes: state.boxesById,
         boxIds: state.boxes,
         boxSelected: state.boxSelected,
-        boxModalVisibility: state.boxModalVisibility
+        boxModalToggled: state.boxModalToggled
     }
 }
 

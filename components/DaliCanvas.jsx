@@ -14,7 +14,8 @@ export default class DaliCanvas extends Component{
                             return <DaliBox key={id} box={box} id={id}
                                             isSelected={isSelected}
                                             onVisibilityToggled={this.props.onVisibilityToggled}
-                                            onBoxAdded={this.props.onBoxAdded}
+                                            boxesIds={this.props.ids}
+                                            boxes={this.props.boxes}
                                             onBoxSelected={this.props.onBoxSelected}
                                             onBoxMoved={this.props.onBoxMoved} />
                         }

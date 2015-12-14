@@ -52,7 +52,7 @@ export function duplicateSection(id){
     return {type: DUPLICATE_SECTION, payload: {id}}
 }
 
-export function togglePluginModal(newValue){
-    return {type: TOGGLE_PLUGIN_MODAL, payload: {newValue}}
+export function togglePluginModal(caller, value){
+    return {type: TOGGLE_PLUGIN_MODAL, payload: {caller, value}}
 }
 
