@@ -95,10 +95,12 @@ export default class DaliBox extends Component{
         }
     }
 
+    /*
     componentWillUnmount() {
         if(this.props.box.type !== 'sortable') {
             this.interactable.unset();
             this.interactable = null;
         }
     }
+    */
 }

@@ -46,7 +46,8 @@ class DaliApp extends Component{
                 </Row>
                 <BoxModal visibility={boxModalVisibility}
                           onVisibilityToggled={(newValue) => dispatch(togglePluginModal(newValue))}
-                          onBoxAdded={(type, draggable, resizable) => dispatch(addBox(pageSelected, Date.now(), type, draggable, resizable))}/>
+                          caller={pageSelected}
+                          onBoxAdded={(parent, type, draggable, resizable) => dispatch(addBox(parent, Date.now(), type, draggable, resizable))}/>
             </Grid>
         );
     }
