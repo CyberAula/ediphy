@@ -66,7 +66,7 @@ export default class DaliBox extends Component{
                         target.style.top = (parseInt(target.style.top) || 0) + event.dy + 'px';
                     },
                     onend: (event) => {
-                        this.props.onMoveBox(this.props.id, parseInt(event.target.style.left), parseInt(event.target.style.top));
+                        this.props.onBoxMoved(this.props.id, parseInt(event.target.style.left), parseInt(event.target.style.top));
                     }
                 })
                 .resizable({
@@ -96,7 +96,9 @@ export default class DaliBox extends Component{
     }
 
     componentWillUnmount() {
-        this.interactable.unset();
-        this.interactable = null;
+        if(this.props.box.type !== 'sortable') {
+            this.interactable.unset();
+            this.interactable = null;
+        }
     }
 }
