@@ -1,16 +1,17 @@
 import React, {Component} from 'react';
+import {Grid, Col, Row} from 'react-bootstrap';
 import SlideThumbnail from '../components/SlideThumbnail';
 import Section from '../components/Section';
 
 export default class DaliCarousel extends Component{
     render(){
         return(
-            <div style={{position: 'absolute', top: '10%', width: '15%', height: '100%', float: 'left', backgroundColor: '#CCC'}}>
+            <div style={{backgroundColor: '#CCC', height: '100%'}}>
                 <div>
-                    <button style={{width: '20%', minWidth: 40, display: 'inline-block'}}
+                    <button style={{minWidth: 40}}
                             disabled={this.props.sectionSelected === -1 ||
                             this.props.sections[this.props.sectionSelected].parent === 0}>&lt;</button>
-                    <button style={{width: '20%', minWidth: 40, display: 'inline-block'}}
+                    <button style={{minWidth: 40}}
                             disabled={this.props.sectionSelected === -1}
                             onClick={e => {
                                     let ids = [this.props.sectionSelected];
@@ -18,13 +19,13 @@ export default class DaliCarousel extends Component{
                                     this.props.onSectionRemoved(ids);
                                 }
                             }><i className="fa fa-trash-o"></i></button>
-                    <button style={{width: '20%', minWidth: 40, display: 'inline-block'}}
+                    <button style={{minWidth: 40}}
                             disabled={this.props.sectionSelected === -1}
                             onClick={e => {
                                     this.props.onSectionDuplicated(this.props.sectionSelected);
                                 }
                             }><i className="fa fa-files-o"></i></button>
-                    <button style={{width: '20%', minWidth: 40, display: 'inline-block'}}
+                    <button style={{minWidth: 40}}
                             disabled={this.props.sectionSelected === -1 ||
                             this.props.sections[this.props.sectionSelected].parent === 0}>&gt;</button>
                 </div>

@@ -183,6 +183,8 @@ function togglePluginModal(state = false, action = {}){
     switch(action.type){
         case TOGGLE_PLUGIN_MODAL:
             return action.payload.newValue;
+        case ADD_BOX:
+            return false;
         default:
             return state;
     }

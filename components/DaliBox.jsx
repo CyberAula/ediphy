@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import ReactDOM from 'react-dom';
 import DaliBoxSortable from '../components/DaliBoxSortable';
 import interact from 'interact.js';
 
@@ -10,29 +11,35 @@ export default class DaliBox extends Component{
         let box = this.props.box;
 
         let content;
+        let overlay;
+        let position;
         switch(box.type){
             case 'normal':
                 content = (<div style={{width: '100%', height: '100%'}} dangerouslySetInnerHTML={{__html: box.content}}></div>);
+                overlay = (
+                    <div style={{visibility: ((this.props.isSelected && box.type !== 'sortable') ? 'visible' : 'hidden')}}>
+                        <div style={{position: 'absolute', width: '100%', height: '100%', border: (borderSize + "px dashed black"), boxSizing: 'border-box'}}></div>
+                        <div style={{position: 'absolute', left:  -cornerSize/2, top: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray'}}></div>
+                        <div style={{position: 'absolute', right: -cornerSize/2, top: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray'}}></div>
+                        <div style={{position: 'absolute', left:  -cornerSize/2, bottom: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray'}}></div>
+                        <div style={{position: 'absolute', right: -cornerSize/2, bottom: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray'}}></div>
+                    </div>);
+                position = 'absolute';
                 break;
             case 'sortable':
                 content = (<DaliBoxSortable />);
+                position = 'static';
                 break;
         }
 
         return (<div onClick={e => this.handleBoxSelection(this.props.id)}
                      onTouchStart={e => this.handleBoxSelection(this.props.id)}
-                     style={{position: 'absolute',
+                     style={{position: position,
                             left: box.position.x,
                             top: box.position.y,
                             width: box.width,
                             height: box.height}}>
-            <div style={{visibility: ((this.props.isSelected && box.type !== 'sortable') ? 'visible' : 'hidden')}}>
-                <div style={{position: 'absolute', width: '100%', height: '100%', border: (borderSize + "px dashed black"), boxSizing: 'border-box'}}></div>
-                <div style={{position: 'absolute', left:  -cornerSize/2, top: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray'}}></div>
-                <div style={{position: 'absolute', right: -cornerSize/2, top: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray'}}></div>
-                <div style={{position: 'absolute', left:  -cornerSize/2, bottom: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray'}}></div>
-                <div style={{position: 'absolute', right: -cornerSize/2, bottom: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray'}}></div>
-            </div>
+            {overlay}
             {content}
         </div>);
     }
@@ -43,7 +50,7 @@ export default class DaliBox extends Component{
 
     componentDidMount() {
         if(this.props.box.type !== 'sortable') {
-            interact(React.findDOMNode(this))
+            interact(ReactDOM.findDOMNode(this))
                 .draggable({
                     enabled: this.props.box.draggable,
                     restrict: {
