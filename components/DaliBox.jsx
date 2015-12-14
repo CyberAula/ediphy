@@ -27,7 +27,7 @@ export default class DaliBox extends Component{
                 position = 'absolute';
                 break;
             case 'sortable':
-                content = (<DaliBoxSortable />);
+                content = (<DaliBoxSortable onVisibilityToggled={this.props.onVisibilityToggled} />);
                 position = 'static';
                 break;
         }
@@ -45,7 +45,7 @@ export default class DaliBox extends Component{
     }
 
     handleBoxSelection(id){
-        this.props.onSelectBox(id);
+        this.props.onBoxSelected(id);
     }
 
     componentDidMount() {

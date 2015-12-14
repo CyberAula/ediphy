@@ -11,7 +11,7 @@ export default class DaliBoxSortable extends Component{
                 <div style={{width: '100%', height: 80, backgroundColor: 'blue'}}>c</div>
                 <div style={{width: '100%', height: 80, backgroundColor: 'yellow'}}>d</div>
             </div>
-            <button style={{display: 'block', width: 75, height: 75, margin: 'auto'}} onClick={e => console.log("click")} ><i className="fa fa-plus-circle fa-5x"></i></button>
+            <button style={{display: 'block', width: 75, height: 75, margin: 'auto'}} onClick={e => this.props.onVisibilityToggled(true)} ><i className="fa fa-plus-circle fa-5x"></i></button>
         </div>
         );
     }

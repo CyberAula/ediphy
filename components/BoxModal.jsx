@@ -4,7 +4,7 @@ import {Modal, Button, Tabs, Tab} from 'react-bootstrap';
 export default class BoxModal extends Component {
     render() {
         return (
-        <Modal show={this.props.visibility} backdrop={true} bsSize="large" onHide={e => this.props.onToggleVisibility(false)}>
+        <Modal show={this.props.visibility} backdrop={true} bsSize="large" onHide={e => this.props.onVisibilityToggled(false)}>
             <Modal.Header closeButton>
                 <Modal.Title>Plugin Selection</Modal.Title>
             </Modal.Header>
@@ -24,7 +24,7 @@ export default class BoxModal extends Component {
             </Modal.Body>
 
             <Modal.Footer>
-                <Button bsStyle="primary" onClick={e => this.props.onToggleVisibility(false)}>Save changes</Button>
+                <Button bsStyle="primary" onClick={e => this.props.onVisibilityToggled(false)}>Save changes</Button>
             </Modal.Footer>
 
         </Modal>

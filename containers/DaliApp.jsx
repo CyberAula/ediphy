@@ -38,13 +38,14 @@ class DaliApp extends Component{
                                     ids={boxIds}
                                     pageSelected={pageSelected}
                                     boxSelected={boxSelected}
-                                    onSelectBox={id => dispatch(selectBox(id))}
-                                    onMoveBox={(id, x, y) => dispatch(moveBox(id, x, y))}
+                                    onBoxSelected={id => dispatch(selectBox(id))}
+                                    onBoxMoved={(id, x, y) => dispatch(moveBox(id, x, y))}
+                                    onVisibilityToggled={(newValue) => dispatch(togglePluginModal(newValue))}
                             />
                     </Col>
                 </Row>
                 <BoxModal visibility={boxModalVisibility}
-                          onToggleVisibility={(newValue) => dispatch(togglePluginModal(newValue))}
+                          onVisibilityToggled={(newValue) => dispatch(togglePluginModal(newValue))}
                           onBoxAdded={(type, draggable, resizable) => dispatch(addBox(pageSelected, Date.now(), type, draggable, resizable))}/>
             </Grid>
         );
