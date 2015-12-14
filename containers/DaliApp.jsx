@@ -13,7 +13,7 @@ class DaliApp extends Component{
             <Grid fluid={true} style={{height: '100%'}}>
                 <Row style={{backgroundColor: 'blue'}}>
                     <Col mdOffset={2}>
-                        <Button onClick={() => dispatch(togglePluginModal(true))}>Add</Button>
+                        <Button disabled={(pagesIds.length === 0 ? true : false)} onClick={() => dispatch(togglePluginModal(true))}>Add</Button>
                     </Col>
                 </Row>
                 <Row style={{height: '100%'}}>
