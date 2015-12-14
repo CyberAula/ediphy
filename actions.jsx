@@ -10,6 +10,8 @@ export const EXPAND_SECTION = 'EXPAND_SECTION';
 export const REMOVE_SECTION = 'REMOVE_SECTION';
 export const DUPLICATE_SECTION = 'DUPLICATE_SECTION';
 
+export const TOGGLE_PLUGIN_MODAL = 'TOGGLE_PLUGIN_MODAL';
+
 export function selectPage(index){
     return {type: SELECT_PAGE, payload: {index}};
 }
@@ -49,3 +51,8 @@ export function removeSection(ids){
 export function duplicateSection(id){
     return {type: DUPLICATE_SECTION, payload: {id}}
 }
+
+export function togglePluginModal(newValue){
+    return {type: TOGGLE_PLUGIN_MODAL, payload: {newValue}}
+}
+

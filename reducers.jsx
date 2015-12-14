@@ -1,5 +1,8 @@
 import {combineReducers} from 'redux';
-import {SELECT_PAGE, ADD_PAGE, ADD_BOX, SELECT_BOX, MOVE_BOX, ADD_SECTION, SELECT_SECTION, EXPAND_SECTION, REMOVE_SECTION} from './actions';
+import {SELECT_PAGE, ADD_PAGE, ADD_BOX, SELECT_BOX, MOVE_BOX,
+    ADD_SECTION, SELECT_SECTION, EXPAND_SECTION, REMOVE_SECTION,
+    TOGGLE_PLUGIN_MODAL
+} from './actions';
 
 function pageCreator(state = {}, action = {}){
     switch (action.type){
@@ -176,6 +179,15 @@ function sectionSelected(state = -1, action = {}){
     }
 }
 
+function togglePluginModal(state = false, action = {}){
+    switch(action.type){
+        case TOGGLE_PLUGIN_MODAL:
+            return action.payload.newValue;
+        default:
+            return state;
+    }
+}
+
 const GlobalState = combineReducers({
     pageSelected: pageSelected, //0
     pages: pages, //[0, 1]
@@ -185,7 +197,8 @@ const GlobalState = combineReducers({
     boxes: boxes, //[0, 1]
     sections: sectionsIds, //[0, 1]
     sectionsById: sectionsById, //{0: section0, 1: section1}
-    sectionSelected: sectionSelected
+    sectionSelected: sectionSelected, //0
+    boxModalVisibility: togglePluginModal
 });
 
 export default GlobalState;

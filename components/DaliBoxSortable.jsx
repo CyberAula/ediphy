@@ -24,7 +24,7 @@ export default class DaliBoxSortable extends Component{
             onEnd: evt => {
                 evt.oldIndex;  // element's old index within parent
                 evt.newIndex;  // element's new index within parent
-            },
+            }
         });
     }
 }
