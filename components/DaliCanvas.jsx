@@ -5,7 +5,7 @@ import DaliBoxSortable from '../components/DaliBoxSortable';
 export default class DaliCanvas extends Component{
     render(){
         return(
-            <div style={{backgroundColor: 'gray', height: '100%'}}>
+            <div style={{backgroundColor: 'gray', height: '100%', paddingTop: '5%'}}>
                 <div style={{height: '100%', backgroundColor: 'white', margin: '0px 100px 0px 100px'}}>
                     {this.props.ids.map(id =>{
                         let box = this.props.boxes[id];

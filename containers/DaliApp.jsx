@@ -11,13 +11,8 @@ class DaliApp extends Component{
         const{ dispatch, sections, sectionsIds, sectionSelected, pages, pagesIds, pageSelected, boxes, boxIds, boxSelected, boxModalToggled } = this.props;
         return(
             <Grid fluid={true} style={{height: '100%'}}>
-                <Row style={{backgroundColor: 'blue'}}>
-                    <Col mdOffset={2}>
-                        <Button disabled={(pagesIds.length === 0 ? true : false)} onClick={() => dispatch(togglePluginModal(pageSelected, false, true))}>Add</Button>
-                    </Col>
-                </Row>
                 <Row style={{height: '100%'}}>
-                    <Col md={2} style={{padding: 0, height: '100%'}}>
+                    <Col md={2} style={{padding: 0, height: '100%', overflowY: 'auto'}}>
                         <DaliCarousel sections={sections}
                                       sectionsIds={sectionsIds}
                                       sectionSelected={sectionSelected}
@@ -33,7 +28,7 @@ class DaliApp extends Component{
                                       onSectionDuplicated={id => dispatch(duplicateSection(id))}
                             />
                     </Col>
-                    <Col md={10} style={{padding: 0, height: '100%'}}>
+                    <Col md={10} style={{padding: 0, height: '100%', overflowY: 'auto'}}>
                         <DaliCanvas boxes={boxes}
                                     ids={boxIds}
                                     pageSelected={pageSelected}
@@ -49,6 +44,11 @@ class DaliApp extends Component{
                           caller={boxModalToggled.caller}
                           fromSortable={boxModalToggled.fromSortable}
                           onBoxAdded={(parent, type, draggable, resizable) => dispatch(addBox(parent, Date.now(), type, draggable, resizable))}/>
+                <div style={{backgroundColor: 'blue', position: 'absolute', top: 0, left: 0, width: '100%', height: '5%'}}>
+                    <Col mdOffset={2}>
+                        <Button disabled={(pagesIds.length === 0 ? true : false)} onClick={() => dispatch(togglePluginModal(pageSelected, false, true))}>Add</Button>
+                    </Col>
+                </div>
             </Grid>
         );
     }

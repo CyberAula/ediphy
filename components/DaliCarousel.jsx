@@ -6,7 +6,7 @@ import Section from '../components/Section';
 export default class DaliCarousel extends Component{
     render(){
         return(
-            <div style={{backgroundColor: '#CCC', height: '100%'}}>
+            <div style={{backgroundColor: '#CCC', height: '100%', padding: '20% 10px 10px 10px'}}>
                 <div>
                     <Button style={{minWidth: 40}}
                             disabled={this.props.sectionSelected === -1 ||
