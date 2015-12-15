@@ -63,6 +63,11 @@ function boxCreator(state = {}, action = {}){
                     position = {x: 0, y: 0};
                     width = '100%';
                     break;
+                case 'inner-sortable':
+                    position = {x: Math.floor(Math.random() * 500), y: 0};
+                    width = 100;
+                    height = 100;
+                    break;
                 default:
                     position = {x: Math.floor(Math.random() * 500), y: Math.floor(Math.random() * 500)}
                     width = 100;
