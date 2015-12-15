@@ -17,6 +17,7 @@ export default class DaliBoxSortable extends Component{
                                      isSelected={isSelected}
                                      onBoxSelected={this.props.onBoxSelected}
                                      onBoxMoved={this.props.onBoxMoved}/>
+                            <i className="fa fa-bars drag-handle"></i>
                         </div>);
                     }
                 })}
@@ -28,6 +29,7 @@ export default class DaliBoxSortable extends Component{
 
     componentDidMount(){
         Sortable.create(this.refs.sortableContainer,{
+            handle: ".drag-handle",
             onStart: evt => {
                 evt.oldIndex;  // element index within parent
             },
