@@ -55,7 +55,7 @@ function boxCreator(state = {}, action = {}){
                 style[key] = keyValue[1].trim().replace(/'/g, "");
             });
             */
-            let content = "<h1>Hola</h1>";
+            let content = "<h1>Placeholder</h1>";
 
             let position, width, height;
             switch(action.payload.type){
@@ -184,6 +184,16 @@ function sectionSelected(state = -1, action = {}){
     }
 }
 
+function navigationIds(state = [], action = {}){
+    switch(action.type){
+        case ADD_PAGE:
+        case ADD_SECTION:
+            return [...state, action.payload.id];
+        default:
+            return state;
+    }
+}
+
 function togglePluginModal(state = {value: false, caller: -1, fromSortable: false}, action = {}){
     switch(action.type){
         case TOGGLE_PLUGIN_MODAL:
@@ -205,6 +215,7 @@ const GlobalState = combineReducers({
     sections: sectionsIds, //[0, 1]
     sectionsById: sectionsById, //{0: section0, 1: section1}
     sectionSelected: sectionSelected, //0
+    navigationIds: navigationIds, //[0, 1]
     boxModalToggled: togglePluginModal
 });
 

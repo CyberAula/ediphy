@@ -33,28 +33,32 @@ export default class DaliCarousel extends Component{
                     let isSelected = (this.props.pageSelected === id);
                     return <SlideThumbnail key={index} id={id} page={this.props.pages[id]} isSelected={isSelected} onPageSelected={this.props.onPageSelected} />;
                 })*/}
-                {this.props.sectionsIds.map((id, index) =>{
-                    if(this.props.sections[id].parent === 0)
-                        return <Section id={id}
-                                        key={index}
-                                        sectionsIds={this.props.sectionsIds}
-                                        sections={this.props.sections}
-                                        sectionSelected={this.props.sectionSelected}
-                                        pagesIds={this.props.pagesIds}
-                                        pages={this.props.pages}
-                                        pageSelected={this.props.pageSelected}
-                                        onPageAdded={this.props.onPageAdded}
-                                        onPageSelected={this.props.onPageSelected}
-                                        onSectionAdded={this.props.onSectionAdded}
-                                        onSectionSelected={this.props.onSectionSelected}
-                                        onSectionExpanded={this.props.onSectionExpanded}
-                            />;
-                })}
-                {this.props.pagesIds.map((id, index) => {
-                    let color = (this.props.pageSelected === id) ? 'green' : 'black';
-                    if(this.props.pages[id].parent === 0)
-                        return <h4 key={index} style={{color: color}} onClick={e => this.props.onPageSelected(id)}>Page {this.props.pages[id].name}</h4>;
-                })}
+                {
+                    this.props.navIds.map((id, index) => {
+                        if(this.props.sections[id]){
+                            if(this.props.sections[id].parent === 0)
+                                return <Section id={id}
+                                                key={index}
+                                                sectionsIds={this.props.sectionsIds}
+                                                sections={this.props.sections}
+                                                sectionSelected={this.props.sectionSelected}
+                                                pagesIds={this.props.pagesIds}
+                                                pages={this.props.pages}
+                                                pageSelected={this.props.pageSelected}
+                                                navIds={this.props.navIds}
+                                                onPageAdded={this.props.onPageAdded}
+                                                onPageSelected={this.props.onPageSelected}
+                                                onSectionAdded={this.props.onSectionAdded}
+                                                onSectionSelected={this.props.onSectionSelected}
+                                                onSectionExpanded={this.props.onSectionExpanded}
+                                    />;
+                        }else if(this.props.pages[id]){
+                            let color = this.props.pageSelected === id ? 'green' : 'black';
+                            if(this.props.pages[id].parent === 0)
+                                return <h4 key={index} style={{color: color}} onClick={e => this.props.onPageSelected(id)}>Page {this.props.pages[id].name}</h4>;
+                        }
+                    })
+                }
                 <Button onClick={e =>
                             this.props.onSectionAdded(Date.now(), 0, ++(this.props.sections[0].childrenNumber), 0, 1)
                         }><i className="fa fa-folder-o"></i></Button>

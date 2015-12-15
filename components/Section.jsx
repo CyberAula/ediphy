@@ -18,28 +18,29 @@ export default class Section extends Component {
                 <div style={{display: (section.isExpanded ? 'block' : 'none'), borderLeft: '1px dotted black'}}>
                     <div style={{marginLeft: 20}}>
                         {
-                            this.props.sectionsIds.map((id, index) =>{
-                                if(this.props.sections[id].parent === section.id)
-                                    return <Section  id={id}
-                                                     key={index}
-                                                     sectionsIds={this.props.sectionsIds}
-                                                     sections={this.props.sections}
-                                                     sectionSelected={this.props.sectionSelected}
-                                                     pagesIds={this.props.pagesIds}
-                                                     pages={this.props.pages}
-                                                     pageSelected={this.props.pageSelected}
-                                                     onPageAdded={this.props.onPageAdded}
-                                                     onPageSelected={this.props.onPageSelected}
-                                                     onSectionAdded={this.props.onSectionAdded}
-                                                     onSectionSelected={this.props.onSectionSelected}
-                                                     onSectionExpanded={this.props.onSectionExpanded}
-                                        />;
-                            })
-                        }
-                        {this.props.pagesIds.map((id, index) => {
-                            let color = (this.props.pageSelected === id) ? 'green' : 'black';
-                            if(this.props.pages[id].parent === section.id)
-                                return <h4 key={index} style={{color: color}} onClick={e => this.props.onPageSelected(id)}>Page {this.props.pages[id].name}</h4>;
+                            this.props.navIds.map((id, index) => {
+                                if(this.props.sections[id]) {
+                                    if (this.props.sections[id].parent === section.id)
+                                        return <Section id={id}
+                                                        key={index}
+                                                        sectionsIds={this.props.sectionsIds}
+                                                        sections={this.props.sections}
+                                                        sectionSelected={this.props.sectionSelected}
+                                                        pagesIds={this.props.pagesIds}
+                                                        pages={this.props.pages}
+                                                        pageSelected={this.props.pageSelected}
+                                                        navIds={this.props.navIds}
+                                                        onPageAdded={this.props.onPageAdded}
+                                                        onPageSelected={this.props.onPageSelected}
+                                                        onSectionAdded={this.props.onSectionAdded}
+                                                        onSectionSelected={this.props.onSectionSelected}
+                                                        onSectionExpanded={this.props.onSectionExpanded}
+                                            />;
+                                }else if(this.props.pages[id]) {
+                                    let color = this.props.pageSelected === id ? 'green' : 'black';
+                                    if (this.props.pages[id].parent === section.id)
+                                        return <h4 key={index} style={{color: color}} onClick={e => this.props.onPageSelected(id)}> Page {this.props.pages[id].name}</h4>;
+                                }
                         })}
                     </div>
                     <div style={{marginTop: 10, marginLeft: 20}}>

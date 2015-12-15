@@ -8,7 +8,7 @@ import BoxModal from '../components/BoxModal';
 
 class DaliApp extends Component{
     render(){
-        const{ dispatch, sections, sectionsIds, sectionSelected, pages, pagesIds, pageSelected, boxes, boxIds, boxSelected, boxModalToggled } = this.props;
+        const{ dispatch, sections, sectionsIds, sectionSelected, pages, pagesIds, pageSelected, boxes, boxIds, boxSelected, navIds, boxModalToggled } = this.props;
         return(
             <Grid fluid={true} style={{height: '100%'}}>
                 <Row style={{height: '100%'}}>
@@ -19,6 +19,7 @@ class DaliApp extends Component{
                                       pages={pages}
                                       pagesIds={pagesIds}
                                       pageSelected={pageSelected}
+                                      navIds={navIds}
                                       onPageAdded={(id, name, parent, level) => dispatch(addPage(id, name, parent, level))}
                                       onPageSelected={id => dispatch(selectPage(id))}
                                       onSectionAdded={(id, parent, name, children, level) => dispatch(addSection(id, parent, name, children, level))}
@@ -33,6 +34,7 @@ class DaliApp extends Component{
                                     ids={boxIds}
                                     pageSelected={pageSelected}
                                     boxSelected={boxSelected}
+                                    showCanvas={(pagesIds.length !== 0)}
                                     onBoxSelected={id => dispatch(selectBox(id))}
                                     onBoxMoved={(id, x, y) => dispatch(moveBox(id, x, y))}
                                     onVisibilityToggled={(caller, fromSortable, value) => dispatch(togglePluginModal(caller, fromSortable, value))}
@@ -65,6 +67,7 @@ function mapStateToProps(state){
         boxes: state.boxesById,
         boxIds: state.boxes,
         boxSelected: state.boxSelected,
+        navIds: state.navigationIds,
         boxModalToggled: state.boxModalToggled
     }
 }
