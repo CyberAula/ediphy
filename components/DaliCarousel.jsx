@@ -46,6 +46,7 @@ export default class DaliCarousel extends Component{
                                                 pages={this.props.pages}
                                                 pageSelected={this.props.pageSelected}
                                                 navIds={this.props.navIds}
+                                                navItemSelected={this.props.navItemSelected}
                                                 onPageAdded={this.props.onPageAdded}
                                                 onPageSelected={this.props.onPageSelected}
                                                 onSectionAdded={this.props.onSectionAdded}
@@ -53,16 +54,19 @@ export default class DaliCarousel extends Component{
                                                 onSectionExpanded={this.props.onSectionExpanded}
                                     />;
                         }else if(this.props.pages[id]){
-                            let color = this.props.pageSelected === id ? 'green' : 'black';
+                            let color = this.props.navItemSelected === id ? 'red' : 'black';
                             if(this.props.pages[id].parent === 0)
-                                return <h4 key={index} style={{color: color}} onClick={e => this.props.onPageSelected(id)}>Page {this.props.pages[id].name}</h4>;
+                                return <h4 key={index} style={{color: color}} onClick={e => {
+                                    this.props.onPageSelected(id);
+                                    e.stopPropagation();
+                                    }}>Page {this.props.pages[id].name}</h4>;
                         }
                     })
                 }
                 <Button onClick={e =>
                             this.props.onSectionAdded(Date.now(), 0, ++(this.props.sections[0].childrenNumber), 0, 1)
                         }><i className="fa fa-folder-o"></i></Button>
-                <Button onClick={e => this.props.onPageAdded(Date.now(), (this.props.pagesIds.length + 1), 0, 1)}><i className="fa fa-file-o"></i></Button>
+                <Button onClick={e => this.props.onPageAdded(0, true)}><i className="fa fa-file-o"></i></Button>
             </div>
         );
     }

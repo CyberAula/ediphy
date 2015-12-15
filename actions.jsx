@@ -11,9 +11,10 @@ export const REMOVE_SECTION = 'REMOVE_SECTION';
 export const DUPLICATE_SECTION = 'DUPLICATE_SECTION';
 
 export const TOGGLE_PLUGIN_MODAL = 'TOGGLE_PLUGIN_MODAL';
+export const TOGGLE_PAGE_MODAL = 'TOGGLE_PAGE_MODAL';
 
-export function selectPage(index){
-    return {type: SELECT_PAGE, payload: {index}};
+export function selectPage(id){
+    return {type: SELECT_PAGE, payload: {id}};
 }
 
 export function addPage(id, name, parent, level){
@@ -56,3 +57,6 @@ export function togglePluginModal(caller, fromSortable, value){
     return {type: TOGGLE_PLUGIN_MODAL, payload: {caller, fromSortable, value}}
 }
 
+export function togglePageModal(caller, value){
+    return {type: TOGGLE_PAGE_MODAL, payload: {caller, value}}
+}

@@ -1,14 +1,15 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {Grid, Col, Row, Button} from 'react-bootstrap';
-import {addPage, selectPage, addBox, selectBox, moveBox, addSection, selectSection, expandSection, removeSection, duplicateSection, togglePluginModal} from '../actions';
+import {addPage, selectPage, addBox, selectBox, moveBox, addSection, selectSection, expandSection, removeSection, duplicateSection, togglePluginModal, togglePageModal} from '../actions';
 import DaliCanvas from '../components/DaliCanvas';
 import DaliCarousel from '../components/DaliCarousel';
 import BoxModal from '../components/BoxModal';
+import PageModal from '../components/PageModal';
 
 class DaliApp extends Component{
     render(){
-        const{ dispatch, sections, sectionsIds, sectionSelected, pages, pagesIds, pageSelected, boxes, boxIds, boxSelected, navIds, boxModalToggled } = this.props;
+        const{ dispatch, sections, sectionsIds, sectionSelected, pages, pagesIds, pageSelected, boxes, boxIds, boxSelected, navIds, navItemSelected, boxModalToggled, pageModalToggled } = this.props;
         return(
             <Grid fluid={true} style={{height: '100%'}}>
                 <Row style={{height: '100%'}}>
@@ -20,7 +21,8 @@ class DaliApp extends Component{
                                       pagesIds={pagesIds}
                                       pageSelected={pageSelected}
                                       navIds={navIds}
-                                      onPageAdded={(id, name, parent, level) => dispatch(addPage(id, name, parent, level))}
+                                      navItemSelected={navItemSelected}
+                                      onPageAdded={(caller, value) => dispatch(togglePageModal(caller, value))}
                                       onPageSelected={id => dispatch(selectPage(id))}
                                       onSectionAdded={(id, parent, name, children, level) => dispatch(addSection(id, parent, name, children, level))}
                                       onSectionSelected={id => dispatch(selectSection(id))}
@@ -42,10 +44,16 @@ class DaliApp extends Component{
                     </Col>
                 </Row>
                 <BoxModal visibility={boxModalToggled.value}
-                          onVisibilityToggled={(caller, fromSortable, value) => dispatch(togglePluginModal(caller, fromSortable, value))}
                           caller={boxModalToggled.caller}
                           fromSortable={boxModalToggled.fromSortable}
-                          onBoxAdded={(parent, type, draggable, resizable) => dispatch(addBox(parent, Date.now(), type, draggable, resizable))}/>
+                          onVisibilityToggled={(caller, fromSortable, value) => dispatch(togglePluginModal(caller, fromSortable, value))}
+                          onBoxAdded={(parent, type, draggable, resizable) => dispatch(addBox(parent, Date.now(), type, draggable, resizable))} />
+                <PageModal visibility={pageModalToggled.value}
+                           caller={pageModalToggled.caller}
+                           proposedName={pagesIds.length + 1}
+                           sections={sections}
+                           onVisibilityToggled={value => dispatch(togglePageModal(value))}
+                           onPageAdded={(id, name, parent, level) => dispatch(addPage(id, name, parent, level))} />
                 <div style={{backgroundColor: 'blue', position: 'absolute', top: 0, left: 0, width: '100%', height: '5%'}}>
                     <Col mdOffset={2}>
                         <Button disabled={(pagesIds.length === 0 ? true : false)} onClick={() => dispatch(togglePluginModal(pageSelected, false, true))}>Add</Button>
@@ -68,7 +76,9 @@ function mapStateToProps(state){
         boxIds: state.boxes,
         boxSelected: state.boxSelected,
         navIds: state.navigationIds,
-        boxModalToggled: state.boxModalToggled
+        navItemSelected: state.navItemSelected,
+        boxModalToggled: state.boxModalToggled,
+        pageModalToggled: state.pageModalToggled
     }
 }
 

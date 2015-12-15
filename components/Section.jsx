@@ -4,7 +4,7 @@ import {Button} from 'react-bootstrap';
 export default class Section extends Component {
     render() {
         let section = this.props.sections[this.props.id];
-        let color = (this.props.sectionSelected === this.props.id) ? 'red' : 'black';
+        let color = (this.props.navItemSelected === this.props.id) ? 'red' : 'black';
 
         return (
             <div onClick={e => {
@@ -30,6 +30,7 @@ export default class Section extends Component {
                                                         pages={this.props.pages}
                                                         pageSelected={this.props.pageSelected}
                                                         navIds={this.props.navIds}
+                                                        navItemSelected={this.props.navItemSelected}
                                                         onPageAdded={this.props.onPageAdded}
                                                         onPageSelected={this.props.onPageSelected}
                                                         onSectionAdded={this.props.onSectionAdded}
@@ -37,9 +38,12 @@ export default class Section extends Component {
                                                         onSectionExpanded={this.props.onSectionExpanded}
                                             />;
                                 }else if(this.props.pages[id]) {
-                                    let color = this.props.pageSelected === id ? 'green' : 'black';
+                                    let color = this.props.navItemSelected === id ? 'red' : 'black';
                                     if (this.props.pages[id].parent === section.id)
-                                        return <h4 key={index} style={{color: color}} onClick={e => this.props.onPageSelected(id)}> Page {this.props.pages[id].name}</h4>;
+                                        return <h4 key={index} style={{color: color}} onClick={e => {
+                                            this.props.onPageSelected(id);
+                                            e.stopPropagation();
+                                        }}> Page {this.props.pages[id].name}</h4>;
                                 }
                         })}
                     </div>
@@ -47,7 +51,10 @@ export default class Section extends Component {
                         <Button onClick={e =>
                             this.props.onSectionAdded(Date.now(), section.id, (section.name + "." + (++section.childrenNumber)), 0, section.level + 1)
                         }><i className="fa fa-folder-o"></i></Button>
-                        <Button onClick={e => this.props.onPageAdded(Date.now(), (this.props.pagesIds.length + 1), section.id, section.level + 1)}><i className="fa fa-file-o"></i></Button>
+                        <Button onClick={e => {
+                            this.props.onPageAdded(this.props.id, true)
+                            e.stopPropagation();
+                        }}><i className="fa fa-file-o"></i></Button>
                     </div>
                 </div>
             </div>

@@ -1,7 +1,7 @@
 import {combineReducers} from 'redux';
 import {SELECT_PAGE, ADD_PAGE, ADD_BOX, SELECT_BOX, MOVE_BOX,
     ADD_SECTION, SELECT_SECTION, EXPAND_SECTION, REMOVE_SECTION,
-    TOGGLE_PLUGIN_MODAL
+    TOGGLE_PLUGIN_MODAL, TOGGLE_PAGE_MODAL
 } from './actions';
 
 function pageCreator(state = {}, action = {}){
@@ -36,7 +36,7 @@ function pageSelected(state = -1, action = {}) {
         case ADD_PAGE:
             return action.payload.id;
         case SELECT_PAGE:
-            return action.payload.index;
+            return action.payload.id;
         default:
             return state;
     }
@@ -194,6 +194,17 @@ function navigationIds(state = [], action = {}){
     }
 }
 
+function navItemSelected(state = -1, action = {}){
+    switch(action.type){
+        case SELECT_SECTION:
+        case SELECT_PAGE:
+            console.log(action);
+            return action.payload.id;
+        default:
+            return state;
+    }
+}
+
 function togglePluginModal(state = {value: false, caller: -1, fromSortable: false}, action = {}){
     switch(action.type){
         case TOGGLE_PLUGIN_MODAL:
@@ -202,6 +213,15 @@ function togglePluginModal(state = {value: false, caller: -1, fromSortable: fals
             return false;
         default:
             return state;
+    }
+}
+
+function togglePageModal(state = {value: false, caller: -1}, action = {}){
+    switch(action.type){
+        case TOGGLE_PAGE_MODAL:
+            return action.payload;
+        default:
+            return true;
     }
 }
 
@@ -216,7 +236,9 @@ const GlobalState = combineReducers({
     sectionsById: sectionsById, //{0: section0, 1: section1}
     sectionSelected: sectionSelected, //0
     navigationIds: navigationIds, //[0, 1]
-    boxModalToggled: togglePluginModal
+    navItemSelected: navItemSelected,
+    boxModalToggled: togglePluginModal,
+    pageModalToggled: togglePageModal
 });
 
 export default GlobalState;
