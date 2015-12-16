@@ -12,7 +12,10 @@ export default class Section extends Component {
                 e.stopPropagation();
             }}>
                 <div>
-                    <Button onClick={e => this.props.onSectionExpanded(section.id, !section.isExpanded)}><i className={section.isExpanded ? "fa fa-minus-square-o" : "fa fa-plus-square-o"}></i></Button>
+                    <Button onClick={e => {
+                        this.props.onSectionExpanded(section.id, !section.isExpanded)
+                        e.stopPropagation();
+                    }}><i className={section.isExpanded ? "fa fa-minus-square-o" : "fa fa-plus-square-o"}></i></Button>
                     <h3 style={{color: color, display: 'inline'}}>Section {section.name}</h3>
                 </div>
                 <div style={{display: (section.isExpanded ? 'block' : 'none'), borderLeft: '1px dotted black'}}>
