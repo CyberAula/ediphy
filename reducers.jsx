@@ -7,7 +7,7 @@ import {SELECT_PAGE, ADD_PAGE, ADD_BOX, SELECT_BOX, MOVE_BOX,
 function pageCreator(state = {}, action = {}){
     switch (action.type){
         case ADD_PAGE:
-            return {id: action.payload.id, name: action.payload.name, parent: action.payload.parent, level: action.payload.level};
+            return {id: action.payload.id, name: action.payload.name, parent: action.payload.parent, level: action.payload.level, type: action.payload.type};
         default:
             return state;
     }
@@ -65,13 +65,13 @@ function boxCreator(state = {}, action = {}){
                     break;
                 case 'inner-sortable':
                     position = {x: Math.floor(Math.random() * 500), y: 0};
-                    width = 100;
-                    height = 100;
+                    width = 200;
+                    height = 80;
                     break;
                 default:
                     position = {x: Math.floor(Math.random() * 500), y: Math.floor(Math.random() * 500)}
-                    width = 100;
-                    height = 100;
+                    width = 200;
+                    height = 80;
                     break;
             }
 

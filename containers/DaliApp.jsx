@@ -53,7 +53,7 @@ class DaliApp extends Component{
                            proposedName={pagesIds.length + 1}
                            sections={sections}
                            onVisibilityToggled={value => dispatch(togglePageModal(value))}
-                           onPageAdded={(id, name, parent, level) => dispatch(addPage(id, name, parent, level))} />
+                           onPageAdded={(id, name, parent, level, type) => dispatch(addPage(id, name, parent, level, type))} />
                 <div style={{backgroundColor: 'blue', position: 'absolute', top: 0, left: 0, width: '100%', height: '5%'}}>
                     <Col mdOffset={2}>
                         <Button disabled={(pagesIds.length === 0 ? true : false)} onClick={() => dispatch(togglePluginModal(pageSelected, false, true))}>Add</Button>

@@ -11,8 +11,8 @@ export default class PageModal extends Component {
 
                 <Modal.Body>
                     <ButtonGroup vertical={true} block={true}>
-                        <Button bsStyle="primary" onClick={e => this.props.onPageAdded(Date.now(), this.props.proposedName, this.props.caller, this.props.sections[this.props.caller].level + 1)}>Document</Button>
-                        <Button bsStyle="primary" onClick={e => this.props.onPageAdded(Date.now(), this.props.proposedName, this.props.caller, this.props.sections[this.props.caller].level + 1)}>Slide</Button>
+                        <Button bsStyle="primary" onClick={e => this.props.onPageAdded(Date.now(), this.props.proposedName, this.props.caller, this.props.sections[this.props.caller].level + 1, 'document')}>Document</Button>
+                        <Button bsStyle="primary" onClick={e => this.props.onPageAdded(Date.now(), this.props.proposedName, this.props.caller, this.props.sections[this.props.caller].level + 1, 'slide')}>Slide</Button>
                         <Button bsStyle="primary" disabled>Poster</Button>
                         <Button bsStyle="primary" disabled>Others</Button>
                     </ButtonGroup>

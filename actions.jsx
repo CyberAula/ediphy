@@ -17,8 +17,8 @@ export function selectPage(id){
     return {type: SELECT_PAGE, payload: {id}};
 }
 
-export function addPage(id, name, parent, level){
-    return {type: ADD_PAGE, payload: {id, name, parent, level}};
+export function addPage(id, name, parent, level, type){
+    return {type: ADD_PAGE, payload: {id, name, parent, level, type}};
 }
 
 export function addBox(parent, id, type, draggable, resizable){
