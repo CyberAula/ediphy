@@ -1,24 +1,27 @@
-export const SELECT_PAGE = 'SELECT_PAGE';
-export const ADD_PAGE = 'ADD_PAGE';
 export const ADD_BOX = 'ADD_BOX';
 export const SELECT_BOX = 'SELECT_BOX';
 export const MOVE_BOX = 'MOVE_BOX';
 
-export const ADD_SECTION = 'ADD_SECTION';
-export const SELECT_SECTION = 'SELECT_SECTION';
-export const EXPAND_SECTION = 'EXPAND_SECTION';
 export const REMOVE_SECTION = 'REMOVE_SECTION';
 export const DUPLICATE_SECTION = 'DUPLICATE_SECTION';
+
+export const ADD_NAV_ITEM = 'ADD_NAV_ITEM';
+export const SELECT_NAV_ITEM = 'SELECT_NAV_ITEM';
+export const EXPAND_NAV_ITEM = 'EXPAND_NAV_ITEM';
 
 export const TOGGLE_PLUGIN_MODAL = 'TOGGLE_PLUGIN_MODAL';
 export const TOGGLE_PAGE_MODAL = 'TOGGLE_PAGE_MODAL';
 
-export function selectPage(id){
-    return {type: SELECT_PAGE, payload: {id}};
+export function selectNavItem(id){
+    return {type: SELECT_NAV_ITEM, payload: {id}};
 }
 
-export function addPage(id, name, parent, level, type){
-    return {type: ADD_PAGE, payload: {id, name, parent, level, type}};
+export function addNavItem(id, name, parent, children, level, type){
+    return {type: ADD_NAV_ITEM, payload: {id, name, parent, children, level, type}};
+}
+
+export function expandNavItem(id, value){
+    return {type: EXPAND_NAV_ITEM, payload: {id, value}}
 }
 
 export function addBox(parent, id, type, draggable, resizable){
@@ -31,18 +34,6 @@ export function selectBox(id){
 
 export function moveBox(id, x, y){
     return {type: MOVE_BOX, payload: {id, x, y}}
-}
-
-export function addSection(id, parent, name, children, level){
-    return {type: ADD_SECTION, payload: {id, parent, name, children, level}};
-}
-
-export function selectSection(id){
-    return {type: SELECT_SECTION, payload: {id}};
-}
-
-export function expandSection(id, newValue){
-    return {type: EXPAND_SECTION, payload: {id, newValue}}
 }
 
 export function removeSection(ids){

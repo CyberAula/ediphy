@@ -6,11 +6,9 @@ import DaliApp from './containers/DaliApp';
 import GlobalState from './reducers';
 
 let initialState = {
-    slideSelected: 0,
-    slides: [0],
-    slidesById: {0: {boxes: []}}
+    navItemsById: {0: {id: 0, children: [], level: 0, type: ''}}
 };
-let store = createStore(GlobalState);
+let store = createStore(GlobalState, initialState);
 
 let root = document.getElementById('root');
 ReactDOM.render(

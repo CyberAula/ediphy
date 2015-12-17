@@ -8,75 +8,62 @@ export default class DaliCarousel extends Component{
         return(
             <div style={{backgroundColor: '#CCC', height: '100%', padding: '20% 10px 10px 10px'}}>
                 <ButtonGroup style={{width: '100%'}}>
-                    {/*
-                    <Button style={{minWidth: 40}}
-                            disabled={this.props.sectionSelected === -1 ||
-                            this.props.sections[this.props.sectionSelected].parent === 0}>&lt;</Button>
-                    */}
                     <Button style={{minWidth: 40, width: '50%'}}
-                            disabled={this.props.sectionSelected === -1}
+                            disabled={this.props.navItemSelected === 0}
                             onClick={e => {
-                                    let ids = [this.props.sectionSelected];
-                                    this.findChildren(ids);
-                                    this.props.onSectionRemoved(ids);
+                                    //let ids = [this.props.sectionSelected];
+                                    //this.findChildren(ids);
+                                    //this.props.onSectionRemoved(ids);
                                 }
                             }><i className="fa fa-trash-o"></i></Button>
                     <Button style={{minWidth: 40, width: '50%'}}
-                            disabled={this.props.sectionSelected === -1}
+                            disabled={this.props.navItemSelected === 0}
                             onClick={e => {
-                                    this.props.onSectionDuplicated(this.props.sectionSelected);
+                                    //this.props.onSectionDuplicated(this.props.sectionSelected);
                                 }
                             }><i className="fa fa-files-o"></i></Button>
-                    {/*
-                    <Button style={{minWidth: 40}}
-                            disabled={this.props.sectionSelected === -1 ||
-                            this.props.sections[this.props.sectionSelected].parent === 0}>&gt;</Button>
-                    */}
                 </ButtonGroup>
                 {/*this.props.ids.map((id, index) =>{
                     let isSelected = (this.props.pageSelected === id);
                     return <SlideThumbnail key={index} id={id} page={this.props.pages[id]} isSelected={isSelected} onPageSelected={this.props.onPageSelected} />;
                 })*/}
                 {
-                    this.props.navIds.map((id, index) => {
-                        if(this.props.sections[id]){
-                            if(this.props.sections[id].parent === 0)
-                                return <Section id={id}
-                                                key={index}
-                                                sectionsIds={this.props.sectionsIds}
-                                                sections={this.props.sections}
-                                                sectionSelected={this.props.sectionSelected}
-                                                pagesIds={this.props.pagesIds}
-                                                pages={this.props.pages}
-                                                pageSelected={this.props.pageSelected}
-                                                navIds={this.props.navIds}
-                                                navItemSelected={this.props.navItemSelected}
-                                                onPageAdded={this.props.onPageAdded}
-                                                onPageSelected={this.props.onPageSelected}
-                                                onSectionAdded={this.props.onSectionAdded}
-                                                onSectionSelected={this.props.onSectionSelected}
-                                                onSectionExpanded={this.props.onSectionExpanded}
-                                    />;
-                        }else if(this.props.pages[id]){
+                    this.props.navItems[0].children.map((id, index) => {
+                        if(id.indexOf("se") !== -1){
+                            return <Section id={id}
+                                            key={index}
+                                            navItemsIds={this.props.navItems[id].children}
+                                            navItems={this.props.navItems}
+                                            navItemSelected={this.props.navItemSelected}
+                                            onPageAdded={this.props.onPageAdded}
+                                            onSectionAdded={this.props.onSectionAdded}
+                                            onNavItemSelected={this.props.onNavItemSelected}
+                                            onNavItemExpanded={this.props.onNavItemExpanded} />;
+                        }else if(id.indexOf("pa") !== -1){
                             let color = this.props.navItemSelected === id ? 'red' : 'black';
-                            if(this.props.pages[id].parent === 0)
-                                return <h4 key={index} style={{color: color}} onClick={e => {
-                                    this.props.onPageSelected(id);
-                                    e.stopPropagation();
-                                    }}>Page {this.props.pages[id].name}</h4>;
+                            return <h4 key={index}
+                                       style={{color: color}}
+                                       onClick={e => {
+                                            this.props.onNavItemSelected(id);
+                                            e.stopPropagation();
+                                       }}>{this.props.navItems[id].name}</h4>;
                         }
                     })
                 }
                 <ButtonGroup>
-                    <Button onClick={e =>
-                                this.props.onSectionAdded(Date.now(), 0, ++(this.props.sections[0].childrenNumber), 0, 1)
-                            }><i className="fa fa-folder-o"></i></Button>
-                    <Button onClick={e => this.props.onPageAdded(0, true)}><i className="fa fa-file-o"></i></Button>
+                    <Button onClick={e => {
+                        this.props.onSectionAdded("se-" + Date.now(), "Section 1", 0, [], 1, '');
+                        e.stopPropagation();
+                    }}><i className="fa fa-folder-o"></i></Button>
+                    <Button onClick={e => {
+                        this.props.onPageAdded(0, true);
+                        e.stopPropagation();
+                    }}><i className="fa fa-file-o"></i></Button>
                 </ButtonGroup>
             </div>
         );
     }
-
+/*
     findChildren(ids){
         //@ index 0 is global section, never should be removed
         for(var i = 1; i < this.props.sectionsIds.length; i++){
@@ -89,5 +76,5 @@ export default class DaliCarousel extends Component{
             }
         }
         return ids;
-    }
+    }*/
 }

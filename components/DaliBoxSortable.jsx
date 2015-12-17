@@ -22,7 +22,9 @@ export default class DaliBoxSortable extends Component{
                     }
                 })}
             </div>
-            <Button style={{display: 'block', margin: 'auto'}} onClick={e => this.props.onVisibilityToggled(this.props.id, true, true)}><i className="fa fa-plus-circle fa-5x"></i></Button>
+            <Button style={{display: 'block', margin: 'auto'}} onClick={e => this.props.onVisibilityToggled(this.props.id, true, true)}>
+                <i className="fa fa-plus-circle fa-5x"></i>
+            </Button>
         </div>
         );
     }

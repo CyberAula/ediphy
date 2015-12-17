@@ -9,7 +9,7 @@ export default class DaliCanvas extends Component{
                 <div style={{height: '100%', backgroundColor: 'white', margin: '0px 100px 0px 100px', visibility: (this.props.showCanvas ? 'visible' : 'hidden')}}>
                     {this.props.ids.map(id =>{
                         let box = this.props.boxes[id];
-                        if(box.parent === this.props.pageSelected) {
+                        if(box.parent === this.props.navItemSelected) {
                             let isSelected = (id === this.props.boxSelected);
                             if(box.type === 'normal')
                                 return <DaliBox key={id}

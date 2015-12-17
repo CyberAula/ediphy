@@ -1,46 +1,8 @@
 import {combineReducers} from 'redux';
-import {SELECT_PAGE, ADD_PAGE, ADD_BOX, SELECT_BOX, MOVE_BOX,
-    ADD_SECTION, SELECT_SECTION, EXPAND_SECTION, REMOVE_SECTION,
+import {ADD_BOX, SELECT_BOX, MOVE_BOX,
+    ADD_NAV_ITEM, SELECT_NAV_ITEM, EXPAND_NAV_ITEM,
     TOGGLE_PLUGIN_MODAL, TOGGLE_PAGE_MODAL
 } from './actions';
-
-function pageCreator(state = {}, action = {}){
-    switch (action.type){
-        case ADD_PAGE:
-            return {id: action.payload.id, name: action.payload.name, parent: action.payload.parent, level: action.payload.level, type: action.payload.type};
-        default:
-            return state;
-    }
-}
-
-function pages(state = [], action = {}){
-    switch (action.type){
-        case ADD_PAGE:
-            return [...state, action.payload.id];
-        default:
-            return state;
-    }
-}
-
-function pagesById(state = {}, action = {}){
-    switch (action.type){
-        case ADD_PAGE:
-            return Object.assign({}, state, {[action.payload.id]: pageCreator(state[action.payload.id], action)});
-        default:
-            return state;
-    }
-}
-
-function pageSelected(state = -1, action = {}) {
-    switch (action.type) {
-        case ADD_PAGE:
-            return action.payload.id;
-        case SELECT_PAGE:
-            return action.payload.id;
-        default:
-            return state;
-    }
-}
 
 function boxCreator(state = {}, action = {}){
     switch (action.type){
@@ -76,6 +38,7 @@ function boxCreator(state = {}, action = {}){
             }
 
             return {
+                id: action.payload.id,
                 parent: action.payload.parent,
                 type: action.payload.type,
                 position: position,
@@ -131,8 +94,6 @@ function boxes(state = [], action = {}){
 
 function sectionsIds(state = [0], action = {}){
     switch(action.type){
-        case ADD_SECTION:
-            return [...state, action.payload.id];
         case REMOVE_SECTION:
             let newState = state.slice();
             action.payload.ids.forEach(index =>{
@@ -144,22 +105,8 @@ function sectionsIds(state = [0], action = {}){
     }
 }
 
-function sectionCreator(state = {}, action = {}){
-    switch (action.type){
-        case ADD_SECTION:
-            return {id: action.payload.id, parent: action.payload.parent, name: action.payload.name, isExpanded: true, childrenNumber: action.payload.children, level: action.payload.level};
-        case EXPAND_SECTION:
-            return Object.assign({}, state, {isExpanded: action.payload.newValue});
-        default:
-            return state;
-    }
-}
-
 function sectionsById(state = {0: {id: 0, childrenNumber: 0}}, action = {}){
     switch(action.type){
-        case ADD_SECTION:
-        case EXPAND_SECTION:
-            return Object.assign({}, state, {[action.payload.id]: sectionCreator(state[action.payload.id], action)});
         case REMOVE_SECTION:
             let newState = Object.assign({}, state);
             action.payload.ids.map(id =>{
@@ -171,72 +118,87 @@ function sectionsById(state = {0: {id: 0, childrenNumber: 0}}, action = {}){
     }
 }
 
-function sectionSelected(state = -1, action = {}){
-    switch(action.type){
-        case SELECT_SECTION:
-            return action.payload.id;
-        case ADD_SECTION:
-            return action.payload.id;
-        case REMOVE_SECTION:
-            return -1;
+function navItemCreator(state = {}, action = {}){
+    switch (action.type){
+        case ADD_NAV_ITEM:
+            return {id: action.payload.id,
+                name: action.payload.name,
+                isExpanded: true,
+                parent: action.payload.parent,
+                children: action.payload.children,
+                level: action.payload.level,
+                type: action.payload.type
+            };
+        case EXPAND_NAV_ITEM:
+            return Object.assign({}, state, {isExpanded: action.payload.value});
         default:
             return state;
     }
 }
 
-function navigationIds(state = [], action = {}){
+function navItemsIds(state = [], action = {}){
     switch(action.type){
-        case ADD_PAGE:
-        case ADD_SECTION:
+        case ADD_NAV_ITEM:
             return [...state, action.payload.id];
         default:
             return state;
     }
 }
 
-function navItemSelected(state = -1, action = {}){
+function navItemsById(state = {}, action = {}){
     switch(action.type){
-        case SELECT_SECTION:
-        case SELECT_PAGE:
-            console.log(action);
+        case ADD_NAV_ITEM:
+            return Object.assign({}, state, {
+                [action.payload.id]: navItemCreator(state[action.payload.id], action),
+                [action.payload.parent]: Object.assign({}, state[action.payload.parent], {children: [...state[action.payload.parent].children, action.payload.id]})
+            });
+        case EXPAND_NAV_ITEM:
+            return Object.assign({}, state, {[action.payload.id]: navItemCreator(state[action.payload.id], action)});
+        default:
+            return state;
+    }
+}
+
+function navItemSelected(state = 0, action = {}){
+    switch(action.type){
+        case SELECT_NAV_ITEM:
+            return action.payload.id;
+        case ADD_NAV_ITEM:
             return action.payload.id;
         default:
             return state;
     }
 }
 
-function togglePluginModal(state = {value: false, caller: -1, fromSortable: false}, action = {}){
+function togglePluginModal(state = {value: false, caller: 0, fromSortable: false}, action = {}){
     switch(action.type){
         case TOGGLE_PLUGIN_MODAL:
             return action.payload;
         case ADD_BOX:
-            return false;
+            return {value: false, caller: 0};
         default:
             return state;
     }
 }
 
-function togglePageModal(state = {value: false, caller: -1}, action = {}){
+function togglePageModal(state = {value: false, caller: 0}, action = {}){
     switch(action.type){
         case TOGGLE_PAGE_MODAL:
             return action.payload;
+        case ADD_NAV_ITEM:
+            return {value: false, caller: 0};
         default:
-            return true;
+            return state;
     }
 }
 
 const GlobalState = combineReducers({
-    pageSelected: pageSelected, //0
-    pages: pages, //[0, 1]
-    pagesById: pagesById, //{0: page0, 1: page1}
     boxesById: boxesById, //{0: box0, 1: box1}
     boxSelected: boxSelected, //0
     boxes: boxes, //[0, 1]
-    sections: sectionsIds, //[0, 1]
-    sectionsById: sectionsById, //{0: section0, 1: section1}
-    sectionSelected: sectionSelected, //0
-    navigationIds: navigationIds, //[0, 1]
-    navItemSelected: navItemSelected,
+    navItemsIds: navItemsIds, //[0, 1]
+    navItemSelected: navItemSelected, // 0
+    navItemsById: navItemsById, // {0: navItem0, 1: navItem1}
     boxModalToggled: togglePluginModal,
     pageModalToggled: togglePageModal
 });
