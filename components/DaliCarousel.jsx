@@ -11,9 +11,9 @@ export default class DaliCarousel extends Component{
                     <Button style={{minWidth: 40, width: '50%'}}
                             disabled={this.props.navItemSelected === 0}
                             onClick={e => {
-                                    //let ids = [this.props.sectionSelected];
-                                    //this.findChildren(ids);
-                                    //this.props.onSectionRemoved(ids);
+                                    let ids = [this.props.navItemSelected];
+                                    this.findChildren(ids);
+                                    this.props.onNavItemRemoved(ids, this.props.navItems[this.props.navItemSelected].parent);
                                 }
                             }><i className="fa fa-trash-o"></i></Button>
                     <Button style={{minWidth: 40, width: '50%'}}
@@ -32,7 +32,7 @@ export default class DaliCarousel extends Component{
                         if(id.indexOf("se") !== -1){
                             return <Section id={id}
                                             key={index}
-                                            navItemsIds={this.props.navItems[id].children}
+                                            navItemsIds={this.props.navItemsIds}
                                             navItems={this.props.navItems}
                                             navItemSelected={this.props.navItemSelected}
                                             onPageAdded={this.props.onPageAdded}
@@ -52,7 +52,7 @@ export default class DaliCarousel extends Component{
                 }
                 <ButtonGroup>
                     <Button onClick={e => {
-                        this.props.onSectionAdded("se-" + Date.now(), "Section 1", 0, [], 1, '');
+                        this.props.onSectionAdded("se-" + Date.now(), "Section 1", 0, [], 1, '', this.props.navItemsIds.length);
                         e.stopPropagation();
                     }}><i className="fa fa-folder-o"></i></Button>
                     <Button onClick={e => {
@@ -63,18 +63,18 @@ export default class DaliCarousel extends Component{
             </div>
         );
     }
-/*
+
     findChildren(ids){
-        //@ index 0 is global section, never should be removed
-        for(var i = 1; i < this.props.sectionsIds.length; i++){
-            if(ids.indexOf(this.props.sections[this.props.sectionsIds[i]].parent) !== -1){
-                if(ids.indexOf(this.props.sections[this.props.sectionsIds[i]].id) === -1){
-                    //in case we find a child, we need to restart to check new possible subchildren
-                    ids.push(this.props.sections[this.props.sectionsIds[i]].id);
-                    i = 1;
-                }
+        //We want to get all the items whose level is higher than the selected starting after it
+        let level = this.props.navItems[ids[0]].level;
+        let startingIndex = this.props.navItemsIds.indexOf(ids[0]) + 1;
+        for(var i = startingIndex; i < this.props.navItemsIds.length; i++){
+            if(this.props.navItems[this.props.navItemsIds[i]].level > level) {
+                ids.push(this.props.navItemsIds[i]);
+            } else {
+                break;
             }
         }
         return ids;
-    }*/
+    }
 }

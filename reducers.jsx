@@ -1,6 +1,6 @@
 import {combineReducers} from 'redux';
 import {ADD_BOX, SELECT_BOX, MOVE_BOX,
-    ADD_NAV_ITEM, SELECT_NAV_ITEM, EXPAND_NAV_ITEM,
+    ADD_NAV_ITEM, SELECT_NAV_ITEM, EXPAND_NAV_ITEM, REMOVE_NAV_ITEM,
     TOGGLE_PLUGIN_MODAL, TOGGLE_PAGE_MODAL
 } from './actions';
 
@@ -92,32 +92,6 @@ function boxes(state = [], action = {}){
     }
 }
 
-function sectionsIds(state = [0], action = {}){
-    switch(action.type){
-        case REMOVE_SECTION:
-            let newState = state.slice();
-            action.payload.ids.forEach(index =>{
-                newState.splice(newState.indexOf(index), 1);
-            });
-            return newState;
-        default:
-            return state;
-    }
-}
-
-function sectionsById(state = {0: {id: 0, childrenNumber: 0}}, action = {}){
-    switch(action.type){
-        case REMOVE_SECTION:
-            let newState = Object.assign({}, state);
-            action.payload.ids.map(id =>{
-                delete newState[id];
-            });
-            return newState;
-        default:
-            return state;
-    }
-}
-
 function navItemCreator(state = {}, action = {}){
     switch (action.type){
         case ADD_NAV_ITEM:
@@ -139,7 +113,15 @@ function navItemCreator(state = {}, action = {}){
 function navItemsIds(state = [], action = {}){
     switch(action.type){
         case ADD_NAV_ITEM:
-            return [...state, action.payload.id];
+            let nState = state.slice();
+            nState.splice(action.payload.position, 0, action.payload.id);
+            return nState;
+        case REMOVE_NAV_ITEM:
+            let newState = state.slice();
+            action.payload.ids.forEach(id =>{
+                newState.splice(newState.indexOf(id), 1);
+            });
+            return newState;
         default:
             return state;
     }
@@ -154,6 +136,15 @@ function navItemsById(state = {}, action = {}){
             });
         case EXPAND_NAV_ITEM:
             return Object.assign({}, state, {[action.payload.id]: navItemCreator(state[action.payload.id], action)});
+        case REMOVE_NAV_ITEM:
+            let newState = Object.assign({}, state);
+            action.payload.ids.map(id =>{
+                delete newState[id];
+            });
+            let newChildren = newState[action.payload.parent].children.slice();
+            newChildren.splice(newChildren.indexOf(action.payload.ids[0]), 1);
+
+            return Object.assign({}, newState, {[action.payload.parent]: Object.assign({}, newState[action.payload.parent], {children: newChildren})});
         default:
             return state;
     }
@@ -165,6 +156,8 @@ function navItemSelected(state = 0, action = {}){
             return action.payload.id;
         case ADD_NAV_ITEM:
             return action.payload.id;
+        case REMOVE_NAV_ITEM:
+            return 0;
         default:
             return state;
     }

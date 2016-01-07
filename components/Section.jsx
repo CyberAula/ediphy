@@ -16,34 +16,35 @@ export default class Section extends Component {
                         this.props.onNavItemExpanded(navItem.id, !navItem.isExpanded)
                         e.stopPropagation();
                     }}><i className={navItem.isExpanded ? "fa fa-minus-square-o" : "fa fa-plus-square-o"}></i></Button>
+
                     <h3 style={{color: color, display: 'inline'}}>{navItem.name}</h3>
                 </div>
                 <div style={{display: (navItem.isExpanded ? 'block' : 'none'), borderLeft: '1px dotted black'}}>
                     <div style={{marginLeft: 20}}>
                         {
                             navItem.children.map((id, index) => {
-                                if(id.indexOf("se") !== -1) {
+                                if (id.indexOf("se") !== -1) {
                                     return <Section id={id}
                                                     key={index}
-                                                    navItemsIds={this.props.navItems[id].children}
+                                                    navItemsIds={this.props.navItemsIds}
                                                     navItems={this.props.navItems}
                                                     navItemSelected={this.props.navItemSelected}
                                                     onPageAdded={this.props.onPageAdded}
                                                     onSectionAdded={this.props.onSectionAdded}
                                                     onNavItemSelected={this.props.onNavItemSelected}
-                                                    onNavItemExpanded={this.props.onNavItemExpanded} />;
-                                }else if(id.indexOf("pa") !== -1) {
+                                                    onNavItemExpanded={this.props.onNavItemExpanded}/>;
+                                } else if (id.indexOf("pa") !== -1) {
                                     let color = this.props.navItemSelected === id ? 'red' : 'black';
                                     return <h4 key={index} style={{color: color}} onClick={e => {
                                         this.props.onNavItemSelected(id);
                                         e.stopPropagation();
                                     }}>{this.props.navItems[id].name}</h4>;
                                 }
-                        })}
+                            })}
                     </div>
                     <div style={{marginTop: 10, marginLeft: 20}}>
                         <Button onClick={e => {
-                            this.props.onSectionAdded("se-" + Date.now(), navItem.name + ".1", navItem.id, [], navItem.level + 1, '');
+                            this.props.onSectionAdded("se-" + Date.now(), navItem.name + ".1", navItem.id, [], navItem.level + 1, '', this.calculatePosition());
                             e.stopPropagation();
                         }}><i className="fa fa-folder-o"></i></Button>
                         <Button onClick={e => {
@@ -54,5 +55,11 @@ export default class Section extends Component {
                 </div>
             </div>
         );
+    }
+
+    calculatePosition(){
+        let navItem = this.props.navItems[this.props.id];
+        let position = Math.max(this.props.navItemsIds.indexOf(navItem.children[navItem.children.length - 1]), 0) + 1;
+        return position;
     }
 }
