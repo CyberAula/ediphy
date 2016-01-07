@@ -17,7 +17,8 @@ export default class DaliCanvas extends Component{
                                                 box={box}
                                                 isSelected={isSelected}
                                                 onBoxSelected={this.props.onBoxSelected}
-                                                onBoxMoved={this.props.onBoxMoved} />
+                                                onBoxMoved={this.props.onBoxMoved}
+                                                onBoxResized={this.props.onBoxResized} />
                             else if(box.type === 'sortable')
                                 return <DaliBoxSortable key={id}
                                                         id={id}
@@ -27,7 +28,8 @@ export default class DaliCanvas extends Component{
                                                         boxes={this.props.boxes}
                                                         boxSelected={this.props.boxSelected}
                                                         onBoxSelected={this.props.onBoxSelected}
-                                                        onBoxMoved={this.props.onBoxMoved} />
+                                                        onBoxMoved={this.props.onBoxMoved}
+                                                        onBoxResized={this.props.onBoxResized} />
                         }
                     })}
                 </div>

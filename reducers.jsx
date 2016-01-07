@@ -1,5 +1,5 @@
 import {combineReducers} from 'redux';
-import {ADD_BOX, SELECT_BOX, MOVE_BOX,
+import {ADD_BOX, SELECT_BOX, MOVE_BOX, RESIZE_BOX,
     ADD_NAV_ITEM, SELECT_NAV_ITEM, EXPAND_NAV_ITEM, REMOVE_NAV_ITEM,
     TOGGLE_PLUGIN_MODAL, TOGGLE_PAGE_MODAL
 } from './actions';
@@ -44,7 +44,6 @@ function boxCreator(state = {}, action = {}){
                 position: position,
                 width: width,
                 height: height,
-                style: {width: width, height: height},
                 content: content,
                 draggable: action.payload.draggable,
                 resizable: action.payload.resizable,
@@ -52,6 +51,8 @@ function boxCreator(state = {}, action = {}){
             };
         case MOVE_BOX:
             return Object.assign({}, state, {position: {x: action.payload.x, y: action.payload.y}});
+        case RESIZE_BOX:
+            return Object.assign({}, state, {width: action.payload.width, height: action.payload.height});
         default:
             return state;
     }
@@ -64,6 +65,10 @@ function boxesById(state = {}, action = {}){
                 [action.payload.id]: boxCreator(state[action.payload.id], action)
             });
         case MOVE_BOX:
+            return Object.assign({}, state, {
+                [action.payload.id]: boxCreator(state[action.payload.id], action)
+            });
+        case RESIZE_BOX:
             return Object.assign({}, state, {
                 [action.payload.id]: boxCreator(state[action.payload.id], action)
             });

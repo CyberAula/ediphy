@@ -1,6 +1,7 @@
 export const ADD_BOX = 'ADD_BOX';
 export const SELECT_BOX = 'SELECT_BOX';
 export const MOVE_BOX = 'MOVE_BOX';
+export const RESIZE_BOX = 'RESIZE_BOX';
 
 export const DUPLICATE_SECTION = 'DUPLICATE_SECTION';
 
@@ -21,11 +22,11 @@ export function addNavItem(id, name, parent, children, level, type, position){
 }
 
 export function expandNavItem(id, value){
-    return {type: EXPAND_NAV_ITEM, payload: {id, value}}
+    return {type: EXPAND_NAV_ITEM, payload: {id, value}};
 }
 
 export function removeNavItem(ids, parent){
-    return {type: REMOVE_NAV_ITEM, payload: {ids, parent}}
+    return {type: REMOVE_NAV_ITEM, payload: {ids, parent}};
 }
 
 export function addBox(parent, id, type, draggable, resizable){
@@ -37,17 +38,21 @@ export function selectBox(id){
 }
 
 export function moveBox(id, x, y){
-    return {type: MOVE_BOX, payload: {id, x, y}}
+    return {type: MOVE_BOX, payload: {id, x, y}};
+}
+
+export function resizeBox(id, width, height){
+    return {type: RESIZE_BOX, payload: {id, width, height}};
 }
 
 export function duplicateSection(id){
-    return {type: DUPLICATE_SECTION, payload: {id}}
+    return {type: DUPLICATE_SECTION, payload: {id}};
 }
 
 export function togglePluginModal(caller, fromSortable, value){
-    return {type: TOGGLE_PLUGIN_MODAL, payload: {caller, fromSortable, value}}
+    return {type: TOGGLE_PLUGIN_MODAL, payload: {caller, fromSortable, value}};
 }
 
 export function togglePageModal(caller, value){
-    return {type: TOGGLE_PAGE_MODAL, payload: {caller, value}}
+    return {type: TOGGLE_PAGE_MODAL, payload: {caller, value}};
 }

@@ -67,26 +67,19 @@ export default class DaliBox extends Component{
                 })
                 .resizable({
                     enabled: this.props.box.resizable,
-                    edges: {left: true, right: true, bottom: true, top: true}
-                })
-                .on('resizemove', function (event) {
-                    var target = event.target,
-                        x = (parseFloat(target.getAttribute('data-x')) || 0),
-                        y = (parseFloat(target.getAttribute('data-y')) || 0);
+                    edges: {left: true, right: true, bottom: true, top: true},
+                    onmove: (event) => {
+                        var target = event.target;
+                        target.style.left = (parseInt(target.style.left) || 0);
+                        target.style.top = (parseInt(target.style.top) || 0);
 
-                    // update the element's style
-                    target.style.width = event.rect.width + 'px';
-                    target.style.height = event.rect.height + 'px';
-
-                    // translate when resizing from top or left edges
-                    x += event.deltaRect.left;
-                    y += event.deltaRect.top;
-
-                    target.style.webkitTransform = target.style.transform =
-                        'translate(' + x + 'px,' + y + 'px)';
-
-                    target.setAttribute('data-x', x);
-                    target.setAttribute('data-y', y);
+                        // update the element's style
+                        target.style.width = event.rect.width + 'px';
+                        target.style.height = event.rect.height + 'px';
+                    },
+                    onend: (event) => {
+                        this.props.onBoxResized(this.props.id, parseInt(event.target.style.width), parseInt(event.target.style.height));
+                    }
                 });
         }
     }
