@@ -1,4 +1,6 @@
 import {combineReducers} from 'redux';
+import undoable, {excludeAction} from 'redux-undo';
+
 import {ADD_BOX, SELECT_BOX, MOVE_BOX, RESIZE_BOX,
     ADD_NAV_ITEM, SELECT_NAV_ITEM, EXPAND_NAV_ITEM, REMOVE_NAV_ITEM,
     TOGGLE_PLUGIN_MODAL, TOGGLE_PAGE_MODAL
@@ -190,15 +192,15 @@ function togglePageModal(state = {value: false, caller: 0}, action = {}){
     }
 }
 
-const GlobalState = combineReducers({
+const GlobalState = undoable(combineReducers({
+    boxModalToggled: togglePluginModal,
+    pageModalToggled: togglePageModal,
     boxesById: boxesById, //{0: box0, 1: box1}
     boxSelected: boxSelected, //0
     boxes: boxes, //[0, 1]
     navItemsIds: navItemsIds, //[0, 1]
     navItemSelected: navItemSelected, // 0
-    navItemsById: navItemsById, // {0: navItem0, 1: navItem1}
-    boxModalToggled: togglePluginModal,
-    pageModalToggled: togglePageModal
-});
+    navItemsById: navItemsById // {0: navItem0, 1: navItem1}
+}), {filter: excludeAction([EXPAND_NAV_ITEM, TOGGLE_PAGE_MODAL, TOGGLE_PLUGIN_MODAL])});
 
 export default GlobalState;

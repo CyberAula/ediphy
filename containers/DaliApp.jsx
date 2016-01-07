@@ -1,5 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
+import {ActionCreators} from 'redux-undo';
 import {Grid, Col, Row, Button} from 'react-bootstrap';
 import {addNavItem, selectNavItem, expandNavItem, removeNavItem, addBox, selectBox, moveBox, resizeBox, togglePluginModal, togglePageModal} from '../actions';
 import DaliCanvas from '../components/DaliCanvas';
@@ -9,7 +10,7 @@ import PageModal from '../components/PageModal';
 
 class DaliApp extends Component{
     render(){
-        const{ dispatch, boxes, boxIds, boxSelected, navItemsIds, navItems, navItemSelected, boxModalToggled, pageModalToggled } = this.props;
+        const{ dispatch, boxes, boxIds, boxSelected, navItemsIds, navItems, navItemSelected, boxModalToggled, pageModalToggled, undoDisabled, redoDisabled } = this.props;
         return(
             <Grid fluid={true} style={{height: '100%'}}>
                 <Row style={{height: '100%'}}>
@@ -49,6 +50,8 @@ class DaliApp extends Component{
                 <div style={{backgroundColor: 'blue', position: 'absolute', top: 0, left: 0, width: '100%', height: '5%'}}>
                     <Col mdOffset={2}>
                         <Button disabled={(navItemsIds.length === 0 ? true : false)} onClick={() => dispatch(togglePluginModal(navItemSelected, false, true))}>Add</Button>
+                        <Button disabled={undoDisabled} onClick={() => dispatch(ActionCreators.undo())}>Undo</Button>
+                        <Button disabled={redoDisabled} onClick={() => dispatch(ActionCreators.redo())}>Redo</Button>
                     </Col>
                 </div>
             </Grid>
@@ -58,14 +61,16 @@ class DaliApp extends Component{
 
 function mapStateToProps(state){
     return{
-        boxes: state.boxesById,
-        boxIds: state.boxes,
-        boxSelected: state.boxSelected,
-        navItemsIds: state.navItemsIds,
-        navItems: state.navItemsById,
-        navItemSelected: state.navItemSelected,
-        boxModalToggled: state.boxModalToggled,
-        pageModalToggled: state.pageModalToggled
+        boxes: state.present.boxesById,
+        boxIds: state.present.boxes,
+        boxSelected: state.present.boxSelected,
+        navItemsIds: state.present.navItemsIds,
+        navItems: state.present.navItemsById,
+        navItemSelected: state.present.navItemSelected,
+        boxModalToggled: state.present.boxModalToggled,
+        pageModalToggled: state.present.pageModalToggled,
+        undoDisabled: state.past.length === 0,
+        redoDisabled: state.future.length === 0
     }
 }
 
