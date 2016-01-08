@@ -10,7 +10,7 @@ import PageModal from '../components/PageModal';
 
 class DaliApp extends Component{
     render(){
-        const{ dispatch, boxes, boxIds, boxSelected, navItemsIds, navItems, navItemSelected, boxModalToggled, pageModalToggled, undoDisabled, redoDisabled } = this.props;
+        const{ dispatch, boxes, boxesIds, boxSelected, navItemsIds, navItems, navItemSelected, boxModalToggled, pageModalToggled, undoDisabled, redoDisabled } = this.props;
         return(
             <Grid fluid={true} style={{height: '100%'}}>
                 <Row style={{height: '100%'}}>
@@ -26,9 +26,9 @@ class DaliApp extends Component{
                     </Col>
                     <Col md={10} xs={10} style={{padding: 0, height: '100%', overflowY: 'auto'}}>
                         <DaliCanvas boxes={boxes}
-                                    ids={boxIds}
+                                    boxesIds={boxesIds}
                                     boxSelected={boxSelected}
-                                    navItemSelected={navItemSelected}
+                                    navItemSelected={navItems[navItemSelected]}
                                     showCanvas={(navItemsIds.length !== 0)}
                                     onBoxSelected={id => dispatch(selectBox(id))}
                                     onBoxMoved={(id, x, y) => dispatch(moveBox(id, x, y))}
@@ -40,7 +40,7 @@ class DaliApp extends Component{
                           caller={boxModalToggled.caller}
                           fromSortable={boxModalToggled.fromSortable}
                           onVisibilityToggled={(caller, fromSortable, value) => dispatch(togglePluginModal(caller, fromSortable, value))}
-                          onBoxAdded={(parent, type, draggable, resizable) => dispatch(addBox(parent, Date.now(), type, draggable, resizable))} />
+                          onBoxAdded={(parent, id, type, draggable, resizable) => dispatch(addBox(parent, id, type, draggable, resizable))} />
                 <PageModal visibility={pageModalToggled.value}
                            caller={pageModalToggled.caller}
                            navItems={navItems}
@@ -48,7 +48,7 @@ class DaliApp extends Component{
                            onVisibilityToggled={(caller, value) => dispatch(togglePageModal(caller, value))}
                            onPageAdded={(id, name, parent, children, level, type, position) => dispatch(addNavItem(id, name, parent, children, level, type, position))} />
                 <div style={{backgroundColor: 'blue', position: 'absolute', top: 0, left: 0, width: '100%', height: '5%'}}>
-                    <Col mdOffset={2}>
+                    <Col mdOffset={2} xsOffset={2}>
                         <Button disabled={(navItemsIds.length === 0 ? true : false)} onClick={() => dispatch(togglePluginModal(navItemSelected, false, true))}>Add</Button>
                         <Button disabled={undoDisabled} onClick={() => dispatch(ActionCreators.undo())}>Undo</Button>
                         <Button disabled={redoDisabled} onClick={() => dispatch(ActionCreators.redo())}>Redo</Button>
@@ -62,7 +62,7 @@ class DaliApp extends Component{
 function mapStateToProps(state){
     return{
         boxes: state.present.boxesById,
-        boxIds: state.present.boxes,
+        boxesIds: state.present.boxes,
         boxSelected: state.present.boxSelected,
         navItemsIds: state.present.navItemsIds,
         navItems: state.present.navItemsById,

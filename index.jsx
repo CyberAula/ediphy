@@ -6,7 +6,7 @@ import DaliApp from './containers/DaliApp';
 import GlobalState from './reducers';
 
 let initialState = {
-    present: {navItemsById: {0: {id: 0, children: [], level: 0, type: ''}}}
+    present: {navItemsById: {0: {id: 0, children: [], boxes: [], level: 0, type: ''}}}
 };
 let store = createStore(GlobalState, initialState);
 

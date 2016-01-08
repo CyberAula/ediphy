@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Button} from 'react-bootstrap';
+import {ID_PREFIX_SECTION, ID_PREFIX_PAGE} from '../constants';
 
 export default class Section extends Component {
     render() {
@@ -23,7 +24,7 @@ export default class Section extends Component {
                     <div style={{marginLeft: 20}}>
                         {
                             navItem.children.map((id, index) => {
-                                if (id.indexOf("se") !== -1) {
+                                if (id.indexOf(ID_PREFIX_SECTION) !== -1) {
                                     return <Section id={id}
                                                     key={index}
                                                     navItemsIds={this.props.navItemsIds}
@@ -33,7 +34,7 @@ export default class Section extends Component {
                                                     onSectionAdded={this.props.onSectionAdded}
                                                     onNavItemSelected={this.props.onNavItemSelected}
                                                     onNavItemExpanded={this.props.onNavItemExpanded}/>;
-                                } else if (id.indexOf("pa") !== -1) {
+                                } else if (id.indexOf(ID_PREFIX_PAGE) !== -1) {
                                     let color = this.props.navItemSelected === id ? 'red' : 'black';
                                     return <h4 key={index} style={{color: color}} onClick={e => {
                                         this.props.onNavItemSelected(id);
@@ -44,7 +45,7 @@ export default class Section extends Component {
                     </div>
                     <div style={{marginTop: 10, marginLeft: 20}}>
                         <Button onClick={e => {
-                            this.props.onSectionAdded("se-" + Date.now(), navItem.name + ".1", navItem.id, [], navItem.level + 1, '', this.calculatePosition());
+                            this.props.onSectionAdded(ID_PREFIX_SECTION + Date.now(), navItem.name + ".1", navItem.id, [], navItem.level + 1, '', this.calculatePosition());
                             e.stopPropagation();
                         }}><i className="fa fa-folder-o"></i></Button>
                         <Button onClick={e => {

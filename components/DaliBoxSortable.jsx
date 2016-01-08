@@ -8,19 +8,17 @@ export default class DaliBoxSortable extends Component{
         return(
         <div>
             <div ref="sortableContainer">
-                {this.props.boxesIds.map((id, index)=>{
+                {this.props.box.children.map((id, index)=>{
                     let box = this.props.boxes[id];
-                    if(box.parent === this.props.id) {
-                        let isSelected = (id === this.props.boxSelected);
-                        return (<div key={index} style={{width: '100%', border: '1px solid black', boxSizing: 'border-box'}}>
-                            <DaliBox box={box} id={id}
-                                     isSelected={isSelected}
-                                     onBoxSelected={this.props.onBoxSelected}
-                                     onBoxMoved={this.props.onBoxMoved}
-                                     onBoxResized={this.props.onBoxResized} />
-                            <i className="fa fa-bars drag-handle"></i>
-                        </div>);
-                    }
+                    let isSelected = (id === this.props.boxSelected);
+                    return (<div key={index} style={{width: '100%', border: '1px solid black', boxSizing: 'border-box'}}>
+                        <DaliBox box={box} id={id}
+                                 isSelected={isSelected}
+                                 onBoxSelected={this.props.onBoxSelected}
+                                 onBoxMoved={this.props.onBoxMoved}
+                                 onBoxResized={this.props.onBoxResized} />
+                        <i className="fa fa-bars drag-handle"></i>
+                    </div>);
                 })}
             </div>
             <Button style={{display: 'block', margin: 'auto'}} onClick={e => this.props.onVisibilityToggled(this.props.id, true, true)}>

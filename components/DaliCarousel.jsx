@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Grid, Col, Row, Button, ButtonGroup} from 'react-bootstrap';
+import {ID_PREFIX_SECTION, ID_PREFIX_PAGE} from '../constants';
 import SlideThumbnail from '../components/SlideThumbnail';
 import Section from '../components/Section';
 
@@ -29,7 +30,7 @@ export default class DaliCarousel extends Component{
                 })*/}
                 {
                     this.props.navItems[0].children.map((id, index) => {
-                        if(id.indexOf("se") !== -1){
+                        if(id.indexOf(ID_PREFIX_SECTION) !== -1){
                             return <Section id={id}
                                             key={index}
                                             navItemsIds={this.props.navItemsIds}
@@ -39,7 +40,7 @@ export default class DaliCarousel extends Component{
                                             onSectionAdded={this.props.onSectionAdded}
                                             onNavItemSelected={this.props.onNavItemSelected}
                                             onNavItemExpanded={this.props.onNavItemExpanded} />;
-                        }else if(id.indexOf("pa") !== -1){
+                        }else if(id.indexOf(ID_PREFIX_PAGE) !== -1){
                             let color = this.props.navItemSelected === id ? 'red' : 'black';
                             return <h4 key={index}
                                        style={{color: color}}
@@ -52,7 +53,7 @@ export default class DaliCarousel extends Component{
                 }
                 <ButtonGroup>
                     <Button onClick={e => {
-                        this.props.onSectionAdded("se-" + Date.now(), "Section 1", 0, [], 1, '', this.props.navItemsIds.length);
+                        this.props.onSectionAdded(ID_PREFIX_SECTION + Date.now(), "Section 1", 0, [], 1, '', this.props.navItemsIds.length);
                         e.stopPropagation();
                     }}><i className="fa fa-folder-o"></i></Button>
                     <Button onClick={e => {

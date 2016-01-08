@@ -5,6 +5,7 @@ import {ADD_BOX, SELECT_BOX, MOVE_BOX, RESIZE_BOX,
     ADD_NAV_ITEM, SELECT_NAV_ITEM, EXPAND_NAV_ITEM, REMOVE_NAV_ITEM,
     TOGGLE_PLUGIN_MODAL, TOGGLE_PAGE_MODAL
 } from './actions';
+import {ID_PREFIX_SECTION, ID_PREFIX_PAGE, ID_PREFIX_SORTABLE_BOX} from './constants';
 
 function boxCreator(state = {}, action = {}){
     switch (action.type){
@@ -41,6 +42,7 @@ function boxCreator(state = {}, action = {}){
 
             return {
                 id: action.payload.id,
+                children: [],
                 parent: action.payload.parent,
                 type: action.payload.type,
                 position: position,
@@ -63,6 +65,11 @@ function boxCreator(state = {}, action = {}){
 function boxesById(state = {}, action = {}){
     switch (action.type){
         case ADD_BOX:
+            if(action.payload.type === 'inner-sortable')
+                return Object.assign({}, state, {
+                    [action.payload.id]: boxCreator(state[action.payload.id], action),
+                    [action.payload.parent]: Object.assign({}, state[action.payload.parent], {children: [...state[action.payload.parent].children, action.payload.id]})
+                });
             return Object.assign({}, state, {
                 [action.payload.id]: boxCreator(state[action.payload.id], action)
             });
@@ -90,7 +97,7 @@ function boxSelected(state = -1, action = {}) {
     }
 }
 
-function boxes(state = [], action = {}){
+function boxesIds(state = [], action = {}){
     switch (action.type){
         case ADD_BOX:
             return [...state, action.payload.id];
@@ -107,6 +114,7 @@ function navItemCreator(state = {}, action = {}){
                 isExpanded: true,
                 parent: action.payload.parent,
                 children: action.payload.children,
+                boxes: [],
                 level: action.payload.level,
                 type: action.payload.type
             };
@@ -152,6 +160,12 @@ function navItemsById(state = {}, action = {}){
             newChildren.splice(newChildren.indexOf(action.payload.ids[0]), 1);
 
             return Object.assign({}, newState, {[action.payload.parent]: Object.assign({}, newState[action.payload.parent], {children: newChildren})});
+        case ADD_BOX:
+            if(action.payload.parent.indexOf(ID_PREFIX_PAGE) !== -1 || action.payload.parent.indexOf(ID_PREFIX_SECTION) !== -1)
+                return Object.assign({}, state, {
+                    [action.payload.parent]: Object.assign({}, state[action.payload.parent], {
+                        boxes: [...state[action.payload.parent].boxes, action.payload.id]})});
+            return state;
         default:
             return state;
     }
@@ -197,7 +211,7 @@ const GlobalState = undoable(combineReducers({
     pageModalToggled: togglePageModal,
     boxesById: boxesById, //{0: box0, 1: box1}
     boxSelected: boxSelected, //0
-    boxes: boxes, //[0, 1]
+    boxes: boxesIds, //[0, 1]
     navItemsIds: navItemsIds, //[0, 1]
     navItemSelected: navItemSelected, // 0
     navItemsById: navItemsById // {0: navItem0, 1: navItem1}

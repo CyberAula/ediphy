@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Modal, Button, ButtonGroup} from 'react-bootstrap';
+import {ID_PREFIX_PAGE} from '../constants';
 
 export default class PageModal extends Component {
     render() {
@@ -13,8 +14,8 @@ export default class PageModal extends Component {
 
                 <Modal.Body>
                     <ButtonGroup vertical={true} block={true}>
-                        <Button bsStyle="primary" onClick={e => this.props.onPageAdded("pa-" + Date.now(), proposedName, this.props.caller, [], navItem.level + 1, 'document', this.calculatePosition())}>Document</Button>
-                        <Button bsStyle="primary" onClick={e => this.props.onPageAdded("pa-" + Date.now(), proposedName, this.props.caller, [], navItem.level + 1, 'slide', this.calculatePosition())}>Slide</Button>
+                        <Button bsStyle="primary" onClick={e => this.props.onPageAdded(ID_PREFIX_PAGE + Date.now(), proposedName, this.props.caller, [], navItem.level + 1, 'document', this.calculatePosition())}>Document</Button>
+                        <Button bsStyle="primary" onClick={e => this.props.onPageAdded(ID_PREFIX_PAGE + Date.now(), proposedName, this.props.caller, [], navItem.level + 1, 'slide', this.calculatePosition())}>Slide</Button>
                         <Button bsStyle="primary" disabled>Poster</Button>
                         <Button bsStyle="primary" disabled>Others</Button>
                     </ButtonGroup>
