@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import DaliBox from '../components/DaliBox';
 import DaliBoxSortable from '../components/DaliBoxSortable';
+import {BOX_TYPES} from '../constants';
 
 export default class DaliCanvas extends Component{
     render(){
@@ -10,7 +11,7 @@ export default class DaliCanvas extends Component{
                     {this.props.navItemSelected.boxes.map(id =>{
                         let box = this.props.boxes[id];
                         let isSelected = (id === this.props.boxSelected);
-                        if(box.type === 'normal')
+                        if(box.type === BOX_TYPES.NORMAL)
                             return <DaliBox key={id}
                                             id={id}
                                             box={box}
@@ -18,7 +19,7 @@ export default class DaliCanvas extends Component{
                                             onBoxSelected={this.props.onBoxSelected}
                                             onBoxMoved={this.props.onBoxMoved}
                                             onBoxResized={this.props.onBoxResized} />
-                        else if(box.type === 'sortable')
+                        else if(box.type === BOX_TYPES.SORTABLE)
                             return <DaliBoxSortable key={id}
                                                     id={id}
                                                     box={box}

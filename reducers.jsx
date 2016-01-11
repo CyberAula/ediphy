@@ -214,7 +214,6 @@ const GlobalState = undoable(combineReducers({
     navItemSelected: navItemSelected, // 0
     navItemsById: navItemsById // {0: navItem0, 1: navItem1}
 }), { filter: (action, currentState, previousState) => {
-    console.log(action.type);
     if(action.type === EXPAND_NAV_ITEM)
         return false;
     else if(action.type === TOGGLE_PAGE_MODAL)

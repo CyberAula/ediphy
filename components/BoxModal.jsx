@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Modal, Button, Tabs, Tab} from 'react-bootstrap';
-import {ID_PREFIX_BOX, ID_PREFIX_SORTABLE_BOX} from '../constants';
+import {ID_PREFIX_BOX, ID_PREFIX_SORTABLE_BOX, BOX_TYPES} from '../constants';
 
 export default class BoxModal extends Component {
     render() {
@@ -13,8 +13,8 @@ export default class BoxModal extends Component {
             <Modal.Body>
                 <Tabs position="left">
                     <Tab eventKey={0} title="Temp">
-                        <Button bsSize="large" onClick={e => this.props.onBoxAdded(this.props.caller, ID_PREFIX_BOX + Date.now(), (this.props.fromSortable ? 'inner-sortable' : 'normal'), true, true)}>Add simple box</Button>
-                        <Button bsSize="large" disabled={this.props.fromSortable ? true : false} onClick={e => this.props.onBoxAdded(this.props.caller, ID_PREFIX_SORTABLE_BOX + Date.now(), 'sortable', false, false)}>Add sortable</Button>
+                        <Button bsSize="large" onClick={e => this.props.onBoxAdded(this.props.caller, ID_PREFIX_BOX + Date.now(), (this.props.fromSortable ? BOX_TYPES.INNER_SORTABLE : BOX_TYPES.NORMAL), true, true)}>Add simple box</Button>
+                        <Button bsSize="large" disabled={this.props.fromSortable ? true : false} onClick={e => this.props.onBoxAdded(this.props.caller, ID_PREFIX_SORTABLE_BOX + Date.now(), BOX_TYPES.SORTABLE, false, false)}>Add sortable</Button>
                     </Tab>
                     <Tab eventKey={1} title="Text"></Tab>
                     <Tab eventKey={2} title="Images"></Tab>

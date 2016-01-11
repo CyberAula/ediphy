@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import interact from 'interact.js';
+import {BOX_TYPES} from '../constants';
 
 export default class DaliBox extends Component{
     render(){
@@ -11,7 +12,7 @@ export default class DaliBox extends Component{
 
         let content = (<div style={{width: '100%', height: '100%'}} dangerouslySetInnerHTML={{__html: box.content}}></div>);
         let overlay = (
-            <div style={{visibility: ((this.props.isSelected && box.type !== 'sortable') ? 'visible' : 'hidden')}}>
+            <div style={{visibility: ((this.props.isSelected && box.type !== BOX_TYPES.SORTABLE) ? 'visible' : 'hidden')}}>
                 <div style={{position: 'absolute', width: '100%', height: '100%', border: (borderSize + "px dashed black"), boxSizing: 'border-box'}}></div>
                 <div style={{position: 'absolute', left:  -cornerSize/2, top: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray'}}></div>
                 <div style={{position: 'absolute', right: -cornerSize/2, top: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray'}}></div>
@@ -20,10 +21,10 @@ export default class DaliBox extends Component{
             </div>);
         let position;
         switch(box.type){
-            case 'normal':
+            case BOX_TYPES.NORMAL:
                 position = 'absolute';
                 break;
-            case 'inner-sortable':
+            case BOX_TYPES.INNER_SORTABLE:
                 position = 'relative';
                 break;
         }
@@ -45,7 +46,7 @@ export default class DaliBox extends Component{
     }
 
     componentDidMount() {
-        if(this.props.box.type !== 'sortable') {
+        if(this.props.box.type !== BOX_TYPES.SORTABLE) {
             interact(ReactDOM.findDOMNode(this))
                 .draggable({
                     enabled: this.props.box.draggable,
