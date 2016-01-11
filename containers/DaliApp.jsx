@@ -1,8 +1,8 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {ActionCreators} from 'redux-undo';
-import {Grid, Col, Row, Button} from 'react-bootstrap';
-import {addNavItem, selectNavItem, expandNavItem, removeNavItem, addBox, selectBox, moveBox, resizeBox, togglePluginModal, togglePageModal, changeDisplayMode} from '../actions';
+import {Grid, Col, Row, Button, OverlayTrigger, Popover} from 'react-bootstrap';
+import {addNavItem, selectNavItem, expandNavItem, removeNavItem, addBox, selectBox, moveBox, resizeBox, togglePluginModal, togglePageModal, changeDisplayMode, exportState} from '../actions';
 import DaliCanvas from '../components/DaliCanvas';
 import DaliCarousel from '../components/DaliCarousel';
 import BoxModal from '../components/BoxModal';
@@ -11,7 +11,7 @@ import PageModal from '../components/PageModal';
 class DaliApp extends Component{
     render(){
         const{ dispatch, boxes, boxesIds, boxSelected, navItemsIds, navItems, navItemSelected, boxModalToggled,
-            pageModalToggled, undoDisabled, redoDisabled, displayMode } = this.props;
+            pageModalToggled, undoDisabled, redoDisabled, displayMode, isBusy } = this.props;
         return(
             <Grid fluid={true} style={{height: '100%'}}>
                 <Row style={{height: '100%'}}>
@@ -55,6 +55,12 @@ class DaliApp extends Component{
                         <Button disabled={(navItemsIds.length === 0 ? true : false)} onClick={() => dispatch(togglePluginModal(navItemSelected, false, true))}>Add</Button>
                         <Button disabled={undoDisabled} onClick={() => dispatch(ActionCreators.undo())}>Undo</Button>
                         <Button disabled={redoDisabled} onClick={() => dispatch(ActionCreators.redo())}>Redo</Button>
+                        <OverlayTrigger trigger="click" placement="bottom" overlay={<Popover id="is_busy_popover">{isBusy}</Popover>}>
+                            <Button onClick={() => {
+                                let state = this.props.store.getState();
+                                dispatch(exportState(state));
+                            }}>Export</Button>
+                        </OverlayTrigger>
                     </Col>
                 </div>
             </Grid>
@@ -74,7 +80,8 @@ function mapStateToProps(state){
         pageModalToggled: state.present.pageModalToggled,
         undoDisabled: state.past.length === 0,
         redoDisabled: state.future.length === 0,
-        displayMode: state.present.displayMode
+        displayMode: state.present.displayMode,
+        isBusy: state.present.isBusy
     }
 }
 

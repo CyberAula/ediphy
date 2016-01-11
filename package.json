@@ -21,12 +21,15 @@
   },
   "dependencies": {
     "bootstrap": "^3.3.6",
+    "es6-promise": "^3.0.2",
     "interact.js": "^1.2.6",
+    "isomorphic-fetch": "^2.2.0",
     "react": "^0.14.3",
     "react-bootstrap": "^0.28.1",
     "react-dom": "^0.14.0",
     "react-redux": "^3.1.0",
     "redux": "^3.0.2",
+    "redux-thunk": "^1.0.3",
     "redux-undo": "^0.5.0",
     "sortablejs": "^1.4.2"
   }

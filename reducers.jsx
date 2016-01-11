@@ -3,7 +3,7 @@ import undoable, {excludeAction} from 'redux-undo';
 
 import {ADD_BOX, SELECT_BOX, MOVE_BOX, RESIZE_BOX,
     ADD_NAV_ITEM, SELECT_NAV_ITEM, EXPAND_NAV_ITEM, REMOVE_NAV_ITEM,
-    TOGGLE_PLUGIN_MODAL, TOGGLE_PAGE_MODAL, CHANGE_DISPLAY_MODE
+    TOGGLE_PLUGIN_MODAL, TOGGLE_PAGE_MODAL, CHANGE_DISPLAY_MODE, SET_BUSY
 } from './actions';
 import {ID_PREFIX_SECTION, ID_PREFIX_PAGE, ID_PREFIX_SORTABLE_BOX} from './constants';
 
@@ -213,6 +213,15 @@ function changeDisplayMode(state = "", action = {}){
     }
 }
 
+function isBusy(state = "", action = {}){
+    switch(action.type){
+        case SET_BUSY:
+            return action.payload.msg;
+        default:
+            return state;
+    }
+}
+
 const GlobalState = undoable(combineReducers({
     boxModalToggled: togglePluginModal,
     pageModalToggled: togglePageModal,
@@ -222,7 +231,8 @@ const GlobalState = undoable(combineReducers({
     navItemsIds: navItemsIds, //[0, 1]
     navItemSelected: navItemSelected, // 0
     navItemsById: navItemsById, // {0: navItem0, 1: navItem1}
-    displayMode: changeDisplayMode //"list"
+    displayMode: changeDisplayMode, //"list"
+    isBusy: isBusy
 }), { filter: (action, currentState, previousState) => {
     if(action.type === EXPAND_NAV_ITEM)
         return false;
@@ -231,6 +241,8 @@ const GlobalState = undoable(combineReducers({
     else if(action.type === TOGGLE_PLUGIN_MODAL)
         return false;
     else if(action.type === CHANGE_DISPLAY_MODE)
+        return false;
+    else if(action.type === SET_BUSY)
         return false;
     return currentState !== previousState; // only add to history if state changed
     }});
