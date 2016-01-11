@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Button} from 'react-bootstrap';
-import SlideThumbnail from '../components/SlideThumbnail';
 import CarrouselList from '../components/CarrouselList';
+import CarrouselThumbnails from '../components/CarrouselThumbnails';
 
 export default class DaliCarousel extends Component{
     render(){
@@ -9,7 +9,11 @@ export default class DaliCarousel extends Component{
         let carrouselContent;
         if(this.props.displayMode === "thumbnail") {
             displayModeClassName = "fa fa-th-large";
-            carrouselContent = "";
+            carrouselContent = <CarrouselThumbnails navItemsIds={this.props.navItemsIds}
+                                                    navItems={this.props.navItems}
+                                                    navItemSelected={this.props.navItemSelected}
+                                                    onNavItemSelected={this.props.onNavItemSelected}
+                                                    onNavItemRemoved={this.props.onNavItemRemoved} />;
         } else if (this.props.displayMode === "list") {
             displayModeClassName = "fa fa-th-list";
             carrouselContent = <CarrouselList navItemsIds={this.props.navItemsIds}
