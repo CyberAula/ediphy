@@ -3,7 +3,7 @@ import undoable, {excludeAction} from 'redux-undo';
 
 import {ADD_BOX, SELECT_BOX, MOVE_BOX, RESIZE_BOX,
     ADD_NAV_ITEM, SELECT_NAV_ITEM, EXPAND_NAV_ITEM, REMOVE_NAV_ITEM,
-    TOGGLE_PLUGIN_MODAL, TOGGLE_PAGE_MODAL
+    TOGGLE_PLUGIN_MODAL, TOGGLE_PAGE_MODAL, CHANGE_DISPLAY_MODE
 } from './actions';
 import {ID_PREFIX_SECTION, ID_PREFIX_PAGE, ID_PREFIX_SORTABLE_BOX} from './constants';
 
@@ -204,6 +204,15 @@ function togglePageModal(state = {value: false, caller: 0}, action = {}){
     }
 }
 
+function changeDisplayMode(state = "", action = {}){
+    switch(action.type){
+        case CHANGE_DISPLAY_MODE:
+            return action.payload.mode;
+        default:
+            return state;
+    }
+}
+
 const GlobalState = undoable(combineReducers({
     boxModalToggled: togglePluginModal,
     pageModalToggled: togglePageModal,
@@ -212,13 +221,16 @@ const GlobalState = undoable(combineReducers({
     boxes: boxesIds, //[0, 1]
     navItemsIds: navItemsIds, //[0, 1]
     navItemSelected: navItemSelected, // 0
-    navItemsById: navItemsById // {0: navItem0, 1: navItem1}
+    navItemsById: navItemsById, // {0: navItem0, 1: navItem1}
+    displayMode: changeDisplayMode //"list"
 }), { filter: (action, currentState, previousState) => {
     if(action.type === EXPAND_NAV_ITEM)
         return false;
     else if(action.type === TOGGLE_PAGE_MODAL)
         return false;
     else if(action.type === TOGGLE_PLUGIN_MODAL)
+        return false;
+    else if(action.type === CHANGE_DISPLAY_MODE)
         return false;
     return currentState !== previousState; // only add to history if state changed
     }});

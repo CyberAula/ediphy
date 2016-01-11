@@ -12,7 +12,7 @@ const finalCreateStore = compose(
 )(createStore);
 
 let initialState = {
-    present: {navItemsById: {0: {id: 0, children: [], boxes: [], level: 0, type: ''}}}
+    present: {displayMode: "list", navItemsById: {0: {id: 0, children: [], boxes: [], level: 0, type: ''}}}
 };
 let store = finalCreateStore(GlobalState, initialState);
 

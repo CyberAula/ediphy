@@ -12,6 +12,7 @@ export const REMOVE_NAV_ITEM = 'REMOVE_NAV_ITEM';
 
 export const TOGGLE_PLUGIN_MODAL = 'TOGGLE_PLUGIN_MODAL';
 export const TOGGLE_PAGE_MODAL = 'TOGGLE_PAGE_MODAL';
+export const CHANGE_DISPLAY_MODE = 'CHANGE_DISPLAY_MODE';
 
 export function selectNavItem(id){
     return {type: SELECT_NAV_ITEM, payload: {id}};
@@ -55,4 +56,8 @@ export function togglePluginModal(caller, fromSortable, value){
 
 export function togglePageModal(caller, value){
     return {type: TOGGLE_PAGE_MODAL, payload: {caller, value}};
+}
+
+export function changeDisplayMode(mode){
+    return {type: CHANGE_DISPLAY_MODE, payload: {mode}};
 }

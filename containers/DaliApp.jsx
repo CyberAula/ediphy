@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {ActionCreators} from 'redux-undo';
 import {Grid, Col, Row, Button} from 'react-bootstrap';
-import {addNavItem, selectNavItem, expandNavItem, removeNavItem, addBox, selectBox, moveBox, resizeBox, togglePluginModal, togglePageModal} from '../actions';
+import {addNavItem, selectNavItem, expandNavItem, removeNavItem, addBox, selectBox, moveBox, resizeBox, togglePluginModal, togglePageModal, changeDisplayMode} from '../actions';
 import DaliCanvas from '../components/DaliCanvas';
 import DaliCarousel from '../components/DaliCarousel';
 import BoxModal from '../components/BoxModal';
@@ -10,7 +10,8 @@ import PageModal from '../components/PageModal';
 
 class DaliApp extends Component{
     render(){
-        const{ dispatch, boxes, boxesIds, boxSelected, navItemsIds, navItems, navItemSelected, boxModalToggled, pageModalToggled, undoDisabled, redoDisabled } = this.props;
+        const{ dispatch, boxes, boxesIds, boxSelected, navItemsIds, navItems, navItemSelected, boxModalToggled,
+            pageModalToggled, undoDisabled, redoDisabled, displayMode } = this.props;
         return(
             <Grid fluid={true} style={{height: '100%'}}>
                 <Row style={{height: '100%'}}>
@@ -18,11 +19,13 @@ class DaliApp extends Component{
                         <DaliCarousel navItemsIds={navItemsIds}
                                       navItems={navItems}
                                       navItemSelected={navItemSelected}
+                                      displayMode={displayMode}
                                       onPageAdded={(caller, value) => dispatch(togglePageModal(caller, value))}
                                       onSectionAdded={(id, name, parent, children, level, type, position) => dispatch(addNavItem(id, name, parent, children, level, type, position))}
                                       onNavItemSelected={id => dispatch(selectNavItem(id))}
                                       onNavItemExpanded={(id, value) => dispatch(expandNavItem(id, value))}
-                                      onNavItemRemoved={(ids, parent) => dispatch(removeNavItem(ids, parent))} />
+                                      onNavItemRemoved={(ids, parent) => dispatch(removeNavItem(ids, parent))}
+                                      onDisplayModeChanged={mode => dispatch(changeDisplayMode(mode))} />
                     </Col>
                     <Col md={10} xs={10} style={{padding: 0, height: '100%', overflowY: 'auto'}}>
                         <DaliCanvas boxes={boxes}
@@ -70,7 +73,8 @@ function mapStateToProps(state){
         boxModalToggled: state.present.boxModalToggled,
         pageModalToggled: state.present.pageModalToggled,
         undoDisabled: state.past.length === 0,
-        redoDisabled: state.future.length === 0
+        redoDisabled: state.future.length === 0,
+        displayMode: state.present.displayMode
     }
 }
 

@@ -6,6 +6,12 @@ import Section from '../components/Section';
 
 export default class DaliCarousel extends Component{
     render(){
+        let displayModeClassName = "";
+        if(this.props.displayMode === "thumbnail")
+            displayModeClassName = "fa fa-th-large";
+        else if (this.props.displayMode === "list")
+            displayModeClassName = "fa fa-th-list";
+
         return(
             <div style={{backgroundColor: '#CCC', height: '100%', padding: '20% 10px 10px 10px'}}>
                 <ButtonGroup style={{width: '100%'}}>
@@ -50,6 +56,7 @@ export default class DaliCarousel extends Component{
                                        }}>{this.props.navItems[id].name}</h4>;
                         }
                     })
+
                 }
                 <ButtonGroup>
                     <Button onClick={e => {
@@ -61,6 +68,21 @@ export default class DaliCarousel extends Component{
                         e.stopPropagation();
                     }}><i className="fa fa-file-o"></i></Button>
                 </ButtonGroup>
+                <Button style={{position: 'absolute', right: 0, bottom: 0}} onClick={e => {
+                    let newMode = "list";
+                    switch(this.props.displayMode){
+                        case "list":
+                            newMode = "thumbnail";
+                            break;
+                        case "thumbnail":
+                            newMode = "list";
+                            break;
+                    }
+                    this.props.onDisplayModeChanged(newMode);
+                    e.stopPropagation();
+                }}>
+                    <i className={displayModeClassName}></i>
+                </Button>
             </div>
         );
     }
