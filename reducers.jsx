@@ -3,7 +3,7 @@ import undoable, {excludeAction} from 'redux-undo';
 
 import {ADD_BOX, SELECT_BOX, MOVE_BOX, RESIZE_BOX,
     ADD_NAV_ITEM, SELECT_NAV_ITEM, EXPAND_NAV_ITEM, REMOVE_NAV_ITEM,
-    TOGGLE_PLUGIN_MODAL, TOGGLE_PAGE_MODAL, CHANGE_DISPLAY_MODE, SET_BUSY
+    TOGGLE_PLUGIN_MODAL, TOGGLE_PAGE_MODAL, CHANGE_DISPLAY_MODE, SET_BUSY, IMPORT_STATE
 } from './actions';
 import {ID_PREFIX_SECTION, ID_PREFIX_PAGE, ID_PREFIX_SORTABLE_BOX} from './constants';
 
@@ -79,6 +79,8 @@ function boxesById(state = {}, action = {}){
             return Object.assign({}, state, {
                 [action.payload.id]: boxCreator(state[action.payload.id], action)
             });
+        case IMPORT_STATE:
+            return action.payload.present.boxesById;
         default:
             return state;
     }
@@ -90,6 +92,8 @@ function boxSelected(state = -1, action = {}) {
             return action.payload.id;
         case SELECT_BOX:
             return action.payload.id;
+        case IMPORT_STATE:
+            return action.payload.present.boxSelected;
         default:
             return state;
     }
@@ -99,6 +103,8 @@ function boxesIds(state = [], action = {}){
     switch (action.type){
         case ADD_BOX:
             return [...state, action.payload.id];
+        case IMPORT_STATE:
+            return action.payload.present.boxes;
         default:
             return state;
     }
@@ -135,6 +141,8 @@ function navItemsIds(state = [], action = {}){
                 newState.splice(newState.indexOf(id), 1);
             });
             return newState;
+        case IMPORT_STATE:
+            return action.payload.present.navItemsIds;
         default:
             return state;
     }
@@ -164,6 +172,8 @@ function navItemsById(state = {}, action = {}){
                     [action.payload.parent]: Object.assign({}, state[action.payload.parent], {
                         boxes: [...state[action.payload.parent].boxes, action.payload.id]})});
             return state;
+        case IMPORT_STATE:
+            return action.payload.present.navItemsById;
         default:
             return state;
     }
@@ -177,6 +187,8 @@ function navItemSelected(state = 0, action = {}){
             return action.payload.id;
         case REMOVE_NAV_ITEM:
             return 0;
+        case IMPORT_STATE:
+            return action.payload.present.navItemSelected;
         default:
             return state;
     }
@@ -188,6 +200,8 @@ function togglePluginModal(state = {value: false, caller: 0, fromSortable: false
             return action.payload;
         case ADD_BOX:
             return {value: false, caller: 0, fromSortable: false};
+        case IMPORT_STATE:
+            return action.payload.present.boxModalToggled;
         default:
             return state;
     }
@@ -199,6 +213,8 @@ function togglePageModal(state = {value: false, caller: 0}, action = {}){
             return action.payload;
         case ADD_NAV_ITEM:
             return {value: false, caller: 0};
+        case IMPORT_STATE:
+            return action.payload.present.pageModalToggled;
         default:
             return state;
     }
@@ -208,6 +224,8 @@ function changeDisplayMode(state = "", action = {}){
     switch(action.type){
         case CHANGE_DISPLAY_MODE:
             return action.payload.mode;
+        case IMPORT_STATE:
+            return action.payload.present.displayMode;
         default:
             return state;
     }
@@ -217,6 +235,9 @@ function isBusy(state = "", action = {}){
     switch(action.type){
         case SET_BUSY:
             return action.payload.msg;
+        case IMPORT_STATE:
+            console.log(action.payload);
+            return action.payload.present.isBusy;
         default:
             return state;
     }

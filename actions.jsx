@@ -17,6 +17,8 @@ export const TOGGLE_PAGE_MODAL = 'TOGGLE_PAGE_MODAL';
 export const CHANGE_DISPLAY_MODE = 'CHANGE_DISPLAY_MODE';
 export const SET_BUSY = 'SET_BUSY';
 
+export const IMPORT_STATE = 'IMPORT_STATE';
+
 export function selectNavItem(id){
     return {type: SELECT_NAV_ITEM, payload: {id}};
 }
@@ -69,8 +71,12 @@ export function setBusy(value, msg){
     return {type: SET_BUSY, payload: {value, msg}};
 }
 
+export function importState(state){
+    return {type: IMPORT_STATE, payload: state};
+}
+
 //Async actions
-export function exportState(state){
+export function exportStateAsync(state){
     return dispatch => {
 
         // First dispatch: the app state is updated to inform
@@ -92,11 +98,37 @@ export function exportState(state){
         })
             .then(response => {
                 if(response.status >= 400)
-                    return "Exporting error";
-                return "Success!";
+                    throw new Error("Error while exporting");
+                return true;
             })
             .then(result => {
-                dispatch(setBusy(false, result))
+                dispatch(setBusy(false, "Success!"))
+            })
+            .catch(e =>{
+                dispatch(setBusy(false, e.message));
+            });
+    }
+}
+
+export function importStateAsync(){
+    return dispatch => {
+        dispatch(setBusy(true, "Importing..."));
+
+        return fetch('http://127.0.0.1:8081/getConfig')
+            .then(response => {
+                if(response.status >= 400)
+                    throw new Error("Error while importing");
+                return response.text();
+            })
+            .then(result => {
+                dispatch(importState(JSON.parse(result)));
+                return true;
+            })
+            .then(result =>{
+                dispatch(setBusy(false, "Success!"));
+            })
+            .catch(e =>{
+                dispatch(setBusy(false, e.message));
             });
     }
 }

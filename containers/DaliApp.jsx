@@ -2,7 +2,8 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {ActionCreators} from 'redux-undo';
 import {Grid, Col, Row, Button, OverlayTrigger, Popover} from 'react-bootstrap';
-import {addNavItem, selectNavItem, expandNavItem, removeNavItem, addBox, selectBox, moveBox, resizeBox, togglePluginModal, togglePageModal, changeDisplayMode, exportState} from '../actions';
+import {addNavItem, selectNavItem, expandNavItem, removeNavItem, addBox, selectBox, moveBox, resizeBox,
+    togglePluginModal, togglePageModal, changeDisplayMode, exportStateAsync, importStateAsync} from '../actions';
 import DaliCanvas from '../components/DaliCanvas';
 import DaliCarousel from '../components/DaliCarousel';
 import BoxModal from '../components/BoxModal';
@@ -55,11 +56,17 @@ class DaliApp extends Component{
                         <Button disabled={(navItemsIds.length === 0 ? true : false)} onClick={() => dispatch(togglePluginModal(navItemSelected, false, true))}>Add</Button>
                         <Button disabled={undoDisabled} onClick={() => dispatch(ActionCreators.undo())}>Undo</Button>
                         <Button disabled={redoDisabled} onClick={() => dispatch(ActionCreators.redo())}>Redo</Button>
-                        <OverlayTrigger trigger="click" placement="bottom" overlay={<Popover id="is_busy_popover">{isBusy}</Popover>}>
+                        <OverlayTrigger trigger="click" rootClose placement="bottom" overlay={<Popover id="is_busy_popover">{isBusy}</Popover>}>
                             <Button onClick={() => {
                                 let state = this.props.store.getState();
-                                dispatch(exportState(state));
+                                dispatch(exportStateAsync(state));
                             }}>Export</Button>
+                        </OverlayTrigger>
+                        <OverlayTrigger trigger="click" rootClose placement="bottom" overlay={<Popover id="is_busy_popover">{isBusy}</Popover>}>
+                            <Button onClick={() => {
+                                let state = this.props.store.getState();
+                                dispatch(importStateAsync());
+                            }}>Import</Button>
                         </OverlayTrigger>
                     </Col>
                 </div>
