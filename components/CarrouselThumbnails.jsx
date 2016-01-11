@@ -4,7 +4,7 @@ import Thumbnail from '../components/Thumbnail';
 export default class CarrouselThumbnail extends Component {
     render(){
         return (
-            <div>
+            <div style={{overflowY: 'auto', height: '100%'}}>
             {
                 this.props.navItemsIds.map( id => {
                     let isSelected = false;

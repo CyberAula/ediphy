@@ -6,7 +6,7 @@ import Section from '../components/Section';
 export default class CarrouselList extends Component{
     render(){
         return(
-            <div>
+            <div style={{height: '100%'}}>
                 <ButtonGroup style={{width: '100%'}}>
                     <Button style={{minWidth: 40, width: '50%'}}
                             disabled={this.props.navItemSelected === 0}
@@ -23,38 +23,40 @@ export default class CarrouselList extends Component{
                                     }
                                 }><i className="fa fa-files-o"></i></Button>
                 </ButtonGroup>
-                {
-                this.props.navItems[0].children.map((id, index) => {
-                    if(id.indexOf(ID_PREFIX_SECTION) !== -1){
-                        return <Section id={id}
-                                        key={index}
-                                        navItemsIds={this.props.navItemsIds}
-                                        navItems={this.props.navItems}
-                                        navItemSelected={this.props.navItemSelected}
-                                        onPageAdded={this.props.onPageAdded}
-                                        onSectionAdded={this.props.onSectionAdded}
-                                        onNavItemSelected={this.props.onNavItemSelected}
-                                        onNavItemExpanded={this.props.onNavItemExpanded} />;
-                    }else if(id.indexOf(ID_PREFIX_PAGE) !== -1){
-                        let color = this.props.navItemSelected === id ? 'red' : 'black';
-                        return <h4 key={index}
-                                   style={{color: color}}
-                                   onClick={e => {
-                                                this.props.onNavItemSelected(id);
-                                                e.stopPropagation();
-                                           }}>{this.props.navItems[id].name}</h4>;
-                    }
-                })}
-                <ButtonGroup>
-                    <Button onClick={e => {
-                                this.props.onSectionAdded(ID_PREFIX_SECTION + Date.now(), "Section 1", 0, [], 1, '', this.props.navItemsIds.length);
-                                e.stopPropagation();
-                            }}><i className="fa fa-folder-o"></i></Button>
-                    <Button onClick={e => {
-                                this.props.onPageAdded(0, true);
-                                e.stopPropagation();
-                            }}><i className="fa fa-file-o"></i></Button>
-                </ButtonGroup>
+                <div style={{overflowY: 'auto', height: '92%', margin: '5% 0px 0px 0px'}}>
+                    {
+                    this.props.navItems[0].children.map((id, index) => {
+                        if(id.indexOf(ID_PREFIX_SECTION) !== -1){
+                            return <Section id={id}
+                                            key={index}
+                                            navItemsIds={this.props.navItemsIds}
+                                            navItems={this.props.navItems}
+                                            navItemSelected={this.props.navItemSelected}
+                                            onPageAdded={this.props.onPageAdded}
+                                            onSectionAdded={this.props.onSectionAdded}
+                                            onNavItemSelected={this.props.onNavItemSelected}
+                                            onNavItemExpanded={this.props.onNavItemExpanded} />;
+                        }else if(id.indexOf(ID_PREFIX_PAGE) !== -1){
+                            let color = this.props.navItemSelected === id ? 'red' : 'black';
+                            return <h4 key={index}
+                                       style={{color: color}}
+                                       onClick={e => {
+                                                    this.props.onNavItemSelected(id);
+                                                    e.stopPropagation();
+                                               }}>{this.props.navItems[id].name}</h4>;
+                        }
+                    })}
+                    <ButtonGroup>
+                        <Button onClick={e => {
+                                    this.props.onSectionAdded(ID_PREFIX_SECTION + Date.now(), "Section 1", 0, [], 1, '', this.props.navItemsIds.length);
+                                    e.stopPropagation();
+                                }}><i className="fa fa-folder-o"></i></Button>
+                        <Button onClick={e => {
+                                    this.props.onPageAdded(0, true);
+                                    e.stopPropagation();
+                                }}><i className="fa fa-file-o"></i></Button>
+                    </ButtonGroup>
+                </div>
             </div>
         )
     }

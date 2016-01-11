@@ -15,7 +15,7 @@ class DaliApp extends Component{
         return(
             <Grid fluid={true} style={{height: '100%'}}>
                 <Row style={{height: '100%'}}>
-                    <Col md={2} xs={2} style={{padding: 0, height: '100%', overflowY: 'auto'}}>
+                    <Col md={2} xs={2} style={{padding: 0, height: '100%'}}>
                         <DaliCarousel navItemsIds={navItemsIds}
                                       navItems={navItems}
                                       navItemSelected={navItemSelected}
