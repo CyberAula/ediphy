@@ -53,8 +53,6 @@ function boxCreator(state = {}, action = {}){
                 resizable: action.payload.resizable,
                 fragment: {}
             };
-        case MOVE_BOX:
-            return Object.assign({}, state, {position: {x: action.payload.x, y: action.payload.y}});
         case RESIZE_BOX:
             return Object.assign({}, state, {width: action.payload.width, height: action.payload.height});
         default:
@@ -75,7 +73,7 @@ function boxesById(state = {}, action = {}){
             });
         case MOVE_BOX:
             return Object.assign({}, state, {
-                [action.payload.id]: boxCreator(state[action.payload.id], action)
+                [action.payload.id]: Object.assign({}, state[action.payload.id], {position: {x: action.payload.x, y: action.payload.y}})
             });
         case RESIZE_BOX:
             return Object.assign({}, state, {
@@ -189,7 +187,7 @@ function togglePluginModal(state = {value: false, caller: 0, fromSortable: false
         case TOGGLE_PLUGIN_MODAL:
             return action.payload;
         case ADD_BOX:
-            return {value: false, caller: 0};
+            return {value: false, caller: 0, fromSortable: false};
         default:
             return state;
     }
@@ -215,6 +213,15 @@ const GlobalState = undoable(combineReducers({
     navItemsIds: navItemsIds, //[0, 1]
     navItemSelected: navItemSelected, // 0
     navItemsById: navItemsById // {0: navItem0, 1: navItem1}
-}), {filter: excludeAction([EXPAND_NAV_ITEM, TOGGLE_PAGE_MODAL, TOGGLE_PLUGIN_MODAL])});
+}), { filter: (action, currentState, previousState) => {
+    console.log(action.type);
+    if(action.type === EXPAND_NAV_ITEM)
+        return false;
+    else if(action.type === TOGGLE_PAGE_MODAL)
+        return false;
+    else if(action.type === TOGGLE_PLUGIN_MODAL)
+        return false;
+    return currentState !== previousState; // only add to history if state changed
+    }});
 
 export default GlobalState;
