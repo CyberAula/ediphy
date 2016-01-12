@@ -30,12 +30,13 @@ export default class DaliBox extends Component{
         }
 
         return (<div onClick={e => this.handleBoxSelection(this.props.id)}
-                     onTouchStart={e => this.handleBoxSelection(this.props.id)}
                      style={{position: position,
                             left: box.position.x,
                             top: box.position.y,
                             width: box.width,
-                            height: box.height}}>
+                            height: box.height,
+                            touchAction: 'none',
+                            msTouchAction: 'none'}}>
             {overlay}
             {content}
         </div>);
