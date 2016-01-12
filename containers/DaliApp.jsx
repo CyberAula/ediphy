@@ -32,6 +32,7 @@ class DaliApp extends Component{
                         <DaliCanvas boxes={boxes}
                                     boxesIds={boxesIds}
                                     boxSelected={boxSelected}
+                                    navItems={navItems}
                                     navItemSelected={navItems[navItemSelected]}
                                     showCanvas={(navItemsIds.length !== 0)}
                                     onBoxSelected={id => dispatch(selectBox(id))}
