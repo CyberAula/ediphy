@@ -60,13 +60,13 @@ class DaliApp extends Component{
                             <Button onClick={() => {
                                 let state = this.props.store.getState();
                                 dispatch(exportStateAsync(state));
-                            }}>Export</Button>
+                            }}>Save</Button>
                         </OverlayTrigger>
                         <OverlayTrigger trigger="click" rootClose placement="bottom" overlay={<Popover id="is_busy_popover">{isBusy}</Popover>}>
                             <Button onClick={() => {
                                 let state = this.props.store.getState();
                                 dispatch(importStateAsync());
-                            }}>Import</Button>
+                            }}>Load</Button>
                         </OverlayTrigger>
                     </Col>
                 </div>
