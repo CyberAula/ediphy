@@ -8,14 +8,14 @@ export default class DaliCarousel extends Component{
         let displayModeClassName = "";
         let carrouselContent;
         if(this.props.displayMode === "thumbnail") {
-            displayModeClassName = "fa fa-th-large";
+            displayModeClassName = "fa fa-th-list";
             carrouselContent = <CarrouselThumbnails navItemsIds={this.props.navItemsIds}
                                                     navItems={this.props.navItems}
                                                     navItemSelected={this.props.navItemSelected}
                                                     onNavItemSelected={this.props.onNavItemSelected}
                                                     onNavItemRemoved={this.props.onNavItemRemoved} />;
         } else if (this.props.displayMode === "list") {
-            displayModeClassName = "fa fa-th-list";
+            displayModeClassName = "fa fa-th-large";
             carrouselContent = <CarrouselList navItemsIds={this.props.navItemsIds}
                                               navItems={this.props.navItems}
                                               navItemSelected={this.props.navItemSelected}
