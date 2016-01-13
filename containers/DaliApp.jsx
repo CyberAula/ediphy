@@ -28,7 +28,7 @@ class DaliApp extends Component{
                                       onNavItemRemoved={(ids, parent) => dispatch(removeNavItem(ids, parent))}
                                       onDisplayModeChanged={mode => dispatch(changeDisplayMode(mode))} />
                     </Col>
-                    <Col md={10} xs={10} style={{padding: 0, height: '100%', overflowY: 'auto'}}>
+                    <Col md={10} xs={10} style={{padding: "5% 5% 0 5%", height: '100%', overflowY: 'hidden', backgroundColor: 'gray'}}>
                         <DaliCanvas boxes={boxes}
                                     boxesIds={boxesIds}
                                     boxSelected={boxSelected}
