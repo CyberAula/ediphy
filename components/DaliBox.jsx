@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import interact from 'interact.js';
 import {BOX_TYPES} from '../constants';
+import DaliFrame from '../components/DaliFrame';
 
 export default class DaliBox extends Component{
     render(){
@@ -10,7 +11,12 @@ export default class DaliBox extends Component{
 
         let box = this.props.box;
 
-        let content = (<div style={{width: '100%', height: '100%'}} dangerouslySetInnerHTML={{__html: box.content}}></div>);
+        let content = (
+            <div>
+                <iframe style={{width: '100%', height: '100%', borderWidth: 0, position: 'absolute'}} src="../plugins/BasicImage/BasicImage.html"/>
+                <div style={{width: '100%', height: '100%', backgroundColor: 'red', opacity: 0.1, position: 'absolute'}}></div>
+            </div>
+        );
         let overlay = (
             <div style={{visibility: ((this.props.isSelected && box.type !== BOX_TYPES.SORTABLE) ? 'visible' : 'hidden')}}>
                 <div style={{position: 'absolute', width: '100%', height: '100%', border: (borderSize + "px dashed black"), boxSizing: 'border-box'}}></div>
@@ -37,8 +43,8 @@ export default class DaliBox extends Component{
                             height: box.height,
                             touchAction: 'none',
                             msTouchAction: 'none'}}>
-            {overlay}
             {content}
+            {overlay}
         </div>);
     }
 

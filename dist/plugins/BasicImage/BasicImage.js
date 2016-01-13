@@ -1,0 +1,3 @@
+function imageClick() {
+    alert("Miau!");
+}
