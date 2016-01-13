@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {Button} from 'react-bootstrap';
-import Sortable from 'sortablejs';
 import DaliBox from '../components/DaliBox';
 
 export default class DaliBoxSortable extends Component{
@@ -29,15 +28,7 @@ export default class DaliBoxSortable extends Component{
     }
 
     componentDidMount(){
-        Sortable.create(this.refs.sortableContainer,{
-            handle: ".drag-handle",
-            onStart: evt => {
-                evt.oldIndex;  // element index within parent
-            },
-            onEnd: evt => {
-                evt.oldIndex;  // element's old index within parent
-                evt.newIndex;  // element's new index within parent
-            }
-        });
+        let sortable = jQuery(this.refs.sortableContainer);
+        sortable.sortable({ handle: '.drag-handle' });
     }
 }
