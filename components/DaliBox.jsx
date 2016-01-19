@@ -12,10 +12,7 @@ export default class DaliBox extends Component{
         let box = this.props.box;
 
         let content = (
-            <div>
-                <iframe style={{width: '100%', height: '100%', borderWidth: 0, position: 'absolute'}} src="../plugins/BasicImage/BasicImage.html"/>
-                <div style={{width: '100%', height: '100%', backgroundColor: 'red', opacity: 0.1, position: 'absolute'}}></div>
-            </div>
+            <DaliFrame src={"plugins/BasicImage/BasicImage.html"} />
         );
         let overlay = (
             <div style={{visibility: ((this.props.isSelected && box.type !== BOX_TYPES.SORTABLE) ? 'visible' : 'hidden')}}>
