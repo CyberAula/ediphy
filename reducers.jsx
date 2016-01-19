@@ -236,7 +236,6 @@ function isBusy(state = "", action = {}){
         case SET_BUSY:
             return action.payload.msg;
         case IMPORT_STATE:
-            console.log(action.payload);
             return action.payload.present.isBusy;
         default:
             return state;

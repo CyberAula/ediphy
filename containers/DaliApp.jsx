@@ -8,6 +8,7 @@ import DaliCanvas from '../components/DaliCanvas';
 import DaliCarousel from '../components/DaliCarousel';
 import BoxModal from '../components/BoxModal';
 import PageModal from '../components/PageModal';
+import PluginConfigModal from '../components/PluginConfigModal';
 
 class DaliApp extends Component{
     render(){
@@ -52,6 +53,7 @@ class DaliApp extends Component{
                            navItemsIds={navItemsIds}
                            onVisibilityToggled={(caller, value) => dispatch(togglePageModal(caller, value))}
                            onPageAdded={(id, name, parent, children, level, type, position) => dispatch(addNavItem(id, name, parent, children, level, type, position))} />
+                <PluginConfigModal />
                 <div style={{backgroundColor: 'blue', position: 'absolute', top: 0, left: 0, width: '100%', height: '5%'}}>
                     <Col mdOffset={2} xsOffset={2}>
                         <Button disabled={(navItemsIds.length === 0 ? true : false)} onClick={() => dispatch(togglePluginModal(navItemSelected, false, true))}>Add</Button>
