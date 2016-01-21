@@ -8,11 +8,13 @@ var BasicImage = (function(){
             });
         },
         launch: function(){
-            Dali.API.openConfig().then(function (div) {
+            Dali.API.openConfig('BasicImage').then(function (div) {
                 $(div).load('plugins/BasicImage/BasicImage.html');
             });
         },
-
+        render: function(){
+            Dali.API.renderPlugin("<img style=\"width: 100%; height: 100%\" src=\"" + $('#BasicImage_preview').attr('src') + "\"/>");
+        }
     }
 })();
 

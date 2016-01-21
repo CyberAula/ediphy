@@ -43,12 +43,15 @@ Dali.API = (function(){
         addMenuButton: function(json){
             Dali.API.Private.emit(Dali.API.Private.events.addMenuButton, json);
         },
-        openConfig: function(json){
+        openConfig: function(name){
             var promise = new Promise(function(resolve, reject){
                 Dali.API.Private.listenAnswer(resolve, Dali.API.Private.events.openConfig);
             });
-            Dali.API.Private.emit(Dali.API.Private.events.openConfig, json);
+            Dali.API.Private.emit(Dali.API.Private.events.openConfig, name);
             return promise;
+        },
+        renderPlugin: function(html){
+            Dali.API.Private.emit(Dali.API.Private.events.render, html);
         }
     }
 })();
@@ -62,11 +65,18 @@ Dali.API.Private = (function(){
     return {
         events: {
             addMenuButton: {
-                emit: 'addMenuButton'
+                emit: 'addMenuButton',
+                subscribed: false
+            },
+            render: {
+                emit: 'render',
+                answer: 'render_back',
+                subscribed: false
             },
             openConfig: {
                 emit: 'openConfig',
-                answer: 'openConfig_back'
+                answer: 'openConfig_back',
+                subscribed: false
             }
         },
         emit: function(name, params) {
@@ -74,10 +84,13 @@ Dali.API.Private = (function(){
             window.dispatchEvent(event);
         },
         listenEmission: function(event, callback){
-            window.addEventListener(event.emit, callback);
+            if(!event.subscribed){
+                window.addEventListener(event.emit, callback);
+                event.subscribed = true;
+            }
         },
-        answer: function(name){
-            var event = new Event(name.answer);
+        answer: function(name, params){
+            var event = new CustomEvent(name.answer, {'detail': params});
             window.dispatchEvent(event);
         },
         listenAnswer: function(resolve, event){

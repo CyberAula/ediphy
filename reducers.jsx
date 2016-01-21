@@ -20,7 +20,7 @@ function boxCreator(state = {}, action = {}){
                 style[key] = keyValue[1].trim().replace(/'/g, "");
             });
             */
-            let content = "<h1>Placeholder</h1>";
+            let content = action.payload.content;
 
             let position, width, height;
             switch(action.payload.type){

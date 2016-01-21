@@ -46,7 +46,7 @@ class DaliApp extends Component{
                           caller={boxModalToggled.caller}
                           fromSortable={boxModalToggled.fromSortable}
                           onVisibilityToggled={(caller, fromSortable, value) => dispatch(togglePluginModal(caller, fromSortable, value))}
-                          onBoxAdded={(parent, id, type, draggable, resizable) => dispatch(addBox(parent, id, type, draggable, resizable))} />
+                          onBoxAdded={(parent, id, type, draggable, resizable, content) => dispatch(addBox(parent, id, type, draggable, resizable, content))} />
                 <PageModal visibility={pageModalToggled.value}
                            caller={pageModalToggled.caller}
                            navItems={navItems}

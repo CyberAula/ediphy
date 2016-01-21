@@ -80,6 +80,8 @@ export default class BoxModal extends Component {
         this.setState({show: false});
         this.state.buttons[index].callback();
 
-        this.props.onBoxAdded(this.props.caller, ID_PREFIX_BOX + Date.now(), (this.props.fromSortable ? BOX_TYPES.INNER_SORTABLE : BOX_TYPES.NORMAL), true, true);
+        Dali.API.Private.listenEmission(Dali.API.Private.events.render, e =>{
+            this.props.onBoxAdded(this.props.caller, ID_PREFIX_BOX + Date.now(), (this.props.fromSortable ? BOX_TYPES.INNER_SORTABLE : BOX_TYPES.NORMAL), true, true, e.detail);
+        })
     }
 }

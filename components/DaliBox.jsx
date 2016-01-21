@@ -12,7 +12,8 @@ export default class DaliBox extends Component {
         let box = this.props.box;
 
         let content = (
-            <DaliFrame src={"plugins/BasicImage/BasicImage.html"}/>
+            //<DaliFrame src={"plugins/BasicImage/BasicImage.html"}/>
+            <div style={{width: '100%', height: '100%', position: 'absolute'}} dangerouslySetInnerHTML={{__html: box.content}}></div>
         );
         let overlay = (
             <div
