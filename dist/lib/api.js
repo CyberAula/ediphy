@@ -2,6 +2,9 @@ var Dali = {};
 
 Dali.API = (function(){
     return {
+        addMenuButton: function(json){
+            Dali.API.Private.emit(Dali.API.Private.events.addMenuButton, json);
+        },
         openConfig: function(json){
             var promise = new Promise(function(resolve, reject){
                 Dali.API.Private.listenAnswer(resolve, Dali.API.Private.events.openConfig);
@@ -20,6 +23,9 @@ Dali.API.Private = (function(){
 
     return {
         events: {
+            addMenuButton: {
+                emit: 'addMenuButton'
+            },
             openConfig: {
                 emit: 'openConfig',
                 answer: 'openConfig_back'
