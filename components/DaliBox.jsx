@@ -4,26 +4,32 @@ import interact from 'interact.js';
 import {BOX_TYPES} from '../constants';
 import DaliFrame from '../components/DaliFrame';
 
-export default class DaliBox extends Component{
-    render(){
+export default class DaliBox extends Component {
+    render() {
         let borderSize = 2;
         let cornerSize = 15;
 
         let box = this.props.box;
 
         let content = (
-            <DaliFrame src={"plugins/BasicImage/BasicImage.html"} />
+            <DaliFrame src={"plugins/BasicImage/BasicImage.html"}/>
         );
         let overlay = (
-            <div style={{visibility: ((this.props.isSelected && box.type !== BOX_TYPES.SORTABLE) ? 'visible' : 'hidden')}}>
-                <div style={{position: 'absolute', width: '100%', height: '100%', border: (borderSize + "px dashed black"), boxSizing: 'border-box'}}></div>
-                <div style={{position: 'absolute', left:  -cornerSize/2, top: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray'}}></div>
-                <div style={{position: 'absolute', right: -cornerSize/2, top: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray'}}></div>
-                <div style={{position: 'absolute', left:  -cornerSize/2, bottom: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray'}}></div>
-                <div style={{position: 'absolute', right: -cornerSize/2, bottom: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray'}}></div>
+            <div
+                style={{visibility: ((this.props.isSelected && box.type !== BOX_TYPES.SORTABLE) ? 'visible' : 'hidden')}}>
+                <div
+                    style={{position: 'absolute', width: '100%', height: '100%', border: (borderSize + "px dashed black"), boxSizing: 'border-box'}}></div>
+                <div
+                    style={{position: 'absolute', left:  -cornerSize/2, top: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray'}}></div>
+                <div
+                    style={{position: 'absolute', right: -cornerSize/2, top: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray'}}></div>
+                <div
+                    style={{position: 'absolute', left:  -cornerSize/2, bottom: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray'}}></div>
+                <div
+                    style={{position: 'absolute', right: -cornerSize/2, bottom: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray'}}></div>
             </div>);
         let position;
-        switch(box.type){
+        switch (box.type) {
             case BOX_TYPES.NORMAL:
                 position = 'absolute';
                 break;
@@ -45,12 +51,12 @@ export default class DaliBox extends Component{
         </div>);
     }
 
-    handleBoxSelection(id){
+    handleBoxSelection(id) {
         this.props.onBoxSelected(id);
     }
 
     componentDidMount() {
-        if(this.props.box.type !== BOX_TYPES.SORTABLE) {
+        if (this.props.box.type !== BOX_TYPES.SORTABLE) {
             interact(ReactDOM.findDOMNode(this))
                 .draggable({
                     enabled: this.props.box.draggable,
@@ -88,13 +94,4 @@ export default class DaliBox extends Component{
                 });
         }
     }
-
-    /*
-    componentWillUnmount() {
-        if(this.props.box.type !== 'sortable') {
-            this.interactable.unset();
-            this.interactable = null;
-        }
-    }
-    */
 }

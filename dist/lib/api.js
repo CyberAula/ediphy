@@ -1,5 +1,43 @@
 var Dali = {};
 
+Dali.Plugins = (function(){
+    var pluginList;
+    var loadPluginFile = function(name){
+        var promise = new Promise(function(resolve, reject) {
+            var script = document.createElement('script');
+            var url = "plugins/" + name + "/" + name + ".js";
+            script.src = url;
+
+            script.addEventListener('load', function() {
+                resolve(name);
+            }, false);
+
+            document.head.appendChild(script);
+        });
+
+        return promise;
+    }
+
+    return {
+        get: function(name){
+            return pluginList[name];
+        },
+        loadAllAsync: function(){
+            if(!pluginList) {
+                pluginList = {};
+                var promises = [];
+                plugins.map(function (id) {
+                    promises[id] = loadPluginFile(id);
+                    promises[id].then(function(value){
+                        pluginList[id] = window[id];
+                    });
+                });
+            }
+            return Promise.all(promises);
+        }
+    }
+})();
+
 Dali.API = (function(){
     return {
         addMenuButton: function(json){

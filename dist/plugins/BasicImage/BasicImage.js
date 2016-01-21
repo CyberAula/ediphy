@@ -5,7 +5,7 @@ var BasicImage = (function(){
                 name: 'BasicImage',
                 category: 'image',
                 callback: this.launch
-            })
+            });
         },
         launch: function(){
             Dali.API.openConfig().then(function (div) {

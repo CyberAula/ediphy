@@ -67,7 +67,6 @@ class DaliApp extends Component{
                         </OverlayTrigger>
                         <OverlayTrigger trigger="click" rootClose placement="bottom" overlay={<Popover id="is_busy_popover">{isBusy}</Popover>}>
                             <Button onClick={() => {
-                                let state = this.props.store.getState();
                                 dispatch(importStateAsync());
                             }}>Load</Button>
                         </OverlayTrigger>
@@ -75,6 +74,14 @@ class DaliApp extends Component{
                 </div>
             </Grid>
         );
+    }
+
+    componentDidMount(){
+        Dali.Plugins.loadAllAsync().then(values =>{
+            values.map((id, index) =>{
+                Dali.Plugins.get(id).init();
+            })
+        })
     }
 }
 
