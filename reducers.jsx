@@ -51,6 +51,7 @@ function boxCreator(state = {}, action = {}){
                 content: content,
                 draggable: action.payload.draggable,
                 resizable: action.payload.resizable,
+                toolbar: action.payload.toolbar,
                 fragment: {}
             };
         case RESIZE_BOX:

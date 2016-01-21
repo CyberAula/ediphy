@@ -9,6 +9,7 @@ import DaliCarousel from '../components/DaliCarousel';
 import BoxModal from '../components/BoxModal';
 import PageModal from '../components/PageModal';
 import PluginConfigModal from '../components/PluginConfigModal';
+import PluginToolbar from '../components/PluginToolbar';
 
 class DaliApp extends Component{
     render(){
@@ -46,7 +47,7 @@ class DaliApp extends Component{
                           caller={boxModalToggled.caller}
                           fromSortable={boxModalToggled.fromSortable}
                           onVisibilityToggled={(caller, fromSortable, value) => dispatch(togglePluginModal(caller, fromSortable, value))}
-                          onBoxAdded={(parent, id, type, draggable, resizable, content) => dispatch(addBox(parent, id, type, draggable, resizable, content))} />
+                          onBoxAdded={(parent, id, type, draggable, resizable, content, toolbar) => dispatch(addBox(parent, id, type, draggable, resizable, content, toolbar))} />
                 <PageModal visibility={pageModalToggled.value}
                            caller={pageModalToggled.caller}
                            navItems={navItems}
@@ -72,6 +73,7 @@ class DaliApp extends Component{
                         </OverlayTrigger>
                     </Col>
                 </div>
+                <PluginToolbar box={boxes[boxSelected]} />
             </Grid>
         );
     }
