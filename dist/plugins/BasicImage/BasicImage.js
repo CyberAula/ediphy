@@ -11,7 +11,8 @@ var BasicImage = (function(){
             Dali.API.openConfig().then(function (div) {
                 $(div).load('plugins/BasicImage/BasicImage.html');
             });
-        }
+        },
+
     }
 })();
 
@@ -23,5 +24,5 @@ function showPreview(){
     var img = $('#BasicImage_preview');
     var input = $('#BasicImage_input');
     img.attr('src', input.val());
-    img.show();
+    img.css('visibility', 'visible');
 }

@@ -26,9 +26,9 @@ Dali.Plugins = (function(){
             if(!pluginList) {
                 pluginList = {};
                 var promises = [];
-                plugins.map(function (id) {
-                    promises[id] = loadPluginFile(id);
-                    promises[id].then(function(value){
+                plugins.map(function (id, index) {
+                    promises.push(loadPluginFile(id));
+                    promises[index].then(function(value){
                         pluginList[id] = window[id];
                     });
                 });
