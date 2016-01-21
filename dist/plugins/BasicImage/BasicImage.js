@@ -18,3 +18,10 @@ var BasicImage = (function(){
 function imageClick() {
     alert("Miau!");
 }
+
+function showPreview(){
+    var img = $('#BasicImage_preview');
+    var input = $('#BasicImage_input');
+    img.attr('src', input.val());
+    img.show();
+}

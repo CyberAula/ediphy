@@ -6,13 +6,18 @@ export default class BoxModal extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            buttons: []
+            buttons: [],
+            show: this.props.visibility
         };
+    }
+
+    componentWillReceiveProps(nextProps){
+        this.setState({show: nextProps.visibility});
     }
 
     render() {
         return (
-        <Modal show={this.props.visibility} backdrop={true} bsSize="large" onHide={e => this.props.onVisibilityToggled(null, false, false)}>
+        <Modal show={this.state.show} backdrop={true} bsSize="large" onHide={e => this.props.onVisibilityToggled(null, false, false)}>
             <Modal.Header closeButton>
                 <Modal.Title>Plugin Selection</Modal.Title>
             </Modal.Header>
@@ -26,42 +31,32 @@ export default class BoxModal extends Component {
                     <Tab eventKey={1} title="Text">
                         {this.state.buttons.map((id, index) => {
                             if(this.state.buttons[index].category === 'text')
-                                return <Button key={index} bsSize="large" onClick={e => this.state.buttons[index].callback()}>
-                                    {this.state.buttons[index].name}
-                                </Button>;
+                                return <Button key={index} bsSize="large" onClick={this.buttonCallback.bind(this, index)}>{this.state.buttons[index].name}</Button>;
                         })}
                     </Tab>
                     <Tab eventKey={2} title="Images">
                         {this.state.buttons.map((id, index) => {
                             if(this.state.buttons[index].category === 'image') {
-                                return <Button key={index} bsSize="large" onClick={e => this.state.buttons[index].callback()}>
-                                    {this.state.buttons[index].name}
-                                </Button>;
+                                return <Button key={index} bsSize="large" onClick={this.buttonCallback.bind(this, index)}>{this.state.buttons[index].name}</Button>;
                             }
                         })}
                     </Tab>
                     <Tab eventKey={3} title="Multimedia">
                         {this.state.buttons.map((id, index) => {
                             if(this.state.buttons[index].category === 'multimedia')
-                                return <Button key={index} bsSize="large" onClick={e => this.state.buttons[index].callback()}>
-                                    {this.state.buttons[index].name}
-                                </Button>;
+                                return <Button key={index} bsSize="large" onClick={this.buttonCallback.bind(this, index)}>{this.state.buttons[index].name}</Button>;
                         })}
                     </Tab>
                     <Tab eventKey={4} title="Animations">
                         {this.state.buttons.map((id, index) => {
                             if(this.state.buttons[index].category === 'animations')
-                                return <Button key={index} bsSize="large" onClick={e => this.state.buttons[index].callback()}>
-                                    {this.state.buttons[index].name}
-                                </Button>;
+                                return <Button key={index} bsSize="large" onClick={this.buttonCallback.bind(this, index)}>{this.state.buttons[index].name}</Button>;
                         })}
                     </Tab>
                     <Tab eventKey={5} title="Exercises">
                         {this.state.buttons.map((id, index) => {
                             if(this.state.buttons[index].category === 'exercises')
-                                return <Button key={index} bsSize="large" onClick={e => this.state.buttons[index].callback()}>
-                                    {this.state.buttons[index].name}
-                                </Button>;
+                                return <Button key={index} bsSize="large" onClick={this.buttonCallback.bind(this, index)}>{this.state.buttons[index].name}</Button>;
                         })}
                     </Tab>
                 </Tabs>
@@ -79,5 +74,12 @@ export default class BoxModal extends Component {
         Dali.API.Private.listenEmission(Dali.API.Private.events.addMenuButton, e =>{
             this.setState({buttons: this.state.buttons.concat([e.detail])});
         })
+    }
+
+    buttonCallback(index){
+        this.setState({show: false});
+        this.state.buttons[index].callback();
+
+        this.props.onBoxAdded(this.props.caller, ID_PREFIX_BOX + Date.now(), (this.props.fromSortable ? BOX_TYPES.INNER_SORTABLE : BOX_TYPES.NORMAL), true, true);
     }
 }

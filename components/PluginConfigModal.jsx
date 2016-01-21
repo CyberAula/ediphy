@@ -12,7 +12,7 @@ export default class PluginConfigModal extends Component {
 
     render() {
         return (
-            <Modal backdrop={true} bsSize="large" show={this.state.show} onHide={e => console.log("hide")}>
+            <Modal backdrop={true} bsSize="large" show={this.state.show}>
                 <Modal.Header>
                     <Modal.Title>Plugin Configuration</Modal.Title>
                 </Modal.Header>
@@ -27,7 +27,9 @@ export default class PluginConfigModal extends Component {
                 </Modal.Body>
 
                 <Modal.Footer>
-                    <Button bsStyle="primary" onClick={e => this.setState({show: false})}>Save changes</Button>
+                    <Button bsStyle="primary" onClick={e => {
+                        this.setState({show: false});
+                    }}>Save changes</Button>
                 </Modal.Footer>
 
             </Modal>
