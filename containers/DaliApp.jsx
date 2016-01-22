@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {ActionCreators} from 'redux-undo';
 import {Grid, Col, Row, Button, OverlayTrigger, Popover} from 'react-bootstrap';
 import {addNavItem, selectNavItem, expandNavItem, removeNavItem, addBox, selectBox, moveBox, resizeBox,
-    togglePluginModal, togglePageModal, changeDisplayMode, exportStateAsync, importStateAsync} from '../actions';
+    togglePluginModal, togglePageModal, changeDisplayMode, exportStateAsync, importStateAsync, updateToolbar} from '../actions';
 import DaliCanvas from '../components/DaliCanvas';
 import DaliCarousel from '../components/DaliCarousel';
 import BoxModal from '../components/BoxModal';
@@ -14,7 +14,7 @@ import PluginToolbar from '../components/PluginToolbar';
 class DaliApp extends Component{
     render(){
         const{ dispatch, boxes, boxesIds, boxSelected, navItemsIds, navItems, navItemSelected, boxModalToggled,
-            pageModalToggled, undoDisabled, redoDisabled, displayMode, isBusy } = this.props;
+            pageModalToggled, undoDisabled, redoDisabled, displayMode, isBusy, toolbars } = this.props;
         return(
             <Grid fluid={true} style={{height: '100%'}}>
                 <Row style={{height: '100%'}}>
@@ -73,7 +73,7 @@ class DaliApp extends Component{
                         </OverlayTrigger>
                     </Col>
                 </div>
-                <PluginToolbar box={boxes[boxSelected]} />
+                <PluginToolbar toolbars={toolbars} boxSelected={boxSelected} onToolbarUpdated={(caller, index, value) => dispatch(updateToolbar(caller, index, value))} />
             </Grid>
         );
     }
@@ -100,6 +100,7 @@ function mapStateToProps(state){
         undoDisabled: state.past.length === 0,
         redoDisabled: state.future.length === 0,
         displayMode: state.present.displayMode,
+        toolbars: state.present.toolbarsById,
         isBusy: state.present.isBusy
     }
 }

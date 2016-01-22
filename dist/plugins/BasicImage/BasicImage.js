@@ -16,15 +16,26 @@ var BasicImage = (function(){
         },
         render: function(){
             Dali.API.renderPlugin("<img style=\"width: 100%; height: 100%\" src=\"" + $('#BasicImage_preview').attr('src') + "\"/>",
-                [{
-                    name: 'opacity',
-                    type: 'number',
-                    value: 1,
-                    min: 0,
-                    max: 1,
-                    step: 0.1,
-                    callback: changeOpacity
-                }]
+                [
+                    {
+                        name: 'opacity',
+                        type: 'number',
+                        value: 1,
+                        min: 0,
+                        max: 1,
+                        step: 0.1,
+                        callback: changeOpacity
+                    },
+                    {
+                        name: 'opacity',
+                        type: 'number',
+                        value: 1,
+                        min: 0,
+                        max: 1,
+                        step: 0.1,
+                        callback: changeOpacity
+                    }
+                ]
             );
         }
     }

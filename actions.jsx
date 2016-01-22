@@ -16,6 +16,7 @@ export const TOGGLE_PLUGIN_MODAL = 'TOGGLE_PLUGIN_MODAL';
 export const TOGGLE_PAGE_MODAL = 'TOGGLE_PAGE_MODAL';
 export const CHANGE_DISPLAY_MODE = 'CHANGE_DISPLAY_MODE';
 export const SET_BUSY = 'SET_BUSY';
+export const UPDATE_TOOLBAR = 'UPDATE_TOOLBAR';
 
 export const IMPORT_STATE = 'IMPORT_STATE';
 
@@ -73,6 +74,10 @@ export function setBusy(value, msg){
 
 export function importState(state){
     return {type: IMPORT_STATE, payload: state};
+}
+
+export function updateToolbar(caller, index, value){
+    return {type: UPDATE_TOOLBAR, payload: {caller, index, value}}
 }
 
 //Async actions

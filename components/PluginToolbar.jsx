@@ -12,16 +12,16 @@ export default class PluginToolbar extends Component {
         };
     }
 
-    componentWillReceiveProps(nextProps){
-        if(nextProps.box && this.state.x === 0 && this.state.y === 0)
-            this.setState({x: nextProps.box.position.x + 90, y: nextProps.box.position.y});
-    }
+    //componentWillReceiveProps(nextProps){
+    //    if(nextProps.box && this.state.x === 0 && this.state.y === 0)
+    //        this.setState({x: nextProps.box.position.x + 90, y: nextProps.box.position.y});
+    //}
 
     render() {
-        let visible = (this.props.box) ? 'visible' : 'hidden';
+        let visible = (this.props.boxSelected !== -1) ? 'visible' : 'hidden';
         let buttons;
-        if(this.props.box){
-            buttons = this.props.box.toolbar.map((item, index) => {
+        if(this.props.boxSelected !== -1){
+            buttons = this.props.toolbars[this.props.boxSelected].map((item, index) => {
                 return <Input key={index}
                               ref={index}
                               type={item.type}
@@ -32,7 +32,9 @@ export default class PluginToolbar extends Component {
                               step={item.step}
                               style={{width: '100%'}}
                               onChange={e => {
-                                item.callback(parseFloat(e.target.value));
+                                    let value = parseFloat(e.target.value);
+                                    item.callback(value);
+                                    this.props.onToolbarUpdated(this.props.boxSelected, index, value);
                               }}
                     />
             });

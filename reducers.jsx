@@ -3,7 +3,7 @@ import undoable, {excludeAction} from 'redux-undo';
 
 import {ADD_BOX, SELECT_BOX, MOVE_BOX, RESIZE_BOX,
     ADD_NAV_ITEM, SELECT_NAV_ITEM, EXPAND_NAV_ITEM, REMOVE_NAV_ITEM,
-    TOGGLE_PLUGIN_MODAL, TOGGLE_PAGE_MODAL, CHANGE_DISPLAY_MODE, SET_BUSY, IMPORT_STATE
+    TOGGLE_PLUGIN_MODAL, TOGGLE_PAGE_MODAL, CHANGE_DISPLAY_MODE, SET_BUSY, UPDATE_TOOLBAR, IMPORT_STATE
 } from './actions';
 import {ID_PREFIX_SECTION, ID_PREFIX_PAGE, ID_PREFIX_SORTABLE_BOX} from './constants';
 
@@ -51,7 +51,6 @@ function boxCreator(state = {}, action = {}){
                 content: content,
                 draggable: action.payload.draggable,
                 resizable: action.payload.resizable,
-                toolbar: action.payload.toolbar,
                 fragment: {}
             };
         case RESIZE_BOX:
@@ -168,6 +167,7 @@ function navItemsById(state = {}, action = {}){
 
             return Object.assign({}, newState, {[action.payload.parent]: Object.assign({}, newState[action.payload.parent], {children: newChildren})});
         case ADD_BOX:
+            console.log(action.payload.parent);
             if(action.payload.parent.indexOf(ID_PREFIX_PAGE) !== -1 || action.payload.parent.indexOf(ID_PREFIX_SECTION) !== -1)
                 return Object.assign({}, state, {
                     [action.payload.parent]: Object.assign({}, state[action.payload.parent], {
@@ -190,6 +190,21 @@ function navItemSelected(state = 0, action = {}){
             return 0;
         case IMPORT_STATE:
             return action.payload.present.navItemSelected;
+        default:
+            return state;
+    }
+}
+
+function toolbarsById(state = {}, action = {}){
+    switch(action.type) {
+        case ADD_BOX:
+            return Object.assign({}, state, {[action.payload.id]: action.payload.toolbar});
+        case UPDATE_TOOLBAR:
+            var newState = state[action.payload.caller].slice();
+            newState[action.payload.index] = Object.assign({}, newState[action.payload.index], {value: action.payload.value});
+            return Object.assign({}, state, {
+                [action.payload.caller]: newState
+            });
         default:
             return state;
     }
@@ -252,7 +267,8 @@ const GlobalState = undoable(combineReducers({
     navItemsIds: navItemsIds, //[0, 1]
     navItemSelected: navItemSelected, // 0
     navItemsById: navItemsById, // {0: navItem0, 1: navItem1}
-    displayMode: changeDisplayMode, //"list"
+    displayMode: changeDisplayMode, //"list",
+    toolbarsById: toolbarsById, // {0: toolbar0, 1: toolbar1}
     isBusy: isBusy
 }), { filter: (action, currentState, previousState) => {
     if(action.type === EXPAND_NAV_ITEM)
