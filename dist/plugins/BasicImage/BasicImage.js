@@ -19,20 +19,23 @@ var BasicImage = (function(){
                 [
                     {
                         name: 'opacity',
+                        humanName: 'Opacity',
                         type: 'number',
                         value: 1,
                         min: 0,
                         max: 1,
                         step: 0.1,
-                        callback: changeOpacity
+                        autoManaged: true
                     },
                     {
                         name: 'opacity',
+                        humanName: 'Opacity2',
                         type: 'number',
                         value: 1,
                         min: 0,
                         max: 1,
                         step: 0.1,
+                        autoManaged: false,
                         callback: changeOpacity
                     }
                 ]

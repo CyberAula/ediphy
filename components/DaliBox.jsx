@@ -11,9 +11,15 @@ export default class DaliBox extends Component {
 
         let box = this.props.box;
 
+        let style = {width: '100%', height: '100%', position: 'absolute'};
+        this.props.toolbar.map((item, index) =>{
+            if(item.autoManaged){
+                style[item.name] = item.value;
+            }
+        });
         let content = (
             //<DaliFrame src={"plugins/BasicImage/BasicImage.html"}/>
-            <div style={{width: '100%', height: '100%', position: 'absolute'}} dangerouslySetInnerHTML={{__html: box.content}}></div>
+            <div style={style} dangerouslySetInnerHTML={{__html: box.content}}></div>
         );
         let overlay = (
             <div

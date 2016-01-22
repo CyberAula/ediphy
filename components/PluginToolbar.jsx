@@ -26,15 +26,17 @@ export default class PluginToolbar extends Component {
                               ref={index}
                               type={item.type}
                               defaultValue={item.value}
-                              label={item.name}
+                              value={item.value}
+                              label={item.humanName}
                               min={item.min}
                               max={item.max}
                               step={item.step}
                               style={{width: '100%'}}
                               onChange={e => {
                                     let value = parseFloat(e.target.value);
-                                    item.callback(value);
                                     this.props.onToolbarUpdated(this.props.boxSelected, index, value);
+                                    if(!item.autoManaged)
+                                        item.callback(value);
                               }}
                     />
             });
