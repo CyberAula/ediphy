@@ -10,12 +10,12 @@ var BasicImage = (function(){
             });
         },
         launch: function(){
-            Dali.API.openConfig('BasicImage').then(function (div) {
-                $(div).load('plugins/BasicImage/BasicImage.html');
+            Dali.API.openConfig('BasicImage', true).then(function (div) {
+                div.innerHTML = "<div> Url: <input type=\"text\" id=\"BasicImage_input\"><br><button onclick=\"BasicImage.showPreview()\">Show preview</button><img id=\"BasicImage_preview\" src=\"\" style=\"width: 100px; height: 100px; visibility: hidden;\" onclick=\"imageClick()\" /></div>";
             });
         },
-        render: function(){
-            Dali.API.renderPlugin("<img style=\"width: 100%; height: 100%\" src=\"" + $('#BasicImage_preview').attr('src') + "\"/>",
+        render: function(firstTime){
+            Dali.API.renderPlugin(firstTime, "<img style=\"width: 100%; height: 100%; border: solid 0px green\" src=\"" + $('#BasicImage_preview').attr('src') + "\"/>",
                 [
                     {
                         name: 'opacity',
@@ -28,33 +28,30 @@ var BasicImage = (function(){
                         autoManaged: true
                     },
                     {
-                        name: 'opacity',
-                        humanName: 'Opacity2',
+                        name: 'borderSize',
+                        humanName: 'Border Size',
                         type: 'number',
-                        value: 1,
+                        value: 0,
                         min: 0,
-                        max: 1,
-                        step: 0.1,
+                        max: 10,
                         autoManaged: false,
-                        callback: changeOpacity
+                        callback: this.changeBorderSize
                     }
                 ]
             );
+        },
+        showPreview: function(){
+            var img = $('#BasicImage_preview');
+            var input = $('#BasicImage_input');
+            img.attr('src', input.val());
+            img.css('visibility', 'visible');
+        },
+        changeBorderSize: function(newValue){
+            Dali.API.renderPlugin(false, "<img style=\"width: 100%; height: 100%; border: solid " + newValue + "px green\" src=\"\"/>");
         }
     }
 })();
 
-function changeOpacity(newValue){
-    console.log(newValue);
-}
-
 function imageClick() {
     alert("Miau!");
-}
-
-function showPreview(){
-    var img = $('#BasicImage_preview');
-    var input = $('#BasicImage_input');
-    img.attr('src', input.val());
-    img.css('visibility', 'visible');
 }

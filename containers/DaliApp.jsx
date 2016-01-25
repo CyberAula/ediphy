@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {ActionCreators} from 'redux-undo';
 import {Grid, Col, Row, Button, OverlayTrigger, Popover} from 'react-bootstrap';
-import {addNavItem, selectNavItem, expandNavItem, removeNavItem, addBox, selectBox, moveBox, resizeBox,
+import {addNavItem, selectNavItem, expandNavItem, removeNavItem, addBox, selectBox, moveBox, resizeBox, updateBox,
     togglePluginModal, togglePageModal, changeDisplayMode, exportStateAsync, importStateAsync, updateToolbar} from '../actions';
 import DaliCanvas from '../components/DaliCanvas';
 import DaliCarousel from '../components/DaliCarousel';
@@ -41,6 +41,7 @@ class DaliApp extends Component{
                                     onBoxSelected={id => dispatch(selectBox(id))}
                                     onBoxMoved={(id, x, y) => dispatch(moveBox(id, x, y))}
                                     onBoxResized={(id, width, height) => dispatch(resizeBox(id, width, height))}
+                                    onBoxUpdated={(id, content) => dispatch(updateBox(id, content))}
                                     onVisibilityToggled={(caller, fromSortable, value) => dispatch(togglePluginModal(caller, fromSortable, value))} />
                     </Col>
                 </Row>
@@ -84,7 +85,7 @@ class DaliApp extends Component{
             values.map((id, index) =>{
                 Dali.Plugins.get(id).init();
             })
-        })
+        });
     }
 }
 

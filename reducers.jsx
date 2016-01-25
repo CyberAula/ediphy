@@ -1,7 +1,7 @@
 import {combineReducers} from 'redux';
 import undoable, {excludeAction} from 'redux-undo';
 
-import {ADD_BOX, SELECT_BOX, MOVE_BOX, RESIZE_BOX,
+import {ADD_BOX, SELECT_BOX, MOVE_BOX, RESIZE_BOX, UPDATE_BOX,
     ADD_NAV_ITEM, SELECT_NAV_ITEM, EXPAND_NAV_ITEM, REMOVE_NAV_ITEM,
     TOGGLE_PLUGIN_MODAL, TOGGLE_PAGE_MODAL, CHANGE_DISPLAY_MODE, SET_BUSY, UPDATE_TOOLBAR, IMPORT_STATE
 } from './actions';
@@ -36,7 +36,7 @@ function boxCreator(state = {}, action = {}){
                 default:
                     position = {x: Math.floor(Math.random() * 500), y: Math.floor(Math.random() * 500)}
                     width = 200;
-                    height = 80;
+                    height = 200;
                     break;
             }
 
@@ -78,6 +78,10 @@ function boxesById(state = {}, action = {}){
         case RESIZE_BOX:
             return Object.assign({}, state, {
                 [action.payload.id]: boxCreator(state[action.payload.id], action)
+            });
+        case UPDATE_BOX:
+            return Object.assign({}, state, {
+                [action.payload.id]: Object.assign({}, state[action.payload.id], {content: action.payload.content})
             });
         case IMPORT_STATE:
             return action.payload.present.boxesById;
@@ -167,7 +171,6 @@ function navItemsById(state = {}, action = {}){
 
             return Object.assign({}, newState, {[action.payload.parent]: Object.assign({}, newState[action.payload.parent], {children: newChildren})});
         case ADD_BOX:
-            console.log(action.payload.parent);
             if(action.payload.parent.indexOf(ID_PREFIX_PAGE) !== -1 || action.payload.parent.indexOf(ID_PREFIX_SECTION) !== -1)
                 return Object.assign({}, state, {
                     [action.payload.parent]: Object.assign({}, state[action.payload.parent], {

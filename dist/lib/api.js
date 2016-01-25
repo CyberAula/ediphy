@@ -43,15 +43,15 @@ Dali.API = (function(){
         addMenuButton: function(json){
             Dali.API.Private.emit(Dali.API.Private.events.addMenuButton, json);
         },
-        openConfig: function(name){
+        openConfig: function(name, firstTime){
             var promise = new Promise(function(resolve, reject){
                 Dali.API.Private.listenAnswer(resolve, Dali.API.Private.events.openConfig);
             });
-            Dali.API.Private.emit(Dali.API.Private.events.openConfig, name);
+            Dali.API.Private.emit(Dali.API.Private.events.openConfig, {name, firstTime});
             return promise;
         },
-        renderPlugin: function(html, toolbar){
-            Dali.API.Private.emit(Dali.API.Private.events.render, {content: html, toolbar: toolbar});
+        renderPlugin: function(firstTime, html, toolbar){
+            Dali.API.Private.emit(Dali.API.Private.events.render, {firstTime: firstTime, content: html, toolbar: toolbar});
         }
     }
 })();
@@ -59,24 +59,26 @@ Dali.API = (function(){
 Dali.API.Private = (function(){
 
     var answerCallback;
-
     var configContainer;
 
     return {
         events: {
             addMenuButton: {
                 emit: 'addMenuButton',
-                subscribed: false
+                maxTimesSubscribed: 1,
+                timesSubscribed: 0
             },
             render: {
                 emit: 'render',
                 answer: 'render_back',
-                subscribed: false
+                maxTimesSubscribed: 2,
+                timesSubscribed: 0
             },
             openConfig: {
                 emit: 'openConfig',
                 answer: 'openConfig_back',
-                subscribed: false
+                maxTimesSubscribed: 1,
+                timesSubscribed: 0
             }
         },
         emit: function(name, params) {
@@ -84,9 +86,9 @@ Dali.API.Private = (function(){
             window.dispatchEvent(event);
         },
         listenEmission: function(event, callback){
-            if(!event.subscribed){
+            if(event.timesSubscribed < event.maxTimesSubscribed){
                 window.addEventListener(event.emit, callback);
-                event.subscribed = true;
+                event.timesSubscribed++;
             }
         },
         answer: function(name, params){

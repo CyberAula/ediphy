@@ -4,6 +4,7 @@ export const ADD_BOX = 'ADD_BOX';
 export const SELECT_BOX = 'SELECT_BOX';
 export const MOVE_BOX = 'MOVE_BOX';
 export const RESIZE_BOX = 'RESIZE_BOX';
+export const UPDATE_BOX = 'UPDATE_BOX';
 
 export const DUPLICATE_SECTION = 'DUPLICATE_SECTION';
 
@@ -52,6 +53,10 @@ export function resizeBox(id, width, height){
     return {type: RESIZE_BOX, payload: {id, width, height}};
 }
 
+export function updateBox(id, content){
+    return {type: UPDATE_BOX, payload: {id, content}};
+}
+
 export function duplicateSection(id){
     return {type: DUPLICATE_SECTION, payload: {id}};
 }
@@ -77,7 +82,7 @@ export function importState(state){
 }
 
 export function updateToolbar(caller, index, value){
-    return {type: UPDATE_TOOLBAR, payload: {caller, index, value}}
+    return {type: UPDATE_TOOLBAR, payload: {caller, index, value}};
 }
 
 //Async actions

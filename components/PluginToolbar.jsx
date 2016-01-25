@@ -7,8 +7,8 @@ export default class PluginToolbar extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            x: 0,
-            y: 0
+            x: 20,
+            y: 20
         };
     }
 
@@ -18,9 +18,10 @@ export default class PluginToolbar extends Component {
     //}
 
     render() {
-        let visible = (this.props.boxSelected !== -1) ? 'visible' : 'hidden';
+        let showToolbar = this.props.boxSelected !== -1 && this.props.toolbars[this.props.boxSelected];
+        let visible = showToolbar ? 'visible' : 'hidden';
         let buttons;
-        if(this.props.boxSelected !== -1){
+        if(showToolbar){
             buttons = this.props.toolbars[this.props.boxSelected].map((item, index) => {
                 return <Input key={index}
                               ref={index}
@@ -43,7 +44,7 @@ export default class PluginToolbar extends Component {
         }
         return (<div style={{
             position: 'absolute',
-            left: this.state.x,
+            right: this.state.x,
             top: this.state.y,
             padding: 5,
             backgroundColor: '#666',
@@ -64,7 +65,7 @@ export default class PluginToolbar extends Component {
                 onmove: (event) => {
                     var target = event.target;
 
-                    target.style.left = (parseInt(target.style.left) || 0) + event.dx + 'px';
+                    target.style.right = (parseInt(target.style.right) || 0) + (-event.dx) + 'px';
                     target.style.top = (parseInt(target.style.top) || 0) + event.dy + 'px';
                 },
                 onend: (event) => {
