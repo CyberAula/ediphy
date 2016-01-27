@@ -37,6 +37,13 @@ var BasicImage = (function(){
                     max: 10,
                     autoManaged: false,
                     callback: this.changeBorderSize.bind(this)
+                },
+                {
+                    name: 'test',
+                    humanName: 'Test',
+                    type: 'text',
+                    autoManaged: true,
+                    isAttribute: true
                 }
             ]
         },

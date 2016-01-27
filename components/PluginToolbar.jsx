@@ -30,7 +30,9 @@ export default class PluginToolbar extends Component {
                               step={item.step}
                               style={{width: '100%'}}
                               onChange={e => {
-                                    let value = parseFloat(e.target.value);
+                                    let value = e.target.value;
+                                    if(item.type === 'number')
+                                        value = parseFloat(value);
                                     this.props.onToolbarUpdated(this.props.boxSelected, index, value);
                                     if(!item.autoManaged)
                                         item.callback(value);
@@ -71,9 +73,6 @@ export default class PluginToolbar extends Component {
 
                     target.style.right = (parseInt(target.style.right) || 0) + (-event.dx) + 'px';
                     target.style.top = (parseInt(target.style.top) || 0) + event.dy + 'px';
-                },
-                onend: (event) => {
-                    //this.props.onToolbarMoved(this.props.id, parseInt(event.target.style.left), parseInt(event.target.style.top));
                 }
             });
     }
