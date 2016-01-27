@@ -7,8 +7,7 @@ export default class PluginConfigModal extends Component {
         super(props);
         this.state = {
             show: false,
-            pluginActive: '',
-            firstTime : false
+            pluginActive: ''
         };
     }
 
@@ -30,7 +29,7 @@ export default class PluginConfigModal extends Component {
 
                 <Modal.Footer>
                     <Button bsStyle="primary" onClick={e => {
-                        Dali.Plugins.get(this.state.pluginActive).render(this.state.firstTime);
+                        Dali.Plugins.get(this.state.pluginActive).render();
                         this.setState({show: false, firstTime: false});
                     }}>Save changes</Button>
                 </Modal.Footer>
@@ -41,7 +40,7 @@ export default class PluginConfigModal extends Component {
 
     componentDidMount(){
         Dali.API.Private.listenEmission(Dali.API.Private.events.openConfig, (e) => {
-            this.setState({show: true, pluginActive: e.detail.name, firstTime: e.detail.firstTime});
+            this.setState({show: true, pluginActive: e.detail.name});
         });
     }
 }

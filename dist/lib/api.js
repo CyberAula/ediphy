@@ -43,15 +43,15 @@ Dali.API = (function(){
         addMenuButton: function(json){
             Dali.API.Private.emit(Dali.API.Private.events.addMenuButton, json);
         },
-        openConfig: function(name, firstTime){
+        openConfig: function(name){
             var promise = new Promise(function(resolve, reject){
                 Dali.API.Private.listenAnswer(resolve, Dali.API.Private.events.openConfig);
             });
-            Dali.API.Private.emit(Dali.API.Private.events.openConfig, {name, firstTime});
+            Dali.API.Private.emit(Dali.API.Private.events.openConfig, {name});
             return promise;
         },
-        renderPlugin: function(firstTime, html, toolbar, config, state){
-            Dali.API.Private.emit(Dali.API.Private.events.render, {firstTime, content: html, toolbar, config, state});
+        renderPlugin: function(html, toolbar, config, state, isUpdating){
+            Dali.API.Private.emit(Dali.API.Private.events.render, {content: html, toolbar, config, state, isUpdating});
         }
     }
 })();

@@ -1,7 +1,9 @@
 var BasicImage = (function(){
-    var initialState = {url: ''};
+    var initialState = {url: '', borderSize: 0};
+    var isUpdating = true;
 
     return {
+        //Mandatory
         init: function () {
             Dali.API.addMenuButton(this.getConfig());
         },
@@ -9,7 +11,7 @@ var BasicImage = (function(){
             return {
                 name: 'BasicImage',
                 category: 'image',
-                callback: this.openConfigModal,
+                callback: this.openConfigModal.bind(this),
                 needsConfigModal: true,
                 needsTextEdition: false
             };
@@ -34,22 +36,30 @@ var BasicImage = (function(){
                     min: 0,
                     max: 10,
                     autoManaged: false,
-                    callback: this.changeBorderSize
+                    callback: this.changeBorderSize.bind(this)
                 }
             ]
         },
+        //Mandatory
         openConfigModal: function(state){
             if(!state){
                 state = initialState;
+                isUpdating = false;
             }
-            Dali.API.openConfig('BasicImage', true).then(function (div) {
-                div.innerHTML = "<div> Url: <input type=\"text\" id=\"BasicImage_input\" value=\"" + state.url +"\"><br><button onclick=\"BasicImage.showPreview()\">Show preview</button><img id=\"BasicImage_preview\" src=\"\" style=\"width: 100px; height: 100px; visibility: hidden;\" onclick=\"imageClick()\" /></div>";
+            Dali.API.openConfig('BasicImage').then(function (div) {
+                div.innerHTML = "<div> Url: <input type=\"text\" id=\"BasicImage_input\" value=\"" + state.url +"\"><br><button onclick=\"BasicImage.showPreview()\">Show preview</button><img id=\"BasicImage_preview\" src=\"\" style=\"width: 100px; height: 100px; visibility: hidden;\" onclick=\"BasicImage.imageClick()\" /></div>";
             });
         },
-        render: function(firstTime){
-            Dali.API.renderPlugin(firstTime, "<img style=\"width: 100%; height: 100%; border: solid 0px green\" src=\"" + $('#BasicImage_preview').attr('src') + "\"/>",
-                this.getToolbar(), this.getConfig(), initialState
+        //Mandatory
+        render: function(){
+            Dali.API.renderPlugin(
+                "<img style=\"width: 100%; height: 100%; border: solid " + initialState.borderSize + "px green\" src=\"" + initialState.url + "\"/>",
+                this.getToolbar(),
+                this.getConfig(),
+                initialState,
+                isUpdating
             );
+            isUpdating = true;
         },
         showPreview: function(){
             var img = $('#BasicImage_preview');
@@ -58,12 +68,13 @@ var BasicImage = (function(){
             img.attr('src', input.val());
             img.css('visibility', 'visible');
         },
+        //Mandatory format
         changeBorderSize: function(newValue){
-            Dali.API.renderPlugin(false, "<img style=\"width: 100%; height: 100%; border: solid " + newValue + "px green\" src=\"\"/>");
+            initialState.borderSize = newValue;
+            this.render();
+        },
+        imageClick: function() {
+            alert("Miau!");
         }
     }
 })();
-
-function imageClick() {
-    alert("Miau!");
-}

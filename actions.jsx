@@ -53,8 +53,8 @@ export function resizeBox(id, width, height){
     return {type: RESIZE_BOX, payload: {id, width, height}};
 }
 
-export function updateBox(id, content){
-    return {type: UPDATE_BOX, payload: {id, content}};
+export function updateBox(id, content, state){
+    return {type: UPDATE_BOX, payload: {id, content, state}};
 }
 
 export function duplicateSection(id){

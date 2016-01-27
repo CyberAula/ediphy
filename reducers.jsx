@@ -209,6 +209,10 @@ function toolbarsById(state = {}, action = {}){
             return Object.assign({}, state, {
                 [action.payload.caller]: Object.assign({}, state[action.payload.caller], {buttons: newState})
             });
+        case UPDATE_BOX:
+            return Object.assign({}, state, {
+                [action.payload.id]: Object.assign({}, state[action.payload.id], {state: action.payload.state})
+            });
         default:
             return state;
     }

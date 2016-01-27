@@ -41,7 +41,7 @@ class DaliApp extends Component{
                                     onBoxSelected={id => dispatch(selectBox(id))}
                                     onBoxMoved={(id, x, y) => dispatch(moveBox(id, x, y))}
                                     onBoxResized={(id, width, height) => dispatch(resizeBox(id, width, height))}
-                                    onBoxUpdated={(id, content) => dispatch(updateBox(id, content))}
+                                    onBoxUpdated={(id, content, state) => dispatch(updateBox(id, content, state))}
                                     onVisibilityToggled={(caller, fromSortable, value) => dispatch(togglePluginModal(caller, fromSortable, value))} />
                     </Col>
                 </Row>
