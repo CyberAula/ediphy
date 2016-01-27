@@ -49,7 +49,7 @@ class DaliApp extends Component{
                           caller={boxModalToggled.caller}
                           fromSortable={boxModalToggled.fromSortable}
                           onVisibilityToggled={(caller, fromSortable, value) => dispatch(togglePluginModal(caller, fromSortable, value))}
-                          onBoxAdded={(parent, id, type, draggable, resizable, content, toolbar) => dispatch(addBox(parent, id, type, draggable, resizable, content, toolbar))} />
+                          onBoxAdded={(parent, id, type, draggable, resizable, content, toolbar, config, state) => dispatch(addBox(parent, id, type, draggable, resizable, content, toolbar, config, state))} />
                 <PageModal visibility={pageModalToggled.value}
                            caller={pageModalToggled.caller}
                            navItems={navItems}
@@ -81,7 +81,7 @@ class DaliApp extends Component{
     }
 
     componentDidMount(){
-        Dali.Plugins.loadAllAsync().then(values =>{
+        Dali.Plugins.loadAllAsync().then(values => {
             values.map((id, index) =>{
                 Dali.Plugins.get(id).init();
             })

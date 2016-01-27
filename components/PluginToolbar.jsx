@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Input} from 'react-bootstrap';
+import {Input, ButtonInput} from 'react-bootstrap';
 import ReactDOM from 'react-dom';
 import interact from 'interact.js';
 
@@ -12,17 +12,13 @@ export default class PluginToolbar extends Component {
         };
     }
 
-    //componentWillReceiveProps(nextProps){
-    //    if(nextProps.box && this.state.x === 0 && this.state.y === 0)
-    //        this.setState({x: nextProps.box.position.x + 90, y: nextProps.box.position.y});
-    //}
-
     render() {
-        let showToolbar = this.props.boxSelected !== -1 && this.props.toolbars[this.props.boxSelected];
+        let toolbar = this.props.toolbars[this.props.boxSelected];
+        let showToolbar = this.props.boxSelected !== -1 && toolbar;
         let visible = showToolbar ? 'visible' : 'hidden';
         let buttons;
         if(showToolbar){
-            buttons = this.props.toolbars[this.props.boxSelected].map((item, index) => {
+            buttons = toolbar.buttons.map((item, index) => {
                 return <Input key={index}
                               ref={index}
                               type={item.type}
@@ -41,6 +37,14 @@ export default class PluginToolbar extends Component {
                               }}
                     />
             });
+            if(toolbar.config.needsTextEdition){
+                buttons.push(<ButtonInput key={'text'}>Edit text</ButtonInput>);
+            }
+            if(toolbar.config.needsConfigModal){
+                buttons.push(<ButtonInput key={'config'} onClick={() => {
+                    Dali.Plugins.get(toolbar.config.name).openConfigModal(toolbar.state)
+                }}>Open config</ButtonInput>);
+            }
         }
         return (<div style={{
             position: 'absolute',

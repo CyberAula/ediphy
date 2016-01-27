@@ -201,12 +201,13 @@ function navItemSelected(state = 0, action = {}){
 function toolbarsById(state = {}, action = {}){
     switch(action.type) {
         case ADD_BOX:
-            return Object.assign({}, state, {[action.payload.id]: action.payload.toolbar});
+            let toolbar = {buttons: action.payload.toolbar, config: action.payload.config, state: action.payload.state};
+            return Object.assign({}, state, {[action.payload.id]: toolbar});
         case UPDATE_TOOLBAR:
-            var newState = state[action.payload.caller].slice();
+            let newState = state[action.payload.caller].buttons.slice();
             newState[action.payload.index] = Object.assign({}, newState[action.payload.index], {value: action.payload.value});
             return Object.assign({}, state, {
-                [action.payload.caller]: newState
+                [action.payload.caller]: Object.assign({}, state[action.payload.caller], {buttons: newState})
             });
         default:
             return state;

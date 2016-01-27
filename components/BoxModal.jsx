@@ -82,7 +82,7 @@ export default class BoxModal extends Component {
 
         Dali.API.Private.listenEmission(Dali.API.Private.events.render, e =>{
             if(e.detail.firstTime) {
-                this.props.onBoxAdded(this.props.caller, ID_PREFIX_BOX + Date.now(), (this.props.fromSortable ? BOX_TYPES.INNER_SORTABLE : BOX_TYPES.NORMAL), true, true, e.detail.content, e.detail.toolbar);
+                this.props.onBoxAdded(this.props.caller, ID_PREFIX_BOX + Date.now(), (this.props.fromSortable ? BOX_TYPES.INNER_SORTABLE : BOX_TYPES.NORMAL), true, true, e.detail.content, e.detail.toolbar, e.detail.config, e.detail.state);
                 e.stopPropagation();
             }
         })

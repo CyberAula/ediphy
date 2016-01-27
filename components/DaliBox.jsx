@@ -12,7 +12,7 @@ export default class DaliBox extends Component {
         let box = this.props.box;
 
         let style = {width: '100%', height: '100%', position: 'absolute'};
-        this.props.toolbar.map((item, index) =>{
+        this.props.toolbar.buttons.map((item, index) =>{
             if(item.autoManaged){
                 style[item.name] = item.value;
             }

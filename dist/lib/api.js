@@ -50,8 +50,8 @@ Dali.API = (function(){
             Dali.API.Private.emit(Dali.API.Private.events.openConfig, {name, firstTime});
             return promise;
         },
-        renderPlugin: function(firstTime, html, toolbar){
-            Dali.API.Private.emit(Dali.API.Private.events.render, {firstTime: firstTime, content: html, toolbar: toolbar});
+        renderPlugin: function(firstTime, html, toolbar, config, state){
+            Dali.API.Private.emit(Dali.API.Private.events.render, {firstTime, content: html, toolbar, config, state});
         }
     }
 })();
