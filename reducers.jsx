@@ -3,7 +3,7 @@ import undoable, {excludeAction} from 'redux-undo';
 
 import {ADD_BOX, SELECT_BOX, MOVE_BOX, RESIZE_BOX, UPDATE_BOX,
     ADD_NAV_ITEM, SELECT_NAV_ITEM, EXPAND_NAV_ITEM, REMOVE_NAV_ITEM,
-    TOGGLE_PLUGIN_MODAL, TOGGLE_PAGE_MODAL, CHANGE_DISPLAY_MODE, SET_BUSY, UPDATE_TOOLBAR, IMPORT_STATE
+    TOGGLE_PLUGIN_MODAL, TOGGLE_PAGE_MODAL, TOGGLE_TEXT_EDITOR, CHANGE_DISPLAY_MODE, SET_BUSY, UPDATE_TOOLBAR, IMPORT_STATE
 } from './actions';
 import {ID_PREFIX_SECTION, ID_PREFIX_PAGE, ID_PREFIX_SORTABLE_BOX} from './constants';
 
@@ -51,6 +51,7 @@ function boxCreator(state = {}, action = {}){
                 content: content,
                 draggable: action.payload.draggable,
                 resizable: action.payload.resizable,
+                showTextEditor: action.payload.showTextEditor,
                 fragment: {}
             };
         default:
@@ -199,7 +200,7 @@ function navItemSelected(state = 0, action = {}){
 function toolbarsById(state = {}, action = {}){
     switch(action.type) {
         case ADD_BOX:
-            let toolbar = {buttons: action.payload.toolbar, config: action.payload.config, state: action.payload.state};
+            let toolbar = {buttons: action.payload.toolbar, config: action.payload.config, state: action.payload.state, showTextEditor: action.payload.showTextEditor};
             return Object.assign({}, state, {[action.payload.id]: toolbar});
         case UPDATE_TOOLBAR:
             let newState = state[action.payload.caller].buttons.slice();
@@ -210,6 +211,10 @@ function toolbarsById(state = {}, action = {}){
         case UPDATE_BOX:
             return Object.assign({}, state, {
                 [action.payload.id]: Object.assign({}, state[action.payload.id], {state: action.payload.state})
+            });
+        case TOGGLE_TEXT_EDITOR:
+            return Object.assign({}, state, {
+                [action.payload.caller]: Object.assign({}, state[action.payload.caller], {showTextEditor: action.payload.value})
             });
         default:
             return state;

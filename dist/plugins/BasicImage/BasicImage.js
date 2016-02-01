@@ -60,7 +60,7 @@ var BasicImage = (function(){
         //Mandatory
         render: function(){
             Dali.API.renderPlugin(
-                "<img style=\"width: 100%; height: 100%; border: solid " + initialState.borderSize + "px green\" src=\"" + initialState.url + "\"/>",
+                "<img style=\"width: 100%; height: 100%; border: solid " + initialState.borderSize + "px green\" src=\"" + initialState.url + "\" onclick=\"BasicImage.imageClick()\"/>",
                 this.getToolbar(),
                 this.getConfig(),
                 initialState,

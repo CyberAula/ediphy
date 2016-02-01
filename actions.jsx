@@ -15,6 +15,7 @@ export const REMOVE_NAV_ITEM = 'REMOVE_NAV_ITEM';
 
 export const TOGGLE_PLUGIN_MODAL = 'TOGGLE_PLUGIN_MODAL';
 export const TOGGLE_PAGE_MODAL = 'TOGGLE_PAGE_MODAL';
+export const TOGGLE_TEXT_EDITOR = 'TOGGLE_TEXT_EDITOR';
 export const CHANGE_DISPLAY_MODE = 'CHANGE_DISPLAY_MODE';
 export const SET_BUSY = 'SET_BUSY';
 export const UPDATE_TOOLBAR = 'UPDATE_TOOLBAR';
@@ -37,8 +38,8 @@ export function removeNavItem(ids, parent){
     return {type: REMOVE_NAV_ITEM, payload: {ids, parent}};
 }
 
-export function addBox(parent, id, type, draggable, resizable, content, toolbar, config, state){
-    return {type: ADD_BOX, payload: {parent, id, type, draggable, resizable, content, toolbar, config, state}};
+export function addBox(parent, id, type, draggable, resizable, showTextEditor, content, toolbar, config, state){
+    return {type: ADD_BOX, payload: {parent, id, type, draggable, resizable, showTextEditor, content, toolbar, config, state}};
 }
 
 export function selectBox(id){
@@ -67,6 +68,10 @@ export function togglePluginModal(caller, fromSortable, value){
 
 export function togglePageModal(caller, value){
     return {type: TOGGLE_PAGE_MODAL, payload: {caller, value}};
+}
+
+export function toggleTextEditor(caller, value){
+    return {type: TOGGLE_TEXT_EDITOR, payload: {caller, value}};
 }
 
 export function changeDisplayMode(mode){

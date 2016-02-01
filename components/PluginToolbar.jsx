@@ -40,7 +40,9 @@ export default class PluginToolbar extends Component {
                     />
             });
             if(toolbar.config.needsTextEdition){
-                buttons.push(<ButtonInput key={'text'}>Edit text</ButtonInput>);
+                buttons.push(<ButtonInput key={'text'} onClick={() => {
+                    this.props.onTextEditorToggled(this.props.boxSelected, !toolbar.showTextEditor);
+                }} bsStyle={toolbar.showTextEditor ? 'primary' : 'default'}>Edit text</ButtonInput>);
             }
             if(toolbar.config.needsConfigModal){
                 buttons.push(<ButtonInput key={'config'} onClick={() => {

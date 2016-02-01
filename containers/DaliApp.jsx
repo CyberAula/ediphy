@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {ActionCreators} from 'redux-undo';
 import {Grid, Col, Row, Button, OverlayTrigger, Popover} from 'react-bootstrap';
 import {addNavItem, selectNavItem, expandNavItem, removeNavItem, addBox, selectBox, moveBox, resizeBox, updateBox,
-    togglePluginModal, togglePageModal, changeDisplayMode, exportStateAsync, importStateAsync, updateToolbar} from '../actions';
+    togglePluginModal, togglePageModal, toggleTextEditor, changeDisplayMode, exportStateAsync, importStateAsync, updateToolbar} from '../actions';
 import {ID_PREFIX_BOX, ID_PREFIX_SORTABLE_BOX, BOX_TYPES} from '../constants';
 import DaliCanvas from '../components/DaliCanvas';
 import DaliCarousel from '../components/DaliCarousel';
@@ -42,7 +42,8 @@ class DaliApp extends Component{
                                     onBoxSelected={id => dispatch(selectBox(id))}
                                     onBoxMoved={(id, x, y) => dispatch(moveBox(id, x, y))}
                                     onBoxResized={(id, width, height) => dispatch(resizeBox(id, width, height))}
-                                    onVisibilityToggled={(caller, fromSortable, value) => dispatch(togglePluginModal(caller, fromSortable, value))} />
+                                    onVisibilityToggled={(caller, fromSortable, value) => dispatch(togglePluginModal(caller, fromSortable, value))}
+                                    onTextEditorToggled={(caller, value) => dispatch(toggleTextEditor(caller, value))} />
                     </Col>
                 </Row>
                 <BoxModal visibility={boxModalToggled.value}
@@ -74,7 +75,10 @@ class DaliApp extends Component{
                         </OverlayTrigger>
                     </Col>
                 </div>
-                <PluginToolbar toolbars={toolbars} boxSelected={boxSelected} onToolbarUpdated={(caller, index, value) => dispatch(updateToolbar(caller, index, value))} />
+                <PluginToolbar toolbars={toolbars}
+                               boxSelected={boxSelected}
+                               onTextEditorToggled={(caller, value) => dispatch(toggleTextEditor(caller, value))}
+                               onToolbarUpdated={(caller, index, value) => dispatch(updateToolbar(caller, index, value))} />
             </Grid>
         );
     }
@@ -90,7 +94,7 @@ class DaliApp extends Component{
             if(e.detail.isUpdating) {
                 this.props.dispatch(updateBox(this.props.boxSelected, e.detail.content, e.detail.state));
             }else {
-                this.props.dispatch(addBox(this.props.boxModalToggled.caller, ID_PREFIX_BOX + Date.now(), (this.props.boxModalToggled.fromSortable ? BOX_TYPES.INNER_SORTABLE : BOX_TYPES.NORMAL), true, true, e.detail.content, e.detail.toolbar, e.detail.config, e.detail.state));
+                this.props.dispatch(addBox(this.props.boxModalToggled.caller, ID_PREFIX_BOX + Date.now(), (this.props.boxModalToggled.fromSortable ? BOX_TYPES.INNER_SORTABLE : BOX_TYPES.NORMAL), true, true, e.detail.config.needsTextEdition, e.detail.content, e.detail.toolbar, e.detail.config, e.detail.state));
             }
         })
     }

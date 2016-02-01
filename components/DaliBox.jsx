@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
+import {Input} from 'react-bootstrap';
 import interact from 'interact.js';
 import {BOX_TYPES} from '../constants';
 import DaliFrame from '../components/DaliFrame';
@@ -17,6 +18,8 @@ export default class DaliBox extends Component {
             if(item.autoManaged){
                 if(!item.isAttribute) {
                     style[item.name] = item.value;
+                    if(item.units)
+                        style[item.name] += item.units;
                 }else {
                     attrs['data-' + item.name] = item.value;
                 }
@@ -49,7 +52,7 @@ export default class DaliBox extends Component {
                 break;
         }
 
-        return (<div onClick={e => this.handleBoxSelection(this.props.id)}
+        return (<div onClick={e => this.props.onBoxSelected(this.props.id)}
                      style={{position: position,
                             left: box.position.x,
                             top: box.position.y,
@@ -59,11 +62,20 @@ export default class DaliBox extends Component {
                             msTouchAction: 'none'}}>
             {content}
             {overlay}
+            <textarea ref={"textarea"}
+                      onBlur={() => {
+                            this.props.onTextEditorToggled(this.props.id, false);
+                            Dali.Plugins.get(this.props.toolbar.config.name).updateTextChanges(this.refs.textarea.value);
+                        }}
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        position: 'absolute',
+                        border: (borderSize + "px dashed black"),
+                        boxSizing: 'border-box',
+                        resize: 'none',
+                        visibility: (this.props.toolbar.showTextEditor ? 'visible' : 'hidden')}} />
         </div>);
-    }
-
-    handleBoxSelection(id) {
-        this.props.onBoxSelected(id);
     }
 
     componentDidMount() {
