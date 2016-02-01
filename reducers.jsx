@@ -170,7 +170,7 @@ function navItemsById(state = {}, action = {}){
 
             return Object.assign({}, newState, {[action.payload.parent]: Object.assign({}, newState[action.payload.parent], {children: newChildren})});
         case ADD_BOX:
-            if(action.payload.parent.indexOf(ID_PREFIX_PAGE) !== -1 || action.payload.parent.indexOf(ID_PREFIX_SECTION) !== -1)
+            if(action.payload.parent !== 0 && (action.payload.parent.indexOf(ID_PREFIX_PAGE) !== -1 || action.payload.parent.indexOf(ID_PREFIX_SECTION) !== -1))
                 return Object.assign({}, state, {
                     [action.payload.parent]: Object.assign({}, state[action.payload.parent], {
                         boxes: [...state[action.payload.parent].boxes, action.payload.id]})});

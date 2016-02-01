@@ -1,6 +1,5 @@
 var BasicImage = (function(){
     var initialState = {url: '', borderSize: 0};
-    var isUpdating = true;
 
     return {
         //Mandatory
@@ -11,7 +10,7 @@ var BasicImage = (function(){
             return {
                 name: 'BasicImage',
                 category: 'image',
-                callback: this.openConfigModal.bind(this),
+                callback: this.openConfigModal.bind(this, false, initialState),
                 needsConfigModal: true,
                 needsTextEdition: false
             };
@@ -48,25 +47,20 @@ var BasicImage = (function(){
             ]
         },
         //Mandatory
-        openConfigModal: function(state){
-            if(!state){
-                state = initialState;
-                isUpdating = false;
-            }
-            Dali.API.openConfig('BasicImage').then(function (div) {
+        openConfigModal: function(isUpdating, state){
+            Dali.API.openConfig('BasicImage', isUpdating).then(function (div) {
                 div.innerHTML = "<div> Url: <input type=\"text\" id=\"BasicImage_input\" value=\"" + state.url +"\"><br><button onclick=\"BasicImage.showPreview()\">Show preview</button><img id=\"BasicImage_preview\" src=\"\" style=\"width: 100px; height: 100px; visibility: hidden;\" onclick=\"BasicImage.imageClick()\" /></div>";
             });
         },
         //Mandatory
-        render: function(){
+        render: function(isUpdating){
             Dali.API.renderPlugin(
-                "<img style=\"width: 100%; height: 100%; border: solid " + initialState.borderSize + "px green\" src=\"" + initialState.url + "\" onclick=\"BasicImage.imageClick()\"/>",
+                "<img style=\"width: 100%; height: 100%; border: solid " + initialState.borderSize + "px green\" src=\"" + initialState.url + "\"/>",
                 this.getToolbar(),
                 this.getConfig(),
                 initialState,
                 isUpdating
             );
-            isUpdating = true;
         },
         showPreview: function(){
             var img = $('#BasicImage_preview');
@@ -78,7 +72,7 @@ var BasicImage = (function(){
         //Mandatory format
         changeBorderSize: function(newValue){
             initialState.borderSize = newValue;
-            this.render();
+            this.render(true);
         },
         imageClick: function() {
             alert("Miau!");

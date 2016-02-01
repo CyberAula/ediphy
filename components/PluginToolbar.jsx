@@ -46,7 +46,7 @@ export default class PluginToolbar extends Component {
             }
             if(toolbar.config.needsConfigModal){
                 buttons.push(<ButtonInput key={'config'} onClick={() => {
-                    Dali.Plugins.get(toolbar.config.name).openConfigModal(toolbar.state)
+                    Dali.Plugins.get(toolbar.config.name).openConfigModal(true, toolbar.state)
                 }}>Open config</ButtonInput>);
             }
         }

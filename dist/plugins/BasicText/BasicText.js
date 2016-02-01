@@ -1,6 +1,5 @@
 var BasicText = (function(){
     var initialState = {text: ''};
-    var isUpdating = false;
 
     return {
         //Mandatory
@@ -11,7 +10,7 @@ var BasicText = (function(){
             return {
                 name: 'BasicText',
                 category: 'text',
-                callback: this.render.bind(this),
+                callback: this.render.bind(this, false),
                 needsConfigModal: false,
                 needsTextEdition: true
             };
@@ -43,10 +42,10 @@ var BasicText = (function(){
         //Mandatory
         updateTextChanges: function(html){
             initialState.text = html;
-            this.render();
+            this.render(true);
         },
         //Mandatory
-        render: function(){
+        render: function(isUpdating){
             Dali.API.renderPlugin(
                 "<p>" + initialState.text + "</p>",
                 this.getToolbar(),
@@ -54,7 +53,6 @@ var BasicText = (function(){
                 initialState,
                 isUpdating
             );
-            isUpdating = true;
         }
     }
 })();

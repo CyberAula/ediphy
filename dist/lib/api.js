@@ -43,11 +43,11 @@ Dali.API = (function(){
         addMenuButton: function(json){
             Dali.API.Private.emit(Dali.API.Private.events.addMenuButton, json);
         },
-        openConfig: function(name){
+        openConfig: function(name, isUpdating){
             var promise = new Promise(function(resolve, reject){
                 Dali.API.Private.listenAnswer(resolve, Dali.API.Private.events.openConfig);
             });
-            Dali.API.Private.emit(Dali.API.Private.events.openConfig, {name});
+            Dali.API.Private.emit(Dali.API.Private.events.openConfig, {name, isUpdating});
             return promise;
         },
         renderPlugin: function(html, toolbar, config, state, isUpdating){
