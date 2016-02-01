@@ -21,6 +21,8 @@ function boxCreator(state = {}, action = {}){
             });
             */
             let content = action.payload.content;
+            if(!content)
+                content = "<h1>Placeholder</h1>";
 
             let position, width, height;
             switch(action.payload.type){

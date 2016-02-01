@@ -14,7 +14,7 @@ export default class PluginToolbar extends Component {
 
     render() {
         let toolbar = this.props.toolbars[this.props.boxSelected];
-        let showToolbar = this.props.boxSelected !== -1 && toolbar;
+        let showToolbar = this.props.boxSelected !== -1 && toolbar.buttons;
         let visible = showToolbar ? 'visible' : 'hidden';
         let buttons;
         if(showToolbar){

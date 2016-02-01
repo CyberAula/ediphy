@@ -14,17 +14,19 @@ export default class DaliBox extends Component {
 
         let style = {width: '100%', height: '100%', position: 'absolute'};
         let attrs = {};
-        this.props.toolbar.buttons.map((item, index) =>{
-            if(item.autoManaged){
-                if(!item.isAttribute) {
-                    style[item.name] = item.value;
-                    if(item.units)
-                        style[item.name] += item.units;
-                }else {
-                    attrs['data-' + item.name] = item.value;
+        if(this.props.toolbar.buttons) {
+            this.props.toolbar.buttons.map((item, index) => {
+                if (item.autoManaged) {
+                    if (!item.isAttribute) {
+                        style[item.name] = item.value;
+                        if (item.units)
+                            style[item.name] += item.units;
+                    } else {
+                        attrs['data-' + item.name] = item.value;
+                    }
                 }
-            }
-        });
+            });
+        }
         let content = (
             <div style={style} {...attrs} dangerouslySetInnerHTML={{__html: box.content}}></div>
         );
