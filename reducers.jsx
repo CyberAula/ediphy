@@ -53,8 +53,6 @@ function boxCreator(state = {}, action = {}){
                 resizable: action.payload.resizable,
                 fragment: {}
             };
-        case RESIZE_BOX:
-            return Object.assign({}, state, {width: action.payload.width, height: action.payload.height});
         default:
             return state;
     }
@@ -77,7 +75,7 @@ function boxesById(state = {}, action = {}){
             });
         case RESIZE_BOX:
             return Object.assign({}, state, {
-                [action.payload.id]: boxCreator(state[action.payload.id], action)
+                [action.payload.id]: Object.assign({}, state[action.payload.id], {width: action.payload.width, height: action.payload.height})
             });
         case UPDATE_BOX:
             return Object.assign({}, state, {
