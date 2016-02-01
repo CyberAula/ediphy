@@ -4,6 +4,7 @@ import {ActionCreators} from 'redux-undo';
 import {Grid, Col, Row, Button, OverlayTrigger, Popover} from 'react-bootstrap';
 import {addNavItem, selectNavItem, expandNavItem, removeNavItem, addBox, selectBox, moveBox, resizeBox, updateBox,
     togglePluginModal, togglePageModal, changeDisplayMode, exportStateAsync, importStateAsync, updateToolbar} from '../actions';
+import {ID_PREFIX_BOX, ID_PREFIX_SORTABLE_BOX, BOX_TYPES} from '../constants';
 import DaliCanvas from '../components/DaliCanvas';
 import DaliCarousel from '../components/DaliCarousel';
 import BoxModal from '../components/BoxModal';
@@ -41,15 +42,13 @@ class DaliApp extends Component{
                                     onBoxSelected={id => dispatch(selectBox(id))}
                                     onBoxMoved={(id, x, y) => dispatch(moveBox(id, x, y))}
                                     onBoxResized={(id, width, height) => dispatch(resizeBox(id, width, height))}
-                                    onBoxUpdated={(id, content, state) => dispatch(updateBox(id, content, state))}
                                     onVisibilityToggled={(caller, fromSortable, value) => dispatch(togglePluginModal(caller, fromSortable, value))} />
                     </Col>
                 </Row>
                 <BoxModal visibility={boxModalToggled.value}
                           caller={boxModalToggled.caller}
                           fromSortable={boxModalToggled.fromSortable}
-                          onVisibilityToggled={(caller, fromSortable, value) => dispatch(togglePluginModal(caller, fromSortable, value))}
-                          onBoxAdded={(parent, id, type, draggable, resizable, content, toolbar, config, state) => dispatch(addBox(parent, id, type, draggable, resizable, content, toolbar, config, state))} />
+                          onVisibilityToggled={(caller, fromSortable, value) => dispatch(togglePluginModal(caller, fromSortable, value))} />
                 <PageModal visibility={pageModalToggled.value}
                            caller={pageModalToggled.caller}
                            navItems={navItems}
@@ -86,6 +85,14 @@ class DaliApp extends Component{
                 Dali.Plugins.get(id).init();
             })
         });
+
+        Dali.API.Private.listenEmission(Dali.API.Private.events.render, e =>{
+            if(e.detail.isUpdating) {
+                this.props.dispatch(updateBox(this.props.boxSelected, e.detail.content, e.detail.state));
+            }else {
+                this.props.dispatch(addBox(this.props.boxModalToggled.caller, ID_PREFIX_BOX + Date.now(), (this.props.boxModalToggled.fromSortable ? BOX_TYPES.INNER_SORTABLE : BOX_TYPES.NORMAL), true, true, e.detail.content, e.detail.toolbar, e.detail.config, e.detail.state));
+            }
+        })
     }
 }
 

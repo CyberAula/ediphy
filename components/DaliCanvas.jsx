@@ -48,13 +48,4 @@ export default class DaliCanvas extends Component{
             </div>
         );
     }
-
-    componentDidMount(){
-        Dali.API.Private.listenEmission(Dali.API.Private.events.render, e =>{
-            if(e.detail.isUpdating) {
-                this.props.onBoxUpdated(this.props.boxSelected, e.detail.content, e.detail.state);
-                e.stopPropagation();
-            }
-        })
-    }
 }

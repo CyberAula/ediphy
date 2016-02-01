@@ -64,21 +64,15 @@ Dali.API.Private = (function(){
     return {
         events: {
             addMenuButton: {
-                emit: 'addMenuButton',
-                maxTimesSubscribed: 1,
-                timesSubscribed: 0
+                emit: 'addMenuButton'
             },
             render: {
                 emit: 'render',
-                answer: 'render_back',
-                maxTimesSubscribed: 2,
-                timesSubscribed: 0
+                answer: 'render_back'
             },
             openConfig: {
                 emit: 'openConfig',
-                answer: 'openConfig_back',
-                maxTimesSubscribed: 1,
-                timesSubscribed: 0
+                answer: 'openConfig_back'
             }
         },
         emit: function(name, params) {
@@ -86,10 +80,7 @@ Dali.API.Private = (function(){
             window.dispatchEvent(event);
         },
         listenEmission: function(event, callback){
-            if(event.timesSubscribed < event.maxTimesSubscribed){
-                window.addEventListener(event.emit, callback);
-                event.timesSubscribed++;
-            }
+            window.addEventListener(event.emit, callback);
         },
         answer: function(name, params){
             var event = new CustomEvent(name.answer, {'detail': params});
