@@ -12,8 +12,24 @@ export default class DaliBox extends Component {
 
         let box = this.props.box;
 
-        let style = {width: '100%', height: '100%', position: 'absolute'};
+        let style = {
+            width: '100%',
+            height: '100%',
+            position: 'absolute',
+            wordWrap: 'break-word',
+            visibility: (this.props.toolbar.showTextEditor ? 'hidden' : 'visible')};
+
+        let textareaStyle = {
+            width: '100%',
+            height: '100%',
+            position: 'absolute',
+            border: (borderSize + "px dashed black"),
+            boxSizing: 'border-box',
+            resize: 'none',
+            overflowY: 'hidden',
+            visibility: (this.props.toolbar.showTextEditor ? 'visible' : 'hidden')}
         let attrs = {};
+
         if(this.props.toolbar.buttons) {
             this.props.toolbar.buttons.map((item, index) => {
                 if (item.autoManaged) {
@@ -24,6 +40,11 @@ export default class DaliBox extends Component {
                     } else {
                         attrs['data-' + item.name] = item.value;
                     }
+                }
+                if(item.name === 'fontSize'){
+                    textareaStyle['fontSize'] = item.value;
+                    if (item.units)
+                        textareaStyle['fontSize'] += item.units;
                 }
             });
         }
@@ -69,14 +90,7 @@ export default class DaliBox extends Component {
                       onBlur={() => {
                         this.blurTextarea();
                       }}
-                      style={{
-                        width: '100%',
-                        height: '100%',
-                        position: 'absolute',
-                        border: (borderSize + "px dashed black"),
-                        boxSizing: 'border-box',
-                        resize: 'none',
-                        visibility: (this.props.toolbar.showTextEditor ? 'visible' : 'hidden')}} />
+                      style={textareaStyle} />
         </div>);
     }
 
