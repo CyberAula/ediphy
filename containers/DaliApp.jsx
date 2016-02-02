@@ -11,6 +11,7 @@ import BoxModal from '../components/BoxModal';
 import PageModal from '../components/PageModal';
 import PluginConfigModal from '../components/PluginConfigModal';
 import PluginToolbar from '../components/PluginToolbar';
+require('../sass/style.scss');
 
 class DaliApp extends Component{
     render(){
@@ -31,7 +32,7 @@ class DaliApp extends Component{
                                       onNavItemRemoved={(ids, parent) => dispatch(removeNavItem(ids, parent))}
                                       onDisplayModeChanged={mode => dispatch(changeDisplayMode(mode))} />
                     </Col>
-                    <Col md={10} xs={10} style={{padding: "5% 5% 0 5%", height: '100%', overflowY: 'hidden', backgroundColor: 'gray'}}>
+                    <Col md={10} xs={10} className="outter">
                         <DaliCanvas boxes={boxes}
                                     boxesIds={boxesIds}
                                     boxSelected={boxSelected}
@@ -57,11 +58,11 @@ class DaliApp extends Component{
                            onVisibilityToggled={(caller, value) => dispatch(togglePageModal(caller, value))}
                            onPageAdded={(id, name, parent, children, level, type, position) => dispatch(addNavItem(id, name, parent, children, level, type, position))} />
                 <PluginConfigModal />
-                <div style={{backgroundColor: 'blue', position: 'absolute', top: 0, left: 0, width: '100%', height: '5%'}}>
+                <div className="navBar">
                     <Col mdOffset={2} xsOffset={2}>
-                        <Button disabled={(navItemsIds.length === 0 ? true : false)} onClick={() => dispatch(togglePluginModal(navItemSelected, false, true))}>Add</Button>
-                        <Button disabled={undoDisabled} onClick={() => dispatch(ActionCreators.undo())}>Undo</Button>
-                        <Button disabled={redoDisabled} onClick={() => dispatch(ActionCreators.redo())}>Redo</Button>
+                        <Button className="navButton" disabled={(navItemsIds.length === 0 ? true : false)} onClick={() => dispatch(togglePluginModal(navItemSelected, false, true))}>Add</Button>
+                        <Button className="navButton" disabled={undoDisabled} onClick={() => dispatch(ActionCreators.undo())}>Undo</Button>
+                        <Button className="navButton" disabled={redoDisabled} onClick={() => dispatch(ActionCreators.redo())}>Redo</Button>
                         <OverlayTrigger trigger="click" rootClose placement="bottom" overlay={<Popover id="is_busy_popover">{isBusy}</Popover>}>
                             <Button onClick={() => {
                                 let state = this.props.store.getState();
