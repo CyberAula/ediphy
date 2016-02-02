@@ -35,7 +35,7 @@ export default class PluginToolbar extends Component {
                                         value = parseFloat(value);
                                     this.props.onToolbarUpdated(this.props.boxSelected, index, value);
                                     if(!item.autoManaged)
-                                        item.callback(value);
+                                        item.callback(toolbar.state, item.name, value);
                               }}
                     />
             });
