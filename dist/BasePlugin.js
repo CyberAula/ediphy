@@ -77,15 +77,15 @@ Dali.Plugin = function(descendant){
         openConfigModal: function(isUpdating, oldState, sender){
             state = oldState;
             id = sender;
-            Dali.API.openConfig(this.getConfig().name, isUpdating).then(function (div) {
-                if(descendant.getConfigTemplate) {
+
+            if(!descendant.getConfigTemplate) {
+                if(this.getConfig().needsConfigModal)
+                    console.error(this.getConfig().name + " has not defined getConfigTemplate method");
+            }else {
+                Dali.API.openConfig(this.getConfig().name, isUpdating).then(function (div) {
                     div.innerHTML = descendant.getConfigTemplate(oldState);
-                }else {
-                    //change descendant for this
-                    if(descendant.getConfig().needsConfigModal)
-                        console.error(descendant.getConfig().name + " has not defined getConfigTemplate method");
-                }
-            })
+                });
+            }
         },
         updateTextChanges: function(text, sender){
             state.text = text;
