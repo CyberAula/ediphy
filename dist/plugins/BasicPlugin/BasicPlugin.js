@@ -47,7 +47,7 @@ var BasicPlugin = (function(){
         getRenderTemplate: function(state){
             return "<div><img style=\"width: 100%; height: 100%; border: solid " + state.borderSize + "px green\" src=\"" + state.url + "\"/><span>" + state.text + "</span></div>";
         },
-        updateState: function(name, value){
+        handleToolbar: function(name, value){
             if(name === 'borderSize')
                 BasicPlugin.setState('borderSize', value);
         },

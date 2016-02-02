@@ -110,11 +110,11 @@ Dali.Plugin = function(descendant){
         update: function(oldState, name, value, sender){
             state = oldState;
             id = sender;
-            if(descendant.updateState)
-                descendant.updateState(name, value);
+            if(descendant.handleToolbar)
+                descendant.handleToolbar(name, value);
             this.render(true);
         },
-        setState: function(key, value){
+        setState: function(key, value) {
             state[key] = value;
         }
     };
@@ -123,7 +123,7 @@ Dali.Plugin = function(descendant){
             id !== 'getConfig' &&
             id !== 'getToolbar' &&
             id !== 'getInitialState' &&
-            id !== 'updateState' &&
+            id !== 'handleToolbar' &&
             id !== 'getConfigTemplate' &&
             id !== 'getRenderTemplate'){
             plugin[id] = descendant[id];
