@@ -1,16 +1,9 @@
 var BasicImage = (function(){
-    var initialState = {url: '', borderSize: 0};
-
-    return {
-        //Mandatory
-        init: function () {
-            Dali.API.addMenuButton(this.getConfig());
-        },
+    return new Dali.Plugin({
         getConfig: function(){
             return {
                 name: 'BasicImage',
                 category: 'image',
-                callback: this.openConfigModal.bind(this, false, initialState),
                 needsConfigModal: true,
                 needsTextEdition: false
             };
@@ -35,7 +28,6 @@ var BasicImage = (function(){
                     min: 0,
                     max: 10,
                     autoManaged: false,
-                    callback: this.changeBorderSize.bind(this)
                 },
                 {
                     name: 'test',
@@ -46,36 +38,29 @@ var BasicImage = (function(){
                 }
             ]
         },
-        //Mandatory
-        openConfigModal: function(isUpdating, state){
-            Dali.API.openConfig(this.getConfig().name, isUpdating).then(function (div) {
-                div.innerHTML = "<div> Url: <input type=\"text\" autofocus id=\"BasicImage_input\" value=\"" + state.url +"\"><br><button onclick=\"BasicImage.showPreview()\">Show preview</button><img id=\"BasicImage_preview\" src=\"\" style=\"width: 100px; height: 100px; visibility: hidden;\" onclick=\"BasicImage.imageClick()\" /></div>";
-            });
+        getInitialState: function(){
+            return {url: '', borderSize: 0, thumbnailVisibility: 'hidden'};
         },
-        //Mandatory
-        render: function(isUpdating){
-            Dali.API.renderPlugin(
-                "<img style=\"width: 100%; height: 100%; border: solid " + initialState.borderSize + "px green\" src=\"" + initialState.url + "\"/>",
-                this.getToolbar(),
-                this.getConfig(),
-                initialState,
-                isUpdating
-            );
+        getConfigTemplate: function(state){
+            return "<div> Url: <input type=\"text\" autofocus id=\"BasicImage_input\" value=\"" + state.url + "\"><br><button onclick=\"BasicImage.showPreview()\">Show preview</button><img id=\"BasicImage_preview\" src=\"" + state.url + "\" style=\"width: 100px; height: 100px; visibility: " + state.thumbnailVisibility + ";\" onclick=\"BasicImage.imageClick()\" /></div>";
+        },
+        getRenderTemplate: function(state){
+            return "<img style=\"width: 100%; height: 100%; border: solid " + state.borderSize + "px green\" src=\"" + state.url + "\"/>";
+        },
+        handleToolbar: function(name, value){
+            if(name === 'borderSize')
+                BasicImage.setState('borderSize', value);
         },
         showPreview: function(){
             var img = $('#BasicImage_preview');
             var input = $('#BasicImage_input');
-            initialState.url = input.val();
+            BasicImage.setState('url', input.val());
+            BasicImage.setState('thumbnailVisibility', 'visible');
             img.attr('src', input.val());
             img.css('visibility', 'visible');
-        },
-        //Mandatory format
-        changeBorderSize: function(newValue){
-            initialState.borderSize = newValue;
-            this.render(true);
         },
         imageClick: function() {
             alert("Miau!");
         }
-    }
+    });
 })();

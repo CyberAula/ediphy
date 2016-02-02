@@ -1,16 +1,9 @@
 var BasicText = (function(){
-    var initialState = {text: ''};
-
-    return {
-        //Mandatory
-        init: function () {
-            Dali.API.addMenuButton(this.getConfig());
-        },
+    return new Dali.Plugin({
         getConfig: function(){
             return {
                 name: 'BasicText',
                 category: 'text',
-                callback: this.render.bind(this, false),
                 needsConfigModal: false,
                 needsTextEdition: true
             };
@@ -39,20 +32,11 @@ var BasicText = (function(){
                 }
             ]
         },
-        //Mandatory
-        updateTextChanges: function(html){
-            initialState.text = html;
-            this.render(true);
+        getInitialState: function(){
+            return {text: ''};
         },
-        //Mandatory
-        render: function(isUpdating){
-            Dali.API.renderPlugin(
-                "<p>" + initialState.text + "</p>",
-                this.getToolbar(),
-                this.getConfig(),
-                initialState,
-                isUpdating
-            );
+        getRenderTemplate: function(state){
+            return "<p>" + state.text + "</p>";
         }
-    }
+    });
 })();

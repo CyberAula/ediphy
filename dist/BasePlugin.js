@@ -28,14 +28,13 @@ Dali.Plugin = function(descendant){
             needsTextEdition = defaultFor(needsTextEdition, false);
 
             callback = function () {
-                if(needsConfigModal) {
-                    var initialState;
-                    if (descendant.getInitialState) {
-                        initialState = descendant.getInitialState();
-                    }
-                    initialState = defaultFor(initialState, {});
+                if (descendant.getInitialState) {
+                    state = descendant.getInitialState();
+                }
+                state = defaultFor(state, {});
 
-                    this.openConfigModal(false, initialState);
+                if(needsConfigModal) {
+                    this.openConfigModal(false, state);
                 }else {
                     this.render(false);
                 }
