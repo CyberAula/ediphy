@@ -18,8 +18,8 @@ export default class DaliCanvas extends Component{
         }
 
         return (
-            <div
-                style={{height: '100%', backgroundColor: 'white', overflowY: 'auto', overflowX: 'hidden', visibility: (this.props.showCanvas ? 'visible' : 'hidden')}}>
+            <div className="slide"
+                style={{visibility: (this.props.showCanvas ? 'visible' : 'hidden')}}>
                 <DaliTitle titles={titles}/>
                 {this.props.navItemSelected.boxes.map(id => {
                     let box = this.props.boxes[id];

@@ -101,20 +101,42 @@ export default class DaliBox extends Component {
                 })
                 .resizable({
                     enabled: this.props.box.resizable,
+                    restrict: {
+                      restriction: 'parent'
+                    },
                     edges: {left: true, right: true, bottom: true, top: true},
+                    container:'parent',
                     onmove: (event) => {
+                        /*BOX-RESIZE*/
                         var target = event.target;
-                        target.style.left = (parseInt(target.style.left) || 0);
-                        target.style.top = (parseInt(target.style.top) || 0);
 
-                        // update the element's style
+                            if(event.edges.bottom){
+                                //Abajo
+                                target.style.top = (parseInt(target.style.top) || 0);
+                            }
+                            if(event.edges.left){
+                                //Izquierda
+                                target.style.left = (parseInt(target.style.left) || 0) + event.dx + 'px';    
+                            }
+                            if(event.edges.right){
+                                //Derecha
+                                target.style.left = (parseInt(target.style.left) || 0);
+                            }
+                            if(event.edges.top){
+                               //Arriba
+                                target.style.top = (parseInt(target.style.top) || 0) + event.dy + 'px';
+                            }
+                               
                         target.style.width = event.rect.width + 'px';
                         target.style.height = event.rect.height + 'px';
                     },
                     onend: (event) => {
                         this.props.onBoxResized(this.props.id, parseInt(event.target.style.width), parseInt(event.target.style.height));
                     }
-                });
+                })
+            
+
+
         }
     }
 }
