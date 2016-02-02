@@ -49,7 +49,7 @@ var BasicImage = (function(){
         //Mandatory
         openConfigModal: function(isUpdating, state){
             Dali.API.openConfig(this.getConfig().name, isUpdating).then(function (div) {
-                div.innerHTML = "<div> Url: <input type=\"text\" id=\"BasicImage_input\" value=\"" + state.url +"\"><br><button onclick=\"BasicImage.showPreview()\">Show preview</button><img id=\"BasicImage_preview\" src=\"\" style=\"width: 100px; height: 100px; visibility: hidden;\" onclick=\"BasicImage.imageClick()\" /></div>";
+                div.innerHTML = "<div> Url: <input type=\"text\" autofocus id=\"BasicImage_input\" value=\"" + state.url +"\"><br><button onclick=\"BasicImage.showPreview()\">Show preview</button><img id=\"BasicImage_preview\" src=\"\" style=\"width: 100px; height: 100px; visibility: hidden;\" onclick=\"BasicImage.imageClick()\" /></div>";
             });
         },
         //Mandatory

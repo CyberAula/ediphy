@@ -54,7 +54,8 @@ export default class DaliBox extends Component {
                 break;
         }
 
-        return (<div onClick={e => this.props.onBoxSelected(this.props.id)}
+        return (<div onClick={e => {
+                        this.props.onBoxSelected(this.props.id)}}
                      style={{position: position,
                             left: box.position.x,
                             top: box.position.y,
@@ -66,9 +67,8 @@ export default class DaliBox extends Component {
             {overlay}
             <textarea ref={"textarea"}
                       onBlur={() => {
-                            this.props.onTextEditorToggled(this.props.id, false);
-                            Dali.Plugins.get(this.props.toolbar.config.name).updateTextChanges(this.refs.textarea.value);
-                        }}
+                        this.blurTextarea();
+                      }}
                       style={{
                         width: '100%',
                         height: '100%',
@@ -78,6 +78,23 @@ export default class DaliBox extends Component {
                         resize: 'none',
                         visibility: (this.props.toolbar.showTextEditor ? 'visible' : 'hidden')}} />
         </div>);
+    }
+
+    blurTextarea(){
+        this.props.onTextEditorToggled(this.props.id, false);
+        Dali.Plugins.get(this.props.toolbar.config.name).updateTextChanges(this.refs.textarea.value, this.props.id);
+    }
+
+    componentWillUpdate(nextProps, nextState){
+        if(this.props.isSelected && !nextProps.isSelected && this.props.toolbar.showTextEditor){
+            this.blurTextarea();
+        }
+    }
+
+    componentDidUpdate(prevProps, prevState){
+        if(this.props.toolbar.showTextEditor){
+            this.refs.textarea.focus();
+        }
     }
 
     componentDidMount() {
@@ -135,10 +152,7 @@ export default class DaliBox extends Component {
                     onend: (event) => {
                         this.props.onBoxResized(this.props.id, parseInt(event.target.style.width), parseInt(event.target.style.height));
                     }
-                })
-            
-
-
+                });
         }
     }
 }

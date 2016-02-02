@@ -1,5 +1,6 @@
 Dali.Plugin = function(descendant){
     var state;
+    var id;
 
     var defaultFor = function(arg, value) {
         return typeof arg !== 'undefined' ? arg : value;
@@ -74,8 +75,9 @@ Dali.Plugin = function(descendant){
             }
             return toolbar;
         },
-        openConfigModal: function(isUpdating, oldState){
+        openConfigModal: function(isUpdating, oldState, sender){
             state = oldState;
+            id = sender;
             Dali.API.openConfig(this.getConfig().name, isUpdating).then(function (div) {
                 if(descendant.getConfigTemplate) {
                     div.innerHTML = descendant.getConfigTemplate(oldState);
@@ -86,8 +88,9 @@ Dali.Plugin = function(descendant){
                 }
             })
         },
-        updateTextChanges: function(text){
+        updateTextChanges: function(text, sender){
             state.text = text;
+            id = sender;
             this.render(true);
         },
         render: function(isUpdating){
@@ -99,12 +102,14 @@ Dali.Plugin = function(descendant){
                     this.getToolbar(),
                     this.getConfig(),
                     state,
-                    isUpdating
+                    isUpdating,
+                    id
                 );
             }
         },
-        update: function(oldState, name, value){
+        update: function(oldState, name, value, sender){
             state = oldState;
+            id = sender;
             if(descendant.updateState)
                 descendant.updateState(name, value);
             this.render(true);

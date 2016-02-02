@@ -35,7 +35,7 @@ export default class PluginToolbar extends Component {
                                         value = parseFloat(value);
                                     this.props.onToolbarUpdated(this.props.boxSelected, index, value);
                                     if(!item.autoManaged)
-                                        item.callback(toolbar.state, item.name, value);
+                                        item.callback(toolbar.state, item.name, value, toolbar.id);
                               }}
                     />
             });
@@ -46,7 +46,7 @@ export default class PluginToolbar extends Component {
             }
             if(toolbar.config.needsConfigModal){
                 buttons.push(<ButtonInput key={'config'} onClick={() => {
-                    Dali.Plugins.get(toolbar.config.name).openConfigModal(true, toolbar.state)
+                    Dali.Plugins.get(toolbar.config.name).openConfigModal(true, toolbar.state, toolbar.id)
                 }}>Open config</ButtonInput>);
             }
         }

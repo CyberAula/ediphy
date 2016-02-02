@@ -42,11 +42,10 @@ var BasicPlugin = (function(){
             return {url: '', borderSize: 0, thumbnailVisibility: 'hidden'};
         },
         getConfigTemplate: function(state) {
-            return "<div> Url: <input type=\"text\" id=\"BasicImage_input\" value=\"" + state.url + "\"><br><button onclick=\"BasicPlugin.showPreview()\">Show preview</button><img id=\"BasicImage_preview\" src=\"" + state.url + "\" style=\"width: 100px; height: 100px; visibility: " + state.thumbnailVisibility + ";\" onclick=\"BasicPlugin.imageClick()\" /></div>";
+            return "<div> Url: <input type=\"text\" autofocus id=\"BasicImage_input\" value=\"" + state.url + "\"><br><button onclick=\"BasicPlugin.showPreview()\">Show preview</button><img id=\"BasicImage_preview\" src=\"" + state.url + "\" style=\"width: 100px; height: 100px; visibility: " + state.thumbnailVisibility + ";\" onclick=\"BasicPlugin.imageClick()\" /></div>";
         },
         getRenderTemplate: function(state){
-            //return "<img style=\"width: 100%; height: 100%; border: solid " + state.borderSize + "px green\" src=\"" + state.url + "\"/>";
-            return "<p>" + state.text + "</p>";
+            return "<div><img style=\"width: 100%; height: 100%; border: solid " + state.borderSize + "px green\" src=\"" + state.url + "\"/><span>" + state.text + "</span></div>";
         },
         updateState: function(name, value){
             if(name === 'borderSize')

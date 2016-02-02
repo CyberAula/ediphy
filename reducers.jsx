@@ -202,7 +202,7 @@ function navItemSelected(state = 0, action = {}){
 function toolbarsById(state = {}, action = {}){
     switch(action.type) {
         case ADD_BOX:
-            let toolbar = {buttons: action.payload.toolbar, config: action.payload.config, state: action.payload.state, showTextEditor: action.payload.showTextEditor};
+            let toolbar = {id: action.payload.id, buttons: action.payload.toolbar, config: action.payload.config, state: action.payload.state, showTextEditor: action.payload.showTextEditor};
             return Object.assign({}, state, {[action.payload.id]: toolbar});
         case UPDATE_TOOLBAR:
             let newState = state[action.payload.caller].buttons.slice();

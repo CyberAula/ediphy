@@ -94,7 +94,7 @@ class DaliApp extends Component{
 
         Dali.API.Private.listenEmission(Dali.API.Private.events.render, e =>{
             if(e.detail.isUpdating) {
-                this.props.dispatch(updateBox(this.props.boxSelected, e.detail.content, e.detail.state));
+                this.props.dispatch(updateBox(e.detail.id, e.detail.content, e.detail.state));
             }else {
                 this.props.dispatch(addBox(this.props.boxModalToggled.caller, ID_PREFIX_BOX + Date.now(), (this.props.boxModalToggled.fromSortable ? BOX_TYPES.INNER_SORTABLE : BOX_TYPES.NORMAL), true, true, e.detail.config.needsTextEdition, e.detail.content, e.detail.toolbar, e.detail.config, e.detail.state));
             }
