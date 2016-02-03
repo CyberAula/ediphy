@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import {Input} from 'react-bootstrap';
 import interact from 'interact.js';
 import {BOX_TYPES} from '../constants';
-import DaliFrame from '../components/DaliFrame';
 
 export default class DaliBox extends Component {
     render() {
@@ -45,6 +44,8 @@ export default class DaliBox extends Component {
                     textareaStyle['fontSize'] = item.value;
                     if (item.units)
                         textareaStyle['fontSize'] += item.units;
+                }else if(item.name === 'color'){
+                    textareaStyle['color'] = item.value;
                 }
             });
         }

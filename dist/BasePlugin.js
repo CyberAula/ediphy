@@ -68,6 +68,7 @@ Dali.Plugin = function(descendant){
              isAttribute: true
              */
             for(var i = 0; i < toolbar.length; i++){
+                toolbar[i].autoManaged = defaultFor(toolbar[i].autoManaged, true);
                 if(!toolbar[i].callback && !toolbar[i].autoManaged) {
                     toolbar[i].callback = this.update.bind(this);
                 }

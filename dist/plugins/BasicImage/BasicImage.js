@@ -17,8 +17,7 @@ var BasicImage = (function(){
                     value: 1,
                     min: 0,
                     max: 1,
-                    step: 0.1,
-                    autoManaged: true
+                    step: 0.1
                 },
                 {
                     name: 'borderSize',
@@ -33,7 +32,6 @@ var BasicImage = (function(){
                     name: 'test',
                     humanName: 'Test',
                     type: 'text',
-                    autoManaged: true,
                     isAttribute: true
                 }
             ]

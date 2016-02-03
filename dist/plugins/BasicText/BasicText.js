@@ -17,8 +17,7 @@ var BasicText = (function(){
                     value: 1,
                     min: 0,
                     max: 1,
-                    step: 0.1,
-                    autoManaged: true
+                    step: 0.1
                 },
                 {
                     name: 'fontSize',
@@ -27,8 +26,21 @@ var BasicText = (function(){
                     units: 'em',
                     value: 1,
                     min: 1,
-                    max: 10,
-                    autoManaged: true
+                    max: 10
+                },
+                {
+                    name: 'color',
+                    humanName: 'Font color',
+                    type: 'text',
+                    value: 'black'
+                },
+                {
+                    name: 'padding',
+                    humanName: 'Padding (px)',
+                    type: 'number',
+                    units: 'px',
+                    value: 0,
+                    min: 0
                 }
             ]
         },
