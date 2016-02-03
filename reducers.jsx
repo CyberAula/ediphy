@@ -1,9 +1,9 @@
 import {combineReducers} from 'redux';
 import undoable, {excludeAction} from 'redux-undo';
 
-import {ADD_BOX, SELECT_BOX, MOVE_BOX, RESIZE_BOX,
+import {ADD_BOX, SELECT_BOX, MOVE_BOX, RESIZE_BOX, UPDATE_BOX,
     ADD_NAV_ITEM, SELECT_NAV_ITEM, EXPAND_NAV_ITEM, REMOVE_NAV_ITEM,
-    TOGGLE_PLUGIN_MODAL, TOGGLE_PAGE_MODAL, CHANGE_DISPLAY_MODE, SET_BUSY, IMPORT_STATE
+    TOGGLE_PLUGIN_MODAL, TOGGLE_PAGE_MODAL, TOGGLE_TEXT_EDITOR, CHANGE_DISPLAY_MODE, SET_BUSY, UPDATE_TOOLBAR, IMPORT_STATE
 } from './actions';
 import {ID_PREFIX_SECTION, ID_PREFIX_PAGE, ID_PREFIX_SORTABLE_BOX} from './constants';
 
@@ -20,7 +20,9 @@ function boxCreator(state = {}, action = {}){
                 style[key] = keyValue[1].trim().replace(/'/g, "");
             });
             */
-            let content = "<h1>Placeholder</h1>";
+            let content = action.payload.content;
+            if(!content)
+                content = "<h1>Placeholder</h1>";
 
             let position, width, height;
             switch(action.payload.type){
@@ -36,7 +38,7 @@ function boxCreator(state = {}, action = {}){
                 default:
                     position = {x: Math.floor(Math.random() * 500), y: Math.floor(Math.random() * 500)}
                     width = 200;
-                    height = 80;
+                    height = 200;
                     break;
             }
 
@@ -51,10 +53,9 @@ function boxCreator(state = {}, action = {}){
                 content: content,
                 draggable: action.payload.draggable,
                 resizable: action.payload.resizable,
+                showTextEditor: action.payload.showTextEditor,
                 fragment: {}
             };
-        case RESIZE_BOX:
-            return Object.assign({}, state, {width: action.payload.width, height: action.payload.height});
         default:
             return state;
     }
@@ -77,7 +78,11 @@ function boxesById(state = {}, action = {}){
             });
         case RESIZE_BOX:
             return Object.assign({}, state, {
-                [action.payload.id]: boxCreator(state[action.payload.id], action)
+                [action.payload.id]: Object.assign({}, state[action.payload.id], {width: action.payload.width, height: action.payload.height})
+            });
+        case UPDATE_BOX:
+            return Object.assign({}, state, {
+                [action.payload.id]: Object.assign({}, state[action.payload.id], {content: action.payload.content})
             });
         case IMPORT_STATE:
             return action.payload.present.boxesById;
@@ -167,7 +172,7 @@ function navItemsById(state = {}, action = {}){
 
             return Object.assign({}, newState, {[action.payload.parent]: Object.assign({}, newState[action.payload.parent], {children: newChildren})});
         case ADD_BOX:
-            if(action.payload.parent.indexOf(ID_PREFIX_PAGE) !== -1 || action.payload.parent.indexOf(ID_PREFIX_SECTION) !== -1)
+            if(action.payload.parent !== 0 && (action.payload.parent.indexOf(ID_PREFIX_PAGE) !== -1 || action.payload.parent.indexOf(ID_PREFIX_SECTION) !== -1))
                 return Object.assign({}, state, {
                     [action.payload.parent]: Object.assign({}, state[action.payload.parent], {
                         boxes: [...state[action.payload.parent].boxes, action.payload.id]})});
@@ -189,6 +194,32 @@ function navItemSelected(state = 0, action = {}){
             return 0;
         case IMPORT_STATE:
             return action.payload.present.navItemSelected;
+        default:
+            return state;
+    }
+}
+
+function toolbarsById(state = {}, action = {}){
+    switch(action.type) {
+        case ADD_BOX:
+            let toolbar = {id: action.payload.id, buttons: action.payload.toolbar, config: action.payload.config, state: action.payload.state, showTextEditor: action.payload.showTextEditor};
+            return Object.assign({}, state, {[action.payload.id]: toolbar});
+        case UPDATE_TOOLBAR:
+            let newState = state[action.payload.caller].buttons.slice();
+            newState[action.payload.index] = Object.assign({}, newState[action.payload.index], {value: action.payload.value});
+            return Object.assign({}, state, {
+                [action.payload.caller]: Object.assign({}, state[action.payload.caller], {buttons: newState})
+            });
+        case UPDATE_BOX:
+            return Object.assign({}, state, {
+                [action.payload.id]: Object.assign({}, state[action.payload.id], {state: action.payload.state})
+            });
+        case TOGGLE_TEXT_EDITOR:
+            return Object.assign({}, state, {
+                [action.payload.caller]: Object.assign({}, state[action.payload.caller], {showTextEditor: action.payload.value})
+            });
+        case IMPORT_STATE:
+            return action.payload.present.toolbarsById;
         default:
             return state;
     }
@@ -236,7 +267,6 @@ function isBusy(state = "", action = {}){
         case SET_BUSY:
             return action.payload.msg;
         case IMPORT_STATE:
-            console.log(action.payload);
             return action.payload.present.isBusy;
         default:
             return state;
@@ -252,7 +282,8 @@ const GlobalState = undoable(combineReducers({
     navItemsIds: navItemsIds, //[0, 1]
     navItemSelected: navItemSelected, // 0
     navItemsById: navItemsById, // {0: navItem0, 1: navItem1}
-    displayMode: changeDisplayMode, //"list"
+    displayMode: changeDisplayMode, //"list",
+    toolbarsById: toolbarsById, // {0: toolbar0, 1: toolbar1}
     isBusy: isBusy
 }), { filter: (action, currentState, previousState) => {
     if(action.type === EXPAND_NAV_ITEM)

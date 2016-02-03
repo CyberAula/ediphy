@@ -13,9 +13,11 @@ export default class DaliBoxSortable extends Component{
                     return (<div key={index} style={{width: '100%', border: '1px solid black', boxSizing: 'border-box', position: 'relative'}}>
                         <DaliBox box={box} id={id}
                                  isSelected={isSelected}
+                                 toolbar={this.props.toolbars[id]}
                                  onBoxSelected={this.props.onBoxSelected}
                                  onBoxMoved={this.props.onBoxMoved}
-                                 onBoxResized={this.props.onBoxResized} />
+                                 onBoxResized={this.props.onBoxResized}
+                                 onTextEditorToggled={this.props.onTextEditorToggled} />
                         <i className="fa fa-bars fa-2x drag-handle" style={{position: 'absolute', bottom: 0}}></i>
                     </div>);
                 })}

@@ -2,17 +2,21 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {ActionCreators} from 'redux-undo';
 import {Grid, Col, Row, Button, OverlayTrigger, Popover} from 'react-bootstrap';
-import {addNavItem, selectNavItem, expandNavItem, removeNavItem, addBox, selectBox, moveBox, resizeBox,
-    togglePluginModal, togglePageModal, changeDisplayMode, exportStateAsync, importStateAsync} from '../actions';
+import {addNavItem, selectNavItem, expandNavItem, removeNavItem, addBox, selectBox, moveBox, resizeBox, updateBox,
+    togglePluginModal, togglePageModal, toggleTextEditor, changeDisplayMode, exportStateAsync, importStateAsync, updateToolbar} from '../actions';
+import {ID_PREFIX_BOX, ID_PREFIX_SORTABLE_BOX, BOX_TYPES} from '../constants';
 import DaliCanvas from '../components/DaliCanvas';
 import DaliCarousel from '../components/DaliCarousel';
 import BoxModal from '../components/BoxModal';
 import PageModal from '../components/PageModal';
+import PluginConfigModal from '../components/PluginConfigModal';
+import PluginToolbar from '../components/PluginToolbar';
+require('../sass/style.scss');
 
 class DaliApp extends Component{
     render(){
         const{ dispatch, boxes, boxesIds, boxSelected, navItemsIds, navItems, navItemSelected, boxModalToggled,
-            pageModalToggled, undoDisabled, redoDisabled, displayMode, isBusy } = this.props;
+            pageModalToggled, undoDisabled, redoDisabled, displayMode, isBusy, toolbars } = this.props;
         return(
             <Grid fluid={true} style={{height: '100%'}}>
                 <Row style={{height: '100%'}}>
@@ -28,35 +32,38 @@ class DaliApp extends Component{
                                       onNavItemRemoved={(ids, parent) => dispatch(removeNavItem(ids, parent))}
                                       onDisplayModeChanged={mode => dispatch(changeDisplayMode(mode))} />
                     </Col>
-                    <Col md={10} xs={10} style={{padding: "5% 5% 0 5%", height: '100%', overflowY: 'hidden', backgroundColor: 'gray'}}>
+                    <Col md={10} xs={10} className="outter">
                         <DaliCanvas boxes={boxes}
                                     boxesIds={boxesIds}
                                     boxSelected={boxSelected}
                                     navItems={navItems}
                                     navItemSelected={navItems[navItemSelected]}
                                     showCanvas={(navItemsIds.length !== 0)}
+                                    toolbars={toolbars}
                                     onBoxSelected={id => dispatch(selectBox(id))}
                                     onBoxMoved={(id, x, y) => dispatch(moveBox(id, x, y))}
                                     onBoxResized={(id, width, height) => dispatch(resizeBox(id, width, height))}
-                                    onVisibilityToggled={(caller, fromSortable, value) => dispatch(togglePluginModal(caller, fromSortable, value))} />
+                                    onVisibilityToggled={(caller, fromSortable, value) => dispatch(togglePluginModal(caller, fromSortable, value))}
+                                    onTextEditorToggled={(caller, value) => dispatch(toggleTextEditor(caller, value))} />
                     </Col>
                 </Row>
                 <BoxModal visibility={boxModalToggled.value}
                           caller={boxModalToggled.caller}
                           fromSortable={boxModalToggled.fromSortable}
-                          onVisibilityToggled={(caller, fromSortable, value) => dispatch(togglePluginModal(caller, fromSortable, value))}
-                          onBoxAdded={(parent, id, type, draggable, resizable) => dispatch(addBox(parent, id, type, draggable, resizable))} />
+                          onBoxAdded={(parent, id, type, draggable, resizable, content, toolbar, config, state) => dispatch(addBox(parent, id, type, draggable, resizable, content, toolbar, config, state))}
+                          onVisibilityToggled={(caller, fromSortable, value) => dispatch(togglePluginModal(caller, fromSortable, value))} />
                 <PageModal visibility={pageModalToggled.value}
                            caller={pageModalToggled.caller}
                            navItems={navItems}
                            navItemsIds={navItemsIds}
                            onVisibilityToggled={(caller, value) => dispatch(togglePageModal(caller, value))}
                            onPageAdded={(id, name, parent, children, level, type, position) => dispatch(addNavItem(id, name, parent, children, level, type, position))} />
-                <div style={{backgroundColor: 'blue', position: 'absolute', top: 0, left: 0, width: '100%', height: '5%'}}>
+                <PluginConfigModal />
+                <div className="navBar">
                     <Col mdOffset={2} xsOffset={2}>
-                        <Button disabled={(navItemsIds.length === 0 ? true : false)} onClick={() => dispatch(togglePluginModal(navItemSelected, false, true))}>Add</Button>
-                        <Button disabled={undoDisabled} onClick={() => dispatch(ActionCreators.undo())}>Undo</Button>
-                        <Button disabled={redoDisabled} onClick={() => dispatch(ActionCreators.redo())}>Redo</Button>
+                        <Button className="navButton" disabled={(navItemsIds.length === 0 ? true : false)} onClick={() => dispatch(togglePluginModal(navItemSelected, false, true))}>Add</Button>
+                        <Button className="navButton" disabled={undoDisabled} onClick={() => dispatch(ActionCreators.undo())}>Undo</Button>
+                        <Button className="navButton" disabled={redoDisabled} onClick={() => dispatch(ActionCreators.redo())}>Redo</Button>
                         <OverlayTrigger trigger="click" rootClose placement="bottom" overlay={<Popover id="is_busy_popover">{isBusy}</Popover>}>
                             <Button onClick={() => {
                                 let state = this.props.store.getState();
@@ -65,14 +72,33 @@ class DaliApp extends Component{
                         </OverlayTrigger>
                         <OverlayTrigger trigger="click" rootClose placement="bottom" overlay={<Popover id="is_busy_popover">{isBusy}</Popover>}>
                             <Button onClick={() => {
-                                let state = this.props.store.getState();
                                 dispatch(importStateAsync());
                             }}>Load</Button>
                         </OverlayTrigger>
                     </Col>
                 </div>
+                <PluginToolbar toolbars={toolbars}
+                               boxSelected={boxSelected}
+                               onTextEditorToggled={(caller, value) => dispatch(toggleTextEditor(caller, value))}
+                               onToolbarUpdated={(caller, index, value) => dispatch(updateToolbar(caller, index, value))} />
             </Grid>
         );
+    }
+
+    componentDidMount(){
+        Dali.Plugins.loadAllAsync().then(values => {
+            values.map((id, index) =>{
+                Dali.Plugins.get(id).init();
+            })
+        });
+
+        Dali.API.Private.listenEmission(Dali.API.Private.events.render, e =>{
+            if(e.detail.isUpdating) {
+                this.props.dispatch(updateBox(e.detail.id, e.detail.content, e.detail.state));
+            }else {
+                this.props.dispatch(addBox(this.props.boxModalToggled.caller, ID_PREFIX_BOX + Date.now(), (this.props.boxModalToggled.fromSortable ? BOX_TYPES.INNER_SORTABLE : BOX_TYPES.NORMAL), true, true, e.detail.config.needsTextEdition, e.detail.content, e.detail.toolbar, e.detail.config, e.detail.state));
+            }
+        })
     }
 }
 
@@ -89,6 +115,7 @@ function mapStateToProps(state){
         undoDisabled: state.past.length === 0,
         redoDisabled: state.future.length === 0,
         displayMode: state.present.displayMode,
+        toolbars: state.present.toolbarsById,
         isBusy: state.present.isBusy
     }
 }

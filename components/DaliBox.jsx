@@ -1,26 +1,73 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
+import {Input} from 'react-bootstrap';
 import interact from 'interact.js';
 import {BOX_TYPES} from '../constants';
 
-export default class DaliBox extends Component{
-    render(){
+export default class DaliBox extends Component {
+    render() {
         let borderSize = 2;
         let cornerSize = 15;
 
         let box = this.props.box;
 
-        let content = (<div style={{width: '100%', height: '100%'}} dangerouslySetInnerHTML={{__html: box.content}}></div>);
+        let style = {
+            width: '100%',
+            height: '100%',
+            position: 'absolute',
+            wordWrap: 'break-word',
+            visibility: (this.props.toolbar.showTextEditor ? 'hidden' : 'visible')};
+
+        let textareaStyle = {
+            width: '100%',
+            height: '100%',
+            position: 'absolute',
+            border: (borderSize + "px dashed black"),
+            boxSizing: 'border-box',
+            resize: 'none',
+            overflowY: 'hidden',
+            visibility: (this.props.toolbar.showTextEditor ? 'visible' : 'hidden')}
+        let attrs = {};
+
+        if(this.props.toolbar.buttons) {
+            this.props.toolbar.buttons.map((item, index) => {
+                if (item.autoManaged) {
+                    if (!item.isAttribute) {
+                        style[item.name] = item.value;
+                        if (item.units)
+                            style[item.name] += item.units;
+                    } else {
+                        attrs['data-' + item.name] = item.value;
+                    }
+                }
+                if(item.name === 'fontSize'){
+                    textareaStyle['fontSize'] = item.value;
+                    if (item.units)
+                        textareaStyle['fontSize'] += item.units;
+                }else if(item.name === 'color'){
+                    textareaStyle['color'] = item.value;
+                }
+            });
+        }
+        let content = (
+            <div style={style} {...attrs} dangerouslySetInnerHTML={{__html: box.content}}></div>
+        );
         let overlay = (
-            <div style={{visibility: ((this.props.isSelected && box.type !== BOX_TYPES.SORTABLE) ? 'visible' : 'hidden')}}>
-                <div style={{position: 'absolute', width: '100%', height: '100%', border: (borderSize + "px dashed black"), boxSizing: 'border-box'}}></div>
-                <div style={{position: 'absolute', left:  -cornerSize/2, top: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray'}}></div>
-                <div style={{position: 'absolute', right: -cornerSize/2, top: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray'}}></div>
-                <div style={{position: 'absolute', left:  -cornerSize/2, bottom: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray'}}></div>
-                <div style={{position: 'absolute', right: -cornerSize/2, bottom: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray'}}></div>
+            <div
+                style={{visibility: ((this.props.isSelected && box.type !== BOX_TYPES.SORTABLE) ? 'visible' : 'hidden')}}>
+                <div
+                    style={{position: 'absolute', width: '100%', height: '100%', border: (borderSize + "px dashed black"), boxSizing: 'border-box'}}></div>
+                <div
+                    style={{position: 'absolute', left:  -cornerSize/2, top: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray'}}></div>
+                <div
+                    style={{position: 'absolute', right: -cornerSize/2, top: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray'}}></div>
+                <div
+                    style={{position: 'absolute', left:  -cornerSize/2, bottom: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray'}}></div>
+                <div
+                    style={{position: 'absolute', right: -cornerSize/2, bottom: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray'}}></div>
             </div>);
         let position;
-        switch(box.type){
+        switch (box.type) {
             case BOX_TYPES.NORMAL:
                 position = 'absolute';
                 break;
@@ -29,7 +76,8 @@ export default class DaliBox extends Component{
                 break;
         }
 
-        return (<div onClick={e => this.handleBoxSelection(this.props.id)}
+        return (<div onClick={e => {
+                        this.props.onBoxSelected(this.props.id)}}
                      style={{position: position,
                             left: box.position.x,
                             top: box.position.y,
@@ -37,17 +85,35 @@ export default class DaliBox extends Component{
                             height: box.height,
                             touchAction: 'none',
                             msTouchAction: 'none'}}>
-            {overlay}
             {content}
+            {overlay}
+            <textarea ref={"textarea"}
+                      onBlur={() => {
+                        this.blurTextarea();
+                      }}
+                      style={textareaStyle} />
         </div>);
     }
 
-    handleBoxSelection(id){
-        this.props.onBoxSelected(id);
+    blurTextarea(){
+        this.props.onTextEditorToggled(this.props.id, false);
+        Dali.Plugins.get(this.props.toolbar.config.name).updateTextChanges(this.refs.textarea.value, this.props.id);
+    }
+
+    componentWillUpdate(nextProps, nextState){
+        if(this.props.isSelected && !nextProps.isSelected && this.props.toolbar.showTextEditor){
+            this.blurTextarea();
+        }
+    }
+
+    componentDidUpdate(prevProps, prevState){
+        if(this.props.toolbar.showTextEditor){
+            this.refs.textarea.focus();
+        }
     }
 
     componentDidMount() {
-        if(this.props.box.type !== BOX_TYPES.SORTABLE) {
+        if (this.props.box.type !== BOX_TYPES.SORTABLE) {
             interact(ReactDOM.findDOMNode(this))
                 .draggable({
                     enabled: this.props.box.draggable,
@@ -69,13 +135,32 @@ export default class DaliBox extends Component{
                 })
                 .resizable({
                     enabled: this.props.box.resizable,
+                    restrict: {
+                      restriction: 'parent'
+                    },
                     edges: {left: true, right: true, bottom: true, top: true},
+                    container:'parent',
                     onmove: (event) => {
+                        /*BOX-RESIZE*/
                         var target = event.target;
-                        target.style.left = (parseInt(target.style.left) || 0);
-                        target.style.top = (parseInt(target.style.top) || 0);
 
-                        // update the element's style
+                            if(event.edges.bottom){
+                                //Abajo
+                                target.style.top = (parseInt(target.style.top) || 0);
+                            }
+                            if(event.edges.left){
+                                //Izquierda
+                                target.style.left = (parseInt(target.style.left) || 0) + event.dx + 'px';    
+                            }
+                            if(event.edges.right){
+                                //Derecha
+                                target.style.left = (parseInt(target.style.left) || 0);
+                            }
+                            if(event.edges.top){
+                               //Arriba
+                                target.style.top = (parseInt(target.style.top) || 0) + event.dy + 'px';
+                            }
+                               
                         target.style.width = event.rect.width + 'px';
                         target.style.height = event.rect.height + 'px';
                     },
@@ -85,13 +170,4 @@ export default class DaliBox extends Component{
                 });
         }
     }
-
-    /*
-    componentWillUnmount() {
-        if(this.props.box.type !== 'sortable') {
-            this.interactable.unset();
-            this.interactable = null;
-        }
-    }
-    */
 }

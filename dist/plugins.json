@@ -1,0 +1,5 @@
+var plugins = [
+        'BasicImage',
+        'BasicText',
+        'BasicPlugin'
+]
