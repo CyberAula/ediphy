@@ -29,6 +29,9 @@ export default class PluginConfigModal extends Component {
                 </Modal.Body>
 
                 <Modal.Footer>
+                    <Button onClick={e => {
+                        this.setState({show: false, isUpdating: false});
+                    }}>Cancel</Button>
                     <Button bsStyle="primary" onClick={e => {
                         Dali.Plugins.get(this.state.pluginActive).render(this.state.isUpdating);
                         this.setState({show: false, isUpdating: false});

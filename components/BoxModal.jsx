@@ -61,11 +61,6 @@ export default class BoxModal extends Component {
                     </Tab>
                 </Tabs>
             </Modal.Body>
-
-            <Modal.Footer>
-                <Button bsStyle="primary" onClick={e => this.props.onVisibilityToggled(null, false, false)}>Save changes</Button>
-            </Modal.Footer>
-
         </Modal>
         );
     }
