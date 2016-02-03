@@ -218,6 +218,8 @@ function toolbarsById(state = {}, action = {}){
             return Object.assign({}, state, {
                 [action.payload.caller]: Object.assign({}, state[action.payload.caller], {showTextEditor: action.payload.value})
             });
+        case IMPORT_STATE:
+            return action.payload.present.toolbarsById;
         default:
             return state;
     }
