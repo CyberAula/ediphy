@@ -17,6 +17,7 @@ export default class DaliBoxSortable extends Component{
                                  onBoxSelected={this.props.onBoxSelected}
                                  onBoxMoved={this.props.onBoxMoved}
                                  onBoxResized={this.props.onBoxResized}
+                                 onBoxDeleted={this.props.onBoxDeleted}
                                  onTextEditorToggled={this.props.onTextEditorToggled} />
                         <i className="fa fa-bars fa-2x drag-handle" style={{position: 'absolute', bottom: 0}}></i>
                     </div>);

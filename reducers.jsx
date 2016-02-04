@@ -89,6 +89,8 @@ function boxesById(state = {}, action = {}){
         case DELETE_BOX:
            console.log('byid')
             console.log(state)
+            let newState = Object.assign({},state)
+            console.log(newState)
            var a = []
            var i;
           /* for (i in state){
@@ -96,12 +98,27 @@ function boxesById(state = {}, action = {}){
              console.log(state[i])
                 if(state[i] != action.payload.id)  a.push(state[i])
            }*/
+       console.log(action.payload.parent2)
+
+         
 
             var b = Object.assign({})
              for (i in state){
-            console.log(i)
-             console.log(state[i])
-              b = Object.assign({},b, {[i]: Object.assign({}, state[i])})
+                console.log(i)
+                 console.log(state[i])
+                 if(i!=action.payload.id){
+                        if(i!=action.payload.parent2){
+                            b = Object.assign({},b, {[i]: Object.assign({}, state[i])})
+                        } else {
+                            var par = state[action.payload.parent2]
+                              
+                             par.children = par.children.filter(id =>
+                                 id!=action.payload.id
+                             );
+                             
+                            b = Object.assign({},b, {[i]: Object.assign({}, par)})
+                        }
+                }
 
            }
 
@@ -226,16 +243,17 @@ function navItemsById(state = {}, action = {}){
             return state;
         case DELETE_BOX:
             console.log(action.payload.parent2)
-          let currentBoxes = state[action.payload.parent2].boxes
-             console.log(currentBoxes )
-           var newBoxes = []
-            var i;
-            currentBoxes.forEach(function(box){if(box!=action.payload.id) newBoxes.push(box); 
+            if (action.payload.parent2[0] == 'p'){
+                let currentBoxes = state[action.payload.parent2].boxes    
+                var newBoxes = []
+                var i;
+                currentBoxes.forEach(function(box){if(box!=action.payload.id) newBoxes.push(box); 
                 return;})
              if(action.payload.parent2 !== 0 && (action.payload.parent2.indexOf(ID_PREFIX_PAGE) !== -1 || action.payload.parent2.indexOf(ID_PREFIX_SECTION) !== -1))
                 return Object.assign({}, state, {
                     [action.payload.parent2]: Object.assign({}, state[action.payload.parent2], {
                         boxes: newBoxes})});
+            }
             return state;
               
         case IMPORT_STATE:
