@@ -50,12 +50,9 @@ export default class PluginToolbar extends Component {
                 }}>Open config</ButtonInput>);
             }
         }
-        return (<div style={{
-            position: 'absolute',
+        return (<div className="toolbox" style={{
             right: this.state.x,
             top: this.state.y,
-            padding: 5,
-            backgroundColor: '#666',
             visibility: visible}}>
             {buttons}
         </div>);

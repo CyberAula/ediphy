@@ -2,12 +2,4 @@
 @import 'components/canvas';
 @import 'components/carrouselList';
 @import 'components/navBar';
-
-.fa{
-transition:1s;
-}
-.fa:active{
-	transform: rotate(180deg);
-
-}
-
+@import 'components/toolbox';

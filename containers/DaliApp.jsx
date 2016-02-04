@@ -65,13 +65,13 @@ class DaliApp extends Component{
                         <Button className="navButton" disabled={undoDisabled} onClick={() => dispatch(ActionCreators.undo())}>Undo</Button>
                         <Button className="navButton" disabled={redoDisabled} onClick={() => dispatch(ActionCreators.redo())}>Redo</Button>
                         <OverlayTrigger trigger="click" rootClose placement="bottom" overlay={<Popover id="is_busy_popover">{isBusy}</Popover>}>
-                            <Button onClick={() => {
+                            <Button  className="navButton" onClick={() => {
                                 let state = this.props.store.getState();
                                 dispatch(exportStateAsync(state));
                             }}>Save</Button>
                         </OverlayTrigger>
                         <OverlayTrigger trigger="click" rootClose placement="bottom" overlay={<Popover id="is_busy_popover">{isBusy}</Popover>}>
-                            <Button onClick={() => {
+                            <Button  className="navButton" onClick={() => {
                                 dispatch(importStateAsync());
                             }}>Load</Button>
                         </OverlayTrigger>

@@ -1,11 +1,32 @@
+@mixin animacion {
+	transition: all 1s ease-in-out;
+	-webkit-transition: all 1s ease-in-out;
+	-moz-transition: all 1s ease-in-out; 	
+}
 .carrouselButton{
 	
-	min-width: 40;
-	width: 50%;
+	min-width: 15;
+	width: 25%;
 
 }
 .carList{
 	overflow-y: auto; 
 	height: 92%;
 	margin: 5% 0px 0px 0px;
+}
+
+.expandir, .expandir:hover, .expandir:active, .expandir:focus {
+	background-color: transparent !important;
+	border: none !important;
+	outline: none !important;
+		.fa{
+		 @include  animacion;
+
+			&:hover{	
+				transform: rotate(180deg);
+				-webkit-transform: rotate(180deg);
+				-moz-transform: rotate(180deg);
+			}
+ 	
+	}
 }

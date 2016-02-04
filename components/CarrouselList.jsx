@@ -22,6 +22,15 @@ export default class CarrouselList extends Component{
                                         //this.props.onSectionDuplicated(this.props.sectionSelected);
                                     }
                                 }><i className="fa fa-files-o"></i></Button>
+
+                    <Button className="carrouselButton"  onClick={e => {
+                                    this.props.onSectionAdded(ID_PREFIX_SECTION + Date.now(), "Section 1", 0, [], 1, '', this.props.navItemsIds.length);
+                                    e.stopPropagation();
+                                }}><i className="fa fa-folder-o"></i></Button>
+                    <Button className="carrouselButton"  onClick={e => {
+                                    this.props.onPageAdded(0, true);
+                                    e.stopPropagation();
+                                }}><i className="fa fa-file-o"></i></Button>
                 </ButtonGroup>
                 <div  className="carList">
                     {
@@ -47,14 +56,7 @@ export default class CarrouselList extends Component{
                         }
                     })}
                     <ButtonGroup>
-                        <Button onClick={e => {
-                                    this.props.onSectionAdded(ID_PREFIX_SECTION + Date.now(), "Section 1", 0, [], 1, '', this.props.navItemsIds.length);
-                                    e.stopPropagation();
-                                }}><i className="fa fa-folder-o"></i></Button>
-                        <Button onClick={e => {
-                                    this.props.onPageAdded(0, true);
-                                    e.stopPropagation();
-                                }}><i className="fa fa-file-o"></i></Button>
+
                     </ButtonGroup>
                 </div>
             </div>

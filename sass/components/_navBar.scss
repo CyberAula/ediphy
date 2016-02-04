@@ -1,18 +1,55 @@
+$dark-color: #337AB7;
+$darker-color: #214E75;
+
+
 .navBar{
 
-	background-color: #337ab7;
+	background-color: $dark-color;
 	position: absolute;
 	top:0;
 	left: 0;
 	width: 100%;
-	height: 35px;
+	height: 39px;
 }
-/*.navButton {
-	border:0;
-	background-color: transparent;
-	color:white;
-	font-size: 16px;
-}
-.navButton:hover{
 
-}*/
+
+
+.navButton{
+	 display: inline-block;
+	 border: 1px solid $dark-color;
+	 color: #FFFFFF;
+	 border-radius: 0;
+	 -webkit-border-radius: 0;
+	 -moz-border-radius: 0;
+
+	 width: auto;
+	 height: auto;
+	 font-size: 16px;
+	 padding: 7px 40px;
+	 background-color: $dark-color;
+
+
+	&:hover, &:active, &:focus{
+		 border:1px solid #337AB7;
+		 border-bottom-color: white;
+		 color: #cbeaf7;
+		 background-color: $dark-color;
+ 
+
+	}
+
+ 	
+}
+
+
+
+button[disabled].navButton {
+	background-color: $darker-color;
+	border:1px solid $darker-color;
+
+	&:hover{
+			background-color: $darker-color;
+			border:1px solid $darker-color;
+	}
+}
+
