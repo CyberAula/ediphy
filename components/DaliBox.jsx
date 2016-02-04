@@ -28,7 +28,7 @@ export default class DaliBox extends Component {
             overflowY: 'hidden',
             visibility: (this.props.toolbar.showTextEditor ? 'visible' : 'hidden')}
         let attrs = {};
-
+        console.log(this.props.box)
         if(this.props.toolbar.buttons) {
             this.props.toolbar.buttons.map((item, index) => {
                 if (item.autoManaged) {
@@ -56,7 +56,11 @@ export default class DaliBox extends Component {
             <div
                 style={{visibility: ((this.props.isSelected && box.type !== BOX_TYPES.SORTABLE) ? 'visible' : 'hidden')}}>
                 <div
-                    style={{position: 'absolute', width: '100%', height: '100%', border: (borderSize + "px dashed black"), boxSizing: 'border-box'}}></div>
+                    style={{position: 'absolute', width: '100%', height: '100%', border: (borderSize + "px dashed black"), boxSizing: 'border-box'}}>
+                   
+                     <button onClick={e => {myEventHandler(e); this.props.onBoxDeleted(this.props.id, this.props.box.parent)}} style={{backgroundColor:'transparent', right: 0, position:'absolute' , border: '0'}}> <img style={{width: '32px', opacity: '50%'}} src={'http://megaicons.net/static/img/icons_sizes/8/178/512/system-delete-icon.png'}></img></button>
+
+                    </div>
                 <div
                     style={{position: 'absolute', left:  -cornerSize/2, top: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray'}}></div>
                 <div
@@ -99,6 +103,8 @@ export default class DaliBox extends Component {
         this.props.onTextEditorToggled(this.props.id, false);
         Dali.Plugins.get(this.props.toolbar.config.name).updateTextChanges(this.refs.textarea.value, this.props.id);
     }
+
+
 
     componentWillUpdate(nextProps, nextState){
         if(this.props.isSelected && !nextProps.isSelected && this.props.toolbar.showTextEditor){
@@ -170,4 +176,13 @@ export default class DaliBox extends Component {
                 });
         }
     }
+}
+
+function   myEventHandler(event){
+    if (event.stopPropagation){
+       event.stopPropagation();
+   }
+   else if(window.event){
+      window.event.cancelBubble=true;
+   }
 }

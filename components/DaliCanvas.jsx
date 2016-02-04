@@ -33,6 +33,7 @@ export default class DaliCanvas extends Component{
                                         onBoxSelected={this.props.onBoxSelected}
                                         onBoxMoved={this.props.onBoxMoved}
                                         onBoxResized={this.props.onBoxResized}
+                                        onBoxDeleted={this.props.onBoxDeleted}
                                         onTextEditorToggled={this.props.onTextEditorToggled} />
                     else if (box.type === BOX_TYPES.SORTABLE)
                         return <DaliBoxSortable key={id}
@@ -44,6 +45,7 @@ export default class DaliCanvas extends Component{
                                                 toolbars={this.props.toolbars}
                                                 onBoxSelected={this.props.onBoxSelected}
                                                 onBoxMoved={this.props.onBoxMoved}
+                                                onBoxDeleted={this.props.onBoxDeleted}
                                                 onBoxResized={this.props.onBoxResized}
                                                 onTextEditorToggled={this.props.onTextEditorToggled} />
                 })}
