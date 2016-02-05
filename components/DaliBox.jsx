@@ -28,7 +28,7 @@ export default class DaliBox extends Component {
             overflowY: 'hidden',
             visibility: (this.props.toolbar.showTextEditor ? 'visible' : 'hidden')}
         let attrs = {};
-
+        console.log(this.props.box)
         if(this.props.toolbar.buttons) {
             this.props.toolbar.buttons.map((item, index) => {
                 if (item.autoManaged) {
@@ -58,7 +58,7 @@ export default class DaliBox extends Component {
                 <div
                     style={{position: 'absolute', width: '100%', height: '100%', border: (borderSize + "px dashed black"), boxSizing: 'border-box'}}>
                    
-                     <button onClick={e => {myEventHandler(e); this.props.onBoxDeleted(this.props.id, this.props.box.parent)}} style={{backgroundColor:'transparent', right: 0, position:'absolute' , border: '0'}}> <img style={{width: '32px', opacity: '50%'}} src={'http://megaicons.net/static/img/icons_sizes/8/178/512/system-delete-icon.png'}></img></button>
+                     <button onClick={e => {myEventHandler(e); this.props.onBoxDeleted(this.props.id, this.props.box.parent)}} style={{backgroundColor:'transparent', right: 0, position:'absolute' , border: '0'}}>  <i className="fa fa-trash-o"></i></button>
 
                     </div>
                 <div
@@ -123,6 +123,7 @@ export default class DaliBox extends Component {
             interact(ReactDOM.findDOMNode(this))
                 .draggable({
                     enabled: this.props.box.draggable,
+                    cancel:'iframe',
                     restrict: {
                         restriction: "parent",
                         endOnly: true,
