@@ -1,7 +1,7 @@
 import {combineReducers} from 'redux';
 import undoable, {excludeAction} from 'redux-undo';
 
-import {ADD_BOX, SELECT_BOX, MOVE_BOX, RESIZE_BOX, UPDATE_BOX, DELETE_BOX,
+import {ADD_BOX, SELECT_BOX, MOVE_BOX, RESIZE_BOX, UPDATE_BOX, DELETE_BOX, REORDER_BOX,
     ADD_NAV_ITEM, SELECT_NAV_ITEM, EXPAND_NAV_ITEM, REMOVE_NAV_ITEM,
     TOGGLE_PLUGIN_MODAL, TOGGLE_PAGE_MODAL, TOGGLE_TEXT_EDITOR, CHANGE_DISPLAY_MODE, SET_BUSY, UPDATE_TOOLBAR, IMPORT_STATE
 } from './actions';
@@ -95,11 +95,20 @@ function boxesById(state = {}, action = {}){
                     } else {
                         var parent = state[action.payload.parent]
                         parent.children = parent.children.filter(id =>  id!=action.payload.id);
+                        console.log(parent.children)
                         newState = Object.assign({},newState, {[i]: Object.assign({}, parent)})
                     }
                 }
             }
            return newState;
+        case REORDER_BOX:
+            let oldChildren = state[action.payload.parent].children
+            var newChildren = []
+            for(let i in oldChildren){
+                newChildren.push(oldChildren[action.payload.ids[i]])
+            }
+            return Object.assign({}, state, {
+                [action.payload.parent]: Object.assign({}, state[action.payload.parent], {children: newChildren}) });
         case IMPORT_STATE:
             return action.payload.present.boxesById;
         default:

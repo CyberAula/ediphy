@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {ActionCreators} from 'redux-undo';
 import {Grid, Col, Row, Button, OverlayTrigger, Popover} from 'react-bootstrap';
-import {addNavItem, selectNavItem, expandNavItem, removeNavItem, addBox, selectBox, moveBox, resizeBox, updateBox, deleteBox,
+import {addNavItem, selectNavItem, expandNavItem, removeNavItem, addBox, selectBox, moveBox, resizeBox, updateBox, deleteBox, reorderBox,
     togglePluginModal, togglePageModal, toggleTextEditor, changeDisplayMode, exportStateAsync, importStateAsync, updateToolbar} from '../actions';
 import {ID_PREFIX_BOX, ID_PREFIX_SORTABLE_BOX, BOX_TYPES} from '../constants';
 import DaliCanvas from '../components/DaliCanvas';
@@ -44,6 +44,7 @@ class DaliApp extends Component{
                                     onBoxMoved={(id, x, y) => dispatch(moveBox(id, x, y))}
                                     onBoxResized={(id, width, height) => dispatch(resizeBox(id, width, height))}
                                     onBoxDeleted={(id,parent) => dispatch(deleteBox(id, parent))} 
+                                    onBoxReorder={(ids,parent) => dispatch(reorderBox(ids,parent))}
                                     onVisibilityToggled={(caller, fromSortable, value) => dispatch(togglePluginModal(caller, fromSortable, value))}
                                     onTextEditorToggled={(caller, value) => dispatch(toggleTextEditor(caller, value))} />
                     </Col>

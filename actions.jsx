@@ -6,6 +6,7 @@ export const MOVE_BOX = 'MOVE_BOX';
 export const RESIZE_BOX = 'RESIZE_BOX';
 export const UPDATE_BOX = 'UPDATE_BOX';
 export const DELETE_BOX = 'DELETE_BOX';
+export const REORDER_BOX = 'REORDER_BOX';
 export const DUPLICATE_SECTION = 'DUPLICATE_SECTION';
 
 export const ADD_NAV_ITEM = 'ADD_NAV_ITEM';
@@ -60,8 +61,11 @@ export function updateBox(id, content, state){
 }
 
 export function deleteBox(id,parent){
-
     return {type: DELETE_BOX, payload: {id, parent}};
+}
+
+export function reorderBox(ids,parent){
+    return {type: REORDER_BOX, payload: {ids, parent}};
 }
 
 export function duplicateSection(id){

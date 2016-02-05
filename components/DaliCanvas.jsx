@@ -47,6 +47,7 @@ export default class DaliCanvas extends Component{
                                                 onBoxMoved={this.props.onBoxMoved}
                                                 onBoxDeleted={this.props.onBoxDeleted}
                                                 onBoxResized={this.props.onBoxResized}
+                                                onBoxReorder={this.props.onBoxReorder}
                                                 onTextEditorToggled={this.props.onTextEditorToggled} />
                 })}
             </div>
