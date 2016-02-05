@@ -63,19 +63,19 @@ class DaliApp extends Component{
                 <PluginConfigModal />
                 <div className="navBar">
                     <Col mdOffset={2} xsOffset={2}>
-                        <Button className="navButton" disabled={(navItemsIds.length === 0 ? true : false)} onClick={() => dispatch(togglePluginModal(navItemSelected, false, true))}>Add</Button>
-                        <Button className="navButton" disabled={undoDisabled} onClick={() => dispatch(ActionCreators.undo())}>Undo</Button>
-                        <Button className="navButton" disabled={redoDisabled} onClick={() => dispatch(ActionCreators.redo())}>Redo</Button>
+                        <button className="navButton" disabled={(navItemsIds.length === 0 ? true : false)} onClick={() => dispatch(togglePluginModal(navItemSelected, false, true))}>Add</button>
+                        <button className="navButton" disabled={undoDisabled} onClick={() => dispatch(ActionCreators.undo())}>Undo</button>
+                        <button className="navButton" disabled={redoDisabled} onClick={() => dispatch(ActionCreators.redo())}>Redo</button>
                         <OverlayTrigger trigger="click" rootClose placement="bottom" overlay={<Popover id="is_busy_popover">{isBusy}</Popover>}>
-                            <Button  className="navButton" onClick={() => {
+                            <button  className="navButton" onClick={() => {
                                 let state = this.props.store.getState();
                                 dispatch(exportStateAsync(state));
-                            }}>Save</Button>
+                            }}>Save</button>
                         </OverlayTrigger>
                         <OverlayTrigger trigger="click" rootClose placement="bottom" overlay={<Popover id="is_busy_popover">{isBusy}</Popover>}>
-                            <Button  className="navButton" onClick={() => {
+                            <button  className="navButton" onClick={() => {
                                 dispatch(importStateAsync());
-                            }}>Load</Button>
+                            }}>Load</button>
                         </OverlayTrigger>
                     </Col>
                 </div>

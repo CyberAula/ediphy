@@ -36,6 +36,7 @@ var BasicVideo= (function(){
                 }
             ]
         },  // TEST URL http://video.webmfiles.org/big-buck-bunny_trailer.webm
+        // Posibilidad: http://modernizr.com/
         getInitialState: function(){
             return {url: '', borderSize: 0, thumbnailVisibility: 'hidden'};
         },

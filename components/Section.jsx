@@ -13,10 +13,10 @@ export default class Section extends Component {
                 e.stopPropagation();
             }}>
             <div>
-                <Button   className="expandir" onClick={e => {
+                <button   className="expandir" onClick={e => {
                     this.props.onNavItemExpanded(navItem.id, !navItem.isExpanded)
                     e.stopPropagation();
-                }}><i className={navItem.isExpanded ? "fa fa-chevron-down" : "fa fa-chevron-right"}></i></Button>
+                }}><i className={navItem.isExpanded ? "fa fa-chevron-down" : "fa fa-chevron-right"}></i></button>
 
                 <h3 style={{color: color, display: 'inline'}}>{navItem.name}</h3>
             </div>
