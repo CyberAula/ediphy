@@ -10,7 +10,7 @@ export default class DaliBoxSortable extends Component{
                 {this.props.box.children.map((id, index)=>{
                     let box = this.props.boxes[id];
                     let isSelected = (id === this.props.boxSelected);
-                    return (<div key={index} style={{width: '100%', border: '1px solid black', boxSizing: 'border-box', position: 'relative'}}>
+                    return (<div key={index} style={{width: '100%', border: '1px solid #999', boxSizing: 'border-box', position: 'relative'}}>
                         <DaliBox box={box} id={id}
                                  isSelected={isSelected}
                                  toolbar={this.props.toolbars[id]}
@@ -23,12 +23,13 @@ export default class DaliBoxSortable extends Component{
                     </div>);
                 })}
             </div>
-           <Button style={{display: 'block', margin: 'auto'}} onClick={e => this.props.onVisibilityToggled(this.props.id, true, true)}>
+            <div style={{textAlign:'center'}}><span>
+           <Button style={{display: 'inline-block', margin: 'auto'}} onClick={e => this.props.onVisibilityToggled(this.props.id, true, true)}>
                 <i className="fa fa-plus-circle fa-5x"></i>
             </Button>
-             <Button style={{display: 'block', margin: 'auto'}} onClick={e => this.props.onBoxDeleted(this.props.id, this.props.box.parent)}>
+             <Button style={{display: 'inline-block', margin: 'auto'}} onClick={e => this.props.onBoxDeleted(this.props.id, this.props.box.parent)}>
                 <i className="fa fa-trash-o fa-5x"></i>
-            </Button>
+            </Button></span></div>
         </div>
         );
     }

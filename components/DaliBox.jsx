@@ -28,7 +28,7 @@ export default class DaliBox extends Component {
             overflowY: 'hidden',
             visibility: (this.props.toolbar.showTextEditor ? 'visible' : 'hidden')}
         let attrs = {};
-        console.log(this.props.box)
+
         if(this.props.toolbar.buttons) {
             this.props.toolbar.buttons.map((item, index) => {
                 if (item.autoManaged) {

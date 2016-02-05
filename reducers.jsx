@@ -87,48 +87,19 @@ function boxesById(state = {}, action = {}){
                 [action.payload.id]: Object.assign({}, state[action.payload.id], {content: action.payload.content})
             });
         case DELETE_BOX:
-           console.log('byid')
-            console.log(state)
-            let newState = Object.assign({},state)
-            console.log(newState)
-           var a = []
-           var i;
-          /* for (i in state){
-            console.log(i)
-             console.log(state[i])
-                if(state[i] != action.payload.id)  a.push(state[i])
-           }*/
-       console.log(action.payload.parent2)
-
-         
-
-            var b = Object.assign({})
-             for (i in state){
-                console.log(i)
-                 console.log(state[i])
+            var newState = Object.assign({})
+             for (let i in state){
                  if(i!=action.payload.id){
-                        if(i!=action.payload.parent2){
-                            b = Object.assign({},b, {[i]: Object.assign({}, state[i])})
-                        } else {
-                            var par = state[action.payload.parent2]
-                              
-                             par.children = par.children.filter(id =>
-                                 id!=action.payload.id
-                             );
-                             
-                            b = Object.assign({},b, {[i]: Object.assign({}, par)})
-                        }
+                    if(i!=action.payload.parent){
+                        newState = Object.assign({},newState, {[i]: Object.assign({}, state[i])})
+                    } else {
+                        var parent = state[action.payload.parent]
+                        parent.children = parent.children.filter(id =>  id!=action.payload.id);
+                        newState = Object.assign({},newState, {[i]: Object.assign({}, parent)})
+                    }
                 }
-
-           }
-
-                
-            let y = Object.assign({}, b)
-            console.log('byyidfinal')
-            console.log(y)
-           return y
-        
-
+            }
+           return newState;
         case IMPORT_STATE:
             return action.payload.present.boxesById;
         default:
@@ -143,7 +114,6 @@ function boxSelected(state = -1, action = {}) {
         case SELECT_BOX:
             return action.payload.id;
         case DELETE_BOX:
-            console.log('0000')
             return -1;
         case IMPORT_STATE:
             return action.payload.present.boxSelected;
@@ -159,20 +129,10 @@ function boxesIds(state = [], action = {}){
         case IMPORT_STATE:
             return action.payload.present.boxes;
         case DELETE_BOX:
-            var a = []
+            var newState = []
             var i;
-            console.log('boxesIds')
-            console.log(state)
-            state.forEach(function(s){if(s!=action.payload.id) a.push(s); 
-                return;})
-
-            /*
-            for (i in state){
-                console.log(i)
-                    if(i != action.payload.id)  a.push(i)
-               }*/
-           console.log(a)
-            return a;
+            state.forEach(s=>{if(s!=action.payload.id) newState.push(s);})
+            return newState;
        
         default:
             return state;
@@ -242,16 +202,14 @@ function navItemsById(state = {}, action = {}){
                         boxes: [...state[action.payload.parent].boxes, action.payload.id]})});
             return state;
         case DELETE_BOX:
-            console.log(action.payload.parent2)
-            if (action.payload.parent2[0] == 'p'){
-                let currentBoxes = state[action.payload.parent2].boxes    
-                var newBoxes = []
-                var i;
-                currentBoxes.forEach(function(box){if(box!=action.payload.id) newBoxes.push(box); 
-                return;})
-             if(action.payload.parent2 !== 0 && (action.payload.parent2.indexOf(ID_PREFIX_PAGE) !== -1 || action.payload.parent2.indexOf(ID_PREFIX_SECTION) !== -1))
+           
+            if (action.payload.parent[0] == 'p'){ // Si el parent de la box es una página
+                let currentBoxes = state[action.payload.parent].boxes    
+                var newBoxes = []; 
+                currentBoxes.forEach(box => {if(box!=action.payload.id) newBoxes.push(box); });
+             if(action.payload.parent !== 0 && (action.payload.parent.indexOf(ID_PREFIX_PAGE) !== -1 || action.payload.parent.indexOf(ID_PREFIX_SECTION) !== -1))
                 return Object.assign({}, state, {
-                    [action.payload.parent2]: Object.assign({}, state[action.payload.parent2], {
+                    [action.payload.parent]: Object.assign({}, state[action.payload.parent], {
                         boxes: newBoxes})});
             }
             return state;
