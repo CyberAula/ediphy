@@ -3,7 +3,8 @@ import undoable, {excludeAction} from 'redux-undo';
 
 import {ADD_BOX, SELECT_BOX, MOVE_BOX, RESIZE_BOX, UPDATE_BOX, DELETE_BOX, REORDER_BOX,
     ADD_NAV_ITEM, SELECT_NAV_ITEM, EXPAND_NAV_ITEM, REMOVE_NAV_ITEM,
-    TOGGLE_PLUGIN_MODAL, TOGGLE_PAGE_MODAL, TOGGLE_TEXT_EDITOR, CHANGE_DISPLAY_MODE, SET_BUSY, UPDATE_TOOLBAR, IMPORT_STATE
+    TOGGLE_PLUGIN_MODAL, TOGGLE_PAGE_MODAL, TOGGLE_TEXT_EDITOR, TOGGLE_TITLE_MODE,
+    CHANGE_DISPLAY_MODE, SET_BUSY, UPDATE_TOOLBAR, IMPORT_STATE
 } from './actions';
 import {ID_PREFIX_SECTION, ID_PREFIX_PAGE, ID_PREFIX_SORTABLE_BOX} from './constants';
 
@@ -158,10 +159,11 @@ function navItemCreator(state = {}, action = {}){
                 children: action.payload.children,
                 boxes: [],
                 level: action.payload.level,
-                type: action.payload.type
+                type: action.payload.type,
+                titlesReduced: action.payload.titlesReduced
             };
         case EXPAND_NAV_ITEM:
-            return Object.assign({}, state, {isExpanded: action.payload.value});
+            return ;
         default:
             return state;
     }
@@ -194,7 +196,9 @@ function navItemsById(state = {}, action = {}){
                 [action.payload.parent]: Object.assign({}, state[action.payload.parent], {children: [...state[action.payload.parent].children, action.payload.id]})
             });
         case EXPAND_NAV_ITEM:
-            return Object.assign({}, state, {[action.payload.id]: navItemCreator(state[action.payload.id], action)});
+            return Object.assign({}, state, {[action.payload.id]: Object.assign({}, state[action.payload.id], {isExpanded: action.payload.value})});
+        case TOGGLE_TITLE_MODE:
+            return Object.assign({}, state, {[action.payload.id]: Object.assign({}, state[action.payload.id], {titlesReduced: action.payload.value})});
         case REMOVE_NAV_ITEM:
             let newState = Object.assign({}, state);
             action.payload.ids.map(id =>{
