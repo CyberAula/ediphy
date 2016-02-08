@@ -1,0 +1,13 @@
+@mixin animacion {
+	transition: all 1s ease-in-out;
+	-webkit-transition: all 1s ease-in-out;
+	-moz-transition: all 1s ease-in-out; 	
+}
+
+$verdeoscuro: #133329;
+$verdeclaro: #71978c;
+$grisclaro: #f1f1f1;
+$grismedio:#9a9a9a;
+
+$dark-color: #337AB7;
+$darker-color: #214E75;

@@ -41,7 +41,7 @@ function boxCreator(state = {}, action = {}){
                     height = 200;
                     break;
             }
-            console.log(parent)
+            
             return {
                 id: action.payload.id,
                 children: [],
@@ -60,8 +60,6 @@ function boxCreator(state = {}, action = {}){
             return state;
     }
 }
-
-
 
 function boxesById(state = {}, action = {}){
     switch (action.type){
@@ -87,26 +85,17 @@ function boxesById(state = {}, action = {}){
                 [action.payload.id]: Object.assign({}, state[action.payload.id], {content: action.payload.content})
             });
         case DELETE_BOX:
-            var newState = Object.assign({})
-             for (let i in state){
-                 if(i!=action.payload.id){
-                    if(i!=action.payload.parent){
-                        newState = Object.assign({},newState, {[i]: Object.assign({}, state[i])})
-                    } else {
-                        var parent = state[action.payload.parent]
-                        parent.children = parent.children.filter(id =>  id!=action.payload.id);
-                        console.log(parent.children)
-                        newState = Object.assign({},newState, {[i]: Object.assign({}, parent)})
-                    }
-                }
+            var newState = Object.assign({},state);
+            var parent = state[action.payload.parent];
+             if (parent) {
+                parent.children = parent.children.filter(id =>  id!=action.payload.id);
+                newState = Object.assign({},newState, parent);
             }
-           return newState;
+            return newState;
         case REORDER_BOX:
             let oldChildren = state[action.payload.parent].children
-            var newChildren = []
-            for(let i in oldChildren){
-                newChildren.push(oldChildren[action.payload.ids[i]])
-            }
+            var newChildren = Object.keys(oldChildren).map(i => oldChildren[action.payload.ids[i]])
+
             return Object.assign({}, state, {
                 [action.payload.parent]: Object.assign({}, state[action.payload.parent], {children: newChildren}) });
         case IMPORT_STATE:
@@ -138,11 +127,7 @@ function boxesIds(state = [], action = {}){
         case IMPORT_STATE:
             return action.payload.present.boxes;
         case DELETE_BOX:
-            var newState = []
-            var i;
-            state.forEach(s=>{if(s!=action.payload.id) newState.push(s);})
-            return newState;
-       
+            return  state.filter(id => id!=action.payload.id);
         default:
             return state;
     }
@@ -165,6 +150,28 @@ function navItemCreator(state = {}, action = {}){
         default:
             return state;
     }
+}
+
+function recalculateNames(state = {},old = {}){
+    var items = state
+
+    var pageNum = 1;
+    var sectionNum = 0
+    var level = 0
+    let deleted = items[old.id]
+  
+    for (let i in items){
+       
+        if (items[i].type !='section' &&  items[i].type !='' ){
+            items[i].name = 'Page '+pageNum++
+        }
+       /* if (items[i].type =='section' ){
+            items[i].name = 'Section '+sectionNum++
+        }*/
+    }
+
+
+    return items
 }
 
 function navItemsIds(state = [], action = {}){
@@ -196,30 +203,31 @@ function navItemsById(state = {}, action = {}){
         case EXPAND_NAV_ITEM:
             return Object.assign({}, state, {[action.payload.id]: navItemCreator(state[action.payload.id], action)});
         case REMOVE_NAV_ITEM:
+            let oldOne = Object.assign({},state[action.payload.ids[0]])
             let newState = Object.assign({}, state);
             action.payload.ids.map(id =>{
                 delete newState[id];
             });
             let newChildren = newState[action.payload.parent].children.slice();
             newChildren.splice(newChildren.indexOf(action.payload.ids[0]), 1);
-
-            return Object.assign({}, newState, {[action.payload.parent]: Object.assign({}, newState[action.payload.parent], {children: newChildren})});
+            let wrongNames = Object.assign({}, newState, {[action.payload.parent]: Object.assign({}, newState[action.payload.parent], {children: newChildren})});
+            return recalculateNames(wrongNames, oldOne)
         case ADD_BOX:
             if(action.payload.parent !== 0 && (action.payload.parent.indexOf(ID_PREFIX_PAGE) !== -1 || action.payload.parent.indexOf(ID_PREFIX_SECTION) !== -1))
                 return Object.assign({}, state, {
                     [action.payload.parent]: Object.assign({}, state[action.payload.parent], {
                         boxes: [...state[action.payload.parent].boxes, action.payload.id]})});
-            return state;
+            return state
         case DELETE_BOX:
            
-            if (action.payload.parent[0] == 'p'){ // Si el parent de la box es una página
-                let currentBoxes = state[action.payload.parent].boxes    
-                var newBoxes = []; 
-                currentBoxes.forEach(box => {if(box!=action.payload.id) newBoxes.push(box); });
-             if(action.payload.parent !== 0 && (action.payload.parent.indexOf(ID_PREFIX_PAGE) !== -1 || action.payload.parent.indexOf(ID_PREFIX_SECTION) !== -1))
-                return Object.assign({}, state, {
-                    [action.payload.parent]: Object.assign({}, state[action.payload.parent], {
-                        boxes: newBoxes})});
+            if (action.payload.parent.indexOf(ID_PREFIX_PAGE) !== -1 || action.payload.parent.indexOf(ID_PREFIX_SECTION) !== -1){ 
+                let currentBoxes = state[action.payload.parent].boxes;    
+                var newBoxes =  currentBoxes.filter(id => id!=action.payload.id);
+                if(action.payload.parent !== 0 ){
+                    return Object.assign({}, state, {
+                        [action.payload.parent]: Object.assign({}, state[action.payload.parent], {
+                            boxes: newBoxes})});
+                }
             }
             return state;
               
@@ -331,18 +339,18 @@ const GlobalState = undoable(combineReducers({
     displayMode: changeDisplayMode, //"list",
     toolbarsById: toolbarsById, // {0: toolbar0, 1: toolbar1}
     isBusy: isBusy
-}), { filter: (action, currentState, previousState) => {
-    if(action.type === EXPAND_NAV_ITEM)
-        return false;
-    else if(action.type === TOGGLE_PAGE_MODAL)
-        return false;
-    else if(action.type === TOGGLE_PLUGIN_MODAL)
-        return false;
-    else if(action.type === CHANGE_DISPLAY_MODE)
-        return false;
-    else if(action.type === SET_BUSY)
-        return false;
-    return currentState !== previousState; // only add to history if state changed
+    }), { filter: (action, currentState, previousState) => {
+        if(action.type === EXPAND_NAV_ITEM)
+            return false;
+        else if(action.type === TOGGLE_PAGE_MODAL)
+            return false;
+        else if(action.type === TOGGLE_PLUGIN_MODAL)
+            return false;
+        else if(action.type === CHANGE_DISPLAY_MODE)
+            return false;
+        else if(action.type === SET_BUSY)
+            return false;
+        return currentState !== previousState; // only add to history if state changed
     }});
 
 export default GlobalState;

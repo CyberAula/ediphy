@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
-import {Input} from 'react-bootstrap';
+import {Input,Button} from 'react-bootstrap';
 import interact from 'interact.js';
 import {BOX_TYPES} from '../constants';
 
@@ -28,7 +28,7 @@ export default class DaliBox extends Component {
             overflowY: 'hidden',
             visibility: (this.props.toolbar.showTextEditor ? 'visible' : 'hidden')}
         let attrs = {};
-        console.log(this.props.box)
+
         if(this.props.toolbar.buttons) {
             this.props.toolbar.buttons.map((item, index) => {
                 if (item.autoManaged) {
@@ -50,7 +50,8 @@ export default class DaliBox extends Component {
             });
         }
         let content = (
-            <div style={style} {...attrs} dangerouslySetInnerHTML={{__html: box.content}}></div>
+            <div style={style} {...attrs} dangerouslySetInnerHTML={{__html: box.content}}>
+            </div>
         );
         let overlay = (
             <div
@@ -58,7 +59,10 @@ export default class DaliBox extends Component {
                 <div
                     style={{position: 'absolute', width: '100%', height: '100%', border: (borderSize + "px dashed black"), boxSizing: 'border-box'}}>
                    
-                     <button onClick={e => {myEventHandler(e); this.props.onBoxDeleted(this.props.id, this.props.box.parent)}} style={{backgroundColor:'transparent', right: 0, position:'absolute' , border: '0'}}>  <i className="fa fa-trash-o"></i></button>
+                     <Button onClick={e => { e.stopPropagation(); this.props.onBoxDeleted(this.props.id, this.props.box.parent)}} 
+                     style={{backgroundColor:'transparent', right: 0, position:'absolute' , border: '0'}}> 
+                      <i className="fa fa-trash-o"></i>
+                      </Button>
 
                     </div>
                 <div
@@ -177,13 +181,4 @@ export default class DaliBox extends Component {
                 });
         }
     }
-}
-
-function   myEventHandler(event){
-    if (event.stopPropagation){
-       event.stopPropagation();
-   }
-   else if(window.event){
-      window.event.cancelBubble=true;
-   }
 }
