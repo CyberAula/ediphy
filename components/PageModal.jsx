@@ -5,7 +5,7 @@ import {ID_PREFIX_PAGE} from '../constants';
 export default class PageModal extends Component {
     render() {
         let navItem = this.props.navItems[this.props.caller];
-        let proposedName = "Page " + (navItem.children.length + 1);
+        let proposedName = "Page " +  this.calculateName();
         return (
             <Modal show={this.props.visibility} backdrop={true} bsSize="large" onHide={e => this.props.onVisibilityToggled(0, false)}>
                 <Modal.Header closeButton>
@@ -29,4 +29,16 @@ export default class PageModal extends Component {
         let position = this.props.navItemsIds.indexOf(this.props.caller);
         return (position + navItem.children.length + 1);
     }
+
+    calculateName(){
+        let siblings = this.props.navItemsIds
+        var num = 1
+        for (let i in siblings){
+            if(siblings[i][0] == 'p'){
+                num++
+            }
+        }
+        return num;
+    }
+
 }

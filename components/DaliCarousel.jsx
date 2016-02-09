@@ -26,7 +26,7 @@ export default class DaliCarousel extends Component{
                                               onNavItemRemoved={this.props.onNavItemRemoved} />;
         }
         return(
-            <div style={{backgroundColor: '#CCC', height: '100%', padding: '20% 10px 15% 10px'}}>
+            <div className="daliCarousel" >
                 {carrouselContent}
                 <Button style={{position: 'absolute', right: 0, bottom: 0}} onClick={e => {
                     let newMode = "list";

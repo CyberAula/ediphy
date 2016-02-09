@@ -3,9 +3,9 @@ import {Button, ButtonGroup} from 'react-bootstrap';
 
 export default class Thumbnail extends Component{
     render(){
-        let border = (this.props.isSelected) ? "2px solid red" : "";
+        let border = (this.props.isSelected) ? "2px solid #eca400" : "";
         return(
-            <div style={{backgroundColor: 'gray', width: '100%', height: '12.5%', minHeight: '120px', marginTop: '3%', border: border, boxSizing: 'border-box', position: 'relative'}}
+            <div style={{backgroundColor: 'white', width: '100%', height: '12.5%', minHeight: '120px', marginTop: '3%', border: border, boxSizing: 'border-box', position: 'relative'}}
                  onClick={(e) => this.props.onNavItemSelected(this.props.id)}>
                 <div>
                     <p>{this.props.id}</p>

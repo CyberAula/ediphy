@@ -1,10 +1,10 @@
-$dark-color: #337AB7;
-$darker-color: #214E75;
+
+
 
 
 .navBar{
 
-	background-color: $dark-color;
+	background-color: $verdeclaro;
 	position: absolute;
 	top:0;
 	left: 0;
@@ -16,7 +16,7 @@ $darker-color: #214E75;
 
 .navButton{
 	 display: inline-block;
-	 border: 1px solid $dark-color;
+	 border: 1px solid $verdeclaro;
 	 color: white;
 	 border-radius: 0;
 	 -webkit-border-radius: 0;
@@ -24,19 +24,22 @@ $darker-color: #214E75;
 
 	 width: auto;
 	 height: auto;
+	 width:100px;
 	 font-size: 16px;
-	 padding: 7px 40px;
-	 background-color: $dark-color;
+	 height:39px;
+	 padding: 0px 0px 0px 0px;
+	 background-color: $verdeclaro;
 
 
     box-shadow:none;
 	&:hover, &:active, &:focus{
-		 border:1px solid #337AB7;
+		 border:1px solid $verdeclaro;
 		 border-bottom-color: white;
-		 color: #cbeaf7;
-		 background-color: $dark-color;
+		 color: white;
+		 background-color: $verdeclaro;
 		 -webkit-box-shadow: none;
           box-shadow: none;
+          font-weight:bold;
  
 
 	}
@@ -44,26 +47,17 @@ $darker-color: #214E75;
  	
 }
 
-.expandir {
-width: 30px;
-
-	&:hover, &:active, &:focus, &:selected { 
-		-webkit-box-shadow: none !important;
-	     box-shadow: none !important;
-	     -moz-box-shadow: none !important;
-	     outline:none;
-	    }
-}
 
 
 button[disabled].navButton {
-	background-color: $darker-color;
-	border:1px solid $darker-color;
+	background-color: $verdeoscuro;
+	border:1px solid $verdeoscuro;
 
     box-shadow:none;
 	&:hover{
-			background-color: $darker-color;
-			border:1px solid $darker-color;
+			background-color: $verdeoscuro;
+			border:1px solid $verdeoscuro;
+			font-weight:normal;
 	}
 }
 

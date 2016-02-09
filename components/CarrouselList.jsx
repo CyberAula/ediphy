@@ -24,7 +24,7 @@ export default class CarrouselList extends Component{
                                 }><i className="fa fa-files-o"></i></Button>
 
                     <Button className="carrouselButton"  onClick={e => {
-                                    this.props.onSectionAdded(ID_PREFIX_SECTION + Date.now(), "Section 1", 0, [], 1, '', this.props.navItemsIds.length);
+                                    this.props.onSectionAdded(ID_PREFIX_SECTION + Date.now(), "Section "+this.sections(), 0, [], 1, 'section', this.props.navItemsIds.length);
                                     e.stopPropagation();
                                 }}><i className="fa fa-folder-o"></i></Button>
                     <Button className="carrouselButton"  onClick={e => {
@@ -46,7 +46,7 @@ export default class CarrouselList extends Component{
                                             onNavItemSelected={this.props.onNavItemSelected}
                                             onNavItemExpanded={this.props.onNavItemExpanded} />;
                         }else if(id.indexOf(ID_PREFIX_PAGE) !== -1){
-                            let color = this.props.navItemSelected === id ? 'red' : 'black';
+                            let color = this.props.navItemSelected === id ? '#eca400' : 'black';
                             return <h4 key={index}
                                        style={{color: color}}
                                        onClick={e => {
@@ -64,6 +64,7 @@ export default class CarrouselList extends Component{
     }
 
     findChildren(ids){
+
         //We want to get all the items whose level is higher than the selected starting after it
         let level = this.props.navItems[ids[0]].level;
         let startingIndex = this.props.navItemsIds.indexOf(ids[0]) + 1;
@@ -75,5 +76,18 @@ export default class CarrouselList extends Component{
             }
         }
         return ids;
+    }
+
+    sections(){
+
+        var current = 1;
+        for (let i in this.props.navItemsIds){
+         
+            if(this.props.navItemsIds[i][0]=='s'){
+                current++;
+            }
+        }
+        return current;
+
     }
 }
