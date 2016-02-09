@@ -5,7 +5,7 @@ import {ID_PREFIX_SECTION, ID_PREFIX_PAGE} from '../constants';
 export default class Section extends Component {
     render() {
         let navItem = this.props.navItems[this.props.id];
-        let color = (this.props.navItemSelected === navItem.id) ? 'red' : 'black';
+        let color = (this.props.navItemSelected === navItem.id) ? '#eca400' : 'black';
 
         return (
             <div onClick={e => {
@@ -35,7 +35,7 @@ export default class Section extends Component {
                                                 onNavItemSelected={this.props.onNavItemSelected}
                                                 onNavItemExpanded={this.props.onNavItemExpanded}/>;
                             } else if (id.indexOf(ID_PREFIX_PAGE) !== -1) {
-                                let color = this.props.navItemSelected === id ? 'red' : 'black';
+                                let color = this.props.navItemSelected === id ? '#eca400' : 'black';
                                 return <h4 key={index} style={{color: color}} onClick={e => {
                                     this.props.onNavItemSelected(id);
                                     e.stopPropagation();
@@ -46,7 +46,8 @@ export default class Section extends Component {
                 <div style={{marginTop: 10, marginLeft: 20}}>
 
                     <Button onClick={e => {
-                        this.props.onSectionAdded(ID_PREFIX_SECTION + Date.now(), navItem.name + ".1", navItem.id, [], navItem.level + 1, '', this.calculatePosition());
+                       
+                        this.props.onSectionAdded(ID_PREFIX_SECTION + Date.now(), navItem.name + "." +this.calculateName(navItem), navItem.id, [], navItem.level + 1, 'section', this.calculatePosition());
                         e.stopPropagation();
                     }}><i className="fa fa-folder-o"></i></Button>
                     <Button onClick={e => {
@@ -63,5 +64,17 @@ export default class Section extends Component {
         let navItem = this.props.navItems[this.props.id];
         let position = Math.max(this.props.navItemsIds.indexOf(navItem.children[navItem.children.length - 1]), 0) + 1;
         return position;
+    }
+
+    calculateName(navItem){
+        let siblings = navItem.children
+        var sections = 1
+        for (let i in siblings){
+            if(siblings[i][0] == 's') sections++
+        }
+
+        return sections
+
+
     }
 }
