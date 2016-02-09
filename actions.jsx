@@ -7,6 +7,7 @@ export const RESIZE_BOX = 'RESIZE_BOX';
 export const UPDATE_BOX = 'UPDATE_BOX';
 export const DELETE_BOX = 'DELETE_BOX';
 export const REORDER_BOX = 'REORDER_BOX';
+export const ADD_SORTABLE_CONTAINER = 'ADD_SORTABLE_CONTAINER';
 export const DUPLICATE_SECTION = 'DUPLICATE_SECTION';
 
 export const ADD_NAV_ITEM = 'ADD_NAV_ITEM';
@@ -69,12 +70,16 @@ export function reorderBox(ids,parent){
     return {type: REORDER_BOX, payload: {ids, parent}};
 }
 
+export function addSortableContainer(parent, id){
+    return {type: ADD_SORTABLE_CONTAINER, payload: {id, parent}};
+}
+
 export function duplicateSection(id){
     return {type: DUPLICATE_SECTION, payload: {id}};
 }
 
-export function togglePluginModal(caller, fromSortable, value){
-    return {type: TOGGLE_PLUGIN_MODAL, payload: {caller, fromSortable, value}};
+export function togglePluginModal(caller, fromSortable){
+    return {type: TOGGLE_PLUGIN_MODAL, payload: {caller, fromSortable}};
 }
 
 export function togglePageModal(caller, value){

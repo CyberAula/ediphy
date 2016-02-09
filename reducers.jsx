@@ -1,12 +1,12 @@
 import {combineReducers} from 'redux';
 import undoable, {excludeAction} from 'redux-undo';
 
-import {ADD_BOX, SELECT_BOX, MOVE_BOX, RESIZE_BOX, UPDATE_BOX, DELETE_BOX, REORDER_BOX,
+import {ADD_BOX, SELECT_BOX, MOVE_BOX, RESIZE_BOX, UPDATE_BOX, DELETE_BOX, REORDER_BOX, ADD_SORTABLE_CONTAINER,
     ADD_NAV_ITEM, SELECT_NAV_ITEM, EXPAND_NAV_ITEM, REMOVE_NAV_ITEM,
     TOGGLE_PLUGIN_MODAL, TOGGLE_PAGE_MODAL, TOGGLE_TEXT_EDITOR, TOGGLE_TITLE_MODE,
     CHANGE_DISPLAY_MODE, SET_BUSY, UPDATE_TOOLBAR, IMPORT_STATE
 } from './actions';
-import {ID_PREFIX_SECTION, ID_PREFIX_PAGE, ID_PREFIX_SORTABLE_BOX} from './constants';
+import {ID_PREFIX_SECTION, ID_PREFIX_PAGE, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_SORTABLE_CONTAINER} from './constants';
 
 function boxCreator(state = {}, action = {}){
     switch (action.type){
@@ -31,18 +31,12 @@ function boxCreator(state = {}, action = {}){
                     position = {x: 0, y: 0};
                     width = '100%';
                     break;
-                case 'inner-sortable':
-                    position = {x: Math.floor(Math.random() * 500), y: 0};
-                    width = 200;
-                    height = 80;
-                    break;
                 default:
                     position = {x: Math.floor(Math.random() * 500), y: Math.floor(Math.random() * 500)}
                     width = 200;
                     height = 200;
                     break;
             }
-            console.log(parent)
             return {
                 id: action.payload.id,
                 children: [],
@@ -66,12 +60,11 @@ function boxCreator(state = {}, action = {}){
 
 function boxesById(state = {}, action = {}){
     switch (action.type){
+        case ADD_SORTABLE_CONTAINER:
+            return Object.assign({}, state, {
+                [action.payload.parent]: Object.assign({}, state[action.payload.parent], {children: [...state[action.payload.parent].children, action.payload.id]})
+            });
         case ADD_BOX:
-            if(action.payload.type === 'inner-sortable')
-                return Object.assign({}, state, {
-                    [action.payload.id]: boxCreator(state[action.payload.id], action),
-                    [action.payload.parent]: Object.assign({}, state[action.payload.parent], {children: [...state[action.payload.parent].children, action.payload.id]})
-                });
             return Object.assign({}, state, {
                 [action.payload.id]: boxCreator(state[action.payload.id], action)
             });
@@ -149,6 +142,34 @@ function boxesIds(state = [], action = {}){
     }
 }
 
+function sortableContainersById(state = {}, action = {}){
+    switch (action.type){
+        case ADD_SORTABLE_CONTAINER:
+            return Object.assign({}, state, {[action.payload.id] : []});
+        case ADD_BOX:
+            if(action.payload.parent.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1) {
+                return Object.assign({}, state, {
+                    [action.payload.parent]: [...state[action.payload.parent], action.payload.id]});
+            }
+            return state;
+        case IMPORT_STATE:
+            return action.payload.present.sortableContainers;
+        default:
+            return state;
+    }
+}
+
+function sortableContainersIds(state = [], action = {}){
+    switch (action.type){
+        case ADD_SORTABLE_CONTAINER:
+            return [...state, action.payload.id];
+        case IMPORT_STATE:
+            return action.payload.present.sortableContainersIds;
+        default:
+            return state;
+    }
+}
+
 function navItemCreator(state = {}, action = {}){
     switch (action.type){
         case ADD_NAV_ITEM:
@@ -162,8 +183,6 @@ function navItemCreator(state = {}, action = {}){
                 type: action.payload.type,
                 titlesReduced: action.payload.titlesReduced
             };
-        case EXPAND_NAV_ITEM:
-            return ;
         default:
             return state;
     }
@@ -275,12 +294,12 @@ function toolbarsById(state = {}, action = {}){
     }
 }
 
-function togglePluginModal(state = {value: false, caller: 0, fromSortable: false}, action = {}){
+function togglePluginModal(state = {caller: 0, fromSortable: false}, action = {}){
     switch(action.type){
         case TOGGLE_PLUGIN_MODAL:
             return action.payload;
         case ADD_BOX:
-            return {value: false, caller: 0, fromSortable: false};
+            return {caller: 0, fromSortable: false};
         case IMPORT_STATE:
             return action.payload.present.boxModalToggled;
         default:
@@ -329,6 +348,8 @@ const GlobalState = undoable(combineReducers({
     boxesById: boxesById, //{0: box0, 1: box1}
     boxSelected: boxSelected, //0
     boxes: boxesIds, //[0, 1]
+    sortableContainersById: sortableContainersById, //{0: cont0, 1: cont1}
+    sortableContainers: sortableContainersIds, //[0, 1]
     navItemsIds: navItemsIds, //[0, 1]
     navItemSelected: navItemSelected, // 0
     navItemsById: navItemsById, // {0: navItem0, 1: navItem1}
@@ -341,6 +362,8 @@ const GlobalState = undoable(combineReducers({
     else if(action.type === TOGGLE_PAGE_MODAL)
         return false;
     else if(action.type === TOGGLE_PLUGIN_MODAL)
+        return false;
+    else if(action.type === TOGGLE_TITLE_MODE)
         return false;
     else if(action.type === CHANGE_DISPLAY_MODE)
         return false;

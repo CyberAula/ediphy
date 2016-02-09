@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import {Input} from 'react-bootstrap';
 import interact from 'interact.js';
-import {BOX_TYPES} from '../constants';
+import {BOX_TYPES, ID_PREFIX_SORTABLE_CONTAINER} from '../constants';
 
 export default class DaliBox extends Component {
     render() {
@@ -28,7 +28,6 @@ export default class DaliBox extends Component {
             overflowY: 'hidden',
             visibility: (this.props.toolbar.showTextEditor ? 'visible' : 'hidden')}
         let attrs = {};
-        console.log(this.props.box)
         if(this.props.toolbar.buttons) {
             this.props.toolbar.buttons.map((item, index) => {
                 if (item.autoManaged) {
@@ -70,14 +69,11 @@ export default class DaliBox extends Component {
                 <div
                     style={{position: 'absolute', right: -cornerSize/2, bottom: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray'}}></div>
             </div>);
-        let position;
-        switch (box.type) {
-            case BOX_TYPES.NORMAL:
-                position = 'absolute';
-                break;
-            case BOX_TYPES.INNER_SORTABLE:
-                position = 'relative';
-                break;
+
+        let position = 'absolute';
+        if(box.parent.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1){
+            position = 'relative';
+            box.position.y = 0;
         }
 
         return (<div onClick={e => {
@@ -91,11 +87,10 @@ export default class DaliBox extends Component {
                             msTouchAction: 'none'}}>
             {content}
             {overlay}
-            <textarea ref={"textarea"}
+            <textarea ref={"textarea"} style={textareaStyle}
                       onBlur={() => {
                         this.blurTextarea();
-                      }}
-                      style={textareaStyle} />
+                      }}/>
         </div>);
     }
 
@@ -103,8 +98,6 @@ export default class DaliBox extends Component {
         this.props.onTextEditorToggled(this.props.id, false);
         Dali.Plugins.get(this.props.toolbar.config.name).updateTextChanges(this.refs.textarea.value, this.props.id);
     }
-
-
 
     componentWillUpdate(nextProps, nextState){
         if(this.props.isSelected && !nextProps.isSelected && this.props.toolbar.showTextEditor){
@@ -135,15 +128,20 @@ export default class DaliBox extends Component {
 
                         target.style.left = (parseInt(target.style.left) || 0) + event.dx + 'px';
                         target.style.top = (parseInt(target.style.top) || 0) + event.dy + 'px';
+
+                        if(event.restrict){
+                            this.props.onBoxMoved(this.props.id, parseInt(target.style.left), parseInt(target.style.top));
+                        }
                     },
                     onend: (event) => {
-                        this.props.onBoxMoved(this.props.id, parseInt(event.target.style.left), parseInt(event.target.style.top));
+                        //this.props.onBoxMoved(this.props.id, parseInt(event.target.style.left), parseInt(event.target.style.top));
                     }
                 })
                 .resizable({
                     enabled: this.props.box.resizable,
                     restrict: {
-                      restriction: 'parent'
+                      restriction: 'parent',
+                        endOnly: true
                     },
                     edges: {left: true, right: true, bottom: true, top: true},
                     container:'parent',
