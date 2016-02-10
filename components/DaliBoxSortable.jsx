@@ -7,18 +7,18 @@ export default class DaliBoxSortable extends Component{
         return(
         <div>
             <div ref="sortableContainer" style={{position: 'relative'}}>
-                {this.props.box.children.map((id, index)=>{
+                {this.props.box.children.map((idContainer, index)=>{
                     return (<div key={index} style={{width: '100%', border: '1px solid #999', boxSizing: 'border-box', position: 'relative'}}>
                         <div>
-                            {this.props.sortableContainers[id].map((id, index) => {
-                                let box = this.props.boxes[id];
-                                let isSelected = (id === this.props.boxSelected);
+                            {this.props.box.sortableContainers[idContainer].children.map((idBox, index) => {
+                                let box = this.props.boxes[idBox];
+                                let isSelected = (idBox === this.props.boxSelected);
 
                                 return (<DaliBox box={box}
-                                                 id={id}
+                                                 id={idBox}
                                                  key={index}
                                                  isSelected={isSelected}
-                                                 toolbar={this.props.toolbars[id]}
+                                                 toolbar={this.props.toolbars[idBox]}
                                                  onBoxSelected={this.props.onBoxSelected}
                                                  onBoxMoved={this.props.onBoxMoved}
                                                  onBoxResized={this.props.onBoxResized}
@@ -28,7 +28,7 @@ export default class DaliBoxSortable extends Component{
                         </div>
                         <div style={{position: 'absolute', bottom: 0}}>
                             <i style={{verticalAlign: 'middle'}} className="fa fa-bars fa-2x drag-handle"></i>
-                            <Button onClick={e => this.props.onVisibilityToggled(id, false)}>
+                            <Button onClick={e => this.props.onVisibilityToggled(this.props.id, false, idContainer)}>
                                 <i className="fa fa-plus"></i>
                             </Button>
                         </div>

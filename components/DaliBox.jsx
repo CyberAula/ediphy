@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import {Input,Button} from 'react-bootstrap';
 import interact from 'interact.js';
-import {BOX_TYPES, ID_PREFIX_SORTABLE_CONTAINER} from '../constants';
+import {BOX_TYPES, ID_PREFIX_SORTABLE_BOX} from '../constants';
 
 export default class DaliBox extends Component {
     render() {
@@ -54,31 +54,27 @@ export default class DaliBox extends Component {
             </div>
         );
         let overlay = (
-            <div
-                style={{visibility: ((this.props.isSelected && box.type !== BOX_TYPES.SORTABLE) ? 'visible' : 'hidden')}}>
-                <div
-                    style={{position: 'absolute', width: '100%', height: '100%', border: (borderSize + "px dashed black"), boxSizing: 'border-box'}}>
+            <div style={{visibility: ((this.props.isSelected && box.type !== BOX_TYPES.SORTABLE) ? 'visible' : 'hidden')}}>
+                <div style={{position: 'absolute', width: '100%', height: '100%', border: (borderSize + "px dashed black"), boxSizing: 'border-box'}}>
                    
-                     <Button onClick={e => { e.stopPropagation(); this.props.onBoxDeleted(this.props.id, this.props.box.parent)}} 
-                     style={{backgroundColor:'transparent', right: 0, position:'absolute' , border: '0'}}> 
-                      <i className="fa fa-trash-o"></i>
+                     <Button style={{backgroundColor:'transparent', right: 0, position:'absolute' , border: '0'}}
+                             onClick={e => {
+                                this.props.onBoxDeleted(this.props.id, this.props.box.parent);
+                                e.stopPropagation();
+                             }}>
+                        <i className="fa fa-trash-o"></i>
                       </Button>
 
                     </div>
-                <div
-                    style={{position: 'absolute', left:  -cornerSize/2, top: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray'}}></div>
-                <div
-                    style={{position: 'absolute', right: -cornerSize/2, top: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray'}}></div>
-                <div
-                    style={{position: 'absolute', left:  -cornerSize/2, bottom: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray'}}></div>
-                <div
-                    style={{position: 'absolute', right: -cornerSize/2, bottom: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray'}}></div>
+                <div style={{position: 'absolute', left:  -cornerSize/2, top: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray'}}></div>
+                <div style={{position: 'absolute', right: -cornerSize/2, top: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray'}}></div>
+                <div style={{position: 'absolute', left:  -cornerSize/2, bottom: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray'}}></div>
+                <div style={{position: 'absolute', right: -cornerSize/2, bottom: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray'}}></div>
             </div>);
 
         let position = 'absolute';
-        if(box.parent.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1){
+        if(box.parent.indexOf(ID_PREFIX_SORTABLE_BOX) !== -1){
             position = 'relative';
-            box.position.y = 0;
         }
 
         return (<div onClick={e => {

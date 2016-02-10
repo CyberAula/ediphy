@@ -17,7 +17,7 @@ require('../sass/style.scss');
 
 class DaliApp extends Component{
     render(){
-        const{ dispatch, boxes, boxesIds, boxSelected, sortableContainers, sortableContainersIds, navItemsIds, navItems, navItemSelected,
+        const{ dispatch, boxes, boxesIds, boxSelected, navItemsIds, navItems, navItemSelected,
             boxModalToggled, pageModalToggled, undoDisabled, redoDisabled, displayMode, isBusy, toolbars } = this.props;
         return(
             <Grid fluid={true} style={{height: '100%'}}>
@@ -38,7 +38,6 @@ class DaliApp extends Component{
                         <DaliCanvas boxes={boxes}
                                     boxesIds={boxesIds}
                                     boxSelected={boxSelected}
-                                    sortableContainers={sortableContainers}
                                     navItems={navItems}
                                     navItemSelected={navItems[navItemSelected]}
                                     showCanvas={(navItemsIds.length !== 0)}
@@ -48,15 +47,15 @@ class DaliApp extends Component{
                                     onBoxResized={(id, width, height) => dispatch(resizeBox(id, width, height))}
                                     onBoxDeleted={(id,parent) => dispatch(deleteBox(id, parent))} 
                                     onBoxReorder={(ids,parent) => dispatch(reorderBox(ids,parent))}
-                                    onVisibilityToggled={(caller, fromSortable) => dispatch(togglePluginModal(caller, fromSortable))}
+                                    onVisibilityToggled={(caller, fromSortable, container) => dispatch(togglePluginModal(caller, fromSortable, container))}
                                     onTextEditorToggled={(caller, value) => dispatch(toggleTextEditor(caller, value))}
                                     titleModeToggled={(id, value) => dispatch(toggleTitleMode(id, value))} />
                     </Col>
                 </Row>
                 <BoxModal caller={boxModalToggled.caller}
                           fromSortable={boxModalToggled.fromSortable}
-                          onBoxAdded={(parent, id, type, draggable, resizable, content, toolbar, config, state) => dispatch(addBox(parent, id, type, draggable, resizable, content, toolbar, config, state))}
-                          onSortableContainerAdded={(parent, id) => dispatch(addSortableContainer(parent, id))} />
+                          container={boxModalToggled.container}
+                          onBoxAdded={(ids, type, draggable, resizable, content, toolbar, config, state) => dispatch(addBox(ids, type, draggable, resizable, content, toolbar, config, state))}/>
                 <PageModal visibility={pageModalToggled.value}
                            caller={pageModalToggled.caller}
                            navItems={navItems}
@@ -101,7 +100,7 @@ class DaliApp extends Component{
             if(e.detail.isUpdating) {
                 this.props.dispatch(updateBox(e.detail.id, e.detail.content, e.detail.state));
             }else {
-                this.props.dispatch(addBox(this.props.boxModalToggled.caller, ID_PREFIX_BOX + Date.now(), BOX_TYPES.NORMAL, true, true, e.detail.config.needsTextEdition, e.detail.content, e.detail.toolbar, e.detail.config, e.detail.state));
+                this.props.dispatch(addBox({parent: this.props.boxModalToggled.caller, id: ID_PREFIX_BOX + Date.now()}, BOX_TYPES.NORMAL, true, true, e.detail.config.needsTextEdition, e.detail.content, e.detail.toolbar, e.detail.config, e.detail.state));
             }
         })
     }
@@ -112,8 +111,6 @@ function mapStateToProps(state){
         boxes: state.present.boxesById,
         boxesIds: state.present.boxes,
         boxSelected: state.present.boxSelected,
-        sortableContainers: state.present.sortableContainersById,
-        sortableContainersIds: state.present.sortableContainersIds,
         navItemsIds: state.present.navItemsIds,
         navItems: state.present.navItemsById,
         navItemSelected: state.present.navItemSelected,
