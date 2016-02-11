@@ -3,15 +3,38 @@
 .outter{
 	background-color: $grismedio;
 	height: 100%;
-	padding-top: 5%; 
-	/*padding-bottom: 1%;*/
+	padding-top: 39px; 
+
 }
+
 
 .slide {
 	height: 100%;
 	background-color: white;
+/*	overflow-x: hidden;
+	overflow-y: auto;*/
+}
+.outter > .sli{
+	
+	padding-bottom: 1%;
+
+
+}
+	
+
+/*style={{ paddingBottom:(navItems[navItemSelected].type== "document") ? '0px' : '1%'}}*/
+
+.sli {
+	height: 100%;
+	background-color: white ;
 	margin: 0px 100px 0px 100px;  
+	overflow-x: hidden;
+	overflow-y: hidden;
+}
+.doc {
+	height: 100%;
+	background-color: white;
+	margin: 0px;  
 	overflow-x: hidden;
 	overflow-y: auto;
 }
-

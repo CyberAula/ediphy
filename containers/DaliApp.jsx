@@ -36,7 +36,7 @@ class DaliApp extends Component{
                                       onDisplayModeChanged={mode => dispatch(changeDisplayMode(mode))} />
                     </Col>
 
-                    <Col md={10} xs={10} className="outter" style={{ paddingBottom:(navItems[navItemSelected].type== "document") ? '0px' : '1%'}}>
+                    <Col md={10} xs={10} className="outter" style={{ padding:(navItems[navItemSelected].type== "document") ? '39px 0px 0px 0px' : '50px 0px 30px 0px '}} >
                         <DaliCanvas boxes={boxes}
                                     boxesIds={boxesIds}
                                     boxSelected={boxSelected}
