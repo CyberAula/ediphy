@@ -61,12 +61,28 @@ export default class Section extends Component {
     }
 
     calculatePosition(){
+
         let navItem = this.props.navItems[this.props.id];
-        let position = Math.max(this.props.navItemsIds.indexOf(navItem.children[navItem.children.length - 1]), 0) + 1;
-        return position;
+        //let position = Math.max(this.props.navItemsIds.indexOf(navItem.children[navItem.children.length - 1]), 0) + 1;
+        var cuenta = 0
+        var exit= 0;
+        this.props.navItemsIds.map(i=>{
+        
+            if(exit==0 && this.props.navItems[i].position > navItem.position) {
+                if( this.props.navItems[i].level > navItem.level ){
+                    cuenta++; return;
+                }else{
+                    exit==1; return;
+                }
+            }
+        });
+        console.log('hueco '+cuenta)
+
+        return navItem.position +cuenta + 1;
     }
 
     calculateName(navItem){
+
         let siblings = navItem.children
         var sections = 1
         for (let i in siblings){

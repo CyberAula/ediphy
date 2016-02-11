@@ -14,6 +14,7 @@ import PluginToolbar from '../components/PluginToolbar';
 require('../sass/style.scss');
 
 class DaliApp extends Component{
+
     render(){
         const{ dispatch, boxes, boxesIds, boxSelected, navItemsIds, navItems, navItemSelected, boxModalToggled,
             pageModalToggled, undoDisabled, redoDisabled, displayMode, isBusy, toolbars } = this.props;
@@ -32,7 +33,8 @@ class DaliApp extends Component{
                                       onNavItemRemoved={(ids, parent) => dispatch(removeNavItem(ids, parent))}
                                       onDisplayModeChanged={mode => dispatch(changeDisplayMode(mode))} />
                     </Col>
-                    <Col md={10} xs={10} className="outter">
+
+                    <Col md={10} xs={10} className="outter" style={{ paddingBottom:(navItems[navItemSelected].type== "document") ? '0px' : '1%'}}>
                         <DaliCanvas boxes={boxes}
                                     boxesIds={boxesIds}
                                     boxSelected={boxSelected}

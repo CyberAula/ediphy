@@ -143,7 +143,8 @@ function navItemCreator(state = {}, action = {}){
                 children: action.payload.children,
                 boxes: [],
                 level: action.payload.level,
-                type: action.payload.type
+                type: action.payload.type,
+                position: action.payload.position
             };
         case EXPAND_NAV_ITEM:
             return Object.assign({}, state, {isExpanded: action.payload.value});
@@ -152,26 +153,56 @@ function navItemCreator(state = {}, action = {}){
     }
 }
 
-function recalculateNames(state = {},old = {}){
+function recalculateNames(state = {},old = {}, resta = 0, numeroBorrados = 0){
     var items = state
-
-    var pageNum = 1;
-    var sectionNum = 0
-    var level = 0
-    let deleted = items[old.id]
-  
+    var sectionNum = 1;
+    //Recalculate positions
     for (let i in items){
-       
-        if (items[i].type !='section' &&  items[i].type !='' ){
-            items[i].name = 'Page '+pageNum++
+        if(resta == 1) {
+            if(items[i].position >= old.position){
+                console.log(items[i].position);
+                items[i].position -= numeroBorrados;
+                console.log('resta');
+            }
+        } else {
+            if (items[i].position > old.position || (items[i].position == old.position && items[i].level<old.level) ){        
+                items[i].position++;
+            }
         }
-       /* if (items[i].type =='section' ){
-            items[i].name = 'Section '+sectionNum++
-        }*/
     }
+    // Rename pages
+    var pages = Object.keys(state).filter(page => {
+        if(state[page].type == 'slide'|| state[page].type == 'document'){
+            return page;
+        }
+    }).sort(function(a, b){return state[a].position-state[b].position;});
 
+    pages.forEach((page,index) => {
+        items[page].name = 'Page ' + (index+1) ;
+     });
 
-    return items
+    // Rename sections
+    var mainindex = 1;
+    var secondindex = 1;
+
+    var sections = Object.keys(state).filter(sec => {
+        if(state[sec].type == 'section'){
+            return sec;
+        }
+    }).sort(function(a, b){return state[a].position-state[b].position});
+
+    sections.forEach((section,index) => {
+        if(items[section].level == 1){
+             items[section].name = 'Section '+(mainindex++);
+        } else {
+            var sub = index - sections.indexOf(items[section].parent);
+            items[section].name = items[items[section].parent].name+'.'+ sub;
+           
+
+        }
+     });
+
+    return items;
 }
 
 function navItemsIds(state = [], action = {}){
@@ -195,11 +226,15 @@ function navItemsIds(state = [], action = {}){
 
 function navItemsById(state = {}, action = {}){
     switch(action.type){
+        case SELECT_NAV_ITEM:
+            console.log('SELECTED_NAV_ITEM_POSITION: '+state[action.payload.id].position)
+            return state;
         case ADD_NAV_ITEM:
-            return Object.assign({}, state, {
+            var newState = Object.assign({}, state, {
                 [action.payload.id]: navItemCreator(state[action.payload.id], action),
                 [action.payload.parent]: Object.assign({}, state[action.payload.parent], {children: [...state[action.payload.parent].children, action.payload.id]})
             });
+            return recalculateNames(newState, newState[action.payload.id],0)
         case EXPAND_NAV_ITEM:
             return Object.assign({}, state, {[action.payload.id]: navItemCreator(state[action.payload.id], action)});
         case REMOVE_NAV_ITEM:
@@ -211,7 +246,7 @@ function navItemsById(state = {}, action = {}){
             let newChildren = newState[action.payload.parent].children.slice();
             newChildren.splice(newChildren.indexOf(action.payload.ids[0]), 1);
             let wrongNames = Object.assign({}, newState, {[action.payload.parent]: Object.assign({}, newState[action.payload.parent], {children: newChildren})});
-            return recalculateNames(wrongNames, oldOne)
+            return recalculateNames(wrongNames, oldOne,1, action.payload.ids.length)
         case ADD_BOX:
             if(action.payload.parent !== 0 && (action.payload.parent.indexOf(ID_PREFIX_PAGE) !== -1 || action.payload.parent.indexOf(ID_PREFIX_SECTION) !== -1))
                 return Object.assign({}, state, {
@@ -241,6 +276,7 @@ function navItemsById(state = {}, action = {}){
 function navItemSelected(state = 0, action = {}){
     switch(action.type){
         case SELECT_NAV_ITEM:
+
             return action.payload.id;
         case ADD_NAV_ITEM:
             return action.payload.id;
@@ -255,6 +291,7 @@ function navItemSelected(state = 0, action = {}){
 
 function toolbarsById(state = {}, action = {}){
     switch(action.type) {
+
         case ADD_BOX:
             let toolbar = {id: action.payload.id, buttons: action.payload.toolbar, config: action.payload.config, state: action.payload.state, showTextEditor: action.payload.showTextEditor};
             return Object.assign({}, state, {[action.payload.id]: toolbar});

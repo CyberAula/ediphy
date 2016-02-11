@@ -75,7 +75,9 @@ export default class CarrouselList extends Component{
                 break;
             }
         }
+        console.log(ids.length)
         return ids;
+
     }
 
     sections(){
