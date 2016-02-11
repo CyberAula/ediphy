@@ -2,8 +2,10 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {ActionCreators} from 'redux-undo';
 import {Grid, Col, Row, Button, OverlayTrigger, Popover} from 'react-bootstrap';
-import {addNavItem, selectNavItem, expandNavItem, removeNavItem, addBox, selectBox, moveBox, resizeBox, updateBox, deleteBox, reorderBox,
-    togglePluginModal, togglePageModal, toggleTextEditor, changeDisplayMode, exportStateAsync, importStateAsync, updateToolbar} from '../actions';
+import {addNavItem, selectNavItem, expandNavItem, removeNavItem,
+    addBox, selectBox, moveBox, resizeBox, updateBox, deleteBox, reorderBox, addSortableContainer,
+    togglePluginModal, togglePageModal, toggleTextEditor, toggleTitleMode,
+    changeDisplayMode, exportStateAsync, importStateAsync, updateToolbar} from '../actions';
 import {ID_PREFIX_BOX, ID_PREFIX_SORTABLE_BOX, BOX_TYPES} from '../constants';
 import DaliCanvas from '../components/DaliCanvas';
 import DaliCarousel from '../components/DaliCarousel';
@@ -16,8 +18,8 @@ require('../sass/style.scss');
 class DaliApp extends Component{
 
     render(){
-        const{ dispatch, boxes, boxesIds, boxSelected, navItemsIds, navItems, navItemSelected, boxModalToggled,
-            pageModalToggled, undoDisabled, redoDisabled, displayMode, isBusy, toolbars } = this.props;
+        const{ dispatch, boxes, boxesIds, boxSelected, navItemsIds, navItems, navItemSelected,
+            boxModalToggled, pageModalToggled, undoDisabled, redoDisabled, displayMode, isBusy, toolbars } = this.props;
         return(
             <Grid fluid={true} style={{height: '100%'}}>
                 <Row style={{height: '100%'}}>
@@ -47,15 +49,15 @@ class DaliApp extends Component{
                                     onBoxResized={(id, width, height) => dispatch(resizeBox(id, width, height))}
                                     onBoxDeleted={(id,parent) => dispatch(deleteBox(id, parent))} 
                                     onBoxReorder={(ids,parent) => dispatch(reorderBox(ids,parent))}
-                                    onVisibilityToggled={(caller, fromSortable, value) => dispatch(togglePluginModal(caller, fromSortable, value))}
-                                    onTextEditorToggled={(caller, value) => dispatch(toggleTextEditor(caller, value))} />
+                                    onVisibilityToggled={(caller, fromSortable, container) => dispatch(togglePluginModal(caller, fromSortable, container))}
+                                    onTextEditorToggled={(caller, value) => dispatch(toggleTextEditor(caller, value))}
+                                    titleModeToggled={(id, value) => dispatch(toggleTitleMode(id, value))} />
                     </Col>
                 </Row>
-                <BoxModal visibility={boxModalToggled.value}
-                          caller={boxModalToggled.caller}
+                <BoxModal caller={boxModalToggled.caller}
                           fromSortable={boxModalToggled.fromSortable}
-                          onBoxAdded={(parent, id, type, draggable, resizable, content, toolbar, config, state) => dispatch(addBox(parent, id, type, draggable, resizable, content, toolbar, config, state))}
-                          onVisibilityToggled={(caller, fromSortable, value) => dispatch(togglePluginModal(caller, fromSortable, value))} />
+                          container={boxModalToggled.container}
+                          onBoxAdded={(ids, type, draggable, resizable, content, toolbar, config, state) => dispatch(addBox(ids, type, draggable, resizable, content, toolbar, config, state))}/>
                 <PageModal visibility={pageModalToggled.value}
                            caller={pageModalToggled.caller}
                            navItems={navItems}
@@ -96,11 +98,11 @@ class DaliApp extends Component{
             })
         });
 
-        Dali.API.Private.listenEmission(Dali.API.Private.events.render, e =>{
+        Dali.API.Private.listenEmission(Dali.API.Private.events.render, e => {
             if(e.detail.isUpdating) {
                 this.props.dispatch(updateBox(e.detail.id, e.detail.content, e.detail.state));
             }else {
-                this.props.dispatch(addBox(this.props.boxModalToggled.caller, ID_PREFIX_BOX + Date.now(), (this.props.boxModalToggled.fromSortable ? BOX_TYPES.INNER_SORTABLE : BOX_TYPES.NORMAL), true, true, e.detail.config.needsTextEdition, e.detail.content, e.detail.toolbar, e.detail.config, e.detail.state));
+                this.props.dispatch(addBox({parent: this.props.boxModalToggled.caller, id: ID_PREFIX_BOX + Date.now()}, BOX_TYPES.NORMAL, true, true, e.detail.config.needsTextEdition, e.detail.content, e.detail.toolbar, e.detail.config, e.detail.state));
             }
         })
     }

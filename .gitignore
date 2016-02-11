@@ -4,3 +4,5 @@ dist/bundle.js.map
 dist/bundle.js
 dist/bundle.js
 dist/bundle.js
+webpack.config.js~
+*.orig
