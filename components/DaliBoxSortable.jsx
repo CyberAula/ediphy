@@ -8,8 +8,12 @@ export default class DaliBoxSortable extends Component{
         <div>
             <div ref="sortableContainer" style={{position: 'relative'}}>
                 {this.props.box.children.map((idContainer, index)=>{
-                    return (<div key={index} style={{width: '100%', border: '1px solid #999', boxSizing: 'border-box', position: 'relative'}}>
-                        <div>
+                    return (<div key={index} style={{
+                        width: '100%',
+                        height: this.props.box.sortableContainers[idContainer].height,
+                        border: '1px solid #999',
+                        boxSizing: 'border-box',
+                        position: 'relative'}}>
                             {this.props.box.sortableContainers[idContainer].children.map((idBox, index) => {
                                 let box = this.props.boxes[idBox];
                                 let isSelected = (idBox === this.props.boxSelected);
@@ -25,7 +29,6 @@ export default class DaliBoxSortable extends Component{
                                                  onBoxDeleted={this.props.onBoxDeleted}
                                                  onTextEditorToggled={this.props.onTextEditorToggled} />);
                             })}
-                        </div>
                         <div style={{position: 'absolute', bottom: 0}}>
                             <i style={{verticalAlign: 'middle'}} className="fa fa-bars fa-2x drag-handle"></i>
                             <Button onClick={e => this.props.onVisibilityToggled(this.props.id, false, idContainer)}>

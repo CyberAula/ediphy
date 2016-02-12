@@ -72,14 +72,9 @@ export default class DaliBox extends Component {
                 <div style={{position: 'absolute', right: -cornerSize/2, bottom: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray'}}></div>
             </div>);
 
-        let position = 'absolute';
-        if(box.parent.indexOf(ID_PREFIX_SORTABLE_BOX) !== -1){
-            position = 'relative';
-        }
-
         return (<div onClick={e => {
                         this.props.onBoxSelected(this.props.id)}}
-                     style={{position: position,
+                     style={{position: 'absolute',
                             left: box.position.x,
                             top: box.position.y,
                             width: box.width,
@@ -117,7 +112,6 @@ export default class DaliBox extends Component {
             interact(ReactDOM.findDOMNode(this))
                 .draggable({
                     enabled: this.props.box.draggable,
-                    cancel:'iframe',
                     restrict: {
                         restriction: "parent",
                         endOnly: true,
@@ -129,23 +123,22 @@ export default class DaliBox extends Component {
 
                         target.style.left = (parseInt(target.style.left) || 0) + event.dx + 'px';
                         target.style.top = (parseInt(target.style.top) || 0) + event.dy + 'px';
-
-                        if(event.restrict){
-                            this.props.onBoxMoved(this.props.id, parseInt(target.style.left), parseInt(target.style.top));
+                        if(event.restrict && event.restrict.dy < 0) {
+                            target.style.top = (parseInt(target.style.top) || 0) - event.restrict.dy + 'px';
                         }
                     },
                     onend: (event) => {
-                        //this.props.onBoxMoved(this.props.id, parseInt(event.target.style.left), parseInt(event.target.style.top));
+                        this.props.onBoxMoved(this.props.id, parseInt(event.target.style.left), parseInt(event.target.style.top));
                     }
                 })
                 .resizable({
                     enabled: this.props.box.resizable,
                     restrict: {
-                      restriction: 'parent',
-                        endOnly: true
+                        restriction: "parent",
+                        endOnly: true,
+                        elementRect: {top: 0, left: 0, bottom: 1, right: 1}
                     },
                     edges: {left: true, right: true, bottom: true, top: true},
-                    container:'parent',
                     onmove: (event) => {
                         /*BOX-RESIZE*/
                         var target = event.target;
@@ -169,6 +162,13 @@ export default class DaliBox extends Component {
                                
                         target.style.width = event.rect.width + 'px';
                         target.style.height = event.rect.height + 'px';
+
+                        if(event.restrict){
+                            target.style.height = parseInt(target.style.height) - event.restrict.dy + 'px';
+                            if(event.restrict.dx > 0){
+                                target.style.width = parseInt(target.style.width) - event.restrict.dx + 'px';
+                            }
+                        }
                     },
                     onend: (event) => {
                         this.props.onBoxResized(this.props.id, parseInt(event.target.style.width), parseInt(event.target.style.height));
