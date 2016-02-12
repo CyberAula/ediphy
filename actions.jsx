@@ -36,9 +36,9 @@ export function expandNavItem(id, value){
     return {type: EXPAND_NAV_ITEM, payload: {id, value}};
 }
 
-export function removeNavItem(ids, parent){
+export function removeNavItem(ids, parent, boxes){
 
-    return {type: REMOVE_NAV_ITEM, payload: {ids, parent}};
+    return {type: REMOVE_NAV_ITEM, payload: {ids, parent, boxes}};
 }
 
 export function addBox(ids, type, draggable, resizable, showTextEditor, content, toolbar, config, state){

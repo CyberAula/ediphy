@@ -118,26 +118,33 @@ function boxesById(state = {}, action = {}){
         case DELETE_BOX:
             var newState = Object.assign({},state);
             delete newState[action.payload.id];
+
+            // Al arreglar esto también arreglarlo en toolbarsById
             /*
-            let newState = Object.assign({}, state);
-            if(action.payload.parent.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1){
-                if(newState[action.payload.parent].length === 1) {
-                    delete newState[action.payload.parent];
-                }else {
-                    newState[action.payload.parent] = newState[action.payload.parent].filter(id => id !== action.payload.id);
+                let newState = Object.assign({}, state);
+                if(action.payload.parent.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1){
+                    if(newState[action.payload.parent].length === 1) {
+                        delete newState[action.payload.parent];
+                    }else {
+                        newState[action.payload.parent] = newState[action.payload.parent].filter(id => id !== action.payload.id);
+                    }
                 }
-            }
-            return newState;
+                return newState;
+                */
+                /*
+                var parent = state[action.payload.parent];
+                console.log(parent);
+                 if (parent) {
+                    parent.children = parent.children.filter(id =>  id!=action.payload.id);
+                    newState = Object.assign({},newState, parent);
+                }
             */
-            /*
-            var parent = state[action.payload.parent];
-            console.log(parent);
-             if (parent) {
-                parent.children = parent.children.filter(id =>  id!=action.payload.id);
-                newState = Object.assign({},newState, parent);
-            }
-            */
             return newState;
+        case REMOVE_NAV_ITEM:
+            var newState = Object.assign({},state)
+            action.payload.boxes.map(box => { delete newState[box]})
+            return newState;
+
         case REORDER_BOX:
             let oldChildren = state[action.payload.parent].children
             var newChildren = Object.keys(oldChildren).map(i => oldChildren[action.payload.ids[i]])
@@ -172,8 +179,16 @@ function boxesIds(state = [], action = {}){
             return [...state, action.payload.ids.id];
         case DELETE_BOX:
             return  state.filter(id => id!=action.payload.id);
+        case REMOVE_NAV_ITEM:
+        console.log("bosesidsremove")
+            console.log(action.payload.boxes)
+
+            return  state.filter(i=> { console.log(i)
+                if (action.payload.boxes.indexOf(i)==-1){ return i;}
+            });
+
         case IMPORT_STATE:
-            return action.payload.present.boxes;
+            return action.payload.present.boxes;    
         default:
             return state;
     }
@@ -273,6 +288,7 @@ function navItemsIds(state = [], action = {}){
 function navItemsById(state = {}, action = {}){
     switch(action.type){
         case SELECT_NAV_ITEM:
+            console.log('pos selected: '+state[action.payload.id].position)
             return state;
         case ADD_NAV_ITEM:
             var newState = Object.assign({}, state, {
@@ -342,6 +358,29 @@ function toolbarsById(state = {}, action = {}){
         case ADD_BOX:
             let toolbar = {id: action.payload.ids.id, buttons: action.payload.toolbar, config: action.payload.config, state: action.payload.state, showTextEditor: action.payload.showTextEditor};
             return Object.assign({}, state, {[action.payload.ids.id]: toolbar});
+        case DELETE_BOX:
+            var newState = Object.assign({},state);
+            delete newState[action.payload.id];
+            /*
+                let newState = Object.assign({}, state);
+                if(action.payload.parent.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1){
+                    if(newState[action.payload.parent].length === 1) {
+                        delete newState[action.payload.parent];
+                    }else {
+                        newState[action.payload.parent] = newState[action.payload.parent].filter(id => id !== action.payload.id);
+                    }
+                }
+                return newState;
+                */
+                /*
+                var parent = state[action.payload.parent];
+                console.log(parent);
+                 if (parent) {
+                    parent.children = parent.children.filter(id =>  id!=action.payload.id);
+                    newState = Object.assign({},newState, parent);
+                }
+            */
+            return newState;
         case UPDATE_TOOLBAR:
             let newState = state[action.payload.caller].buttons.slice();
             newState[action.payload.index] = Object.assign({}, newState[action.payload.index], {value: action.payload.value});
@@ -358,6 +397,11 @@ function toolbarsById(state = {}, action = {}){
             });
         case IMPORT_STATE:
             return action.payload.present.toolbarsById;
+
+        case REMOVE_NAV_ITEM:
+            var newState = Object.assign({},state)
+            action.payload.boxes.map(box => { delete newState[box]})
+            return newState;
         default:
             return state;
     }

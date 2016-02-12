@@ -32,7 +32,7 @@ class DaliApp extends Component{
                                       onSectionAdded={(id, name, parent, children, level, type, position) => dispatch(addNavItem(id, name, parent, children, level, type, position))}
                                       onNavItemSelected={id => dispatch(selectNavItem(id))}
                                       onNavItemExpanded={(id, value) => dispatch(expandNavItem(id, value))}
-                                      onNavItemRemoved={(ids, parent) => dispatch(removeNavItem(ids, parent))}
+                                      onNavItemRemoved={(ids, parent,boxes) => dispatch(removeNavItem(ids, parent, boxes))}
                                       onDisplayModeChanged={mode => dispatch(changeDisplayMode(mode))} />
                     </Col>
 

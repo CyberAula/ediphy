@@ -12,8 +12,11 @@ export default class CarrouselList extends Component{
                             disabled={this.props.navItemSelected === 0}
                             onClick={e => {
                                         let ids = [this.props.navItemSelected];
-                                        this.findChildren(ids);
-                                        this.props.onNavItemRemoved(ids, this.props.navItems[this.props.navItemSelected].parent);
+                                        let found = this.findChildren(ids);
+                                        let boxes =  this.findBoxes(found)
+                                        console.log('bbbb')
+                                        console.log(boxes)
+                                        this.props.onNavItemRemoved(ids, this.props.navItems[this.props.navItemSelected].parent, boxes );
                                     }
                                 }><i className="fa fa-trash-o"></i></Button>
                     <Button className="carrouselButton" 
@@ -75,7 +78,6 @@ export default class CarrouselList extends Component{
                 break;
             }
         }
-        console.log(ids.length)
         return ids;
 
     }
@@ -90,6 +92,30 @@ export default class CarrouselList extends Component{
             }
         }
         return current;
+
+    }
+
+
+    findBoxes(ids){
+        console.log('findboxes')
+       let newids = ids
+       console.log(newids)
+       var boxesids = []
+       newids.map(nav=> {
+        console.log(this.props.navItems[nav].boxes)
+            boxesids = boxesids.concat(this.props.navItems[nav].boxes)
+             console.log(boxesids)
+        });
+       /* let newBoxes = Object.keys(this.props.navItems).filter(box=> {
+            if (newids.indexOf(this.props.boxes Items[box].parent) != -1){
+                return box;
+            }
+        });*/
+
+         console.log(boxesids)
+         console.log('^^')
+         return boxesids
+       
 
     }
 }
