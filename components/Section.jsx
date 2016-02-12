@@ -76,7 +76,6 @@ export default class Section extends Component {
                 }
             }
         });
-        console.log('hueco '+cuenta)
 
         return navItem.position +cuenta + 1;
     }

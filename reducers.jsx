@@ -168,6 +168,8 @@ function boxSelected(state = -1, action = {}) {
             return -1;
         case IMPORT_STATE:
             return action.payload.present.boxSelected;
+        case REMOVE_NAV_ITEM:
+            return -1;
         default:
             return state;
     }
@@ -180,10 +182,7 @@ function boxesIds(state = [], action = {}){
         case DELETE_BOX:
             return  state.filter(id => id!=action.payload.id);
         case REMOVE_NAV_ITEM:
-        console.log("bosesidsremove")
-            console.log(action.payload.boxes)
-
-            return  state.filter(i=> { console.log(i)
+            return  state.filter(i=> { 
                 if (action.payload.boxes.indexOf(i)==-1){ return i;}
             });
 
@@ -288,7 +287,6 @@ function navItemsIds(state = [], action = {}){
 function navItemsById(state = {}, action = {}){
     switch(action.type){
         case SELECT_NAV_ITEM:
-            console.log('pos selected: '+state[action.payload.id].position)
             return state;
         case ADD_NAV_ITEM:
             var newState = Object.assign({}, state, {
@@ -399,6 +397,7 @@ function toolbarsById(state = {}, action = {}){
             return action.payload.present.toolbarsById;
 
         case REMOVE_NAV_ITEM:
+            console.log(action.payload.boxes)
             var newState = Object.assign({},state)
             action.payload.boxes.map(box => { delete newState[box]})
             return newState;

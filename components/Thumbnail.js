@@ -13,8 +13,7 @@ export default class Thumbnail extends Component{
                                         let ids = [this.props.id];
                                         let found = this.findChildren(ids);
                                         let boxes =  this.findBoxes(found)
-                                        console.log('bbbb')
-                                        console.log(boxes)
+                            
                                         this.props.onNavItemRemoved(ids, this.props.navItems[this.props.id].parent, boxes );
                                           e.stopPropagation();
                                     }
@@ -58,25 +57,11 @@ export default class Thumbnail extends Component{
 
 
     findBoxes(ids){
-        console.log('findboxes')
-       let newids = ids
-       console.log(newids)
-       var boxesids = []
+       let newids = ids;
+       var boxesids = [];
        newids.map(nav=> {
-        console.log(this.props.navItems[nav].boxes)
-            boxesids = boxesids.concat(this.props.navItems[nav].boxes)
-             console.log(boxesids)
+            boxesids = boxesids.concat(this.props.navItems[nav].boxes);
         });
-       /* let newBoxes = Object.keys(this.props.navItems).filter(box=> {
-            if (newids.indexOf(this.props.boxes Items[box].parent) != -1){
-                return box;
-            }
-        });*/
-
-         console.log(boxesids)
-         console.log('^^')
-         return boxesids
-       
-
+         return boxesids;
     }
 }
