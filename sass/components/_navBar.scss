@@ -4,7 +4,7 @@
 
 .navBar{
 
-	background-color: $verdeclaro;
+	background-color: $navBar;
 	position: absolute;
 	top:0;
 	left: 0;
@@ -16,32 +16,28 @@
 
 .navButton{
 	 display: inline-block;
-	 border: 1px solid $verdeclaro;
+	 border: 1px solid $navBar;
 	 color: white;
 	 border-radius: 0;
 	 -webkit-border-radius: 0;
 	 -moz-border-radius: 0;
-
 	 width: auto;
 	 height: auto;
 	 width:100px;
-	 font-size: 16px;
+	 font-size: 20px;
 	 height:39px;
 	 padding: 0px 0px 0px 0px;
-	 background-color: $verdeclaro;
+	 background-color: $navBar;
+     box-shadow:none;
+	 &:hover, &:active, &:focus{
 
-
-    box-shadow:none;
-	&:hover, &:active, &:focus{
-		 border:1px solid $verdeclaro;
+		 border:1px solid $navBar;
 		 border-bottom-color: white;
 		 color: white;
-		 background-color: $verdeclaro;
+		 background-color: $navBar;
 		 -webkit-box-shadow: none;
-          box-shadow: none;
-          font-weight:bold;
- 
-
+         box-shadow: none;
+         font-weight:bold;
 	}
 
  	
@@ -51,12 +47,13 @@
 
 button[disabled].navButton {
 	background-color: $verdeoscuro;
-	border:1px solid $verdeoscuro;
+	border:1px solid transparent;
+	color:$navBar;
 
     box-shadow:none;
 	&:hover{
 			background-color: $verdeoscuro;
-			border:1px solid $verdeoscuro;
+			border:1px solid transparent;
 			font-weight:normal;
 	}
 }

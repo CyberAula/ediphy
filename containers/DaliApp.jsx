@@ -16,6 +16,7 @@ import PluginToolbar from '../components/PluginToolbar';
 require('../sass/style.scss');
 
 class DaliApp extends Component{
+
     render(){
         const{ dispatch, boxes, boxesIds, boxSelected, navItemsIds, navItems, navItemSelected,
             boxModalToggled, pageModalToggled, undoDisabled, redoDisabled, displayMode, isBusy, toolbars } = this.props;
@@ -31,10 +32,11 @@ class DaliApp extends Component{
                                       onSectionAdded={(id, name, parent, children, level, type, position) => dispatch(addNavItem(id, name, parent, children, level, type, position))}
                                       onNavItemSelected={id => dispatch(selectNavItem(id))}
                                       onNavItemExpanded={(id, value) => dispatch(expandNavItem(id, value))}
-                                      onNavItemRemoved={(ids, parent) => dispatch(removeNavItem(ids, parent))}
+                                      onNavItemRemoved={(ids, parent,boxes) => dispatch(removeNavItem(ids, parent, boxes))}
                                       onDisplayModeChanged={mode => dispatch(changeDisplayMode(mode))} />
                     </Col>
-                    <Col md={10} xs={10} className="outter">
+
+                    <Col md={10} xs={10} className="outter" style={{ padding:(navItems[navItemSelected].type!= "slide") ? '39px 0px 0px 0px' : '50px 0px 30px 0px '}} >
                         <DaliCanvas boxes={boxes}
                                     boxesIds={boxesIds}
                                     boxSelected={boxSelected}
@@ -65,19 +67,19 @@ class DaliApp extends Component{
                 <PluginConfigModal />
                 <div className="navBar">
                     <Col mdOffset={2} xsOffset={2}>
-                        <button className="navButton" disabled={(navItemsIds.length === 0 ? true : false)} onClick={() => dispatch(togglePluginModal(navItemSelected, false, 0))}>Add</button>
-                        <button className="navButton" disabled={undoDisabled} onClick={() => dispatch(ActionCreators.undo())}>Undo</button>
-                        <button className="navButton" disabled={redoDisabled} onClick={() => dispatch(ActionCreators.redo())}>Redo</button>
+                        <button className="navButton" disabled={(navItemsIds.length === 0 ? true : false)} onClick={() => dispatch(togglePluginModal(navItemSelected, false, 0))}><i className="fa fa-plus fa-1 "></i>  Add</button>
+                        <button className="navButton" disabled={undoDisabled} onClick={() => dispatch(ActionCreators.undo())}><i className="fa fa-mail-reply fa-1"></i>  Undo</button>
+                        <button className="navButton" disabled={redoDisabled} onClick={() => dispatch(ActionCreators.redo())}><i className="fa fa-mail-forward fa-1 "></i>  Redo</button>
                         <OverlayTrigger trigger="click" rootClose placement="bottom" overlay={<Popover id="is_busy_popover">{isBusy}</Popover>}>
                             <button  className="navButton" onClick={() => {
                                 let state = this.props.store.getState();
                                 dispatch(exportStateAsync(state));
-                            }}>Save</button>
+                            }}><i className="fa fa-save fa-1 "></i>  Save</button>
                         </OverlayTrigger>
                         <OverlayTrigger trigger="click" rootClose placement="bottom" overlay={<Popover id="is_busy_popover">{isBusy}</Popover>}>
                             <button  className="navButton" onClick={() => {
                                 dispatch(importStateAsync());
-                            }}>Load</button>
+                            }}><i className="fa fa-folder-open fa-1 "></i>  Load</button>
                         </OverlayTrigger>
                     </Col>
                 </div>

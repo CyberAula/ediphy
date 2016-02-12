@@ -13,6 +13,8 @@ export default class CarrouselThumbnail extends Component {
                     return <Thumbnail id={id}
                                       key={id}
                                       isSelected={isSelected}
+                                      navItemsIds={this.props.navItemsIds}
+                                      navItems={this.props.navItems}
                                       onNavItemSelected={this.props.onNavItemSelected}
                                       onNavItemRemoved={this.props.onNavItemRemoved} />;
                 })
@@ -20,4 +22,8 @@ export default class CarrouselThumbnail extends Component {
             </div>
         );
     }
+
+
+
+
 }

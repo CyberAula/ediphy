@@ -12,8 +12,9 @@ export default class CarrouselList extends Component{
                             disabled={this.props.navItemSelected === 0}
                             onClick={e => {
                                         let ids = [this.props.navItemSelected];
-                                        this.findChildren(ids);
-                                        this.props.onNavItemRemoved(ids, this.props.navItems[this.props.navItemSelected].parent);
+                                        let found = this.findChildren(ids);
+                                        let boxes =  this.findBoxes(found);
+                                        this.props.onNavItemRemoved(ids, this.props.navItems[this.props.navItemSelected].parent, boxes );
                                     }
                                 }><i className="fa fa-trash-o"></i></Button>
                     <Button className="carrouselButton" 
@@ -46,7 +47,7 @@ export default class CarrouselList extends Component{
                                             onNavItemSelected={this.props.onNavItemSelected}
                                             onNavItemExpanded={this.props.onNavItemExpanded} />;
                         }else if(id.indexOf(ID_PREFIX_PAGE) !== -1){
-                            let color = this.props.navItemSelected === id ? '#eca400' : 'black';
+                            let color = this.props.navItemSelected === id ? '#f87060' : '#555';
                             return <h4 key={index}
                                        style={{color: color}}
                                        onClick={e => {
@@ -76,6 +77,7 @@ export default class CarrouselList extends Component{
             }
         }
         return ids;
+
     }
 
     sections(){
@@ -89,5 +91,17 @@ export default class CarrouselList extends Component{
         }
         return current;
 
+    }
+
+
+    findBoxes(ids){
+       let newids = ids;
+       var boxesids = [];
+       newids.map(nav=> {
+            boxesids = boxesids.concat(this.props.navItems[nav].boxes);
+        });
+
+         return boxesids;
+       
     }
 }

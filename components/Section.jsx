@@ -5,7 +5,7 @@ import {ID_PREFIX_SECTION, ID_PREFIX_PAGE} from '../constants';
 export default class Section extends Component {
     render() {
         let navItem = this.props.navItems[this.props.id];
-        let color = (this.props.navItemSelected === navItem.id) ? '#eca400' : 'black';
+        let color = (this.props.navItemSelected === navItem.id) ? '#f87060' : '#555';
 
         return (
             <div onClick={e => {
@@ -35,7 +35,7 @@ export default class Section extends Component {
                                                 onNavItemSelected={this.props.onNavItemSelected}
                                                 onNavItemExpanded={this.props.onNavItemExpanded}/>;
                             } else if (id.indexOf(ID_PREFIX_PAGE) !== -1) {
-                                let color = this.props.navItemSelected === id ? '#eca400' : 'black';
+                                let color = this.props.navItemSelected === id ? '#f87060' : '#555';
                                 return <h4 key={index} style={{color: color}} onClick={e => {
                                     this.props.onNavItemSelected(id);
                                     e.stopPropagation();
@@ -61,12 +61,27 @@ export default class Section extends Component {
     }
 
     calculatePosition(){
+
         let navItem = this.props.navItems[this.props.id];
-        let position = Math.max(this.props.navItemsIds.indexOf(navItem.children[navItem.children.length - 1]), 0) + 1;
-        return position;
+        //let position = Math.max(this.props.navItemsIds.indexOf(navItem.children[navItem.children.length - 1]), 0) + 1;
+        var cuenta = 0
+        var exit= 0;
+        this.props.navItemsIds.map(i=>{
+        
+            if(exit==0 && this.props.navItems[i].position > navItem.position) {
+                if( this.props.navItems[i].level > navItem.level ){
+                    cuenta++; return;
+                }else{
+                    exit==1; return;
+                }
+            }
+        });
+
+        return navItem.position +cuenta + 1;
     }
 
     calculateName(navItem){
+
         let siblings = navItem.children
         var sections = 1
         for (let i in siblings){

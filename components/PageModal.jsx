@@ -25,9 +25,25 @@ export default class PageModal extends Component {
     }
 
     calculatePosition(){
+        if(this.props.caller == 0) {
+            return this.props.navItemsIds.length;
+        }
+
         let navItem = this.props.navItems[this.props.caller];
-        let position = this.props.navItemsIds.indexOf(this.props.caller);
-        return (position + navItem.children.length + 1);
+        var cuenta = 0
+        var exit= 0;
+        this.props.navItemsIds.map(i=>{
+
+            if(exit == 0 & this.props.navItems[i].position > navItem.position/* && prev > navItem.level*/) {
+                if( this.props.navItems[i].level > navItem.level ){
+                    cuenta++; return;
+                } 
+                else{   
+                    exit =1; return;
+                }
+            }
+        });
+           return navItem.position +cuenta + 1;
     }
 
     calculateName(){
