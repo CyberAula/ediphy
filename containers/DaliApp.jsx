@@ -67,19 +67,19 @@ class DaliApp extends Component{
                 <PluginConfigModal />
                 <div className="navBar">
                     <Col mdOffset={2} xsOffset={2}>
-                        <button className="navButton" disabled={(navItemsIds.length === 0 ? true : false)} onClick={() => dispatch(togglePluginModal(navItemSelected, false, true))}>Add</button>
-                        <button className="navButton" disabled={undoDisabled} onClick={() => dispatch(ActionCreators.undo())}>Undo</button>
-                        <button className="navButton" disabled={redoDisabled} onClick={() => dispatch(ActionCreators.redo())}>Redo</button>
+                        <button className="navButton" disabled={(navItemsIds.length === 0 ? true : false)} onClick={() => dispatch(togglePluginModal(navItemSelected, false, true))}><i className="fa fa-plus fa-1 "></i>  Add</button>
+                        <button className="navButton" disabled={undoDisabled} onClick={() => dispatch(ActionCreators.undo())}><i className="fa fa-mail-reply fa-1"></i>  Undo</button>
+                        <button className="navButton" disabled={redoDisabled} onClick={() => dispatch(ActionCreators.redo())}><i className="fa fa-mail-forward fa-1 "></i>  Redo</button>
                         <OverlayTrigger trigger="click" rootClose placement="bottom" overlay={<Popover id="is_busy_popover">{isBusy}</Popover>}>
                             <button  className="navButton" onClick={() => {
                                 let state = this.props.store.getState();
                                 dispatch(exportStateAsync(state));
-                            }}>Save</button>
+                            }}><i className="fa fa-save fa-1 "></i>  Save</button>
                         </OverlayTrigger>
                         <OverlayTrigger trigger="click" rootClose placement="bottom" overlay={<Popover id="is_busy_popover">{isBusy}</Popover>}>
                             <button  className="navButton" onClick={() => {
                                 dispatch(importStateAsync());
-                            }}>Load</button>
+                            }}><i className="fa fa-folder-open fa-1 "></i>  Load</button>
                         </OverlayTrigger>
                     </Col>
                 </div>

@@ -11,6 +11,7 @@
 	overflow-y: auto; 
 	height: 92%;
 	margin: 4px 0px 0px 0px;
+	color: $fondo;
 }
 
 
@@ -27,7 +28,11 @@ width: 30px;
 	    }
 }
 .daliCarousel{
-	background-color: #dadada;
+	background-color: $carousel;
 	 height: 100%; 
 	 padding: 42px 10px 15% 10px;
+}
+
+.breadcrumb a{
+	color: #f87060;
 }

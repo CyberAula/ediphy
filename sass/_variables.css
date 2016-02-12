@@ -4,10 +4,9 @@
 	-moz-transition: all 1s ease-in-out; 	
 }
 
-$verdeoscuro: #133329;
-$verdeclaro: #71978c;
-$grisclaro: #f5f5f5;
-$grismedio:#aaa;/*#bfc2ae;*/
+$verdeoscuro: rgba(255,255,255,0.3);
+$navBar: #f87060;
+$grisclaro: #f2fff8;
+$fondo: #555;
+$carousel: #dedede;
 
-$dark-color: #337AB7;
-$darker-color: #214E75;
