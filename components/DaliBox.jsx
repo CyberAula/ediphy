@@ -72,7 +72,7 @@ export default class DaliBox extends Component {
                 <div style={{position: 'absolute', right: -cornerSize/2, bottom: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray'}}></div>
             </div>);
 
-        return (<div onClick={e => {
+        return (<div onClick={e => { e.stopPropagation()
                         this.props.onBoxSelected(this.props.id)}}
                      style={{position: 'absolute',
                             left: box.position.x,
@@ -128,6 +128,8 @@ export default class DaliBox extends Component {
                         }
                     },
                     onend: (event) => {
+                        event.preventDefault()
+                        event.stopPropagation()
                         this.props.onBoxMoved(this.props.id, parseInt(event.target.style.left), parseInt(event.target.style.top));
                     }
                 })
@@ -171,6 +173,8 @@ export default class DaliBox extends Component {
                         }
                     },
                     onend: (event) => {
+                        event.stopPropagation()
+                        event.preventDefault()
                         this.props.onBoxResized(this.props.id, parseInt(event.target.style.width), parseInt(event.target.style.height));
                     }
                 });

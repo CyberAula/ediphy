@@ -44,7 +44,7 @@ var Youtube= (function(){
         },
         getRenderTemplate: function(state){
      
-            return "<iframe width=\"560\" height=\"315\" controls frameborder=\"0\" allowfullscreen style=\"width: 100%; height: 100%; border: solid " + state.borderSize + "px green; z-index:0;\" src=\"" + Youtube.parseURL(state.url) + "\"></iframe>"
+            return "<iframe width=\"560\" height=\"315\" controls frameborder=\"0\" allowfullscreen style=\"width: 100%; height: 100%; pointer-events: none; border: solid " + state.borderSize + "px green; z-index:0;\" src=\"" + Youtube.parseURL(state.url) + "\"></iframe>"
         },
         handleToolbar: function(name, value){
             if(name === 'borderSize')

@@ -216,7 +216,6 @@ function boxSelected(state = -1, action = {}) {
         case ADD_BOX:
             return action.payload.ids.id;
         case SELECT_BOX:
-             if(state == action.payload.id){ return -1;}
             return action.payload.id;
         case DELETE_BOX:
             return -1;
