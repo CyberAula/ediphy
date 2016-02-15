@@ -63,11 +63,17 @@ var Youtube= (function(){
             if (url == '') return url
             var patt1 = /youtube.com\/watch\?v=(.*)/
             var patt2 = /youtube.com\/embed\/(.*)/
-            if (patt2.exec(url)){ console.log(url); return url;}
+            var patt3 = /youtu.be\/(.*)/
+            if (patt2.exec(url)){
+             return url;
+            }
             var code = patt1.exec(url)
             if (code){
-                console.log(code[1])
                 return 'https://www.youtube.com/embed/'+ code[1]
+            }
+            var code2 = patt3.exec(url)
+            if (code2){
+                return 'https://www.youtube.com/embed/'+ code2[1]
             }
             alert('No es un video de Youtube.')
             return ''
