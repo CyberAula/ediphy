@@ -59,7 +59,7 @@ class DaliApp extends Component{
                           fromSortable={boxModalToggled.fromSortable}
                           container={boxModalToggled.container}
                           navItemSelected={navItemSelected}
-                          onBoxAdded={(ids, type, page, draggable, resizable, content, toolbar, config, state) => dispatch(addBox(ids, type, page, draggable, resizable, content, toolbar, config, state))}/>
+                          onBoxAdded={(ids, type,  draggable, resizable, content, toolbar, config, state) => dispatch(addBox(ids, type,  draggable, resizable, content, toolbar, config, state))}/>
                 <PageModal visibility={pageModalToggled.value}
                            caller={pageModalToggled.caller}
                            navItems={navItems}
@@ -104,7 +104,7 @@ class DaliApp extends Component{
             if(e.detail.isUpdating) {
                 this.props.dispatch(updateBox(e.detail.id, e.detail.content, e.detail.state));
             }else {
-                this.props.dispatch(addBox({parent: this.props.boxModalToggled.caller, id: ID_PREFIX_BOX + Date.now()}, BOX_TYPES.NORMAL, this.props.navItemsById, true, true, e.detail.config.needsTextEdition, e.detail.content, e.detail.toolbar, e.detail.config, e.detail.state));
+                this.props.dispatch(addBox({parent: this.props.boxModalToggled.caller, id: ID_PREFIX_BOX + Date.now()}, BOX_TYPES.NORMAL,  true, true, e.detail.config.needsTextEdition, e.detail.content, e.detail.toolbar, e.detail.config, e.detail.state));
             }
         })
     }

@@ -29,16 +29,16 @@ export default class BoxModal extends Component {
                     <Tab eventKey={0} title="Temp">
                         <Button bsSize="large" onClick={e => {
                             if(this.props.fromSortable){
-                                this.props.onBoxAdded({parent: this.props.caller, container: ID_PREFIX_SORTABLE_CONTAINER + Date.now(), id: ID_PREFIX_BOX + Date.now()}, BOX_TYPES.NORMAL, this.props.navItemSelected, true, true);
+                                this.props.onBoxAdded({parent: this.props.caller, container: ID_PREFIX_SORTABLE_CONTAINER + Date.now(), id: ID_PREFIX_BOX + Date.now()}, BOX_TYPES.NORMAL, true, true);
                             }else if(this.props.container !== 0) {
-                                this.props.onBoxAdded({parent: this.props.caller, container: this.props.container, id: ID_PREFIX_BOX + Date.now()}, BOX_TYPES.NORMAL, this.props.navItemSelected, true, true);
+                                this.props.onBoxAdded({parent: this.props.caller, container: this.props.container, id: ID_PREFIX_BOX + Date.now()}, BOX_TYPES.NORMAL,  true, true);
                             }else {
-                                this.props.onBoxAdded({parent: this.props.caller, id: ID_PREFIX_BOX + Date.now()}, BOX_TYPES.NORMAL, this.props.navItemSelected, true, true);
+                                this.props.onBoxAdded({parent: this.props.caller, id: ID_PREFIX_BOX + Date.now()}, BOX_TYPES.NORMAL, true, true);
                             }
                             this.setState({show: false});
                         }}>Add simple box</Button>
                         <Button bsSize="large" disabled={(this.props.fromSortable) ? true : false} onClick={e => {
-                            this.props.onBoxAdded({parent: this.props.caller, id: ID_PREFIX_SORTABLE_BOX + Date.now()}, BOX_TYPES.SORTABLE, this.props.navItemSelected, false, false);
+                            this.props.onBoxAdded({parent: this.props.caller, id: ID_PREFIX_SORTABLE_BOX + Date.now()}, BOX_TYPES.SORTABLE,  false, false);
                             this.setState({show: false})
                         }}>Add sortable</Button>
                     </Tab>

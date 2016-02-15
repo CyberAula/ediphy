@@ -11,8 +11,10 @@
 .btn[disabled].btn-primary{
 	border-color:$navBar;
 	background-color:$navBar !important;
-	color: white;
-
+	color: white !important;
+	&:hover{
+		color: white !important;
+	}
 } 
 
 .nav-pills > li  > a { 

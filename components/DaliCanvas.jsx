@@ -19,7 +19,8 @@ export default class DaliCanvas extends Component{
         }
 
         return (
-            <div className={this.props.navItems[this.props.navItemSelected.id].type == 'slide' ? 'slide sli':'slide doc'}
+            <div 
+                className={this.props.navItems[this.props.navItemSelected.id].type == 'slide' ? 'slide sli':'slide doc'}
                 style={{visibility: (this.props.showCanvas ? 'visible' : 'hidden')}}>
                 <DaliTitle titles={titles}
                            isReduced={this.props.navItemSelected.titlesReduced}

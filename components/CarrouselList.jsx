@@ -97,20 +97,21 @@ export default class CarrouselList extends Component{
     findBoxes(ids){
        let newids = ids;
        var boxesids = [];
-             console.log(this.props.boxes)
        newids.map(nav=> {
-              console.log(nav)
-            Object.keys(this.props.boxes).map(box=> 
-               { console.log('box')
-                console.log(box)
-                if(this.props.boxes[box]['page'] == nav){
-                    console.log(box)
-                boxesids.push(this.props.boxes[box]['id'])
-            }})
+
+       let boxes = this.props.navItems[nav].boxes
+            boxesids = boxesids.concat(boxes);
+            boxes.map(box=> {console.log(box); 
+                if (box[1]=='s'){
+                    let children = this.props.boxes[box]['children']
+                   children.map(child=>{
+                     boxesids.push('bo-'+child.split("-")[1])
+                   });
+ 
+            }});
         });
 
-       console.log(boxesids)
-
+     
          return boxesids;
        
     }

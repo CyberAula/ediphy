@@ -46,7 +46,6 @@ function boxCreator(state = {}, action = {}){
                 id: action.payload.ids.id,
                 children: [],
                 parent: action.payload.ids.parent,
-                page: action.payload.page,
                 container: action.payload.ids.container,
                 type: action.payload.type,
                 position: position,
@@ -217,6 +216,7 @@ function boxSelected(state = -1, action = {}) {
         case ADD_BOX:
             return action.payload.ids.id;
         case SELECT_BOX:
+             if(state == action.payload.id){ return -1;}
             return action.payload.id;
         case DELETE_BOX:
             return -1;
