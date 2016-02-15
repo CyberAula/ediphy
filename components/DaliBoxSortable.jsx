@@ -42,9 +42,9 @@ export default class DaliBoxSortable extends Component{
            <Button style={{display: 'inline-block', margin: 'auto'}} onClick={e => this.props.onVisibilityToggled(this.props.id, true)}>
                 <i className="fa fa-plus-circle fa-3x"></i>
             </Button>
-             <Button style={{display: 'inline-block', margin: 'auto'}} onClick={e => this.props.onBoxDeleted(this.props.id, this.props.box.parent)}>
+           {/* <Button style={{display: 'inline-block', margin: 'auto'}} onClick={e => this.props.onBoxDeleted(this.props.id, this.props.box.parent)}>
                 <i className="fa fa-trash-o fa-3x"></i>
-            </Button></span></div>
+            </Button>*/}</span></div>
         </div>
         );
     }

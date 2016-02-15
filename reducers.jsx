@@ -46,6 +46,7 @@ function boxCreator(state = {}, action = {}){
                 id: action.payload.ids.id,
                 children: [],
                 parent: action.payload.ids.parent,
+                page: action.payload.page,
                 container: action.payload.ids.container,
                 type: action.payload.type,
                 position: position,

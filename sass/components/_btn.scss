@@ -1,8 +1,35 @@
-.modals{
+.btn-primary{
+	border-color:$navBar;
 	background-color:$navBar;
 	color:white;
-	&:hover{
-		background-color: $grisclaro;
-		color: $navBar;
+	&:hover , &:active, &:focus {
+		border-color:$navBar !important;
+		background-color: white !important;
+		color: $navBar !important;
 	}
+}
+.btn[disabled].btn-primary{
+	border-color:$navBar;
+	background-color:$navBar !important;
+	color: white;
+
+} 
+
+.nav-pills > li  > a { 
+	border-color:$navBar;
+color: $navBar;
+ &:hover , &:active, &:focus{
+ 	background-color: $naranjaclaro;
+ }
+}
+.nav-pills > li.active  > a { 
+color:white;
+ background-color: 	$navBar;
+	&:hover , &:active, &:focus {
+ 	background-color: $navBar;
+	 }
+}
+
+.btn:hover .fa{
+	color:$navBar;
 }

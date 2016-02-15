@@ -12,6 +12,7 @@ export default class CarrouselThumbnail extends Component {
                         isSelected = true;
                     return <Thumbnail id={id}
                                       key={id}
+                                      boxes={this.props.boxes}
                                       isSelected={isSelected}
                                       navItemsIds={this.props.navItemsIds}
                                       navItems={this.props.navItems}

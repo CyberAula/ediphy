@@ -24,7 +24,8 @@ class DaliApp extends Component{
             <Grid fluid={true} style={{height: '100%'}}>
                 <Row style={{height: '100%'}}>
                     <Col md={2} xs={2} style={{padding: 0, height: '100%'}}>
-                        <DaliCarousel navItemsIds={navItemsIds}
+                        <DaliCarousel boxes={boxes}
+                                      navItemsIds={navItemsIds}
                                       navItems={navItems}
                                       navItemSelected={navItemSelected}
                                       displayMode={displayMode}
@@ -57,7 +58,8 @@ class DaliApp extends Component{
                 <BoxModal caller={boxModalToggled.caller}
                           fromSortable={boxModalToggled.fromSortable}
                           container={boxModalToggled.container}
-                          onBoxAdded={(ids, type, draggable, resizable, content, toolbar, config, state) => dispatch(addBox(ids, type, draggable, resizable, content, toolbar, config, state))}/>
+                          navItemSelected={navItemSelected}
+                          onBoxAdded={(ids, type, page, draggable, resizable, content, toolbar, config, state) => dispatch(addBox(ids, type, page, draggable, resizable, content, toolbar, config, state))}/>
                 <PageModal visibility={pageModalToggled.value}
                            caller={pageModalToggled.caller}
                            navItems={navItems}
@@ -102,7 +104,7 @@ class DaliApp extends Component{
             if(e.detail.isUpdating) {
                 this.props.dispatch(updateBox(e.detail.id, e.detail.content, e.detail.state));
             }else {
-                this.props.dispatch(addBox({parent: this.props.boxModalToggled.caller, id: ID_PREFIX_BOX + Date.now()}, BOX_TYPES.NORMAL, true, true, e.detail.config.needsTextEdition, e.detail.content, e.detail.toolbar, e.detail.config, e.detail.state));
+                this.props.dispatch(addBox({parent: this.props.boxModalToggled.caller, id: ID_PREFIX_BOX + Date.now()}, BOX_TYPES.NORMAL, this.props.navItemsById, true, true, e.detail.config.needsTextEdition, e.detail.content, e.detail.toolbar, e.detail.config, e.detail.state));
             }
         })
     }
