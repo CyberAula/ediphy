@@ -38,6 +38,7 @@ function boxCreator(state = {}, action = {}){
                     break;
             }
             if(action.payload.ids.parent.indexOf(ID_PREFIX_SORTABLE_BOX) !== -1){
+                position.x = 0;
                 position.y = 0;
             }
             
@@ -45,6 +46,7 @@ function boxCreator(state = {}, action = {}){
                 id: action.payload.ids.id,
                 children: [],
                 parent: action.payload.ids.parent,
+                container: action.payload.ids.container,
                 type: action.payload.type,
                 position: position,
                 width: width,
@@ -61,16 +63,31 @@ function boxCreator(state = {}, action = {}){
     }
 }
 
-function sortableContainerCreator(state = {}, action = {}, box = {}){
+function sortableContainerCreator(state = {}, action = {}, boxes = []){
+    let container;
     switch (action.type){
         case ADD_BOX:
             return Object.assign({}, state, {
                 [action.payload.ids.container]: (state[action.payload.ids.container] ? {
                     children: [...state[action.payload.ids.container].children, action.payload.ids.id],
-                    height: calculateNewSortableContainerHeight(state[action.payload.ids.container].height, box)
+                    height: calculateNewSortableContainerHeight(state[action.payload.ids.container].height, boxes)
                 } : {
                     children: [action.payload.ids.id],
-                    height: calculateNewSortableContainerHeight(0, box)
+                    height: calculateNewSortableContainerHeight(0, boxes)
+                })
+            });
+        case MOVE_BOX:
+            container = boxes[action.payload.id].container;
+            return Object.assign({}, state, {
+                [container]: Object.assign({}, state[container], {
+                    height: calculateNewSortableContainerHeight(state[container].height, boxes, action, state[container].children)
+                })
+            });
+        case RESIZE_BOX:
+            container = boxes[action.payload.id].container;
+            return Object.assign({}, state, {
+                [container]: Object.assign({}, state[container], {
+                    height: calculateNewSortableContainerHeight(state[container].height, boxes, action, state[container].children)
                 })
             });
         default:
@@ -78,10 +95,28 @@ function sortableContainerCreator(state = {}, action = {}, box = {}){
     }
 }
 
-function calculateNewSortableContainerHeight(actualHeight, box){
-    let newHeight = box.position.y + box.height; //should be relative y position
-    console.log(actualHeight + " " + newHeight);
-    return (newHeight > actualHeight) ? newHeight : actualHeight;
+function calculateNewSortableContainerHeight(actualHeight, boxes, action, boxesToCheck){
+    let newHeight = 0;
+    if(!action){
+        newHeight = boxes[0].position.y + boxes[0].height;
+        return (newHeight > actualHeight) ? newHeight : actualHeight;
+    }
+    boxesToCheck.map(id => {
+        let h;
+        if(id === action.payload.id){
+            if(action.payload.y){
+                h = action.payload.y + boxes[id].height;
+            }else{
+                h = boxes[id].position.y + action.payload.height;
+            }
+        }else{
+            h = boxes[id].position.y + boxes[id].height;
+        }
+        if(h > newHeight){
+            newHeight = h;
+        }
+    });
+    return newHeight;
 }
 
 function boxesById(state = {}, action = {}){
@@ -99,15 +134,33 @@ function boxesById(state = {}, action = {}){
                     children: (state[action.payload.ids.parent].children.indexOf(action.payload.ids.container) !== -1) ?
                         state[action.payload.ids.parent].children :
                         [...state[action.payload.ids.parent].children, action.payload.ids.container],
-                    sortableContainers: sortableContainerCreator(state[action.payload.ids.parent].sortableContainers, action, box)
+                    sortableContainers: sortableContainerCreator(state[action.payload.ids.parent].sortableContainers, action, [box])
                 })
             });
            // return state;
         case MOVE_BOX:
+            if(state[action.payload.id].container){
+                let parent = state[action.payload.id].parent;
+                return Object.assign({}, state, {
+                    [action.payload.id]: Object.assign({}, state[action.payload.id], {position: {x: action.payload.x, y: action.payload.y}}),
+                    [parent]: Object.assign({}, state[parent], {
+                        sortableContainers: sortableContainerCreator(state[parent].sortableContainers, action, state)
+                    })
+                })
+            }
             return Object.assign({}, state, {
                 [action.payload.id]: Object.assign({}, state[action.payload.id], {position: {x: action.payload.x, y: action.payload.y}})
             });
         case RESIZE_BOX:
+            if(state[action.payload.id].container){
+                let parent = state[action.payload.id].parent;
+                return Object.assign({}, state, {
+                    [action.payload.id]: Object.assign({}, state[action.payload.id], {width: action.payload.width, height: action.payload.height}),
+                    [parent]: Object.assign({}, state[parent], {
+                        sortableContainers: sortableContainerCreator(state[parent].sortableContainers, action, state)
+                    })
+                })
+            }
             return Object.assign({}, state, {
                 [action.payload.id]: Object.assign({}, state[action.payload.id], {width: action.payload.width, height: action.payload.height})
             });
