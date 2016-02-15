@@ -61,7 +61,7 @@ export function updateBox(id, content, state){
     return {type: UPDATE_BOX, payload: {id, content, state}};
 }
 
-export function deleteBox(id,parent){
+export function deleteBox(id, parent){
     return {type: DELETE_BOX, payload: {id, parent}};
 }
 

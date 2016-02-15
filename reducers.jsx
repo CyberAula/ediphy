@@ -90,6 +90,20 @@ function sortableContainerCreator(state = {}, action = {}, boxes = []){
                     height: calculateNewSortableContainerHeight(state[container].height, boxes, action, state[container].children)
                 })
             });
+        case DELETE_BOX:
+            container = boxes[action.payload.id].container;
+            let newState = Object.assign({}, state);
+            if(state[container].children.length === 1){
+                delete newState[container];
+                return newState;
+            }
+            let newChildren = state[container].children.filter(id => id !== action.payload.id);
+            return Object.assign({}, state, {
+                [container]: Object.assign({}, state[container], {
+                    children: newChildren,
+                    height: calculateNewSortableContainerHeight(state[container].height, boxes, action, newChildren)
+                })
+            })
         default:
             return state;
     }
@@ -106,8 +120,10 @@ function calculateNewSortableContainerHeight(actualHeight, boxes, action, boxesT
         if(id === action.payload.id){
             if(action.payload.y){
                 h = action.payload.y + boxes[id].height;
-            }else{
+            }else if (action.payload.height){
                 h = boxes[id].position.y + action.payload.height;
+            }else{
+                h = boxes[id].position.y + boxes[id].height;
             }
         }else{
             h = boxes[id].position.y + boxes[id].height;
@@ -169,32 +185,20 @@ function boxesById(state = {}, action = {}){
                 [action.payload.id]: Object.assign({}, state[action.payload.id], {content: action.payload.content})
             });
         case DELETE_BOX:
-            var newState = Object.assign({},state);
+            var newState = Object.assign({}, state);
             delete newState[action.payload.id];
 
-            // Al arreglar esto también arreglarlo en toolbarsById
-            /*
-                let newState = Object.assign({}, state);
-                if(action.payload.parent.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1){
-                    if(newState[action.payload.parent].length === 1) {
-                        delete newState[action.payload.parent];
-                    }else {
-                        newState[action.payload.parent] = newState[action.payload.parent].filter(id => id !== action.payload.id);
-                    }
+            if(state[action.payload.id].container){
+                let parent = state[action.payload.id].parent;
+                let container = state[action.payload.id].container;
+                newState[parent].sortableContainers = sortableContainerCreator(newState[parent].sortableContainers, action, state);
+                if(!newState[parent].sortableContainers[container]){
+                    newState[parent].children = newState[parent].children.filter(id => id !== container);
                 }
-                return newState;
-                */
-                /*
-                var parent = state[action.payload.parent];
-                console.log(parent);
-                 if (parent) {
-                    parent.children = parent.children.filter(id =>  id!=action.payload.id);
-                    newState = Object.assign({},newState, parent);
-                }
-            */
+            }
             return newState;
         case REMOVE_NAV_ITEM:
-            var newState = Object.assign({},state)
+            var newState = Object.assign({}, state)
             action.payload.boxes.map(box => { delete newState[box]})
             return newState;
 
@@ -273,9 +277,7 @@ function recalculateNames(state = {},old = {}, resta = 0, numeroBorrados = 0){
     for (let i in items){
         if(resta == 1) {
             if(items[i].position >= old.position){
-
                 items[i].position -= numeroBorrados;
-   
             }
         } else {
             if (items[i].position > old.position || (items[i].position == old.position && items[i].level<old.level) ){        
@@ -310,8 +312,6 @@ function recalculateNames(state = {},old = {}, resta = 0, numeroBorrados = 0){
         } else {
             var sub = items[items[section].parent].children.filter(s => s[0]=='s').indexOf(section)+1
             items[section].name = items[items[section].parent].name+'.'+ sub;
-           
-
         }
      });
 
