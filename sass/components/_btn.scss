@@ -1,0 +1,8 @@
+.modals{
+	background-color:$navBar;
+	color:white;
+	&:hover{
+		background-color: $grisclaro;
+		color: $navBar;
+	}
+}
