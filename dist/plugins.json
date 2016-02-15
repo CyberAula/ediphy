@@ -3,5 +3,6 @@ var plugins = [
         'BasicText',
         'BasicPlugin',
         'BasicVideo',
-        'Youtube'
+        'Youtube',
+        'Webpage'
 ]
