@@ -15,7 +15,7 @@ export default class DaliBox extends Component {
             width: '100%',
             height: '100%',
             position: 'absolute',
-            top: (this.props.toolbar.config.needsTextEdition ? -10 : 0),
+            top: ((this.props.toolbar.config && this.props.toolbar.config.needsTextEdition) ? -10 : 0),
             wordWrap: 'break-word',
             visibility: (this.props.toolbar.showTextEditor ? 'hidden' : 'visible')};
 
@@ -77,7 +77,8 @@ export default class DaliBox extends Component {
                         e.stopPropagation()
                         this.props.onBoxSelected(this.props.id) }}
                      onDoubleClick={(e)=>{
-                        if(this.props.toolbar.config.needsTextEdition){
+                       console.log(2)
+                        if(this.props.toolbar.config && this.props.toolbar.config.needsTextEdition){
                             this.props.onTextEditorToggled(this.props.id, true);
                             this.refs.textarea.focus();
                         }}}
@@ -115,7 +116,7 @@ export default class DaliBox extends Component {
     }
 
     componentDidMount() {
-        if(this.props.toolbar.config.needsTextEdition) {
+        if(this.props.toolbar.config && this.props.toolbar.config.needsTextEdition) {
             CKEDITOR.disableAutoInline = true;
             let editor = CKEDITOR.inline(this.refs.textarea);
             editor.on("blur", function () {
