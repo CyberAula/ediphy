@@ -126,6 +126,8 @@ export default class DaliBox extends Component {
                         if(event.restrict && event.restrict.dy < 0) {
                             target.style.top = (parseInt(target.style.top) || 0) - event.restrict.dy + 'px';
                         }
+
+
                     },
                     onend: (event) => {
                         event.preventDefault()
@@ -144,7 +146,7 @@ export default class DaliBox extends Component {
                     onmove: (event) => {
                         /*BOX-RESIZE*/
                         var target = event.target;
-
+                        
                             if(event.edges.bottom){
                                 //Abajo
                                 target.style.top = (parseInt(target.style.top) || 0);
@@ -160,16 +162,30 @@ export default class DaliBox extends Component {
                             if(event.edges.top){
                                //Arriba
                                 target.style.top = (parseInt(target.style.top) || 0) + event.dy + 'px';
+                              
                             }
                                
                         target.style.width = event.rect.width + 'px';
                         target.style.height = event.rect.height + 'px';
-
+                        console.log(event.restrict)
                         if(event.restrict){
-                            target.style.height = parseInt(target.style.height) + event.restrict.dy + 'px';
-                            if(event.restrict.dx > 0){
-                                target.style.width = parseInt(target.style.width) + event.restrict.dx + 'px';
+                             if(event.edges.top){
+                                target.style.height = parseInt(target.style.height) + event.restrict.dy + 'px';
+                                }else{
+                                    target.style.height = parseInt(target.style.height) - event.restrict.dy + 'px';
+                                }
+                              
+                            if(event.restrict.dx ){
+                                if(event.edges.left){
+                                   target.style.width = parseInt(target.style.width) + event.restrict.dx + 'px';
+                                   }else{
+                                       target.style.width = parseInt(target.style.width) - event.restrict.dx + 'px';
+                                   }
+                               
+                          
+
                             }
+
                         }
                     },
                     onend: (event) => {
