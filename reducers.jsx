@@ -40,6 +40,7 @@ function boxCreator(state = {}, action = {}){
             if(action.payload.ids.parent.indexOf(ID_PREFIX_SORTABLE_BOX) !== -1){
                 position.x = 0;
                 position.y = 0;
+                width = '10%';
             }
             
             return {
@@ -184,6 +185,13 @@ function boxesById(state = {}, action = {}){
             return Object.assign({}, state, {
                 [action.payload.id]: Object.assign({}, state[action.payload.id], {content: action.payload.content})
             });
+        case UPDATE_TOOLBAR:
+            if(action.payload.name === 'width'){
+                return Object.assign({}, state, {
+                    [action.payload.caller]: Object.assign({}, state[action.payload.caller], {width: (action.payload.value + '%')})
+                });
+            }
+            return state;
         case DELETE_BOX:
             var newState = Object.assign({}, state);
             delete newState[action.payload.id];
@@ -368,7 +376,6 @@ function navItemsById(state = {}, action = {}){
                         boxes: [...state[action.payload.ids.parent].boxes, action.payload.ids.id]})});
             return state
         case DELETE_BOX:
-           
             if (action.payload.parent.indexOf(ID_PREFIX_PAGE) !== -1 || action.payload.parent.indexOf(ID_PREFIX_SECTION) !== -1){ 
                 let currentBoxes = state[action.payload.parent].boxes;    
                 var newBoxes =  currentBoxes.filter(id => id!=action.payload.id);
@@ -405,9 +412,30 @@ function navItemSelected(state = 0, action = {}){
 
 function toolbarsById(state = {}, action = {}){
     switch(action.type) {
-
         case ADD_BOX:
-            let toolbar = {id: action.payload.ids.id, buttons: action.payload.toolbar, config: action.payload.config, state: action.payload.state, showTextEditor: action.payload.showTextEditor};
+            let toolbar = {
+                id: action.payload.ids.id,
+                buttons: action.payload.toolbar,
+                config: action.payload.config,
+                state: action.payload.state,
+                showTextEditor: action.payload.showTextEditor
+            };
+            if(action.payload.ids.container !== 0){
+                if(!toolbar.buttons){
+                    toolbar.buttons = [];
+                    toolbar.config = {};
+                }
+                toolbar.buttons.push({
+                    name: 'width',
+                    humanName: 'Width (%)',
+                    type: 'number',
+                    value: 10,
+                    min: 0,
+                    max: 100,
+                    step: 5,
+                    autoManaged: true
+                });
+            }
             return Object.assign({}, state, {[action.payload.ids.id]: toolbar});
         case DELETE_BOX:
             var newState = Object.assign({},state);

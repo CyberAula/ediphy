@@ -33,7 +33,7 @@ export default class PluginToolbar extends Component {
                                     let value = e.target.value;
                                     if(item.type === 'number')
                                         value = parseFloat(value);
-                                    this.props.onToolbarUpdated(this.props.boxSelected, index, value);
+                                    this.props.onToolbarUpdated(this.props.boxSelected, index, item.name, value);
                                     if(!item.autoManaged)
                                         item.callback(toolbar.state, item.name, value, toolbar.id);
                               }}

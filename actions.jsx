@@ -101,8 +101,8 @@ export function importState(state){
     return {type: IMPORT_STATE, payload: state};
 }
 
-export function updateToolbar(caller, index, value){
-    return {type: UPDATE_TOOLBAR, payload: {caller, index, value}};
+export function updateToolbar(caller, index, name, value){
+    return {type: UPDATE_TOOLBAR, payload: {caller, index, name, value}};
 }
 
 //Async actions

@@ -33,9 +33,11 @@ export default class DaliBox extends Component {
             this.props.toolbar.buttons.map((item, index) => {
                 if (item.autoManaged) {
                     if (!item.isAttribute) {
-                        style[item.name] = item.value;
-                        if (item.units)
-                            style[item.name] += item.units;
+                        if(item.name !== 'width') {
+                            style[item.name] = item.value;
+                            if (item.units)
+                                style[item.name] += item.units;
+                        }
                     } else {
                         attrs['data-' + item.name] = item.value;
                     }
@@ -171,7 +173,11 @@ export default class DaliBox extends Component {
                         }
                     },
                     onend: (event) => {
-                        this.props.onBoxResized(this.props.id, parseInt(event.target.style.width), parseInt(event.target.style.height));
+                        let width = Math.floor(parseInt(event.target.style.width) / event.target.parentElement.offsetWidth * 100) + '%';
+                        this.props.onBoxResized(
+                            this.props.id,
+                            (this.props.box.container !== 0 ? width : parseInt(event.target.style.width)),
+                            parseInt(event.target.style.height));
                     }
                 });
         }

@@ -19,7 +19,10 @@ export default class BoxModal extends Component {
 
     render() {
         return (
-        <Modal show={this.state.show} backdrop={true} bsSize="large" onHide={e => this.setState({show: false})}>
+        <Modal show={this.state.show} backdrop={true} bsSize="large" onHide={e => {
+            this.setState({show: false});
+            this.props.onVisibilityToggled(0, false, 0);
+        }}>
             <Modal.Header closeButton>
                 <Modal.Title>Plugin Selection</Modal.Title>
             </Modal.Header>
@@ -33,12 +36,12 @@ export default class BoxModal extends Component {
                             }else if(this.props.container !== 0) {
                                 this.props.onBoxAdded({parent: this.props.caller, container: this.props.container, id: ID_PREFIX_BOX + Date.now()}, BOX_TYPES.NORMAL, true, true);
                             }else {
-                                this.props.onBoxAdded({parent: this.props.caller, id: ID_PREFIX_BOX + Date.now()}, BOX_TYPES.NORMAL, true, true);
+                                this.props.onBoxAdded({parent: this.props.caller, container: 0, id: ID_PREFIX_BOX + Date.now()}, BOX_TYPES.NORMAL, true, true);
                             }
                             this.setState({show: false});
                         }}>Add simple box</Button>
                         <Button bsSize="large" disabled={(this.props.fromSortable) ? true : false} onClick={e => {
-                            this.props.onBoxAdded({parent: this.props.caller, id: ID_PREFIX_SORTABLE_BOX + Date.now()}, BOX_TYPES.SORTABLE, false, false);
+                            this.props.onBoxAdded({parent: this.props.caller, container: 0, id: ID_PREFIX_SORTABLE_BOX + Date.now()}, BOX_TYPES.SORTABLE, false, false);
                             this.setState({show: false})
                         }}>Add sortable</Button>
                     </Tab>

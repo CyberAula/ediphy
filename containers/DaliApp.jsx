@@ -57,7 +57,8 @@ class DaliApp extends Component{
                 <BoxModal caller={boxModalToggled.caller}
                           fromSortable={boxModalToggled.fromSortable}
                           container={boxModalToggled.container}
-                          onBoxAdded={(ids, type, draggable, resizable, content, toolbar, config, state) => dispatch(addBox(ids, type, draggable, resizable, content, toolbar, config, state))}/>
+                          onBoxAdded={(ids, type, draggable, resizable, content, toolbar, config, state) => dispatch(addBox(ids, type, draggable, resizable, content, toolbar, config, state))}
+                          onVisibilityToggled={(caller, fromSortable, container) => dispatch(togglePluginModal(caller, fromSortable, container))}/>
                 <PageModal visibility={pageModalToggled.value}
                            caller={pageModalToggled.caller}
                            navItems={navItems}
@@ -86,7 +87,7 @@ class DaliApp extends Component{
                 <PluginToolbar toolbars={toolbars}
                                boxSelected={boxSelected}
                                onTextEditorToggled={(caller, value) => dispatch(toggleTextEditor(caller, value))}
-                               onToolbarUpdated={(caller, index, value) => dispatch(updateToolbar(caller, index, value))} />
+                               onToolbarUpdated={(caller, index, name, value) => dispatch(updateToolbar(caller, index, name, value))} />
             </Grid>
         );
     }
@@ -102,7 +103,11 @@ class DaliApp extends Component{
             if(e.detail.isUpdating) {
                 this.props.dispatch(updateBox(e.detail.id, e.detail.content, e.detail.state));
             }else {
-                this.props.dispatch(addBox({parent: this.props.boxModalToggled.caller, id: ID_PREFIX_BOX + Date.now()}, BOX_TYPES.NORMAL, true, true, e.detail.config.needsTextEdition, e.detail.content, e.detail.toolbar, e.detail.config, e.detail.state));
+                this.props.dispatch(addBox({
+                    parent: this.props.boxModalToggled.caller,
+                    id: ID_PREFIX_BOX + Date.now(),
+                    container: this.props.boxModalToggled.container
+                }, BOX_TYPES.NORMAL, true, true, e.detail.config.needsTextEdition, e.detail.content, e.detail.toolbar, e.detail.config, e.detail.state));
             }
         })
     }
