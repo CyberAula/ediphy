@@ -192,14 +192,10 @@ export default class DaliBox extends Component {
                             if(event.restrict.dx ){
                                 if(event.edges.left){
                                    target.style.width = parseInt(target.style.width) + event.restrict.dx + 'px';
-                                   }else{
-                                       target.style.width = parseInt(target.style.width) - event.restrict.dx + 'px';
-                                   }
-                               
-                          
-
+                                }else{
+                                    target.style.width = parseInt(target.style.width) - event.restrict.dx + 'px';
+                                }
                             }
-
                         }
                     },
                     onend: (event) => {
