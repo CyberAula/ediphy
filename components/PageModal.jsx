@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import {Modal, Button, ButtonGroup} from 'react-bootstrap';
 import {ID_PREFIX_PAGE} from '../constants';
-
+import {ID_PREFIX_SORTABLE_BOX} from '../constants';
+import {BOX_TYPES} from '../constants';
 export default class PageModal extends Component {
     render() {
         let navItem = this.props.navItems[this.props.caller];
@@ -14,7 +15,13 @@ export default class PageModal extends Component {
 
                 <Modal.Body>
                     <ButtonGroup vertical={true} block={true}>
-                        <Button bsStyle="primary" onClick={e => this.props.onPageAdded(ID_PREFIX_PAGE + Date.now(), proposedName, this.props.caller, [], navItem.level + 1, 'document', this.calculatePosition())}>Document</Button>
+                        <Button bsStyle="primary" onClick={e =>{
+                        var idnuevo = ID_PREFIX_PAGE + Date.now();
+                        this.props.onPageAdded(idnuevo, proposedName, this.props.caller, [], navItem.level + 1, 'document', this.calculatePosition())
+                        this.props.onBoxAdded({parent:idnuevo, id: ID_PREFIX_SORTABLE_BOX + Date.now()}, BOX_TYPES.SORTABLE,  false, false);
+
+                    
+                    }}>Document</Button>
                         <Button bsStyle="primary" onClick={e => this.props.onPageAdded(ID_PREFIX_PAGE + Date.now(), proposedName, this.props.caller, [], navItem.level + 1, 'slide', this.calculatePosition())}>Slide</Button>
                         <Button bsStyle="primary" disabled>Poster</Button>
                         <Button bsStyle="primary" disabled>Others</Button>

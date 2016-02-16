@@ -34,7 +34,7 @@ export default class BoxModal extends Component {
                             if(this.props.fromSortable){
                                 this.props.onBoxAdded({parent: this.props.caller, container: ID_PREFIX_SORTABLE_CONTAINER + Date.now(), id: ID_PREFIX_BOX + Date.now()}, BOX_TYPES.NORMAL, true, true);
                             }else if(this.props.container !== 0) {
-                                this.props.onBoxAdded({parent: this.props.caller, container: this.props.container, id: ID_PREFIX_BOX + Date.now()}, BOX_TYPES.NORMAL, true, true);
+                                this.props.onBoxAdded({parent: this.props.caller, container: this.props.container, id: ID_PREFIX_BOX + Date.now()}, BOX_TYPES.NORMAL,  true, true);
                             }else {
                                 this.props.onBoxAdded({parent: this.props.caller, container: 0, id: ID_PREFIX_BOX + Date.now()}, BOX_TYPES.NORMAL, true, true);
                             }

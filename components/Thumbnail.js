@@ -55,13 +55,25 @@ export default class Thumbnail extends Component{
 
     }
 
-
     findBoxes(ids){
        let newids = ids;
        var boxesids = [];
        newids.map(nav=> {
-            boxesids = boxesids.concat(this.props.navItems[nav].boxes);
+
+       let boxes = this.props.navItems[nav].boxes
+            boxesids = boxesids.concat(boxes);
+            boxes.map(box=> {console.log(box); 
+                if (box[1]=='s'){
+                    let children = this.props.boxes[box]['children']
+                   children.map(child=>{
+                     boxesids.push('bo-'+child.split("-")[1])
+                   });
+ 
+            }});
         });
+
+     
          return boxesids;
+       
     }
 }

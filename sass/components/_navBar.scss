@@ -16,23 +16,23 @@
 
 .navButton{
 	 display: inline-block;
-	 border: 1px solid $navBar;
+	 border: none;
 	 color: white;
-	 border-radius: 0;
+	 border-radius: 0px;
 	 -webkit-border-radius: 0;
 	 -moz-border-radius: 0;
 	 width: auto;
 	 height: auto;
 	 width:100px;
 	 font-size: 20px;
-	 height:39px;
+	 height:35px;
 	 padding: 0px 0px 0px 0px;
 	 background-color: $navBar;
      box-shadow:none;
 	 &:hover, &:active, &:focus{
 
-		 border:1px solid $navBar;
-		 border-bottom-color: white;
+		
+		 border-bottom: 5px solid $naranjaclaro;
 		 color: white;
 		 background-color: $navBar;
 		 -webkit-box-shadow: none;
@@ -47,14 +47,18 @@
 
 button[disabled].navButton {
 	background-color: $verdeoscuro;
-	border:1px solid transparent;
+	border:none;
 	color:$navBar;
-
+	height:39px;
     box-shadow:none;
 	&:hover{
 			background-color: $verdeoscuro;
-			border:1px solid transparent;
 			font-weight:normal;
 	}
 }
 
+.nav_but {
+
+	margin:2px 0px;
+
+}

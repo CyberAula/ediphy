@@ -24,7 +24,8 @@ class DaliApp extends Component{
             <Grid fluid={true} style={{height: '100%'}}>
                 <Row style={{height: '100%'}}>
                     <Col md={2} xs={2} style={{padding: 0, height: '100%'}}>
-                        <DaliCarousel navItemsIds={navItemsIds}
+                        <DaliCarousel boxes={boxes}
+                                      navItemsIds={navItemsIds}
                                       navItems={navItems}
                                       navItemSelected={navItemSelected}
                                       displayMode={displayMode}
@@ -44,7 +45,7 @@ class DaliApp extends Component{
                                     navItemSelected={navItems[navItemSelected]}
                                     showCanvas={(navItemsIds.length !== 0)}
                                     toolbars={toolbars}
-                                    onBoxSelected={id => dispatch(selectBox(id))}
+                                    onBoxSelected={(id) => dispatch(selectBox(id))}
                                     onBoxMoved={(id, x, y) => dispatch(moveBox(id, x, y))}
                                     onBoxResized={(id, width, height) => dispatch(resizeBox(id, width, height))}
                                     onBoxDeleted={(id,parent) => dispatch(deleteBox(id, parent))} 
@@ -57,12 +58,14 @@ class DaliApp extends Component{
                 <BoxModal caller={boxModalToggled.caller}
                           fromSortable={boxModalToggled.fromSortable}
                           container={boxModalToggled.container}
+                          navItemSelected={navItemSelected}
                           onBoxAdded={(ids, type, draggable, resizable, content, toolbar, config, state) => dispatch(addBox(ids, type, draggable, resizable, content, toolbar, config, state))}
                           onVisibilityToggled={(caller, fromSortable, container) => dispatch(togglePluginModal(caller, fromSortable, container))}/>
                 <PageModal visibility={pageModalToggled.value}
                            caller={pageModalToggled.caller}
                            navItems={navItems}
                            navItemsIds={navItemsIds}
+                           onBoxAdded={(ids, type,  draggable, resizable, content, toolbar, config, state) => dispatch(addBox(ids, type,  draggable, resizable, content, toolbar, config, state))}
                            onVisibilityToggled={(caller, value) => dispatch(togglePageModal(caller, value))}
                            onPageAdded={(id, name, parent, children, level, type, position) => dispatch(addNavItem(id, name, parent, children, level, type, position))} />
                 <PluginConfigModal />

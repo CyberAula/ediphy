@@ -478,7 +478,6 @@ function toolbarsById(state = {}, action = {}){
             return action.payload.present.toolbarsById;
 
         case REMOVE_NAV_ITEM:
-            console.log(action.payload.boxes)
             var newState = Object.assign({},state)
             action.payload.boxes.map(box => { delete newState[box]})
             return newState;

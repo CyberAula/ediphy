@@ -59,7 +59,7 @@ export default class DaliBox extends Component {
             <div style={{visibility: ((this.props.isSelected && box.type !== BOX_TYPES.SORTABLE) ? 'visible' : 'hidden')}}>
                 <div style={{position: 'absolute', width: '100%', height: '100%', border: (borderSize + "px dashed black"), boxSizing: 'border-box'}}>
                    
-                     <Button style={{backgroundColor:'transparent', right: 0, position:'absolute' , border: '0'}}
+                     <Button className="trashbutton" 
                              onClick={e => {
                                 this.props.onBoxDeleted(this.props.id, this.props.box.parent);
                                 e.stopPropagation();
@@ -74,8 +74,14 @@ export default class DaliBox extends Component {
                 <div style={{position: 'absolute', right: -cornerSize/2, bottom: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray'}}></div>
             </div>);
 
-        return (<div onClick={e => {
+        return (<div onClick={e => { e.stopPropagation()
                         this.props.onBoxSelected(this.props.id)}}
+                               onDoubleClick={(e)=>{ 
+                                if(this.props.toolbar.config.needsTextEdition){
+                               this.props.onTextEditorToggled(this.props.id, true);
+                               this.refs.textarea.focus();
+                            }
+                           }}  
                      style={{position: 'absolute',
                             left: box.position.x,
                             top: box.position.y,
@@ -86,9 +92,11 @@ export default class DaliBox extends Component {
             {content}
             {overlay}
             <textarea ref={"textarea"} style={textareaStyle}
+                
                       onBlur={() => {
                         this.blurTextarea();
-                      }}/>
+                      }}
+                     />
         </div>);
     }
 
@@ -128,11 +136,16 @@ export default class DaliBox extends Component {
                         if(event.restrict && event.restrict.dy < 0) {
                             target.style.top = (parseInt(target.style.top) || 0) - event.restrict.dy + 'px';
                         }
+
+
                     },
                     onend: (event) => {
+                        event.preventDefault()
+                        event.stopPropagation()
                         this.props.onBoxMoved(this.props.id, parseInt(event.target.style.left), parseInt(event.target.style.top));
                     }
                 })
+                .ignoreFrom('input, textarea, a')
                 .resizable({
                     enabled: this.props.box.resizable,
                     restrict: {
@@ -144,7 +157,7 @@ export default class DaliBox extends Component {
                     onmove: (event) => {
                         /*BOX-RESIZE*/
                         var target = event.target;
-
+                        
                             if(event.edges.bottom){
                                 //Abajo
                                 target.style.top = (parseInt(target.style.top) || 0);
@@ -160,16 +173,30 @@ export default class DaliBox extends Component {
                             if(event.edges.top){
                                //Arriba
                                 target.style.top = (parseInt(target.style.top) || 0) + event.dy + 'px';
+                              
                             }
                                
                         target.style.width = event.rect.width + 'px';
                         target.style.height = event.rect.height + 'px';
-
+                        console.log(event.restrict)
                         if(event.restrict){
-                            target.style.height = parseInt(target.style.height) - event.restrict.dy + 'px';
-                            if(event.restrict.dx > 0){
-                                target.style.width = parseInt(target.style.width) - event.restrict.dx + 'px';
+                             if(event.edges.top){
+                                target.style.height = parseInt(target.style.height) + event.restrict.dy + 'px';
+                                }else{
+                                    target.style.height = parseInt(target.style.height) - event.restrict.dy + 'px';
+                                }
+                              
+                            if(event.restrict.dx ){
+                                if(event.edges.left){
+                                   target.style.width = parseInt(target.style.width) + event.restrict.dx + 'px';
+                                   }else{
+                                       target.style.width = parseInt(target.style.width) - event.restrict.dx + 'px';
+                                   }
+                               
+                          
+
                             }
+
                         }
                     },
                     onend: (event) => {
@@ -178,6 +205,8 @@ export default class DaliBox extends Component {
                             this.props.id,
                             (this.props.box.container !== 0 ? width : parseInt(event.target.style.width)),
                             parseInt(event.target.style.height));
+                        event.stopPropagation();
+                        event.preventDefault();
                     }
                 });
         }

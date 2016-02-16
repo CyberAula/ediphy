@@ -4,7 +4,13 @@
 	-moz-transition: all 1s ease-in-out; 	
 }
 
+@mixin selection {
+    ::-moz-selection { @content; }
+    ::selection { @content; }
+}
+
 $verdeoscuro: rgba(255,255,255,0.3);
+$naranjaclaro: #fdd3ce;
 $navBar: #f87060;
 $grisclaro: #f2fff8;
 $fondo: #555;

@@ -16,7 +16,7 @@
 
 
 .expandir {
-width: 30px;
+	width: 30px;
 	background-color: transparent !important;
 	border: none !important;
 	outline: none !important;
@@ -25,7 +25,7 @@ width: 30px;
 	     box-shadow: none !important;
 	     -moz-box-shadow: none !important;
 	     outline:none;
-	    }
+	   }
 }
 .daliCarousel{
 	background-color: $carousel;
@@ -34,5 +34,13 @@ width: 30px;
 }
 
 .breadcrumb a{
-	color: #f87060;
+	color: $navBar;
+}
+
+.selected{
+	color: $navBar;
+}
+
+.notSelected{
+	color: #555;
 }

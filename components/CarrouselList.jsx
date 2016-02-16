@@ -47,10 +47,10 @@ export default class CarrouselList extends Component{
                                             onNavItemSelected={this.props.onNavItemSelected}
                                             onNavItemExpanded={this.props.onNavItemExpanded} />;
                         }else if(id.indexOf(ID_PREFIX_PAGE) !== -1){
-                            let color = this.props.navItemSelected === id ? '#f87060' : '#555';
+                            let classSelected = this.props.navItemSelected === id ? 'selected' : 'notSelected';
                             return <h4 key={index}
-                                       style={{color: color}}
-                                       onClick={e => {
+                                        className={classSelected}
+                                         onClick={e => {
                                                     this.props.onNavItemSelected(id);
                                                     e.stopPropagation();
                                                }}>{this.props.navItems[id].name}</h4>;
@@ -98,9 +98,20 @@ export default class CarrouselList extends Component{
        let newids = ids;
        var boxesids = [];
        newids.map(nav=> {
-            boxesids = boxesids.concat(this.props.navItems[nav].boxes);
+
+       let boxes = this.props.navItems[nav].boxes
+            boxesids = boxesids.concat(boxes);
+            boxes.map(box=> {console.log(box); 
+                if (box[1]=='s'){
+                    let children = this.props.boxes[box]['children']
+                   children.map(child=>{
+                     boxesids.push('bo-'+child.split("-")[1])
+                   });
+ 
+            }});
         });
 
+     
          return boxesids;
        
     }
