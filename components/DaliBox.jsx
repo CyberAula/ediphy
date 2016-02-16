@@ -75,8 +75,10 @@ export default class DaliBox extends Component {
         return (<div onClick={e => { e.stopPropagation()
                         this.props.onBoxSelected(this.props.id)}}
                                onDoubleClick={(e)=>{ 
+                                if(this.props.toolbar.config.needsTextEdition){
                                this.props.onTextEditorToggled(this.props.id, true);
                                this.refs.textarea.focus();
+                            }
                            }}  
                      style={{position: 'absolute',
                             left: box.position.x,
