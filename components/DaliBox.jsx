@@ -74,14 +74,14 @@ export default class DaliBox extends Component {
                 <div style={{position: 'absolute', right: -cornerSize/2, bottom: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray'}}></div>
             </div>);
 
-        return (<div onClick={e => { e.stopPropagation()
-                        this.props.onBoxSelected(this.props.id)}}
-                               onDoubleClick={(e)=>{ 
-                                if(this.props.toolbar.config.needsTextEdition){
-                               this.props.onTextEditorToggled(this.props.id, true);
-                               this.refs.textarea.focus();
-                            }
-                           }}  
+        return (<div onClick={e => {
+                        e.stopPropagation()
+                        this.props.onBoxSelected(this.props.id) }}
+                     onDoubleClick={(e)=>{
+                        if(this.props.toolbar.config.needsTextEdition){
+                            this.props.onTextEditorToggled(this.props.id, true);
+                            this.refs.textarea.focus();
+                        }}}
                      style={{position: 'absolute',
                             left: box.position.x,
                             top: box.position.y,
@@ -91,18 +91,13 @@ export default class DaliBox extends Component {
                             msTouchAction: 'none'}}>
             {content}
             {overlay}
-            <textarea ref={"textarea"} style={textareaStyle}
-                
-                      onBlur={() => {
-                        this.blurTextarea();
-                      }}
-                     />
+            <div contentEditable={true} ref={"textarea"} style={textareaStyle} />
         </div>);
     }
 
     blurTextarea(){
         this.props.onTextEditorToggled(this.props.id, false);
-        Dali.Plugins.get(this.props.toolbar.config.name).updateTextChanges(this.refs.textarea.value, this.props.id);
+        Dali.Plugins.get(this.props.toolbar.config.name).updateTextChanges(this.refs.textarea.innerHTML, this.props.id);
     }
 
     componentWillUpdate(nextProps, nextState){
@@ -115,9 +110,18 @@ export default class DaliBox extends Component {
         if(this.props.toolbar.showTextEditor){
             this.refs.textarea.focus();
         }
+        if((this.props.toolbar.showTextEditor !== prevProps.toolbar.showTextEditor) && this.props.box.draggable){
+            interact(ReactDOM.findDOMNode(this)).draggable(!this.props.toolbar.showTextEditor);
+        }
     }
 
     componentDidMount() {
+        CKEDITOR.disableAutoInline = true;
+        let editor = CKEDITOR.inline(this.refs.textarea);
+        editor.on("blur",function(){
+            this.blurTextarea();
+        }.bind(this));
+
         if (this.props.box.type !== BOX_TYPES.SORTABLE) {
             interact(ReactDOM.findDOMNode(this))
                 .draggable({
@@ -178,7 +182,6 @@ export default class DaliBox extends Component {
                                
                         target.style.width = event.rect.width + 'px';
                         target.style.height = event.rect.height + 'px';
-                        console.log(event.restrict)
                         if(event.restrict){
                              if(event.edges.top){
                                 target.style.height = parseInt(target.style.height) + event.restrict.dy + 'px';
