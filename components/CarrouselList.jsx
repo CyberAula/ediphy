@@ -47,10 +47,10 @@ export default class CarrouselList extends Component{
                                             onNavItemSelected={this.props.onNavItemSelected}
                                             onNavItemExpanded={this.props.onNavItemExpanded} />;
                         }else if(id.indexOf(ID_PREFIX_PAGE) !== -1){
-                            let color = this.props.navItemSelected === id ? '#f87060' : '#555';
+                            let classSelected = this.props.navItemSelected === id ? 'selected' : 'notSelected';
                             return <h4 key={index}
-                                       style={{color: color}}
-                                       onClick={e => {
+                                        className={classSelected}
+                                         onClick={e => {
                                                     this.props.onNavItemSelected(id);
                                                     e.stopPropagation();
                                                }}>{this.props.navItems[id].name}</h4>;

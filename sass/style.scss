@@ -1,7 +1,6 @@
 
 
 @import 'variables';
-@import 'components/nav';
 @import 'components/canvas';
 @import 'components/carrouselList';
 @import 'components/navBar';
@@ -13,4 +12,9 @@
 *{
 	font-family: 'Source Sans Pro', sans-serif;
 	outline:none !important;
+}
+
+@include selection {
+    color: white;
+    background: $navBar;
 }

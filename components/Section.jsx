@@ -5,8 +5,8 @@ import {ID_PREFIX_SECTION, ID_PREFIX_PAGE} from '../constants';
 export default class Section extends Component {
     render() {
         let navItem = this.props.navItems[this.props.id];
-        let color = (this.props.navItemSelected === navItem.id) ? '#f87060' : '#555';
 
+        let classSelected = this.props.navItemSelected === id ? 'selected' : 'notSelected';
         return (
             <div onClick={e => {
                 this.props.onNavItemSelected(navItem.id);
@@ -18,7 +18,7 @@ export default class Section extends Component {
                     e.stopPropagation();
                 }}><i className={navItem.isExpanded ? "fa fa-chevron-down" : "fa fa-chevron-right"}></i></button>
 
-                <h3 style={{color: color, display: 'inline'}}>{navItem.name}</h3>
+                <h3 className={classSelected}style={{ display: 'inline'}}>{navItem.name}</h3>
             </div>
             <div style={{display: (navItem.isExpanded ? 'block' : 'none'), borderLeft: '1px dotted black'}}>
                 <div style={{marginLeft: 20}}>
@@ -35,8 +35,10 @@ export default class Section extends Component {
                                                 onNavItemSelected={this.props.onNavItemSelected}
                                                 onNavItemExpanded={this.props.onNavItemExpanded}/>;
                             } else if (id.indexOf(ID_PREFIX_PAGE) !== -1) {
+                                let classSelected = this.props.navItemSelected === id ? 'selected' : 'notSelected';
+                                
                                 let color = this.props.navItemSelected === id ? '#f87060' : '#555';
-                                return <h4 key={index} style={{color: color}} onClick={e => {
+                                return <h4 key={index} className={classSelected} onClick={e => {
                                     this.props.onNavItemSelected(id);
                                     e.stopPropagation();
                                 }}>{this.props.navItems[id].name}</h4>;

@@ -57,7 +57,7 @@ export default class DaliBox extends Component {
             <div style={{visibility: ((this.props.isSelected && box.type !== BOX_TYPES.SORTABLE) ? 'visible' : 'hidden')}}>
                 <div style={{position: 'absolute', width: '100%', height: '100%', border: (borderSize + "px dashed black"), boxSizing: 'border-box'}}>
                    
-                     <Button style={{backgroundColor:'transparent', right: 0, position:'absolute' , border: '0'}}
+                     <Button className="trashbutton" 
                              onClick={e => {
                                 this.props.onBoxDeleted(this.props.id, this.props.box.parent);
                                 e.stopPropagation();

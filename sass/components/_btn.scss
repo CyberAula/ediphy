@@ -19,19 +19,27 @@
 
 .nav-pills > li  > a { 
 	border-color:$navBar;
-color: $navBar;
- &:hover , &:active, &:focus{
- 	background-color: $naranjaclaro;
- }
+	color: $navBar;
+	 &:hover , &:active, &:focus{
+	 	background-color: $naranjaclaro;
+	 }
 }
 .nav-pills > li.active  > a { 
-color:white;
- background-color: 	$navBar;
+	color:white;
+	background-color: 	$navBar;
 	&:hover , &:active, &:focus {
- 	background-color: $navBar;
+ 		background-color: $navBar;
 	 }
 }
 
 .btn:hover .fa{
 	color:$navBar;
+}
+
+.trashbutton{
+	background-color:transparent;
+	right: 0;
+	position:absolute;
+	border: 0;
+
 }
