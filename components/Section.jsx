@@ -6,7 +6,7 @@ export default class Section extends Component {
     render() {
         let navItem = this.props.navItems[this.props.id];
 
-        let classSelected = this.props.navItemSelected === id ? 'selected' : 'notSelected';
+         let classSelected = this.props.navItemSelected === navItem.id ? 'selected' : 'notSelected';
         return (
             <div onClick={e => {
                 this.props.onNavItemSelected(navItem.id);
