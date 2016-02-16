@@ -55,7 +55,7 @@ function boxCreator(state = {}, action = {}){
                 content: content,
                 draggable: action.payload.draggable,
                 resizable: action.payload.resizable,
-                showTextEditor: action.payload.showTextEditor,
+                showTextEditor: false,
                 fragment: {},
                 sortableContainers: {}
             };
@@ -418,7 +418,7 @@ function toolbarsById(state = {}, action = {}){
                 buttons: action.payload.toolbar,
                 config: action.payload.config,
                 state: action.payload.state,
-                showTextEditor: action.payload.showTextEditor
+                showTextEditor: false
             };
             if(action.payload.ids.container !== 0){
                 if(!toolbar.buttons){

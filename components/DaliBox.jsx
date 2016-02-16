@@ -15,6 +15,7 @@ export default class DaliBox extends Component {
             width: '100%',
             height: '100%',
             position: 'absolute',
+            top: -10,
             wordWrap: 'break-word',
             visibility: (this.props.toolbar.showTextEditor ? 'hidden' : 'visible')};
 
@@ -22,8 +23,6 @@ export default class DaliBox extends Component {
             width: '100%',
             height: '100%',
             position: 'absolute',
-            border: (borderSize + "px dashed black"),
-            boxSizing: 'border-box',
             resize: 'none',
             overflowY: 'hidden',
             visibility: (this.props.toolbar.showTextEditor ? 'visible' : 'hidden')}
@@ -116,11 +115,13 @@ export default class DaliBox extends Component {
     }
 
     componentDidMount() {
-        CKEDITOR.disableAutoInline = true;
-        let editor = CKEDITOR.inline(this.refs.textarea);
-        editor.on("blur",function(){
-            this.blurTextarea();
-        }.bind(this));
+        if(this.props.toolbar.config.needsTextEdition) {
+            CKEDITOR.disableAutoInline = true;
+            let editor = CKEDITOR.inline(this.refs.textarea);
+            editor.on("blur", function () {
+                this.blurTextarea();
+            }.bind(this));
+        }
 
         if (this.props.box.type !== BOX_TYPES.SORTABLE) {
             interact(ReactDOM.findDOMNode(this))
