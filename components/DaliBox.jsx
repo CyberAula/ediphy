@@ -74,6 +74,10 @@ export default class DaliBox extends Component {
 
         return (<div onClick={e => { e.stopPropagation()
                         this.props.onBoxSelected(this.props.id)}}
+                               onDoubleClick={(e)=>{ 
+                               this.props.onTextEditorToggled(this.props.id, true);
+                               this.refs.textarea.focus();
+                           }}  
                      style={{position: 'absolute',
                             left: box.position.x,
                             top: box.position.y,
@@ -84,9 +88,11 @@ export default class DaliBox extends Component {
             {content}
             {overlay}
             <textarea ref={"textarea"} style={textareaStyle}
+                
                       onBlur={() => {
                         this.blurTextarea();
-                      }}/>
+                      }}
+                     />
         </div>);
     }
 
@@ -135,6 +141,7 @@ export default class DaliBox extends Component {
                         this.props.onBoxMoved(this.props.id, parseInt(event.target.style.left), parseInt(event.target.style.top));
                     }
                 })
+                .ignoreFrom('input, textarea, a')
                 .resizable({
                     enabled: this.props.box.resizable,
                     restrict: {

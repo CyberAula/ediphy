@@ -36,7 +36,8 @@ export default class PluginToolbar extends Component {
                                     this.props.onToolbarUpdated(this.props.boxSelected, index, value);
                                     if(!item.autoManaged)
                                         item.callback(toolbar.state, item.name, value, toolbar.id);
-                              }}
+                              }} 
+                            
                     />
             });
             if(toolbar.config.needsTextEdition){
@@ -60,7 +61,9 @@ export default class PluginToolbar extends Component {
 
     componentDidMount() {
         interact(ReactDOM.findDOMNode(this))
+            .ignoreFrom('input, textarea, a')
             .draggable({
+
                 restrict: {
                     restriction: "parent",
                     endOnly: true,
@@ -69,7 +72,7 @@ export default class PluginToolbar extends Component {
                 autoScroll: true,
                 onmove: (event) => {
                     var target = event.target;
-
+                    event.stopPropagation()
                     target.style.right = (parseInt(target.style.right) || 0) + (-event.dx) + 'px';
                     target.style.top = (parseInt(target.style.top) || 0) + event.dy + 'px';
                 }
