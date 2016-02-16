@@ -15,7 +15,7 @@ export default class DaliBox extends Component {
             width: '100%',
             height: '100%',
             position: 'absolute',
-            top: -10,
+            top: (this.props.toolbar.config.needsTextEdition ? -10 : 0),
             wordWrap: 'break-word',
             visibility: (this.props.toolbar.showTextEditor ? 'hidden' : 'visible')};
 
