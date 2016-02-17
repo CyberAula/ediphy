@@ -231,6 +231,8 @@ function boxSelected(state = -1, action = {}) {
             return action.payload.id;
         case DELETE_BOX:
             return -1;
+        case SELECT_NAV_ITEM:
+            return -1;
         case IMPORT_STATE:
             return action.payload.present.boxSelected;
         case REMOVE_NAV_ITEM:
