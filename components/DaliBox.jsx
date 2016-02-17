@@ -77,7 +77,6 @@ export default class DaliBox extends Component {
                         e.stopPropagation()
                         this.props.onBoxSelected(this.props.id) }}
                      onDoubleClick={(e)=>{
-                      
                         if(this.props.toolbar.config && this.props.toolbar.config.needsTextEdition){
                             this.props.onTextEditorToggled(this.props.id, true);
                             this.refs.textarea.focus();
@@ -112,6 +111,7 @@ export default class DaliBox extends Component {
         }
         if((this.props.toolbar.showTextEditor !== prevProps.toolbar.showTextEditor) && this.props.box.draggable){
             interact(ReactDOM.findDOMNode(this)).draggable(!this.props.toolbar.showTextEditor);
+            this.refs.textarea.innerHTML = this.props.box.content;
         }
     }
 
