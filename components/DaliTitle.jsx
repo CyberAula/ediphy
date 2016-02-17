@@ -4,12 +4,15 @@ import {Breadcrumb, BreadcrumbItem, Button} from 'react-bootstrap';
 export default class DaliTitle extends Component {
     render() {
         let content;
+          console.log(this.props.titles)
+          let ocultarboton =( this.props.titles.length<=1 && !this.props.isReduced || this.props.titles.length==0 && this.props.isReduced)
         if(this.props.isReduced) {
             let titles = this.props.titles;
             let actualTitle = titles.pop();
+          
             content = (
                 <div>
-                    <Breadcrumb style={{margin: 0, backgroundColor: 'inherit'}}>
+                    <Breadcrumb style={{ margin: 0, backgroundColor: 'inherit'}}>
                         {
                             titles.map((item, index) => {
                                 return <BreadcrumbItem key={index}>{item}</BreadcrumbItem>
@@ -33,7 +36,7 @@ export default class DaliTitle extends Component {
 
         return (
             <div style={{marginLeft: 30, paddingTop: 10, position: 'relative'}}>
-                <Button style={{position: 'absolute', right: 20, top: 20}} onClick={() => {
+                <Button style={{visibility: (ocultarboton)? 'hidden':'visible', position: 'absolute', right: 20, top: 20}} onClick={() => {
                     this.props.titleModeToggled(this.props.navItemId, !this.props.isReduced);
                 }}>
                     <i className={this.props.isReduced ? "fa fa-plus" : "fa fa-minus"}></i>
