@@ -55,7 +55,7 @@ function boxCreator(state = {}, action = {}){
                 content: content,
                 draggable: action.payload.draggable,
                 resizable: action.payload.resizable,
-                showTextEditor: action.payload.showTextEditor,
+                showTextEditor: false,
                 fragment: {},
                 sortableContainers: {}
             };
@@ -230,6 +230,8 @@ function boxSelected(state = -1, action = {}) {
         case SELECT_BOX:
             return action.payload.id;
         case DELETE_BOX:
+            return -1;
+        case SELECT_NAV_ITEM:
             return -1;
         case IMPORT_STATE:
             return action.payload.present.boxSelected;
@@ -418,7 +420,7 @@ function toolbarsById(state = {}, action = {}){
                 buttons: action.payload.toolbar,
                 config: action.payload.config,
                 state: action.payload.state,
-                showTextEditor: action.payload.showTextEditor
+                showTextEditor: false
             };
             if(action.payload.ids.container !== 0){
                 if(!toolbar.buttons){

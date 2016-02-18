@@ -15,6 +15,7 @@ export default class DaliBox extends Component {
             width: '100%',
             height: '100%',
             position: 'absolute',
+            top: ((this.props.toolbar.config && this.props.toolbar.config.needsTextEdition) ? -10 : 0),
             wordWrap: 'break-word',
             visibility: (this.props.toolbar.showTextEditor ? 'hidden' : 'visible')};
 
@@ -22,10 +23,7 @@ export default class DaliBox extends Component {
             width: '100%',
             height: '100%',
             position: 'absolute',
-            border: (borderSize + "px dashed black"),
-            boxSizing: 'border-box',
             resize: 'none',
-            overflowY: 'hidden',
             visibility: (this.props.toolbar.showTextEditor ? 'visible' : 'hidden')}
         let attrs = {};
 
@@ -52,12 +50,13 @@ export default class DaliBox extends Component {
             });
         }
         let content = (
-            <div style={style} {...attrs} dangerouslySetInnerHTML={{__html: box.content}}>
+            <div   style={style} {...attrs} dangerouslySetInnerHTML={{__html: box.content}}>
             </div>
         );
+        
         let overlay = (
-            <div style={{visibility: ((this.props.isSelected && box.type !== BOX_TYPES.SORTABLE) ? 'visible' : 'hidden')}}>
-                <div style={{position: 'absolute', width: '100%', height: '100%', border: (borderSize + "px dashed black"), boxSizing: 'border-box'}}>
+            <div  style={{visibility: ((this.props.isSelected && box.type !== BOX_TYPES.SORTABLE) ? 'visible' : 'hidden')}}>
+                <div  style={{position: 'absolute', width: '100%', height: '100%', border: (borderSize + "px dashed black"), boxSizing: 'border-box'}}>
                    
                      <Button className="trashbutton" 
                              onClick={e => {
@@ -78,7 +77,7 @@ export default class DaliBox extends Component {
                         e.stopPropagation()
                         this.props.onBoxSelected(this.props.id) }}
                      onDoubleClick={(e)=>{
-                        if(this.props.toolbar.config.needsTextEdition){
+                        if(this.props.toolbar.config && this.props.toolbar.config.needsTextEdition){
                             this.props.onTextEditorToggled(this.props.id, true);
                             this.refs.textarea.focus();
                         }}
@@ -115,21 +114,24 @@ export default class DaliBox extends Component {
         }
         if((this.props.toolbar.showTextEditor !== prevProps.toolbar.showTextEditor) && this.props.box.draggable){
             interact(ReactDOM.findDOMNode(this)).draggable(!this.props.toolbar.showTextEditor);
+            this.refs.textarea.innerHTML = this.props.box.content;
         }
     }
 
     componentDidMount() {
-        CKEDITOR.disableAutoInline = true;
-        let editor = CKEDITOR.inline(this.refs.textarea);
-        editor.on("blur",function(){
-            this.blurTextarea();
-        }.bind(this));
+        if(this.props.toolbar.config && this.props.toolbar.config.needsTextEdition) {
+            CKEDITOR.disableAutoInline = true;
+            let editor = CKEDITOR.inline(this.refs.textarea);
+            editor.on("blur", function () {
+                this.blurTextarea();
+            }.bind(this));
+        }
 
         if (this.props.box.type !== BOX_TYPES.SORTABLE) {
 
             interact(ReactDOM.findDOMNode(this))
                 .draggable({
-                    enabled: this.props.box.draggable,
+                    enabled: (this.props.box.draggable),
                     restrict: {
                         restriction: "parent",
                         endOnly: true,
@@ -137,6 +139,7 @@ export default class DaliBox extends Component {
                     },
                     autoScroll: true,
                     onmove: (event) => {
+                        if (!this.props.isSelected) return;
                         var target = event.target;
 
                         target.style.left = (parseInt(target.style.left) || 0) + event.dx + 'px';
@@ -148,6 +151,7 @@ export default class DaliBox extends Component {
 
                     },
                     onend: (event) => {
+                        if (!this.props.isSelected) return;
                         event.preventDefault()
                         event.stopPropagation()
                         this.props.onBoxMoved(this.props.id, parseInt(event.target.style.left), parseInt(event.target.style.top));
@@ -155,7 +159,7 @@ export default class DaliBox extends Component {
                 })
                 .ignoreFrom('input, textarea, a')
                 .resizable({
-                    enabled: this.props.box.resizable,
+                    enabled: (this.props.box.resizable ),
                     restrict: {
                         restriction: "parent",
                         endOnly: true,
@@ -163,9 +167,11 @@ export default class DaliBox extends Component {
                     },
                     edges: {left: true, right: true, bottom: true, top: true},
                     onmove: (event) => {
+                            console.log(this.props.isSelected)
+                        if (!this.props.isSelected) return;
                         /*BOX-RESIZE*/
                         var target = event.target;
-                        
+                      
                             if(event.edges.bottom){
                                 //Abajo
                                 target.style.top = (parseInt(target.style.top) || 0);
@@ -196,17 +202,14 @@ export default class DaliBox extends Component {
                             if(event.restrict.dx ){
                                 if(event.edges.left){
                                    target.style.width = parseInt(target.style.width) + event.restrict.dx + 'px';
-                                   }else{
-                                       target.style.width = parseInt(target.style.width) - event.restrict.dx + 'px';
-                                   }
-                               
-                          
-
+                                }else{
+                                    target.style.width = parseInt(target.style.width) - event.restrict.dx + 'px';
+                                }
                             }
-
                         }
                     },
                     onend: (event) => {
+                        if (!this.props.isSelected) return;
                         let width = Math.floor(parseInt(event.target.style.width) / event.target.parentElement.offsetWidth * 100) + '%';
                         this.props.onBoxResized(
                             this.props.id,

@@ -18,7 +18,7 @@ export default class PageModal extends Component {
                         <Button bsStyle="primary" onClick={e =>{
                         var idnuevo = ID_PREFIX_PAGE + Date.now();
                         this.props.onPageAdded(idnuevo, proposedName, this.props.caller, [], navItem.level + 1, 'document', this.calculatePosition())
-                        this.props.onBoxAdded({parent:idnuevo, id: ID_PREFIX_SORTABLE_BOX + Date.now()}, BOX_TYPES.SORTABLE,  false, false);
+                        this.props.onBoxAdded({parent: idnuevo, container: 0, id: ID_PREFIX_SORTABLE_BOX + Date.now()}, BOX_TYPES.SORTABLE, false, false);
 
                     
                     }}>Document</Button>
