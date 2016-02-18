@@ -68,10 +68,10 @@ export default class DaliBox extends Component {
                       </Button>
 
                     </div>
-                <div style={{position: 'absolute', left:  -cornerSize/2, top: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray'}}></div>
-                <div style={{position: 'absolute', right: -cornerSize/2, top: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray'}}></div>
-                <div style={{position: 'absolute', left:  -cornerSize/2, bottom: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray'}}></div>
-                <div style={{position: 'absolute', right: -cornerSize/2, bottom: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray'}}></div>
+                <div style={{position: 'absolute', left:  -cornerSize/2, top: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray', cursor: 'nw-resize'}}></div>
+                <div style={{position: 'absolute', right: -cornerSize/2, top: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray', cursor: 'ne-resize'}}></div>
+                <div style={{position: 'absolute', left:  -cornerSize/2, bottom: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray', cursor: 'sw-resize'}}></div>
+                <div style={{position: 'absolute', right: -cornerSize/2, bottom: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray', cursor: 'se-resize'}}></div>
             </div>);
 
         return (<div onClick={e => {
@@ -81,7 +81,10 @@ export default class DaliBox extends Component {
                         if(this.props.toolbar.config.needsTextEdition){
                             this.props.onTextEditorToggled(this.props.id, true);
                             this.refs.textarea.focus();
-                        }}}
+                        }}
+
+
+                    }
                      style={{position: 'absolute',
                             left: box.position.x,
                             top: box.position.y,
@@ -123,6 +126,7 @@ export default class DaliBox extends Component {
         }.bind(this));
 
         if (this.props.box.type !== BOX_TYPES.SORTABLE) {
+
             interact(ReactDOM.findDOMNode(this))
                 .draggable({
                     enabled: this.props.box.draggable,
@@ -208,6 +212,7 @@ export default class DaliBox extends Component {
                             this.props.id,
                             (this.props.box.container !== 0 ? width : parseInt(event.target.style.width)),
                             parseInt(event.target.style.height));
+                        this.props.onBoxMoved(this.props.id, parseInt(event.target.style.left), parseInt(event.target.style.top));
                         event.stopPropagation();
                         event.preventDefault();
                     }

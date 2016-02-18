@@ -4,5 +4,6 @@ var plugins = [
         'BasicPlugin',
         'BasicVideo',
         'Youtube',
-        'Webpage'
+        'Webpage',
+        'BasicPills'
 ]
