@@ -10,7 +10,7 @@ export default class DaliBox extends Component {
         let cornerSize = 15;
 
         let box = this.props.box;
-
+        let vis = (this.props.isSelected && box.type !== BOX_TYPES.SORTABLE)
         let style = {
             width: '100%',
             height: '100%',
@@ -50,13 +50,13 @@ export default class DaliBox extends Component {
             });
         }
         let content = (
-            <div   style={style} {...attrs} dangerouslySetInnerHTML={{__html: box.content}}>
+            <div  style={style} {...attrs} dangerouslySetInnerHTML={{__html: box.content}}>
             </div>
         );
         
         let overlay = (
-            <div  style={{visibility: ((this.props.isSelected && box.type !== BOX_TYPES.SORTABLE) ? 'visible' : 'hidden')}}>
-                <div  style={{position: 'absolute', width: '100%', height: '100%', border: (borderSize + "px dashed black"), boxSizing: 'border-box'}}>
+            <div style={{visibility: (vis ? 'visible' : 'hidden')}}>
+                <div   style={{position: 'absolute', width: '100%', height: '100%', border: (borderSize + "px dashed black"), boxSizing: 'border-box'}}>
                    
                      <Button className="trashbutton" 
                              onClick={e => {
@@ -73,7 +73,7 @@ export default class DaliBox extends Component {
                 <div style={{position: 'absolute', right: -cornerSize/2, bottom: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray', cursor: 'se-resize'}}></div>
             </div>);
 
-        return (<div onClick={e => {
+        return (<div className="wholebox" onClick={e => {
                         e.stopPropagation()
                         this.props.onBoxSelected(this.props.id) }}
                      onDoubleClick={(e)=>{
@@ -90,7 +90,9 @@ export default class DaliBox extends Component {
                             width: box.width,
                             height: box.height,
                             touchAction: 'none',
-                            msTouchAction: 'none'}}>
+                            msTouchAction: 'none',
+                            cursor: vis? 'inherit':'default' //esto evita que aparezcan los cursores de move y resize cuando la caja no está seleccionada
+                        }}>
             {content}
             {overlay}
             <div contentEditable={true} ref={"textarea"} style={textareaStyle} />
