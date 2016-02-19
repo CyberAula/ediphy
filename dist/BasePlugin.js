@@ -116,6 +116,9 @@ Dali.Plugin = function(descendant){
         },
         setState: function(key, value) {
             state[key] = value;
+        },
+        getState: function(){
+            return state;
         }
     };
     Object.keys(descendant).map(function(id) {

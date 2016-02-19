@@ -5,7 +5,7 @@ var BasicImage = (function(){
                 name: 'BasicImage',
                 category: 'image',
                 needsConfigModal: true,
-                needsTextEdition: false
+                needsTextEdition: true
             };
         },
         getToolbar: function(){
