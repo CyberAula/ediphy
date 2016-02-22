@@ -53,7 +53,7 @@ export default class DaliBox extends Component {
             <div  style={style} {...attrs} dangerouslySetInnerHTML={{__html: box.content}}>
             </div>
         );
-        
+       
         let overlay = (
             <div style={{visibility: (vis ? 'visible' : 'hidden')}}>
                 <div   style={{position: 'absolute', width: '100%', height: '100%', border: (borderSize + "px dashed black"), boxSizing: 'border-box'}}>
