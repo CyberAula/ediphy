@@ -215,10 +215,13 @@ var BasicPills = (function(){
                 var id = '#Text'+i+'Pill'+idTime;
                 if(i != selectedKey){
                     var id = '#Text'+i+'Pill'+idTime;
-                    //console.log(id);
+
                     $(id).css('display','none');
                 }else{
                     $(id).css('display','block');
+                    if($(id).hasClass("in")){
+                        $(id).css('display','none');
+                    }
                 }
             }
             /*var clase = '.Pill'+idTime;
