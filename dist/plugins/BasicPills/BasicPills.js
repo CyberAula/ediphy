@@ -31,7 +31,7 @@ var BasicPills = (function(){
                 ]
             },
             getInitialState: function(){
-                return {number: 0, titles: [], texts: [], colors: []};
+                return {number: 0, titles: [], texts: [], colors: [], colorsTitle: []};
             },
             getConfigTemplate: function(state){
 
@@ -40,29 +40,32 @@ var BasicPills = (function(){
                 var auxTitles = state.titles;
                 var auxTexts = state.texts;
                 var auxColors = state.colors;
+                var auxColorsTitle = state.colorsTitle;
                 var d = new Date();
                 var n = d.getTime();
 
                 for(var i = 0; i < number ; i++){
-                    if(auxTitles[i]){
-                    }else{
+                    if(auxTitles[i] == null){
                         auxTitles.push('title'+i);
                     }
-                    if(auxTexts[i]){
-                    }else{
+                    if(auxTexts[i] == null){
                         auxTexts.push('text'+i); 
                     }
-                    if(auxColors[i]){
-                    }else{
+                    if(auxColors[i] == null){
                         auxColors.push('#FFFF00'); 
+                    }
+                    if(auxColorsTitle[i] == null){
+                        auxColorsTitle.push('#333333');
                     }
 
 
                     editorBox += '\
-                    <div class="col-xs-12 text-center"><hr><br><h2>Pill'+i+'</h2></div>\n\
+                    <div class="col-xs-12 text-center"><hr><h2>Pill'+i+'</h2></div>\n\
                     <div class="col-xs-12 col-sm-6">Titulo:\n\
                     <input onchange="BasicPills.setTitle('+i+')" type="text" autofocus id="title'+i+'" value= '+ auxTitles[i] +'></div>\n\
-                    <div class="col-xs-12 col-sm-6">Color:\n\
+                    <div class="col-xs-12 col-sm-3">Color título:\n\
+                    <input onchange="BasicPills.setColorTitle('+i+')" type="color" name="colorTitle" id="colorT'+i+'" value="'+auxColorsTitle[i]+'"> </div>\n\
+                    <div class="col-xs-12 col-sm-3">Color:\n\
                     <input onchange="BasicPills.setColor('+i+')" type="color" name="favcolor" id="color'+i+'" value="'+auxColors[i]+'"> </div>\n\
                     <div class="col-xs-12 well textEditable" onfocus="BasicPills.ponerCKEditor('+i+','+n+')" onblur="BasicPills.setText('+i+')" contentEditable id="text'+i+'">'+auxTexts[i]+'</div>';
 
@@ -71,10 +74,11 @@ var BasicPills = (function(){
                 BasicPills.setState('titles',auxTitles);
                 BasicPills.setState('texts',auxTexts);
                 BasicPills.setState('colors',auxColors);
+                BasicPills.setState('colorsTitle',auxColorsTitle);
 
                 return "\
                 <div>Número de pestañas \n\
-                <input type=\"number\" onchange='BasicPills.showPreview()' autofocus id=\"BasicPills_input\" value=\"" + state.number + "\">\n\
+                <input type=\"number\" onchange='BasicPills.showPreview()' min=\"0\" autofocus id=\"BasicPills_input\" value=\"" + state.number + "\">\n\
                 </div>\n\
                 <div id=\"fdsf\" class='row'></div>\n\
                 <div id=\"configuradores\" class=\"row\">"+editorBox+"</div>";
@@ -84,6 +88,7 @@ var BasicPills = (function(){
                 var auxTitles = state.titles;
                 var auxTexts = state.texts;
                 var auxColors = state.colors;
+                var auxColorsTitle = state.colorsTitle;
                 var auxNavPills = '';
                 var auxTextsPills = '';
 
@@ -95,11 +100,11 @@ var BasicPills = (function(){
                 for(var i = 0; i < number ; i++){
                     if(i==0){
                         auxNavPills += '\
-                        <li id="li'+n+'" style="padding:0%; background-color: '+auxColors[i]+';"\n\
+                        <li id="li'+n+'" style="padding:0%;color:'+auxColorsTitle[i]+'; background-color: '+auxColors[i]+';"\n\
                         class="col-xs-'+ ancho+' active collapsed"\n\
                         aria-controls="Text'+i+'Pill'+n+'" href="#Text'+i+'Pill'+n+'"\n\
                         aria-expanded="true" data-toggle="collapse" role="button"\n\
-                        onClick="BasicPills.handleSelect('+i+','+n+','+number+')">'+auxTitles[i]+'</li>';
+                        onClick="BasicPills.handleSelect('+i+','+n+','+number+')"><b>'+auxTitles[i]+'</b></li>';
 
                         auxTextsPills += '\
                         <div class="Pill'+n+' row collapse in" id="Text'+i+'Pill'+n+'"\n\
@@ -111,8 +116,8 @@ var BasicPills = (function(){
                         <li class="col-xs-'+ancho+' collapsed"\n\
                         aria-controls="Text'+i+'Pill'+n+'" href="#Text'+i+'Pill'+n+'"\n\
                         aria-expanded="false" data-toggle="collapse" role="button"\n\
-                        style="padding:0%;background-color: '+auxColors[i]+';margin: 0%"\n\
-                        onClick="BasicPills.handleSelect('+i+','+n+','+number+')">'+auxTitles[i]+'</li>';
+                        style="padding:0%;background-color: '+auxColors[i]+';color:'+auxColorsTitle[i]+';margin: 0%"\n\
+                        onClick="BasicPills.handleSelect('+i+','+n+','+number+')"><b>'+auxTitles[i]+'</b></li>';
                         auxTextsPills += '\
                         <div class="Pill'+n+' row collapse" id="Text'+i+'Pill'+n+'"\n\
                         style="border:'+auxColors[i]+';border-style: solid;border-radius: 0.5em;margin-top: 1%" >\n\
@@ -154,6 +159,7 @@ var BasicPills = (function(){
             var auxTitles = state.titles;
             var auxTexts = state.texts;
             var auxColors = state.colors;
+             var auxColorsTitle = state.colorsTitle;
             var editorBox = '';
 
             for(var i = 0; i < number ; i++){
@@ -166,12 +172,17 @@ var BasicPills = (function(){
                 if(auxColors[i] == null){
                     auxColors.push('#ff0000');
                 }
+                if(auxColorsTitle[i] == null){
+                    auxColorsTitle.push('#333333');
+                }
 
                 editorBox += '\
                 <div class="col-xs-12 text-center"><hr><br><h2>Pill'+i+'</h2></div>\n\
                 <div class="col-xs-12 col-sm-6">Titulo:\n\
                 <input onchange="BasicPills.setTitle('+i+')" type="text" autofocus id="title'+i+'" value= '+ auxTitles[i] +'></div>\n\
-                <div class="col-xs-12 col-sm-6">Color:\n\
+                <div class="col-xs-12 col-sm-3">Color título:\n\
+                <input onchange="BasicPills.setColorTitle('+i+')" type="color" name="colorTitle" id="colorT'+i+'" value="'+auxColorsTitle[i]+'"> </div>\n\
+                <div class="col-xs-12 col-sm-3">Color:\n\
                 <input onchange="BasicPills.setColor('+i+')" type="color" name="favcolor" id="color'+i+'" value="'+auxColors[i]+'"> </div>\n\
                 <div class="col-xs-12 well textEditable" onfocus="BasicPills.ponerCKEditor('+i+')" onblur="BasicPills.setText('+i+')" contentEditable id="text'+i+'">'+auxTexts[i]+'</div>';;
             }
@@ -179,6 +190,7 @@ var BasicPills = (function(){
             BasicPills.setState('titles',auxTitles);
             BasicPills.setState('texts',auxTexts);
             BasicPills.setState('colors',auxColors);
+            BasicPills.setState('colorsTitle',auxColorsTitle);
 
             $('#configuradores').html(editorBox);
         },
@@ -207,6 +219,15 @@ var BasicPills = (function(){
             auxColors = state.colors;
             auxColors[id] = input.val();
             BasicPills.setState('colors',auxColors);
+        },
+        setColorTitle: function(id){
+            var state = BasicPills.getState();
+            var idT = '#colorT'+id;
+            var input = $(idT);
+           
+            auxColorsTitle = state.colorsTitle;
+            auxColorsTitle[id] = input.val();
+            BasicPills.setState('colorsTitle',auxColorsTitle);
         },
         imageClick: function() {
             alert("Miau!");
