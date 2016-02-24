@@ -145,8 +145,8 @@ var BasicPills = (function(){
                           onClick="BasicPills.handleSelect('+i+','+n+','+number+')">'+auxTitles[i]+'</li>';
 
                     auxTextsPills += '\
-                        <div class="Pill'+n+' row collapse" id="Text'+i+'Pill'+n+'"\n\
-                          style="border: red;border-style: solid;border-radius: 0.5em;margin-top: 1%;" >\n\
+                        <div class="Pill'+n+' row collapse in" id="Text'+i+'Pill'+n+'"\n\
+                          style="border:'+auxColors[i]+';border-style: solid;border-radius: 0.5em;margin-top: 1%;" >\n\
                             <p>'+auxTexts[i]+'</p>\n\
                         </div>';
                 }else{
@@ -160,7 +160,7 @@ var BasicPills = (function(){
                           onClick="BasicPills.handleSelect('+i+','+n+','+number+')">'+auxTitles[i]+'</li>';
                     auxTextsPills += '\
                         <div class="Pill'+n+' row collapse" id="Text'+i+'Pill'+n+'"\n\
-                          style="border: red;border-style: solid;border-radius: 0.5em;margin-top: 1%" >\n\
+                          style="border:'+auxColors[i]+';border-style: solid;border-radius: 0.5em;margin-top: 1%" >\n\
                             <p>'+auxTexts[i]+'</p>\n\
                         </div>';
                 }
@@ -209,21 +209,70 @@ var BasicPills = (function(){
         },
         handleSelect: function (selectedKey, idTime, number) {
             var clase = '.Pill'+idTime;
-            $(id).css('display','block');
+            //var id = '#Text'+i+'Pill'+idTime;
 
+console.log("BBBBBB************************BBBBBBB");
             for(var i = 0; i < number; i++){
+                  var id = '#Text'+i+'Pill'+idTime;
+                if(i != selectedKey){
+                    console.log("No es el que seleccione"+i);
+                    if($(clase).hasClass("in")){
+                       console.log("No es el que seleccione"+i+" Y además tiene clase in");
+                       console.log(id);
+                       $(id).css('height','6px');
+                       $(id).removeClass('in');
+                       console.log("Done en "+i);
+                        //$(clase).css('display','none');
+                    }
+            
+                }else{
+                    console.log("Es el que seleccione"+i)
+                    if($(clase).hasClass("in")){
+                       console.log("Es el que seleccione"+i+" Y además tiene clase in");
+                        //$(clase).css('display','none');
+                    }
+            
+
+            }
+            }
+
+           /* $(clase).css('display','block');
+            //$(clase).removeClass('display','block');
+            console.log("BBBBBB");*/
+          /*  for(var i = 0; i < number; i++){
                 var id = '#Text'+i+'Pill'+idTime;
+               //  $(id).css('display','block');
                 if(i != selectedKey){
                     var id = '#Text'+i+'Pill'+idTime;
 
-                    $(id).css('display','none');
+                    console.log('no'+id);
+                    $(id).css('display','block');
                 }else{
                     $(id).css('display','block');
-                    if($(id).hasClass("in")){
-                        $(id).css('display','none');
+                    console.log('si'+id);
+                    if($(clase).hasClass("in")){
+                        console.log('si clas'+id);
+                        $(clase).css('display','none');
                     }
                 }
-            }
+            }*/
+            /*for(var i = 0; i < number; i++){
+                var id = '#Text'+i+'Pill'+idTime;
+               //  $(id).css('display','block');
+                if(i != selectedKey){
+                    var id = '#Text'+i+'Pill'+idTime;
+
+                    console.log('no'+id);
+                    $(id).css('display','block');
+                }else{
+                    $(id).css('display','block');
+                    console.log('si'+id);
+                    if($(clase).hasClass("in")){
+                        console.log('si clas'+id);
+                        $(clase).css('display','none');
+                    }
+                }
+            }*/
             /*var clase = '.Pill'+idTime;
             var id = '#Text'+selectedKey+'Pill'+idTime;
             $(clase).css('display','none');
