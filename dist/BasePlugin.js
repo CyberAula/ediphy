@@ -118,6 +118,9 @@ Dali.Plugin = function(descendant){
         setState: function(key, value) {
             state[key] = value;
         },
+        getState: function(){
+            return state;
+        },
         registerExtraFunction: function(fn, alias){
             if(!alias){
                 Object.keys(descendant).forEach(prop =>{
@@ -131,9 +134,9 @@ Dali.Plugin = function(descendant){
         getExtraFunctions: function(){
             return Object.keys(extraFunctions);
         },
-        callExtraFunction: function(alias, fnAlias){
+        callExtraFunction: function(alias, fnAlias) {
             var element = $.find("[data-alias='" + alias + "']");
-            if(element){
+            if (element) {
                 extraFunctions[fnAlias].bind(element[0])();
             }
         }

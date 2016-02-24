@@ -18,10 +18,11 @@ require('../sass/style.scss');
 class DaliApp extends Component{
 
     render(){
+
         const{ dispatch, boxes, boxesIds, boxSelected, navItemsIds, navItems, navItemSelected,
             boxModalToggled, pageModalToggled, undoDisabled, redoDisabled, displayMode, isBusy, toolbars } = this.props;
         return(
-            <Grid fluid={true} style={{height: '100%'}}>
+            <Grid fluid={true} style={{height: '100%'}} >
                 <Row style={{height: '100%'}}>
                     <Col md={2} xs={2} style={{padding: 0, height: '100%'}}>
                         <DaliCarousel boxes={boxes}
@@ -112,8 +113,29 @@ class DaliApp extends Component{
                     container: (this.props.boxModalToggled.fromSortable ? ID_PREFIX_SORTABLE_CONTAINER + Date.now() : this.props.boxModalToggled.container)
                 }, BOX_TYPES.NORMAL, true, true, e.detail.content, e.detail.toolbar, e.detail.config, e.detail.state));
             }
-        })
+
+        });
+
+        window.onkeyup = function(e) {
+          var key = e.keyCode ? e.keyCode : e.which;
+          if (key == 90 && e.ctrlKey){
+            this.props.dispatch(ActionCreators.undo())
+          }
+          if (key == 89 && e.ctrlKey){
+            this.props.dispatch(ActionCreators.redo())
+          }
+          else if (key == 46) {
+              if ( this.props.boxSelected != -1){
+                let caja =  this.props.boxes[ this.props.boxSelected]
+                let parent= caja.parent
+                this.props.dispatch(deleteBox( this.props.boxSelected, parent ));
+              }
+          }  
+        }.bind(this)
+           
     }
+
+
 }
 
 function mapStateToProps(state){

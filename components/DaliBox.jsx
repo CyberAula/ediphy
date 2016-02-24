@@ -10,7 +10,7 @@ export default class DaliBox extends Component {
         let cornerSize = 15;
 
         let box = this.props.box;
-
+        let vis = (this.props.isSelected && box.type !== BOX_TYPES.SORTABLE)
         let style = {
             width: '100%',
             height: '100%',
@@ -50,13 +50,13 @@ export default class DaliBox extends Component {
             });
         }
         let content = (
-            <div   style={style} {...attrs} dangerouslySetInnerHTML={{__html: box.content}}>
+            <div  style={style} {...attrs} dangerouslySetInnerHTML={{__html: box.content}}>
             </div>
         );
-        
+       
         let overlay = (
-            <div  style={{visibility: ((this.props.isSelected && box.type !== BOX_TYPES.SORTABLE) ? 'visible' : 'hidden')}}>
-                <div  style={{position: 'absolute', width: '100%', height: '100%', border: (borderSize + "px dashed black"), boxSizing: 'border-box'}}>
+            <div style={{visibility: (vis ? 'visible' : 'hidden')}}>
+                <div   style={{position: 'absolute', width: '100%', height: '100%', border: (borderSize + "px dashed black"), boxSizing: 'border-box'}}>
                    
                      <Button className="trashbutton" 
                              onClick={e => {
@@ -67,27 +67,32 @@ export default class DaliBox extends Component {
                       </Button>
 
                     </div>
-                <div style={{position: 'absolute', left:  -cornerSize/2, top: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray'}}></div>
-                <div style={{position: 'absolute', right: -cornerSize/2, top: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray'}}></div>
-                <div style={{position: 'absolute', left:  -cornerSize/2, bottom: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray'}}></div>
-                <div style={{position: 'absolute', right: -cornerSize/2, bottom: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray'}}></div>
+                <div style={{position: 'absolute', left:  -cornerSize/2, top: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray', cursor: 'nw-resize'}}></div>
+                <div style={{position: 'absolute', right: -cornerSize/2, top: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray', cursor: 'ne-resize'}}></div>
+                <div style={{position: 'absolute', left:  -cornerSize/2, bottom: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray', cursor: 'sw-resize'}}></div>
+                <div style={{position: 'absolute', right: -cornerSize/2, bottom: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray', cursor: 'se-resize'}}></div>
             </div>);
 
-        return (<div onClick={e => {
+        return (<div className="wholebox" onClick={e => {
                         e.stopPropagation()
                         this.props.onBoxSelected(this.props.id) }}
                      onDoubleClick={(e)=>{
                         if(this.props.toolbar.config && this.props.toolbar.config.needsTextEdition){
                             this.props.onTextEditorToggled(this.props.id, true);
                             this.refs.textarea.focus();
-                        }}}
+                        }}
+
+
+                    }
                      style={{position: 'absolute',
                             left: box.position.x,
                             top: box.position.y,
                             width: box.width,
                             height: box.height,
                             touchAction: 'none',
-                            msTouchAction: 'none'}}>
+                            msTouchAction: 'none',
+                            cursor: vis? 'inherit':'default' //esto evita que aparezcan los cursores de move y resize cuando la caja no está seleccionada
+                        }}>
             {content}
             {overlay}
             <div contentEditable={true} ref={"textarea"} style={textareaStyle} />
@@ -125,6 +130,7 @@ export default class DaliBox extends Component {
         }
 
         if (this.props.box.type !== BOX_TYPES.SORTABLE) {
+
             interact(ReactDOM.findDOMNode(this))
                 .draggable({
                     enabled: (this.props.box.draggable),
@@ -211,6 +217,7 @@ export default class DaliBox extends Component {
                             this.props.id,
                             (this.props.box.container !== 0 ? width : parseInt(event.target.style.width)),
                             parseInt(event.target.style.height));
+                        this.props.onBoxMoved(this.props.id, parseInt(event.target.style.left), parseInt(event.target.style.top));
                         event.stopPropagation();
                         event.preventDefault();
                     }

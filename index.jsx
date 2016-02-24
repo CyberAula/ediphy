@@ -19,7 +19,6 @@ ReactDOM.render(
     <Provider store={store}>
         <div style={{height: '100%'}}>
             <DaliApp store={store}/>
-            
         </div>
     </Provider>, root
     );
