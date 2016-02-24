@@ -1,6 +1,7 @@
 Dali.Plugin = function(descendant){
     var state;
     var id;
+    var extraFunctions = {};
 
     var defaultFor = function(arg, value) {
         return typeof arg !== 'undefined' ? arg : value;
@@ -116,6 +117,25 @@ Dali.Plugin = function(descendant){
         },
         setState: function(key, value) {
             state[key] = value;
+        },
+        registerExtraFunction: function(fn, alias){
+            if(!alias){
+                Object.keys(descendant).forEach(prop =>{
+                    if(descendant[prop] === fn){
+                        alias = prop;
+                    }
+                });
+            }
+            extraFunctions[alias] = fn;
+        },
+        getExtraFunctions: function(){
+            return Object.keys(extraFunctions);
+        },
+        callExtraFunction: function(alias, fnAlias){
+            var element = $.find("[data-alias='" + alias + "']");
+            if(element){
+                extraFunctions[fnAlias].bind(element[0])();
+            }
         }
     };
     Object.keys(descendant).map(function(id) {

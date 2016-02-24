@@ -436,6 +436,20 @@ function toolbarsById(state = {}, action = {}){
                     autoManaged: true
                 });
             }
+            if(action.payload.ids.id.indexOf(ID_PREFIX_SORTABLE_BOX) === -1) {
+                if(!toolbar.buttons) {
+                    toolbar.buttons = [];
+                    toolbar.config = {};
+                }
+                toolbar.buttons.push({
+                    name: 'alias',
+                    humanName: 'Alias',
+                    type: 'text',
+                    value: '',
+                    autoManaged: true,
+                    isAttribute: true
+                });
+            }
             return Object.assign({}, state, {[action.payload.ids.id]: toolbar});
         case DELETE_BOX:
             var newState = Object.assign({},state);

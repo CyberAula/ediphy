@@ -1,5 +1,9 @@
 var BasicImage = (function(){
     return new Dali.Plugin({
+        init: function(){
+            BasicImage.registerExtraFunction(this.imageClick);
+            BasicImage.registerExtraFunction(this.printState);
+        },
         getConfig: function(){
             return {
                 name: 'BasicImage',
@@ -59,6 +63,9 @@ var BasicImage = (function(){
         },
         imageClick: function() {
             alert("Miau!");
+        },
+        printState: function() {
+            console.log(this);
         }
     });
 })();

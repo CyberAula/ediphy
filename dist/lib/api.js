@@ -22,13 +22,21 @@ Dali.Plugins = (function(){
         get: function(name){
             return pluginList[name];
         },
-        loadAllAsync: function(){
-            if(!pluginList) {
+        getCurrentPlugins: function(){
+            var promise = new Promise(function(resolve, reject){
+                Dali.API.Private.listenAnswer(resolve, Dali.API.Private.events.getCurrentPluginsList);
+            });
+            Dali.API.Private.emit(Dali.API.Private.events.getCurrentPluginsList);
+
+            return promise;
+        },
+        loadAllAsync: function() {
+            if (!pluginList) {
                 pluginList = {};
                 var promises = [];
                 plugins.map(function (id, index) {
                     promises.push(loadPluginFile(id));
-                    promises[index].then(function(value){
+                    promises[index].then(function (value) {
                         pluginList[id] = window[id];
                     });
                 });
@@ -67,12 +75,15 @@ Dali.API.Private = (function(){
                 emit: 'addMenuButton'
             },
             render: {
-                emit: 'render',
-                answer: 'render_back'
+                emit: 'render'
             },
             openConfig: {
                 emit: 'openConfig',
                 answer: 'openConfig_back'
+            },
+            getCurrentPluginsList: {
+                emit: 'getCurrentPluginsList',
+                answer: 'getCurrentPluginsList_back'
             }
         },
         emit: function(name, params) {
@@ -90,14 +101,9 @@ Dali.API.Private = (function(){
             answerCallback = this.cleanupAndResolve.bind(this, resolve, event);
             window.addEventListener(event.answer, answerCallback);
         },
-        cleanupAndResolve: function(resolve, event){
+        cleanupAndResolve: function(resolve, event, customEvent){
             window.removeEventListener(event.answer, answerCallback);
-
-            resolve(configContainer);
-        },
-
-        setConfigContainer: function(container){
-            configContainer = container;
+            resolve(customEvent.detail);
         }
     }
 })();

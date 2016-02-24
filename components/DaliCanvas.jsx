@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import DaliBox from '../components/DaliBox';
 import DaliBoxSortable from '../components/DaliBoxSortable';
 import DaliTitle from '../components/DaliTitle';
-import {BOX_TYPES} from '../constants';
+import {BOX_TYPES, ID_PREFIX_SORTABLE_BOX} from '../constants';
 
 export default class DaliCanvas extends Component{
     render() {
@@ -57,5 +57,40 @@ export default class DaliCanvas extends Component{
                 })}
             </div>
         );
+    }
+
+    componentDidMount(){
+        Dali.API.Private.listenEmission(Dali.API.Private.events.getCurrentPluginsList, e => {
+            let plugins = {};
+            this.props.navItemSelected.boxes.map(id => {
+                let toolbar = this.props.toolbars[id];
+                if(toolbar.buttons) {
+                    let lastButton = toolbar.buttons[toolbar.buttons.length - 1];
+                    if (lastButton.humanName === "Alias" && lastButton.value !== "" && toolbar.config.name) {
+                        if(!plugins[toolbar.config.name]){
+                            plugins[toolbar.config.name] = [];
+                        }
+                        plugins[toolbar.config.name].push(lastButton.value);
+                    }
+                }else if(id.indexOf(ID_PREFIX_SORTABLE_BOX) !== -1){
+                    this.props.boxes[id].children.map(idContainer => {
+                        this.props.boxes[id].sortableContainers[idContainer].children.map(idBox => {
+                            toolbar = this.props.toolbars[idBox];
+                            if(toolbar.buttons) {
+                                let lastButton = toolbar.buttons[toolbar.buttons.length - 1];
+                                if (lastButton.humanName === "Alias" && lastButton.value !== "" && toolbar.config.name) {
+                                    if(!plugins[toolbar.config.name]){
+                                        plugins[toolbar.config.name] = [];
+                                    }
+                                    plugins[toolbar.config.name].push(lastButton.value);
+                                }
+                            }
+                        });
+                    });
+                }
+            });
+
+            Dali.API.Private.answer(Dali.API.Private.events.getCurrentPluginsList, plugins);
+        });
     }
 }

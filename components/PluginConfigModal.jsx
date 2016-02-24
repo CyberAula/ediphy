@@ -22,8 +22,7 @@ export default class PluginConfigModal extends Component {
                 <Modal.Body>
                     <div ref={c => {
                         if(c !== null){
-                            Dali.API.Private.setConfigContainer(c);
-                            Dali.API.Private.answer(Dali.API.Private.events.openConfig);
+                            Dali.API.Private.answer(Dali.API.Private.events.openConfig, c);
                         }
                     }}></div>
                 </Modal.Body>
