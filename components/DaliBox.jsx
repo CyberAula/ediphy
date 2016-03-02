@@ -153,9 +153,10 @@ export default class DaliBox extends Component {
 
                     },
                     onend: (event) => {
-                        if (!this.props.isSelected) return;
-                        event.preventDefault()
-                        event.stopPropagation()
+                        if (!this.props.isSelected) {
+                            return;
+                        }
+                        event.stopPropagation();
                         this.props.onBoxMoved(this.props.id, parseInt(event.target.style.left), parseInt(event.target.style.top));
                     }
                 })
