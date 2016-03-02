@@ -1,12 +1,12 @@
 /*..................Cabecera..................*/
 
 
-html{
+html{ /* No incluir */
 	
 height:100%;
 }
 
-body {
+body { /* No incluir */
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 	background-color: #EBECE5;
 	margin-top: 0;
@@ -16,7 +16,7 @@ body {
 	min-height:99%;
 }
 
-.boton {
+.boton { /* No incluir */
 	background: linear-gradient(to bottom, #ffec64 5%, #f47920 100%) repeat scroll 0 0 #ffec64;
     border: 1px solid #ffaa22;
     border-radius: 6px;
@@ -32,7 +32,8 @@ body {
     text-shadow: 0 1px 0 #ffee66;	
 	
 }
-#error{	
+
+#error{	/* No incluir */
 	background-color:#900;
 	color:#fff;
 	display:block;
@@ -43,7 +44,7 @@ body {
 	width:98%;
 }
 
-.enlaceWeb{
+.enlaceWeb{ /* INCLUIR - Se aplica a enlaces de texto */
 	color: #395DB3;
 	padding-right: 30px;
 	background-image: url(../images/ico_web.png);
@@ -52,7 +53,8 @@ body {
 	display: inline-block;
 	width: auto;
 	}
-.enlaceBlanco{
+	
+.enlaceBlanco{ /* INCLUIR - Se aplica a enlaces de texto */
 	color: #FFF;
 	text-decoration: none;
 	background-image: url(../images/capa_blanca.gif);
@@ -60,49 +62,56 @@ body {
 	background-position: right center;
 	padding-right: 12px;
 	}
-.enlacePdf{
+	
+.enlacePdf{ /* INCLUIR - Se aplica a enlaces de texto */
 	color: #395DB3;
 	padding-right:18px;
 	background:url(../images/ico_pdf.gif);
 	background-position:right center;
 	background-repeat:no-repeat;
 	}
-.enlaceWord{
+	
+.enlaceWord{ /* INCLUIR - Se aplica a enlaces de texto */
 	color: #395DB3;
 	padding-right:23px;
 	background:url(../images/Word_Icon.png);
 	background-position:right center;
 	background-repeat:no-repeat;
 	}
-.enlaceExcel{
+	
+.enlaceExcel{ /* INCLUIR - Se aplica a enlaces de texto */
 	color: #395DB3;
 	padding-right:23px;
 	background:url(../images/Excel_Icon.png);
 	background-position:right center;
 	background-repeat:no-repeat;
 	}
-.enlaceGlosario{
+	
+.enlaceGlosario{ /* INCLUIR - Se aplica a enlaces de texto */
 	color: #395DB3;
 	padding-right:25px;
 	background:url(../images/ico_glosario.png);
 	background-position:right center;
 	background-repeat:no-repeat;
 	}
-.enlaceZip{
+	
+.enlaceZip{ /* INCLUIR - Se aplica a enlaces de texto */
 	color: #395DB3;
 	padding-right:19px;
 	background:url(../images/ico_zip.jpg);
 	background-position:right center;
 	background-repeat:no-repeat;
 	}
-.enlaceCapa {
+	
+.enlaceCapa { /* INCLUIR - Se aplica a enlaces de texto */
 	color: #395DB3;
 	background-image: url(../images/capa_mas.gif);
 	background-repeat: no-repeat;
 	background-position: right center;
 	padding-right: 12px;
 }
-.enlacePopup {
+
+.enlacePopup { /* INCLUIR - Se aplica a enlaces de texto */
 	color: #395DB3;
 	background-image: url(../images/texto_alt.gif);
 	background-repeat: no-repeat;
@@ -110,7 +119,7 @@ body {
 	padding-right: 20px;
 }
 
-.enlacePopup_blanco {
+.enlacePopup_blanco { /* INCLUIR - Se aplica a enlaces de texto */
 	color: #FFF;
 	background-image: url(../images/texto_alt.gif);
 	background-repeat: no-repeat;
@@ -119,7 +128,7 @@ body {
 }
 
 
-.cab {
+.cab {/* No incluir */
 	background-color: #FFFFFF;
 	margin-top:0.5%;
 	float:left;
@@ -127,11 +136,11 @@ body {
 	
 }
 
-#alumno{
+#alumno{/* No incluir */
 	margin-top:5px;
 }
 
-.caja {
+.caja {/* No incluir */
 	display: block;
 	float: left;
 	width: 100%;
@@ -143,7 +152,7 @@ body {
 	/*overflow:hidden;*/
 }
 
-.botDere {
+.botDere {/* No incluir */
 	/*display:block;*/
 	text-align:right;
 	float:right;
@@ -151,16 +160,16 @@ body {
 }
 
 
-p {
+p { /* No incluir */
 	font-size: small;
 	line-height:1.3em;
 }
 
-.clear {
+.clear { /* No incluir */
 	clear: both;
 }
 
-.num_libro {
+.num_libro { /* No incluir */
 	font-size: 36px;
 	color: #F47920;
 	padding-right: 10px;
@@ -170,26 +179,26 @@ p {
 	padding-top: 15px;
 	display: block;
 }
-.icono {
+.icono { /* No incluir */
 	float: left;
 	padding-top: 5px;
 	padding-left: 5px;
 }
-.icono_eval {
+.icono_eval { /* No incluir */
 	font-size: 2.2em;
 	padding-right: 6px;
 	padding-left: 6px;
 	float: left;
 	padding-top: 8px;
 }
-.icono_ejer {
+.icono_ejer {/* No incluir */
 	font-size: 36px;
 	padding-right: 10px;
 	padding-left: 5px;
 	float: left;
 	padding-top: 15px;
 }
-.unidad {
+.unidad {/* No incluir */
 	float: left;
 	border-left-width: 1px;
 	border-left-style: solid;
@@ -197,13 +206,13 @@ p {
 	display: block;
 }
 
-.cab #icon_lapiz {
+.cab #icon_lapiz {/* No incluir */
 	float: right;
 	padding-right: 5px;
 	padding-top: 10px;
 }
 
-.tit_ud_cap{
+.tit_ud_cap{/* No incluir */
 	float:left;
 	width:auto;
 	border-left: 1px solid #E1E1E2;
@@ -211,7 +220,7 @@ p {
 	width:69%;
 	}
 
-.cabtabla_lapiz {
+.cabtabla_lapiz {/* No incluir */
 	vertical-align: middle;
 	font-size: 0.8em;
 	padding:20px 0;
@@ -221,7 +230,7 @@ p {
 	text-align:right;
 }
 
-.cabtabla_numero {
+.cabtabla_numero {/* No incluir */
 	width: 10%;
 	max-width:60px;
 	font-size: 2.2em;
@@ -233,7 +242,7 @@ p {
 	height:100%;
 	margin-top:8px;
 }
-.cabtabla_img {
+.cabtabla_img {/* No incluir */
 	width: 10%;
 	max-width: 60px;
 	font-weight: normal;
@@ -246,21 +255,22 @@ p {
 }
 
 
-.cabtabla_lapiz p {
+.cabtabla_lapiz p {/* No incluir */
 	vertical-align: middle;
 	margin-top:3px;
 	text-align:right;
 
 }
 
-.cabtabla_lapiz img {
+.cabtabla_lapiz img {/* No incluir */
 	vertical-align: middle;
 	float: right;
 	margin-right: 8px;
 }
 
-
-h1 {
+/* Estos son todas las cabeceras, no sé como lo tendríais que poner, si para seleccionar como el resto o que se apliquen automáticamente */ 
+/*
+h1 { 
 	font-size: 1em;
 	color: #666666;
 	display: block;
@@ -294,9 +304,6 @@ h3 {
 	border-top-color: #E1E1E2;
 	text-transform: uppercase;
 }
-
-
-
 h4 {
 	font-size: 1.0em;
 	margin: 0px;
@@ -317,12 +324,14 @@ h6 {
 	margin-top: 5px;
 	margin-bottom: 20px;
 }
+*/
+
 
 /*..................Generales..................*/
-.clear {
+.clear {/* No incluir */
 	clear: both;
 }
-.linea_separador {
+.linea_separador {/* No incluir */
 	font-size: 1.1em;
 	color: #333333;
 	border-top-width: 5px;
@@ -333,7 +342,7 @@ h6 {
 	margin-bottom: 1em;
 	margin-left: 0px;
 }
-.linea_ejercicios {
+.linea_ejercicios {/* No incluir */
 	font-size: 1.1em;
 	color: #333333;
 	padding-top: 15px;
@@ -348,29 +357,29 @@ h6 {
 	margin-bottom: 0px;
 	margin-left: 60px;
 }
-img {
+img {/* No incluir */
 	border: 0;
 	/*max-width: 100%;*/
  	/*height: auto;*/
 }
 
-p img {
+p img {/* No incluir */
 	border: 0;
 	max-width: 100%;
  	height: auto;
 }
 
-.caja .contenido a {
+.caja .contenido a {/* No incluir */
 	/*color: #395DB3;*/
 	text-decoration: none;
 	font-weight: bold;
 	cursor:pointer;
 }
-.caja .contenido a:hover {
+.caja .contenido a:hover {/* No incluir */
 	text-decoration: underline;
 }
 
-a.text_violeta:link{
+a.text_violeta:link{ /* Incluir un estilo para los enlaces, al igual que pdf, word... que sea "Enlace Traducción" */
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 	font-size: 1em;
 	color: #90F;
@@ -381,12 +390,12 @@ a.text_violeta:link{
 	background:url(../images/ico_traducir.png)no-repeat right;
 }
 
-a.text_violeta:hover{
+a.text_violeta:hover{/* No incluir */
 	text-decoration: none;
 	cursor: default;
 }
 
-.caja .contenido {
+.caja .contenido {/* No incluir */
 	height: 100%;
 	float: left;
 	width: 98%;
@@ -401,14 +410,14 @@ a.text_violeta:hover{
 }
 
 
-.caja .contenidoEjercicio {
+.caja .contenidoEjercicio {/* No incluir */
 	margin-top: 1%;
 	background-color: #FFFFFF;
 	padding-left:0px;
 	padding-bottom: 1%;
 	padding-right: 0px;
 }
-.derecha {
+.derecha {/* Son alineaciones de texto, veo que lo habéis puesto directamente en el editor */
 	text-align: right;
 }
 .izquierda {
@@ -425,7 +434,7 @@ a.text_violeta:hover{
 
 /*..................Ejemplo..................*/
 
-.caja .contenido a.ejemplo {
+.caja .contenido a.ejemplo {/* Incluir - Se aplica al enlace que abre el ejemplo */
 	font-weight: bold;
 	color: #F47920;
 	background-image: url(../images/capa_ejemplo.gif);
@@ -433,7 +442,7 @@ a.text_violeta:hover{
 	background-position: right center;
 	padding-right: 10px;
 }
-.capa_ejemplo {
+.capa_ejemplo {/* Incluir - Se aplica a DIVS */
 	clear: both;
 	background-color: #EBECE5;
 	padding-top: 5px;
@@ -449,7 +458,7 @@ a.text_violeta:hover{
 	font-style: italic;
 	border: 1px solid #666;
 }
-.capa_ejemplolista {
+.capa_ejemplolista {/* Incluir - Se aplica a DIVS */
 	clear: both;
 	background-color: #EBECE5;
 	padding-top: 25px;
@@ -465,7 +474,7 @@ a.text_violeta:hover{
 	font-style: italic;
 	border: 1px solid #666;
 }
-.capa_ejemplo_pli {
+.capa_ejemplo_pli {/* Incluir - Se aplica a DIVS */
 	clear: both;
 	background-color: #EBECE5;
 	padding-top: 5px;
@@ -481,7 +490,7 @@ a.text_violeta:hover{
 	font-style: italic;
 	border: 1px solid #666;
 }
-.sinespacio {
+.sinespacio {/* Incluir - Se aplica a texto */
 	margin-right: 0px;
 	margin-bottom: 0px;
 	margin-left: 0px;
@@ -491,41 +500,41 @@ a.text_violeta:hover{
 }
 
 /*..................Cajas resaltadas..................*/
-.titulo_cm {
+.titulo_cm {/* Incluir - Se aplica a texto */
 	font-size: 0.9em;
 	font-weight: bold;
 	color: #F47920;
 }
-.excepcion {
+.excepcion {/* Incluir - Se aplica a texto */
 	background-image: url(../images/mini_excepcion.gif);
 }
-.importante {
+.importante {/* Incluir - Se aplica a texto */
 	background-image: url(../images/mini_importante.gif);
 }
-.novedad {
+.novedad {/* Incluir - Se aplica a texto */
 	background-image: url(../images/mini_new.gif);
 }
-.nota {
+.nota {/* Incluir - Se aplica a texto */
 	background-image: url(../images/mini_nota.gif);
 }
-.definicion {
+.definicion {/* Incluir - Se aplica a texto */
 	background-image: url(../images/mini_definicion.gif);
 }
-.ejercicio {
+.ejercicio {/* Incluir - Se aplica a texto */
 	background-image: url(../images/mini_ejerciciolibre.gif);
 }
-.masinfo {
+.masinfo {/* Incluir - Se aplica a texto */
 	background-image: url(../images/mini_masinfo.gif);
 }
-.marcolegal {
+.marcolegal {/* Incluir - Se aplica a texto */
 	background-image: url(../images/mini_marco.png);
 }
-.recuerda {
+.recuerda {/* Incluir - Se aplica a texto */
 	background-image: url(../images/mini_recuerda.gif);
 }
 
 
-.cm {
+.cm {/* Incluir - Se aplica a texto */
 	background-repeat: no-repeat;
 	background-position: left center;
 	color: #F47920;
@@ -534,11 +543,11 @@ a.text_violeta:hover{
 	font-weight: bold;
 	font-size: 0.9em;
 }
-li .resaltado .cm {
+li .resaltado .cm {/* No incluir */
 	font-size: 1.1em;
 }
 
-.desplVert .container .ocultar .container0 .resaltado .cm {
+.desplVert .container .ocultar .container0 .resaltado .cm {/* No incluir */
 	font-size: 1.1em;
 }
 
@@ -546,7 +555,7 @@ li .resaltado .cm {
 	font-size: 1.1em;
 }*/
 
-.caja .contenido  a.masinfo_capa{
+.caja .contenido  a.masinfo_capa{ /* Incluir - Se aplica a enlaces de texto */
 	font-weight: bold;
 	color: #F47920;
 	display: block;
@@ -564,7 +573,7 @@ li .resaltado .cm {
 	margin-top: 15px;
 	border: 1px solid #666;
 }
-.caja .contenido a.nota_capa {
+.caja .contenido a.nota_capa { /* Incluir - Se aplica a enlaces de texto */
 	font-weight: bold;
 	color: #F47920;
 	display: block;
@@ -582,25 +591,7 @@ li .resaltado .cm {
 	margin-top: 15px;
 	border: 1px solid #666;
 }
-.caja .contenido a.marco_capa {
-	font-weight: bold;
-	color: #F47920;
-	display: block;
-	background-color: #EBECE5;
-	margin-right: 0px;
-	margin-bottom: 0px;
-	margin-left: 0px;
-	padding-top: 10px;
-	padding-right: 30px;
-	padding-bottom: 10px;
-	padding-left: 55px;
-	background-image: url(../images/mini_marco.png);
-	background-repeat: no-repeat;
-	background-position: 30px center;
-	margin-top: 15px;
-	border: 1px solid #666;
-}
-.resaltado2 {
+.resaltado2 { /* Incluir - Se aplica a DIV */
 	background-color: #EBECE5;
 	padding-top: 5px;
 	padding-right: 30px;
@@ -621,18 +612,18 @@ li .resaltado .cm {
 	border-bottom-color: #666;
 	border-left-color: #666;
 }
-.cuerpocapas {
+.cuerpocapas { /* No incluir */
 	font-size: 0.9em;
 	margin: 0px;
 	padding: 0px;
 }
-ul li .cuerpocapas {
+ul li .cuerpocapas { /* No incluir */
 	font-size: 1.1em;
 }
 
 /*..................Cajas..................*/
-
-.resaltado {
+ 
+.resaltado { /* Incluir - Se aplica a DIV */
 	clear: both;
 	background-color: #EBECE5;
 	padding-top: 5px;
@@ -647,7 +638,7 @@ ul li .cuerpocapas {
 	color: #000000;
 	border: 1px solid #666;
 }
-.resaltado_li {
+.resaltado_li { /* Incluir - Se aplica a DIV */
 	clear: both;
 	background-color: #EBECE5;
 	padding-top: 5px;
@@ -662,7 +653,7 @@ ul li .cuerpocapas {
 	margin-top: 20px;
 	border: 1px solid #666;
 }
-.resaltado_pli {
+.resaltado_pli { /* Incluir - Se aplica a DIV */
 	clear: both;
 	background-color: #EBECE5;
 	padding-top: 5px;
@@ -677,7 +668,7 @@ ul li .cuerpocapas {
 	color: #000000;
 	border: 1px solid #666;
 }
-.resaltadolista_li {
+.resaltadolista_li { /* Incluir - Se aplica a DIV */
 	background-color: #EBECE5;
 	padding-top: 20px;
 	padding-right: 20px;
@@ -692,7 +683,7 @@ ul li .cuerpocapas {
 	clear: both;
 	border: 1px solid #666;
 }
-.resaltadolista_p {
+.resaltadolista_p { /* Incluir - Se aplica a DIV */
 	background-color: #EBECE5;
 	padding-top: 1px;
 	padding-right: 30px;
@@ -707,7 +698,7 @@ ul li .cuerpocapas {
 	clear: both;
 	border: 1px solid #666;
 }
-.resaltadolista_pli {
+.resaltadolista_pli { /* Incluir - Se aplica a DIV */
 	background-color: #EBECE5;
 	padding-top: 1px;
 	padding-right: 20px;
@@ -723,17 +714,17 @@ ul li .cuerpocapas {
 	border: 1px solid #666;
 }
 
-.cajascolor .resaltado {
+.cajascolor .resaltado { /* No incluir */
 	padding-right: 15px;
 	padding-left: 15px;
 }
 
-.cajascolor .marco {
+.cajascolor .marco { /* No incluir */
 	padding-right: 15px;
 	padding-left: 15px;
 }
 
-.marco {
+.marco { /* Incluir - Se aplica a DIV */
 	clear: both;
 	background-color: #FDFDFB;
 	padding-top: 5px;
@@ -745,7 +736,7 @@ ul li .cuerpocapas {
 	margin-top: 20px;
 	margin-bottom: 20px;
 }
-.marco_li {
+.marco_li { /* Incluir - Se aplica a DIV */
 	clear: both;
 	background-color: #FDFDFB;
 	padding-top: 5px;
@@ -757,7 +748,7 @@ ul li .cuerpocapas {
 	margin-top: 20px;
 	margin-bottom: 20px;
 }
-.marco_pli {
+.marco_pli { /* Incluir - Se aplica a DIV */
 	clear: both;
 	background-color: #FDFDFB;
 	padding-top: 5px;
@@ -770,7 +761,7 @@ ul li .cuerpocapas {
 	margin-bottom: 20px;
 }
 
-.marcolista_p {
+.marcolista_p { /* Incluir - Se aplica a DIV */
 	background-color: #FDFDFB;
 	padding-top: 1px;
 	padding-right: 20px;
@@ -782,7 +773,7 @@ ul li .cuerpocapas {
 	margin-bottom: 20px;
 	margin-top: 5px;
 }
-.marcolista_li {
+.marcolista_li { /* Incluir - Se aplica a DIV */
 	background-color: #FDFDFB;
 	padding-top: 20px;
 	padding-right: 20px;
@@ -794,7 +785,7 @@ ul li .cuerpocapas {
 	margin-bottom: 20px;
 	margin-top: 5px;
 }
-.marcolista_pli {
+.marcolista_pli { /* Incluir - Se aplica a DIV */
 	background-color: #FDFDFB;
 	padding-top: 1px;
 	padding-right: 20px;
@@ -806,7 +797,7 @@ ul li .cuerpocapas {
 	margin-bottom: 20px;
 	margin-top: 5px;
 }
-.marcolista_lip {
+.marcolista_lip { /* Incluir - Se aplica a DIV */
 	background-color: #FDFDFB;
 	padding-top: 20px;
 	padding-right: 20px;
@@ -818,65 +809,57 @@ ul li .cuerpocapas {
 	margin-bottom: 20px;
 	margin-top: 5px;
 }
-.transparente_li {
+.transparente_li { /* Incluir - Se aplica a DIV */
 	padding-top: 15px;
 	padding-left: 15px;
 	clear: both;
 	padding-bottom: 15px;
 }
-.transparente_p {
+.transparente_p { /* Incluir - Se aplica a DIV */
 	padding-left: 20px;
 	clear: both;
 }
-.transparente_pli {
+.transparente_pli { /* Incluir - Se aplica a DIV */
 	padding-left: 20px;
 	clear: both;
 	padding-bottom: 15px;
-}
-.fondonaranja {
-	background-color: #F47920;
-	width: 600px;
-	margin-right: auto;
-	margin-left: auto;
-	padding-right: 20px;
-	padding-left: 20px;
 }
 
 
 /*..................Listas..................*/
 
-li {
+li { /* No incluir */
 	padding-bottom: 5px;
 	line-height: 1.2em;
 	font-size: small;
 }
-ul.bolo_flecha {
+ul.bolo_flecha { /* Incluir - Se aplica a listas */
 	list-style-image: url(../images/bolo_flecha.gif);
 }
-ul.boliche {
+ul.boliche { /* Incluir - Se aplica a listas */
 	list-style-type: disc;
 	list-style-image: none;
 }
-ul.guion {
+ul.guion { /* Incluir - Se aplica a listas */
 	list-style-image: url(../images/guion_medio.gif);
 }
-ul.bolo {
+ul.bolo { /* Incluir - Se aplica a listas */
 	list-style-image: url(../images/bolo.gif);
 }
-ol.letra {
+ol.letra { /* Incluir - Se aplica a listas */
 	list-style-type: lower-alpha;
 	list-style-image: none;
 }
-.metido {
+.metido { /* Incluir - Se aplica a listas */
 	padding-top: 5px;
 }
-.sinbolo {
+.sinbolo { /* Incluir - Se aplica a listas */
 	list-style-type: none;
 	list-style-image: none;
 	background-image: none;
 	background-repeat: no-repeat;
 }
-.sinbolo_sinespacio {
+.sinbolo_sinespacio { /* Incluir - Se aplica a listas */
 	list-style-type: none;
 	list-style-image: none;
 	background-image: none;
@@ -884,40 +867,27 @@ ol.letra {
 	margin: 0px;
 	padding: 0px;
 }
-.celdas {
+.celdas { /* Incluir - Se aplica a listas */
 	margin: 0px;
 	padding-top: 0px;
 	padding-right: 10px;
 	padding-bottom: 0px;
 	padding-left: 15px;
 }
-.celdas2 {
-	margin: 0px;
-	padding-top: 0px;
-	padding-right: 10px;
-	padding-bottom: 0px;
-	padding-left: 20px;
-}
-.celdas3 {
-	margin: 0px;
-	padding-top: 0px;
-	padding-right: 10px;
-	padding-bottom: 0px;
-	padding-left: 30px;
-}
+
 
 /*..................Listas en Divs (Ley)..................*/
 
-.opcion_ley {
+.opcion_ley { /* Incluir - Se aplica a DIV */
 	margin-left: 20px;
 }
-.texto_ley {
+.texto_ley { /* Incluir - Se aplica a DIV */
 	padding-left: 20px;
 	padding-bottom: 7px;
 	font-size: small;
 	line-height:1.2em;
 }
-.letra_ley {
+.letra_ley { /* Incluir - Se aplica a DIV */
 	float: left;
 	font-size: small;
 	line-height:1.2em;
@@ -925,26 +895,26 @@ ol.letra {
 
 /*..................Pie..................*/
 
-.pie {
+.pie { /* Incluir - Se aplica a DIV */
 	text-align: right;
 	background-color: #EBECE5;
 }
-.pie img {
+.pie img { /* No incluir */
 	margin-left: 5px;
 }
 
-.pie a img {
+.pie a img { /* No incluir */
 	background-color: #FFFFFF;
 	background-image: url(../images/pestana_off.gif);
 }
-.pie a:hover img {
+.pie a:hover img { /* No incluir */
 	background-color: #BBBBBB;
 	background-image: url(../images/pestana_on.gif);
 }
 
 /*..................Tabla..................*/
 
-table.tabla {
+table.tabla { /* Incluir - Se aplica a tablas */
 	border-top-width: 1px;
 	border-top-style: solid;
 	border-top-color: #231F20;
@@ -957,7 +927,7 @@ table.tabla {
 	margin-top: 30px;
 	margin-bottom: 30px;
 }
-.tabla caption {
+.tabla caption { /* No incluir */
 	padding-top: 0px;
 	padding-right: 3px;
 	padding-bottom: 7px;
@@ -965,7 +935,7 @@ table.tabla {
 	text-align: center;
 	font-weight: bold;
 }
-.tabla th {
+.tabla th { /* No incluir */
 	background-color: #f2eee2;
 	border-bottom-width: 1px;
 	border-bottom-style: solid;
@@ -978,7 +948,7 @@ table.tabla {
 	padding-bottom: 5px;
 	padding-left: 10px;
 }
-.tabla td {
+.tabla td { /* No incluir */
 	background-color: #fdfaee;
 	border-bottom-width: 1px;
 	border-bottom-style: solid;
@@ -991,10 +961,10 @@ table.tabla {
 	padding-bottom: 5px;
 	padding-left: 10px;
 }
-li .tabla {
+li .tabla { /* No incluir */
 	margin-top: 10px;
 }
-.ptablas {
+.ptablas {  /* Incluir - Se aplica a texto */
 	margin-top: 3px;
 	margin-right: 0px;
 	margin-bottom: 3px;
@@ -1002,13 +972,13 @@ li .tabla {
 	padding: 0px;
 }
 
-.activeDiv{
+.activeDiv{ /* No incluir */
 	background-color:#C2C6B0;
 	position:relative;
 	padding:5px;
 }
 
-.inactiveDiv{
+.inactiveDiv{ /* No incluir */
 	background-color:#f2eee2;
 	position:relative;
 	padding:5px;
@@ -1017,15 +987,15 @@ li .tabla {
 
 /*..................Tabla en Divs..................*/
 
-.tablaDiv { 
+.tablaDiv {  /* Incluir - Se aplica a DIV */
 	display: table; 
 	max-width:900px;
 }
-.fila_tablaDiv { 
+.fila_tablaDiv {  /* Incluir - Se aplica a DIV */
 	display: table-row; 
 }
 
-.col_tablaDiv {
+.col_tablaDiv { /* Incluir - Se aplica a DIV */
 	display: table-cell;
 	margin: 0px;
 }
@@ -1034,7 +1004,7 @@ li .tabla {
 
 /*..................Tabla Video..................*/
 
-table.tablavideo {
+table.tablavideo { /* Incluir - Se aplica a DIV */
 	margin-right: auto;
 	margin-left: auto;
 	margin-bottom: 25px;
@@ -1043,37 +1013,27 @@ table.tablavideo {
 	font-size: small;
 }
 
-.tablavideo th {
+.tablavideo th { /* No incluir */
 	font-size: 1em;
 	text-align:left;
 	text-transform: uppercase;
 	color: #666;
 }
-.tablavideo td {
+.tablavideo td { /* No incluir */
 	padding-bottom: 1px;
 	font-size: 0.9em;
 }
-li .tablavideo {
+li .tablavideo { /* No incluir */
 	margin-top: 10px;
 }
-.ptablas {
-	margin-top: 3px;
-	margin-right: 0px;
-	margin-bottom: 3px;
-	margin-left: 0px;
-	padding: 0px;
-}
-
-
-
 
 
 /*..................Tabla Blanca..................*/
 
-table.tabla_blanca {
+table.tabla_blanca { /* Incluir - Se aplica a tablas */
 	font-size: small;
 }
-.tabla_blanca caption {
+.tabla_blanca caption { /* No incluir */
 	padding-top: 0px;
 	padding-right: 3px;
 	padding-bottom: 7px;
@@ -1081,35 +1041,35 @@ table.tabla_blanca {
 	text-align: center;
 	font-weight: bold;
 }
-.tabla_blanca th {
+.tabla_blanca th { /* No incluir */
 	padding-top: 5px;
 	padding-right: 10px;
 	padding-bottom: 5px;
 	padding-left: 10px;
 }
-.tabla_blanca td {
+.tabla_blanca td { /* No incluir */
 	padding-top: 5px;
 	padding-right: 10px;
 	padding-bottom: 5px;
 	padding-left: 10px;
 }
-.tabla_blanca tr .lineainferior {
+.tabla_blanca tr .lineainferior { /* Incluir - Se aplica a td */
 	border-bottom-width: 1px;
 	border-bottom-style: solid;
 	border-bottom-color: #000;
 }
-.tabla_blanca tr .lineaderecha {
+.tabla_blanca tr .lineaderecha { /* Incluir - Se aplica a td */
 	border-right-width: 1px;
 	border-right-style: solid;
 	border-right-color: #000;
 }
-li .tabla_blanca {
+li .tabla_blanca { /* No incluir */
 	margin-top: 10px;
 }
 
 /*..................Capa gris..................*/
 
-a.capa_gris {
+a.capa_gris { /* Incluir - Se aplica a enlaces de texto */
 	color: #395DB3;
 	font-weight: bold;
 	text-decoration: none;
@@ -1122,7 +1082,7 @@ a.capa_gris {
 	margin-bottom: 0px;
 	margin-left: 0px;
 }
-.cont_capa_gris {
+.cont_capa_gris { /* Incluir - Se aplica a DIV */
 	clear: both;
 	background-color: #EBECE5;
 	padding-top: 5px;
@@ -1139,19 +1099,19 @@ a.capa_gris {
 
 /*..................Iconos soluciones..................*/
 
-.iconohover a img {
+.iconohover a img { /* Incluir - Se aplica a DIV, clase "iconohover" */
 	background-color: #FFFFFF;
 }
-.iconohover a:hover img {
+.iconohover a:hover img { /* No incluir */
 	background-color: #FFD33D;
 }
 
-.iconohover:hover {
+.iconohover:hover { /* No incluir */
 	background-color: #FFD33D;
 }
 
 
-.iconopie {
+.iconopie { /* Incluir - Se aplica a DIV */
 	text-align: right;
 	border-top-width: 1px;
 	border-top-style: solid;
@@ -1169,10 +1129,10 @@ a.capa_gris {
 
 /*..................Fracciones..................*/
 
-table.fraccion {
+table.fraccion { /* Incluir - Se aplica a tablas */
 	font-size: small;
 }
-.fraccion td {
+.fraccion td { /* No incluir */
 	padding: 5px;
 	text-align: center;
 	border-top-width: 0px;
@@ -1181,7 +1141,7 @@ table.fraccion {
 	border-left-width: 0px;
 	white-space:normal;
 }
-.fraccion tr .lineainferior {
+.fraccion tr .lineainferior { /* Incluir - Se aplica a td */
 	border-bottom-width: 1px;
 	border-bottom-style: solid;
 	border-bottom-color: #000;
@@ -1189,11 +1149,12 @@ table.fraccion {
 
 /*..................Evaluaciones..................*/
 
-.caja .contenido form {
+.caja .contenido form {  /* No incluir */
 	margin: 0px;
 	padding: 0px;
 }
-.corregir {
+
+.corregir {  /* No incluir */
 	margin: 0px;
 	padding-top: 15px;
 	padding-right: 0px;
@@ -1203,7 +1164,7 @@ table.fraccion {
 	background-repeat:  repeat-x;
 	text-align: right;
 }
-.pregunta {
+.pregunta {  /* No incluir */
 	padding-bottom: 10px;
 	border-bottom-width: 1px;
 	border-bottom-style: solid;
@@ -1212,28 +1173,28 @@ table.fraccion {
 	font-size: small;
 	margin-top: 10px;
 }
-.solucion  {
+.solucion  {  /* No incluir */
 	float: left;
 	width: 40px;
 	font-size: small;
 	margin: 0px;
 	padding: 0px;
 }
-.pregunta .opciones {
+.pregunta .opciones {  /* No incluir */
 	margin-left: 50px;
 	margin-top: 0px;
 	margin-bottom: 0px;
 	padding-top: 0px;
 	padding-bottom: 0px;
 }
-.pregunta .opciones .enunciado {
+.pregunta .opciones .enunciado {  /* No incluir */
 	font-weight: bold;
 	padding-top: 0px;
 	padding-bottom: 0px;
 	margin-top: 5px;
 	margin-bottom: 15px;
 }
-.pregunta .opciones .opcion {
+.pregunta .opciones .opcion {  /* No incluir */
 	clear: both;
 	padding-top: 2px;
 	padding-left: 25px;
@@ -1241,7 +1202,7 @@ table.fraccion {
 	margin-top: 0px;
 	margin-bottom: 0px;
 }
-.opciones .opcion .repuesta {
+.opciones .opcion .repuesta {  /* No incluir */
 	float: left;
 	margin: 0px;
 	padding-top: 0px;
@@ -1249,10 +1210,10 @@ table.fraccion {
 	padding-bottom: 0px;
 	padding-left: 0px;
 }
-.texto_resp{
+.texto_resp{ /* No incluir */
 	margin-left: 25px;
 }
-.oculto {
+.oculto { /* No incluir */
 	color: #FFF;
 	height: 1px;
 	font-size: 1px;
@@ -1260,23 +1221,23 @@ table.fraccion {
 	visibility: hidden;
 	font-size: small;
 }
-.visible {
+.visible { /* No incluir */
 	color: #039;
 	display: block;
 	visibility: visible;
 	font-size: small;
 }
-.texto_sol {
+.texto_sol { /* No incluir */
 	color:#039;
 }
-.texto_tutor {
+.texto_tutor { /* Incluir - Se aplica a texto */
 	color:#039;
 }
 
 /*..................Estilo_tt................*/
 /*.Quita espacio superior cabecera.*/
 
-#fixedtipdiv {
+#fixedtipdiv { /* No incluir */
 	position:absolute;
 	z-index:100;
 	visibility:hidden;
@@ -1294,7 +1255,7 @@ table.fraccion {
 	border-top-style: solid;
 	border-top-color: #999999;
 }
-#fixedtipdiv ul{
+#fixedtipdiv ul{ /* No incluir */
 	margin: 0px;
 	list-style-type: square;
 	padding-top: 0px;
@@ -1302,14 +1263,14 @@ table.fraccion {
 	padding-bottom: 0px;
 	padding-left: 15px;
 }
-#fixedtipdiv h3{
+#fixedtipdiv h3{ /* No incluir */
 	color: #CC0000;
 }
 
 /*..................Estilo_Solucion Ejercicio lista................*/
 /*.colorea de verde o rojo en funcion de si es correcta o incorrecta*/
 
-.wrong{
+.wrong{ /* No incluir */
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 	font-size: 1em;
 	color: #930;
@@ -1317,7 +1278,7 @@ table.fraccion {
 	font-style: normal;
 	font-weight: bold;
 }
-.right{
+.right{ /* No incluir */
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 	font-size: 1em;
 	color: #090;
@@ -1325,7 +1286,7 @@ table.fraccion {
 	font-style: normal;
 	font-weight: bold;	
 }
-.notaKo{
+.notaKo{ /* No incluir */
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 	font-size: 1.2em;
 	color: #930;
@@ -1333,7 +1294,7 @@ table.fraccion {
 	font-style: normal;
 	font-weight: bold;
 }
-.notaOk{
+.notaOk{ /* No incluir */
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 	font-size: 1.2em;
 	color: #090;
@@ -1341,7 +1302,7 @@ table.fraccion {
 	font-style: normal;
 	font-weight: bold;	
 }
-.notaEmpty{
+.notaEmpty{ /* No incluir */
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 	font-size: 1.2em;
 	color: #000;
@@ -1350,7 +1311,7 @@ table.fraccion {
 	font-weight: bold;
 }
 
-.notaTutor{
+.notaTutor{ /* No incluir */
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 	font-size: 1.2em;
 	color: #000;
@@ -1359,7 +1320,7 @@ table.fraccion {
 	font-weight: bold;	
 }
 
-.resultado{
+.resultado{ /* No incluir */
 	margin-top:20px;
 	padding-right:10px;
 	padding-top:10px;
@@ -1370,7 +1331,7 @@ table.fraccion {
 
 /* DEMOS Y PRACTICAS*/
 
-.demo {
+.demo {  /* Incluir - Se aplica a texto */
 	color: #F47920;
 	display: block;
 	padding-left: 40px;
@@ -1383,7 +1344,7 @@ table.fraccion {
 	font-size: 1.1em;
 	height:46px;
 }
-.demopractica {
+.demopractica { /* Incluir - Se aplica a texto */
 	color: #F47920;
 	display: block;
 	padding-left: 60px;
@@ -1396,7 +1357,7 @@ table.fraccion {
 	font-size: 1.1em;
 	height:46px;
 }
-.ejpractica {
+.ejpractica { /* Incluir - Se aplica a texto */
 	color: #F47920;
 	display: block;
 	padding-left: 60px;
@@ -1412,12 +1373,12 @@ table.fraccion {
 
 /* css debugger*/
 
-.debug{
+.debug{ /* No incluir */
 	font-family:Verdana, Geneva, sans-serif;
 	font-size:0.6em;
 	color:#666;	
 }
-.debugTitle{
+.debugTitle{ /* No incluir */
 	background-color:#000;
 	color:#FFF;
 	padding:5px;
@@ -1425,19 +1386,19 @@ table.fraccion {
 	height:15px;
 	top:0px;
 }
-a.debugLink{
+a.debugLink{ /* No incluir */
 	font-size:9px;
 	color:#FFF;
 	text-decoration:none;
 }
-.debugMenu{
+.debugMenu{ /* No incluir */
 	background-color:#CCC;
 	color:#FFF;
 	padding:1%;
 	float:left;
 	width:98%;
 }
-.debugger {		
+.debugger {	 /* No incluir */	
 	padding:0px;
 	position:fixed;
 	/*height:300px;*/
@@ -1455,7 +1416,7 @@ a.debugLink{
     filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#111111');*/
 	background-color:#FFF;
 }
-.debugerTxt{	
+.debugerTxt{ /* No incluir */	
 	font-family:Verdana, Geneva, sans-serif;
 	font-size:0.6em;
 	color:#666;	
@@ -1468,7 +1429,7 @@ a.debugLink{
 	background-color:#FFF;
 }
 
-.debugBots{
+.debugBots{ /* No incluir */
 	list-style:none;
 	margin:0;
 	padding:0;
@@ -1477,14 +1438,14 @@ a.debugLink{
 	background-color:#CCC;
 }
 
-.debugBots li{
+.debugBots li{ /* No incluir */
 	float:left;
 	border-right:1px solid #eee;
 	padding:1% 2%;
 	background-color:#999;
 	
 }
-.debugBots li:hover{
+.debugBots li:hover{ /* No incluir */
 	background-color:#666;
 }
 
@@ -1603,7 +1564,7 @@ h2 {
 GLOSARIO    */
 
 
-#glosario{
+#glosario{ /* No incluir */
 	display:block;
 	float:left;
 	clear:both;
@@ -1612,12 +1573,12 @@ GLOSARIO    */
 	width:100%;	
 }
 
-#glosario ul li:hover{
+#glosario ul li:hover{ /* No incluir */
 	background-color:#EEE;
 	cursor:pointer;
 }
 
-#abcList{
+#abcList{ /* No incluir */
 	display:block;
 	float:left;
 	clear:both;
@@ -1630,7 +1591,7 @@ GLOSARIO    */
 	width:100%;	
 }
 
-#abcList li{
+#abcList li{ /* No incluir */
 	list-style: inside;
 	list-style-position: inside;
 	list-style-type: none;
@@ -1648,7 +1609,7 @@ GLOSARIO    */
 
 }
 
-#words{
+#words{ /* No incluir */
 	display:block;
 	float:left;
 	background-color:#FFF;
@@ -1662,7 +1623,7 @@ GLOSARIO    */
 	overflow-y:auto;
 }
 
-#words li{
+#words li{ /* No incluir */
 	list-style: inside;
 	list-style-position: inside;
 	list-style-type: none;
@@ -1675,7 +1636,7 @@ GLOSARIO    */
 	padding:3%;
 
 }
-#def{
+#def{ /* No incluir */
 	display:block;
 	float:left;
 	background-color:#FFF;
@@ -1689,7 +1650,7 @@ GLOSARIO    */
 	overflow-y:auto;
 }
 
-#def li{
+#def li{ /* No incluir */
 	list-style: inside;
 	list-style-position: inside;
 	list-style-type: none;
@@ -1704,7 +1665,7 @@ GLOSARIO    */
 
 /***********************************************/
 
-#preloader{
+#preloader{ /* No incluir */
 	position:absolute;
 	top:0px;
 	right:0px;
@@ -1714,7 +1675,7 @@ GLOSARIO    */
 	z-index:40;
 }
 
-.preloaderSmall{
+.preloaderSmall{ /* No incluir */
 	position:absolute;
 	float:left;
 	height:50px;
@@ -1733,7 +1694,7 @@ GLOSARIO    */
 
 /******************************************************/
 
-.popUp{
+.popUp{ /* No incluir */
 	display:block;
 	min-width:400px;
 	max-width:40%;
@@ -1742,33 +1703,46 @@ GLOSARIO    */
 	float:left;
 }
 
-.popBar{
+.popBar{ /* No incluir */
 	display:block;
 	width:100%;
 	background-color:#333;
-	height:30px;
+	height:auto;
 	float:left;	
+	position:relative;
+	min-height:35px;
 }
 
-.popTitle{
+.popBar .cerrar{ /* No incluir */
+	background-image:url(../images/recursos/botClose.png);
+	background-repeat:no-repeat;
+	background-position:center center;
+	width:30px;
+	float:right;
+	cursor:pointer;
+	position:absolute;
+	height:100%;
+}
+
+.popTitle{ /* No incluir */
 	display:block;
 	float:left;
-	padding:1%;
+	padding:1% 1% 2% 1%;
+	width:90%;
 	color:#fff;
 	font-size:small;
 }
 
-.popTxt{
+.popTxt{ /* No incluir */
 	display:block;
 	width:96%;
 	height:96%;
 	float:left;
-	padding-left:2%;
-	padding-right:2%;
+	padding:2%;
 	line-height:1.5em;
 }
 
-.popEx{
+.popEx{ /* No incluir */
 	display:block;
 	height:95%;
 	width:95%;
@@ -1778,7 +1752,7 @@ GLOSARIO    */
 	overflow :hidden;
 }
 
-.popExTxt{
+.popExTxt{ /* No incluir */
 	display:block;
 	width:99%;
 	height:99%;
@@ -1790,7 +1764,7 @@ GLOSARIO    */
 
 /*********************CAJAS CERTIFICADOS SEPE*********************************/
 
-.capacidad{
+.capacidad{ /* Incluir - Se aplica a DIV */
 	background-color: #f9e1b4;
 	border: #fea602 2px solid;
 	margin-top: 40px;
@@ -1803,7 +1777,7 @@ GLOSARIO    */
 	padding-left: 10px;
 }
 
-.actividad_individual{
+.actividad_individual{ /* Incluir - Se aplica a DIV */
 	background-color: #eef1f8;
 	border: #00b9f6 2px solid;
 	margin-top: 40px;
@@ -1815,7 +1789,7 @@ GLOSARIO    */
 	padding-bottom: 10px;
 }
 
-.actividad_colaborativa{
+.actividad_colaborativa{ /* Incluir - Se aplica a DIV */
 	background-color: #EEF7EB;
 	border: #0C8E02 2px solid;
 	margin-top: 40px;
@@ -1827,7 +1801,7 @@ GLOSARIO    */
 	padding-bottom: 10px;
 }
 
-.actividad_presencial{
+.actividad_presencial{ /* Incluir - Se aplica a DIV */
 	background-color: #f9f1f5;
 	border: #9d073a 2px solid;
 	margin-top: 40px;
@@ -1839,7 +1813,7 @@ GLOSARIO    */
 	clear: both;
 }
 
-.practica{
+.practica{ /* Incluir - Se aplica a DIV */
 	background-color: #ffecde;
 	border: #F47920 2px solid;
 	margin-top: 40px;
@@ -1851,22 +1825,22 @@ GLOSARIO    */
 	padding-bottom: 10px;
 }
 
-.repaso_teoria{
+.repaso_teoria{ /* Incluir - Se aplica a DIV */
 	border:#F47920 2px solid; 
 	margin-top:20px; 
-	margin-bottom:20px; 
+	margin-bottom:40px; 
 	padding:10px; 
 	padding-right:20px; 
 	padding-left:20px;
 }
 
-.marco_img {
+.marco_img { /* No incluir */
 	border: 1px solid #000;
 	margin-top: 20px;
 	margin-bottom: 20px;
 }
 
-.margenes_mapas {
+.margenes_mapas { /* Incluir - Se aplica a DIV */
 	margin-right: auto;
 	margin-bottom: 25px;
 	margin-left: auto;
@@ -1874,7 +1848,7 @@ GLOSARIO    */
 	padding-left: 20px;
 }
 
-.practica .titulo_img {
+.practica .titulo_img { /* Incluir - Se aplica a texto */
 	font-size: 1.1em;
 	font-weight: bold;
 	color: #F47920;
@@ -1887,14 +1861,14 @@ GLOSARIO    */
 	line-height:46px;
 }
 
-.practica .titulo {
+.practica .titulo { /* Incluir - Se aplica a texto */
 	font-size: 1.1em;
 	font-weight: bold;
 	color: #F47920;
 }
 
 
-.actividad_colaborativa .titulo_img {
+.actividad_colaborativa .titulo_img { /* Incluir - Se aplica a texto */
 	font-size: 1.1em;
 	font-weight: bold;
 	color: #0C8E02;
@@ -1907,14 +1881,14 @@ GLOSARIO    */
 	line-height:46px;
 }
 
-.actividad_colaborativa .titulo {
+.actividad_colaborativa .titulo { /* Incluir - Se aplica a texto */
 	font-size: 1.1em;
 	font-weight: bold;
 	color: #0C8E02;
 }
 
 
-.actividad_individual .titulo_img {
+.actividad_individual .titulo_img { /* Incluir - Se aplica a texto */
 	font-size: 1.1em;
 	font-weight: bold;
 	color: #529bd6;
@@ -1927,13 +1901,13 @@ GLOSARIO    */
 	line-height:46px;
 }
 
-.actividad_individual .titulo {
+.actividad_individual .titulo { /* Incluir - Se aplica a texto */
 	font-size: 1.1em;
 	font-weight: bold;
 	color: #529bd6;
 }
 
-.actividad_presencial .titulo_img {
+.actividad_presencial .titulo_img { /* Incluir - Se aplica a texto */
 	font-size: 1.1em;
 	font-weight: bold;
 	color: #9d073a;
@@ -1946,29 +1920,29 @@ GLOSARIO    */
 	line-height:46px;
 }
 
-.actividad_presencial .titulo {
+.actividad_presencial .titulo { /* Incluir - Se aplica a texto */
 	font-size: 1.1em;
 	font-weight: bold;
 	color: #9d073a;
 }
 
-.lineatiempo {
+.lineatiempo { /* No incluir */
 	padding: 15px;
 	font-size: small;
 	display:none;
 	clear:both;
 }
 
-.listEscalableDiv div .bloque p {
+.listEscalableDiv div .bloque p { /* No incluir */
 	text-align: left;
 	margin: 10px;
 }
-.masseparacion {
+.masseparacion { /* Incluir - Se aplica a DIV */
 	margin-top: 30px;
 	margin-bottom: 30px;
 }
 
-.img_derecha {
+.img_derecha { /* Incluir - Se aplica a imágenes */
 	display: block;
 	float: right;
 	margin-top: 0px;
@@ -1977,7 +1951,7 @@ GLOSARIO    */
 	margin-left: 25px;
 }
 
-.img_izquierda {
+.img_izquierda { /* Incluir - Se aplica a imágenes */
 	display: block;
 	float: left;
 	margin-top: 0px;
@@ -1985,19 +1959,19 @@ GLOSARIO    */
 	margin-bottom: 25px;
 	margin-left: 0px;
 }
-.desplVert .resaltado {
+.desplVert .resaltado { /* No incluir */
 	margin-right: 15px;
 	margin-left: 15px;
 	padding-top: 15px;
 	padding-bottom: 15px;
 }
-.tabla tr .verde {
+.tabla tr .verde { /* Incluir - Se aplica a td */
 	background-color: #719100;
 }
-.tabla tr .rojo {
+.tabla tr .rojo { /* Incluir - Se aplica a td */
 	background-color: #BA2E12;
 }
-.finalizacion {
+.finalizacion { /* Incluir - Se aplica a DIV */
 	background-color:#f8f6df; 
 	border:#7c7508 3px solid; 
 	max-width:650px; 
@@ -2010,7 +1984,7 @@ GLOSARIO    */
 	padding-left:20px;
 
 }
-.finalizacion .titulo {
+.finalizacion .titulo { /* Incluir - Se aplica a DIV */
 	color: #7c7508;
 	text-align: center;
 	font-weight: bold;
@@ -2019,7 +1993,7 @@ GLOSARIO    */
 
 /*..................Tabla..................*/
 
-table.tabla_finalizacion {
+table.tabla_finalizacion { /* Incluir - Se aplica a tablas */
 	border-top-width: 1px;
 	border-top-style: solid;
 	border-top-color: #231F20;
@@ -2030,7 +2004,7 @@ table.tabla_finalizacion {
 	margin-right: auto;
 	margin-left: auto;
 }
-.tabla_finalizacion th {
+.tabla_finalizacion th { /* No incluir */
 	background-color: #900;
 	border-bottom-width: 1px;
 	border-bottom-style: solid;
@@ -2044,7 +2018,7 @@ table.tabla_finalizacion {
 	padding-left: 10px;
 	color: #FFF;
 }
-.tabla_finalizacion td {
+.tabla_finalizacion td { /* No incluir */
 	background-color: #fdfaee;
 	border-bottom-width: 1px;
 	border-bottom-style: solid;
@@ -2057,22 +2031,22 @@ table.tabla_finalizacion {
 	padding-bottom: 5px;
 	padding-left: 10px;
 }
-.tabla_finalizacion .transversal {
+.tabla_finalizacion .transversal { /* Incluir - Se aplica a td */
 	background-color:#9FF;
 }
-.tabla_finalizacion tr .pasado {
+.tabla_finalizacion tr .pasado { /* Incluir - Se aplica a td */
 	background-image: url(../images/tic.png);
 	background-repeat: no-repeat;
 	background-position: center center;
 }
-.tabla_finalizacion tr .fondo_pastel {
+.tabla_finalizacion tr .fondo_pastel { /* Incluir - Se aplica a td */
 	background-color: #ebcccc;
 }
 
 
 /*TEST INICIAL///////////////////////////////////////////////////////////////////////////////////////////////*/
 
-#testInicial{
+#testInicial{ /* No incluir */
 	width:70%;
 	float:left;
 	height:80%;
@@ -2081,13 +2055,13 @@ table.tabla_finalizacion {
 	min-width:450px;
 	
 }
-.listaTestInit{
+.listaTestInit{ /* No incluir */
 	list-style:none;
 	margin:0;
 	padding:0;
 }
 
-#temasContent{
+#temasContent{ /* No incluir */
 	display:block;
 	float:left;
 	position:relative;
@@ -2098,7 +2072,7 @@ table.tabla_finalizacion {
 	
 }
 
-#divControlesTestInit{
+#divControlesTestInit{ /* No incluir */
 	display:block;
 	float:left;
 	background-color:#FFF;
@@ -2108,7 +2082,7 @@ table.tabla_finalizacion {
 	line-height:1.5em;
 }
 
-.pastilla{
+.pastilla{ /* No incluir */
 	display:block;
 	float:left;
 	background-color:#FFF;
@@ -2118,7 +2092,7 @@ table.tabla_finalizacion {
 	line-height:1.5em;
 }
 
-#intro{
+#intro{ /* No incluir */
 	display:block;
 	float:left;
 	background-color:#FFF;
@@ -2128,10 +2102,10 @@ table.tabla_finalizacion {
 	line-height:1.5em;
 }
 
-.testPregunta{
+.testPregunta{ /* No incluir */
 	font-size:1.3em;	
 }
-.puntuaresp, #controlesTestInit, #resultsTestIni{
+.puntuaresp, #controlesTestInit, #resultsTestIni{ /* No incluir */
 	list-style:none;
 	margin:0;
 	padding:0;
@@ -2139,7 +2113,7 @@ table.tabla_finalizacion {
 	float:left;
 	
 }
-#controlesTestInit li, resultsTestIni li{
+#controlesTestInit li, resultsTestIni li{ /* No incluir */
 	margin:0.5%;
 	padding:1%;
 	border:1px solid #999;
@@ -2149,7 +2123,7 @@ table.tabla_finalizacion {
 	background-color:#fff;
 	
 }
-.puntuaresp li{
+.puntuaresp li{ /* No incluir */
 	margin:0.5%;
 	padding:1%;
 	border:1px solid #999;
@@ -2157,34 +2131,34 @@ table.tabla_finalizacion {
 	cursor:pointer;
 	opacity:0.5;
 }
-.puntuaresp li:hover{
+.puntuaresp li:hover{ /* No incluir */
 	background-color:#ffff;
 	border-color:#060;
 	font-weight:bold;
 	opacity:1;
 }
-.deg1{
+.deg1{ /* No incluir */
 	background-color:#ea5465;
 }
-.deg2{
+.deg2{ /* No incluir */
 	background-color:#b96965;
 }
-.deg3{
+.deg3{ /* No incluir */
 	background-color:#8c7d65;
 }
-.deg4{
+.deg4{ /* No incluir */
 	background-color:#6d8a66;
 }
-.deg5{
+.deg5{ /* No incluir */
 	background-color:#4ba063;
 }
-.percent{
+.percent{ /* No incluir */
 	float:right;
 	display:block;
 	font-size:2em;
 }
 
-#videoProgress{
+#videoProgress{ /* No incluir */
 	margin-left:30%;
 	margin-bottom:5px;
 	margin-top:10px;
@@ -2196,7 +2170,7 @@ table.tabla_finalizacion {
 	background-color:#ccc;
 }
 
-#percent{
+#percent{ /* No incluir */
 	background-color:#666;
 	height:8px;
 }
@@ -2204,7 +2178,7 @@ table.tabla_finalizacion {
 
 /* OBJETIVOS */
 
-#objBg{
+#objBg{ /* No incluir */
 	position:relative;
 	float:left;
 	overflow:hidden;
@@ -2215,13 +2189,13 @@ table.tabla_finalizacion {
 	background-size:100% auto;	
 }
 
-.objImg{
+.objImg{ /* No incluir */
 	width:100%;
 	max-width:600px;
 	height:auto;
 }
 
-#objetivos{
+#objetivos{ /* No incluir */
 	width:46%;
 	float:left;
 	list-style:none;
@@ -2231,7 +2205,7 @@ table.tabla_finalizacion {
 	
 }
 
-#objetivos li{
+#objetivos li{ /* No incluir */
 	line-height:1.5em;
 	margin-bottom:2%;
 	border-bottom:1px #ccc solid;
@@ -2243,7 +2217,7 @@ table.tabla_finalizacion {
 
 
 
-#videoDiv{
+#videoDiv{ /* No incluir */
 	display:block;
 	position:relative;
 	float:left;
@@ -2254,7 +2228,7 @@ table.tabla_finalizacion {
 	background-position: center;
 }
 
-@media only screen and (max-width: 560px) {
+@media only screen and (max-width: 560px) { /* No incluir */
 	#objBg, #objetivos{width:100%;}
 	#objetivos{margin-top:2%;}
 	
@@ -2264,7 +2238,7 @@ table.tabla_finalizacion {
 
 /*..................Caja Aplicación Práctica..................*/
 
-.caja_AplicacionPractica {
+.caja_AplicacionPractica {  /* Incluir - Se aplica a DIV */
 	background-color: #cddfff;
 	padding-top: 10px;
 	padding-right: 20px;
@@ -2280,48 +2254,48 @@ table.tabla_finalizacion {
 	max-width: 700px;
 }
 
-#AP {
+#AP { /* Incluir - Se aplica a DIV */
     display: table;
     max-width: 1000px;
     margin-top: 30px;
 	margin-bottom: 30px;
 }
-#AP_contenidos {
+#AP_contenidos { /* Incluir - Se aplica a DIV */
     display: table-row;
 }
-#AP_columna1 {
+#AP_columna1 { /* Incluir - Se aplica a DIV */
     display: table-cell;
     vertical-align: top;
 	  max-width:208px;
 }
-#AP_columna2 {
+#AP_columna2 { /* Incluir - Se aplica a DIV */
     display: table-cell;
     vertical-align: top;
 }
 
 
-.tabla p {
+.tabla p { /* No incluir */
 	margin: 0px;
 }
 
 /* MAPA IMAGEN */
 
-div.mapa_imagen {
+div.mapa_imagen { /* Incluir - Se aplica a DIV */
 	position: relative;
 	margin-top: 30px;
 }
-ul.mapa li {
+ul.mapa li { /* No incluir */
   list-style: none;
   /*display: none;*/
   position: absolute;
   outline: 2px solid #9F0038;
   background: url("esta_imagen_no_existe");
 }
-div.mapa_imagen:hover ul.mapa li {
+div.mapa_imagen:hover ul.mapa li { /* No incluir */
   display: block;
   color:#FFF;
 }
-ul.mapa li p {
+ul.mapa li p { /* No incluir */
   margin: 0 0 0 0;
   padding: 0;
   display: none;
@@ -2331,44 +2305,44 @@ ul.mapa li p {
   top: 0%;
   background: url("../images/recursos/naranjaTrans.png");
 }
-ul.mapa li:hover p {
+ul.mapa li:hover p { /* No incluir */
   display: block;
   width:100%;
   height:100%;
 }
 
-ul.mapa li {
+ul.mapa li { /* No incluir */
   background: url("esta_imagen_no_existe");/*apañopara hover en ie*/
 }
 
 
-.caja .contenido .listEscalableDiv .enlaceCapa {
+.caja .contenido .listEscalableDiv .enlaceCapa { /* No incluir */
 	color: #FFF;
 }
 
-.caja .contenido .listEscalableDiv .enlaceBlanco {
+.caja .contenido .listEscalableDiv .enlaceBlanco { /* No incluir */
 	color: #FFF;
 }
 
-.caja .contenido #Esquema .listEscalable .margenes_mapas .enlaceCapa {
+.caja .contenido #Esquema .listEscalable .margenes_mapas .enlaceCapa { /* No incluir */
 	color: #395DB3;
 }
 
 
-.images_escalable {
+.images_escalable { /* Incluir - Se aplica a imágenes */
 	height: auto;
 	/*width: 100%;*/
 }
-#Esquema .listEscalable .margenes_mapas {
+#Esquema .listEscalable .margenes_mapas { /* No incluir */
 	text-align: left;
 }
 
-.selectedText{
+.selectedText{ /* No incluir */
 	font-size:1.2em;
 	background-color:#FFC;
 }
 
-.divshadow {
+.divshadow { /* No incluir */
 	-moz-box-shadow: 3px 3px 4px #444;
 	-webkit-box-shadow: 3px 3px 4px #444;
 	box-shadow: 3px 3px 4px #444;
@@ -2376,13 +2350,13 @@ ul.mapa li {
 	filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#444444');
 
 }
-.desplVert ul li, .desplVert ol li {
+.desplVert ul li, .desplVert ol li { /* No incluir */
 	margin-right: 10px;
 }
 
 
 
-.sombraparalela {
+.sombraparalela { /* Incluir - Se aplica a imágenes */
 	-moz-box-shadow: 3px 3px 4px #444;
 	-webkit-box-shadow: 3px 3px 4px #444;
 	box-shadow: 3px 3px 4px #444;
@@ -2395,7 +2369,7 @@ ul.mapa li {
 	margin-bottom:30px;
 
 }
-.sombraparalela_sin {
+.sombraparalela_sin { /* Incluir - Se aplica a imágenes */
 	-moz-box-shadow: 3px 3px 4px #444;
 	-webkit-box-shadow: 3px 3px 4px #444;
 	box-shadow: 3px 3px 4px #444;
@@ -2409,7 +2383,7 @@ ul.mapa li {
 
 
 
-.rounded {
+.rounded { /* Incluir - Se aplica a DIV */
 	background-color: #ccc;
 	/*width: 533px;*/
 	/*height: 50px;*/
@@ -2421,7 +2395,7 @@ ul.mapa li {
 	border-radius: 11px;
 	behavior: url(/css/border-radius.htc);
 }
-.roundedTop{
+.roundedTop{ /* Incluir - Se aplica a DIV */
 	
     border-top-left-radius: 20px;
 	 -moz-border-top-left-radius: 20px;
@@ -2437,7 +2411,7 @@ ul.mapa li {
 	 behavior: url(/css/border-radius.htc);
 }
 
-.roundedBottom{
+.roundedBottom{ /* Incluir - Se aplica a DIV */
 	
     border-bottom-left-radius: 20px;
 	 -moz-border-bottom-left-radius: 20px;
@@ -2453,7 +2427,7 @@ ul.mapa li {
 	 behavior: url(/css/border-radius.htc);
 }
 
-.roundedLeft{
+.roundedLeft{ /* Incluir - Se aplica a DIV */
 	
 	 -moz-border-top-left-radius: 20px;
     -webkit-border-top-left-radius: 20px;
@@ -2470,7 +2444,7 @@ ul.mapa li {
 	
 }
 
-.roundedRight{
+.roundedRight{ /* Incluir - Se aplica a DIV */
 	
 	 -moz-border-top-right-radius: 20px;
     -webkit-border-top-right-radius: 20px;
@@ -2487,7 +2461,7 @@ ul.mapa li {
 	
 }
 
-.degraded{		
+.degraded{	/* Incluir - Se aplica a DIV */	
 	background-color:#005145; /*color centro*/
 	background: -webkit-gradient(linear, center top, center bottom, from(#005145), to(#002a24));/* from(color centro), to(color centro unos tonos más oscuro)*/
 	background: -webkit-linear-gradient(#005145, #002a24);
@@ -2499,7 +2473,7 @@ ul.mapa li {
 }
 
 
-.bot {
+.bot { /* No incluir */
 	-moz-box-shadow: 0px 1px 0px 0px #fff6af;
 	-webkit-box-shadow: 0px 1px 0px 0px #fff6af;
 	box-shadow: 0px 1px 0px 0px #fff6af;
@@ -2525,7 +2499,7 @@ ul.mapa li {
 	text-decoration:none;
 	text-shadow:0px 1px 0px #ffee66;
 }
-.bot:hover{
+.bot:hover{ /* No incluir */
 	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #f47920), color-stop(1, #ffec64));
 	background:-moz-linear-gradient(top, #f47920 5%, #ffec64 100%);
 	background:-webkit-linear-gradient(top, #f47920 5%, #ffec64 100%);
@@ -2535,7 +2509,7 @@ ul.mapa li {
 	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#f47920', endColorstr='#ffec64',GradientType=0);
 	background-color:#f47920;}
 	
-.bot:active {
+.bot:active { /* No incluir */
 	position:relative;
 	top:1px;
 	
@@ -2543,8 +2517,8 @@ ul.mapa li {
 
 
 /*CARROUSEL //////////////////////////////////////////////////*/
-.carrouselContainer{float:left;width:100%;position:relative;overflow:hidden;margin:10px 0;}
-ul.carrousel{
+.carrouselContainer{float:left;width:100%;position:relative;overflow:hidden;margin:10px 0;}/* No incluir */
+ul.carrousel{ /* No incluir */
 	float:left;
 	width:100%;
 	overflow:hidden;
@@ -2557,7 +2531,7 @@ ul.carrousel{
 	position:absolute;
 }
 
-ul.carrousel li{
+ul.carrousel li{ /* No incluir */
 	float:left;
 	width:100%;
 	position:absolute;
@@ -2566,19 +2540,19 @@ ul.carrousel li{
 	padding:0;
 	max-height:450px;
 }
-ul.carrousel li div{
+ul.carrousel li div{ /* No incluir */
 	padding:2%;
 	width:96%;
 	float:left;
 }
 
-ul.carrousel li div div{
+ul.carrousel li div div{ /* No incluir */
 	padding:3%;
 	width:80%;
 	margin:2% 8%;
 	left:0;
 }
-.activePage{width:15px;height:10px;float:left;margin:0 5px;border:1px solid #000;position:relative;text-align:center;background-color:#fff;cursor:pointer;}
-.activePage:hover{background-color:#333;color:#fff;}
-.activePageOn{background-color:#000;color:#fff;}
-.activePageOff{background-color:#fff;color:#000;}
+.activePage{width:15px;height:10px;float:left;margin:0 5px;border:1px solid #000;position:relative;text-align:center;background-color:#fff;cursor:pointer;} /* No incluir */
+.activePage:hover{background-color:#333;color:#fff;} /* No incluir */
+.activePageOn{background-color:#000;color:#fff;} /* No incluir */
+.activePageOff{background-color:#fff;color:#000;} /* No incluir */
