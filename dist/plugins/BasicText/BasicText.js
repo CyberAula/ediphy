@@ -45,10 +45,10 @@ var BasicText = (function(){
             ]
         },
         getInitialState: function(){
-            return {text: ''};
+            return {text: " "};
         },
         getRenderTemplate: function(state){
-            return "<p>" + state.text + "</p>";
+            return state.text;
         }
     });
 })();

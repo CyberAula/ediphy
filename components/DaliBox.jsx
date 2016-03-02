@@ -15,7 +15,6 @@ export default class DaliBox extends Component {
             width: '100%',
             height: '100%',
             position: 'absolute',
-            top: ((this.props.toolbar.config && this.props.toolbar.config.needsTextEdition) ? -10 : 0),
             wordWrap: 'break-word',
             visibility: (this.props.toolbar.showTextEditor ? 'hidden' : 'visible')};
 
@@ -81,8 +80,6 @@ export default class DaliBox extends Component {
                             this.props.onTextEditorToggled(this.props.id, true);
                             this.refs.textarea.focus();
                         }}
-
-
                     }
                      style={{position: 'absolute',
                             left: box.position.x,
@@ -106,7 +103,7 @@ export default class DaliBox extends Component {
 
     componentWillUpdate(nextProps, nextState){
         if(this.props.isSelected && !nextProps.isSelected && this.props.toolbar.showTextEditor){
-            this.blurTextarea();
+            CKEDITOR.currentInstance.focusManager.blur(true);
         }
     }
 
@@ -116,6 +113,9 @@ export default class DaliBox extends Component {
         }
         if((this.props.toolbar.showTextEditor !== prevProps.toolbar.showTextEditor) && this.props.box.draggable){
             interact(ReactDOM.findDOMNode(this)).draggable(!this.props.toolbar.showTextEditor);
+        }
+
+        if(this.refs.textarea.innerHTML === "<p><br></p>"){
             this.refs.textarea.innerHTML = this.props.box.content;
         }
     }
@@ -124,7 +124,7 @@ export default class DaliBox extends Component {
         if(this.props.toolbar.config && this.props.toolbar.config.needsTextEdition) {
             CKEDITOR.disableAutoInline = true;
             let editor = CKEDITOR.inline(this.refs.textarea);
-            editor.on("blur", function () {
+            editor.on("blur", function (e) {
                 this.blurTextarea();
             }.bind(this));
         }
@@ -169,7 +169,6 @@ export default class DaliBox extends Component {
                     },
                     edges: {left: true, right: true, bottom: true, top: true},
                     onmove: (event) => {
-                            console.log(this.props.isSelected)
                         if (!this.props.isSelected) return;
                         /*BOX-RESIZE*/
                         var target = event.target;
