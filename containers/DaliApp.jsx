@@ -13,10 +13,16 @@ import BoxModal from '../components/BoxModal';
 import PageModal from '../components/PageModal';
 import PluginConfigModal from '../components/PluginConfigModal';
 import PluginToolbar from '../components/PluginToolbar';
+import Visor from '../components/visor/Visor';
 require('../sass/style.scss');
 
 class DaliApp extends Component{
-
+    constructor(props) {
+        super(props);
+        this.state = {
+            visor:false
+        };
+    }
     render(){
 
         const{ dispatch, boxes, boxesIds, boxSelected, navItemsIds, navItems, navItemSelected,
@@ -69,6 +75,7 @@ class DaliApp extends Component{
                            onBoxAdded={(ids, type,  draggable, resizable, content, toolbar, config, state) => dispatch(addBox(ids, type, draggable, resizable, content, toolbar, config, state))}
                            onVisibilityToggled={(caller, value) => dispatch(togglePageModal(caller, value))}
                            onPageAdded={(id, name, parent, children, level, type, position) => dispatch(addNavItem(id, name, parent, children, level, type, position))} />
+                <Visor visor={this.state.visor} onVisibilityToggled={()=> this.setState({visor:!this.state.visor })} state={this.props.store.getState().present} />
                 <PluginConfigModal />
                 <div className="navBar">
                     <Col mdOffset={2} xsOffset={2}>
@@ -86,6 +93,8 @@ class DaliApp extends Component{
                                 dispatch(importStateAsync());
                             }}><i className="fa fa-folder-open fa-1 "></i>  Load</button>
                         </OverlayTrigger>
+                        <button className="navButton" disabled={undoDisabled} onClick={() =>this.setState({visor:true })}><i className="fa fa-eye fa-1 "></i>  Preview</button>
+                        <button className="navButton" disabled={undoDisabled} onClick={() => DaliVisor.exports() }><i className="fa fa-download fa-1 "></i>  Export</button>
                     </Col>
                 </div>
                 <PluginToolbar toolbars={toolbars}
@@ -154,6 +163,13 @@ function mapStateToProps(state){
         toolbars: state.present.toolbarsById,
         isBusy: state.present.isBusy
     }
+
+
+
+
 }
 
+
+
 export default connect(mapStateToProps)(DaliApp);
+
