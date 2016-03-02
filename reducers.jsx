@@ -40,7 +40,7 @@ function boxCreator(state = {}, action = {}){
             if(action.payload.ids.parent.indexOf(ID_PREFIX_SORTABLE_BOX) !== -1){
                 position.x = 0;
                 position.y = 0;
-                width = '10%';
+                width = '100%';
             }
             
             return {
@@ -431,7 +431,7 @@ function toolbarsById(state = {}, action = {}){
                     name: 'width',
                     humanName: 'Width (%)',
                     type: 'number',
-                    value: 10,
+                    value: 100,
                     min: 0,
                     max: 100,
                     step: 5,
