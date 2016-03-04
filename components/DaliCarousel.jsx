@@ -28,7 +28,8 @@ export default class DaliCarousel extends Component{
                                               onNavItemRemoved={this.props.onNavItemRemoved} />;
         }
         return(
-            <div className="daliCarousel" >
+            <div className="wrapperCarousel">
+            <div id="indice" className="daliCarousel " >
                 {carrouselContent}
                 <Button style={{position: 'absolute', right: 0, bottom: 0}} onClick={e => {
                     let newMode = "list";
@@ -43,9 +44,24 @@ export default class DaliCarousel extends Component{
                     this.props.onDisplayModeChanged(newMode);
                     e.stopPropagation();
                 }}>
-                    <i className={displayModeClassName}></i>
+                    <i className={displayModeClassName}> </i>
                 </Button>
+            </div>
+            <div className="pestanaCarousel"  id="pestcar" onClick={() => {toggleWidth() }}>
+                 <i className="fa fa-bars fa-2x"> </i> 
+              </div>
+         
             </div>
         );
     }
+}
+function toggleWidth(){
+      $("#colLeft").toggleClass("indiceoculto")
+      $("#indice").toggleClass("carouseloculto")
+       $("#indice").toggleClass("carouselshow")
+       $("#colLeft").toggleClass("carouseloculto")
+      $("#pestcar").show()
+      $("#colRight").toggleClass("col-md-10 col-xs-10")
+      $("#colRight").toggleClass("col-md-12 col-xs-12")
+     $("#indice").toggle()
 }

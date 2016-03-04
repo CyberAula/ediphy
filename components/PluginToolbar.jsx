@@ -51,15 +51,23 @@ export default class PluginToolbar extends Component {
                 }}>Open config</ButtonInput>);
             }
         }
-        return (<div className="toolbox" style={{
-            right: this.state.x,
-            top: this.state.y,
-            visibility: visible}}>
-            {buttons}
-        </div>);
+        return (<div id="wrap" className="wrapper" style={{
+                    right: '0px', /*this.state.x,*/
+                    top: '39px',
+                    visibility: visible /*this.state.y,*/}} >
+                        <div className="pestana" onClick={() => {toggleWidth() }}>
+                            <i className="fa fa-gear fa-2x"> </i> 
+                        </div>
+                        <div id="tools" className="toolbox">
+                            <div className="botones">
+                              {buttons} 
+                            </div>
+                        </div>
+
+                </div>);
     }
 
-    componentDidMount() {
+    componentDidMount() {/*
         interact(ReactDOM.findDOMNode(this))
             .ignoreFrom('input, textarea, a')
             .draggable({
@@ -76,6 +84,18 @@ export default class PluginToolbar extends Component {
                     target.style.right = (parseInt(target.style.right) || 0) + (-event.dx) + 'px';
                     target.style.top = (parseInt(target.style.top) || 0) + event.dy + 'px';
                 }
-            });
+            });*/
     }
+}
+
+function toggleWidth(){
+     if( $("#tools").css("width") != '250px' ){
+    
+           $("#tools").animate({width: '250px'})
+     } else {
+           $("#tools").animate({ width: '0px'})
+      
+     }
+
+    // $("#tools").toggle()
 }

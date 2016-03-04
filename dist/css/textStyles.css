@@ -1,12 +1,13 @@
 /*..................Cabecera..................*/
 
 
-html{ /* No incluir */
+/* No incluir */
+/*html{ 
 	
 height:100%;
-}
-
-body { /* No incluir */
+}*/
+/* No incluir */
+/*body { 
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 	background-color: #EBECE5;
 	margin-top: 0;
@@ -15,7 +16,7 @@ body { /* No incluir */
 	width:99%;
 	min-height:99%;
 }
-
+*/
 .boton { /* No incluir */
 	background: linear-gradient(to bottom, #ffec64 5%, #f47920 100%) repeat scroll 0 0 #ffec64;
     border: 1px solid #ffaa22;

@@ -1,8 +1,35 @@
 .toolbox{
-    position: absolute;
-    padding: 15px;
-    background-color: #ddd;
-    border-radius: 10px;
-   // border: 3px solid grey;
+	height: 100%;
+    background-color: #dedede;
+    display:inline-block;
+    vertical-align: baseline;
+
 }
 
+.pestana{
+	background-color: #dedede;
+	width:35px;
+	height: 35px;
+	padding:5px;
+	text-align: center;
+	z-index: 999;
+	display:inline-block;
+	position: absolute;
+	top:60px;right:100%;
+	border-radius: 8px 0px 0px 8px;
+	color: $navBar;
+}
+
+.wrapper{
+	// vertical-align: baseline;
+	margin: 0;
+    position: fixed;
+   	bottom:0;
+
+}
+#tools{
+	width: 250px;
+}
+.botones{
+	padding:15px;
+}

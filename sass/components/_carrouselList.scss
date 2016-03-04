@@ -28,9 +28,7 @@
 	   }
 }
 .daliCarousel{
-	background-color: $carousel;
-	 height: 100%; 
-	 padding: 42px 10px 15% 10px;
+
 	 h3,h4{
 	 	&:hover{
 	 		cursor:pointer;
@@ -48,4 +46,39 @@
 
 .notSelected{
 	color: #555;
+}
+
+.wrapperCarousel{
+	background-color: $carousel;
+	margin:0;
+	padding: 42px 10px 15% 10px;
+	 height: 100%; 
+}
+.pestanaCarousel{
+	background-color: #dedede;
+	width:35px;
+	height: 35px;
+	padding:5px;
+	text-align: center;
+	z-index: 999;
+	display:inline-block;
+	position: absolute;
+	top:99px;left:100%;
+	border-radius:0px  8px  8px 0px ;
+	color: $navBar;
+}
+
+.indiceoculto{
+	left:0;
+	top:0;
+	position:absolute;
+}
+.carouseloculto{
+	width:0;
+}
+.carouselshow{
+	width:100%;
+}
+#colLeft, #indice{
+	// @include animacion(width);
 }
