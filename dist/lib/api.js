@@ -16,7 +16,7 @@ Dali.Plugins = (function(){
         });
 
         return promise;
-    }
+    };
 
     return {
         get: function(name){
@@ -55,11 +55,14 @@ Dali.API = (function(){
             var promise = new Promise(function(resolve, reject){
                 Dali.API.Private.listenAnswer(resolve, Dali.API.Private.events.openConfig);
             });
-            Dali.API.Private.emit(Dali.API.Private.events.openConfig, {name, isUpdating});
+            Dali.API.Private.emit(Dali.API.Private.events.openConfig, {name: name, isUpdating: isUpdating});
             return promise;
         },
         renderPlugin: function(html, toolbar, config, state, isUpdating, id){
-            Dali.API.Private.emit(Dali.API.Private.events.render, {content: html, toolbar, config, state, isUpdating, id});
+            Dali.API.Private.emit(Dali.API.Private.events.render, {content: html, toolbar: toolbar, config: config, state: state, isUpdating: isUpdating, id: id});
+        },
+        addSubplugin: function(caller, fromSortable, container){
+            Dali.API.Private.emit(Dali.API.Private.events.addSubplugin, {caller: caller, fromSortable: fromSortable, container: container});
         }
     }
 })();
@@ -84,6 +87,9 @@ Dali.API.Private = (function(){
             getCurrentPluginsList: {
                 emit: 'getCurrentPluginsList',
                 answer: 'getCurrentPluginsList_back'
+            },
+            addSubplugin: {
+                emit: 'addSubplugin'
             }
         },
         emit: function(name, params) {

@@ -123,7 +123,7 @@ Dali.Plugin = function(descendant){
         },
         registerExtraFunction: function(fn, alias){
             if(!alias){
-                Object.keys(descendant).forEach(prop =>{
+                Object.keys(descendant).forEach(function(prop) {
                     if(descendant[prop] === fn){
                         alias = prop;
                     }

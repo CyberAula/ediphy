@@ -37,6 +37,7 @@ function boxCreator(state = {}, action = {}){
                     height = 200;
                     break;
             }
+            console.log(action);
             if(action.payload.ids.parent.indexOf(ID_PREFIX_SORTABLE_BOX) !== -1){
                 position.x = 0;
                 position.y = 0;
