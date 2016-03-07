@@ -8,11 +8,11 @@ export default class Section extends Component {
 
          let classSelected = this.props.navItemSelected === navItem.id ? 'selected' : 'notSelected';
         return (
-            <div onClick={e => {
+            <div  onClick={e => {
                 this.props.onNavItemSelected(navItem.id);
                 e.stopPropagation();
             }}>
-            <div>
+            <div >
                 <button   className="expandir" onClick={e => {
                     this.props.onNavItemExpanded(navItem.id, !navItem.isExpanded)
                     e.stopPropagation();
