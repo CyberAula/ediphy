@@ -51,7 +51,7 @@ class DaliApp extends Component{
                                     onBoxResized={(id, width, height) => dispatch(resizeBox(id, width, height))}
                                     onBoxDeleted={(id,parent) => dispatch(deleteBox(id, parent))} 
                                     onBoxReorder={(ids,parent) => dispatch(reorderBox(ids,parent))}
-                                    onVisibilityToggled={(caller, fromSortable, container) => dispatch(togglePluginModal(caller, fromSortable, container))}
+                                    onBoxModalToggled={(caller, fromSortable, container) => dispatch(togglePluginModal(caller, fromSortable, container))}
                                     onTextEditorToggled={(caller, value) => dispatch(toggleTextEditor(caller, value))}
                                     titleModeToggled={(id, value) => dispatch(toggleTitleMode(id, value))} />
                     </Col>
@@ -108,6 +108,7 @@ class DaliApp extends Component{
                 this.props.dispatch(updateBox(e.detail.id, e.detail.content, e.detail.state));
             }else {
                 let id = ID_PREFIX_BOX + Date.now();
+                /*
                 let parsedContent = e.detail.content.split(/(<plugin[-\w\s="']*\/>)/g).map((string, index) =>{
                     if(index % 2 === 0){
                         return string;
@@ -122,12 +123,13 @@ class DaliApp extends Component{
                     }
                     return "<button style=\"width: 100%;height: 100%;background-color: transparent;border: 1px dotted black;\" onclick=\"Dali.API.addSubplugin('" + id + "',false,'" + pluginId + "'); event.stopPropagation();\"><i class=\"fa fa-plus\"></i></button>";
                 }).join('');
+                */
 
                 this.props.dispatch(addBox({
                     parent: this.props.boxModalToggled.caller,
                     id: id,
                     container: (this.props.boxModalToggled.fromSortable ? ID_PREFIX_SORTABLE_CONTAINER + Date.now() : this.props.boxModalToggled.container)
-                }, BOX_TYPES.NORMAL, true, true, parsedContent, e.detail.toolbar, e.detail.config, e.detail.state));
+                }, BOX_TYPES.NORMAL, true, true, e.detail.content, e.detail.toolbar, e.detail.config, e.detail.state));
             }
 
         });

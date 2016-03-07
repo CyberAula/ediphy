@@ -2,9 +2,17 @@ import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import {Input,Button} from 'react-bootstrap';
 import interact from 'interact.js';
+import PluginPlaceholder from '../components/PluginPlaceholder';
 import {BOX_TYPES, ID_PREFIX_SORTABLE_BOX} from '../constants';
 
 export default class DaliBox extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            pluginContainers: []
+        };
+    }
+
     render() {
         let borderSize = 2;
         let cornerSize = 15;
@@ -73,7 +81,7 @@ export default class DaliBox extends Component {
             </div>);
 
         return (<div className="wholebox" onClick={e => {
-                        e.stopPropagation()
+                        e.stopPropagation();
                         this.props.onBoxSelected(this.props.id) }}
                      onDoubleClick={(e)=>{
                         if(this.props.toolbar.config && this.props.toolbar.config.needsTextEdition){
@@ -99,6 +107,31 @@ export default class DaliBox extends Component {
     blurTextarea(){
         this.props.onTextEditorToggled(this.props.id, false);
         Dali.Plugins.get(this.props.toolbar.config.name).updateTextChanges(this.refs.textarea.innerHTML, this.props.id);
+    }
+
+    componentWillReceiveProps(nextProps){
+        if(nextProps.box.sortableContainers !== this.props.box.sortableContainers){
+            let pluginsContained = ReactDOM.findDOMNode(this).getElementsByTagName("plugin");
+            for(let i = 0; i < pluginsContained.length; i++){
+                if(pluginsContained[i].hasAttribute("plugin-data-id")){
+                    ReactDOM.render(<PluginPlaceholder key={i}
+                                                       pluginContainer={pluginsContained[i].attributes["plugin-data-id"].value}
+                                                       parentBox={nextProps.box}
+                                                       boxes={nextProps.boxes}
+                                                       boxSelected={nextProps.boxSelected}
+                                                       toolbars={nextProps.toolbars}
+                                                       onBoxSelected={this.props.onBoxSelected}
+                                                       onBoxMoved={this.props.onBoxMoved}
+                                                       onBoxResized={this.props.onBoxResized}
+                                                       onBoxDeleted={this.props.onBoxDeleted}
+                                                       onBoxModalToggled={this.props.onBoxModalToggled}
+                                                       onTextEditorToggled={this.props.onTextEditorToggled}
+                    />, pluginsContained[i]);
+                }else{
+                    console.error("Plugin ID not defined");
+                }
+            }
+        }
     }
 
     componentWillUpdate(nextProps, nextState){
@@ -129,8 +162,28 @@ export default class DaliBox extends Component {
             }.bind(this));
         }
 
-        if (this.props.box.type !== BOX_TYPES.SORTABLE) {
+        let pluginsContained = ReactDOM.findDOMNode(this).getElementsByTagName("plugin");
+        for(let i = 0; i < pluginsContained.length; i++){
+            if(pluginsContained[i].hasAttribute("plugin-data-id")){
+                ReactDOM.render(<PluginPlaceholder key={i}
+                                                   pluginContainer={pluginsContained[i].attributes["plugin-data-id"].value}
+                                                   parentBox={this.props.box}
+                                                   boxes={this.props.boxes}
+                                                   boxSelected={this.props.boxSelected}
+                                                   toolbars={this.props.toolbars}
+                                                   onBoxSelected={this.props.onBoxSelected}
+                                                   onBoxMoved={this.props.onBoxMoved}
+                                                   onBoxResized={this.props.onBoxResized}
+                                                   onBoxDeleted={this.props.onBoxDeleted}
+                                                   onBoxModalToggled={this.props.onBoxModalToggled}
+                                                   onTextEditorToggled={this.props.onTextEditorToggled}
+                />, pluginsContained[i]);
+            }else{
+                console.error("Plugin ID not defined");
+            }
+        }
 
+        if (this.props.box.type !== BOX_TYPES.SORTABLE) {
             interact(ReactDOM.findDOMNode(this))
                 .draggable({
                     enabled: (this.props.box.draggable),

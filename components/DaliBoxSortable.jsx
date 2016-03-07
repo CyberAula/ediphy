@@ -23,15 +23,19 @@ export default class DaliBoxSortable extends Component{
                                                  key={index}
                                                  isSelected={isSelected}
                                                  toolbar={this.props.toolbars[idBox]}
+                                                 boxes={this.props.boxes}
+                                                 boxSelected={this.props.boxSelected}
+                                                 toolbars={this.props.toolbars}
                                                  onBoxSelected={this.props.onBoxSelected}
                                                  onBoxMoved={this.props.onBoxMoved}
                                                  onBoxResized={this.props.onBoxResized}
                                                  onBoxDeleted={this.props.onBoxDeleted}
+                                                 onBoxModalToggled={this.props.onBoxModalToggled}
                                                  onTextEditorToggled={this.props.onTextEditorToggled} />);
                             })}
                         <div style={{position: 'absolute', bottom: 0}}>
                             <i style={{verticalAlign: 'middle'}} className="fa fa-bars fa-2x drag-handle"></i>
-                            <Button onClick={e => this.props.onVisibilityToggled(this.props.id, false, idContainer)}>
+                            <Button onClick={e => this.props.onBoxModalToggled(this.props.id, false, idContainer)}>
                                 <i className="fa fa-plus"></i>
                             </Button>
                         </div>
@@ -39,7 +43,7 @@ export default class DaliBoxSortable extends Component{
                 })}
             </div>
             <div style={{textAlign:'center'}}><span>
-           <Button style={{display: 'inline-block', margin: 'auto'}} onClick={e => this.props.onVisibilityToggled(this.props.id, true)}>
+           <Button style={{display: 'inline-block', margin: 'auto'}} onClick={e => this.props.onBoxModalToggled(this.props.id, true)}>
                 <i className="fa fa-plus-circle fa-3x"></i>
             </Button>
            {/* <Button style={{display: 'inline-block', margin: 'auto'}} onClick={e => this.props.onBoxDeleted(this.props.id, this.props.box.parent)}>

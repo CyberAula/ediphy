@@ -35,25 +35,29 @@ export default class DaliCanvas extends Component{
                                         box={box}
                                         toolbar={this.props.toolbars[id]}
                                         isSelected={isSelected}
-                                        onBoxSelected={this.props.onBoxSelected}
-                                        onBoxMoved={this.props.onBoxMoved}
-                                        onBoxResized={this.props.onBoxResized}
-                                        onBoxDeleted={this.props.onBoxDeleted}
-                                        onTextEditorToggled={this.props.onTextEditorToggled} />
-                    else if (box.type === BOX_TYPES.SORTABLE)
-                        return <DaliBoxSortable key={id}
-                                        id={id}
-                                        box={box}
-                                        onVisibilityToggled={this.props.onVisibilityToggled}
                                         boxes={this.props.boxes}
                                         boxSelected={this.props.boxSelected}
                                         toolbars={this.props.toolbars}
                                         onBoxSelected={this.props.onBoxSelected}
                                         onBoxMoved={this.props.onBoxMoved}
-                                        onBoxDeleted={this.props.onBoxDeleted}
                                         onBoxResized={this.props.onBoxResized}
-                                        onBoxReorder={this.props.onBoxReorder}
+                                        onBoxDeleted={this.props.onBoxDeleted}
+                                        onBoxModalToggled={this.props.onBoxModalToggled}
                                         onTextEditorToggled={this.props.onTextEditorToggled} />
+                    else if (box.type === BOX_TYPES.SORTABLE)
+                        return <DaliBoxSortable key={id}
+                                                id={id}
+                                                box={box}
+                                                boxes={this.props.boxes}
+                                                boxSelected={this.props.boxSelected}
+                                                toolbars={this.props.toolbars}
+                                                onBoxSelected={this.props.onBoxSelected}
+                                                onBoxMoved={this.props.onBoxMoved}
+                                                onBoxDeleted={this.props.onBoxDeleted}
+                                                onBoxResized={this.props.onBoxResized}
+                                                onBoxReorder={this.props.onBoxReorder}
+                                                onBoxModalToggled={this.props.onBoxModalToggled}
+                                                onTextEditorToggled={this.props.onTextEditorToggled} />
                 })}
             </div>
         );
