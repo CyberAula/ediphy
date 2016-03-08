@@ -27,7 +27,7 @@ export default class PluginPlaceholder extends Component {
                                          onTextEditorToggled={this.props.onTextEditorToggled} />);
                     })}
                     <div style={{position: 'absolute', bottom: 0}}>
-                        <Button onClick={e => this.props.onBoxModalToggled(this.props.id, false, this.props.pluginContainer)}>
+                        <Button onClick={e => this.props.onBoxModalToggled(this.props.parentBox.id, false, this.props.pluginContainer)}>
                             <i className="fa fa-plus"></i>
                         </Button>
                     </div>
