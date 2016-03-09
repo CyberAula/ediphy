@@ -194,7 +194,6 @@ export default class DaliBox extends Component {
         $(ReactDOM.findDOMNode(this)).click(function(e){
             this.props.onBoxSelected(this.props.id);
             e.stopPropagation();
-            console.log("box");
         }.bind(this));
 
         if (this.props.box.type !== BOX_TYPES.SORTABLE) {

@@ -57,11 +57,9 @@ export default class PluginPlaceholder extends Component {
     }
 
     componentDidMount(){
-        console.log("mount");
         $(this.refs.buttonAddNew).click(function(e){
             this.props.onBoxModalToggled(this.props.parentBox.id, false, this.props.pluginContainer);
             e.stopPropagation();
-            console.log("placeholder");
         }.bind(this));
     }
 
