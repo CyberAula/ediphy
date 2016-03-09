@@ -61,10 +61,17 @@ export default class DaliBox extends Component {
             </div>
         );
        
-        let overlay = (
+        let border = (
             <div style={{visibility: (vis ? 'visible' : 'hidden')}}>
-                <div   style={{position: 'absolute', width: '100%', height: '100%', border: (borderSize + "px dashed black"), boxSizing: 'border-box'}}>
-                   
+                <div style={{
+                    position: 'absolute',
+                    top: -(borderSize),
+                    left: -(borderSize),
+                    width: '100%',
+                    height: '100%',
+                    border: (borderSize + "px dashed black"),
+                    boxSizing: 'content-box'
+                }}>
                      <Button className="trashbutton" 
                              onClick={e => {
                                 this.props.onBoxDeleted(this.props.id, this.props.box.parent);
@@ -80,9 +87,7 @@ export default class DaliBox extends Component {
                 <div style={{position: 'absolute', right: -cornerSize/2, bottom: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray', cursor: 'se-resize'}}></div>
             </div>);
 
-        return (<div className="wholebox" onClick={e => {
-                        e.stopPropagation();
-                        this.props.onBoxSelected(this.props.id) }}
+        return (<div className="wholebox"
                      onDoubleClick={(e)=>{
                         if(this.props.toolbar.config && this.props.toolbar.config.needsTextEdition){
                             this.props.onTextEditorToggled(this.props.id, true);
@@ -98,8 +103,8 @@ export default class DaliBox extends Component {
                             msTouchAction: 'none',
                             cursor: vis? 'inherit':'default' //esto evita que aparezcan los cursores de move y resize cuando la caja no está seleccionada
                         }}>
+            {border}
             {content}
-            {overlay}
             <div contentEditable={true} ref={"textarea"} style={textareaStyle} />
         </div>);
     }
@@ -109,10 +114,12 @@ export default class DaliBox extends Component {
         Dali.Plugins.get(this.props.toolbar.config.name).updateTextChanges(this.refs.textarea.innerHTML, this.props.id);
     }
 
-    componentWillReceiveProps(nextProps){
-        if(nextProps.box.sortableContainers !== this.props.box.sortableContainers){
+    shouldComponentUpdate(nextProps){
+        //if(nextProps.box.sortableContainers !== this.props.box.sortableContainers){
             let pluginsContained = ReactDOM.findDOMNode(this).getElementsByTagName("plugin");
+            //console.log(pluginsContained);
             for(let i = 0; i < pluginsContained.length; i++){
+                //console.log(i);
                 if(pluginsContained[i].hasAttribute("plugin-data-id")){
                     ReactDOM.render(<PluginPlaceholder key={i}
                                                        pluginContainer={pluginsContained[i].attributes["plugin-data-id"].value}
@@ -131,7 +138,8 @@ export default class DaliBox extends Component {
                     console.error("Plugin ID not defined");
                 }
             }
-        }
+        //}
+        return true;
     }
 
     componentWillUpdate(nextProps, nextState){
@@ -183,6 +191,12 @@ export default class DaliBox extends Component {
             }
         }
 
+        $(ReactDOM.findDOMNode(this)).click(function(e){
+            this.props.onBoxSelected(this.props.id);
+            e.stopPropagation();
+            console.log("box");
+        }.bind(this));
+
         if (this.props.box.type !== BOX_TYPES.SORTABLE) {
             interact(ReactDOM.findDOMNode(this))
                 .draggable({
@@ -207,8 +221,7 @@ export default class DaliBox extends Component {
                     },
                     onend: (event) => {
                         if (!this.props.isSelected) return;
-                        event.preventDefault()
-                        event.stopPropagation()
+                        event.stopPropagation();
                         this.props.onBoxMoved(this.props.id, parseInt(event.target.style.left), parseInt(event.target.style.top));
                     }
                 })
@@ -271,7 +284,6 @@ export default class DaliBox extends Component {
                             parseInt(event.target.style.height));
                         this.props.onBoxMoved(this.props.id, parseInt(event.target.style.left), parseInt(event.target.style.top));
                         event.stopPropagation();
-                        event.preventDefault();
                     }
                 });
         }

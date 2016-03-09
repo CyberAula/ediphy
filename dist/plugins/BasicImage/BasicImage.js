@@ -9,7 +9,7 @@ var BasicImage = (function(){
                 name: 'BasicImage',
                 category: 'image',
                 needsConfigModal: true,
-                needsTextEdition: true
+                needsTextEdition: false
             };
         },
         getToolbar: function(){
