@@ -7,5 +7,6 @@ var plugins = [
         'Webpage',
         'BasicPills',
         'BasicQuizConnect',
-        'CajasColor'
+        'CajasColor',
+        'Container'
 ]

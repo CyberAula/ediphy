@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import {Input,Button} from 'react-bootstrap';
 import interact from 'interact.js';
 import PluginPlaceholder from '../components/PluginPlaceholder';
-import {BOX_TYPES, ID_PREFIX_SORTABLE_BOX} from '../constants';
+import {BOX_TYPES, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_SORTABLE_CONTAINER} from '../constants';
 
 export default class DaliBox extends Component {
     constructor(props) {
@@ -17,25 +17,26 @@ export default class DaliBox extends Component {
         let borderSize = 2;
         let cornerSize = 15;
 
-        let box = this.props.box;
-        let vis = (this.props.isSelected && box.type !== BOX_TYPES.SORTABLE)
+        let box = this.props.boxes[this.props.id];
+        let toolbar = this.props.toolbars[this.props.id];
+        let vis = ((this.props.boxSelected === this.props.id) && box.type !== BOX_TYPES.SORTABLE)
         let style = {
             width: '100%',
             height: '100%',
             position: 'absolute',
             wordWrap: 'break-word',
-            visibility: (this.props.toolbar.showTextEditor ? 'hidden' : 'visible')};
+            visibility: (toolbar.showTextEditor ? 'hidden' : 'visible')};
 
         let textareaStyle = {
             width: '100%',
             height: '100%',
             position: 'absolute',
             resize: 'none',
-            visibility: (this.props.toolbar.showTextEditor ? 'visible' : 'hidden')}
+            visibility: (toolbar.showTextEditor ? 'visible' : 'hidden')}
         let attrs = {};
 
-        if(this.props.toolbar.buttons) {
-            this.props.toolbar.buttons.map((item, index) => {
+        if(toolbar.buttons) {
+            toolbar.buttons.map((item, index) => {
                 if (item.autoManaged) {
                     if (!item.isAttribute) {
                         if(item.name !== 'width') {
@@ -74,7 +75,7 @@ export default class DaliBox extends Component {
                 }}>
                      <Button className="trashbutton" 
                              onClick={e => {
-                                this.props.onBoxDeleted(this.props.id, this.props.box.parent);
+                                this.props.onBoxDeleted(this.props.id, box.parent);
                                 e.stopPropagation();
                              }}>
                         <i className="fa fa-trash-o"></i>
@@ -89,7 +90,7 @@ export default class DaliBox extends Component {
 
         return (<div className="wholebox"
                      onDoubleClick={(e)=>{
-                        if(this.props.toolbar.config && this.props.toolbar.config.needsTextEdition){
+                        if(toolbar.config && toolbar.config.needsTextEdition){
                             this.props.onTextEditorToggled(this.props.id, true);
                             this.refs.textarea.focus();
                         }}
@@ -111,58 +112,65 @@ export default class DaliBox extends Component {
 
     blurTextarea(){
         this.props.onTextEditorToggled(this.props.id, false);
-        Dali.Plugins.get(this.props.toolbar.config.name).updateTextChanges(this.refs.textarea.innerHTML, this.props.id);
+        Dali.Plugins.get(this.props.toolbars[this.props.id].config.name).updateTextChanges(this.refs.textarea.innerHTML, this.props.id);
     }
 
-    shouldComponentUpdate(nextProps){
-        //if(nextProps.box.sortableContainers !== this.props.box.sortableContainers){
+    shouldComponentUpdate(nextProps, nextState){
+        console.log({actualId: this.props.id, actualSelected: this.props.boxSelected, nextId: nextProps.id, nextSelected: nextProps.boxSelected})
+        if(nextProps.boxes[nextProps.id] !== this.props.boxes[this.props.id] ||
+            nextProps.toolbars[nextProps.id] !== this.props.toolbars[this.props.id] ||
+            (this.props.boxSelected == this.props.id && nextProps.boxSelected !== this.props.id) ||
+            (this.props.boxSelected !== this.props.id && nextProps.boxSelected === this.props.id)
+        ){
+            //if(this.props.boxes[this.props.id].sortableContainers !== nextProps.boxes[nextProps.id].sortableContainers) {
             let pluginsContained = ReactDOM.findDOMNode(this).getElementsByTagName("plugin");
-            //console.log(pluginsContained);
-            for(let i = 0; i < pluginsContained.length; i++){
-                //console.log(i);
-                if(pluginsContained[i].hasAttribute("plugin-data-id")){
-                    ReactDOM.render(<PluginPlaceholder key={i}
-                                                       pluginContainer={pluginsContained[i].attributes["plugin-data-id"].value}
-                                                       parentBox={nextProps.box}
-                                                       boxes={nextProps.boxes}
-                                                       boxSelected={nextProps.boxSelected}
-                                                       toolbars={nextProps.toolbars}
-                                                       onBoxSelected={this.props.onBoxSelected}
-                                                       onBoxMoved={this.props.onBoxMoved}
-                                                       onBoxResized={this.props.onBoxResized}
-                                                       onBoxDeleted={this.props.onBoxDeleted}
-                                                       onBoxModalToggled={this.props.onBoxModalToggled}
-                                                       onTextEditorToggled={this.props.onTextEditorToggled}
-                    />, pluginsContained[i]);
-                }else{
-                    console.error("Plugin ID not defined");
-                }
+            for (let i = 0; i < pluginsContained.length; i++) {
+                //console.log(pluginsContained[i].attributes["plugin-data-id"].value);
+                ReactDOM.render(<PluginPlaceholder key={i}
+                                                   pluginContainer={pluginsContained[i].attributes["plugin-data-id"].value}
+                                                   parentBox={nextProps.boxes[this.props.id]}
+                                                   boxes={nextProps.boxes}
+                                                   boxSelected={nextProps.boxSelected}
+                                                   toolbars={nextProps.toolbars}
+                                                   onBoxSelected={this.props.onBoxSelected}
+                                                   onBoxMoved={this.props.onBoxMoved}
+                                                   onBoxResized={this.props.onBoxResized}
+                                                   onBoxDeleted={this.props.onBoxDeleted}
+                                                   onBoxModalToggled={this.props.onBoxModalToggled}
+                                                   onTextEditorToggled={this.props.onTextEditorToggled}
+                />, pluginsContained[i]);
             }
-        //}
-        return true;
+            //}
+            return true;
+        }
+        return false;
     }
 
     componentWillUpdate(nextProps, nextState){
-        if(this.props.isSelected && !nextProps.isSelected && this.props.toolbar.showTextEditor){
+        if((this.props.boxSelected === this.props.id) && (nextProps.boxSelected !== this.props.id) && this.props.toolbars[this.props.id].showTextEditor){
             CKEDITOR.currentInstance.focusManager.blur(true);
         }
     }
 
     componentDidUpdate(prevProps, prevState){
-        if(this.props.toolbar.showTextEditor){
+        let toolbar = this.props.toolbars[this.props.id];
+        if(toolbar.showTextEditor){
             this.refs.textarea.focus();
         }
-        if((this.props.toolbar.showTextEditor !== prevProps.toolbar.showTextEditor) && this.props.box.draggable){
-            interact(ReactDOM.findDOMNode(this)).draggable(!this.props.toolbar.showTextEditor);
+        if((toolbar.showTextEditor !== prevProps.toolbars[this.props.id].showTextEditor) && this.props.boxes[this.props.id].draggable){
+            interact(ReactDOM.findDOMNode(this)).draggable(!toolbar.showTextEditor);
         }
 
         if(this.refs.textarea.innerHTML === "<p><br></p>"){
-            this.refs.textarea.innerHTML = this.props.box.content;
+            this.refs.textarea.innerHTML = this.props.boxes[this.props.id].content;
         }
     }
 
     componentDidMount() {
-        if(this.props.toolbar.config && this.props.toolbar.config.needsTextEdition) {
+        let toolbar = this.props.toolbars[this.props.id];
+        let box = this.props.boxes[this.props.id];
+
+        if(toolbar.config && toolbar.config.needsTextEdition) {
             CKEDITOR.disableAutoInline = true;
             let editor = CKEDITOR.inline(this.refs.textarea);
             editor.on("blur", function (e) {
@@ -172,10 +180,12 @@ export default class DaliBox extends Component {
 
         let pluginsContained = ReactDOM.findDOMNode(this).getElementsByTagName("plugin");
         for(let i = 0; i < pluginsContained.length; i++){
-            if(pluginsContained[i].hasAttribute("plugin-data-id")){
+            if(!pluginsContained[i].hasAttribute("plugin-data-id")) {
+                let pluginContainerId = ID_PREFIX_SORTABLE_CONTAINER + Date.now();
+                pluginsContained[i].setAttribute("plugin-data-id", pluginContainerId);
                 ReactDOM.render(<PluginPlaceholder key={i}
-                                                   pluginContainer={pluginsContained[i].attributes["plugin-data-id"].value}
-                                                   parentBox={this.props.box}
+                                                   pluginContainer={pluginContainerId}
+                                                   parentBox={box}
                                                    boxes={this.props.boxes}
                                                    boxSelected={this.props.boxSelected}
                                                    toolbars={this.props.toolbars}
@@ -186,8 +196,6 @@ export default class DaliBox extends Component {
                                                    onBoxModalToggled={this.props.onBoxModalToggled}
                                                    onTextEditorToggled={this.props.onTextEditorToggled}
                 />, pluginsContained[i]);
-            }else{
-                console.error("Plugin ID not defined");
             }
         }
 
@@ -196,10 +204,10 @@ export default class DaliBox extends Component {
             e.stopPropagation();
         }.bind(this));
 
-        if (this.props.box.type !== BOX_TYPES.SORTABLE) {
+        if (box.type !== BOX_TYPES.SORTABLE) {
             interact(ReactDOM.findDOMNode(this))
                 .draggable({
-                    enabled: (this.props.box.draggable),
+                    enabled: (box.draggable),
                     restrict: {
                         restriction: "parent",
                         endOnly: true,
@@ -207,7 +215,9 @@ export default class DaliBox extends Component {
                     },
                     autoScroll: true,
                     onmove: (event) => {
-                        if (!this.props.isSelected) return;
+                        if (this.props.boxSelected !== this.props.id) {
+                            return;
+                        }
                         var target = event.target;
 
                         target.style.left = (parseInt(target.style.left) || 0) + event.dx + 'px';
@@ -219,14 +229,16 @@ export default class DaliBox extends Component {
 
                     },
                     onend: (event) => {
-                        if (!this.props.isSelected) return;
-                        event.stopPropagation();
+                        if (this.props.boxSelected !== this.props.id) {
+                            return;
+                        }
                         this.props.onBoxMoved(this.props.id, parseInt(event.target.style.left), parseInt(event.target.style.top));
+                        event.stopPropagation();
                     }
                 })
                 .ignoreFrom('input, textarea, a')
                 .resizable({
-                    enabled: (this.props.box.resizable ),
+                    enabled: (box.resizable),
                     restrict: {
                         restriction: "parent",
                         endOnly: true,
@@ -234,7 +246,9 @@ export default class DaliBox extends Component {
                     },
                     edges: {left: true, right: true, bottom: true, top: true},
                     onmove: (event) => {
-                        if (!this.props.isSelected) return;
+                        if (this.props.boxSelected !== this.props.id) {
+                            return;
+                        }
                         /*BOX-RESIZE*/
                         var target = event.target;
                       
@@ -275,11 +289,13 @@ export default class DaliBox extends Component {
                         }
                     },
                     onend: (event) => {
-                        if (!this.props.isSelected) return;
+                        if (this.props.boxSelected !== this.props.id) {
+                            return;
+                        }
                         let width = Math.floor(parseInt(event.target.style.width) / event.target.parentElement.offsetWidth * 100) + '%';
                         this.props.onBoxResized(
                             this.props.id,
-                            (this.props.box.container !== 0 ? width : parseInt(event.target.style.width)),
+                            (box.container !== 0 ? width : parseInt(event.target.style.width)),
                             parseInt(event.target.style.height));
                         this.props.onBoxMoved(this.props.id, parseInt(event.target.style.left), parseInt(event.target.style.top));
                         event.stopPropagation();

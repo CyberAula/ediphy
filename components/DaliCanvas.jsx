@@ -28,13 +28,9 @@ export default class DaliCanvas extends Component{
                            titleModeToggled={this.props.titleModeToggled} />
                 {this.props.navItemSelected.boxes.map(id => {
                     let box = this.props.boxes[id];
-                    let isSelected = (id === this.props.boxSelected);
                     if (box.type === BOX_TYPES.NORMAL)
                         return <DaliBox key={id}
                                         id={id}
-                                        box={box}
-                                        toolbar={this.props.toolbars[id]}
-                                        isSelected={isSelected}
                                         boxes={this.props.boxes}
                                         boxSelected={this.props.boxSelected}
                                         toolbars={this.props.toolbars}
@@ -47,7 +43,6 @@ export default class DaliCanvas extends Component{
                     else if (box.type === BOX_TYPES.SORTABLE)
                         return <DaliBoxSortable key={id}
                                                 id={id}
-                                                box={box}
                                                 boxes={this.props.boxes}
                                                 boxSelected={this.props.boxSelected}
                                                 toolbars={this.props.toolbars}

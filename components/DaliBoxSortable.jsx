@@ -4,25 +4,20 @@ import DaliBox from '../components/DaliBox';
 
 export default class DaliBoxSortable extends Component{
     render(){
+        let box = this.props.boxes[this.props.id];
         return(
         <div>
             <div ref="sortableContainer" style={{position: 'relative'}}>
-                {this.props.box.children.map((idContainer, index)=>{
+                {box.children.map((idContainer, index)=>{
                     return (<div key={index} style={{
                         width: '100%',
-                        height: this.props.box.sortableContainers[idContainer].height,
+                        height: box.sortableContainers[idContainer].height,
                         border: '1px solid #999',
                         boxSizing: 'border-box',
                         position: 'relative'}}>
-                            {this.props.box.sortableContainers[idContainer].children.map((idBox, index) => {
-                                let box = this.props.boxes[idBox];
-                                let isSelected = (idBox === this.props.boxSelected);
-
-                                return (<DaliBox box={box}
-                                                 id={idBox}
+                            {box.sortableContainers[idContainer].children.map((idBox, index) => {
+                                return (<DaliBox id={idBox}
                                                  key={index}
-                                                 isSelected={isSelected}
-                                                 toolbar={this.props.toolbars[idBox]}
                                                  boxes={this.props.boxes}
                                                  boxSelected={this.props.boxSelected}
                                                  toolbars={this.props.toolbars}

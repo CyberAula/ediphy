@@ -12,13 +12,11 @@ export default class PluginPlaceholder extends Component {
                         height: (container) ? container.height : 0,
                         position: 'relative'}}>
                 {container ? container.children.map((idBox, index) => {
-                    let box = this.props.boxes[idBox];
-                    let isSelected = (idBox === this.props.boxSelected);
-                    return (<DaliBox box={box}
-                                     id={idBox}
+                    return (<DaliBox id={idBox}
                                      key={index}
-                                     isSelected={isSelected}
-                                     toolbar={this.props.toolbars[idBox]}
+                                     boxes={this.props.boxes}
+                                     boxSelected={this.props.boxSelected}
+                                     toolbars={this.props.toolbars}
                                      onBoxSelected={this.props.onBoxSelected}
                                      onBoxMoved={this.props.onBoxMoved}
                                      onBoxResized={this.props.onBoxResized}
