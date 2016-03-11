@@ -5,7 +5,8 @@ var BasicText = (function(){
                 name: 'BasicText',
                 category: 'text',
                 needsConfigModal: false,
-                needsTextEdition: true
+                needsTextEdition: true,
+                icon: 'fa-align-left'
             };
         },
         getToolbar: function(){

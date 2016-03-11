@@ -5,7 +5,8 @@ var BasicPills = (function(){
                 name: 'BasicPills',
                 category: 'text',
                 needsConfigModal: true,
-                needsTextEdition: false
+                needsTextEdition: false,
+                icon: 'fa-medkit'
             };
         },
         getToolbar: function(){
@@ -52,10 +53,10 @@ var BasicPills = (function(){
                         auxTexts.push('text'+i); 
                     }
                     if(auxColors[i] == null){
-                        auxColors.push('#FFFF00'); 
+                        auxColors.push('#f87060'); 
                     }
                     if(auxColorsTitle[i] == null){
-                        auxColorsTitle.push('#333333');
+                        auxColorsTitle.push('white');
                     }
 
 
@@ -170,10 +171,10 @@ var BasicPills = (function(){
                     auxTexts.push('text'+i);
                 }
                 if(auxColors[i] == null){
-                    auxColors.push('#ff0000');
+                    auxColors.push('#f87060');
                 }
                 if(auxColorsTitle[i] == null){
-                    auxColorsTitle.push('#333333');
+                    auxColorsTitle.push('white');
                 }
 
                 editorBox += '\

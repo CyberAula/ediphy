@@ -19,6 +19,7 @@ Dali.Plugin = function(descendant){
             if(descendant.getConfig){
                 name = descendant.getConfig().name;
                 category = descendant.getConfig().category;
+                icon = descendant.getConfig().icon;
                 needsConfigModal = descendant.getConfig().needsConfigModal;
                 needsTextEdition = descendant.getConfig().needsTextEdition;
             }
@@ -27,6 +28,7 @@ Dali.Plugin = function(descendant){
             category = defaultFor(category, 'text');
             needsConfigModal = defaultFor(needsConfigModal, false);
             needsTextEdition = defaultFor(needsTextEdition, false);
+            icon = defaultFor(icon, 'fa-cogs');
 
             callback = function () {
                 if (descendant.getInitialState) {
@@ -46,7 +48,8 @@ Dali.Plugin = function(descendant){
                 category: category,
                 callback: callback,
                 needsConfigModal: needsConfigModal,
-                needsTextEdition: needsTextEdition
+                needsTextEdition: needsTextEdition,
+                icon: icon,
             };
         },
         getToolbar: function(){

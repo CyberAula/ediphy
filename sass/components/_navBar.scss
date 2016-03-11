@@ -23,26 +23,34 @@
 	 -moz-border-radius: 0;
 	 width: auto;
 	 height: auto;
-	 width:100px;
+	 width:50px;
 	 font-size: 20px;
 	 height:35px;
 	 padding: 0px 0px 0px 0px;
 	 background-color: $navBar;
      box-shadow:none;
+     vertical-align: middle;
 	 &:hover, &:active, &:focus{
 
 		
-		 border-bottom: 5px solid $naranjaclaro;
+		 border-bottom: 0px solid $naranjaclaro;
 		 color: white;
 		 background-color: $navBar;
 		 -webkit-box-shadow: none;
          box-shadow: none;
-         font-weight:bold;
+         color:grey;
 	}
 
  	
 }
 
+.navButtonPlug{
+	 @extend .navButton;
+	width:auto;
+	padding: 0px 9px;
+
+
+}
 
 
 button[disabled].navButton {
@@ -60,5 +68,38 @@ button[disabled].navButton {
 .nav_but {
 
 	margin:2px 0px;
+
+}
+.hideonresize{
+	font-size: 12px;
+	vertical-align: middle;
+	margin:auto;
+}
+
+.rib{
+	border-radius: 0;
+	height:100%;
+	background-color: transparent;
+	border:none;
+	color:white;
+	&:active, &:hover, &:focus, &:link{
+		background-color: transparent !important ; 
+		color:#ddd;
+		box-shadow: none !important;
+	}
+	i {
+		color:$navBar !important;
+	
+	}
+}
+
+@media screen and (max-width: 1147px) {
+	.hideonresize{
+		display: none;
+	}
+	.navButtonPlug{
+	 width:50px;
+	 padding:0;
+}
 
 }

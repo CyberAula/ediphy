@@ -19,8 +19,10 @@ export default class BoxModal extends Component {
 
     render() {
         return (
-        <Modal show={this.state.show} backdrop={true} bsSize="large" onHide={e => {
+        <Modal style={{visibility:'hidden'}} show={this.state.show&&this.props.fromSortable} backdrop={true} bsSize="large" onHide={e => {
+            console.log('hiding')
             this.setState({show: false});
+            console.log('onhide')
             this.props.onVisibilityToggled(0, false, 0);
         }}>
             <Modal.Header closeButton>

@@ -13,10 +13,17 @@ import BoxModal from '../components/BoxModal';
 import PageModal from '../components/PageModal';
 import PluginConfigModal from '../components/PluginConfigModal';
 import PluginToolbar from '../components/PluginToolbar';
+import PluginRibbon from '../components/PluginRibbon';
 require('../sass/style.scss');
 
 class DaliApp extends Component{
-
+      constructor(props) {
+        super(props);
+        this.state = {
+            pluginTab: 'temp',
+            hideTab:'hide'
+        };
+    }
     render(){
 
         const{ dispatch, boxes, boxesIds, boxSelected, navItemsIds, navItems, navItemSelected,
@@ -40,7 +47,7 @@ class DaliApp extends Component{
                                       onDisplayModeChanged={mode => dispatch(changeDisplayMode(mode))} />
                     </Col>
 
-                    <Col md={10} xs={10} className="outter" id="colRight" style={{ padding:(navItems[navItemSelected].type!= "slide") ? '39px 0px 0px 0px' : '50px 0px 30px 0px '}} >
+                    <Col md={10} xs={10} className="outter" id="colRight" style={{ padding:(navItems[navItemSelected].type!= "slide") ? '99px 0px 0px 0px' : '130px 0px 30px 0px '}} >
                         <DaliCanvas boxes={boxes}
                                     boxesIds={boxesIds}
                                     boxSelected={boxSelected}
@@ -64,7 +71,7 @@ class DaliApp extends Component{
                           navItemSelected={navItemSelected}
                           onBoxAdded={(ids, type, draggable, resizable, content, toolbar, config, state) => dispatch(addBox(ids, type, draggable, resizable, content, toolbar, config, state))}
                           onVisibilityToggled={(caller, fromSortable, container) => dispatch(togglePluginModal(caller, fromSortable, container))}/>
-                <PageModal visibility={pageModalToggled.value}
+               <PageModal visibility={pageModalToggled.value}
                            caller={pageModalToggled.caller}
                            navItems={navItems}
                            navItemsIds={navItemsIds}
@@ -74,23 +81,53 @@ class DaliApp extends Component{
                 <PluginConfigModal />
                 <div className="navBar">
                     <Col mdOffset={2} xsOffset={2}>
-                        <button className="navButton" disabled={(navItemsIds.length === 0 ? true : false)} onClick={() => dispatch(togglePluginModal(navItemSelected, false, 0))}><i className="fa fa-plus fa-1 "></i>  Add</button>
-                        <button className="navButton" disabled={undoDisabled} onClick={() => dispatch(ActionCreators.undo())}><i className="fa fa-mail-reply fa-1"></i>  Undo</button>
-                        <button className="navButton" disabled={redoDisabled} onClick={() => dispatch(ActionCreators.redo())}><i className="fa fa-mail-forward fa-1 "></i>  Redo</button>
+                        {/*<button className="navButton" disabled={(navItemsIds.length === 0 ? true : false)} onClick={() => dispatch(togglePluginModal(navItemSelected, false, 0))}><i className="fa fa-plus fa-1 "></i>  </button>*/}                        <button className="navButton" disabled={undoDisabled} onClick={() => dispatch(ActionCreators.undo())}><i className="fa fa-mail-reply fa-1"></i>  </button>
+                        <button className="navButton" disabled={redoDisabled} onClick={() => dispatch(ActionCreators.redo())}><i className="fa fa-mail-forward fa-1 "></i>  </button>
                         <OverlayTrigger trigger="click" rootClose placement="bottom" overlay={<Popover id="is_busy_popover">{isBusy}</Popover>}>
                             <button  className="navButton" onClick={() => {
                                 let state = this.props.store.getState();
                                 dispatch(exportStateAsync(state));
-                            }}><i className="fa fa-save fa-1 "></i>  Save</button>
+                            }}><i className="fa fa-save fa-1 "></i>  </button>
                         </OverlayTrigger>
-                        <OverlayTrigger trigger="click" rootClose placement="bottom" overlay={<Popover id="is_busy_popover">{isBusy}</Popover>}>
-                            <button  className="navButton" onClick={() => {
+                        <OverlayTrigger trigger="click"  rootClose placement="bottom" overlay={<Popover id="is_busy_popover">{isBusy}</Popover>}>
+                            <button style={{borderRight: '2px solid #f8a090'}}  className="navButton" onClick={() => {
                                 dispatch(importStateAsync());
-                            }}><i className="fa fa-folder-open fa-1 "></i>  Load</button>
+                            }}><i className="fa fa-folder-open fa-1 "></i>  </button>
                         </OverlayTrigger>
-                    </Col>
+                       <button className="navButtonPlug" title='Temp' disabled={(navItemsIds.length === 0 ? true : false)} onClick={() =>  {dispatch(togglePluginModal(navItemSelected, false, 0));this.setState({pluginTab:'temp', hideTab:'show'}) } }><i className="fa fa-clock-o fa-1 "></i> <span className="hideonresize"> Temp</span> </button>                       
+                        <button className="navButtonPlug" title='Text' disabled={(navItemsIds.length === 0 ? true : false)} onClick={() => {dispatch(togglePluginModal(navItemSelected, false, 0));this.setState({pluginTab:'text', hideTab:'show'}) }}><i className="fa fa-edit fa-1 "></i> <span className="hideonresize">Texto</span>  </button>
+                        <button className="navButtonPlug" title='Animaciones' disabled={(navItemsIds.length === 0 ? true : false)} onClick={() => {dispatch(togglePluginModal(navItemSelected, false, 0));this.setState({pluginTab:'image', hideTab:'show'}) }}><i className="fa fa-photo fa-1 "></i><span className="hideonresize"> Imagen</span>  </button>
+                        <button className="navButtonPlug" title='Multimedia' disabled={(navItemsIds.length === 0 ? true : false)} onClick={() => {dispatch(togglePluginModal(navItemSelected, false, 0));this.setState({pluginTab:'multimedia', hideTab:'show'}) }}><i className="fa fa-play fa-1 "></i> <span className="hideonresize">Animaciones</span>  </button>
+                        <button className="navButtonPlug" title='Animations' disabled={(navItemsIds.length === 0 ? true : false)} onClick={() => {dispatch(togglePluginModal(navItemSelected, false, 0));this.setState({pluginTab:'animations', hideTab:'show'}) }}><i className="fa fa-film fa-1 "></i> <span className="hideonresize">Multimedia</span>  </button>
+                        <button className="navButtonPlug" title='Exercises' disabled={(navItemsIds.length === 0 ? true : false)} onClick={() => {dispatch(togglePluginModal(navItemSelected, false, 0));this.setState({pluginTab:'exercises', hideTab:'show'}) }}><i className="fa fa-mortar-board fa-1 "></i>  <span className="hideonresize">Ejercicios</span> </button>
+                        <button className="navButtonPlug" title='Collapse' disabled={(navItemsIds.length === 0 ? true : false)} onClick={() => {
+
+                          dispatch(togglePluginModal(navItemSelected, false, 0));
+                          let estadonuevo = this.state.hideTab=='hide' ? 'show':'hide'
+                          this.setState({hideTab:estadonuevo}) 
+                          
+                          }
+                          }><i id="flecha" className={this.state.hideTab=='hide' ? "fa fa-chevron-down fa-1 ":"fa fa-chevron-up fa-1 " }></i>  <span className="hideonresize">Collapse</span> </button>
+              
+                   </Col>
+
+                    <PluginRibbon
+                          caller={boxModalToggled.caller}
+                          fromSortable={boxModalToggled.fromSortable}
+                          container={boxModalToggled.container}
+                          navItemSelected={navItemSelected}
+                          onBoxAdded={(ids, type, draggable, resizable, content, toolbar, config, state) => dispatch(addBox(ids, type, draggable, resizable, content, toolbar, config, state))}
+                          onVisibilityToggled={(caller, fromSortable, container) => dispatch(togglePluginModal(caller, fromSortable, container))}
+                          category={this.state.pluginTab}
+                          hideTab={this.state.hideTab}
+
+                      
+                    />
+                          
                 </div>
-                <PluginToolbar toolbars={toolbars}
+                  
+                
+                   <PluginToolbar toolbars={toolbars}
                                boxSelected={boxSelected}
                                onTextEditorToggled={(caller, value) => dispatch(toggleTextEditor(caller, value))}
                                onToolbarUpdated={(caller, index, name, value) => dispatch(updateToolbar(caller, index, name, value))} />

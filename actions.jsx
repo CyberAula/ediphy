@@ -74,6 +74,7 @@ export function duplicateSection(id){
 }
 
 export function togglePluginModal(caller, fromSortable, container){
+    console.log('action '+caller+' '+fromSortable+'   '+ container)
     return {type: TOGGLE_PLUGIN_MODAL, payload: {caller, fromSortable, container}};
 }
 
