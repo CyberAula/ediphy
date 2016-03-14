@@ -54,7 +54,7 @@ export default class PluginRibbon extends Component {
         }
 
         return (
-            <Col id="ribbon" md={10} xs={12} mdOffset={2} xsOffset={2}   style={{height: (this.props.hideTab=='hide' || this.props.category=='none' )? '0':'60px', display: (this.props.hideTab=='hide' || this.props.category=='none' )? 'none':'block'}} onHide={e => {
+            <Col id="ribbon" md={10} xs={12} mdOffset={2} xsOffset={2}   style={{height: (this.props.hideTab=='hide' || this.props.category=='none' )? '0px':'60px', display: (this.props.hideTab=='hide' || this.props.category=='none' )? 'none':'block'}} onHide={e => {
                     this.setState({show: false});
             ;}} >
                 {none}

@@ -28,6 +28,8 @@ class DaliApp extends Component{
 
         const{ dispatch, boxes, boxesIds, boxSelected, navItemsIds, navItems, navItemSelected,
             boxModalToggled, pageModalToggled, undoDisabled, redoDisabled, displayMode, isBusy, toolbars } = this.props;
+            var margenplugins = this.state.hideTab=='hide'?1:0
+            var paddings= (navItems[navItemSelected].type!= "slide") ? (99-60*margenplugins+'px 0px 0px 0px') : (130-60*margenplugins+'px 0px 30px 0px ')
         return(
             <Grid fluid={true} style={{height: '100%'}} >
                 <Row style={{height: '100%'}}>
@@ -47,7 +49,7 @@ class DaliApp extends Component{
                                       onDisplayModeChanged={mode => dispatch(changeDisplayMode(mode))} />
                     </Col>
 
-                    <Col md={10} xs={10} className="outter" id="colRight" style={{ padding:(navItems[navItemSelected].type!= "slide") ? '99px 0px 0px 0px' : '130px 0px 30px 0px '}} >
+                    <Col md={10} xs={10} className="outter" id="colRight" style={{ padding: paddings}} >
                         <DaliCanvas boxes={boxes}
                                     boxesIds={boxesIds}
                                     boxSelected={boxSelected}
