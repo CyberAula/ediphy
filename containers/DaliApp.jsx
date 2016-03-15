@@ -13,7 +13,9 @@ import BoxModal from '../components/BoxModal';
 import PageModal from '../components/PageModal';
 import PluginConfigModal from '../components/PluginConfigModal';
 import PluginToolbar from '../components/PluginToolbar';
+import Visor from '../components/visor/Visor';
 import PluginRibbon from '../components/PluginRibbon';
+import DaliNavBar from '../components/DaliNavBar';
 require('../sass/style.scss');
 
 class DaliApp extends Component{
@@ -21,7 +23,9 @@ class DaliApp extends Component{
         super(props);
         this.state = {
             pluginTab: 'temp',
-            hideTab:'hide'
+            hideTab:'hide',
+            visor:false
+
         };
     }
     render(){
@@ -80,38 +84,42 @@ class DaliApp extends Component{
                            onBoxAdded={(ids, type,  draggable, resizable, content, toolbar, config, state) => dispatch(addBox(ids, type, draggable, resizable, content, toolbar, config, state))}
                            onVisibilityToggled={(caller, value) => dispatch(togglePageModal(caller, value))}
                            onPageAdded={(id, name, parent, children, level, type, position) => dispatch(addNavItem(id, name, parent, children, level, type, position))} />
+                <Visor  id="visor" visor={this.state.visor} onVisibilityToggled={()=> this.setState({visor:!this.state.visor })} state={this.props.store.getState().present} />
                 <PluginConfigModal />
-                <div className="navBar">
-                    <Col mdOffset={2} xsOffset={2}>
-                        {/*<button className="navButton" disabled={(navItemsIds.length === 0 ? true : false)} onClick={() => dispatch(togglePluginModal(navItemSelected, false, 0))}><i className="fa fa-plus fa-1 "></i>  </button>*/}                        <button className="navButton" disabled={undoDisabled} onClick={() => dispatch(ActionCreators.undo())}><i className="fa fa-mail-reply fa-1"></i>  </button>
-                        <button className="navButton" disabled={redoDisabled} onClick={() => dispatch(ActionCreators.redo())}><i className="fa fa-mail-forward fa-1 "></i>  </button>
-                        <OverlayTrigger trigger="click" rootClose placement="bottom" overlay={<Popover id="is_busy_popover">{isBusy}</Popover>}>
-                            <button  className="navButton" onClick={() => {
-                                let state = this.props.store.getState();
-                                dispatch(exportStateAsync(state));
-                            }}><i className="fa fa-save fa-1 "></i>  </button>
-                        </OverlayTrigger>
-                        <OverlayTrigger trigger="click"  rootClose placement="bottom" overlay={<Popover id="is_busy_popover">{isBusy}</Popover>}>
-                            <button style={{borderRight: '2px solid #f8a090'}}  className="navButton" onClick={() => {
-                                dispatch(importStateAsync());
-                            }}><i className="fa fa-folder-open fa-1 "></i>  </button>
-                        </OverlayTrigger>
-                       <button className="navButtonPlug" title='Temp' disabled={(navItemsIds.length === 0 ? true : false)} onClick={() =>  {dispatch(togglePluginModal(navItemSelected, false, 0));this.setState({pluginTab:'temp', hideTab:'show'}) } }><i className="fa fa-clock-o fa-1 "></i> <span className="hideonresize"> Temp</span> </button>                       
-                        <button className="navButtonPlug" title='Text' disabled={(navItemsIds.length === 0 ? true : false)} onClick={() => {dispatch(togglePluginModal(navItemSelected, false, 0));this.setState({pluginTab:'text', hideTab:'show'}) }}><i className="fa fa-edit fa-1 "></i> <span className="hideonresize">Texto</span>  </button>
-                        <button className="navButtonPlug" title='Animaciones' disabled={(navItemsIds.length === 0 ? true : false)} onClick={() => {dispatch(togglePluginModal(navItemSelected, false, 0));this.setState({pluginTab:'image', hideTab:'show'}) }}><i className="fa fa-photo fa-1 "></i><span className="hideonresize"> Imagen</span>  </button>
-                        <button className="navButtonPlug" title='Multimedia' disabled={(navItemsIds.length === 0 ? true : false)} onClick={() => {dispatch(togglePluginModal(navItemSelected, false, 0));this.setState({pluginTab:'multimedia', hideTab:'show'}) }}><i className="fa fa-play fa-1 "></i> <span className="hideonresize">Animaciones</span>  </button>
-                        <button className="navButtonPlug" title='Animations' disabled={(navItemsIds.length === 0 ? true : false)} onClick={() => {dispatch(togglePluginModal(navItemSelected, false, 0));this.setState({pluginTab:'animations', hideTab:'show'}) }}><i className="fa fa-film fa-1 "></i> <span className="hideonresize">Multimedia</span>  </button>
-                        <button className="navButtonPlug" title='Exercises' disabled={(navItemsIds.length === 0 ? true : false)} onClick={() => {dispatch(togglePluginModal(navItemSelected, false, 0));this.setState({pluginTab:'exercises', hideTab:'show'}) }}><i className="fa fa-mortar-board fa-1 "></i>  <span className="hideonresize">Ejercicios</span> </button>
-                        <button className="navButtonPlug" title='Collapse' disabled={(navItemsIds.length === 0 ? true : false)} onClick={() => {
 
-                          dispatch(togglePluginModal(navItemSelected, false, 0));
-                          let estadonuevo = this.state.hideTab=='hide' ? 'show':'hide'
-                          this.setState({hideTab:estadonuevo}) 
-                          
+
+
+               
+                
+                    <DaliNavBar
+                      isBusy={isBusy}
+                      hideTab = {this.state.hideTab}
+                      undoDisabled = {undoDisabled}
+                      redoDisabled = {redoDisabled}
+                      navItemsIds = {navItemsIds}
+                      navItemSelected = {navItemSelected}
+                      boxSelected = {boxSelected}
+                      toggle = { () => { dispatch(togglePluginModal(navItemSelected, false, 0)) }}
+                      undo = {()=> {dispatch(ActionCreators.undo())}}
+                      redo = {()=> {dispatch(ActionCreators.redo())}}
+                      visor = {()=>{this.setState({visor:true })}}
+                      export = {()=> {DaliVisor.exports()}}
+                      save = { ()=>{ dispatch(exportStateAsync(this.props.store.getState()));
+                           
+                      }}
+                      categoria={this.state.pluginTab}
+                      opens = { ()=>{dispatch(importStateAsync())}}
+                      setcat={(categoria) => { 
+                          if(this.state.pluginTab == categoria && this.state.hideTab == 'show'){
+                            this.setState({ hideTab:'hide'})
+                          } else {
+                            this.setState({pluginTab:categoria, hideTab:'show'})
                           }
-                          }><i id="flecha" className={this.state.hideTab=='hide' ? "fa fa-chevron-down fa-1 ":"fa fa-chevron-up fa-1 " }></i>  <span className="hideonresize">Collapse</span> </button>
-              
-                   </Col>
+
+                       }
+                       }
+                    />
+                   
 
                     <PluginRibbon
                           caller={boxModalToggled.caller}
@@ -121,12 +129,10 @@ class DaliApp extends Component{
                           onBoxAdded={(ids, type, draggable, resizable, content, toolbar, config, state) => dispatch(addBox(ids, type, draggable, resizable, content, toolbar, config, state))}
                           onVisibilityToggled={(caller, fromSortable, container) => dispatch(togglePluginModal(caller, fromSortable, container))}
                           category={this.state.pluginTab}
-                          hideTab={this.state.hideTab}
-
-                      
-                    />
+                          hideTab={this.state.hideTab}     />
                           
-                </div>
+
+               
                   
                 
                    <PluginToolbar toolbars={toolbars}
@@ -136,6 +142,7 @@ class DaliApp extends Component{
             </Grid>
         );
     }
+
 
     componentDidMount(){
         Dali.Plugins.loadAllAsync().then(values => {
@@ -195,6 +202,13 @@ function mapStateToProps(state){
         toolbars: state.present.toolbarsById,
         isBusy: state.present.isBusy
     }
+
+
+
+
 }
 
+
+
 export default connect(mapStateToProps)(DaliApp);
+

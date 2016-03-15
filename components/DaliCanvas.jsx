@@ -19,11 +19,9 @@ export default class DaliCanvas extends Component{
         }
 
         return (
-            <div onClick={e => {
-                this.props.onBoxSelected(-1)
 
-                
-            }}
+            <div  id="maincontent" onClick={e => {this.props.onBoxSelected(-1)}}
+
                 className={this.props.navItems[this.props.navItemSelected.id].type == 'slide' ? 'slide sli':'slide doc'}
                 style={{visibility: (this.props.showCanvas ? 'visible' : 'hidden')}}>
                 <DaliTitle titles={titles}

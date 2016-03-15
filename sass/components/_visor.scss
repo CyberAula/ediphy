@@ -1,0 +1,50 @@
+.thumb {
+  font-size: 16px;
+  color: #f87060;
+  text-align: center;
+  vertical-align: middle;
+  height: 100%;
+  margin: auto; }
+  .thumb:hover {
+    cursor: pointer; }
+
+* {
+  font-family: 'Source Sans Pro', sans-serif;
+  outline: none !important; }
+
+::-moz-selection {
+  color: white;
+  background: #f87060; }
+
+::selection {
+  color: white;
+  background: #f87060; }
+
+/*.container-fluid{
+padding:0 !important;
+margin:0;
+height:100% !important;
+}*/
+
+.active{
+  color:red !important;
+}
+
+* {
+  pointer-events: all !important;
+}
+#nav{
+  height:100%;
+  }
+
+.visor .modal-content{
+  height:600px;
+}
+
+.outter2{
+  // padding-top:40px !important;
+}
+
+ul li a {
+  color: #555;
+}

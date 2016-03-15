@@ -22,8 +22,9 @@ export default class BoxModal extends Component {
         <Modal style={{visibility:'hidden'}} show={this.state.show&&this.props.fromSortable} backdrop={true} bsSize="large" onHide={e => {
             console.log('hiding')
             this.setState({show: false});
-            console.log('onhide')
-            this.props.onVisibilityToggled(0, false, 0);
+
+            this.props.onVisibilityToggled(0, false);
+
         }}>
             <Modal.Header closeButton>
                 <Modal.Title>Plugin Selection</Modal.Title>

@@ -28,7 +28,9 @@
 	   }
 }
 .daliCarousel{
-
+	.row {
+		// z-index:2 !important;
+	}
 	 h3,h4{
 	 	&:hover{
 	 		cursor:pointer;
@@ -51,7 +53,7 @@
 .wrapperCarousel{
 	background-color: $carousel;
 	margin:0;
-	padding: 42px 10px 15% 10px;
+	padding: 42px 0px 15% 0px;
 	 height: 100%; 
 }
 .pestanaCarousel{
@@ -79,6 +81,10 @@
 .carouselshow{
 	width:100%;
 }
-#colLeft, #indice{
-	// @include animacion(width);
+#indice{
+	padding-left:10px;
+	padding-right:10px;	
+}
+#colLeft{
+	z-index:1;
 }

@@ -54,19 +54,22 @@ export default class PluginRibbon extends Component {
         }
 
         return (
-            <Col id="ribbon" md={10} xs={12} mdOffset={2} xsOffset={2}   style={{height: (this.props.hideTab=='hide' || this.props.category=='none' )? '0px':'60px', display: (this.props.hideTab=='hide' || this.props.category=='none' )? 'none':'block'}} onHide={e => {
+            <Col id="ribbon" md={12} xs={12}    style={{height: (this.props.hideTab=='hide' || this.props.category=='none' )? '0px':'60px', display: (this.props.hideTab=='hide' || this.props.category=='none' )? 'none':'block'}} onHide={e => {
                     this.setState({show: false});
-            ;}} >
+            ;}} ><div className="row"> 
+            <Col  md={10} xs={10} mdOffset={2} xsOffset={2}>
+            
                 {none}
 
                 {this.state.buttons.map((id, index) => {
                 
-                    if(this.state.buttons[index].category === this.props.category){
+                    if(this.state.buttons[index].category === this.props.category || this.props.category == 'all'){
                         var clase = "fa "+ this.state.buttons[index].icon + " fa-1"
                         return (<Button className="rib"  key={index} bsSize="large" onClick={this.buttonCallback.bind(this, index)}> <i className={clase}></i><br/> {this.state.buttons[index].name}</Button>);
                     } 
                 })}
-
+                </Col>
+            </div>
           </Col>);
     }
   
