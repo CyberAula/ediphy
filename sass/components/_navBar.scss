@@ -15,6 +15,16 @@
 
 #iconBar{
 	z-index: 999 !important;
+	whiteSpace: nowrap;
+}
+
+.indentmin{
+	padding-left: 20px !important;
+
+}
+.indentmax{
+	padding-left: 250px !important;
+
 }
 
 
@@ -53,13 +63,12 @@
 	width:auto;
 	padding: 0px 9px;
 
-	.active{
-		color:blue;
-	}
+	
 
 
 }
 
+.navButtonPlug.active{ color:#FA9B90 !important;}
 
 button[disabled].navButton {
 	background-color: $verdeoscuro;
@@ -108,6 +117,7 @@ button[disabled].navButton {
 	.navButtonPlug{
 	 width:50px;
 	 padding:0;
+	  .active{ color:white !important;}
 }
 
 }
@@ -120,8 +130,17 @@ button[disabled].navButton {
 	top:39px;
 	padding:0;
 	z-index:0;
-	margin-left: -15px;
+	// margin-left: -15px;
+	
+}
 
+.conmargen{
+	margin-left:-15px;
+}
+
+.sinmargen{
+
+	margin-left: 0px;
 }
 
 .hideonresize{
@@ -131,6 +150,8 @@ button[disabled].navButton {
 }
 
 .rib{
+	display: inline-block;
+	font-size: 14px !important;
 	border-radius: 0;
 	height:100%;
 	background-color: transparent;

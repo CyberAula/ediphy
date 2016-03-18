@@ -48,7 +48,7 @@ export default class DaliCarousel extends Component{
                 </Button>
             </div>
             <div className="pestanaCarousel"  id="pestcar" onClick={() => {toggleWidth() }}>
-                 <i className="fa fa-bars fa-2x"> </i> 
+                 <i className="fa fa-list-alt fa-2x"> </i> 
               </div>
          
             </div>
@@ -58,10 +58,14 @@ export default class DaliCarousel extends Component{
 function toggleWidth(){
       $("#colLeft").toggleClass("indiceoculto")
       $("#indice").toggleClass("carouseloculto")
-       $("#indice").toggleClass("carouselshow")
-       $("#colLeft").toggleClass("carouseloculto")
+      $("#indice").toggleClass("carouselshow")
+      $("#colLeft").toggleClass("carouseloculto")
       $("#pestcar").show()
       $("#colRight").toggleClass("col-md-10 col-xs-10")
       $("#colRight").toggleClass("col-md-12 col-xs-12")
-     $("#indice").toggle()
+      $("#indice").toggle()
+      $("#ribbon").toggleClass("sinmargen col-md-12 col-xs-12 ")
+       $("#ribbon").toggleClass("conmargen col-md-10 col-xs-10 col-md-push-2 col-xs-push-2")
+      
+     
 }

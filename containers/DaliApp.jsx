@@ -22,7 +22,7 @@ class DaliApp extends Component{
       constructor(props) {
         super(props);
         this.state = {
-            pluginTab: 'temp',
+            pluginTab: 'all',
             hideTab:'hide',
             visor:false
 
@@ -35,7 +35,7 @@ class DaliApp extends Component{
             var margenplugins = this.state.hideTab=='hide'?1:0
             var paddings= (navItems[navItemSelected].type!= "slide") ? (99-60*margenplugins+'px 0px 0px 0px') : (130-60*margenplugins+'px 0px 30px 0px ')
         return(
-            <Grid fluid={true} style={{height: '100%'}} >
+            <Grid id="app" fluid={true} style={{height: '100%'}} >
                 <Row style={{height: '100%'}}>
                     <Col md={2} xs={2} style={{padding: 0, height: '100%'}} id="colLeft">
                   
@@ -103,7 +103,7 @@ class DaliApp extends Component{
                       undo = {()=> {dispatch(ActionCreators.undo())}}
                       redo = {()=> {dispatch(ActionCreators.redo())}}
                       visor = {()=>{this.setState({visor:true })}}
-                      export = {()=> {DaliVisor.exports()}}
+                      export = {()=> {DaliVisor.exports(this.props.store.getState())}}
                       save = { ()=>{ dispatch(exportStateAsync(this.props.store.getState()));
                            
                       }}
@@ -122,6 +122,7 @@ class DaliApp extends Component{
                    
 
                     <PluginRibbon
+                          disabled = {navItemsIds.length === 0 ? true : false}
                           caller={boxModalToggled.caller}
                           fromSortable={boxModalToggled.fromSortable}
                           container={boxModalToggled.container}

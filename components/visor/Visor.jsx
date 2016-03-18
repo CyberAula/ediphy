@@ -7,6 +7,7 @@ export default class Visor extends Component{
         this.state = {
             page:this.props.state.navItemSelected
         };
+        
     }
     render() {
 
@@ -24,6 +25,7 @@ export default class Visor extends Component{
         <Modal className="visor"  show={this.props.visor} backdrop={true} bsSize="large" aria-labelledby="contained-modal-title-lg" onHide={e => {
 
            this.props.onVisibilityToggled()
+           console.log('building')
 
         }}>
                 <Modal.Header closeButton >
@@ -46,7 +48,6 @@ export default class Visor extends Component{
                                         var level = navItemsById[navItemsIds[id]].level
                                         var type = navItemsById[navItemsIds[id]].type 
                                         var bold = (type=='section')?'bold':'normal'
-                                        console.log(this.state.page)
                                         var active = (element.id == this.state.page)? "navItem active":"navItem"
                                         var isExpanded = element.isExpanded
                                         var margin = (level*5)+'px'
@@ -59,7 +60,7 @@ export default class Visor extends Component{
 
                                     })}
 
-                                  {  this.changePage() }
+                                  {   }
                                 
                                 </ul>
                             </nav>
@@ -83,18 +84,18 @@ export default class Visor extends Component{
     }
 
     componentDidMount(){
-
-
+        console.log('mount')
+        this.changePage(this.props.state.navItemSelected)
     }
 
     changePage(){
-    var num = this.state.page
-    console.log(num)
-    var esta =this.props.state.navItemsById[num]
-    $('.outter2').css( {"padding":(esta.type!= "slide") ? "0px 0px 0px 0px" : "50px 0px 30px 0px" })
-    $('#main').removeClass("slide doc").addClass((esta.type!= "slide")?"doc":"slide")
-    $('.navItem').removeClass("active")
-    $('#'+num).addClass("active")
+        var num = this.state.page
+        var esta =this.props.state.navItemsById[num]
+        $('.outter2').css( {"padding":(esta.type!= "slide") ? "0px 0px 0px 0px" : "50px 0px 30px 0px" })
+        $('#main').removeClass("slide doc").addClass((esta.type!= "slide")?"doc":"slide")
+        $('.navItem').removeClass("active")
+        $('#'+num).addClass("active")
     }
+    
 
 }

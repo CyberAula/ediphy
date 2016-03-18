@@ -23,10 +23,10 @@ export default class PluginRibbon extends Component {
 
     render() {
         let none;
-        if(this.props.category == 'temp') {
+        if(this.props.category == 'temp' || this.props.category == 'all' ) {
 
-            none= (<div>
-                  <Button className="rib" bsSize="large" onClick={e => {
+            none= (<span>
+                  <Button disabled={this.props.disabled} className="rib" bsSize="large" onClick={e => {
                     this.props.onVisibilityToggled(this.props.navItemSelected, false, 0);
                  if(this.props.fromSortable){
                
@@ -42,22 +42,23 @@ export default class PluginRibbon extends Component {
                  this.setState({show: false});
                   this.props.onVisibilityToggled(0, false, 0);
              }}><i className="fa fa-cubes fa-1"></i><br/> Add simple box</Button>
-             <Button className="rib" bsSize="large" disabled={(this.props.fromSortable) ? true : false} onClick={e => {
+             <Button disabled={this.props.disabled}  className="rib" bsSize="large" disabled={(this.props.fromSortable) ? true : false} onClick={e => {
                     this.props.onVisibilityToggled(0, false, 0);
                  this.props.onBoxAdded({parent: this.props.navItemSelected, container: 0, id: ID_PREFIX_SORTABLE_BOX + Date.now()}, BOX_TYPES.SORTABLE, false, false);
                  this.setState({show: true})
                   // this.props.onVisibilityToggled(this.props.navItemSelected, false, 0);
              }}><i className="fa fa-align-justify fa-1"></i><br/> Add sortable</Button>
 
-            </div>);
+            </span>);
 
         }
 
         return (
-            <Col id="ribbon" md={12} xs={12}    style={{height: (this.props.hideTab=='hide' || this.props.category=='none' )? '0px':'60px', display: (this.props.hideTab=='hide' || this.props.category=='none' )? 'none':'block'}} onHide={e => {
+            <Col id="ribbon" md={10} xs={10}  xsOffset={2} mdOffset={2}  className="sinmargen col-md-push-2 col-xs-push-2" style={{height: (this.props.hideTab=='hide' || this.props.category=='none' )? '0px':'60px', overflowX: 'auto' ,  overflowY: 'hidden',  display: (this.props.hideTab=='hide' || this.props.category=='none' )? 'none':'block'}} onHide={e => {
                     this.setState({show: false});
-            ;}} ><div className="row"> 
-            <Col  md={10} xs={10} mdOffset={2} xsOffset={2}>
+            ;}} >
+            <div style={{margin:'0'}} className="row"> 
+            <div style={{ whiteSpace: 'nowrap', marginLeft: '30px'}}>
             
                 {none}
 
@@ -65,10 +66,10 @@ export default class PluginRibbon extends Component {
                 
                     if(this.state.buttons[index].category === this.props.category || this.props.category == 'all'){
                         var clase = "fa "+ this.state.buttons[index].icon + " fa-1"
-                        return (<Button className="rib"  key={index} bsSize="large" onClick={this.buttonCallback.bind(this, index)}> <i className={clase}></i><br/> {this.state.buttons[index].name}</Button>);
+                        return (<Button className="rib" disabled={this.props.disabled}  key={index} bsSize="large" onClick={this.buttonCallback.bind(this, index)}> <i className={clase}></i><br/> {this.state.buttons[index].name}</Button>);
                     } 
                 })}
-                </Col>
+                </div>
             </div>
           </Col>);
     }

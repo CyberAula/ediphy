@@ -21,40 +21,20 @@
 </head>
 <body  style="margin: 0px; height: 100%">
 <div id="editor"></div>
-<div id="root" style="height: 100%"></div>
+
+    <div class="container-fluid"  style="height:100%;">
+                  <div class="row"  style="height:100%;">
+                      <div class="col-xs-12 col-lg-2" id="indice" style="background-color:#eee; height:100%;"></div>
+                      
+                      <div class="col-xs-12 col-lg-10" id="main" style="background-color:#777; height:100%;"></div>
+                  </div>
+              </div>          
+              <div id="root" style="height: 100%">
+</div>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 <script src="bundle.js"></script>
-<script type="text/javascript">
 
-$(document).ready(function(){
 
-   })
-   /* $(document).ready(function(){
-        try {
-            if(window != window.parent){
-                //Iframe case
-
-                if (typeof window.parent.CODEditor.Viewer === "boolean"){
-                    CODEditor.Viewer = window.parent.CODEditor.Viewer;
-                }
-                if (typeof window.parent.CODEditor.File === "object"){
-                    CODEditor.File= window.parent.CODEditor.File;
-                }
-
-                if (typeof window.parent.CODEditor.CORE.getPreview === "function"){
-                    //Preview mode
-                    CODEditor.File = window.parent.CODEditor.CORE.getPreview();
-                    CODEditor.Index = window.parent.CODEditor.CORE.getCurrentExerciseIndex();
-                    CODEditor.Viewer = true;
-                }
-            } 
-        } catch (e){}
-
-        // //Activate Viewer
-        // CODEditor.Viewer = true;
-
-        CODEditor.CORE.init({viewer: CODEditor.Viewer, file: CODEditor.File, index: CODEditor.Index});
-    });*/
-</script>
+<script type="text/javascript"></script>
 </body>
 </html>

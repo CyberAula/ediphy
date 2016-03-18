@@ -1,5 +1,4 @@
 
-
 @import 'variables';
 @import 'components/canvas';
 @import 'components/carrouselList';
@@ -11,7 +10,7 @@
 @import 'components/pluginToolbar';
 @import 'components/visor';
 @import 'components/pills';
-
+  
 *{
 	font-family: 'Source Sans Pro', sans-serif;
 	outline:none !important;
@@ -22,3 +21,6 @@
     background: $navBar;
 }
 
+#app{
+	margin:0;
+}
