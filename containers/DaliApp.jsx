@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {ActionCreators} from 'redux-undo';
 import {Grid, Col, Row, Button, OverlayTrigger, Popover} from 'react-bootstrap';
-import {addNavItem, selectNavItem, expandNavItem, removeNavItem,
+import {addNavItem, selectNavItem, expandNavItem, removeNavItem, reorderNavItem,
     addBox, selectBox, moveBox, resizeBox, updateBox, deleteBox, reorderBox, addSortableContainer,
     togglePluginModal, togglePageModal, toggleTextEditor, toggleTitleMode,
     changeDisplayMode, exportStateAsync, importStateAsync, updateToolbar} from '../actions';
@@ -37,6 +37,7 @@ class DaliApp extends Component{
                                       onNavItemSelected={id => dispatch(selectNavItem(id))}
                                       onNavItemExpanded={(id, value) => dispatch(expandNavItem(id, value))}
                                       onNavItemRemoved={(ids, parent,boxes) => dispatch(removeNavItem(ids, parent, boxes))}
+                                      onNavItemReorded={(ids,parent) => dispatch(reorderNavItem(ids,parent))}
                                       onDisplayModeChanged={mode => dispatch(changeDisplayMode(mode))} />
                     </Col>
 

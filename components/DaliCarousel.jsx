@@ -25,7 +25,8 @@ export default class DaliCarousel extends Component{
                                               onSectionAdded={this.props.onSectionAdded}
                                               onNavItemSelected={this.props.onNavItemSelected}
                                               onNavItemExpanded={this.props.onNavItemExpanded}
-                                              onNavItemRemoved={this.props.onNavItemRemoved} />;
+                                              onNavItemRemoved={this.props.onNavItemRemoved}
+                                               onNavItemReorded={this.props.onNavItemReorded}  />;
         }
         return(
             <div className="wrapperCarousel">

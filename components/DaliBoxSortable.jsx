@@ -54,7 +54,7 @@ export default class DaliBoxSortable extends Component{
         let list = jQuery(this.refs.sortableContainer);
         list.sortable({ handle: '.drag-handle' ,
             stop: (event, ui) => {
-                const reorderedIndexes = list.sortable('toArray', {attribute: 'data-reactid'}) // Obtiene la nueva disposición de los elementos
+                const reorderedIndexes = list.sortable('toArray', {attribute: 'data-reactid'})// Obtiene la nueva disposición de los elementos
                 const indexes = reorderedIndexes.map(el => el.split('$')[2]) //Coge solo la parte que indica el orden
                 list.sortable('cancel') //Evita que se reordenen para que gestione la llamada Redux
                 this.props.onBoxReorder(indexes, this.props.id) // Cambia el estado pasando como parámetro el id del sortable y el nuevo orden de los elementos. Ahora el orden también se puede UNDO y REDO

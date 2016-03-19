@@ -2,7 +2,7 @@ import {combineReducers} from 'redux';
 import undoable, {excludeAction} from 'redux-undo';
 
 import {ADD_BOX, SELECT_BOX, MOVE_BOX, RESIZE_BOX, UPDATE_BOX, DELETE_BOX, REORDER_BOX, ADD_SORTABLE_CONTAINER,
-    ADD_NAV_ITEM, SELECT_NAV_ITEM, EXPAND_NAV_ITEM, REMOVE_NAV_ITEM,
+    ADD_NAV_ITEM, SELECT_NAV_ITEM, EXPAND_NAV_ITEM, REMOVE_NAV_ITEM, REORDER_NAV_ITEM,
     TOGGLE_PLUGIN_MODAL, TOGGLE_PAGE_MODAL, TOGGLE_TEXT_EDITOR, TOGGLE_TITLE_MODE,
     CHANGE_DISPLAY_MODE, SET_BUSY, UPDATE_TOOLBAR, IMPORT_STATE
 } from './actions';
@@ -213,7 +213,6 @@ function boxesById(state = {}, action = {}){
         case REORDER_BOX:
             let oldChildren = state[action.payload.parent].children
             var newChildren = Object.keys(oldChildren).map(i => oldChildren[action.payload.ids[i]])
-
             return Object.assign({}, state, {
                 [action.payload.parent]: Object.assign({}, state[action.payload.parent], {children: newChildren}) });
         case IMPORT_STATE:
@@ -340,6 +339,20 @@ function navItemsIds(state = [], action = {}){
                 newState.splice(newState.indexOf(id), 1);
             });
             return newState;
+
+        //case REORDER_NAV_ITEM:
+        //let newNavOrder = state.slice()
+        /*
+            let neState = state.slice()
+            console.log('neState')
+            console.log(neState)
+            console.log('action')
+            console.log(action.payload.ids)
+            var newNavOrder = Object.keys(neState).map(i => neState[action.payload.ids[i]] );
+            console.log('newNavOrder')
+            console.log(newNavOrder)*/
+            //return newNavOrder;
+            //return newState;
         case IMPORT_STATE:
             return action.payload.present.navItemsIds;
         default:
@@ -371,6 +384,17 @@ function navItemsById(state = {}, action = {}){
             newChildren.splice(newChildren.indexOf(action.payload.ids[0]), 1);
             let wrongNames = Object.assign({}, newState, {[action.payload.parent]: Object.assign({}, newState[action.payload.parent], {children: newChildren})});
             return recalculateNames(wrongNames, oldOne,1, action.payload.ids.length)
+        //Tocar aqui
+        case REORDER_NAV_ITEM:
+            //console.log(action.payload.ids);
+            let oldChilds = state[0].children;
+            //console.log(oldChilds)
+            var newNavOrder = Object.keys(oldChilds).map(i => oldChilds[action.payload.ids[i]]);
+            //console.log(newNavOrder);
+        var newSt = Object.assign({}, state, {
+               [action.payload.parent]: Object.assign({}, state[action.payload.parent], {children: newNavOrder})
+            });
+            return newSt
         case ADD_BOX:
             if(action.payload.ids.parent.indexOf(ID_PREFIX_PAGE) !== -1 || action.payload.ids.parent.indexOf(ID_PREFIX_SECTION) !== -1)
                 return Object.assign({}, state, {

@@ -13,6 +13,7 @@ export const ADD_NAV_ITEM = 'ADD_NAV_ITEM';
 export const SELECT_NAV_ITEM = 'SELECT_NAV_ITEM';
 export const EXPAND_NAV_ITEM = 'EXPAND_NAV_ITEM';
 export const REMOVE_NAV_ITEM = 'REMOVE_NAV_ITEM';
+export const REORDER_NAV_ITEM = 'REORDER_NAV_ITEM';
 
 export const TOGGLE_PLUGIN_MODAL = 'TOGGLE_PLUGIN_MODAL';
 export const TOGGLE_PAGE_MODAL = 'TOGGLE_PAGE_MODAL';
@@ -41,6 +42,9 @@ export function removeNavItem(ids, parent, boxes){
     return {type: REMOVE_NAV_ITEM, payload: {ids, parent, boxes}};
 }
 
+export function reorderNavItem(ids, parent){
+    return {type: REORDER_NAV_ITEM, payload: {ids, parent}};
+}
 export function addBox(ids, type, draggable, resizable, content, toolbar, config, state){
     return {type: ADD_BOX, payload: {ids, type,  draggable, resizable, content, toolbar, config, state}};
 }

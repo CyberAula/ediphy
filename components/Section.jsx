@@ -8,7 +8,7 @@ export default class Section extends Component {
 
          let classSelected = this.props.navItemSelected === navItem.id ? 'selected' : 'notSelected';
         return (
-            <div  onClick={e => {
+            <div  className="drag-handle" onClick={e => {
                 this.props.onNavItemSelected(navItem.id);
                 e.stopPropagation();
             }}>
@@ -16,9 +16,11 @@ export default class Section extends Component {
                 <button   className="expandir" onClick={e => {
                     this.props.onNavItemExpanded(navItem.id, !navItem.isExpanded)
                     e.stopPropagation();
-                }}><i className={navItem.isExpanded ? "fa fa-chevron-down" : "fa fa-chevron-right"}></i></button>
+                }}><i onClick={e => {
+                    this.props.onNavItemExpanded(navItem.id, !navItem.isExpanded)
+                    e.stopPropagation();}} className={navItem.isExpanded ? "fa fa-chevron-down" : "fa fa-chevron-right"}></i></button>
 
-                <h3 className={classSelected}style={{ display: 'inline'}}>{navItem.name}</h3>
+                <h3 className={classSelected}style={{ display: 'inline'}}><span className="fa fa-bars drag-handle"></span>{navItem.name}</h3>
             </div>
             <div style={{display: (navItem.isExpanded ? 'block' : 'none'), borderLeft: '1px dotted black'}}>
                 <div style={{marginLeft: 20}}>

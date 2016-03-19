@@ -33,7 +33,7 @@ export default class CarrouselList extends Component{
                                     e.stopPropagation();
                                 }}><i className="fa fa-file-o"></i></Button>
                 </ButtonGroup>
-                <div  className="carList">
+                <div  ref="sortableList" className="carList">
                     {
                     this.props.navItems[0].children.map((id, index) => {
                         if(id.indexOf(ID_PREFIX_SECTION) !== -1){
@@ -47,18 +47,16 @@ export default class CarrouselList extends Component{
                                             onNavItemSelected={this.props.onNavItemSelected}
                                             onNavItemExpanded={this.props.onNavItemExpanded} />;
                         }else if(id.indexOf(ID_PREFIX_PAGE) !== -1){
-                            let classSelected = this.props.navItemSelected === id ? 'selected' : 'notSelected';
+                            let classSelected = this.props.navItemSelected === id ? 'selected drag-handle' : 'notSelected drag-handle';
                             return <h4 key={index}
                                         className={classSelected}
                                          onClick={e => {
                                                     this.props.onNavItemSelected(id);
                                                     e.stopPropagation();
-                                               }}>{this.props.navItems[id].name}</h4>;
+                                               }}><span className="fa fa-bars drag-handle"></span>{this.props.navItems[id].name}</h4>
+                                            
                         }
                     })}
-                    <ButtonGroup>
-
-                    </ButtonGroup>
                 </div>
             </div>
         )
@@ -115,4 +113,21 @@ export default class CarrouselList extends Component{
          return boxesids;
        
     }
+
+       componentDidMount(){
+        let list = jQuery(this.refs.sortableList);
+        list.sortable({ handle: '.drag-handle' ,
+            stop: (event, ui) => {
+                const reorderedIndexes = list.sortable('toArray', {attribute: 'data-reactid'}) // Obtiene la nueva disposición de los elementos
+                const indexes = reorderedIndexes.map(el => el.split('$')[1]) //Coge solo la parte que indica el orden
+                list.sortable('cancel') //Evita que se reordenen para que gestione la llamada Redux
+                //console.log(this.props.navItems)
+                //console.log(reorderedIndexes)
+                //console.log(indexes)
+                //console.log("items")
+                this.props.onNavItemReorded(indexes, this.props.navItems[this.props.navItemSelected].parent) // Cambia el estado pasando como parámetro el id del sortable y el nuevo orden de los elementos. Ahora el orden también se puede UNDO y REDO
+        }});
+
+
+}
 }
