@@ -8,7 +8,7 @@ export default class Section extends Component {
 
          let classSelected = this.props.navItemSelected === navItem.id ? 'selected' : 'notSelected';
         return (
-            <div  className="drag-handle" onClick={e => {
+            <div  className="drag-handle" onMouseDown={e => {
                 this.props.onNavItemSelected(navItem.id);
                 e.stopPropagation();
             }}>
@@ -20,7 +20,7 @@ export default class Section extends Component {
                     this.props.onNavItemExpanded(navItem.id, !navItem.isExpanded)
                     e.stopPropagation();}} className={navItem.isExpanded ? "fa fa-chevron-down" : "fa fa-chevron-right"}></i></button>
 
-                <h3 className={classSelected}style={{ display: 'inline'}}><span className="fa fa-bars drag-handle"></span>{navItem.name}</h3>
+                <h3 className={classSelected} style={{ display: 'inline'}}><span className="fa fa-bars drag-handle"></span>{navItem.name}</h3>
             </div>
             <div style={{display: (navItem.isExpanded ? 'block' : 'none'), borderLeft: '1px dotted black'}}>
                 
@@ -44,7 +44,7 @@ export default class Section extends Component {
                                     let classSelected = this.props.navItemSelected === id ? 'selected dragS' : 'notSelected dragS';
                                     
                                     let color = this.props.navItemSelected === id ? '#f87060' : '#555';
-                                    return <h4 key={index} className={classSelected} onClick={e => {
+                                    return <h4 key={index} className={classSelected} onMouseDown={e => {
                                         this.props.onNavItemSelected(id);
                                         e.stopPropagation();
                                     }}><span className="fa fa-bars drag-handle dragS"></span>{this.props.navItems[id].name}</h4>;
@@ -104,11 +104,19 @@ export default class Section extends Component {
 
     componentDidMount(){
         let list = jQuery(this.refs.sortableListS);
-        list.sortable({ handle: '.dragS' , connectWith: 'connectedSortables',
-            stop: (event, ui) => {
-           //console.log("drag-handle")
+
+console.log(list);
+        list.sortable({ 
+            //handle: '.dragS',
+            connectWith: 'connectedSortables',
+            update: (event, ui) => {
+           //console.log("Section")
+           //console.log(ui);
+           //console.log("Section")
+           //console.log(event);
             const reorderedIndexes = list.sortable('toArray', {attribute: 'data-reactid'}) // Obtiene la nueva disposición de los elementos
-            const indexes = reorderedIndexes.map(el => el.split('$')[2]) //Coge solo la parte que indica el orden
+            const indexes = reorderedIndexes.map(el => el.split('$').pop() )
+                //el.split('$')[2]) //Coge solo la parte que indica el orden
             //list.sortable('cancel') //Evita que se reordenen para que gestione la llamada Redux
             //console.log(this.props.navItems)
             //console.log(reorderedIndexes)

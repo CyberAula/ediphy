@@ -51,7 +51,7 @@ export default class CarrouselList extends Component{
                             let classSelected = this.props.navItemSelected === id ? 'selected drag-handle' : 'notSelected drag-handle';
                             return <h4 key={index}
                                         className={classSelected}
-                                         onClick={e => {
+                                         onMouseDown={e => {
                                                     this.props.onNavItemSelected(id);
                                                     e.stopPropagation();
                                                }}><span className="fa fa-bars drag-handle"></span>{this.props.navItems[id].name}</h4>
@@ -117,7 +117,10 @@ export default class CarrouselList extends Component{
 
     componentDidMount(){
         let list = jQuery(this.refs.sortableList);
-        list.sortable({ handle: '.drag-handle' , connectWith: 'connectedSortables',
+        //console.log(list);
+        list.sortable({ 
+           // handle: '.drag-handle' ,
+             connectWith: 'connectedSortables',
             stop: (event, ui) => {
                 const reorderedIndexes = list.sortable('toArray', {attribute: 'data-reactid'}) // Obtiene la nueva disposición de los elementos
                 const indexes = reorderedIndexes.map(el => el.split('$')[1]) //Coge solo la parte que indica el orden
