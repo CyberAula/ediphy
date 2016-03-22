@@ -33,7 +33,7 @@ export default class CarrouselList extends Component{
                                     e.stopPropagation();
                                 }}><i className="fa fa-file-o"></i></Button>
                 </ButtonGroup>
-                <div  ref="sortableList" className="carList">
+                <div  ref="sortableList" className="carList connectedSortables">
                     {
                     this.props.navItems[0].children.map((id, index) => {
                         if(id.indexOf(ID_PREFIX_SECTION) !== -1){
@@ -115,9 +115,9 @@ export default class CarrouselList extends Component{
        
     }
 
-      componentDidMount(){
+    componentDidMount(){
         let list = jQuery(this.refs.sortableList);
-        list.sortable({ handle: '.drag-handle' ,
+        list.sortable({ handle: '.drag-handle' , connectWith: 'connectedSortables',
             stop: (event, ui) => {
                 const reorderedIndexes = list.sortable('toArray', {attribute: 'data-reactid'}) // Obtiene la nueva disposición de los elementos
                 const indexes = reorderedIndexes.map(el => el.split('$')[1]) //Coge solo la parte que indica el orden

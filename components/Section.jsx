@@ -25,32 +25,32 @@ export default class Section extends Component {
             <div style={{display: (navItem.isExpanded ? 'block' : 'none'), borderLeft: '1px dotted black'}}>
                 
                 <div style={{marginLeft: 20}}>
-                <div ref="sortableListS" className="sectionList">
-                    {
-                        navItem.children.map((id, index) => {
-                            if (id.indexOf(ID_PREFIX_SECTION) !== -1) {
-                                return <Section id={id}
-                                                key={index}
-                                                navItemsIds={this.props.navItemsIds}
-                                                navItems={this.props.navItems}
-                                                navItemSelected={this.props.navItemSelected}
-                                                onPageAdded={this.props.onPageAdded}
-                                                onSectionAdded={this.props.onSectionAdded}
-                                                onNavItemSelected={this.props.onNavItemSelected}
-                                                onNavItemExpanded={this.props.onNavItemExpanded}
-                                                onNavItemReorded={this.props.onNavItemReorded}/>;
-                            } else if (id.indexOf(ID_PREFIX_PAGE) !== -1) {
-                               // let classSelected = this.props.navItemSelected === id ? 'selected' : 'notSelected';
-                                let classSelected = this.props.navItemSelected === id ? 'selected dragS' : 'notSelected dragS';
-                                
-                                let color = this.props.navItemSelected === id ? '#f87060' : '#555';
-                                return <h4 key={index} className={classSelected} onClick={e => {
-                                    this.props.onNavItemSelected(id);
-                                    e.stopPropagation();
-                                }}><span className="fa fa-bars drag-handle dragS"></span>{this.props.navItems[id].name}</h4>;
-                            }
-                        })}
-                </div>
+                    <div ref="sortableListS" className="sectionList connectedSortables">
+                        {
+                            navItem.children.map((id, index) => {
+                                if (id.indexOf(ID_PREFIX_SECTION) !== -1) {
+                                    return <Section id={id}
+                                                    key={index}
+                                                    navItemsIds={this.props.navItemsIds}
+                                                    navItems={this.props.navItems}
+                                                    navItemSelected={this.props.navItemSelected}
+                                                    onPageAdded={this.props.onPageAdded}
+                                                    onSectionAdded={this.props.onSectionAdded}
+                                                    onNavItemSelected={this.props.onNavItemSelected}
+                                                    onNavItemExpanded={this.props.onNavItemExpanded}
+                                                    onNavItemReorded={this.props.onNavItemReorded}/>;
+                                } else if (id.indexOf(ID_PREFIX_PAGE) !== -1) {
+                                   // let classSelected = this.props.navItemSelected === id ? 'selected' : 'notSelected';
+                                    let classSelected = this.props.navItemSelected === id ? 'selected dragS' : 'notSelected dragS';
+                                    
+                                    let color = this.props.navItemSelected === id ? '#f87060' : '#555';
+                                    return <h4 key={index} className={classSelected} onClick={e => {
+                                        this.props.onNavItemSelected(id);
+                                        e.stopPropagation();
+                                    }}><span className="fa fa-bars drag-handle dragS"></span>{this.props.navItems[id].name}</h4>;
+                                }
+                            })}
+                     </div>
                   </div>
                 <div style={{marginTop: 10, marginLeft: 20}}>
 
@@ -102,20 +102,20 @@ export default class Section extends Component {
 
     }
 
-           componentDidMount(){
+    componentDidMount(){
         let list = jQuery(this.refs.sortableListS);
-        list.sortable({ handle: '.dragS' ,
+        list.sortable({ handle: '.dragS' , connectWith: 'connectedSortables',
             stop: (event, ui) => {
-                //console.log("drag-handle")
-                const reorderedIndexes = list.sortable('toArray', {attribute: 'data-reactid'}) // Obtiene la nueva disposición de los elementos
-                const indexes = reorderedIndexes.map(el => el.split('$')[2]) //Coge solo la parte que indica el orden
-                //list.sortable('cancel') //Evita que se reordenen para que gestione la llamada Redux
-                //console.log(this.props.navItems)
-                //console.log(reorderedIndexes)
-                //console.log(indexes)
-                //console.log("items")
-                //console.log(this.props.navItems[this.props.navItemSelected].parent)
-                this.props.onNavItemReorded(indexes, this.props.navItems[this.props.navItemSelected].parent) // Cambia el estado pasando como parámetro el id del sortable y el nuevo orden de los elementos. Ahora el orden también se puede UNDO y REDO
+           //console.log("drag-handle")
+            const reorderedIndexes = list.sortable('toArray', {attribute: 'data-reactid'}) // Obtiene la nueva disposición de los elementos
+            const indexes = reorderedIndexes.map(el => el.split('$')[2]) //Coge solo la parte que indica el orden
+            //list.sortable('cancel') //Evita que se reordenen para que gestione la llamada Redux
+            //console.log(this.props.navItems)
+            //console.log(reorderedIndexes)
+            //console.log(indexes)
+            //console.log("items")
+            //console.log(this.props.navItems[this.props.navItemSelected].parent)
+            this.props.onNavItemReorded(indexes, this.props.navItems[this.props.navItemSelected].parent) // Cambia el estado pasando como parámetro el id del sortable y el nuevo orden de los elementos. Ahora el orden también se puede UNDO y REDO
         }});
 
 
