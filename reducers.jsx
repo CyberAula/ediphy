@@ -386,14 +386,23 @@ function navItemsById(state = {}, action = {}){
             return recalculateNames(wrongNames, oldOne,1, action.payload.ids.length)
         //Tocar aqui
         case REORDER_NAV_ITEM:
-            //console.log(action.payload.ids);
-            let oldChilds = state[0].children;
+            console.log(action.payload.parent);
+            let oldChilds = state[action.payload.parent].children;
             //console.log(oldChilds)
             var newNavOrder = Object.keys(oldChilds).map(i => oldChilds[action.payload.ids[i]]);
             //console.log(newNavOrder);
-        var newSt = Object.assign({}, state, {
+            var newSt = {}
+            if(action.payload.parent == 0){
+         newSt = Object.assign({}, state, {
                [action.payload.parent]: Object.assign({}, state[action.payload.parent], {children: newNavOrder})
-            });
+            })}else{
+            console.log("sec")
+            console.log(newNavOrder)
+ newSt = Object.assign({}, state, {
+               [action.payload.parent]: Object.assign({}, state[action.payload.parent], {children: newNavOrder})
+            })
+        }
+
             return newSt
         case ADD_BOX:
             if(action.payload.ids.parent.indexOf(ID_PREFIX_PAGE) !== -1 || action.payload.ids.parent.indexOf(ID_PREFIX_SECTION) !== -1)

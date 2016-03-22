@@ -45,7 +45,8 @@ export default class CarrouselList extends Component{
                                             onPageAdded={this.props.onPageAdded}
                                             onSectionAdded={this.props.onSectionAdded}
                                             onNavItemSelected={this.props.onNavItemSelected}
-                                            onNavItemExpanded={this.props.onNavItemExpanded} />;
+                                            onNavItemExpanded={this.props.onNavItemExpanded} 
+                                            onNavItemReorded={this.props.onNavItemReorded}/>;
                         }else if(id.indexOf(ID_PREFIX_PAGE) !== -1){
                             let classSelected = this.props.navItemSelected === id ? 'selected drag-handle' : 'notSelected drag-handle';
                             return <h4 key={index}
@@ -114,7 +115,7 @@ export default class CarrouselList extends Component{
        
     }
 
-       componentDidMount(){
+      componentDidMount(){
         let list = jQuery(this.refs.sortableList);
         list.sortable({ handle: '.drag-handle' ,
             stop: (event, ui) => {
