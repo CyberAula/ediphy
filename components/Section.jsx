@@ -105,17 +105,27 @@ export default class Section extends Component {
     componentDidMount(){
         let list = jQuery(this.refs.sortableListS);
 
-console.log(list);
+//console.log(list);
         list.sortable({ 
             //handle: '.dragS',
-            connectWith: 'connectedSortables',
+            connectWith: '.connectedSortables',
             update: (event, ui) => {
+                console.log("atra");
+           //console.log(this.refs.sortableListS.attributes[1])
            //console.log("Section")
            //console.log(ui);
            //console.log("Section")
            //console.log(event);
             const reorderedIndexes = list.sortable('toArray', {attribute: 'data-reactid'}) // Obtiene la nueva disposición de los elementos
+            //console.log(reorderedIndexes);
             const indexes = reorderedIndexes.map(el => el.split('$').pop() )
+            /*var indexesA = reorderedIndexes.map(el => el.split('$'))
+
+            indexesA = indexesA[0];
+            indexesA.pop()
+            console.log("del que parte")
+            console.log(indexesA.pop())*/
+            //console.log(event)
                 //el.split('$')[2]) //Coge solo la parte que indica el orden
             //list.sortable('cancel') //Evita que se reordenen para que gestione la llamada Redux
             //console.log(this.props.navItems)
@@ -123,8 +133,16 @@ console.log(list);
             //console.log(indexes)
             //console.log("items")
             //console.log(this.props.navItems[this.props.navItemSelected].parent)
+            
             this.props.onNavItemReorded(indexes, this.props.navItems[this.props.navItemSelected].parent) // Cambia el estado pasando como parámetro el id del sortable y el nuevo orden de los elementos. Ahora el orden también se puede UNDO y REDO
-        }});
+        },
+        receive: function(event, ui) {
+            console.log("receive")
+            //console.log(event)
+            const reorderedIndexes = list.sortable('toArray', {attribute: 'data-reactid'}) 
+            console.log(reorderedIndexes)
+        }
+    });
 
 
 }

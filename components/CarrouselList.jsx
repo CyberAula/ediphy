@@ -120,17 +120,43 @@ export default class CarrouselList extends Component{
         //console.log(list);
         list.sortable({ 
            // handle: '.drag-handle' ,
-             connectWith: 'connectedSortables',
+             connectWith: '.connectedSortables',
             stop: (event, ui) => {
+                //console.log(this)
                 const reorderedIndexes = list.sortable('toArray', {attribute: 'data-reactid'}) // Obtiene la nueva disposición de los elementos
-                const indexes = reorderedIndexes.map(el => el.split('$')[1]) //Coge solo la parte que indica el orden
+                const indexes = reorderedIndexes.map(el => el.split('$').pop()) //Coge solo la parte que indica el orden
                 list.sortable('cancel') //Evita que se reordenen para que gestione la llamada Redux
                 //console.log(this.props.navItems)
+                console.log('EXterior')
                 //console.log(reorderedIndexes)
                 //console.log(indexes)
                 //console.log("items")
-                this.props.onNavItemReorded(indexes, this.props.navItems[this.props.navItemSelected].parent) // Cambia el estado pasando como parámetro el id del sortable y el nuevo orden de los elementos. Ahora el orden también se puede UNDO y REDO
-        }});
+                //console.log('parent')
+                //console.log(this.props.navItemSelected)
+                //console.log(this.props.navItems[this.props.navItemSelected])
+                //console.log(this.props.navItems[this.props.navItemSelected].parent)
+                //console.log('hijos')
+                const childs = this.props.navItems[this.props.navItems[this.props.navItemSelected].parent].children;
+                //console.log(this.props.navItems[this.props.navItems[this.props.navItemSelected].parent].children)
+                //console.log('indexes')
+               // console.log(indexes)
+                
+                /*if(indexes.length !== childs.length ){
+                    console.log('distintos')
+                    console.log(indexes)
+                    console.log(childs)
+                }else{*/
+                    this.props.onNavItemReorded(indexes, this.props.navItems[this.props.navItemSelected].parent) // Cambia el estado pasando como parámetro el id del sortable y el nuevo orden de los elementos. Ahora el orden también se puede UNDO y REDO
+                /*}*/
+        }
+        /*,
+       receive: function(event, ui) {
+            console.log("receive")
+            //console.log(this.props)
+            const reorderedIndexes = list.sortable('toArray', {attribute: 'data-reactid'}) 
+            console.log(reorderedIndexes)
+        }*/
+    });
 
 
 }
