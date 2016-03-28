@@ -1,24 +1,23 @@
 /*..................Cabecera..................*/
 
 
-/* No incluir */
-/*html{ 
+html{ /* No incluir */
 	
-height:100%;
-}*/
-/* No incluir */
-/*body { 
-	font-family: Verdana, Arial, Helvetica, sans-serif;
+/*height:100%;*/
+}
+
+body { /* No incluir */
+	/*font-family: Verdana, Arial, Helvetica, sans-serif;
 	background-color: #EBECE5;
 	margin-top: 0;
 	margin-right: 0.5%;
 	margin-left: 0.5%;
 	width:99%;
-	min-height:99%;
+	min-height:99%;*/
 }
-*/
+
 .boton { /* No incluir */
-	background: linear-gradient(to bottom, #ffec64 5%, #f47920 100%) repeat scroll 0 0 #ffec64;
+/*	background: linear-gradient(to bottom, #ffec64 5%, #f47920 100%) repeat scroll 0 0 #ffec64;
     border: 1px solid #ffaa22;
     border-radius: 6px;
     box-shadow: 0 1px 0 0 #fff6af;
@@ -30,19 +29,19 @@ height:100%;
     font-weight: bold;
     padding: 6px 24px;
     text-decoration: none;
-    text-shadow: 0 1px 0 #ffee66;	
+    text-shadow: 0 1px 0 #ffee66;	*/
 	
 }
 
 #error{	/* No incluir */
-	background-color:#900;
+	/*background-color:#900;
 	color:#fff;
 	display:block;
 	position:fixed;
 	top:0;
 	left:0;
 	padding:1%;
-	width:98%;
+	width:98%;*/
 }
 
 .enlaceWeb{ /* INCLUIR - Se aplica a enlaces de texto */

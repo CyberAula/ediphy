@@ -20,8 +20,7 @@ var DaliVisor = {
               var navs = state.present.navItemsById;
               
               state.present.navItemsIds.map(page => {
-             
-                     zip.file(navs[page].name+".html", dataToDownload);
+                zip.file(navs[page].name+".html", dataToDownload);
              
 
               });
@@ -48,6 +47,7 @@ var DaliVisor = {
             +'<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">'
             +'<link rel="stylesheet" href="css/style.css">'
             +'<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet" type="text/css">'
+            +'<link rel="stylesheet" href="css/textStyles.css">'
             +'<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>'
             +'<script src="lib/jquery-ui.min.js"></script>'
             +'<script src="lib/jquery.ui.touch-punch.min.js"></script>'
@@ -67,7 +67,12 @@ var DaliVisor = {
             +'<script type="text/javascript">'
             +''
             +'$(document).ready(function(){'
-            +'   })' 
+            +' Dali.Plugins.loadAllAsync().then(values => {'
+            +' values.map((id, index) =>{'
+            +'    Dali.Plugins.get(id).init();'
+            +'  })'
+            +'});'
+            +'})' 
             +'</script>'
             +'</body>'
             +'</html>'
