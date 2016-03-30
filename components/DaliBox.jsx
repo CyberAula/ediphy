@@ -6,13 +6,6 @@ import PluginPlaceholder from '../components/PluginPlaceholder';
 import {BOX_TYPES, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_SORTABLE_CONTAINER} from '../constants';
 
 export default class DaliBox extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            pluginContainers: []
-        };
-    }
-
     render() {
         let borderSize = 2;
         let cornerSize = 15;
@@ -102,7 +95,7 @@ export default class DaliBox extends Component {
                             height: box.height,
                             touchAction: 'none',
                             msTouchAction: 'none',
-                            cursor: vis? 'inherit':'default' //esto evita que aparezcan los cursores de move y resize cuando la caja no está seleccionada
+                            cursor: vis ? 'inherit':'default' //esto evita que aparezcan los cursores de move y resize cuando la caja no está seleccionada
                         }}>
             {border}
             {content}
@@ -116,7 +109,7 @@ export default class DaliBox extends Component {
     }
 
     shouldComponentUpdate(nextProps, nextState){
-        console.log({actualId: this.props.id, actualSelected: this.props.boxSelected, nextId: nextProps.id, nextSelected: nextProps.boxSelected})
+        //console.log({actualId: this.props.id, actualSelected: this.props.boxSelected, nextId: nextProps.id, nextSelected: nextProps.boxSelected})
         if(nextProps.boxes[nextProps.id] !== this.props.boxes[this.props.id] ||
             nextProps.toolbars[nextProps.id] !== this.props.toolbars[this.props.id] ||
             (this.props.boxSelected == this.props.id && nextProps.boxSelected !== this.props.id) ||
@@ -223,10 +216,12 @@ export default class DaliBox extends Component {
                         target.style.left = (parseInt(target.style.left) || 0) + event.dx + 'px';
                         target.style.top = (parseInt(target.style.top) || 0) + event.dy + 'px';
                         if(event.restrict && event.restrict.dy < 0) {
+                            console.log(target.style.top + "; dy: " + event.restrict.dy);
                             target.style.top = (parseInt(target.style.top) || 0) - event.restrict.dy + 'px';
                         }
-
-
+                        if(event.restrict && event.restrict.dx < 0) {
+                            target.style.left = (parseInt(target.style.left) || 0) - event.restrict.dx + 'px';
+                        }
                     },
                     onend: (event) => {
                         if (this.props.boxSelected !== this.props.id) {

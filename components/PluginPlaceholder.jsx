@@ -8,9 +8,11 @@ export default class PluginPlaceholder extends Component {
         let container = this.props.parentBox.sortableContainers[this.props.pluginContainer];
         let contentFull = (
             <div style={{
-                        width: '100%',
+                        width: (container) ? container.width: 0,
                         height: (container) ? container.height : 0,
-                        position: 'relative'}}>
+                        position: 'relative',
+                        backgroundColor: "#ddd",
+                        opacity: 0.3}}>
                 {container ? container.children.map((idBox, index) => {
                     return (<DaliBox id={idBox}
                                      key={index}

@@ -72,24 +72,28 @@ function sortableContainerCreator(state = {}, action = {}, boxes = []){
             return Object.assign({}, state, {
                 [action.payload.ids.container]: (state[action.payload.ids.container] ? {
                     children: [...state[action.payload.ids.container].children, action.payload.ids.id],
-                    height: calculateNewSortableContainerHeight(state[action.payload.ids.container].height, boxes)
+                    height: calculateNewSortableContainerHeight(state[action.payload.ids.container].height, boxes),
+                    width: calculateNewSortableContainerWidth(state[action.payload.ids.container].width, boxes)
                 } : {
                     children: [action.payload.ids.id],
-                    height: calculateNewSortableContainerHeight(0, boxes)
+                    height: calculateNewSortableContainerHeight(0, boxes),
+                    width: calculateNewSortableContainerWidth(0, boxes)
                 })
             });
         case MOVE_BOX:
             container = boxes[action.payload.id].container;
             return Object.assign({}, state, {
                 [container]: Object.assign({}, state[container], {
-                    height: calculateNewSortableContainerHeight(state[container].height, boxes, action, state[container].children)
+                    height: calculateNewSortableContainerHeight(state[container].height, boxes, action, state[container].children),
+                    width: calculateNewSortableContainerWidth(state[container].width, boxes, action, state[container].children)
                 })
             });
         case RESIZE_BOX:
             container = boxes[action.payload.id].container;
             return Object.assign({}, state, {
                 [container]: Object.assign({}, state[container], {
-                    height: calculateNewSortableContainerHeight(state[container].height, boxes, action, state[container].children)
+                    height: calculateNewSortableContainerHeight(state[container].height, boxes, action, state[container].children),
+                    width: calculateNewSortableContainerWidth(state[container].width, boxes, action, state[container].children)
                 })
             });
         case DELETE_BOX:
@@ -103,7 +107,8 @@ function sortableContainerCreator(state = {}, action = {}, boxes = []){
             return Object.assign({}, state, {
                 [container]: Object.assign({}, state[container], {
                     children: newChildren,
-                    height: calculateNewSortableContainerHeight(state[container].height, boxes, action, newChildren)
+                    height: calculateNewSortableContainerHeight(state[container].height, boxes, action, newChildren),
+                    width: calculateNewSortableContainerWidth(state[container].width, boxes, action, newChildren)
                 })
             })
         default:
@@ -135,6 +140,32 @@ function calculateNewSortableContainerHeight(actualHeight, boxes, action, boxesT
         }
     });
     return newHeight;
+}
+
+function calculateNewSortableContainerWidth(actualWidth, boxes, action, boxesToCheck){
+    let newWidth = 0;
+    if(!action){
+        newWidth = boxes[0].position.x + boxes[0].width;
+        return (newWidth > actualWidth) ? newWidth : actualWidth;
+    }
+    boxesToCheck.map(id => {
+        let w;
+        if(id === action.payload.id){
+            if(action.payload.x){
+                w = action.payload.x + boxes[id].width;
+            }else if (action.payload.width){
+                w = boxes[id].position.x + action.payload.width;
+            }else{
+                w = boxes[id].position.x + boxes[id].width;
+            }
+        }else{
+            w = boxes[id].position.x + boxes[id].width;
+        }
+        if(w > newWidth){
+            newWidth = w;
+        }
+    });
+    return newWidth;
 }
 
 function boxesById(state = {}, action = {}){
