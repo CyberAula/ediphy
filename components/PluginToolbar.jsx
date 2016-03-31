@@ -67,24 +67,7 @@ export default class PluginToolbar extends Component {
                 </div>);
     }
 
-    componentDidMount() {/*
-        interact(ReactDOM.findDOMNode(this))
-            .ignoreFrom('input, textarea, a')
-            .draggable({
-
-                restrict: {
-                    restriction: "parent",
-                    endOnly: true,
-                    elementRect: {top: 0, left: 0, bottom: 1, right: 1}
-                },
-                autoScroll: true,
-                onmove: (event) => {
-                    var target = event.target;
-                    event.stopPropagation()
-                    target.style.right = (parseInt(target.style.right) || 0) + (-event.dx) + 'px';
-                    target.style.top = (parseInt(target.style.top) || 0) + event.dy + 'px';
-                }
-            });*/
+    componentDidMount() {
     }
 }
 
