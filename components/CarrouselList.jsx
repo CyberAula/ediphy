@@ -185,34 +185,20 @@ export default class CarrouselList extends Component{
                     var iteratorsLifoStack = [];
                     var flag = 0;
 
-
-console.log("¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿")
                     indexes.forEach(i => {
-                        console.log("indf",i)
                         child = childs[i];
                         newIndexesAux.push(child);
                         
                         childLooper = child;
 
-                        /*if(navItems[childLooper].children.length > 0){
-                            flag = 0;
-                        }*/
-
                         do{
                             childsLoopers = navItems[childLooper].children;
-                            /*childsLoopers.forEach(function( childIn, index, childs){
-
-                            })*/
-                            console.log("childsLoopers", childsLoopers);
+  
                             for ( var k = 0; k < childsLoopers.length; k++){
-                                console.log("nos encontramos en", childsLoopers[k]);
-                                console.log("k",k);
 
                                 if( flag == 2 ){
                                     console.log("llegue con flag2");
                                     k = iteratorsLifoStack.pop();
-
-                                    console.log("newK",k);
                                     flag = 0;
                                         if( k == childsLoopers.length -1){
                                             console.log("estamos en el borde")
@@ -225,24 +211,19 @@ console.log("¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿�
                                                 console.log("flag a 3")
                                             }
                                         }
-                                    //k++;
-                                   
+
                                 }else{
                                     if(navItems[childsLoopers[k]].children.length > 0){
-
-                                        console.log("tienehijos");
                                         concater.push(childsLoopers[k]);
+                                        newIndexesAux.push(childsLoopers[k]);
                                         childAuxOldLooper.push(childLooper);
                                         iteratorsLifoStack.push(k);
                                         childLooper = childsLoopers[k];
                                          k = childsLoopers.length;
-                                        console.log("NewChildLooper", childLooper);
-
                                     }else{
-                                        console.log("no tiene hijos");
                                         concater.push(childsLoopers[k]);
+                                        newIndexesAux.push(childsLoopers[k]);
                                         if(k == childsLoopers.length-1){
-                                            console.log("soy el ultimo hijo");
                                             childLooper = childsLoopers[k];
                                             flag = 1;
                                         }
@@ -251,29 +232,19 @@ console.log("¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿�
                             }
 
                             if(flag == 1){
-                                console.log("estamos en flag 1")
-                                console.log(childAuxOldLooper);
-                                console.log("olCLopper", childLooper)
                                 if(childAuxOldLooper.length > 0){
                                    childLooper = childAuxOldLooper.pop();
                                 }
-                                console.log("neCLopper", childLooper)
                                 flag = 2;
                             }
 
                         }while(navItems[childLooper].children.length > 0 && flag != 3)
 
-                        console.log("termina el do while");
-                        //if(navItems[child].children.length > 0 ){
-                           
-                        //}
                     });
-                    newIndexesAux = newIndexesAux.concat(concater);
-console.log("??????????????????????????????????????????????????????????????????")
 
-                               newIndexesAux.forEach(ind => {
-                                    newIndexes.push(this.props.navItemsIds.indexOf(ind));
-                                });
+                    newIndexesAux.forEach(ind => {
+                        newIndexes.push(this.props.navItemsIds.indexOf(ind));
+                    });
 
                                     console.log('distintos')
                                     console.log(indexes)
@@ -282,7 +253,7 @@ console.log("??????????????????????????????????????????????????????????????????"
                                     console.log(newIndexesAux);
                                     console.log(newIndexes);
 
-                                    this.props.onNavItemReorded(indexes, this.props.navItems[this.props.navItemSelected].parent,0,newIndexesAux) // Cambia el estado pasando como parámetro el id del sortable y el nuevo orden de los elementos. Ahora el orden también se puede UNDO y REDO
+                    this.props.onNavItemReorded(indexes, this.props.navItems[this.props.navItemSelected].parent,0,newIndexesAux) // Cambia el estado pasando como parámetro el id del sortable y el nuevo orden de los elementos. Ahora el orden también se puede UNDO y REDO
                   }else{
                     console.log("de exterior a seccion: caso1, no hago nada");
                 }

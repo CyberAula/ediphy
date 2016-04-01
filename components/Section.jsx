@@ -190,9 +190,24 @@ export default class Section extends Component {
                         }
                     });
                    console.log("%%%%%%%%%%%%%%5")
-                   console.log(newIndexesIds);
-
-                    this.props.onNavItemReorded(indexesR, this.props.navItems[selec].parent,1,newIndexesIds);
+                   console.log("New indices",newIndexesIds);
+                   console.log("idNewPArent", this.props.id);
+                   console.log("elSelectet", this.props.navItemSelected)
+                   console.log("previos", this.props.navItemsIds)
+                   const previos = this.props.navItemsIds;
+                   console.log("index",previos.indexOf(this.props.id));
+                    console.log("indexQuitar",previos.indexOf(this.props.navItemSelected));
+                    var auxPre = previos;
+                    auxPre.splice(auxPre.indexOf(this.props.navItemSelected),1);
+                    console.log("auxPRE",auxPre);
+                    console.log("previos",previos);
+                    var part2 = auxPre.slice(auxPre.indexOf(this.props.id)+newIndexesIds.length);
+                    var part1 = auxPre.slice(0,auxPre.indexOf(this.props.id)+1);
+                    console.log("part2", part2)
+                    console.log("part1", part1)
+                    var newIdsT = part1.concat(newIndexesIds,part2);
+                    console.log(newIdsT);
+                    this.props.onNavItemReorded(indexesR, this.props.navItems[selec].parent,1,newIdsT);
                 }else{
                     console.log("viene de otra seccion: caso2, hago cosas");
                 }

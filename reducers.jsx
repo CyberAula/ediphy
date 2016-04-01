@@ -406,25 +406,29 @@ function navItemsById(state = {}, action = {}){
             //console.log(action.payload.parent);
      
 
+            switch(action.payload.type){
+                case 0:
+                    let oldChilds = state[action.payload.parent].children;
 
-            let oldChilds = state[action.payload.parent].children;
+                    var newNavOrder = Object.keys(oldChilds).map(i => oldChilds[action.payload.ids[i]]);
+                    //console.log(newNavOrder);
+                    var newSt = {}
+                    if(action.payload.parent == 0){
+                        newSt = Object.assign({}, state, {
+                            [action.payload.parent]: Object.assign({}, state[action.payload.parent], {children: newNavOrder})
+                          })
+                      }else{
+                    //console.log("sec")
+                        //console.log(newNavOrder)
+                       newSt = Object.assign({}, state, {
+                        [action.payload.parent]: Object.assign({}, state[action.payload.parent], {children: newNavOrder})
+                    })   
+                   }
 
-            var newNavOrder = Object.keys(oldChilds).map(i => oldChilds[action.payload.ids[i]]);
-            //console.log(newNavOrder);
-            var newSt = {}
-            if(action.payload.parent == 0){
-                newSt = Object.assign({}, state, {
-                    [action.payload.parent]: Object.assign({}, state[action.payload.parent], {children: newNavOrder})
-                  })
-              }else{
-            //console.log("sec")
-                //console.log(newNavOrder)
-               newSt = Object.assign({}, state, {
-                [action.payload.parent]: Object.assign({}, state[action.payload.parent], {children: newNavOrder})
-            })   
-           }
-
-            return newSt
+                    return newSt
+                default:
+                    return state
+            }
 
         case ADD_BOX:
             if(action.payload.ids.parent.indexOf(ID_PREFIX_PAGE) !== -1 || action.payload.ids.parent.indexOf(ID_PREFIX_SECTION) !== -1)
