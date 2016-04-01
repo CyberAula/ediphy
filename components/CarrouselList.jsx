@@ -160,29 +160,49 @@ export default class CarrouselList extends Component{
                 });
 */
                 var child = "";
-                indexes.forEach(i => {
-                    child = childs[i];
-                    newIndexesAux.push(child);
-                    if(navItems[child].children.length > 0 ){
-                        newIndexesAux = newIndexesAux.concat(navItems[child].children);
-                    }
-                });
+                console.log("childs",childs);
 
-               newIndexesAux.forEach(ind => {
-                    newIndexes.push(this.props.navItemsIds.indexOf(ind));
-                });
+                   var newChilds = [];
 
-                    console.log('distintos')
-                    console.log(indexes)
-                    console.log(childs)
-                    console.log("********");
-                    console.log(newIndexesAux);
-                    console.log(newIndexes);
-                    //if(indexOf)
-                    /*Quiza hay que ver si el eelemnto seleccionado sige estando y si no esta saltar*/
-                    this.props.onNavItemReorded(indexes, this.props.navItems[this.props.navItemSelected].parent,0,newIndexesAux) // Cambia el estado pasando como parámetro el id del sortable y el nuevo orden de los elementos. Ahora el orden también se puede UNDO y REDO
-        }
-        ,
+                console.log(indexes);
+                indexes.forEach(index => {
+                    
+                    newChilds.push(childs[index]);
+
+                });
+                console.log("newChilds", newChilds)
+
+             
+
+
+                if( newChilds.indexOf(this.props.navItemSelected) > 0){
+                    console.log("de exterior a exterior: caso0, hace cosas");
+                       indexes.forEach(i => {
+                                        console.log("indf",i)
+                                        child = childs[i];
+                                        newIndexesAux.push(child);
+                                        if(navItems[child].children.length > 0 ){
+                                            newIndexesAux = newIndexesAux.concat(navItems[child].children);
+                                        }
+                                    });
+
+                               newIndexesAux.forEach(ind => {
+                                    newIndexes.push(this.props.navItemsIds.indexOf(ind));
+                                });
+
+                                    console.log('distintos')
+                                    console.log(indexes)
+                                    console.log(childs)
+                                    console.log("********");
+                                    console.log(newIndexesAux);
+                                    console.log(newIndexes);
+                                    //if(indexOf)
+                                    /*Quiza hay que ver si el eelemnto seleccionado sige estando y si no esta saltar*/
+                                    this.props.onNavItemReorded(indexes, this.props.navItems[this.props.navItemSelected].parent,0,newIndexesAux) // Cambia el estado pasando como parámetro el id del sortable y el nuevo orden de los elementos. Ahora el orden también se puede UNDO y REDO
+                  }else{
+                    console.log("de exterior a seccion: caso1, no hago nada");
+                }
+       } ,
        receive: function(event, ui) {
              list.sortable('cancel')
             console.log("receive CL, Vienen de una sección hasta el exterior")

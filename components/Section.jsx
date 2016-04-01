@@ -111,13 +111,34 @@ export default class Section extends Component {
             connectWith: '.connectedSortables',
             stop: (event, ui) => {
                 console.log("mueve desde Seccion");
+
+                const reorderedIndexes = list.sortable('toArray', {attribute: 'data-reactid'}) // Obtiene la nueva disposición de los elementos
+                const indexes = reorderedIndexes.map(el => el.split('$').pop() )
+                console.log(indexes);
+
+                var oldChilds = this.props.navItems[this.props.id].children;
+                var newChilds = [];
+
+                indexes.forEach(index => {
+                    newChilds.push(oldChilds[indexes]);
+
+                });
+                console.log(oldChilds);
+                console.log(newChilds);
+
+                if( newChilds.indexOf(this.props.navItemSelected) > 0){
+                    console.log("indexOF",newChilds.indexOf(this.props.navItemSelected) )
+                    console.log("id", this.props.id);
+                    console.log("parent", this.props.navItems[this.props.navItemSelected].parent);
+                    console.log("selec", this.props.navItemSelected)
+                    
+                    console.log("desde una seccion a si misma: caso 3; hace cosas");
       
-            const reorderedIndexes = list.sortable('toArray', {attribute: 'data-reactid'}) // Obtiene la nueva disposición de los elementos
-    
-            const indexes = reorderedIndexes.map(el => el.split('$').pop() )
-            
-            this.props.onNavItemReorded(indexes, this.props.navItems[this.props.navItemSelected].parent,0,1) // Cambia el estado pasando como parámetro el id del sortable y el nuevo orden de los elementos. Ahora el orden también se puede UNDO y REDO
-        },
+                    this.props.onNavItemReorded(indexes, this.props.navItems[this.props.navItemSelected].parent,3,1) // Cambia el estado pasando como parámetro el id del sortable y el nuevo orden de los elementos. Ahora el orden también se puede UNDO y REDO
+                  }else{
+                    console.log("desde SecA a SecB: caso 2; desde sec a exterior: caso 4; por lo que no hace nada");
+                }       
+        }.bind(this),
         receive: function(event, ui) {
              list.sortable('cancel');
              /*console.log(this.props.navItems);
@@ -142,6 +163,7 @@ export default class Section extends Component {
                         ///Y calcularlo en su contexto respecto al padre de todos y meterlo(el calculado segmentado) ahi!!!
                         // de todos meter en el indice del id de este this el array de hijos nuevos calculados elminando el numero de hijos previos.
                         //Inserccion con eliminacion vale splice
+                        //Tmbien debemos ocmprobar si el id tiene un padre que no es 0 e iterar....
 
 
             console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$44");
@@ -151,7 +173,7 @@ export default class Section extends Component {
             if(parent !== id){
                 console.log("viene de fuera o de otra seccion");
                 if(parent == 0){
-                    console.log("viene del exterior");
+                    console.log("viene del exterior: caso1");
                     /*reorderedIndexesR.forEach(i =>   {
                         console.log("tam", i.split('$').length);
                         if(i.split('$').length == 2){
@@ -169,12 +191,13 @@ export default class Section extends Component {
                     });
                    console.log("%%%%%%%%%%%%%%5")
                    console.log(newIndexesIds);
+
                     this.props.onNavItemReorded(indexesR, this.props.navItems[selec].parent,1,newIndexesIds);
                 }else{
-                    console.log("viene de otra seccion");
+                    console.log("viene de otra seccion: caso2");
                 }
             }else{
-                console.log("viene de si misma");
+                console.log("viene de si misma: caso3 no hacemos nada");
             }
             
           event.stopImmediatePropagation();
