@@ -20,7 +20,7 @@ export default class Section extends Component {
                     this.props.onNavItemExpanded(navItem.id, !navItem.isExpanded)
                     e.stopPropagation();}} className={navItem.isExpanded ? "fa fa-chevron-down" : "fa fa-chevron-right"}></i></button>
 
-                <h3 className={classSelected} style={{ display: 'inline'}}><span className="fa fa-bars drag-handle"></span>{navItem.name}</h3>
+                <h3 className={classSelected} style={{ display: 'inline'}}>{navItem.name}</h3>
             </div>
             <div style={{display: (navItem.isExpanded ? 'block' : 'none'), borderLeft: '1px dotted black'}}>
                 
@@ -47,7 +47,7 @@ export default class Section extends Component {
                                     return <h4 key={index} className={classSelected} onMouseDown={e => {
                                         this.props.onNavItemSelected(id);
                                         e.stopPropagation();
-                                    }}><span className="fa fa-bars drag-handle dragS"></span>{this.props.navItems[id].name}</h4>;
+                                    }}>{this.props.navItems[id].name}</h4>;
                                 }
                             })}
                      </div>
@@ -109,40 +109,77 @@ export default class Section extends Component {
         list.sortable({ 
             //handle: '.dragS',
             connectWith: '.connectedSortables',
-            update: (event, ui) => {
-                console.log("atra");
-           //console.log(this.refs.sortableListS.attributes[1])
-           //console.log("Section")
-           //console.log(ui);
-           //console.log("Section")
-           //console.log(event);
+            stop: (event, ui) => {
+                console.log("mueve desde Seccion");
+      
             const reorderedIndexes = list.sortable('toArray', {attribute: 'data-reactid'}) // Obtiene la nueva disposición de los elementos
-            //console.log(reorderedIndexes);
+    
             const indexes = reorderedIndexes.map(el => el.split('$').pop() )
-            /*var indexesA = reorderedIndexes.map(el => el.split('$'))
-
-            indexesA = indexesA[0];
-            indexesA.pop()
-            console.log("del que parte")
-            console.log(indexesA.pop())*/
-            //console.log(event)
-                //el.split('$')[2]) //Coge solo la parte que indica el orden
-            //list.sortable('cancel') //Evita que se reordenen para que gestione la llamada Redux
-            //console.log(this.props.navItems)
-            //console.log(reorderedIndexes)
-            //console.log(indexes)
-            //console.log("items")
-            //console.log(this.props.navItems[this.props.navItemSelected].parent)
             
-            this.props.onNavItemReorded(indexes, this.props.navItems[this.props.navItemSelected].parent) // Cambia el estado pasando como parámetro el id del sortable y el nuevo orden de los elementos. Ahora el orden también se puede UNDO y REDO
+            this.props.onNavItemReorded(indexes, this.props.navItems[this.props.navItemSelected].parent,0,1) // Cambia el estado pasando como parámetro el id del sortable y el nuevo orden de los elementos. Ahora el orden también se puede UNDO y REDO
         },
         receive: function(event, ui) {
-            console.log("receive")
-            //console.log(event)
-            const reorderedIndexes = list.sortable('toArray', {attribute: 'data-reactid'}) 
-            console.log(reorderedIndexes)
-        }
-    });
+             list.sortable('cancel');
+             /*console.log(this.props.navItems);
+            console.log("receive S, llegan a una sección");
+            console.log(this); 
+            console.log("id",this.props.id);
+            console.log( "parent-id",this.props.navItems[this.props.navItemSelected].parent);*/
+
+            const id = this.props.id;
+            const selec = this.props.navItemSelected;
+            const parent = this.props.navItems[this.props.navItemSelected].parent;
+            const reorderedIndexesR = list.sortable('toArray', {attribute: 'data-reactid'}) // Obtiene la nueva disposición de los elementos
+            const indexesR = reorderedIndexesR.map(el => el.split('$').pop() )
+            console.log(reorderedIndexesR);
+            console.log(indexesR);
+
+            console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$44");
+            console.log("id", id);
+            console.log("hijitos", this.props.navItems[id].children);
+
+                        /////Falta hacer un array de childres del seleccionado para concatenarlo!!!
+                        ///Y calcularlo en su contexto respecto al padre de todos y meterlo(el calculado segmentado) ahi!!!
+                        // de todos meter en el indice del id de este this el array de hijos nuevos calculados elminando el numero de hijos previos.
+                        //Inserccion con eliminacion vale splice
+
+
+            console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$44");
+
+            var index = 0;
+            var newIndexesIds = [];
+            if(parent !== id){
+                console.log("viene de fuera o de otra seccion");
+                if(parent == 0){
+                    console.log("viene del exterior");
+                    /*reorderedIndexesR.forEach(i =>   {
+                        console.log("tam", i.split('$').length);
+                        if(i.split('$').length == 2){
+                            console.log("indice",i);
+                            console.log(index);
+                        }
+                    });*/
+                    newIndexesIds = this.props.navItems[id].children;
+                   reorderedIndexesR.forEach(function (el,indx,newIds){
+                        if(el.split('$').length == 2){
+                            index = indx;
+                            newIndexesIds.splice(indx,0,selec);
+                               console.log(newIndexesIds);
+                        }
+                    });
+                   console.log("%%%%%%%%%%%%%%5")
+                   console.log(newIndexesIds);
+                    this.props.onNavItemReorded(indexesR, this.props.navItems[selec].parent,1,newIndexesIds);
+                }else{
+                    console.log("viene de otra seccion");
+                }
+            }else{
+                console.log("viene de si misma");
+            }
+            
+          event.stopImmediatePropagation();
+        }.bind(this)
+    }).bind(this);
 
 
 }

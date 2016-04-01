@@ -54,7 +54,7 @@ export default class CarrouselList extends Component{
                                          onMouseDown={e => {
                                                     this.props.onNavItemSelected(id);
                                                     e.stopPropagation();
-                                               }}><span className="fa fa-bars drag-handle"></span>{this.props.navItems[id].name}</h4>
+                                               }}>{this.props.navItems[id].name}</h4>
                                             
                         }
                     })}
@@ -117,46 +117,85 @@ export default class CarrouselList extends Component{
 
     componentDidMount(){
         let list = jQuery(this.refs.sortableList);
-        //console.log(list);
+        let props = this.props;
         list.sortable({ 
            // handle: '.drag-handle' ,
-             connectWith: '.connectedSortables',
+            connectWith: '.connectedSortables',
             stop: (event, ui) => {
                 //console.log(this)
+                console.log("mueve desde el exterior al exterior");
                 const reorderedIndexes = list.sortable('toArray', {attribute: 'data-reactid'}) // Obtiene la nueva disposición de los elementos
                 const indexes = reorderedIndexes.map(el => el.split('$').pop()) //Coge solo la parte que indica el orden
                 list.sortable('cancel') //Evita que se reordenen para que gestione la llamada Redux
-                //console.log(this.props.navItems)
+               
                 console.log('EXterior')
-                //console.log(reorderedIndexes)
-                //console.log(indexes)
-                //console.log("items")
-                //console.log('parent')
-                //console.log(this.props.navItemSelected)
-                //console.log(this.props.navItems[this.props.navItemSelected])
-                //console.log(this.props.navItems[this.props.navItemSelected].parent)
-                //console.log('hijos')
-                const childs = this.props.navItems[this.props.navItems[this.props.navItemSelected].parent].children;
-                //console.log(this.props.navItems[this.props.navItems[this.props.navItemSelected].parent].children)
-                //console.log('indexes')
-               // console.log(indexes)
-                
-                /*if(indexes.length !== childs.length ){
+
+                const navItems = this.props.navItems;
+                const childs = navItems[this.props.navItems[this.props.navItemSelected].parent].children;
+ 
+                var newIndexesAux = [] ;
+                var newIndexes = [] ;
+
+
+                /*Object.keys(indexes).map(i =>{
+                    console.log(i);
+                     newIndexes.push(childs[i]);
+                     console.log("NE",newIndexes);
+                    if(navItems[childs[i]].children.length > 0 ){
+                        console.log(childs[i], "tiene hijos");
+                        console.log(navItems[childs[i]].children);
+                        newIndexes = newIndexes.concat(navItems[childs[i]].children);
+                    }
+
+                });*/
+
+/*
+                childs.forEach(child => {
+                    newIndexes.push(child);
+                    if(navItems[child].children.length > 0 ){
+                        console.log(child, "tiene hijos");
+                        console.log(navItems[child].children);
+                        newIndexes = newIndexes.concat(navItems[child].children);
+                    }
+                });
+*/
+                var child = "";
+                indexes.forEach(i => {
+                    child = childs[i];
+                    newIndexesAux.push(child);
+                    if(navItems[child].children.length > 0 ){
+                        newIndexesAux = newIndexesAux.concat(navItems[child].children);
+                    }
+                });
+
+               newIndexesAux.forEach(ind => {
+                    newIndexes.push(this.props.navItemsIds.indexOf(ind));
+                });
+
                     console.log('distintos')
                     console.log(indexes)
                     console.log(childs)
-                }else{*/
-                    this.props.onNavItemReorded(indexes, this.props.navItems[this.props.navItemSelected].parent) // Cambia el estado pasando como parámetro el id del sortable y el nuevo orden de los elementos. Ahora el orden también se puede UNDO y REDO
-                /*}*/
+                    console.log("********");
+                    console.log(newIndexesAux);
+                    console.log(newIndexes);
+                    //if(indexOf)
+                    /*Quiza hay que ver si el eelemnto seleccionado sige estando y si no esta saltar*/
+                    this.props.onNavItemReorded(indexes, this.props.navItems[this.props.navItemSelected].parent,0,newIndexesAux) // Cambia el estado pasando como parámetro el id del sortable y el nuevo orden de los elementos. Ahora el orden también se puede UNDO y REDO
         }
-        /*,
+        ,
        receive: function(event, ui) {
-            console.log("receive")
-            //console.log(this.props)
+             list.sortable('cancel')
+            console.log("receive CL, Vienen de una sección hasta el exterior")
+            console.log(this);
+            console.log(this.props.navItemSelected);
+            console.log("parent",this.props.navItems[this.props.navItemSelected].parent);
             const reorderedIndexes = list.sortable('toArray', {attribute: 'data-reactid'}) 
+            console.log(parent)
+            //console.log("PAdre",this.props.navItems[this.props.navItemSelected].parent);
             console.log(reorderedIndexes)
-        }*/
-    });
+            console.log("AAAAAAAAAAAAAAAAAAAAAAAA");
+        }.bind(this)
+    }).bind(this);
 
 
 }

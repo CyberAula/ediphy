@@ -340,18 +340,35 @@ function navItemsIds(state = [], action = {}){
             });
             return newState;
 
-        //case REORDER_NAV_ITEM:
+        case REORDER_NAV_ITEM:
         //let newNavOrder = state.slice()
         /*
             let neState = state.slice()
-            console.log('neState')
-            console.log(neState)
-            console.log('action')
-            console.log(action.payload.ids)
-            var newNavOrder = Object.keys(neState).map(i => neState[action.payload.ids[i]] );
-            console.log('newNavOrder')
-            console.log(newNavOrder)*/
-            //return newNavOrder;
+   
+            console.log("parent",action.payload.parent);
+            if(action.payload.parent !== 0){
+             
+            }
+         
+            var newNavOrder = Object.keys(neState).map(i => neState[action.payload.ids[i]] );*/
+            /*
+            / type: 
+            /   0--> exterior a exterior
+            /   1--> exterior a seccion
+            /   2--> seccionA a seccionB
+            /   3--> seccion a seccion
+            /   4--> seccion a exterior
+            */
+          switch(action.payload.type){
+            case 0:
+                return action.payload.newIndId;
+            case 1:
+            console.log("caso1");
+                return action.payload.newIndId;
+            default:
+             return state;
+          }
+             
             //return newState;
         case IMPORT_STATE:
             return action.payload.present.navItemsIds;
@@ -385,38 +402,30 @@ function navItemsById(state = {}, action = {}){
             let wrongNames = Object.assign({}, newState, {[action.payload.parent]: Object.assign({}, newState[action.payload.parent], {children: newChildren})});
             return recalculateNames(wrongNames, oldOne,1, action.payload.ids.length)
         //Tocar aqui
-        case REORDER_NAV_ITEM:
+       case REORDER_NAV_ITEM:
             //console.log(action.payload.parent);
-            console.log(action.payload.ids);
+     
+
+
             let oldChilds = state[action.payload.parent].children;
-            console.log(oldChilds)
-            
-            if(action.payload.ids.length !== oldChilds.length){
-                console.log("entro o salio cambio de seccion")
-                /*
-                    Buscar item dentro del array con indexOf quiza ayude despues removerlo! o añadirlo
-                    la verdad que estoy un pooc perdido
-                */
-                return state
-            }else{
-                var newNavOrder = Object.keys(oldChilds).map(i => oldChilds[action.payload.ids[i]]);
-                //console.log(newNavOrder);
-                var newSt = {}
-                if(action.payload.parent == 0){
-                    newSt = Object.assign({}, state, {
-                        [action.payload.parent]: Object.assign({}, state[action.payload.parent], {children: newNavOrder})
-                      })
-                  }else{
-                //console.log("sec")
+
+            var newNavOrder = Object.keys(oldChilds).map(i => oldChilds[action.payload.ids[i]]);
+            //console.log(newNavOrder);
+            var newSt = {}
+            if(action.payload.parent == 0){
+                newSt = Object.assign({}, state, {
+                    [action.payload.parent]: Object.assign({}, state[action.payload.parent], {children: newNavOrder})
+                  })
+              }else{
+            //console.log("sec")
                 //console.log(newNavOrder)
-                    newSt = Object.assign({}, state, {
-                        [action.payload.parent]: Object.assign({}, state[action.payload.parent], {children: newNavOrder})
-                    })
-                }
-           
+               newSt = Object.assign({}, state, {
+                [action.payload.parent]: Object.assign({}, state[action.payload.parent], {children: newNavOrder})
+            })   
+           }
 
             return newSt
-        }
+
         case ADD_BOX:
             if(action.payload.ids.parent.indexOf(ID_PREFIX_PAGE) !== -1 || action.payload.ids.parent.indexOf(ID_PREFIX_SECTION) !== -1)
                 return Object.assign({}, state, {
