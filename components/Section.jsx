@@ -173,7 +173,7 @@ export default class Section extends Component {
             if(parent !== id){
                 console.log("viene de fuera o de otra seccion");
                 if(parent == 0){
-                    console.log("viene del exterior: caso1");
+                    console.log("viene del exterior: caso1, hago cosas");
                     /*reorderedIndexesR.forEach(i =>   {
                         console.log("tam", i.split('$').length);
                         if(i.split('$').length == 2){
@@ -194,7 +194,7 @@ export default class Section extends Component {
 
                     this.props.onNavItemReorded(indexesR, this.props.navItems[selec].parent,1,newIndexesIds);
                 }else{
-                    console.log("viene de otra seccion: caso2");
+                    console.log("viene de otra seccion: caso2, hago cosas");
                 }
             }else{
                 console.log("viene de si misma: caso3 no hacemos nada");
