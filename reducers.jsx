@@ -365,6 +365,9 @@ function navItemsIds(state = [], action = {}){
             case 1:
             console.log("caso1");
                 return action.payload.newIndId;
+            case 2:
+            console.log("caso2");
+                return action.payload.newIndId;
             default:
              return state;
           }
@@ -426,6 +429,14 @@ function navItemsById(state = {}, action = {}){
                    }
 
                     return newSt
+                    case 1:
+                    console.log("venimos al caso 1")
+                    return state;
+
+                    case 2:
+                    console.log("venimos al caso 2")
+                    return state;
+
                 default:
                     return state
             }
