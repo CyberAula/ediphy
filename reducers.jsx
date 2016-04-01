@@ -32,12 +32,11 @@ function boxCreator(state = {}, action = {}){
                     width = '100%';
                     break;
                 default:
-                    position = {x: Math.floor(Math.random() * 500), y: Math.floor(Math.random() * 500)}
+                    position = {x: Math.floor(Math.random() * 200), y: Math.floor(Math.random() * 200)}
                     width = 200;
                     height = 200;
                     break;
             }
-            console.log(action);
             if(action.payload.ids.parent.indexOf(ID_PREFIX_SORTABLE_BOX) !== -1){
                 position.x = 0;
                 position.y = 0;
@@ -65,35 +64,35 @@ function boxCreator(state = {}, action = {}){
     }
 }
 
-function sortableContainerCreator(state = {}, action = {}, boxes = []){
+function sortableContainerCreator(state = {}, action = {}, boxes = [], df = {}){
     let container;
     switch (action.type){
         case ADD_BOX:
             return Object.assign({}, state, {
                 [action.payload.ids.container]: (state[action.payload.ids.container] ? {
                     children: [...state[action.payload.ids.container].children, action.payload.ids.id],
-                    height: calculateNewSortableContainerHeight(state[action.payload.ids.container].height, boxes),
-                    width: calculateNewSortableContainerWidth(state[action.payload.ids.container].width, boxes)
+                    height: calculateNewSortableContainerHeight(state[action.payload.ids.container].height, boxes, df),
+                    width: calculateNewSortableContainerWidth(state[action.payload.ids.container].width, boxes, df)
                 } : {
                     children: [action.payload.ids.id],
-                    height: calculateNewSortableContainerHeight(0, boxes),
-                    width: calculateNewSortableContainerWidth(0, boxes)
+                    height: calculateNewSortableContainerHeight(0, boxes, df),
+                    width: calculateNewSortableContainerWidth(0, boxes, df)
                 })
             });
         case MOVE_BOX:
             container = boxes[action.payload.id].container;
             return Object.assign({}, state, {
                 [container]: Object.assign({}, state[container], {
-                    height: calculateNewSortableContainerHeight(state[container].height, boxes, action, state[container].children),
-                    width: calculateNewSortableContainerWidth(state[container].width, boxes, action, state[container].children)
+                    height: calculateNewSortableContainerHeight(state[container].height, boxes, df, action, state[container].children),
+                    width: calculateNewSortableContainerWidth(state[container].width, boxes, df, action, state[container].children)
                 })
             });
         case RESIZE_BOX:
             container = boxes[action.payload.id].container;
             return Object.assign({}, state, {
                 [container]: Object.assign({}, state[container], {
-                    height: calculateNewSortableContainerHeight(state[container].height, boxes, action, state[container].children),
-                    width: calculateNewSortableContainerWidth(state[container].width, boxes, action, state[container].children)
+                    height: calculateNewSortableContainerHeight(state[container].height, boxes, df, action, state[container].children),
+                    width: calculateNewSortableContainerWidth(state[container].width, boxes, df, action, state[container].children)
                 })
             });
         case DELETE_BOX:
@@ -107,8 +106,8 @@ function sortableContainerCreator(state = {}, action = {}, boxes = []){
             return Object.assign({}, state, {
                 [container]: Object.assign({}, state[container], {
                     children: newChildren,
-                    height: calculateNewSortableContainerHeight(state[container].height, boxes, action, newChildren),
-                    width: calculateNewSortableContainerWidth(state[container].width, boxes, action, newChildren)
+                    height: calculateNewSortableContainerHeight(state[container].height, boxes, df, action, newChildren),
+                    width: calculateNewSortableContainerWidth(state[container].width, boxes, df, action, newChildren)
                 })
             })
         default:
@@ -116,11 +115,13 @@ function sortableContainerCreator(state = {}, action = {}, boxes = []){
     }
 }
 
-function calculateNewSortableContainerHeight(actualHeight, boxes, action, boxesToCheck){
+function calculateNewSortableContainerHeight(actualHeight, boxes, df, action, boxesToCheck){
     let newHeight = 0;
     if(!action){
         newHeight = boxes[0].position.y + boxes[0].height;
-        return (newHeight > actualHeight) ? newHeight : actualHeight;
+        let returnValue = (newHeight > actualHeight) ? newHeight : actualHeight;
+        df.dy = (actualHeight === 0) ? returnValue - 50 + 2*5 : returnValue; //Minus PluginPlaceholder height plus DaliBox margin (twice)
+        return returnValue;
     }
     boxesToCheck.map(id => {
         let h;
@@ -139,14 +140,17 @@ function calculateNewSortableContainerHeight(actualHeight, boxes, action, boxesT
             newHeight = h;
         }
     });
+    df.dy = newHeight - actualHeight;
     return newHeight;
 }
 
-function calculateNewSortableContainerWidth(actualWidth, boxes, action, boxesToCheck){
+function calculateNewSortableContainerWidth(actualWidth, boxes, df, action, boxesToCheck){
     let newWidth = 0;
     if(!action){
         newWidth = boxes[0].position.x + boxes[0].width;
-        return (newWidth > actualWidth) ? newWidth : actualWidth;
+        let returnValue = (newWidth > actualWidth) ? newWidth : actualWidth;
+        df.dx = (actualWidth === 0) ? returnValue - 200 + 2*5 : returnValue;  //Minus DaliBox default width plus DaliBox margin (twice)
+        return returnValue;
     }
     boxesToCheck.map(id => {
         let w;
@@ -165,6 +169,7 @@ function calculateNewSortableContainerWidth(actualWidth, boxes, action, boxesToC
             newWidth = w;
         }
     });
+    df.dx = newWidth - actualWidth;
     return newWidth;
 }
 
@@ -177,23 +182,31 @@ function boxesById(state = {}, action = {}){
                     [action.payload.ids.id]: box
                 });
             }
+            let df = {dx: 0, dy: 0};
+            let sortableContainers = sortableContainerCreator(state[action.payload.ids.parent].sortableContainers, action, [box], df)
+
             return Object.assign({}, state, {
                 [action.payload.ids.id]: box,
                 [action.payload.ids.parent]: Object.assign({}, state[action.payload.ids.parent], {
                     children: (state[action.payload.ids.parent].children.indexOf(action.payload.ids.container) !== -1) ?
                         state[action.payload.ids.parent].children :
                         [...state[action.payload.ids.parent].children, action.payload.ids.container],
-                    sortableContainers: sortableContainerCreator(state[action.payload.ids.parent].sortableContainers, action, [box])
+                    sortableContainers: sortableContainers,
+                    width: state[action.payload.ids.parent].width + df.dx,
+                    height: state[action.payload.ids.parent].height + df.dy
                 })
             });
-           // return state;
         case MOVE_BOX:
             if(state[action.payload.id].container){
                 let parent = state[action.payload.id].parent;
+                let df = {dx: 0, dy: 0};
+                let sortableContainers = sortableContainerCreator(state[parent].sortableContainers, action, state, df);
                 return Object.assign({}, state, {
                     [action.payload.id]: Object.assign({}, state[action.payload.id], {position: {x: action.payload.x, y: action.payload.y}}),
                     [parent]: Object.assign({}, state[parent], {
-                        sortableContainers: sortableContainerCreator(state[parent].sortableContainers, action, state)
+                        sortableContainers: sortableContainers,
+                        width: state[parent].width + df.dx,
+                        height: state[parent].height + df.dy
                     })
                 })
             }
@@ -203,10 +216,15 @@ function boxesById(state = {}, action = {}){
         case RESIZE_BOX:
             if(state[action.payload.id].container){
                 let parent = state[action.payload.id].parent;
+                let df = {dx: 0, dy: 0};
+                let sortableContainers = sortableContainerCreator(state[parent].sortableContainers, action, state, df);
+
                 return Object.assign({}, state, {
                     [action.payload.id]: Object.assign({}, state[action.payload.id], {width: action.payload.width, height: action.payload.height}),
                     [parent]: Object.assign({}, state[parent], {
-                        sortableContainers: sortableContainerCreator(state[parent].sortableContainers, action, state)
+                        sortableContainers: sortableContainers,
+                        width: state[parent].width + df.dx,
+                        height: state[parent].height + df.dy
                     })
                 })
             }
@@ -231,7 +249,10 @@ function boxesById(state = {}, action = {}){
             if(state[action.payload.id].container){
                 let parent = state[action.payload.id].parent;
                 let container = state[action.payload.id].container;
-                newState[parent].sortableContainers = sortableContainerCreator(newState[parent].sortableContainers, action, state);
+                let df = {dx: 0, dy: 0};
+                newState[parent].sortableContainers = sortableContainerCreator(newState[parent].sortableContainers, action, state, df);
+                newState[parent].width = newState[parent].width + df.dx;
+                newState[parent].height = newState[parent].height + df.dy;
                 if(!newState[parent].sortableContainers[container]){
                     newState[parent].children = newState[parent].children.filter(id => id !== container);
                 }
