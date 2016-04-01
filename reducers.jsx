@@ -361,12 +361,16 @@ function navItemsIds(state = [], action = {}){
             */
           switch(action.payload.type){
             case 0:
+            console.log("caso0");
                 return action.payload.newIndId;
             case 1:
             console.log("caso1");
                 return action.payload.newIndId;
             case 2:
             console.log("caso2");
+                return action.payload.newIndId;
+            case 3:
+            console.log("caso3");
                 return action.payload.newIndId;
             default:
              return state;
@@ -435,6 +439,9 @@ function navItemsById(state = {}, action = {}){
 
                     case 2:
                     console.log("venimos al caso 2")
+                    return state;
+                     case 3:
+                    console.log("venimos al caso 3")
                     return state;
 
                 default:

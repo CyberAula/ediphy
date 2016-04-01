@@ -120,21 +120,64 @@ export default class Section extends Component {
                 var newChilds = [];
 
                 indexes.forEach(index => {
-                    newChilds.push(oldChilds[indexes]);
+                    newChilds.push(oldChilds[index]);
 
                 });
                 console.log(oldChilds);
                 console.log(newChilds);
+                  console.log("selec", this.props.navItemSelected)
 
                 if( newChilds.indexOf(this.props.navItemSelected) > 0){
                     console.log("indexOF",newChilds.indexOf(this.props.navItemSelected) )
                     console.log("id", this.props.id);
                     console.log("parent", this.props.navItems[this.props.navItemSelected].parent);
                     console.log("selec", this.props.navItemSelected)
-                    
+                    console.log("parentChilds", this.props.navItems[this.props.navItems[this.props.navItemSelected].parent].children);
+                    console.log("indexdelelmento", this.props.navItems[this.props.navItems[this.props.navItemSelected].parent].children.indexOf(this.props.navItemSelected));
+
+                    console.log("navsides", this.props.navItemsIds);
+                    var navItemsIdsAux = this.props.navItemsIds;
+
+                    var parent = this.props.navItems[this.props.navItemSelected].parent;
+                   
+                   /* var uncles = this.props.navItems[this.props.navItems[parent].parent].children;
+                    console.log("uncles",uncles);
+                    var part1 = navItemsIdsAux.slice(0,navItemsIdsAux.indexOf(parent)+1);
+                    var hermanosPadre = this.props.navItems[this.props.navItemSelected]
+                    console.log("parte1", part1);
+                    console.log(uncles.indexOf(parent));
+                    var part2 = navItemsIdsAux.slice(navItemsIdsAux.indexOf(uncles[uncles.indexOf(parent)+1]));
+                    console.log("parte2", part2);
+                    var medio = navItemsIdsAux.slice(navItemsIdsAux.indexOf(parent)+1,navItemsIdsAux.indexOf(uncles[uncles.indexOf(parent)+1]))
+                     console.log("medio", medio);
+                     */
+
+                     console.log("indexofparent", navItemsIdsAux.indexOf(parent));
+                     console.log("nexofchildren", navItemsIdsAux[navItemsIdsAux.indexOf(parent)+newChilds.length+1]);
+                     var newIndexesIds = navItemsIdsAux;
+                    //newIndexesIds.splice(navItemsIdsAux.indexOf(parent)+1,newChilds.length,newChilds);
+                    var part1 = newIndexesIds.slice(0,navItemsIdsAux.indexOf(parent)+1);
+                    console.log("par1", part1);
+                    var part2 = newIndexesIds.slice(navItemsIdsAux.indexOf(parent)+newChilds.length+1);
+                    console.log("part2", part2);
+                    console.log(newIndexesIds);
+                    newIndexesIds = part1.concat(newChilds,part2);
+                    console.log(newIndexesIds);
+                    /*
+
+                    Podria verse que posicion ocupa el padre en los hijos de su padre ver en todos que array tienen hacer un slice con 
+                    parte1--Hata que empieza el padre,
+                    parte2-- desde que empieza el siguiente hermano del padre
+                    medio la parte de en medio que es todo el padre
+
+                    selecionamos x cuyo padre es B
+                    0[AB[xd]C[g]]---->parte1[A], parte2[C[g]], medio B[xd]
+                    ahora solo trabajamos con B[xd] ---Que hay que colocar segun este la nueva posicion y podriamos funcionar de la siguiente manera
+
+                    */
                     console.log("desde una seccion a si misma: caso 3; hace cosas");
       
-                    this.props.onNavItemReorded(indexes, this.props.navItems[this.props.navItemSelected].parent,3,1) // Cambia el estado pasando como parámetro el id del sortable y el nuevo orden de los elementos. Ahora el orden también se puede UNDO y REDO
+                    this.props.onNavItemReorded(indexes, this.props.navItems[this.props.navItemSelected].parent,3,newIndexesIds) // Cambia el estado pasando como parámetro el id del sortable y el nuevo orden de los elementos. Ahora el orden también se puede UNDO y REDO
                   }else{
                     console.log("desde SecA a SecB: caso 2; desde sec a exterior: caso 4; por lo que no hace nada");
                 }       
