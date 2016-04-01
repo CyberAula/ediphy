@@ -7,7 +7,6 @@
   margin: auto; }
   .thumb:hover {
     cursor: pointer; }
-
 * {
   font-family: 'Source Sans Pro', sans-serif;
   outline: none !important; }
@@ -33,7 +32,7 @@ height:100% !important;
   opacity:0.7%;
 }
 
-* {
+#visor * , #truevisor *  {
   pointer-events: all !important;
 }
 #nav{

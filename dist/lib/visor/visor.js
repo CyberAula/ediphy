@@ -5,7 +5,11 @@ var DaliVisor = {
 
     exports: function(state){
         
-
+        var today = new Date();
+        var strDate = 'd-m-Y'
+          .replace('d', today.getDate())
+          .replace('m', today.getMonth()+1)
+          .replace('Y', today.getFullYear());
 
         JSZipUtils.getBinaryContent('/dist.zip', function(err, data) {
          
@@ -14,15 +18,17 @@ var DaliVisor = {
             }
 
             var zip = new JSZip(data);
-  
+            var navs = state.present.navItemsById;
             state.present.navItemsIds.map(page => {
 
                 var inner = new EJS({url: '/lib/visor/index.ejs'}).render({
                  page: page, 
-                 navs:state.present.navItemsById,                
+                 navs: navs,                
                  boxesById: state.present.boxesById, 
                  boxes: state.present.boxes, 
-                 toolbarsById: state.present.toolbarsById});
+                 toolbarsById: state.present.toolbarsById,
+                 strDate: strDate
+                });
 
                 var nombre = navs[page].name;
   
