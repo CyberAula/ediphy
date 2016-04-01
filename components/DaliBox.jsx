@@ -95,7 +95,7 @@ export default class DaliBox extends Component {
                             height: box.height,
                             touchAction: 'none',
                             msTouchAction: 'none',
-                            cursor: vis ? 'inherit':'default' //esto evita que aparezcan los cursores de move y resize cuando la caja no está seleccionada
+                            cursor: vis ? 'inherit': 'default' //esto evita que aparezcan los cursores de move y resize cuando la caja no está seleccionada
                         }}>
             {border}
             {content}
@@ -286,10 +286,10 @@ export default class DaliBox extends Component {
                         if (this.props.boxSelected !== this.props.id) {
                             return;
                         }
-                        let width = Math.floor(parseInt(event.target.style.width) / event.target.parentElement.offsetWidth * 100) + '%';
+                        let width = Math.min(Math.floor(parseInt(event.target.style.width) / event.target.parentElement.offsetWidth * 100), 100) + '%';
                         this.props.onBoxResized(
                             this.props.id,
-                            (box.container !== 0 ? width : parseInt(event.target.style.width)),
+                            box.parent.indexOf(ID_PREFIX_SORTABLE_BOX) !== -1 ? width : parseInt(event.target.style.width),
                             parseInt(event.target.style.height));
                         this.props.onBoxMoved(this.props.id, parseInt(event.target.style.left), parseInt(event.target.style.top));
                         event.stopPropagation();
