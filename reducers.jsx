@@ -399,13 +399,7 @@ function navItemsById(state = {}, action = {}){
 
             if(action.payload.type == 0 || action.payload.type == 3 ){
 
-                    console.log("venimos al caso 0")
-
-                    //Quitamos el item del padre --> en el caso 0 no cambia de padre por lo que no lo eliminamos ok
-                    //cambiamos el padre del hijo --> en el caso 0 el elemento no cambia de padre ok
-                    //metemos los nuevos hijos en el padre --> OK
-                    //Actualizamos el level --> no cambian los levels ok
-                    //ACTUALIZAR POSITIONS------------- OK
+                    console.log("venimos al caso 0,3")
 
 
                     newSt = Object.assign({}, state, {
@@ -420,11 +414,6 @@ function navItemsById(state = {}, action = {}){
                     return newSt;
                  }else if(action.payload.type == 1 || action.payload.type == 2 || action.payload.type == 4 ){  
 
-                    //Quitamos el item del padre --> en el caso 1 hay que quitarlo de los children de 0 OK
-                    //cambiamos el padre del hijo --> en el caso 1 si cambia se mete dentro de una sección OK
-                    //metemos los nuevos hijos en el padre --> OK
-                    //Actualizamos el level --> si cambian los levels  ---ok
-                    //ACTUALIZAR POSITIONS------------- ok
                     console.log("1,2,4")
                     var oldParent = state[action.payload.itemId].parent;
                     var oldParentChildren = auxState[oldParent].children;
@@ -438,30 +427,27 @@ function navItemsById(state = {}, action = {}){
                     var elementsToVisit = [action.payload.itemId];
                     var diff = state[action.payload.newParent].level-state[action.payload.itemId].level+1;//esto hay que sumarselo al level
                     var currentElement;
+                    var auxLevel;
                     do{
                         currentElement = elementsToVisit.pop();
                         if(newSt[currentElement].children.length > 0){
                             elementsToVisit = elementsToVisit.concat(newSt[currentElement].children);
                         }
-                        newSt[currentElement].level = newSt[currentElement].level+diff;
+                        auxLevel = newSt[currentElement].level+diff;
+                        newSt = Object.assign({}, newSt, {
+                            [currentElement]: Object.assign({}, newSt[currentElement], {level: auxLevel})
+                        })   
                     }while(elementsToVisit.length > 0)
 
                     action.payload.newIndId.forEach(elem => {
-                        newSt[elem].position = action.payload.newIndId.indexOf(elem);
+                         newSt = Object.assign({}, newSt, {
+                            [elem]: Object.assign({}, newSt[elem], {position:  action.payload.newIndId.indexOf(elem)})
+                        }) 
                     });
 
                     console.log(newSt)
                     return newSt;
 
-                   /* case 2:
-                    console.log("venimos al caso 2")
-                    return state;
-                     case 3:
-                    console.log("venimos al caso 3")
-                    return state;
-                    case 4:
-                    console.log("venimos al caso 4")
-                    return state;*/
                 }else{
 
                     return state

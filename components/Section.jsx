@@ -112,7 +112,8 @@ list.sortable({
             stop: (event, ui) => {
                 const reorderedIndexes = list.sortable('toArray', {attribute: 'data-reactid'}) // Obtiene la nueva disposición de los elementos
                 const indexes = reorderedIndexes.map(el => el.split('$').pop() )
-
+                list.sortable('cancel');
+                $('.connectedSortables').sortable('cancel');
                 var oldChilds = this.props.navItems[this.props.id].children;
                 var newChilds = [];
 
@@ -132,29 +133,32 @@ list.sortable({
                     this.props.onNavItemReorded(this.props.navItemSelected, this.props.id,3,newIndexesIds,newChilds) // Cambia el estado pasando como parámetro el id del sortable y el nuevo orden de los elementos. Ahora el orden también se puede UNDO y REDO
                 }else{
                     console.log("desde SecA a SecB: caso 2; desde sec a exterior: caso 4; por lo que no hace nada");
+                    this.props.onNavItemReorded(0, 0,9,0,0);
                 }       
             }.bind(this),
-            receive: function(event, ui) {
-               list.sortable('cancel');
+            receive: (event, ui) => {
+               
 
                const id = this.props.id;
                const selec = this.props.navItemSelected;
                const parent = this.props.navItems[this.props.navItemSelected].parent;
-            const reorderedIndexesR = list.sortable('toArray', {attribute: 'data-reactid'}) // Obtiene la nueva disposición de los elementos
-            const indexesR = reorderedIndexesR.map(el => el.split('$').pop() )
+                const reorderedIndexesR = list.sortable('toArray', {attribute: 'data-reactid'}) // Obtiene la nueva disposición de los elementos
+                const indexesR = reorderedIndexesR.map(el => el.split('$').pop() )
+                list.sortable('cancel');
+                $('.connectedSortables').sortable('cancel');
 
-            var index = 0;
-            var newIndexesIds = [];
-            var newChildrenInOrder = [];
-            if(parent !== id){
-                if(parent == 0){
-                    newIndexesIds = this.props.navItems[id].children;
-                    reorderedIndexesR.forEach(function (el,indx,newIds){
-                        if(el.split('$').length == 2){
-                            index = indx;
-                            newIndexesIds.splice(indx,0,selec);
-                        }
-                    });
+                var index = 0;
+                var newIndexesIds = [];
+                var newChildrenInOrder = [];
+                if(parent !== id){
+                    if(parent == 0){
+                        newIndexesIds = this.props.navItems[id].children;
+                        reorderedIndexesR.forEach(function (el,indx,newIds){
+                            if(el.split('$').length == 2){
+                                index = indx;
+                                newIndexesIds.splice(indx,0,selec);
+                            }
+                        });
 
                     newChildrenInOrder = newIndexesIds;
                     const previos = this.props.navItemsIds;

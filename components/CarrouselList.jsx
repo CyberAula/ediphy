@@ -126,6 +126,7 @@ export default class CarrouselList extends Component{
                 const reorderedIndexes = list.sortable('toArray', {attribute: 'data-reactid'}) // Obtiene la nueva disposición de los elementos
                 const indexes = reorderedIndexes.map(el => el.split('$').pop()) //Coge solo la parte que indica el orden
                 list.sortable('cancel') //Evita que se reordenen para que gestione la llamada Redux
+                $('.connectedSortables').sortable('cancel');
 
                 const navItems = this.props.navItems;
                 const childs = navItems[this.props.navItems[this.props.navItemSelected].parent].children;
@@ -138,9 +139,8 @@ export default class CarrouselList extends Component{
                 var newChilds = [];
 
                 indexes.forEach(index => {
-                 newChilds.push(childs[index]);
-
-             });
+                    newChilds.push(childs[index]);
+                });
 
                 if( newChilds.indexOf(this.props.navItemSelected) > 0){
                     console.log("de exterior a exterior: caso0, hace cosas");
@@ -211,17 +211,19 @@ export default class CarrouselList extends Component{
 
                     this.props.onNavItemReorded(this.props.navItemSelected, 0,0,newIndexesAux,newChildrenInOrder) // Cambia el estado pasando como parámetro el id del sortable y el nuevo orden de los elementos. Ahora el orden también se puede UNDO y REDO
                 }else{
-
+                     this.props.onNavItemReorded(0, 0,9,0,0);
                 }
             } ,
             receive: function(event, ui) {
-                list.sortable('cancel')
                 const reorderedIndexes = list.sortable('toArray', {attribute: 'data-reactid'}) 
                 const  parent = this.props.navItems[this.props.navItemSelected].parent;
                 const navItems = this.props.navItems;
                 const navItemsIds = this.props.navItemsIds;
                 var newChildrenInOrder = [];
                 var auxInd = "0";
+                list.sortable('cancel')
+                $('.connectedSortables').sortable('cancel');
+
 
                 for(var i = 0; i < reorderedIndexes.length; i++){
                     if(reorderedIndexes[i].split('$').length> 2){
