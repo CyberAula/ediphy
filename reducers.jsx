@@ -372,6 +372,9 @@ function navItemsIds(state = [], action = {}){
             case 3:
             console.log("caso3");
                 return action.payload.newIndId;
+            case 4:
+            console.log("caso4");
+                return action.payload.newIndId;
             default:
              return state;
           }

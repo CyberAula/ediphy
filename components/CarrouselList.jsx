@@ -265,10 +265,118 @@ export default class CarrouselList extends Component{
             console.log(this.props.navItemSelected);
             console.log("parent",this.props.navItems[this.props.navItemSelected].parent);
             const reorderedIndexes = list.sortable('toArray', {attribute: 'data-reactid'}) 
-            console.log(parent)
+            const  parent = this.props.navItems[this.props.navItemSelected].parent;
+             const navItems = this.props.navItems;
+             const navItemsIds = this.props.navItemsIds;
+
+             console.log("uncles");
+             console.log(navItems[navItems[parent].parent].children)
+             console.log(navItems[parent].children)
+
+
+             /*
+                Cogemos y miramos a sus hermanos si es el ultimo subimos de nivel a su padre si el apdre es el ultimo de sus hermanos
+                seguimos subiendo si no el siguiente sera el nexItemAux y pararemos, sacamos los dos indexOf y el leghnt donde tenemos que cortar y hacemos el merge con las tres partes
+
+             */
+            
+
+            var auxInd = "0";
+            for(var i = 0; i < reorderedIndexes.length; i++){
+                console.log(reorderedIndexes[i].split('$').length);
+                if(reorderedIndexes[i].split('$').length> 2){
+                    auxInd = i;
+                    break;
+                }
+            }
+            console.log("estaba en el indice", auxInd)
+            var reactIdElem = reorderedIndexes[auxInd].split('$');
+            console.log("reactId", reactIdElem);
+           
+            var predecessor;
+            var nextItemAux;
+            var parentAux;
+            var auxIdEl;
+            for(var i=reactIdElem.length-1; i>0; i--){
+                console.log(reactIdElem[i]);
+                if(i==reactIdElem.length-1){
+                    parentAux = this.props.navItemSelected;
+                    predecessor = navItems[parent];
+                }else{
+                    parentAux = predecessor.id;
+                    predecessor = navItems[navItems[parentAux].parent];
+                }
+                console.log("I",i,"%%%%","parentAux",parentAux,"predecessor",predecessor)
+                console.log("leng-1",predecessor.children.length-1)
+                console.log("parentID",reactIdElem[i].split('.')[0])
+                if(predecessor.children.length-1 == reactIdElem[i].split('.')[0]){
+                    console.log("es el ultimo");
+                }else{
+                    console.log("no es el ultimo y no seguimos mirando")
+                    auxIdEl = parseInt(reactIdElem[i].split('.')[0]);
+                    console.log(auxIdEl+1)
+                    nextItemAux = predecessor.children[auxIdEl+1]
+                    console.log("nextItemAux",nextItemAux)
+                    break;
+                }
+            }
+
+            var part1;
+            var part2;
+            var medio;
+            var newIndexesAux = navItemsIds ;
+            var newIndexes = [] ;
+
+            if(nextItemAux == undefined){
+                console.log("seguro que era el ultimo elemento")
+
+                part1 = newIndexesAux.slice(0,newIndexesAux.indexOf(this.props.navItemSelected));
+                medio =  newIndexesAux.slice(newIndexesAux.indexOf(this.props.navItemSelected));
+                console.log("part1",part1)
+                console.log("medio",medio)
+
+            }else{
+                console.log("tenia algun elemento despues")
+                console.log(newIndexesAux.indexOf(this.props.navItemSelected))
+                part1 = newIndexesAux.slice(0,newIndexesAux.indexOf(this.props.navItemSelected));
+                part2 = newIndexesAux.slice(newIndexesAux.indexOf(nextItemAux));
+                medio = newIndexesAux.slice(newIndexesAux.indexOf(this.props.navItemSelected),newIndexesAux.indexOf(nextItemAux));
+                console.log("part1",part1)
+                console.log("part2",part2)
+                console.log("medio",medio)
+                part1 = part1.concat(part2)
+            }
+
+            //ahora comprobamos si el nuevo hijo de exterior es el ultimo o no
+            //si es el ultimo lo metemos al final directamente el medio
+            //si no es el ultimo lo metemos justo encima del indice del siguiente(indexof-1)
+            if(auxInd >= navItems[0].children.length){
+                console.log("esta al final")
+                newIndexes = part1.concat(medio)
+            }else{
+                console.log("no esta al final")
+                newIndexes = part1.slice(0,part1.indexOf(navItems[0].children[auxInd])).concat(medio,part1.slice(part1.indexOf(navItems[0].children[auxInd])))
+
+            }
+
+console.log("HHHHHHHHHHHHHHHH");
+console.log(newIndexes);
+            console.log("HHHHHHHHHHHHHHHHH")
+
+             this.props.onNavItemReorded(indexes, this.props.navItems[this.props.navItemSelected].parent,4,newIndexes)
+
+            /*if(auxInd >= this.props.navItems[0].children.length){
+                console.log("es el ultimo")
+            }else{
+                console.log("no es el ultimo")
+            }*/
+            //Si 0.children leng < indexaux es el ultimo si no sacamos el siguiente con el indice que ha salido para saber donde tenemos que cortar
+        //conocer la posicion del siguiente hermano al seleccionado es util
+
+           //console.log(parent)
             //console.log("PAdre",this.props.navItems[this.props.navItemSelected].parent);
-            console.log(reorderedIndexes)
-            console.log("AAAAAAAAAAAAAAAAAAAAAAAA");
+           // console.log(reorderedIndexes)
+           // console.log("AAAAAAAAAAAAAAAAAAAAAAAA");
         }.bind(this)
     }).bind(this);
 
