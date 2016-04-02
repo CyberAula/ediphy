@@ -105,14 +105,14 @@ export default class Section extends Component {
     componentDidMount(){
         let list = jQuery(this.refs.sortableListS);
 
+//console.log(list);
         list.sortable({ 
             //handle: '.dragS',
             connectWith: '.connectedSortables',
             stop: (event, ui) => {
-                console.log("mueve desde Seccion");
-
                 const reorderedIndexes = list.sortable('toArray', {attribute: 'data-reactid'}) // Obtiene la nueva disposición de los elementos
                 const indexes = reorderedIndexes.map(el => el.split('$').pop() )
+
                 var oldChilds = this.props.navItems[this.props.id].children;
                 var newChilds = [];
 
@@ -127,8 +127,11 @@ export default class Section extends Component {
                     var part1 = newIndexesIds.slice(0,navItemsIdsAux.indexOf(parent)+1);
                     var part2 = newIndexesIds.slice(navItemsIdsAux.indexOf(parent)+newChilds.length+1);
                     newIndexesIds = part1.concat(newChilds,part2);
+                    console.log("desde una seccion a si misma: caso 3; hace cosas");
+      
                     this.props.onNavItemReorded(this.props.navItemSelected, this.id,3,newIndexesIds) // Cambia el estado pasando como parámetro el id del sortable y el nuevo orden de los elementos. Ahora el orden también se puede UNDO y REDO
                   }else{
+                    console.log("desde SecA a SecB: caso 2; desde sec a exterior: caso 4; por lo que no hace nada");
                 }       
         }.bind(this),
         receive: function(event, ui) {
@@ -145,18 +148,23 @@ export default class Section extends Component {
             if(parent !== id){
                 if(parent == 0){
                     newIndexesIds = this.props.navItems[id].children;
-                    reorderedIndexesR.forEach(function (el,indx,newIds){
+                   reorderedIndexesR.forEach(function (el,indx,newIds){
                         if(el.split('$').length == 2){
                             index = indx;
                             newIndexesIds.splice(indx,0,selec);
                         }
                     });
-                    const previos = this.props.navItemsIds;
+
+                   const previos = this.props.navItemsIds;
+
                     var auxPre = previos;
                     auxPre.splice(auxPre.indexOf(this.props.navItemSelected),1);
+
                     var part2 = auxPre.slice(auxPre.indexOf(this.props.id)+newIndexesIds.length);
                     var part1 = auxPre.slice(0,auxPre.indexOf(this.props.id)+1);
+
                     var newIdsT = part1.concat(newIndexesIds,part2);
+
                     this.props.onNavItemReorded(this.props.navItemSelected, this.id,1,newIdsT);
                 }else{
                     const navIdemsA = this.props.navItems;
@@ -164,15 +172,15 @@ export default class Section extends Component {
                     const levelrec = this.props.navItems[id].level;
                     var auxTerSplit = []
                     var indN = "0";
-                    
+
                     var tryLater = [];
                     var flagFind = 0;
                     var elemFinded = "";
                     var elemFindedIndx = 0;
                     for(var t = 0; t < reorderedIndexesR.length; t++){
                         auxTerSplit = reorderedIndexesR[t].split('$');
-                        
-                        if(auxTerSplit.length !== levelrec+2 ){
+
+                         if(auxTerSplit.length !== levelrec+2 ){
                             indN = t;
                             elemFindedIndx  = t;
                             elemFinded = this.props.navItemSelected;
@@ -185,23 +193,30 @@ export default class Section extends Component {
                     var auxArray = [];
                     if(flagFind > 0){
                     }else{
+                  
                         for(var t = 0; t < tryLater.length; t++){
                             auxArray = navIdemsA[0];//.children;
 
                             flagFind = 0;
                             for(var j = 1; j < tryLater[t].length-1; j++){
+
                                 auxArray = navIdemsA[auxArray.children[tryLater[t][j].split('.')[0]]];
 
                                 if(auxArray.id == id){
+                                    console.log("Ha encontrado el padre")
                                     flagFind  = 1;
                                 }
+
                             }
                             if(flagFind < 1){
+
                                 elemFindedIndx = t;
                                 elemFinded = auxArray.children[tryLater[t][tryLater[t].length-1]]
                                 break;
                             }
+     
                         }
+
                     }
 
                         auxArray = navIdemsA[id].children;
@@ -214,13 +229,9 @@ export default class Section extends Component {
 
                     var newIndexesIds = part1.concat(auxArray,part2);
 
-
                     this.props.onNavItemReorded(this.props.navItemSelected, this.id,2,newIndexesIds);
-
-
                 }
             }else{
-                console.log("viene de si misma: caso3 no hacemos nada");
             }
             
           event.stopImmediatePropagation();

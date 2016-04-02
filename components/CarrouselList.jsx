@@ -122,25 +122,26 @@ export default class CarrouselList extends Component{
            // handle: '.drag-handle' ,
             connectWith: '.connectedSortables',
             stop: (event, ui) => {
-                console.log("mueve desde el exterior al exterior");
+            
                 const reorderedIndexes = list.sortable('toArray', {attribute: 'data-reactid'}) // Obtiene la nueva disposición de los elementos
                 const indexes = reorderedIndexes.map(el => el.split('$').pop()) //Coge solo la parte que indica el orden
                 list.sortable('cancel') //Evita que se reordenen para que gestione la llamada Redux
                
-                console.log('EXterior')
-
                 const navItems = this.props.navItems;
                 const childs = navItems[this.props.navItems[this.props.navItemSelected].parent].children;
  
                 var newIndexesAux = [] ;
                 var newIndexes = [] ;
+
                 var child = "";
+ 
                 var newChilds = [];
 
                 indexes.forEach(index => {
-                    newChilds.push(childs[index]);
+                   newChilds.push(childs[index]);
+
                 });
-            
+
                 if( newChilds.indexOf(this.props.navItemSelected) > 0){
                     console.log("de exterior a exterior: caso0, hace cosas");
 
@@ -161,6 +162,7 @@ export default class CarrouselList extends Component{
                             childsLoopers = navItems[childLooper].children;
   
                             for ( var k = 0; k < childsLoopers.length; k++){
+
                                 if( flag == 2 ){
                                     k = iteratorsLifoStack.pop();
                                     flag = 0;
@@ -172,7 +174,8 @@ export default class CarrouselList extends Component{
                                                 flag = 3;
                                             }
                                         }
-                                  }else{
+
+                                }else{
                                     if(navItems[childsLoopers[k]].children.length > 0){
                                         concater.push(childsLoopers[k]);
                                         newIndexesAux.push(childsLoopers[k]);
@@ -199,7 +202,6 @@ export default class CarrouselList extends Component{
                             }
 
                         }while(navItems[childLooper].children.length > 0 && flag != 3)
-
                     });
 
                     newIndexesAux.forEach(ind => {
@@ -208,42 +210,40 @@ export default class CarrouselList extends Component{
 
                     this.props.onNavItemReorded(this.props.navItemSelected, this.id,0,newIndexesAux) // Cambia el estado pasando como parámetro el id del sortable y el nuevo orden de los elementos. Ahora el orden también se puede UNDO y REDO
                   }else{
-                    console.log("de exterior a seccion: caso1, no hago nada");
+            
                 }
        } ,
        receive: function(event, ui) {
-             list.sortable('cancel')
-            console.log("de seccion al exterior: caso 4 , hago cosas.")
+            list.sortable('cancel')
             const reorderedIndexes = list.sortable('toArray', {attribute: 'data-reactid'}) 
             const  parent = this.props.navItems[this.props.navItemSelected].parent;
             const navItems = this.props.navItems;
             const navItemsIds = this.props.navItemsIds;
-
             var auxInd = "0";
+
             for(var i = 0; i < reorderedIndexes.length; i++){
                 if(reorderedIndexes[i].split('$').length> 2){
                     auxInd = i;
                     break;
                 }
             }
-
-            var reactIdElem = reorderedIndexes[auxInd].split('$'); 
+            var reactIdElem = reorderedIndexes[auxInd].split('$');
+           
             var predecessor;
             var nextItemAux;
             var parentAux;
             var auxIdEl;
             for(var i=reactIdElem.length-1; i>0; i--){
- 
                 if(i==reactIdElem.length-1){
                     parentAux = this.props.navItemSelected;
                     predecessor = navItems[parent];
-                }else{
+                  }else{
                     parentAux = predecessor.id;
                     predecessor = navItems[navItems[parentAux].parent];
                 }
 
                 if(predecessor.children.length-1 == reactIdElem[i].split('.')[0]){
-                }else{
+                  }else{
                     auxIdEl = parseInt(reactIdElem[i].split('.')[0]);
                     nextItemAux = predecessor.children[auxIdEl+1]
                     break;
@@ -255,6 +255,7 @@ export default class CarrouselList extends Component{
             var medio;
             var newIndexesAux = navItemsIds ;
             var newIndexes = [] ;
+
             if(nextItemAux == undefined){
                 part1 = newIndexesAux.slice(0,newIndexesAux.indexOf(this.props.navItemSelected));
                 medio =  newIndexesAux.slice(newIndexesAux.indexOf(this.props.navItemSelected));
@@ -271,7 +272,7 @@ export default class CarrouselList extends Component{
                 newIndexes = part1.slice(0,part1.indexOf(navItems[0].children[auxInd])).concat(medio,part1.slice(part1.indexOf(navItems[0].children[auxInd])))
             }
 
-             this.props.onNavItemReorded(this.props.navItemSelected, this.id,4,newIndexes)
+            this.props.onNavItemReorded(this.props.navItemSelected, this.id,4,newIndexes)
 
         }.bind(this)
     }).bind(this);
