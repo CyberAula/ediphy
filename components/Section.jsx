@@ -133,7 +133,6 @@ list.sortable({
                     this.props.onNavItemReorded(this.props.navItemSelected, this.props.id,3,newIndexesIds,newChilds) // Cambia el estado pasando como parámetro el id del sortable y el nuevo orden de los elementos. Ahora el orden también se puede UNDO y REDO
                 }else{
                     console.log("desde SecA a SecB: caso 2; desde sec a exterior: caso 4; por lo que no hace nada");
-                    this.props.onNavItemReorded(0, 0,9,0,0);
                 }       
             }.bind(this),
             receive: (event, ui) => {
