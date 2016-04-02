@@ -37,7 +37,7 @@ class DaliApp extends Component{
                                       onNavItemSelected={id => dispatch(selectNavItem(id))}
                                       onNavItemExpanded={(id, value) => dispatch(expandNavItem(id, value))}
                                       onNavItemRemoved={(ids, parent,boxes) => dispatch(removeNavItem(ids, parent, boxes))}
-                                      onNavItemReorded={(ids,parent,type,newIndId) => dispatch(reorderNavItem(ids,parent,type,newIndId))}
+                                      onNavItemReorded={(itemId,newParent,type,newIndId) => dispatch(reorderNavItem(itemId,newParent,type,newIndId))}
                                       onDisplayModeChanged={mode => dispatch(changeDisplayMode(mode))} />
                     </Col>
 

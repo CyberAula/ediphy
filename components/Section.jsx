@@ -105,7 +105,6 @@ export default class Section extends Component {
     componentDidMount(){
         let list = jQuery(this.refs.sortableListS);
 
-//console.log(list);
         list.sortable({ 
             //handle: '.dragS',
             connectWith: '.connectedSortables',
@@ -114,340 +113,109 @@ export default class Section extends Component {
 
                 const reorderedIndexes = list.sortable('toArray', {attribute: 'data-reactid'}) // Obtiene la nueva disposición de los elementos
                 const indexes = reorderedIndexes.map(el => el.split('$').pop() )
-                console.log(indexes);
-
                 var oldChilds = this.props.navItems[this.props.id].children;
                 var newChilds = [];
 
                 indexes.forEach(index => {
                     newChilds.push(oldChilds[index]);
-
                 });
-                console.log(oldChilds);
-                console.log(newChilds);
-                  console.log("selec", this.props.navItemSelected)
 
                 if( newChilds.indexOf(this.props.navItemSelected) > 0){
-                    console.log("indexOF",newChilds.indexOf(this.props.navItemSelected) )
-                    console.log("id", this.props.id);
-                    console.log("parent", this.props.navItems[this.props.navItemSelected].parent);
-                    console.log("selec", this.props.navItemSelected)
-                    console.log("parentChilds", this.props.navItems[this.props.navItems[this.props.navItemSelected].parent].children);
-                    console.log("indexdelelmento", this.props.navItems[this.props.navItems[this.props.navItemSelected].parent].children.indexOf(this.props.navItemSelected));
-
-                    console.log("navsides", this.props.navItemsIds);
                     var navItemsIdsAux = this.props.navItemsIds;
-
                     var parent = this.props.navItems[this.props.navItemSelected].parent;
-                   
-                   /* var uncles = this.props.navItems[this.props.navItems[parent].parent].children;
-                    console.log("uncles",uncles);
-                    var part1 = navItemsIdsAux.slice(0,navItemsIdsAux.indexOf(parent)+1);
-                    var hermanosPadre = this.props.navItems[this.props.navItemSelected]
-                    console.log("parte1", part1);
-                    console.log(uncles.indexOf(parent));
-                    var part2 = navItemsIdsAux.slice(navItemsIdsAux.indexOf(uncles[uncles.indexOf(parent)+1]));
-                    console.log("parte2", part2);
-                    var medio = navItemsIdsAux.slice(navItemsIdsAux.indexOf(parent)+1,navItemsIdsAux.indexOf(uncles[uncles.indexOf(parent)+1]))
-                     console.log("medio", medio);
-                     */
-
-                     console.log("indexofparent", navItemsIdsAux.indexOf(parent));
-                     console.log("nexofchildren", navItemsIdsAux[navItemsIdsAux.indexOf(parent)+newChilds.length+1]);
-                     var newIndexesIds = navItemsIdsAux;
-                    //newIndexesIds.splice(navItemsIdsAux.indexOf(parent)+1,newChilds.length,newChilds);
+                    var newIndexesIds = navItemsIdsAux;
                     var part1 = newIndexesIds.slice(0,navItemsIdsAux.indexOf(parent)+1);
-                    console.log("par1", part1);
                     var part2 = newIndexesIds.slice(navItemsIdsAux.indexOf(parent)+newChilds.length+1);
-                    console.log("part2", part2);
-                    console.log(newIndexesIds);
                     newIndexesIds = part1.concat(newChilds,part2);
-                    console.log(newIndexesIds);
-                    /*
-
-                    Podria verse que posicion ocupa el padre en los hijos de su padre ver en todos que array tienen hacer un slice con 
-                    parte1--Hata que empieza el padre,
-                    parte2-- desde que empieza el siguiente hermano del padre
-                    medio la parte de en medio que es todo el padre
-
-                    selecionamos x cuyo padre es B
-                    0[AB[xd]C[g]]---->parte1[A], parte2[C[g]], medio B[xd]
-                    ahora solo trabajamos con B[xd] ---Que hay que colocar segun este la nueva posicion y podriamos funcionar de la siguiente manera
-
-                    */
-                    console.log("desde una seccion a si misma: caso 3; hace cosas");
-      
-                    this.props.onNavItemReorded(indexes, this.props.navItems[this.props.navItemSelected].parent,3,newIndexesIds) // Cambia el estado pasando como parámetro el id del sortable y el nuevo orden de los elementos. Ahora el orden también se puede UNDO y REDO
+                    this.props.onNavItemReorded(this.props.navItemSelected, this.id,3,newIndexesIds) // Cambia el estado pasando como parámetro el id del sortable y el nuevo orden de los elementos. Ahora el orden también se puede UNDO y REDO
                   }else{
-                    console.log("desde SecA a SecB: caso 2; desde sec a exterior: caso 4; por lo que no hace nada");
                 }       
         }.bind(this),
         receive: function(event, ui) {
              list.sortable('cancel');
-             /*console.log(this.props.navItems);
-            console.log("receive S, llegan a una sección");
-            console.log(this); 
-            console.log("id",this.props.id);
-            console.log( "parent-id",this.props.navItems[this.props.navItemSelected].parent);*/
 
             const id = this.props.id;
             const selec = this.props.navItemSelected;
             const parent = this.props.navItems[this.props.navItemSelected].parent;
             const reorderedIndexesR = list.sortable('toArray', {attribute: 'data-reactid'}) // Obtiene la nueva disposición de los elementos
             const indexesR = reorderedIndexesR.map(el => el.split('$').pop() )
-            console.log(reorderedIndexesR);
-            console.log(indexesR);
-
-            console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$44");
-            console.log("id", id);
-            console.log("hijitos", this.props.navItems[id].children);
-
-                        /////Falta hacer un array de childres del seleccionado para concatenarlo!!!
-                        ///Y calcularlo en su contexto respecto al padre de todos y meterlo(el calculado segmentado) ahi!!!
-                        // de todos meter en el indice del id de este this el array de hijos nuevos calculados elminando el numero de hijos previos.
-                        //Inserccion con eliminacion vale splice
-                        //Tmbien debemos ocmprobar si el id tiene un padre que no es 0 e iterar....
-
-
-            console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$44");
 
             var index = 0;
             var newIndexesIds = [];
             if(parent !== id){
-                console.log("viene de fuera o de otra seccion");
                 if(parent == 0){
-                    console.log("viene del exterior: caso1, hago cosas");
-                    /*reorderedIndexesR.forEach(i =>   {
-                        console.log("tam", i.split('$').length);
-                        if(i.split('$').length == 2){
-                            console.log("indice",i);
-                            console.log(index);
-                        }
-                    });*/
                     newIndexesIds = this.props.navItems[id].children;
-                   reorderedIndexesR.forEach(function (el,indx,newIds){
+                    reorderedIndexesR.forEach(function (el,indx,newIds){
                         if(el.split('$').length == 2){
                             index = indx;
                             newIndexesIds.splice(indx,0,selec);
-                               console.log(newIndexesIds);
                         }
                     });
-                   console.log("%%%%%%%%%%%%%%5")
-                   console.log("New indices",newIndexesIds);
-                   console.log("idNewPArent", this.props.id);
-                   console.log("elSelectet", this.props.navItemSelected)
-                   console.log("previos", this.props.navItemsIds)
-                   const previos = this.props.navItemsIds;
-                   console.log("index",previos.indexOf(this.props.id));
-                    console.log("indexQuitar",previos.indexOf(this.props.navItemSelected));
+                    const previos = this.props.navItemsIds;
                     var auxPre = previos;
                     auxPre.splice(auxPre.indexOf(this.props.navItemSelected),1);
-                    console.log("auxPRE",auxPre);
-                    console.log("previos",previos);
                     var part2 = auxPre.slice(auxPre.indexOf(this.props.id)+newIndexesIds.length);
                     var part1 = auxPre.slice(0,auxPre.indexOf(this.props.id)+1);
-                    console.log("part2", part2)
-                    console.log("part1", part1)
                     var newIdsT = part1.concat(newIndexesIds,part2);
-                    console.log(newIdsT);
-                    this.props.onNavItemReorded(indexesR, this.props.navItems[selec].parent,1,newIdsT);
+                    this.props.onNavItemReorded(this.props.navItemSelected, this.id,1,newIdsT);
                 }else{
-                    console.log("viene de otra seccion: caso2, hago cosas");
-
-                    console.log("idNewPArent", this.props.id);
-                    console.log("elSelectet", this.props.navItemSelected)
-                    console.log("previos", this.props.navItemsIds)
-                    console.log("parent", this.props.navItems[this.props.navItemSelected].parent)
-                    console.log("ELbuenIndex0", this.props.navItems[this.props.navItems[this.props.id].parent].children.indexOf(this.props.id));
-
-
-                    ///Buscar el padre del elemento el indice
-
-                    //si el primer elemento del penultimo del slice de la data-react-id es el indice
-                    // de this.id dentro de los child de su parent entonces esque ya estaban si no es que vienen desde fuera
-
-                //Hay un caso que colisiona
-                    /*
-                    sec1
-                        pag1
-                    sec2
-                        sec2.1
-                            pag2
-                            */
-
-                //lo hacmeos iterando desde el final si es diferente sabemos que lo cumple si es igual vamos al siguiente nivel hasta que lleguemos al padre o sea diferente
                     const navIdemsA = this.props.navItems;
                     newIndexesIds = this.props.navItems[id].children;
                     const levelrec = this.props.navItems[id].level;
-                    console.log("LEVEL PARENTE", levelrec);
                     var auxTerSplit = []
                     var indN = "0";
-                   // const parentReactId = sortable.('toString', {attribute: 'data-reactid'}) 
-                   // console.log("ReactIdPArent", parentReactId);
-                    //console.log(this._rea);
-
-               /*     reorderedIndexesR.forEach(function (el,indx,newIds){
-                        console.log(el);
-                        auxTerSplit = el.split('$');
-                        console.log(auxTerSplit);
-                        if(auxTerSplit.length !== levelrec+2 ){
-                            console.log("es el de fijo");
-                            indN = indx;
-                        }else{
-                            console.log("con mirar el penultimo deberia valer");
-                            auxTerSplit.pop();
-                            var auxPop = auxTerSplit;
-
-                          /*  console.log(auxTerSplit);
-                            auxTerSplit.pop();
-                            var auxPop = auxTerSplit;
-                            for(var t = auxPop.length-1; t > 0; t--){
-                                console.log("camino",t,"a ver", auxPop[t].split('.')[0]);
-                                console.log(auxPop);
-                            }*/
-                     //   }
-                       
-                       
-                       /* console.log("Indiceop",auxTerSplit[auxTerSplit.length-1].split('.')[0]);
-                        //auxTerSplit = 
-                        console.log("poperado", auxTerSplit);
-                        if(el.split('$').length == 2){
-                            console.log("EL",el);
-                            index = indx;
-                            newIndexesIds.splice(indx,0,selec);
-                               console.log(newIndexesIds);
-                        }*/
-                  //  });*/
                     
                     var tryLater = [];
                     var flagFind = 0;
                     var elemFinded = "";
                     var elemFindedIndx = 0;
                     for(var t = 0; t < reorderedIndexesR.length; t++){
-                        console.log(reorderedIndexesR[t]);
                         auxTerSplit = reorderedIndexesR[t].split('$');
-                        console.log(auxTerSplit);
-
-                         if(auxTerSplit.length !== levelrec+2 ){
-                            console.log("es el de fijo");
+                        
+                        if(auxTerSplit.length !== levelrec+2 ){
                             indN = t;
                             elemFindedIndx  = t;
                             elemFinded = this.props.navItemSelected;
                             flagFind = 1;
                             break;
                         }else{
-                            console.log("con mirar el penultimo deberia valer");
-
                             tryLater.push(auxTerSplit);
-                           // auxTerSplit.pop();
-                           // var auxPop = auxTerSplit;
                         }
                     }
                     var auxArray = [];
                     if(flagFind > 0){
-                        console.log("ya se encontro no hace falta seguir iterando");
                     }else{
-                        console.log("es una pena pero debemos seguir iterando")
-                        //console.log(tryLater);
-                       
-
                         for(var t = 0; t < tryLater.length; t++){
                             auxArray = navIdemsA[0];//.children;
-                           // console.log(navIdemsA);
+
                             flagFind = 0;
                             for(var j = 1; j < tryLater[t].length-1; j++){
-                              //  console.log( tryLater[t][j]);
-
-                              //  console.log( tryLater[t][j].split('.')[0])
-                              //  console.log("estamos",auxArray.children[tryLater[t][j].split('.')[0]]);
                                 auxArray = navIdemsA[auxArray.children[tryLater[t][j].split('.')[0]]];
 
                                 if(auxArray.id == id){
-                                    console.log("Ha encontrado el padre")
                                     flagFind  = 1;
                                 }
-                                //auxArray = navIdemsA[auxArray.children[tryLater[t][j].split('.')[0]]];
-                               // console.log("auxArray",auxArray);
-                               // auxArray = auxArray[ tryLater[t][j].split('.')[0]];
-                               // console.log("auxArray",auxArray);
-                               // console.log(navIdemsA[auxArray]);
                             }
                             if(flagFind < 1){
-                                console.log("este es el que buscamos")
-                                console.log(auxArray);
-                                console.log(tryLater[t][tryLater[t].length]);
-                                console.log(auxArray.children[tryLater[t][tryLater[t].length-1]])
                                 elemFindedIndx = t;
                                 elemFinded = auxArray.children[tryLater[t][tryLater[t].length-1]]
                                 break;
                             }
-                          //  if(flagFind < 1){
-
-                            //}
-
-                            /*console.log(tryLater[t]);
-                            if(t == 0){
-                                auxArray = navIdemsA
-                            }*/
                         }
-
-
-
-
                     }
 
-
-                        console.log("buscadoIndex",elemFindedIndx);
-                        console.log("Buscado",elemFinded);
-
-                        console.log("vamos a sacar todos los elementos hijos");
-                       
-                       /* reorderedIndexesR.forEach( function(ele,index, ){
-                            console.log("tam", i.split('$').length);
-                            if(i.split('$').length == 2){
-                                console.log("indice",i);
-                                console.log(index);
-                            }
-                        });*/
-
-                        /*reorderedIndexesR.forEach(function (el,indx,newIds){
-                          console.log(indx)
-                          if(indx == elemFindedIndx){
-                            console.log("index del elemento buscado");
-                          }else{
-                            console.log("no es el index");
-                          }
-                        });*/
-                        console.log(navIdemsA[id].children);
                         auxArray = navIdemsA[id].children;
                         auxArray.splice(elemFindedIndx,0,elemFinded);
-                        console.log("metemos", elemFinded)
-                        console.log(auxArray);
 
-                        //Ahora cogemos del array de childs viejos y
-                        console.log("====================")
                         newIndexesIds = this.props.navItemsIds;
                         newIndexesIds.splice(newIndexesIds.indexOf(elemFinded),1);
                         var part2 = newIndexesIds.slice(newIndexesIds.indexOf(this.props.id)+auxArray.length)
                         var part1 = newIndexesIds.slice(0, newIndexesIds.indexOf(this.props.id)+1)
-                           console.log("part2", part2)
-                    console.log("part1", part1)
+
                     var newIndexesIds = part1.concat(auxArray,part2);
-//*/
-                    //No se debe usar forEach porque debemos romper
-                  /*     
-                     auxPre.splice(auxPre.indexOf(this.props.navItemSelected),1);
-                    console.log("auxPRE",auxPre);
-                    console.log("previos",previos); 
-                    var part2 = auxPre.slice(auxPre.indexOf(this.props.id)+newIndexesIds.length);
-                    var part1 = auxPre.slice(0,auxPre.indexOf(this.props.id)+1);
-                    console.log("part2", part2)
-                    console.log("part1", part1)
-                    var newIdsT = part1.concat(newIndexesIds,part2);
-*/
-                
-                    console.log("New indices",newIndexesIds);
-                    this.props.onNavItemReorded(indexesR, this.props.navItems[selec].parent,2,newIndexesIds);
+
+
+                    this.props.onNavItemReorded(this.props.navItemSelected, this.id,2,newIndexesIds);
 
 
                 }

@@ -417,7 +417,7 @@ function navItemsById(state = {}, action = {}){
      
 
             switch(action.payload.type){
-                case 0:
+                /*case 0:
                     let oldChilds = state[action.payload.parent].children;
 
                     var newNavOrder = Object.keys(oldChilds).map(i => oldChilds[action.payload.ids[i]]);
@@ -435,7 +435,11 @@ function navItemsById(state = {}, action = {}){
                     })   
                    }
 
-                    return newSt
+                    return newSt*/
+                    case 0:
+                    console.log("venimos al caso 0")
+                    return state;
+
                     case 1:
                     console.log("venimos al caso 1")
                     return state;
@@ -445,6 +449,9 @@ function navItemsById(state = {}, action = {}){
                     return state;
                      case 3:
                     console.log("venimos al caso 3")
+                    return state;
+                    case 4:
+                    console.log("venimos al caso 4")
                     return state;
 
                 default:
