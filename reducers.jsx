@@ -341,45 +341,11 @@ function navItemsIds(state = [], action = {}){
             return newState;
 
         case REORDER_NAV_ITEM:
-        //let newNavOrder = state.slice()
-        /*
-            let neState = state.slice()
-   
-            console.log("parent",action.payload.parent);
-            if(action.payload.parent !== 0){
-             
-            }
-         
-            var newNavOrder = Object.keys(neState).map(i => neState[action.payload.ids[i]] );*/
-            /*
-            / type: 
-            /   0--> exterior a exterior
-            /   1--> exterior a seccion
-            /   2--> seccionA a seccionB
-            /   3--> seccion a seccion
-            /   4--> seccion a exterior
-            */
-          switch(action.payload.type){
-            case 0:
-            console.log("caso0");
+            if(action.payload.type < 5){
                 return action.payload.newIndId;
-            case 1:
-            console.log("caso1");
-                return action.payload.newIndId;
-            case 2:
-            console.log("caso2");
-                return action.payload.newIndId;
-            case 3:
-            console.log("caso3");
-                return action.payload.newIndId;
-            case 4:
-            console.log("caso4");
-                return action.payload.newIndId;
-            default:
-             return state;
-          }
-             
-            //return newState;
+             }else{
+                return state;
+             }
         case IMPORT_STATE:
             return action.payload.present.navItemsIds;
         default:
@@ -414,37 +380,80 @@ function navItemsById(state = {}, action = {}){
         //Tocar aqui
        case REORDER_NAV_ITEM:
             //console.log(action.payload.parent);
-     
+           /*
+            / type: 
+            /   0--> exterior a exterior
+            /   1--> exterior a seccion
+            /   2--> seccionA a seccionB
+            /   3--> seccion a seccion
+            /   4--> seccion a exterior
+            */
+            console.log("PAyloads")
+            console.log("itemId",action.payload.itemId)
+            console.log("newParent",action.payload.newParent)
+            console.log("type",action.payload.type)
+            console.log("newIndId",action.payload.newIndId)
+            console.log("newChildrenInOrder",action.payload.newChildrenInOrder)
+            var newSt = {}
+            var auxState = state;
 
-            switch(action.payload.type){
-                /*case 0:
-                    let oldChilds = state[action.payload.parent].children;
+            if(action.payload.type == 0 || action.payload.type == 3 ){
 
-                    var newNavOrder = Object.keys(oldChilds).map(i => oldChilds[action.payload.ids[i]]);
-                    //console.log(newNavOrder);
-                    var newSt = {}
-                    if(action.payload.parent == 0){
-                        newSt = Object.assign({}, state, {
-                            [action.payload.parent]: Object.assign({}, state[action.payload.parent], {children: newNavOrder})
-                          })
-                      }else{
-                    //console.log("sec")
-                        //console.log(newNavOrder)
-                       newSt = Object.assign({}, state, {
-                        [action.payload.parent]: Object.assign({}, state[action.payload.parent], {children: newNavOrder})
-                    })   
-                   }
-
-                    return newSt*/
-                    case 0:
                     console.log("venimos al caso 0")
-                    return state;
 
-                    case 1:
-                    console.log("venimos al caso 1")
-                    return state;
+                    //Quitamos el item del padre --> en el caso 0 no cambia de padre por lo que no lo eliminamos ok
+                    //cambiamos el padre del hijo --> en el caso 0 el elemento no cambia de padre ok
+                    //metemos los nuevos hijos en el padre --> OK
+                    //Actualizamos el level --> no cambian los levels ok
+                    //ACTUALIZAR POSITIONS------------- OK
 
-                    case 2:
+
+                    newSt = Object.assign({}, state, {
+                        [action.payload.newParent]: Object.assign({}, state[action.payload.newParent], {children: action.payload.newChildrenInOrder})
+                    })   
+                    console.log(newSt)
+
+                    action.payload.newIndId.forEach(elem => {
+                        newSt[elem].position = action.payload.newIndId.indexOf(elem);
+                    });
+
+                    return newSt;
+                 }else if(action.payload.type == 1 || action.payload.type == 2 || action.payload.type == 4 ){  
+
+                    //Quitamos el item del padre --> en el caso 1 hay que quitarlo de los children de 0 OK
+                    //cambiamos el padre del hijo --> en el caso 1 si cambia se mete dentro de una sección OK
+                    //metemos los nuevos hijos en el padre --> OK
+                    //Actualizamos el level --> si cambian los levels  ---ok
+                    //ACTUALIZAR POSITIONS------------- ok
+                    console.log("1,2,4")
+                    var oldParent = state[action.payload.itemId].parent;
+                    var oldParentChildren = auxState[oldParent].children;
+                    oldParentChildren.splice(oldParentChildren.indexOf(action.payload.itemId),1);
+                    newSt = Object.assign({}, state, {
+                        [action.payload.newParent]: Object.assign({}, state[action.payload.newParent], {children: action.payload.newChildrenInOrder}),
+                        [action.payload.itemId]: Object.assign({}, state[action.payload.itemId], {parent: action.payload.newParent}),
+                        [oldParent]: Object.assign({}, state[oldParent], {children: oldParentChildren})
+                    });  
+
+                    var elementsToVisit = [action.payload.itemId];
+                    var diff = state[action.payload.newParent].level-state[action.payload.itemId].level+1;//esto hay que sumarselo al level
+                    var currentElement;
+                    do{
+                        currentElement = elementsToVisit.pop();
+                        if(newSt[currentElement].children.length > 0){
+                            elementsToVisit = elementsToVisit.concat(newSt[currentElement].children);
+                        }
+                        newSt[currentElement].level = newSt[currentElement].level+diff;
+                    }while(elementsToVisit.length > 0)
+
+                    action.payload.newIndId.forEach(elem => {
+                        newSt[elem].position = action.payload.newIndId.indexOf(elem);
+                    });
+
+                    console.log(newSt)
+                    return newSt;
+
+                   /* case 2:
                     console.log("venimos al caso 2")
                     return state;
                      case 3:
@@ -452,11 +461,12 @@ function navItemsById(state = {}, action = {}){
                     return state;
                     case 4:
                     console.log("venimos al caso 4")
-                    return state;
+                    return state;*/
+                }else{
 
-                default:
                     return state
-            }
+                }
+
 
         case ADD_BOX:
             if(action.payload.ids.parent.indexOf(ID_PREFIX_PAGE) !== -1 || action.payload.ids.parent.indexOf(ID_PREFIX_SECTION) !== -1)

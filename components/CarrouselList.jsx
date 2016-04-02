@@ -120,27 +120,27 @@ export default class CarrouselList extends Component{
         let props = this.props;
         list.sortable({ 
            // handle: '.drag-handle' ,
-            connectWith: '.connectedSortables',
-            stop: (event, ui) => {
-            
+           connectWith: '.connectedSortables',
+           stop: (event, ui) => {
+
                 const reorderedIndexes = list.sortable('toArray', {attribute: 'data-reactid'}) // Obtiene la nueva disposición de los elementos
                 const indexes = reorderedIndexes.map(el => el.split('$').pop()) //Coge solo la parte que indica el orden
                 list.sortable('cancel') //Evita que se reordenen para que gestione la llamada Redux
-               
+
                 const navItems = this.props.navItems;
                 const childs = navItems[this.props.navItems[this.props.navItemSelected].parent].children;
- 
+
                 var newIndexesAux = [] ;
                 var newIndexes = [] ;
 
                 var child = "";
- 
+
                 var newChilds = [];
 
                 indexes.forEach(index => {
-                   newChilds.push(childs[index]);
+                 newChilds.push(childs[index]);
 
-                });
+             });
 
                 if( newChilds.indexOf(this.props.navItemSelected) > 0){
                     console.log("de exterior a exterior: caso0, hace cosas");
@@ -151,6 +151,7 @@ export default class CarrouselList extends Component{
                     var childsLoopers = [];
                     var iteratorsLifoStack = [];
                     var flag = 0;
+                    var newChildrenInOrder = newChilds;
 
                     indexes.forEach(i => {
                         child = childs[i];
@@ -160,20 +161,20 @@ export default class CarrouselList extends Component{
 
                         do{
                             childsLoopers = navItems[childLooper].children;
-  
+
                             for ( var k = 0; k < childsLoopers.length; k++){
 
                                 if( flag == 2 ){
                                     k = iteratorsLifoStack.pop();
                                     flag = 0;
-                                        if( k == childsLoopers.length -1){
-                                            if(childAuxOldLooper > 0 ){
-                                                childLooper = childAuxOldLooper.pop()
-                                                flag = 0;
-                                            }else{
-                                                flag = 3;
-                                            }
+                                    if( k == childsLoopers.length -1){
+                                        if(childAuxOldLooper > 0 ){
+                                            childLooper = childAuxOldLooper.pop()
+                                            flag = 0;
+                                        }else{
+                                            flag = 3;
                                         }
+                                    }
 
                                 }else{
                                     if(navItems[childsLoopers[k]].children.length > 0){
@@ -182,7 +183,7 @@ export default class CarrouselList extends Component{
                                         childAuxOldLooper.push(childLooper);
                                         iteratorsLifoStack.push(k);
                                         childLooper = childsLoopers[k];
-                                         k = childsLoopers.length;
+                                        k = childsLoopers.length;
                                     }else{
                                         concater.push(childsLoopers[k]);
                                         newIndexesAux.push(childsLoopers[k]);
@@ -196,87 +197,92 @@ export default class CarrouselList extends Component{
 
                             if(flag == 1){
                                 if(childAuxOldLooper.length > 0){
-                                   childLooper = childAuxOldLooper.pop();
-                                }
-                                flag = 2;
-                            }
+                                 childLooper = childAuxOldLooper.pop();
+                             }
+                             flag = 2;
+                         }
 
-                        }while(navItems[childLooper].children.length > 0 && flag != 3)
-                    });
+                     }while(navItems[childLooper].children.length > 0 && flag != 3)
+                 });
 
                     newIndexesAux.forEach(ind => {
                         newIndexes.push(this.props.navItemsIds.indexOf(ind));
                     });
 
-                    this.props.onNavItemReorded(this.props.navItemSelected, this.id,0,newIndexesAux) // Cambia el estado pasando como parámetro el id del sortable y el nuevo orden de los elementos. Ahora el orden también se puede UNDO y REDO
-                  }else{
-            
+                    this.props.onNavItemReorded(this.props.navItemSelected, 0,0,newIndexesAux,newChildrenInOrder) // Cambia el estado pasando como parámetro el id del sortable y el nuevo orden de los elementos. Ahora el orden también se puede UNDO y REDO
+                }else{
+
                 }
-       } ,
-       receive: function(event, ui) {
-            list.sortable('cancel')
-            const reorderedIndexes = list.sortable('toArray', {attribute: 'data-reactid'}) 
-            const  parent = this.props.navItems[this.props.navItemSelected].parent;
-            const navItems = this.props.navItems;
-            const navItemsIds = this.props.navItemsIds;
-            var auxInd = "0";
+            } ,
+            receive: function(event, ui) {
+                list.sortable('cancel')
+                const reorderedIndexes = list.sortable('toArray', {attribute: 'data-reactid'}) 
+                const  parent = this.props.navItems[this.props.navItemSelected].parent;
+                const navItems = this.props.navItems;
+                const navItemsIds = this.props.navItemsIds;
+                var newChildrenInOrder = [];
+                var auxInd = "0";
 
-            for(var i = 0; i < reorderedIndexes.length; i++){
-                if(reorderedIndexes[i].split('$').length> 2){
-                    auxInd = i;
-                    break;
+                for(var i = 0; i < reorderedIndexes.length; i++){
+                    if(reorderedIndexes[i].split('$').length> 2){
+                        auxInd = i;
+                        break;
+                    }
                 }
-            }
-            var reactIdElem = reorderedIndexes[auxInd].split('$');
-           
-            var predecessor;
-            var nextItemAux;
-            var parentAux;
-            var auxIdEl;
-            for(var i=reactIdElem.length-1; i>0; i--){
-                if(i==reactIdElem.length-1){
-                    parentAux = this.props.navItemSelected;
-                    predecessor = navItems[parent];
-                  }else{
-                    parentAux = predecessor.id;
-                    predecessor = navItems[navItems[parentAux].parent];
+                var reactIdElem = reorderedIndexes[auxInd].split('$');
+
+        
+
+                var predecessor;
+                var nextItemAux;
+                var parentAux;
+                var auxIdEl;
+                for(var i=reactIdElem.length-1; i>0; i--){
+                    if(i==reactIdElem.length-1){
+                        parentAux = this.props.navItemSelected;
+                        predecessor = navItems[parent];
+                    }else{
+                        parentAux = predecessor.id;
+                        predecessor = navItems[navItems[parentAux].parent];
+                    }
+
+                    if(predecessor.children.length-1 == reactIdElem[i].split('.')[0]){
+                    }else{
+                        auxIdEl = parseInt(reactIdElem[i].split('.')[0]);
+                        nextItemAux = predecessor.children[auxIdEl+1]
+                        break;
+                    }
                 }
 
-                if(predecessor.children.length-1 == reactIdElem[i].split('.')[0]){
-                  }else{
-                    auxIdEl = parseInt(reactIdElem[i].split('.')[0]);
-                    nextItemAux = predecessor.children[auxIdEl+1]
-                    break;
+                var part1;
+                var part2;
+                var medio;
+                var newIndexesAux = navItemsIds ;
+                var newIndexes = [] ;
+
+                if(nextItemAux == undefined){
+                    part1 = newIndexesAux.slice(0,newIndexesAux.indexOf(this.props.navItemSelected));
+                    medio =  newIndexesAux.slice(newIndexesAux.indexOf(this.props.navItemSelected));
+                }else{
+                    part1 = newIndexesAux.slice(0,newIndexesAux.indexOf(this.props.navItemSelected));
+                    part2 = newIndexesAux.slice(newIndexesAux.indexOf(nextItemAux));
+                    medio = newIndexesAux.slice(newIndexesAux.indexOf(this.props.navItemSelected),newIndexesAux.indexOf(nextItemAux));
+                    part1 = part1.concat(part2)
                 }
-            }
 
-            var part1;
-            var part2;
-            var medio;
-            var newIndexesAux = navItemsIds ;
-            var newIndexes = [] ;
+                if(auxInd >= navItems[0].children.length){
+                    newIndexes = part1.concat(medio)
+                    newChildrenInOrder = this.props.navItems[0].children;
+                    newChildrenInOrder.push(this.props.navItemSelected)
+                }else{
+                    newIndexes = part1.slice(0,part1.indexOf(navItems[0].children[auxInd])).concat(medio,part1.slice(part1.indexOf(navItems[0].children[auxInd])))
+                    newChildrenInOrder = this.props.navItems[0].children;
+                    newChildrenInOrder.splice(auxInd,0,this.props.navItemSelected)
+                }
 
-            if(nextItemAux == undefined){
-                part1 = newIndexesAux.slice(0,newIndexesAux.indexOf(this.props.navItemSelected));
-                medio =  newIndexesAux.slice(newIndexesAux.indexOf(this.props.navItemSelected));
-            }else{
-                part1 = newIndexesAux.slice(0,newIndexesAux.indexOf(this.props.navItemSelected));
-                part2 = newIndexesAux.slice(newIndexesAux.indexOf(nextItemAux));
-                medio = newIndexesAux.slice(newIndexesAux.indexOf(this.props.navItemSelected),newIndexesAux.indexOf(nextItemAux));
-                part1 = part1.concat(part2)
-            }
+                this.props.onNavItemReorded(this.props.navItemSelected, 0,4,newIndexes,newChildrenInOrder)
 
-            if(auxInd >= navItems[0].children.length){
-                newIndexes = part1.concat(medio)
-            }else{
-                newIndexes = part1.slice(0,part1.indexOf(navItems[0].children[auxInd])).concat(medio,part1.slice(part1.indexOf(navItems[0].children[auxInd])))
-            }
-
-            this.props.onNavItemReorded(this.props.navItemSelected, this.id,4,newIndexes)
-
-        }.bind(this)
-    }).bind(this);
-
-
-}
+            }.bind(this)
+        }).bind(this);
+    }
 }

@@ -106,7 +106,7 @@ export default class Section extends Component {
         let list = jQuery(this.refs.sortableListS);
 
 //console.log(list);
-        list.sortable({ 
+list.sortable({ 
             //handle: '.dragS',
             connectWith: '.connectedSortables',
             stop: (event, ui) => {
@@ -128,34 +128,36 @@ export default class Section extends Component {
                     var part2 = newIndexesIds.slice(navItemsIdsAux.indexOf(parent)+newChilds.length+1);
                     newIndexesIds = part1.concat(newChilds,part2);
                     console.log("desde una seccion a si misma: caso 3; hace cosas");
-      
-                    this.props.onNavItemReorded(this.props.navItemSelected, this.id,3,newIndexesIds) // Cambia el estado pasando como parámetro el id del sortable y el nuevo orden de los elementos. Ahora el orden también se puede UNDO y REDO
-                  }else{
+                    
+                    this.props.onNavItemReorded(this.props.navItemSelected, this.props.id,3,newIndexesIds,newChilds) // Cambia el estado pasando como parámetro el id del sortable y el nuevo orden de los elementos. Ahora el orden también se puede UNDO y REDO
+                }else{
                     console.log("desde SecA a SecB: caso 2; desde sec a exterior: caso 4; por lo que no hace nada");
                 }       
-        }.bind(this),
-        receive: function(event, ui) {
-             list.sortable('cancel');
+            }.bind(this),
+            receive: function(event, ui) {
+               list.sortable('cancel');
 
-            const id = this.props.id;
-            const selec = this.props.navItemSelected;
-            const parent = this.props.navItems[this.props.navItemSelected].parent;
+               const id = this.props.id;
+               const selec = this.props.navItemSelected;
+               const parent = this.props.navItems[this.props.navItemSelected].parent;
             const reorderedIndexesR = list.sortable('toArray', {attribute: 'data-reactid'}) // Obtiene la nueva disposición de los elementos
             const indexesR = reorderedIndexesR.map(el => el.split('$').pop() )
 
             var index = 0;
             var newIndexesIds = [];
+            var newChildrenInOrder = [];
             if(parent !== id){
                 if(parent == 0){
                     newIndexesIds = this.props.navItems[id].children;
-                   reorderedIndexesR.forEach(function (el,indx,newIds){
+                    reorderedIndexesR.forEach(function (el,indx,newIds){
                         if(el.split('$').length == 2){
                             index = indx;
                             newIndexesIds.splice(indx,0,selec);
                         }
                     });
 
-                   const previos = this.props.navItemsIds;
+                    newChildrenInOrder = newIndexesIds;
+                    const previos = this.props.navItemsIds;
 
                     var auxPre = previos;
                     auxPre.splice(auxPre.indexOf(this.props.navItemSelected),1);
@@ -165,13 +167,14 @@ export default class Section extends Component {
 
                     var newIdsT = part1.concat(newIndexesIds,part2);
 
-                    this.props.onNavItemReorded(this.props.navItemSelected, this.id,1,newIdsT);
+                    this.props.onNavItemReorded(this.props.navItemSelected, this.props.id,1,newIdsT,newChildrenInOrder);
                 }else{
                     const navIdemsA = this.props.navItems;
                     newIndexesIds = this.props.navItems[id].children;
                     const levelrec = this.props.navItems[id].level;
                     var auxTerSplit = []
                     var indN = "0";
+                    var newChildrenInOrder = [];
 
                     var tryLater = [];
                     var flagFind = 0;
@@ -180,7 +183,7 @@ export default class Section extends Component {
                     for(var t = 0; t < reorderedIndexesR.length; t++){
                         auxTerSplit = reorderedIndexesR[t].split('$');
 
-                         if(auxTerSplit.length !== levelrec+2 ){
+                        if(auxTerSplit.length !== levelrec+2 ){
                             indN = t;
                             elemFindedIndx  = t;
                             elemFinded = this.props.navItemSelected;
@@ -193,7 +196,7 @@ export default class Section extends Component {
                     var auxArray = [];
                     if(flagFind > 0){
                     }else{
-                  
+                      
                         for(var t = 0; t < tryLater.length; t++){
                             auxArray = navIdemsA[0];//.children;
 
@@ -214,27 +217,28 @@ export default class Section extends Component {
                                 elemFinded = auxArray.children[tryLater[t][tryLater[t].length-1]]
                                 break;
                             }
-     
+                            
                         }
 
                     }
 
-                        auxArray = navIdemsA[id].children;
-                        auxArray.splice(elemFindedIndx,0,elemFinded);
+                    auxArray = navIdemsA[id].children;
+                    auxArray.splice(elemFindedIndx,0,elemFinded);
+                    newChildrenInOrder = auxArray;
 
-                        newIndexesIds = this.props.navItemsIds;
-                        newIndexesIds.splice(newIndexesIds.indexOf(elemFinded),1);
-                        var part2 = newIndexesIds.slice(newIndexesIds.indexOf(this.props.id)+auxArray.length)
-                        var part1 = newIndexesIds.slice(0, newIndexesIds.indexOf(this.props.id)+1)
+                    newIndexesIds = this.props.navItemsIds;
+                    newIndexesIds.splice(newIndexesIds.indexOf(elemFinded),1);
+                    var part2 = newIndexesIds.slice(newIndexesIds.indexOf(this.props.id)+auxArray.length)
+                    var part1 = newIndexesIds.slice(0, newIndexesIds.indexOf(this.props.id)+1)
 
                     var newIndexesIds = part1.concat(auxArray,part2);
 
-                    this.props.onNavItemReorded(this.props.navItemSelected, this.id,2,newIndexesIds);
+                    this.props.onNavItemReorded(this.props.navItemSelected, this.props.id,2,newIndexesIds,newChildrenInOrder);
                 }
             }else{
             }
             
-          event.stopImmediatePropagation();
+            event.stopImmediatePropagation();
         }.bind(this)
     }).bind(this);
 
