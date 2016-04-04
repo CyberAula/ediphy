@@ -50,7 +50,7 @@
     var width = box.width[box.width.length -1]=='%' ? box.width : box.width+'px';
     var height = box.height? (box.height[box.height.length -1]=='%' ? box.height : box.height+'px'):'auto';
 %>
-    <div style="width: <%=width%>; height:<%=height%>; position: absolute; top: <%=box.position.y %>px; left: <%= box.position.x %>px; " >
+    <div style="width: <%=width%>; height:<%=height%>; position: absolute; top: <%=box.position.y %>px; left: <%= box.position.x %>px; word-wrap:break-word;" >
 <%  if (box.id[1]!='s') { %>
   <%=box.content%>
 <%  } %>     
