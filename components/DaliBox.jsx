@@ -93,6 +93,8 @@ export default class DaliBox extends Component {
                             top: box.position.y,
                             width: box.width,
                             height: box.height,
+                            maxWidth: '100%',
+                            maxHeight: '100%',
                             touchAction: 'none',
                             msTouchAction: 'none',
                             cursor: vis ? 'inherit': 'default' //esto evita que aparezcan los cursores de move y resize cuando la caja no está seleccionada

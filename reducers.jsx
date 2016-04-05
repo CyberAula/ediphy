@@ -71,9 +71,10 @@ function sortableContainerCreator(state = {}, action = {}){
     switch (action.type){
         case ADD_BOX:
             return Object.assign({}, state, {
-                [action.payload.ids.container]: (state[action.payload.ids.container] ? {
-                    children: [...state[action.payload.ids.container].children, action.payload.ids.id]
-                } : {
+                [action.payload.ids.container]: (state[action.payload.ids.container] ?
+                    Object.assign({}, state[action.payload.ids.container], {
+                        children: [...state[action.payload.ids.container].children, action.payload.ids.id]
+                    }) : {
                     children: [action.payload.ids.id],
                     rows: [12],
                     cols: [12]
