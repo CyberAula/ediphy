@@ -92,7 +92,23 @@ function sortableContainerCreator(state = {}, action = {}){
                 [container]: Object.assign({}, state[container], {
                     children: newChildren
                 })
-            })
+            });
+        case UPDATE_TOOLBAR:
+            if(action.payload.name.indexOf("_rows") !== -1) {
+                let id = action.payload.name.replace("_rows", "").replace("_", "-");
+                return Object.assign({}, state, {
+                    [id]: Object.assign({}, state[id], {
+                        rows: action.payload.value.split(" ")
+                    })
+                });
+            }else if(action.payload.name.indexOf("_cols") !== -1) {
+                let id = action.payload.name.replace("_cols", "").replace("_", "-");
+                return Object.assign({}, state, {
+                    [id]: Object.assign({}, state[id], {
+                        cols: action.payload.value.split(" ")
+                    })
+                });
+            }
         default:
             return state;
     }
@@ -133,6 +149,15 @@ function boxesById(state = {}, action = {}){
                 return Object.assign({}, state, {
                     [action.payload.caller]: Object.assign({}, state[action.payload.caller], {width: (action.payload.value + '%')})
                 });
+            }else if(action.payload.name.indexOf("_rows") !== -1 || action.payload.name.indexOf("_cols") !== -1){
+                let value = action.payload.value.split(" ").map(e => {return parseInt(e)}).reduce((prev, curr) => {return prev + curr});
+                if(value === 12) {
+                    return Object.assign({}, state, {
+                        [action.payload.caller]: Object.assign({}, state[action.payload.caller], {
+                            sortableContainers: sortableContainerCreator(state[action.payload.caller].sortableContainers, action)
+                        })
+                    });
+                }
             }
             return state;
         case DELETE_BOX:
@@ -365,6 +390,7 @@ function toolbarsById(state = {}, action = {}){
                 state: action.payload.state,
                 showTextEditor: false
             };
+            let parentToolbar;
             if(action.payload.ids.container !== 0){
                 if(!toolbar.buttons){
                     toolbar.buttons = [];
@@ -379,6 +405,22 @@ function toolbarsById(state = {}, action = {}){
                     max: 100,
                     step: 5,
                     autoManaged: true
+                });
+
+                parentToolbar = Object.assign({}, state[action.payload.ids.parent], {
+                    buttons: [...state[action.payload.ids.parent].buttons, {
+                        name: action.payload.ids.container.replace("-", "_") + '_rows',
+                        humanName: action.payload.ids.container + ' Rows',
+                        type: 'text',
+                        value: '12',
+                        autoManaged: true
+                    }, {
+                        name: action.payload.ids.container.replace("-", "_") + '_cols',
+                        humanName: action.payload.ids.container + ' Cols',
+                        type: 'text',
+                        value: '12',
+                        autoManaged: true
+                    }]
                 });
             }
             if(action.payload.ids.id.indexOf(ID_PREFIX_SORTABLE_BOX) === -1) {
@@ -395,7 +437,12 @@ function toolbarsById(state = {}, action = {}){
                     isAttribute: true
                 });
             }
-            return Object.assign({}, state, {[action.payload.ids.id]: toolbar});
+            return (parentToolbar) ?
+                Object.assign({}, state, {
+                    [action.payload.ids.id]: toolbar,
+                    [action.payload.ids.parent]: parentToolbar
+                }) :
+                Object.assign({}, state, {[action.payload.ids.id]: toolbar});
         case DELETE_BOX:
             var newState = Object.assign({},state);
             delete newState[action.payload.id];
