@@ -28,6 +28,7 @@ export default class DaliCanvas extends Component{
                            isReduced={this.props.navItemSelected.titlesReduced}
                            navItemId={this.props.navItemSelected.id}
                            titleModeToggled={this.props.titleModeToggled} />
+                           <br/> 
                 {this.props.navItemSelected.boxes.map(id => {
                     let box = this.props.boxes[id];
                     let isSelected = (id === this.props.boxSelected);

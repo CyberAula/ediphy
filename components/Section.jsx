@@ -18,7 +18,7 @@ export default class Section extends Component {
                     e.stopPropagation();
                 }}><i className={navItem.isExpanded ? "fa fa-chevron-down" : "fa fa-chevron-right"}></i></button>
 
-                <h3 className={classSelected}style={{ display: 'inline'}}>{navItem.name}</h3>
+                <span className={classSelected}style={{ display: 'inline'}}>{navItem.name}</span>
             </div>
             <div style={{display: (navItem.isExpanded ? 'block' : 'none'), borderLeft: '1px dotted black'}}>
                 <div style={{marginLeft: 20}}>
