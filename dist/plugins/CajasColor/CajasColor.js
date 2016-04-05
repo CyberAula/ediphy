@@ -22,7 +22,7 @@ var CajasColor = (function(){
             return {nBoxes: 3};
         },
         getRenderTemplate: function(state){
-            return "<div style='background-color: red'><plugin /></div><div style='background-color: blue'><plugin /></div>";
+            return "<div style='background-color: red; height: 50%'><plugin /></div><div style='background-color: blue; height: 50%'><plugin /></div>";
         },
         handleToolbar: function(name, value){
             if(name === 'nBoxes'){

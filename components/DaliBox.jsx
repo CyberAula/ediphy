@@ -212,15 +212,8 @@ export default class DaliBox extends Component {
                             return;
                         }
                         var target = event.target;
-
                         target.style.left = (parseInt(target.style.left) || 0) + event.dx + 'px';
                         target.style.top = (parseInt(target.style.top) || 0) + event.dy + 'px';
-                        if(event.restrict && event.restrict.dy < 0) {
-                            target.style.top = (parseInt(target.style.top) || 0) - event.restrict.dy + 'px';
-                        }
-                        if(event.restrict && event.restrict.dx < 0) {
-                            target.style.left = (parseInt(target.style.left) || 0) - event.restrict.dx + 'px';
-                        }
                     },
                     onend: (event) => {
                         if (this.props.boxSelected !== this.props.id) {
@@ -244,41 +237,35 @@ export default class DaliBox extends Component {
                             return;
                         }
                         /*BOX-RESIZE*/
-                        var target = event.target;
-                      
-                            if(event.edges.bottom){
-                                //Abajo
-                                target.style.top = (parseInt(target.style.top) || 0);
-                            }
-                            if(event.edges.left){
-                                //Izquierda
-                                target.style.left = (parseInt(target.style.left) || 0) + event.dx + 'px';    
-                            }
-                            if(event.edges.right){
-                                //Derecha
-                                target.style.left = (parseInt(target.style.left) || 0);
-                            }
-                            if(event.edges.top){
-                               //Arriba
-                                target.style.top = (parseInt(target.style.top) || 0) + event.dy + 'px';
-                              
-                            }
-                               
+                        let target = event.target;
+                        if(event.edges.bottom){ //Abajo
+                            target.style.top = (parseInt(target.style.top) || 0);
+                        }
+                        if(event.edges.left){ //Izquierda
+                            target.style.left = (parseInt(target.style.left) || 0) + event.dx + 'px';
+                        }
+                        if(event.edges.right){ //Derecha
+                            target.style.left = (parseInt(target.style.left) || 0);
+                        }
+                        if(event.edges.top){ //Arriba
+                            target.style.top = (parseInt(target.style.top) || 0) + event.dy + 'px';
+                        }
+
                         target.style.width = event.rect.width + 'px';
                         target.style.height = event.rect.height + 'px';
+
                         if(event.restrict){
-                             if(event.edges.top){
+                            if (event.edges.top && event.restrict.dy < 0) {
                                 target.style.height = parseInt(target.style.height) + event.restrict.dy + 'px';
-                                }else{
-                                    target.style.height = parseInt(target.style.height) - event.restrict.dy + 'px';
-                                }
-                              
-                            if(event.restrict.dx ){
-                                if(event.edges.left){
-                                   target.style.width = parseInt(target.style.width) + event.restrict.dx + 'px';
-                                }else{
-                                    target.style.width = parseInt(target.style.width) - event.restrict.dx + 'px';
-                                }
+                            }
+                            if (event.edges.bottom && event.restrict.dy > 0) {
+                                target.style.height = parseInt(target.style.height) - event.restrict.dy + 'px';
+                            }
+                            if(event.edges.left && event.restrict.dx < 0){
+                                target.style.width = parseInt(target.style.width) + event.restrict.dx + 'px';
+                            }
+                            if(event.edges.right && event.restrict.dx > 0){
+                                target.style.width = parseInt(target.style.width) - event.restrict.dx + 'px';
                             }
                         }
                     },
@@ -286,12 +273,14 @@ export default class DaliBox extends Component {
                         if (this.props.boxSelected !== this.props.id) {
                             return;
                         }
-                        let width = Math.min(Math.floor(parseInt(event.target.style.width) / event.target.parentElement.offsetWidth * 100), 100) + '%';
+
+                        let target = event.target;
+                        let width = Math.min(Math.floor(parseInt(target.style.width) / target.parentElement.offsetWidth * 100), 100) + '%';
                         this.props.onBoxResized(
                             this.props.id,
-                            box.parent.indexOf(ID_PREFIX_SORTABLE_BOX) !== -1 ? width : parseInt(event.target.style.width),
-                            parseInt(event.target.style.height));
-                        this.props.onBoxMoved(this.props.id, parseInt(event.target.style.left), parseInt(event.target.style.top));
+                            box.parent.indexOf(ID_PREFIX_SORTABLE_BOX) !== -1 ? width : parseInt(target.style.width),
+                            parseInt(target.style.height));
+                        this.props.onBoxMoved(this.props.id, parseInt(target.style.left), parseInt(target.style.top));
                         event.stopPropagation();
                     }
                 });
