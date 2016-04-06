@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {ActionCreators} from 'redux-undo';
 import {Grid, Col, Row, Button, OverlayTrigger, Popover} from 'react-bootstrap';
 import {addNavItem, selectNavItem, expandNavItem, removeNavItem,
-    addBox, selectBox, moveBox, resizeBox, updateBox, deleteBox, reorderBox, addSortableContainer,
+    addBox, selectBox, moveBox, resizeBox, updateBox, deleteBox, reorderBox, dropBox, addSortableContainer,
     togglePluginModal, togglePageModal, toggleTextEditor, toggleTitleMode,
     changeDisplayMode, exportStateAsync, importStateAsync, updateToolbar} from '../actions';
 import {ID_PREFIX_BOX, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_SORTABLE_CONTAINER, BOX_TYPES} from '../constants';
@@ -49,8 +49,9 @@ class DaliApp extends Component{
                                     onBoxSelected={(id) => dispatch(selectBox(id))}
                                     onBoxMoved={(id, x, y) => dispatch(moveBox(id, x, y))}
                                     onBoxResized={(id, width, height) => dispatch(resizeBox(id, width, height))}
-                                    onBoxDeleted={(id,parent) => dispatch(deleteBox(id, parent))} 
-                                    onBoxReorder={(ids,parent) => dispatch(reorderBox(ids,parent))}
+                                    onBoxDeleted={(id, parent) => dispatch(deleteBox(id, parent))}
+                                    onBoxReorder={(ids, parent) => dispatch(reorderBox(ids, parent))}
+                                    onBoxDropped={(id, row, col) => dispatch(dropBox(id, row, col))}
                                     onBoxModalToggled={(caller, fromSortable, container) => dispatch(togglePluginModal(caller, fromSortable, container))}
                                     onTextEditorToggled={(caller, value) => dispatch(toggleTextEditor(caller, value))}
                                     titleModeToggled={(id, value) => dispatch(toggleTitleMode(id, value))} />

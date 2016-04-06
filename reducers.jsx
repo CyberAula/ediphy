@@ -1,7 +1,7 @@
 import {combineReducers} from 'redux';
 import undoable, {excludeAction} from 'redux-undo';
 
-import {ADD_BOX, SELECT_BOX, MOVE_BOX, RESIZE_BOX, UPDATE_BOX, DELETE_BOX, REORDER_BOX, ADD_SORTABLE_CONTAINER,
+import {ADD_BOX, SELECT_BOX, MOVE_BOX, RESIZE_BOX, UPDATE_BOX, DELETE_BOX, REORDER_BOX, DROP_BOX, ADD_SORTABLE_CONTAINER,
     ADD_NAV_ITEM, SELECT_NAV_ITEM, EXPAND_NAV_ITEM, REMOVE_NAV_ITEM,
     TOGGLE_PLUGIN_MODAL, TOGGLE_PAGE_MODAL, TOGGLE_TEXT_EDITOR, TOGGLE_TITLE_MODE,
     CHANGE_DISPLAY_MODE, SET_BUSY, UPDATE_TOOLBAR, IMPORT_STATE
@@ -98,14 +98,14 @@ function sortableContainerCreator(state = {}, action = {}){
                 let id = action.payload.name.replace("_rows", "").replace("_", "-");
                 return Object.assign({}, state, {
                     [id]: Object.assign({}, state[id], {
-                        rows: action.payload.value.split(" ")
+                        rows: action.payload.value.split(" ").map(e => {return parseInt(e)})
                     })
                 });
             }else if(action.payload.name.indexOf("_cols") !== -1) {
                 let id = action.payload.name.replace("_cols", "").replace("_", "-");
                 return Object.assign({}, state, {
                     [id]: Object.assign({}, state[id], {
-                        cols: action.payload.value.split(" ")
+                        cols: action.payload.value.split(" ").map(e => {return parseInt(e)})
                     })
                 });
             }
@@ -143,6 +143,10 @@ function boxesById(state = {}, action = {}){
         case UPDATE_BOX:
             return Object.assign({}, state, {
                 [action.payload.id]: Object.assign({}, state[action.payload.id], {content: action.payload.content})
+            });
+        case DROP_BOX:
+            return Object.assign({}, state, {
+                [action.payload.id]: Object.assign({}, state[action.payload.id], {row: action.payload.row, col: action.payload.col})
             });
         case UPDATE_TOOLBAR:
             if(action.payload.name === 'width'){

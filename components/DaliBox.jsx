@@ -80,8 +80,10 @@ export default class DaliBox extends Component {
                 <div style={{position: 'absolute', left:  -cornerSize/2, bottom: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray', cursor: 'sw-resize'}}></div>
                 <div style={{position: 'absolute', right: -cornerSize/2, bottom: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray', cursor: 'se-resize'}}></div>
             </div>);
-
-        return (<div className="wholebox"
+        let classes = "wholebox";
+        if(box.container)
+            classes += " dnd" + box.container;
+        return (<div className={classes}
                      onDoubleClick={(e)=>{
                         if(toolbar.config && toolbar.config.needsTextEdition){
                             this.props.onTextEditorToggled(this.props.id, true);
@@ -131,6 +133,7 @@ export default class DaliBox extends Component {
                                                    onBoxMoved={this.props.onBoxMoved}
                                                    onBoxResized={this.props.onBoxResized}
                                                    onBoxDeleted={this.props.onBoxDeleted}
+                                                   onBoxDropped={this.props.onBoxDropped}
                                                    onBoxModalToggled={this.props.onBoxModalToggled}
                                                    onTextEditorToggled={this.props.onTextEditorToggled}
                 />, pluginsContained[i]);
@@ -200,11 +203,12 @@ export default class DaliBox extends Component {
         }.bind(this));
 
         if (box.type !== BOX_TYPES.SORTABLE) {
+            let dragRestrictionSelector = (box.container !== 0) ? ".drg" + box.container : "parent";
             interact(ReactDOM.findDOMNode(this))
                 .draggable({
                     enabled: (box.draggable),
                     restrict: {
-                        restriction: "parent",
+                        restriction: dragRestrictionSelector,
                         endOnly: true,
                         elementRect: {top: 0, left: 0, bottom: 1, right: 1}
                     },

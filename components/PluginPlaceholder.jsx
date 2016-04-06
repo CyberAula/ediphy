@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import {Button, Grid, Row, Col} from 'react-bootstrap';
+import interact from 'interact.js';
 import DaliBox from '../components/DaliBox';
 
 export default class PluginPlaceholder extends Component {
@@ -8,12 +9,11 @@ export default class PluginPlaceholder extends Component {
         let container = this.props.parentBox.sortableContainers[this.props.pluginContainer];
         let contentFull = (
             <Grid fluid={true} style={{
-                        width: "100%",
-                        height: "100%",
-                        position: 'relative',
-                        padding: 0,
-                        backgroundColor: "#ddd",
-                        opacity: 0.3}}>
+                    width: "100%",
+                    height: "100%",
+                    position: 'relative',
+                    padding: 0}}
+                  className={"drg" + this.props.pluginContainer}>
                 {container ?
                     container.rows.map((row, i) => {
                         return (
@@ -25,7 +25,33 @@ export default class PluginPlaceholder extends Component {
                                                 sm={col}
                                                 xs={col}
                                                 key={j}
-                                                style={{height: "100%", padding: 0}}>
+                                                style={{height: "100%", padding: 0}}
+                                                ref={e => {
+                                                    if(e !== null){
+                                                        let selector = ".dnd" + this.props.pluginContainer;
+                                                        interact(ReactDOM.findDOMNode(e)).dropzone({
+                                                            accept: selector,
+                                                            overlap: 'center',
+                                                            ondragenter: function(e){
+                                                                console.log("dragged into " + i + ", " + j);
+                                                                e.target.classList.add("drop-target");
+                                                            },
+                                                            ondragleave: function(e){
+                                                                console.log("dragleave");
+                                                                e.target.classList.remove("drop-target");
+                                                            },
+                                                            ondrop: function(e){
+                                                                let boxDragged = this.props.boxes[this.props.boxSelected];
+                                                                if(boxDragged.row !== i || boxDragged.col !== j){
+                                                                    this.props.onBoxDropped(this.props.boxSelected, i, j);
+                                                                }
+                                                            }.bind(this),
+                                                            ondropdeactivate: function (e) {
+                                                                e.target.classList.remove('drop-target');
+                                                            }
+                                                        });
+                                                    }
+                                                }}>
                                         {container.children.map((idBox, index) => {
                                             if(this.props.boxes[idBox].row === i && this.props.boxes[idBox].col === j) {
                                                 return (<DaliBox id={idBox}
