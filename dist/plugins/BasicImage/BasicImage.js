@@ -9,7 +9,8 @@ var BasicImage = (function(){
                 name: 'BasicImage',
                 category: 'image',
                 needsConfigModal: true,
-                needsTextEdition: false
+                needsTextEdition: false,
+                icon: 'fa-picture-o'
             };
         },
         getToolbar: function(){

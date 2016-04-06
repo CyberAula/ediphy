@@ -22,6 +22,7 @@ export const TOGGLE_TITLE_MODE = 'TOGGLE_TITLE_MODE';
 export const CHANGE_DISPLAY_MODE = 'CHANGE_DISPLAY_MODE';
 export const SET_BUSY = 'SET_BUSY';
 export const UPDATE_TOOLBAR = 'UPDATE_TOOLBAR';
+export const COLLAPSE_TOOLBAR = 'COLLAPSE_TOOLBAR';
 
 export const IMPORT_STATE = 'IMPORT_STATE';
 
@@ -79,6 +80,7 @@ export function duplicateSection(id){
 }
 
 export function togglePluginModal(caller, fromSortable, container){
+    console.log('action '+caller+' '+fromSortable+'   '+ container)
     return {type: TOGGLE_PLUGIN_MODAL, payload: {caller, fromSortable, container}};
 }
 
@@ -108,6 +110,10 @@ export function importState(state){
 
 export function updateToolbar(caller, index, name, value){
     return {type: UPDATE_TOOLBAR, payload: {caller, index, name, value}};
+}
+
+export function collapseToolbar(id){
+    return {type: COLLAPSE_TOOLBAR, payload: {id}};
 }
 
 //Async actions

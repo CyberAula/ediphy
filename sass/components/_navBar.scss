@@ -10,8 +10,22 @@
 	left: 0;
 	width: 100%;
 	height: 39px;
+	z-index: 99999999 !important;
 }
 
+#iconBar{
+	z-index: 999 !important;
+	whiteSpace: nowrap;
+}
+
+.indentmin{
+	padding-left: 20px !important;
+
+}
+.indentmax{
+	padding-left: 250px !important;
+
+}
 
 
 .navButton{
@@ -23,27 +37,38 @@
 	 -moz-border-radius: 0;
 	 width: auto;
 	 height: auto;
-	 width:100px;
+	 width:50px;
 	 font-size: 20px;
 	 height:35px;
 	 padding: 0px 0px 0px 0px;
 	 background-color: $navBar;
      box-shadow:none;
+     vertical-align: middle;
 	 &:hover, &:active, &:focus{
 
 		
-		 border-bottom: 5px solid $naranjaclaro;
+		 border-bottom: 0px solid $naranjaclaro;
 		 color: white;
 		 background-color: $navBar;
 		 -webkit-box-shadow: none;
          box-shadow: none;
-         font-weight:bold;
+         color:grey;
 	}
 
  	
 }
 
+.navButtonPlug{
+	 @extend .navButton;
+	width:auto;
+	padding: 0px 9px;
 
+	
+
+
+}
+
+.navButtonPlug.active{ color:#FA9B90 !important;}
 
 button[disabled].navButton {
 	background-color: $verdeoscuro;
@@ -60,5 +85,96 @@ button[disabled].navButton {
 .nav_but {
 
 	margin:2px 0px;
+
+}
+.hideonresize{
+	font-size: 12px;
+	vertical-align: middle;
+	margin:auto;
+}
+
+.rib{
+	border-radius: 0;
+	height:100%;
+	background-color: transparent;
+	border:none;
+	color:white;
+	&:active, &:hover, &:focus, &:link{
+		background-color: transparent !important ; 
+		color:#ddd;
+		box-shadow: none !important;
+	}
+	i {
+		color:$navBar !important;
+	
+	}
+}
+
+@media screen and (max-width: 1147px) {
+	.hideonresize{
+		display: none;
+	}
+	.navButtonPlug{
+	 width:50px;
+	 padding:0;
+	  .active{ color:white !important;}
+}
+
+}
+
+#ribbon{
+	// overflow-x:auto;
+	background-color:#888;
+	height:60px;
+	position: absolute;
+	top:39px;
+	padding:0;
+	z-index:0;
+	// margin-left: -15px;
+	
+}
+
+.conmargen{
+	margin-left:-15px;
+}
+
+.sinmargen{
+
+	margin-left: 0px;
+}
+
+.hideonresize{
+	font-size: 12px;
+	vertical-align: middle;
+	margin:auto;
+}
+
+.rib{
+	display: inline-block;
+	font-size: 14px !important;
+	border-radius: 0;
+	height:100%;
+	background-color: transparent;
+	border:none;
+	color:white;
+	&:active, &:hover, &:focus, &:link{
+		background-color: transparent !important ; 
+		color:#ddd;
+		box-shadow: none !important;
+	}
+	i {
+		color:$navBar !important;
+	
+	}
+}
+
+@media screen and (max-width: 1147px) {
+	.hideonresize{
+		display: none;
+	}
+	.navButtonPlug{
+	 width:50px;
+	 padding:0;
+}
 
 }

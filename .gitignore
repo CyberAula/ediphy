@@ -6,3 +6,4 @@ dist/bundle.js
 dist/bundle.js
 webpack.config.js~
 *.orig
+.sass-cache

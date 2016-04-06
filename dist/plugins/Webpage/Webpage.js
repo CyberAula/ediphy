@@ -5,7 +5,8 @@ var Webpage= (function(){
                 name: 'Webpage',
                 category: 'multimedia',
                 needsConfigModal: true,
-                needsTextEdition: false
+                needsTextEdition: false,
+                 icon: 'fa-globe'
             };
         },
         getToolbar: function(){

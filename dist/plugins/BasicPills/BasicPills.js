@@ -5,7 +5,8 @@ var BasicPills = (function(){
                 name: 'BasicPills',
                 category: 'text',
                 needsConfigModal: true,
-                needsTextEdition: false
+                needsTextEdition: false,
+                icon: 'fa-medkit'
             };
         },
         getToolbar: function(){
@@ -52,10 +53,10 @@ var BasicPills = (function(){
                         auxTexts.push('text'+i); 
                     }
                     if(auxColors[i] == null){
-                        auxColors.push('#FFFF00'); 
+                        auxColors.push('#f87060'); 
                     }
                     if(auxColorsTitle[i] == null){
-                        auxColorsTitle.push('#333333');
+                        auxColorsTitle.push('white');
                     }
 
 
@@ -101,7 +102,7 @@ var BasicPills = (function(){
                     if(i==0){
                         auxNavPills += '\
                         <li id="li'+n+'" style="padding:0%;color:'+auxColorsTitle[i]+'; background-color: '+auxColors[i]+';"\n\
-                        class="col-xs-'+ ancho+' active collapsed"\n\
+                        class="pills col-xs-'+ ancho+' active collapsed"\n\
                         aria-controls="Text'+i+'Pill'+n+'" href="#Text'+i+'Pill'+n+'"\n\
                         aria-expanded="true" data-toggle="collapse" role="button"\n\
                         onClick="BasicPills.handleSelect('+i+','+n+','+number+')"><b>'+auxTitles[i]+'</b></li>';
@@ -113,7 +114,7 @@ var BasicPills = (function(){
                         </div>';
                     }else{
                         auxNavPills +=  '\
-                        <li class="col-xs-'+ancho+' collapsed"\n\
+                        <li class="pills col-xs-'+ancho+' collapsed"\n\
                         aria-controls="Text'+i+'Pill'+n+'" href="#Text'+i+'Pill'+n+'"\n\
                         aria-expanded="false" data-toggle="collapse" role="button"\n\
                         style="padding:0%;background-color: '+auxColors[i]+';color:'+auxColorsTitle[i]+';margin: 0%"\n\
@@ -170,10 +171,10 @@ var BasicPills = (function(){
                     auxTexts.push('text'+i);
                 }
                 if(auxColors[i] == null){
-                    auxColors.push('#ff0000');
+                    auxColors.push('#f87060');
                 }
                 if(auxColorsTitle[i] == null){
-                    auxColorsTitle.push('#333333');
+                    auxColorsTitle.push('white');
                 }
 
                 editorBox += '\

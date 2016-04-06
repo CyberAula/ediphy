@@ -5,7 +5,8 @@ var Youtube= (function(){
                 name: 'Youtube',
                 category: 'multimedia',
                 needsConfigModal: true,
-                needsTextEdition: false
+                needsTextEdition: false,
+                 icon: 'fa-youtube'
             };
         },
         getToolbar: function(){

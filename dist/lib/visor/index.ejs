@@ -1,0 +1,93 @@
+
+<!DOCTYPE html>
+<html lang="en" style="height: 100%">
+<head>
+<meta charset="UTF-8">
+<title>Dali - POC</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+<link rel="stylesheet" href="css/style.css">
+<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="css/textStyles.css">
+<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script src="lib/jquery-ui.min.js"></script>
+<script src="lib/jquery.ui.touch-punch.min.js"></script>
+<script src="lib/api.js"></script>
+<script src="lib/ckeditor/ckeditor.js"></script>
+<script src="BasePlugin.js"></script>
+<script src="plugins.json"></script>
+<script src="lib/visor/visor.js"></script>
+<body  style="margin: 0px; height: 100%">
+<div style="height:100%;" id="editor truevisor">
+<div style="height:100%;" id="root" style="height: 100%">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+<div class="outter" style="padding-top:0px;">
+<div id="maincontent" class="slide <%=navs[page].type == 'slide' ? 'sli':'doc'%>" style="visibility: visible;" >
+<div style="visibility: visible; overflow: auto;" class="caja">
+<% 
+      var padre = navs[navs[page].parent].name || 'Section 0';
+      var patt = /([0-9]+((\.[0-9]+)+)?)/;  //Detecta número de sección. Ej. Section (2.3.4.2)
+      var sectiontitle = patt.exec(padre)? patt.exec(padre)[0]:'0';
+%>
+<div class="cab"> 
+      <div class="cabtabla_numero"><%=sectiontitle%></div>
+      <div class="tit_ud_cap">
+        <h1> Título Curso -  <%strDate%></h1>
+        <h2>Título Unidad</h2>
+      </div>
+      <div class="cabtabla_lapiz">
+        <img src="images/ico_alumno.gif" alt="Alumno"><div id="alumno"> Alumno</div>
+      </div>
+      <div class="clear"></div>
+</div>
+
+<div class="contenido" style="height:auto;">
+<h3><%=padre%></h3>
+<h4><%=navs[page].name%></h4> 
+<div class="boxes" style="position:relative;">
+<%
+  function parseBox(box){
+    var width = box.width[box.width.length -1]=='%' ? box.width : box.width+'px';
+    var height = box.height? (box.height[box.height.length -1]=='%' ? box.height : box.height+'px'):'auto';
+%>
+    <div style="width: <%=width%>; height:<%=height%>; position: absolute; top: <%=box.position.y %>px; left: <%= box.position.x %>px; word-wrap:break-word;" >
+<%  if (box.id[1]!='s') { %>
+  <%=box.content%>
+<%  } %>     
+<%
+    box.children.map(b=>{
+        var thisbox = b; 
+        if (box.id[1]='s') thisbox= b.replace('sc-','bo-');// Cambiar sc por bo en sortables
+        var alturadiv = boxesById[thisbox].height
+        var height2 = alturadiv? (alturadiv[alturadiv.length -1]=='%' ? alturadiv : alturadiv+'px'):'auto';
+%>
+    <div style="width:100%;position:relative;height:<%=height2%>;display:block;">
+      <% parseBox(boxesById[thisbox]) %>
+    </div>
+<% });%>
+    </div>   
+<% } 
+navs[page].boxes.map( box=> {
+  if (boxesById[box].parent == page) { %>
+     <% parseBox(boxesById[box])%>
+<% }
+}); %>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script type="text/javascript">
+
+$(document).ready(function(){
+ Dali.Plugins.loadAllAsync().then(values => {
+ values.map((id, index) =>{
+    Dali.Plugins.get(id).init();
+  })
+});
+}) 
+</script>
+</body>
+</html>

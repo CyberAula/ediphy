@@ -48,12 +48,12 @@ export default class CarrouselList extends Component{
                                             onNavItemExpanded={this.props.onNavItemExpanded} />;
                         }else if(id.indexOf(ID_PREFIX_PAGE) !== -1){
                             let classSelected = this.props.navItemSelected === id ? 'selected' : 'notSelected';
-                            return <h4 key={index}
+                            return <h6 key={index}
                                         className={classSelected}
                                          onClick={e => {
                                                     this.props.onNavItemSelected(id);
                                                     e.stopPropagation();
-                                               }}>{this.props.navItems[id].name}</h4>;
+                                               }}>{this.props.navItems[id].name}</h6>;
                         }
                     })}
                     <ButtonGroup>

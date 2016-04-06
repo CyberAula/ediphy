@@ -5,7 +5,8 @@ var BasicQuizConnect = (function(){
                 name: 'BasicQuizConnect',
                 category: 'exercises',
                 needsConfigModal: true,
-                needsTextEdition: false
+                needsTextEdition: false,
+                 icon: 'fa-pencil'
             };
         },
         getToolbar: function(){

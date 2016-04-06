@@ -54,7 +54,6 @@ export default class DaliBox extends Component {
             <div  style={style} {...attrs} dangerouslySetInnerHTML={{__html: box.content}}>
             </div>
         );
-       
         let border = (
             <div style={{visibility: (vis ? 'visible' : 'hidden')}}>
                 <div style={{
@@ -80,20 +79,25 @@ export default class DaliBox extends Component {
                 <div style={{position: 'absolute', left:  -cornerSize/2, bottom: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray', cursor: 'sw-resize'}}></div>
                 <div style={{position: 'absolute', right: -cornerSize/2, bottom: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray', cursor: 'se-resize'}}></div>
             </div>);
+
         let classes = "wholebox";
-        if(box.container)
+        if(box.container){
             classes += " dnd" + box.container;
-        return (<div className={classes}
+        }
+        return (<div className={classes} onClick={e => {
+                        e.stopPropagation()
+                        this.props.onBoxSelected(this.props.id) }}
                      onDoubleClick={(e)=>{
                         if(toolbar.config && toolbar.config.needsTextEdition){
                             this.props.onTextEditorToggled(this.props.id, true);
                             this.refs.textarea.focus();
                         }}
                     }
+
                      style={{position: 'absolute',
                             left: box.position.x,
                             top: box.position.y,
-                            width: box.width,
+                            width: box.width ,
                             height: box.height,
                             maxWidth: '100%',
                             maxHeight: '100%',

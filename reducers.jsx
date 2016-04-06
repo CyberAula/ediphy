@@ -4,7 +4,7 @@ import undoable, {excludeAction} from 'redux-undo';
 import {ADD_BOX, SELECT_BOX, MOVE_BOX, RESIZE_BOX, UPDATE_BOX, DELETE_BOX, REORDER_BOX, DROP_BOX, ADD_SORTABLE_CONTAINER,
     ADD_NAV_ITEM, SELECT_NAV_ITEM, EXPAND_NAV_ITEM, REMOVE_NAV_ITEM,
     TOGGLE_PLUGIN_MODAL, TOGGLE_PAGE_MODAL, TOGGLE_TEXT_EDITOR, TOGGLE_TITLE_MODE,
-    CHANGE_DISPLAY_MODE, SET_BUSY, UPDATE_TOOLBAR, IMPORT_STATE
+    CHANGE_DISPLAY_MODE, SET_BUSY, UPDATE_TOOLBAR, COLLAPSE_TOOLBAR, IMPORT_STATE
 } from './actions';
 import {ID_PREFIX_SECTION, ID_PREFIX_PAGE, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_SORTABLE_CONTAINER} from './constants';
 
@@ -119,7 +119,7 @@ function boxesById(state = {}, action = {}){
     switch (action.type){
         case ADD_BOX:
             let box = boxCreator(state[action.payload.ids.id], action);
-            if(action.payload.ids.parent.indexOf(ID_PREFIX_PAGE) !== -1 || action.payload.ids.parent.indexOf(ID_PREFIX_SECTION) !== -1){
+            if(action.payload.ids.parent && action.payload.ids.parent.indexOf(ID_PREFIX_PAGE) !== -1 || action.payload.ids.parent.indexOf(ID_PREFIX_SECTION) !== -1){
                 return Object.assign({}, state, {
                     [action.payload.ids.id]: box
                 });
@@ -345,7 +345,8 @@ function navItemsById(state = {}, action = {}){
             let wrongNames = Object.assign({}, newState, {[action.payload.parent]: Object.assign({}, newState[action.payload.parent], {children: newChildren})});
             return recalculateNames(wrongNames, oldOne,1, action.payload.ids.length)
         case ADD_BOX:
-            if(action.payload.ids.parent.indexOf(ID_PREFIX_PAGE) !== -1 || action.payload.ids.parent.indexOf(ID_PREFIX_SECTION) !== -1)
+        
+            if(action.payload.ids.parent &&  action.payload.ids.parent.indexOf(ID_PREFIX_PAGE) !== -1 || action.payload.ids.parent.indexOf(ID_PREFIX_SECTION) !== -1)
                 return Object.assign({}, state, {
                     [action.payload.ids.parent]: Object.assign({}, state[action.payload.ids.parent], {
                         boxes: [...state[action.payload.ids.parent].boxes, action.payload.ids.id]})});
@@ -393,7 +394,8 @@ function toolbarsById(state = {}, action = {}){
                 buttons: action.payload.toolbar,
                 config: action.payload.config,
                 state: action.payload.state,
-                showTextEditor: false
+                showTextEditor: false,
+                isCollapsed: false
             };
             let parentToolbar;
             if(action.payload.ids.container !== 0){
@@ -476,6 +478,10 @@ function toolbarsById(state = {}, action = {}){
             newState[action.payload.index] = Object.assign({}, newState[action.payload.index], {value: action.payload.value});
             return Object.assign({}, state, {
                 [action.payload.caller]: Object.assign({}, state[action.payload.caller], {buttons: newState})
+            });
+        case COLLAPSE_TOOLBAR:
+            return Object.assign({}, state, {
+                [action.payload.id]: Object.assign({}, state[action.payload.id], {isCollapsed: !(state[action.payload.id].isCollapsed)})
             });
         case UPDATE_BOX:
             return Object.assign({}, state, {

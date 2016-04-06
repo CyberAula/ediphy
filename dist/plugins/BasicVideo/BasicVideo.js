@@ -5,7 +5,8 @@ var BasicVideo= (function(){
                 name: 'BasicVideo',
                 category: 'multimedia',
                 needsConfigModal: true,
-                needsTextEdition: false
+                needsTextEdition: false,
+                icon: 'fa-video-camera'
             };
         },
         getToolbar: function(){

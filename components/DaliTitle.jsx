@@ -19,7 +19,7 @@ export default class DaliTitle extends Component {
                         }
                     </Breadcrumb>
 
-                    <h1 style={{margin: 0}}>{actualTitle}</h1>
+                    <h3 style={{margin: 0}}>{actualTitle}</h3>
                 </div>
             );
         }else {
@@ -34,8 +34,8 @@ export default class DaliTitle extends Component {
         }
 
         return (
-            <div style={{marginLeft: 30, paddingTop: 10, position: 'relative'}}>
-                <Button style={{visibility: (hideButton)? 'hidden' : 'visible', position: 'absolute', right: 20, top: 20}} onClick={() => {
+            <div style={{marginLeft: 30, marginRight: 30, paddingTop: 10, position: 'relative'}}>
+                <Button style={{border: 0, backgroundColor: 'transparent', visibility: (hideButton)? 'hidden' : 'visible', position: 'absolute', right: 20, top: 20}} onClick={() => {
                     this.props.titleModeToggled(this.props.navItemId, !this.props.isReduced);
                 }}>
                     <i className={this.props.isReduced ? "fa fa-plus" : "fa fa-minus"}></i>

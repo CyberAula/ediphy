@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Input, ButtonInput} from 'react-bootstrap';
+import {Input, ButtonInput, Button} from 'react-bootstrap';
 import ReactDOM from 'react-dom';
 import interact from 'interact.js';
 
@@ -13,6 +13,9 @@ export default class PluginToolbar extends Component {
     }
 
     render() {
+        if(this.props.boxSelected === -1){
+            return <div></div>;
+        }
         let toolbar = this.props.toolbars[this.props.boxSelected];
         let showToolbar = this.props.boxSelected !== -1 && toolbar.buttons;
         let visible = showToolbar ? 'visible' : 'hidden';
@@ -41,21 +44,31 @@ export default class PluginToolbar extends Component {
                     />
             });
             if(toolbar.config.needsTextEdition){
-                buttons.push(<ButtonInput key={'text'} onClick={() => {
-                    this.props.onTextEditorToggled(this.props.boxSelected, !toolbar.showTextEditor);
-                }} bsStyle={toolbar.showTextEditor ? 'primary' : 'default'}>Edit text</ButtonInput>);
+                buttons.push(<ButtonInput key={'text'}
+                                          onClick={() => {
+                                            this.props.onTextEditorToggled(this.props.boxSelected, !toolbar.showTextEditor);}}
+                                          bsStyle={toolbar.showTextEditor ? 'primary' : 'default'}>
+                    Edit text</ButtonInput>);
             }
             if(toolbar.config.needsConfigModal){
-                buttons.push(<ButtonInput key={'config'} onClick={() => {
-                    Dali.Plugins.get(toolbar.config.name).openConfigModal(true, toolbar.state, toolbar.id)
-                }}>Open config</ButtonInput>);
+                buttons.push(<ButtonInput key={'config'}
+                                          onClick={() => {
+                                            Dali.Plugins.get(toolbar.config.name).openConfigModal(true, toolbar.state, toolbar.id)}}>
+                    Open config</ButtonInput>);
             }
         }
-        return (<div className="toolbox" style={{
-            right: this.state.x,
-            top: this.state.y,
-            visibility: visible}}>
-            {buttons}
+        return (<div id="wrap" className="wrapper" style={{
+                    right: '0px', /*this.state.x,*/
+                    top: '39px',
+                    visibility: visible /*this.state.y,*/}} >
+            <div className="pestana" onClick={() => {toggleWidth() }}>
+                <i className="fa fa-gear fa-2x"> </i>
+            </div>
+            <div id="tools" className="toolbox">
+                <div className="botones">
+                    {buttons}
+                </div>
+            </div>
         </div>);
     }
 
@@ -75,7 +88,20 @@ export default class PluginToolbar extends Component {
                     event.stopPropagation()
                     target.style.right = (parseInt(target.style.right) || 0) + (-event.dx) + 'px';
                     target.style.top = (parseInt(target.style.top) || 0) + event.dy + 'px';
+                },
+                onend: (event) => {
+                    this.setState({x: parseInt(event.target.style.right), y: parseInt(event.target.style.top)});
+                    event.stopPropagation();
                 }
             });
     }
+}
+
+function toggleWidth(){
+     if( $("#tools").css("width") != '250px' ){
+         $("#tools").animate({width: '250px'})
+     } else {
+         $("#tools").animate({ width: '0px'})
+     }
+    // $("#tools").toggle()
 }
