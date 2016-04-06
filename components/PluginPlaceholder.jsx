@@ -29,7 +29,6 @@ export default class PluginPlaceholder extends Component {
                                                             accept: selector,
                                                             overlap: 'center',
                                                             ondragenter: function(e){
-                                                                console.log("dragged into " + i + ", " + j);
                                                                 e.target.classList.add("drop-target");
                                                             },
                                                             ondragleave: function(e){
@@ -111,9 +110,5 @@ export default class PluginPlaceholder extends Component {
             this.props.onBoxModalToggled(this.props.parentBox.id, false, this.props.pluginContainer);
             e.stopPropagation();
         }.bind(this));
-    }
-
-    componentWillUnmount(){
-        console.log("unmount");
     }
 }

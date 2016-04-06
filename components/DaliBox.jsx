@@ -112,17 +112,33 @@ export default class DaliBox extends Component {
         Dali.Plugins.get(this.props.toolbars[this.props.id].config.name).updateTextChanges(this.refs.textarea.innerHTML, this.props.id);
     }
 
+    isChildren(id){
+        let box = this.props.boxes[this.props.id];
+        let isChildren = false;
+        box.children.forEach(scId => {
+            box.sortableContainers[scId].children.forEach(boxId => {
+                if(boxId === id){
+                    isChildren = true;
+                    return;
+                }
+            })
+            if(isChildren){
+                return;
+            }
+        });
+        return isChildren;
+    }
+
     shouldComponentUpdate(nextProps, nextState){
-        //console.log({actualId: this.props.id, actualSelected: this.props.boxSelected, nextId: nextProps.id, nextSelected: nextProps.boxSelected})
         if(nextProps.boxes[nextProps.id] !== this.props.boxes[this.props.id] ||
             nextProps.toolbars[nextProps.id] !== this.props.toolbars[this.props.id] ||
             (this.props.boxSelected == this.props.id && nextProps.boxSelected !== this.props.id) ||
-            (this.props.boxSelected !== this.props.id && nextProps.boxSelected === this.props.id)
+            (this.props.boxSelected !== this.props.id && nextProps.boxSelected === this.props.id) ||
+            this.isChildren(this.props.boxSelected) ||
+            this.isChildren(nextProps.boxSelected)
         ){
-            //if(this.props.boxes[this.props.id].sortableContainers !== nextProps.boxes[nextProps.id].sortableContainers) {
             let pluginsContained = ReactDOM.findDOMNode(this).getElementsByTagName("plugin");
             for (let i = 0; i < pluginsContained.length; i++) {
-                //console.log(pluginsContained[i].attributes["plugin-data-id"].value);
                 ReactDOM.render(<PluginPlaceholder key={i}
                                                    pluginContainer={pluginsContained[i].attributes["plugin-data-id"].value}
                                                    parentBox={nextProps.boxes[this.props.id]}
@@ -138,7 +154,6 @@ export default class DaliBox extends Component {
                                                    onTextEditorToggled={this.props.onTextEditorToggled}
                 />, pluginsContained[i]);
             }
-            //}
             return true;
         }
         return false;
@@ -217,17 +232,20 @@ export default class DaliBox extends Component {
                             return;
                         }
                         var target = event.target;
-                        target.style.left = (parseInt(target.style.left) || 0) + event.dx + 'px';
-                        target.style.top = (parseInt(target.style.top) || 0) + event.dy + 'px';
+                        target.style.left = Math.max((parseInt(target.style.left) || 0) + event.dx, 0) + 'px';
+                        target.style.top = Math.max((parseInt(target.style.top) || 0) + event.dy, 0) + 'px';
                     },
                     onend: (event) => {
-                        if (this.props.boxSelected !== this.props.id) {
+                        if(this.props.boxSelected !== this.props.id) {
                             return;
                         }
 
                         var target = event.target;
-                        let left = Math.max(Math.min(Math.floor(parseInt(target.style.left) / target.parentElement.offsetWidth * 100), 100), 0) + '%';
-                        let top = Math.max(Math.min(Math.floor(parseInt(target.style.top) / target.parentElement.offsetHeight * 100), 100), 0) + '%';
+                        if(!target.parentElement){
+                            return;
+                        }
+                        let left = Math.min(Math.floor(parseInt(target.style.left) / target.parentElement.offsetWidth * 100), 100) + '%';
+                        let top = Math.min(Math.floor(parseInt(target.style.top) / target.parentElement.offsetHeight * 100), 100) + '%';
 
                         this.props.onBoxMoved(
                             this.props.id,
@@ -299,5 +317,9 @@ export default class DaliBox extends Component {
                     }
                 });
         }
+    }
+
+    componentWillUnmount(){
+        interact(ReactDOM.findDOMNode(this)).unset();
     }
 }
