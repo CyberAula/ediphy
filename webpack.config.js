@@ -35,3 +35,4 @@ module.exports = {
     ]
 };
 
+//En terminal aparte añadir sass --watch sass/style.scss:dist/css/style.css

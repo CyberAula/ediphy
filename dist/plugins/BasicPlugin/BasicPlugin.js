@@ -5,7 +5,8 @@ var BasicPlugin = (function(){
                 name: 'BasicPlugin',
                 category: 'image',
                 needsConfigModal: true,
-                needsTextEdition: true
+                needsTextEdition: true,
+                icon:'fa-star'
             }
         },
         getToolbar: function(){

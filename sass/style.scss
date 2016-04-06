@@ -1,5 +1,4 @@
 
-
 @import 'variables';
 @import 'components/canvas';
 @import 'components/carrouselList';
@@ -8,7 +7,10 @@
 @import 'components/btn';
 @import 'components/scrollbar';
 @import 'components/thumbnails';
-
+@import 'components/pluginToolbar';
+@import 'components/visor';
+@import 'components/pills';
+  
 *{
 	font-family: 'Source Sans Pro', sans-serif;
 	outline:none !important;
@@ -17,4 +19,8 @@
 @include selection {
     color: white;
     background: $navBar;
+}
+
+#app{
+	margin:0;
 }

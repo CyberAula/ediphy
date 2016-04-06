@@ -13,7 +13,7 @@ export default class PageModal extends Component {
                     <Modal.Title>Create new page</Modal.Title>
                 </Modal.Header>
 
-                <Modal.Body>
+                <Modal.Body >
                     <ButtonGroup vertical={true} block={true}>
                         <Button bsStyle="primary" onClick={e =>{
                         var idnuevo = ID_PREFIX_PAGE + Date.now();

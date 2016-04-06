@@ -57,17 +57,18 @@ export default class PluginToolbar extends Component {
                     Open config</ButtonInput>);
             }
         }
-        return (<div className="toolbox" style={{
-            right: this.state.x,
-            top: this.state.y,
-            minWidth: 60,
-            visibility: visible}}>
-            <div style={{display: toolbar.isCollapsed ? 'none' : ''}}>
-                {buttons}
+        return (<div id="wrap" className="wrapper" style={{
+                    right: '0px', /*this.state.x,*/
+                    top: '39px',
+                    visibility: visible /*this.state.y,*/}} >
+            <div className="pestana" onClick={() => {toggleWidth() }}>
+                <i className="fa fa-gear fa-2x"> </i>
             </div>
-            <Button style={{position: 'absolute', top: 0, right: 0, border: 0, backgroundColor: 'transparent'}}
-                    onClick={() => this.props.onToolbarCollapsed(toolbar.id)}>
-                {toolbar.isCollapsed ? "+" : "-"}</Button>
+            <div id="tools" className="toolbox">
+                <div className="botones">
+                    {buttons}
+                </div>
+            </div>
         </div>);
     }
 
@@ -94,4 +95,13 @@ export default class PluginToolbar extends Component {
                 }
             });
     }
+}
+
+function toggleWidth(){
+     if( $("#tools").css("width") != '250px' ){
+         $("#tools").animate({width: '250px'})
+     } else {
+         $("#tools").animate({ width: '0px'})
+     }
+    // $("#tools").toggle()
 }

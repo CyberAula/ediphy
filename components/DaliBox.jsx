@@ -52,7 +52,6 @@ export default class DaliBox extends Component {
             <div  style={style} {...attrs} dangerouslySetInnerHTML={{__html: box.content}}>
             </div>
         );
-       
         let overlay = (
             <div style={{visibility: (vis ? 'visible' : 'hidden')}}>
                 <div   style={{position: 'absolute', width: '100%', height: '100%', border: (borderSize + "px dashed black"), boxSizing: 'border-box'}}>
@@ -71,7 +70,6 @@ export default class DaliBox extends Component {
                 <div style={{position: 'absolute', left:  -cornerSize/2, bottom: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray', cursor: 'sw-resize'}}></div>
                 <div style={{position: 'absolute', right: -cornerSize/2, bottom: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray', cursor: 'se-resize'}}></div>
             </div>);
-
         return (<div className="wholebox" onClick={e => {
                         e.stopPropagation()
                         this.props.onBoxSelected(this.props.id) }}
@@ -81,10 +79,11 @@ export default class DaliBox extends Component {
                             this.refs.textarea.focus();
                         }}
                     }
+
                      style={{position: 'absolute',
                             left: box.position.x,
                             top: box.position.y,
-                            width: box.width,
+                            width: box.width ,
                             height: box.height,
                             touchAction: 'none',
                             msTouchAction: 'none',
