@@ -103,6 +103,7 @@ export default class Visor extends Component{
 
     parseBox(box){
         console.log(box)
+        /*
         var boxesById = this.props.state.boxesById
         var width = box.width[box.width.length -1]=='%' ? box.width : box.width+'px';
         var height = box.height? (box.height[box.height.length -1]=='%' ? box.height : box.height+'px'):'auto';
@@ -125,7 +126,7 @@ export default class Visor extends Component{
 
              </div>);
      
-
+*/
       
 
     }

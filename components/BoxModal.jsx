@@ -12,14 +12,14 @@ export default class BoxModal extends Component {
     }
 
     componentWillReceiveProps(nextProps){
-        if(nextProps.caller !== 0){
+        if(nextProps.container !== 0){
             this.setState({show: true});
         }
     }
 
     render() {
         return (
-        <Modal style={{visibility:'hidden'}} show={this.state.show&&this.props.fromSortable} backdrop={true} bsSize="large" onHide={e => {
+        <Modal show={this.state.show} backdrop={true} bsSize="large" onHide={e => {
             console.log('hiding')
             this.setState({show: false});
 
