@@ -35,7 +35,7 @@ export default class PluginToolbar extends Component {
                               onChange={e => {
                                     let value = e.target.value;
                                     if(item.type === 'number')
-                                        value = parseFloat(value);
+                                        value = parseFloat(value) || 0;
                                     this.props.onToolbarUpdated(this.props.boxSelected, index, item.name, value);
                                     if(!item.autoManaged)
                                         item.callback(toolbar.state, item.name, value, toolbar.id);

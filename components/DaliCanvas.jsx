@@ -31,32 +31,33 @@ export default class DaliCanvas extends Component{
                            <br/> 
                 {this.props.navItemSelected.boxes.map(id => {
                     let box = this.props.boxes[id];
-                    let isSelected = (id === this.props.boxSelected);
                     if (box.type === BOX_TYPES.NORMAL)
                         return <DaliBox key={id}
                                         id={id}
-                                        box={box}
-                                        toolbar={this.props.toolbars[id]}
-                                        isSelected={isSelected}
-                                        onBoxSelected={this.props.onBoxSelected}
-                                        onBoxMoved={this.props.onBoxMoved}
-                                        onBoxResized={this.props.onBoxResized}
-                                        onBoxDeleted={this.props.onBoxDeleted}
-                                        onTextEditorToggled={this.props.onTextEditorToggled} />
-                    else if (box.type === BOX_TYPES.SORTABLE)
-                        return <DaliBoxSortable key={id}
-                                        id={id}
-                                        box={box}
-                                        onVisibilityToggled={this.props.onVisibilityToggled}
                                         boxes={this.props.boxes}
                                         boxSelected={this.props.boxSelected}
                                         toolbars={this.props.toolbars}
                                         onBoxSelected={this.props.onBoxSelected}
                                         onBoxMoved={this.props.onBoxMoved}
-                                        onBoxDeleted={this.props.onBoxDeleted}
                                         onBoxResized={this.props.onBoxResized}
-                                        onBoxReorder={this.props.onBoxReorder}
+                                        onBoxDeleted={this.props.onBoxDeleted}
+                                        onBoxDropped={this.props.onBoxDropped}
+                                        onBoxModalToggled={this.props.onBoxModalToggled}
                                         onTextEditorToggled={this.props.onTextEditorToggled} />
+                    else if (box.type === BOX_TYPES.SORTABLE)
+                        return <DaliBoxSortable key={id}
+                                                id={id}
+                                                boxes={this.props.boxes}
+                                                boxSelected={this.props.boxSelected}
+                                                toolbars={this.props.toolbars}
+                                                onBoxSelected={this.props.onBoxSelected}
+                                                onBoxMoved={this.props.onBoxMoved}
+                                                onBoxDeleted={this.props.onBoxDeleted}
+                                                onBoxResized={this.props.onBoxResized}
+                                                onBoxReorder={this.props.onBoxReorder}
+                                                onBoxDropped={this.props.onBoxDropped}
+                                                onBoxModalToggled={this.props.onBoxModalToggled}
+                                                onTextEditorToggled={this.props.onTextEditorToggled} />
                 })}
             </div>
         );

@@ -1,0 +1,41 @@
+﻿Merge branch 'plugins_refactor'
+
+# Conflicts:
+#	components/DaliBox.jsx
+#	dist/index.html
+#	dist/plugins/BasicImage/BasicImage.js
+#	reducers.jsx
+#
+# It looks like you may be committing a merge.
+# If this is not correct, please remove the file
+#	.git/MERGE_HEAD
+# and try again.
+
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch master
+# Your branch is up-to-date with 'origin/master'.
+#
+# All conflicts fixed but you are still merging.
+#
+# Changes to be committed:
+#	modified:   actions.jsx
+#	modified:   components/DaliBox.jsx
+#	modified:   components/DaliBoxSortable.jsx
+#	modified:   components/DaliCanvas.jsx
+#	new file:   components/PluginPlaceholder.jsx
+#	modified:   components/PluginToolbar.jsx
+#	modified:   containers/DaliApp.jsx
+#	modified:   dist/BasePlugin.js
+#	modified:   dist/index.html
+#	modified:   dist/lib/api.js
+#	renamed:    dist/plugins.json -> dist/plugins.js
+#	modified:   dist/plugins/BasicImage/BasicImage.js
+#	new file:   dist/plugins/CajasColor/CajasColor.js
+#	new file:   dist/plugins/Container/Container.js
+#	modified:   reducers.jsx
+#	new file:   sass/components/_pluginPlaceholder.scss
+#	modified:   sass/style.scss
+#
+
