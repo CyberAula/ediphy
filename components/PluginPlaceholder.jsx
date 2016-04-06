@@ -20,11 +20,7 @@ export default class PluginPlaceholder extends Component {
                             <Row key={i}
                                  style={{height: (100 / 12 * row) + "%", margin: 0}}>
                                 {container.cols.map((col, j) => {
-                                    return(<Col lg={col}
-                                                md={col}
-                                                sm={col}
-                                                xs={col}
-                                                key={j}
+                                    return(<Col lg={col} md={col} sm={col} xs={col} key={j}
                                                 style={{height: "100%", padding: 0}}
                                                 ref={e => {
                                                     if(e !== null){
@@ -37,7 +33,6 @@ export default class PluginPlaceholder extends Component {
                                                                 e.target.classList.add("drop-target");
                                                             },
                                                             ondragleave: function(e){
-                                                                console.log("dragleave");
                                                                 e.target.classList.remove("drop-target");
                                                             },
                                                             ondrop: function(e){

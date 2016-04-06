@@ -41,6 +41,7 @@ function boxCreator(state = {}, action = {}){
                 position.x = 0;
                 position.y = 0;
                 width = '100%';
+                height = '100%';
             }
             
             return {

@@ -209,7 +209,6 @@ export default class DaliBox extends Component {
                     enabled: (box.draggable),
                     restrict: {
                         restriction: dragRestrictionSelector,
-                        endOnly: true,
                         elementRect: {top: 0, left: 0, bottom: 1, right: 1}
                     },
                     autoScroll: true,
@@ -225,7 +224,15 @@ export default class DaliBox extends Component {
                         if (this.props.boxSelected !== this.props.id) {
                             return;
                         }
-                        this.props.onBoxMoved(this.props.id, parseInt(event.target.style.left), parseInt(event.target.style.top));
+
+                        var target = event.target;
+                        let left = Math.max(Math.min(Math.floor(parseInt(target.style.left) / target.parentElement.offsetWidth * 100), 100), 0) + '%';
+                        let top = Math.max(Math.min(Math.floor(parseInt(target.style.top) / target.parentElement.offsetHeight * 100), 100), 0) + '%';
+
+                        this.props.onBoxMoved(
+                            this.props.id,
+                            box.container !== 0 ? left : Math.max(parseInt(event.target.style.left), 0),
+                            box.container !== 0 ? top : Math.max(parseInt(event.target.style.top), 0));
                         event.stopPropagation();
                     }
                 })
@@ -282,10 +289,11 @@ export default class DaliBox extends Component {
 
                         let target = event.target;
                         let width = Math.min(Math.floor(parseInt(target.style.width) / target.parentElement.offsetWidth * 100), 100) + '%';
+                        let height = Math.min(Math.floor(parseInt(target.style.height) / target.parentElement.offsetHeight * 100), 100) + '%';
                         this.props.onBoxResized(
                             this.props.id,
-                            box.parent.indexOf(ID_PREFIX_SORTABLE_BOX) !== -1 ? width : parseInt(target.style.width),
-                            parseInt(target.style.height));
+                            box.container !== 0 ? width : parseInt(target.style.width),
+                            box.container !== 0 ? height : parseInt(target.style.height));
                         this.props.onBoxMoved(this.props.id, parseInt(target.style.left), parseInt(target.style.top));
                         event.stopPropagation();
                     }
