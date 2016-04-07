@@ -38,7 +38,6 @@ class DaliApp extends Component{
             <Grid id="app" fluid={true} style={{height: '100%'}} >
                 <Row style={{height: '100%'}}>
                     <Col md={2} xs={2} style={{padding: 0, height: '100%'}} id="colLeft">
-                  
                         <DaliCarousel 
                                       boxes={boxes}
                                       navItemsIds={navItemsIds}
@@ -91,53 +90,39 @@ class DaliApp extends Component{
 
 
                
-                
-                    <DaliNavBar
-                      isBusy={isBusy}
-                      hideTab = {this.state.hideTab}
-                      undoDisabled = {undoDisabled}
-                      redoDisabled = {redoDisabled}
-                      navItemsIds = {navItemsIds}
-                      navItemSelected = {navItemSelected}
-                      boxSelected = {boxSelected}
-                      toggle = { () => { dispatch(togglePluginModal(navItemSelected, false, 0)) }}
-                      undo = {()=> {dispatch(ActionCreators.undo())}}
-                      redo = {()=> {dispatch(ActionCreators.redo())}}
-                      visor = {()=>{this.setState({visor:true })}}
-                      export = {()=> {DaliVisor.exports(this.props.store.getState())}}
-                      save = { ()=>{ dispatch(exportStateAsync(this.props.store.getState()));
-                           
-                      }}
-                      categoria={this.state.pluginTab}
-                      opens = { ()=>{dispatch(importStateAsync())}}
-                      setcat={(categoria) => { 
-                          if(this.state.pluginTab == categoria && this.state.hideTab == 'show'){
-                            this.setState({ hideTab:'hide'})
-                          } else {
-                            this.setState({pluginTab:categoria, hideTab:'show'})
-                          }
+                <DaliNavBar isBusy={isBusy}
+                            hideTab = {this.state.hideTab}
+                            undoDisabled = {undoDisabled}
+                            redoDisabled = {redoDisabled}
+                            navItemsIds = {navItemsIds}
+                            navItemSelected = {navItemSelected}
+                            boxSelected = {boxSelected}
+                            toggle = {() => {dispatch(togglePluginModal(navItemSelected, false, 0)) }}
+                            undo = {() => {dispatch(ActionCreators.undo())}}
+                            redo = {() => {dispatch(ActionCreators.redo())}}
+                            visor = {() =>{this.setState({visor:true })}}
+                            export = {() => {DaliVisor.exports(this.props.store.getState())}}
+                            save = {() => {dispatch(exportStateAsync(this.props.store.getState()))}}
+                            categoria={this.state.pluginTab}
+                            opens = {() => {dispatch(importStateAsync())}}
+                            setcat={(categoria) => {
+                                if(this.state.pluginTab == categoria && this.state.hideTab == 'show'){
+                                    this.setState({ hideTab:'hide'})
+                                } else {
+                                    this.setState({pluginTab:categoria, hideTab:'show'})
+                                }
+                            }}/>
+                <PluginRibbon disabled = {navItemsIds.length === 0 ? true : false}
+                              caller={boxModalToggled.caller}
+                              fromSortable={boxModalToggled.fromSortable}
+                              container={boxModalToggled.container}
+                              navItemSelected={navItemSelected}
+                              onBoxAdded={(ids, type, draggable, resizable, content, toolbar, config, state) => dispatch(addBox(ids, type, draggable, resizable, content, toolbar, config, state))}
+                              onVisibilityToggled={(caller, fromSortable, container) => dispatch(togglePluginModal(caller, fromSortable, container))}
+                              category={this.state.pluginTab}
+                              hideTab={this.state.hideTab} />
 
-                       }
-                       }
-                    />
-                   
-
-                    <PluginRibbon
-                          disabled = {navItemsIds.length === 0 ? true : false}
-                          caller={boxModalToggled.caller}
-                          fromSortable={boxModalToggled.fromSortable}
-                          container={boxModalToggled.container}
-                          navItemSelected={navItemSelected}
-                          onBoxAdded={(ids, type, draggable, resizable, content, toolbar, config, state) => dispatch(addBox(ids, type, draggable, resizable, content, toolbar, config, state))}
-                          onVisibilityToggled={(caller, fromSortable, container) => dispatch(togglePluginModal(caller, fromSortable, container))}
-                          category={this.state.pluginTab}
-                          hideTab={this.state.hideTab}     />
-                          
-
-               
-                  
-                
-                   <PluginToolbar toolbars={toolbars}
+                <PluginToolbar toolbars={toolbars}
                                boxSelected={boxSelected}
                                onTextEditorToggled={(caller, value) => dispatch(toggleTextEditor(caller, value))}
                                onToolbarUpdated={(caller, index, name, value) => dispatch(updateToolbar(caller, index, name, value))}
@@ -145,7 +130,6 @@ class DaliApp extends Component{
             </Grid>
         );
     }
-
 
     componentDidMount(){
         Dali.Plugins.loadAllAsync().then(values => {
@@ -204,11 +188,8 @@ class DaliApp extends Component{
                 this.props.dispatch(deleteBox( this.props.boxSelected, parent ));
               }
           }  
-        }.bind(this)
-           
+        }.bind(this);
     }
-
-
 }
 
 function mapStateToProps(state){
@@ -227,13 +208,7 @@ function mapStateToProps(state){
         toolbars: state.present.toolbarsById,
         isBusy: state.present.isBusy
     }
-
-
-
-
 }
-
-
 
 export default connect(mapStateToProps)(DaliApp);
 
