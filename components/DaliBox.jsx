@@ -236,8 +236,8 @@ export default class DaliBox extends Component {
                             return;
                         }
                         var target = event.target;
-                        target.style.left = Math.max((parseInt(target.style.left) || 0) + event.dx, 0) + 'px';
-                        target.style.top = Math.max((parseInt(target.style.top) || 0) + event.dy, 0) + 'px';
+                        target.style.left = (parseInt(target.style.left) || 0) + event.dx + 'px';
+                        target.style.top = (parseInt(target.style.top) || 0) + event.dy + 'px';
                     },
                     onend: (event) => {
                         if(this.props.boxSelected !== this.props.id) {
@@ -248,13 +248,16 @@ export default class DaliBox extends Component {
                         if(!target.parentElement){
                             return;
                         }
-                        let left = Math.min(Math.floor(parseInt(target.style.left) / target.parentElement.offsetWidth * 100), 100) + '%';
-                        let top = Math.min(Math.floor(parseInt(target.style.top) / target.parentElement.offsetHeight * 100), 100) + '%';
+                        let left = Math.max(Math.min(Math.floor(parseInt(target.style.left) / target.parentElement.offsetWidth * 100), 100), 0) + '%';
+                        let top = Math.max(Math.min(Math.floor(parseInt(target.style.top) / target.parentElement.offsetHeight * 100), 100), 0) + '%';
+
+                        target.style.left = box.container !== 0 ? left : target.style.left;
+                        target.style.top = box.container !== 0 ? top : target.style.top;
 
                         this.props.onBoxMoved(
                             this.props.id,
-                            box.container !== 0 ? left : Math.max(parseInt(event.target.style.left), 0),
-                            box.container !== 0 ? top : Math.max(parseInt(event.target.style.top), 0));
+                            box.container !== 0 ? left : Math.max(parseInt(target.style.left), 0),
+                            box.container !== 0 ? top : Math.max(parseInt(target.style.top), 0));
                         event.stopPropagation();
                     }
                 })
