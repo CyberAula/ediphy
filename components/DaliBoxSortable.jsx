@@ -40,22 +40,12 @@ export default class DaliBoxSortable extends Component{
                             })}
                         <div style={{position: 'absolute', bottom: 0}}>
                             <i style={{verticalAlign: 'middle'}} className="fa fa-bars fa-2x drag-handle"></i>
-                            {/*<Button onClick={e => this.props.onBoxModalToggled(this.props.id, false, idContainer)}>
-                                <i className="fa fa-plus"></i>
-                            </Button>*/}
                         </div>
                     </div>);
                 })}
             </div>
             <div style={{textAlign:'center', minHeight: 100}}>
-                {     /*
-           <Button style={{display: 'inline-block', margin: 'auto'}} onClick={e => this.props.onBoxModalToggled(this.props.id, true)}>
-                <i className="fa fa-plus-circle fa-3x"></i>
-            </Button>
-
-           /* <Button style={{display: 'inline-block', margin: 'auto'}} onClick={e => this.props.onBoxDeleted(this.props.id, this.props.box.parent)}>
-                <i className="fa fa-trash-o fa-3x"></i>
-            </Button>*/}
+                Drag content here
             </div>
         </div>
         );

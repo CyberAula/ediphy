@@ -131,9 +131,6 @@ export default class PluginRibbon extends Component {
     }
 
     buttonCallback(index){
-            // if(this.state.buttons[index].needsConfigModal){
-         
-        // }
         this.props.onVisibilityToggled(this.props.navItemSelected, false, 0);
         this.setState({show: false});
         
