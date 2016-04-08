@@ -3,7 +3,7 @@ import undoable, {excludeAction} from 'redux-undo';
 
 import {ADD_BOX, SELECT_BOX, MOVE_BOX, RESIZE_BOX, UPDATE_BOX, DELETE_BOX, REORDER_BOX, DROP_BOX, ADD_SORTABLE_CONTAINER,
     ADD_NAV_ITEM, SELECT_NAV_ITEM, EXPAND_NAV_ITEM, REMOVE_NAV_ITEM,
-    TOGGLE_PLUGIN_MODAL, TOGGLE_PAGE_MODAL, TOGGLE_TEXT_EDITOR, TOGGLE_TITLE_MODE,
+    TOGGLE_PAGE_MODAL, TOGGLE_TEXT_EDITOR, TOGGLE_TITLE_MODE,
     CHANGE_DISPLAY_MODE, SET_BUSY, UPDATE_TOOLBAR, COLLAPSE_TOOLBAR, IMPORT_STATE
 } from './actions';
 import {ID_PREFIX_SECTION, ID_PREFIX_PAGE, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_SORTABLE_CONTAINER} from './constants';
@@ -502,19 +502,6 @@ function toolbarsById(state = {}, action = {}){
     }
 }
 
-function togglePluginModal(state = {caller: 0, container: 0, fromSortable: false}, action = {}){
-    switch(action.type){
-        case TOGGLE_PLUGIN_MODAL:
-            return action.payload;
-        case ADD_BOX:
-            return {caller: 0, container: 0, fromSortable: false};
-        case IMPORT_STATE:
-            return action.payload.present.boxModalToggled;
-        default:
-            return state;
-    }
-}
-
 function togglePageModal(state = {value: false, caller: 0}, action = {}){
     switch(action.type){
         case TOGGLE_PAGE_MODAL:
@@ -551,7 +538,6 @@ function isBusy(state = "", action = {}){
 }
 
 const GlobalState = undoable(combineReducers({
-    boxModalToggled: togglePluginModal,
     pageModalToggled: togglePageModal,
     boxesById: boxesById, //{0: box0, 1: box1}
     boxSelected: boxSelected, //0
@@ -566,8 +552,6 @@ const GlobalState = undoable(combineReducers({
     if(action.type === EXPAND_NAV_ITEM)
         return false;
     else if(action.type === TOGGLE_PAGE_MODAL)
-        return false;
-    else if(action.type === TOGGLE_PLUGIN_MODAL)
         return false;
     else if(action.type === TOGGLE_TITLE_MODE)
         return false;

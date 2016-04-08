@@ -15,7 +15,6 @@ export const SELECT_NAV_ITEM = 'SELECT_NAV_ITEM';
 export const EXPAND_NAV_ITEM = 'EXPAND_NAV_ITEM';
 export const REMOVE_NAV_ITEM = 'REMOVE_NAV_ITEM';
 
-export const TOGGLE_PLUGIN_MODAL = 'TOGGLE_PLUGIN_MODAL';
 export const TOGGLE_PAGE_MODAL = 'TOGGLE_PAGE_MODAL';
 export const TOGGLE_TEXT_EDITOR = 'TOGGLE_TEXT_EDITOR';
 export const TOGGLE_TITLE_MODE = 'TOGGLE_TITLE_MODE';
@@ -77,11 +76,6 @@ export function dropBox(id, row, col){
 
 export function duplicateSection(id){
     return {type: DUPLICATE_SECTION, payload: {id}};
-}
-
-export function togglePluginModal(caller, fromSortable, container){
-    //console.log('action '+caller+' '+fromSortable+'   '+ container)
-    return {type: TOGGLE_PLUGIN_MODAL, payload: {caller, fromSortable, container}};
 }
 
 export function togglePageModal(caller, value){
