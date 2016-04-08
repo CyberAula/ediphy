@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Modal, Button, Tabs, Tab, Col} from 'react-bootstrap';
+import interact from 'interact.js';
 import {ID_PREFIX_BOX, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_SORTABLE_CONTAINER, BOX_TYPES} from '../constants';
 
 export default class PluginRibbon extends Component {
@@ -69,13 +70,14 @@ export default class PluginRibbon extends Component {
                 <div style={{margin:'0'}} className="row">
                     <div style={{ whiteSpace: 'nowrap', marginLeft: '30px'}}>
                         {none}
-                        {this.state.buttons.map((id, index) => {
+                        {this.state.buttons.map((item, index) => {
                             if(this.state.buttons[index].category === this.props.category || this.props.category == 'all'){
                                 var clase = "fa "+ this.state.buttons[index].icon + " fa-1";
                                 return (
                                     <Button className="rib"
                                             disabled={this.props.disabled}
                                             key={index}
+                                            name={item.name}
                                             bsSize="large"
                                             onClick={this.buttonCallback.bind(this, index)}>
                                         <i className={clase}></i><br/> {this.state.buttons[index].name}
@@ -90,7 +92,42 @@ export default class PluginRibbon extends Component {
     componentDidMount(){
         Dali.API.Private.listenEmission(Dali.API.Private.events.addMenuButton, e =>{
             this.setState({buttons: this.state.buttons.concat([e.detail])});
-        })
+        });
+
+        interact(".rib")
+            .draggable({
+                onmove: (event) => {
+                    let target = event.target,
+                    // keep the dragged position in the data-x/data-y attributes
+                        x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
+                        y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
+
+                    // translate the element
+                    target.style.webkitTransform =
+                        target.style.transform =
+                            'translate(' + x + 'px, ' + y + 'px)';
+                    target.style.zIndex = 999999;
+
+                    // update the position attributes
+                    target.setAttribute('data-x', x);
+                    target.setAttribute('data-y', y);
+                },
+                onend: (event) => {
+                    var target = event.target,
+                        x = 0,
+                        y = 0;
+                    target.style.webkitTransform =
+                        target.style.transform =
+                            'translate(' + x + 'px, ' + y + 'px)';
+                    target.style.zIndex = 'initial';
+
+                    // update the position attributes
+                    target.setAttribute('data-x', x);
+                    target.setAttribute('data-y', y);
+
+                    event.stopPropagation();
+                }
+            });
     }
 
     buttonCallback(index){
@@ -99,9 +136,8 @@ export default class PluginRibbon extends Component {
         // }
         this.props.onVisibilityToggled(this.props.navItemSelected, false, 0);
         this.setState({show: false});
-        console.log(this.props.navItemSelected)
         
-        this.state.buttons[index].callback();
+        //this.state.buttons[index].callback();
         this.props.onVisibilityToggled(this.props.navItemSelected, false, 0);
     }
 }

@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
+import ReactDOM from 'react-dom';
 import DaliBox from '../components/DaliBox';
 import DaliBoxSortable from '../components/DaliBoxSortable';
 import DaliTitle from '../components/DaliTitle';
+import interact from 'interact.js';
 import {BOX_TYPES, ID_PREFIX_SORTABLE_BOX} from '../constants';
 
 export default class DaliCanvas extends Component{
@@ -64,6 +66,26 @@ export default class DaliCanvas extends Component{
     }
 
     componentDidMount(){
+        interact(ReactDOM.findDOMNode(this)).dropzone({
+            accept: '.rib',
+            overlap: 'center',
+            ondropactivate: function (event) {
+                event.target.classList.add('drop-active');
+            },
+            ondrop: function (event) {
+                //addBox
+                let initialParams = {
+                    parent: this.props.navItemSelected.id,
+                    container: 0
+                };
+                Dali.Plugins.get(event.relatedTarget.getAttribute("name")).getConfig().callback(initialParams);
+                event.dragEvent.stopPropagation();
+            }.bind(this),
+            ondropdeactivate: function (event) {
+                event.target.classList.remove('drop-active');
+            }
+        });
+
         Dali.API.Private.listenEmission(Dali.API.Private.events.getCurrentPluginsList, e => {
             let plugins = {};
             this.props.navItemSelected.boxes.map(id => {

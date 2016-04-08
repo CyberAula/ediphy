@@ -7,7 +7,8 @@ import DaliBox from '../components/DaliBox';
 export default class PluginPlaceholder extends Component {
     render() {
         let container = this.props.parentBox.sortableContainers[this.props.pluginContainer];
-        let contentFull = (
+        //let contentFull = (
+        return (
             <Grid fluid={true} style={{
                     width: "100%",
                     height: "100%",
@@ -66,8 +67,15 @@ export default class PluginPlaceholder extends Component {
                             </Row>
                         )
                     })
-                    : ""}
-
+                    : (<div className="daliBoxSortableContainer"
+                            data-id={this.props.pluginContainer}
+                            style={{
+                                width: '100%',
+                                height: '100%'}}>
+                        Drag content here
+                    </div>
+                )}
+                {/*
                 <Button style={{position: 'absolute', bottom: 0}} ref={e => {
                     if(e !== null){
                         if(!($._data( ReactDOM.findDOMNode(e), "events" ) && $._data( ReactDOM.findDOMNode(e), "events" ).click)){
@@ -80,8 +88,10 @@ export default class PluginPlaceholder extends Component {
                 }}>
                     <i className="fa fa-plus"></i>
                 </Button>
+                */}
             </Grid>
         );
+        /*
         let contentEmpty = (
             <div style={{width: '100%', height: 50, position: 'relative'}}>
                 <button ref={"buttonAddNew"} style={{width: 90,
@@ -103,12 +113,34 @@ export default class PluginPlaceholder extends Component {
             return contentFull;
         }
         return contentEmpty;
+        */
     }
 
     componentDidMount(){
+        /*
         $(this.refs.buttonAddNew).click(function(e){
             this.props.onBoxModalToggled(this.props.parentBox.id, false, this.props.pluginContainer);
             e.stopPropagation();
         }.bind(this));
+        */
+        interact(".daliBoxSortableContainer").dropzone({
+            accept: '.rib',
+            overlap: 'center',
+            ondropactivate: function (event) {
+                event.target.classList.add('drop-active');
+            },
+            ondrop: function (event) {
+                //addBox
+                let initialParams = {
+                    parent: this.props.parentBox.id,
+                    container: event.target.getAttribute("data-id")
+                };
+                Dali.Plugins.get(event.relatedTarget.getAttribute("name")).getConfig().callback(initialParams);
+                event.dragEvent.stopPropagation();
+            }.bind(this),
+            ondropdeactivate: function (event) {
+                event.target.classList.remove('drop-active');
+            }
+        });
     }
 }

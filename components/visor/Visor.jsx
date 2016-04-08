@@ -35,7 +35,7 @@ export default class Visor extends Component{
         <Modal className="visor"   show={this.props.visor} backdrop={true} bsSize="large" aria-labelledby="contained-modal-title-lg" onHide={e => {
 
            this.props.onVisibilityToggled()
-           console.log('building')
+           //console.log('building')
 
         }}>
                 <Modal.Header closeButton >
@@ -68,8 +68,8 @@ export default class Visor extends Component{
                            <h4>{navItemsById[navItemSelected.name]}</h4> 
                            <div className="boxes" style={{position:'relative'}}>
                                 {cajas.map(id => {
-                                    console.log(navItemsById)
-                                    console.log(id)
+                                    //console.log(navItemsById)
+                                    //console.log(id)
                                      if (boxesById[id].parent == navItemSelected){
                                         return (this.parseBox(boxesById[id]))          
                                     }
@@ -96,13 +96,13 @@ export default class Visor extends Component{
     }
 
     componentDidMount(){
-        console.log('mount')
+        //console.log('mount')
      
     }
 
 
     parseBox(box){
-        console.log(box)
+        //console.log(box)
         /*
         var boxesById = this.props.state.boxesById
         var width = box.width[box.width.length -1]=='%' ? box.width : box.width+'px';

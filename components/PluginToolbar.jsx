@@ -17,7 +17,7 @@ export default class PluginToolbar extends Component {
             return <div></div>;
         }
         let toolbar = this.props.toolbars[this.props.boxSelected];
-        let showToolbar = this.props.boxSelected !== -1 && toolbar.buttons;
+        let showToolbar = this.props.boxSelected !== -1 && toolbar.buttons.length !== 0;
         let visible = showToolbar ? 'visible' : 'hidden';
         let buttons;
         if(showToolbar){
@@ -43,14 +43,14 @@ export default class PluginToolbar extends Component {
                             
                     />
             });
-            if(toolbar.config.needsTextEdition){
+            if(toolbar.config && toolbar.config.needsTextEdition){
                 buttons.push(<ButtonInput key={'text'}
                                           onClick={() => {
                                             this.props.onTextEditorToggled(this.props.boxSelected, !toolbar.showTextEditor);}}
                                           bsStyle={toolbar.showTextEditor ? 'primary' : 'default'}>
                     Edit text</ButtonInput>);
             }
-            if(toolbar.config.needsConfigModal){
+            if(toolbar.config && toolbar.config.needsConfigModal){
                 buttons.push(<ButtonInput key={'config'}
                                           onClick={() => {
                                             Dali.Plugins.get(toolbar.config.name).openConfigModal(true, toolbar.state, toolbar.id)}}>

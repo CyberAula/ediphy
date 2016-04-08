@@ -140,37 +140,14 @@ class DaliApp extends Component{
 
         Dali.API.Private.listenEmission(Dali.API.Private.events.render, e => {
             if(e.detail.isUpdating) {
-                this.props.dispatch(updateBox(e.detail.id, e.detail.content, e.detail.state));
+                this.props.dispatch(updateBox(e.detail.ids.id, e.detail.content, e.detail.state));
             }else {
-                let id = ID_PREFIX_BOX + Date.now();
-                /*
-                let parsedContent = e.detail.content.split(/(<plugin[-\w\s="']*\/>)/g).map((string, index) =>{
-                    if(index % 2 === 0){
-                        return string;
-                    }
-
-                    let pluginId;
-                    try {
-                        pluginId = /plugin-data-id=["|']([\w]*)["|']/g.exec(string)[1];
-                    }catch(ex){
-                        pluginId = Date.now() + "-" + index;
-                        console.error("Plugin id not assignated");
-                    }
-                    return "<button style=\"width: 100%;height: 100%;background-color: transparent;border: 1px dotted black;\" onclick=\"Dali.API.addSubplugin('" + id + "',false,'" + pluginId + "'); event.stopPropagation();\"><i class=\"fa fa-plus\"></i></button>";
-                }).join('');
-                */
-
                 this.props.dispatch(addBox({
-                    parent: this.props.boxModalToggled.caller,
-                    id: id,
-                    container: (this.props.boxModalToggled.fromSortable ? ID_PREFIX_SORTABLE_CONTAINER + Date.now() : this.props.boxModalToggled.container)
+                    parent: e.detail.ids.parent,
+                    id: ID_PREFIX_BOX + Date.now(),
+                    container: e.detail.ids.container
                 }, BOX_TYPES.NORMAL, true, true, e.detail.content, e.detail.toolbar, e.detail.config, e.detail.state));
             }
-
-        });
-
-        Dali.API.Private.listenEmission(Dali.API.Private.events.addSubplugin, e => {
-           this.props.dispatch(togglePluginModal(e.detail.caller, e.detail.fromSortable, e.detail.container));
         });
 
         window.onkeyup = function(e) {

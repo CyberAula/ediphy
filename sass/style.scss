@@ -25,3 +25,9 @@
 #app{
 	margin:0;
 }
+
+.drop-active {
+	border: dashed 4px #aaa;
+	border-radius: 4px;
+	transition: background-color 0.3s;
+}
