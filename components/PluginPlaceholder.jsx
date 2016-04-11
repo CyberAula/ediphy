@@ -37,7 +37,7 @@ export default class PluginPlaceholder extends Component {
                                                             },
                                                             ondrop: function(e){
                                                                 let boxDragged = this.props.boxes[this.props.boxSelected];
-                                                                if(boxDragged.row !== i || boxDragged.col !== j){
+                                                                if(boxDragged && (boxDragged.row !== i || boxDragged.col !== j)){
                                                                     this.props.onBoxDropped(this.props.boxSelected, i, j);
                                                                 }
                                                             }.bind(this),
