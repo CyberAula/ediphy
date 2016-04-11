@@ -258,24 +258,27 @@ export default class CarrouselList extends Component{
                 var nextItemAux;
                 var parentAux;
                 var auxIdEl;
-                for(var i=navItems[this.props.navItemSelected].level-1; i>0; i--){
+                for(var i=navItems[this.props.navItemSelected].level; i>0; i--){
 
-                    if(i==navItems[this.props.navItemSelected].level-1){
+                    if(i==navItems[this.props.navItemSelected].level){
                         parentAux = this.props.navItemSelected;
                         predecessor = navItems[parent];
                     }else{
                         parentAux = predecessor.id;
                         predecessor = navItems[navItems[parentAux].parent];
                     }
-                    
+                    //console.log("parentAux",parentAux)
+                    //console.log("predecessor",predecessor)
+                    //console.log(i)
                     //console.log("RID", reactIdElem[i])
                     //console.log("paA", parentAux)
                     //console.log("CH", predecessor.children)
                     //console.log("PosP",predecessor.children.indexOf(parentAux));
                     //console.log("leng",predecessor.children.length)
 
-                    //if(predecessor.children.length-1 == predecessor.children.indexOf(parentAux)){
- if(predecessor.children.length-1 == reactIdElem[i].split('.')[0]){
+                    if(predecessor.children.length-1 == predecessor.children.indexOf(parentAux)){
+ //if(predecessor.children.length-1 == reactIdElem[i].split('.')[0]){
+                        //console.log("soy el utlimo")
                     }else{
                         //auxIdEl = parseInt(reactIdElem[i].split('.')[0]);
                         auxIdEl = predecessor.children.indexOf(parentAux)
@@ -287,7 +290,9 @@ export default class CarrouselList extends Component{
                     }
                 }
                 //console.log("nextITEM",nextItemAux)
-                 
+                 //console.log(reactIdElem)
+                 //console.log(navItems[this.props.navItemSelected].level)
+                 //console.log(reactIdElem.length)
                 /*for(var i=reactIdElem.length-1; i>0; i--){
 
                     if(i==reactIdElem.length-1){
@@ -318,15 +323,15 @@ export default class CarrouselList extends Component{
                 //console.log("newItemAux",nextItemAux)
 
                 if(nextItemAux == undefined){
-                    console.log("es undefined")
-                    console.log("hasta",newIndexesAux.indexOf(this.props.navItemSelected))
-                    console.log("newIndexesAux",newIndexesAux)
+                    //console.log("Viene del ultimo")
+                    //console.log("hasta",newIndexesAux.indexOf(this.props.navItemSelected))
+                    //console.log("newIndexesAux",newIndexesAux)
                     part1 = newIndexesAux.slice(0,newIndexesAux.indexOf(this.props.navItemSelected));
-                    console.log("part1", part1);
-                    console.log("newIndexesAux2",newIndexesAux)
-                    console.log("desde",newIndexesAux.indexOf(this.props.navItemSelected))
+                    //console.log("part1", part1);
+                    //console.log("newIndexesAux2",newIndexesAux)
+                    //console.log("desde",newIndexesAux.indexOf(this.props.navItemSelected))
                     medio =  newIndexesAux.slice(newIndexesAux.indexOf(this.props.navItemSelected));
-                    console.log("newIndexesAux3",newIndexesAux)
+                    //console.log("newIndexesAux3",newIndexesAux)
                 }else{
                     part1 = newIndexesAux.slice(0,newIndexesAux.indexOf(this.props.navItemSelected));
                     part2 = newIndexesAux.slice(newIndexesAux.indexOf(nextItemAux));
@@ -334,10 +339,10 @@ export default class CarrouselList extends Component{
                     part1 = part1.concat(part2)
                 }
 
-                console.log("concat", part1);
-                console.log("medio", medio);
-                console.log("auxInd", auxInd);
-                console.log(navItems[0].children)
+                //console.log("concat", part1);
+                //console.log("medio", medio);
+                //console.log("auxInd", auxInd);
+                //console.log(navItems[0].children)
                 if(auxInd >= navItems[0].children.length){
                     newIndexes = part1.concat(medio)
                     //console.log("newIndexesL", newIndexes)
