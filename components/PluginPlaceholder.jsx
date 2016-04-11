@@ -14,7 +14,8 @@ export default class PluginPlaceholder extends Component {
                     height: "100%",
                     position: 'relative',
                     padding: 0}}
-                  className={"drg" + this.props.pluginContainer}>
+                  data-id={this.props.pluginContainer}
+                  className={"daliBoxSortableContainer drg" + this.props.pluginContainer}>
                 {container ?
                     container.rows.map((row, i) => {
                         return (
@@ -67,9 +68,7 @@ export default class PluginPlaceholder extends Component {
                             </Row>
                         )
                     })
-                    : (<div className="daliBoxSortableContainer"
-                            data-id={this.props.pluginContainer}
-                            style={{
+                    : (<div style={{
                                 width: '100%',
                                 height: '100%'}}>
                         Drag content here
