@@ -58,7 +58,7 @@ export default class Visor extends Component{
                                    <h2>Título Unidad</h2>
                                  </div>
                                  <div className="cabtabla_lapiz">
-                                   <img src="images/ico_alumno.gif" alt="Alumno"/><div id="alumno"> Alumno</div>
+                                   <img src="images/ico_alumno.gif" alt="Alumno"/><div id="alumno2"> Alumno</div>
                                  </div>
                                  <div className="clear"></div>
                            </div>
@@ -71,7 +71,7 @@ export default class Visor extends Component{
                                     console.log(navItemsById)
                                     console.log(id)
                                      if (boxesById[id].parent == navItemSelected){
-                                        return (this.parseBox(boxesById[id]))          
+                                      //  return (this.parseBox(boxesById[id]))          
                                     }
                                 
                                     
@@ -103,7 +103,7 @@ export default class Visor extends Component{
 
     parseBox(box){
         console.log(box)
-        /*
+        
         var boxesById = this.props.state.boxesById
         var width = box.width[box.width.length -1]=='%' ? box.width : box.width+'px';
         var height = box.height? (box.height[box.height.length -1]=='%' ? box.height : box.height+'px'):'auto';
@@ -126,7 +126,7 @@ export default class Visor extends Component{
 
              </div>);
      
-*/
+
       
 
     }

@@ -44,6 +44,8 @@ export function removeNavItem(ids, parent, boxes){
 }
 
 export function addBox(ids, type, draggable, resizable, content, toolbar, config, state){
+    console.log('addbox')
+    console.log([ids, type, draggable, resizable, content, toolbar, config, state])
     return {type: ADD_BOX, payload: {ids, type,  draggable, resizable, content, toolbar, config, state}};
 }
 

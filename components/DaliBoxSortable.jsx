@@ -31,7 +31,7 @@ export default class DaliBoxSortable extends Component{
                             })}
                         <div style={{position: 'absolute', bottom: 0}}>
                             <i style={{verticalAlign: 'middle'}} className="fa fa-bars fa-2x drag-handle"></i>
-                            <Button onClick={e => this.props.onBoxModalToggled(this.props.id, false, idContainer)}>
+                            <Button onClick={e => this.props.onBoxModalToggled(this.props.id, true, idContainer)}>
                                 <i className="fa fa-plus"></i>
                             </Button>
                         </div>

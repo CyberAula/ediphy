@@ -73,7 +73,7 @@ export default class PluginToolbar extends Component {
     }
 
     componentDidMount() {
-        interact(ReactDOM.findDOMNode(this))
+       /* interact(ReactDOM.findDOMNode(this))
             .ignoreFrom('input, textarea, a')
             .draggable({
 
@@ -93,7 +93,7 @@ export default class PluginToolbar extends Component {
                     this.setState({x: parseInt(event.target.style.right), y: parseInt(event.target.style.top)});
                     event.stopPropagation();
                 }
-            });
+            });*/
     }
 }
 

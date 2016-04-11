@@ -60,3 +60,7 @@ ul li a {
 .visor .doc {
   overflow-y:auto;
 }
+
+.visor  * {
+  pointer-events: all !important;
+}

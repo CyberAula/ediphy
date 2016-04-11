@@ -245,7 +245,7 @@ function navItemCreator(state = {}, action = {}){
                 level: action.payload.level,
                 type: action.payload.type,
                 position: action.payload.position,
-                titlesReduced: action.payload.titlesReduced
+                titlesReduced: action.payload.titlesReduced || 'expanded'
 
             };
         default:
@@ -389,6 +389,7 @@ function navItemSelected(state = 0, action = {}){
 function toolbarsById(state = {}, action = {}){
     switch(action.type) {
         case ADD_BOX:
+         console.log(action.payload.ids)
             let toolbar = {
                 id: action.payload.ids.id,
                 buttons: action.payload.toolbar,
@@ -398,6 +399,7 @@ function toolbarsById(state = {}, action = {}){
                 isCollapsed: false
             };
             let parentToolbar;
+            console.log('aaaaaaaaa')
             if(action.payload.ids.container !== 0){
                 if(!toolbar.buttons){
                     toolbar.buttons = [];
@@ -413,7 +415,8 @@ function toolbarsById(state = {}, action = {}){
                     step: 5,
                     autoManaged: true
                 });
-
+                 console.log('bbbbbbbbbb')
+                 console.log(action.payload.ids)
                 parentToolbar = Object.assign({}, state[action.payload.ids.parent], {
                     buttons: [...state[action.payload.ids.parent].buttons, {
                         name: action.payload.ids.container.replace("-", "_") + '_rows',
@@ -430,6 +433,7 @@ function toolbarsById(state = {}, action = {}){
                     }]
                 });
             }
+             console.log('cccccc')
             if(action.payload.ids.id.indexOf(ID_PREFIX_SORTABLE_BOX) === -1) {
                 if(!toolbar.buttons) {
                     toolbar.buttons = [];
