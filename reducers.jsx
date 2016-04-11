@@ -386,6 +386,15 @@ function navItemSelected(state = 0, action = {}){
     }
 }
 
+function toolbarContainsButton(toolbarButtons, name) {
+    for(var i = 0; i < toolbarButtons.length; i++){
+        if(toolbarButtons[i].name === name){
+            return true;
+        }
+    }
+    return false
+}
+
 function toolbarsById(state = {}, action = {}){
     switch(action.type) {
         case ADD_BOX:
@@ -398,8 +407,8 @@ function toolbarsById(state = {}, action = {}){
                 isCollapsed: false
             };
             let parentToolbar;
-            if(action.payload.ids.container !== 0){
-                if(!toolbar.buttons){
+            if(action.payload.ids.container !== 0) {
+                if (!toolbar.buttons) {
                     toolbar.buttons = [];
                     toolbar.config = {};
                 }
@@ -413,21 +422,23 @@ function toolbarsById(state = {}, action = {}){
                     step: 5,
                     autoManaged: true
                 });
-                parentToolbar = Object.assign({}, state[action.payload.ids.parent], {
-                    buttons: [...state[action.payload.ids.parent].buttons, {
-                        name: action.payload.ids.container.replace("-", "_") + '_rows',
-                        humanName: action.payload.ids.container + ' Rows',
-                        type: 'text',
-                        value: '12',
-                        autoManaged: true
-                    }, {
-                        name: action.payload.ids.container.replace("-", "_") + '_cols',
-                        humanName: action.payload.ids.container + ' Cols',
-                        type: 'text',
-                        value: '12',
-                        autoManaged: true
-                    }]
-                });
+                if (!toolbarContainsButton(state[action.payload.ids.parent].buttons, action.payload.ids.container.replace("-", "_") + '_rows')){
+                    parentToolbar = Object.assign({}, state[action.payload.ids.parent], {
+                        buttons: [...state[action.payload.ids.parent].buttons, {
+                            name: action.payload.ids.container.replace("-", "_") + '_rows',
+                            humanName: action.payload.ids.container + ' Rows',
+                            type: 'text',
+                            value: '12',
+                            autoManaged: true
+                        }, {
+                            name: action.payload.ids.container.replace("-", "_") + '_cols',
+                            humanName: action.payload.ids.container + ' Cols',
+                            type: 'text',
+                            value: '12',
+                            autoManaged: true
+                        }]
+                    });
+                }
             }
             if(action.payload.ids.id.indexOf(ID_PREFIX_SORTABLE_BOX) === -1) {
                 if(!toolbar.buttons) {
