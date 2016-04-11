@@ -11,16 +11,6 @@ import {ID_PREFIX_SECTION, ID_PREFIX_PAGE, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_SOR
 function boxCreator(state = {}, action = {}){
     switch (action.type){
         case ADD_BOX:
-            /*
-            let styleStr = "min-width: '100px'; min-height: '100px'; background-color: 'yellow'".split(';');
-            let style = {};
-            styleStr.forEach(item =>{
-                let keyValue = item.split(':');
-                //We camelCase style keys
-                let key = keyValue[0].trim().replace(/-./g,function(char){return char.toUpperCase()[1]});
-                style[key] = keyValue[1].trim().replace(/'/g, "");
-            });
-            */
             let content = action.payload.content;
             if(!content)
                 content = "<h1>Placeholder</h1>";
@@ -42,6 +32,9 @@ function boxCreator(state = {}, action = {}){
                 position.y = 0;
                 width = '100%';
                 height = '100%';
+            }
+            if(action.payload.initialParams.position){
+                position = action.payload.initialParams.position;
             }
             
             return {

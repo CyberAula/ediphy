@@ -100,7 +100,6 @@ class DaliApp extends Component{
                             }}/>
                 <PluginRibbon disabled = {navItemsIds.length === 0 ? true : false}
                               navItemSelected={navItemSelected}
-                              onBoxAdded={(ids, type, draggable, resizable, content, toolbar, config, state) => dispatch(addBox(ids, type, draggable, resizable, content, toolbar, config, state))}
                               category={this.state.pluginTab}
                               hideTab={this.state.hideTab} />
 
@@ -133,7 +132,7 @@ class DaliApp extends Component{
                     parent: e.detail.ids.parent,
                     id: ID_PREFIX_BOX + Date.now(),
                     container: e.detail.ids.container
-                }, BOX_TYPES.NORMAL, true, true, parsedContent, e.detail.toolbar, e.detail.config, e.detail.state));
+                }, BOX_TYPES.NORMAL, true, true, parsedContent, e.detail.toolbar, e.detail.config, e.detail.state, e.detail.initialParams));
             }
         });
 

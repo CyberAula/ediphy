@@ -17,15 +17,13 @@ export default class DaliCanvas extends Component{
                 parent = this.props.navItems[parent].parent;
             }
             titles.reverse();
-
         }
 
         return (
-
-            <div  id="maincontent" onClick={e => {this.props.onBoxSelected(-1)}}
-
-                className={this.props.navItems[this.props.navItemSelected.id].type == 'slide' ? 'slide sli':'slide doc'}
-                style={{visibility: (this.props.showCanvas ? 'visible' : 'hidden')}}>
+            <div  id="maincontent"
+                  onClick={e => {this.props.onBoxSelected(-1)}}
+                  className={this.props.navItems[this.props.navItemSelected.id].type == 'slide' ? 'slide sli':'slide doc'}
+                  style={{visibility: (this.props.showCanvas ? 'visible' : 'hidden'), position: 'relative'}}>
                 <DaliTitle titles={titles}
                            isReduced={this.props.navItemSelected.titlesReduced}
                            navItemId={this.props.navItemSelected.id}
@@ -73,10 +71,14 @@ export default class DaliCanvas extends Component{
                 event.target.classList.add('drop-active');
             },
             ondrop: function (event) {
-                //addBox
+                let position = {
+                    x: event.dragEvent.clientX - event.target.getBoundingClientRect().left,
+                    y: event.dragEvent.clientY - event.target.getBoundingClientRect().top,
+                }
                 let initialParams = {
                     parent: this.props.navItemSelected.id,
-                    container: 0
+                    container: 0,
+                    position: position
                 };
                 Dali.Plugins.get(event.relatedTarget.getAttribute("name")).getConfig().callback(initialParams);
                 event.dragEvent.stopPropagation();

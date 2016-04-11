@@ -42,8 +42,8 @@ export function removeNavItem(ids, parent, boxes){
     return {type: REMOVE_NAV_ITEM, payload: {ids, parent, boxes}};
 }
 
-export function addBox(ids, type, draggable, resizable, content, toolbar, config, state){
-    return {type: ADD_BOX, payload: {ids, type,  draggable, resizable, content, toolbar, config, state}};
+export function addBox(ids, type, draggable, resizable, content, toolbar, config, state, initialParams){
+    return {type: ADD_BOX, payload: {ids, type,  draggable, resizable, content, toolbar, config, state, initialParams}};
 }
 
 export function selectBox(id){

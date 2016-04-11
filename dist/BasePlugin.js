@@ -112,6 +112,9 @@ Dali.Plugin = function(descendant){
                         id: id,
                         parent: initialParams.parent,
                         container: initialParams.container
+                    },
+                    {
+                        position: initialParams.position
                     }
                 );
             }
