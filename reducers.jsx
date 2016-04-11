@@ -388,12 +388,13 @@ function navItemsById(state = {}, action = {}){
             /   3--> seccion a seccion
             /   4--> seccion a exterior
             */
-            console.log("PAyloads")
-            console.log("itemId",action.payload.itemId)
-            console.log("newParent",action.payload.newParent)
-            console.log("type",action.payload.type)
-            console.log("newIndId",action.payload.newIndId)
-            console.log("newChildrenInOrder",action.payload.newChildrenInOrder)
+            
+            //console.log("PAyloads")
+            //console.log("itemId",action.payload.itemId)
+            //console.log("newParent",action.payload.newParent)
+            //console.log("type",action.payload.type)
+            //console.log("newIndId",action.payload.newIndId)
+            //console.log("newChildrenInOrder",action.payload.newChildrenInOrder)
             var newSt = {}
             var auxState = state;
 

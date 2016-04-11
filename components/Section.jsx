@@ -8,7 +8,7 @@ export default class Section extends Component {
 
          let classSelected = this.props.navItemSelected === navItem.id ? 'selected' : 'notSelected';
         return (
-            <div  className="drag-handle" onMouseDown={e => {
+            <div id={this.props.id} className="drag-handle" onMouseDown={e => {
                 this.props.onNavItemSelected(navItem.id);
                 e.stopPropagation();
             }}>
@@ -25,7 +25,7 @@ export default class Section extends Component {
             <div style={{display: (navItem.isExpanded ? 'block' : 'none'), borderLeft: '1px dotted black'}}>
                 
                 <div style={{marginLeft: 20}}>
-                    <div ref="sortableListS" className="sectionList connectedSortables">
+                    <div ref="sortableListS" style={{paddingTop: 5}} className="sectionList connectedSortables">
                         {
                             navItem.children.map((id, index) => {
                                 if (id.indexOf(ID_PREFIX_SECTION) !== -1) {
@@ -44,7 +44,7 @@ export default class Section extends Component {
                                     let classSelected = this.props.navItemSelected === id ? 'selected dragS' : 'notSelected dragS';
                                     
                                     let color = this.props.navItemSelected === id ? '#f87060' : '#555';
-                                    return <h4 key={index} className={classSelected} onMouseDown={e => {
+                                    return <h4 key={index} id={id} className={classSelected} onMouseDown={e => {
                                         this.props.onNavItemSelected(id);
                                         e.stopPropagation();
                                     }}>{this.props.navItems[id].name}</h4>;
@@ -111,9 +111,10 @@ list.sortable({
             connectWith: '.connectedSortables',
             stop: (event, ui) => {
                 const reorderedIndexes = list.sortable('toArray', {attribute: 'data-reactid'}) // Obtiene la nueva disposición de los elementos
+                const reorderedIndexesId = list.sortable('toArray', {attribute: 'id'})
+                console.log(reorderedIndexesId);
                 const indexes = reorderedIndexes.map(el => el.split('$').pop() )
-                list.sortable('cancel');
-                $('.connectedSortables').sortable('cancel');
+            
                 var oldChilds = this.props.navItems[this.props.id].children;
                 var newChilds = [];
 
@@ -122,6 +123,8 @@ list.sortable({
                 });
 
                 if( newChilds.indexOf(this.props.navItemSelected) > 0){
+                     $('.connectedSortables').sortable('cancel');
+                list.sortable('cancel');
                     var navItemsIdsAux = this.props.navItemsIds;
                     var parent = this.props.navItems[this.props.navItemSelected].parent;
                     var newIndexesIds = navItemsIdsAux;
@@ -138,18 +141,22 @@ list.sortable({
             receive: (event, ui) => {
                
 
-               const id = this.props.id;
-               const selec = this.props.navItemSelected;
-               const parent = this.props.navItems[this.props.navItemSelected].parent;
+                const id = this.props.id;
+                const selec = this.props.navItemSelected;
+                const parent = this.props.navItems[this.props.navItemSelected].parent;
                 const reorderedIndexesR = list.sortable('toArray', {attribute: 'data-reactid'}) // Obtiene la nueva disposición de los elementos
+                const reorderedIndexesId = list.sortable('toArray', {attribute: 'id'})
+                console.log(reorderedIndexesId);
                 const indexesR = reorderedIndexesR.map(el => el.split('$').pop() )
-                list.sortable('cancel');
-                $('.connectedSortables').sortable('cancel');
+              
+               
 
                 var index = 0;
                 var newIndexesIds = [];
                 var newChildrenInOrder = [];
                 if(parent !== id){
+                       $('.connectedSortables').sortable('cancel');
+                list.sortable('cancel');
                     if(parent == 0){
                         newIndexesIds = this.props.navItems[id].children;
                         reorderedIndexesR.forEach(function (el,indx,newIds){
