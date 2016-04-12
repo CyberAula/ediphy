@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Modal, Row, Col, Grid, Button, ButtonGroup} from 'react-bootstrap';
-
+import DaliTitle from '../DaliTitle';
 export default class Visor extends Component{
      constructor(props) {
         super(props);
@@ -30,14 +30,22 @@ export default class Visor extends Component{
           .replace('m', today.getMonth()+1)
           .replace('Y', today.getFullYear());
         var cajas = navItemSelected!=-1? navItemsById[navItemSelected].boxes :[];
+               let titles = [];
+        if (navItemSelected !== 0) {
+            titles.push(navItemsById[navItemSelected].name);
+            let parent = navItemsById[navItemSelected].parent;
+            while (parent !== 0) {
+                titles.push(navItemsById[navItemSelected].name);
+                parent = navItemsById[parent].parent;
+            }
+            titles.reverse();
+
+        }
 
         return (
         <Modal className="visor"   show={this.props.visor} backdrop={true} bsSize="large" aria-labelledby="contained-modal-title-lg" onHide={e => {
+           this.props.onVisibilityToggled() }}>
 
-           this.props.onVisibilityToggled()
-           console.log('building')
-
-        }}>
                 <Modal.Header closeButton >
                     <Modal.Title>Preview</Modal.Title>
                 </Modal.Header>
@@ -48,40 +56,14 @@ export default class Visor extends Component{
                 
                         <Col md={12} xs={12} style={{padding: 0, height: '100%'}}>
                            <div className="outter" style={{paddingTop:'0px'}}>
-                           <div id="maincontents" className={display} style={{visibility: 'visible'}} >
-                           <div style={{visibility: 'visible', overflow: 'auto'}} className="caja">
-                          
-                           <div className="cab"> 
-                                 <div className="cabtabla_numero">{sectiontitle}</div>
-                                 <div className="tit_ud_cap">
-                                   <h1> Título Curso -  {strDate}</h1>
-                                   <h2>Título Unidad</h2>
-                                 </div>
-                                 <div className="cabtabla_lapiz">
-                                   <img src="images/ico_alumno.gif" alt="Alumno"/><div id="alumno2"> Alumno</div>
-                                 </div>
-                                 <div className="clear"></div>
-                           </div>
-
-                           <div className="contenido" style={{height:'auto', pointerEvents:'all !important'}}>
-                           <h3>{padre}</h3>
-                           <h4>{navItemsById[navItemSelected.name]}</h4> 
-                           <div className="boxes" style={{position:'relative'}}>
-                                {cajas.map(id => {
-                                    console.log(navItemsById)
-                                    console.log(id)
-                                     if (boxesById[id].parent == navItemSelected){
-                                      //  return (this.parseBox(boxesById[id]))          
-                                    }
-                                
-                                    
-                                
-                            })
-                         }
-                           </div>
-                           </div>
-                           </div>
-                           </div>
+                               <div id="maincontents" className={display} style={{visibility: 'visible'}} >
+                                     <DaliTitle titles={titles}
+                                       isReduced={navItemsById[navItemSelected].titlesReduced}
+                                       navItemId={navItemsById[navItemSelected]}
+                                       titleModeToggled={this.props.state.titleModeToggled}
+                                       showButton={false}
+                                        /> <br/> 
+                               </div>
                            </div>
                                 
                         </Col>
@@ -92,39 +74,38 @@ export default class Visor extends Component{
                    
                 </Modal.Body>
             </Modal>
-        );
+        )
     }
 
     componentDidMount(){
-        console.log('mount')
      
     }
 
 
     parseBox(box){
-        console.log(box)
-        
-        var boxesById = this.props.state.boxesById
+
+        var boxesById = this.props.state.boxesById;
         var width = box.width[box.width.length -1]=='%' ? box.width : box.width+'px';
         var height = box.height? (box.height[box.height.length -1]=='%' ? box.height : box.height+'px'):'auto';
-        var box = box
-
+        var box = box;
         var contenido = (box.id[1]!='s')?box.content:''
 
         return (<div style={{width: width, height:height, position: 'absolute', top: (box.position.y+'px'), left: (box.position.x+'px')}} >
              <div style={{pointerEvents:'all !important', height:'100%'}} dangerouslySetInnerHTML={{__html:  (box.id[1]!='s')?box.content:'' }} ></div>
              
-             {box.children.map(b=>{
-              
-                    var nn = b; 
-                    if (box.id[1]=='s') nn= b.replace('sc-','bo-');// Cambiar sc por bo en sortables
-                    var alturadiv = boxesById[nn].height
+                {
+                    box.children.map(b=>{
+                        var nn = b; 
+                        if (box.id[1]=='s') nn= b.replace('sc-','bo-');// Cambiar sc por bo en sortables
+                        var alturadiv = boxesById[nn].height;
+                        var height2 = alturadiv? (alturadiv[alturadiv.length -1]=='%' ? alturadiv : alturadiv+'px'):'auto';
+                       return ( <div style={{width:'100%', position:'relative',height:height2,display:'block'}} > {this.parseBox(boxesById[nn])}</div>);
+                        })
+                }
 
-                    var height2 = alturadiv? (alturadiv[alturadiv.length -1]=='%' ? alturadiv : alturadiv+'px'):'auto';
-                   return ( <div style={{width:'100%', position:'relative',height:height2,display:'block'}} > {this.parseBox(boxesById[nn])}</div>)
-                    })}
+             </div>
 
-             </div>);
+             );
      
 
       

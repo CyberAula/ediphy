@@ -3,7 +3,8 @@ var Container = (function(){
         getConfig: function(){
             return {
                 name: 'Container',
-                category: 'multimedia'
+                category: 'multimedia',
+                icon: 'fa-object-group'
             }
         },
         getRenderTemplate: function(state){

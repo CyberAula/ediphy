@@ -58,11 +58,8 @@ Dali.API = (function(){
             Dali.API.Private.emit(Dali.API.Private.events.openConfig, {name: name, isUpdating: isUpdating});
             return promise;
         },
-        renderPlugin: function(html, toolbar, config, state, isUpdating, id){
-            Dali.API.Private.emit(Dali.API.Private.events.render, {content: html, toolbar: toolbar, config: config, state: state, isUpdating: isUpdating, id: id});
-        },
-        addSubplugin: function(caller, fromSortable, container){
-            Dali.API.Private.emit(Dali.API.Private.events.addSubplugin, {caller: caller, fromSortable: fromSortable, container: container});
+        renderPlugin: function(html, toolbar, config, state, isUpdating, ids){
+            Dali.API.Private.emit(Dali.API.Private.events.render, {content: html, toolbar: toolbar, config: config, state: state, isUpdating: isUpdating, ids: ids});
         }
     }
 })();
@@ -87,9 +84,6 @@ Dali.API.Private = (function(){
             getCurrentPluginsList: {
                 emit: 'getCurrentPluginsList',
                 answer: 'getCurrentPluginsList_back'
-            },
-            addSubplugin: {
-                emit: 'addSubplugin'
             }
         },
         emit: function(name, params) {

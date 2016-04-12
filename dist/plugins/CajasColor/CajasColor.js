@@ -3,7 +3,8 @@ var CajasColor = (function(){
         getConfig: function(){
             return {
                 name: 'CajasColor',
-                category: 'text'
+                category: 'text',
+                icon: 'fa-object-ungroup'
             }
         },
         getToolbar: function(){

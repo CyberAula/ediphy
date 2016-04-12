@@ -1,6 +1,7 @@
 Dali.Plugin = function(descendant){
     var state;
     var id;
+    var initialParams;
     var extraFunctions = {};
 
     var defaultFor = function(arg, value) {
@@ -30,12 +31,12 @@ Dali.Plugin = function(descendant){
             needsTextEdition = defaultFor(needsTextEdition, false);
             icon = defaultFor(icon, 'fa-cogs');
 
-            callback = function () {
+            callback = function (initParams) {
                 if (descendant.getInitialState) {
                     state = descendant.getInitialState();
                 }
                 state = defaultFor(state, {});
-
+                initialParams = initParams;
                 if(needsConfigModal) {
                     this.openConfigModal(false, state);
                 }else {
@@ -107,7 +108,11 @@ Dali.Plugin = function(descendant){
                     this.getConfig(),
                     state,
                     isUpdating,
-                    id
+                    {
+                        id: id,
+                        parent: initialParams.parent,
+                        container: initialParams.container
+                    }
                 );
             }
         },

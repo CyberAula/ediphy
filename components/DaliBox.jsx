@@ -238,6 +238,7 @@ export default class DaliBox extends Component {
                         var target = event.target;
                         target.style.left = (parseInt(target.style.left) || 0) + event.dx + 'px';
                         target.style.top = (parseInt(target.style.top) || 0) + event.dy + 'px';
+                        target.style.zIndex = 999999;
                     },
                     onend: (event) => {
                         if(this.props.boxSelected !== this.props.id) {
@@ -253,6 +254,7 @@ export default class DaliBox extends Component {
 
                         target.style.left = box.container !== 0 ? left : target.style.left;
                         target.style.top = box.container !== 0 ? top : target.style.top;
+                        target.style.zIndex = 'initial';
 
                         this.props.onBoxMoved(
                             this.props.id,

@@ -5,17 +5,13 @@ import {Col, Input,Button, OverlayTrigger, Popover} from 'react-bootstrap';
 
 export default class DaliNavBar extends Component {
     openPlugin(categoria){
-            this.props.toggle(this.props.navItemSelected,false,0)
-            this.props.setcat(categoria)
-        }
+        this.props.setcat(categoria)
+    }
 
     render() {
-        
         return (
                 <div className="navBar">
-
                     <Col id="iconBar" >
-
                         <button className="navButton" disabled={this.props.undoDisabled} onClick={() => this.props.undo()}><i className="fa fa-mail-reply fa-1"></i>  </button>
                         <button className="navButton" disabled={this.props.redoDisabled} onClick={() => this.props.redo()}><i className="fa fa-mail-forward fa-1 "></i>  </button>
                         <button className="navButton" disabled={this.props.undoDisabled} onClick={() =>this.props.visor()}><i className="fa fa-eye fa-1 "></i>  </button>
@@ -42,11 +38,5 @@ export default class DaliNavBar extends Component {
        
 
             );
-    }
-
-
-
-    componentDidMount() {
-
     }
 }

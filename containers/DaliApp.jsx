@@ -4,12 +4,11 @@ import {ActionCreators} from 'redux-undo';
 import {Grid, Col, Row, Button, OverlayTrigger, Popover} from 'react-bootstrap';
 import {addNavItem, selectNavItem, expandNavItem, removeNavItem,
     addBox, selectBox, moveBox, resizeBox, updateBox, deleteBox, reorderBox, dropBox, addSortableContainer,
-    togglePluginModal, togglePageModal, toggleTextEditor, toggleTitleMode,
+    togglePageModal, toggleTextEditor, toggleTitleMode,
     changeDisplayMode, exportStateAsync, importStateAsync, updateToolbar, collapseToolbar} from '../actions';
 import {ID_PREFIX_BOX, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_SORTABLE_CONTAINER, BOX_TYPES} from '../constants';
 import DaliCanvas from '../components/DaliCanvas';
 import DaliCarousel from '../components/DaliCarousel';
-import BoxModal from '../components/BoxModal';
 import PageModal from '../components/PageModal';
 import PluginConfigModal from '../components/PluginConfigModal';
 import PluginToolbar from '../components/PluginToolbar';
@@ -25,13 +24,11 @@ class DaliApp extends Component{
             pluginTab: 'all',
             hideTab:'hide',
             visor:false
-
         };
     }
     render(){
-
         const{ dispatch, boxes, boxesIds, boxSelected, navItemsIds, navItems, navItemSelected,
-            boxModalToggled, pageModalToggled, undoDisabled, redoDisabled, displayMode, isBusy, toolbars } = this.props;
+            pageModalToggled, undoDisabled, redoDisabled, displayMode, isBusy, toolbars } = this.props;
             var margenplugins = this.state.hideTab=='hide'?1:0
             var paddings= (navItems[navItemSelected].type!= "slide") ? (99-60*margenplugins+'px 0px 0px 0px') : (130-60*margenplugins+'px 0px 30px 0px ')
         return(
@@ -66,17 +63,10 @@ class DaliApp extends Component{
                                     onBoxDeleted={(id, parent) => dispatch(deleteBox(id, parent))}
                                     onBoxReorder={(ids, parent) => dispatch(reorderBox(ids, parent))}
                                     onBoxDropped={(id, row, col) => dispatch(dropBox(id, row, col))}
-                                    onBoxModalToggled={(caller, fromSortable, container) => dispatch(togglePluginModal(caller, fromSortable, container))}
                                     onTextEditorToggled={(caller, value) => dispatch(toggleTextEditor(caller, value))}
                                     titleModeToggled={(id, value) => dispatch(toggleTitleMode(id, value))} />
                     </Col>
                 </Row>
-                <BoxModal caller={boxModalToggled.caller}
-                          fromSortable={boxModalToggled.fromSortable}
-                          container={boxModalToggled.container}
-                          navItemSelected={navItemSelected}
-                          onBoxAdded={(ids, type, draggable, resizable, content, toolbar, config, state) => dispatch(addBox(ids, type, draggable, resizable, content, toolbar, config, state))}
-                          onVisibilityToggled={(caller, fromSortable, container) => dispatch(togglePluginModal(caller, fromSortable, container))}/>
                <PageModal visibility={pageModalToggled.value}
                            caller={pageModalToggled.caller}
                            navItems={navItems}
@@ -87,9 +77,6 @@ class DaliApp extends Component{
                 <Visor  id="visor" visor={this.state.visor} onVisibilityToggled={()=> this.setState({visor:!this.state.visor })} state={this.props.store.getState().present} />
                 <PluginConfigModal />
 
-
-
-               
                 <DaliNavBar isBusy={isBusy}
                             hideTab = {this.state.hideTab}
                             undoDisabled = {undoDisabled}
@@ -97,7 +84,6 @@ class DaliApp extends Component{
                             navItemsIds = {navItemsIds}
                             navItemSelected = {navItemSelected}
                             boxSelected = {boxSelected}
-                            toggle = {() => {dispatch(togglePluginModal(navItemSelected, false, 0)) }}
                             undo = {() => {dispatch(ActionCreators.undo())}}
                             redo = {() => {dispatch(ActionCreators.redo())}}
                             visor = {() =>{this.setState({visor:true })}}
@@ -113,12 +99,8 @@ class DaliApp extends Component{
                                 }
                             }}/>
                 <PluginRibbon disabled = {navItemsIds.length === 0 ? true : false}
-                              caller={boxModalToggled.caller}
-                              fromSortable={boxModalToggled.fromSortable}
-                              container={boxModalToggled.container}
                               navItemSelected={navItemSelected}
                               onBoxAdded={(ids, type, draggable, resizable, content, toolbar, config, state) => dispatch(addBox(ids, type, draggable, resizable, content, toolbar, config, state))}
-                              onVisibilityToggled={(caller, fromSortable, container) => dispatch(togglePluginModal(caller, fromSortable, container))}
                               category={this.state.pluginTab}
                               hideTab={this.state.hideTab} />
 
@@ -140,37 +122,14 @@ class DaliApp extends Component{
 
         Dali.API.Private.listenEmission(Dali.API.Private.events.render, e => {
             if(e.detail.isUpdating) {
-                this.props.dispatch(updateBox(e.detail.id, e.detail.content, e.detail.state));
+                this.props.dispatch(updateBox(e.detail.ids.id, e.detail.content, e.detail.state));
             }else {
-                let id = ID_PREFIX_BOX + Date.now();
-                /*
-                let parsedContent = e.detail.content.split(/(<plugin[-\w\s="']*\/>)/g).map((string, index) =>{
-                    if(index % 2 === 0){
-                        return string;
-                    }
-
-                    let pluginId;
-                    try {
-                        pluginId = /plugin-data-id=["|']([\w]*)["|']/g.exec(string)[1];
-                    }catch(ex){
-                        pluginId = Date.now() + "-" + index;
-                        console.error("Plugin id not assignated");
-                    }
-                    return "<button style=\"width: 100%;height: 100%;background-color: transparent;border: 1px dotted black;\" onclick=\"Dali.API.addSubplugin('" + id + "',false,'" + pluginId + "'); event.stopPropagation();\"><i class=\"fa fa-plus\"></i></button>";
-                }).join('');
-                */
-
                 this.props.dispatch(addBox({
-                    parent: this.props.boxModalToggled.caller,
-                    id: id,
-                    container: (this.props.boxModalToggled.fromSortable ? ID_PREFIX_SORTABLE_CONTAINER + Date.now() : this.props.boxModalToggled.container)
+                    parent: e.detail.ids.parent,
+                    id: ID_PREFIX_BOX + Date.now(),
+                    container: e.detail.ids.container
                 }, BOX_TYPES.NORMAL, true, true, e.detail.content, e.detail.toolbar, e.detail.config, e.detail.state));
             }
-
-        });
-
-        Dali.API.Private.listenEmission(Dali.API.Private.events.addSubplugin, e => {
-           this.props.dispatch(togglePluginModal(e.detail.caller, e.detail.fromSortable, e.detail.container));
         });
 
         window.onkeyup = function(e) {
@@ -200,7 +159,6 @@ function mapStateToProps(state){
         navItemsIds: state.present.navItemsIds,
         navItems: state.present.navItemsById,
         navItemSelected: state.present.navItemSelected,
-        boxModalToggled: state.present.boxModalToggled,
         pageModalToggled: state.present.pageModalToggled,
         undoDisabled: state.past.length === 0,
         redoDisabled: state.future.length === 0,
@@ -211,4 +169,3 @@ function mapStateToProps(state){
 }
 
 export default connect(mapStateToProps)(DaliApp);
-

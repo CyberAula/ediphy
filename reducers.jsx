@@ -3,7 +3,7 @@ import undoable, {excludeAction} from 'redux-undo';
 
 import {ADD_BOX, SELECT_BOX, MOVE_BOX, RESIZE_BOX, UPDATE_BOX, DELETE_BOX, REORDER_BOX, DROP_BOX, ADD_SORTABLE_CONTAINER,
     ADD_NAV_ITEM, SELECT_NAV_ITEM, EXPAND_NAV_ITEM, REMOVE_NAV_ITEM,
-    TOGGLE_PLUGIN_MODAL, TOGGLE_PAGE_MODAL, TOGGLE_TEXT_EDITOR, TOGGLE_TITLE_MODE,
+    TOGGLE_PAGE_MODAL, TOGGLE_TEXT_EDITOR, TOGGLE_TITLE_MODE,
     CHANGE_DISPLAY_MODE, SET_BUSY, UPDATE_TOOLBAR, COLLAPSE_TOOLBAR, IMPORT_STATE
 } from './actions';
 import {ID_PREFIX_SECTION, ID_PREFIX_PAGE, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_SORTABLE_CONTAINER} from './constants';
@@ -321,7 +321,7 @@ function navItemsIds(state = [], action = {}){
 }
 
 function navItemsById(state = {}, action = {}){
-    switch(action.type){
+    switch(action.type) {
         case SELECT_NAV_ITEM:
             return state;
         case ADD_NAV_ITEM:
@@ -329,27 +329,29 @@ function navItemsById(state = {}, action = {}){
                 [action.payload.id]: navItemCreator(state[action.payload.id], action),
                 [action.payload.parent]: Object.assign({}, state[action.payload.parent], {children: [...state[action.payload.parent].children, action.payload.id]})
             });
-            return recalculateNames(newState, newState[action.payload.id],0)
+            return recalculateNames(newState, newState[action.payload.id], 0)
         case EXPAND_NAV_ITEM:
             return Object.assign({}, state, {[action.payload.id]: Object.assign({}, state[action.payload.id], {isExpanded: action.payload.value})});
         case TOGGLE_TITLE_MODE:
             return Object.assign({}, state, {[action.payload.id]: Object.assign({}, state[action.payload.id], {titlesReduced: action.payload.value})});
         case REMOVE_NAV_ITEM:
-            let oldOne = Object.assign({},state[action.payload.ids[0]])
+            let oldOne = Object.assign({}, state[action.payload.ids[0]])
             let newState = Object.assign({}, state);
-            action.payload.ids.map(id =>{
+            action.payload.ids.map(id => {
                 delete newState[id];
             });
             let newChildren = newState[action.payload.parent].children.slice();
             newChildren.splice(newChildren.indexOf(action.payload.ids[0]), 1);
             let wrongNames = Object.assign({}, newState, {[action.payload.parent]: Object.assign({}, newState[action.payload.parent], {children: newChildren})});
-            return recalculateNames(wrongNames, oldOne,1, action.payload.ids.length)
+            return recalculateNames(wrongNames, oldOne, 1, action.payload.ids.length)
         case ADD_BOX:
-        
-            if(action.payload.ids.parent &&  action.payload.ids.parent.indexOf(ID_PREFIX_PAGE) !== -1 || action.payload.ids.parent.indexOf(ID_PREFIX_SECTION) !== -1)
+            if (action.payload.ids.parent && action.payload.ids.parent.indexOf(ID_PREFIX_PAGE) !== -1 || action.payload.ids.parent.indexOf(ID_PREFIX_SECTION) !== -1){
                 return Object.assign({}, state, {
                     [action.payload.ids.parent]: Object.assign({}, state[action.payload.ids.parent], {
-                        boxes: [...state[action.payload.ids.parent].boxes, action.payload.ids.id]})});
+                        boxes: [...state[action.payload.ids.parent].boxes, action.payload.ids.id]
+                    })
+                });
+            }
             return state
         case DELETE_BOX:
             if (action.payload.parent.indexOf(ID_PREFIX_PAGE) !== -1 || action.payload.parent.indexOf(ID_PREFIX_SECTION) !== -1){ 
@@ -362,7 +364,6 @@ function navItemsById(state = {}, action = {}){
                 }
             }
             return state;
-              
         case IMPORT_STATE:
             return action.payload.present.navItemsById;
         default:
@@ -373,7 +374,6 @@ function navItemsById(state = {}, action = {}){
 function navItemSelected(state = 0, action = {}){
     switch(action.type){
         case SELECT_NAV_ITEM:
-
             return action.payload.id;
         case ADD_NAV_ITEM:
             return action.payload.id;
@@ -392,7 +392,7 @@ function toolbarsById(state = {}, action = {}){
          console.log(action.payload.ids)
             let toolbar = {
                 id: action.payload.ids.id,
-                buttons: action.payload.toolbar,
+                buttons: action.payload.toolbar || [],
                 config: action.payload.config,
                 state: action.payload.state,
                 showTextEditor: false,
@@ -415,8 +415,7 @@ function toolbarsById(state = {}, action = {}){
                     step: 5,
                     autoManaged: true
                 });
-                 console.log('bbbbbbbbbb')
-                 console.log(action.payload.ids)
+
                 parentToolbar = Object.assign({}, state[action.payload.ids.parent], {
                     buttons: [...state[action.payload.ids.parent].buttons, {
                         name: action.payload.ids.container.replace("-", "_") + '_rows',
@@ -507,19 +506,6 @@ function toolbarsById(state = {}, action = {}){
     }
 }
 
-function togglePluginModal(state = {caller: 0, container: 0, fromSortable: false}, action = {}){
-    switch(action.type){
-        case TOGGLE_PLUGIN_MODAL:
-            return action.payload;
-        case ADD_BOX:
-            return {caller: 0, container: 0, fromSortable: false};
-        case IMPORT_STATE:
-            return action.payload.present.boxModalToggled;
-        default:
-            return state;
-    }
-}
-
 function togglePageModal(state = {value: false, caller: 0}, action = {}){
     switch(action.type){
         case TOGGLE_PAGE_MODAL:
@@ -556,7 +542,6 @@ function isBusy(state = "", action = {}){
 }
 
 const GlobalState = undoable(combineReducers({
-    boxModalToggled: togglePluginModal,
     pageModalToggled: togglePageModal,
     boxesById: boxesById, //{0: box0, 1: box1}
     boxSelected: boxSelected, //0
@@ -571,8 +556,6 @@ const GlobalState = undoable(combineReducers({
     if(action.type === EXPAND_NAV_ITEM)
         return false;
     else if(action.type === TOGGLE_PAGE_MODAL)
-        return false;
-    else if(action.type === TOGGLE_PLUGIN_MODAL)
         return false;
     else if(action.type === TOGGLE_TITLE_MODE)
         return false;
