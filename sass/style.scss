@@ -2,7 +2,6 @@
 @import 'variables';
 @import 'components/canvas';
 @import 'components/carrouselList';
-@import 'components/pluginPlaceholder';
 @import 'components/navBar';
 @import 'components/toolbox';
 @import 'components/btn';
@@ -27,7 +26,13 @@
 }
 
 .drop-active {
-	border: dashed 4px #aaa;
-	border-radius: 4px;
-	transition: background-color 0.3s;
+    border: dashed 4px #aaa;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.drop-target {
+    background-color: #29e;
+    border-color: #fff;
+    border-style: solid;
 }

@@ -33,8 +33,18 @@ function boxCreator(state = {}, action = {}){
                 width = '100%';
                 height = '100%';
             }
-            if(action.payload.initialParams && action.payload.initialParams.position){
-                position = action.payload.initialParams.position;
+            let col = 0;
+            let row = 0;
+            if(action.payload.initialParams){
+                if(action.payload.initialParams.position) {
+                    position = action.payload.initialParams.position;
+                }
+                if(action.payload.initialParams.col){
+                    col = action.payload.initialParams.col;
+                }
+                if(action.payload.initialParams.row){
+                    row = action.payload.initialParams.row;
+                }
             }
             
             return {
@@ -44,8 +54,8 @@ function boxCreator(state = {}, action = {}){
                 container: action.payload.ids.container,
                 type: action.payload.type,
                 position: position,
-                col: 0,
-                row: 0,
+                col: col,
+                row: row,
                 width: width,
                 height: height,
                 content: content,
@@ -403,7 +413,6 @@ function toolbarContainsButton(toolbarButtons, name) {
 function toolbarsById(state = {}, action = {}){
     switch(action.type) {
         case ADD_BOX:
-         console.log(action.payload.ids)
             let toolbar = {
                 id: action.payload.ids.id,
                 buttons: action.payload.toolbar || [],

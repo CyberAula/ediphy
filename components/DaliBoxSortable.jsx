@@ -60,6 +60,12 @@ export default class DaliBoxSortable extends Component{
             ondropactivate: function (event) {
                 event.target.classList.add('drop-active');
             },
+            ondragenter: function(event){
+                event.target.classList.add("drop-target");
+            },
+            ondragleave: function(event){
+                event.target.classList.remove("drop-target");
+            },
             ondrop: function (event) {
                 //addBox
                 let initialParams = {
@@ -71,6 +77,7 @@ export default class DaliBoxSortable extends Component{
             }.bind(this),
             ondropdeactivate: function (event) {
                 event.target.classList.remove('drop-active');
+                event.target.classList.remove("drop-target");
             }
         })
         .resizable({
@@ -89,6 +96,12 @@ export default class DaliBoxSortable extends Component{
             ondropactivate: function (event) {
                 event.target.classList.add('drop-active');
             },
+            ondragenter: function(event){
+                event.target.classList.add("drop-target");
+            },
+            ondragleave: function(event){
+                event.target.classList.remove("drop-target");
+            },
             ondrop: function (event) {
                 //addBox
                 let initialParams = {
@@ -100,6 +113,7 @@ export default class DaliBoxSortable extends Component{
             }.bind(this),
             ondropdeactivate: function (event) {
                 event.target.classList.remove('drop-active');
+                event.target.classList.remove("drop-target");
             }
         });
 

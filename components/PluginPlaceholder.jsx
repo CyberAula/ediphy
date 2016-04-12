@@ -14,8 +14,7 @@ export default class PluginPlaceholder extends Component {
                     height: "100%",
                     position: 'relative',
                     padding: 0}}
-                  data-id={this.props.pluginContainer}
-                  className={"daliBoxSortableContainer drg" + this.props.pluginContainer}>
+                  className={"drg" + this.props.pluginContainer}>
                 {container ?
                     container.rows.map((row, i) => {
                         return (
@@ -26,10 +25,13 @@ export default class PluginPlaceholder extends Component {
                                                 style={{height: "100%", padding: 0}}
                                                 ref={e => {
                                                     if(e !== null){
-                                                        let selector = ".dnd" + this.props.pluginContainer;
+                                                        let selector = ".rib, .dnd" + this.props.pluginContainer;
                                                         interact(ReactDOM.findDOMNode(e)).dropzone({
                                                             accept: selector,
                                                             overlap: 'center',
+                                                            ondropactivate: function (e) {
+                                                                e.target.classList.add('drop-active');
+                                                            },
                                                             ondragenter: function(e){
                                                                 e.target.classList.add("drop-target");
                                                             },
@@ -37,13 +39,24 @@ export default class PluginPlaceholder extends Component {
                                                                 e.target.classList.remove("drop-target");
                                                             },
                                                             ondrop: function(e){
-                                                                let boxDragged = this.props.boxes[this.props.boxSelected];
-                                                                if(boxDragged && (boxDragged.row !== i || boxDragged.col !== j)){
-                                                                    this.props.onBoxDropped(this.props.boxSelected, i, j);
+                                                                if(e.relatedTarget.className.indexOf("rib") !== -1){
+                                                                    let initialParams = {
+                                                                        parent: this.props.parentBox.id,
+                                                                        container: this.props.pluginContainer,
+                                                                        row: i,
+                                                                        col: j
+                                                                    };
+                                                                    Dali.Plugins.get(e.relatedTarget.getAttribute("name")).getConfig().callback(initialParams);
+                                                                } else {
+                                                                    let boxDragged = this.props.boxes[this.props.boxSelected];
+                                                                    if(boxDragged && (boxDragged.row !== i || boxDragged.col !== j)){
+                                                                        this.props.onBoxDropped(this.props.boxSelected, i, j);
+                                                                    }
                                                                 }
                                                             }.bind(this),
                                                             ondropdeactivate: function (e) {
                                                                 e.target.classList.remove('drop-target');
+                                                                e.target.classList.remove('drop-active');
                                                             }
                                                         });
                                                     }
@@ -79,23 +92,31 @@ export default class PluginPlaceholder extends Component {
     }
 
     componentDidMount(){
-        interact(".daliBoxSortableContainer").dropzone({
+        interact(ReactDOM.findDOMNode(this)).dropzone({
             accept: '.rib',
             overlap: 'center',
             ondropactivate: function (event) {
                 event.target.classList.add('drop-active');
             },
+            ondragenter: function(event){
+                event.target.classList.add("drop-target");
+            },
+            ondragleave: function(event){
+                event.target.classList.remove("drop-target");
+            },
             ondrop: function (event) {
                 //addBox
                 let initialParams = {
                     parent: this.props.parentBox.id,
-                    container: event.target.getAttribute("data-id")
+                    container: this.props.pluginContainer
                 };
                 Dali.Plugins.get(event.relatedTarget.getAttribute("name")).getConfig().callback(initialParams);
-                event.dragEvent.stopPropagation();
+
+                interact(ReactDOM.findDOMNode(this)).unset();
             }.bind(this),
             ondropdeactivate: function (event) {
                 event.target.classList.remove('drop-active');
+                event.target.classList.remove("drop-target");
             }
         });
     }
