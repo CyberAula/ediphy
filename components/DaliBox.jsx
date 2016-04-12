@@ -74,10 +74,10 @@ export default class DaliBox extends Component {
                       </Button>
 
                     </div>
-                <div style={{position: 'absolute', left:  -cornerSize/2, top: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray', cursor: 'nw-resize'}}></div>
-                <div style={{position: 'absolute', right: -cornerSize/2, top: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray', cursor: 'ne-resize'}}></div>
-                <div style={{position: 'absolute', left:  -cornerSize/2, bottom: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray', cursor: 'sw-resize'}}></div>
-                <div style={{position: 'absolute', right: -cornerSize/2, bottom: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray', cursor: 'se-resize'}}></div>
+                <div style={{position: 'absolute', left:  -cornerSize/2, top: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray', cursor: (box.container === 0 ? 'nw-resize' : 'move')}}></div>
+                <div style={{position: 'absolute', right: -cornerSize/2, top: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray', cursor: (box.container === 0 ? 'nw-resize' : 'move')}}></div>
+                <div style={{position: 'absolute', left:  -cornerSize/2, bottom: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray', cursor: (box.container === 0 ? 'nw-resize' : 'move')}}></div>
+                <div style={{position: 'absolute', right: -cornerSize/2, bottom: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray', cursor: (box.container === 0 ? 'nw-resize' : 'move')}}></div>
             </div>);
 
         let classes = "wholebox";
@@ -271,7 +271,7 @@ export default class DaliBox extends Component {
                     enabled: (box.resizable),
                     restrict: {
                         restriction: "parent",
-                        endOnly: true,
+                        //endOnly: true,
                         elementRect: {top: 0, left: 0, bottom: 1, right: 1}
                     },
                     edges: {left: true, right: true, bottom: true, top: true},
@@ -297,6 +297,7 @@ export default class DaliBox extends Component {
                         target.style.width = event.rect.width + 'px';
                         target.style.height = event.rect.height + 'px';
 
+                        /*
                         if(event.restrict){
                             if (event.edges.top && event.restrict.dy < 0) {
                                 target.style.height = parseInt(target.style.height) + event.restrict.dy + 'px';
@@ -311,6 +312,7 @@ export default class DaliBox extends Component {
                                 target.style.width = parseInt(target.style.width) - event.restrict.dx + 'px';
                             }
                         }
+                        */
                     },
                     onend: (event) => {
                         if (this.props.boxSelected !== this.props.id) {

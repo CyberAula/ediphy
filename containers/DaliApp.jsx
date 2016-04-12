@@ -128,11 +128,20 @@ class DaliApp extends Component{
                     return "<plugin plugin-data-id='" + (ID_PREFIX_SORTABLE_CONTAINER + Date.now()) + (i++) + "' />";
                 });
 
-                this.props.dispatch(addBox({
-                    parent: e.detail.ids.parent,
-                    id: ID_PREFIX_BOX + Date.now(),
-                    container: e.detail.ids.container
-                }, BOX_TYPES.NORMAL, true, true, parsedContent, e.detail.toolbar, e.detail.config, e.detail.state, e.detail.initialParams));
+                this.props.dispatch(addBox(
+                    {
+                        parent: e.detail.ids.parent,
+                        id: ID_PREFIX_BOX + Date.now(),
+                        container: e.detail.ids.container
+                    },
+                    BOX_TYPES.NORMAL,
+                    true,
+                    (e.detail.ids.container === 0),
+                    parsedContent,
+                    e.detail.toolbar,
+                    e.detail.config,
+                    e.detail.state,
+                    e.detail.initialParams));
             }
         });
 
