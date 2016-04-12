@@ -60,7 +60,7 @@ class DaliApp extends Component{
                                     onBoxSelected={(id) => dispatch(selectBox(id))}
                                     onBoxMoved={(id, x, y) => dispatch(moveBox(id, x, y))}
                                     onBoxResized={(id, width, height) => dispatch(resizeBox(id, width, height))}
-                                    onBoxDeleted={(id, parent) => dispatch(deleteBox(id, parent))}
+                                    onBoxDeleted={(id, parent, container) => dispatch(deleteBox(id, parent, container))}
                                     onBoxReorder={(ids, parent) => dispatch(reorderBox(ids, parent))}
                                     onBoxDropped={(id, row, col) => dispatch(dropBox(id, row, col))}
                                     onTextEditorToggled={(caller, value) => dispatch(toggleTextEditor(caller, value))}
@@ -146,9 +146,8 @@ class DaliApp extends Component{
           }
           else if (key == 46) {
               if ( this.props.boxSelected != -1){
-                let caja =  this.props.boxes[ this.props.boxSelected]
-                let parent= caja.parent
-                this.props.dispatch(deleteBox( this.props.boxSelected, parent ));
+                let box =  this.props.boxes[ this.props.boxSelected];
+                this.props.dispatch(deleteBox(box.id, box.parent, box.container));
               }
           }  
         }.bind(this);

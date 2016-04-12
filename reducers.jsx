@@ -61,7 +61,6 @@ function boxCreator(state = {}, action = {}){
 }
 
 function sortableContainerCreator(state = {}, action = {}){
-    let container;
     switch (action.type){
         case ADD_BOX:
             return Object.assign({}, state, {
@@ -75,7 +74,7 @@ function sortableContainerCreator(state = {}, action = {}){
                 })
             });
         case DELETE_BOX:
-            container = boxes[action.payload.id].container;
+            let container = action.payload.container;
             let newState = Object.assign({}, state);
             if(state[container].children.length === 1){
                 delete newState[container];
