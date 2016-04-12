@@ -4,6 +4,7 @@ export const ADD_BOX = 'ADD_BOX';
 export const SELECT_BOX = 'SELECT_BOX';
 export const MOVE_BOX = 'MOVE_BOX';
 export const RESIZE_BOX = 'RESIZE_BOX';
+export const RESIZE_SORTABLE_CONTAINER = 'RESIZE_SORTABLE_CONTAINER';
 export const UPDATE_BOX = 'UPDATE_BOX';
 export const DELETE_BOX = 'DELETE_BOX';
 export const REORDER_BOX = 'REORDER_BOX';
@@ -56,6 +57,10 @@ export function moveBox(id, x, y){
 
 export function resizeBox(id, width, height){
     return {type: RESIZE_BOX, payload: {id, width, height}};
+}
+
+export function resizeSortableContainer(id, parent, height){
+    return {type: RESIZE_SORTABLE_CONTAINER, payload: {id, parent, height}};
 }
 
 export function updateBox(id, content, state){

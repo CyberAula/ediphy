@@ -21,6 +21,7 @@ export default class DaliBoxSortable extends Component{
                                  style={{
                                     width: '100%',
                                     minHeight: 150,
+                                    height: box.sortableContainers[idContainer].height,
                                     border: '1px solid #999',
                                     boxSizing: 'border-box',
                                     position: 'relative'}}>
@@ -71,6 +72,15 @@ export default class DaliBoxSortable extends Component{
             ondropdeactivate: function (event) {
                 event.target.classList.remove('drop-active');
             }
+        })
+        .resizable({
+            edges: {left: false, right: false, bottom: true, top: false},
+            onmove: (event) => {
+                event.target.style.height = event.rect.height + 'px';
+            },
+            onend: (event) => {
+                this.props.onSortableContainerResized(event.target.getAttribute("data-id"), this.props.id, parseInt(event.target.style.height));
+            }
         });
 
         interact(ReactDOM.findDOMNode(this)).dropzone({
@@ -81,7 +91,6 @@ export default class DaliBoxSortable extends Component{
             },
             ondrop: function (event) {
                 //addBox
-                console.log(this.props.id);
                 let initialParams = {
                     parent: this.props.id,
                     container: ID_PREFIX_SORTABLE_CONTAINER + Date.now()

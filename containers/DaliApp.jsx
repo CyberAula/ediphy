@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {ActionCreators} from 'redux-undo';
 import {Grid, Col, Row, Button, OverlayTrigger, Popover} from 'react-bootstrap';
 import {addNavItem, selectNavItem, expandNavItem, removeNavItem,
-    addBox, selectBox, moveBox, resizeBox, updateBox, deleteBox, reorderBox, dropBox, addSortableContainer,
+    addBox, selectBox, moveBox, resizeBox, resizeSortableContainer, updateBox, deleteBox, reorderBox, dropBox, addSortableContainer,
     togglePageModal, toggleTextEditor, toggleTitleMode,
     changeDisplayMode, exportStateAsync, importStateAsync, updateToolbar, collapseToolbar} from '../actions';
 import {ID_PREFIX_BOX, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_SORTABLE_CONTAINER, BOX_TYPES} from '../constants';
@@ -60,6 +60,7 @@ class DaliApp extends Component{
                                     onBoxSelected={(id) => dispatch(selectBox(id))}
                                     onBoxMoved={(id, x, y) => dispatch(moveBox(id, x, y))}
                                     onBoxResized={(id, width, height) => dispatch(resizeBox(id, width, height))}
+                                    onSortableContainerResized={(id, parent, height) => dispatch(resizeSortableContainer(id, parent, height))}
                                     onBoxDeleted={(id, parent, container) => dispatch(deleteBox(id, parent, container))}
                                     onBoxReorder={(ids, parent) => dispatch(reorderBox(ids, parent))}
                                     onBoxDropped={(id, row, col) => dispatch(dropBox(id, row, col))}

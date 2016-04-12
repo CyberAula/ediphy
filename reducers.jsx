@@ -1,7 +1,7 @@
 import {combineReducers} from 'redux';
 import undoable, {excludeAction} from 'redux-undo';
 
-import {ADD_BOX, SELECT_BOX, MOVE_BOX, RESIZE_BOX, UPDATE_BOX, DELETE_BOX, REORDER_BOX, DROP_BOX, ADD_SORTABLE_CONTAINER,
+import {ADD_BOX, SELECT_BOX, MOVE_BOX, RESIZE_BOX, RESIZE_SORTABLE_CONTAINER, UPDATE_BOX, DELETE_BOX, REORDER_BOX, DROP_BOX, ADD_SORTABLE_CONTAINER,
     ADD_NAV_ITEM, SELECT_NAV_ITEM, EXPAND_NAV_ITEM, REMOVE_NAV_ITEM,
     TOGGLE_PAGE_MODAL, TOGGLE_TEXT_EDITOR, TOGGLE_TITLE_MODE,
     CHANGE_DISPLAY_MODE, SET_BUSY, UPDATE_TOOLBAR, COLLAPSE_TOOLBAR, IMPORT_STATE
@@ -69,10 +69,17 @@ function sortableContainerCreator(state = {}, action = {}){
                         children: [...state[action.payload.ids.container].children, action.payload.ids.id]
                     }) : {
                     children: [action.payload.ids.id],
+                    height: 150,
                     rows: [12],
                     cols: [12]
                 })
             });
+        case RESIZE_SORTABLE_CONTAINER:
+            return Object.assign({}, state, {
+                [action.payload.id]: Object.assign({}, state[action.payload.id], {
+                    height: action.payload.height
+                })
+            })
         case DELETE_BOX:
             let container = action.payload.container;
             let newState = Object.assign({}, state);
@@ -132,6 +139,12 @@ function boxesById(state = {}, action = {}){
         case RESIZE_BOX:
             return Object.assign({}, state, {
                 [action.payload.id]: Object.assign({}, state[action.payload.id], {width: action.payload.width, height: action.payload.height})
+            });
+        case RESIZE_SORTABLE_CONTAINER:
+            return Object.assign({}, state, {
+                [action.payload.parent]: Object.assign({}, state[action.payload.parent], {
+                    sortableContainers: sortableContainerCreator(state[action.payload.parent].sortableContainers, action)
+                })
             });
         case UPDATE_BOX:
             return Object.assign({}, state, {
