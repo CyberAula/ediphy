@@ -224,113 +224,111 @@ export default class DaliBox extends Component {
             e.stopPropagation();
         }.bind(this));
 
-        if (box.type !== BOX_TYPES.SORTABLE) {
-            let dragRestrictionSelector = (box.container !== 0) ? ".drg" + box.container : "parent";
-            interact(ReactDOM.findDOMNode(this))
-                .draggable({
-                    enabled: (box.draggable),
-                    restrict: {
-                        restriction: dragRestrictionSelector,
-                        elementRect: {top: 0, left: 0, bottom: 1, right: 1}
-                    },
-                    autoScroll: true,
-                    onmove: (event) => {
-                        if (this.props.boxSelected !== this.props.id) {
-                            return;
-                        }
-                        var target = event.target;
+        let dragRestrictionSelector = (box.container !== 0) ? ".daliBoxSortableContainer, .drg" + box.container : "parent";
+        interact(ReactDOM.findDOMNode(this))
+            .draggable({
+                enabled: (box.draggable),
+                restrict: {
+                    restriction: dragRestrictionSelector,
+                    elementRect: {top: 0, left: 0, bottom: 1, right: 1}
+                },
+                autoScroll: true,
+                onmove: (event) => {
+                    if (this.props.boxSelected !== this.props.id) {
+                        return;
+                    }
+                    var target = event.target;
+                    target.style.left = (parseInt(target.style.left) || 0) + event.dx + 'px';
+                    target.style.top = (parseInt(target.style.top) || 0) + event.dy + 'px';
+                    target.style.zIndex = 999999;
+                },
+                onend: (event) => {
+                    if(this.props.boxSelected !== this.props.id) {
+                        return;
+                    }
+
+                    var target = event.target;
+                    if(!target.parentElement){
+                        return;
+                    }
+                    let left = Math.max(Math.min(Math.floor(parseInt(target.style.left) / target.parentElement.offsetWidth * 100), 100), 0) + '%';
+                    let top = Math.max(Math.min(Math.floor(parseInt(target.style.top) / target.parentElement.offsetHeight * 100), 100), 0) + '%';
+
+                    target.style.left = box.container !== 0 ? left : target.style.left;
+                    target.style.top = box.container !== 0 ? top : target.style.top;
+                    target.style.zIndex = 'initial';
+
+                    this.props.onBoxMoved(
+                        this.props.id,
+                        box.container !== 0 ? left : Math.max(parseInt(target.style.left), 0),
+                        box.container !== 0 ? top : Math.max(parseInt(target.style.top), 0));
+                    event.stopPropagation();
+                }
+            })
+            .ignoreFrom('input, textarea, a')
+            .resizable({
+                enabled: (box.resizable),
+                restrict: {
+                    restriction: "parent",
+                    //endOnly: true,
+                    elementRect: {top: 0, left: 0, bottom: 1, right: 1}
+                },
+                edges: {left: true, right: true, bottom: true, top: true},
+                onmove: (event) => {
+                    if (this.props.boxSelected !== this.props.id) {
+                        return;
+                    }
+                    /*BOX-RESIZE*/
+                    let target = event.target;
+                    if(event.edges.bottom){ //Abajo
+                        target.style.top = (parseInt(target.style.top) || 0);
+                    }
+                    if(event.edges.left){ //Izquierda
                         target.style.left = (parseInt(target.style.left) || 0) + event.dx + 'px';
+                    }
+                    if(event.edges.right){ //Derecha
+                        target.style.left = (parseInt(target.style.left) || 0);
+                    }
+                    if(event.edges.top){ //Arriba
                         target.style.top = (parseInt(target.style.top) || 0) + event.dy + 'px';
-                        target.style.zIndex = 999999;
-                    },
-                    onend: (event) => {
-                        if(this.props.boxSelected !== this.props.id) {
-                            return;
-                        }
-
-                        var target = event.target;
-                        if(!target.parentElement){
-                            return;
-                        }
-                        let left = Math.max(Math.min(Math.floor(parseInt(target.style.left) / target.parentElement.offsetWidth * 100), 100), 0) + '%';
-                        let top = Math.max(Math.min(Math.floor(parseInt(target.style.top) / target.parentElement.offsetHeight * 100), 100), 0) + '%';
-
-                        target.style.left = box.container !== 0 ? left : target.style.left;
-                        target.style.top = box.container !== 0 ? top : target.style.top;
-                        target.style.zIndex = 'initial';
-
-                        this.props.onBoxMoved(
-                            this.props.id,
-                            box.container !== 0 ? left : Math.max(parseInt(target.style.left), 0),
-                            box.container !== 0 ? top : Math.max(parseInt(target.style.top), 0));
-                        event.stopPropagation();
                     }
-                })
-                .ignoreFrom('input, textarea, a')
-                .resizable({
-                    enabled: (box.resizable),
-                    restrict: {
-                        restriction: "parent",
-                        //endOnly: true,
-                        elementRect: {top: 0, left: 0, bottom: 1, right: 1}
-                    },
-                    edges: {left: true, right: true, bottom: true, top: true},
-                    onmove: (event) => {
-                        if (this.props.boxSelected !== this.props.id) {
-                            return;
-                        }
-                        /*BOX-RESIZE*/
-                        let target = event.target;
-                        if(event.edges.bottom){ //Abajo
-                            target.style.top = (parseInt(target.style.top) || 0);
-                        }
-                        if(event.edges.left){ //Izquierda
-                            target.style.left = (parseInt(target.style.left) || 0) + event.dx + 'px';
-                        }
-                        if(event.edges.right){ //Derecha
-                            target.style.left = (parseInt(target.style.left) || 0);
-                        }
-                        if(event.edges.top){ //Arriba
-                            target.style.top = (parseInt(target.style.top) || 0) + event.dy + 'px';
-                        }
 
-                        target.style.width = event.rect.width + 'px';
-                        target.style.height = event.rect.height + 'px';
+                    target.style.width = event.rect.width + 'px';
+                    target.style.height = event.rect.height + 'px';
 
-                        /*
-                        if(event.restrict){
-                            if (event.edges.top && event.restrict.dy < 0) {
-                                target.style.height = parseInt(target.style.height) + event.restrict.dy + 'px';
-                            }
-                            if (event.edges.bottom && event.restrict.dy > 0) {
-                                target.style.height = parseInt(target.style.height) - event.restrict.dy + 'px';
-                            }
-                            if(event.edges.left && event.restrict.dx < 0){
-                                target.style.width = parseInt(target.style.width) + event.restrict.dx + 'px';
-                            }
-                            if(event.edges.right && event.restrict.dx > 0){
-                                target.style.width = parseInt(target.style.width) - event.restrict.dx + 'px';
-                            }
+                    /*
+                    if(event.restrict){
+                        if (event.edges.top && event.restrict.dy < 0) {
+                            target.style.height = parseInt(target.style.height) + event.restrict.dy + 'px';
                         }
-                        */
-                    },
-                    onend: (event) => {
-                        if (this.props.boxSelected !== this.props.id) {
-                            return;
+                        if (event.edges.bottom && event.restrict.dy > 0) {
+                            target.style.height = parseInt(target.style.height) - event.restrict.dy + 'px';
                         }
-
-                        let target = event.target;
-                        let width = Math.min(Math.floor(parseInt(target.style.width) / target.parentElement.offsetWidth * 100), 100) + '%';
-                        let height = Math.min(Math.floor(parseInt(target.style.height) / target.parentElement.offsetHeight * 100), 100) + '%';
-                        this.props.onBoxResized(
-                            this.props.id,
-                            box.container !== 0 ? width : parseInt(target.style.width),
-                            box.container !== 0 ? height : parseInt(target.style.height));
-                        this.props.onBoxMoved(this.props.id, parseInt(target.style.left), parseInt(target.style.top));
-                        event.stopPropagation();
+                        if(event.edges.left && event.restrict.dx < 0){
+                            target.style.width = parseInt(target.style.width) + event.restrict.dx + 'px';
+                        }
+                        if(event.edges.right && event.restrict.dx > 0){
+                            target.style.width = parseInt(target.style.width) - event.restrict.dx + 'px';
+                        }
                     }
-                });
-        }
+                    */
+                },
+                onend: (event) => {
+                    if (this.props.boxSelected !== this.props.id) {
+                        return;
+                    }
+
+                    let target = event.target;
+                    let width = Math.min(Math.floor(parseInt(target.style.width) / target.parentElement.offsetWidth * 100), 100) + '%';
+                    let height = Math.min(Math.floor(parseInt(target.style.height) / target.parentElement.offsetHeight * 100), 100) + '%';
+                    this.props.onBoxResized(
+                        this.props.id,
+                        box.container !== 0 ? width : parseInt(target.style.width),
+                        box.container !== 0 ? height : parseInt(target.style.height));
+                    this.props.onBoxMoved(this.props.id, parseInt(target.style.left), parseInt(target.style.top));
+                    event.stopPropagation();
+                }
+            });
     }
 
     componentWillUnmount(){
