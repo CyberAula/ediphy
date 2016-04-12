@@ -197,23 +197,26 @@ export default class DaliBox extends Component {
 
         let pluginsContained = ReactDOM.findDOMNode(this).getElementsByTagName("plugin");
         for(let i = 0; i < pluginsContained.length; i++){
+            let pluginContainerId;
             if(!pluginsContained[i].hasAttribute("plugin-data-id")) {
-                let pluginContainerId = ID_PREFIX_SORTABLE_CONTAINER + Date.now();
+                pluginContainerId = ID_PREFIX_SORTABLE_CONTAINER + Date.now();
                 pluginsContained[i].setAttribute("plugin-data-id", pluginContainerId);
-                ReactDOM.render(<PluginPlaceholder key={i}
-                                                   pluginContainer={pluginContainerId}
-                                                   parentBox={box}
-                                                   boxes={this.props.boxes}
-                                                   boxSelected={this.props.boxSelected}
-                                                   toolbars={this.props.toolbars}
-                                                   onBoxSelected={this.props.onBoxSelected}
-                                                   onBoxMoved={this.props.onBoxMoved}
-                                                   onBoxResized={this.props.onBoxResized}
-                                                   onBoxDeleted={this.props.onBoxDeleted}
-                                                   onBoxModalToggled={this.props.onBoxModalToggled}
-                                                   onTextEditorToggled={this.props.onTextEditorToggled}
-                />, pluginsContained[i]);
+            }else{
+                pluginContainerId = pluginsContained[i].attributes["plugin-data-id"].value
             }
+            ReactDOM.render(<PluginPlaceholder key={i}
+                                               pluginContainer={pluginContainerId}
+                                               parentBox={box}
+                                               boxes={this.props.boxes}
+                                               boxSelected={this.props.boxSelected}
+                                               toolbars={this.props.toolbars}
+                                               onBoxSelected={this.props.onBoxSelected}
+                                               onBoxMoved={this.props.onBoxMoved}
+                                               onBoxResized={this.props.onBoxResized}
+                                               onBoxDeleted={this.props.onBoxDeleted}
+                                               onBoxModalToggled={this.props.onBoxModalToggled}
+                                               onTextEditorToggled={this.props.onTextEditorToggled}
+            />, pluginsContained[i]);
         }
 
         $(ReactDOM.findDOMNode(this)).click(function(e){
@@ -330,5 +333,9 @@ export default class DaliBox extends Component {
 
     componentWillUnmount(){
         interact(ReactDOM.findDOMNode(this)).unset();
+        let pluginsContained = ReactDOM.findDOMNode(this).getElementsByTagName("plugin");
+        for(var i = 0; i < pluginsContained.length; i++){
+            ReactDOM.unmountComponentAtNode(pluginsContained[i]);
+        }
     }
 }

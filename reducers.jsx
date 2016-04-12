@@ -11,16 +11,6 @@ import {ID_PREFIX_SECTION, ID_PREFIX_PAGE, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_SOR
 function boxCreator(state = {}, action = {}){
     switch (action.type){
         case ADD_BOX:
-            /*
-            let styleStr = "min-width: '100px'; min-height: '100px'; background-color: 'yellow'".split(';');
-            let style = {};
-            styleStr.forEach(item =>{
-                let keyValue = item.split(':');
-                //We camelCase style keys
-                let key = keyValue[0].trim().replace(/-./g,function(char){return char.toUpperCase()[1]});
-                style[key] = keyValue[1].trim().replace(/'/g, "");
-            });
-            */
             let content = action.payload.content;
             if(!content)
                 content = "<h1>Placeholder</h1>";
@@ -42,6 +32,9 @@ function boxCreator(state = {}, action = {}){
                 position.y = 0;
                 width = '100%';
                 height = '100%';
+            }
+            if(action.payload.initialParams && action.payload.initialParams.position){
+                position = action.payload.initialParams.position;
             }
             
             return {
@@ -386,6 +379,15 @@ function navItemSelected(state = 0, action = {}){
     }
 }
 
+function toolbarContainsButton(toolbarButtons, name) {
+    for(var i = 0; i < toolbarButtons.length; i++){
+        if(toolbarButtons[i].name === name){
+            return true;
+        }
+    }
+    return false
+}
+
 function toolbarsById(state = {}, action = {}){
     switch(action.type) {
         case ADD_BOX:
@@ -399,9 +401,10 @@ function toolbarsById(state = {}, action = {}){
                 isCollapsed: false
             };
             let parentToolbar;
-            console.log('aaaaaaaaa')
-            if(action.payload.ids.container !== 0){
-                if(!toolbar.buttons){
+
+            if(action.payload.ids.container !== 0) {
+                if (!toolbar.buttons) {
+
                     toolbar.buttons = [];
                     toolbar.config = {};
                 }
@@ -416,23 +419,26 @@ function toolbarsById(state = {}, action = {}){
                     autoManaged: true
                 });
 
-                parentToolbar = Object.assign({}, state[action.payload.ids.parent], {
-                    buttons: [...state[action.payload.ids.parent].buttons, {
-                        name: action.payload.ids.container.replace("-", "_") + '_rows',
-                        humanName: action.payload.ids.container + ' Rows',
-                        type: 'text',
-                        value: '12',
-                        autoManaged: true
-                    }, {
-                        name: action.payload.ids.container.replace("-", "_") + '_cols',
-                        humanName: action.payload.ids.container + ' Cols',
-                        type: 'text',
-                        value: '12',
-                        autoManaged: true
-                    }]
-                });
+                if (!toolbarContainsButton(state[action.payload.ids.parent].buttons, action.payload.ids.container.replace("-", "_") + '_rows')){
+                    parentToolbar = Object.assign({}, state[action.payload.ids.parent], {
+                        buttons: [...state[action.payload.ids.parent].buttons, {
+                            name: action.payload.ids.container.replace("-", "_") + '_rows',
+                            humanName: action.payload.ids.container + ' Rows',
+                            type: 'text',
+                            value: '12',
+                            autoManaged: true
+                        }, {
+                            name: action.payload.ids.container.replace("-", "_") + '_cols',
+                            humanName: action.payload.ids.container + ' Cols',
+                            type: 'text',
+                            value: '12',
+                            autoManaged: true
+                        }]
+                    });
+                }
+
             }
-             console.log('cccccc')
+       
             if(action.payload.ids.id.indexOf(ID_PREFIX_SORTABLE_BOX) === -1) {
                 if(!toolbar.buttons) {
                     toolbar.buttons = [];
