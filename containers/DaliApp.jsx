@@ -3,7 +3,8 @@ import {connect} from 'react-redux';
 import {ActionCreators} from 'redux-undo';
 import {Grid, Col, Row, Button, OverlayTrigger, Popover} from 'react-bootstrap';
 import {addNavItem, selectNavItem, expandNavItem, removeNavItem,
-    addBox, selectBox, moveBox, resizeBox, resizeSortableContainer, updateBox, deleteBox, reorderBox, dropBox, addSortableContainer,
+    addBox, selectBox, moveBox, resizeBox, updateBox, deleteBox, reorderBox, dropBox,
+    addSortableContainer, resizeSortableContainer, changeCols, changeRows,
     togglePageModal, toggleTextEditor, toggleTitleMode,
     changeDisplayMode, exportStateAsync, importStateAsync, updateToolbar, collapseToolbar} from '../actions';
 import {ID_PREFIX_BOX, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_SORTABLE_CONTAINER, BOX_TYPES} from '../constants';
@@ -105,7 +106,10 @@ class DaliApp extends Component{
                               hideTab={this.state.hideTab} />
 
                 <PluginToolbar toolbars={toolbars}
+                               box={boxes[boxSelected]}
                                boxSelected={boxSelected}
+                               onColsChanged={(id, parent, distribution) => dispatch(changeCols(id, parent, distribution))}
+                               onRowsChanged={(id, parent, column, distribution) => dispatch(changeRows(id, parent, column, distribution))}
                                onTextEditorToggled={(caller, value) => dispatch(toggleTextEditor(caller, value))}
                                onToolbarUpdated={(caller, index, name, value) => dispatch(updateToolbar(caller, index, name, value))}
                                onToolbarCollapsed={(id) => dispatch(collapseToolbar(id))} />

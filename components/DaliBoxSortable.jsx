@@ -15,33 +15,84 @@ export default class DaliBoxSortable extends Component{
             <div ref="sortableContainer"
                  style={{position: 'relative'}}>
                 {box.children.map((idContainer, index)=>{
+                    let container = box.sortableContainers[idContainer];
                     return (<div key={index}
                                  className="daliBoxSortableContainer"
                                  data-id={idContainer}
                                  style={{
                                     width: '100%',
                                     minHeight: 150,
-                                    height: box.sortableContainers[idContainer].height,
+                                    height: container.height,
                                     border: '1px solid #999',
                                     boxSizing: 'border-box',
                                     position: 'relative'}}>
-                            {box.sortableContainers[idContainer].children.map((idBox, index) => {
-                                return (<DaliBox id={idBox}
-                                                 key={index}
-                                                 boxes={this.props.boxes}
-                                                 boxSelected={this.props.boxSelected}
-                                                 toolbars={this.props.toolbars}
-                                                 onBoxSelected={this.props.onBoxSelected}
-                                                 onBoxMoved={this.props.onBoxMoved}
-                                                 onBoxResized={this.props.onBoxResized}
-                                                 onBoxDeleted={this.props.onBoxDeleted}
-                                                 onBoxDropped={this.props.onBoxDropped}
-                                                 onBoxModalToggled={this.props.onBoxModalToggled}
-                                                 onTextEditorToggled={this.props.onTextEditorToggled} />);
-                            })}
+                        {container.colDistribution.map((col, i) => {
+                        if(container.cols[i]) {
+                            return (
+                                <div key={i}
+                                     style={{width: col + "%", height: '100%', float: 'left'}}>
+                                    {container.cols[i].map((row, j) => {
+                                        return (<div key={j}
+                                                     style={{width: "100%", height: row + "%", position: 'relative'}}
+                                                     ref={e => {
+                                                        if(e !== null){
+                                                            let selector = ".rib, .dnd" + idContainer;
+                                                            interact(ReactDOM.findDOMNode(e)).dropzone({
+                                                                accept: selector,
+                                                                overlap: 'pointer',
+                                                                ondropactivate: function (e) {
+                                                                    e.target.classList.add('drop-active');
+                                                                },
+                                                                ondragenter: function(e){
+                                                                    e.target.classList.add("drop-target");
+                                                                },
+                                                                ondragleave: function(e){
+                                                                    e.target.classList.remove("drop-target");
+                                                                },
+                                                                ondrop: function(e){
+                                                                    if(e.relatedTarget.className.indexOf("rib") !== -1){
+                                                                        let initialParams = {
+                                                                            parent: this.props.id,
+                                                                            container: idContainer,
+                                                                            col: i,
+                                                                            row: j
+                                                                        };
+                                                                        Dali.Plugins.get(e.relatedTarget.getAttribute("name")).getConfig().callback(initialParams);
+                                                                    } else {
+                                                                        let boxDragged = this.props.boxes[this.props.boxSelected];
+                                                                        if(boxDragged && (boxDragged.col !== i || boxDragged.row !== j)){
+                                                                            this.props.onBoxDropped(this.props.boxSelected, j, i);
+                                                                        }
+                                                                    }
+                                                                }.bind(this),
+                                                                ondropdeactivate: function (e) {
+                                                                    e.target.classList.remove('drop-target');
+                                                                    e.target.classList.remove('drop-active');
+                                                                }
+                                                            });
+                                                        }
+                                                    }}>
+                                            {container.children.map((idBox, index) => {
+                                                if(this.props.boxes[idBox].col === i && this.props.boxes[idBox].row === j) {
+                                                    return (<DaliBox id={idBox}
+                                                                     key={index}
+                                                                     boxes={this.props.boxes}
+                                                                     boxSelected={this.props.boxSelected}
+                                                                     toolbars={this.props.toolbars}
+                                                                     onBoxSelected={this.props.onBoxSelected}
+                                                                     onBoxMoved={this.props.onBoxMoved}
+                                                                     onBoxResized={this.props.onBoxResized}
+                                                                     onBoxDeleted={this.props.onBoxDeleted}
+                                                                     onBoxDropped={this.props.onBoxDropped}
+                                                                     onBoxModalToggled={this.props.onBoxModalToggled}
+                                                                     onTextEditorToggled={this.props.onTextEditorToggled}/>);
+                                                }
+                                            })}</div>);
+                                    })}
+                                </div>);
+                        }})}
                         <div style={{position: 'absolute', bottom: 0}}>
                             <i style={{verticalAlign: 'middle'}} className="fa fa-bars fa-2x drag-handle"></i>
-
                         </div>
                     </div>);
                 })}
