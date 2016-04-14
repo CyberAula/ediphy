@@ -8,6 +8,7 @@ export const UPDATE_BOX = 'UPDATE_BOX';
 export const DELETE_BOX = 'DELETE_BOX';
 export const REORDER_BOX = 'REORDER_BOX';
 export const DROP_BOX = 'DROP_BOX';
+export const INCREASE_LEVEL = 'INCREASE_LEVEL';
 export const DUPLICATE_SECTION = 'DUPLICATE_SECTION';
 
 export const RESIZE_SORTABLE_CONTAINER = 'RESIZE_SORTABLE_CONTAINER';
@@ -76,6 +77,10 @@ export function reorderBox(ids,parent){
 
 export function dropBox(id, row, col){
     return {type: DROP_BOX, payload: {id, row, col}};
+}
+
+export function increaseBoxLevel(){
+    return {type: INCREASE_LEVEL, payload: {}};
 }
 
 
