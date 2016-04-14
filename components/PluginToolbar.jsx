@@ -101,10 +101,10 @@ export default class PluginToolbar extends Component {
                               }
                             </Nav>
                              <div className="botones">
-                             <Accordion>
+                             <PanelGroup>
                                { accordion.map(title=>{  
                                   return ( 
-                                    <Panel className="panelPluginToolbar" header={title}  eventKey={indexAcc++}>
+                                    <Panel className="panelPluginToolbar" header={title}  eventKey={indexAcc++} collapsible>
                                       {buttons.map(button => {
                                         if (button.props.accordion == title) return button;
                                       })}
@@ -114,7 +114,7 @@ export default class PluginToolbar extends Component {
                                 { this.props.box.children.map((id, index) => {
                                     let container = this.props.box.sortableContainers[id];
                                     return (
-                                      <Panel className="panelPluginToolbar" header={id} eventKey={indexAcc++}>
+                                      <Panel className="panelPluginToolbar" header={id} eventKey={indexAcc++} collapsible>
                                                 <GridConfigurator key={index}
                                                    id={id}
                                                    parentId={this.props.box.id}
@@ -124,7 +124,7 @@ export default class PluginToolbar extends Component {
                                       </Panel>)
                                   })
                                 }
-                            </Accordion>
+                            </PanelGroup>
                               {
                                 buttons.map(button => {
                                   if (!button.props.accordion && this.state.currentTab == 1 ) return button; })
