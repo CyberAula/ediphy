@@ -56,12 +56,20 @@ var BasicText = (function(){
         getSections: function(){
             return [
                 {
+                    tab: 'Main', 
+                    accordion: ['Basic']
+                },
+                {
                     tab: 'Font', 
                     accordion: ['Size', 'Color']
                 },
                 {
                     tab: 'Box', 
                     accordion: ['Layout']
+                },
+                {
+                    tab: 'Other', 
+                    accordion: ['Extra']
                 },
 
             ];

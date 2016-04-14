@@ -10,6 +10,10 @@ export const REORDER_BOX = 'REORDER_BOX';
 export const DROP_BOX = 'DROP_BOX';
 export const DUPLICATE_SECTION = 'DUPLICATE_SECTION';
 
+export const RESIZE_SORTABLE_CONTAINER = 'RESIZE_SORTABLE_CONTAINER';
+export const CHANGE_COLS = 'CHANGE_COLS';
+export const CHANGE_ROWS = 'CHANGE_ROWS';
+
 export const ADD_NAV_ITEM = 'ADD_NAV_ITEM';
 export const SELECT_NAV_ITEM = 'SELECT_NAV_ITEM';
 export const EXPAND_NAV_ITEM = 'EXPAND_NAV_ITEM';
@@ -38,7 +42,6 @@ export function expandNavItem(id, value){
 }
 
 export function removeNavItem(ids, parent, boxes){
-
     return {type: REMOVE_NAV_ITEM, payload: {ids, parent, boxes}};
 }
 
@@ -63,8 +66,8 @@ export function updateBox(id, content, state){
     return {type: UPDATE_BOX, payload: {id, content, state}};
 }
 
-export function deleteBox(id, parent){
-    return {type: DELETE_BOX, payload: {id, parent}};
+export function deleteBox(id, parent, container){
+    return {type: DELETE_BOX, payload: {id, parent, container}};
 }
 
 export function reorderBox(ids,parent){
@@ -73,6 +76,19 @@ export function reorderBox(ids,parent){
 
 export function dropBox(id, row, col){
     return {type: DROP_BOX, payload: {id, row, col}};
+}
+
+
+export function resizeSortableContainer(id, parent, height){
+    return {type: RESIZE_SORTABLE_CONTAINER, payload: {id, parent, height}};
+}
+
+export function changeCols(id, parent, distribution){
+    return {type: CHANGE_COLS, payload: {id, parent, distribution}};
+}
+
+export function changeRows(id, parent, column, distribution){
+    return {type: CHANGE_ROWS, payload: {id, parent, column, distribution}};
 }
 
 export function duplicateSection(id){

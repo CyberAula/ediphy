@@ -35,7 +35,7 @@ var BasicQuizConnect = (function(){
                 return [
                     {
                         tab: 'Main', 
-                        accordion: ['Initial Config', 'Style']
+                        accordion: ['Basic', 'Style']
                     },
                     {
                         tab: 'Other', 

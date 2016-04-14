@@ -43,8 +43,8 @@ var BasicImage = (function(){
                     humanName: 'Test',
                     type: 'text',
                     isAttribute: true,
-                    tab: 'Main',
-                    accordion: 'Initial Config'
+                    tab: 'Other',
+                    accordion: 'Extra'
                 }
             ]
         },
@@ -52,7 +52,7 @@ var BasicImage = (function(){
             return [
                 {
                     tab: 'Main', 
-                    accordion: ['Initial Config', 'Style']
+                    accordion: ['Basic', 'Style']
                 },
                 {
                     tab: 'Other', 

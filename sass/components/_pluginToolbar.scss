@@ -1,0 +1,26 @@
+.panelPluginToolbar{
+
+	color:$fondo;
+	border-radius: 5px;
+
+	.panel-heading{
+		border-radius: 5px;
+	}
+
+
+
+	a {
+		display:block;
+		&:hover,&:active,&:focus{
+			text-decoration: none;
+			color:$navBar;
+		}
+	}
+}
+
+.botones{
+	padding:15px;
+}
+#insidetools,#tools{
+	width: 250px;
+}

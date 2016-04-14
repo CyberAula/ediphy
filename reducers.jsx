@@ -1,7 +1,8 @@
 import {combineReducers} from 'redux';
 import undoable, {excludeAction} from 'redux-undo';
 
-import {ADD_BOX, SELECT_BOX, MOVE_BOX, RESIZE_BOX, UPDATE_BOX, DELETE_BOX, REORDER_BOX, DROP_BOX, ADD_SORTABLE_CONTAINER,
+import {ADD_BOX, SELECT_BOX, MOVE_BOX, RESIZE_BOX, UPDATE_BOX, DELETE_BOX, REORDER_BOX, DROP_BOX,
+    ADD_SORTABLE_CONTAINER, RESIZE_SORTABLE_CONTAINER, CHANGE_COLS, CHANGE_ROWS,
     ADD_NAV_ITEM, SELECT_NAV_ITEM, EXPAND_NAV_ITEM, REMOVE_NAV_ITEM,
     TOGGLE_PAGE_MODAL, TOGGLE_TEXT_EDITOR, TOGGLE_TITLE_MODE,
     CHANGE_DISPLAY_MODE, SET_BUSY, UPDATE_TOOLBAR, COLLAPSE_TOOLBAR, IMPORT_STATE
@@ -33,8 +34,18 @@ function boxCreator(state = {}, action = {}){
                 width = '100%';
                 height = '100%';
             }
-            if(action.payload.initialParams && action.payload.initialParams.position){
-                position = action.payload.initialParams.position;
+            let col = 0;
+            let row = 0;
+            if(action.payload.initialParams){
+                if(action.payload.initialParams.position) {
+                    position = action.payload.initialParams.position;
+                }
+                if(action.payload.initialParams.col){
+                    col = action.payload.initialParams.col;
+                }
+                if(action.payload.initialParams.row){
+                    row = action.payload.initialParams.row;
+                }
             }
             
             return {
@@ -44,8 +55,8 @@ function boxCreator(state = {}, action = {}){
                 container: action.payload.ids.container,
                 type: action.payload.type,
                 position: position,
-                col: 0,
-                row: 0,
+                col: col,
+                row: row,
                 width: width,
                 height: height,
                 content: content,
@@ -61,7 +72,6 @@ function boxCreator(state = {}, action = {}){
 }
 
 function sortableContainerCreator(state = {}, action = {}){
-    let container;
     switch (action.type){
         case ADD_BOX:
             return Object.assign({}, state, {
@@ -70,12 +80,21 @@ function sortableContainerCreator(state = {}, action = {}){
                         children: [...state[action.payload.ids.container].children, action.payload.ids.id]
                     }) : {
                     children: [action.payload.ids.id],
-                    rows: [12],
-                    cols: [12]
+                    height: 150,
+                    colDistribution: [100],
+                    cols: [
+                        [100]
+                    ]
                 })
             });
+        case RESIZE_SORTABLE_CONTAINER:
+            return Object.assign({}, state, {
+                [action.payload.id]: Object.assign({}, state[action.payload.id], {
+                    height: action.payload.height
+                })
+            })
         case DELETE_BOX:
-            container = boxes[action.payload.id].container;
+            let container = action.payload.container;
             let newState = Object.assign({}, state);
             if(state[container].children.length === 1){
                 delete newState[container];
@@ -87,22 +106,33 @@ function sortableContainerCreator(state = {}, action = {}){
                     children: newChildren
                 })
             });
-        case UPDATE_TOOLBAR:
-            if(action.payload.name.indexOf("_rows") !== -1) {
-                let id = action.payload.name.replace("_rows", "").replace("_", "-");
-                return Object.assign({}, state, {
-                    [id]: Object.assign({}, state[id], {
-                        rows: action.payload.value.split(" ").map(e => {return parseInt(e)})
-                    })
-                });
-            }else if(action.payload.name.indexOf("_cols") !== -1) {
-                let id = action.payload.name.replace("_cols", "").replace("_", "-");
-                return Object.assign({}, state, {
-                    [id]: Object.assign({}, state[id], {
-                        cols: action.payload.value.split(" ").map(e => {return parseInt(e)})
-                    })
-                });
+        case CHANGE_COLS:
+            let cols = state[action.payload.id].cols;
+            if (action.payload.distribution.length < cols.length) {
+                cols = cols.slice(0, cols.length - 1);
             }
+            if(action.payload.distribution.reduce(function (prev, curr){return prev + curr}) === 100) {
+                if (action.payload.distribution.length > cols.length) {
+                    let difference = action.payload.distribution.length - cols.length;
+                    for(var i = 0; i < difference; i++){
+                        cols.push([100]);
+                    }
+                }
+            }
+            return Object.assign({}, state, {
+                [action.payload.id]: Object.assign({}, state[action.payload.id], {
+                    colDistribution: action.payload.distribution,
+                    cols: cols
+                })
+            });
+        case CHANGE_ROWS:
+            let newCols = state[action.payload.id].cols.slice();
+            newCols[action.payload.column] = action.payload.distribution;
+            return Object.assign({}, state, {
+                [action.payload.id]: Object.assign({}, state[action.payload.id], {
+                    cols: newCols
+                })
+            });
         default:
             return state;
     }
@@ -134,6 +164,12 @@ function boxesById(state = {}, action = {}){
             return Object.assign({}, state, {
                 [action.payload.id]: Object.assign({}, state[action.payload.id], {width: action.payload.width, height: action.payload.height})
             });
+        case RESIZE_SORTABLE_CONTAINER:
+            return Object.assign({}, state, {
+                [action.payload.parent]: Object.assign({}, state[action.payload.parent], {
+                    sortableContainers: sortableContainerCreator(state[action.payload.parent].sortableContainers, action)
+                })
+            });
         case UPDATE_BOX:
             return Object.assign({}, state, {
                 [action.payload.id]: Object.assign({}, state[action.payload.id], {content: action.payload.content})
@@ -142,22 +178,18 @@ function boxesById(state = {}, action = {}){
             return Object.assign({}, state, {
                 [action.payload.id]: Object.assign({}, state[action.payload.id], {row: action.payload.row, col: action.payload.col})
             });
-        case UPDATE_TOOLBAR:
-            if(action.payload.name === 'width'){
-                return Object.assign({}, state, {
-                    [action.payload.caller]: Object.assign({}, state[action.payload.caller], {width: (action.payload.value + '%')})
-                });
-            }else if(action.payload.name.indexOf("_rows") !== -1 || action.payload.name.indexOf("_cols") !== -1){
-                let value = action.payload.value.split(" ").map(e => {return parseInt(e)}).reduce((prev, curr) => {return prev + curr});
-                if(value === 12) {
-                    return Object.assign({}, state, {
-                        [action.payload.caller]: Object.assign({}, state[action.payload.caller], {
-                            sortableContainers: sortableContainerCreator(state[action.payload.caller].sortableContainers, action)
-                        })
-                    });
-                }
-            }
-            return state;
+        case CHANGE_COLS:
+            return Object.assign({}, state, {
+                [action.payload.parent]: Object.assign({}, state[action.payload.parent], {
+                    sortableContainers: sortableContainerCreator(state[action.payload.parent].sortableContainers, action)
+                })
+            });
+        case CHANGE_ROWS:
+            return Object.assign({}, state, {
+                [action.payload.parent]: Object.assign({}, state[action.payload.parent], {
+                    sortableContainers: sortableContainerCreator(state[action.payload.parent].sortableContainers, action)
+                })
+            });
         case DELETE_BOX:
             var newState = Object.assign({}, state);
             delete newState[action.payload.id];
@@ -391,7 +423,6 @@ function toolbarContainsButton(toolbarButtons, name) {
 function toolbarsById(state = {}, action = {}){
     switch(action.type) {
         case ADD_BOX:
-         console.log(action.payload.ids)
             let toolbar = {
                 id: action.payload.ids.id,
                 buttons: action.payload.toolbar || [],
@@ -401,7 +432,6 @@ function toolbarsById(state = {}, action = {}){
                 showTextEditor: false,
                 isCollapsed: false
             };
-            let parentToolbar;
 
             if(action.payload.ids.container !== 0) {
                 if (!toolbar.buttons) {
@@ -417,27 +447,10 @@ function toolbarsById(state = {}, action = {}){
                     min: 0,
                     max: 100,
                     step: 5,
-                    autoManaged: true
+                    autoManaged: true,
+                    tab: 'Main',
+                    accordion: 'Basic'
                 });
-
-                if (!toolbarContainsButton(state[action.payload.ids.parent].buttons, action.payload.ids.container.replace("-", "_") + '_rows')){
-                    parentToolbar = Object.assign({}, state[action.payload.ids.parent], {
-                        buttons: [...state[action.payload.ids.parent].buttons, {
-                            name: action.payload.ids.container.replace("-", "_") + '_rows',
-                            humanName: action.payload.ids.container + ' Rows',
-                            type: 'text',
-                            value: '12',
-                            autoManaged: true
-                        }, {
-                            name: action.payload.ids.container.replace("-", "_") + '_cols',
-                            humanName: action.payload.ids.container + ' Cols',
-                            type: 'text',
-                            value: '12',
-                            autoManaged: true
-                        }]
-                    });
-                }
-
             }
        
             if(action.payload.ids.id.indexOf(ID_PREFIX_SORTABLE_BOX) === -1) {
@@ -451,38 +464,16 @@ function toolbarsById(state = {}, action = {}){
                     type: 'text',
                     value: '',
                     autoManaged: true,
-                    isAttribute: true
+                    isAttribute: true,
+                    tab: 'Other',
+                    accordion: 'Extra'
                     
                 });
             }
-            return (parentToolbar) ?
-                Object.assign({}, state, {
-                    [action.payload.ids.id]: toolbar,
-                    [action.payload.ids.parent]: parentToolbar
-                }) :
-                Object.assign({}, state, {[action.payload.ids.id]: toolbar});
+            return Object.assign({}, state, {[action.payload.ids.id]: toolbar});
         case DELETE_BOX:
             var newState = Object.assign({},state);
             delete newState[action.payload.id];
-            /*
-                let newState = Object.assign({}, state);
-                if(action.payload.parent.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1){
-                    if(newState[action.payload.parent].length === 1) {
-                        delete newState[action.payload.parent];
-                    }else {
-                        newState[action.payload.parent] = newState[action.payload.parent].filter(id => id !== action.payload.id);
-                    }
-                }
-                return newState;
-                */
-                /*
-                var parent = state[action.payload.parent];
-                console.log(parent);
-                 if (parent) {
-                    parent.children = parent.children.filter(id =>  id!=action.payload.id);
-                    newState = Object.assign({},newState, parent);
-                }
-            */
             return newState;
         case UPDATE_TOOLBAR:
             let newState = state[action.payload.caller].buttons.slice();
@@ -504,7 +495,6 @@ function toolbarsById(state = {}, action = {}){
             });
         case IMPORT_STATE:
             return action.payload.present.toolbarsById;
-
         case REMOVE_NAV_ITEM:
             var newState = Object.assign({},state)
             action.payload.boxes.map(box => { delete newState[box]})

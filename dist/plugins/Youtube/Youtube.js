@@ -47,7 +47,7 @@ var Youtube= (function(){
             return [
                 {
                     tab: 'Main', 
-                    accordion: ['Box']
+                    accordion: ['Basic','Box']
                 },
                 {
                     tab: 'Other', 

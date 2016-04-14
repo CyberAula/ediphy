@@ -3,7 +3,8 @@ import {connect} from 'react-redux';
 import {ActionCreators} from 'redux-undo';
 import {Grid, Col, Row, Button, OverlayTrigger, Popover} from 'react-bootstrap';
 import {addNavItem, selectNavItem, expandNavItem, removeNavItem,
-    addBox, selectBox, moveBox, resizeBox, updateBox, deleteBox, reorderBox, dropBox, addSortableContainer,
+    addBox, selectBox, moveBox, resizeBox, updateBox, deleteBox, reorderBox, dropBox,
+    addSortableContainer, resizeSortableContainer, changeCols, changeRows,
     togglePageModal, toggleTextEditor, toggleTitleMode,
     changeDisplayMode, exportStateAsync, importStateAsync, updateToolbar, collapseToolbar} from '../actions';
 import {ID_PREFIX_BOX, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_SORTABLE_CONTAINER, BOX_TYPES} from '../constants';
@@ -60,7 +61,8 @@ class DaliApp extends Component{
                                     onBoxSelected={(id) => dispatch(selectBox(id))}
                                     onBoxMoved={(id, x, y) => dispatch(moveBox(id, x, y))}
                                     onBoxResized={(id, width, height) => dispatch(resizeBox(id, width, height))}
-                                    onBoxDeleted={(id, parent) => dispatch(deleteBox(id, parent))}
+                                    onSortableContainerResized={(id, parent, height) => dispatch(resizeSortableContainer(id, parent, height))}
+                                    onBoxDeleted={(id, parent, container) => dispatch(deleteBox(id, parent, container))}
                                     onBoxReorder={(ids, parent) => dispatch(reorderBox(ids, parent))}
                                     onBoxDropped={(id, row, col) => dispatch(dropBox(id, row, col))}
                                     onTextEditorToggled={(caller, value) => dispatch(toggleTextEditor(caller, value))}
@@ -104,7 +106,10 @@ class DaliApp extends Component{
                               hideTab={this.state.hideTab} />
 
                 <PluginToolbar toolbars={toolbars}
+                               box={boxes[boxSelected]}
                                boxSelected={boxSelected}
+                               onColsChanged={(id, parent, distribution) => dispatch(changeCols(id, parent, distribution))}
+                               onRowsChanged={(id, parent, column, distribution) => dispatch(changeRows(id, parent, column, distribution))}
                                onTextEditorToggled={(caller, value) => dispatch(toggleTextEditor(caller, value))}
                                onToolbarUpdated={(caller, index, name, value) => dispatch(updateToolbar(caller, index, name, value))}
                                onToolbarCollapsed={(id) => dispatch(collapseToolbar(id))} />
@@ -128,11 +133,23 @@ class DaliApp extends Component{
                     return "<plugin plugin-data-id='" + (ID_PREFIX_SORTABLE_CONTAINER + Date.now()) + (i++) + "' />";
                 });
 
-                this.props.dispatch(addBox({
-                    parent: e.detail.ids.parent,
-                    id: ID_PREFIX_BOX + Date.now(),
-                    container: e.detail.ids.container
-                }, BOX_TYPES.NORMAL, true, true, parsedContent, e.detail.toolbar, e.detail.config, e.detail.sections, e.detail.state, e.detail.initialParams));
+
+                this.props.dispatch(addBox(
+                    {
+                        parent: e.detail.ids.parent,
+                        id: ID_PREFIX_BOX + Date.now(),
+                        container: e.detail.ids.container
+                    },
+                    BOX_TYPES.NORMAL,
+                    true,
+                    (e.detail.ids.container === 0),
+                    parsedContent,
+                    e.detail.toolbar,
+                    e.detail.config,
+                    e.detail.sections, 
+                    e.detail.state,
+                    e.detail.initialParams));
+
             }
         });
 
@@ -146,9 +163,8 @@ class DaliApp extends Component{
           }
           else if (key == 46) {
               if ( this.props.boxSelected != -1){
-                let caja =  this.props.boxes[ this.props.boxSelected]
-                let parent= caja.parent
-                this.props.dispatch(deleteBox( this.props.boxSelected, parent ));
+                let box =  this.props.boxes[ this.props.boxSelected];
+                this.props.dispatch(deleteBox(box.id, box.parent, box.container));
               }
           }  
         }.bind(this);

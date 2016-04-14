@@ -72,7 +72,7 @@ export default class DaliTitle extends Component {
             return (
                 <div style={{marginLeft: 30, marginRight: 30, paddingTop: 10, position: 'relative'}}>
                     <div className="caja">
-                        <div className="cab"> 
+                        <div className="cab" style={{backgroundColor: 'transparent'}}>
                             <div className="cabtabla_numero">1</div>
                             <div className="tit_ud_cap">
                                <h1>Título Curso</h1>
@@ -88,7 +88,7 @@ export default class DaliTitle extends Component {
                             </div>
                             <div className="clear"></div>
                         </div>
-                        <div className="contenido">
+                        <div className="contenido" style={{backgroundColor: 'transparent'}}>
                             {content}
                         </div>
                     </div>

@@ -25,7 +25,7 @@ var CajasColor = (function(){
             return [
                 {
                     tab: 'Main', 
-                    accordion: ['Number']
+                    accordion: ['Basic','Number']
                 },
                 {
                     tab: 'Other', 

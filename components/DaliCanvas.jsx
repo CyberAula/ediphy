@@ -56,6 +56,7 @@ export default class DaliCanvas extends Component{
                                                 onBoxMoved={this.props.onBoxMoved}
                                                 onBoxDeleted={this.props.onBoxDeleted}
                                                 onBoxResized={this.props.onBoxResized}
+                                                onSortableContainerResized={this.props.onSortableContainerResized}
                                                 onBoxReorder={this.props.onBoxReorder}
                                                 onBoxDropped={this.props.onBoxDropped}
                                                 onBoxModalToggled={this.props.onBoxModalToggled}
@@ -72,6 +73,12 @@ export default class DaliCanvas extends Component{
             ondropactivate: function (event) {
                 event.target.classList.add('drop-active');
             },
+            ondragenter: function(event){
+                event.target.classList.add("drop-target");
+            },
+            ondragleave: function(event){
+                event.target.classList.remove("drop-target");
+            },
             ondrop: function (event) {
                 let position = {
                     x: event.dragEvent.clientX - event.target.getBoundingClientRect().left,
@@ -87,6 +94,7 @@ export default class DaliCanvas extends Component{
             }.bind(this),
             ondropdeactivate: function (event) {
                 event.target.classList.remove('drop-active');
+                event.target.classList.remove("drop-target");
             }
         });
 
