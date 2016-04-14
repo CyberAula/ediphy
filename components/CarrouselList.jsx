@@ -124,180 +124,57 @@ export default class CarrouselList extends Component{
            connectWith: '.connectedSortables',
            stop: (event, ui) => {
 
-                const reorderedIndexes = list.sortable('toArray', {attribute: 'data-reactid'}) // Obtiene la nueva disposición de los elementos
-                 const reorderedIndexesId = list.sortable('toArray', {attribute: 'id'})
-                 console.log("CASO 0 order", reorderedIndexesId)
-                 console.log(reorderedIndexesId);
-                const indexes = reorderedIndexes.map(el => el.split('$').pop()) //Coge solo la parte que indica el orden
-               //$('.connectedSortables').sortable('cancel');
-                    list.sortable('cancel');
+                const reorderedIndexesId = list.sortable('toArray', {attribute: 'id'})
                 const select = this.props.navItemSelected;
                 const navItems = this.props.navItems;
-                const childs = navItems[this.props.navItems[this.props.navItemSelected].parent].children;
 
-                var newIndexesAux = [] ;
-                //var newIndexes = [] ;
-
-                //var child = "";
-
-             //   var newChilds = [];
-
-                /*indexes.forEach(index => {
-                    newChilds.push(childs[index]);
-                });
-                */
-               // newChilds = reorderedIndexesId;
-
-               //console.log(reorderedIndexesId);
-               //console.log(select)
+                //$('.connectedSortables').sortable('cancel');
+                
                 if( reorderedIndexesId.indexOf(select) >= 0){
-            
-                    console.log("de exterior a exterior: caso0, hace cosas");
+                    
+                    list.sortable('cancel');
 
+                    var newIndexesAux = [] ;
                     var newChildrenInOrder = reorderedIndexesId;
                     var selectedAndChilds = [select];
-                   // var nextIndex;
-    
-                    const previos = this.props.navItemsIds;
 
-                    console.log("previos:", previos)                  
+                    const previos = this.props.navItemsIds;
+                
                     for(var i = previos.indexOf(select)+1; i< previos.length; i++){
                         if(navItems[previos[i]].level <= navItems[select].level){
-                           // nextIndex = i;
                             break;
                         }else{
                             selectedAndChilds.push(previos[i])
                         }
                     }
-                    console.log("selectedAndChilds:",selectedAndChilds)
 
                     var part1 = previos.slice(0,previos.indexOf(select));
                     var part2 = previos.slice(previos.indexOf(select)+selectedAndChilds.length)
-                    console.log("part1",part1)
-                    console.log("part2",part2)
                     var concatA = part1.concat(part2)
 
-                    console.log("newChilds")
-                    console.log(newChildrenInOrder)      
-                    console.log(newChildrenInOrder.indexOf(select)) 
-
-                    //ESTO DA PROBLEMAS!!!
-                    if(newChildrenInOrder.indexOf(select) >= newChildrenInOrder.length-1 ){
-                        console.log("ultimo elemento")
-                        console.log(concatA.indexOf(newChildrenInOrder[newChildrenInOrder.indexOf(select)+1]))
-                        part1 = concatA.slice(0, concatA.indexOf(newChildrenInOrder[newChildrenInOrder.indexOf(select)+1]));
-                        console.log(part1)
-                        console.log(concatA.indexOf(newChildrenInOrder[newChildrenInOrder.indexOf(select)+1])) 
-                        if(concatA.indexOf(newChildrenInOrder[newChildrenInOrder.indexOf(select)+1]) > 0){
-                            //hay que sacar la segunda parte del array
-                          part2 = concatA.slice( concatA.indexOf(newChildrenInOrder[newChildrenInOrder.indexOf(select)+1]));
-                      }else{
-                        part2 = concatA.slice( concatA.indexOf(newChildrenInOrder[newChildrenInOrder.indexOf(select)-1]));
-                      }
-                        console.log("YEYE")
-                          console.log(part2)
-                        newIndexesAux = part1.concat(selectedAndChilds,part2);
-                        console.log("a ver si essta bien newIndexesAux")
-                        console.log(newIndexesAux)
-                    }else{
-                        part1 = concatA.slice(0, concatA.indexOf(newChildrenInOrder[newChildrenInOrder.indexOf(select)+1]));
-                        part2 = concatA.slice( concatA.indexOf(newChildrenInOrder[newChildrenInOrder.indexOf(select)+1]));
-                        newIndexesAux = part1.concat(selectedAndChilds,part2);
-                        console.log("a ver si essta bien newIndexesAux")
-                        console.log(newIndexesAux)
-                      
+                    if(newChildrenInOrder.indexOf(select) >= newChildrenInOrder.length-1 ){ //es el ultimo de los nuevos hijos
+                        newIndexesAux = concatA.concat(selectedAndChilds);
+                    }else{//si no es el ultimo nuevo hijo
+                        var part1b = concatA.slice(0,concatA.indexOf(newChildrenInOrder[newChildrenInOrder.indexOf(select)+1]));
+                        var part2b = concatA.slice(concatA.indexOf(newChildrenInOrder[newChildrenInOrder.indexOf(select)+1]));
+                        newIndexesAux = part1b.concat(selectedAndChilds, part2b);                    
                     }                
 
-                   /* if(nextIndex){
-                        console.log(nextIndex)
-                        //newIndexesAux =
-                        console.log("nextIem", previos[nextIndex])
-
-                    }else{
-                        console.log("movio desde el final")
-
-                    }*/
-                   
-
-/***************************************************************************************************/
-                    var childLooper = "";
-                    var childAuxOldLooper = [];
-                    var concater = [];
-                    var childsLoopers = [];
-                    var iteratorsLifoStack = [];
-                    var flag = 0;
-                     var child = "";
-
-
-                 /*   indexes.forEach(i => {
-                        child = childs[i];
-                        newIndexesAux.push(child);
-                        
-                        childLooper = child;
-
-                        do{
-                            childsLoopers = navItems[childLooper].children;
-
-                            for ( var k = 0; k < childsLoopers.length; k++){
-
-                                if( flag == 2 ){
-                                    k = iteratorsLifoStack.pop();
-                                    flag = 0;
-                                    if( k == childsLoopers.length -1){
-                                        if(childAuxOldLooper > 0 ){
-                                            childLooper = childAuxOldLooper.pop()
-                                            flag = 0;
-                                        }else{
-                                            flag = 3;
-                                        }
-                                    }
-
-                                }else{
-                                    if(navItems[childsLoopers[k]].children.length > 0){
-                                        concater.push(childsLoopers[k]);
-                                        newIndexesAux.push(childsLoopers[k]);
-                                        childAuxOldLooper.push(childLooper);
-                                        iteratorsLifoStack.push(k);
-                                        childLooper = childsLoopers[k];
-                                        k = childsLoopers.length;
-                                    }else{
-                                        concater.push(childsLoopers[k]);
-                                        newIndexesAux.push(childsLoopers[k]);
-                                        if(k == childsLoopers.length-1){
-                                            childLooper = childsLoopers[k];
-                                            flag = 1;
-                                        }
-                                    }
-                                }
-                            }
-
-                            if(flag == 1){
-                                if(childAuxOldLooper.length > 0){
-                                 childLooper = childAuxOldLooper.pop();
-                             }
-                             flag = 2;
-                         }
-
-                     }while(navItems[childLooper].children.length > 0 && flag != 3)
-                 });*/
-
-/***************************************************************************************************/
-
+                    console.log("LANZA el caso 0 , desde la sección exterior a si misma");
+                    console.log("orden previo de los indices");
+                    console.log(previos);
+                    console.log("seleccionado", select)
+                    console.log("hijos del seleccionado con él mismo");
+                    console.log(selectedAndChilds)
+                    console.log("nuevo orden de todos los indices");          
                     console.log(newIndexesAux)
-                    //console.log(newIndexes);
-                      /*                  newIndexesAux.forEach(ind => {
-                        newIndexes.push(this.props.navItemsIds.indexOf(ind));
-                    });*/
-                    //console.log(newIndexesAux)
-                    //console.log(newIndexes);
-                    console.log("LANZA 0")
-                    console.log(newIndexesAux)
+                    console.log("nuevo orden de los hijos de .0.")
                     console.log(newChildrenInOrder)
-                   this.props.onNavItemReorded(this.props.navItemSelected, 0,0,newIndexesAux,newChildrenInOrder) // Cambia el estado pasando como parámetro el id del sortable y el nuevo orden de los elementos. Ahora el orden también se puede UNDO y REDO
+                   this.props.onNavItemReorded(this.props.navItemSelected, 0,0,newIndexesAux,newChildrenInOrder) 
                 }else{
                     console.log("carrousel list stop cancelado?")
                 }
-            } ,
+            },
             receive: function(event, ui) {
                 //const reorderedIndexes = list.sortable('toArray', {attribute: 'data-reactid'}) 
                 const reorderedIndexesId = list.sortable('toArray', {attribute: 'id'})
