@@ -397,6 +397,7 @@ function toolbarsById(state = {}, action = {}){
                 buttons: action.payload.toolbar || [],
                 config: action.payload.config,
                 state: action.payload.state,
+                sections: action.payload.sections || [],
                 showTextEditor: false,
                 isCollapsed: false
             };
@@ -451,6 +452,7 @@ function toolbarsById(state = {}, action = {}){
                     value: '',
                     autoManaged: true,
                     isAttribute: true
+                    
                 });
             }
             return (parentToolbar) ?

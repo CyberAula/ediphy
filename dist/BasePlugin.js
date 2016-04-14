@@ -80,6 +80,14 @@ Dali.Plugin = function(descendant){
             }
             return toolbar;
         },
+         getSections: function(){
+            var sections;
+            if(descendant.getSections)
+                sections = descendant.getSections();
+            sections = defaultFor(sections, []);
+
+            return sections;
+        },
         openConfigModal: function(isUpdating, oldState, sender){
             state = oldState;
             id = sender;
@@ -106,6 +114,7 @@ Dali.Plugin = function(descendant){
                     descendant.getRenderTemplate(state),
                     this.getToolbar(),
                     this.getConfig(),
+                    this.getSections(),
                     state,
                     isUpdating,
                     {

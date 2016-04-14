@@ -132,7 +132,7 @@ class DaliApp extends Component{
                     parent: e.detail.ids.parent,
                     id: ID_PREFIX_BOX + Date.now(),
                     container: e.detail.ids.container
-                }, BOX_TYPES.NORMAL, true, true, parsedContent, e.detail.toolbar, e.detail.config, e.detail.state, e.detail.initialParams));
+                }, BOX_TYPES.NORMAL, true, true, parsedContent, e.detail.toolbar, e.detail.config, e.detail.sections, e.detail.state, e.detail.initialParams));
             }
         });
 

@@ -1,26 +1,34 @@
 import React, {Component} from 'react';
-import {Input, ButtonInput, Button} from 'react-bootstrap';
+import {Input, ButtonInput, Button, Nav, NavItem, NavDropdown, MenuItem, Accordion, Panel} from 'react-bootstrap';
 import ReactDOM from 'react-dom';
 import interact from 'interact.js';
 
 export default class PluginToolbar extends Component {
-    constructor(props) {
+         constructor(props) {
         super(props);
         this.state = {
             x: 20,
-            y: 20
+            y: 20,
+            currentTab:1
         };
     }
-
+ 
+    handleSelect( selectedKey) {
+      this.setState({currentTab:  selectedKey})
+     }
     render() {
+        
         if(this.props.boxSelected === -1){
             return <div></div>;
         }
         let toolbar = this.props.toolbars[this.props.boxSelected];
         let showToolbar = this.props.boxSelected !== -1 && toolbar.buttons.length !== 0;
         let visible = showToolbar ? 'visible' : 'hidden';
-        let buttons;
+        let tools = toolbar.sections
+        let buttons = []
+
         if(showToolbar){
+
             buttons = toolbar.buttons.map((item, index) => {
                 return <Input key={index}
                               ref={index}
@@ -32,6 +40,8 @@ export default class PluginToolbar extends Component {
                               max={item.max}
                               step={item.step}
                               style={{width: '100%'}}
+                              tab={item.tab}
+                              accordion={item.accordion}
                               onChange={e => {
                                     let value = e.target.value;
                                     if(item.type === 'number')
@@ -43,6 +53,7 @@ export default class PluginToolbar extends Component {
                             
                     />
             });
+
             if(toolbar.config && toolbar.config.needsTextEdition){
                 buttons.push(<ButtonInput key={'text'}
                                           onClick={() => {
@@ -57,19 +68,55 @@ export default class PluginToolbar extends Component {
                     Open config</ButtonInput>);
             }
         }
+        var indexTab = 1
+        var indexAcc = 1
+        let tabName = ''
+        let accordion=[]
+     
+
         return (<div id="wrap" className="wrapper" style={{
                     right: '0px', /*this.state.x,*/
                     top: '39px',
                     visibility: visible /*this.state.y,*/}} >
-            <div className="pestana" onClick={() => {toggleWidth() }}>
-                <i className="fa fa-gear fa-2x"> </i>
-            </div>
-            <div id="tools" className="toolbox">
-                <div className="botones">
-                    {buttons}
-                </div>
-            </div>
-        </div>);
+                        <div className="pestana" onClick={() => {toggleWidth() }}>
+                            <i className="fa fa-gear fa-2x"> </i>
+                        </div>
+                        <div id="tools" className="toolbox">
+
+                        <Nav bsStyle="tabs" activeKey={this.state.currentTab} onSelect={( selectedKey) => {this.handleSelect(selectedKey)}}>
+                           {
+                            tools.map(section => {
+                                if( indexTab == this.state.currentTab){
+                                  accordion = section.accordion
+                                }
+                                return(<NavItem eventKey={indexTab++} >{section.tab}</NavItem>)
+                            })
+                          }
+                        </Nav>
+                         <div className="botones">
+                         <Accordion>
+                               { accordion.map(title=>{  
+                                return ( 
+                                  <Panel header={title} eventKey={indexAcc++}>
+                                    {buttons.map(button => {
+                                      if (button.props.accordion == title) return button;
+                                    })}
+                                  </Panel>)
+                                 }) 
+                                }
+                          </Accordion>
+                         
+                          
+
+                       
+                         {
+                            buttons.map(button => {
+                              if (!button.props.accordion && this.state.currentTab == 1 ) return button; })
+                          }
+                          
+                        </div>
+                    </div>
+                </div>);
     }
 
     componentDidMount() {

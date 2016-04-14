@@ -31,6 +31,19 @@ var BasicPills = (function(){
                 }*/
                 ]
             },
+            getSections: function(){
+                return [
+                    {
+                        tab: 'Main', 
+                        accordion: ['Initial Config', 'Style']
+                    },
+                    {
+                        tab: 'Other', 
+                        accordion: ['Extra']
+                    },
+
+                ];
+              },
             getInitialState: function(){
                 return {number: 0, titles: [], texts: [], colors: [], colorsTitle: []};
             },
