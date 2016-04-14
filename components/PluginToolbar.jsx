@@ -104,7 +104,7 @@ export default class PluginToolbar extends Component {
                              <PanelGroup>
                                { accordion.map(title=>{  
                                   return ( 
-                                    <Panel className="panelPluginToolbar" header={title}  eventKey={indexAcc++} collapsible>
+                                    <Panel className="panelPluginToolbar" header={title}  eventKey={indexAcc++} >
                                       {buttons.map(button => {
                                         if (button.props.accordion == title) return button;
                                       })}
@@ -113,15 +113,16 @@ export default class PluginToolbar extends Component {
                                 }
                                 { this.props.box.children.map((id, index) => {
                                     let container = this.props.box.sortableContainers[id];
-                                    return (
-                                      <Panel className="panelPluginToolbar" header={id} eventKey={indexAcc++} collapsible>
-                                                <GridConfigurator key={index}
-                                                   id={id}
-                                                   parentId={this.props.box.id}
-                                                   container={container}
-                                                   onColsChanged={this.props.onColsChanged}
-                                                   onRowsChanged={this.props.onRowsChanged} />
-                                      </Panel>)
+                                    if ( this.state.currentTab == 1 )
+                                      return (
+                                        <Panel className="panelPluginToolbar" header={id} eventKey={indexAcc++} >
+                                                  <GridConfigurator key={index}
+                                                     id={id}
+                                                     parentId={this.props.box.id}
+                                                     container={container}
+                                                     onColsChanged={this.props.onColsChanged}
+                                                     onRowsChanged={this.props.onRowsChanged} />
+                                        </Panel>)
                                   })
                                 }
                             </PanelGroup>

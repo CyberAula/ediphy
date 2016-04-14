@@ -50,7 +50,7 @@ export default class PluginRibbon extends Component {
         });
 
         interact(".rib")
-            .draggable({
+            .draggable({ 
                 onmove: (event) => {
                     let target = event.target,
                     // keep the dragged position in the data-x/data-y attributes
@@ -60,9 +60,12 @@ export default class PluginRibbon extends Component {
                     // translate the element
                     target.style.webkitTransform =
                         target.style.transform =
-                            'translate(' + x + 'px, ' + y + 'px)';
-                    target.style.zIndex = 999999;
-
+                            'translate(' + x + 'px, ' + (y-250) + 'px)';
+                    target.style.zIndex = "999 !important";
+                    target.style.position = 'fixed';
+                    target.style.color = 'black';    
+                
+             
                     // update the position attributes
                     target.setAttribute('data-x', x);
                     target.setAttribute('data-y', y);
@@ -74,12 +77,15 @@ export default class PluginRibbon extends Component {
                     target.style.webkitTransform =
                         target.style.transform =
                             'translate(' + x + 'px, ' + y + 'px)';
+                          
                     target.style.zIndex = 'initial';
+                    target.style.position = 'relative'
+
 
                     // update the position attributes
                     target.setAttribute('data-x', x);
                     target.setAttribute('data-y', y);
-
+                    target.style.color = 'white';    
                     event.stopPropagation();
                 }
             });
