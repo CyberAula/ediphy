@@ -144,13 +144,13 @@ export default class CarrouselList extends Component{
                         if(navItems[previos[i]].level <= navItems[select].level){
                             break;
                         }else{
-                            selectedAndChilds.push(previos[i])
+                            selectedAndChilds.push(previos[i]);
                         }
                     }
 
                     var part1 = previos.slice(0,previos.indexOf(select));
-                    var part2 = previos.slice(previos.indexOf(select)+selectedAndChilds.length)
-                    var concatA = part1.concat(part2)
+                    var part2 = previos.slice(previos.indexOf(select)+selectedAndChilds.length);
+                    var concatA = part1.concat(part2);
 
                     if(newChildrenInOrder.indexOf(select) >= newChildrenInOrder.length-1 ){ //es el ultimo de los nuevos hijos
                         newIndexesAux = concatA.concat(selectedAndChilds);
@@ -170,7 +170,8 @@ export default class CarrouselList extends Component{
                     console.log(newIndexesAux)
                     console.log("nuevo orden de los hijos de .0.")
                     console.log(newChildrenInOrder)
-                   this.props.onNavItemReorded(this.props.navItemSelected, 0,0,newIndexesAux,newChildrenInOrder) 
+
+                    this.props.onNavItemReorded(this.props.navItemSelected, 0,0,newIndexesAux,newChildrenInOrder);
                 }else{
                     console.log("carrousel list stop cancelado?")
                 }
