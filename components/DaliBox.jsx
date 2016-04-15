@@ -116,21 +116,21 @@ export default class DaliBox extends Component {
         Dali.Plugins.get(this.props.toolbars[this.props.id].config.name).updateTextChanges(this.refs.textarea.innerHTML, this.props.id);
     }
 
-    isChildren(id){
-        let box = this.props.boxes[this.props.id];
-        let isChildren = false;
-        box.children.forEach(scId => {
-            box.sortableContainers[scId].children.forEach(boxId => {
-                if(boxId === id){
-                    isChildren = true;
-                    return;
+    isDescendant(searchingId, actualId){
+        if(searchingId === actualId){
+            return true;
+        }
+        let box = this.props.boxes[actualId];
+
+        for(let i = 0; i < box.children.length; i++){
+            for(let j = 0; j < box.sortableContainers[box.children[i]].children.length; j++){
+                if(this.isDescendant(searchingId, box.sortableContainers[box.children[i]].children[j])){
+                    return true;
                 }
-            })
-            if(isChildren){
-                return;
             }
-        });
-        return isChildren;
+        }
+
+        return false;
     }
 
     shouldComponentUpdate(nextProps, nextState){
@@ -138,8 +138,8 @@ export default class DaliBox extends Component {
             nextProps.toolbars[nextProps.id] !== this.props.toolbars[this.props.id] ||
             (this.props.boxSelected == this.props.id && nextProps.boxSelected !== this.props.id) ||
             (this.props.boxSelected !== this.props.id && nextProps.boxSelected === this.props.id) ||
-            this.isChildren(this.props.boxSelected) ||
-            this.isChildren(nextProps.boxSelected)
+            this.isDescendant(this.props.boxSelected, this.props.id) ||
+            this.isDescendant(nextProps.boxSelected, this.props.id)
         ){
             let pluginsContained = ReactDOM.findDOMNode(this).getElementsByTagName("plugin");
             for (let i = 0; i < pluginsContained.length; i++) {
