@@ -149,9 +149,6 @@ list.sortable({
                         var part2 = [];
                     }
 
-                    console.log("part1", part1)
-                    console.log("part2", part2)
-
                     var selectedAndChildren = [selected];
                     var positionSelected = this.props.navItems[selected].position;
                     var levelSelected = this.props.navItems[selected].level;
@@ -164,9 +161,37 @@ list.sortable({
                         }
                     }
 
-                    var part1NC = newChilds.slice(0,newChilds.indexOf(selected));
-                    var part2NC = newChilds.slice(newChilds.indexOf(selected)+1);
-                    console.log("part2NC", part2NC)
+                    var part1NCAux = newChilds.slice(0,newChilds.indexOf(selected));
+                    var part2NCAux = newChilds.slice(newChilds.indexOf(selected)+1);
+                    var part1NC = [];
+                    var part2NC = [];
+                    //Con esto quiero coger todos los hijos de los nuevos hermanos
+                    var medioA = previos.slice(previos.indexOf(parent)+1, previos.indexOf(selected));
+
+                    if(nextBroOfParent){
+                        var medioB = previos.slice(previos.indexOf(selected)+selectedAndChildren.length,previos.indexOf(nextBroOfParent));
+                    }else{
+                        var medioB = previos.slice(previos.indexOf(selected)+selectedAndChildren.length);
+                    }
+
+                    var medio = medioA.concat(medioB);
+
+
+                    if(part1NCAux.length > 0){
+                        if(part2NCAux.length > 0){
+                           for(var t = 0; t<medio.length; t++){
+                                if(medio[t] == part2NCAux[0]) break;
+                                part1NC.push(medio[t]);
+                            }
+
+                            part2NC = medio.slice(medio.indexOf(part2NCAux[0]));
+                        }else{
+                            part1NC = medio;
+                        }
+                      }else{
+                        part2NC = medio;
+                    }
+
                     var newIndexesIds = part1.concat(part1NC,selectedAndChildren,part2NC,part2);
 
                     console.log("desde una seccion a si misma: caso 3; hace cosas");
@@ -273,6 +298,31 @@ list.sortable({
                         this.props.onNavItemReorded(this.props.navItemSelected, this.props.id,1,newIndexesIds,reorderedIndexesId);
 
                 }else{//Viene de otra seccion
+
+/*
+*** ESTE es el CASO 2 SECA to SECB
+*** FALTA POR HACER LIMPIO
+*** 1 Cogemos el elemento seleccionado y lo aislamos con su prole
+*** 2 Limpiamos los previos de SELECCIONADO+PROLE
+*** 3 Hacemos part1 y part2 con la estrategia del stop 
+***       PART1 - de 0 al nuevo padre esta ID +1
+***       PART2 - Miramos el siguiente hermano de PART1 sobre el previos limpio si existe part2 de ahí hasta el final si no []
+*** 4 Ahora como nos hemos desprendido de los nuevos hijos es el momento
+***     PART1NC - de 0 hasta el indice del seleccionado en los nuevos hijos
+***     PART2NC - de el indice+1 del seleccioando hasta el final
+*** 5 Concatenar ----> newIndexesIds = part1+PART1NC+(SELECTECT+CHILDREN)+PART2NC+part2
+*/
+
+/**
+*** NOTA IMPORTANTE TAL Y COMO ESTÁ AHORA SI LOS NUEVOS HERMANOS TIENEN HIJOS... NOS LOS CARGAMOS!!!! ESTO ES UNA CATASTROFE
+*** deBEMOS TAMBIEN DE SACAR A LOS HERMANOS CON SUS HIJOS PARA CONCATENARLOS!! hermanosSuperioresConHijos, hermanosInferiores con hijos, idem a antes con el level!!
+*** Cogemos el array intermedio del slice de la concat de todos menos el elemento seleccionado y sus hijos,
+*** esta parte intermedia va entre (hasta) que llega al neuvo padre, a el siguiente hermano del padre si lo hubiera, si no, hasta el final
+**/
+
+
+/**Este error descrito antes OCURRE en el caso 0,1,3 (Los fantasmas.. no aparecian)... aqui estamos en el caso 2 que aun no he hecho, el caso 4 tambíen se encuentra sin acabar */
+
                     const navIdemsA = this.props.navItems;
                     newIndexesIds = this.props.navItems[id].children; //*******
                     const levelrec = this.props.navItems[id].level;
