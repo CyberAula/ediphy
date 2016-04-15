@@ -18,21 +18,17 @@ export default class DaliTitle extends Component {
             content = (
                 <div>
                    <h3> 
-                        <Breadcrumb style={{ margin: 0, backgroundColor: 'inherit'}}>
-                            {
-                                titles.map((item, index) => {
-                                     if(index!=0){
-                                        return (<BreadcrumbItem key={index}>{item}</BreadcrumbItem>);
-                                     }
-                                })
-                            }
+                     <Breadcrumb style={{ margin: 0, backgroundColor: 'inherit'}}>
+                            {titles.map((item, index) => {
+                                 if(index!=0) return (<BreadcrumbItem key={index}>{item}</BreadcrumbItem>);
+                            })}
                         </Breadcrumb>
                     </h3>
                     <h4 style={{margin: 0}}>{actualTitle}</h4>
                 </div>
             );
 
-        } else if(currentstatus=='expanded') {
+        } else if (currentstatus=='expanded') {
          
             let titlesComponents = "";
             this.props.titles.map((text, index) =>{
@@ -54,23 +50,18 @@ export default class DaliTitle extends Component {
         
         let nextstatus ;
 
-        if (currentstatus == 'reduced') {
+        if (currentstatus == 'hidden') {
             nextstatus = 'expanded'; 
         } else if (currentstatus == 'expanded') {
-            nextstatus = 'hidden'
-        } else {
             nextstatus = 'reduced'
+        } else {
+            nextstatus = 'hidden'
 
         }
         let icons = {'reduced':'fa fa-minus','expanded':'fa fa-plus','hidden': 'fa fa-eye-slash'}
-        let currenticon = icons[nextstatus]
-
-
-
-        if (currentstatus != 'hidden'){
-           
+        let currenticon = icons[nextstatus]           
             return (
-                <div style={{marginLeft: 30, marginRight: 30, paddingTop: 10, position: 'relative'}}>
+                <div style={{marginLeft: 30, marginRight: 30, paddingTop: 10, position: 'relative',visibility: currentstatus=='hidden'? 'hidden':'inherit'}}>
                     <div className="caja">
                         <div className="cab" style={{backgroundColor: 'transparent'}}>
                             <div className="cabtabla_numero">1</div>
@@ -84,7 +75,7 @@ export default class DaliTitle extends Component {
                                  }}>
                                      <i className={currenticon}></i>
                                 </Button>
-                                <img src="images/ico_alumno.gif" alt="Alumno"/><div id="alumno2"> Alumno</div>
+                                <img style={{visibility: currentstatus=='hidden'? 'hidden':'inherit'}} src="images/ico_alumno.gif" alt="Alumno"/><div id="alumno2"> Alumno</div>
                             </div>
                             <div className="clear"></div>
                         </div>
@@ -96,25 +87,6 @@ export default class DaliTitle extends Component {
                 </div>
             );
 
-        } else {
-
-            return (
-                <div style={{marginLeft: 30, marginRight: 30, paddingTop: 10, height:'55px', position: 'relative'}}>
-                    <div className="caja">
-                        <div className="cab"> 
-                            <div className="cabtabla_lapiz">          
-                                <Button style={{marginRight:'80px', border: 0, backgroundColor: '#eee', visibility: (this.props.showButton && !hideButton)? 'visible' : 'hidden'}} onClick={() => {
-                                             this.props.titleModeToggled(this.props.navItemId, nextstatus);
-                                         }}>
-                                     <i className={currenticon}></i>
-                                </Button>
-                            </div>
-                            <div className="clear"></div>
-                        </div><br style={{clear:'both'}}/>
-                    </div>
-                </div>
-                            
-            )
-        }
+       
     }
 }
