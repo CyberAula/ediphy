@@ -15,9 +15,24 @@ var CajasColor = (function(){
                     type: 'number',
                     value: 3,
                     min: 1,
-                    autoManaged: false
+                    autoManaged: false,
+                    tab: 'Main',
+                    accordion: 'Box'
                 }
             ]
+        },
+         getSections: function(){
+            return [
+                {
+                    tab: 'Main', 
+                    accordion: ['Basic','Number']
+                },
+                {
+                    tab: 'Other', 
+                    accordion: ['Extra']
+                },
+
+            ];
         },
         getInitialState: function(){
             return {nBoxes: 3};

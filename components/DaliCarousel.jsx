@@ -56,16 +56,17 @@ export default class DaliCarousel extends Component{
     }
 }
 function toggleWidth(){
-      $("#colLeft").toggleClass("indiceoculto")
-      $("#indice").toggleClass("carouseloculto")
-      $("#indice").toggleClass("carouselshow")
-      $("#colLeft").toggleClass("carouseloculto")
-      $("#pestcar").show()
-      $("#colRight").toggleClass("col-md-10 col-xs-10")
-      $("#colRight").toggleClass("col-md-12 col-xs-12")
-      $("#indice").toggle()
-      $("#ribbon").toggleClass("sinmargen col-md-12 col-xs-12 ")
-       $("#ribbon").toggleClass("conmargen col-md-10 col-xs-10 col-md-push-2 col-xs-push-2")
+     
+
+      if($("#colLeft").width() > 0){
+        $("#colLeft").css('width',0)  
+      } else {
+        $("#colLeft").css('width','16.66666667%')
+      }
+      $("#insideribbon").toggleClass("full")
+      $("#colRight").toggleClass('full')
+      
+
       
      
 }

@@ -84,16 +84,25 @@ export default class DaliBox extends Component {
         if(box.container){
             classes += " dnd" + box.container;
         }
-        return (<div className={classes} onClick={e => {
-                        e.stopPropagation()
-                        this.props.onBoxSelected(this.props.id) }}
+        return (<div className={classes}
+                     onClick={e => {
+                        if(this.props.boxLevelSelected === box.level){
+                            this.props.onBoxSelected(this.props.id);
+                        }
+                        e.stopPropagation();
+                     }}
                      onDoubleClick={(e)=>{
+                        if(box.children.length !== 0){
+                            this.props.onBoxLevelIncreased();
+                            this.props.onBoxSelected(this.props.id);
+                        }
+                        e.stopPropagation();
+                        /*
                         if(toolbar.config && toolbar.config.needsTextEdition){
                             this.props.onTextEditorToggled(this.props.id, true);
                             this.refs.textarea.focus();
-                        }}
-                    }
-
+                        }*/}
+                     }
                      style={{position: 'absolute',
                             left: box.position.x,
                             top: box.position.y,
@@ -138,6 +147,7 @@ export default class DaliBox extends Component {
             nextProps.toolbars[nextProps.id] !== this.props.toolbars[this.props.id] ||
             (this.props.boxSelected == this.props.id && nextProps.boxSelected !== this.props.id) ||
             (this.props.boxSelected !== this.props.id && nextProps.boxSelected === this.props.id) ||
+            (this.props.boxLevelSelected !== nextProps.boxLevelSelected) ||
             this.isDescendant(this.props.boxSelected, this.props.id) ||
             this.isDescendant(nextProps.boxSelected, this.props.id)
         ){
@@ -148,8 +158,10 @@ export default class DaliBox extends Component {
                                                    parentBox={nextProps.boxes[this.props.id]}
                                                    boxes={nextProps.boxes}
                                                    boxSelected={nextProps.boxSelected}
+                                                   boxLevelSelected={nextProps.boxLevelSelected}
                                                    toolbars={nextProps.toolbars}
                                                    onBoxSelected={this.props.onBoxSelected}
+                                                   onBoxLevelIncreased={this.props.onBoxLevelIncreased}
                                                    onBoxMoved={this.props.onBoxMoved}
                                                    onBoxResized={this.props.onBoxResized}
                                                    onBoxDeleted={this.props.onBoxDeleted}
@@ -209,8 +221,10 @@ export default class DaliBox extends Component {
                                                parentBox={box}
                                                boxes={this.props.boxes}
                                                boxSelected={this.props.boxSelected}
+                                               boxLevelSelected={this.props.boxLevelSelected}
                                                toolbars={this.props.toolbars}
                                                onBoxSelected={this.props.onBoxSelected}
+                                               onBoxLevelIncreased={this.props.onBoxLevelIncreased}
                                                onBoxMoved={this.props.onBoxMoved}
                                                onBoxResized={this.props.onBoxResized}
                                                onBoxDeleted={this.props.onBoxDeleted}
@@ -218,12 +232,7 @@ export default class DaliBox extends Component {
                                                onTextEditorToggled={this.props.onTextEditorToggled}
             />, pluginsContained[i]);
         }
-
-        $(ReactDOM.findDOMNode(this)).click(function(e){
-            this.props.onBoxSelected(this.props.id);
-            e.stopPropagation();
-        }.bind(this));
-
+        
         let dragRestrictionSelector = (box.container !== 0) ? ".daliBoxSortableContainer, .drg" + box.container : "parent";
         interact(ReactDOM.findDOMNode(this))
             .draggable({

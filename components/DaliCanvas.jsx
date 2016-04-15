@@ -37,8 +37,10 @@ export default class DaliCanvas extends Component{
                                         id={id}
                                         boxes={this.props.boxes}
                                         boxSelected={this.props.boxSelected}
+                                        boxLevelSelected={this.props.boxLevelSelected}
                                         toolbars={this.props.toolbars}
                                         onBoxSelected={this.props.onBoxSelected}
+                                        onBoxLevelIncreased={this.props.onBoxLevelIncreased}
                                         onBoxMoved={this.props.onBoxMoved}
                                         onBoxResized={this.props.onBoxResized}
                                         onBoxDeleted={this.props.onBoxDeleted}
@@ -51,8 +53,10 @@ export default class DaliCanvas extends Component{
                                                 id={id}
                                                 boxes={this.props.boxes}
                                                 boxSelected={this.props.boxSelected}
+                                                boxLevelSelected={this.props.boxLevelSelected}
                                                 toolbars={this.props.toolbars}
                                                 onBoxSelected={this.props.onBoxSelected}
+                                                onBoxLevelIncreased={this.props.onBoxLevelIncreased}
                                                 onBoxMoved={this.props.onBoxMoved}
                                                 onBoxDeleted={this.props.onBoxDeleted}
                                                 onBoxResized={this.props.onBoxResized}

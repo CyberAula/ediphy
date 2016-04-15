@@ -18,7 +18,9 @@ var BasicVideo= (function(){
                     value: 1,
                     min: 0,
                     max: 1,
-                    step: 0.1
+                    step: 0.1,
+                    tab: 'Main',
+                    accordion: 'Box'
                 },
                 {
                     name: 'borderSize',
@@ -28,16 +30,34 @@ var BasicVideo= (function(){
                     min: 0,
                     max: 10,
                     autoManaged: false,
+                    tab: 'Main',
+                    accordion: 'Box'
                 },
                 {
                     name: 'test',
                     humanName: 'Test',
                     type: 'text',
-                    isAttribute: true
+                    isAttribute: true,
+                    tab: 'Other',
+                    accordion: 'Extra'
                 }
             ]
         },  // TEST URL http://video.webmfiles.org/big-buck-bunny_trailer.webm
         // Posibilidad: http://modernizr.com/
+
+        getSections: function(){
+            return [
+                {
+                    tab: 'Main', 
+                    accordion: ['Basic','Box']
+                },
+                {
+                    tab: 'Other', 
+                    accordion: ['Extra']
+                },
+
+            ];
+        },
         getInitialState: function(){
             return {url: '', borderSize: 0, thumbnailVisibility: 'hidden'};
         },

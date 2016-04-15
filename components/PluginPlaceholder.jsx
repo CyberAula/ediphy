@@ -67,8 +67,10 @@ export default class PluginPlaceholder extends Component {
                                                                      key={index}
                                                                      boxes={this.props.boxes}
                                                                      boxSelected={this.props.boxSelected}
+                                                                     boxLevelSelected={this.props.boxLevelSelected}
                                                                      toolbars={this.props.toolbars}
                                                                      onBoxSelected={this.props.onBoxSelected}
+                                                                     onBoxLevelIncreased={this.props.onBoxLevelIncreased}
                                                                      onBoxMoved={this.props.onBoxMoved}
                                                                      onBoxResized={this.props.onBoxResized}
                                                                      onBoxDeleted={this.props.onBoxDeleted}

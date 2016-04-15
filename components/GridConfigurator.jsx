@@ -5,7 +5,7 @@ export default class GridConfigurator extends Component {
     render() {
         return (
             <div style={{width: '100%'}}>
-                {this.props.id}
+                
                 <Input type="text"
                        value={this.props.container.colDistribution.join(" ")}
                        label="Column distribution"

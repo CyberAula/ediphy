@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {ActionCreators} from 'redux-undo';
 import {Grid, Col, Row, Button, OverlayTrigger, Popover} from 'react-bootstrap';
 import {addNavItem, selectNavItem, expandNavItem, removeNavItem,
-    addBox, selectBox, moveBox, resizeBox, updateBox, deleteBox, reorderBox, dropBox,
+    addBox, selectBox, moveBox, resizeBox, updateBox, deleteBox, reorderBox, dropBox, increaseBoxLevel,
     addSortableContainer, resizeSortableContainer, changeCols, changeRows,
     togglePageModal, toggleTextEditor, toggleTitleMode,
     changeDisplayMode, exportStateAsync, importStateAsync, updateToolbar, collapseToolbar} from '../actions';
@@ -28,7 +28,7 @@ class DaliApp extends Component{
         };
     }
     render(){
-        const{ dispatch, boxes, boxesIds, boxSelected, navItemsIds, navItems, navItemSelected,
+        const{ dispatch, boxes, boxesIds, boxSelected, boxLevelSelected, navItemsIds, navItems, navItemSelected,
             pageModalToggled, undoDisabled, redoDisabled, displayMode, isBusy, toolbars } = this.props;
             var margenplugins = this.state.hideTab=='hide'?1:0
             var paddings= (navItems[navItemSelected].type!= "slide") ? (99-60*margenplugins+'px 0px 0px 0px') : (130-60*margenplugins+'px 0px 30px 0px ')
@@ -36,8 +36,7 @@ class DaliApp extends Component{
             <Grid id="app" fluid={true} style={{height: '100%'}} >
                 <Row style={{height: '100%'}}>
                     <Col md={2} xs={2} style={{padding: 0, height: '100%'}} id="colLeft">
-                        <DaliCarousel 
-                                      boxes={boxes}
+                        <DaliCarousel boxes={boxes}
                                       navItemsIds={navItemsIds}
                                       navItems={navItems}
                                       navItemSelected={navItemSelected}
@@ -54,11 +53,13 @@ class DaliApp extends Component{
                         <DaliCanvas boxes={boxes}
                                     boxesIds={boxesIds}
                                     boxSelected={boxSelected}
+                                    boxLevelSelected={boxLevelSelected}
                                     navItems={navItems}
                                     navItemSelected={navItems[navItemSelected]}
                                     showCanvas={(navItemsIds.length !== 0)}
                                     toolbars={toolbars}
                                     onBoxSelected={(id) => dispatch(selectBox(id))}
+                                    onBoxLevelIncreased={() => dispatch(increaseBoxLevel())}
                                     onBoxMoved={(id, x, y) => dispatch(moveBox(id, x, y))}
                                     onBoxResized={(id, width, height) => dispatch(resizeBox(id, width, height))}
                                     onSortableContainerResized={(id, parent, height) => dispatch(resizeSortableContainer(id, parent, height))}
@@ -133,6 +134,7 @@ class DaliApp extends Component{
                     return "<plugin plugin-data-id='" + (ID_PREFIX_SORTABLE_CONTAINER + Date.now()) + (i++) + "' />";
                 });
 
+
                 this.props.dispatch(addBox(
                     {
                         parent: e.detail.ids.parent,
@@ -145,8 +147,10 @@ class DaliApp extends Component{
                     parsedContent,
                     e.detail.toolbar,
                     e.detail.config,
+                    e.detail.sections, 
                     e.detail.state,
                     e.detail.initialParams));
+
             }
         });
 
@@ -173,6 +177,7 @@ function mapStateToProps(state){
         boxes: state.present.boxesById,
         boxesIds: state.present.boxes,
         boxSelected: state.present.boxSelected,
+        boxLevelSelected: state.present.boxLevelSelected,
         navItemsIds: state.present.navItemsIds,
         navItems: state.present.navItemsById,
         navItemSelected: state.present.navItemSelected,
