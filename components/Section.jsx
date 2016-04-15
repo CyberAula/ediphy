@@ -298,96 +298,94 @@ list.sortable({
                         this.props.onNavItemReorded(this.props.navItemSelected, this.props.id,1,newIndexesIds,reorderedIndexesId);
 
                 }else{//Viene de otra seccion
+                   
+                    var newChildrenInOrder = reorderedIndexesId;
+                    var selectedAndChildren = [selec];
+                    var levelSelected = this.props.navItems[selec].level;
+                    var positionSelected = this.props.navItems[selec].position;
 
-/*
-*** ESTE es el CASO 2 SECA to SECB
-*** FALTA POR HACER LIMPIO
-*** 1 Cogemos el elemento seleccionado y lo aislamos con su prole
-*** 2 Limpiamos los previos de SELECCIONADO+PROLE
-*** 3 Hacemos part1 y part2 con la estrategia del stop 
-***       PART1 - de 0 al nuevo padre esta ID +1
-***       PART2 - Miramos el siguiente hermano de PART1 sobre el previos limpio si existe part2 de ahí hasta el final si no []
-*** 4 Ahora como nos hemos desprendido de los nuevos hijos es el momento
-***     PART1NC - de 0 hasta el indice del seleccionado en los nuevos hijos
-***     PART2NC - de el indice+1 del seleccioando hasta el final
-*** 5 Concatenar ----> newIndexesIds = part1+PART1NC+(SELECTECT+CHILDREN)+PART2NC+part2
-*/
+                    //Con este bucle cogemos el seleccionado y a todos los que cuelgan de el
+                    for(var i = positionSelected+1; i< previos.length; i++){
+                        if( this.props.navItems[previos[i]].level <= levelSelected){
+                            break;
+                          }else{
+                            selectedAndChildren.push(previos[i]);
+                        }
+                    }
+                    console.log("selectedAndChildren",selectedAndChildren)
 
-/**
-*** NOTA IMPORTANTE TAL Y COMO ESTÁ AHORA SI LOS NUEVOS HERMANOS TIENEN HIJOS... NOS LOS CARGAMOS!!!! ESTO ES UNA CATASTROFE
-*** deBEMOS TAMBIEN DE SACAR A LOS HERMANOS CON SUS HIJOS PARA CONCATENARLOS!! hermanosSuperioresConHijos, hermanosInferiores con hijos, idem a antes con el level!!
-*** Cogemos el array intermedio del slice de la concat de todos menos el elemento seleccionado y sus hijos,
-*** esta parte intermedia va entre (hasta) que llega al neuvo padre, a el siguiente hermano del padre si lo hubiera, si no, hasta el final
-**/
+                    var part1Aux = previos.slice(0,previos.indexOf(selec));
+                    var part2Aux = previos.slice(previos.indexOf(selec)+selectedAndChildren.length);
+                    var previosCleaned = part1Aux.concat(part2Aux);
+                    console.log("previosCleaned",previosCleaned)
 
-
-/**Este error descrito antes OCURRE en el caso 0,1,3 (Los fantasmas.. no aparecian)... aqui estamos en el caso 2 que aun no he hecho, el caso 4 tambíen se encuentra sin acabar */
-
-                    const navIdemsA = this.props.navItems;
-                    newIndexesIds = this.props.navItems[id].children; //*******
-                    const levelrec = this.props.navItems[id].level;
-                    var auxTerSplit = []
-                    var indN = "0";
-                    var newChildrenInOrder = []; //*******
-
-                    var tryLater = [];
-                    var flagFind = 0;
-                    var elemFinded = "";
-                    var elemFindedIndx = 0;
-
-                    for(var t = 0; t < reorderedIndexesR.length; t++){ //*******
-                        auxTerSplit = reorderedIndexesR[t].split('$'); //*******
-
-                        if(auxTerSplit.length !== levelrec+2 ){ //*******
-                            indN = t;
-                            elemFindedIndx  = t;
-                            elemFinded = this.props.navItemSelected;
-                            flagFind = 1;
+                    var nextBroOfParent;
+                    for(var j = previosCleaned.indexOf(id)+1; j<previosCleaned.length;j++){
+                        console.log(j);
+                        if(this.props.navItems[previosCleaned[j]].level <= this.props.navItems[id].level){
+                            nextBroOfParent = previosCleaned[j];
                             break;
                         }else{
-                            tryLater.push(auxTerSplit); //*******
                         }
                     }
 
-                    var auxArray = [];
-                    if(flagFind > 0){
+                    var part1 = previosCleaned.slice(0,previosCleaned.indexOf(id)+1);
+                    console.log("nextBroOfParent",nextBroOfParent)
+                    
+                    if(nextBroOfParent){
+                        var part2 = previosCleaned.slice(previosCleaned.indexOf(nextBroOfParent));
+                    }else{  
+                        var part2 = [];
+                    }
+
+                    console.log("previos")
+                    console.log(previos)
+                    console.log("PART1", part1)
+                    console.log("PART2", part2)
+
+                    var concatA = part1.concat(part2);
+                    console.log("concatA",concatA);
+
+                    if(part2.length>0){
+                        var medio = previos.slice(previos.indexOf(id)+1,previos.indexOf(part2[0]));
                     }else{
-                      
-                        for(var t = 0; t < tryLater.length; t++){ //*******
-                            auxArray = navIdemsA[0];//.children;
-
-                            flagFind = 0;
-                            for(var j = 1; j < tryLater[t].length-1; j++){ //*******
-
-                                auxArray = navIdemsA[auxArray.children[tryLater[t][j].split('.')[0]]]; //*******
-
-                                if(auxArray.id == id){
-                                    console.log("Ha encontrado el padre")
-                                    flagFind  = 1;
-                                }
-
-                            }
-                            if(flagFind < 1){
-
-                                elemFindedIndx = t;
-                                elemFinded = auxArray.children[tryLater[t][tryLater[t].length-1]] //*******
-                                break;
-                            }
-                            
-                        }
-
+                        var medio = previos.slice(previos.indexOf(id)+1);
                     }
 
-                    auxArray = navIdemsA[id].children;
-                    auxArray.splice(elemFindedIndx,0,elemFinded); //*******
-                    newChildrenInOrder = auxArray;
+                    console.log("medio");
+                    console.log(medio)
 
-                    newIndexesIds = this.props.navItemsIds;
-                    newIndexesIds.splice(newIndexesIds.indexOf(elemFinded),1); //*******
-                    var part2 = newIndexesIds.slice(newIndexesIds.indexOf(this.props.id)+auxArray.length) //*******
-                    var part1 = newIndexesIds.slice(0, newIndexesIds.indexOf(this.props.id)+1) //*******
+                    var part1NCAux = newChildrenInOrder.slice(0,newChildrenInOrder.indexOf(selec));
+                    var part2NCAux = newChildrenInOrder.slice(newChildrenInOrder.indexOf(selec)+1);
+                    var part1NC = [];
+                    var part2NC = [];
 
-                    var newIndexesIds = part1.concat(auxArray,part2); //*******
+                    if(part1NCAux.length > 0){
+                        if(part2NCAux.length > 0){
+                           for(var t = 0; t<medio.length; t++){
+                                if(medio[t] == part2NCAux[0]) break;
+                                part1NC.push(medio[t]);
+                            }
+                            part2NC = medio.slice(medio.indexOf(part2NCAux[0]));
+                        }else{
+                            part1NC = medio;
+                        }
+                      }else{
+                        part2NC = medio;
+                    }
+
+                    console.log("part1NC",part1NC)
+                    console.log("part2NC",part2NC)
+
+                    var newIndexesIds = part1.concat(part1NC,selectedAndChildren,part2NC,part2);
+
+                    console.log("previos");
+                    console.log(previos);
+                    console.log("selectedAndChildren");
+                    console.log(selectedAndChildren);
+                    console.log("newIndexesIds");
+                    console.log(newIndexesIds);
+
                     console.log("LANZA 2")
                     this.props.onNavItemReorded(this.props.navItemSelected, this.props.id,2,newIndexesIds,newChildrenInOrder); //*******
                 }
