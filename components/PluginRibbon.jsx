@@ -14,17 +14,15 @@ export default class PluginRibbon extends Component {
     render() {
         return (
             <Col id="ribbon"
-                 md={10}
-                 xs={10}
-                 xsOffset={2}
-                 mdOffset={2}
-                 className="sinmargen col-md-push-2 col-xs-push-2"
-                 style={{
+                 md={12}
+                 xs={12}                    
+                 style={{ 
+                    marginLeft:'-15px',
                     height: (this.props.hideTab=='hide' || this.props.category=='none' )? '0px':'60px',
                     overflowX: 'auto',
                     overflowY: 'hidden',
                     display: (this.props.hideTab=='hide' || this.props.category=='none' )? 'none':'block'}}>
-                <div style={{margin:'0'}} className="row">
+                <div id="insideribbon" style={{margin:'0', position:'absolute', right:0, width:'83.33333%'}} className="row">
                     <div style={{ whiteSpace: 'nowrap', marginLeft: '30px'}}>
                         {this.state.buttons.map((item, index) => {
                             if(this.state.buttons[index].category === this.props.category || this.props.category == 'all'){
@@ -60,7 +58,7 @@ export default class PluginRibbon extends Component {
                     // translate the element
                     target.style.webkitTransform =
                         target.style.transform =
-                            'translate(' + x + 'px, ' + (y-250) + 'px)';
+                            'translate(' + x + 'px, ' + (y-300) + 'px)';
                     target.style.zIndex = "999 !important";
                     target.style.position = 'fixed';
                     target.style.color = 'black';    

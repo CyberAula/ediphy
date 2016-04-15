@@ -25,6 +25,14 @@
 	margin:0;
 }
 
+#colLeft, #colRight, #insideribbon{
+	transition: width 0.3s ease-in;
+}
+
+.full{
+	width:100% !important;
+	transition: width 0.3s ease-in;}
+
 .drop-active {
     border: dashed 4px #aaa;
     border-radius: 4px;
