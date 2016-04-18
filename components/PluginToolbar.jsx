@@ -74,7 +74,7 @@ export default class PluginToolbar extends Component {
                                         Dali.Plugins.get(toolbar.config.name).openConfigModal(true, toolbar.state, toolbar.id)}}>
                 Open config</ButtonInput>);
         }
-        buttons.push(<Button onClick={e => {
+        buttons.push(<Button key={'delete'} onClick={e => {
                                 this.props.onBoxDeleted();
                                 e.stopPropagation();
                              }}>
@@ -122,8 +122,8 @@ export default class PluginToolbar extends Component {
                                     let container = this.props.box.sortableContainers[id];
                                     if ( this.state.currentTab == 1 )
                                       return (
-                                        <Panel className="panelPluginToolbar" collapsible header={id} eventKey={indexAcc++} >
-                                                  <GridConfigurator key={index}
+                                        <Panel key={index} className="panelPluginToolbar" collapsible header={id} eventKey={indexAcc++} >
+                                                  <GridConfigurator
                                                      id={id}
                                                      parentId={this.props.box.id}
                                                      container={container}
