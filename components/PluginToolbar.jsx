@@ -93,19 +93,19 @@ export default class PluginToolbar extends Component {
                           <div id="insidetools">
                             <Nav bsStyle="tabs" activeKey={this.state.currentTab} onSelect={( selectedKey) => {this.handleSelect(selectedKey)}}>
                                {
-                                tools.map(section => {
+                                tools.map((section, index) => {
                                     if( indexTab == this.state.currentTab){
                                       accordion = section.accordion
                                     }
-                                    return(<NavItem eventKey={indexTab++} >{section.tab}</NavItem>)
+                                    return(<NavItem key={index} eventKey={indexTab++} >{section.tab}</NavItem>)
                                 })
                               }
                             </Nav>
                              <div className="botones">
                              <PanelGroup>
-                               { accordion.map(title=>{  
+                               { accordion.map((title, index) =>{
                                   return ( 
-                                    <Panel className="panelPluginToolbar" collapsible header={title}  eventKey={indexAcc++} >
+                                    <Panel key={index} className="panelPluginToolbar" collapsible header={title} eventKey={indexAcc++} >
                                       {buttons.map(button => {
                                         if (button.props.accordion == title) return button;
                                       })}
