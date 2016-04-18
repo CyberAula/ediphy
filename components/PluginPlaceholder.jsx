@@ -7,13 +7,38 @@ import DaliBox from '../components/DaliBox';
 export default class PluginPlaceholder extends Component {
     render() {
         let container = this.props.parentBox.sortableContainers[this.props.pluginContainer];
-        //let contentFull = (
+        let overlay;
+        if(container && container.children.length !== 0){
+            if(this.props.boxLevelSelected > this.props.boxes[container.children[0]].level){
+                overlay = "visible";
+            }else if(this.props.boxLevelSelected === this.props.boxes[container.children[0]].level){
+                if(this.props.parentBox.id === this.props.boxSelected || container.children.indexOf(this.props.boxSelected) !== -1){
+                    overlay = "hidden";
+                }else{
+                    overlay = "visible";
+                }
+            }else{
+                overlay = "hidden";
+            }
+        }else{
+            overlay = (this.props.boxLevelSelected > this.props.parentBox.level) ? "visible" : "hidden";
+        }
+
         return (
             <div style={{
                     width: "100%",
                     height: "100%",
                     position: 'relative'}}
-                  className={"drg" + this.props.pluginContainer}>
+                 className={"drg" + this.props.pluginContainer}>
+                <div style={{
+                    width: "100%",
+                    height: "100%",
+                    background: "black",
+                    top: 0,
+                    position: "absolute",
+                    opacity: 0.4,
+                    visibility: overlay,
+                }}></div>
                 {container ?
                     container.colDistribution.map((col, i) => {
                         if(container.cols[i]){

@@ -29,7 +29,16 @@ export default class DaliCanvas extends Component{
                            navItemId={this.props.navItemSelected.id}
                            titleModeToggled={this.props.titleModeToggled}
                            showButton={true} />
-                           <br/> 
+                           <br/>
+                <div style={{
+                    width: "100%",
+                    height: "100%",
+                    background: "black",
+                    top: 0,
+                    position: "absolute",
+                    opacity: 0.4,
+                    visibility: (this.props.boxLevelSelected > 0) ? "visible" : "collapse",
+                }}></div>
                 {this.props.navItemSelected.boxes.map(id => {
                     let box = this.props.boxes[id];
                     if (box.type === BOX_TYPES.NORMAL)

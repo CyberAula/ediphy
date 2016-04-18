@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import {Input,Button} from 'react-bootstrap';
 import interact from 'interact.js';
 import PluginPlaceholder from '../components/PluginPlaceholder';
-import {BOX_TYPES, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_SORTABLE_CONTAINER} from '../constants';
+import {BOX_TYPES, ID_PREFIX_PAGE, ID_PREFIX_SECTION, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_SORTABLE_CONTAINER} from '../constants';
 
 export default class DaliBox extends Component {
     render() {
@@ -81,14 +81,19 @@ export default class DaliBox extends Component {
         return (<div className={classes}
                      onClick={e => {
                         if(this.props.boxLevelSelected === box.level){
-                            this.props.onBoxSelected(this.props.id);
+                            if(this.props.boxLevelSelected > 0){
+                                if(this.props.boxSelected === box.parent){
+                                    this.props.onBoxSelected(this.props.id);
+                                }
+                            }else{
+                                this.props.onBoxSelected(this.props.id);
+                            }
                         }
                         e.stopPropagation();
                      }}
                      onDoubleClick={(e)=>{
-                        if(box.children.length !== 0){
+                        if(this.props.boxLevelSelected < box.level && (box.parent.indexOf(ID_PREFIX_PAGE) === -1 && box.parent.indexOf(ID_PREFIX_SECTION))){
                             this.props.onBoxLevelIncreased();
-                            this.props.onBoxSelected(this.props.id);
                         }
                         e.stopPropagation();
                         /*
