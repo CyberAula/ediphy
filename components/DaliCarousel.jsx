@@ -56,14 +56,13 @@ export default class DaliCarousel extends Component{
     }
 }
 function toggleWidth(){
-     
-
+     let indiceWidth = $("#indice").width()
       if($("#colLeft").width() > 0){
         $("#colLeft").css('width',0)  
       } else {
         $("#colLeft").css('width','16.66666667%')
       }
-      $("#insideribbon").toggleClass("full")
+       $("#insideribbon").toggleClass("full")
       $("#colRight").toggleClass('full')
       
 

@@ -58,7 +58,7 @@ export default class PluginRibbon extends Component {
                     // translate the element
                     target.style.webkitTransform =
                         target.style.transform =
-                            'translate(' + x + 'px, ' + (y-300) + 'px)';
+                            'translate(' + x + 'px, ' + (y-250) + 'px)';
                     target.style.zIndex = "999 !important";
                     target.style.position = 'fixed';
                     target.style.color = 'black';    

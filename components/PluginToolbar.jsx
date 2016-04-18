@@ -29,6 +29,7 @@ export default class PluginToolbar extends Component {
     } 
 
     render() {
+      
         if(this.props.boxSelected === -1){
             return <div></div>;
         }
@@ -78,7 +79,7 @@ export default class PluginToolbar extends Component {
         let tabName = ''
         let accordion=[]
         let visible = (buttons.length !== 0 || this.props.box.children.length !== 0) ? 'visible' : 'hidden';
-        if(!visible) this.setState({currentTab:  1})
+         
 
         return (<div id="wrap" className="wrapper" style={{
                     right: '0px', 
