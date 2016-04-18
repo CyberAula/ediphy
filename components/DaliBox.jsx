@@ -92,7 +92,7 @@ export default class DaliBox extends Component {
                         e.stopPropagation();
                      }}
                      onDoubleClick={(e)=>{
-                        if(this.props.boxLevelSelected < box.level && (box.parent.indexOf(ID_PREFIX_PAGE) === -1 && box.parent.indexOf(ID_PREFIX_SECTION))){
+                        if((this.props.boxLevelSelected < box.level) && (box.level - this.props.boxLevelSelected <= 1) && (box.parent.indexOf(ID_PREFIX_PAGE) === -1 && box.parent.indexOf(ID_PREFIX_SECTION))){
                             this.props.onBoxLevelIncreased();
                         }
                         e.stopPropagation();
@@ -116,6 +116,15 @@ export default class DaliBox extends Component {
             {border}
             {content}
             <div contentEditable={true} ref={"textarea"} style={textareaStyle} />
+            <div style={{
+                    width: "100%",
+                    height: "100%",
+                    background: "black",
+                    top: 0,
+                    position: "absolute",
+                    opacity: 0.4,
+                    visibility: (this.props.boxLevelSelected > box.level && box.children.length === 0) ? "visible" : "collapse",
+                }}></div>
         </div>);
     }
 
