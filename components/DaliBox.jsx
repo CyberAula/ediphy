@@ -227,6 +227,7 @@ export default class DaliBox extends Component {
                                                onBoxMoved={this.props.onBoxMoved}
                                                onBoxResized={this.props.onBoxResized}
                                                onBoxDeleted={this.props.onBoxDeleted}
+                                               onBoxDropped={this.props.onBoxDropped}
                                                onBoxModalToggled={this.props.onBoxModalToggled}
                                                onTextEditorToggled={this.props.onTextEditorToggled}
             />, pluginsContained[i]);
