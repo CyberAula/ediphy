@@ -123,7 +123,7 @@ export default class PluginPlaceholder extends Component {
     componentDidMount(){
         interact(ReactDOM.findDOMNode(this)).dropzone({
             accept: '.rib',
-            overlap: 'center',
+            overlap: 'pointer',
             ondropactivate: function (event) {
                 event.target.classList.add('drop-active');
             },

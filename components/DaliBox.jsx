@@ -82,7 +82,7 @@ export default class DaliBox extends Component {
                      onClick={e => {
                         if(this.props.boxLevelSelected === box.level){
                             if(this.props.boxLevelSelected > 0){
-                                if(this.props.boxSelected === box.parent){
+                                if(this.props.boxSelected === box.parent || box.parent.indexOf(ID_PREFIX_SORTABLE_BOX) !== -1){
                                     this.props.onBoxSelected(this.props.id);
                                 }
                             }else{

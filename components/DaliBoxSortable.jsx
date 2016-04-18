@@ -108,7 +108,7 @@ export default class DaliBoxSortable extends Component{
     componentDidMount(){
         interact(".daliBoxSortableContainer").dropzone({
             accept: '.rib',
-            overlap: 'center',
+            overlap: 'pointer',
             ondropactivate: function (event) {
                 event.target.classList.add('drop-active');
             },
@@ -144,7 +144,7 @@ export default class DaliBoxSortable extends Component{
 
         interact(ReactDOM.findDOMNode(this)).dropzone({
             accept: '.rib',
-            overlap: 'center',
+            overlap: 'pointer',
             ondropactivate: function (event) {
                 event.target.classList.add('drop-active');
             },

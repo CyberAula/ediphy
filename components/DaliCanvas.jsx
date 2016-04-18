@@ -80,7 +80,7 @@ export default class DaliCanvas extends Component{
     componentDidMount(){
         interact(ReactDOM.findDOMNode(this)).dropzone({
             accept: '.rib',
-            overlap: 'center',
+            overlap: 'pointer',
             ondropactivate: function (event) {
                 event.target.classList.add('drop-active');
             },
