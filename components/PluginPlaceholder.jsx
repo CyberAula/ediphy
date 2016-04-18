@@ -140,7 +140,7 @@ export default class PluginPlaceholder extends Component {
                 };
                 Dali.Plugins.get(event.relatedTarget.getAttribute("name")).getConfig().callback(initialParams);
 
-                interact(ReactDOM.findDOMNode(this)).unset();
+                //interact(ReactDOM.findDOMNode(this)).unset();
             }.bind(this),
             ondropdeactivate: function (event) {
                 event.target.classList.remove('drop-active');
