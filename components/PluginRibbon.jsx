@@ -58,7 +58,7 @@ export default class PluginRibbon extends Component {
                     // translate the element
                     target.style.webkitTransform =
                         target.style.transform =
-                            'translate(' + x + 'px, ' + (y-250) + 'px)';
+                            'translate(' + x + 'px, ' + (y-161) + 'px)'; // BOX-HEIGHT(200) - NAVBAR-HEIGHT (39)
                     target.style.zIndex = "999 !important";
                     target.style.position = 'fixed';
                     target.style.color = 'black';    

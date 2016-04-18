@@ -74,11 +74,17 @@ export default class PluginToolbar extends Component {
                                         Dali.Plugins.get(toolbar.config.name).openConfigModal(true, toolbar.state, toolbar.id)}}>
                 Open config</ButtonInput>);
         }
-        let indexTab = 1
-        let indexAcc = 1
-        let tabName = ''
-        let accordion=[]
-        let visible = (buttons.length !== 0 || this.props.box.children.length !== 0) ? 'visible' : 'hidden';
+        buttons.push(<Button onClick={e => {
+                                this.props.onBoxDeleted();
+                                e.stopPropagation();
+                             }}>
+                <i className="fa fa-trash-o"></i></Button>);
+
+        let indexTab = 1,
+            indexAcc = 1,
+            tabName = '',
+            accordion = [],
+            visible = (buttons.length !== 0 || this.props.box.children.length !== 0) ? 'visible' : 'hidden';
          
 
         return (<div id="wrap" className="wrapper" style={{
@@ -101,8 +107,8 @@ export default class PluginToolbar extends Component {
                                 })
                               }
                             </Nav>
-                             <div className="botones">
-                             <PanelGroup>
+                            <div className="botones">
+                            <PanelGroup>
                                { accordion.map((title, index) =>{
                                   return ( 
                                     <Panel key={index} className="panelPluginToolbar" collapsible header={title} eventKey={indexAcc++} >

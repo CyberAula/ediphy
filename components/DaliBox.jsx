@@ -65,13 +65,7 @@ export default class DaliBox extends Component {
                     border: (borderSize + "px dashed black"),
                     boxSizing: 'content-box'
                 }}>
-                     <Button className="trashbutton" 
-                             onClick={e => {
-                                this.props.onBoxDeleted(this.props.id, box.parent);
-                                e.stopPropagation();
-                             }}>
-                        <i className="fa fa-trash-o"></i>
-                      </Button>
+                
 
                     </div>
                 <div style={{position: 'absolute', left:  -cornerSize/2, top: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray', cursor: (box.container === 0 ? 'nw-resize' : 'move')}}></div>
