@@ -63,7 +63,6 @@ class DaliApp extends Component{
                                     onBoxMoved={(id, x, y) => dispatch(moveBox(id, x, y))}
                                     onBoxResized={(id, width, height) => dispatch(resizeBox(id, width, height))}
                                     onSortableContainerResized={(id, parent, height) => dispatch(resizeSortableContainer(id, parent, height))}
-                                    onBoxDeleted={(id, parent, container) => dispatch(deleteBox(id, parent, container))}
                                     onBoxReorder={(ids, parent) => dispatch(reorderBox(ids, parent))}
                                     onBoxDropped={(id, row, col) => dispatch(dropBox(id, row, col))}
                                     onTextEditorToggled={(caller, value) => dispatch(toggleTextEditor(caller, value))}
@@ -113,7 +112,8 @@ class DaliApp extends Component{
                                onRowsChanged={(id, parent, column, distribution) => dispatch(changeRows(id, parent, column, distribution))}
                                onTextEditorToggled={(caller, value) => dispatch(toggleTextEditor(caller, value))}
                                onToolbarUpdated={(caller, index, name, value) => dispatch(updateToolbar(caller, index, name, value))}
-                               onToolbarCollapsed={(id) => dispatch(collapseToolbar(id))} />
+                               onToolbarCollapsed={(id) => dispatch(collapseToolbar(id))}
+                               onBoxDeleted={()=> this.props.dispatch(deleteBox(boxSelected, boxes[boxSelected].parent, boxes[boxSelected].container)) } />
             </Grid>
         );
     }

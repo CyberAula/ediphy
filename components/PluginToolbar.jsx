@@ -29,6 +29,7 @@ export default class PluginToolbar extends Component {
     } 
 
     render() {
+      
         if(this.props.boxSelected === -1){
             return <div></div>;
         }
@@ -73,12 +74,18 @@ export default class PluginToolbar extends Component {
                                         Dali.Plugins.get(toolbar.config.name).openConfigModal(true, toolbar.state, toolbar.id)}}>
                 Open config</ButtonInput>);
         }
-        let indexTab = 1
-        let indexAcc = 1
-        let tabName = ''
-        let accordion=[]
-        let visible = (buttons.length !== 0 || this.props.box.children.length !== 0) ? 'visible' : 'hidden';
-        if(!visible) this.setState({currentTab:  1})
+        buttons.push(<Button key={'delete'} onClick={e => {
+                                this.props.onBoxDeleted();
+                                e.stopPropagation();
+                             }}>
+                <i className="fa fa-trash-o"></i></Button>);
+
+        let indexTab = 1,
+            indexAcc = 1,
+            tabName = '',
+            accordion = [],
+            visible = (buttons.length !== 0 || this.props.box.children.length !== 0) ? 'visible' : 'hidden';
+         
 
         return (<div id="wrap" className="wrapper" style={{
                     right: '0px', 
@@ -92,19 +99,19 @@ export default class PluginToolbar extends Component {
                           <div id="insidetools">
                             <Nav bsStyle="tabs" activeKey={this.state.currentTab} onSelect={( selectedKey) => {this.handleSelect(selectedKey)}}>
                                {
-                                tools.map(section => {
+                                tools.map((section, index) => {
                                     if( indexTab == this.state.currentTab){
                                       accordion = section.accordion
                                     }
-                                    return(<NavItem eventKey={indexTab++} >{section.tab}</NavItem>)
+                                    return(<NavItem key={index} eventKey={indexTab++} >{section.tab}</NavItem>)
                                 })
                               }
                             </Nav>
-                             <div className="botones">
-                             <PanelGroup>
-                               { accordion.map(title=>{  
+                            <div className="botones">
+                            <PanelGroup>
+                               { accordion.map((title, index) =>{
                                   return ( 
-                                    <Panel className="panelPluginToolbar" collapsible header={title}  eventKey={indexAcc++} >
+                                    <Panel key={index} className="panelPluginToolbar" collapsible header={title} eventKey={indexAcc++} >
                                       {buttons.map(button => {
                                         if (button.props.accordion == title) return button;
                                       })}
@@ -115,8 +122,8 @@ export default class PluginToolbar extends Component {
                                     let container = this.props.box.sortableContainers[id];
                                     if ( this.state.currentTab == 1 )
                                       return (
-                                        <Panel className="panelPluginToolbar" collapsible header={id} eventKey={indexAcc++} >
-                                                  <GridConfigurator key={index}
+                                        <Panel key={index} className="panelPluginToolbar" collapsible header={id} eventKey={indexAcc++} >
+                                                  <GridConfigurator
                                                      id={id}
                                                      parentId={this.props.box.id}
                                                      container={container}

@@ -17,7 +17,7 @@ var CajasColor = (function(){
                     min: 1,
                     autoManaged: false,
                     tab: 'Main',
-                    accordion: 'Box'
+                    accordion: 'Number'
                 }
             ]
         },

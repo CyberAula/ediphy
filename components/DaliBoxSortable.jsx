@@ -84,7 +84,6 @@ export default class DaliBoxSortable extends Component{
                                                                      onBoxLevelIncreased={this.props.onBoxLevelIncreased}
                                                                      onBoxMoved={this.props.onBoxMoved}
                                                                      onBoxResized={this.props.onBoxResized}
-                                                                     onBoxDeleted={this.props.onBoxDeleted}
                                                                      onBoxDropped={this.props.onBoxDropped}
                                                                      onBoxModalToggled={this.props.onBoxModalToggled}
                                                                      onTextEditorToggled={this.props.onTextEditorToggled}/>);
@@ -109,7 +108,7 @@ export default class DaliBoxSortable extends Component{
     componentDidMount(){
         interact(".daliBoxSortableContainer").dropzone({
             accept: '.rib',
-            overlap: 'center',
+            overlap: 'pointer',
             ondropactivate: function (event) {
                 event.target.classList.add('drop-active');
             },
@@ -145,7 +144,7 @@ export default class DaliBoxSortable extends Component{
 
         interact(ReactDOM.findDOMNode(this)).dropzone({
             accept: '.rib',
-            overlap: 'center',
+            overlap: 'pointer',
             ondropactivate: function (event) {
                 event.target.classList.add('drop-active');
             },

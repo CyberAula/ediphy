@@ -7,13 +7,38 @@ import DaliBox from '../components/DaliBox';
 export default class PluginPlaceholder extends Component {
     render() {
         let container = this.props.parentBox.sortableContainers[this.props.pluginContainer];
-        //let contentFull = (
+        let overlay;
+        if(container && container.children.length !== 0){
+            if(this.props.boxLevelSelected > this.props.boxes[container.children[0]].level){
+                overlay = "visible";
+            }else if(this.props.boxLevelSelected === this.props.boxes[container.children[0]].level){
+                if(this.props.parentBox.id === this.props.boxSelected || container.children.indexOf(this.props.boxSelected) !== -1){
+                    overlay = "hidden";
+                }else{
+                    overlay = "visible";
+                }
+            }else{
+                overlay = "hidden";
+            }
+        }else{
+            overlay = (this.props.boxLevelSelected > this.props.parentBox.level) ? "visible" : "hidden";
+        }
+
         return (
             <div style={{
                     width: "100%",
                     height: "100%",
                     position: 'relative'}}
-                  className={"drg" + this.props.pluginContainer}>
+                 className={"drg" + this.props.pluginContainer}>
+                <div style={{
+                    width: "100%",
+                    height: "100%",
+                    background: "black",
+                    top: 0,
+                    position: "absolute",
+                    opacity: 0.4,
+                    visibility: overlay,
+                }}></div>
                 {container ?
                     container.colDistribution.map((col, i) => {
                         if(container.cols[i]){
@@ -74,6 +99,7 @@ export default class PluginPlaceholder extends Component {
                                                                      onBoxMoved={this.props.onBoxMoved}
                                                                      onBoxResized={this.props.onBoxResized}
                                                                      onBoxDeleted={this.props.onBoxDeleted}
+                                                                     onBoxDropped={this.props.onBoxDropped}
                                                                      onBoxModalToggled={this.props.onBoxModalToggled}
                                                                      onTextEditorToggled={this.props.onTextEditorToggled}/>);
                                                 }
@@ -97,7 +123,7 @@ export default class PluginPlaceholder extends Component {
     componentDidMount(){
         interact(ReactDOM.findDOMNode(this)).dropzone({
             accept: '.rib',
-            overlap: 'center',
+            overlap: 'pointer',
             ondropactivate: function (event) {
                 event.target.classList.add('drop-active');
             },
@@ -115,7 +141,7 @@ export default class PluginPlaceholder extends Component {
                 };
                 Dali.Plugins.get(event.relatedTarget.getAttribute("name")).getConfig().callback(initialParams);
 
-                interact(ReactDOM.findDOMNode(this)).unset();
+                //interact(ReactDOM.findDOMNode(this)).unset();
             }.bind(this),
             ondropdeactivate: function (event) {
                 event.target.classList.remove('drop-active');
