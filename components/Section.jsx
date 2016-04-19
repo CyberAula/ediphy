@@ -105,13 +105,13 @@ export default class Section extends Component {
 
     componentDidMount(){
         let list = jQuery(this.refs.sortableListS);
-
+        console.log("MONTAMOS LA SECCION")
 //console.log(list);
 list.sortable({ 
             //handle: '.dragS',
             connectWith: '.connectedSortables',
             stop: (event, ui) => {
-              
+                console.log("stop de section con id:" + this.props.id);
                 const reorderedIndexesId = list.sortable('toArray', {attribute: 'id'}); //Obtiene la nueva disposición de elementos por id esta es la válida.
                 const selected = this.props.navItemSelected;
                 const previos = this.props.navItemsIds;
@@ -120,20 +120,12 @@ list.sortable({
                 var oldChilds = this.props.navItems[this.props.id].children; //Saca los hijos del pasado del elemento seleccionado       
                 var newChilds = reorderedIndexesId;
 
-                console.log("seleccionado", selected)
-                console.log("seccion seleccionada", this.props.id)
-                console.log( "Hijos viejos de esta seccion", this.props.navItems[this.props.id].children)
-                console.log("parent del item seleccionado", this.props.navItems[selected].parent)
-                console.log("previo", previos);
-                console.log("reorderedIndexesId",reorderedIndexesId);
-
                 if( newChilds.indexOf(selected) >= 0 && oldChilds.indexOf(selected) >= 0){
+                    console.log("cancel de carousellist stop list");
 
                     list.sortable('cancel');
-                    //$('.connectedSortables').sortable('cancel');
                     
                     var part1 = previos.slice(0,previos.indexOf(parent)+1);
-
                     var nextBroOfParent;
                     for(var j = previos.indexOf(parent)+1; j<previos.length;j++){
                         if(this.props.navItems[previos[j]].level <= this.props.navItems[parent].level){
@@ -152,7 +144,7 @@ list.sortable({
                     var selectedAndChildren = [selected];
                     var positionSelected = this.props.navItems[selected].position;
                     var levelSelected = this.props.navItems[selected].level;
-                    //Con este bucle cogemos el seleccionado y a todos los que cuelgan de el
+
                     for(var i = positionSelected+1; i< previos.length; i++){
                         if( this.props.navItems[previos[i]].level <= levelSelected){
                             break;
@@ -165,7 +157,6 @@ list.sortable({
                     var part2NCAux = newChilds.slice(newChilds.indexOf(selected)+1);
                     var part1NC = [];
                     var part2NC = [];
-                    //Con esto quiero coger todos los hijos de los nuevos hermanos
                     var medioA = previos.slice(previos.indexOf(parent)+1, previos.indexOf(selected));
 
                     if(nextBroOfParent){
@@ -175,7 +166,6 @@ list.sortable({
                     }
 
                     var medio = medioA.concat(medioB);
-
 
                     if(part1NCAux.length > 0){
                         if(part2NCAux.length > 0){
@@ -194,56 +184,36 @@ list.sortable({
 
                     var newIndexesIds = part1.concat(part1NC,selectedAndChildren,part2NC,part2);
 
-                    console.log("desde una seccion a si misma: caso 3; hace cosas");
                     console.log("LANZA 3")
-                    console.log("newIndexesIds",newIndexesIds);
                     this.props.onNavItemReorded(this.props.navItemSelected, this.props.id,3,newIndexesIds,newChilds); 
                 }else{
                     console.log("desde SecA a SecB: caso 2; desde sec a exterior: caso 4; por lo que no hace nada");
                 }       
             }.bind(this),
             receive: (event, ui) => {
-               
-                //con esto sacamos la id de la sección que recibe
+                                
                 const id = this.props.id;
-                //Id del elemento seleccionado
                 const selec = this.props.navItemSelected;
-                //Id del padre del elemento seleccionado para saber de que seccion viene o del carrouselList
                 const parent = this.props.navItems[this.props.navItemSelected].parent;
-                //Nuevo orden de la sección con la react-id y la id
-                const reorderedIndexesR = list.sortable('toArray', {attribute: 'data-reactid'});
                 const reorderedIndexesId = list.sortable('toArray', {attribute: 'id'})
                 const previos = this.props.navItemsIds;
                 
-                $('.connectedSortables').sortable('cancel');
-                //list.sortable('cancel');
+                console.log("cancel de seccion receive sender");
 
-                //console.log(reorderedIndexesId);
-                const indexesR = reorderedIndexesR.map(el => el.split('$').pop() ) //******* Saca el ultimo indice de la REac ID
-              
-                console.log("************Variables**************Receive Section")
-                console.log("id de la seccion que recibe", this.props.id);
-                console.log("id del elemento seleccionado", this.props.navItemSelected);
-                console.log("id del padre del elemento seleccioando", this.props.navItems[this.props.navItemSelected].parent);
-                console.log("Nuevos hisjos de la seccion que recibe", reorderedIndexesId);
-                console.log("Antiguos hijos de la seccion que recibe",  this.props.navItems[this.props.id].children)
-                console.log("Antiguos hijos de la antigua seccion padre ", this.props.navItems[this.props.navItems[this.props.navItemSelected].parent].children)
-                console.log("Todos los antiguos",previos)
-                console.log("**************************************************")
-               
+                $(ui.sender).sortable('cancel');
+            
                 var index = 0;
-                  var newIndexesIds = [];             
-              //  var newChildrenInOrder = reorderedIndexesId;
+                var newIndexesIds = [];             
+
                 if(parent !== id){
-                    if(parent == 0){ //Con esto compruebo si viene de fuera
-                       
+                    if(parent == 0){
+                    
                         var newIndexesIds = [];             
                         var newChildrenInOrder = reorderedIndexesId;
                         var selectedAndChildren = [selec];
                         var levelSelected = this.props.navItems[selec].level;
                         var positionSelected = this.props.navItems[selec].position;
 
-                        //Con este bucle cogemos el seleccionado y a todos los que cuelgan de el
                         for(var i = positionSelected+1; i< previos.length; i++){
                             if( this.props.navItems[previos[i]].level <= levelSelected){
                                 break;
@@ -251,19 +221,14 @@ list.sortable({
                                 selectedAndChildren.push(previos[i]);
                             }
                         }
-                          console.log("selectedAndChildren",selectedAndChildren)
 
-                        //Voy a concatenar los indexes, quitando la parte del seleccionado con sus hijos
                         var part1 = previos.slice(0,previos.indexOf(selec));
                         var part2 = previos.slice(previos.indexOf(selec)+selectedAndChildren.length);
                         var concatA = part1.concat(part2);
-                        console.log("concatA",concatA);
 
-                        if(newChildrenInOrder.length > 1){//tiene nuevos hermanos
-                            if(newChildrenInOrder.indexOf(selec) >= newChildrenInOrder.length -1){ //Es el ultimo de los nuevos hijos
-                                console.log("es el último de los nuevos hijos")
+                        if(newChildrenInOrder.length > 1){
+                            if(newChildrenInOrder.indexOf(selec) >= newChildrenInOrder.length -1){ 
                                 var auxNextElementIndex;
-                                //Level del padre hasta el siguiente ocn ese level dentro de los concatA si no existe.... significa que es el ultimo y concatenamos al final
                                 for(var j = concatA.indexOf(parent)+1; j<concatA.length; j++){
                                     if(this.props.navItems[concatA[j]].level <= this.props.navItems[parent].level){
                                         auxNextElementIndex = j;
@@ -271,30 +236,25 @@ list.sortable({
                                       }else{
                                     }
                                 }
-
                                 if(auxNextElementIndex){
-                                    console.log("Es el ultimo de los nuevos hijos pero el padre tiene hermanos");
                                     var part1b = concatA.slice(0, auxNextElementIndex);
                                     var part2b = concatA.slice(auxNextElementIndex);
                                     newIndexesIds = part1b.concat(selectedAndChildren,part2b);
                                   }else{
-                                    console.log("Es el ultimo ultimo");
                                     newIndexesIds = concatA.concat(selectedAndChildren);
                                 }  
-                              }else{//significa que tiene más hermanos y no es el único [*,0] [*,0,0] [0,*,0]
-                                //cogiendo y colocandolo siempre delante del siguiente debería de valer
+                              }else{
                                 var part1b = concatA.slice(0, concatA.indexOf(newChildrenInOrder[newChildrenInOrder.indexOf(selec)+1]));
                                 var part2b = concatA.slice(concatA.indexOf(newChildrenInOrder[newChildrenInOrder.indexOf(selec)+1]));
                                 newIndexesIds = part1b.concat(selectedAndChildren,part2b);
                             }
-                          }else{//es el único nuevo hijo no tiene nuevos hermanos
+                          }else{
                             var part1b = concatA.slice(0, concatA.indexOf(id)+1);
                             var part2b = concatA.slice(concatA.indexOf(id)+1);
                             newIndexesIds = part1b.concat(selectedAndChildren,part2b);
-                            //Lo colocamos inmediatamente después del nuevo padre
                         }
 
-                        console.log("newIndexesIds",newIndexesIds)
+                        console.log("lanza 1")
                         this.props.onNavItemReorded(this.props.navItemSelected, this.props.id,1,newIndexesIds,reorderedIndexesId);
 
                 }else{//Viene de otra seccion
@@ -304,7 +264,6 @@ list.sortable({
                     var levelSelected = this.props.navItems[selec].level;
                     var positionSelected = this.props.navItems[selec].position;
 
-                    //Con este bucle cogemos el seleccionado y a todos los que cuelgan de el
                     for(var i = positionSelected+1; i< previos.length; i++){
                         if( this.props.navItems[previos[i]].level <= levelSelected){
                             break;
@@ -312,12 +271,10 @@ list.sortable({
                             selectedAndChildren.push(previos[i]);
                         }
                     }
-                    console.log("selectedAndChildren",selectedAndChildren)
 
                     var part1Aux = previos.slice(0,previos.indexOf(selec));
                     var part2Aux = previos.slice(previos.indexOf(selec)+selectedAndChildren.length);
                     var previosCleaned = part1Aux.concat(part2Aux);
-                    console.log("previosCleaned",previosCleaned)
 
                     var nextBroOfParent;
                     for(var j = previosCleaned.indexOf(id)+1; j<previosCleaned.length;j++){
@@ -330,7 +287,6 @@ list.sortable({
                     }
 
                     var part1 = previosCleaned.slice(0,previosCleaned.indexOf(id)+1);
-                    console.log("nextBroOfParent",nextBroOfParent)
                     
                     if(nextBroOfParent){
                         var part2 = previosCleaned.slice(previosCleaned.indexOf(nextBroOfParent));
@@ -338,22 +294,13 @@ list.sortable({
                         var part2 = [];
                     }
 
-                    console.log("previos")
-                    console.log(previos)
-                    console.log("PART1", part1)
-                    console.log("PART2", part2)
-
                     var concatA = part1.concat(part2);
-                    console.log("concatA",concatA);
 
                     if(part2.length>0){
-                        var medio = previos.slice(previos.indexOf(id)+1,previos.indexOf(part2[0]));
+                        var medio = previosCleaned.slice(previosCleaned.indexOf(id)+1,previosCleaned.indexOf(part2[0]));
                     }else{
-                        var medio = previos.slice(previos.indexOf(id)+1);
+                        var medio = previosCleaned.slice(previosCleaned.indexOf(id)+1);
                     }
-
-                    console.log("medio");
-                    console.log(medio)
 
                     var part1NCAux = newChildrenInOrder.slice(0,newChildrenInOrder.indexOf(selec));
                     var part2NCAux = newChildrenInOrder.slice(newChildrenInOrder.indexOf(selec)+1);
@@ -374,25 +321,13 @@ list.sortable({
                         part2NC = medio;
                     }
 
-                    console.log("part1NC",part1NC)
-                    console.log("part2NC",part2NC)
-
                     var newIndexesIds = part1.concat(part1NC,selectedAndChildren,part2NC,part2);
 
-                    console.log("previos");
-                    console.log(previos);
-                    console.log("selectedAndChildren");
-                    console.log(selectedAndChildren);
-                    console.log("newIndexesIds");
-                    console.log(newIndexesIds);
-
                     console.log("LANZA 2")
-                    this.props.onNavItemReorded(this.props.navItemSelected, this.props.id,2,newIndexesIds,newChildrenInOrder); //*******
+                    this.props.onNavItemReorded(this.props.navItemSelected, this.props.id,2,newIndexesIds,newChildrenInOrder); 
                 }
             }else{
             }
-            
-            //event.stopImmediatePropagation();
         }.bind(this)
     }).bind(this);
 

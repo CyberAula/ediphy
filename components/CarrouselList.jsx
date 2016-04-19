@@ -111,19 +111,19 @@ export default class CarrouselList extends Component{
             }});
         });
 
-     
          return boxesids;
        
     }
 
     componentDidMount(){
+        console.log("MONTAMOS EL CARRUSEL");
         let list = jQuery(this.refs.sortableList);
         let props = this.props;
         list.sortable({ 
            // handle: '.drag-handle' ,
            connectWith: '.connectedSortables',
            stop: (event, ui) => {
-
+                console.log("stop de carousellist");
                 const reorderedIndexesId = list.sortable('toArray', {attribute: 'id'})
                 const select = this.props.navItemSelected;
                 const navItems = this.props.navItems;
@@ -131,7 +131,8 @@ export default class CarrouselList extends Component{
                 //$('.connectedSortables').sortable('cancel');
                 
                 if( reorderedIndexesId.indexOf(select) >= 0){
-                    
+                                    console.log("cancel de carousellist stop list");
+
                     list.sortable('cancel');
 
                     var newIndexesAux = [] ;
@@ -160,122 +161,55 @@ export default class CarrouselList extends Component{
                         newIndexesAux = part1b.concat(selectedAndChilds, part2b);                    
                     }                
 
-                    console.log("LANZA el caso 0 , desde la sección exterior a si misma");
-                    console.log("orden previo de los indices");
-                    console.log(previos);
-                    console.log("seleccionado", select)
-                    console.log("hijos del seleccionado con él mismo");
-                    console.log(selectedAndChilds)
-                    console.log("nuevo orden de todos los indices");          
-                    console.log(newIndexesAux)
-                    console.log("nuevo orden de los hijos de .0.")
-                    console.log(newChildrenInOrder)
-
                     this.props.onNavItemReorded(this.props.navItemSelected, 0,0,newIndexesAux,newChildrenInOrder);
                 }else{
                     console.log("carrousel list stop cancelado?")
                 }
             },
             receive: function(event, ui) {
-                //const reorderedIndexes = list.sortable('toArray', {attribute: 'data-reactid'}) 
                 const reorderedIndexesId = list.sortable('toArray', {attribute: 'id'})
-                //console.log("REOID",reorderedIndexesId);
                 const  parent = this.props.navItems[this.props.navItemSelected].parent;
-                //console.log(this)
                 const navItems = this.props.navItems;
                 const navItemsIds = this.props.navItemsIds;
-                //console.log(navItemsIds);
-                //var newChildrenInOrder = [];
+                const select = this.props.navItemSelected;
                 var auxInd = "0";
-               
-               list.sortable('cancel'); 
-                $('.connectedSortables').sortable('cancel');
-               
+                
+                //console.log("cancel de carousellist receive list");
+                //list.sortable('cancel');
+                                console.log("cancel de carousellist receive sender");
 
+                $(ui.sender).sortable('cancel');
 
-                /*for(var i = 0; i < reorderedIndexes.length; i++){
-                    if(reorderedIndexes[i].split('$').length> 2){
-                        auxInd = i;
-                        break;
-                    }
-                }
-                */
                 auxInd = reorderedIndexesId.indexOf(this.props.navItemSelected);
 
-               // var reactIdElem = reorderedIndexes[auxInd].split('$');
+                var newIndexesAux = [] ;
+                var newChildrenInOrder = reorderedIndexesId;
+                var selectedAndChilds = [select];
 
-                var predecessor;
-                var nextItemAux;
-                var parentAux;
-                var auxIdEl;
-                for(var i=navItems[this.props.navItemSelected].level; i>0; i--){
-
-                    if(i==navItems[this.props.navItemSelected].level){
-                        parentAux = this.props.navItemSelected;
-                        predecessor = navItems[parent];
-                    }else{
-                        parentAux = predecessor.id;
-                        predecessor = navItems[navItems[parentAux].parent];
-                    }
-
-                    if(predecessor.children.length-1 == predecessor.children.indexOf(parentAux)){
-                    }else{
-                        //auxIdEl = parseInt(reactIdElem[i].split('.')[0]);
-                        auxIdEl = predecessor.children.indexOf(parentAux);
-                        nextItemAux = predecessor.children[auxIdEl+1];
+                const previos = this.props.navItemsIds;
+                
+                for(var i = previos.indexOf(select)+1; i< previos.length; i++){
+                    if(navItems[previos[i]].level <= navItems[select].level){
                         break;
-                    }
-                }
-                /*for(var i=reactIdElem.length-1; i>0; i--){
-
-                    if(i==reactIdElem.length-1){
-                        parentAux = this.props.navItemSelected;
-                        predecessor = navItems[parent];
                     }else{
-                        parentAux = predecessor.id;
-                        predecessor = navItems[navItems[parentAux].parent];
+                        selectedAndChilds.push(previos[i]);
                     }
-
-                    if(predecessor.children.length-1 == reactIdElem[i].split('.')[0]){
-                    }else{
-                        auxIdEl = parseInt(reactIdElem[i].split('.')[0]);
-                        nextItemAux = predecessor.children[auxIdEl+1]
-                        break;
-                    }
-                }*/
-
-                //HASTA AQUI DEBE SOBRAR PERO HACE UNA COMPROBACIONM
-
-
-                var part1;
-                var part2;
-                var medio;
-                var newIndexesAux = navItemsIds ;
-
-                if(nextItemAux == undefined){
-                    part1 = newIndexesAux.slice(0,newIndexesAux.indexOf(this.props.navItemSelected));
-                    medio =  newIndexesAux.slice(newIndexesAux.indexOf(this.props.navItemSelected));
-                }else{
-                    part1 = newIndexesAux.slice(0,newIndexesAux.indexOf(this.props.navItemSelected));
-                    part2 = newIndexesAux.slice(newIndexesAux.indexOf(nextItemAux));
-                    medio = newIndexesAux.slice(newIndexesAux.indexOf(this.props.navItemSelected),newIndexesAux.indexOf(nextItemAux));
-                    part1 = part1.concat(part2);
                 }
 
-                var newIndexes = [];
+                var part1 = previos.slice(0,previos.indexOf(select));
+                var part2 = previos.slice(previos.indexOf(select)+selectedAndChilds.length);
+                var concatA = part1.concat(part2);
 
-                if(auxInd >= navItems[0].children.length){
-                    newIndexes = part1.concat(medio);
-                    //newChildrenInOrder = this.props.navItems[0].children;
-                    //newChildrenInOrder.push(this.props.navItemSelected)
-                }else{
-                    newIndexes = part1.slice(0,part1.indexOf(navItems[0].children[auxInd])).concat(medio,part1.slice(part1.indexOf(navItems[0].children[auxInd])));
-                    //newChildrenInOrder = this.props.navItems[0].children;
-                    //newChildrenInOrder.splice(auxInd,0,this.props.navItemSelected)
-                }
+                if(newChildrenInOrder.indexOf(select) >= newChildrenInOrder.length-1 ){ //es el ultimo de los nuevos hijos
+                    newIndexesAux = concatA.concat(selectedAndChilds);
+                  }else{//si no es el ultimo nuevo hijo
+                    var part1b = concatA.slice(0,concatA.indexOf(newChildrenInOrder[newChildrenInOrder.indexOf(select)+1]));
+                    var part2b = concatA.slice(concatA.indexOf(newChildrenInOrder[newChildrenInOrder.indexOf(select)+1]));
+                    newIndexesAux = part1b.concat(selectedAndChilds, part2b);                    
+                }         
+
                 console.log("LANZA 4")
-                //this.props.onNavItemReorded(this.props.navItemSelected, 0,4,newIndexes,newChildrenInOrder)
-              this.props.onNavItemReorded(this.props.navItemSelected, 0,4,newIndexes,reorderedIndexesId);
+              this.props.onNavItemReorded(this.props.navItemSelected, 0,4,newIndexesAux,reorderedIndexesId);
             
             }.bind(this)
         }).bind(this);
