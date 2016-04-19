@@ -21,7 +21,7 @@ export default class DaliNavBar extends Component {
                             }}><i className="fa fa-save fa-1 "></i>  </button>
                         </OverlayTrigger>
                         <OverlayTrigger trigger="click"  rootClose placement="bottom" overlay={<Popover id="is_busy_popover">{this.props.isBusy}</Popover>}>
-                            <button style={{borderRight: '2px solid #f8a090'}}  className="navButton" onClick={() => {
+                            <button style={{borderRight: '2px solid #888'}}  className="navButton" onClick={() => {
                                this.props.opens()
                             }}><i className="fa fa-folder-open fa-1 "></i>  </button>
                         </OverlayTrigger>

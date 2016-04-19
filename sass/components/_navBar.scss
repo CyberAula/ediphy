@@ -4,7 +4,7 @@
 
 .navBar{
 
-	background-color: $navBar;
+	background-color: $verdeadams;
 	position: absolute;
 	top:0;
 	left: 0;
@@ -41,15 +41,15 @@
 	 font-size: 20px;
 	 height:35px;
 	 padding: 0px 0px 0px 0px;
-	 background-color: $navBar;
+	 background-color: $verdeadams;
      box-shadow:none;
      vertical-align: middle;
 	 &:hover, &:active, &:focus{
 
 		
-		 border-bottom: 0px solid $naranjaclaro;
+		 border-bottom: 0px solid $grisclaro;
 		 color: white;
-		 background-color: $navBar;
+		 background-color: $verdeadams;
 		 -webkit-box-shadow: none;
          box-shadow: none;
          color:grey;
@@ -68,16 +68,16 @@
 
 }
 
-.navButtonPlug.active{ color:#FA9B90 !important;}
+.navButtonPlug.active{ color:$verdeadams !important; background-color: #888;}
 
 button[disabled].navButton {
-	background-color: $verdeoscuro;
+	background-color: $verdedisabled;
 	border:none;
-	color:$navBar;
+	color:$verdeadams;
 	height:39px;
     box-shadow:none;
 	&:hover{
-			background-color: $verdeoscuro;
+			background-color: $verdedisabled;
 			font-weight:normal;
 	}
 }
@@ -105,7 +105,7 @@ button[disabled].navButton {
 		box-shadow: none !important;
 	}
 	i {
-		color:$navBar !important;
+		color:$verdeadams !important;
 	
 	}
 }
@@ -163,7 +163,7 @@ button[disabled].navButton {
 		box-shadow: none !important;
 	}
 	i {
-		color:$navBar !important;
+		color:$verdeadams !important;
 	
 	}
 }
