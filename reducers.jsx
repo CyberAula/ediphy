@@ -226,6 +226,8 @@ function boxesById(state = {}, action = {}){
 
 function boxLevelSelected(state = 0, action = {}){
     switch (action.type){
+        case ADD_BOX:
+            return 0;
         case INCREASE_LEVEL:
             return state + 1;
         case SELECT_BOX:
@@ -239,8 +241,6 @@ function boxLevelSelected(state = 0, action = {}){
             return 0;
         case REMOVE_NAV_ITEM:
             return 0;
-        case IMPORT_STATE:
-            return action.payload.present.boxLevelSelected;
         default:
             return state;
     }

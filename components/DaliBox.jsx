@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import {Input,Button} from 'react-bootstrap';
 import interact from 'interact.js';
 import PluginPlaceholder from '../components/PluginPlaceholder';
-import {BOX_TYPES, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_SORTABLE_CONTAINER} from '../constants';
+import {BOX_TYPES, ID_PREFIX_PAGE, ID_PREFIX_SECTION, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_SORTABLE_CONTAINER} from '../constants';
 
 export default class DaliBox extends Component {
 
@@ -84,14 +84,19 @@ export default class DaliBox extends Component {
         return (<div className={classes}
                      onClick={e => {
                         if(this.props.boxLevelSelected === box.level){
-                            this.props.onBoxSelected(this.props.id);
+                            if(this.props.boxLevelSelected > 0){
+                                if(this.props.boxSelected === box.parent || box.parent.indexOf(ID_PREFIX_SORTABLE_BOX) !== -1){
+                                    this.props.onBoxSelected(this.props.id);
+                                }
+                            }else{
+                                this.props.onBoxSelected(this.props.id);
+                            }
                         }
                         e.stopPropagation();
                      }}
                      onDoubleClick={(e)=>{
-                        if(box.children.length !== 0){
+                        if((this.props.boxLevelSelected < box.level) && (box.level - this.props.boxLevelSelected <= 1) && (box.parent.indexOf(ID_PREFIX_PAGE) === -1 && box.parent.indexOf(ID_PREFIX_SECTION))){
                             this.props.onBoxLevelIncreased();
-                            this.props.onBoxSelected(this.props.id);
                         }
                         e.stopPropagation();
                         /*
@@ -114,6 +119,15 @@ export default class DaliBox extends Component {
             {border}
             {content}
             <div contentEditable={true} ref={"textarea"} style={textareaStyle} />
+            <div style={{
+                    width: "100%",
+                    height: "100%",
+                    background: "black",
+                    top: 0,
+                    position: "absolute",
+                    opacity: 0.4,
+                    visibility: (this.props.boxLevelSelected > box.level && box.children.length === 0) ? "visible" : "collapse",
+                }}></div>
         </div>);
     }
 
@@ -244,6 +258,7 @@ export default class DaliBox extends Component {
                                                onBoxMoved={this.props.onBoxMoved}
                                                onBoxResized={this.props.onBoxResized}
                                                onBoxDeleted={this.props.onBoxDeleted}
+                                               onBoxDropped={this.props.onBoxDropped}
                                                onBoxModalToggled={this.props.onBoxModalToggled}
                                                onTextEditorToggled={this.props.onTextEditorToggled}
             />, pluginsContained[i]);

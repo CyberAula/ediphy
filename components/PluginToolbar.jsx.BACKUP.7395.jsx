@@ -96,7 +96,7 @@ export default class PluginToolbar extends Component {
                                         Dali.Plugins.get(toolbar.config.name).openConfigModal(true, toolbar.state, toolbar.id)}}>
                 Open config</ButtonInput>);
         }
-
+<<<<<<< HEAD
         if(this.props.box.id[1]!='s' ){
           buttons.push(<Button key={'delete'}
                                onClick={e => {
@@ -106,7 +106,14 @@ export default class PluginToolbar extends Component {
                               <i className="fa fa-trash-o"></i>
                        </Button>);
         }
+=======
+        buttons.push(<Button key={'delete'} onClick={e => {
+                                this.props.onBoxDeleted();
+                                e.stopPropagation();
+                             }}>
+                <i className="fa fa-trash-o"></i></Button>);
 
+>>>>>>> a6cc2c2af01e86416eff29a2705b081d093971d2
         let indexTab = 1,
             indexAcc = 1,
             tabName = '',
@@ -119,6 +126,7 @@ export default class PluginToolbar extends Component {
                    top: '39px',
                    visibility: visible }} >
 
+<<<<<<< HEAD
                   <div className="pestana" onClick={() => {this.toggleWidth() }}>
                       <i className="fa fa-gear fa-2x"> </i>
                   </div>
@@ -168,7 +176,55 @@ export default class PluginToolbar extends Component {
                             })
                         }
                       </div>
-
+=======
+                        <div className="pestana" onClick={() => {this.toggleWidth() }}>
+                            <i className="fa fa-gear fa-2x"> </i>
+                        </div>
+                        <div id="tools" style={{width: this.state.open? '250px':'0px'}} className="toolbox">
+                          <div id="insidetools">
+                            <Nav bsStyle="tabs" activeKey={this.state.currentTab} onSelect={( selectedKey) => {this.handleSelect(selectedKey)}}>
+                               {
+                                tools.map((section, index) => {
+                                    if( indexTab == this.state.currentTab){
+                                      accordion = section.accordion
+                                    }
+                                    return(<NavItem key={index} eventKey={indexTab++} >{section.tab}</NavItem>)
+                                })
+                              }
+                            </Nav>
+                            <div className="botones">
+                            <PanelGroup>
+                               { accordion.map((title, index) =>{
+                                  return ( 
+                                    <Panel key={index} className="panelPluginToolbar" collapsible header={title} eventKey={indexAcc++} >
+                                      {buttons.map(button => {
+                                        if (button.props.accordion == title) return button;
+                                      })}
+                                    </Panel>)
+                                   })
+                                }
+                                { this.props.box.children.map((id, index) => {
+                                    let container = this.props.box.sortableContainers[id];
+                                    if ( this.state.currentTab == 1 )
+                                      return (
+                                        <Panel key={index} className="panelPluginToolbar" collapsible header={id} eventKey={indexAcc++} >
+                                                  <GridConfigurator
+                                                     id={id}
+                                                     parentId={this.props.box.id}
+                                                     container={container}
+                                                     onColsChanged={this.props.onColsChanged}
+                                                     onRowsChanged={this.props.onRowsChanged} />
+                                        </Panel>)
+                                  })
+                                }
+                            </PanelGroup>
+                              {
+                                buttons.map(button => {
+                                  if (!button.props.accordion && this.state.currentTab == 1 ) return button; })
+                              }
+                            </div>
+                        </div>
+>>>>>>> a6cc2c2af01e86416eff29a2705b081d093971d2
                     </div>
                   </div>
                 </div>);

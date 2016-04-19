@@ -96,7 +96,6 @@ export default class PluginToolbar extends Component {
                                         Dali.Plugins.get(toolbar.config.name).openConfigModal(true, toolbar.state, toolbar.id)}}>
                 Open config</ButtonInput>);
         }
-
         if(this.props.box.id[1]!='s' ){
           buttons.push(<Button key={'delete'}
                                onClick={e => {
@@ -106,7 +105,6 @@ export default class PluginToolbar extends Component {
                               <i className="fa fa-trash-o"></i>
                        </Button>);
         }
-
         let indexTab = 1,
             indexAcc = 1,
             tabName = '',
@@ -168,7 +166,6 @@ export default class PluginToolbar extends Component {
                             })
                         }
                       </div>
-
                     </div>
                   </div>
                 </div>);
