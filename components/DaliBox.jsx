@@ -6,6 +6,8 @@ import PluginPlaceholder from '../components/PluginPlaceholder';
 import {BOX_TYPES, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_SORTABLE_CONTAINER} from '../constants';
 
 export default class DaliBox extends Component {
+
+   
     render() {
         let borderSize = 2;
         let cornerSize = 15;
@@ -27,7 +29,7 @@ export default class DaliBox extends Component {
             resize: 'none',
             visibility: (toolbar.showTextEditor ? 'visible' : 'hidden')}
         let attrs = {};
-
+       
         if(toolbar.buttons) {
             toolbar.buttons.map((item, index) => {
                 if (item.autoManaged) {
@@ -48,6 +50,7 @@ export default class DaliBox extends Component {
                 }else if(item.name === 'color'){
                     textareaStyle['color'] = item.value;
                 }
+        
             });
         }
         let content = (
@@ -175,6 +178,20 @@ export default class DaliBox extends Component {
         }
     }
 
+    checkAspectRatio(buttons){
+        let block = true
+        buttons.map((item, index) => {
+            if(item.type=="checkbox") {
+                if(item.value=="unchecked"){
+                    block = true
+                } else {
+                    block = false
+                }
+            }
+        });
+        return block
+    }
+
     componentDidUpdate(prevProps, prevState){
         let toolbar = this.props.toolbars[this.props.id];
         if(toolbar.showTextEditor){
@@ -187,12 +204,17 @@ export default class DaliBox extends Component {
         if(this.refs.textarea.innerHTML === "<p><br></p>"){
             this.refs.textarea.innerHTML = this.props.boxes[this.props.id].content;
         }
+        let block = this.checkAspectRatio(toolbar.buttons)
+        interact(ReactDOM.findDOMNode(this)).resizable({ preserveAspectRatio: !block }) 
     }
+
+
 
     componentDidMount() {
         let toolbar = this.props.toolbars[this.props.id];
         let box = this.props.boxes[this.props.id];
-
+        let block = false;
+  
         if(toolbar.config && toolbar.config.needsTextEdition) {
             CKEDITOR.disableAutoInline = true;
             let editor = CKEDITOR.inline(this.refs.textarea);
@@ -246,6 +268,7 @@ export default class DaliBox extends Component {
                     target.style.zIndex = 999999;
                 },
                 onend: (event) => {
+
                     if(this.props.boxSelected !== this.props.id) {
                         return;
                     }
@@ -270,6 +293,7 @@ export default class DaliBox extends Component {
             })
             .ignoreFrom('input, textarea, a')
             .resizable({
+                 preserveAspectRatio: this.checkAspectRatio(this.props.toolbars[this.props.id].buttons),
                 enabled: (box.resizable),
                 restrict: {
                     restriction: "parent",
@@ -277,7 +301,9 @@ export default class DaliBox extends Component {
                     elementRect: {top: 0, left: 0, bottom: 1, right: 1}
                 },
                 edges: {left: true, right: true, bottom: true, top: true},
+
                 onmove: (event) => {
+
                     if (this.props.boxSelected !== this.props.id) {
                         return;
                     }
@@ -296,7 +322,7 @@ export default class DaliBox extends Component {
                         target.style.top = (parseInt(target.style.top) || 0) + event.dy + 'px';
                     }
 
-                    target.style.width = event.rect.width + 'px';
+                    target.style.width  = event.rect.width  + 'px';
                     target.style.height = event.rect.height + 'px';
 
                     /*

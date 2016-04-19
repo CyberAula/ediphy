@@ -36,17 +36,17 @@ class DaliApp extends Component{
             <Grid id="app" fluid={true} style={{height: '100%'}} >
                 <Row style={{height: '100%'}}>
                     <Col md={2} xs={2} style={{padding: 0, height: '100%'}} id="colLeft">
-                        <DaliCarousel boxes={boxes}
-                                      navItemsIds={navItemsIds}
-                                      navItems={navItems}
-                                      navItemSelected={navItemSelected}
-                                      displayMode={displayMode}
-                                      onPageAdded={(caller, value) => dispatch(togglePageModal(caller, value))}
-                                      onSectionAdded={(id, name, parent, children, level, type, position) => dispatch(addNavItem(id, name, parent, children, level, type, position))}
-                                      onNavItemSelected={id => dispatch(selectNavItem(id))}
-                                      onNavItemExpanded={(id, value) => dispatch(expandNavItem(id, value))}
-                                      onNavItemRemoved={(ids, parent,boxes) => dispatch(removeNavItem(ids, parent, boxes))}
-                                      onDisplayModeChanged={mode => dispatch(changeDisplayMode(mode))} />
+                      <DaliCarousel boxes={boxes}
+                                    navItemsIds={navItemsIds}
+                                    navItems={navItems}
+                                    navItemSelected={navItemSelected}
+                                    displayMode={displayMode}
+                                    onPageAdded={(caller, value) => dispatch(togglePageModal(caller, value))}
+                                    onSectionAdded={(id, name, parent, children, level, type, position) => dispatch(addNavItem(id, name, parent, children, level, type, position))}
+                                    onNavItemSelected={id => dispatch(selectNavItem(id))}
+                                    onNavItemExpanded={(id, value) => dispatch(expandNavItem(id, value))}
+                                    onNavItemRemoved={(ids, parent,boxes) => dispatch(removeNavItem(ids, parent, boxes))}
+                                    onDisplayModeChanged={mode => dispatch(changeDisplayMode(mode))} />
                     </Col>
 
                     <Col md={10} xs={10} className="outter" id="colRight" style={{ padding: paddings}} >
@@ -69,7 +69,7 @@ class DaliApp extends Component{
                                     titleModeToggled={(id, value) => dispatch(toggleTitleMode(id, value))} />
                     </Col>
                 </Row>
-               <PageModal visibility={pageModalToggled.value}
+                <PageModal visibility={pageModalToggled.value}
                            caller={pageModalToggled.caller}
                            navItems={navItems}
                            navItemsIds={navItemsIds}

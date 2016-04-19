@@ -8,13 +8,23 @@ var BasicImage = (function(){
             return {
                 name: 'BasicImage',
                 category: 'image',
-                needsConfigModal: true,
+                needsConfigModal: false,
                 needsTextEdition: false,
                 icon: 'fa-picture-o'
             };
         },
         getToolbar: function(){
             return [
+                 {
+                    name: 'url',
+                    humanName: 'URL',
+                    type: 'text',
+                    tab: 'Main',
+                    accordion: 'Basic',
+                    autoManaged: false,
+                    value:'http://nemanjakovacevic.net/wp-content/uploads/2013/07/placeholder.png'
+
+                },
                 {
                     name: 'opacity',
                     humanName: 'Opacity',
@@ -28,6 +38,16 @@ var BasicImage = (function(){
 
                 },
                 {
+                    name: 'aspectRatio',
+                    humanName: 'Aspect Ratio',
+                    type: 'checkbox',
+                    value: 'unchecked',
+                    checked:'false',
+                    autoManaged: false,
+                    tab: 'Main',
+                    accordion: 'Basic'
+                },
+                {
                     name: 'borderSize',
                     humanName: 'Border Size',
                     type: 'number',
@@ -38,6 +58,7 @@ var BasicImage = (function(){
                     tab: 'Main',
                     accordion: 'Style'
                 },
+
                 {
                     name: 'test',
                     humanName: 'Test',
@@ -45,7 +66,39 @@ var BasicImage = (function(){
                     isAttribute: true,
                     tab: 'Other',
                     accordion: 'Extra'
+                },
+                {
+                    name: 'borderColor',
+                    humanName: 'Border Color',
+                    type: 'color',
+                    value: 'black',
+                    tab: 'Main',
+                    autoManaged: false,
+                    accordion: 'Style'
+                },
+                {
+                    name: 'borderRadius',
+                    humanName: 'Border Radius',
+                    type: 'number',
+                    value: '0',
+                    min:'0',
+                    max:'50',
+                    autoManaged: false,
+                    tab: 'Main',
+                    accordion: 'Style'
+                },
+                {
+                    name: 'borderStyle',
+                    humanName: 'Border Style',
+                    type: 'text',
+                    value: 'solid',
+                    autoManaged: false,
+                    list:'borderStyle',
+                    options: ['none', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset', 'initial', 'inherit'],
+                    tab: 'Main',
+                    accordion: 'Style'
                 }
+
             ]
         },
         getSections: function(){
@@ -62,24 +115,29 @@ var BasicImage = (function(){
             ];
         },
         getInitialState: function(){
-            return {url: '', borderSize: 0, thumbnailVisibility: 'hidden'};
+            return {url: 'http://nemanjakovacevic.net/wp-content/uploads/2013/07/placeholder.png', aspectRatio:'unchecked', borderSize: 0, borderSize: 0, borderStyle:'solid', borderRadius: 0, borderColor: 'black', thumbnailVisibility: 'hidden'};
         },
         getConfigTemplate: function(state){
             return "<div> Url: <input type=\"text\" autofocus id=\"BasicImage_input\" value=\"" + state.url + "\"><br><button onclick=\"BasicImage.showPreview()\">Show preview</button><img id=\"BasicImage_preview\" src=\"" + state.url + "\" style=\"width: 100px; height: 100px; visibility: " + state.thumbnailVisibility + ";\" onclick=\"BasicImage.imageClick()\" /></div>";
         },
         getRenderTemplate: function(state){
-            return "<img style=\"width: 100%; height: 100%; border: solid " + state.borderSize + "px green\" src=\"" + state.url + "\"/>";
+            return "<img style=\"width: 100%; height: 100%; border-radius: "+state.borderRadius+"%;border: "+ state.borderStyle +" "+ state.borderSize + "px "+ state.borderColor +";\" src=\"" + state.url + "\"/>";
         },
         handleToolbar: function(name, value){
-            if(name === 'borderSize')
-                BasicImage.setState('borderSize', value);
+            
+            if(name=='aspectRatio') 
+                BasicImage.setState(name,BasicImage.getState().aspectRatio=='checked'?'unchecked':'checked');
+            else 
+                BasicImage.setState(name, value);
         },
         showPreview: function(){
+            console.log('hola')
             var img = $('#BasicImage_preview');
             var input = $('#BasicImage_input');
-            BasicImage.setState('url', input.val());
+
+            //BasicImage.setState('url', input.val());
             BasicImage.setState('thumbnailVisibility', 'visible');
-            img.attr('src', input.val());
+            // img.attr('src', input.val());
             img.css('visibility', 'visible');
         },
         imageClick: function() {

@@ -24,3 +24,18 @@
 #insidetools,#tools{
 	width: 250px;
 }
+
+#tools {
+
+	input[type="checkbox"]{
+		
+		padding:0 !important;
+		margin-left:0
+	}
+	label{
+			margin:0 !important;
+		padding:0 !important;
+		font-size: inherit;
+		font-weight: bold;
+	}
+}

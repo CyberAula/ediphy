@@ -17,13 +17,11 @@ export default class DaliTitle extends Component {
             unidad=titles[0];
             content = (
                 <div>
-                   <h3> 
-                     <Breadcrumb style={{ margin: 0, backgroundColor: 'inherit'}}>
-                            {titles.map((item, index) => {
-                                 if(index!=0) return (<BreadcrumbItem key={index}>{item}</BreadcrumbItem>);
-                            })}
-                        </Breadcrumb>
-                    </h3>
+                   <h3> <Breadcrumb style={{ margin: 0, backgroundColor: 'inherit'}}>
+                        {titles.map((item, index) => {
+                             if(index!=0) return (<BreadcrumbItem key={index}>{item}</BreadcrumbItem>);
+                        })}
+                    </Breadcrumb></h3> 
                     <h4 style={{margin: 0}}>{actualTitle}</h4>
                 </div>
             );
@@ -32,12 +30,11 @@ export default class DaliTitle extends Component {
          
             let titlesComponents = "";
             this.props.titles.map((text, index) =>{
-
                 if (index == 0) {
                     unidad=text;
                 } else {
-                    let nivel = index+2
-                    if(nivel > 6)  nivel = 6;
+                    let nivel = index+2;
+                    if (nivel > 6){  nivel = 6;}
                     titlesComponents += "<h" + (nivel) + " style=\"margin-top: 16px\">" + text + "</h" + (nivel) + ">";
                 }    
             });
@@ -53,15 +50,18 @@ export default class DaliTitle extends Component {
         if (currentstatus == 'hidden') {
             nextstatus = 'expanded'; 
         } else if (currentstatus == 'expanded') {
-            nextstatus = 'reduced'
+            nextstatus = 'reduced';
         } else {
-            nextstatus = 'hidden'
+            nextstatus = 'hidden';
 
         }
-        let icons = {'reduced':'fa fa-minus','expanded':'fa fa-plus','hidden': 'fa fa-eye-slash'}
-        let currenticon = icons[nextstatus]           
+        let icons = {'reduced':'fa fa-minus',
+                    'expanded':'fa fa-plus',
+                    'hidden': 'fa fa-eye-slash'};
+
+        let currenticon = icons[nextstatus];
             return (
-                <div style={{marginLeft: 30, marginRight: 30, paddingTop: 10, position: 'relative',visibility: currentstatus=='hidden'? 'hidden':'inherit'}}>
+                <div className="title" style={{ visibility: currentstatus=='hidden'? 'hidden':'inherit'}}>
                     <div className="caja">
                         <div className="cab" style={{backgroundColor: 'transparent'}}>
                             <div className="cabtabla_numero">1</div>
@@ -70,7 +70,7 @@ export default class DaliTitle extends Component {
                                <h2>{unidad}</h2>
                             </div>
                             <div className="cabtabla_lapiz">            
-                                <Button style={{border: 0, backgroundColor: '#eee', visibility: (this.props.showButton && !hideButton)? 'visible' : 'hidden', position: 'absolute', top:20, right:75}} onClick={() => {
+                                <Button className="buttonTitle" style={{visibility: (this.props.showButton && !hideButton)? 'visible' : 'hidden'}} onClick={() => {
                                      this.props.titleModeToggled(this.props.navItemId, nextstatus);
                                  }}>
                                      <i className={currenticon}></i>

@@ -10,11 +10,11 @@ export default class DaliCarousel extends Component{
         if(this.props.displayMode === "thumbnail") {
             displayModeClassName = "fa fa-th-list";
             carrouselContent = <CarrouselThumbnails navItemsIds={this.props.navItemsIds}
-                                                    navItems={this.props.navItems}
-                                                    boxes={this.props.boxes}
-                                                    navItemSelected={this.props.navItemSelected}
-                                                    onNavItemSelected={this.props.onNavItemSelected}
-                                                    onNavItemRemoved={this.props.onNavItemRemoved} />;
+                                              navItems={this.props.navItems}
+                                              boxes={this.props.boxes}
+                                              navItemSelected={this.props.navItemSelected}
+                                              onNavItemSelected={this.props.onNavItemSelected}
+                                              onNavItemRemoved={this.props.onNavItemRemoved} />;
         } else if (this.props.displayMode === "list") {
             displayModeClassName = "fa fa-th-large";
             carrouselContent = <CarrouselList boxes={this.props.boxes}
@@ -55,15 +55,15 @@ export default class DaliCarousel extends Component{
         );
     }
 }
-function toggleWidth(){
+function toggleWidth(){ // DaliCarousel slider
      let indiceWidth = $("#indice").width()
       if($("#colLeft").width() > 0){
-        $("#colLeft").css('width',0)  
+        $("#colLeft").css('width',0)  // Close
       } else {
-        $("#colLeft").css('width','16.66666667%')
+        $("#colLeft").css('width','16.66666667%') // Open
       }
-       $("#insideribbon").toggleClass("full")
-      $("#colRight").toggleClass('full')
+       $("#insideribbon").toggleClass("full") // Extend/Reduce plugin ribbon
+      $("#colRight").toggleClass('full') // Extend/Reduce canvas
       
 
       

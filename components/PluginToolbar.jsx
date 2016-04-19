@@ -36,29 +36,51 @@ export default class PluginToolbar extends Component {
         let toolbar = this.props.toolbars[this.props.box.id];
         let tools = toolbar.sections
         let buttons = [];
+        let options;
+
+
+              
         buttons = toolbar.buttons.map((item, index) => {
-          return (<Input key={index}
-                        ref={index}
-                        type={item.type}
-                        defaultValue={item.value}
-                        value={item.value}
-                        label={item.humanName}
-                        min={item.min}
-                        max={item.max}
-                        step={item.step}
-                        tab={item.tab}
-                        accordion={item.accordion}
-                        style={{width: '100%'}}
-                        onChange={e => {
-                              let value = e.target.value;
-                              if(item.type === 'number')
-                                  value = parseFloat(value) || 0;
-                              this.props.onToolbarUpdated(toolbar.id, index, item.name, value);
-                              if(!item.autoManaged)
-                                  item.callback(toolbar.state, item.name, value, toolbar.id);
+      
+       if(item.list){
+          options= (<datalist id={item.list}> 
+            { item.options.map((item,index)=>{
+            return (<option key={'option'+index} value={item}/> )
+            }) } </datalist>)
+         
+      }
+   
+          return (
+  
+       
+              <Input key={item.name+index}
+                         ref={index}
+                         type={item.type}
+                         defaultValue={item.value}
+                         value={item.value}
+                         label={item.humanName}
+                         min={item.min}
+                         max={item.max}
+                         step={item.step}
+                         list={item.list}
+                         tab={item.tab}
+                         checked={ item.value=='checked' }
+                         accordion={item.accordion}
+                         style={{width: '100%'}}
+                         onChange={e => {
+                          let value = e.target.value;
+                          if(item.type === 'number')
+                              value = parseFloat(value) || 0;
+                           if(item.type === 'checkbox')
+                              value = item.value=='checked' ? 'unchecked':'checked' 
+                          this.props.onToolbarUpdated(toolbar.id, index, item.name, value);
+                          if(!item.autoManaged)
+                              item.callback(toolbar.state, item.name, value, toolbar.id);
                         }}
 
-              />)
+                />
+               
+             )
         });
 
         if(toolbar.config && toolbar.config.needsTextEdition){
@@ -74,12 +96,15 @@ export default class PluginToolbar extends Component {
                                         Dali.Plugins.get(toolbar.config.name).openConfigModal(true, toolbar.state, toolbar.id)}}>
                 Open config</ButtonInput>);
         }
-        buttons.push(<Button onClick={e => {
-                                this.props.onBoxDeleted();
-                                e.stopPropagation();
-                             }}>
-                <i className="fa fa-trash-o"></i></Button>);
-
+        if(this.props.box.id[1]!='s' ){
+          buttons.push(<Button key={'delete'}
+                               onClick={e => {
+                                 this.props.onBoxDeleted();
+                                 e.stopPropagation();
+                               }}>
+                              <i className="fa fa-trash-o"></i>
+                       </Button>);
+        }
         let indexTab = 1,
             indexAcc = 1,
             tabName = '',
@@ -88,58 +113,61 @@ export default class PluginToolbar extends Component {
          
 
         return (<div id="wrap" className="wrapper" style={{
-                    right: '0px', 
-                    top: '39px',
-                    visibility: visible }} >
+                   right: '0px', 
+                   top: '39px',
+                   visibility: visible }} >
 
-                        <div className="pestana" onClick={() => {this.toggleWidth() }}>
-                            <i className="fa fa-gear fa-2x"> </i>
-                        </div>
-                        <div id="tools" style={{width: this.state.open? '250px':'0px'}} className="toolbox">
-                          <div id="insidetools">
-                            <Nav bsStyle="tabs" activeKey={this.state.currentTab} onSelect={( selectedKey) => {this.handleSelect(selectedKey)}}>
-                               {
-                                tools.map((section, index) => {
-                                    if( indexTab == this.state.currentTab){
-                                      accordion = section.accordion
-                                    }
-                                    return(<NavItem key={index} eventKey={indexTab++} >{section.tab}</NavItem>)
-                                })
-                              }
-                            </Nav>
-                            <div className="botones">
-                            <PanelGroup>
-                               { accordion.map((title, index) =>{
-                                  return ( 
-                                    <Panel key={index} className="panelPluginToolbar" collapsible header={title} eventKey={indexAcc++} >
-                                      {buttons.map(button => {
-                                        if (button.props.accordion == title) return button;
-                                      })}
-                                    </Panel>)
-                                   })
-                                }
-                                { this.props.box.children.map((id, index) => {
-                                    let container = this.props.box.sortableContainers[id];
-                                    if ( this.state.currentTab == 1 )
-                                      return (
-                                        <Panel className="panelPluginToolbar" collapsible header={id} eventKey={indexAcc++} >
-                                                  <GridConfigurator key={index}
-                                                     id={id}
-                                                     parentId={this.props.box.id}
-                                                     container={container}
-                                                     onColsChanged={this.props.onColsChanged}
-                                                     onRowsChanged={this.props.onRowsChanged} />
-                                        </Panel>)
-                                  })
-                                }
-                            </PanelGroup>
-                              {
-                                buttons.map(button => {
-                                  if (!button.props.accordion && this.state.currentTab == 1 ) return button; })
-                              }
-                            </div>
-                        </div>
+                  <div className="pestana" onClick={() => {this.toggleWidth() }}>
+                      <i className="fa fa-gear fa-2x"> </i>
+                  </div>
+                  <div id="tools" style={{width: this.state.open? '250px':'0px'}} className="toolbox">
+                    <div id="insidetools">
+                      <Nav bsStyle="tabs" activeKey={this.state.currentTab} onSelect={( selectedKey) => {this.handleSelect(selectedKey)}}>
+                         {
+                          tools.map((section, index) => {
+                            if( indexTab == this.state.currentTab){
+                              accordion = section.accordion
+                            }
+                            return(<NavItem key={'nav'+indexTab} eventKey={indexTab++} >{section.tab}</NavItem>)
+                          })
+                        }
+                      </Nav>
+                      <div className="botones">
+                        <PanelGroup>
+                          { accordion.map((title, index) =>{
+                            return ( 
+                              <Panel key={index} className="panelPluginToolbar" collapsible header={title} eventKey={indexAcc++} >
+                                {buttons.map(( button) => {
+                                  if (button.props.accordion == title) return( <span key={button.name}>{button}</span>);
+                                })}
+                              </Panel>)
+                             })
+                          }
+                          { this.props.box.children.map((id, index) => {
+                              let container = this.props.box.sortableContainers[id];
+                              if ( this.state.currentTab == 1 )
+                                return (
+                                  <Panel  key={id} className="panelPluginToolbar" collapsible header={id} eventKey={indexAcc++} >
+                                    <GridConfigurator
+                                       key={(index)}
+                                       id={id}
+                                       parentId={this.props.box.id}
+                                       container={container}
+                                       onColsChanged={this.props.onColsChanged}
+                                       onRowsChanged={this.props.onRowsChanged} />
+                                  </Panel>)
+                              })
+                            }
+                        </PanelGroup>
+                        {options}
+                        {
+                          buttons.map(button => {
+                            if (!button.props.accordion && this.state.currentTab == 1 )  return( <span key={button.name}>{button}</span>);
+                            })
+                        }
+                      </div>
                     </div>
+                  </div>
                 </div>);
 
     }
