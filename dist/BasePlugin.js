@@ -37,11 +37,11 @@ Dali.Plugin = function(descendant){
                 }
                 state = defaultFor(state, {});
                 initialParams = initParams;
-                if(needsConfigModal) {
-                    this.openConfigModal(false, state);
-                }else {
+                // if(needsConfigModal) {
+                    // this.openConfigModal(false, state);
+                // }else {
                     this.render(false);
-                }
+                // }
             }.bind(this);
 
             return {
