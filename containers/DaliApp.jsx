@@ -133,12 +133,7 @@ class DaliApp extends Component{
             if(e.detail.isUpdating) {
                 this.props.dispatch(updateBox(e.detail.ids.id, e.detail.content, e.detail.state));
             }else {
-                let i = 0;
-                let parsedContent = e.detail.content.replace(/(<plugin[-\w\s="']*\/>)/g, () => {
-                    return "<plugin plugin-data-id='" + (ID_PREFIX_SORTABLE_CONTAINER + Date.now()) + (i++) + "' />";
-                });
-
-
+                this.parsePluginContainers(e.detail.content, 0);
                 this.props.dispatch(addBox(
                     {
                         parent: e.detail.ids.parent,
@@ -148,7 +143,7 @@ class DaliApp extends Component{
                     BOX_TYPES.NORMAL,
                     true,
                     (e.detail.ids.container === 0),
-                    parsedContent,
+                    e.detail.content,
                     e.detail.toolbar,
                     e.detail.config,
                     e.detail.sections, 
@@ -173,6 +168,25 @@ class DaliApp extends Component{
               }
           }  
         }.bind(this);
+    }
+
+    parsePluginContainers(obj, n){
+        if(obj.child){
+            for(let i = 0; i < obj.child.length; i++){
+                this.parsePluginContainers(obj.child[i], n++);
+            }
+        }
+        if(obj.tag && obj.tag === "plugin"){
+            if(obj.attr){
+                obj.attr['plugin-data-id'] = ID_PREFIX_SORTABLE_CONTAINER + Date.now() + n;
+            }else{
+                obj.attr = {'plugin-data-id': ID_PREFIX_SORTABLE_CONTAINER + Date.now() + n};
+            }
+        }
+        if(obj.attr && obj.attr.class){
+            obj.attr.className = obj.attr.class.join(' ');
+            delete(obj.attr.class);
+        }
     }
 }
 

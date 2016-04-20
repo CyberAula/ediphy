@@ -12,10 +12,6 @@ import {ID_PREFIX_SECTION, ID_PREFIX_PAGE, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_SOR
 function boxCreator(state = {}, action = {}){
     switch (action.type){
         case ADD_BOX:
-            let content = action.payload.content;
-            if(!content)
-                content = "<h1>Placeholder</h1>";
-
             let position, width, height;
             switch(action.payload.type){
                 case 'sortable':
@@ -61,7 +57,7 @@ function boxCreator(state = {}, action = {}){
                 position: position,
                 width: width,
                 height: height,
-                content: content,
+                content: action.payload.content,
                 draggable: action.payload.draggable,
                 resizable: action.payload.resizable,
                 showTextEditor: false,
