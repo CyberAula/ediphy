@@ -2,18 +2,11 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {ActionCreators} from 'redux-undo';
 import {Grid, Col, Row, Button, OverlayTrigger, Popover} from 'react-bootstrap';
-<<<<<<< HEAD
 import {addNavItem, selectNavItem, expandNavItem, removeNavItem, reorderNavItem,
-    addBox, selectBox, moveBox, resizeBox, updateBox, deleteBox, reorderBox, addSortableContainer,
-    togglePluginModal, togglePageModal, toggleTextEditor, toggleTitleMode,
-    changeDisplayMode, exportStateAsync, importStateAsync, updateToolbar} from '../actions';
-=======
-import {addNavItem, selectNavItem, expandNavItem, removeNavItem,
     addBox, selectBox, moveBox, resizeBox, updateBox, deleteBox, reorderBox, dropBox, increaseBoxLevel,
     addSortableContainer, resizeSortableContainer, changeCols, changeRows,
     togglePageModal, toggleTextEditor, toggleTitleMode,
     changeDisplayMode, exportStateAsync, importStateAsync, updateToolbar, collapseToolbar} from '../actions';
->>>>>>> c7e142236d5f48b30f43781e89742f4879bae683
 import {ID_PREFIX_BOX, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_SORTABLE_CONTAINER, BOX_TYPES} from '../constants';
 import DaliCanvas from '../components/DaliCanvas';
 import DaliCarousel from '../components/DaliCarousel';
