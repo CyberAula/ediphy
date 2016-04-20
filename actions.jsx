@@ -7,7 +7,13 @@ export const RESIZE_BOX = 'RESIZE_BOX';
 export const UPDATE_BOX = 'UPDATE_BOX';
 export const DELETE_BOX = 'DELETE_BOX';
 export const REORDER_BOX = 'REORDER_BOX';
+export const DROP_BOX = 'DROP_BOX';
+export const INCREASE_LEVEL = 'INCREASE_LEVEL';
 export const DUPLICATE_SECTION = 'DUPLICATE_SECTION';
+
+export const RESIZE_SORTABLE_CONTAINER = 'RESIZE_SORTABLE_CONTAINER';
+export const CHANGE_COLS = 'CHANGE_COLS';
+export const CHANGE_ROWS = 'CHANGE_ROWS';
 
 export const ADD_NAV_ITEM = 'ADD_NAV_ITEM';
 export const SELECT_NAV_ITEM = 'SELECT_NAV_ITEM';
@@ -15,13 +21,13 @@ export const EXPAND_NAV_ITEM = 'EXPAND_NAV_ITEM';
 export const REMOVE_NAV_ITEM = 'REMOVE_NAV_ITEM';
 export const REORDER_NAV_ITEM = 'REORDER_NAV_ITEM';
 
-export const TOGGLE_PLUGIN_MODAL = 'TOGGLE_PLUGIN_MODAL';
 export const TOGGLE_PAGE_MODAL = 'TOGGLE_PAGE_MODAL';
 export const TOGGLE_TEXT_EDITOR = 'TOGGLE_TEXT_EDITOR';
 export const TOGGLE_TITLE_MODE = 'TOGGLE_TITLE_MODE';
 export const CHANGE_DISPLAY_MODE = 'CHANGE_DISPLAY_MODE';
 export const SET_BUSY = 'SET_BUSY';
 export const UPDATE_TOOLBAR = 'UPDATE_TOOLBAR';
+export const COLLAPSE_TOOLBAR = 'COLLAPSE_TOOLBAR';
 
 export const IMPORT_STATE = 'IMPORT_STATE';
 
@@ -38,15 +44,15 @@ export function expandNavItem(id, value){
 }
 
 export function removeNavItem(ids, parent, boxes){
-
     return {type: REMOVE_NAV_ITEM, payload: {ids, parent, boxes}};
 }
 
 export function reorderNavItem(itemId, newParent,type,newIndId,newChildrenInOrder){
     return {type: REORDER_NAV_ITEM, payload: {itemId, newParent,type,newIndId,newChildrenInOrder}};
 }
-export function addBox(ids, type, draggable, resizable, content, toolbar, config, state){
-    return {type: ADD_BOX, payload: {ids, type,  draggable, resizable, content, toolbar, config, state}};
+
+export function addBox(ids, type, draggable, resizable, content, toolbar, config, sections, state, initialParams){
+    return {type: ADD_BOX, payload: {ids, type,  draggable, resizable, content, toolbar, config, sections, state, initialParams}};
 }
 
 export function selectBox(id){
@@ -65,20 +71,37 @@ export function updateBox(id, content, state){
     return {type: UPDATE_BOX, payload: {id, content, state}};
 }
 
-export function deleteBox(id, parent){
-    return {type: DELETE_BOX, payload: {id, parent}};
+export function deleteBox(id, parent, container){
+    return {type: DELETE_BOX, payload: {id, parent, container}};
 }
 
 export function reorderBox(ids,parent){
     return {type: REORDER_BOX, payload: {ids, parent}};
 }
 
-export function duplicateSection(id){
-    return {type: DUPLICATE_SECTION, payload: {id}};
+export function dropBox(id, row, col){
+    return {type: DROP_BOX, payload: {id, row, col}};
 }
 
-export function togglePluginModal(caller, fromSortable, container){
-    return {type: TOGGLE_PLUGIN_MODAL, payload: {caller, fromSortable, container}};
+export function increaseBoxLevel(){
+    return {type: INCREASE_LEVEL, payload: {}};
+}
+
+
+export function resizeSortableContainer(id, parent, height){
+    return {type: RESIZE_SORTABLE_CONTAINER, payload: {id, parent, height}};
+}
+
+export function changeCols(id, parent, distribution){
+    return {type: CHANGE_COLS, payload: {id, parent, distribution}};
+}
+
+export function changeRows(id, parent, column, distribution){
+    return {type: CHANGE_ROWS, payload: {id, parent, column, distribution}};
+}
+
+export function duplicateSection(id){
+    return {type: DUPLICATE_SECTION, payload: {id}};
 }
 
 export function togglePageModal(caller, value){
@@ -107,6 +130,10 @@ export function importState(state){
 
 export function updateToolbar(caller, index, name, value){
     return {type: UPDATE_TOOLBAR, payload: {caller, index, name, value}};
+}
+
+export function collapseToolbar(id){
+    return {type: COLLAPSE_TOOLBAR, payload: {id}};
 }
 
 //Async actions

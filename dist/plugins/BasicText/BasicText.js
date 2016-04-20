@@ -5,7 +5,8 @@ var BasicText = (function(){
                 name: 'BasicText',
                 category: 'text',
                 needsConfigModal: false,
-                needsTextEdition: true
+                needsTextEdition: true,
+                icon: 'fa-align-left'
             };
         },
         getToolbar: function(){
@@ -17,7 +18,9 @@ var BasicText = (function(){
                     value: 1,
                     min: 0,
                     max: 1,
-                    step: 0.1
+                    step: 0.1,
+                    tab: 'Box',
+                    accordion: 'Layout'
                 },
                 {
                     name: 'fontSize',
@@ -26,13 +29,17 @@ var BasicText = (function(){
                     units: 'em',
                     value: 1,
                     min: 1,
-                    max: 10
+                    max: 10,
+                    tab: 'Font',
+                    accordion: 'Size'
                 },
                 {
                     name: 'color',
                     humanName: 'Font color',
                     type: 'text',
-                    value: 'black'
+                    value: 'black',
+                    tab: 'Font',
+                    accordion: 'Color'
                 },
                 {
                     name: 'padding',
@@ -40,12 +47,35 @@ var BasicText = (function(){
                     type: 'number',
                     units: 'px',
                     value: 0,
-                    min: 0
+                    min: 0,
+                    tab: 'Box',
+                    accordion: 'Layout'
                 }
             ]
         },
+        getSections: function(){
+            return [
+                {
+                    tab: 'Main', 
+                    accordion: ['Basic']
+                },
+                {
+                    tab: 'Font', 
+                    accordion: ['Size', 'Color']
+                },
+                {
+                    tab: 'Box', 
+                    accordion: ['Layout']
+                },
+                {
+                    tab: 'Other', 
+                    accordion: ['Extra']
+                },
+
+            ];
+        },
         getInitialState: function(){
-            return {text: " "};
+            return {text: "Placeholder"};
         },
         getRenderTemplate: function(state){
             return state.text;

@@ -1,5 +1,4 @@
 
-
 @import 'variables';
 @import 'components/canvas';
 @import 'components/carrouselList';
@@ -8,7 +7,10 @@
 @import 'components/btn';
 @import 'components/scrollbar';
 @import 'components/thumbnails';
-
+@import 'components/pluginToolbar';
+@import 'components/visor';
+@import 'components/pills';
+  
 *{
 	font-family: 'Source Sans Pro', sans-serif;
 	outline:none !important;
@@ -16,6 +18,31 @@
 
 @include selection {
     color: white;
-    background: $navBar;
+    background: $verdeadams;
+}
+
+#app{
+	margin:0;
+}
+
+#colLeft, #colRight, #insideribbon, #indice{
+	transition: width 0.3s ease-in;
+
+}
+
+.full{
+	width:100% !important;
+	transition: width 0.3s ease-in;}
+
+.drop-active {
+    border: dashed 4px #aaa;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.drop-target {
+    background-color: $grisclaro;
+    border-color: #fff;
+    border-style: solid;
 }
 

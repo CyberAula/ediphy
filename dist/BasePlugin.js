@@ -1,6 +1,7 @@
 Dali.Plugin = function(descendant){
     var state;
     var id;
+    var initialParams;
     var extraFunctions = {};
 
     var defaultFor = function(arg, value) {
@@ -19,6 +20,7 @@ Dali.Plugin = function(descendant){
             if(descendant.getConfig){
                 name = descendant.getConfig().name;
                 category = descendant.getConfig().category;
+                icon = descendant.getConfig().icon;
                 needsConfigModal = descendant.getConfig().needsConfigModal;
                 needsTextEdition = descendant.getConfig().needsTextEdition;
             }
@@ -27,18 +29,19 @@ Dali.Plugin = function(descendant){
             category = defaultFor(category, 'text');
             needsConfigModal = defaultFor(needsConfigModal, false);
             needsTextEdition = defaultFor(needsTextEdition, false);
+            icon = defaultFor(icon, 'fa-cogs');
 
-            callback = function () {
+            callback = function (initParams) {
                 if (descendant.getInitialState) {
                     state = descendant.getInitialState();
                 }
                 state = defaultFor(state, {});
-
-                if(needsConfigModal) {
-                    this.openConfigModal(false, state);
-                }else {
+                initialParams = initParams;
+                // if(needsConfigModal) {
+                    // this.openConfigModal(false, state);
+                // }else {
                     this.render(false);
-                }
+                // }
             }.bind(this);
 
             return {
@@ -46,7 +49,8 @@ Dali.Plugin = function(descendant){
                 category: category,
                 callback: callback,
                 needsConfigModal: needsConfigModal,
-                needsTextEdition: needsTextEdition
+                needsTextEdition: needsTextEdition,
+                icon: icon,
             };
         },
         getToolbar: function(){
@@ -76,6 +80,14 @@ Dali.Plugin = function(descendant){
             }
             return toolbar;
         },
+         getSections: function(){
+            var sections;
+            if(descendant.getSections)
+                sections = descendant.getSections();
+            sections = defaultFor(sections, []);
+
+            return sections;
+        },
         openConfigModal: function(isUpdating, oldState, sender){
             state = oldState;
             id = sender;
@@ -102,9 +114,19 @@ Dali.Plugin = function(descendant){
                     descendant.getRenderTemplate(state),
                     this.getToolbar(),
                     this.getConfig(),
+                    this.getSections(),
                     state,
                     isUpdating,
-                    id
+                    {
+                        id: id,
+                        parent: initialParams.parent,
+                        container: initialParams.container
+                    },
+                    {
+                        position: initialParams.position,
+                        row: initialParams.row,
+                        col: initialParams.col
+                    }
                 );
             }
         },
@@ -123,7 +145,7 @@ Dali.Plugin = function(descendant){
         },
         registerExtraFunction: function(fn, alias){
             if(!alias){
-                Object.keys(descendant).forEach(prop =>{
+                Object.keys(descendant).forEach(function(prop) {
                     if(descendant[prop] === fn){
                         alias = prop;
                     }

@@ -5,8 +5,6 @@
     <title>Dali - POC</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/textStyles.css">
-
     <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
     <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="lib/jquery-ui.js"></script>
@@ -14,11 +12,51 @@
     <script src="lib/api.js"></script>
     <script src="lib/ckeditor/ckeditor.js"></script>
     <script src="BasePlugin.js"></script>
-    <script src="plugins.json"></script>
+    <script src="plugins.js"></script>
+    <script src="lib/jszip.min.js"></script>
+    <script src="lib/jszip-utils.min.js"></script>
+    <script src="lib/FileSaver.js"></script>
+    <script src="lib/visor/ejs_production.js"></script>
+    <script src="lib/visor/visor.js"></script>
+
+    <link rel="stylesheet" href="css/textStyles.css">
 </head>
-<body style="margin: 0px; height: 100%">
+<body  style="margin: 0px; height: 100%">
+<div id="editor"></div>
 <div id="root" style="height: 100%"></div>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 <script src="bundle.js"></script>
+<script type="text/javascript">
+
+$(document).ready(function(){
+
+   })
+   /* $(document).ready(function(){
+        try {
+            if(window != window.parent){
+                //Iframe case
+
+                if (typeof window.parent.CODEditor.Viewer === "boolean"){
+                    CODEditor.Viewer = window.parent.CODEditor.Viewer;
+                }
+                if (typeof window.parent.CODEditor.File === "object"){
+                    CODEditor.File= window.parent.CODEditor.File;
+                }
+
+                if (typeof window.parent.CODEditor.CORE.getPreview === "function"){
+                    //Preview mode
+                    CODEditor.File = window.parent.CODEditor.CORE.getPreview();
+                    CODEditor.Index = window.parent.CODEditor.CORE.getCurrentExerciseIndex();
+                    CODEditor.Viewer = true;
+                }
+            } 
+        } catch (e){}
+
+        // //Activate Viewer
+        // CODEditor.Viewer = true;
+
+        CODEditor.CORE.init({viewer: CODEditor.Viewer, file: CODEditor.File, index: CODEditor.Index});
+    });*/
+</script>
 </body>
 </html>

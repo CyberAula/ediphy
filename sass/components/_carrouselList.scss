@@ -28,7 +28,9 @@
 	   }
 }
 .daliCarousel{
-
+	.row {
+		// z-index:2 !important;
+	}
 	 h3,h4{
 	 	&:hover{
 	 		cursor:pointer;
@@ -37,11 +39,11 @@
 }
 
 .breadcrumb a{
-	color: $navBar;
+	color: $verdeadams;
 }
 
 .selected{
-	color: $navBar;
+	color: $verdeadams;
 }
 
 .notSelected{
@@ -49,10 +51,13 @@
 }
 
 .wrapperCarousel{
-	background-color: $carousel;
+	background-color: $grisclaro;
 	margin:0;
-	padding: 42px 10px 15% 10px;
+	padding: 42px 0px 15% 0px;
 	 height: 100%; 
+	 overflow-y: auto;
+	 width:100%;
+	 overflow-x:hidden;
 }
 .pestanaCarousel{
 	background-color: #dedede;
@@ -63,9 +68,9 @@
 	z-index: 999;
 	display:inline-block;
 	position: absolute;
-	top:99px;left:100%;
+	top:299px;left:100%;
 	border-radius:0px  8px  8px 0px ;
-	color: $navBar;
+	color: $verdeadams;
 }
 
 .indiceoculto{
@@ -79,6 +84,11 @@
 .carouselshow{
 	width:100%;
 }
-#colLeft, #indice{
-	// @include animacion(width);
+#indice{
+	padding-left:10px;
+	padding-right:10px;	
+}
+#colLeft{
+	
+	z-index:1;
 }

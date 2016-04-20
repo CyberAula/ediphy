@@ -6,5 +6,7 @@ var plugins = [
         'Youtube',
         'Webpage',
         'BasicPills',
-        'BasicQuizConnect'
+        'BasicQuizConnect',
+        'CajasColor',
+        'Container'
 ]

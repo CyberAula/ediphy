@@ -10,11 +10,11 @@ export default class DaliCarousel extends Component{
         if(this.props.displayMode === "thumbnail") {
             displayModeClassName = "fa fa-th-list";
             carrouselContent = <CarrouselThumbnails navItemsIds={this.props.navItemsIds}
-                                                    navItems={this.props.navItems}
-                                                    boxes={this.props.boxes}
-                                                    navItemSelected={this.props.navItemSelected}
-                                                    onNavItemSelected={this.props.onNavItemSelected}
-                                                    onNavItemRemoved={this.props.onNavItemRemoved} />;
+                                              navItems={this.props.navItems}
+                                              boxes={this.props.boxes}
+                                              navItemSelected={this.props.navItemSelected}
+                                              onNavItemSelected={this.props.onNavItemSelected}
+                                              onNavItemRemoved={this.props.onNavItemRemoved} />;
         } else if (this.props.displayMode === "list") {
             displayModeClassName = "fa fa-th-large";
             carrouselContent = <CarrouselList boxes={this.props.boxes}
@@ -49,20 +49,24 @@ export default class DaliCarousel extends Component{
                 </Button>
             </div>
             <div className="pestanaCarousel"  id="pestcar" onClick={() => {toggleWidth() }}>
-                 <i className="fa fa-bars fa-2x"> </i> 
+                 <i className="fa fa-list-alt fa-2x"> </i> 
               </div>
          
             </div>
         );
     }
 }
-function toggleWidth(){
-      $("#colLeft").toggleClass("indiceoculto")
-      $("#indice").toggleClass("carouseloculto")
-       $("#indice").toggleClass("carouselshow")
-       $("#colLeft").toggleClass("carouseloculto")
-      $("#pestcar").show()
-      $("#colRight").toggleClass("col-md-10 col-xs-10")
-      $("#colRight").toggleClass("col-md-12 col-xs-12")
-     $("#indice").toggle()
+function toggleWidth(){ // DaliCarousel slider
+     let indiceWidth = $("#indice").width()
+      if($("#colLeft").width() > 0){
+        $("#colLeft").css('width',0)  // Close
+      } else {
+        $("#colLeft").css('width','16.66666667%') // Open
+      }
+       $("#insideribbon").toggleClass("full") // Extend/Reduce plugin ribbon
+      $("#colRight").toggleClass('full') // Extend/Reduce canvas
+      
+
+      
+     
 }

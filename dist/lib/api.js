@@ -16,7 +16,7 @@ Dali.Plugins = (function(){
         });
 
         return promise;
-    }
+    };
 
     return {
         get: function(name){
@@ -55,11 +55,11 @@ Dali.API = (function(){
             var promise = new Promise(function(resolve, reject){
                 Dali.API.Private.listenAnswer(resolve, Dali.API.Private.events.openConfig);
             });
-            Dali.API.Private.emit(Dali.API.Private.events.openConfig, {name, isUpdating});
+            Dali.API.Private.emit(Dali.API.Private.events.openConfig, {name: name, isUpdating: isUpdating});
             return promise;
         },
-        renderPlugin: function(html, toolbar, config, state, isUpdating, id){
-            Dali.API.Private.emit(Dali.API.Private.events.render, {content: html, toolbar, config, state, isUpdating, id});
+        renderPlugin: function(html, toolbar, config, sections, state, isUpdating, ids, initialParams){
+            Dali.API.Private.emit(Dali.API.Private.events.render, {content: html, toolbar: toolbar, config: config, sections:sections, state: state, isUpdating: isUpdating, ids: ids, initialParams: initialParams});
         }
     }
 })();

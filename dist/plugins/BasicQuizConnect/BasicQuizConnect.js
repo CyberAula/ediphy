@@ -5,7 +5,8 @@ var BasicQuizConnect = (function(){
                 name: 'BasicQuizConnect',
                 category: 'exercises',
                 needsConfigModal: true,
-                needsTextEdition: false
+                needsTextEdition: false,
+                 icon: 'fa-pencil'
             };
         },
         getToolbar: function(){
@@ -29,6 +30,19 @@ var BasicQuizConnect = (function(){
                     autoManaged: false,
                 }*/
                 ]
+            },
+            getSections: function(){
+                return [
+                    {
+                        tab: 'Main', 
+                        accordion: ['Basic', 'Style']
+                    },
+                    {
+                        tab: 'Other', 
+                        accordion: ['Extra']
+                    },
+
+                ];
             },
             getInitialState: function(){
                 return {number: 0, titles: [], texts: [], colors: [], colorsTitle: []};

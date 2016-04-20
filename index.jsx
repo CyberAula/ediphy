@@ -18,8 +18,8 @@ let root = document.getElementById('root');
 ReactDOM.render(
     <Provider store={store}>
         <div style={{height: '100%'}}>
-            <DaliApp store={store}/>
-            <DevTools/>
+            <DaliApp id="app" store={store}/>
+            {/*<DevTools/>*/}
         </div>
     </Provider>, root
     );

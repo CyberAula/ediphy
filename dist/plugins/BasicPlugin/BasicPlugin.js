@@ -5,7 +5,8 @@ var BasicPlugin = (function(){
                 name: 'BasicPlugin',
                 category: 'image',
                 needsConfigModal: true,
-                needsTextEdition: true
+                needsTextEdition: true,
+                icon:'fa-star'
             }
         },
         getToolbar: function(){
@@ -17,7 +18,9 @@ var BasicPlugin = (function(){
                     value: 1,
                     min: 0,
                     max: 1,
-                    step: 0.1
+                    step: 0.1,
+                    tab: 'Main',
+                    accordion: 'Style'
                 },
                 {
                     name: 'borderSize',
@@ -26,15 +29,32 @@ var BasicPlugin = (function(){
                     value: 0,
                     min: 0,
                     max: 10,
-                    autoManaged: false
+                    autoManaged: false,
+                    tab: 'Main',
+                    accordion: 'Style'
                 },
                 {
                     name: 'test',
                     humanName: 'Test',
                     type: 'text',
-                    isAttribute: true
+                    isAttribute: true,
+                    tab: 'Other',
+                    accordion: 'Extra'
                 }
             ]
+        },
+        getSections: function(){
+            return [
+                {
+                    tab: 'Main', 
+                    accordion: ['Basic', 'Style']
+                },
+                {
+                    tab: 'Other', 
+                    accordion: ['Extra']
+                },
+
+            ];
         },
         getInitialState: function() {
             return {url: '', borderSize: 0, thumbnailVisibility: 'hidden'};
