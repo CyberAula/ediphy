@@ -54,7 +54,7 @@ export default class DaliBox extends Component {
             });
         }
         let content = (
-            <div  style={style} {...attrs} dangerouslySetInnerHTML={{__html: box.content}}>
+            <div style={style} {...attrs} dangerouslySetInnerHTML={{__html: box.content}}>
             </div>
         );
         let border = (
@@ -80,6 +80,16 @@ export default class DaliBox extends Component {
         let classes = "wholebox";
         if(box.container){
             classes += " dnd" + box.container;
+        }
+
+        let showOverlay;
+        if (this.props.boxLevelSelected > box.level && box.children.length === 0) {
+            showOverlay = "visible";
+        }else if(this.props.boxLevelSelected === box.level && this.props.boxLevelSelected !== 0 && this.props.boxSelected !== box.parent && this.props.boxSelected !== box.id){
+            showOverlay = "visible";
+        }else{
+            showOverlay = "collapse";
+
         }
         return (<div className={classes}
                      onClick={e => {
@@ -126,7 +136,7 @@ export default class DaliBox extends Component {
                     top: 0,
                     position: "absolute",
                     opacity: 0.4,
-                    visibility: (this.props.boxLevelSelected > box.level && box.children.length === 0) ? "visible" : "collapse",
+                    visibility: showOverlay,
                 }}></div>
         </div>);
     }
@@ -153,6 +163,17 @@ export default class DaliBox extends Component {
         return false;
     }
 
+    isAscendant(searchingId, actualId){
+        if(searchingId === actualId){
+            return true;
+        }
+        if(actualId.indexOf(ID_PREFIX_SECTION) !== -1 || actualId.indexOf(ID_PREFIX_PAGE) !== -1){
+            return false;
+        }
+
+        return this.isAscendant(searchingId, this.props.boxes[actualId].parent);
+    }
+
     shouldComponentUpdate(nextProps, nextState){
         if(nextProps.boxes[nextProps.id] !== this.props.boxes[this.props.id] ||
             nextProps.toolbars[nextProps.id] !== this.props.toolbars[this.props.id] ||
@@ -160,7 +181,10 @@ export default class DaliBox extends Component {
             (this.props.boxSelected !== this.props.id && nextProps.boxSelected === this.props.id) ||
             (this.props.boxLevelSelected !== nextProps.boxLevelSelected) ||
             this.isDescendant(this.props.boxSelected, this.props.id) ||
-            this.isDescendant(nextProps.boxSelected, this.props.id)
+            this.isDescendant(nextProps.boxSelected, this.props.id) ||
+            this.isAscendant(this.props.boxSelected, this.props.id) ||
+            this.isAscendant(nextProps.boxSelected, this.props.id) ||
+            Object.keys(this.props.boxes).length !== Object.keys(nextProps.boxes).length
         ){
             let pluginsContained = ReactDOM.findDOMNode(this).getElementsByTagName("plugin");
             for (let i = 0; i < pluginsContained.length; i++) {
@@ -236,7 +260,6 @@ export default class DaliBox extends Component {
                 this.blurTextarea();
             }.bind(this));
         }
-
         let pluginsContained = ReactDOM.findDOMNode(this).getElementsByTagName("plugin");
         for(let i = 0; i < pluginsContained.length; i++){
             let pluginContainerId;
@@ -377,6 +400,7 @@ export default class DaliBox extends Component {
 
     componentWillUnmount(){
         interact(ReactDOM.findDOMNode(this)).unset();
+
         let pluginsContained = ReactDOM.findDOMNode(this).getElementsByTagName("plugin");
         for(var i = 0; i < pluginsContained.length; i++){
             ReactDOM.unmountComponentAtNode(pluginsContained[i]);
