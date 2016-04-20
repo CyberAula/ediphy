@@ -377,47 +377,29 @@ function navItemsById(state = {}, action = {}){
             newChildren.splice(newChildren.indexOf(action.payload.ids[0]), 1);
             let wrongNames = Object.assign({}, newState, {[action.payload.parent]: Object.assign({}, newState[action.payload.parent], {children: newChildren})});
             return recalculateNames(wrongNames, oldOne,1, action.payload.ids.length)
-        //Tocar aqui
        case REORDER_NAV_ITEM:
-            //console.log(action.payload.parent);
-           /*
-            / type: 
-            /   0--> exterior a exterior
-            /   1--> exterior a seccion
-            /   2--> seccionA a seccionB
-            /   3--> seccion a seccion
-            /   4--> seccion a exterior
-            */
+            //   0--> exterior a exterior /   1--> exterior a seccion /   2--> seccionA a seccionB /   3--> seccion a seccion  /   4--> seccion a exterior
             
-            //console.log("PAyloads")
-            //console.log("itemId",action.payload.itemId)
-            //console.log("newParent",action.payload.newParent)
-            //console.log("type",action.payload.type)
-            //console.log("newIndId",action.payload.newIndId)
-            //console.log("newChildrenInOrder",action.payload.newChildrenInOrder)
             var newSt = {}
-            var auxState = state;
+            //var auxState = state;
 
             if(action.payload.type == 0 || action.payload.type == 3 ){
-
-                    console.log("venimos al caso 0,3")
-
 
                     newSt = Object.assign({}, state, {
                         [action.payload.newParent]: Object.assign({}, state[action.payload.newParent], {children: action.payload.newChildrenInOrder})
                     })   
-                    console.log(newSt)
 
                     action.payload.newIndId.forEach(elem => {
-                        newSt[elem].position = action.payload.newIndId.indexOf(elem);
+                         newSt = Object.assign({}, newSt, {
+                            [elem]: Object.assign({}, newSt[elem], {position:  action.payload.newIndId.indexOf(elem)})
+                        }) 
                     });
 
                     return newSt;
                  }else if(action.payload.type == 1 || action.payload.type == 2 || action.payload.type == 4 ){  
 
-                    console.log("1,2,4")
                     var oldParent = state[action.payload.itemId].parent;
-                    var oldParentChildren = auxState[oldParent].children;
+                    var oldParentChildren = state[oldParent].children;
                     oldParentChildren.splice(oldParentChildren.indexOf(action.payload.itemId),1);
                     newSt = Object.assign({}, state, {
                         [action.payload.newParent]: Object.assign({}, state[action.payload.newParent], {children: action.payload.newChildrenInOrder}),
@@ -446,7 +428,6 @@ function navItemsById(state = {}, action = {}){
                         }) 
                     });
 
-                    console.log(newSt)
                     return newSt;
 
                 }else{

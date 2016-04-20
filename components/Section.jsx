@@ -99,16 +99,16 @@ export default class Section extends Component {
         }
 
         return sections
-
-
     }
 
     componentDidMount(){
         let list = jQuery(this.refs.sortableListS);
         console.log("MONTAMOS LA SECCION")
-//console.log(list);
-list.sortable({ 
+        list.sortable({ 
             //handle: '.dragS',
+            //helper: "clone",
+            //placeholder: "sortable-placeholder",
+            tolerance: 'intersect',
             connectWith: '.connectedSortables',
             stop: (event, ui) => {
                 console.log("stop de section con id:" + this.props.id);
