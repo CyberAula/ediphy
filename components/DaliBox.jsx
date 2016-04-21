@@ -18,7 +18,7 @@ export default class DaliBox extends Component {
         let style = {
             width: '100%',
             height: '100%',
-            position: 'absolute',
+            position: 'relative',
             wordWrap: 'break-word',
             visibility: (toolbar.showTextEditor ? 'hidden' : 'visible')};
 
@@ -33,8 +33,9 @@ export default class DaliBox extends Component {
         if(toolbar.buttons) {
             toolbar.buttons.map((item, index) => {
                 if (item.autoManaged) {
-                    if (!item.isAttribute) {
-                        if(item.name !== 'width') {
+                    if (!item.isAttribute) {console.log(item.value)
+                        if(item.name !== 'width' && item.name !== 'height') {
+
                             style[item.name] = item.value;
                             if (item.units)
                                 style[item.name] += item.units;
@@ -386,12 +387,13 @@ export default class DaliBox extends Component {
                     }
 
                     let target = event.target;
-                    let width = Math.min(Math.floor(parseInt(target.style.width) / target.parentElement.offsetWidth * 100), 100) + '%';
+                    let width =  Math.min(Math.floor(parseInt(target.style.width)  / target.parentElement.offsetWidth  * 100), 100) + '%';
                     let height = Math.min(Math.floor(parseInt(target.style.height) / target.parentElement.offsetHeight * 100), 100) + '%';
-                    this.props.onBoxResized(
-                        this.props.id,
-                        box.container !== 0 ? width : parseInt(target.style.width),
-                        box.container !== 0 ? height : parseInt(target.style.height));
+
+                        this.props.onBoxResized(
+                            this.props.id,
+                            box.container !== 0 ?  width : parseInt(target.style.width),
+                            box.container !== 0 ? height : parseInt(target.style.height));
                     this.props.onBoxMoved(this.props.id, parseInt(target.style.left), parseInt(target.style.top));
                     event.stopPropagation();
                 }

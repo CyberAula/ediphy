@@ -110,6 +110,7 @@ class DaliApp extends Component{
                                boxSelected={boxSelected}
                                onColsChanged={(id, parent, distribution) => dispatch(changeCols(id, parent, distribution))}
                                onRowsChanged={(id, parent, column, distribution) => dispatch(changeRows(id, parent, column, distribution))}
+                               onBoxResized={(id, width, height) => dispatch(resizeBox(id, width, height))}
                                onTextEditorToggled={(caller, value) => dispatch(toggleTextEditor(caller, value))}
                                onToolbarUpdated={(caller, index, name, value) => dispatch(updateToolbar(caller, index, name, value))}
                                onToolbarCollapsed={(id) => dispatch(collapseToolbar(id))}
