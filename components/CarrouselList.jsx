@@ -33,7 +33,7 @@ export default class CarrouselList extends Component{
                                     e.stopPropagation();
                                 }}><i className="fa fa-file-o"></i></Button>
                 </ButtonGroup>
-                <div  className="carList">
+                <div  ref="sortableList" className="carList connectedSortables">
                     {
                     this.props.navItems[0].children.map((id, index) => {
                         if(id.indexOf(ID_PREFIX_SECTION) !== -1){
@@ -45,20 +45,20 @@ export default class CarrouselList extends Component{
                                             onPageAdded={this.props.onPageAdded}
                                             onSectionAdded={this.props.onSectionAdded}
                                             onNavItemSelected={this.props.onNavItemSelected}
-                                            onNavItemExpanded={this.props.onNavItemExpanded} />;
+                                            onNavItemExpanded={this.props.onNavItemExpanded} 
+                                            onNavItemReorded={this.props.onNavItemReorded}/>;
                         }else if(id.indexOf(ID_PREFIX_PAGE) !== -1){
-                            let classSelected = this.props.navItemSelected === id ? 'selected' : 'notSelected';
-                            return <h6 key={index}
+                            let classSelected = this.props.navItemSelected === id ? 'selected drag-handle' : 'notSelected drag-handle';
+                            return <h4 key={index}
+                                        id={id} 
                                         className={classSelected}
-                                         onClick={e => {
+                                         onMouseDown={e => {
                                                     this.props.onNavItemSelected(id);
                                                     e.stopPropagation();
-                                               }}>{this.props.navItems[id].name}</h6>;
+                                               }}>{this.props.navItems[id].name}</h4>
+                                            
                         }
                     })}
-                    <ButtonGroup>
-
-                    </ButtonGroup>
                 </div>
             </div>
         )
@@ -111,8 +111,111 @@ export default class CarrouselList extends Component{
             }});
         });
 
-     
          return boxesids;
        
+    }
+
+    componentDidMount(){
+        console.log("MONTAMOS EL CARRUSEL");
+        let list = jQuery(this.refs.sortableList);
+        let props = this.props;
+        list.sortable({ 
+           // handle: '.drag-handle' ,
+            tolerance: 'intersect',
+            connectWith: '.connectedSortables',
+            //helper: "clone",
+            stop: (event, ui) => {
+                console.log("stop de carousellist");
+                const reorderedIndexesId = list.sortable('toArray', {attribute: 'id'})
+                const select = this.props.navItemSelected;
+                const navItems = this.props.navItems;
+
+                //$('.connectedSortables').sortable('cancel');
+                
+                if( reorderedIndexesId.indexOf(select) >= 0){
+                    console.log("cancel de carousellist stop list");
+
+                    list.sortable('cancel');
+
+                    var newIndexesAux = [] ;
+                    var newChildrenInOrder = reorderedIndexesId;
+                    var selectedAndChilds = [select];
+
+                    const previos = this.props.navItemsIds;
+                
+                    for(var i = previos.indexOf(select)+1; i< previos.length; i++){
+                        if(navItems[previos[i]].level <= navItems[select].level){
+                            break;
+                        }else{
+                            selectedAndChilds.push(previos[i]);
+                        }
+                    }
+
+                    var part1 = previos.slice(0,previos.indexOf(select));
+                    var part2 = previos.slice(previos.indexOf(select)+selectedAndChilds.length);
+                    var concatA = part1.concat(part2);
+
+                    if(newChildrenInOrder.indexOf(select) >= newChildrenInOrder.length-1 ){ //es el ultimo de los nuevos hijos
+                        newIndexesAux = concatA.concat(selectedAndChilds);
+                    }else{//si no es el ultimo nuevo hijo
+                        var part1b = concatA.slice(0,concatA.indexOf(newChildrenInOrder[newChildrenInOrder.indexOf(select)+1]));
+                        var part2b = concatA.slice(concatA.indexOf(newChildrenInOrder[newChildrenInOrder.indexOf(select)+1]));
+                        newIndexesAux = part1b.concat(selectedAndChilds, part2b);                    
+                    }                
+
+                    console.log(reorderedIndexesId, reorderedIndexesId.length)
+                    this.props.onNavItemReorded(this.props.navItemSelected, 0,0,newIndexesAux,reorderedIndexesId);
+                }else{
+                    console.log("carrousel list stop cancelado?")
+                }
+            },
+            receive: function(event, ui) {
+                console.log(ui);
+                const reorderedIndexesId = list.sortable('toArray', {attribute: 'id'})
+                const parent = this.props.navItems[this.props.navItemSelected].parent;
+                const navItems = this.props.navItems;
+                const navItemsIds = this.props.navItemsIds;
+                const select = this.props.navItemSelected;
+                var auxInd = "0";
+                
+                //console.log("cancel de carousellist receive list");
+                //list.sortable('cancel');
+                console.log("cancel de carousellist receive sender");
+
+                $(ui.sender).sortable('cancel');
+
+                auxInd = reorderedIndexesId.indexOf(this.props.navItemSelected);
+
+                var newIndexesAux = [] ;
+                var newChildrenInOrder = reorderedIndexesId;
+                var selectedAndChilds = [select];
+
+                const previos = this.props.navItemsIds;
+                
+                for(var i = previos.indexOf(select)+1; i< previos.length; i++){
+                    if(navItems[previos[i]].level <= navItems[select].level){
+                        break;
+                    }else{
+                        selectedAndChilds.push(previos[i]);
+                    }
+                }
+
+                var part1 = previos.slice(0,previos.indexOf(select));
+                var part2 = previos.slice(previos.indexOf(select)+selectedAndChilds.length);
+                var concatA = part1.concat(part2);
+
+                if(newChildrenInOrder.indexOf(select) >= newChildrenInOrder.length-1 ){ //es el ultimo de los nuevos hijos
+                    newIndexesAux = concatA.concat(selectedAndChilds);
+                  }else{//si no es el ultimo nuevo hijo
+                    var part1b = concatA.slice(0,concatA.indexOf(newChildrenInOrder[newChildrenInOrder.indexOf(select)+1]));
+                    var part2b = concatA.slice(concatA.indexOf(newChildrenInOrder[newChildrenInOrder.indexOf(select)+1]));
+                    newIndexesAux = part1b.concat(selectedAndChilds, part2b);                    
+                }         
+
+                console.log("LANZA 4");
+                this.props.onNavItemReorded(this.props.navItemSelected, 0,4,newIndexesAux,reorderedIndexesId);
+            
+            }.bind(this)
+        }).bind(this);
     }
 }

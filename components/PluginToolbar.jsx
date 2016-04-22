@@ -7,8 +7,6 @@ export default class PluginToolbar extends Component {
     constructor(props) {
       super(props);
       this.state = {
-          x: 20,
-          y: 20,
           currentTab:1,
           open: false
       };
@@ -53,7 +51,7 @@ export default class PluginToolbar extends Component {
           return (
   
        
-              <Input key={item.name+index}
+              <Input key={this.props.boxSelected+item.name+index}
                          ref={index}
                          type={item.type}
                          defaultValue={item.value}
@@ -127,10 +125,11 @@ export default class PluginToolbar extends Component {
                       <Nav bsStyle="tabs" activeKey={this.state.currentTab} onSelect={( selectedKey) => {this.handleSelect(selectedKey)}}>
                          {
                           tools.map((section, index) => {
+                            //Tabs
                             if( indexTab == this.state.currentTab){
                               accordion = section.accordion
                             }
-                            return(<NavItem key={'nav'+indexTab} eventKey={indexTab++} >{section.tab}</NavItem>)
+                            return(<NavItem key={indexTab} eventKey={indexTab++} >{section.tab}</NavItem>)
                           })
                         }
                       </Nav>
@@ -138,8 +137,10 @@ export default class PluginToolbar extends Component {
                         <PanelGroup>
                           { accordion.map((title, index) =>{
                             return ( 
+                             //Accordions
                               <Panel key={index} className="panelPluginToolbar" collapsible header={title} eventKey={indexAcc++} >
-                                {buttons.map(( button) => {
+                                {buttons.map(( button) => { 
+                                  // Inputs
                                   if (button.props.accordion == title) return( <span key={button.name}>{button}</span>);
                                 })}
                               </Panel>)
@@ -174,6 +175,8 @@ export default class PluginToolbar extends Component {
                 </div>);
 
     }
+
+
 }
 
  

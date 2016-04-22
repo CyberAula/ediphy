@@ -4,13 +4,23 @@ var Youtube= (function(){
             return {
                 name: 'Youtube',
                 category: 'multimedia',
-                needsConfigModal: true,
+                needsConfigModal: false,
                 needsTextEdition: false,
                  icon: 'fa-youtube'
             };
         },
         getToolbar: function(){
             return [
+                {
+                    name: 'url',
+                    humanName: 'URL',
+                    type: 'text',
+                    tab: 'Main',
+                    accordion: 'Basic',
+                    autoManaged: false,
+                    value:'https://www.youtube.com/watch?v=S9M3c1_yl-E'
+
+                },
                 {
                     name: 'opacity',
                     humanName: 'Opacity',
@@ -57,7 +67,7 @@ var Youtube= (function(){
             ];
         },
         getInitialState: function(){
-            return {url: '', borderSize: 0, thumbnailVisibility: 'hidden'};
+            return {url: 'https://www.youtube.com/watch?v=S9M3c1_yl-E', borderSize: 0, thumbnailVisibility: 'hidden'};
         },
         getConfigTemplate: function(state){
             return "<div> Url: <input type=\"text\" autofocus id=\"BasicImage_input\" value=\"" + state.url + "\"><br><button onclick=\"Youtube.showPreview()\">Show preview</button><iframe width=\"560\" height=\"315\"id=\"BasicImage_preview\" frameborder=\"0\" allowfullscreen src=\"" + Youtube.parseURL(state.url) + "\" style=\"width: 180px; height: auto; visibility: " + state.thumbnailVisibility + ";\"  ></iframe></div>";
@@ -67,15 +77,19 @@ var Youtube= (function(){
             return "<iframe width=\"560\" height=\"315\" controls frameborder=\"0\" allowfullscreen style=\"width: 100%; height: 100%; pointer-events: none; border: solid " + state.borderSize + "px green; z-index:0;\" src=\"" + Youtube.parseURL(state.url) + "\"></iframe>"
         },
         handleToolbar: function(name, value){
-            if(name === 'borderSize')
-                Youtube.setState('borderSize', value);
+            //if(name == 'url'){
+                Youtube.setState(name, Youtube.parseURL(value));
+           // }else{
+                  Youtube.setState(name, value);
+           // }
+         
         },
         showPreview: function(){
             var vid = $('#BasicImage_preview');
             var input = $('#BasicImage_input');
-            Youtube.setState('url', Youtube.parseURL(input.val()));
+            //Youtube.setState('url', Youtube.parseURL(input.val()));
             Youtube.setState('thumbnailVisibility', 'visible');
-            vid.attr('src', Youtube.parseURL(input.val()));
+            //vid.attr('src', Youtube.parseURL(input.val()));
             vid.css('visibility', 'visible');
         },
         parseURL: function(url){

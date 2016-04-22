@@ -75,7 +75,7 @@ var BasicText = (function(){
             ];
         },
         getInitialState: function(){
-            return {text: " "};
+            return {text: "Placeholder"};
         },
         getRenderTemplate: function(state){
             return state.text;

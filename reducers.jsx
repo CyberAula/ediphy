@@ -3,7 +3,7 @@ import undoable, {excludeAction} from 'redux-undo';
 
 import {ADD_BOX, SELECT_BOX, MOVE_BOX, RESIZE_BOX, UPDATE_BOX, DELETE_BOX, REORDER_BOX, DROP_BOX, INCREASE_LEVEL,
     ADD_SORTABLE_CONTAINER, RESIZE_SORTABLE_CONTAINER, CHANGE_COLS, CHANGE_ROWS,
-    ADD_NAV_ITEM, SELECT_NAV_ITEM, EXPAND_NAV_ITEM, REMOVE_NAV_ITEM,
+    ADD_NAV_ITEM, SELECT_NAV_ITEM, EXPAND_NAV_ITEM, REMOVE_NAV_ITEM, REORDER_NAV_ITEM,
     TOGGLE_PAGE_MODAL, TOGGLE_TEXT_EDITOR, TOGGLE_TITLE_MODE,
     CHANGE_DISPLAY_MODE, SET_BUSY, UPDATE_TOOLBAR, COLLAPSE_TOOLBAR, IMPORT_STATE
 } from './actions';
@@ -12,10 +12,6 @@ import {ID_PREFIX_SECTION, ID_PREFIX_PAGE, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_SOR
 function boxCreator(state = {}, action = {}){
     switch (action.type){
         case ADD_BOX:
-            let content = action.payload.content;
-            if(!content)
-                content = "<h1>Placeholder</h1>";
-
             let position, width, height;
             switch(action.payload.type){
                 case 'sortable':
@@ -61,7 +57,7 @@ function boxCreator(state = {}, action = {}){
                 position: position,
                 width: width,
                 height: height,
-                content: content,
+                content: action.payload.content,
                 draggable: action.payload.draggable,
                 resizable: action.payload.resizable,
                 showTextEditor: false,
@@ -214,7 +210,6 @@ function boxesById(state = {}, action = {}){
         case REORDER_BOX:
             let oldChildren = state[action.payload.parent].children
             var newChildren = Object.keys(oldChildren).map(i => oldChildren[action.payload.ids[i]])
-
             return Object.assign({}, state, {
                 [action.payload.parent]: Object.assign({}, state[action.payload.parent], {children: newChildren}) });
         case IMPORT_STATE:
@@ -363,6 +358,13 @@ function navItemsIds(state = [], action = {}){
                 newState.splice(newState.indexOf(id), 1);
             });
             return newState;
+
+        case REORDER_NAV_ITEM:
+            if(action.payload.type < 5){
+                return action.payload.newIndId;
+             }else{
+                return state;
+             }
         case IMPORT_STATE:
             return action.payload.present.navItemsIds;
         default:
@@ -393,7 +395,65 @@ function navItemsById(state = {}, action = {}){
             let newChildren = newState[action.payload.parent].children.slice();
             newChildren.splice(newChildren.indexOf(action.payload.ids[0]), 1);
             let wrongNames = Object.assign({}, newState, {[action.payload.parent]: Object.assign({}, newState[action.payload.parent], {children: newChildren})});
-            return recalculateNames(wrongNames, oldOne, 1, action.payload.ids.length)
+            return recalculateNames(wrongNames, oldOne,1, action.payload.ids.length)
+       case REORDER_NAV_ITEM:
+            //   0--> exterior a exterior /   1--> exterior a seccion /   2--> seccionA a seccionB /   3--> seccion a seccion  /   4--> seccion a exterior
+            
+            var newSt = {}
+            //var auxState = state;
+
+            if(action.payload.type == 0 || action.payload.type == 3 ){
+
+                    newSt = Object.assign({}, state, {
+                        [action.payload.newParent]: Object.assign({}, state[action.payload.newParent], {children: action.payload.newChildrenInOrder})
+                    })   
+
+                    action.payload.newIndId.forEach(elem => {
+                         newSt = Object.assign({}, newSt, {
+                            [elem]: Object.assign({}, newSt[elem], {position:  action.payload.newIndId.indexOf(elem)})
+                        }) 
+                    });
+
+                    return newSt;
+                 }else if(action.payload.type == 1 || action.payload.type == 2 || action.payload.type == 4 ){  
+
+                    var oldParent = state[action.payload.itemId].parent;
+                    var oldParentChildren = state[oldParent].children;
+                    oldParentChildren.splice(oldParentChildren.indexOf(action.payload.itemId),1);
+                    newSt = Object.assign({}, state, {
+                        [action.payload.newParent]: Object.assign({}, state[action.payload.newParent], {children: action.payload.newChildrenInOrder}),
+                        [action.payload.itemId]: Object.assign({}, state[action.payload.itemId], {parent: action.payload.newParent}),
+                        [oldParent]: Object.assign({}, state[oldParent], {children: oldParentChildren})
+                    });  
+
+                    var elementsToVisit = [action.payload.itemId];
+                    var diff = state[action.payload.newParent].level-state[action.payload.itemId].level+1;//esto hay que sumarselo al level
+                    var currentElement;
+                    var auxLevel;
+                    do{
+                        currentElement = elementsToVisit.pop();
+                        if(newSt[currentElement].children.length > 0){
+                            elementsToVisit = elementsToVisit.concat(newSt[currentElement].children);
+                        }
+                        auxLevel = newSt[currentElement].level+diff;
+                        newSt = Object.assign({}, newSt, {
+                            [currentElement]: Object.assign({}, newSt[currentElement], {level: auxLevel})
+                        })   
+                    }while(elementsToVisit.length > 0)
+
+                    action.payload.newIndId.forEach(elem => {
+                         newSt = Object.assign({}, newSt, {
+                            [elem]: Object.assign({}, newSt[elem], {position:  action.payload.newIndId.indexOf(elem)})
+                        }) 
+                    });
+
+                    return newSt;
+
+                }else{
+
+                    return state
+                }
+
         case ADD_BOX:
             if (action.payload.ids.parent && action.payload.ids.parent.indexOf(ID_PREFIX_PAGE) !== -1 || action.payload.ids.parent.indexOf(ID_PREFIX_SECTION) !== -1){
                 return Object.assign({}, state, {

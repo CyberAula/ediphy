@@ -23,7 +23,6 @@ var BasicImage = (function(){
                     accordion: 'Basic',
                     autoManaged: false,
                     value:'http://nemanjakovacevic.net/wp-content/uploads/2013/07/placeholder.png'
-
                 },
                 {
                     name: 'opacity',
@@ -35,7 +34,6 @@ var BasicImage = (function(){
                     step: 0.1,
                     tab: 'Main',
                     accordion: 'Style'
-
                 },
                 {
                     name: 'aspectRatio',
@@ -58,7 +56,6 @@ var BasicImage = (function(){
                     tab: 'Main',
                     accordion: 'Style'
                 },
-
                 {
                     name: 'test',
                     humanName: 'Test',
@@ -98,7 +95,6 @@ var BasicImage = (function(){
                     tab: 'Main',
                     accordion: 'Style'
                 }
-
             ]
         },
         getSections: function(){
@@ -111,7 +107,6 @@ var BasicImage = (function(){
                     tab: 'Other', 
                     accordion: ['Extra']
                 },
-
             ];
         },
         getInitialState: function(){
@@ -121,10 +116,9 @@ var BasicImage = (function(){
             return "<div> Url: <input type=\"text\" autofocus id=\"BasicImage_input\" value=\"" + state.url + "\"><br><button onclick=\"BasicImage.showPreview()\">Show preview</button><img id=\"BasicImage_preview\" src=\"" + state.url + "\" style=\"width: 100px; height: 100px; visibility: " + state.thumbnailVisibility + ";\" onclick=\"BasicImage.imageClick()\" /></div>";
         },
         getRenderTemplate: function(state){
-            return "<img style=\"width: 100%; height: 100%; border-radius: "+state.borderRadius+"%;border: "+ state.borderStyle +" "+ state.borderSize + "px "+ state.borderColor +";\" src=\"" + state.url + "\"/>";
+            return "<div style=\"width: 100%; height: 100%\"><img style=\"width: 100%; height: 100%; border-radius: "+state.borderRadius+"%; border: "+ state.borderStyle +" "+ state.borderSize + "px "+ state.borderColor +";\" src=\"" + state.url + "\"/></div>";
         },
         handleToolbar: function(name, value){
-            
             if(name=='aspectRatio') 
                 BasicImage.setState(name,BasicImage.getState().aspectRatio=='checked'?'unchecked':'checked');
             else 

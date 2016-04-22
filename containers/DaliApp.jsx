@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {ActionCreators} from 'redux-undo';
 import {Grid, Col, Row, Button, OverlayTrigger, Popover} from 'react-bootstrap';
-import {addNavItem, selectNavItem, expandNavItem, removeNavItem,
+import {addNavItem, selectNavItem, expandNavItem, removeNavItem, reorderNavItem,
     addBox, selectBox, moveBox, resizeBox, updateBox, deleteBox, reorderBox, dropBox, increaseBoxLevel,
     addSortableContainer, resizeSortableContainer, changeCols, changeRows,
     togglePageModal, toggleTextEditor, toggleTitleMode,
@@ -36,17 +36,21 @@ class DaliApp extends Component{
             <Grid id="app" fluid={true} style={{height: '100%'}} >
                 <Row style={{height: '100%'}}>
                     <Col md={2} xs={2} style={{padding: 0, height: '100%'}} id="colLeft">
-                      <DaliCarousel boxes={boxes}
-                                    navItemsIds={navItemsIds}
-                                    navItems={navItems}
-                                    navItemSelected={navItemSelected}
-                                    displayMode={displayMode}
-                                    onPageAdded={(caller, value) => dispatch(togglePageModal(caller, value))}
-                                    onSectionAdded={(id, name, parent, children, level, type, position) => dispatch(addNavItem(id, name, parent, children, level, type, position))}
-                                    onNavItemSelected={id => dispatch(selectNavItem(id))}
-                                    onNavItemExpanded={(id, value) => dispatch(expandNavItem(id, value))}
-                                    onNavItemRemoved={(ids, parent,boxes) => dispatch(removeNavItem(ids, parent, boxes))}
-                                    onDisplayModeChanged={mode => dispatch(changeDisplayMode(mode))} />
+  
+                        <DaliCarousel 
+                                      boxes={boxes}
+                                      navItemsIds={navItemsIds}
+                                      navItems={navItems}
+                                      navItemSelected={navItemSelected}
+                                      displayMode={displayMode}
+                                      onPageAdded={(caller, value) => dispatch(togglePageModal(caller, value))}
+                                      onSectionAdded={(id, name, parent, children, level, type, position) => dispatch(addNavItem(id, name, parent, children, level, type, position))}
+                                      onNavItemSelected={id => dispatch(selectNavItem(id))}
+                                      onNavItemExpanded={(id, value) => dispatch(expandNavItem(id, value))}
+                                      onNavItemRemoved={(ids, parent,boxes) => dispatch(removeNavItem(ids, parent, boxes))}
+                                      onNavItemReorded={(itemId,newParent,type,newIndId,newChildrenInOrder) => dispatch(reorderNavItem(itemId,newParent,type,newIndId,newChildrenInOrder))}
+                                      onDisplayModeChanged={mode => dispatch(changeDisplayMode(mode))} />
+
                     </Col>
 
                     <Col md={10} xs={10} className="outter" id="colRight" style={{ padding: paddings}} >
@@ -129,12 +133,7 @@ class DaliApp extends Component{
             if(e.detail.isUpdating) {
                 this.props.dispatch(updateBox(e.detail.ids.id, e.detail.content, e.detail.state));
             }else {
-                let i = 0;
-                let parsedContent = e.detail.content.replace(/(<plugin[-\w\s="']*\/>)/g, () => {
-                    return "<plugin plugin-data-id='" + (ID_PREFIX_SORTABLE_CONTAINER + Date.now()) + (i++) + "' />";
-                });
-
-
+                this.parsePluginContainers(e.detail.content, 0);
                 this.props.dispatch(addBox(
                     {
                         parent: e.detail.ids.parent,
@@ -144,7 +143,7 @@ class DaliApp extends Component{
                     BOX_TYPES.NORMAL,
                     true,
                     (e.detail.ids.container === 0),
-                    parsedContent,
+                    e.detail.content,
                     e.detail.toolbar,
                     e.detail.config,
                     e.detail.sections, 
@@ -169,6 +168,25 @@ class DaliApp extends Component{
               }
           }  
         }.bind(this);
+    }
+
+    parsePluginContainers(obj, n){
+        if(obj.child){
+            for(let i = 0; i < obj.child.length; i++){
+                this.parsePluginContainers(obj.child[i], n++);
+            }
+        }
+        if(obj.tag && obj.tag === "plugin"){
+            if(obj.attr){
+                obj.attr['plugin-data-id'] = ID_PREFIX_SORTABLE_CONTAINER + Date.now() + n;
+            }else{
+                obj.attr = {'plugin-data-id': ID_PREFIX_SORTABLE_CONTAINER + Date.now() + n};
+            }
+        }
+        if(obj.attr && obj.attr.class){
+            obj.attr.className = obj.attr.class.join(' ');
+            delete(obj.attr.class);
+        }
     }
 }
 

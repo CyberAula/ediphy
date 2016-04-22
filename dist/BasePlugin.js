@@ -37,11 +37,11 @@ Dali.Plugin = function(descendant){
                 }
                 state = defaultFor(state, {});
                 initialParams = initParams;
-                if(needsConfigModal) {
-                    this.openConfigModal(false, state);
-                }else {
+                // if(needsConfigModal) {
+                    // this.openConfigModal(false, state);
+                // }else {
                     this.render(false);
-                }
+                // }
             }.bind(this);
 
             return {
@@ -80,7 +80,7 @@ Dali.Plugin = function(descendant){
             }
             return toolbar;
         },
-         getSections: function(){
+        getSections: function(){
             var sections;
             if(descendant.getSections)
                 sections = descendant.getSections();
@@ -111,7 +111,7 @@ Dali.Plugin = function(descendant){
                 console.error(this.getConfig.name + " has not defined getRenderTemplate method");
             } else {
                 Dali.API.renderPlugin(
-                    descendant.getRenderTemplate(state),
+                    html2json(descendant.getRenderTemplate(state)),
                     this.getToolbar(),
                     this.getConfig(),
                     this.getSections(),
