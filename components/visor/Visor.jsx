@@ -79,8 +79,7 @@ export default class Visor extends Component{
                                                    titleModeToggled={this.props.state.titleModeToggled}
                                                    showButton={false} /> <br/> 
                                         {navItem.boxes.map((main,index)=>{
-                                            console.log( boxesById[main].content)
-                                          // return( this.renderChildren(main, boxesById[main].content.node, boxesById[main].content.child ))
+                                           // return( this.renderChildren(main, boxesById[main].content.node, boxesById[main].content.child ))
                                               }
                                         )}
                                     </div>
@@ -141,7 +140,7 @@ export default class Visor extends Component{
             let component;
             let props = {};
             let children;
-            console.log(markup)
+            // console.log(markup)
              switch (markup.node) {
                 case 'element':
                     if(markup.attr){
@@ -155,7 +154,7 @@ export default class Visor extends Component{
 
                         });
                     }else{
-                        console.log(markup.tag)
+                        // console.log(markup.tag)
                         component = markup.tag;
                     }
                     break;
@@ -176,7 +175,7 @@ export default class Visor extends Component{
                     });
                 }
 
-                    console.log(component)
+                    // console.log(component)
                   return (<div style={style} {...attrs}>{React.createElement(component, props, children)}</div>);
        /* let component;
         let props = {};
