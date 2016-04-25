@@ -31,7 +31,7 @@ export default class DaliBox extends Component {
         if(toolbar.buttons) {
             toolbar.buttons.map((item, index) => {
                 if (item.autoManaged) {
-                    if (!item.isAttribute) {console.log(item.value)
+                    if (!item.isAttribute) {
                         if(item.name !== 'width' && item.name !== 'height') {
 
                             style[item.name] = item.value;
@@ -48,7 +48,7 @@ export default class DaliBox extends Component {
                         textareaStyle['fontSize'] += item.units;
                 }else if(item.name === 'color'){
                     textareaStyle['color'] = item.value;
-                }
+                } 
             });
         }
         let content = (
@@ -233,6 +233,7 @@ export default class DaliBox extends Component {
 
 
     componentDidMount() {
+
         let toolbar = this.props.toolbars[this.props.id];
         let box = this.props.boxes[this.props.id];
   
@@ -288,7 +289,7 @@ export default class DaliBox extends Component {
             })
             .ignoreFrom('input, textarea, a')
             .resizable({
-                 preserveAspectRatio: this.checkAspectRatio(this.props.toolbars[this.props.id].buttons),
+                 preserveAspectRatio: false,
                 enabled: (box.resizable),
                 restrict: {
                     restriction: "parent",

@@ -70,7 +70,8 @@ export default class PluginToolbar extends Component {
                          style={{width: '100%'}}
                          onChange={e => { 
                           let value = e.target.value;
-                          if(item.name == 'width')
+                          // if (item.type == 'color')console.log(item.value)
+                          if(item.name == 'width'){
                             if(!aspectRatio){
                               this.props.onBoxResized( this.props.boxSelected, value+'%', this.props.box.height); 
                               this.props.onToolbarUpdated(toolbar.id, index, 'width', value);
@@ -81,8 +82,9 @@ export default class PluginToolbar extends Component {
                               this.props.onToolbarUpdated(toolbar.id, index, 'width', value);
                               
                               this.props.onToolbarUpdated(toolbar.id, index+1, 'height', newHeight);
-                            }    
-                          if(item.name == 'height')
+                            }
+                          }    
+                          if(item.name == 'height'){
                             if(!aspectRatio){
                               this.props.onBoxResized( this.props.boxSelected,  this.props.box.width, value+'%');
                               this.props.onToolbarUpdated(toolbar.id, index, 'height', value);
@@ -92,14 +94,14 @@ export default class PluginToolbar extends Component {
                               this.props.onBoxResized( this.props.boxSelected, newWidth+'%', value+'%' ); 
                               this.props.onToolbarUpdated(toolbar.id, index-1, 'width', newWidth);
                               this.props.onToolbarUpdated(toolbar.id, index, 'height', value);
-                            }                   
+                            }   
+                          }                
                           if(item.type === 'number')
                               value = parseFloat(value) || 0;
 
                            if(item.type === 'checkbox')
                               value = item.value=='checked' ? 'unchecked':'checked' 
                               this.props.onToolbarUpdated(toolbar.id, index, item.name, value);
-
                           if(!item.autoManaged)
                               item.callback(toolbar.state, item.name, value, toolbar.id);
                         }}
@@ -182,7 +184,7 @@ export default class PluginToolbar extends Component {
                               let container = this.props.box.sortableContainers[id];
                               if ( this.state.currentTab == 1 )
                                 return (
-                                  <Panel  key={id} className="panelPluginToolbar" collapsible header={id} eventKey={indexAcc++} >
+                                  <Panel  key={id} className="panelPluginToolbar" collapsible header={'Caja '+(index+1) } eventKey={indexAcc++} >
                                     <GridConfigurator
                                        key={(index)}
                                        id={id}
@@ -196,7 +198,7 @@ export default class PluginToolbar extends Component {
 
 
                            { //Sortables
-                            (this.props.box.parent[1]=='s')?
+                            (this.props.box.container != '0')?
                             (<Panel key={0} className="panelPluginToolbar" collapsible header={'Size'} eventKey={indexAcc++} >
                                 {buttons.map(( button) => { 
                                   if (button.props.accordion == 'Sortable') 
