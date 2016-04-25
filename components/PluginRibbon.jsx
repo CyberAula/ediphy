@@ -58,11 +58,11 @@ export default class PluginRibbon extends Component {
                     // translate the element
                     target.style.webkitTransform =
                         target.style.transform =
-                            'translate(' + x + 'px, ' + (y-161) + 'px)'; // BOX-HEIGHT(200) - NAVBAR-HEIGHT (29)
+                            'translate(' + x + 'px, ' + (y-250) + 'px)'; // BOX-HEIGHT(200) - NAVBAR-HEIGHT (29)
                     target.style.zIndex = "999 !important";
                     target.style.position = 'fixed';
-                    target.style.color = 'black';    
-                
+                    target.classList.add('ribdrag');   
+                    
              
                     // update the position attributes
                     target.setAttribute('data-x', x);
@@ -77,13 +77,13 @@ export default class PluginRibbon extends Component {
                             'translate(' + x + 'px, ' + y + 'px)';
                           
                     target.style.zIndex = 'initial';
-                    target.style.position = 'relative'
+                    target.style.position = 'relative';
+                    target.classList.remove('ribdrag');   
 
 
                     // update the position attributes
                     target.setAttribute('data-x', x);
-                    target.setAttribute('data-y', y);
-                    target.style.color = 'white';    
+                    target.setAttribute('data-y', y);  
                     event.stopPropagation();
                 }
             });
