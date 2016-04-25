@@ -427,7 +427,7 @@ function navItemsById(state = {}, action = {}){
                     });  
 
                     var elementsToVisit = [action.payload.itemId];
-                    var diff = state[action.payload.newParent].level-state[action.payload.itemId].level+1;//esto hay que sumarselo al level
+                    var diff = state[action.payload.newParent].level-state[action.payload.itemId].level+1;
                     var currentElement;
                     var auxLevel;
                     do{

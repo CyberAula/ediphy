@@ -104,15 +104,10 @@ export default class Section extends Component {
 
     componentDidMount(){
         let list = jQuery(this.refs.sortableListS);
-        console.log("MONTAMOS LA SECCION")
         list.sortable({ 
-            //handle: '.dragS',
-            //helper: "clone",
-            //placeholder: "sortable-placeholder",
             tolerance: 'intersect',
             connectWith: '.connectedSortables',
             stop: (event, ui) => {
-                console.log("stop de section con id:" + this.props.id);
                 const reorderedIndexesId = list.sortable('toArray', {attribute: 'id'}); //Obtiene la nueva disposición de elementos por id esta es la válida.
                 const selected = this.props.navItemSelected;
                 const previos = this.props.navItemsIds;
@@ -122,8 +117,6 @@ export default class Section extends Component {
                 var newChilds = reorderedIndexesId;
 
                 if( newChilds.indexOf(selected) >= 0 && oldChilds.indexOf(selected) >= 0){
-                    console.log("cancel de carousellist stop list");
-
                     list.sortable('cancel');
                     
                     var part1 = previos.slice(0,previos.indexOf(parent)+1);
@@ -185,10 +178,8 @@ export default class Section extends Component {
 
                     var newIndexesIds = part1.concat(part1NC,selectedAndChildren,part2NC,part2);
 
-                    console.log("LANZA 3")
                     this.props.onNavItemReorded(this.props.navItemSelected, this.props.id,3,newIndexesIds,newChilds); 
                 }else{
-                    console.log("desde SecA a SecB: caso 2; desde sec a exterior: caso 4; por lo que no hace nada");
                 }       
             }.bind(this),
             receive: (event, ui) => {
@@ -198,8 +189,6 @@ export default class Section extends Component {
                 const parent = this.props.navItems[this.props.navItemSelected].parent;
                 const reorderedIndexesId = list.sortable('toArray', {attribute: 'id'})
                 const previos = this.props.navItemsIds;
-                
-                console.log("cancel de seccion receive sender");
 
                 $(ui.sender).sortable('cancel');
             
@@ -254,11 +243,9 @@ export default class Section extends Component {
                             var part2b = concatA.slice(concatA.indexOf(id)+1);
                             newIndexesIds = part1b.concat(selectedAndChildren,part2b);
                         }
-
-                        console.log("lanza 1")
                         this.props.onNavItemReorded(this.props.navItemSelected, this.props.id,1,newIndexesIds,reorderedIndexesId);
 
-                }else{//Viene de otra seccion
+                }else{
                    
                     var newChildrenInOrder = reorderedIndexesId;
                     var selectedAndChildren = [selec];
@@ -324,7 +311,6 @@ export default class Section extends Component {
 
                     var newIndexesIds = part1.concat(part1NC,selectedAndChildren,part2NC,part2);
 
-                    console.log("LANZA 2")
                     this.props.onNavItemReorded(this.props.navItemSelected, this.props.id,2,newIndexesIds,newChildrenInOrder); 
                 }
             }else{
