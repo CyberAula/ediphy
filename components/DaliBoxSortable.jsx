@@ -13,9 +13,16 @@ export default class DaliBoxSortable extends Component{
             e.stopPropagation();
             this.props.onBoxSelected(this.props.id)}}>
             <div ref="sortableContainer"
-                 style={{position: 'relative'}}>
+                 style={{
+                    position: 'relative',
+                    border: (this.props.id === this.props.boxSelected ? '1px dashed black' : '1px solid #999'),
+                    boxSizing: 'border-box',
+                }}>
                 {box.children.map((idContainer, index)=>{
                     let container = box.sortableContainers[idContainer];
+                    console.log(this.props.id)
+                    console.log(this.props.boxSelected)
+                    console.log(this.props.id === this.props.boxSelected)
                     return (<div key={index}
                                  className="daliBoxSortableContainer"
                                  data-id={idContainer}
