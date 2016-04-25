@@ -116,7 +116,6 @@ var BasicImage = (function(){
             return "<div> Url: <input type=\"text\" autofocus id=\"BasicImage_input\" value=\"" + state.url + "\"><br><button onclick=\"BasicImage.showPreview()\">Show preview</button><img id=\"BasicImage_preview\" src=\"" + state.url + "\" style=\"width: 100px; height: 100px; visibility: " + state.thumbnailVisibility + ";\" onclick=\"BasicImage.imageClick()\" /></div>";
         },
         getRenderTemplate: function(state){
-            console.log(state)
             return "<div style=\"width: 100%; height: 100%\"><img style=\"width: 100%; height: 100%; border-radius: "+state.borderRadius+"%; border: "+ state.borderSize + "px "+ state.borderStyle +" "+ state.borderColor +";\" src=\"" + state.url + "\"/></div>";
         },
         handleToolbar: function(name, value){
@@ -126,7 +125,6 @@ var BasicImage = (function(){
                 BasicImage.setState(name, value);
         },
         showPreview: function(){
-            console.log('hola')
             var img = $('#BasicImage_preview');
             var input = $('#BasicImage_input');
 
