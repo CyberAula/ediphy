@@ -98,7 +98,7 @@ export default class DaliBoxSortable extends Component{
                     </div>);
                 })}
             </div>
-            <div style={{textAlign:'center', minHeight: 100}}>
+            <div style={{textAlign:'center', minHeight: '100px'}}>
                 Drag content here
             </div>
         </div>

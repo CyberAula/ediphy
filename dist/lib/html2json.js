@@ -42,7 +42,7 @@
             // make it array of attribute
 			if(name === 'style'){
 				var keyPattern = /[-\w]+:[\s]*/g;
-				var valuePattern = /:[\s]*[\w\d\s'"%.,()]*[;]*/g;
+				var valuePattern = /:[\s]*[\w\d\s'"%.,()#]*[;]*/g;
 				
 				var keyMatches = value.match(keyPattern);
 				var valueMatches = value.match(valuePattern);

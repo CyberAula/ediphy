@@ -16,7 +16,7 @@ export default class DaliBox extends Component {
         let style = {
             width: '100%',
             height: '100%',
-            position: 'absolute',
+            position: 'relative',
             wordWrap: 'break-word',
             visibility: (toolbar.showTextEditor ? 'hidden' : 'visible')};
 
@@ -32,7 +32,8 @@ export default class DaliBox extends Component {
             toolbar.buttons.map((item, index) => {
                 if (item.autoManaged) {
                     if (!item.isAttribute) {
-                        if(item.name !== 'width') {
+                        if(item.name !== 'width' && item.name !== 'height') {
+
                             style[item.name] = item.value;
                             if (item.units)
                                 style[item.name] += item.units;
@@ -47,7 +48,7 @@ export default class DaliBox extends Component {
                         textareaStyle['fontSize'] += item.units;
                 }else if(item.name === 'color'){
                     textareaStyle['color'] = item.value;
-                }
+                } 
             });
         }
         let content = (
@@ -232,6 +233,7 @@ export default class DaliBox extends Component {
 
 
     componentDidMount() {
+
         let toolbar = this.props.toolbars[this.props.id];
         let box = this.props.boxes[this.props.id];
   
@@ -287,7 +289,7 @@ export default class DaliBox extends Component {
             })
             .ignoreFrom('input, textarea, a')
             .resizable({
-                 preserveAspectRatio: this.checkAspectRatio(this.props.toolbars[this.props.id].buttons),
+                 preserveAspectRatio: false,
                 enabled: (box.resizable),
                 restrict: {
                     restriction: "parent",
@@ -342,12 +344,13 @@ export default class DaliBox extends Component {
                     }
 
                     let target = event.target;
-                    let width = Math.min(Math.floor(parseInt(target.style.width) / target.parentElement.offsetWidth * 100), 100) + '%';
+                    let width =  Math.min(Math.floor(parseInt(target.style.width)  / target.parentElement.offsetWidth  * 100), 100) + '%';
                     let height = Math.min(Math.floor(parseInt(target.style.height) / target.parentElement.offsetHeight * 100), 100) + '%';
-                    this.props.onBoxResized(
-                        this.props.id,
-                        box.container !== 0 ? width : parseInt(target.style.width),
-                        box.container !== 0 ? height : parseInt(target.style.height));
+
+                        this.props.onBoxResized(
+                            this.props.id,
+                            box.container !== 0 ?  width : parseInt(target.style.width),
+                            box.container !== 0 ? height : parseInt(target.style.height));
                     this.props.onBoxMoved(this.props.id, parseInt(target.style.left), parseInt(target.style.top));
                     event.stopPropagation();
                 }

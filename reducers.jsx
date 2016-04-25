@@ -534,7 +534,19 @@ function toolbarsById(state = {}, action = {}){
                     step: 5,
                     autoManaged: true,
                     tab: 'Main',
-                    accordion: 'Basic'
+                    accordion: 'Sortable'
+                });
+                toolbar.buttons.push({
+                    name: 'height',
+                    humanName: 'Height (%)',
+                    type: 'number',
+                    value: 100,
+                    min: 0,
+                    max: 100,
+                    step: 5,
+                    autoManaged: true,
+                    tab: 'Main',
+                    accordion: 'Sortable'
                 });
             }
        
