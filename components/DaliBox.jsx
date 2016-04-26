@@ -23,6 +23,7 @@ export default class DaliBox extends Component {
         let textareaStyle = {
             width: '100%',
             height: '100%',
+            top: 0,
             position: 'absolute',
             resize: 'none',
             visibility: (toolbar.showTextEditor ? 'visible' : 'hidden')}
@@ -70,8 +71,6 @@ export default class DaliBox extends Component {
         }else{
              helpersResizable = (<div></div>);
         }
-
-
 
         let border = (
             <div style={{visibility: (vis ? 'visible' : 'hidden')}}>
@@ -187,6 +186,8 @@ export default class DaliBox extends Component {
                 break;
             case 'text':
                 component = "span";
+                props = {key: key};
+                children = [markup.text];
                 break;
             case 'root':
                 component = "div";
@@ -238,7 +239,10 @@ export default class DaliBox extends Component {
         }
 
         if(this.refs.textarea.innerHTML === "<p><br></p>"){
-            this.refs.textarea.innerHTML = this.props.boxes[this.props.id].content;
+            //this.refs.textarea.innerHTML = this.props.boxes[this.props.id].content;
+            if(CKEDITOR.currentInstance){
+                console.log(CKEDITOR.currentInstance.getData());
+            }
         }
         let block = this.checkAspectRatio(toolbar.buttons);
         interact(ReactDOM.findDOMNode(this)).resizable({ preserveAspectRatio: !block }) 
@@ -247,7 +251,6 @@ export default class DaliBox extends Component {
 
 
     componentDidMount() {
-
         let toolbar = this.props.toolbars[this.props.id];
         let box = this.props.boxes[this.props.id];
   
