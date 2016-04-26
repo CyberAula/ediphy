@@ -9,7 +9,6 @@ export default class VisorDaliBox extends Component {
     render() {
         let borderSize = 2;
         let cornerSize = 15;
-        console.log(this.props)
         let box = this.props.boxes[this.props.id];
         let toolbar = this.props.toolbars[this.props.id];
         let vis = ((this.props.boxSelected === this.props.id) && box.type !== BOX_TYPES.SORTABLE)
