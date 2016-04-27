@@ -30,7 +30,7 @@ export default class DaliCarousel extends Component{
         }
         return(
             <div className="wrapperCarousel">
-            <div id="indice" className="daliCarousel " >
+            <div id="indice" className="daliCarousel " style={{height: '100%'}} >
                 {carrouselContent}
                 <Button style={{position: 'absolute', right: 0, bottom: 0}} onClick={e => {
                     let newMode = "list";

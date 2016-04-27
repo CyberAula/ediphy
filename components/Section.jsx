@@ -1,4 +1,3 @@
-    //¿¿¿¿?????         console.log("part2", part2)
 import React, {Component} from 'react';
 import {Button} from 'react-bootstrap';
 import {ID_PREFIX_SECTION, ID_PREFIX_PAGE} from '../constants';
@@ -9,7 +8,7 @@ export default class Section extends Component {
 
          let classSelected = this.props.navItemSelected === navItem.id ? 'selected' : 'notSelected';
         return (
-            <div id={this.props.id} className="drag-handle" onMouseDown={e => {
+            <div id={this.props.id} className="drag-handle" style={{paddingTop: 10}}onMouseDown={e => {
                 this.props.onNavItemSelected(navItem.id);
                 e.stopPropagation();
             }}>
@@ -27,7 +26,7 @@ export default class Section extends Component {
             <div style={{display: (navItem.isExpanded ? 'block' : 'none'), borderLeft: '1px dotted black'}}>
                 
                 <div style={{marginLeft: 20}}>
-                    <div ref="sortableListS" style={{paddingTop: 5}} className="sectionList connectedSortables">
+                    <div ref="sortableListS" style={{paddingTop: (navItem.children.length > 0 ? 2 : 20) }} className="sectionList connectedSortables">
                         {
                             navItem.children.map((id, index) => {
                                 if (id.indexOf(ID_PREFIX_SECTION) !== -1) {
@@ -266,7 +265,6 @@ export default class Section extends Component {
 
                     var nextBroOfParent;
                     for(var j = previosCleaned.indexOf(id)+1; j<previosCleaned.length;j++){
-                        console.log(j);
                         if(this.props.navItems[previosCleaned[j]].level <= this.props.navItems[id].level){
                             nextBroOfParent = previosCleaned[j];
                             break;
