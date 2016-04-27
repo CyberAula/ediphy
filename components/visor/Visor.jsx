@@ -43,8 +43,9 @@ render() {
         }
 
         return (
-            <Modal className="visor"   show={this.props.visor} backdrop={true} bsSize="large" aria-labelledby="contained-modal-title-lg" onHide={e => {
-               this.props.onVisibilityToggled() }}>
+            <Modal className="visor modalVisorContainer"   show={this.props.visor} backdrop={true} bsSize="large" aria-labelledby="contained-modal-title-lg" onHide={e => {
+               this.props.onVisibilityToggled() }}
+               >
 
                 <Modal.Header closeButton >
                     <Modal.Title>Preview</Modal.Title>
