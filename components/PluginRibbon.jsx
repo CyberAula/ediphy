@@ -58,10 +58,11 @@ export default class PluginRibbon extends Component {
                     // translate the element
                     target.style.webkitTransform =
                         target.style.transform =
-                            'translate(' + x + 'px, ' + (y-250) + 'px)'; // BOX-HEIGHT(200) - NAVBAR-HEIGHT (29)
+                            'translate(' + x + 'px, ' + (y-$(window).height()/2) + 'px)'; // BOX-HEIGHT(200) - NAVBAR-HEIGHT (29)
                     target.style.zIndex = "999 !important";
                     target.style.position = 'fixed';
-                    target.classList.add('ribdrag');   
+                    target.classList.add('ribdrag');
+
                     
              
                     // update the position attributes

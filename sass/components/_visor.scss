@@ -64,3 +64,12 @@ ul li a {
 .visor  * {
   pointer-events: all !important;
 }
+
+.modalVisorContainer {
+  padding-right:15px;
+}
+.modalVisorContainer .visor .modal-open {
+  overflow-y: hidden;
+}
+
+
