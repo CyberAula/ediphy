@@ -45,33 +45,210 @@
 <h3><%=padre%></h3>
 <h4><%=navs[page].name%></h4> 
 <div class="boxes" style="position:relative;">
-<%
-  function parseBox(box){
-    var width = box.width[box.width.length -1]=='%' ? box.width : box.width+'px';
-    var height = box.height? (box.height[box.height.length -1]=='%' ? box.height : box.height+'px'):'auto';
+
+<!--Camel Case -->
+<%function camel(s) {
+    return s.split(/(?=[A-Z])/).join('-').toLowerCase();
+}%>
+
+<!-RENDER CHILDREN->
+<% function renderChildren(id, markup, key){
+    var component;
+    var props = {};
+    var children;
+    console.log("Render children")
+    console.log(id)
+    console.log(key)
+    console.log(markup)
+    console.log("Render logs")
+    switch (markup.node) {
+      case 'element':
+      console.log("case element")
+          if(markup.attr){
+            console.log("if1")
+              console.log(markup.attr)
+              props = markup.attr;
+          }
+          props.key = key;
+
+
+          if(markup.tag === 'plugin'){
+                        console.log("if2")
+              pluginplaceholder(props, markup.attr["plugin-data-id"], id)
+             
+          }else{
+              component = markup.tag;
+              var properties =""
+              for (prop in props){
+                 var value = props[prop]
+              if (prop == "style"){
+                value=""
+                for (style in props[prop]){
+                  value+= style +":"+camel(props[prop][style])+"; "
+                }
+              }
+                properties +=prop +"=\""+value+"\" "
+          }
+              
+           %>
+             <%="<"+component +" " %><%=properties%><%=">"%>
+               <%  if (markup.child) {
+                       markup.child.forEach((child, index) => {
+                          renderChildren(id, child, index);
+                       });
+                   }
+
+                 %>
+             </<%=component%> >
+
+          <%
+            }
+            break;
+      case 'text':
+          component = "span";
+        %>
+          <span>
+             <%  if (markup.child) {
+                     
+                     markup.child.forEach((child, index) => {
+                        renderChildren(id,child, index);
+                     });
+                 }
+
+               %>
+          </span>
+
+        <%
+
+          break;
+      case 'root':
+           
+          %>
+          <div style="width:100%; height:100%;">
+             <%  if (markup.child) {
+                     
+                     markup.child.forEach((child, index) => {
+                        renderChildren(id, child, index);
+                     });
+                 }
+
+               %>
+          </div>
+
+        <%
+          break;
+    }
+
+    
+  };
 %>
-    <div style="width: <%=width%>; height:<%=height%>; position: absolute; top: <%=box.position.y %>px; left: <%= box.position.x %>px; word-wrap:break-word;" >
-<%  if (box.id[1]!='s') { %>
-  <%=box.content%>
-<%  } %>     
-<%
-    box.children.map(b=>{
-        var thisbox = b; 
-        if (box.id[1]='s') thisbox= b.replace('sc-','bo-');// Cambiar sc por bo en sortables
-        var alturadiv = boxesById[thisbox].height
-        var height2 = alturadiv? (alturadiv[alturadiv.length -1]=='%' ? alturadiv : alturadiv+'px'):'auto';
+<!-VISORDALIBOX->
+<% function dalibox(id) {
+        var borderSize = 2;
+        var cornerSize = 15;
+        var box = boxesById[id];
+        var toolbar =  toolbarsById[id];
+        var style = "width: 100%; height: 100%; position: relative; wordWrap: break-word;";
+        var attrs = " ";
+        console.log('dalibox')
+        if(toolbar.buttons) {
+            toolbar.buttons.map((item, index) => {
+                if (item.autoManaged) {
+                    if (!item.isAttribute) {
+                        if(item.name !== 'width' && item.name !== 'height') {
+                            style += " " + item.name + " : " + item.value;
+                            if (item.units)   style += item.units;
+                            style+="; ";
+                        }
+                    } else {
+                        attrs += 'data-' + item.name +"= " + item.value +" "
+                    }
+                }
+                
+            });
+        };
+ 
+        
+      
 %>
-    <div style="width:100%;position:relative;height:<%=height2%>;display:block;">
-      <% parseBox(boxesById[thisbox]) %>
-    </div>
-<% });%>
-    </div>   
-<% } 
-navs[page].boxes.map( box=> {
-  if (boxesById[box].parent == page) { %>
-     <% parseBox(boxesById[box])%>
-<% }
-}); %>
+    
+  <div className="wholebox" 
+       style="
+          position:absolute;
+          left: <%=box.position.x%>px;
+          top: <%=box.position.y%>px;
+          width: <%= box.width %>px;
+          height: <%=box.height%>px;
+          maxWidth: 100%;
+          maxHeight: 100%;
+          touchAction: none;
+          msTouchAction: none;
+          cursor:  default ;"  >
+   
+        <div style="<%= style%>"  <%= attrs%> >
+          <%  renderChildren(id, box.content ); %>
+        </div>
+
+  </div>
+ <%
+    }
+%>
+
+
+<!--PLUGIN PLACEHOLDER -->
+<%
+    function pluginplaceholder(props, pluginContainer, parentBox) {
+      console.log('pp')
+        let container = boxesById[parentBox].sortableContainers[pluginContainer];
+     %>
+ <div style=" width: 100%; height: 100%; position: relative;" class="<%= pluginContainer%>" >
+
+     <% if (container){ 
+        container.colDistribution.map((col, i) => {
+            if(container.cols[i]){  %>
+             
+                    <div  style="width: <%=col%>%; height: 100%; float: left">
+                        <%container.cols[i].map((row, j) => { %>
+                            <div  style="width: 100%; height: <%=row %>%; position: relative">
+                                <%container.children.map((idBox, index) => {
+                                    if( boxesById[idBox].col === i && boxesById[idBox].row === j) {
+                                       dalibox(idBox )
+                                    }
+                                })%>
+                            </div>
+
+                        <% })%>
+                    </div>
+                <%
+            }
+        })
+
+    } else {%>
+    <div style="width: 100%;  height: 100%;"> </div>
+    <% } %>
+ </div>
+
+   <% }
+
+ %>
+
+<% 
+   navs[page].boxes.map((id)=>{
+        var box = boxesById[id];
+        console.log(box)
+        if (box.type === 'normal'){ 
+          console.log("boxx")
+          dalibox(box.id )
+         
+       }  else if (box.type === 'sortable') {  %>
+             <%=    box.id %>                                
+
+    <%    }
+})
+%>
+
+
+
 </div>
 </div>
 </div>
