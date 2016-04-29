@@ -69,7 +69,7 @@ class DaliApp extends Component{
                                     onSortableContainerResized={(id, parent, height) => dispatch(resizeSortableContainer(id, parent, height))}
                                     onBoxReorder={(ids, parent) => dispatch(reorderBox(ids, parent))}
                                     onBoxDropped={(id, row, col) => dispatch(dropBox(id, row, col))}
-                                    onTextEditorToggled={(caller, value) => dispatch(toggleTextEditor(caller, value))}
+                                    onTextEditorToggled={(caller, value, text) => dispatch(toggleTextEditor(caller, value, text))}
                                     titleModeToggled={(id, value) => dispatch(toggleTitleMode(id, value))} />
                     </Col>
                 </Row>
@@ -115,7 +115,7 @@ class DaliApp extends Component{
                                onColsChanged={(id, parent, distribution) => dispatch(changeCols(id, parent, distribution))}
                                onRowsChanged={(id, parent, column, distribution) => dispatch(changeRows(id, parent, column, distribution))}
                                onBoxResized={(id, width, height) => dispatch(resizeBox(id, width, height))}
-                               onTextEditorToggled={(caller, value) => dispatch(toggleTextEditor(caller, value))}
+                               onTextEditorToggled={(caller, value, text) => dispatch(toggleTextEditor(caller, value, text))}
                                onToolbarUpdated={(caller, index, name, value) => dispatch(updateToolbar(caller, index, name, value))}
                                onToolbarCollapsed={(id) => dispatch(collapseToolbar(id))}
                                onBoxDeleted={()=> this.props.dispatch(deleteBox(boxSelected, boxes[boxSelected].parent, boxes[boxSelected].container)) } />

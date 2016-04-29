@@ -52,11 +52,11 @@ export default class DaliBox extends Component {
                 } 
             });
         }
-        let content = (
-            <div style={style} {...attrs}>
+        let content = box.text ?
+            (<div style={style} {...attrs} dangerouslySetInnerHTML={{__html: box.text}}></div>) :
+            (<div style={style} {...attrs}>
                 {this.renderChildren(box.content)}
-            </div>
-        );
+            </div>);
 
         let helpersResizable;
         if (box.container === 0) {
@@ -139,7 +139,7 @@ export default class DaliBox extends Component {
                 }}>
             {border}
             {content}
-            <div contentEditable={true} ref={"textarea"} style={textareaStyle} />
+            <div contentEditable={true} id={box.id} ref={"textarea"} style={textareaStyle} />
             <div style={{
                     width: "100%",
                     height: "100%",
@@ -205,13 +205,13 @@ export default class DaliBox extends Component {
     }
 
     blurTextarea(){
-        this.props.onTextEditorToggled(this.props.id, false);
-        Dali.Plugins.get(this.props.toolbars[this.props.id].config.name).updateTextChanges(this.refs.textarea.innerHTML, this.props.id);
+        this.props.onTextEditorToggled(this.props.id, false, CKEDITOR.instances[this.props.id].getData());
+        Dali.Plugins.get(this.props.toolbars[this.props.id].config.name).updateTextChanges(CKEDITOR.instances[this.props.id].getData(), this.props.id);
     }
 
     componentWillUpdate(nextProps, nextState){
         if((this.props.boxSelected === this.props.id) && (nextProps.boxSelected !== this.props.id) && this.props.toolbars[this.props.id].showTextEditor){
-            CKEDITOR.currentInstance.focusManager.blur(true);
+            CKEDITOR.instances[this.props.id].focusManager.blur(true);
         }
     }
 
@@ -238,28 +238,22 @@ export default class DaliBox extends Component {
             interact(ReactDOM.findDOMNode(this)).draggable(!toolbar.showTextEditor);
         }
 
-        if(this.refs.textarea.innerHTML === "<p><br></p>"){
-            //this.refs.textarea.innerHTML = this.props.boxes[this.props.id].content;
-            if(CKEDITOR.currentInstance){
-                console.log(CKEDITOR.currentInstance.getData());
-            }
-        }
         let block = this.checkAspectRatio(toolbar.buttons);
         interact(ReactDOM.findDOMNode(this)).resizable({ preserveAspectRatio: !block }) 
     }
 
-
-
     componentDidMount() {
         let toolbar = this.props.toolbars[this.props.id];
         let box = this.props.boxes[this.props.id];
-  
         if(toolbar.config && toolbar.config.needsTextEdition) {
             CKEDITOR.disableAutoInline = true;
             let editor = CKEDITOR.inline(this.refs.textarea);
             editor.on("blur", function (e) {
                 this.blurTextarea();
             }.bind(this));
+            if(box.text){
+                editor.setData(box.text);
+            }
         }
 
         let dragRestrictionSelector = (box.container !== 0) ? ".daliBoxSortableContainer, .drg" + box.container : "parent";
@@ -376,5 +370,6 @@ export default class DaliBox extends Component {
 
     componentWillUnmount(){
         interact(ReactDOM.findDOMNode(this)).unset();
+        CKEDITOR.instances[this.props.id].destroy();
     }
 }

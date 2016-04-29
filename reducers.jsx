@@ -58,6 +58,7 @@ function boxCreator(state = {}, action = {}){
                 width: width,
                 height: height,
                 content: action.payload.content,
+                text: null,
                 draggable: action.payload.draggable,
                 resizable: action.payload.resizable,
                 showTextEditor: false,
@@ -206,12 +207,20 @@ function boxesById(state = {}, action = {}){
             var newState = Object.assign({}, state)
             action.payload.boxes.map(box => { delete newState[box]})
             return newState;
-
         case REORDER_BOX:
             let oldChildren = state[action.payload.parent].children
             var newChildren = Object.keys(oldChildren).map(i => oldChildren[action.payload.ids[i]])
             return Object.assign({}, state, {
                 [action.payload.parent]: Object.assign({}, state[action.payload.parent], {children: newChildren}) });
+        case TOGGLE_TEXT_EDITOR:
+            if(action.payload.text){
+                return Object.assign({}, state, {
+                    [action.payload.caller]: Object.assign({}, state[action.payload.caller], {
+                        text: action.payload.text
+                    })
+                });
+            }
+            return state;
         case IMPORT_STATE:
             return action.payload.present.boxesById;
         default:
