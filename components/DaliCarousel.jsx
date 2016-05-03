@@ -10,11 +10,11 @@ export default class DaliCarousel extends Component{
         if(this.props.displayMode === "thumbnail") {
             displayModeClassName = "fa fa-th-list";
             carrouselContent = <CarrouselThumbnails navItemsIds={this.props.navItemsIds}
-                                                    navItems={this.props.navItems}
-                                                    boxes={this.props.boxes}
-                                                    navItemSelected={this.props.navItemSelected}
-                                                    onNavItemSelected={this.props.onNavItemSelected}
-                                                    onNavItemRemoved={this.props.onNavItemRemoved} />;
+                                              navItems={this.props.navItems}
+                                              boxes={this.props.boxes}
+                                              navItemSelected={this.props.navItemSelected}
+                                              onNavItemSelected={this.props.onNavItemSelected}
+                                              onNavItemRemoved={this.props.onNavItemRemoved} />;
         } else if (this.props.displayMode === "list") {
             displayModeClassName = "fa fa-th-large";
             carrouselContent = <CarrouselList boxes={this.props.boxes}
@@ -25,11 +25,12 @@ export default class DaliCarousel extends Component{
                                               onSectionAdded={this.props.onSectionAdded}
                                               onNavItemSelected={this.props.onNavItemSelected}
                                               onNavItemExpanded={this.props.onNavItemExpanded}
-                                              onNavItemRemoved={this.props.onNavItemRemoved} />;
+                                              onNavItemRemoved={this.props.onNavItemRemoved}
+                                               onNavItemReorded={this.props.onNavItemReorded}  />;
         }
         return(
             <div className="wrapperCarousel">
-            <div id="indice" className="daliCarousel " >
+            <div id="indice" className="daliCarousel " style={{height: '100%'}} >
                 {carrouselContent}
                 <Button style={{position: 'absolute', right: 0, bottom: 0}} onClick={e => {
                     let newMode = "list";
@@ -55,17 +56,17 @@ export default class DaliCarousel extends Component{
         );
     }
 }
-function toggleWidth(){
-      $("#colLeft").toggleClass("indiceoculto")
-      $("#indice").toggleClass("carouseloculto")
-      $("#indice").toggleClass("carouselshow")
-      $("#colLeft").toggleClass("carouseloculto")
-      $("#pestcar").show()
-      $("#colRight").toggleClass("col-md-10 col-xs-10")
-      $("#colRight").toggleClass("col-md-12 col-xs-12")
-      $("#indice").toggle()
-      $("#ribbon").toggleClass("sinmargen col-md-12 col-xs-12 ")
-       $("#ribbon").toggleClass("conmargen col-md-10 col-xs-10 col-md-push-2 col-xs-push-2")
+function toggleWidth(){ // DaliCarousel slider
+     let indiceWidth = $("#indice").width()
+      if($("#colLeft").width() > 0){
+        $("#colLeft").css('width',0)  // Close
+      } else {
+        $("#colLeft").css('width','16.66666667%') // Open
+      }
+       $("#insideribbon").toggleClass("full") // Extend/Reduce plugin ribbon
+      $("#colRight").toggleClass('full') // Extend/Reduce canvas
+      
+
       
      
 }

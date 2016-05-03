@@ -1,6 +1,7 @@
 Dali.Plugin = function(descendant){
     var state;
     var id;
+    var initialParams;
     var extraFunctions = {};
 
     var defaultFor = function(arg, value) {
@@ -30,17 +31,17 @@ Dali.Plugin = function(descendant){
             needsTextEdition = defaultFor(needsTextEdition, false);
             icon = defaultFor(icon, 'fa-cogs');
 
-            callback = function () {
+            callback = function (initParams) {
                 if (descendant.getInitialState) {
                     state = descendant.getInitialState();
                 }
                 state = defaultFor(state, {});
-
-                if(needsConfigModal) {
-                    this.openConfigModal(false, state);
-                }else {
+                initialParams = initParams;
+                // if(needsConfigModal) {
+                    // this.openConfigModal(false, state);
+                // }else {
                     this.render(false);
-                }
+                // }
             }.bind(this);
 
             return {
@@ -79,6 +80,14 @@ Dali.Plugin = function(descendant){
             }
             return toolbar;
         },
+        getSections: function(){
+            var sections;
+            if(descendant.getSections)
+                sections = descendant.getSections();
+            sections = defaultFor(sections, []);
+
+            return sections;
+        },
         openConfigModal: function(isUpdating, oldState, sender){
             state = oldState;
             id = sender;
@@ -102,12 +111,22 @@ Dali.Plugin = function(descendant){
                 console.error(this.getConfig.name + " has not defined getRenderTemplate method");
             } else {
                 Dali.API.renderPlugin(
-                    descendant.getRenderTemplate(state),
+                    html2json(descendant.getRenderTemplate(state)),
                     this.getToolbar(),
                     this.getConfig(),
+                    this.getSections(),
                     state,
                     isUpdating,
-                    id
+                    {
+                        id: id,
+                        parent: initialParams.parent,
+                        container: initialParams.container
+                    },
+                    {
+                        position: initialParams.position,
+                        row: initialParams.row,
+                        col: initialParams.col
+                    }
                 );
             }
         },

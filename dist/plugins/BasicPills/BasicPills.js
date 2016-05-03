@@ -31,8 +31,27 @@ var BasicPills = (function(){
                 }*/
                 ]
             },
+            getSections: function(){
+                return [
+                    {
+                        tab: 'Main', 
+                        accordion: ['Basic', 'Style']
+                    },
+                    {
+                        tab: 'Other', 
+                        accordion: ['Extra']
+                    },
+
+                ];
+              },
             getInitialState: function(){
-                return {number: 0, titles: [], texts: [], colors: [], colorsTitle: []};
+                return {number: 3, 
+                    titles: ['TITLE1','TITLE2','TITLE3'], 
+                    texts: ['Lorem ipsum dolor sit amet, consectetur adipisicing elit. A maxime, cum vero! Ea laudantium velit saepe odit, ex consequatur commodi autem, amet dolorum debitis aperiam labore, sint repellendus quibusdam neque.',
+                             'Lorem ipsum dolor sit amet, consectetur adipisicing elit. A maxime, cum vero! Ea laudantium velit saepe odit, ex consequatur commodi autem, amet dolorum debitis aperiam labore, sint repellendus quibusdam neque.',
+                             'Lorem ipsum dolor sit amet, consectetur adipisicing elit. A maxime, cum vero! Ea laudantium velit saepe odit, ex consequatur commodi autem, amet dolorum debitis aperiam labore, sint repellendus quibusdam neque.'
+                    ], colors: ['#f87060','#f87060','#f87060'], 
+                    colorsTitle: ['white','white','white']};
             },
             getConfigTemplate: function(state){
 

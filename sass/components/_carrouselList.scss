@@ -39,11 +39,11 @@
 }
 
 .breadcrumb a{
-	color: $navBar;
+	color: $verdeadams;
 }
 
 .selected{
-	color: $navBar;
+	color: $naranjaadams;
 }
 
 .notSelected{
@@ -51,11 +51,13 @@
 }
 
 .wrapperCarousel{
-	background-color: $carousel;
+	background-color: $grisclaro;
 	margin:0;
 	padding: 42px 0px 15% 0px;
 	 height: 100%; 
 	 overflow-y: auto;
+	 width:100%;
+	 overflow-x:hidden;
 }
 .pestanaCarousel{
 	background-color: #dedede;
@@ -68,7 +70,7 @@
 	position: absolute;
 	top:299px;left:100%;
 	border-radius:0px  8px  8px 0px ;
-	color: $navBar;
+	color: $verdeadams;
 }
 
 .indiceoculto{

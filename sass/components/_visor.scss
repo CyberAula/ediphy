@@ -60,3 +60,16 @@ ul li a {
 .visor .doc {
   overflow-y:auto;
 }
+
+.visor  * {
+  pointer-events: all !important;
+}
+
+.modalVisorContainer {
+  padding-right:15px;
+}
+.modalVisorContainer .visor .modal-open {
+  overflow-y: hidden;
+}
+
+

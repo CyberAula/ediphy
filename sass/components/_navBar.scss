@@ -1,10 +1,5 @@
-
-
-
-
 .navBar{
-
-	background-color: $navBar;
+	background-color: $verdeadams;
 	position: absolute;
 	top:0;
 	left: 0;
@@ -20,13 +15,10 @@
 
 .indentmin{
 	padding-left: 20px !important;
-
 }
 .indentmax{
 	padding-left: 250px !important;
-
 }
-
 
 .navButton{
 	 display: inline-block;
@@ -41,106 +33,43 @@
 	 font-size: 20px;
 	 height:35px;
 	 padding: 0px 0px 0px 0px;
-	 background-color: $navBar;
+	 background-color: $verdeadams;
      box-shadow:none;
      vertical-align: middle;
-	 &:hover, &:active, &:focus{
-
-		
-		 border-bottom: 0px solid $naranjaclaro;
-		 color: white;
-		 background-color: $navBar;
+	 &:hover, &:active{
+		 border-bottom: 0px solid $grisclaro;
+		 background-color: $verdeadams;
 		 -webkit-box-shadow: none;
          box-shadow: none;
          color:grey;
-	}
-
- 	
+	}	
 }
 
 .navButtonPlug{
-	 @extend .navButton;
+	@extend .navButton;
 	width:auto;
 	padding: 0px 9px;
-
-	
-
-
 }
 
-.navButtonPlug.active{ color:#FA9B90 !important;}
+.navButtonPlug.active{ 
+	color:$naranjaadams !important; 
+	background-color: $verdeadams;
+}
 
 button[disabled].navButton {
-	background-color: $verdeoscuro;
+	background-color: $verdedisabled;
 	border:none;
-	color:$navBar;
+	color:$verdeadams;
 	height:39px;
     box-shadow:none;
 	&:hover{
-			background-color: $verdeoscuro;
+			background-color: $verdedisabled;
 			font-weight:normal;
 	}
 }
 
 .nav_but {
-
 	margin:2px 0px;
-
-}
-.hideonresize{
-	font-size: 12px;
-	vertical-align: middle;
-	margin:auto;
-}
-
-.rib{
-	border-radius: 0;
-	height:100%;
-	background-color: transparent;
-	border:none;
-	color:white;
-	&:active, &:hover, &:focus, &:link{
-		background-color: transparent !important ; 
-		color:#ddd;
-		box-shadow: none !important;
-	}
-	i {
-		color:$navBar !important;
-	
-	}
-}
-
-@media screen and (max-width: 1147px) {
-	.hideonresize{
-		display: none;
-	}
-	.navButtonPlug{
-	 width:50px;
-	 padding:0;
-	  .active{ color:white !important;}
-}
-
-}
-
-#ribbon{
-	// overflow-x:auto;
-	background-color:#888;
-	height:60px;
-	position: absolute;
-	top:39px;
-	padding:0;
-	z-index:0;
-	// margin-left: -15px;
-	
-}
-
-.conmargen{
-	margin-left:-15px;
-}
-
-.sinmargen{
-
-	margin-left: 0px;
 }
 
 .hideonresize{
@@ -156,15 +85,18 @@ button[disabled].navButton {
 	height:100%;
 	background-color: transparent;
 	border:none;
-	color:white;
-	&:active, &:hover, &:focus, &:link{
+	color:$verdeadams;
+	&:hover{
 		background-color: transparent !important ; 
-		color:#ddd;
+		color:white ;
 		box-shadow: none !important;
 	}
-	i {
-		color:$navBar !important;
-	
+
+}
+.ribdrag{
+	color:$verdeadams;
+	&:hover{
+		color:$verdeadams !important ;
 	}
 }
 
@@ -175,6 +107,25 @@ button[disabled].navButton {
 	.navButtonPlug{
 	 width:50px;
 	 padding:0;
+	  .active{ color:white !important;}
+	}
 }
 
+#ribbon{
+	// overflow-x:auto;
+	background-color:$naranjaadams;
+	height:60px;
+	position: absolute;
+	top:39px;
+	padding:0;
+	z-index:0;
+	// margin-left: -15px;
+}
+
+.conmargen{
+	margin-left:-15px;
+}
+
+.sinmargen{
+	margin-left: 0px;
 }
