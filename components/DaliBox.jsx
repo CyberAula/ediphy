@@ -95,7 +95,7 @@ export default class DaliBox extends Component {
         let showOverlay;
         if (this.props.boxLevelSelected > box.level && box.children.length === 0) {
             showOverlay = "visible";
-        }else if(this.props.boxLevelSelected === box.level && this.props.boxLevelSelected !== 0 && this.props.boxSelected !== box.parent && this.props.boxSelected !== box.id){
+        }else if(this.props.boxLevelSelected === box.level && box.level !== 0 && !this.isAncestorOrSibling(this.props.boxSelected, this.props.id)){
             showOverlay = "visible";
         }else{
             showOverlay = "collapse";
@@ -105,19 +105,21 @@ export default class DaliBox extends Component {
                  onClick={e => {
                     if(this.props.boxLevelSelected === box.level){
                         if(this.props.boxLevelSelected > 0){
-                            if(this.props.boxSelected === box.parent || box.parent.indexOf(ID_PREFIX_SORTABLE_BOX) !== -1){
+                            if(this.isAncestorOrSibling(this.props.boxSelected, this.props.id)){
                                 this.props.onBoxSelected(this.props.id);
                             }
                         }else{
                             this.props.onBoxSelected(this.props.id);
                         }
                     }
-                    if(box.level === 0){
+                    if(box.parent.indexOf(ID_PREFIX_PAGE) !== -1 ||
+                        box.parent.indexOf(ID_PREFIX_SECTION) !== -1 ||
+                        box.parent.indexOf(ID_PREFIX_SORTABLE_BOX) !== -1){
                         e.stopPropagation();
                     }
                  }}
                  onDoubleClick={(e)=>{
-                    if((this.props.boxLevelSelected < box.level) && (box.level - this.props.boxLevelSelected <= 1) && (box.parent.indexOf(ID_PREFIX_PAGE) === -1 && box.parent.indexOf(ID_PREFIX_SECTION))){
+                    if(this.props.boxLevelSelected === box.level && box.children.length !== 0){
                         this.props.onBoxLevelIncreased();
                     }
                     /*
@@ -150,6 +152,35 @@ export default class DaliBox extends Component {
                     visibility: showOverlay,
                 }}></div>
         </div>);
+    }
+
+    isAncestorOrSibling(searchingId, actualId){
+        if(searchingId === actualId){
+            return true;
+        }
+        let parentId = this.props.boxes[actualId].parent;
+        if(parentId === searchingId){
+            return true;
+        }
+        if(parentId.indexOf(ID_PREFIX_PAGE) !== -1 || parentId.indexOf(ID_PREFIX_SECTION) !== -1){
+            return false;
+        }
+
+        if(parentId.indexOf(ID_PREFIX_SORTABLE_BOX) === -1){
+            let parentContainers = this.props.boxes[parentId].children;
+            if (parentContainers.length !== 0) {
+                for (let i = 0; i < parentContainers.length; i++) {
+                    let containerChildren = this.props.boxes[parentId].sortableContainers[parentContainers[i]].children;
+                    for (let j = 0; j < containerChildren.length; j++) {
+                        if (containerChildren[j] === searchingId) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+
+        return this.isAncestorOrSibling(searchingId, parentId);
     }
 
     renderChildren(markup, key){
@@ -370,6 +401,7 @@ export default class DaliBox extends Component {
 
     componentWillUnmount(){
         interact(ReactDOM.findDOMNode(this)).unset();
-        CKEDITOR.instances[this.props.id].destroy();
+        if(CKEDITOR.instances[this.props.id])
+            CKEDITOR.instances[this.props.id].destroy();
     }
 }

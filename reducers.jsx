@@ -13,10 +13,12 @@ function boxCreator(state = {}, action = {}){
     switch (action.type){
         case ADD_BOX:
             let position, width, height;
+            let level = (state[action.payload.ids.parent]) ? state[action.payload.ids.parent].level + 1 : 0;
             switch(action.payload.type){
                 case 'sortable':
                     position = {x: 0, y: 0};
                     width = '100%';
+                    level = -1;
                     break;
                 default:
                     position = {x: Math.floor(Math.random() * 200), y: Math.floor(Math.random() * 200)}
@@ -43,8 +45,6 @@ function boxCreator(state = {}, action = {}){
                     row = action.payload.initialParams.row;
                 }
             }
-
-            let level = (state[action.payload.ids.parent]) ? state[action.payload.ids.parent].level + 1 : 0;
             
             return {
                 id: action.payload.ids.id,
@@ -237,6 +237,9 @@ function boxLevelSelected(state = 0, action = {}){
         case SELECT_BOX:
             if(action.payload.id === -1){
                 return 0;
+            }
+            if(action.payload.id.indexOf(ID_PREFIX_SORTABLE_BOX) !== -1){
+                return -1;
             }
             return state;
         case DELETE_BOX:
