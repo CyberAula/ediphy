@@ -19,12 +19,12 @@ import DaliNavBar from '../components/DaliNavBar';
 require('../sass/style.scss');
 
 class DaliApp extends Component{
-      constructor(props) {
+    constructor(props) {
         super(props);
         this.state = {
             pluginTab: 'all',
-            hideTab:'hide',
-            visor:false
+            hideTab: 'hide',
+            visor: false
         };
     }
     render(){
@@ -123,6 +123,12 @@ class DaliApp extends Component{
         );
     }
 
+    componentWillReceiveProps(nextProps){
+        if(this.props.navItemsIds.length !== 0 && nextProps.navItemsIds.length === 0){
+            this.setState({hideTab: 'hide'})
+        }
+    }
+
     componentDidMount(){
         Dali.Plugins.loadAllAsync().then(values => {
             values.map((id, index) =>{
@@ -132,6 +138,7 @@ class DaliApp extends Component{
 
         Dali.API.Private.listenEmission(Dali.API.Private.events.render, e => {
             if(e.detail.isUpdating) {
+                this.parsePluginContainers(e.detail.content, 0);
                 this.props.dispatch(updateBox(e.detail.ids.id, e.detail.content, e.detail.state));
             }else {
                 this.parsePluginContainers(e.detail.content, 0);
