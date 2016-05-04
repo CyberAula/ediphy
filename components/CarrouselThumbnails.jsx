@@ -8,8 +8,10 @@ export default class CarrouselThumbnail extends Component {
             {
                 this.props.navItemsIds.map( id => {
                     let isSelected = false;
-                    if(this.props.navItemSelected === id)
-                        isSelected = true;
+                    if(this.props.navItemSelected === id){
+                         isSelected = true;                     
+                    }
+
                     return <Thumbnail id={id}
                                       key={id}
                                       boxes={this.props.boxes}

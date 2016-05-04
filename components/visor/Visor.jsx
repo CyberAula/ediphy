@@ -43,27 +43,29 @@ render() {
         }
 
         return (
-            <Modal className="visor modalVisorContainer"   show={this.props.visor} backdrop={true} bsSize="large" aria-labelledby="contained-modal-title-lg" onHide={e => {
-               this.props.onVisibilityToggled() }}
-               >
-
+            <Modal className="visor modalVisorContainer"   
+                   show={this.props.visor} 
+                   backdrop={true} bsSize="large" 
+                   aria-labelledby="contained-modal-title-lg" 
+                   onHide={e => {
+                        this.props.onVisibilityToggled() 
+                    }} >
                 <Modal.Header closeButton >
                     <Modal.Title>Preview</Modal.Title>
                 </Modal.Header>
 
-               <Modal.Body style={{padding:'0px', height:'90%'}}>
-                   <Grid fluid={true} style={{height: '100%'}} >
-                       <Row style={{height: '100%', margin:'0'}}>
+                <Modal.Body style={{padding:'0px', height:'90%'}}>
+                    <Grid fluid={true} style={{height: '100%'}} >
+                        <Row style={{height: '100%', margin:'0'}}>
                             <Col md={12} xs={12} style={{padding: 0, height: '100%'}}>
-                               <div className="outter" style={{paddingTop:'0px'}}>
-                                   <div id="maincontents" className={display} style={{visibility: 'visible'}} >
+                                <div className="outter" style={{paddingTop:'0px'}}>
+                                    <div id="maincontents" className={display} style={{visibility: 'visible'}} >
                                         <DaliTitle  titles={titles}
                                                     isReduced={navItem.titlesReduced}
                                                     navItemId={navItem}
                                                     titleModeToggled={this.props.state.titleModeToggled}
                                                     showButton={false} /> <br/> 
-                                            {
-                                                navItem.boxes.map((id)=>{
+                                            { navItem.boxes.map((id)=>{
                                                     let box = this.props.state.boxesById[id];
                                                     if (box.type === BOX_TYPES.NORMAL){
                                                         return( <VisorDaliBox key={id}
@@ -72,7 +74,7 @@ render() {
                                                                               toolbars={this.props.state.toolbarsById} />)
                                                      
                                                     }  else if (box.type === BOX_TYPES.SORTABLE) {
-                                                        return (<VisorDaliBoxSortable   key={id}
+                                                        return ( <VisorDaliBoxSortable  key={id}
                                                                                         id={id}
                                                                                         boxes={this.props.state.boxesById}
                                                                                         toolbars={this.props.state.toolbarsById} />)
@@ -86,9 +88,7 @@ render() {
                     </Grid>
                 </Modal.Body>
             </Modal>
-                )
+        )
     }
 
-
-
-        }
+}
