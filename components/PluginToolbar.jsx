@@ -114,7 +114,7 @@ export default class PluginToolbar extends Component {
         if(toolbar.config && toolbar.config.needsTextEdition){
             buttons.push(<ButtonInput key={'text'}
                                       onClick={() => {
-                                        this.props.onTextEditorToggled(toolbar.id, !toolbar.showTextEditor);}}
+                                        this.props.onTextEditorToggled(toolbar.id, !toolbar.showTextEditor, (toolbar.showTextEditor) ? CKEDITOR.instances[this.props.id].getData() : null)}}
                                       bsStyle={toolbar.showTextEditor ? 'primary' : 'default'}>
                 Edit text</ButtonInput>);
         }

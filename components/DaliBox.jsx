@@ -23,6 +23,7 @@ export default class DaliBox extends Component {
         let textareaStyle = {
             width: '100%',
             height: '100%',
+            top: 0,
             position: 'absolute',
             resize: 'none',
             visibility: (toolbar.showTextEditor ? 'visible' : 'hidden')}
@@ -51,27 +52,25 @@ export default class DaliBox extends Component {
                 } 
             });
         }
-        let content = (
-            <div style={style} {...attrs}>
+        let content = box.text ?
+            (<div style={style} {...attrs} dangerouslySetInnerHTML={{__html: box.text}}></div>) :
+            (<div style={style} {...attrs}>
                 {this.renderChildren(box.content)}
-            </div>
-        );
+            </div>);
 
         let helpersResizable;
         if (box.container === 0) {
             helpersResizable = (
                 <div>
                 <div style={{position: 'absolute', left:  -cornerSize/2, top: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray', cursor: (box.container === 0 ? 'nw-resize' : 'move')}}></div>
-                <div style={{position: 'absolute', right: -cornerSize/2, top: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray', cursor: (box.container === 0 ? 'nw-resize' : 'move')}}></div>
-                <div style={{position: 'absolute', left:  -cornerSize/2, bottom: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray', cursor: (box.container === 0 ? 'nw-resize' : 'move')}}></div>
-                <div style={{position: 'absolute', right: -cornerSize/2, bottom: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray', cursor: (box.container === 0 ? 'nw-resize' : 'move')}}></div>
+                <div style={{position: 'absolute', right: -cornerSize/2, top: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray', cursor: (box.container === 0 ? 'ne-resize' : 'move')}}></div>
+                <div style={{position: 'absolute', left:  -cornerSize/2, bottom: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray', cursor: (box.container === 0 ? 'sw-resize' : 'move')}}></div>
+                <div style={{position: 'absolute', right: -cornerSize/2, bottom: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray', cursor: (box.container === 0 ? 'se-resize' : 'move')}}></div>
                 </div>
             );
         }else{
              helpersResizable = (<div></div>);
         }
-
-
 
         let border = (
             <div style={{visibility: (vis ? 'visible' : 'hidden')}}>
@@ -96,7 +95,7 @@ export default class DaliBox extends Component {
         let showOverlay;
         if (this.props.boxLevelSelected > box.level && box.children.length === 0) {
             showOverlay = "visible";
-        }else if(this.props.boxLevelSelected === box.level && this.props.boxLevelSelected !== 0 && this.props.boxSelected !== box.parent && this.props.boxSelected !== box.id){
+        }else if(this.props.boxLevelSelected === box.level && box.level !== 0 && !this.isAncestorOrSibling(this.props.boxSelected, this.props.id)){
             showOverlay = "visible";
         }else{
             showOverlay = "collapse";
@@ -106,19 +105,21 @@ export default class DaliBox extends Component {
                  onClick={e => {
                     if(this.props.boxLevelSelected === box.level){
                         if(this.props.boxLevelSelected > 0){
-                            if(this.props.boxSelected === box.parent || box.parent.indexOf(ID_PREFIX_SORTABLE_BOX) !== -1){
+                            if(this.isAncestorOrSibling(this.props.boxSelected, this.props.id)){
                                 this.props.onBoxSelected(this.props.id);
                             }
                         }else{
                             this.props.onBoxSelected(this.props.id);
                         }
                     }
-                    if(box.level === 0){
+                    if(box.parent.indexOf(ID_PREFIX_PAGE) !== -1 ||
+                        box.parent.indexOf(ID_PREFIX_SECTION) !== -1 ||
+                        box.parent.indexOf(ID_PREFIX_SORTABLE_BOX) !== -1){
                         e.stopPropagation();
                     }
                  }}
                  onDoubleClick={(e)=>{
-                    if((this.props.boxLevelSelected < box.level) && (box.level - this.props.boxLevelSelected <= 1) && (box.parent.indexOf(ID_PREFIX_PAGE) === -1 && box.parent.indexOf(ID_PREFIX_SECTION))){
+                    if(this.props.boxLevelSelected === box.level && box.children.length !== 0){
                         this.props.onBoxLevelIncreased();
                     }
                     /*
@@ -140,7 +141,7 @@ export default class DaliBox extends Component {
                 }}>
             {border}
             {content}
-            <div contentEditable={true} ref={"textarea"} style={textareaStyle} />
+            <div contentEditable={true} id={box.id} ref={"textarea"} style={textareaStyle} />
             <div style={{
                     width: "100%",
                     height: "100%",
@@ -151,6 +152,35 @@ export default class DaliBox extends Component {
                     visibility: showOverlay,
                 }}></div>
         </div>);
+    }
+
+    isAncestorOrSibling(searchingId, actualId){
+        if(searchingId === actualId){
+            return true;
+        }
+        let parentId = this.props.boxes[actualId].parent;
+        if(parentId === searchingId){
+            return true;
+        }
+        if(parentId.indexOf(ID_PREFIX_PAGE) !== -1 || parentId.indexOf(ID_PREFIX_SECTION) !== -1){
+            return false;
+        }
+
+        if(parentId.indexOf(ID_PREFIX_SORTABLE_BOX) === -1){
+            let parentContainers = this.props.boxes[parentId].children;
+            if (parentContainers.length !== 0) {
+                for (let i = 0; i < parentContainers.length; i++) {
+                    let containerChildren = this.props.boxes[parentId].sortableContainers[parentContainers[i]].children;
+                    for (let j = 0; j < containerChildren.length; j++) {
+                        if (containerChildren[j] === searchingId) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+
+        return this.isAncestorOrSibling(searchingId, parentId);
     }
 
     renderChildren(markup, key){
@@ -187,6 +217,8 @@ export default class DaliBox extends Component {
                 break;
             case 'text':
                 component = "span";
+                props = {key: key};
+                children = [markup.text];
                 break;
             case 'root':
                 component = "div";
@@ -204,13 +236,13 @@ export default class DaliBox extends Component {
     }
 
     blurTextarea(){
-        this.props.onTextEditorToggled(this.props.id, false);
-        Dali.Plugins.get(this.props.toolbars[this.props.id].config.name).updateTextChanges(this.refs.textarea.innerHTML, this.props.id);
+        this.props.onTextEditorToggled(this.props.id, false, CKEDITOR.instances[this.props.id].getData());
+        Dali.Plugins.get(this.props.toolbars[this.props.id].config.name).updateTextChanges(CKEDITOR.instances[this.props.id].getData(), this.props.id);
     }
 
     componentWillUpdate(nextProps, nextState){
         if((this.props.boxSelected === this.props.id) && (nextProps.boxSelected !== this.props.id) && this.props.toolbars[this.props.id].showTextEditor){
-            CKEDITOR.currentInstance.focusManager.blur(true);
+            CKEDITOR.instances[this.props.id].focusManager.blur(true);
         }
     }
 
@@ -237,26 +269,22 @@ export default class DaliBox extends Component {
             interact(ReactDOM.findDOMNode(this)).draggable(!toolbar.showTextEditor);
         }
 
-        if(this.refs.textarea.innerHTML === "<p><br></p>"){
-            this.refs.textarea.innerHTML = this.props.boxes[this.props.id].content;
-        }
         let block = this.checkAspectRatio(toolbar.buttons);
         interact(ReactDOM.findDOMNode(this)).resizable({ preserveAspectRatio: !block }) 
     }
 
-
-
     componentDidMount() {
-
         let toolbar = this.props.toolbars[this.props.id];
         let box = this.props.boxes[this.props.id];
-  
         if(toolbar.config && toolbar.config.needsTextEdition) {
             CKEDITOR.disableAutoInline = true;
             let editor = CKEDITOR.inline(this.refs.textarea);
             editor.on("blur", function (e) {
                 this.blurTextarea();
             }.bind(this));
+            if(box.text){
+                editor.setData(box.text);
+            }
         }
 
         let dragRestrictionSelector = (box.container !== 0) ? ".daliBoxSortableContainer, .drg" + box.container : "parent";
@@ -373,5 +401,7 @@ export default class DaliBox extends Component {
 
     componentWillUnmount(){
         interact(ReactDOM.findDOMNode(this)).unset();
+        if(CKEDITOR.instances[this.props.id])
+            CKEDITOR.instances[this.props.id].destroy();
     }
 }

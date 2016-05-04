@@ -108,8 +108,8 @@ export function togglePageModal(caller, value){
     return {type: TOGGLE_PAGE_MODAL, payload: {caller, value}};
 }
 
-export function toggleTextEditor(caller, value){
-    return {type: TOGGLE_TEXT_EDITOR, payload: {caller, value}};
+export function toggleTextEditor(caller, value, text){
+    return {type: TOGGLE_TEXT_EDITOR, payload: {caller, value, text}};
 }
 
 export function toggleTitleMode(id, value){
