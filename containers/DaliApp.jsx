@@ -21,6 +21,7 @@ require('../sass/style.scss');
 class DaliApp extends Component{
     constructor(props) {
         super(props);
+        this.index = 0;
         this.state = {
             pluginTab: 'all',
             hideTab: 'hide',
@@ -138,14 +139,18 @@ class DaliApp extends Component{
 
         Dali.API.Private.listenEmission(Dali.API.Private.events.render, e => {
             if(e.detail.isUpdating) {
-                this.parsePluginContainers(e.detail.content, 0);
+                this.index = 0;
+                this.parsePluginContainers(e.detail.content, e.detail.state);
                 this.props.dispatch(updateBox(e.detail.ids.id, e.detail.content, e.detail.state));
+                this.addDefaultContainerPlugins(e.detail, e.detail.content);
             }else {
-                this.parsePluginContainers(e.detail.content, 0);
+                e.detail.ids.id = ID_PREFIX_BOX + Date.now();
+                this.index = 0;
+                this.parsePluginContainers(e.detail.content, e.detail.state);
                 this.props.dispatch(addBox(
                     {
                         parent: e.detail.ids.parent,
-                        id: ID_PREFIX_BOX + Date.now(),
+                        id: e.detail.ids.id,
                         container: e.detail.ids.container
                     },
                     BOX_TYPES.NORMAL,
@@ -157,7 +162,7 @@ class DaliApp extends Component{
                     e.detail.sections, 
                     e.detail.state,
                     e.detail.initialParams));
-
+                this.addDefaultContainerPlugins(e.detail, e.detail.content);
             }
         });
 
@@ -178,22 +183,41 @@ class DaliApp extends Component{
         }.bind(this);
     }
 
-    parsePluginContainers(obj, n){
+    parsePluginContainers(obj, state){
         if(obj.child){
             for(let i = 0; i < obj.child.length; i++){
-                this.parsePluginContainers(obj.child[i], n++);
+                this.parsePluginContainers(obj.child[i], state);
             }
         }
         if(obj.tag && obj.tag === "plugin"){
-            if(obj.attr){
-                obj.attr['plugin-data-id'] = ID_PREFIX_SORTABLE_CONTAINER + Date.now() + n;
-            }else{
-                obj.attr = {'plugin-data-id': ID_PREFIX_SORTABLE_CONTAINER + Date.now() + n};
+            if(obj.attr && !obj.attr['plugin-data-id']){
+                obj.attr['plugin-data-id'] = ID_PREFIX_SORTABLE_CONTAINER + Date.now() + this.index++;
+            }
+            if(obj.attr['plugin-data-key'] && !state['pluginContainerIds'][obj.attr['plugin-data-key']]){
+                state['pluginContainerIds'][obj.attr['plugin-data-key']] = obj.attr['plugin-data-id'];
             }
         }
         if(obj.attr && obj.attr.class){
             obj.attr.className = obj.attr.class.join(' ');
             delete(obj.attr.class);
+        }
+    }
+
+    addDefaultContainerPlugins(eventDetails, obj){
+        if(obj.child){
+            for(let i = 0; i < obj.child.length; i++){
+                this.addDefaultContainerPlugins(eventDetails, obj.child[i]);
+            }
+        }
+        if(obj.tag && obj.tag === "plugin" && obj.attr['plugin-data-default']) {
+            obj.attr['plugin-data-default'].split(" ").map(name =>{
+                if(!this.props.boxes[eventDetails.ids.id].sortableContainers[obj.attr['plugin-data-id']]) {
+                    Dali.Plugins.get(name).getConfig().callback({
+                        parent: eventDetails.ids.id,
+                        container: obj.attr['plugin-data-id'],
+                    });
+                }
+            })
         }
     }
 }

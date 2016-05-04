@@ -8,6 +8,27 @@ Dali.Plugin = function(descendant){
         return typeof arg !== 'undefined' ? arg : value;
     };
 
+    var assignPluginContainerIds = function(json){
+        if(json.child){
+            for(var i = 0; i < json.child.length; i++){
+                assignPluginContainerIds(json.child[i]);
+            }
+        }
+        if(json.tag && json.tag === "plugin"){
+            if(!state['pluginContainerIds']){
+                state['pluginContainerIds'] = {};
+            }
+            var key = json.attr['plugin-data-key'];
+            if(!key){
+                console.error(json.tag + " has not defined plugin-data-key");
+            }else{
+                if(state['pluginContainerIds'][key]){
+                    json.attr['plugin-data-id'] = state['pluginContainerIds'][key];
+                }
+            }
+        }
+    }
+
     var plugin = {
         init: function () {
             Dali.API.addMenuButton(this.getConfig());
@@ -110,8 +131,10 @@ Dali.Plugin = function(descendant){
             if(!descendant.getRenderTemplate){
                 console.error(this.getConfig.name + " has not defined getRenderTemplate method");
             } else {
+                var jsonTemplate = html2json(descendant.getRenderTemplate(state));
+                assignPluginContainerIds(jsonTemplate);
                 Dali.API.renderPlugin(
-                    html2json(descendant.getRenderTemplate(state)),
+                    jsonTemplate,
                     this.getToolbar(),
                     this.getConfig(),
                     this.getSections(),
@@ -167,6 +190,7 @@ Dali.Plugin = function(descendant){
         if(id !== 'init' &&
             id !== 'getConfig' &&
             id !== 'getToolbar' &&
+            id !== 'getSections' &&
             id !== 'getInitialState' &&
             id !== 'handleToolbar' &&
             id !== 'getConfigTemplate' &&

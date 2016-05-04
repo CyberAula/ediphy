@@ -158,7 +158,6 @@ export default class PluginToolbar extends Component {
                         <br/> 
                         <PanelGroup>
                             {accordion.map((title, index) =>{
-                                console.log(title);
                                 return (
                                     //Accordions
                                     <Panel key={title} className="panelPluginToolbar" collapsible header={title} eventKey={indexAcc++}>

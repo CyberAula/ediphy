@@ -370,7 +370,6 @@ function navItemsIds(state = [], action = {}){
                 newState.splice(newState.indexOf(id), 1);
             });
             return newState;
-
         case REORDER_NAV_ITEM:
             if(action.payload.type < 5){
                 return action.payload.newIndId;
