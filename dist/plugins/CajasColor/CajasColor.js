@@ -46,7 +46,8 @@ var CajasColor = (function(){
 
             template += "</div><div>";
             for(var i = 0; i < state.nBoxes; i++){
-                template += "<div style='background-color: " + state.colors[i] + "; min-height: 80px'><plugin plugin-data-key='box" + i + "' /></div>";
+                //If min-height is set but height is not, will not work properly. Hackfix: height = 1px
+                template += "<div style='background-color: " + state.colors[i] + "; min-height: 80px; height: 1px'><plugin plugin-data-key='box" + i + "' /></div>";
             }
             template += "</div>";
             return template;

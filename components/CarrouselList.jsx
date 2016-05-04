@@ -65,7 +65,6 @@ export default class CarrouselList extends Component{
     }
 
     findChildren(ids){
-
         //We want to get all the items whose level is higher than the selected starting after it
         let level = this.props.navItems[ids[0]].level;
         let startingIndex = this.props.navItemsIds.indexOf(ids[0]) + 1;
@@ -81,7 +80,6 @@ export default class CarrouselList extends Component{
     }
 
     sections(){
-
         var current = 1;
         for (let i in this.props.navItemsIds){
          
@@ -90,29 +88,33 @@ export default class CarrouselList extends Component{
             }
         }
         return current;
-
     }
 
 
     findBoxes(ids){
-       let newids = ids;
-       var boxesids = [];
-       newids.map(nav=> {
-
-       let boxes = this.props.navItems[nav].boxes
-            boxesids = boxesids.concat(boxes);
-            boxes.map(box=> {console.log(box); 
-                if (box[1]=='s'){
-                    let children = this.props.boxes[box]['children']
-                   children.map(child=>{
-                     boxesids.push('bo-'+child.split("-")[1])
-                   });
- 
-            }});
+       let boxesIds = [];
+       ids.map(nav => {
+           let boxes = this.props.navItems[nav].boxes;
+           boxesIds = boxesIds.concat(boxes);
+           boxes.map(box => {
+               boxesIds = boxesIds.concat(this.getBoxDescendants(this.props.boxes[box]));
+           });
         });
+        return boxesIds;
+    }
 
-         return boxesids;
-       
+    getBoxDescendants(box){
+        let selected = [];
+
+        if(box.children) {
+            for (let i = 0; i < box.children.length; i++) {
+                for (let j = 0; j < box.sortableContainers[box.children[i]].children.length; j++) {
+                    selected.push(box.sortableContainers[box.children[i]].children[j]);
+                    selected = selected.concat(this.getBoxDescendants(this.props.boxes[box.sortableContainers[box.children[i]].children[j]]));
+                }
+            }
+        }
+        return selected;
     }
 
     componentDidMount(){

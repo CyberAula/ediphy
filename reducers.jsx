@@ -193,6 +193,11 @@ function boxesById(state = {}, action = {}){
         case DELETE_BOX:
             var newState = Object.assign({}, state);
             delete newState[action.payload.id];
+            if(action.payload.children){
+                action.payload.children.forEach(id => {
+                    delete newState[id];
+                });
+            }
 
             if(state[action.payload.id].container){
                 let parent = state[action.payload.id].parent;
@@ -277,12 +282,13 @@ function boxesIds(state = [], action = {}){
         case ADD_BOX:
             return [...state, action.payload.ids.id];
         case DELETE_BOX:
-            return  state.filter(id => id!=action.payload.id);
-        case REMOVE_NAV_ITEM:
-            return  state.filter(i=> { 
-                if (action.payload.boxes.indexOf(i)==-1){ return i;}
+            return  state.filter(id => {
+                return id !== action.payload.id && (action.payload.children ? action.payload.children.indexOf(id) === -1 : true);
             });
-
+        case REMOVE_NAV_ITEM:
+            return  state.filter(id => {
+                return action.payload.boxes.indexOf(id) === -1;
+            });
         case IMPORT_STATE:
             return action.payload.present.boxes;    
         default:

@@ -71,8 +71,8 @@ export function updateBox(id, content, state){
     return {type: UPDATE_BOX, payload: {id, content, state}};
 }
 
-export function deleteBox(id, parent, container){
-    return {type: DELETE_BOX, payload: {id, parent, container}};
+export function deleteBox(id, parent, container, children){
+    return {type: DELETE_BOX, payload: {id, parent, container, children}};
 }
 
 export function reorderBox(ids,parent){

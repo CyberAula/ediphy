@@ -119,7 +119,7 @@ class DaliApp extends Component{
                                onTextEditorToggled={(caller, value, text) => dispatch(toggleTextEditor(caller, value, text))}
                                onToolbarUpdated={(caller, index, name, value) => dispatch(updateToolbar(caller, index, name, value))}
                                onToolbarCollapsed={(id) => dispatch(collapseToolbar(id))}
-                               onBoxDeleted={()=> this.props.dispatch(deleteBox(boxSelected, boxes[boxSelected].parent, boxes[boxSelected].container)) } />
+                               onBoxDeleted={()=> this.props.dispatch(deleteBox(boxSelected, boxes[boxSelected].parent, boxes[boxSelected].container, this.getDescendants(boxes[boxSelected]))) } />
             </Grid>
         );
     }
@@ -177,10 +177,24 @@ class DaliApp extends Component{
           else if (key == 46) {
               if ( this.props.boxSelected != -1){
                 let box =  this.props.boxes[ this.props.boxSelected];
-                this.props.dispatch(deleteBox(box.id, box.parent, box.container));
+                this.props.dispatch(deleteBox(box.id, box.parent, box.container, this.getDescendants(box)));
               }
           }  
         }.bind(this);
+    }
+
+    getDescendants(box){
+        let selected = [];
+
+        if(box.children) {
+            for (let i = 0; i < box.children.length; i++) {
+                for (let j = 0; j < box.sortableContainers[box.children[i]].children.length; j++) {
+                    selected.push(box.sortableContainers[box.children[i]].children[j]);
+                    selected = selected.concat(this.getDescendants(this.props.boxes[box.sortableContainers[box.children[i]].children[j]]));
+                }
+            }
+        }
+        return selected;
     }
 
     parsePluginContainers(obj, state){
