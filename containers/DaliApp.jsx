@@ -226,6 +226,10 @@ class DaliApp extends Component{
         if(obj.tag && obj.tag === "plugin" && obj.attr['plugin-data-default']) {
             obj.attr['plugin-data-default'].split(" ").map(name =>{
                 if(!this.props.boxes[eventDetails.ids.id].sortableContainers[obj.attr['plugin-data-id']]) {
+                    if(!Dali.Plugins.get(name)){
+                        console.error("Plugin " + name + " does not exist");
+                        return;
+                    }
                     Dali.Plugins.get(name).getConfig().callback({
                         parent: eventDetails.ids.id,
                         container: obj.attr['plugin-data-id'],
