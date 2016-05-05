@@ -11,14 +11,9 @@ export default class Visor extends Component{
         super(props);
     }
     render() {
-        let navItemsIds = this.props.state.navItemsIds;
-        let boxesById = this.props.state.boxesById;
-        let boxes = this.props.state.boxes;
         let navItemSelected = this.props.state.navItemSelected || 0;
         let navItemsById = this.props.state.navItemsById;
-        let toolbarsById = this.props.state.toolbarsById;
         let navItem = navItemsById[navItemSelected];
-        let elements = 0;
 
         let display = navItem.type == "slide"? "sli slide":"sli doc";
         let firstParent = navItem.parent || 0;
