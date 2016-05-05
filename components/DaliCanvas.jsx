@@ -109,7 +109,7 @@ export default class DaliCanvas extends Component{
             }
         });
 
-        Dali.API.Private.listenEmission(Dali.API.Private.events.getCurrentPluginsList, e => {
+        Dali.API.Private.listenEmission(Dali.API.Private.events.getPluginsInCurrentView, e => {
             let plugins = {};
             this.props.navItemSelected.boxes.map(id => {
                 let toolbar = this.props.toolbars[id];
@@ -139,7 +139,7 @@ export default class DaliCanvas extends Component{
                 }
             });
 
-            Dali.API.Private.answer(Dali.API.Private.events.getCurrentPluginsList, plugins);
+            Dali.API.Private.answer(Dali.API.Private.events.getPluginsInCurrentView, plugins);
         });
     }
 }

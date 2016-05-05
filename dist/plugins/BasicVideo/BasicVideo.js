@@ -1,6 +1,6 @@
-var BasicVideo= (function(){
-    return new Dali.Plugin({
-        getConfig: function(){
+function BasicVideo(base) {
+    return {
+        getConfig: function () {
             return {
                 name: 'BasicVideo',
                 category: 'multimedia',
@@ -9,19 +9,19 @@ var BasicVideo= (function(){
                 icon: 'fa-video-camera'
             };
         },
-        getToolbar: function(){
+        getToolbar: function () {
             return [
-                 {
+                {
                     name: 'url',
                     humanName: 'URL',
                     type: 'text',
                     tab: 'Main',
                     accordion: 'Basic',
                     autoManaged: false,
-                    value:'http://video.webmfiles.org/big-buck-bunny_trailer.webm'
+                    value: 'http://video.webmfiles.org/big-buck-bunny_trailer.webm'
 
                 },
-                 {
+                {
                     name: 'opacity',
                     humanName: 'Opacity',
                     type: 'number',
@@ -37,7 +37,7 @@ var BasicVideo= (function(){
                     humanName: 'Aspect Ratio',
                     type: 'checkbox',
                     value: 'unchecked',
-                    checked:'false',
+                    checked: 'false',
                     autoManaged: false,
                     tab: 'Main',
                     accordion: 'Basic'
@@ -47,7 +47,7 @@ var BasicVideo= (function(){
                     humanName: 'Allow FullScreen',
                     type: 'checkbox',
                     value: 'unchecked',
-                    checked:'false',
+                    checked: 'false',
                     autoManaged: false,
                     tab: 'Main',
                     accordion: 'Basic'
@@ -57,11 +57,11 @@ var BasicVideo= (function(){
                     humanName: 'Show Controls',
                     type: 'checkbox',
                     value: 'unchecked',
-                    checked:'false',
+                    checked: 'false',
                     autoManaged: false,
                     tab: 'Main',
                     accordion: 'Basic'
-                },                
+                },
                 {
                     name: 'borderSize',
                     humanName: 'Border Size',
@@ -87,8 +87,8 @@ var BasicVideo= (function(){
                     humanName: 'Border Radius',
                     type: 'number',
                     value: '0',
-                    min:'0',
-                    max:'50',
+                    min: '0',
+                    max: '50',
                     autoManaged: false,
                     tab: 'Main',
                     accordion: 'Style'
@@ -99,7 +99,7 @@ var BasicVideo= (function(){
                     type: 'text',
                     value: 'solid',
                     autoManaged: false,
-                    list:'borderStyle',
+                    list: 'borderStyle',
                     options: ['none', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset', 'initial', 'inherit'],
                     tab: 'Main',
                     accordion: 'Style'
@@ -117,42 +117,49 @@ var BasicVideo= (function(){
         },  // TEST URL http://video.webmfiles.org/big-buck-bunny_trailer.webm
         // Posibilidad: http://modernizr.com/
 
-        getSections: function(){
+        getSections: function () {
             return [
                 {
-                    tab: 'Main', 
-                    accordion: ['Basic','Style']
+                    tab: 'Main',
+                    accordion: ['Basic', 'Style']
                 },
                 {
-                    tab: 'Other', 
+                    tab: 'Other',
                     accordion: ['Extra']
                 },
 
             ];
         },
-        getInitialState: function(){
-            return {url: 'http://video.webmfiles.org/big-buck-bunny_trailer.webm', aspectRatio:'unchecked', borderSize: 0, borderSize: 0, borderStyle:'solid', borderRadius: 0, borderColor: 'black', thumbnailVisibility: 'hidden'};
+        getInitialState: function () {
+            return {
+                url: 'http://video.webmfiles.org/big-buck-bunny_trailer.webm',
+                aspectRatio: 'unchecked',
+                borderSize: 0,
+                borderSize: 0,
+                borderStyle: 'solid',
+                borderRadius: 0,
+                borderColor: 'black',
+                thumbnailVisibility: 'hidden'
+            };
         },
-        getConfigTemplate: function(state){
-            return "<div> Url: <input type=\"text\" autofocus id=\"BasicImage_input\" value=\"" + state.url + "\"><br><button onclick=\"BasicVideo.showPreview()\">Show preview</button><iframe width=\"560\" height=\"315\"id=\"BasicImage_preview\" frameborder=\"0\" allowfullscreen src=\"" + state.url + "\" style=\"width: 180px; height: auto; visibility: " + state.thumbnailVisibility + ";\"  ></video></div>";
+        getConfigTemplate: function (state) {
+            return "<div> Url: <input type=\"text\" autofocus id=\"BasicImage_input\" value=\"" + state.url + "\"><br><button onclick=\"base.showPreview()\">Show preview</button><iframe width=\"560\" height=\"315\"id=\"BasicImage_preview\" frameborder=\"0\" allowfullscreen src=\"" + state.url + "\" style=\"width: 180px; height: auto; visibility: " + state.thumbnailVisibility + ";\"  ></video></div>";
         },
-        getRenderTemplate: function(state){
-     
-            return "<video width=\"560\" height=\"315\" " + (state.controls == "checked")?"controls=\"controls\" ":" " +" frameBorder=\"0\" allowFullScreen style=\"width: 100%; height: 100%; border: " + state.borderStyle + " " + state.borderSize + "px " + state.borderColor + "; z-index:0;\" src=\"" + state.url  + "\"></video>"
+        getRenderTemplate: function (state) {
+            return "<video width=\"560\" height=\"315\" " + (state.controls == "checked") ? "controls=\"controls\" " : " " + " frameBorder=\"0\" allowFullScreen style=\"width: 100%; height: 100%; border: " + state.borderStyle + " " + state.borderSize + "px " + state.borderColor + "; z-index:0;\" src=\"" + state.url + "\"></video>"
         },
-        handleToolbar: function(name, value){
-          
-                BasicVideo.setState(name, value);
+        handleToolbar: function (name, value) {
+            base.setState(name, value);
         },
-        showPreview: function(){
+        showPreview: function () {
             var vid = $('#BasicImage_preview');
             var input = $('#BasicImage_input');
-            // BasicVideo.setState('url', input.val());
-            BasicVideo.setState('thumbnailVisibility', 'visible');
+            // base.setState('url', input.val());
+            base.setState('thumbnailVisibility', 'visible');
             // vid.attr('src', input.val());
             vid.css('visibility', 'visible');
         },
 
 
-    });
-})();
+    }
+}

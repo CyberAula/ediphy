@@ -9,7 +9,7 @@ Dali.Plugins = (function(){
             script.src = url;
 
             script.addEventListener('load', function() {
-                resolve(name);
+                resolve({name: name, value: window[name]});
             }, false);
 
             document.head.appendChild(script);
@@ -18,15 +18,21 @@ Dali.Plugins = (function(){
         return promise;
     };
 
+    var pluginFactory = function(desc){
+        var plugin = new Dali.Plugin();
+        plugin.create(desc(plugin));
+        return plugin;
+    }
+
     return {
         get: function(name){
             return pluginList[name];
         },
-        getCurrentPlugins: function(){
+        getPluginsInCurrentView: function(){
             var promise = new Promise(function(resolve, reject){
-                Dali.API.Private.listenAnswer(resolve, Dali.API.Private.events.getCurrentPluginsList);
+                Dali.API.Private.listenAnswer(resolve, Dali.API.Private.events.getPluginsInCurrentView);
             });
-            Dali.API.Private.emit(Dali.API.Private.events.getCurrentPluginsList);
+            Dali.API.Private.emit(Dali.API.Private.events.getPluginsInCurrentView);
 
             return promise;
         },
@@ -36,8 +42,8 @@ Dali.Plugins = (function(){
                 var promises = [];
                 plugins.map(function (id, index) {
                     promises.push(loadPluginFile(id));
-                    promises[index].then(function (value) {
-                        pluginList[id] = window[id];
+                    promises[index].then(function (result) {
+                        pluginList[result.name] = pluginFactory(result.value);
                     });
                 });
             }
@@ -67,7 +73,6 @@ Dali.API = (function(){
 Dali.API.Private = (function(){
 
     var answerCallback;
-    var configContainer;
 
     return {
         events: {
@@ -81,9 +86,9 @@ Dali.API.Private = (function(){
                 emit: 'openConfig',
                 answer: 'openConfig_back'
             },
-            getCurrentPluginsList: {
-                emit: 'getCurrentPluginsList',
-                answer: 'getCurrentPluginsList_back'
+            getPluginsInCurrentView: {
+                emit: 'getPluginsInCurrentView',
+                answer: 'getPluginsInCurrentView_back'
             }
         },
         emit: function(name, params) {

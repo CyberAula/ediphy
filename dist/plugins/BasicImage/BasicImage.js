@@ -1,8 +1,8 @@
-var BasicImage = (function(){
-    return new Dali.Plugin({
+function BasicImage(base){
+    return {
         init: function(){
-            BasicImage.registerExtraFunction(this.imageClick);
-            BasicImage.registerExtraFunction(this.printState);
+            base.registerExtraFunction(this.imageClick);
+            base.registerExtraFunction(this.printState);
         },
         getConfig: function(){
             return {
@@ -119,17 +119,19 @@ var BasicImage = (function(){
             return "<div style=\"width: 100%; height: 100%\"><img style=\"width: 100%; height: 100%; border-radius: "+state.borderRadius+"%; border: "+ state.borderSize + "px "+ state.borderStyle +" "+ state.borderColor +";\" src=\"" + state.url + "\"/></div>";
         },
         handleToolbar: function(name, value){
-            if(name=='aspectRatio') 
-                BasicImage.setState(name,BasicImage.getState().aspectRatio=='checked'?'unchecked':'checked');
-            else 
-                BasicImage.setState(name, value);
+            if(name=='aspectRatio') {
+                base.setState(name, base.getState().aspectRatio == 'checked' ? 'unchecked' : 'checked');
+            }
+            else {
+                base.setState(name, value);
+            }
         },
         showPreview: function(){
             var img = $('#BasicImage_preview');
             var input = $('#BasicImage_input');
 
             //BasicImage.setState('url', input.val());
-            BasicImage.setState('thumbnailVisibility', 'visible');
+            base.setState('thumbnailVisibility', 'visible');
             // img.attr('src', input.val());
             img.css('visibility', 'visible');
         },
@@ -139,5 +141,5 @@ var BasicImage = (function(){
         printState: function() {
             console.log(this);
         }
-    });
-})();
+    }
+};

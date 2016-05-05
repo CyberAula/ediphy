@@ -1,7 +1,5 @@
-Dali.Plugin = function(descendant){
-    var state;
-    var id;
-    var initialParams;
+Dali.Plugin = function(){
+    var descendant, state, id, initialParams;
     var extraFunctions = {};
 
     var defaultFor = function(arg, value) {
@@ -30,6 +28,9 @@ Dali.Plugin = function(descendant){
     }
 
     var plugin = {
+        create: function(obj){
+            descendant = obj;
+        },
         init: function () {
             Dali.API.addMenuButton(this.getConfig());
             if(descendant.init) {
@@ -37,7 +38,7 @@ Dali.Plugin = function(descendant){
             }
         },
         getConfig: function(){
-            var name, category, callback, needsConfigModal, needsTextEdition;
+            var name, category, callback, needsConfigModal, needsTextEdition, icon;
             if(descendant.getConfig){
                 name = descendant.getConfig().name;
                 category = descendant.getConfig().category;
@@ -46,7 +47,7 @@ Dali.Plugin = function(descendant){
                 needsTextEdition = descendant.getConfig().needsTextEdition;
             }
 
-            name = defaultFor(name, 'Plugin name');
+            name = defaultFor(name, 'PluginName');
             category = defaultFor(category, 'text');
             needsConfigModal = defaultFor(needsConfigModal, false);
             needsTextEdition = defaultFor(needsTextEdition, false);
@@ -178,26 +179,8 @@ Dali.Plugin = function(descendant){
         },
         getExtraFunctions: function(){
             return Object.keys(extraFunctions);
-        },
-        callExtraFunction: function(alias, fnAlias) {
-            var element = $.find("[data-alias='" + alias + "']");
-            if (element) {
-                extraFunctions[fnAlias].bind(element[0])();
-            }
         }
     };
-    Object.keys(descendant).map(function(id) {
-        if(id !== 'init' &&
-            id !== 'getConfig' &&
-            id !== 'getToolbar' &&
-            id !== 'getSections' &&
-            id !== 'getInitialState' &&
-            id !== 'handleToolbar' &&
-            id !== 'getConfigTemplate' &&
-            id !== 'getRenderTemplate'){
-            plugin[id] = descendant[id];
-        }
-    });
 
     return plugin;
 };

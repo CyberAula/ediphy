@@ -81,7 +81,7 @@ class DaliApp extends Component{
                            onBoxAdded={(ids, type,  draggable, resizable, content, toolbar, config, state) => dispatch(addBox(ids, type, draggable, resizable, content, toolbar, config, state))}
                            onVisibilityToggled={(caller, value) => dispatch(togglePageModal(caller, value))}
                            onPageAdded={(id, name, parent, children, level, type, position) => dispatch(addNavItem(id, name, parent, children, level, type, position))} />
-                <Visor  id="visor" visor={this.state.visor} onVisibilityToggled={()=> this.setState({visor:!this.state.visor })} state={this.props.store.getState().present} />
+                <Visor id="visor" visor={this.state.visor} onVisibilityToggled={()=> this.setState({visor:!this.state.visor })} state={this.props.store.getState().present} />
                 <PluginConfigModal />
 
                 <DaliNavBar isBusy={isBusy}
@@ -131,9 +131,9 @@ class DaliApp extends Component{
     }
 
     componentDidMount(){
-        Dali.Plugins.loadAllAsync().then(values => {
-            values.map((id, index) =>{
-                Dali.Plugins.get(id).init();
+        Dali.Plugins.loadAllAsync().then(pluginsLoaded => {
+            pluginsLoaded.map((plugin) => {
+                Dali.Plugins.get(plugin.name).init();
             })
         });
 

@@ -1,5 +1,5 @@
-var CajasColor = (function(){
-    return new Dali.Plugin({
+function CajasColor(base){
+    return{
         getConfig: function(){
             return {
                 name: 'CajasColor',
@@ -54,13 +54,13 @@ var CajasColor = (function(){
         },
         handleToolbar: function(name, value){
             if(name === 'nBoxes'){
-                if(value > CajasColor.getState().nBoxes){
-                    CajasColor.setState('colors', CajasColor.getState().colors.concat(['blue']));
-                }else if(value < CajasColor.getState().nBoxes){
-                    CajasColor.setState('colors', CajasColor.getState().colors.slice(0, CajasColor.getState().colors.length()));
+                if(value > base.getState().nBoxes){
+                    base.setState('colors', base.getState().colors.concat(['blue']));
+                }else if(value < base.getState().nBoxes){
+                    base.setState('colors', base.getState().colors.slice(0, base.getState().colors.length()));
                 }
-                CajasColor.setState(name, value);
+                base.setState(name, value);
             }
         }
-    })
-})();
+    }
+}
