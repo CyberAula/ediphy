@@ -1,6 +1,6 @@
 
 
-var DaliVisor = {
+var DaliScorm = {
 
 
     exports: function(state){
@@ -11,7 +11,7 @@ var DaliVisor = {
           .replace('m', today.getMonth()+1)
           .replace('Y', today.getFullYear());
 
-        JSZipUtils.getBinaryContent('/lib/visor/dist.zip', function(err, data) {
+        JSZipUtils.getBinaryContent('/lib/scorm/scorm.zip', function(err, data) {
          
             if(err) {
                 throw err; // or handle err
@@ -19,7 +19,7 @@ var DaliVisor = {
 
             var zip = new JSZip(data);
             var navs = state.present.navItemsById;
-    
+            var sections = []
             state.present.navItemsIds.map(page => {
                     
                 var inner = new EJS({url: '/lib/visor/index.ejs'}).render({
@@ -32,37 +32,23 @@ var DaliVisor = {
                 });
 
                 var nombre = navs[page].name;
+                sections.push(nombre)
   
                 zip.file(nombre+".html", inner);
             });
+
+           
+
+
+
             var content = zip.generate({type:"blob"});
-            saveAs(content, "dalivisor.zip");
+            saveAs(content, "scorm.zip");
 
         });
 
            
           
     } 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
