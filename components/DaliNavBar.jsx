@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
-import {Col, Input,Button, OverlayTrigger, Popover} from 'react-bootstrap';
+import {Col,Row, Input,Button, OverlayTrigger, Popover} from 'react-bootstrap';
 
 
 export default class DaliNavBar extends Component {
@@ -10,14 +10,14 @@ export default class DaliNavBar extends Component {
 
     render() {
         return (
-                <div className="navBar">
-                     <Col id="iconBar" >
+ 
+               
+                    <Col id="iconBar" >
                         <button className="navButton" title="Undo"  disabled={this.props.undoDisabled} onClick={() => this.props.undo()}><i className="fa fa-mail-reply fa-1"></i>  </button>
                         <button className="navButton" title="Redo"  disabled={this.props.redoDisabled} onClick={() => this.props.redo()}><i className="fa fa-mail-forward fa-1 "></i>  </button>
                         <button className="navButton" title="Preview"  disabled={this.props.undoDisabled} onClick={() =>this.props.visor()}><i className="fa fa-eye fa-1 "></i>  </button>
                         <button className="navButton" title="Export HTML ZIP"  disabled={this.props.undoDisabled} onClick={() => this.props.export() }><i className="fa fa-download fa-1 "></i> </button>
                         <button className="navButton" title="Scorm"  disabled={this.props.undoDisabled} onClick={() => this.props.scorm() }><i className="fa fa-cart-arrow-down fa-1 "></i> </button>
-
                         <OverlayTrigger trigger="click" rootClose placement="bottom" overlay={<Popover id="is_busy_popover">{this.props.isBusy}</Popover>}>
                             <button  disabled={this.props.undoDisabled} className="navButton" onClick={() => { this.props.save()
                             }}><i className="fa fa-save fa-1 "></i>  </button>
@@ -35,7 +35,7 @@ export default class DaliNavBar extends Component {
                         <button className={ this.props.hideTab == 'show' && this.props.categoria == 'exercises' ? 'navButtonPlug active':'navButtonPlug' } title='Exercises' disabled={(this.props.navItemsIds.length === 0 ? true : false)} onClick={() => {this.openPlugin('exercises') }}><i className="fa fa-mortar-board fa-1 "></i>  <span className="hideonresize">Ejercicios</span> </button>
                         
                    </Col>
-                </div>
+                
        
 
             );

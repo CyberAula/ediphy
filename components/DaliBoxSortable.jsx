@@ -20,6 +20,9 @@ export default class DaliBoxSortable extends Component{
                 }}>
                 {box.children.map((idContainer, index)=>{
                     let container = box.sortableContainers[idContainer];
+                    // console.log(this.props.id)
+                    // console.log(this.props.boxSelected)
+                    // console.log(this.props.id === this.props.boxSelected)
                     return (<div key={index}
                                  className="daliBoxSortableContainer"
                                  data-id={idContainer}

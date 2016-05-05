@@ -17,12 +17,10 @@ export default class PluginRibbon extends Component {
                  md={12}
                  xs={12}                    
                  style={{ 
-                    marginLeft:'-15px',
                     height: (this.props.hideTab=='hide' || this.props.category=='none' )? '0px':'60px',
                     overflowX: 'auto',
-                    overflowY: 'hidden',
-                    display: (this.props.hideTab=='hide' || this.props.category=='none' )? 'none':'block'}}>
-                <div id="insideribbon" style={{margin:'0', position:'absolute', right:0, width:'83.33333%'}} className="row">
+                    overflowY: 'hidden'   }} >
+                <div id="insideribbon" style={{margin:'0', right:0 }} className="row">
                     <div style={{ whiteSpace: 'nowrap', marginLeft: '30px'}}>
                         {this.state.buttons.map((item, index) => {
                             if(this.state.buttons[index].category === this.props.category || this.props.category == 'all'){
