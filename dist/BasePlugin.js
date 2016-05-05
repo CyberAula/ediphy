@@ -30,6 +30,19 @@ Dali.Plugin = function(){
     var plugin = {
         create: function(obj){
             descendant = obj;
+
+            Object.keys(descendant).map(function(id) {
+                if(id !== 'init' &&
+                    id !== 'getConfig' &&
+                    id !== 'getToolbar' &&
+                    id !== 'getSections' &&
+                    id !== 'getInitialState' &&
+                    id !== 'handleToolbar' &&
+                    id !== 'getConfigTemplate' &&
+                    id !== 'getRenderTemplate'){
+                    plugin[id] = descendant[id];
+                }
+            });
         },
         init: function () {
             Dali.API.addMenuButton(this.getConfig());

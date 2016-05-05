@@ -19,7 +19,6 @@ function Youtube(base) {
                     accordion: 'Basic',
                     autoManaged: false,
                     value: 'https://www.youtube.com/watch?v=S9M3c1_yl-E'
-
                 },
                 {
                     name: 'opacity',
@@ -70,11 +69,10 @@ function Youtube(base) {
             return {url: 'https://www.youtube.com/watch?v=S9M3c1_yl-E', borderSize: 0, thumbnailVisibility: 'hidden'};
         },
         getConfigTemplate: function (state) {
-            return "<div> Url: <input type=\"text\" autofocus id=\"BasicImage_input\" value=\"" + state.url + "\"><br><button onclick=\"base.showPreview()\">Show preview</button><iframe width=\"560\" height=\"315\"id=\"BasicImage_preview\" frameborder=\"0\" allowfullscreen src=\"" + base.parseURL(state.url) + "\" style=\"width: 180px; height: auto; visibility: " + state.thumbnailVisibility + ";\"  ></iframe></div>";
+            return "<div> Url: <input type=\"text\" autofocus id=\"BasicImage_input\" value=\"" + state.url + "\"><br><button onclick=\"Dali.Plugins.get(\"Youtube\").showPreview()\">Show preview</button><iframe width=\"560\" height=\"315\"id=\"BasicImage_preview\" frameborder=\"0\" allowfullscreen src=\"" + Dali.Plugins.get("Youtube").parseURL(state.url) + "\" style=\"width: 180px; height: auto; visibility: " + state.thumbnailVisibility + ";\"></iframe></div>";
         },
         getRenderTemplate: function (state) {
-
-            return "<iframe width=\"560\" height=\"315\" controls frameBorder=\"0\" allowFullScreen style=\"width: 100%; height: 100%; pointer-events: none; border: solid " + state.borderSize + "px green; z-index:0;\" src=\"" + base.parseURL(state.url) + "\"></iframe>"
+            return "<iframe width=\"560\" height=\"315\" controls frameBorder=\"0\" allowFullScreen style=\"width: 100%; height: 100%; pointer-events: none; border: solid " + state.borderSize + "px green; z-index:0;\" src=\"" + Dali.Plugins.get("Youtube").parseURL(state.url) + "\"></iframe>"
         },
         handleToolbar: function (name, value) {
             //if(name == 'url'){

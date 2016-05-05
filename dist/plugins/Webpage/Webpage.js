@@ -70,14 +70,12 @@ function Webpage(base) {
             return {url: 'http://www.adams.es/', borderSize: 0, thumbnailVisibility: 'hidden'};
         },
         getConfigTemplate: function (state) {
-            return "<div> Url: <input type=\"text\" autofocus id=\"BasicImage_input\" value=\"" + state.url + "\"><br><button onclick=\"base.showPreview()\">Show preview</button><iframe width=\"560\" height=\"315\"id=\"BasicImage_preview\" frameborder=\"0\" allowfullscreen src=\"" + state.url + "\" style=\"width: 180px; height: auto; visibility: " + state.thumbnailVisibility + ";\"  ></iframe></div>";
+            return "<div> Url: <input type=\"text\" autofocus id=\"BasicImage_input\" value=\"" + state.url + "\"><br><button onclick=\"Dali.Plugins.get(\"Webpage\").showPreview()\">Show preview</button><iframe width=\"560\" height=\"315\"id=\"BasicImage_preview\" frameborder=\"0\" allowfullscreen src=\"" + state.url + "\" style=\"width: 180px; height: auto; visibility: " + state.thumbnailVisibility + ";\"></iframe></div>";
         },
         getRenderTemplate: function (state) {
-
-            return "<iframe width=\"560\" height=\"315\"  style=\"width: 100%; height: 100%; pointer-events: none; border: solid " + state.borderSize + "px green; z-index:0;\" src=\"" + state.url + "\"></iframe>"
+            return "<iframe width=\"560\" height=\"315\" style=\"width: 100%; height: 100%; pointer-events: none; border: solid " + state.borderSize + "px green; z-index:0;\" src=\"" + state.url + "\"></iframe>"
         },
         handleToolbar: function (name, value) {
-
             base.setState(name, value);
         },
         showPreview: function () {
@@ -88,6 +86,5 @@ function Webpage(base) {
             // vid.attr('src', input.val());
             vid.css('visibility', 'visible');
         }
-
     }
 }

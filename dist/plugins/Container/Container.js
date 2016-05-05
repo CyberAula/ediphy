@@ -17,7 +17,6 @@ function Container(base) {
                     tab: 'Other',
                     accordion: ['Extra']
                 },
-
             ];
         },
         getRenderTemplate: function (state) {
