@@ -18,11 +18,7 @@ export default class PluginToolbar extends Component {
 
 
     toggleWidth(){
-      if( $("#tools").css("width") != '250px' ){
-        $("#tools").animate({width: '250px'})
-      } else {
-        $("#tools").animate({ width: '0px'})
-      }
+ 
       this.setState({ open: !this.state.open})
     } 
 

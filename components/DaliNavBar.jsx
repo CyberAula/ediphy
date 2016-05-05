@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
-import {Col, Input,Button, OverlayTrigger, Popover} from 'react-bootstrap';
+import {Col,Row, Input,Button, OverlayTrigger, Popover} from 'react-bootstrap';
 
 
 export default class DaliNavBar extends Component {
@@ -10,7 +10,7 @@ export default class DaliNavBar extends Component {
 
     render() {
         return (
-                <div className="navBar">
+               
                     <Col id="iconBar" >
                         <button className="navButton" disabled={this.props.undoDisabled} onClick={() => this.props.undo()}><i className="fa fa-mail-reply fa-1"></i>  </button>
                         <button className="navButton" disabled={this.props.redoDisabled} onClick={() => this.props.redo()}><i className="fa fa-mail-forward fa-1 "></i>  </button>
@@ -33,7 +33,7 @@ export default class DaliNavBar extends Component {
                         <button className={ this.props.hideTab == 'show' && this.props.categoria == 'exercises' ? 'navButtonPlug active':'navButtonPlug' } title='Exercises' disabled={(this.props.navItemsIds.length === 0 ? true : false)} onClick={() => {this.openPlugin('exercises') }}><i className="fa fa-mortar-board fa-1 "></i>  <span className="hideonresize">Ejercicios</span> </button>
                         
                    </Col>
-                </div>
+                
        
 
             );
