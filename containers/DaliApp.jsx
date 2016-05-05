@@ -114,10 +114,12 @@ class DaliApp extends Component{
                            onBoxAdded={(ids, type,  draggable, resizable, content, toolbar, config, state) => dispatch(addBox(ids, type, draggable, resizable, content, toolbar, config, state))}
                            onVisibilityToggled={(caller, value) => dispatch(togglePageModal(caller, value))}
                            onPageAdded={(id, name, parent, children, level, type, position) => dispatch(addNavItem(id, name, parent, children, level, type, position))} />
-                <Visor id="visor" visor={this.state.visor} onVisibilityToggled={()=> this.setState({visor:!this.state.visor })} state={this.props.store.getState().present} />
+                <Visor id="visor"
+                       visor={this.state.visor}
+                       onVisibilityToggled={()=> this.setState({visor:!this.state.visor })}
+                       state={this.props.store.getState().present} />
                 <PluginConfigModal />
 
- 
                 <PluginToolbar toolbars={toolbars}
                                box={boxes[boxSelected]}
                                boxSelected={boxSelected}

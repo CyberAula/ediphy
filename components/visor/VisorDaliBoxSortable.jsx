@@ -8,9 +8,8 @@ export default class VisorDaliBoxSortable extends Component{
     render(){
         let box = this.props.boxes[this.props.id];
         return(
-        <div  >
-            <div ref="sortableContainer"
-                 style={{position: 'relative'}}>
+        <div>
+            <div style={{position: 'relative'}}>
                 {box.children.map((idContainer, index)=>{
                     let container = box.sortableContainers[idContainer];
                     return (<div key={index}
@@ -24,38 +23,28 @@ export default class VisorDaliBoxSortable extends Component{
                                     position: 'relative'}}>
                         {container.colDistribution.map((col, i) => {
                             if(container.cols[i]) {
-                                return (
-                                    <div key={i}
-                                         style={{width: col + "%", height: '100%', float: 'left'}}>
-                                        {container.cols[i].map((row, j) => {
-                                            return (<div key={j}
-                                                         style={{width: "100%", height: row + "%", position: 'relative'}}
-                                                         ref={e => {
-                                                            if(e !== null){
-                                                                let selector = ".rib "
-                                                            }
-                                                        }}>
-                                                {container.children.map((idBox, index) => {
-                                                    if(this.props.boxes[idBox].col === i && this.props.boxes[idBox].row === j) {
-                                                        return (<VisorDaliBox id={idBox}
-                                                                              key={index}
-                                                                              boxes={this.props.boxes}
-                                                                              toolbars={this.props.toolbars}   />);
-                                                    }
-                                                })}
-                                            </div>);
-                                        })}
-                                    </div>);
+                                return(
+                                <div key={i}
+                                     style={{width: col + "%", height: '100%', float: 'left'}}>
+                                    {container.cols[i].map((row, j) => {
+                                        return (<div key={j} style={{width: "100%", height: row + "%", position: 'relative'}}>
+                                            {container.children.map((idBox, index) => {
+                                                if(this.props.boxes[idBox].col === i && this.props.boxes[idBox].row === j) {
+                                                    return (<VisorDaliBox id={idBox}
+                                                                          key={index}
+                                                                          boxes={this.props.boxes}
+                                                                          toolbars={this.props.toolbars} />);
+                                                }
+                                            })}
+                                        </div>);
+                                    })}
+                                </div>);
                             }
                         })}
-                
                     </div>);
                 })}
             </div>
-
         </div>
         );
     }
- 
-
 }

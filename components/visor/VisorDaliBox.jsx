@@ -5,50 +5,36 @@ import {Input,Button} from 'react-bootstrap';
 import VisorPluginPlaceholder from '../visor/VisorPluginPlaceholder';
 import {BOX_TYPES, ID_PREFIX_PAGE, ID_PREFIX_SECTION, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_SORTABLE_CONTAINER} from '../../constants';
 
-export default class VisorDaliBox extends Component {
-    render() {
+export default class VisorDaliBox extends Component{
+    render(){
         let borderSize = 2;
         let cornerSize = 15;
         let box = this.props.boxes[this.props.id];
         let toolbar = this.props.toolbars[this.props.id];
-        let vis = ((this.props.boxSelected === this.props.id) && box.type !== BOX_TYPES.SORTABLE)
+        let vis = ((this.props.boxSelected === this.props.id) && box.type !== BOX_TYPES.SORTABLE);
         let style = {
             width: '100%',
             height: '100%',
             position: 'relative',
             wordWrap: 'break-word',
-            visibility: (toolbar.showTextEditor ? 'hidden' : 'visible')};
-
-        let textareaStyle = {
-            width: '100%',
-            height: '100%',
-            position: 'absolute',
-            resize: 'none',
-            visibility: (toolbar.showTextEditor ? 'visible' : 'hidden')}
+            visibility: (toolbar.showTextEditor ? 'hidden' : 'visible')
+        };
         let attrs = {};
        
         if(toolbar.buttons) {
             toolbar.buttons.map((item, index) => {
-                if (item.autoManaged) {
-                    if (!item.isAttribute) {
+                if(item.autoManaged) {
+                    if(!item.isAttribute) {
                         if(item.name !== 'width' && item.name !== 'height') {
                             style[item.name] = item.value;
-                            if (item.units){
+                            if(item.units) {
                                 style[item.name] += item.units;
                             }
                         }
-                    } else {
+                    }else {
                         attrs['data-' + item.name] = item.value;
                     }
                 }
-                if(item.name === 'fontSize'){
-                    textareaStyle['fontSize'] = item.value;
-                    if (item.units){
-                        textareaStyle['fontSize'] += item.units;
-                    }
-                }else if(item.name === 'color'){
-                    textareaStyle['color'] = item.value;
-                } 
             });
         }
         let content = (
@@ -114,9 +100,4 @@ export default class VisorDaliBox extends Component {
         }
         return React.createElement(component, props, children);
     }
-
- 
 }
-
-
-
