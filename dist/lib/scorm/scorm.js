@@ -37,7 +37,7 @@ var DaliScorm = {
                 zip.file(nombre+".html", inner);
             });
 
-            zip.file("manifest.xml",DaliScorm.testXML("Título Curso", sections));
+            zip.file("imsmanifest.xml",DaliScorm.testXML("Título Curso", sections));
 
 
 
@@ -112,10 +112,15 @@ var DaliScorm = {
       for(var i = 0; i< sections.length; i++){
         //TODO: Iterate over html elements and add this pieze of code
         var resource = doc.createElement("resource");
-        resource.setAttribute("identifier", "resource_"+i); //TODO: increment
+        resource.setAttribute("identifier", "resource_"+(i+1)); 
         resource.setAttribute("type", "webcontent");
         resource.setAttribute("adlcp:scormtype", "sco");
-        resource.setAttribute("href", "/"+sections[i]+".html"); //TODO: Add URL
+        resource.setAttribute("href", sections[i]+".html"); 
+
+        var file = doc.createElement("file");
+        file.setAttribute("href", sections[i]+".html");
+        resource.appendChild(file);
+
         resources.appendChild(resource);
         // End of pieze of code to iterate
       }
