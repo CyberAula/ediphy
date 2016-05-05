@@ -37,16 +37,14 @@ Dali.Plugins = (function(){
             return promise;
         },
         loadAllAsync: function() {
-            if (!pluginList) {
-                pluginList = {};
-                var promises = [];
-                plugins.map(function (id, index) {
-                    promises.push(loadPluginFile(id));
-                    promises[index].then(function (result) {
-                        pluginList[result.name] = pluginFactory(result.value);
-                    });
+            pluginList = {};
+            var promises = [];
+            plugins.map(function (id, index) {
+                promises.push(loadPluginFile(id));
+                promises[index].then(function (result) {
+                    pluginList[result.name] = pluginFactory(result.value);
                 });
-            }
+            });
             return Promise.all(promises);
         }
     }
@@ -71,9 +69,7 @@ Dali.API = (function(){
 })();
 
 Dali.API.Private = (function(){
-
     var answerCallback;
-
     return {
         events: {
             addMenuButton: {

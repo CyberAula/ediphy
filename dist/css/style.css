@@ -24,8 +24,18 @@
   overflow-x: hidden;
   overflow-y: auto; }
 
-.wholebox {
-  border: 5px solid transparent; }
+.title {
+  margin-left: 30px;
+  margin-right: 30px;
+  padding-top: 10px;
+  position: relative; }
+
+.buttonTitle {
+  border: 0;
+  background-color: #eee;
+  position: absolute;
+  top: 20px;
+  right: 75px; }
 
 .carrouselButton {
   min-width: 20px;
@@ -52,10 +62,10 @@
   cursor: pointer; }
 
 .breadcrumb a {
-  color: #f87060; }
+  color: #133329; }
 
 .selected {
-  color: #f87060; }
+  color: #F47920; }
 
 .notSelected {
   color: #555; }
@@ -65,7 +75,9 @@
   margin: 0;
   padding: 42px 0px 15% 0px;
   height: 100%;
-  overflow-y: auto; }
+  overflow-y: auto;
+  width: 100%;
+  overflow-x: hidden; }
 
 .pestanaCarousel {
   background-color: #dedede;
@@ -79,7 +91,7 @@
   top: 299px;
   left: 100%;
   border-radius: 0px 8px 8px 0px;
-  color: #f87060; }
+  color: #133329; }
 
 .indiceoculto {
   left: 0;
@@ -100,7 +112,7 @@
   z-index: 1; }
 
 .navBar {
-  background-color: #f87060;
+  background-color: #133329;
   position: absolute;
   top: 0;
   left: 0;
@@ -131,13 +143,12 @@
   font-size: 20px;
   height: 35px;
   padding: 0px 0px 0px 0px;
-  background-color: #f87060;
+  background-color: #133329;
   box-shadow: none;
   vertical-align: middle; }
-  .navButton:hover, .navButtonPlug:hover, .navButton:active, .navButtonPlug:active, .navButton:focus, .navButtonPlug:focus {
-    border-bottom: 0px solid #fdd3ce;
-    color: white;
-    background-color: #f87060;
+  .navButton:hover, .navButtonPlug:hover, .navButton:active, .navButtonPlug:active {
+    border-bottom: 0px solid #dedede;
+    background-color: #133329;
     -webkit-box-shadow: none;
     box-shadow: none;
     color: grey; }
@@ -147,61 +158,21 @@
   padding: 0px 9px; }
 
 .navButtonPlug.active {
-  color: #FA9B90 !important; }
+  color: #F47920 !important;
+  background-color: #133329; }
 
 button[disabled].navButton, button[disabled].navButtonPlug {
-  background-color: rgba(255, 255, 255, 0.3);
+  background-color: rgba(255, 255, 255, 0.5);
   border: none;
-  color: #f87060;
+  color: #133329;
   height: 39px;
   box-shadow: none; }
   button[disabled].navButton:hover, button[disabled].navButtonPlug:hover {
-    background-color: rgba(255, 255, 255, 0.3);
+    background-color: rgba(255, 255, 255, 0.5);
     font-weight: normal; }
 
 .nav_but {
   margin: 2px 0px; }
-
-.hideonresize {
-  font-size: 12px;
-  vertical-align: middle;
-  margin: auto; }
-
-.rib {
-  border-radius: 0;
-  height: 100%;
-  background-color: transparent;
-  border: none;
-  color: white; }
-  .rib:active, .rib:hover, .rib:focus, .rib:link {
-    background-color: transparent !important;
-    color: #ddd;
-    box-shadow: none !important; }
-  .rib i {
-    color: #f87060 !important; }
-
-@media screen and (max-width: 1147px) {
-  .hideonresize {
-    display: none; }
-
-  .navButtonPlug {
-    width: 50px;
-    padding: 0; }
-    .navButtonPlug .active {
-      color: white !important; } }
-#ribbon {
-  background-color: #888;
-  height: 60px;
-  position: absolute;
-  top: 39px;
-  padding: 0;
-  z-index: 0; }
-
-.conmargen {
-  margin-left: -15px; }
-
-.sinmargen {
-  margin-left: 0px; }
 
 .hideonresize {
   font-size: 12px;
@@ -215,13 +186,16 @@ button[disabled].navButton, button[disabled].navButtonPlug {
   height: 100%;
   background-color: transparent;
   border: none;
-  color: white; }
-  .rib:active, .rib:hover, .rib:focus, .rib:link {
+  color: #133329; }
+  .rib:hover {
     background-color: transparent !important;
-    color: #ddd;
+    color: white;
     box-shadow: none !important; }
-  .rib i {
-    color: #f87060 !important; }
+
+.ribdrag {
+  color: #133329; }
+  .ribdrag:hover {
+    color: #133329 !important; }
 
 @media screen and (max-width: 1147px) {
   .hideonresize {
@@ -229,7 +203,23 @@ button[disabled].navButton, button[disabled].navButtonPlug {
 
   .navButtonPlug {
     width: 50px;
-    padding: 0; } }
+    padding: 0; }
+    .navButtonPlug .active {
+      color: white !important; } }
+#ribbon {
+  background-color: #F47920;
+  height: 60px;
+  position: absolute;
+  top: 39px;
+  padding: 0;
+  z-index: 0; }
+
+.conmargen {
+  margin-left: -15px; }
+
+.sinmargen {
+  margin-left: 0px; }
+
 .toolbox {
   height: 100%;
   background-color: #dedede;
@@ -248,49 +238,40 @@ button[disabled].navButton, button[disabled].navButtonPlug {
   top: 260px;
   right: 100%;
   border-radius: 8px 0px 0px 8px;
-  color: #f87060; }
+  color: #133329; }
 
 .wrapper {
   margin: 0;
   position: fixed;
   bottom: 0; }
 
-#tools {
-  width: 250px; }
-
-.botones {
-  padding: 15px; }
-
 .btn-primary {
-  border-color: #f87060;
-  background-color: #f87060;
+  border-color: #133329;
+  background-color: #133329;
   color: white; }
   .btn-primary:hover, .btn-primary:active, .btn-primary:focus {
-    border-color: #f87060 !important;
+    border-color: #133329 !important;
     background-color: white !important;
-    color: #f87060 !important; }
+    color: #133329 !important; }
 
 .btn[disabled].btn-primary {
-  border-color: #f87060;
-  background-color: #f87060 !important;
+  border-color: #133329;
+  background-color: #133329 !important;
   color: white !important; }
   .btn[disabled].btn-primary:hover {
     color: white !important; }
 
 .nav-pills > li > a {
-  border-color: #f87060;
-  color: #f87060; }
+  border-color: #133329;
+  color: #133329; }
   .nav-pills > li > a:hover, .nav-pills > li > a:active, .nav-pills > li > a:focus {
-    background-color: #fdd3ce; }
+    background-color: #dedede; }
 
 .nav-pills > li.active > a {
   color: white;
-  background-color: #f87060; }
+  background-color: #133329; }
   .nav-pills > li.active > a:hover, .nav-pills > li.active > a:active, .nav-pills > li.active > a:focus {
-    background-color: #f87060; }
-
-.btn:hover .fa {
-  color: #f87060; }
+    background-color: #133329; }
 
 .trashbutton {
   background-color: transparent;
@@ -310,13 +291,39 @@ body::-webkit-scrollbar-thumb {
 
 .thumb {
   font-size: 16px;
-  color: #f87060;
+  color: #133329;
   text-align: center;
   vertical-align: middle;
   height: 100%;
   margin: auto; }
   .thumb:hover {
     cursor: pointer; }
+
+.panelPluginToolbar {
+  color: #555;
+  border-radius: 5px; }
+  .panelPluginToolbar .panel-heading {
+    border-radius: 5px; }
+  .panelPluginToolbar a {
+    display: block; }
+    .panelPluginToolbar a:hover, .panelPluginToolbar a:active, .panelPluginToolbar a:focus {
+      text-decoration: none;
+      color: #133329; }
+
+.botones {
+  padding: 15px; }
+
+#insidetools, #tools {
+  width: 250px; }
+
+#tools input[type="checkbox"] {
+  padding: 0 !important;
+  margin-left: 0; }
+#tools label {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: inherit;
+  font-weight: bold; }
 
 .thumb {
   font-size: 16px;
@@ -352,20 +359,37 @@ height:100% !important;
 .pills.active {
   opacity: 0.7%; }
 
-* {
+#visor *, #truevisor * {
   pointer-events: all !important; }
 
 #nav {
   height: 100%; }
 
 .visor .modal-content {
-  height: 600px; }
+  height: 90%; }
 
 ul li a {
   color: #555; }
 
-.pills .active {
-  color: #777 !important; }
+.visor .modal-lg {
+  width: 100% !important;
+  margin-top: 40px;
+  height: 100%; }
+
+.visor .doc {
+  overflow-y: auto; }
+
+.visor * {
+  pointer-events: all !important; }
+
+.modalVisorContainer {
+  padding-right: 15px; }
+
+.modalVisorContainer .visor .modal-open {
+  overflow-y: hidden; }
+
+.pills.active {
+  opacity: 0.7; }
 
 * {
   font-family: 'Source Sans Pro', sans-serif;
@@ -373,13 +397,30 @@ ul li a {
 
 ::-moz-selection {
   color: white;
-  background: #f87060; }
+  background: #133329; }
 
 ::selection {
   color: white;
-  background: #f87060; }
+  background: #133329; }
 
 #app {
   margin: 0; }
+
+#colLeft, #colRight, #insideribbon, #indice {
+  transition: width 0.3s ease-in; }
+
+.full {
+  width: 100% !important;
+  transition: width 0.3s ease-in; }
+
+.drop-active {
+  border: dashed 4px #aaa;
+  border-radius: 4px;
+  transition: background-color 0.3s; }
+
+.drop-target {
+  background-color: #dedede;
+  border-color: #fff;
+  border-style: solid; }
 
 /*# sourceMappingURL=style.css.map */

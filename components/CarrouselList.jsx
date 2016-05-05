@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Button, ButtonGroup} from 'react-bootstrap';
+import {Button, ButtonGroup, Col} from 'react-bootstrap';
 import {ID_PREFIX_SECTION, ID_PREFIX_PAGE} from '../constants';
 import Section from '../components/Section';
 

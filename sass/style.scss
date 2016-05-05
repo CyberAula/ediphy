@@ -25,9 +25,16 @@
 	margin:0;
 }
 
-#colLeft, #colRight, #insideribbon, #indice{
+#colLeft, #colRight, #ribbon, #insideribbon,#tools, #indice{
 	transition: width 0.3s ease-in;
+    min-height: 0;
 
+}
+#canvasRow, #ribbonRow{
+    transition: height 0.3s ease-in-out;
+    >div{
+         transition: height 0.3s ease-in-out;
+    }
 }
 
 .full{
@@ -38,11 +45,13 @@
     border: dashed 4px #aaa;
     border-radius: 4px;
     transition: background-color 0.3s;
+        z-index: 0;
 }
 
 .drop-target {
     background-color: $grisclaro;
     border-color: #fff;
     border-style: solid;
+    z-index: 0;
 }
 

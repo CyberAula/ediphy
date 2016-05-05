@@ -1,9 +1,11 @@
 import React, {Component} from 'react';
-import {Button} from 'react-bootstrap';
+import ReactDOM from 'react-dom';
+import {Button,Col} from 'react-bootstrap';
 import CarrouselList from '../components/CarrouselList';
 import CarrouselThumbnails from '../components/CarrouselThumbnails';
 
 export default class DaliCarousel extends Component{
+
     render(){
         let displayModeClassName = "";
         let carrouselContent;
@@ -28,11 +30,13 @@ export default class DaliCarousel extends Component{
                                               onNavItemRemoved={this.props.onNavItemRemoved}
                                                onNavItemReorded={this.props.onNavItemReorded}  />;
         }
-        return(
+        return( 
+
+          <div  style={{ width: this.props.carouselShow?'16.66666%':'0%' }} id="colLeft">
             <div className="wrapperCarousel">
-            <div id="indice" className="daliCarousel " style={{height: '100%'}} >
+            <div id="indice" className="daliCarousel " key="indice" style={{height: '100%'}} >
                 {carrouselContent}
-                <Button style={{position: 'absolute', right: 0, bottom: 0}} onClick={e => {
+                <Button style={{position: 'absolute', display:'block', right: 0, bottom: 0}} onClick={e => {
                     let newMode = "list";
                     switch(this.props.displayMode){
                         case "list":
@@ -48,25 +52,17 @@ export default class DaliCarousel extends Component{
                     <i className={displayModeClassName}> </i>
                 </Button>
             </div>
-            <div className="pestanaCarousel"  id="pestcar" onClick={() => {toggleWidth() }}>
+            <div className="pestanaCarousel"  id="pestcar" onClick={() => {this.toggleWidth() }}>
                  <i className="fa fa-list-alt fa-2x"> </i> 
               </div>
          
             </div>
+          </div>
         );
     }
-}
-function toggleWidth(){ // DaliCarousel slider
-     let indiceWidth = $("#indice").width()
-      if($("#colLeft").width() > 0){
-        $("#colLeft").css('width',0)  // Close
-      } else {
-        $("#colLeft").css('width','16.66666667%') // Open
-      }
-       $("#insideribbon").toggleClass("full") // Extend/Reduce plugin ribbon
-      $("#colRight").toggleClass('full') // Extend/Reduce canvas
-      
 
-      
-     
+  toggleWidth(){ // DaliCarousel slider
+    this.props.onToggleWidth();
+  }
+
 }

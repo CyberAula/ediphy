@@ -26,7 +26,7 @@
 }
 
 #tools {
-
+	
 	input[type="checkbox"]{
 		
 		padding:0 !important;
@@ -39,3 +39,16 @@
 		font-weight: bold;
 	}
 }
+
+
+.navButtonPlug.active  .navButtonPlug.active::after {
+    content: " ";
+    position: absolute;
+    top: 100%; /* At the bottom of the tooltip */
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: blue transparent transparent transparent;
+}
+  

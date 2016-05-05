@@ -32,10 +32,10 @@ export default class VisorDaliBox extends Component {
                 if (item.autoManaged) {
                     if (!item.isAttribute) {
                         if(item.name !== 'width' && item.name !== 'height') {
-
                             style[item.name] = item.value;
-                            if (item.units)
+                            if (item.units){
                                 style[item.name] += item.units;
+                            }
                         }
                     } else {
                         attrs['data-' + item.name] = item.value;
@@ -43,8 +43,9 @@ export default class VisorDaliBox extends Component {
                 }
                 if(item.name === 'fontSize'){
                     textareaStyle['fontSize'] = item.value;
-                    if (item.units)
+                    if (item.units){
                         textareaStyle['fontSize'] += item.units;
+                    }
                 }else if(item.name === 'color'){
                     textareaStyle['color'] = item.value;
                 } 
@@ -55,7 +56,6 @@ export default class VisorDaliBox extends Component {
                 {this.renderChildren(box.content)}
             </div>
         );
-       
  
         return (
             <div className="wholebox" 
@@ -71,13 +71,7 @@ export default class VisorDaliBox extends Component {
                     msTouchAction: 'none',
                     cursor:  'default' //esto evita que aparezcan los cursores de move y resize cuando la caja no está seleccionada
                 }}>
-           
-
             {content}
-            
-
-            
-
         </div>);
     }
 
