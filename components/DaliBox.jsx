@@ -103,12 +103,15 @@ export default class DaliBox extends Component {
         return (
             <div className={classes}
                  onClick={e => {
+                    console.log("ONCLICK");
                     if(this.props.boxLevelSelected === box.level){
                         if(this.props.boxLevelSelected > 0){
                             if(this.isAncestorOrSibling(this.props.boxSelected, this.props.id)){
+                                  console.log("onBoxSelected", this.props.id);
                                 this.props.onBoxSelected(this.props.id);
                             }
                         }else{
+                            console.log("onBoxSelected", this.props.id);
                             this.props.onBoxSelected(this.props.id);
                         }
                     }
@@ -119,6 +122,10 @@ export default class DaliBox extends Component {
                     }
                  }}
                  onDoubleClick={(e)=>{
+                    console.log("doubleClick");
+                    console.log("this.props.boxLevelSelected",this.props.boxLevelSelected);
+                    console.log("box.level",box.level);
+                    console.log("box.children.length",box.children.length);
                     if(this.props.boxLevelSelected === box.level && box.children.length !== 0){
                         this.props.onBoxLevelIncreased();
                     }
@@ -298,6 +305,14 @@ export default class DaliBox extends Component {
                 autoScroll: true,
                 onmove: (event) => {
                     if (this.props.boxSelected !== this.props.id) {
+                         /*if(this.props.boxLevelSelected !== box.level){
+                             event.stopPropagation();
+                            return;
+                        }else{
+                            this.props.onBoxSelected(this.props.id);
+                        }*/
+                        console.log("ocurre")
+                        event.stopPropagation();
                         return;
                     }
                     var target = event.target;
