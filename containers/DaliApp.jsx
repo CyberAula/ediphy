@@ -32,7 +32,7 @@ class DaliApp extends Component{
        
         const{ dispatch, boxes, boxesIds, boxSelected, boxLevelSelected, navItemsIds, navItems, navItemSelected,
             pageModalToggled, undoDisabled, redoDisabled, displayMode, isBusy, toolbars } = this.props;   
-            var ribbonHeight = this.state.hideTab=='hide'? '0px':'60px'
+            var ribbonHeight = (this.state.hideTab=='hide')? '0px':'60px'
         return(
             <Grid id="app" fluid={true} style={{height: '100%'}} >
                <Row className="navBar">
@@ -69,7 +69,12 @@ class DaliApp extends Component{
                               onSectionAdded={(id, name, parent, children, level, type, position) => dispatch(addNavItem(id, name, parent, children, level, type, position))}
                               onNavItemSelected={id => dispatch(selectNavItem(id))}
                               onNavItemExpanded={(id, value) => dispatch(expandNavItem(id, value))}
-                              onNavItemRemoved={(ids, parent,boxes) => dispatch(removeNavItem(ids, parent, boxes))}
+                              onNavItemRemoved={(ids, parent,boxes) => {
+                                if(navItemsIds.length == ids.length){
+                                  this.setState({hideTab: 'hide'})
+                                }
+                                dispatch(removeNavItem(ids, parent, boxes));
+                              }}
                               onNavItemReorded={(itemId,newParent,type,newIndId,newChildrenInOrder) => dispatch(reorderNavItem(itemId,newParent,type,newIndId,newChildrenInOrder))}
                               onDisplayModeChanged={mode => dispatch(changeDisplayMode(mode))} 
                               carouselShow={this.state.carouselShow}

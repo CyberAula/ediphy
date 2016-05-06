@@ -17,7 +17,7 @@ export default class PluginRibbon extends Component {
                  md={12}
                  xs={12}                    
                  style={{ 
-                    height: (this.props.hideTab=='hide' || this.props.category=='none' )? '0px':'60px',
+                    height:  this.props.ribbonHeight,
                     overflowX: 'auto',
                     overflowY: 'hidden'   }} >
                 <div id="insideribbon" style={{margin:'0', right:0 }} className="row">

@@ -43,7 +43,9 @@
 
 .navButtonPlug{
 	border-top:2px solid transparent;
-	margin-right:-9px;
+	padding-right:-7px;
+	padding-left:-7px;
+	
 	&:after  {
 		content: '';
 		position: relative;
@@ -52,7 +54,9 @@
 		left: -50%;
 		width: 0; height: 0;
 		border: 7px solid transparent;
+		transition: all 0.3s ease-in;
 	}
+
 }
 
 .navButtonPlug.active{
