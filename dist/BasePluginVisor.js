@@ -1,4 +1,26 @@
 Dali.Visor.Plugin = function(descendant){
+
+    var assignPluginContainerIds = function(json, state){
+        if(json.child){
+            for(var i = 0; i < json.child.length; i++){
+                assignPluginContainerIds(json.child[i], state);
+            }
+        }
+        if(json.tag && json.tag === "plugin"){
+            if(!state['pluginContainerIds']){
+                state['pluginContainerIds'] = {};
+            }
+            var key = json.attr['plugin-data-key'];
+            if(!key){
+                console.error(json.tag + " has not defined plugin-data-key");
+            }else{
+                if(state['pluginContainerIds'][key]){
+                    json.attr['plugin-data-id'] = state['pluginContainerIds'][key];
+                }
+            }
+        }
+    }
+
     var plugin = {
         renderAsText(state, name){
             var plugin;
@@ -34,10 +56,15 @@ Dali.Visor.Plugin = function(descendant){
             return firstTag + scripts + template;
         },
         renderAsComponent(state, name){
+            var json;
             if(!Dali.Visor.Plugins[name]) {
-                return html2json(Dali.Plugins[name]().getRenderTemplate(state));
+                json = html2json(Dali.Plugins[name]().getRenderTemplate(state));
             }
-            return html2json(Dali.Visor.Plugins[name]().getRenderTemplate(state));
+            else{
+                json = html2json(Dali.Visor.Plugins[name]().getRenderTemplate(state));
+            }
+            assignPluginContainerIds(json, state);
+            return json;
         },
         callExtraFunction: function(alias, fnAlias) {
             var element = $.find("[data-alias='" + alias + "']");
