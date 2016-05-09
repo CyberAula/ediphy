@@ -14,7 +14,8 @@
 	z-index: 999;
 	display:inline-block;
 	position: absolute;
-	top:60px;right:100%;
+	top:$pestanaHeight;
+	right:100%;
 	border-radius: 8px 0px 0px 8px;
 	color: $verdeadams;
 }
@@ -30,4 +31,30 @@
 	-ms-backdrop-filter: blur(5px);
 	backdrop-filter: blur(5px);*/
 
+}
+
+ #tools{
+	overflow-x:hidden;
+	overflow-y:auto;
+ 
+ }
+
+.panelPluginToolbar{
+
+	color:$fondo;
+	border-radius: 5px;
+
+	.panel-heading{
+		border-radius: 5px;
+	}
+
+
+
+	a {
+		display:block;
+		&:hover,&:active,&:focus{
+			text-decoration: none;
+			color:$verdeadams;
+		}
+	}
 }

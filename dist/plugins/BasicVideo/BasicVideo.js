@@ -21,7 +21,7 @@ var BasicVideo= (function(){
                     value:'http://video.webmfiles.org/big-buck-bunny_trailer.webm'
 
                 },
-                {
+                 {
                     name: 'opacity',
                     humanName: 'Opacity',
                     type: 'number',
@@ -30,8 +30,38 @@ var BasicVideo= (function(){
                     max: 1,
                     step: 0.1,
                     tab: 'Main',
-                    accordion: 'Box'
+                    accordion: 'Style'
                 },
+                {
+                    name: 'aspectRatio',
+                    humanName: 'Aspect Ratio',
+                    type: 'checkbox',
+                    value: 'unchecked',
+                    checked:'false',
+                    autoManaged: false,
+                    tab: 'Main',
+                    accordion: 'Basic'
+                },
+                {
+                    name: 'allowFullScreen',
+                    humanName: 'Allow FullScreen',
+                    type: 'checkbox',
+                    value: 'unchecked',
+                    checked:'false',
+                    autoManaged: false,
+                    tab: 'Main',
+                    accordion: 'Basic'
+                },
+                {
+                    name: 'controls',
+                    humanName: 'Show Controls',
+                    type: 'checkbox',
+                    value: 'unchecked',
+                    checked:'false',
+                    autoManaged: false,
+                    tab: 'Main',
+                    accordion: 'Basic'
+                },                
                 {
                     name: 'borderSize',
                     humanName: 'Border Size',
@@ -41,8 +71,40 @@ var BasicVideo= (function(){
                     max: 10,
                     autoManaged: false,
                     tab: 'Main',
-                    accordion: 'Box'
+                    accordion: 'Style'
                 },
+                {
+                    name: 'borderColor',
+                    humanName: 'Border Color',
+                    type: 'color',
+                    value: 'black',
+                    tab: 'Main',
+                    autoManaged: false,
+                    accordion: 'Style'
+                },
+                {
+                    name: 'borderRadius',
+                    humanName: 'Border Radius',
+                    type: 'number',
+                    value: '0',
+                    min:'0',
+                    max:'50',
+                    autoManaged: false,
+                    tab: 'Main',
+                    accordion: 'Style'
+                },
+                {
+                    name: 'borderStyle',
+                    humanName: 'Border Style',
+                    type: 'text',
+                    value: 'solid',
+                    autoManaged: false,
+                    list:'borderStyle',
+                    options: ['none', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset', 'initial', 'inherit'],
+                    tab: 'Main',
+                    accordion: 'Style'
+                },
+
                 {
                     name: 'test',
                     humanName: 'Test',
@@ -59,7 +121,7 @@ var BasicVideo= (function(){
             return [
                 {
                     tab: 'Main', 
-                    accordion: ['Basic','Box']
+                    accordion: ['Basic','Style']
                 },
                 {
                     tab: 'Other', 
@@ -69,14 +131,14 @@ var BasicVideo= (function(){
             ];
         },
         getInitialState: function(){
-            return {url: 'http://video.webmfiles.org/big-buck-bunny_trailer.webm', borderSize: 0, thumbnailVisibility: 'hidden'};
+            return {url: 'http://video.webmfiles.org/big-buck-bunny_trailer.webm', aspectRatio:'unchecked', borderSize: 0, borderSize: 0, borderStyle:'solid', borderRadius: 0, borderColor: 'black', thumbnailVisibility: 'hidden'};
         },
         getConfigTemplate: function(state){
             return "<div> Url: <input type=\"text\" autofocus id=\"BasicImage_input\" value=\"" + state.url + "\"><br><button onclick=\"BasicVideo.showPreview()\">Show preview</button><iframe width=\"560\" height=\"315\"id=\"BasicImage_preview\" frameborder=\"0\" allowfullscreen src=\"" + state.url + "\" style=\"width: 180px; height: auto; visibility: " + state.thumbnailVisibility + ";\"  ></video></div>";
         },
         getRenderTemplate: function(state){
      
-            return "<video width=\"560\" height=\"315\" controls frameborder=\"0\" allowfullscreen style=\"width: 100%; height: 100%; border: solid " + state.borderSize + "px green; z-index:0;\" src=\"" + state.url  + "\"></video>"
+            return "<video width=\"560\" height=\"315\" " + (state.controls == "checked")?"controls=\"controls\" ":" " +" frameBorder=\"0\" allowFullScreen style=\"width: 100%; height: 100%; border: " + state.borderStyle + " " + state.borderSize + "px " + state.borderColor + "; z-index:0;\" src=\"" + state.url  + "\"></video>"
         },
         handleToolbar: function(name, value){
           

@@ -13,10 +13,12 @@ function boxCreator(state = {}, action = {}){
     switch (action.type){
         case ADD_BOX:
             let position, width, height;
+            let level = (state[action.payload.ids.parent]) ? state[action.payload.ids.parent].level + 1 : 0;
             switch(action.payload.type){
                 case 'sortable':
                     position = {x: 0, y: 0};
                     width = '100%';
+                    level = -1;
                     break;
                 default:
                     position = {x: Math.floor(Math.random() * 200), y: Math.floor(Math.random() * 200)}
@@ -43,8 +45,6 @@ function boxCreator(state = {}, action = {}){
                     row = action.payload.initialParams.row;
                 }
             }
-
-            let level = (state[action.payload.ids.parent]) ? state[action.payload.ids.parent].level + 1 : 0;
             
             return {
                 id: action.payload.ids.id,
@@ -58,6 +58,7 @@ function boxCreator(state = {}, action = {}){
                 width: width,
                 height: height,
                 content: action.payload.content,
+                text: null,
                 draggable: action.payload.draggable,
                 resizable: action.payload.resizable,
                 showTextEditor: false,
@@ -206,12 +207,20 @@ function boxesById(state = {}, action = {}){
             var newState = Object.assign({}, state)
             action.payload.boxes.map(box => { delete newState[box]})
             return newState;
-
         case REORDER_BOX:
             let oldChildren = state[action.payload.parent].children
             var newChildren = Object.keys(oldChildren).map(i => oldChildren[action.payload.ids[i]])
             return Object.assign({}, state, {
                 [action.payload.parent]: Object.assign({}, state[action.payload.parent], {children: newChildren}) });
+        case TOGGLE_TEXT_EDITOR:
+            if(action.payload.text){
+                return Object.assign({}, state, {
+                    [action.payload.caller]: Object.assign({}, state[action.payload.caller], {
+                        text: action.payload.text
+                    })
+                });
+            }
+            return state;
         case IMPORT_STATE:
             return action.payload.present.boxesById;
         default:
@@ -228,6 +237,9 @@ function boxLevelSelected(state = 0, action = {}){
         case SELECT_BOX:
             if(action.payload.id === -1){
                 return 0;
+            }
+            if(action.payload.id.indexOf(ID_PREFIX_SORTABLE_BOX) !== -1){
+                return -1;
             }
             return state;
         case DELETE_BOX:
@@ -427,7 +439,7 @@ function navItemsById(state = {}, action = {}){
                     });  
 
                     var elementsToVisit = [action.payload.itemId];
-                    var diff = state[action.payload.newParent].level-state[action.payload.itemId].level+1;//esto hay que sumarselo al level
+                    var diff = state[action.payload.newParent].level-state[action.payload.itemId].level+1;
                     var currentElement;
                     var auxLevel;
                     do{
@@ -534,7 +546,19 @@ function toolbarsById(state = {}, action = {}){
                     step: 5,
                     autoManaged: true,
                     tab: 'Main',
-                    accordion: 'Basic'
+                    accordion: 'Sortable'
+                });
+                toolbar.buttons.push({
+                    name: 'height',
+                    humanName: 'Height (%)',
+                    type: 'number',
+                    value: 100,
+                    min: 0,
+                    max: 100,
+                    step: 5,
+                    autoManaged: true,
+                    tab: 'Main',
+                    accordion: 'Sortable'
                 });
             }
        

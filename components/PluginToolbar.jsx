@@ -18,11 +18,7 @@ export default class PluginToolbar extends Component {
 
 
     toggleWidth(){
-      if( $("#tools").css("width") != '250px' ){
-        $("#tools").animate({width: '250px'})
-      } else {
-        $("#tools").animate({ width: '0px'})
-      }
+ 
       this.setState({ open: !this.state.open})
     } 
 
@@ -35,7 +31,7 @@ export default class PluginToolbar extends Component {
         let tools = toolbar.sections
         let buttons = [];
         let options;
-
+        let aspectRatio = false
 
               
         buttons = toolbar.buttons.map((item, index) => {
@@ -46,6 +42,9 @@ export default class PluginToolbar extends Component {
             return (<option key={'option'+index} value={item}/> )
             }) } </datalist>)
          
+      }
+       if(item.name=='aspectRatio' && item.value =='checked'){
+         aspectRatio= true;
       }
    
           return (
@@ -65,13 +64,40 @@ export default class PluginToolbar extends Component {
                          checked={ item.value=='checked' }
                          accordion={item.accordion}
                          style={{width: '100%'}}
-                         onChange={e => {
+                         onChange={e => { 
                           let value = e.target.value;
+                          // if (item.type == 'color')console.log(item.value)
+                          if(item.name == 'width'){
+                            if(!aspectRatio){
+                              this.props.onBoxResized( this.props.boxSelected, value+'%', this.props.box.height); 
+                              this.props.onToolbarUpdated(toolbar.id, index, 'width', value);
+
+                            } else {
+                              let newHeight = (parseFloat(this.props.box.height)*value/parseFloat(this.props.box.width))
+                              this.props.onBoxResized( this.props.boxSelected, value+'%', newHeight+'%'); 
+                              this.props.onToolbarUpdated(toolbar.id, index, 'width', value);
+                              
+                              this.props.onToolbarUpdated(toolbar.id, index+1, 'height', newHeight);
+                            }
+                          }    
+                          if(item.name == 'height'){
+                            if(!aspectRatio){
+                              this.props.onBoxResized( this.props.boxSelected,  this.props.box.width, value+'%');
+                              this.props.onToolbarUpdated(toolbar.id, index, 'height', value);
+
+                            } else {
+                              let newWidth = (parseFloat(this.props.box.width)*value/parseFloat(this.props.box.height))
+                              this.props.onBoxResized( this.props.boxSelected, newWidth+'%', value+'%' ); 
+                              this.props.onToolbarUpdated(toolbar.id, index-1, 'width', newWidth);
+                              this.props.onToolbarUpdated(toolbar.id, index, 'height', value);
+                            }   
+                          }                
                           if(item.type === 'number')
                               value = parseFloat(value) || 0;
+
                            if(item.type === 'checkbox')
                               value = item.value=='checked' ? 'unchecked':'checked' 
-                          this.props.onToolbarUpdated(toolbar.id, index, item.name, value);
+                              this.props.onToolbarUpdated(toolbar.id, index, item.name, value);
                           if(!item.autoManaged)
                               item.callback(toolbar.state, item.name, value, toolbar.id);
                         }}
@@ -84,7 +110,7 @@ export default class PluginToolbar extends Component {
         if(toolbar.config && toolbar.config.needsTextEdition){
             buttons.push(<ButtonInput key={'text'}
                                       onClick={() => {
-                                        this.props.onTextEditorToggled(toolbar.id, !toolbar.showTextEditor);}}
+                                        this.props.onTextEditorToggled(toolbar.id, !toolbar.showTextEditor, (toolbar.showTextEditor) ? CKEDITOR.instances[this.props.id].getData() : null)}}
                                       bsStyle={toolbar.showTextEditor ? 'primary' : 'default'}>
                 Edit text</ButtonInput>);
         }
@@ -94,15 +120,17 @@ export default class PluginToolbar extends Component {
                                         Dali.Plugins.get(toolbar.config.name).openConfigModal(true, toolbar.state, toolbar.id)}}>
                 Open config</ButtonInput>);
         }
-
+        let deletebutton;
         if(this.props.box.id[1]!='s' ){
-          buttons.push(<Button key={'delete'}
-                               onClick={e => {
-                                 this.props.onBoxDeleted();
-                                 e.stopPropagation();
-                               }}>
-                              <i className="fa fa-trash-o"></i>
-                       </Button>);
+          deletebutton = (<Button  block
+                                  key={'delete'}
+
+                                  onClick={e => {
+                                     this.props.onBoxDeleted();
+                                     e.stopPropagation();
+                                  }}>
+                                     <i className="fa fa-trash-o fa-2x"></i>
+                           </Button>);
         }
 
         let indexTab = 1,
@@ -110,8 +138,7 @@ export default class PluginToolbar extends Component {
             tabName = '',
             accordion = [],
             visible = (buttons.length !== 0 || this.props.box.children.length !== 0) ? 'visible' : 'hidden';
-         
-
+    
         return (<div id="wrap" className="wrapper" style={{
                    right: '0px', 
                    top: '39px',
@@ -134,6 +161,8 @@ export default class PluginToolbar extends Component {
                         }
                       </Nav>
                       <div className="botones">
+                        {deletebutton}
+                        <br/> 
                         <PanelGroup>
                           { accordion.map((title, index) =>{
                             return ( 
@@ -141,7 +170,8 @@ export default class PluginToolbar extends Component {
                               <Panel key={index} className="panelPluginToolbar" collapsible header={title} eventKey={indexAcc++} >
                                 {buttons.map(( button) => { 
                                   // Inputs
-                                  if (button.props.accordion == title) return( <span key={button.name}>{button}</span>);
+                                  if (button.props.accordion == title) 
+                                    return( <span key={button.name}>{button}</span>);
                                 })}
                               </Panel>)
                              })
@@ -150,7 +180,7 @@ export default class PluginToolbar extends Component {
                               let container = this.props.box.sortableContainers[id];
                               if ( this.state.currentTab == 1 )
                                 return (
-                                  <Panel  key={id} className="panelPluginToolbar" collapsible header={id} eventKey={indexAcc++} >
+                                  <Panel  key={id} className="panelPluginToolbar" collapsible header={'Caja '+(index+1) } eventKey={indexAcc++} >
                                     <GridConfigurator
                                        key={(index)}
                                        id={id}
@@ -160,6 +190,17 @@ export default class PluginToolbar extends Component {
                                        onRowsChanged={this.props.onRowsChanged} />
                                   </Panel>)
                               })
+                            }
+
+
+                           { //Sortables
+                            (this.props.box.container != '0')?
+                            (<Panel key={0} className="panelPluginToolbar" collapsible header={'Size'} eventKey={indexAcc++} >
+                                {buttons.map(( button) => { 
+                                  if (button.props.accordion == 'Sortable') 
+                                    return( <span key={button.name}>{button}</span>);
+                                })}
+                              </Panel>):(<br/>)
                             }
                         </PanelGroup>
                         {options}

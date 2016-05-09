@@ -12,20 +12,21 @@
 		color:white ;
 		box-shadow: none !important;
 	}
+ }
 
-}
 .ribdrag{
 	color:$verdeadams;
 	&:hover{
 		color:$verdeadams !important ;
 	}
 }
+
 #ribbon{
 	// overflow-x:auto;
 	background-color:$naranjaadams;
 	height:60px;
-	position: absolute;
-	top:39px;
+	// position: absolute;
+	
 	padding:0;
 	z-index:0;
 	// margin-left: -15px;

@@ -68,7 +68,7 @@ var BasicImage = (function(){
                     name: 'borderColor',
                     humanName: 'Border Color',
                     type: 'color',
-                    value: 'black',
+                    value: '#000000',
                     tab: 'Main',
                     autoManaged: false,
                     accordion: 'Style'
@@ -110,13 +110,13 @@ var BasicImage = (function(){
             ];
         },
         getInitialState: function(){
-            return {url: 'http://nemanjakovacevic.net/wp-content/uploads/2013/07/placeholder.png', aspectRatio:'unchecked', borderSize: 0, borderSize: 0, borderStyle:'solid', borderRadius: 0, borderColor: 'black', thumbnailVisibility: 'hidden'};
+            return {url: 'http://nemanjakovacevic.net/wp-content/uploads/2013/07/placeholder.png', aspectRatio:'unchecked', borderSize: 0, borderSize: 0, borderStyle:'solid', borderRadius: 0, borderColor: '#000000', thumbnailVisibility: 'hidden'};
         },
         getConfigTemplate: function(state){
             return "<div> Url: <input type=\"text\" autofocus id=\"BasicImage_input\" value=\"" + state.url + "\"><br><button onclick=\"BasicImage.showPreview()\">Show preview</button><img id=\"BasicImage_preview\" src=\"" + state.url + "\" style=\"width: 100px; height: 100px; visibility: " + state.thumbnailVisibility + ";\" onclick=\"BasicImage.imageClick()\" /></div>";
         },
         getRenderTemplate: function(state){
-            return "<div style=\"width: 100%; height: 100%\"><img style=\"width: 100%; height: 100%; border-radius: "+state.borderRadius+"%; border: "+ state.borderStyle +" "+ state.borderSize + "px "+ state.borderColor +";\" src=\"" + state.url + "\"/></div>";
+            return "<div style=\"width: 100%; height: 100%\"><img style=\"width: 100%; height: 100%; border-radius: "+state.borderRadius+"%; border: "+ state.borderSize + "px "+ state.borderStyle +" "+ state.borderColor +";\" src=\"" + state.url + "\"/></div>";
         },
         handleToolbar: function(name, value){
             if(name=='aspectRatio') 
@@ -125,7 +125,6 @@ var BasicImage = (function(){
                 BasicImage.setState(name, value);
         },
         showPreview: function(){
-            console.log('hola')
             var img = $('#BasicImage_preview');
             var input = $('#BasicImage_input');
 

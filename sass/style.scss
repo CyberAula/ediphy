@@ -15,6 +15,7 @@
 @import 'general/mixins/mixins';
 @import 'general/tipography/tipo';
   
+ 
 
 @include selection {
     color: white;
@@ -25,14 +26,20 @@
 	margin:0;
 }
 
-#colLeft, #colRight, #insideribbon, #indice{
+#colLeft, #colRight, #ribbon, #insideribbon,#tools, #indice{
 	transition: width 0.3s ease-in;
+    min-height: 0;
 
+}
+#canvasRow, #ribbonRow{
+    transition: height 0.3s ease-in-out;
+    >div{
+         transition: height 0.3s ease-in-out;
+    }
 }
 
 .full{
 	width:100% !important;
 	transition: width 0.3s ease-in;}
 
-
-
+ 

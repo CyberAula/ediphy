@@ -4924,8 +4924,6 @@ var sortable = $.widget("ui.sortable", $.ui.mouse, {
 	},
 
 	cancel: function() {
-		console.log("this.dragging: " + this.dragging);
-		console.log("this.placeholder:"+ this.placeholder);
 		if(this.dragging) {
 
 			this._mouseUp({ target: null });
@@ -4963,7 +4961,6 @@ var sortable = $.widget("ui.sortable", $.ui.mouse, {
 				_noFinalSort: null
 			});
 
-			console.log("Cancel, vamos a añadir el elemento a donde estaba")
 			if(this.domPosition.prev) {
 				$(this.domPosition.prev).after(this.currentItem);
 			} else {

@@ -3,25 +3,20 @@ import ReactDOM from 'react-dom';
 import {Button} from 'react-bootstrap';
 import interact from 'interact.js';
 import DaliBox from '../components/DaliBox';
+import {ID_PREFIX_PAGE, ID_PREFIX_SECTION, ID_PREFIX_SORTABLE_BOX} from '../constants';
 
 export default class PluginPlaceholder extends Component {
     render() {
         let container = this.props.parentBox.sortableContainers[this.props.pluginContainer];
-        let overlay;
-        if(container && container.children.length !== 0){
-            if(this.props.boxLevelSelected > this.props.boxes[container.children[0]].level){
-                overlay = "visible";
-            }else if(this.props.boxLevelSelected === this.props.boxes[container.children[0]].level){
-                if(this.props.parentBox.id === this.props.boxSelected || container.children.indexOf(this.props.boxSelected) !== -1){
-                    overlay = "hidden";
-                }else{
-                    overlay = "visible";
-                }
-            }else{
-                overlay = "hidden";
-            }
+        let showOverlay;
+
+        if(this.props.boxLevelSelected > this.props.parentBox.level + 1) {
+            showOverlay = "visible";
+        }else if(this.props.boxLevelSelected === (this.props.parentBox.level + 1) &&
+            !this.isAncestorOrSibling(this.props.boxSelected, (container ? container.children[0] : this.props.parentBox.id))){
+                showOverlay = "visible";
         }else{
-            overlay = (this.props.boxLevelSelected > this.props.parentBox.level) ? "visible" : "hidden";
+            showOverlay = "hidden";
         }
 
         return (
@@ -37,7 +32,7 @@ export default class PluginPlaceholder extends Component {
                     top: 0,
                     position: "absolute",
                     opacity: 0.4,
-                    visibility: overlay,
+                    visibility: showOverlay,
                 }}></div>
                 {container ?
                     container.colDistribution.map((col, i) => {
@@ -118,6 +113,34 @@ export default class PluginPlaceholder extends Component {
                 )}
             </div>
         );
+    }
+
+    isAncestorOrSibling(searchingId, actualId){
+        if(searchingId === actualId){
+            return true;
+        }
+        let parentId = this.props.boxes[actualId].parent;
+        if(parentId === searchingId){
+            return true;
+        }
+        if(parentId.indexOf(ID_PREFIX_PAGE) !== -1 || parentId.indexOf(ID_PREFIX_SECTION) !== -1){
+            return false;
+        }
+        if(parentId.indexOf(ID_PREFIX_SORTABLE_BOX) === -1) {
+            let parentContainers = this.props.boxes[parentId].children;
+            if (parentContainers.length !== 0) {
+                for (let i = 0; i < parentContainers.length; i++) {
+                    let containerChildren = this.props.boxes[parentId].sortableContainers[parentContainers[i]].children;
+                    for (let j = 0; j < containerChildren.length; j++) {
+                        if (containerChildren[j] === searchingId) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+
+        return this.isAncestorOrSibling(searchingId, parentId);
     }
 
     componentDidMount(){

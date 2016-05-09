@@ -18,6 +18,7 @@
     <script src="lib/FileSaver.js"></script>
     <script src="lib/visor/ejs_production.js"></script>
     <script src="lib/visor/visor.js"></script>
+    <script src="lib/scorm/scorm.js"></script>
     <script src="lib/htmlparser.js"></script>
     <script src="lib/html2json.js"></script>
 
@@ -33,32 +34,7 @@
 $(document).ready(function(){
 
    })
-   /* $(document).ready(function(){
-        try {
-            if(window != window.parent){
-                //Iframe case
 
-                if (typeof window.parent.CODEditor.Viewer === "boolean"){
-                    CODEditor.Viewer = window.parent.CODEditor.Viewer;
-                }
-                if (typeof window.parent.CODEditor.File === "object"){
-                    CODEditor.File= window.parent.CODEditor.File;
-                }
-
-                if (typeof window.parent.CODEditor.CORE.getPreview === "function"){
-                    //Preview mode
-                    CODEditor.File = window.parent.CODEditor.CORE.getPreview();
-                    CODEditor.Index = window.parent.CODEditor.CORE.getCurrentExerciseIndex();
-                    CODEditor.Viewer = true;
-                }
-            } 
-        } catch (e){}
-
-        // //Activate Viewer
-        // CODEditor.Viewer = true;
-
-        CODEditor.CORE.init({viewer: CODEditor.Viewer, file: CODEditor.File, index: CODEditor.Index});
-    });*/
 </script>
 </body>
 </html>

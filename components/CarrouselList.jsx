@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Button, ButtonGroup} from 'react-bootstrap';
+import {Button, ButtonGroup, Col} from 'react-bootstrap';
 import {ID_PREFIX_SECTION, ID_PREFIX_PAGE} from '../constants';
 import Section from '../components/Section';
 
@@ -116,7 +116,6 @@ export default class CarrouselList extends Component{
     }
 
     componentDidMount(){
-        console.log("MONTAMOS EL CARRUSEL");
         let list = jQuery(this.refs.sortableList);
         let props = this.props;
         list.sortable({ 
@@ -125,16 +124,11 @@ export default class CarrouselList extends Component{
             connectWith: '.connectedSortables',
             //helper: "clone",
             stop: (event, ui) => {
-                console.log("stop de carousellist");
                 const reorderedIndexesId = list.sortable('toArray', {attribute: 'id'})
                 const select = this.props.navItemSelected;
                 const navItems = this.props.navItems;
 
-                //$('.connectedSortables').sortable('cancel');
-                
                 if( reorderedIndexesId.indexOf(select) >= 0){
-                    console.log("cancel de carousellist stop list");
-
                     list.sortable('cancel');
 
                     var newIndexesAux = [] ;
@@ -163,24 +157,17 @@ export default class CarrouselList extends Component{
                         newIndexesAux = part1b.concat(selectedAndChilds, part2b);                    
                     }                
 
-                    console.log(reorderedIndexesId, reorderedIndexesId.length)
                     this.props.onNavItemReorded(this.props.navItemSelected, 0,0,newIndexesAux,reorderedIndexesId);
                 }else{
-                    console.log("carrousel list stop cancelado?")
                 }
             },
             receive: function(event, ui) {
-                console.log(ui);
                 const reorderedIndexesId = list.sortable('toArray', {attribute: 'id'})
                 const parent = this.props.navItems[this.props.navItemSelected].parent;
                 const navItems = this.props.navItems;
                 const navItemsIds = this.props.navItemsIds;
                 const select = this.props.navItemSelected;
                 var auxInd = "0";
-                
-                //console.log("cancel de carousellist receive list");
-                //list.sortable('cancel');
-                console.log("cancel de carousellist receive sender");
 
                 $(ui.sender).sortable('cancel');
 
@@ -212,7 +199,6 @@ export default class CarrouselList extends Component{
                     newIndexesAux = part1b.concat(selectedAndChilds, part2b);                    
                 }         
 
-                console.log("LANZA 4");
                 this.props.onNavItemReorded(this.props.navItemSelected, 0,4,newIndexesAux,reorderedIndexesId);
             
             }.bind(this)
