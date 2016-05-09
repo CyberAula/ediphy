@@ -25,9 +25,9 @@ Dali.Visor.Plugin = function(descendant){
         renderAsText(state, name){
             var plugin;
             if(!Dali.Visor.Plugins[name]) {
-                plugin = Dali.Plugins[name]().getRenderTemplate(state);
+                plugin = Dali.Plugins[name]();
             }else {
-                plugin = Dali.Visor.Plugins[name];
+                plugin = Dali.Visor.Plugins[name]();
             }
 
             var template = plugin.getRenderTemplate(state);

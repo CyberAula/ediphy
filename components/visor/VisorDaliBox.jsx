@@ -96,7 +96,7 @@ export default class VisorDaliBox extends Component{
             if(prop.startsWith("on")){
                 let value = props[prop];
                 if(typeof value === "string") {
-                    let fnName = value.substring(value.lastIndexOf(".") + 1).replace("()", "");
+                    let fnName = value.substring(value.lastIndexOf(".") + 1).replace(/[(].*[)]/g, "");
                     if (Object.keys(Dali.Visor.Plugins.get(this.props.toolbars[this.props.id].config.name)).indexOf(fnName) !== -1) {
                         props[prop] = Dali.Visor.Plugins.get(this.props.toolbars[this.props.id].config.name)[fnName];
                     }
