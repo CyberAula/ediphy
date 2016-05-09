@@ -1,26 +1,56 @@
 var Dali = {};
+Dali.Visor = {};
+
+Dali.Visor.Plugins = (function(){
+    var pluginList = {};
+
+    return{
+        get: function(name){
+            return pluginList[name];
+        },
+        getAll: function(){
+            return pluginList;
+        },
+        add: function(name, success){
+            if(success) {
+                pluginList[name] = new Dali.Visor.Plugin(Dali.Visor.Plugins[name]());
+            }else{
+                pluginList[name] = new Dali.Visor.Plugin(Dali.Plugins[name]());
+            }
+        }
+    }
+})();
 
 Dali.Plugins = (function(){
-    var pluginList;
+    var pluginList = {};
+
     var loadPluginFile = function(name){
-        var promise = new Promise(function(resolve, reject) {
-            var script = document.createElement('script');
-            var url = "plugins/" + name + "/" + name + ".js";
-            script.src = url;
-
-            script.addEventListener('load', function() {
-                resolve({name: name, value: window[name]});
-            }, false);
-
-            document.head.appendChild(script);
+        var promise = new Promise(function(resolve) {
+            $.ajax({
+                url: ("plugins/" + name + "/" + name + ".js"),
+                dataType: 'script',
+                success: function() { // callback for successful completion
+                    resolve(name);
+                    $.ajax({
+                        url: ("plugins/" + name + "/visor/" + name + ".js"),
+                        dataType: 'script',
+                        success: function(){
+                            Dali.Visor.Plugins.add(name, true);
+                        },
+                        error: function(){
+                            Dali.Visor.Plugins.add(name, false);
+                        }
+                    });
+                }
+            });
         });
 
         return promise;
     };
 
-    var pluginFactory = function(desc){
+    var pluginFactory = function(name){
         var plugin = new Dali.Plugin();
-        plugin.create(desc(plugin));
+        plugin.create(Dali.Plugins[name](plugin));
         return plugin;
     }
 
@@ -28,8 +58,11 @@ Dali.Plugins = (function(){
         get: function(name){
             return pluginList[name];
         },
+        getAll: function(){
+            return pluginList;
+        },
         getPluginsInCurrentView: function(){
-            var promise = new Promise(function(resolve, reject){
+            var promise = new Promise(function(resolve){
                 Dali.API.Private.listenAnswer(resolve, Dali.API.Private.events.getPluginsInCurrentView);
             });
             Dali.API.Private.emit(Dali.API.Private.events.getPluginsInCurrentView);
@@ -37,12 +70,11 @@ Dali.Plugins = (function(){
             return promise;
         },
         loadAllAsync: function() {
-            pluginList = {};
             var promises = [];
             plugins.map(function (id, index) {
                 promises.push(loadPluginFile(id));
-                promises[index].then(function (result) {
-                    pluginList[result.name] = pluginFactory(result.value);
+                promises[index].then(function (name) {
+                    pluginList[name] = pluginFactory(name);
                 });
             });
             return Promise.all(promises);

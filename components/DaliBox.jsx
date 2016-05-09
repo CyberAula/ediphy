@@ -222,9 +222,21 @@ export default class DaliBox extends Component {
                 break;
             case 'root':
                 component = "div";
-                props = {style: {width: '100%', height: '100%'}}
+                props = {style: {width: '100%', height: '100%'}};
                 break;
         }
+
+        Object.keys(props).forEach(prop => {
+            if(prop.startsWith("on")){
+                let value = props[prop];
+                if(typeof value === "string") {
+                    let fnName = value.substring(value.lastIndexOf(".") + 1).replace("()", "");
+                    if (Object.keys(Dali.Plugins.get(this.props.toolbars[this.props.id].config.name)).indexOf(fnName) !== -1) {
+                        props[prop] = Dali.Plugins.get(this.props.toolbars[this.props.id].config.name)[fnName];
+                    }
+                }
+            }
+        });
 
         if (markup.child) {
             children = [];

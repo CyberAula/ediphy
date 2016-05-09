@@ -1,4 +1,4 @@
-function BasicPills(base){
+Dali.Plugins["BasicPills"] = function (base){
     return{
         getConfig: function(){
             return {

@@ -1,4 +1,4 @@
-function BasicImage(base){
+Dali.Plugins["BasicImage"] = function (base){
     return {
         init: function(){
             base.registerExtraFunction(this.imageClick);
@@ -8,7 +8,7 @@ function BasicImage(base){
             return {
                 name: 'BasicImage',
                 category: 'image',
-                needsConfigModal: false,
+                needsConfigModal: true,
                 needsTextEdition: false,
                 icon: 'fa-picture-o'
             };
@@ -113,10 +113,10 @@ function BasicImage(base){
             return {url: 'http://nemanjakovacevic.net/wp-content/uploads/2013/07/placeholder.png', aspectRatio:'unchecked', borderSize: 0, borderSize: 0, borderStyle:'solid', borderRadius: 0, borderColor: '#000000', thumbnailVisibility: 'hidden'};
         },
         getConfigTemplate: function(state){
-            return "<div> Url: <input type=\"text\" autofocus id=\"BasicImage_input\" value=\"" + state.url + "\"><br><button onclick=\"Dali.Plugins.get(\"BasicImage\").showPreview()\">Show preview</button><img id=\"BasicImage_preview\" src=\"" + state.url + "\" style=\"width: 100px; height: 100px; visibility: " + state.thumbnailVisibility + ";\" onclick=\"Dali.Plugins.get(\"BasicImage\").imageClick()\" /></div>";
+            return "<div> Url: <input type=\"text\" autofocus id=\"BasicImage_input\" value=\"" + state.url + "\"><br><button onclick=\"Dali.Plugins.get('BasicImage').showPreview()\">Show preview</button><img id=\"BasicImage_preview\" src=\"" + state.url + "\" style=\"width: 100px; height: 100px; visibility: " + state.thumbnailVisibility + ";\" onclick=\"imageClick()\" /></div>";
         },
         getRenderTemplate: function(state){
-            return "<div style=\"width: 100%; height: 100%\"><img style=\"width: 100%; height: 100%; border-radius: "+state.borderRadius+"%; border: "+ state.borderSize + "px "+ state.borderStyle +" "+ state.borderColor +";\" src=\"" + state.url + "\"/></div>";
+            return "<div style=\"width: 100%; height: 100%\"><img onclick=\"showPreview()\" style=\"width: 100%; height: 100%; border-radius: "+state.borderRadius+"%; border: "+ state.borderSize + "px "+ state.borderStyle +" "+ state.borderColor +";\" src=\"" + state.url + "\"/></div>";
         },
         handleToolbar: function(name, value){
             if(name=='aspectRatio') {

@@ -1,4 +1,4 @@
-function BasicQuizConnect(base) {
+Dali.Plugins["BasicQuizConnect"] = function (base){
     return {
         getConfig: function () {
             return {

@@ -1,4 +1,4 @@
-function Container(base) {
+Dali.Plugins["Container"] = function (base){
     return {
         getConfig: function () {
             return {

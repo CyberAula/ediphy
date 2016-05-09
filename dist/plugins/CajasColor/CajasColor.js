@@ -1,4 +1,4 @@
-function CajasColor(base){
+Dali.Plugins["CajasColor"] = function (base){
     return{
         getConfig: function(){
             return {

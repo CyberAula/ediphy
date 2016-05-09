@@ -1,4 +1,4 @@
-function BasicText(base) {
+Dali.Plugins["BasicText"] = function (base){
     return {
         getConfig: function () {
             return {

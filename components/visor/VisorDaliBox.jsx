@@ -39,10 +39,10 @@ export default class VisorDaliBox extends Component{
         }
         let content = (
             <div style={style} {...attrs}>
-                {this.renderChildren(box.content)}
+                {this.renderChildren(Dali.Visor.Plugins.get(toolbar.config.name).renderAsComponent(toolbar.state, toolbar.config.name), 0)}
             </div>
         );
- 
+
         return (
             <div className="wholebox" 
                  style={{
@@ -53,8 +53,6 @@ export default class VisorDaliBox extends Component{
                     height: box.height,
                     maxWidth: '100%',
                     maxHeight: '100%',
-                    touchAction: 'none',
-                    msTouchAction: 'none',
                     cursor:  'default' //esto evita que aparezcan los cursores de move y resize cuando la caja no está seleccionada
                 }}>
             {content}
@@ -85,12 +83,26 @@ export default class VisorDaliBox extends Component{
                 break;
             case 'text':
                 component = "span";
+                props = {key: key};
+                children = [markup.text];
                 break;
             case 'root':
                 component = "div";
                 props = {style: {width: '100%', height: '100%'}}
                 break;
         }
+
+        Object.keys(props).forEach(prop => {
+            if(prop.startsWith("on")){
+                let value = props[prop];
+                if(typeof value === "string") {
+                    let fnName = value.substring(value.lastIndexOf(".") + 1).replace("()", "");
+                    if (Object.keys(Dali.Visor.Plugins.get(this.props.toolbars[this.props.id].config.name)).indexOf(fnName) !== -1) {
+                        props[prop] = Dali.Visor.Plugins.get(this.props.toolbars[this.props.id].config.name)[fnName];
+                    }
+                }
+            }
+        });
 
         if (markup.child) {
             children = [];

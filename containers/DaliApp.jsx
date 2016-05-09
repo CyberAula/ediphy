@@ -30,10 +30,9 @@ class DaliApp extends Component{
         };
     }
     render(){
-       
         const{ dispatch, boxes, boxesIds, boxSelected, boxLevelSelected, navItemsIds, navItems, navItemSelected,
             pageModalToggled, undoDisabled, redoDisabled, displayMode, isBusy, toolbars } = this.props;   
-            var ribbonHeight = this.state.hideTab=='hide'? '0px':'60px'
+            var ribbonHeight = this.state.hideTab == 'hide' ? '0px' : '60px';
         return(
             <Grid id="app" fluid={true} style={{height: '100%'}} >
                <Row className="navBar">
@@ -143,7 +142,7 @@ class DaliApp extends Component{
     componentDidMount(){
         Dali.Plugins.loadAllAsync().then(pluginsLoaded => {
             pluginsLoaded.map((plugin) => {
-                Dali.Plugins.get(plugin.name).init();
+                Dali.Plugins.get(plugin).init();
             })
         });
 
