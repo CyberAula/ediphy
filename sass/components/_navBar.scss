@@ -78,27 +78,6 @@ button[disabled].navButton {
 	margin:auto;
 }
 
-.rib{
-	display: inline-block;
-	font-size: 14px !important;
-	border-radius: 0;
-	height:100%;
-	background-color: transparent;
-	border:none;
-	color:$verdeadams;
-	&:hover{
-		background-color: transparent !important ; 
-		color:white ;
-		box-shadow: none !important;
-	}
-
-}
-.ribdrag{
-	color:$verdeadams;
-	&:hover{
-		color:$verdeadams !important ;
-	}
-}
 
 @media screen and (max-width: 1147px) {
 	.hideonresize{
@@ -109,17 +88,6 @@ button[disabled].navButton {
 	 padding:0;
 	  .active{ color:white !important;}
 	}
-}
-
-#ribbon{
-	// overflow-x:auto;
-	background-color:$naranjaadams;
-	height:60px;
-	position: absolute;
-	top:39px;
-	padding:0;
-	z-index:0;
-	// margin-left: -15px;
 }
 
 .conmargen{

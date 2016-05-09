@@ -1,15 +1,3 @@
-@mixin animacion($prop: all) {
-	transition: $prop 1s ease-in;
-	-webkit-transition: $prop 1s ease-in;
-	-moz-transition: $prop 1s ease-in; 	
-	-o-transition: $prop 1s ease-in; 	
-
-}
-
-@mixin selection {
-    ::-moz-selection { @content; }
-    ::selection { @content; }
-}
 $verdeadams: #133329;
 $grisadams: #888;
 $verdedisabled: rgba(255,255,255,0.5);

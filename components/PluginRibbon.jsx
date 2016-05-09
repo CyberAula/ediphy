@@ -15,8 +15,8 @@ export default class PluginRibbon extends Component {
         return (
             <Col id="ribbon"
                  md={12}
-                 xs={12}                    
-                 style={{ 
+                 xs={12}
+                 style={{
                     marginLeft:'-15px',
                     height: (this.props.hideTab=='hide' || this.props.category=='none' )? '0px':'60px',
                     overflowX: 'auto',
@@ -61,8 +61,7 @@ export default class PluginRibbon extends Component {
                             'translate(' + x + 'px, ' + (y-250) + 'px)'; // BOX-HEIGHT(200) - NAVBAR-HEIGHT (29)
                     target.style.zIndex = "999 !important";
                     target.style.position = 'fixed';
-                    target.classList.add('ribdrag');   
-                    
+                    target.classList.add('ribdrag');
              
                     // update the position attributes
                     target.setAttribute('data-x', x);
