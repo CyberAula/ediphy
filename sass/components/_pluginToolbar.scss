@@ -39,3 +39,24 @@
 		font-weight: bold;
 	}
 }
+
+
+.navButtonPlug{
+	border-top:2px solid transparent;
+	margin-right:-9px;
+	&:after  {
+		content: '';
+		position: relative;
+		z-index: 999;
+		top: 0;
+		left: -50%;
+		width: 0; height: 0;
+		border: 7px solid transparent;
+	}
+}
+
+.navButtonPlug.active{
+	&:after  {
+		border-bottom: 7px solid $naranjaadams;
+	}
+ }

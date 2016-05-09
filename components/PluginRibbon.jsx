@@ -47,6 +47,14 @@ export default class PluginRibbon extends Component {
 
         interact(".rib")
             .draggable({ 
+           /*     onstart: function (event) {
+                    var target = event.target;
+
+                    // Bring element in front of its siblings
+                    target.parentNode.appendChild(target);
+
+                  
+                },*/
                 onmove: (event) => {
                     let target = event.target,
                     // keep the dragged position in the data-x/data-y attributes
@@ -75,7 +83,7 @@ export default class PluginRibbon extends Component {
                         target.style.transform =
                             'translate(' + x + 'px, ' + y + 'px)';
                           
-                    target.style.zIndex = 'initial';
+                    target.style.zIndex = '9999999';
                     target.style.position = 'relative';
                     target.classList.remove('ribdrag');   
 

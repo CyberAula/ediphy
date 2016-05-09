@@ -47,6 +47,7 @@ class DaliApp extends Component{
                               redo = {() => {dispatch(ActionCreators.redo())}}
                               visor = {() =>{this.setState({visor:true })}}
                               export = {() => {DaliVisor.exports(this.props.store.getState())}}
+                              scorm = {() => {DaliScorm.exports(this.props.store.getState())}}
                               save = {() => {dispatch(exportStateAsync(this.props.store.getState()))}}
                               categoria={this.state.pluginTab}
                               opens = {() => {dispatch(importStateAsync())}}
