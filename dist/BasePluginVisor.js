@@ -1,10 +1,18 @@
 Dali.Visor.Plugin = function(descendant){
 
-    var assignPluginContainerIds = function(json, state){
+    var parseJson = function(json, state, name){
         if(json.child){
             for(var i = 0; i < json.child.length; i++){
-                assignPluginContainerIds(json.child[i], state);
+                parseJson(json.child[i], state, name);
             }
+        }
+        if(name && json.attr){
+            Object.keys(json.attr).forEach(key => {
+                if(typeof json.attr[key] === "string" && json.attr[key].indexOf("$dali$") !== -1) {
+                    var fnName = json.attr[key].replace(/[$]dali[$][.]/g, "").replace(/[(].*[)]/g, "");
+                    json.attr[key] = Dali.Plugins.get(name)[fnName];
+                }
+            });
         }
         if(json.tag && json.tag === "plugin"){
             if(!state['pluginContainerIds']){
@@ -22,20 +30,20 @@ Dali.Visor.Plugin = function(descendant){
     }
 
     var plugin = {
-        renderAsText(state, name){
-            var plugin;
+        export(state, name, hasChildren){
+            var plugin, template;
             if(!Dali.Visor.Plugins[name]) {
                 plugin = Dali.Plugins[name]();
-            }else {
+                template = plugin.getRenderTemplate(state).replace(/[$]dali[$][.]/g, "");
+            } else {
                 plugin = Dali.Visor.Plugins[name]();
+                template = plugin.getRenderTemplate(state).replace(/[$]dali[$][.]/g, "");
             }
-
-            var template = plugin.getRenderTemplate(state);
             if(template.indexOf("pointer-events") !== -1){
                 template = template.replace(/pointer-events:[\s'"]+none[\s'"]+/g, "");
             }
 
-            var scripts = "<script type='text/javascript'>";
+            var scripts = "";
             Object.keys(plugin).map(function (fn) {
                 if(fn !== 'init' &&
                     fn !== 'getConfig' &&
@@ -45,17 +53,24 @@ Dali.Visor.Plugin = function(descendant){
                     fn !== 'handleToolbar' &&
                     fn !== 'getConfigTemplate' &&
                     fn !== 'getRenderTemplate'){
-                    scripts += plugin[fn].toString().replace("function", "function " + fn).replace(/\n/g, "").replace(/[ ]+/g, " ");
+                    scripts += (scripts.length === 0 ? "<script type='text/javascript'>" : "") + plugin[fn].toString().replace("function", "function " + fn).replace(/\n/g, "").replace(/[ ]+/g, " ");
                 }
             });
-            scripts += "</script>";
+            if(scripts.length !== 0){
+                scripts += "</script>";
+            }
 
             var firstTag = template.substring(0, template.indexOf(">") + 1);
             template = template.substring(template.indexOf(">") + 1);
-
-            return firstTag + scripts + template;
+            var result = firstTag + scripts + template;
+            if(!hasChildren) {
+                return result;
+            }
+            var json = html2json(result);
+            parseJson(json, state);
+            return json;
         },
-        renderAsComponent(state, name){
+        render(state, name){
             var json;
             if(!Dali.Visor.Plugins[name]) {
                 json = html2json(Dali.Plugins[name]().getRenderTemplate(state));
@@ -63,7 +78,7 @@ Dali.Visor.Plugin = function(descendant){
             else{
                 json = html2json(Dali.Visor.Plugins[name]().getRenderTemplate(state));
             }
-            assignPluginContainerIds(json, state);
+            parseJson(json, state, name);
             return json;
         },
         callExtraFunction: function(alias, fnAlias) {

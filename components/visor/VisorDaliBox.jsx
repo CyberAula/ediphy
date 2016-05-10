@@ -39,7 +39,7 @@ export default class VisorDaliBox extends Component{
         }
         let content = (
             <div style={style} {...attrs}>
-                {this.renderChildren(Dali.Visor.Plugins.get(toolbar.config.name).renderAsComponent(toolbar.state, toolbar.config.name), 0)}
+                {this.renderChildren(Dali.Visor.Plugins.get(toolbar.config.name).render(toolbar.state, toolbar.config.name), 0)}
             </div>
         );
 
@@ -91,18 +91,6 @@ export default class VisorDaliBox extends Component{
                 props = {style: {width: '100%', height: '100%'}}
                 break;
         }
-
-        Object.keys(props).forEach(prop => {
-            if(prop.startsWith("on")){
-                let value = props[prop];
-                if(typeof value === "string") {
-                    let fnName = value.substring(value.lastIndexOf(".") + 1).replace(/[(].*[)]/g, "");
-                    if (Object.keys(Dali.Visor.Plugins.get(this.props.toolbars[this.props.id].config.name)).indexOf(fnName) !== -1) {
-                        props[prop] = Dali.Visor.Plugins.get(this.props.toolbars[this.props.id].config.name)[fnName];
-                    }
-                }
-            }
-        });
 
         if (markup.child) {
             children = [];

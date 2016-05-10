@@ -132,8 +132,8 @@ Dali.Plugin = function(){
                     console.error(this.getConfig().name + " has not defined getConfigTemplate method");
             }else {
                 Dali.API.openConfig(this.getConfig().name, isUpdating).then(function (div) {
-                    div.innerHTML = descendant.getConfigTemplate(oldState);
-                });
+                    div.innerHTML = descendant.getConfigTemplate(oldState).replace(/[$]dali[$]/g, "Dali.Plugins.get('" + this.getConfig().name + "')");
+                }.bind(this));
             }
         },
         updateTextChanges: function(text, sender){

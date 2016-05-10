@@ -6,7 +6,7 @@ Dali.Visor.Plugins["BasicImage"] = function (){
                 "height: 100%; " +
                 "border-radius: " + state.borderRadius + "%; " +
                 "border: " + state.borderSize + "px " + state.borderStyle + " " + state.borderColor + ";\" " +
-                "src=\"" + state.url + "\" onclick='imageClick()'/>" +
+                "src=\"" + state.url + "\" onclick='$dali$.imageClick()'/>" +
                 "</div>";
         },
         imageClick: function()
