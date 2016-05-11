@@ -102,6 +102,8 @@ export default class DaliBox extends Component {
         }
         return (
             <div className={classes}
+
+
                  onClick={e => {
                     if(this.props.boxLevelSelected === box.level){
                         if(this.props.boxLevelSelected > 0){
@@ -271,6 +273,11 @@ export default class DaliBox extends Component {
 
         let block = this.checkAspectRatio(toolbar.buttons);
         interact(ReactDOM.findDOMNode(this)).resizable({ preserveAspectRatio: !block }) 
+
+        if(this.props.boxes[this.props.id].level > this.props.boxLevelSelected){
+            interact(ReactDOM.findDOMNode(this)).draggable({enabled: false});
+        }else{
+            interact(ReactDOM.findDOMNode(this)).draggable({enabled: (this.draggable)});
     }
 
     componentDidMount() {
@@ -290,32 +297,44 @@ export default class DaliBox extends Component {
         let dragRestrictionSelector = (box.container !== 0) ? ".daliBoxSortableContainer, .drg" + box.container : "parent";
         interact(ReactDOM.findDOMNode(this))
             .draggable({
-                enabled: (box.draggable),
+                enabled: (box.draggable && (this.props.boxLevelSelected <= box.level)),
                 restrict: {
                     restriction: dragRestrictionSelector,
                     elementRect: {top: 0, left: 0, bottom: 1, right: 1}
                 },
                 autoScroll: true,
                 onmove: (event) => {
-                    if (this.props.boxSelected !== this.props.id) {
-
+                    /*if (this.props.boxSelected !== this.props.id) {
+                        console.log("no mueve", box.level, this.props.boxLevelSelected);
                         return;
-                    }
+                    }*/
+
+                    if((box.level-this.props.boxLevelSelected)<=0 && (box.level-this.props.boxLevelSelected)>=0){
                     var target = event.target;
                     target.style.left = (parseInt(target.style.left) || 0) + event.dx + 'px';
                     target.style.top = (parseInt(target.style.top) || 0) + event.dy + 'px';
                     target.style.zIndex = 999999;
+                     event.stopPropagation();
+                 }else{
+                     event.stopPropagation();
+                    return;
+                 }
+
                 },
                 onend: (event) => {
 
                     if(this.props.boxSelected !== this.props.id) {
+                        event.stopPropagation();
                         return;
                     }
 
                     var target = event.target;
                     if(!target.parentElement){
+                        event.stopPropagation();
                         return;
                     }
+                    event.stopPropagation();
+                    console.log("event")
                     let left = Math.max(Math.min(Math.floor(parseInt(target.style.left) / target.parentElement.offsetWidth * 100), 100), 0) + '%';
                     let top = Math.max(Math.min(Math.floor(parseInt(target.style.top) / target.parentElement.offsetHeight * 100), 100), 0) + '%';
 
@@ -327,7 +346,7 @@ export default class DaliBox extends Component {
                         this.props.id,
                         box.container !== 0 ? left : Math.max(parseInt(target.style.left), 0),
                         box.container !== 0 ? top : Math.max(parseInt(target.style.top), 0));
-                    event.stopPropagation();
+                    
                 }
             })
             .ignoreFrom('input, textarea, a')
