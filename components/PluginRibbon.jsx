@@ -60,6 +60,8 @@ export default class PluginRibbon extends Component {
                     document.getElementById('insideribbon').style.overflowY='visible'
                     document.getElementById('ribbonList').style.overflowY='visible'
                     document.getElementById('ribbonRow').style.overflowY='visible'
+                    document.getElementById('canvas').style.zIndex='-1'
+
                 },
                 onmove: (event) => {
              
@@ -90,6 +92,7 @@ export default class PluginRibbon extends Component {
                     document.getElementById('insideribbon').style.overflowY='hidden'
                     document.getElementById('ribbonList').style.overflowY='hidden'
                     document.getElementById('ribbonRow').style.overflowY='hidden'
+                    document.getElementById('canvas').style.zIndex='0'
 
                     var target = event.target,
                         x = 0,

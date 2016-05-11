@@ -2,22 +2,13 @@ import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import {Button,Col} from 'react-bootstrap';
 import CarrouselList from '../components/CarrouselList';
-import CarrouselThumbnails from '../components/CarrouselThumbnails';
-
+ 
 export default class DaliCarousel extends Component{
 
     render(){
         let displayModeClassName = "";
         let carrouselContent;
-        if(this.props.displayMode === "thumbnail") {
-            displayModeClassName = "fa fa-th-list";
-            carrouselContent = <CarrouselThumbnails navItemsIds={this.props.navItemsIds}
-                                              navItems={this.props.navItems}
-                                              boxes={this.props.boxes}
-                                              navItemSelected={this.props.navItemSelected}
-                                              onNavItemSelected={this.props.onNavItemSelected}
-                                              onNavItemRemoved={this.props.onNavItemRemoved} />;
-        } else if (this.props.displayMode === "list") {
+        if (this.props.displayMode === "list") {
             displayModeClassName = "fa fa-th-large";
             carrouselContent = <CarrouselList boxes={this.props.boxes}
                                               navItemsIds={this.props.navItemsIds}
@@ -36,21 +27,7 @@ export default class DaliCarousel extends Component{
             <div className="wrapperCarousel">
             <div id="indice" className="daliCarousel " key="indice" style={{height: '100%'}} >
                 {carrouselContent}
-                <Button style={{position: 'absolute', display:'block', right: 0, bottom: 0}} onClick={e => {
-                    let newMode = "list";
-                    switch(this.props.displayMode){
-                        case "list":
-                            newMode = "thumbnail";
-                            break;
-                        case "thumbnail":
-                            newMode = "list";
-                            break;
-                    }
-                    this.props.onDisplayModeChanged(newMode);
-                    e.stopPropagation();
-                }}>
-                    <i className={displayModeClassName}> </i>
-                </Button>
+ 
             </div>
             <div className="pestanaCarousel"  id="pestcar" onClick={() => {this.toggleWidth() }}>
                  <i className="fa fa-list-alt fa-2x"> </i> 
