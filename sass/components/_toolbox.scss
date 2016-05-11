@@ -1,3 +1,11 @@
+
+.botones{
+	padding:15px;
+}
+#insidetools,#tools{
+	width: 250px;
+}
+
 .toolbox{
 	height: 100%;
     background-color: rgba(222,222,222,0.8);
@@ -21,23 +29,35 @@
 }
 
 .wrapper{
-	// vertical-align: baseline;
+ 
 	margin: 0;
     position: fixed;
    	bottom:0;
-   	/*-webkit-backdrop-filter: blur(5px);
-	-moz-backdrop-filter: blur(5px);
-	-o-backdrop-filter: blur(5px);
-	-ms-backdrop-filter: blur(5px);
-	backdrop-filter: blur(5px);*/
+ 
 
 }
+
+
 
  #tools{
 	overflow-x:hidden;
 	overflow-y:auto;
  
- }
+	input[type="checkbox"]{
+		
+		padding:0 !important;
+		margin-left:0
+	}
+	label{
+			margin:0 !important;
+		padding:0 !important;
+		font-size: inherit;
+		font-weight: bold;
+	}
+}
+
+
+
 
 .panelPluginToolbar{
 
@@ -58,3 +78,4 @@
 		}
 	}
 }
+

@@ -1,53 +1,5 @@
 
-.botones{
-	padding:15px;
-}
-#insidetools,#tools{
-	width: 250px;
-}
 
-#tools {
-	
-	input[type="checkbox"]{
-		
-		padding:0 !important;
-		margin-left:0
-	}
-	label{
-			margin:0 !important;
-		padding:0 !important;
-		font-size: inherit;
-		font-weight: bold;
-	}
-}
-
-
-
-
-.rib{
-	display: inline-block;
-	font-size: 14px !important;
-	border-radius: 0;
-	height:100%;
-	background-color: transparent;
-	border:none;
-	color:$verdeadams;
-	&:hover{
-		background-color: transparent !important ; 
-		color:white ;
-		box-shadow: none !important;
-		-webkit-box-shadow: none !important;
-		-moz-box-shadow: none !important;
-	}
-	// transition: all 0.5s linear;
-}
-
-.ribdrag{
-	color:$verdeadams;
-	&:hover{
-		color:$verdeadams !important ;
-	}
-}
 
 @media screen and (max-width: 1147px) {
 	.hideonresize{
@@ -60,21 +12,14 @@
 	}
 }
 
-#ribbon{
-	background-color:$naranjaadams;
-	height:60px;
-	padding:0;
-	z-index:0;
- }
 
- 
 
 .navButtonPlug{
 	@extend .navButton;
 	width:auto;
 	padding: 0px 2px;
 	&:after  {
- 		border: 7px solid transparent;
+ 		border: 8px solid transparent;
 		content: "\200B";	
 		position: relative;
 		top: 0px;
@@ -82,6 +27,9 @@
 		transition: all 0.3s ease-in;
 	}
 
+}
+.navButtonPlug[ title="All"]{
+	padding-left: 8px;
 }
 
 
@@ -91,7 +39,7 @@
 	background-color: $verdeadams;
 	&:after  {
 		 
-		border-bottom: 7px solid $naranjaadams;
+		border-bottom: 8px solid $naranjaadams;
 	}
  }
 
