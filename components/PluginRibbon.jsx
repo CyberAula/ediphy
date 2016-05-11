@@ -53,18 +53,11 @@ export default class PluginRibbon extends Component {
             
                 autoScroll: false,
                 onstart: function (event) {
- 
-                    document.getElementById('ribbonRow').style.overflowX='visible'
-                    document.getElementById('ribbon').style.overflowX='visible'
-                    document.getElementById('ribbon').style.overflowY='visible'
-                    document.getElementById('insideribbon').style.overflowY='visible'
-                    document.getElementById('ribbonList').style.overflowY='visible'
-                    document.getElementById('ribbonRow').style.overflowY='visible'
-                    document.getElementById('canvas').style.zIndex='-1'
 
+                    changeOverflow(true);
+                    
                 },
                 onmove: (event) => {
-             
  
                     let target = event.target,
                     // keep the dragged position in the data-x/data-y attributes
@@ -86,13 +79,8 @@ export default class PluginRibbon extends Component {
 
                 },
                 onend: (event) => {
-                    document.getElementById('ribbonRow').style.overflowX='auto'
-                    document.getElementById('ribbon').style.overflowX='hidden'
-                    document.getElementById('ribbon').style.overflowY='hidden'
-                    document.getElementById('insideribbon').style.overflowY='hidden'
-                    document.getElementById('ribbonList').style.overflowY='hidden'
-                    document.getElementById('ribbonRow').style.overflowY='hidden'
-                    document.getElementById('canvas').style.zIndex='0'
+
+                    changeOverflow(false);
 
                     var target = event.target,
                         x = 0,
@@ -112,4 +100,17 @@ export default class PluginRibbon extends Component {
                 }
             });
     }
+}
+
+
+function changeOverflow(bool){
+
+    document.getElementById('ribbonRow').style.overflowX=bool?'visible':'auto';
+    document.getElementById('ribbon').style.overflowX=bool?'visible':'hidden';
+    document.getElementById('ribbon').style.overflowY=bool?'visible':'hidden';
+    document.getElementById('insideribbon').style.overflowY=bool?'visible':'hidden';
+    document.getElementById('ribbonList').style.overflowY=bool?'visible':'hidden';
+    document.getElementById('ribbonRow').style.overflowY=bool?'visible':'hidden';
+    document.getElementById('canvas').style.zIndex=bool?'-1':'0';
+ 
 }
