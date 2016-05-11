@@ -1,28 +1,26 @@
-var Container = (function(){
-    return new Dali.Plugin({
-        getConfig: function(){
+Dali.Plugins["Container"] = function (base){
+    return {
+        getConfig: function () {
             return {
                 name: 'Container',
                 category: 'multimedia',
                 icon: 'fa-object-group'
             }
         },
-         getSections: function(){
+        getSections: function () {
             return [
                 {
-                    tab: 'Main', 
-                    accordion: ['Basic','Box']
+                    tab: 'Main',
+                    accordion: ['Basic', 'Box']
                 },
                 {
-                    tab: 'Other', 
+                    tab: 'Other',
                     accordion: ['Extra']
                 },
-
             ];
         },
-        getRenderTemplate: function(state){
+        getRenderTemplate: function (state) {
             return "<plugin />";
         }
-    })
-})();
-
+    }
+}

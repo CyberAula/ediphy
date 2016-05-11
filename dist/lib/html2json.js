@@ -38,8 +38,9 @@
             var name = attr.name;
             var value = attr.value;
 
-            // has multi attibutes
-            // make it array of attribute
+            if(name.startsWith("on")){
+                name = "on" + name.charAt(2).toUpperCase() + name.substring(3);
+            }
 			if(name === 'style'){
 				var keyPattern = /[-\w]+:[\s]*/g;
 				var valuePattern = /:[\s]*[\w\d\s'"%.,()#]*[;]*/g;

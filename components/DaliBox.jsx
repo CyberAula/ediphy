@@ -222,9 +222,18 @@ export default class DaliBox extends Component {
                 break;
             case 'root':
                 component = "div";
-                props = {style: {width: '100%', height: '100%'}}
+                props = {style: {width: '100%', height: '100%'}};
                 break;
         }
+
+        Object.keys(props).forEach(prop => {
+            if(prop.startsWith("on")){
+                let value = props[prop];
+                if(typeof value === "string") {
+                    props[prop] = function(){};
+                }
+            }
+        });
 
         if (markup.child) {
             children = [];

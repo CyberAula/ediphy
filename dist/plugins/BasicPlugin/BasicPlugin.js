@@ -1,5 +1,5 @@
-var BasicPlugin = (function(){
-    return new Dali.Plugin({
+Dali.Plugins["BasicPlugin"] = function (base){
+    return{
         getConfig: function(){
             return {
                 name: 'BasicPlugin',
@@ -60,25 +60,25 @@ var BasicPlugin = (function(){
             return {url: '', borderSize: 0, thumbnailVisibility: 'hidden'};
         },
         getConfigTemplate: function(state) {
-            return "<div> Url: <input type=\"text\" autofocus id=\"BasicImage_input\" value=\"" + state.url + "\"><br><button onclick=\"BasicPlugin.showPreview()\">Show preview</button><img id=\"BasicImage_preview\" src=\"" + state.url + "\" style=\"width: 100px; height: 100px; visibility: " + state.thumbnailVisibility + ";\" onclick=\"BasicPlugin.imageClick()\" /></div>";
+            return "<div> Url: <input type=\"text\" autofocus id=\"BasicImage_input\" value=\"" + state.url + "\"><br><button onclick=\"Dali.Plugins.get('BasicPlugin').showPreview()\">Show preview</button><img id=\"BasicImage_preview\" src=\"" + state.url + "\" style=\"width: 100px; height: 100px; visibility: " + state.thumbnailVisibility + ";\" onclick=\"Dali.Plugins.get('BasicPlugin').imageClick()\" /></div>";
         },
         getRenderTemplate: function(state){
             return "<div><img style=\"width: 100%; height: 100%; border: solid " + state.borderSize + "px green\" src=\"" + state.url + "\"/><span>" + state.text + "</span></div>";
         },
         handleToolbar: function(name, value){
             if(name === 'borderSize')
-                BasicPlugin.setState('borderSize', value);
+                base.setState('borderSize', value);
         },
         showPreview: function(){
             var img = $('#BasicImage_preview');
             var input = $('#BasicImage_input');
-            BasicPlugin.setState('url', input.val());
-            BasicPlugin.setState('thumbnailVisibility', 'visible');
+            base.setState('url', input.val());
+            base.setState('thumbnailVisibility', 'visible');
             img.attr('src', input.val());
             img.css('visibility', 'visible');
         },
         imageClick: function() {
             alert("Miau!");
         }
-    });
-})();
+    }
+}
