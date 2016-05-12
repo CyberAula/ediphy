@@ -288,6 +288,7 @@ export default class DaliBox extends Component {
             interact(ReactDOM.findDOMNode(this)).draggable({enabled: false});
         }else{
             interact(ReactDOM.findDOMNode(this)).draggable({enabled: (this.draggable)});
+        }
     }
 
     componentDidMount() {
@@ -314,25 +315,24 @@ export default class DaliBox extends Component {
                 },
                 autoScroll: true,
                 onmove: (event) => {
-                    /*if (this.props.boxSelected !== this.props.id) {
-                        console.log("no mueve", box.level, this.props.boxLevelSelected);
-                        return;
-                    }*/
+                    if (this.props.boxSelected !== this.props.id) {
+                        this.props.onBoxSelected(this.props.id);
+                    }
 
                     if((box.level-this.props.boxLevelSelected)<=0 && (box.level-this.props.boxLevelSelected)>=0){
-                    var target = event.target;
-                    target.style.left = (parseInt(target.style.left) || 0) + event.dx + 'px';
-                    target.style.top = (parseInt(target.style.top) || 0) + event.dy + 'px';
-                    target.style.zIndex = 999999;
-                     event.stopPropagation();
-                 }else{
-                     event.stopPropagation();
-                    return;
-                 }
+                        var target = event.target;
+                        target.style.left = (parseInt(target.style.left) || 0) + event.dx + 'px';
+                        target.style.top = (parseInt(target.style.top) || 0) + event.dy + 'px';
+                        target.style.zIndex = 999999;
+                        event.stopPropagation();
+
+                     }else{
+                        event.stopPropagation();
+                        return;
+                     }
 
                 },
                 onend: (event) => {
-
                     if(this.props.boxSelected !== this.props.id) {
                         event.stopPropagation();
                         return;

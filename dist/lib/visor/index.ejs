@@ -91,7 +91,9 @@
 
             <!--Camel Case -->
             <%function camel(s) {
-                if(s=='onClick')return 'onclick';
+                if(s=='onClick'){
+                    return 'onclick';
+                }
                 return s.split(/(?=[A-Z])/).join('-').toLowerCase();
             }%>
 

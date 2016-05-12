@@ -186,4 +186,7 @@ export default class DaliBoxSortable extends Component{
         }});
     }
 
+
+
+
 }
