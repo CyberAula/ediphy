@@ -18,21 +18,23 @@ export default class PluginRibbon extends Component {
                  xs={12}                    
                  style={{ 
                     height:  this.props.ribbonHeight,
-                    overflowX: 'auto',
-                    overflowY: 'hidden'   }} >
-                <div id="insideribbon" style={{margin:'0', right:0 }} className="row">
-                    <div style={{ whiteSpace: 'nowrap', marginLeft: '30px'}}>
+                    overflowY:'hidden'  
+                }} >
+                <div id="insideribbon" style={{}} className="row" >
+                    <div id="ribbonList" style={{ }}>
                         {this.state.buttons.map((item, index) => {
                             if(this.state.buttons[index].category === this.props.category || this.props.category == 'all'){
                                 var clase = "fa "+ this.state.buttons[index].icon + " fa-1";
-                                return (
-                                    <Button className="rib"
-                                            disabled={this.props.disabled}
-                                            key={index}
-                                            name={item.name}
-                                            bsSize="large">
-                                        <i className={clase}></i><br/> {this.state.buttons[index].name}
-                                    </Button>);
+                                return (<div className="buttonPlace">
+                                        <Button className="rib"
+                                                disabled={this.props.disabled}
+                                                key={index}
+                                                name={item.name}
+                                                bsSize="large"
+                                                draggable="true" >
+                                            <i className={clase}></i><br/> {this.state.buttons[index].name}
+                                        </Button>
+                                    </div>);
                             }
                         })}
                     </div>
@@ -45,37 +47,42 @@ export default class PluginRibbon extends Component {
             this.setState({buttons: this.state.buttons.concat([e.detail])});
         });
 
+ 
         interact(".rib")
             .draggable({ 
-           /*     onstart: function (event) {
-                    var target = event.target;
+            
+                autoScroll: false,
+                onstart: function (event) {
 
-                    // Bring element in front of its siblings
-                    target.parentNode.appendChild(target);
-
-                  
-                },*/
+                    changeOverflow(true);
+                    
+                },
                 onmove: (event) => {
+ 
                     let target = event.target,
                     // keep the dragged position in the data-x/data-y attributes
                         x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
                         y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
-
+                        
                     // translate the element
                     target.style.webkitTransform =
                         target.style.transform =
-                            'translate(' + x + 'px, ' + y + 'px)'; // BOX-HEIGHT(200) - NAVBAR-HEIGHT (29)
-                    target.style.zIndex = "999 !important";
-                    target.style.position = 'fixed';
+
+                            'translate(' + (x ) + 'px, ' +  (y)   + 'px)'; 
+                    target.style.zIndex = '9999';
+                    // target.style.position = 'fixed';
                     target.classList.add('ribdrag');
 
-                    
-             
                     // update the position attributes
                     target.setAttribute('data-x', x);
                     target.setAttribute('data-y', y);
+
+
                 },
                 onend: (event) => {
+
+                    changeOverflow(false);
+
                     var target = event.target,
                         x = 0,
                         y = 0;
@@ -83,16 +90,28 @@ export default class PluginRibbon extends Component {
                         target.style.transform =
                             'translate(' + x + 'px, ' + y + 'px)';
                           
-                    target.style.zIndex = '9999999';
+                    target.style.zIndex = '9999';
                     target.style.position = 'relative';
                     target.classList.remove('ribdrag');   
 
 
-                    // update the position attributes
                     target.setAttribute('data-x', x);
-                    target.setAttribute('data-y', y);  
+                    target.setAttribute('data-y', y); 
                     event.stopPropagation();
                 }
             });
     }
+}
+
+
+function changeOverflow(bool){
+
+    document.getElementById('ribbonRow').style.overflowX=bool?'visible':'auto';
+    document.getElementById('ribbon').style.overflowX=bool?'visible':'hidden';
+    document.getElementById('ribbon').style.overflowY=bool?'visible':'hidden';
+    document.getElementById('insideribbon').style.overflowY=bool?'visible':'hidden';
+    document.getElementById('ribbonList').style.overflowY=bool?'visible':'hidden';
+    document.getElementById('ribbonRow').style.overflowY=bool?'visible':'hidden';
+    document.getElementById('canvas').style.zIndex=bool?'-1':'0';
+ 
 }

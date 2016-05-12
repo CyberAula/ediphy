@@ -1,5 +1,5 @@
-var CajasColor = (function(){
-    return new Dali.Plugin({
+Dali.Plugins["CajasColor"] = function (base){
+    return{
         getConfig: function(){
             return {
                 name: 'CajasColor',
@@ -22,7 +22,7 @@ var CajasColor = (function(){
                 }
             ]
         },
-         getSections: function(){
+        getSections: function(){
             return [
                 {
                     tab: 'Main', 
@@ -31,27 +31,39 @@ var CajasColor = (function(){
                 {
                     tab: 'Other', 
                     accordion: ['Extra']
-                },
-
+                }
             ];
         },
         getInitialState: function(){
-            return {nBoxes: 2};
+            return {nBoxes: 2, colors: ['red', 'blue']};
         },
         getRenderTemplate: function(state){
-            var boxes = ""
-            var height = (state.nBoxes != 0 )? (100/state.nBoxes):100
-            var colors = ['blue', 'red', 'green', 'yellow']
-            for(let i = 0; i<state.nBoxes; i++){
-                boxes+="<div style='background-color: "+colors[i%colors.length]+"; height: "+height+"%'><plugin /></div>"
+            var template = "<div style='width: 100%; height: 100%'>";
+            var width = 100 / state.nBoxes;
+            for(var i = 0; i < state.nBoxes; i++){
+                template += "<div onclick='$dali$.click()' style='background-color: " + state.colors[i] + "; height: 100%; width: " + width + "%; float: left'><plugin plugin-data-key='title" + i + "' plugin-data-default='BasicText' /></div>";
             }
-            return boxes
-            //return "<div style='background-color: red; height: 50%'><plugin /></div><div style='background-color: blue; height: 50%'><plugin /></div>";
+
+            template += "</div><div>";
+            for(var i = 0; i < state.nBoxes; i++){
+                //If min-height is set but height is not, will not work properly. Hackfix: height = 1px
+                template += "<div style='background-color: " + state.colors[i] + "; min-height: 80px; height: 1px'><plugin plugin-data-key='box" + i + "' /></div>";
+            }
+            template += "</div>";
+            return template;
         },
         handleToolbar: function(name, value){
             if(name === 'nBoxes'){
-                CajasColor.setState(name, value);
+                if(value > base.getState().nBoxes){
+                    base.setState('colors', base.getState().colors.concat(['blue']));
+                }else if(value < base.getState().nBoxes){
+                    base.setState('colors', base.getState().colors.slice(0, base.getState().colors.length()));
+                }
+                base.setState(name, value);
             }
+        },
+        click: function(key){
+            alert(key);
         }
-    })
-})();
+    }
+}

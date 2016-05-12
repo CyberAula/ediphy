@@ -1,13 +1,20 @@
+
+.botones{
+	padding:15px;
+}
+#insidetools,#tools{
+	width: 250px;
+}
+
 .toolbox{
 	height: 100%;
-    background-color: #dedede;
+    background-color: rgba(222,222,222,0.8);
     display:inline-block;
     vertical-align: baseline;
-
 }
 
 .pestana{
-	background-color: #dedede;
+	background-color: rgba(222,222,222,0.8);
 	width:35px;
 	height: 35px;
 	padding:5px;
@@ -15,21 +22,60 @@
 	z-index: 999;
 	display:inline-block;
 	position: absolute;
-	top:260px;right:100%;
+	top:$pestanaHeight;
+	right:100%;
 	border-radius: 8px 0px 0px 8px;
 	color: $verdeadams;
 }
 
 .wrapper{
-	// vertical-align: baseline;
+ 
 	margin: 0;
     position: fixed;
    	bottom:0;
+ 
 
 }
+
+
 
  #tools{
 	overflow-x:hidden;
 	overflow-y:auto;
  
- }
+	input[type="checkbox"]{
+		
+		padding:0 !important;
+		margin-left:0
+	}
+	label{
+			margin:0 !important;
+		padding:0 !important;
+		font-size: inherit;
+		font-weight: bold;
+	}
+}
+
+
+
+
+.panelPluginToolbar{
+
+	color:$fondo;
+	border-radius: 5px;
+
+	.panel-heading{
+		border-radius: 5px;
+	}
+
+
+
+	a {
+		display:block;
+		&:hover,&:active,&:focus{
+			text-decoration: none;
+			color:$verdeadams;
+		}
+	}
+}
+

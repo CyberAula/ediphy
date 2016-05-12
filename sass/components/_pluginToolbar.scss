@@ -1,66 +1,46 @@
-.panelPluginToolbar{
 
-	color:$fondo;
-	border-radius: 5px;
 
-	.panel-heading{
-		border-radius: 5px;
+
+@media screen and (max-width: 1147px) {
+	.hideonresize{
+		display: none;
 	}
-
-
-
-	a {
-		display:block;
-		&:hover,&:active,&:focus{
-			text-decoration: none;
-			color:$verdeadams;
-		}
+	.navButtonPlug{
+	 width:50px;
+	 padding:0;
+	  .active{ color:white !important;}
 	}
 }
 
-.botones{
-	padding:15px;
-}
-#insidetools,#tools{
-	width: 250px;
-}
-
-#tools {
-	
-	input[type="checkbox"]{
-		
-		padding:0 !important;
-		margin-left:0
-	}
-	label{
-			margin:0 !important;
-		padding:0 !important;
-		font-size: inherit;
-		font-weight: bold;
-	}
-}
 
 
 .navButtonPlug{
-	border-top:2px solid transparent;
-	padding-right:-7px;
-	padding-left:-7px;
-	
+	@extend .navButton;
+	width:auto;
+	padding: 0px 2px;
 	&:after  {
-		content: '';
+ 		border: 8px solid transparent;
+		content: "\200B";	
 		position: relative;
-		z-index: 999;
-		top: 0;
+		top: 0px;
 		left: -50%;
-		width: 0; height: 0;
-		border: 7px solid transparent;
 		transition: all 0.3s ease-in;
 	}
 
 }
+.navButtonPlug[ title="All"]{
+	padding-left: 8px;
+}
+
 
 .navButtonPlug.active{
+ 
+	color:$naranjaadams !important; 
+	background-color: $verdeadams;
 	&:after  {
-		border-bottom: 7px solid $naranjaadams;
+		 
+		border-bottom: 8px solid $naranjaadams;
 	}
  }
+
+

@@ -146,13 +146,14 @@ export default class DaliBox extends Component {
             <div contentEditable={true} id={box.id} ref={"textarea"} style={textareaStyle} />
             <div style={{
                     width: "100%",
-                    height: "100%",
                     background: "black",
                     top: 0,
+                    bottom:0,
                     position: "absolute",
                     opacity: 0.4,
-                    visibility: showOverlay,
-                }}></div>
+                    visibility: showOverlay 
+                }}>
+            </div>
         </div>);
     }
 
@@ -224,9 +225,18 @@ export default class DaliBox extends Component {
                 break;
             case 'root':
                 component = "div";
-                props = {style: {width: '100%', height: '100%'}}
+                props = {style: {width: '100%', height: '100%'}};
                 break;
         }
+
+        Object.keys(props).forEach(prop => {
+            if(prop.startsWith("on")){
+                let value = props[prop];
+                if(typeof value === "string") {
+                    props[prop] = function(){};
+                }
+            }
+        });
 
         if (markup.child) {
             children = [];

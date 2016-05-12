@@ -3,18 +3,19 @@
 @import 'components/canvas';
 @import 'components/carrouselList';
 @import 'components/navBar';
+@import 'components/ribbon';
 @import 'components/toolbox';
-@import 'components/btn';
-@import 'components/scrollbar';
-@import 'components/thumbnails';
 @import 'components/pluginToolbar';
 @import 'components/visor';
-@import 'components/pills';
+@import 'components/plugins/pills';
+@import 'events/draganddrop';
+@import 'general/elements/btn';
+@import 'general/elements/scrollbar';
+@import 'general/elements/thumbnails';
+@import 'general/mixins/mixins';
+@import 'general/tipography/tipo';
   
-* {
-	font-family: 'Source Sans Pro', sans-serif;
-	outline:none !important;
-}
+ 
 
 @include selection {
     color: white;
@@ -41,17 +42,4 @@
 	width:100% !important;
 	transition: width 0.3s ease-in;}
 
-.drop-active {
-    border: dashed 4px #aaa;
-    border-radius: 4px;
-    transition: background-color 0.3s;
-        z-index: 0;
-}
-
-.drop-target {
-    background-color: $grisclaro;
-    border-color: #fff;
-    border-style: solid;
-    z-index: 0;
-}
-
+ 

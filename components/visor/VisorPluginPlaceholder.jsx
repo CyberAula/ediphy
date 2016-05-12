@@ -6,14 +6,11 @@ import VisorDaliBox from '../visor/VisorDaliBox';
 export default class VisorPluginPlaceholder extends Component {
     render() {
         let container = this.props.parentBox.sortableContainers[this.props.pluginContainer];
- 
-
         return (<div style={{
                         width: "100%",
                         height: "100%",
                         position: 'relative'}}
                      className={"" + this.props.pluginContainer}>
-        
                 {container ?
                     container.colDistribution.map((col, i) => {
                         if(container.cols[i]){
@@ -22,13 +19,7 @@ export default class VisorPluginPlaceholder extends Component {
                                      style={{width: col + "%", height: '100%', float: 'left'}}>
                                     {container.cols[i].map((row, j) => {
                                         return(<div key={j}
-                                                    style={{width: "100%", height: row + "%", position: 'relative'}}
-                                                    ref={e => {
-                                                        if(e !== null){
-                                                            let selector = ".rib" ;
-             
-                                                        }
-                                                    }}>
+                                                    style={{width: "100%", height: row + "%", position: 'relative'}}>
                                             {container.children.map((idBox, index) => {
                                                 if(this.props.boxes[idBox].col === i && this.props.boxes[idBox].row === j) {
                                                     return (<VisorDaliBox id={idBox}
@@ -52,6 +43,4 @@ export default class VisorPluginPlaceholder extends Component {
             </div>
         );
     }
-
-
 }

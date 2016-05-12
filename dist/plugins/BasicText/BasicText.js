@@ -1,6 +1,6 @@
-var BasicText = (function(){
-    return new Dali.Plugin({
-        getConfig: function(){
+Dali.Plugins["BasicText"] = function (base){
+    return {
+        getConfig: function () {
             return {
                 name: 'BasicText',
                 category: 'text',
@@ -9,7 +9,7 @@ var BasicText = (function(){
                 icon: 'fa-align-left'
             };
         },
-        getToolbar: function(){
+        getToolbar: function () {
             return [
                 {
                     name: 'opacity',
@@ -53,32 +53,32 @@ var BasicText = (function(){
                 }
             ]
         },
-        getSections: function(){
+        getSections: function () {
             return [
                 {
-                    tab: 'Main', 
+                    tab: 'Main',
                     accordion: ['Basic']
                 },
                 {
-                    tab: 'Font', 
+                    tab: 'Font',
                     accordion: ['Size', 'Color']
                 },
                 {
-                    tab: 'Box', 
+                    tab: 'Box',
                     accordion: ['Layout']
                 },
                 {
-                    tab: 'Other', 
+                    tab: 'Other',
                     accordion: ['Extra']
                 },
 
             ];
         },
-        getInitialState: function(){
+        getInitialState: function () {
             return {text: "Text goes here"};
         },
-        getRenderTemplate: function(state){
+        getRenderTemplate: function (state) {
             return state.text;
         }
-    });
-})();
+    }
+}

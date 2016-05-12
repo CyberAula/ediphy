@@ -1,14 +1,14 @@
-var BasicImage = (function(){
-    return new Dali.Plugin({
+Dali.Plugins["BasicImage"] = function (base){
+    return {
         init: function(){
-            BasicImage.registerExtraFunction(this.imageClick);
-            BasicImage.registerExtraFunction(this.printState);
+            base.registerExtraFunction(this.imageClick);
+            base.registerExtraFunction(this.printState);
         },
         getConfig: function(){
             return {
                 name: 'BasicImage',
                 category: 'image',
-                needsConfigModal: false,
+                needsConfigModal: true,
                 needsTextEdition: false,
                 icon: 'fa-picture-o'
             };
@@ -113,23 +113,25 @@ var BasicImage = (function(){
             return {url: 'http://nemanjakovacevic.net/wp-content/uploads/2013/07/placeholder.png', aspectRatio:'unchecked', borderSize: 0, borderSize: 0, borderStyle:'solid', borderRadius: 0, borderColor: '#000000', thumbnailVisibility: 'hidden'};
         },
         getConfigTemplate: function(state){
-            return "<div> Url: <input type=\"text\" autofocus id=\"BasicImage_input\" value=\"" + state.url + "\"><br><button onclick=\"BasicImage.showPreview()\">Show preview</button><img id=\"BasicImage_preview\" src=\"" + state.url + "\" style=\"width: 100px; height: 100px; visibility: " + state.thumbnailVisibility + ";\" onclick=\"BasicImage.imageClick()\" /></div>";
+            return "<div> Url: <input type=\"text\" autofocus id=\"BasicImage_input\" value=\"" + state.url + "\"><br><button onclick=\"$dali$.showPreview()\">Show preview</button><img id=\"BasicImage_preview\" src=\"" + state.url + "\" style=\"width: 100px; height: 100px; visibility: " + state.thumbnailVisibility + ";\" onclick=\"$dali$.imageClick()\" /></div>";
         },
         getRenderTemplate: function(state){
-            return "<div style=\"width: 100%; height: 100%\"><img style=\"width: 100%; height: 100%; border-radius: "+state.borderRadius+"%; border: "+ state.borderSize + "px "+ state.borderStyle +" "+ state.borderColor +";\" src=\"" + state.url + "\"/></div>";
+            return "<div style=\"width: 100%; height: 100%\"><img onclick=\"$dali$.showPreview()\" style=\"width: 100%; height: 100%; border-radius: "+state.borderRadius+"%; border: "+ state.borderSize + "px "+ state.borderStyle +" "+ state.borderColor +";\" src=\"" + state.url + "\"/></div>";
         },
         handleToolbar: function(name, value){
-            if(name=='aspectRatio') 
-                BasicImage.setState(name,BasicImage.getState().aspectRatio=='checked'?'unchecked':'checked');
-            else 
-                BasicImage.setState(name, value);
+            if(name=='aspectRatio') {
+                base.setState(name, base.getState().aspectRatio == 'checked' ? 'unchecked' : 'checked');
+            }
+            else {
+                base.setState(name, value);
+            }
         },
         showPreview: function(){
             var img = $('#BasicImage_preview');
             var input = $('#BasicImage_input');
 
             //BasicImage.setState('url', input.val());
-            BasicImage.setState('thumbnailVisibility', 'visible');
+            base.setState('thumbnailVisibility', 'visible');
             // img.attr('src', input.val());
             img.css('visibility', 'visible');
         },
@@ -139,5 +141,5 @@ var BasicImage = (function(){
         printState: function() {
             console.log(this);
         }
-    });
-})();
+    }
+};

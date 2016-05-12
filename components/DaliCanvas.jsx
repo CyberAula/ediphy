@@ -20,7 +20,7 @@ export default class DaliCanvas extends Component{
             titles.reverse();
         }
          var paddings= (this.props.navItemSelected.type!= "slide") ? ('0px 0px 0px 0px') : ('30px 0px 30px 0px')
-         return (<Col md={12} xs={12} style={{height:"100%", padding:0}}>
+         return (<Col id="canvas" md={12} xs={12} style={{height:"100%", padding:0}}>
             <div className="outter" style={{position: 'absolute', width: '100%', height:'100%', padding: (paddings)}} >
                 <div  id="maincontent"
                       onClick={e => {this.props.onBoxSelected(-1)}}
@@ -111,7 +111,7 @@ export default class DaliCanvas extends Component{
             }
         });
 
-        Dali.API.Private.listenEmission(Dali.API.Private.events.getCurrentPluginsList, e => {
+        Dali.API.Private.listenEmission(Dali.API.Private.events.getPluginsInCurrentView, e => {
             let plugins = {};
             this.props.navItemSelected.boxes.map(id => {
                 let toolbar = this.props.toolbars[id];
@@ -141,7 +141,7 @@ export default class DaliCanvas extends Component{
                 }
             });
 
-            Dali.API.Private.answer(Dali.API.Private.events.getCurrentPluginsList, plugins);
+            Dali.API.Private.answer(Dali.API.Private.events.getPluginsInCurrentView, plugins);
         });
     }
 }

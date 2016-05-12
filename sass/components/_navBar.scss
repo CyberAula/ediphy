@@ -32,27 +32,20 @@
 	 height:35px;
 	 padding: 0px 0px 0px 0px;
 	 background-color: $verdeadams;
-     box-shadow:none;
+	 -webkit-box-shadow: none;
+	 -moz-box-shadow: none;
+ 	 box-shadow: none;
      vertical-align: middle;
 	 &:hover, &:active{
 		 border-bottom: 0px solid $grisclaro;
 		 background-color: $verdeadams;
 		 -webkit-box-shadow: none;
+		  -moz-box-shadow: none;
          box-shadow: none;
          color:grey;
 	}	
 }
 
-.navButtonPlug{
-	@extend .navButton;
-	width:auto;
-	padding: 0px 9px;
-}
-
-.navButtonPlug.active{ 
-	color:$naranjaadams !important; 
-	background-color: $verdeadams;
-}
 
 button[disabled].navButton {
 	background-color: $verdedisabled;
@@ -76,50 +69,7 @@ button[disabled].navButton {
 	margin:auto;
 }
 
-.rib{
-	display: inline-block;
-	font-size: 14px !important;
-	border-radius: 0;
-	height:100%;
-	background-color: transparent;
-	border:none;
-	color:$verdeadams;
-	&:hover{
-		background-color: transparent !important ; 
-		color:white ;
-		box-shadow: none !important;
-	}
-	transition: all 0.5s linear;
-}
 
-.ribdrag{
-	color:$verdeadams;
-	&:hover{
-		color:$verdeadams !important ;
-	}
-}
-
-@media screen and (max-width: 1147px) {
-	.hideonresize{
-		display: none;
-	}
-	.navButtonPlug{
-	 width:50px;
-	 padding:0;
-	  .active{ color:white !important;}
-	}
-}
-
-#ribbon{
-	// overflow-x:auto;
-	background-color:$naranjaadams;
-	height:60px;
-	// position: absolute;
-	
-	padding:0;
-	z-index:0;
-	// margin-left: -15px;
-}
 
 .conmargen{
 	margin-left:-15px;

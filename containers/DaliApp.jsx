@@ -19,20 +19,20 @@ import DaliNavBar from '../components/DaliNavBar';
 require('../sass/style.scss');
 
 class DaliApp extends Component{
-      constructor(props) {
+    constructor(props) {
         super(props);
+        this.index = 0;
         this.state = {
             pluginTab: 'all',
-            hideTab:'hide',
-            carouselShow:true,
-            visor:false
+            hideTab: 'hide',
+            visor: false,
+            carouselShow: true
         };
     }
     render(){
-       
         const{ dispatch, boxes, boxesIds, boxSelected, boxLevelSelected, navItemsIds, navItems, navItemSelected,
-            pageModalToggled, undoDisabled, redoDisabled, displayMode, isBusy, toolbars } = this.props;   
-            var ribbonHeight = (this.state.hideTab=='hide')? '0px':'60px'
+            pageModalToggled, undoDisabled, redoDisabled, displayMode, isBusy, toolbars } = this.props;
+            var ribbonHeight = this.state.hideTab == 'hide' ? '0px' : '60px';
         return(
             <Grid id="app" fluid={true} style={{height: '100%'}} >
                <Row className="navBar">
@@ -118,10 +118,12 @@ class DaliApp extends Component{
                            onBoxAdded={(ids, type,  draggable, resizable, content, toolbar, config, state) => dispatch(addBox(ids, type, draggable, resizable, content, toolbar, config, state))}
                            onVisibilityToggled={(caller, value) => dispatch(togglePageModal(caller, value))}
                            onPageAdded={(id, name, parent, children, level, type, position) => dispatch(addNavItem(id, name, parent, children, level, type, position))} />
-                <Visor  id="visor" visor={this.state.visor} onVisibilityToggled={()=> this.setState({visor:!this.state.visor })} state={this.props.store.getState().present} />
+                <Visor id="visor"
+                       visor={this.state.visor}
+                       onVisibilityToggled={()=> this.setState({visor:!this.state.visor })}
+                       state={this.props.store.getState().present} />
                 <PluginConfigModal />
 
- 
                 <PluginToolbar toolbars={toolbars}
                                box={boxes[boxSelected]}
                                boxSelected={boxSelected}
@@ -131,27 +133,38 @@ class DaliApp extends Component{
                                onTextEditorToggled={(caller, value, text) => dispatch(toggleTextEditor(caller, value, text))}
                                onToolbarUpdated={(caller, index, name, value) => dispatch(updateToolbar(caller, index, name, value))}
                                onToolbarCollapsed={(id) => dispatch(collapseToolbar(id))}
-                               onBoxDeleted={()=> this.props.dispatch(deleteBox(boxSelected, boxes[boxSelected].parent, boxes[boxSelected].container)) } />
+                               onBoxDeleted={()=> this.props.dispatch(deleteBox(boxSelected, boxes[boxSelected].parent, boxes[boxSelected].container, this.getDescendants(boxes[boxSelected]))) } />
             </Grid>
         );
     }
 
+    componentWillReceiveProps(nextProps){
+        if(this.props.navItemsIds.length !== 0 && nextProps.navItemsIds.length === 0){
+            this.setState({hideTab: 'hide'})
+        }
+    }
+
     componentDidMount(){
-        Dali.Plugins.loadAllAsync().then(values => {
-            values.map((id, index) =>{
-                Dali.Plugins.get(id).init();
+        Dali.Plugins.loadAllAsync().then(pluginsLoaded => {
+            pluginsLoaded.map((plugin) => {
+                Dali.Plugins.get(plugin).init();
             })
         });
 
         Dali.API.Private.listenEmission(Dali.API.Private.events.render, e => {
             if(e.detail.isUpdating) {
+                this.index = 0;
+                this.parsePluginContainers(e.detail.content, e.detail.state);
                 this.props.dispatch(updateBox(e.detail.ids.id, e.detail.content, e.detail.state));
+                this.addDefaultContainerPlugins(e.detail, e.detail.content);
             }else {
-                this.parsePluginContainers(e.detail.content, 0);
+                e.detail.ids.id = ID_PREFIX_BOX + Date.now();
+                this.index = 0;
+                this.parsePluginContainers(e.detail.content, e.detail.state);
                 this.props.dispatch(addBox(
                     {
                         parent: e.detail.ids.parent,
-                        id: ID_PREFIX_BOX + Date.now(),
+                        id: e.detail.ids.id,
                         container: e.detail.ids.container
                     },
                     BOX_TYPES.NORMAL,
@@ -163,7 +176,7 @@ class DaliApp extends Component{
                     e.detail.sections, 
                     e.detail.state,
                     e.detail.initialParams));
-
+                this.addDefaultContainerPlugins(e.detail, e.detail.content);
             }
         });
 
@@ -178,28 +191,65 @@ class DaliApp extends Component{
           else if (key == 46) {
               if ( this.props.boxSelected != -1){
                 let box =  this.props.boxes[ this.props.boxSelected];
-                this.props.dispatch(deleteBox(box.id, box.parent, box.container));
+                this.props.dispatch(deleteBox(box.id, box.parent, box.container, this.getDescendants(box)));
               }
           }  
         }.bind(this);
     }
 
-    parsePluginContainers(obj, n){
+    getDescendants(box){
+        let selected = [];
+
+        if(box.children) {
+            for (let i = 0; i < box.children.length; i++) {
+                for (let j = 0; j < box.sortableContainers[box.children[i]].children.length; j++) {
+                    selected.push(box.sortableContainers[box.children[i]].children[j]);
+                    selected = selected.concat(this.getDescendants(this.props.boxes[box.sortableContainers[box.children[i]].children[j]]));
+                }
+            }
+        }
+        return selected;
+    }
+
+    parsePluginContainers(obj, state){
         if(obj.child){
             for(let i = 0; i < obj.child.length; i++){
-                this.parsePluginContainers(obj.child[i], n++);
+                this.parsePluginContainers(obj.child[i], state);
             }
         }
         if(obj.tag && obj.tag === "plugin"){
-            if(obj.attr){
-                obj.attr['plugin-data-id'] = ID_PREFIX_SORTABLE_CONTAINER + Date.now() + n;
-            }else{
-                obj.attr = {'plugin-data-id': ID_PREFIX_SORTABLE_CONTAINER + Date.now() + n};
+            if(obj.attr && !obj.attr['plugin-data-id']){
+                obj.attr['plugin-data-id'] = ID_PREFIX_SORTABLE_CONTAINER + Date.now() + this.index++;
+            }
+            if(obj.attr['plugin-data-key'] && !state['pluginContainerIds'][obj.attr['plugin-data-key']]){
+                state['pluginContainerIds'][obj.attr['plugin-data-key']] = obj.attr['plugin-data-id'];
             }
         }
         if(obj.attr && obj.attr.class){
             obj.attr.className = obj.attr.class.join(' ');
             delete(obj.attr.class);
+        }
+    }
+
+    addDefaultContainerPlugins(eventDetails, obj){
+        if(obj.child){
+            for(let i = 0; i < obj.child.length; i++){
+                this.addDefaultContainerPlugins(eventDetails, obj.child[i]);
+            }
+        }
+        if(obj.tag && obj.tag === "plugin" && obj.attr['plugin-data-default']) {
+            obj.attr['plugin-data-default'].split(" ").map(name =>{
+                if(!this.props.boxes[eventDetails.ids.id].sortableContainers[obj.attr['plugin-data-id']]) {
+                    if(!Dali.Plugins.get(name)){
+                        console.error("Plugin " + name + " does not exist");
+                        return;
+                    }
+                    Dali.Plugins.get(name).getConfig().callback({
+                        parent: eventDetails.ids.id,
+                        container: obj.attr['plugin-data-id'],
+                    });
+                }
+            })
         }
     }
 }
