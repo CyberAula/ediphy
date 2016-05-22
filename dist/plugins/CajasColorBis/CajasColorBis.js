@@ -24,7 +24,7 @@ Dali.Plugins["CajasColorBis"] = function (base){
                     name: 'wayHorizontal',
                     humanName: 'WayHorizontal',
                     type: 'number',
-                    value: 0,
+                    value: 1,
                     max: 1,
                     min: 0,
                     autoManaged: false,
@@ -35,7 +35,7 @@ Dali.Plugins["CajasColorBis"] = function (base){
                     name: 'image',
                     humanName: 'Image',
                     type: 'number',
-                    value: 0,
+                    value: 1,
                     max: 1,
                     min: 0,
                     autoManaged: false,
@@ -73,7 +73,7 @@ Dali.Plugins["CajasColorBis"] = function (base){
         },
         getRenderTemplate: function(state){
             var template = "<div className='cajascolor'>";
-
+            var disp = 'block';
             if(state.image){
                 template += "<div style='min-height: 1px; height: 20vw'><plugin plugin-data-key='image' plugin-data-default='BasicImage' /></div>";
             }
@@ -95,7 +95,7 @@ Dali.Plugins["CajasColorBis"] = function (base){
                  template += "</div></div>"
 
                 for( var i = 0; i<state.nBoxes; i++){
-                      template += "<div class='bloque_colores capa_"+state.colors[i]+" "+rounded+"'  style='min-height: 80px; height: 1px'><plugin plugin-data-key='box" + i + "' /></div>";
+                       template += "<div class='bloque_colores capa_"+state.colors[i]+" "+rounded+"'  style='min-height: 80px; height: 1px; display:"+disp+"'><plugin plugin-data-key='box" + i + "' /></div>";
                 }
 
             }else{
@@ -103,7 +103,7 @@ Dali.Plugins["CajasColorBis"] = function (base){
                     template += "<div className='tabla_colores'><div className='fila_colores'>";
                     template += "<div class='celda_colores "+state.colors[i]+" "+rounded+"'   onclick='$dali$.click()' style='height: 3em'><plugin plugin-data-key='title" + i + "' plugin-data-default='BasicText' /></div>";
                     template += "</div></div>"
-                    template += "<div class='bloque_colores capa_"+state.colors[i]+" "+rounded+"'  style='min-height: 80px; height: 1px'><plugin plugin-data-key='box" + i + "' /></div>";
+                      template += "<div class='bloque_colores capa_"+state.colors[i]+" "+rounded+"'  style='min-height: 80px; height: 1px; display:"+disp+"'><plugin plugin-data-key='box" + i + "' /></div>";
                 }
             }
 
@@ -137,16 +137,7 @@ Dali.Plugins["CajasColorBis"] = function (base){
         click: function(key){
             alert(key);
 
-            /*function showDiv(_div){
-    _div.fadeTo('slow',1, function() {});
-}
-function hideDiv(_div){
-    _div.fadeTo('slow',0, function() {
-        $(this).empty();
-        $(this).remove();
-    });
-}
-*/
+
         }
     }
 }
