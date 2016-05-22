@@ -35,7 +35,7 @@ Dali.Plugins["CajasColor"] = function (base){
             ];
         },
         getInitialState: function(){
-            return {nBoxes: 2, colors: ['red', 'blue']};
+            return {nBoxes: 2, colors: ['red', '#f87060']};
         },
         getRenderTemplate: function(state){
             var template = "<div style='width: 100%; height: 100%'>";
