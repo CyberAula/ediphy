@@ -42,6 +42,18 @@ Dali.Plugins["CajasColorBis"] = function (base){
                     tab: 'Main',
                     accordion: 'Image'
                 }
+                ,
+                   {
+                    name: 'rounded',
+                    humanName: 'rounded',
+                    type: 'number',
+                    value: 0,
+                    max: 1,
+                    min: 0,
+                    autoManaged: false,
+                    tab: 'Main',
+                    accordion: 'Rounded'
+                }
             ]
         },
         getSections: function(){
@@ -66,11 +78,16 @@ Dali.Plugins["CajasColorBis"] = function (base){
                 template += "<div style='min-height: 1px; height: 20vw'><plugin plugin-data-key='image' plugin-data-default='BasicImage' /></div>";
             }
 
+            var rounded = '';
+            if(state.rounded){
+                rounded = ' rounded';
+            }
+
             if(state.wayHorizontal){
                 template += "<div className='tabla_colores'><div className='fila_colores'>";
                 var width = 100 / state.nBoxes;
                 for( var i = 0; i<state.nBoxes; i++){
-                    template += "<div class='celda_colores "+state.colors[i]+"'  onclick='$dali$.click()' style='height: 3em; width: " + width + "%'><plugin plugin-data-key='title" + i + "' plugin-data-default='BasicText' /></div>";
+                    template += "<div class='celda_colores "+state.colors[i]+" "+rounded+"'  onclick='$dali$.click()' style='height: 3em; width: " + width + "%'><plugin plugin-data-key='title" + i + "' plugin-data-default='BasicText' /></div>";
                     if(i !== (state.nBoxes -1)){
                         template += "<div className='sep'></div>";
                     }
@@ -78,21 +95,21 @@ Dali.Plugins["CajasColorBis"] = function (base){
                  template += "</div></div>"
 
                 for( var i = 0; i<state.nBoxes; i++){
-                      template += "<div class='bloque_colores capa_"+state.colors[i]+"' style='min-height: 80px; height: 1px'><plugin plugin-data-key='box" + i + "' /></div>";
+                      template += "<div class='bloque_colores capa_"+state.colors[i]+" "+rounded+"'  style='min-height: 80px; height: 1px'><plugin plugin-data-key='box" + i + "' /></div>";
                 }
 
             }else{
                 for( var i = 0; i<state.nBoxes; i++){
                     template += "<div className='tabla_colores'><div className='fila_colores'>";
-                    template += "<div class='celda_colores "+state.colors[i]+"'  onclick='$dali$.click()' style='height: 3em'><plugin plugin-data-key='title" + i + "' plugin-data-default='BasicText' /></div>";
+                    template += "<div class='celda_colores "+state.colors[i]+" "+rounded+"'   onclick='$dali$.click()' style='height: 3em'><plugin plugin-data-key='title" + i + "' plugin-data-default='BasicText' /></div>";
                     template += "</div></div>"
-                    template += "<div class='bloque_colores capa_"+state.colors[i]+"' style='min-height: 80px; height: 1px'><plugin plugin-data-key='box" + i + "' /></div>";
+                    template += "<div class='bloque_colores capa_"+state.colors[i]+" "+rounded+"'  style='min-height: 80px; height: 1px'><plugin plugin-data-key='box" + i + "' /></div>";
                 }
             }
 
             template += "</div>"
 
-               return template;
+            return template;
         },
         handleToolbar: function(name, value){
 
@@ -101,20 +118,17 @@ Dali.Plugins["CajasColorBis"] = function (base){
                     if(value > base.getState().nBoxes){
                         base.setState('colors', base.getState().colors.concat(['azul']));
                     }else if(value < base.getState().nBoxes){
-                        base.setState('colors', base.getState().colors.slice(0, base.getState().colors.length()));
+                        var newColors = base.getState().colors;
+                        newColors.pop();
+                        base.setState('colors', newColors);
                     }
-                     console.log(value);
-                     console.log(name);
-                     base.setState(name, value);
-                  break;
+                    base.setState(name, value);
+                    break;
                 case 'wayHorizontal':
                 case 'image':
                 case 'rounded':
-                console.log(value);
-                console.log(name);
                     base.setState(name, !!value);
                     break;
-
                 default:
 
             }
