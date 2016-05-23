@@ -72,10 +72,10 @@ Dali.Plugins["CajasColorBis"] = function (base){
             return {nBoxes: 2, colors: ['azulverdoso', 'azulpuro'], wayHorizontal: true, image: true, rounded: false};
         },
         getRenderTemplate: function(state){
-            var template = "<div className='cajascolor'>";
+            var template = "<div class='cajascolor'>";
             var disp = 'block';
             if(state.image){
-                template += "<div style='min-height: 1px; height: 20vw'><plugin plugin-data-key='image' plugin-data-default='BasicImage' /></div>";
+                template += "<div style='height: 100%'><plugin plugin-data-key='image' plugin-data-default='BasicImage' /></div>";
             }
 
             var rounded = '';
@@ -84,12 +84,12 @@ Dali.Plugins["CajasColorBis"] = function (base){
             }
 
             if(state.wayHorizontal){
-                template += "<div className='tabla_colores'><div className='fila_colores'>";
+                template += "<div class='tabla_colores'><div class='fila_colores'>";
                 var width = 100 / state.nBoxes;
                 for( var i = 0; i<state.nBoxes; i++){
                     template += "<div class='celda_colores "+state.colors[i]+" "+rounded+"'  onclick='$dali$.click()' style='height: 3em; width: " + width + "%'><plugin plugin-data-key='title" + i + "' plugin-data-default='BasicText' /></div>";
                     if(i !== (state.nBoxes -1)){
-                        template += "<div className='sep'></div>";
+                        template += "<div class='sep'></div>";
                     }
                 }
                  template += "</div></div>"
@@ -100,7 +100,7 @@ Dali.Plugins["CajasColorBis"] = function (base){
 
             }else{
                 for( var i = 0; i<state.nBoxes; i++){
-                    template += "<div className='tabla_colores'><div className='fila_colores'>";
+                    template += "<div class='tabla_colores'><div class='fila_colores'>";
                     template += "<div class='celda_colores "+state.colors[i]+" "+rounded+"'   onclick='$dali$.click()' style='height: 3em'><plugin plugin-data-key='title" + i + "' plugin-data-default='BasicText' /></div>";
                     template += "</div></div>"
                       template += "<div class='bloque_colores capa_"+state.colors[i]+" "+rounded+"'  style='min-height: 80px; height: 1px; display:"+disp+"'><plugin plugin-data-key='box" + i + "' /></div>";
