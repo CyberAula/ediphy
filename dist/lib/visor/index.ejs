@@ -8,6 +8,7 @@
 <link rel="stylesheet" href="css/style.css">
 <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="css/textStyles.css">
+    <link rel="stylesheet" href="css/pluginsCss/cajascolor.css">
 <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
 <script src="lib/jquery-ui.min.js"></script>
 <script src="lib/jquery.ui.touch-punch.min.js"></script>
@@ -91,13 +92,17 @@
 
             <!--Camel Case -->
             <%function camel(s) {
+                if(s=='onClick'){
+                    return 'onclick';
+                }
                 return s.split(/(?=[A-Z])/).join('-').toLowerCase();
             }%>
 
             <!-RENDER CHILDREN->
             <%function renderChildren(id, markup, key){
-                if(typeof markup === "string"){
-                    return markup;
+                if(typeof markup === "string"){%>
+                    <%= markup %>
+                <%   return;
                 }
                 var component;
                 var props = {};
@@ -182,7 +187,7 @@
                          cursor:  default ;"  >
 
                 <div style="<%= style%>"  <%= attrs%> >
-                    <%=renderChildren(id, Dali.Visor.Plugins.get(toolbar.config.name).export(toolbar.state, toolbar.config.name, box.children.length !== 0), 0)%>
+                    <%renderChildren(id, Dali.Visor.Plugins.get(toolbar.config.name).export(toolbar.state, toolbar.config.name, box.children.length !== 0), 0)%>
                 </div>
             </div>
         <%}%>

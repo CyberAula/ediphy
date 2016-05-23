@@ -8,5 +8,6 @@ var plugins = [
         'BasicPills',
         'BasicQuizConnect',
         'CajasColor',
+        'CajasColorBis',
         'Container'
 ]

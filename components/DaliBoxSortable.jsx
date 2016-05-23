@@ -19,15 +19,13 @@ export default class DaliBoxSortable extends Component {
                     border: (this.props.id === this.props.boxSelected ? '1px dashed black' : '1px solid #999'),
                     boxSizing: 'border-box',
                 }}>
-                    {box.children.map((idContainer, index)=> {
-                        let container = box.sortableContainers[idContainer];
-                        // console.log(this.props.id)
-                        // console.log(this.props.boxSelected)
-                        // console.log(this.props.id === this.props.boxSelected)
-                        return (<div key={index}
-                                     className="daliBoxSortableContainer"
-                                     data-id={idContainer}
-                                     style={{
+                {box.children.map((idContainer, index)=>{
+                    let container = box.sortableContainers[idContainer];
+
+                    return (<div key={index}
+                                 className="daliBoxSortableContainer"
+                                 data-id={idContainer}
+                                 style={{
                                     width: '100%',
                                     minHeight: 150,
                                     height: container.height,
@@ -45,39 +43,7 @@ export default class DaliBoxSortable extends Component {
                                                              ref={e => {
                                                         if(e !== null){
                                                             let selector = ".rib, .dnd" + idContainer;
-                                                            interact(ReactDOM.findDOMNode(e)).dropzone({
-                                                                accept: selector,
-                                                                overlap: 'pointer',
-                                                                ondropactivate: function (e) {
-                                                                    e.target.classList.add('drop-active');
-                                                                },
-                                                                ondragenter: function(e){
-                                                                    e.target.classList.add("drop-target");
-                                                                },
-                                                                ondragleave: function(e){
-                                                                    e.target.classList.remove("drop-target");
-                                                                },
-                                                                ondrop: function(e){
-                                                                    if(e.relatedTarget.className.indexOf("rib") !== -1){
-                                                                        let initialParams = {
-                                                                            parent: this.props.id,
-                                                                            container: idContainer,
-                                                                            col: i,
-                                                                            row: j
-                                                                        };
-                                                                        Dali.Plugins.get(e.relatedTarget.getAttribute("name")).getConfig().callback(initialParams);
-                                                                    } else {
-                                                                        let boxDragged = this.props.boxes[this.props.boxSelected];
-                                                                        if(boxDragged && (boxDragged.col !== i || boxDragged.row !== j)){
-                                                                            this.props.onBoxDropped(this.props.boxSelected, j, i);
-                                                                        }
-                                                                    }
-                                                                }.bind(this),
-                                                                ondropdeactivate: function (e) {
-                                                                    e.target.classList.remove('drop-target');
-                                                                    e.target.classList.remove('drop-active');
-                                                                }
-                                                            });
+                                                            this.dropZone(ReactDOM.findDOMNode(e), "render",selector, {idContainer:idContainer, i:i, j:j});
                                                         }
                                                     }}>
                                                     {container.children.map((idBox, index) => {
@@ -114,45 +80,33 @@ export default class DaliBoxSortable extends Component {
         );
     }
 
-    componentDidMount() {
-        interact(".daliBoxSortableContainer").dropzone({
-                accept: '.rib',
-                overlap: 'pointer',
-                ondropactivate: function (event) {
-                    event.target.classList.add('drop-active');
-                },
-                ondragenter: function (event) {
-                    event.target.classList.add("drop-target");
-                },
-                ondragleave: function (event) {
-                    event.target.classList.remove("drop-target");
-                },
-                ondrop: function (event) {
-                    //addBox
-                    let initialParams = {
-                        parent: this.props.id,
-                        container: event.target.getAttribute("data-id")
-                    };
-                    Dali.Plugins.get(event.relatedTarget.getAttribute("name")).getConfig().callback(initialParams);
-                    event.dragEvent.stopPropagation();
-                }.bind(this),
-                ondropdeactivate: function (event) {
-                    event.target.classList.remove('drop-active');
-                    event.target.classList.remove("drop-target");
-                }
-            })
-            .resizable({
-                edges: {left: false, right: false, bottom: true, top: false},
-                onmove: (event) => {
-                    event.target.style.height = event.rect.height + 'px';
-                },
-                onend: (event) => {
-                    this.props.onSortableContainerResized(event.target.getAttribute("data-id"), this.props.id, parseInt(event.target.style.height));
-                }
-            });
+    componentDidMount(){
+        this.dropZone(".daliBoxSortableContainer", "first", ".rib", 0);
+        interact(".daliBoxSortableContainer").resizable({
+            edges: {left: false, right: false, bottom: true, top: false},
+            onmove: (event) => {
+                event.target.style.height = event.rect.height + 'px';
+            },
+            onend: (event) => {
+                this.props.onSortableContainerResized(event.target.getAttribute("data-id"), this.props.id, parseInt(event.target.style.height));
+            }
+        })
 
-        interact(ReactDOM.findDOMNode(this)).dropzone({
-            accept: '.rib',
+        this.dropZone(ReactDOM.findDOMNode(this), "second", ".rib", 0);
+        let list = jQuery(this.refs.sortableContainer);
+        list.sortable({ handle: '.drag-handle' ,
+            stop: (event, ui) => {
+                const reorderedIndexes = list.sortable('toArray', {attribute: 'data-reactid'})// Obtiene la nueva disposición de los elementos
+                const indexes = reorderedIndexes.map(el => el.split('$')[2]) //Coge solo la parte que indica el orden
+                list.sortable('cancel') //Evita que se reordenen para que gestione la llamada Redux
+                this.props.onBoxReorder(indexes, this.props.id) // Cambia el estado pasando como parámetro el id del sortable y el nuevo orden de los elementos. Ahora el orden también se puede UNDO y REDO
+        }});
+    }
+
+
+    dropZone(argument, container, accept, render){
+        interact(argument).dropzone({
+            accept: accept,
             overlap: 'pointer',
             ondropactivate: function (event) {
                 event.target.classList.add('drop-active');
@@ -165,29 +119,53 @@ export default class DaliBoxSortable extends Component {
             },
             ondrop: function (event) {
                 //addBox
-                let initialParams = {
-                    parent: this.props.id,
-                    container: ID_PREFIX_SORTABLE_CONTAINER + Date.now()
-                };
-                Dali.Plugins.get(event.relatedTarget.getAttribute("name")).getConfig().callback(initialParams);
-                event.dragEvent.stopPropagation();
+                if (container == 'render'){
+                    if(event.relatedTarget.className.indexOf("rib") !== -1){
+
+                        let initialParams = {
+                            parent: this.props.id,
+                            container: render.idContainer,
+                            col: render.i,
+                            row: render.j
+                        };
+
+                        Dali.Plugins.get(event.relatedTarget.getAttribute("name")).getConfig().callback(initialParams);
+
+                    } else {
+
+                        let boxDragged = this.props.boxes[this.props.boxSelected];
+                       
+                        if(boxDragged && (boxDragged.col !== render.i || boxDragged.row !== render.j)){
+                            this.props.onBoxDropped(this.props.boxSelected, render.j, render.i);
+                        }
+                    }
+
+                }else{ 
+                    let initialParams = {}
+                    if(container == 'first'){
+                        initialParams = {
+                            parent: this.props.id,
+                            container: event.target.getAttribute("data-id")
+                        };
+
+                    } else if (container == 'second'){
+                        initialParams = {
+                            parent: this.props.id,
+                            container: ID_PREFIX_SORTABLE_CONTAINER + Date.now()
+                        };
+
+                    }  
+
+                    Dali.Plugins.get(event.relatedTarget.getAttribute("name")).getConfig().callback(initialParams);
+                    event.dragEvent.stopPropagation();
+
+                }
+               
             }.bind(this),
             ondropdeactivate: function (event) {
                 event.target.classList.remove('drop-active');
                 event.target.classList.remove("drop-target");
             }
         });
-
-        let list = jQuery(this.refs.sortableContainer);
-        list.sortable({
-            handle: '.drag-handle',
-            stop: (event, ui) => {
-                const reorderedIndexes = list.sortable('toArray', {attribute: 'data-reactid'})// Obtiene la nueva disposición de los elementos
-                const indexes = reorderedIndexes.map(el => el.split('$')[2]) //Coge solo la parte que indica el orden
-                list.sortable('cancel') //Evita que se reordenen para que gestione la llamada Redux
-                this.props.onBoxReorder(indexes, this.props.id) // Cambia el estado pasando como parámetro el id del sortable y el nuevo orden de los elementos. Ahora el orden también se puede UNDO y REDO
-            }
-        });
     }
-
 }

@@ -125,7 +125,7 @@ Dali.Plugins["BasicImage"] = function (base){
             img.css('visibility', 'visible');
         },
         imageClick: function() {
-            alert("Miau!");
+            alert("Miaua!");
         },
         printState: function() {
             console.log(this);

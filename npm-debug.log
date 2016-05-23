@@ -1,0 +1,42 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/local/bin/node', '/usr/local/bin/npm', 'start' ]
+2 info using npm@3.3.6
+3 info using node@v5.0.0
+4 verbose run-script [ 'prestart', 'start', 'poststart' ]
+5 info lifecycle todo-redux@1.0.0~prestart: todo-redux@1.0.0
+6 silly lifecycle todo-redux@1.0.0~prestart: no script for prestart, continuing
+7 info lifecycle todo-redux@1.0.0~start: todo-redux@1.0.0
+8 verbose lifecycle todo-redux@1.0.0~start: unsafe-perm in lifecycle true
+9 verbose lifecycle todo-redux@1.0.0~start: PATH: /usr/local/lib/node_modules/npm/bin/node-gyp-bin:/home/ramirobg/GING/dali/node_modules/.bin:/home/ramirobg/.rbenv/plugins/ruby-build/bin:/home/ramirobg/.rbenv/shims:/home/ramirobg/.rbenv/bin:/home/ramirobg/.rbenv/bin:/home/ramirobg/.rbenv/bin:/usr/local/heroku/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/jvm/java-8-oracle/bin:/usr/lib/jvm/java-8-oracle/db/bin:/usr/lib/jvm/java-8-oracle/jre/bin
+10 verbose lifecycle todo-redux@1.0.0~start: CWD: /home/ramirobg/GING/dali
+11 silly lifecycle todo-redux@1.0.0~start: Args: [ '-c', 'webpack-dev-server' ]
+12 silly lifecycle todo-redux@1.0.0~start: Returned: code: 1  signal: null
+13 info lifecycle todo-redux@1.0.0~start: Failed to exec start script
+14 verbose stack Error: todo-redux@1.0.0 start: `webpack-dev-server`
+14 verbose stack Exit status 1
+14 verbose stack     at EventEmitter.<anonymous> (/usr/local/lib/node_modules/npm/lib/utils/lifecycle.js:233:16)
+14 verbose stack     at emitTwo (events.js:87:13)
+14 verbose stack     at EventEmitter.emit (events.js:172:7)
+14 verbose stack     at ChildProcess.<anonymous> (/usr/local/lib/node_modules/npm/lib/utils/spawn.js:24:14)
+14 verbose stack     at emitTwo (events.js:87:13)
+14 verbose stack     at ChildProcess.emit (events.js:172:7)
+14 verbose stack     at maybeClose (internal/child_process.js:818:16)
+14 verbose stack     at Process.ChildProcess._handle.onexit (internal/child_process.js:211:5)
+15 verbose pkgid todo-redux@1.0.0
+16 verbose cwd /home/ramirobg/GING/dali
+17 error Linux 3.13.0-68-generic
+18 error argv "/usr/local/bin/node" "/usr/local/bin/npm" "start"
+19 error node v5.0.0
+20 error npm  v3.3.6
+21 error code ELIFECYCLE
+22 error todo-redux@1.0.0 start: `webpack-dev-server`
+22 error Exit status 1
+23 error Failed at the todo-redux@1.0.0 start script 'webpack-dev-server'.
+23 error This is most likely a problem with the todo-redux package,
+23 error not with npm itself.
+23 error Tell the author that this fails on your system:
+23 error     webpack-dev-server
+23 error You can get their info via:
+23 error     npm owner ls todo-redux
+23 error There is likely additional logging output above.
+24 verbose exit [ 1, true ]

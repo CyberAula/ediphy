@@ -7,7 +7,7 @@
 
 .rib{
 	position:relative;
-	z-index: 9999;
+ 
 	padding: 6px 15px;
 	font-size: 14px !important;
 	border-radius: 0;
@@ -53,8 +53,8 @@
 	right:0;
 }
  
-#canvasRow * {
-	z-index:-1 !important;
+#canvas, #maincontent, #canvasRow {
+	z-index:0 ;
 }
 
 #ribbonRow{
@@ -63,7 +63,7 @@
 }
 
 #ribbon {
-	
+	 overflow:hidden;
 }
 #colRight{
 	overflow-x:hidden;
