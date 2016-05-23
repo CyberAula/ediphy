@@ -10,51 +10,51 @@ Dali.Plugins["BasicPlugin"] = function (base){
             }
         },
         getToolbar: function(){
-            return [
+            /*return [
                 {
-                    name: 'opacity',
-                    humanName: 'Opacity',
-                    type: 'number',
-                    value: 1,
-                    min: 0,
-                    max: 1,
-                    step: 0.1,
-                    tab: 'Main',
-                    accordion: 'Style'
-                },
-                {
-                    name: 'borderSize',
-                    humanName: 'Border Size',
-                    type: 'number',
-                    value: 0,
-                    min: 0,
-                    max: 10,
-                    autoManaged: false,
-                    tab: 'Main',
-                    accordion: 'Style'
-                },
-                {
-                    name: 'test',
-                    humanName: 'Test',
-                    type: 'text',
-                    isAttribute: true,
-                    tab: 'Other',
-                    accordion: 'Extra'
+                    name: "Main",
+                    accordions: [
+                        {
+                            name: "Style",
+                            buttons: [
+                                {
+                                    name: 'opacity',
+                                    humanName: 'Opacity',
+                                    type: 'number',
+                                    value: 1,
+                                    min: 0,
+                                    max: 1,
+                                    step: 0.1
+                                },
+                                {
+                                    name: 'borderSize',
+                                    humanName: 'Border Size',
+                                    type: 'number',
+                                    value: 0,
+                                    min: 0,
+                                    max: 10,
+                                    autoManaged: false
+                                },
+                            ]
+                        }
+                    ]
+                },{
+                    name: "Other",
+                    accordions: [
+                        {
+                            name: "Extra",
+                            buttons: [
+                                {
+                                    name: 'test',
+                                    humanName: 'Test',
+                                    type: 'text',
+                                    isAttribute: true
+                                }
+                            ]
+                        }
+                    ]
                 }
-            ]
-        },
-        getSections: function(){
-            return [
-                {
-                    tab: 'Main', 
-                    accordion: ['Basic', 'Style']
-                },
-                {
-                    tab: 'Other', 
-                    accordion: ['Extra']
-                },
-
-            ];
+            ]*/
         },
         getInitialState: function() {
             return {url: '', borderSize: 0, thumbnailVisibility: 'hidden'};

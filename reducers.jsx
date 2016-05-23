@@ -513,88 +513,126 @@ function navItemSelected(state = 0, action = {}){
     }
 }
 
-function toolbarContainsButton(toolbarButtons, name) {
-    for(var i = 0; i < toolbarButtons.length; i++){
-        if(toolbarButtons[i].name === name){
-            return true;
-        }
-    }
-    return false
-}
-
 function toolbarsById(state = {}, action = {}){
     switch(action.type) {
         case ADD_BOX:
             let toolbar = {
                 id: action.payload.ids.id,
-                buttons: action.payload.toolbar || [],
+                controls: action.payload.toolbar || {},
                 config: action.payload.config,
                 state: action.payload.state,
-                sections: action.payload.sections || [],
                 showTextEditor: false,
                 isCollapsed: false
             };
 
             if(action.payload.ids.container !== 0) {
-                if (!toolbar.buttons) {
-
-                    toolbar.buttons = [];
+                if(!toolbar.controls) {
                     toolbar.config = {};
+                    toolbar.controls = {};
+                    toolbar.controls.main = {
+                        __name: "Main",
+                        accordions: {
+                            sortable: {
+                                __name: "Sortable",
+                                buttons: {}
+                            }
+                        }
+                    };
+                } else if(!toolbar.controls.main) {
+                    toolbar.controls.main = {
+                        __name: "Main",
+                        accordions: {
+                            sortable: {
+                                __name: "Sortable",
+                                buttons: {}
+                            }
+                        }
+                    };
+                } else if(!toolbar.controls.main.accordions.sortable){
+                    toolbar.controls.main.accordions.sortable = {
+                        __name: "Sortable",
+                        buttons: {}
+                    };
                 }
-                toolbar.buttons.push({
-                    name: 'width',
-                    humanName: 'Width (%)',
+                toolbar.controls.main.accordions.sortable.buttons.width = {
+                    __name: 'Width (%)',
                     type: 'number',
                     value: 100,
                     min: 0,
                     max: 100,
                     step: 5,
-                    autoManaged: true,
-                    tab: 'Main',
-                    accordion: 'Sortable'
-                });
-                toolbar.buttons.push({
-                    name: 'height',
-                    humanName: 'Height (%)',
+                    autoManaged: true
+                };
+                toolbar.controls.main.accordions.sortable.buttons.height = {
+                    __name: 'Height (%)',
                     type: 'number',
                     value: 100,
                     min: 0,
                     max: 100,
                     step: 5,
-                    autoManaged: true,
-                    tab: 'Main',
-                    accordion: 'Sortable'
-                });
+                    autoManaged: true
+                };
             }
        
             if(action.payload.ids.id.indexOf(ID_PREFIX_SORTABLE_BOX) === -1) {
-                if(!toolbar.buttons) {
-                    toolbar.buttons = [];
+                if(!toolbar.controls) {
                     toolbar.config = {};
+                    toolbar.controls = {};
+                    toolbar.controls.other = {
+                        __name: "Other",
+                        accordions: {
+                            extra: {
+                                __name: "Extra",
+                                buttons: {}
+                            }
+                        }
+                    };
+                } else if(!toolbar.controls.other) {
+                    toolbar.controls.other = {
+                        __name: "Other",
+                        accordions: {
+                            extra: {
+                                __name: "Extra",
+                                buttons: {}
+                            }
+                        }
+                    };
+                } else if(!toolbar.controls.other.accordions.extra){
+                    toolbar.controls.other.accordions.extra = {
+                        __name: "Extra",
+                        buttons: {}
+                    };
                 }
-                toolbar.buttons.push({
-                    name: 'alias',
-                    humanName: 'Alias',
+                toolbar.controls.other.accordions.extra.buttons.alias = {
+                    __name: 'Alias',
                     type: 'text',
                     value: '',
                     autoManaged: true,
-                    isAttribute: true,
-                    tab: 'Other',
-                    accordion: 'Extra'
-                    
-                });
+                    isAttribute: true
+                };
             }
-            return Object.assign({}, state, {[action.payload.ids.id]: toolbar});
+
+            var newState = Object.assign({}, state);
+            newState[action.payload.ids.id] = toolbar;
+            if(action.payload.ids.parent.indexOf(ID_PREFIX_PAGE) === -1 && action.payload.ids.parent.indexOf(ID_PREFIX_SECTION) === -1) {
+                let parentControls = state[action.payload.ids.parent].controls;
+                if (Object.keys(parentControls).length === 0) {
+                    parentControls.main = {
+                        __name: "Main",
+                        accordions: {}
+                    };
+                }
+                newState[action.payload.ids.parent].controls = parentControls;
+            }
+            return newState;
         case DELETE_BOX:
-            var newState = Object.assign({},state);
+            var newState = Object.assign({}, state);
             delete newState[action.payload.id];
             return newState;
         case UPDATE_TOOLBAR:
-            let newState = state[action.payload.caller].buttons.slice();
-            newState[action.payload.index] = Object.assign({}, newState[action.payload.index], {value: action.payload.value});
-            return Object.assign({}, state, {
-                [action.payload.caller]: Object.assign({}, state[action.payload.caller], {buttons: newState})
-            });
+            var newState = Object.assign({}, state);
+            newState[action.payload.id].controls[action.payload.tab].accordions[action.payload.accordion].buttons[action.payload.name].value = action.payload.value;
+            return newState;
         case COLLAPSE_TOOLBAR:
             return Object.assign({}, state, {
                 [action.payload.id]: Object.assign({}, state[action.payload.id], {isCollapsed: !(state[action.payload.id].isCollapsed)})
@@ -610,8 +648,8 @@ function toolbarsById(state = {}, action = {}){
         case IMPORT_STATE:
             return action.payload.present.toolbarsById;
         case REMOVE_NAV_ITEM:
-            var newState = Object.assign({},state)
-            action.payload.boxes.map(box => { delete newState[box]})
+            var newState = Object.assign({}, state);
+            action.payload.boxes.map(box => { delete newState[box]});
             return newState;
         default:
             return state;

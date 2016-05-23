@@ -131,7 +131,7 @@ class DaliApp extends Component{
                                onRowsChanged={(id, parent, column, distribution) => dispatch(changeRows(id, parent, column, distribution))}
                                onBoxResized={(id, width, height) => dispatch(resizeBox(id, width, height))}
                                onTextEditorToggled={(caller, value, text) => dispatch(toggleTextEditor(caller, value, text))}
-                               onToolbarUpdated={(caller, index, name, value) => dispatch(updateToolbar(caller, index, name, value))}
+                               onToolbarUpdated={(id, tab, accordion, name, value) => dispatch(updateToolbar(id, tab, accordion, name, value))}
                                onToolbarCollapsed={(id) => dispatch(collapseToolbar(id))}
                                onBoxDeleted={()=> this.props.dispatch(deleteBox(boxSelected, boxes[boxSelected].parent, boxes[boxSelected].container, this.getDescendants(boxes[boxSelected]))) } />
             </Grid>
@@ -173,7 +173,6 @@ class DaliApp extends Component{
                     e.detail.content,
                     e.detail.toolbar,
                     e.detail.config,
-                    e.detail.sections, 
                     e.detail.state,
                     e.detail.initialParams));
                 this.addDefaultContainerPlugins(e.detail, e.detail.content);
