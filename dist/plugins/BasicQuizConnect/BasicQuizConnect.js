@@ -10,8 +10,9 @@ Dali.Plugins["BasicQuizConnect"] = function (base){
             };
         },
         getToolbar: function () {
+            /*
             return [
-                /* {
+                 {
                  name: 'opacity',
                  humanName: 'Opacityewre',
                  type: 'number',
@@ -28,21 +29,9 @@ Dali.Plugins["BasicQuizConnect"] = function (base){
                  min: 0,
                  max: 10,
                  autoManaged: false,
-                 }*/
+                 }
             ]
-        },
-        getSections: function () {
-            return [
-                {
-                    tab: 'Main',
-                    accordion: ['Basic', 'Style']
-                },
-                {
-                    tab: 'Other',
-                    accordion: ['Extra']
-                },
-
-            ];
+            */
         },
         getInitialState: function () {
             return {number: 0, titles: [], texts: [], colors: [], colorsTitle: []};

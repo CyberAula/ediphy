@@ -72,11 +72,11 @@ Dali.Plugin = function(){
                 }
                 state = defaultFor(state, {});
                 initialParams = initParams;
-                // if(needsConfigModal) {
-                    // this.openConfigModal(false, state);
-                // }else {
+                if(needsConfigModal) {
+                    this.openConfigModal(false, state);
+                }else {
                     this.render(false);
-                // }
+                }
             }.bind(this);
 
             return {
@@ -85,51 +85,36 @@ Dali.Plugin = function(){
                 callback: callback,
                 needsConfigModal: needsConfigModal,
                 needsTextEdition: needsTextEdition,
-                icon: icon,
+                icon: icon
             };
         },
         getToolbar: function(){
             var toolbar;
             if(descendant.getToolbar)
                 toolbar = descendant.getToolbar();
-            toolbar = defaultFor(toolbar, []);
+            toolbar = defaultFor(toolbar, {});
 
-            /*
-             name: 'opacity',
-             humanName: 'Opacity',
-             type: 'number',
-             units: 'em',
-             value: 1,
-             min: 0,
-             max: 1,
-             step: 0.1,
-             autoManaged: true,
-             callback: this.changeBorderSize.bind(this),
-             isAttribute: true
-             */
-            for(var i = 0; i < toolbar.length; i++){
-                toolbar[i].autoManaged = defaultFor(toolbar[i].autoManaged, true);
-                if(!toolbar[i].callback && !toolbar[i].autoManaged) {
-                    toolbar[i].callback = this.update.bind(this);
+            for(var tabKey in toolbar){
+                for(var accordionKey in toolbar[tabKey].accordions){
+                    for(var buttonKey in toolbar[tabKey].accordions[accordionKey].buttons){
+                        var button = toolbar[tabKey].accordions[accordionKey].buttons[buttonKey];
+                        button.autoManaged = defaultFor(button.autoManaged, true);
+                        if(!button.callback && !button.autoManaged) {
+                            button.callback = this.update.bind(this);
+                        }
+                    }
                 }
             }
             return toolbar;
-        },
-        getSections: function(){
-            var sections;
-            if(descendant.getSections)
-                sections = descendant.getSections();
-            sections = defaultFor(sections, []);
-
-            return sections;
         },
         openConfigModal: function(isUpdating, oldState, sender){
             state = oldState;
             id = sender;
 
             if(!descendant.getConfigTemplate) {
-                if(this.getConfig().needsConfigModal)
+                if(this.getConfig().needsConfigModal) {
                     console.error(this.getConfig().name + " has not defined getConfigTemplate method");
+                }
             }else {
                 Dali.API.openConfig(this.getConfig().name, isUpdating).then(function (div) {
                     div.innerHTML = descendant.getConfigTemplate(oldState).replace(/[$]dali[$]/g, "Dali.Plugins.get('" + this.getConfig().name + "')");
@@ -151,7 +136,6 @@ Dali.Plugin = function(){
                     jsonTemplate,
                     this.getToolbar(),
                     this.getConfig(),
-                    this.getSections(),
                     state,
                     isUpdating,
                     {

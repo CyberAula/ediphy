@@ -1,4 +1,4 @@
-Dali.Plugins["BasicText"] = function (base){
+Dali.Plugins["BasicText"] = function (base) {
     return {
         getConfig: function () {
             return {
@@ -10,69 +10,79 @@ Dali.Plugins["BasicText"] = function (base){
             };
         },
         getToolbar: function () {
-            return [
-                {
-                    name: 'opacity',
-                    humanName: 'Opacity',
-                    type: 'number',
-                    value: 1,
-                    min: 0,
-                    max: 1,
-                    step: 0.1,
-                    tab: 'Box',
-                    accordion: 'Layout'
+            return {
+                main: {
+                    __name: "Main",
+                    accordions: {
+                        basic: {
+                            __name: "Basic",
+                            buttons: {}
+                        }
+                    }
                 },
-                {
-                    name: 'fontSize',
-                    humanName: 'Font Size (ems)',
-                    type: 'number',
-                    units: 'em',
-                    value: 1,
-                    min: 1,
-                    max: 10,
-                    tab: 'Font',
-                    accordion: 'Size'
+                font: {
+                    __name: "Font",
+                    accordions: {
+                        size: {
+                            __name: "Size",
+                            buttons: {
+                                fontSize: {
+                                    __name: 'Font Size (ems)',
+                                    type: 'number',
+                                    units: 'em',
+                                    value: 1,
+                                    min: 1,
+                                    max: 10
+                                }
+                            }
+                        },
+                        color: {
+                            __name: "Color",
+                            buttons: {
+                                color: {
+                                    __name: 'Font color',
+                                    type: 'text',
+                                    value: 'black'
+                                }
+                            }
+                        }
+                    }
                 },
-                {
-                    name: 'color',
-                    humanName: 'Font color',
-                    type: 'text',
-                    value: 'black',
-                    tab: 'Font',
-                    accordion: 'Color'
+                box: {
+                    name: "Box",
+                    accordions: {
+                        layout: {
+                            __name: "Layout",
+                            buttons: {
+                                opacity: {
+                                    __name: 'Opacity',
+                                    type: 'number',
+                                    value: 1,
+                                    min: 0,
+                                    max: 1,
+                                    step: 0.1
+                                },
+                                padding: {
+                                    __name: 'Padding (px)',
+                                    type: 'number',
+                                    units: 'px',
+                                    value: 0,
+                                    min: 0
+                                }
+                            }
+                        }
+                    }
                 },
-                {
-                    name: 'padding',
-                    humanName: 'Padding (px)',
-                    type: 'number',
-                    units: 'px',
-                    value: 0,
-                    min: 0,
-                    tab: 'Box',
-                    accordion: 'Layout'
+                other: {
+                    __name: "Other",
+                    accordions: {
+                        extra: {
+                            __name: "Extra",
+                            buttons: {}
+                        }
+                    }
                 }
-            ]
-        },
-        getSections: function () {
-            return [
-                {
-                    tab: 'Main',
-                    accordion: ['Basic']
-                },
-                {
-                    tab: 'Font',
-                    accordion: ['Size', 'Color']
-                },
-                {
-                    tab: 'Box',
-                    accordion: ['Layout']
-                },
-                {
-                    tab: 'Other',
-                    accordion: ['Extra']
-                },
-
-            ];
+            }
         },
         getInitialState: function () {
             return {text: "Text goes here"};

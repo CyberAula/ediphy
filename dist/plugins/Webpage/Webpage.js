@@ -10,61 +10,60 @@ Dali.Plugins["Webpage"] = function (base){
             };
         },
         getToolbar: function () {
-            return [
-                {
-                    name: 'url',
-                    humanName: 'URL',
-                    type: 'text',
-                    tab: 'Main',
-                    accordion: 'Basic',
-                    autoManaged: false,
-                    value: 'http://www.adams.es/'
-
+            return {
+                main: {
+                    __name: "Main",
+                    accordions: {
+                        basic: {
+                            __name: "Basic",
+                            buttons: {
+                                url: {
+                                    __name: 'URL',
+                                    type: 'text',
+                                    autoManaged: false,
+                                    value: 'http://www.adams.es/'
+                                }
+                            }
+                        },
+                        box: {
+                            __name: "Box",
+                            buttons: {
+                                opacity: {
+                                    __name: 'Opacity',
+                                    type: 'number',
+                                    value: 1,
+                                    min: 0,
+                                    max: 1,
+                                    step: 0.1
+                                },
+                                borderSize: {
+                                    __name: 'Border Size',
+                                    type: 'number',
+                                    value: 0,
+                                    min: 0,
+                                    max: 10,
+                                    autoManaged: false
+                                }
+                            }
+                        }
+                    }
                 },
-                {
-                    name: 'opacity',
-                    humanName: 'Opacity',
-                    type: 'number',
-                    value: 1,
-                    min: 0,
-                    max: 1,
-                    step: 0.1,
-                    tab: 'Main',
-                    accordion: 'Box'
-                },
-                {
-                    name: 'borderSize',
-                    humanName: 'Border Size',
-                    type: 'number',
-                    value: 0,
-                    min: 0,
-                    max: 10,
-                    autoManaged: false,
-                    tab: 'Main',
-                    accordion: 'Box'
-                },
-                {
-                    name: 'test',
-                    humanName: 'Test',
-                    type: 'text',
-                    isAttribute: true,
-                    tab: 'Other',
-                    accordion: 'Extra'
+                other: {
+                    __name: "Other",
+                    accordions: {
+                        extra: {
+                            __name: "Extra",
+                            buttons: {
+                                test: {
+                                    __name: 'Test',
+                                    type: 'text',
+                                    isAttribute: true
+                                }
+                            }
+                        }
+                    }
                 }
-            ]
-        },
-        getSections: function () {
-            return [
-                {
-                    tab: 'Main',
-                    accordion: ['Basic', 'Box']
-                },
-                {
-                    tab: 'Other',
-                    accordion: ['Extra']
-                },
-
-            ];
+            }
         },
         getInitialState: function () {
             return {url: 'http://www.adams.es/', borderSize: 0, thumbnailVisibility: 'hidden'};

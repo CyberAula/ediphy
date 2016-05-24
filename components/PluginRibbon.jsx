@@ -25,7 +25,7 @@ export default class PluginRibbon extends Component {
                         {this.state.buttons.map((item, index) => {
                             if(this.state.buttons[index].category === this.props.category || this.props.category == 'all'){
                                 var clase = "fa "+ this.state.buttons[index].icon + " fa-1";
-                                return (<div className="buttonPlace">
+                                return (<div key={index} className="buttonPlace">
                                         <Button className="rib"
                                                 disabled={this.props.disabled}
                                                 key={index}

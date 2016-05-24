@@ -8,31 +8,35 @@ Dali.Plugins["CajasColor"] = function (base){
             }
         },
         getToolbar: function(){
-            return [
-                {
-                    name: 'nBoxes',
-                    humanName: 'Number of boxes',
-                    type: 'number',
-                    value: 2,
-                    max: 8,
-                    min: 1,
-                    autoManaged: false,
-                    tab: 'Main',
-                    accordion: 'Number'
-                }
-            ]
-        },
-        getSections: function(){
-            return [
-                {
-                    tab: 'Main', 
-                    accordion: ['Number']
+            return {
+                main: {
+                    __name: "Main",
+                    accordions: {
+                        number: {
+                            __name: "Number",
+                            buttons: {
+                                nBoxes: {
+                                    __name: 'Number of boxes',
+                                    type: 'number',
+                                    value: 2,
+                                    max: 8,
+                                    min: 1,
+                                    autoManaged: false
+                                }
+                            }
+                        }
+                    }
                 },
-                {
-                    tab: 'Other', 
-                    accordion: ['Extra']
+                other: {
+                    __name: "Other",
+                    accordions: {
+                        extra: {
+                            __name: "Extra",
+                            buttons: {}
+                        }
+                    }
                 }
-            ];
+            }
         },
         getInitialState: function(){
             return {nBoxes: 2, colors: ['red', '#f87060']};

@@ -51,8 +51,8 @@ export function reorderNavItem(itemId, newParent,type,newIndId,newChildrenInOrde
     return {type: REORDER_NAV_ITEM, payload: {itemId, newParent,type,newIndId,newChildrenInOrder}};
 }
 
-export function addBox(ids, type, draggable, resizable, content, toolbar, config, sections, state, initialParams){
-    return {type: ADD_BOX, payload: {ids, type,  draggable, resizable, content, toolbar, config, sections, state, initialParams}};
+export function addBox(ids, type, draggable, resizable, content, toolbar, config, state, initialParams){
+    return {type: ADD_BOX, payload: {ids, type,  draggable, resizable, content, toolbar, config, state, initialParams}};
 }
 
 export function selectBox(id){
@@ -75,7 +75,7 @@ export function deleteBox(id, parent, container, children){
     return {type: DELETE_BOX, payload: {id, parent, container, children}};
 }
 
-export function reorderBox(ids,parent){
+export function reorderBox(ids, parent){
     return {type: REORDER_BOX, payload: {ids, parent}};
 }
 
@@ -128,8 +128,8 @@ export function importState(state){
     return {type: IMPORT_STATE, payload: state};
 }
 
-export function updateToolbar(caller, index, name, value){
-    return {type: UPDATE_TOOLBAR, payload: {caller, index, name, value}};
+export function updateToolbar(id, tab, accordion, name, value){
+    return {type: UPDATE_TOOLBAR, payload: {id, tab, accordion, name, value}};
 }
 
 export function collapseToolbar(id){

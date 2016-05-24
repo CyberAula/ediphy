@@ -8,106 +8,95 @@ Dali.Plugins["BasicImage"] = function (base){
             return {
                 name: 'BasicImage',
                 category: 'image',
-                needsConfigModal: true,
+                needsConfigModal: false,
                 needsTextEdition: false,
                 icon: 'fa-picture-o'
             };
         },
         getToolbar: function(){
-            return [
-                 {
-                    name: 'url',
-                    humanName: 'URL',
-                    type: 'text',
-                    tab: 'Main',
-                    accordion: 'Basic',
-                    autoManaged: false,
-                    value:'http://nemanjakovacevic.net/wp-content/uploads/2013/07/placeholder.png'
+            return {
+                main: {
+                    __name: "Main",
+                    accordions: {
+                        basic: {
+                            __name: "Basic",
+                            buttons: {
+                                url: {
+                                    __name: 'URL',
+                                    type: 'text',
+                                    autoManaged: false,
+                                    value: 'http://nemanjakovacevic.net/wp-content/uploads/2013/07/placeholder.png'
+                                },
+                                aspectRatio: {
+                                    __name: 'Aspect Ratio',
+                                    type: 'checkbox',
+                                    value: 'unchecked',
+                                    checked: 'false',
+                                    autoManaged: false
+                                }
+                            }
+                        },
+                        style: {
+                            __name: "Style",
+                            buttons: {
+                                opacity: {
+                                    __name: 'Opacity',
+                                    type: 'number',
+                                    value: 1,
+                                    min: 0,
+                                    max: 1,
+                                    step: 0.1
+                                },
+                                borderSize: {
+                                    __name: 'Border Size',
+                                    type: 'number',
+                                    value: 0,
+                                    min: 0,
+                                    max: 10,
+                                    autoManaged: false
+                                },
+                                borderColor: {
+                                    __name: 'Border Color',
+                                    type: 'color',
+                                    value: '#000000',
+                                    autoManaged: false
+                                },
+                                borderRadius: {
+                                    __name: 'Border Radius',
+                                    type: 'number',
+                                    value: '0',
+                                    min: '0',
+                                    max: '50',
+                                    autoManaged: false
+                                },
+                                borderStyle: {
+                                    __name: 'Border Style',
+                                    type: 'text',
+                                    value: 'solid',
+                                    autoManaged: false,
+                                    list: 'borderStyle',
+                                    options: ['none', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset', 'initial', 'inherit']
+                                }
+                            }
+                        }
+                    }
                 },
-                {
-                    name: 'opacity',
-                    humanName: 'Opacity',
-                    type: 'number',
-                    value: 1,
-                    min: 0,
-                    max: 1,
-                    step: 0.1,
-                    tab: 'Main',
-                    accordion: 'Style'
-                },
-                {
-                    name: 'aspectRatio',
-                    humanName: 'Aspect Ratio',
-                    type: 'checkbox',
-                    value: 'unchecked',
-                    checked:'false',
-                    autoManaged: false,
-                    tab: 'Main',
-                    accordion: 'Basic'
-                },
-                {
-                    name: 'borderSize',
-                    humanName: 'Border Size',
-                    type: 'number',
-                    value: 0,
-                    min: 0,
-                    max: 10,
-                    autoManaged: false,
-                    tab: 'Main',
-                    accordion: 'Style'
-                },
-                {
-                    name: 'test',
-                    humanName: 'Test',
-                    type: 'text',
-                    isAttribute: true,
-                    tab: 'Other',
-                    accordion: 'Extra'
-                },
-                {
-                    name: 'borderColor',
-                    humanName: 'Border Color',
-                    type: 'color',
-                    value: '#000000',
-                    tab: 'Main',
-                    autoManaged: false,
-                    accordion: 'Style'
-                },
-                {
-                    name: 'borderRadius',
-                    humanName: 'Border Radius',
-                    type: 'number',
-                    value: '0',
-                    min:'0',
-                    max:'50',
-                    autoManaged: false,
-                    tab: 'Main',
-                    accordion: 'Style'
-                },
-                {
-                    name: 'borderStyle',
-                    humanName: 'Border Style',
-                    type: 'text',
-                    value: 'solid',
-                    autoManaged: false,
-                    list:'borderStyle',
-                    options: ['none', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset', 'initial', 'inherit'],
-                    tab: 'Main',
-                    accordion: 'Style'
+                other: {
+                    __name: "Other",
+                    accordions: {
+                        extra: {
+                            __name: "Extra",
+                            buttons: {
+                                test: {
+                                    __name: 'Test',
+                                    type: 'text',
+                                    isAttribute: true
+                                }
+                            }
+                        }
+                    }
                 }
-            ]
-        },
-        getSections: function(){
-            return [
-                {
-                    tab: 'Main', 
-                    accordion: ['Basic', 'Style']
-                },
-                {
-                    tab: 'Other', 
-                    accordion: ['Extra']
-                },
-            ];
+            }
         },
         getInitialState: function(){
             return {url: 'http://nemanjakovacevic.net/wp-content/uploads/2013/07/placeholder.png', aspectRatio:'unchecked', borderSize: 0, borderSize: 0, borderStyle:'solid', borderRadius: 0, borderColor: '#000000', thumbnailVisibility: 'hidden'};

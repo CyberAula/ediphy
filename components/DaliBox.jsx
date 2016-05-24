@@ -18,7 +18,8 @@ export default class DaliBox extends Component {
             height: '100%',
             position: 'relative',
             wordWrap: 'break-word',
-            visibility: (toolbar.showTextEditor ? 'hidden' : 'visible')};
+            visibility: (toolbar.showTextEditor ? 'hidden' : 'visible')
+        };
 
         let textareaStyle = {
             width: '100%',
@@ -26,32 +27,38 @@ export default class DaliBox extends Component {
             top: 0,
             position: 'absolute',
             resize: 'none',
-            visibility: (toolbar.showTextEditor ? 'visible' : 'hidden')}
+            visibility: (toolbar.showTextEditor ? 'visible' : 'hidden')
+        }
         let attrs = {};
-       
-        if(toolbar.buttons) {
-            toolbar.buttons.map((item, index) => {
-                if (item.autoManaged) {
-                    if (!item.isAttribute) {
-                        if(item.name !== 'width' && item.name !== 'height') {
 
-                            style[item.name] = item.value;
-                            if (item.units)
-                                style[item.name] += item.units;
+        for (var tabKey in toolbar.controls) {
+            for (var accordionKey in toolbar.controls[tabKey].accordions) {
+                for (var buttonKey in toolbar.controls[tabKey].accordions[accordionKey].buttons) {
+                    var button = toolbar.controls[tabKey].accordions[accordionKey].buttons[buttonKey];
+
+                    if (button.autoManaged) {
+                        if (!button.isAttribute) {
+                            if (buttonKey !== 'width' && buttonKey !== 'height') {
+                                style[buttonKey] = button.value;
+                                if (button.units) {
+                                    style[buttonKey] += button.units;
+                                }
+                            }
+                        } else {
+                            attrs['data-' + buttonKey] = button.value;
                         }
-                    } else {
-                        attrs['data-' + item.name] = item.value;
+                    }
+                    if (buttonKey === 'fontSize') {
+                        textareaStyle['fontSize'] = button.value;
+                        if (button.units)
+                            textareaStyle['fontSize'] += button.units;
+                    } else if (buttonKey === 'color') {
+                        textareaStyle['color'] = button.value;
                     }
                 }
-                if(item.name === 'fontSize'){
-                    textareaStyle['fontSize'] = item.value;
-                    if (item.units)
-                        textareaStyle['fontSize'] += item.units;
-                }else if(item.name === 'color'){
-                    textareaStyle['color'] = item.value;
-                } 
-            });
+            }
         }
+
         let content = box.text ?
             (<div style={style} {...attrs} dangerouslySetInnerHTML={{__html: box.text}}></div>) :
             (<div style={style} {...attrs}>
@@ -62,14 +69,18 @@ export default class DaliBox extends Component {
         if (box.container === 0) {
             helpersResizable = (
                 <div>
-                <div style={{position: 'absolute', left:  -cornerSize/2, top: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray', cursor: (box.container === 0 ? 'nw-resize' : 'move')}}></div>
-                <div style={{position: 'absolute', right: -cornerSize/2, top: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray', cursor: (box.container === 0 ? 'ne-resize' : 'move')}}></div>
-                <div style={{position: 'absolute', left:  -cornerSize/2, bottom: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray', cursor: (box.container === 0 ? 'sw-resize' : 'move')}}></div>
-                <div style={{position: 'absolute', right: -cornerSize/2, bottom: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray', cursor: (box.container === 0 ? 'se-resize' : 'move')}}></div>
+                    <div
+                        style={{position: 'absolute', left:  -cornerSize/2, top: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray', cursor: (box.container === 0 ? 'nw-resize' : 'move')}}></div>
+                    <div
+                        style={{position: 'absolute', right: -cornerSize/2, top: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray', cursor: (box.container === 0 ? 'ne-resize' : 'move')}}></div>
+                    <div
+                        style={{position: 'absolute', left:  -cornerSize/2, bottom: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray', cursor: (box.container === 0 ? 'sw-resize' : 'move')}}></div>
+                    <div
+                        style={{position: 'absolute', right: -cornerSize/2, bottom: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray', cursor: (box.container === 0 ? 'se-resize' : 'move')}}></div>
                 </div>
             );
-        }else{
-             helpersResizable = (<div></div>);
+        } else {
+            helpersResizable = (<div></div>);
         }
 
         let border = (
@@ -88,16 +99,16 @@ export default class DaliBox extends Component {
             </div>);
 
         let classes = "wholebox";
-        if(box.container){
+        if (box.container) {
             classes += " dnd" + box.container;
         }
 
         let showOverlay;
         if (this.props.boxLevelSelected > box.level && box.children.length === 0) {
             showOverlay = "visible";
-        }else if(this.props.boxLevelSelected === box.level && box.level !== 0 && !this.isAncestorOrSibling(this.props.boxSelected, this.props.id)){
+        } else if (this.props.boxLevelSelected === box.level && box.level !== 0 && !this.isAncestorOrSibling(this.props.boxSelected, this.props.id)) {
             showOverlay = "visible";
-        }else{
+        } else {
             showOverlay = "collapse";
         }
         return (
@@ -141,35 +152,34 @@ export default class DaliBox extends Component {
                     msTouchAction: 'none',
                     cursor: vis ? 'inherit': 'default' //esto evita que aparezcan los cursores de move y resize cuando la caja no está seleccionada
                 }}>
-            {border}
-            {content}
-            <div contentEditable={true} id={box.id} ref={"textarea"} style={textareaStyle} />
-            <div style={{
+                {border}
+                {content}
+                <div contentEditable={true} id={box.id} ref={"textarea"} style={textareaStyle}/>
+                <div style={{
                     width: "100%",
                     background: "black",
                     top: 0,
                     bottom:0,
                     position: "absolute",
                     opacity: 0.4,
-                    visibility: showOverlay 
-                }}>
-            </div>
-        </div>);
+                    visibility: showOverlay,
+                }}></div>
+            </div>);
     }
 
-    isAncestorOrSibling(searchingId, actualId){
-        if(searchingId === actualId){
+    isAncestorOrSibling(searchingId, actualId) {
+        if (searchingId === actualId) {
             return true;
         }
         let parentId = this.props.boxes[actualId].parent;
-        if(parentId === searchingId){
+        if (parentId === searchingId) {
             return true;
         }
-        if(parentId.indexOf(ID_PREFIX_PAGE) !== -1 || parentId.indexOf(ID_PREFIX_SECTION) !== -1){
+        if (parentId.indexOf(ID_PREFIX_PAGE) !== -1 || parentId.indexOf(ID_PREFIX_SECTION) !== -1) {
             return false;
         }
 
-        if(parentId.indexOf(ID_PREFIX_SORTABLE_BOX) === -1){
+        if (parentId.indexOf(ID_PREFIX_SORTABLE_BOX) === -1) {
             let parentContainers = this.props.boxes[parentId].children;
             if (parentContainers.length !== 0) {
                 for (let i = 0; i < parentContainers.length; i++) {
@@ -186,17 +196,17 @@ export default class DaliBox extends Component {
         return this.isAncestorOrSibling(searchingId, parentId);
     }
 
-    renderChildren(markup, key){
+    renderChildren(markup, key) {
         let component;
         let props = {};
         let children;
         switch (markup.node) {
             case 'element':
-                if(markup.attr){
+                if (markup.attr) {
                     props = markup.attr;
                 }
                 props.key = key;
-                if(markup.tag === 'plugin'){
+                if (markup.tag === 'plugin') {
                     component = PluginPlaceholder;
                     props = Object.assign({}, props, {
                         pluginContainer: markup.attr["plugin-data-id"],
@@ -214,7 +224,7 @@ export default class DaliBox extends Component {
                         onBoxModalToggled: this.props.onBoxModalToggled,
                         onTextEditorToggled: this.props.onTextEditorToggled
                     });
-                }else{
+                } else {
                     component = markup.tag;
                 }
                 break;
@@ -230,10 +240,11 @@ export default class DaliBox extends Component {
         }
 
         Object.keys(props).forEach(prop => {
-            if(prop.startsWith("on")){
+            if (prop.startsWith("on")) {
                 let value = props[prop];
-                if(typeof value === "string") {
-                    props[prop] = function(){};
+                if (typeof value === "string") {
+                    props[prop] = function () {
+                    };
                 }
             }
         });
@@ -247,42 +258,42 @@ export default class DaliBox extends Component {
         return React.createElement(component, props, children);
     }
 
-    blurTextarea(){
+    blurTextarea() {
         this.props.onTextEditorToggled(this.props.id, false, CKEDITOR.instances[this.props.id].getData());
         Dali.Plugins.get(this.props.toolbars[this.props.id].config.name).updateTextChanges(CKEDITOR.instances[this.props.id].getData(), this.props.id);
     }
 
-    componentWillUpdate(nextProps, nextState){
-        if((this.props.boxSelected === this.props.id) && (nextProps.boxSelected !== this.props.id) && this.props.toolbars[this.props.id].showTextEditor){
+    componentWillUpdate(nextProps, nextState) {
+        if ((this.props.boxSelected === this.props.id) && (nextProps.boxSelected !== this.props.id) && this.props.toolbars[this.props.id].showTextEditor) {
             CKEDITOR.instances[this.props.id].focusManager.blur(true);
         }
     }
 
-    checkAspectRatio(buttons){
-        let block = true;
-        buttons.map((item, index) => {
-            if(item.type=="checkbox") {
-                if(item.value=="unchecked"){
-                    block = true;
-                } else {
-                    block = false;
+    checkAspectRatio() {
+        let toolbar = this.props.toolbars[this.props.id];
+        for (var tabKey in toolbar.controls) {
+            for (var accordionKey in toolbar.controls[tabKey].accordions) {
+                for (var buttonKey in toolbar.controls[tabKey].accordions[accordionKey].buttons) {
+                    if (buttonKey === "aspectRatio") {
+                        return toolbar.controls[tabKey].accordions[accordionKey].buttons[buttonKey].value === "unchecked";
+                    }
                 }
             }
-        });
-        return block;
+        }
+        return true;
     }
 
-    componentDidUpdate(prevProps, prevState){
+    componentDidUpdate(prevProps, prevState) {
         let toolbar = this.props.toolbars[this.props.id];
-        if(toolbar.showTextEditor){
+        if (toolbar.showTextEditor) {
             this.refs.textarea.focus();
         }
-        if((toolbar.showTextEditor !== prevProps.toolbars[this.props.id].showTextEditor) && this.props.boxes[this.props.id].draggable){
+        if ((toolbar.showTextEditor !== prevProps.toolbars[this.props.id].showTextEditor) && this.props.boxes[this.props.id].draggable) {
             interact(ReactDOM.findDOMNode(this)).draggable(!toolbar.showTextEditor);
         }
 
-        let block = this.checkAspectRatio(toolbar.buttons);
-        interact(ReactDOM.findDOMNode(this)).resizable({ preserveAspectRatio: !block }) 
+        let block = this.checkAspectRatio();
+        interact(ReactDOM.findDOMNode(this)).resizable({preserveAspectRatio: !block})
 
         if(this.props.boxes[this.props.id].level > this.props.boxLevelSelected){
             interact(ReactDOM.findDOMNode(this)).draggable({enabled: false});
@@ -294,13 +305,13 @@ export default class DaliBox extends Component {
     componentDidMount() {
         let toolbar = this.props.toolbars[this.props.id];
         let box = this.props.boxes[this.props.id];
-        if(toolbar.config && toolbar.config.needsTextEdition) {
+        if (toolbar.config && toolbar.config.needsTextEdition) {
             CKEDITOR.disableAutoInline = true;
             let editor = CKEDITOR.inline(this.refs.textarea);
             editor.on("blur", function (e) {
                 this.blurTextarea();
             }.bind(this));
-            if(box.text){
+            if (box.text) {
                 editor.setData(box.text);
             }
         }
@@ -333,14 +344,12 @@ export default class DaliBox extends Component {
 
                 },
                 onend: (event) => {
-                    if(this.props.boxSelected !== this.props.id) {
-                        event.stopPropagation();
+                    if (this.props.boxSelected !== this.props.id) {
                         return;
                     }
 
                     var target = event.target;
-                    if(!target.parentElement){
-                        event.stopPropagation();
+                    if (!target.parentElement) {
                         return;
                     }
                     event.stopPropagation();
@@ -361,7 +370,7 @@ export default class DaliBox extends Component {
             })
             .ignoreFrom('input, textarea, a')
             .resizable({
-                 preserveAspectRatio: false,
+                preserveAspectRatio: false,
                 enabled: (box.resizable),
                 restrict: {
                     restriction: "parent",
@@ -377,38 +386,38 @@ export default class DaliBox extends Component {
                     }
                     /*BOX-RESIZE*/
                     let target = event.target;
-                    if(event.edges.bottom){ //Abajo
+                    if (event.edges.bottom) { //Abajo
                         target.style.top = (parseInt(target.style.top) || 0);
                     }
-                    if(event.edges.left){ //Izquierda
+                    if (event.edges.left) { //Izquierda
                         target.style.left = (parseInt(target.style.left) || 0) + event.dx + 'px';
                     }
-                    if(event.edges.right){ //Derecha
+                    if (event.edges.right) { //Derecha
                         target.style.left = (parseInt(target.style.left) || 0);
                     }
-                    if(event.edges.top){ //Arriba
+                    if (event.edges.top) { //Arriba
                         target.style.top = (parseInt(target.style.top) || 0) + event.dy + 'px';
                     }
 
-                    target.style.width  = event.rect.width  + 'px';
+                    target.style.width = event.rect.width + 'px';
                     target.style.height = event.rect.height + 'px';
 
                     /*
-                    if(event.restrict){
-                        if (event.edges.top && event.restrict.dy < 0) {
-                            target.style.height = parseInt(target.style.height) + event.restrict.dy + 'px';
-                        }
-                        if (event.edges.bottom && event.restrict.dy > 0) {
-                            target.style.height = parseInt(target.style.height) - event.restrict.dy + 'px';
-                        }
-                        if(event.edges.left && event.restrict.dx < 0){
-                            target.style.width = parseInt(target.style.width) + event.restrict.dx + 'px';
-                        }
-                        if(event.edges.right && event.restrict.dx > 0){
-                            target.style.width = parseInt(target.style.width) - event.restrict.dx + 'px';
-                        }
-                    }
-                    */
+                     if(event.restrict){
+                     if (event.edges.top && event.restrict.dy < 0) {
+                     target.style.height = parseInt(target.style.height) + event.restrict.dy + 'px';
+                     }
+                     if (event.edges.bottom && event.restrict.dy > 0) {
+                     target.style.height = parseInt(target.style.height) - event.restrict.dy + 'px';
+                     }
+                     if(event.edges.left && event.restrict.dx < 0){
+                     target.style.width = parseInt(target.style.width) + event.restrict.dx + 'px';
+                     }
+                     if(event.edges.right && event.restrict.dx > 0){
+                     target.style.width = parseInt(target.style.width) - event.restrict.dx + 'px';
+                     }
+                     }
+                     */
                 },
                 onend: (event) => {
                     if (this.props.boxSelected !== this.props.id) {
@@ -416,22 +425,22 @@ export default class DaliBox extends Component {
                     }
 
                     let target = event.target;
-                    let width =  Math.min(Math.floor(parseInt(target.style.width)  / target.parentElement.offsetWidth  * 100), 100) + '%';
+                    let width = Math.min(Math.floor(parseInt(target.style.width) / target.parentElement.offsetWidth * 100), 100) + '%';
                     let height = Math.min(Math.floor(parseInt(target.style.height) / target.parentElement.offsetHeight * 100), 100) + '%';
 
-                        this.props.onBoxResized(
-                            this.props.id,
-                            box.container !== 0 ?  width : parseInt(target.style.width),
-                            box.container !== 0 ? height : parseInt(target.style.height));
+                    this.props.onBoxResized(
+                        this.props.id,
+                        box.container !== 0 ? width : parseInt(target.style.width),
+                        box.container !== 0 ? height : parseInt(target.style.height));
                     this.props.onBoxMoved(this.props.id, parseInt(target.style.left), parseInt(target.style.top));
                     event.stopPropagation();
                 }
             });
     }
 
-    componentWillUnmount(){
+    componentWillUnmount() {
         interact(ReactDOM.findDOMNode(this)).unset();
-        if(CKEDITOR.instances[this.props.id])
+        if (CKEDITOR.instances[this.props.id])
             CKEDITOR.instances[this.props.id].destroy();
     }
 }
