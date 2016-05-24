@@ -7,7 +7,7 @@ Dali.Plugins["CajasColorBis"] = function (base){
                 icon: 'fa-object-ungroup'
             }
         },
-        getToolbar: function(){
+        getToolbar: function(state){
             return [
                 {
                     name: 'nBoxes',
@@ -72,7 +72,7 @@ Dali.Plugins["CajasColorBis"] = function (base){
             return {nBoxes: 2, colors: ['azulverdoso', 'azulpuro'], wayHorizontal: true, image: true, rounded: false};
         },
         getRenderTemplate: function(state){
-            var template = "<div class='cajascolor'>";
+            var template = "<div class='cajascolor' style='height: 100%'>";
             var disp = 'block';
             if(state.image){
                 template += "<div style='height: 100%'><plugin plugin-data-key='image' plugin-data-default='BasicImage' /></div>";
@@ -115,12 +115,24 @@ Dali.Plugins["CajasColorBis"] = function (base){
 
             switch(name){
                 case 'nBoxes':
+
+                    var diff = value - base.getState().nBoxes;
+                    diff = Math.abs(diff);
+
                     if(value > base.getState().nBoxes){
-                        base.setState('colors', base.getState().colors.concat(['azul']));
+                        do{
+                            base.setState('colors', base.getState().colors.concat(['azul']));
+                            diff--;
+                        }while(diff > 0)
                     }else if(value < base.getState().nBoxes){
                         var newColors = base.getState().colors;
-                        newColors.pop();
-                        base.setState('colors', newColors);
+                        
+                          do{
+                            newColors.pop();
+                            base.setState('colors', newColors);
+                            diff--;
+                        }while(diff > 0)
+
                     }
                     base.setState(name, value);
                     break;
