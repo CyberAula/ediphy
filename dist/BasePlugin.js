@@ -13,15 +13,15 @@ Dali.Plugin = function(){
             }
         }
         if(json.tag && json.tag === "plugin"){
-            if(!state['pluginContainerIds']){
-                state['pluginContainerIds'] = {};
+            if(!state['__pluginContainerIds']){
+                state['__pluginContainerIds'] = {};
             }
             var key = json.attr['plugin-data-key'];
             if(!key){
                 console.error(json.tag + " has not defined plugin-data-key");
             }else{
-                if(state['pluginContainerIds'][key]){
-                    json.attr['plugin-data-id'] = state['pluginContainerIds'][key];
+                if(state['__pluginContainerIds'][key]){
+                    json.attr['plugin-data-id'] = state['__pluginContainerIds'][key];
                 }
             }
         }

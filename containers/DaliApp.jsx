@@ -220,8 +220,8 @@ class DaliApp extends Component{
             if(obj.attr && !obj.attr['plugin-data-id']){
                 obj.attr['plugin-data-id'] = ID_PREFIX_SORTABLE_CONTAINER + Date.now() + this.index++;
             }
-            if(obj.attr['plugin-data-key'] && !state['pluginContainerIds'][obj.attr['plugin-data-key']]){
-                state['pluginContainerIds'][obj.attr['plugin-data-key']] = obj.attr['plugin-data-id'];
+            if(obj.attr['plugin-data-key'] && !state['__pluginContainerIds'][obj.attr['plugin-data-key']]){
+                state['_pluginContainerIds'][obj.attr['plugin-data-key']] = obj.attr['plugin-data-id'];
             }
         }
         if(obj.attr && obj.attr.class){
@@ -237,7 +237,7 @@ class DaliApp extends Component{
             }
         }
         if(obj.tag && obj.tag === "plugin" && obj.attr['plugin-data-default']) {
-            obj.attr['plugin-data-default'].split(" ").map(name =>{
+            obj.attr['plugin-data-default'].split(" ").map(name => {
                 if(!this.props.boxes[eventDetails.ids.id].sortableContainers[obj.attr['plugin-data-id']]) {
                     if(!Dali.Plugins.get(name)){
                         console.error("Plugin " + name + " does not exist");
