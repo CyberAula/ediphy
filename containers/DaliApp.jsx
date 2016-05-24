@@ -221,7 +221,7 @@ class DaliApp extends Component{
                 obj.attr['plugin-data-id'] = ID_PREFIX_SORTABLE_CONTAINER + Date.now() + this.index++;
             }
             if(obj.attr['plugin-data-key'] && !state['__pluginContainerIds'][obj.attr['plugin-data-key']]){
-                state['_pluginContainerIds'][obj.attr['plugin-data-key']] = obj.attr['plugin-data-id'];
+                state['__pluginContainerIds'][obj.attr['plugin-data-key']] = obj.attr['plugin-data-id'];
             }
         }
         if(obj.attr && obj.attr.class){
