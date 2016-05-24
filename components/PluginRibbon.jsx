@@ -15,60 +15,55 @@ export default class PluginRibbon extends Component {
         return (
             <Col id="ribbon"
                  md={12}
-                 xs={12}                    
+                 xs={12}
                  style={{ 
                     height:  this.props.ribbonHeight,
                     overflowY:'hidden'  
-                }} >
-                <div id="insideribbon" style={{}} className="row" >
+                }}>
+                <div id="insideribbon" style={{}} className="row">
                     <div id="ribbonList" style={{ }}>
                         {this.state.buttons.map((item, index) => {
-                            if(this.state.buttons[index].category === this.props.category || this.props.category == 'all'){
-                                var clase = "fa "+ this.state.buttons[index].icon + " fa-1";
+                            if (this.state.buttons[index].category === this.props.category || this.props.category == 'all') {
+                                var clase = "fa " + this.state.buttons[index].icon + " fa-1";
                                 return (<div key={index} className="buttonPlace">
-                                        <Button className="rib"
-                                                disabled={this.props.disabled}
-                                                key={index}
-                                                name={item.name}
-                                                bsSize="large"
-                                                draggable="true" >
-                                            <i className={clase}></i><br/> {this.state.buttons[index].name}
-                                        </Button>
-                                    </div>);
+                                    <Button className="rib"
+                                            disabled={this.props.disabled}
+                                            key={index}
+                                            name={item.name}
+                                            bsSize="large"
+                                            draggable="true">
+                                        <i className={clase}></i><br/> {this.state.buttons[index].name}
+                                    </Button>
+                                </div>);
                             }
                         })}
                     </div>
                 </div>
             </Col>);
     }
-  
-    componentDidMount(){
-        Dali.API.Private.listenEmission(Dali.API.Private.events.addMenuButton, e =>{
+
+    componentDidMount() {
+        Dali.API.Private.listenEmission(Dali.API.Private.events.addMenuButton, e => {
             this.setState({buttons: this.state.buttons.concat([e.detail])});
         });
 
- 
         interact(".rib")
-            .draggable({ 
-            
+            .draggable({
                 autoScroll: false,
                 onstart: function (event) {
-
                     changeOverflow(true);
-                    
                 },
                 onmove: (event) => {
- 
                     let target = event.target,
                     // keep the dragged position in the data-x/data-y attributes
                         x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
                         y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
-                        
+
                     // translate the element
                     target.style.webkitTransform =
                         target.style.transform =
 
-                            'translate(' + (x ) + 'px, ' +  (y)   + 'px)'; 
+                            'translate(' + (x ) + 'px, ' + (y) + 'px)';
                     target.style.zIndex = '9999';
                     // target.style.position = 'fixed';
                     target.classList.add('ribdrag');
@@ -76,27 +71,22 @@ export default class PluginRibbon extends Component {
                     // update the position attributes
                     target.setAttribute('data-x', x);
                     target.setAttribute('data-y', y);
-
-
                 },
                 onend: (event) => {
-
                     changeOverflow(false);
-
                     var target = event.target,
                         x = 0,
                         y = 0;
                     target.style.webkitTransform =
                         target.style.transform =
                             'translate(' + x + 'px, ' + y + 'px)';
-                          
+
                     target.style.zIndex = '9999';
                     target.style.position = 'relative';
-                    target.classList.remove('ribdrag');   
-
+                    target.classList.remove('ribdrag');
 
                     target.setAttribute('data-x', x);
-                    target.setAttribute('data-y', y); 
+                    target.setAttribute('data-y', y);
                     event.stopPropagation();
                 }
             });
@@ -104,14 +94,12 @@ export default class PluginRibbon extends Component {
 }
 
 
-function changeOverflow(bool){
-
-    document.getElementById('ribbonRow').style.overflowX=bool?'visible':'auto';
-    document.getElementById('ribbon').style.overflowX=bool?'visible':'hidden';
-    document.getElementById('ribbon').style.overflowY=bool?'visible':'hidden';
-    document.getElementById('insideribbon').style.overflowY=bool?'visible':'hidden';
-    document.getElementById('ribbonList').style.overflowY=bool?'visible':'hidden';
-    document.getElementById('ribbonRow').style.overflowY=bool?'visible':'hidden';
-    document.getElementById('canvas').style.zIndex=bool?'-1':'0';
- 
+function changeOverflow(bool) {
+    document.getElementById('ribbonRow').style.overflowX = bool ? 'visible' : 'auto';
+    document.getElementById('ribbon').style.overflowX = bool ? 'visible' : 'hidden';
+    document.getElementById('ribbon').style.overflowY = bool ? 'visible' : 'hidden';
+    document.getElementById('insideribbon').style.overflowY = bool ? 'visible' : 'hidden';
+    document.getElementById('ribbonList').style.overflowY = bool ? 'visible' : 'hidden';
+    document.getElementById('ribbonRow').style.overflowY = bool ? 'visible' : 'hidden';
+    document.getElementById('canvas').style.zIndex = bool ? '-1' : '0';
 }

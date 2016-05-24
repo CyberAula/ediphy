@@ -309,7 +309,6 @@ function navItemCreator(state = {}, action = {}){
                 type: action.payload.type,
                 position: action.payload.position,
                 titlesReduced: action.payload.titlesReduced || 'expanded'
-
             };
         default:
             return state;
