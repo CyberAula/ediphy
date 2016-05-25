@@ -634,6 +634,21 @@ function toolbarsById(state = {}, action = {}) {
                 };
             }
 
+            if (toolbar.config.aspectRatioButtonConfig) {
+                let arb = toolbar.config.aspectRatioButtonConfig;
+                let button = {
+                    __name: arb.name,
+                    type: "checkbox",
+                    value: arb.defaultValue,
+                    autoManaged: true
+                }
+                if (arb.location.length == 2) {
+                    toolbar.controls[arb.location[0]].accordions[arb.location[1]].buttons.__aspectRatio = button;
+                } else {
+                    toolbar.controls[arb.location[0]].accordions[arb.location[1]].accordions[arb.location[2]].buttons.__aspectRatio = button;
+                }
+            }
+
             var newState = Object.assign({}, state);
             newState[action.payload.ids.id] = toolbar;
             if (action.payload.ids.parent.indexOf(ID_PREFIX_PAGE) === -1 && action.payload.ids.parent.indexOf(ID_PREFIX_SECTION) === -1) {

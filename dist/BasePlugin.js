@@ -58,13 +58,14 @@ Dali.Plugin = function () {
             }
         },
         getConfig: function () {
-            var name, category, callback, needsConfigModal, needsTextEdition, icon;
+            var name, category, callback, needsConfigModal, needsTextEdition, icon, aspectRatioButtonConfig;
             if (descendant.getConfig) {
                 name = descendant.getConfig().name;
                 category = descendant.getConfig().category;
                 icon = descendant.getConfig().icon;
                 needsConfigModal = descendant.getConfig().needsConfigModal;
                 needsTextEdition = descendant.getConfig().needsTextEdition;
+                aspectRatioButtonConfig = descendant.getConfig().aspectRatioButtonConfig;
             }
 
             name = defaultFor(name, 'PluginName', "Plugin name not assigned");
@@ -72,6 +73,15 @@ Dali.Plugin = function () {
             needsConfigModal = defaultFor(needsConfigModal, false);
             needsTextEdition = defaultFor(needsTextEdition, false);
             icon = defaultFor(icon, 'fa-cogs', "Plugin icon not assigned");
+
+            if(aspectRatioButtonConfig){
+                aspectRatioButtonConfig.name = defaultFor(aspectRatioButtonConfig.name, "Aspect Ratio");
+                aspectRatioButtonConfig.location = defaultFor(aspectRatioButtonConfig.location, ["other", "extra"], "Aspect ratio button location not defined");
+                if(!Array.isArray(aspectRatioButtonConfig.location) || aspectRatioButtonConfig.location.length < 2 || aspectRatioButtonConfig.location.length > 3){
+                    console.error("Aspect ratio button location malformed");
+                }
+                aspectRatioButtonConfig.defaultValue = defaultFor(aspectRatioButtonConfig.defaultValue, "unchecked");
+            }
 
             callback = function (initParams) {
                 if (descendant.getInitialState) {
@@ -92,6 +102,7 @@ Dali.Plugin = function () {
                 callback: callback,
                 needsConfigModal: needsConfigModal,
                 needsTextEdition: needsTextEdition,
+                aspectRatioButtonConfig: aspectRatioButtonConfig,
                 icon: icon
             };
         },

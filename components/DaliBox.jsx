@@ -55,7 +55,7 @@ export default class DaliBox extends Component {
                         textareaStyle['color'] = button.value;
                     }
                 }
-                if(toolbar.controls[tabKey].accordions[accordionKey].accordions){
+                if (toolbar.controls[tabKey].accordions[accordionKey].accordions) {
                     for (var accordionKey2 in toolbar.controls[tabKey].accordions[accordionKey].accordions) {
                         for (buttonKey in toolbar.controls[tabKey].accordions[accordionKey].accordions[accordionKey2].buttons) {
                             button = toolbar.controls[tabKey].accordions[accordionKey].accordions[accordionKey2].buttons[buttonKey];
@@ -294,16 +294,17 @@ export default class DaliBox extends Component {
 
     checkAspectRatio() {
         let toolbar = this.props.toolbars[this.props.id];
-        for (var tabKey in toolbar.controls) {
-            for (var accordionKey in toolbar.controls[tabKey].accordions) {
-                for (var buttonKey in toolbar.controls[tabKey].accordions[accordionKey].buttons) {
-                    if (buttonKey === "aspectRatio") {
-                        return toolbar.controls[tabKey].accordions[accordionKey].buttons[buttonKey].value === "unchecked";
-                    }
-                }
+
+        if (toolbar.config.aspectRatioButtonConfig) {
+            let arb = toolbar.config.aspectRatioButtonConfig;
+            if (arb.location.length == 2) {
+                return toolbar.controls[arb.location[0]].accordions[arb.location[1]].buttons.__aspectRatio.value === "checked";
+            } else {
+                return toolbar.controls[arb.location[0]].accordions[arb.location[1]].accordions[arb.location[2]].buttons.__aspectRatio.value === "checked";
             }
         }
-        return true;
+
+        return false;
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -315,12 +316,11 @@ export default class DaliBox extends Component {
             interact(ReactDOM.findDOMNode(this)).draggable(!toolbar.showTextEditor);
         }
 
-        let block = this.checkAspectRatio();
-        interact(ReactDOM.findDOMNode(this)).resizable({preserveAspectRatio: !block})
-
-        if(this.props.boxes[this.props.id].level > this.props.boxLevelSelected){
+        interact(ReactDOM.findDOMNode(this)).resizable({preserveAspectRatio: this.checkAspectRatio()})
+        
+        if (this.props.boxes[this.props.id].level > this.props.boxLevelSelected) {
             interact(ReactDOM.findDOMNode(this)).draggable({enabled: false});
-        }else{
+        } else {
             interact(ReactDOM.findDOMNode(this)).draggable({enabled: (this.draggable)});
         }
     }
@@ -353,17 +353,17 @@ export default class DaliBox extends Component {
                         this.props.onBoxSelected(this.props.id);
                     }
 
-                    if((box.level-this.props.boxLevelSelected)<=0 && (box.level-this.props.boxLevelSelected)>=0){
+                    if ((box.level - this.props.boxLevelSelected) <= 0 && (box.level - this.props.boxLevelSelected) >= 0) {
                         var target = event.target;
                         target.style.left = (parseInt(target.style.left) || 0) + event.dx + 'px';
                         target.style.top = (parseInt(target.style.top) || 0) + event.dy + 'px';
                         target.style.zIndex = 999999;
                         event.stopPropagation();
 
-                     }else{
+                    } else {
                         event.stopPropagation();
                         return;
-                     }
+                    }
 
                 },
                 onend: (event) => {
@@ -387,12 +387,12 @@ export default class DaliBox extends Component {
                         this.props.id,
                         box.container !== 0 ? left : Math.max(parseInt(target.style.left), 0),
                         box.container !== 0 ? top : Math.max(parseInt(target.style.top), 0));
-                    
+
                 }
             })
             .ignoreFrom('input, textarea, a')
             .resizable({
-                preserveAspectRatio: false,
+                preserveAspectRatio: this.checkAspectRatio(),
                 enabled: (box.resizable),
                 restrict: {
                     restriction: "parent",

@@ -9,6 +9,7 @@ export default class PluginToolbar extends Component {
         this.state = {
             open: false
         };
+        this.aspectRatio = false;
     }
 
     render() {
@@ -16,7 +17,6 @@ export default class PluginToolbar extends Component {
             return <div></div>;
         }
         let toolbar = this.props.toolbars[this.props.box.id];
-        let aspectRatio = false;
         let textButton;
         if (toolbar.config && toolbar.config.needsTextEdition) {
             textButton = (<ButtonInput key={'text'}
@@ -119,14 +119,14 @@ export default class PluginToolbar extends Component {
 
     renderButton(accordion, tabKey, accordionKeys, buttonKey, state, key) {
         let button = accordion.buttons[buttonKey];
+        if(buttonKey === '__aspectRatio'){
+            this.aspectRatio = (button.value === "checked");
+        }
         let children = [];
         if (button.options && button.type === "select") {
             button.options.map((option, index) => {
                 children.push(React.createElement("option", {key: index, value: option}, option));
             });
-        }
-        if (button.name == 'aspectRatio' && button.value == 'checked') {
-            aspectRatio = true;
         }
         let id = this.props.box.id;
         let props = {
@@ -138,13 +138,12 @@ export default class PluginToolbar extends Component {
             min: button.min,
             max: button.max,
             step: button.step,
-            checked: button.value == 'checked',
             className: button.class,
             style: {width: '100%'},
             onChange: e => {
                 let value = e.target.value;
                 if (buttonKey == 'width') {
-                    if (!aspectRatio) {
+                    if (!this.aspectRatio) {
                         this.props.onBoxResized(id, value + '%', this.props.box.height);
                         this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, value);
                     } else {
@@ -155,7 +154,7 @@ export default class PluginToolbar extends Component {
                     }
                 }
                 if (buttonKey == 'height') {
-                    if (!aspectRatio) {
+                    if (!this.aspectRatio) {
                         this.props.onBoxResized(id, this.props.box.width, value + '%');
                         this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, value);
                     } else {
@@ -169,7 +168,7 @@ export default class PluginToolbar extends Component {
                     value = parseFloat(value) || 0;
                 }
                 if (button.type === 'checkbox') {
-                    value = (button.value == 'checked') ? 'unchecked' : 'checked';
+                    value = (button.value === 'checked') ? 'unchecked' : 'checked';
                 }
                 this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, value);
                 if (!button.autoManaged) {

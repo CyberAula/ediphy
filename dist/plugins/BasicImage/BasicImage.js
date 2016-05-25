@@ -10,6 +10,7 @@ Dali.Plugins["BasicImage"] = function (base){
                 category: 'image',
                 needsConfigModal: false,
                 needsTextEdition: false,
+                aspectRatioButtonConfig: {name: "Aspect Ratio", location: ["main", "basic"], defaultValue: "checked"},
                 icon: 'fa-picture-o'
             };
         },
@@ -26,12 +27,6 @@ Dali.Plugins["BasicImage"] = function (base){
                                     type: 'text',
                                     autoManaged: false,
                                     value: 'http://nemanjakovacevic.net/wp-content/uploads/2013/07/placeholder.png'
-                                },
-                                aspectRatio: {
-                                    __name: 'Aspect Ratio',
-                                    type: 'checkbox',
-                                    value: 'unchecked',
-                                    autoManaged: false
                                 }
                             }
                         },
