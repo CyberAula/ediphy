@@ -35,7 +35,6 @@ export default class DaliBox extends Component {
             for (var accordionKey in toolbar.controls[tabKey].accordions) {
                 for (var buttonKey in toolbar.controls[tabKey].accordions[accordionKey].buttons) {
                     var button = toolbar.controls[tabKey].accordions[accordionKey].buttons[buttonKey];
-
                     if (button.autoManaged) {
                         if (!button.isAttribute) {
                             if (buttonKey !== 'width' && buttonKey !== 'height') {
@@ -54,6 +53,32 @@ export default class DaliBox extends Component {
                             textareaStyle['fontSize'] += button.units;
                     } else if (buttonKey === 'color') {
                         textareaStyle['color'] = button.value;
+                    }
+                }
+                if(toolbar.controls[tabKey].accordions[accordionKey].accordions){
+                    for (var accordionKey2 in toolbar.controls[tabKey].accordions[accordionKey].accordions) {
+                        for (buttonKey in toolbar.controls[tabKey].accordions[accordionKey].accordions[accordionKey2].buttons) {
+                            button = toolbar.controls[tabKey].accordions[accordionKey].accordions[accordionKey2].buttons[buttonKey];
+                            if (button.autoManaged) {
+                                if (!button.isAttribute) {
+                                    if (buttonKey !== 'width' && buttonKey !== 'height') {
+                                        style[buttonKey] = button.value;
+                                        if (button.units) {
+                                            style[buttonKey] += button.units;
+                                        }
+                                    }
+                                } else {
+                                    attrs['data-' + buttonKey] = button.value;
+                                }
+                            }
+                            if (buttonKey === 'fontSize') {
+                                textareaStyle['fontSize'] = button.value;
+                                if (button.units)
+                                    textareaStyle['fontSize'] += button.units;
+                            } else if (buttonKey === 'color') {
+                                textareaStyle['color'] = button.value;
+                            }
+                        }
                     }
                 }
             }
@@ -113,8 +138,6 @@ export default class DaliBox extends Component {
         }
         return (
             <div className={classes}
-
-
                  onClick={e => {
                     if(this.props.boxLevelSelected === box.level){
                         if(this.props.boxLevelSelected > 0){

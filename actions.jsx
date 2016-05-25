@@ -128,8 +128,8 @@ export function importState(state){
     return {type: IMPORT_STATE, payload: state};
 }
 
-export function updateToolbar(id, tab, accordion, name, value){
-    return {type: UPDATE_TOOLBAR, payload: {id, tab, accordion, name, value}};
+export function updateToolbar(id, tab, accordions, name, value){
+    return {type: UPDATE_TOOLBAR, payload: {id, tab, accordions, name, value}};
 }
 
 export function collapseToolbar(id){

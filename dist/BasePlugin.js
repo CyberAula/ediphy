@@ -1,26 +1,33 @@
-Dali.Plugin = function(){
+Dali.Plugin = function () {
     var descendant, state, id, initialParams;
     var extraFunctions = {};
 
-    var defaultFor = function(arg, value) {
-        return typeof arg !== 'undefined' ? arg : value;
+    var defaultFor = function (arg, value, warn) {
+        if (typeof arg !== 'undefined') {
+            return arg;
+        }
+
+        if (warn) {
+            console.warn(warn);
+        }
+        return value
     };
 
-    var assignPluginContainerIds = function(json){
-        if(json.child){
-            for(var i = 0; i < json.child.length; i++){
+    var assignPluginContainerIds = function (json) {
+        if (json.child) {
+            for (var i = 0; i < json.child.length; i++) {
                 assignPluginContainerIds(json.child[i]);
             }
         }
-        if(json.tag && json.tag === "plugin"){
-            if(!state['__pluginContainerIds']){
+        if (json.tag && json.tag === "plugin") {
+            if (!state['__pluginContainerIds']) {
                 state['__pluginContainerIds'] = {};
             }
             var key = json.attr['plugin-data-key'];
-            if(!key){
+            if (!key) {
                 console.error(json.tag + " has not defined plugin-data-key");
-            }else{
-                if(state['__pluginContainerIds'][key]){
+            } else {
+                if (state['__pluginContainerIds'][key]) {
                     json.attr['plugin-data-id'] = state['__pluginContainerIds'][key];
                 }
             }
@@ -28,31 +35,31 @@ Dali.Plugin = function(){
     }
 
     var plugin = {
-        create: function(obj){
+        create: function (obj) {
             descendant = obj;
 
-            Object.keys(descendant).map(function(id) {
-                if(id !== 'init' &&
+            Object.keys(descendant).map(function (id) {
+                if (id !== 'init' &&
                     id !== 'getConfig' &&
                     id !== 'getToolbar' &&
                     id !== 'getSections' &&
                     id !== 'getInitialState' &&
                     id !== 'handleToolbar' &&
                     id !== 'getConfigTemplate' &&
-                    id !== 'getRenderTemplate'){
+                    id !== 'getRenderTemplate') {
                     plugin[id] = descendant[id];
                 }
             });
         },
         init: function () {
             Dali.API.addMenuButton(this.getConfig());
-            if(descendant.init) {
+            if (descendant.init) {
                 descendant.init();
             }
         },
-        getConfig: function(){
+        getConfig: function () {
             var name, category, callback, needsConfigModal, needsTextEdition, icon;
-            if(descendant.getConfig){
+            if (descendant.getConfig) {
                 name = descendant.getConfig().name;
                 category = descendant.getConfig().category;
                 icon = descendant.getConfig().icon;
@@ -60,11 +67,11 @@ Dali.Plugin = function(){
                 needsTextEdition = descendant.getConfig().needsTextEdition;
             }
 
-            name = defaultFor(name, 'PluginName');
-            category = defaultFor(category, 'text');
+            name = defaultFor(name, 'PluginName', "Plugin name not assigned");
+            category = defaultFor(category, 'text', "Plugin category not assigned");
             needsConfigModal = defaultFor(needsConfigModal, false);
             needsTextEdition = defaultFor(needsTextEdition, false);
-            icon = defaultFor(icon, 'fa-cogs');
+            icon = defaultFor(icon, 'fa-cogs', "Plugin icon not assigned");
 
             callback = function (initParams) {
                 if (descendant.getInitialState) {
@@ -72,9 +79,9 @@ Dali.Plugin = function(){
                 }
                 state = defaultFor(state, {});
                 initialParams = initParams;
-                if(needsConfigModal) {
+                if (needsConfigModal) {
                     this.openConfigModal(false, state);
-                }else {
+                } else {
                     this.render(false);
                 }
             }.bind(this);
@@ -88,46 +95,74 @@ Dali.Plugin = function(){
                 icon: icon
             };
         },
-        getToolbar: function(){
+        getToolbar: function () {
             var toolbar;
-            if(descendant.getToolbar)
+            if (descendant.getToolbar)
                 toolbar = descendant.getToolbar();
             toolbar = defaultFor(toolbar, {});
 
-            for(var tabKey in toolbar){
-                for(var accordionKey in toolbar[tabKey].accordions){
-                    for(var buttonKey in toolbar[tabKey].accordions[accordionKey].buttons){
-                        var button = toolbar[tabKey].accordions[accordionKey].buttons[buttonKey];
+            for (var tabKey in toolbar) {
+                toolbar[tabKey].__name = defaultFor(toolbar[tabKey].__name, tabKey);
+                var accordions = defaultFor(toolbar[tabKey].accordions, {}, "Property accordions in tab '" + tabKey + "' not found");
+                toolbar[tabKey].accordions = accordions;
+                for (var accordionKey in accordions) {
+                    accordions[accordionKey].__name = defaultFor(accordions[accordionKey].__name, accordionKey, "Property __name in accordion '" + accordionKey + "' not found");
+                    var buttons = defaultFor(accordions[accordionKey].buttons, {}, "Property buttons in accordion '" + accordionKey + "' not found");
+                    accordions[accordionKey].buttons = buttons;
+                    for (var buttonKey in buttons) {
+                        var button = buttons[buttonKey];
+                        button.__name = defaultFor(button.__name, buttonKey, "Property __name in button '" + buttonKey + "' not found");
                         button.autoManaged = defaultFor(button.autoManaged, true);
-                        if(!button.callback && !button.autoManaged) {
+                        if (!button.callback && !button.autoManaged) {
                             button.callback = this.update.bind(this);
+                        }
+                    }
+                    if (accordions[accordionKey].accordions || accordions[accordionKey].order) {
+                        var accordions2 = defaultFor(accordions[accordionKey].accordions, {}, "Property accordions in accordion '" + accordionKey + "' not found");
+                        accordions[accordionKey].accordions = accordions2;
+                        accordions[accordionKey].order = defaultFor(accordions[accordionKey].order, [], "Property order in accordion '" + accordionKey + "' not found");
+                        if (accordions[accordionKey].order.length !== (Object.keys(buttons).length + Object.keys(accordions2).length)) {
+                            console.warn("Accordion '%s' in tab '%s' malformed. Order property length differs from expected", accordionKey, tabKey);
+                        }
+                        for (var accordionKey2 in accordions2) {
+                            accordions2[accordionKey2].__name = defaultFor(accordions2[accordionKey2].__name, accordionKey2, "Property __name in accordion '" + accordionKey2 + "' not found");
+                            buttons = defaultFor(accordions2[accordionKey2].buttons, {}, "Property buttons in accordion '" + accordionKey2 + "' not found");
+                            accordions2[accordionKey2].buttons = buttons;
+                            for (buttonKey in buttons) {
+                                button = buttons[buttonKey];
+                                button.__name = defaultFor(button.__name, buttonKey, "Property __name in button '" + buttonKey + "' not found");
+                                button.autoManaged = defaultFor(button.autoManaged, true);
+                                if (!button.callback && !button.autoManaged) {
+                                    button.callback = this.update.bind(this);
+                                }
+                            }
                         }
                     }
                 }
             }
             return toolbar;
         },
-        openConfigModal: function(isUpdating, oldState, sender){
+        openConfigModal: function (isUpdating, oldState, sender) {
             state = oldState;
             id = sender;
 
-            if(!descendant.getConfigTemplate) {
-                if(this.getConfig().needsConfigModal) {
+            if (!descendant.getConfigTemplate) {
+                if (this.getConfig().needsConfigModal) {
                     console.error(this.getConfig().name + " has not defined getConfigTemplate method");
                 }
-            }else {
+            } else {
                 Dali.API.openConfig(this.getConfig().name, isUpdating).then(function (div) {
                     div.innerHTML = descendant.getConfigTemplate(oldState).replace(/[$]dali[$]/g, "Dali.Plugins.get('" + this.getConfig().name + "')");
                 }.bind(this));
             }
         },
-        updateTextChanges: function(text, sender){
+        updateTextChanges: function (text, sender) {
             state.text = text;
             id = sender;
             this.render(true);
         },
-        render: function(isUpdating){
-            if(!descendant.getRenderTemplate){
+        render: function (isUpdating) {
+            if (!descendant.getRenderTemplate) {
                 console.error(this.getConfig.name + " has not defined getRenderTemplate method");
             } else {
                 var jsonTemplate = html2json(descendant.getRenderTemplate(state));
@@ -151,30 +186,30 @@ Dali.Plugin = function(){
                 );
             }
         },
-        update: function(oldState, name, value, sender){
+        update: function (oldState, name, value, sender) {
             state = oldState;
             id = sender;
-            if(descendant.handleToolbar)
+            if (descendant.handleToolbar)
                 descendant.handleToolbar(name, value);
             this.render(true);
         },
-        setState: function(key, value) {
+        setState: function (key, value) {
             state[key] = value;
         },
-        getState: function(){
+        getState: function () {
             return state;
         },
-        registerExtraFunction: function(fn, alias){
-            if(!alias){
-                Object.keys(descendant).forEach(function(prop) {
-                    if(descendant[prop] === fn){
+        registerExtraFunction: function (fn, alias) {
+            if (!alias) {
+                Object.keys(descendant).forEach(function (prop) {
+                    if (descendant[prop] === fn) {
                         alias = prop;
                     }
                 });
             }
             extraFunctions[alias] = fn;
         },
-        getExtraFunctions: function(){
+        getExtraFunctions: function () {
             return Object.keys(extraFunctions);
         }
     };

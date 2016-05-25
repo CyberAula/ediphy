@@ -12,18 +12,42 @@ Dali.Plugins["CajasColor"] = function (base){
                 main: {
                     __name: "Main",
                     accordions: {
-                        number: {
-                            __name: "Number",
-                            buttons: {
-                                nBoxes: {
-                                    __name: 'Number of boxes',
-                                    type: 'number',
-                                    value: 2,
-                                    max: 8,
-                                    min: 1,
-                                    autoManaged: false
+                        boxes: {
+                            __name: "Boxes",
+                            accordions: {
+                                number: {
+                                    __name: "Number",
+                                    buttons: {
+                                        nBoxes: {
+                                            __name: 'Number of boxes',
+                                            type: 'number',
+                                            value: 2,
+                                            max: 8,
+                                            min: 1,
+                                            autoManaged: false
+                                        }
+                                    }
+                                },
+                                color: {
+                                    __name: "Color",
+                                    buttons: {
+                                        color: {
+                                            __name: "Box color",
+                                            type: "color",
+                                            value: "#ff0000"
+                                        }
+                                    }
                                 }
-                            }
+                            },
+                            buttons: {
+                                allEqual: {
+                                    __name: 'All equal',
+                                    type: 'checkbox',
+                                    value: 'unchecked',
+                                    checked: 'false'
+                                }
+                            },
+                            order: ["number", "allEqual", "color"]
                         }
                     }
                 },
