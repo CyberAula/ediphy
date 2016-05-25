@@ -634,7 +634,7 @@ function toolbarsById(state = {}, action = {}) {
                 };
             }
 
-            if (toolbar.config.aspectRatioButtonConfig) {
+            if (toolbar.config && toolbar.config.aspectRatioButtonConfig) {
                 let arb = toolbar.config.aspectRatioButtonConfig;
                 let button = {
                     __name: arb.name,
