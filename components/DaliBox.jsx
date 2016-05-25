@@ -376,7 +376,6 @@ export default class DaliBox extends Component {
                         return;
                     }
                     event.stopPropagation();
-                    console.log("event")
                     let left = Math.max(Math.min(Math.floor(parseInt(target.style.left) / target.parentElement.offsetWidth * 100), 100), 0) + '%';
                     let top = Math.max(Math.min(Math.floor(parseInt(target.style.top) / target.parentElement.offsetHeight * 100), 100), 0) + '%';
 

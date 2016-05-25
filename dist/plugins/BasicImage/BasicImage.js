@@ -31,7 +31,6 @@ Dali.Plugins["BasicImage"] = function (base){
                                     __name: 'Aspect Ratio',
                                     type: 'checkbox',
                                     value: 'unchecked',
-                                    checked: 'false',
                                     autoManaged: false
                                 }
                             }
@@ -71,11 +70,10 @@ Dali.Plugins["BasicImage"] = function (base){
                                 },
                                 borderStyle: {
                                     __name: 'Border Style',
-                                    type: 'text',
+                                    type: 'select',
                                     value: 'solid',
-                                    autoManaged: false,
-                                    list: 'borderStyle',
-                                    options: ['none', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset', 'initial', 'inherit']
+                                    options: ['none', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset', 'initial', 'inherit'],
+                                    autoManaged: false
                                 }
                             }
                         }

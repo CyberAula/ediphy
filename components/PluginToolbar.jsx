@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Input, ButtonInput, Button, Nav, NavItem, PanelGroup, NavDropdown, MenuItem, Accordion, Panel, Tabs, Tab} from 'react-bootstrap';
+import {Input, ButtonInput, Button, PanelGroup, Accordion, Panel, Tabs, Tab} from 'react-bootstrap';
 import ReactDOM from 'react-dom';
 import GridConfigurator from '../components/GridConfigurator.jsx';
 
@@ -16,7 +16,6 @@ export default class PluginToolbar extends Component {
             return <div></div>;
         }
         let toolbar = this.props.toolbars[this.props.box.id];
-        let options;
         let aspectRatio = false;
         let textButton;
         if (toolbar.config && toolbar.config.needsTextEdition) {
@@ -83,7 +82,6 @@ export default class PluginToolbar extends Component {
                                             }
                                         })}
                                     </PanelGroup>
-                                    {options}
                                     {textButton}
                                     {configButton}
                                 </Tab>
@@ -109,13 +107,11 @@ export default class PluginToolbar extends Component {
                     console.error("Element %s not defined", accordion.order[i]);
                 }
             }
-        }
-        if (!accordion.order) {
+        }else{
             let buttonKeys = Object.keys(accordion.buttons);
             for (let i = 0; i < buttonKeys.length; i++) {
-                children.push(this.renderButton(accordion, tabKey, accordionKeys, buttonKeys[i], state, i++));
+                children.push(this.renderButton(accordion, tabKey, accordionKeys, buttonKeys[i], state, i));
             }
-            ;
         }
 
         return React.createElement(Panel, props, children);
@@ -123,11 +119,11 @@ export default class PluginToolbar extends Component {
 
     renderButton(accordion, tabKey, accordionKeys, buttonKey, state, key) {
         let button = accordion.buttons[buttonKey];
-        if (button.list) {
-            options = (<datalist key={button.list} id={button.list}>
-                {button.options.map((option, index) => {
-                    return (<option key={index} value={option}/>);
-                })}</datalist>);
+        let children = [];
+        if (button.options && button.type === "select") {
+            button.options.map((option, index) => {
+                children.push(React.createElement("option", {key: index, value: option}, option));
+            });
         }
         if (button.name == 'aspectRatio' && button.value == 'checked') {
             aspectRatio = true;
@@ -142,7 +138,6 @@ export default class PluginToolbar extends Component {
             min: button.min,
             max: button.max,
             step: button.step,
-            list: button.list,
             checked: button.value == 'checked',
             className: button.class,
             style: {width: '100%'},
@@ -183,7 +178,7 @@ export default class PluginToolbar extends Component {
             }
         }
 
-        return React.createElement(Input, props);
+        return React.createElement(Input, props, children);
     }
 }
 
