@@ -144,6 +144,7 @@ function boxesById(state = {}, action = {}) {
     switch (action.type) {
         case ADD_BOX:
             let box = boxCreator(state, action);
+            console.log(action);
             if (action.payload.ids.parent && action.payload.ids.parent.indexOf(ID_PREFIX_PAGE) !== -1 || action.payload.ids.parent.indexOf(ID_PREFIX_SECTION) !== -1) {
                 return Object.assign({}, state, {
                     [action.payload.ids.id]: box
@@ -694,6 +695,17 @@ function toolbarsById(state = {}, action = {}) {
             action.payload.boxes.map(box => {
                 delete newState[box]
             });
+            return newState;
+        case RESIZE_SORTABLE_CONTAINER:
+            var newState = Object.assign({}, state);
+            let sortableContainers = newState[action.payload.parent].state.__pluginContainerIds;
+            for(let key in sortableContainers){
+                if(sortableContainers[key].id === action.payload.id){
+                    sortableContainers[key].height = action.payload.height;
+                    break;
+                }
+            }
+            console.log(newState);
             return newState;
         default:
             return state;

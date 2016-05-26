@@ -28,7 +28,7 @@ Dali.Plugin = function () {
                 console.error(json.tag + " has not defined plugin-data-key");
             } else {
                 if (state['__pluginContainerIds'][key]) {
-                    json.attr['plugin-data-id'] = state['__pluginContainerIds'][key];
+                    json.attr['plugin-data-id'] = state['__pluginContainerIds'][key].id;
                 }
             }
         }

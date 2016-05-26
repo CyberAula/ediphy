@@ -231,8 +231,10 @@ export default class DaliBox extends Component {
                 props.key = key;
                 if (markup.tag === 'plugin') {
                     component = PluginPlaceholder;
+                    let resizable = markup.attr.hasOwnProperty("plugin-data-resizable");
                     props = Object.assign({}, props, {
                         pluginContainer: markup.attr["plugin-data-id"],
+                        resizable: resizable,
                         parentBox: this.props.boxes[this.props.id],
                         boxes: this.props.boxes,
                         boxSelected: this.props.boxSelected,
@@ -242,6 +244,7 @@ export default class DaliBox extends Component {
                         onBoxLevelIncreased: this.props.onBoxLevelIncreased,
                         onBoxMoved: this.props.onBoxMoved,
                         onBoxResized: this.props.onBoxResized,
+                        onSortableContainerResized: this.props.onSortableContainerResized,
                         onBoxDeleted: this.props.onBoxDeleted,
                         onBoxDropped: this.props.onBoxDropped,
                         onBoxModalToggled: this.props.onBoxModalToggled,

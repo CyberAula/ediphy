@@ -221,12 +221,15 @@ class DaliApp extends Component{
                 obj.attr['plugin-data-id'] = ID_PREFIX_SORTABLE_CONTAINER + Date.now() + this.index++;
             }
             if(obj.attr['plugin-data-key'] && !state['__pluginContainerIds'][obj.attr['plugin-data-key']]){
-                state['__pluginContainerIds'][obj.attr['plugin-data-key']] = obj.attr['plugin-data-id'];
+                state['__pluginContainerIds'][obj.attr['plugin-data-key']] = {
+                    id: obj.attr['plugin-data-id'],
+                    height: parseInt(obj.attr['plugin-data-initialHeight']) || 150
+                }
             }
         }
         if(obj.attr && obj.attr.class){
             obj.attr.className = obj.attr.class.join(' ');
-            delete(obj.attr.class);
+            delete obj.attr.class;
         }
     }
 

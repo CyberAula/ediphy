@@ -21,8 +21,9 @@ export default class PluginPlaceholder extends Component {
 
         return (
             <div style={{
+                    border: "solid green 5px",
                     width: "100%",
-                    height: "100%",
+                    height: container ? container.height : "100%",
                     position: 'relative'}}
                  className={"drg" + this.props.pluginContainer}>
                 <div style={{
@@ -93,6 +94,7 @@ export default class PluginPlaceholder extends Component {
                                                                      onBoxLevelIncreased={this.props.onBoxLevelIncreased}
                                                                      onBoxMoved={this.props.onBoxMoved}
                                                                      onBoxResized={this.props.onBoxResized}
+                                                                     onSortableContainerResized={this.props.onSortableContainerResized}
                                                                      onBoxDeleted={this.props.onBoxDeleted}
                                                                      onBoxDropped={this.props.onBoxDropped}
                                                                      onBoxModalToggled={this.props.onBoxModalToggled}
@@ -143,33 +145,49 @@ export default class PluginPlaceholder extends Component {
         return this.isAncestorOrSibling(searchingId, parentId);
     }
 
-    componentDidMount(){
-        interact(ReactDOM.findDOMNode(this)).dropzone({
-            accept: '.rib',
-            overlap: 'pointer',
-            ondropactivate: function (event) {
-                event.target.classList.add('drop-active');
-            },
-            ondragenter: function(event){
-                event.target.classList.add("drop-target");
-            },
-            ondragleave: function(event){
-                event.target.classList.remove("drop-target");
-            },
-            ondrop: function (event) {
-                //addBox
-                let initialParams = {
-                    parent: this.props.parentBox.id,
-                    container: this.props.pluginContainer
-                };
-                Dali.Plugins.get(event.relatedTarget.getAttribute("name")).getConfig().callback(initialParams);
+    componentDidUpdate(prevProps, prevState) {
+        let container = this.props.parentBox.sortableContainers[this.props.pluginContainer];
+        interact(ReactDOM.findDOMNode(this)).resizable({enabled: (container && this.props.resizable) ? true : false});
+    }
 
-                //interact(ReactDOM.findDOMNode(this)).unset();
-            }.bind(this),
-            ondropdeactivate: function (event) {
-                event.target.classList.remove('drop-active');
-                event.target.classList.remove("drop-target");
-            }
-        });
+    componentDidMount(){
+        interact(ReactDOM.findDOMNode(this))
+            .dropzone({
+                accept: '.rib',
+                overlap: 'pointer',
+                ondropactivate: function (event) {
+                    event.target.classList.add('drop-active');
+                },
+                ondragenter: function(event){
+                    event.target.classList.add("drop-target");
+                },
+                ondragleave: function(event){
+                    event.target.classList.remove("drop-target");
+                },
+                ondrop: function (event) {
+                    //addBox
+                    let initialParams = {
+                        parent: this.props.parentBox.id,
+                        container: this.props.pluginContainer
+                    };
+                    Dali.Plugins.get(event.relatedTarget.getAttribute("name")).getConfig().callback(initialParams);
+
+                    //interact(ReactDOM.findDOMNode(this)).unset();
+                }.bind(this),
+                ondropdeactivate: function (event) {
+                    event.target.classList.remove('drop-active');
+                    event.target.classList.remove("drop-target");
+                }
+            })
+            .resizable({
+                enabled: (this.props.parentBox.sortableContainers[this.props.pluginContainer] ? true : false) && this.props.resizable,
+                edges: {left: false, right: false, bottom: true, top: false},
+                onmove: (event) => {
+                    event.target.style.height = event.rect.height + 'px';
+                },
+                onend: (event) => {
+                    this.props.onSortableContainerResized(this.props.pluginContainer, this.props.parentBox.id, parseInt(event.target.style.height));
+                }
+            });
     }
 }

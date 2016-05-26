@@ -69,13 +69,13 @@ Dali.Plugins["CajasColor"] = function (base){
             var template = "<div style='width: 100%; height: 100%'>";
             var width = 100 / state.nBoxes;
             for(var i = 0; i < state.nBoxes; i++){
-                template += "<div onclick='$dali$.click()' style='background-color: " + state.colors[i] + "; height: 100%; width: " + width + "%; float: left'><plugin plugin-data-key='title" + i + "' plugin-data-default='BasicText' /></div>";
+                template += "<div onclick='$dali$.click()' style='background-color: " + state.colors[i] + "; height: 100%; width: " + width + "%; float: left'><plugin plugin-data-key='title" + i + "' plugin-data-default='BasicText' " + (i % 2 === 0 ? "plugin-data-resizable plugin-data-initialHeight='200'" : "") + " /></div>";
             }
 
             template += "</div><div>";
             for(var i = 0; i < state.nBoxes; i++){
                 //If min-height is set but height is not, will not work properly. Hackfix: height = 1px
-                template += "<div style='background-color: " + state.colors[i] + "; min-height: 80px; height: 1px'><plugin plugin-data-key='box" + i + "' /></div>";
+                template += "<div style='background-color: " + state.colors[i] + "; min-height: 80px; height: 1px'><plugin plugin-data-key='box" + i + "' plugin-data-resizable /></div>";
             }
             template += "</div>";
             return template;
