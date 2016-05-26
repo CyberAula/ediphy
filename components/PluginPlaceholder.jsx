@@ -10,12 +10,12 @@ export default class PluginPlaceholder extends Component {
         let container = this.props.parentBox.sortableContainers[this.props.pluginContainer];
         let showOverlay;
 
-        if(this.props.boxLevelSelected > this.props.parentBox.level + 1) {
+        if (this.props.boxLevelSelected > this.props.parentBox.level + 1) {
             showOverlay = "visible";
         }/*else if(this.props.boxLevelSelected === (this.props.parentBox.level + 1) &&
-            !this.isAncestorOrSibling(this.props.boxSelected, (container ? container.children[0] : this.props.parentBox.id))){
-                showOverlay = "visible";
-        }*/else{
+         !this.isAncestorOrSibling(this.props.boxSelected, (container ? container.children[0] : this.props.parentBox.id))){
+         showOverlay = "visible";
+         }*/ else {
             showOverlay = "hidden";
         }
 
@@ -36,14 +36,14 @@ export default class PluginPlaceholder extends Component {
                     visibility: showOverlay,
                 }}></div>
                 {container.colDistribution.map((col, i) => {
-                    if(container.cols[i]){
+                    if (container.cols[i]) {
                         return (
                             <div key={i}
                                  style={{width: col + "%", height: '100%', float: 'left'}}>
                                 {container.cols[i].map((row, j) => {
-                                    return(<div key={j}
-                                                style={{width: "100%", height: row + "%", position: 'relative'}}
-                                                ref={e => {
+                                    return (<div key={j}
+                                                 style={{width: "100%", height: row + "%", position: 'relative'}}
+                                                 ref={e => {
                                                     if(e !== null){
                                                         let selector = ".rib, .dnd" + this.props.pluginContainer;
                                                         interact(ReactDOM.findDOMNode(e)).dropzone({
@@ -82,7 +82,7 @@ export default class PluginPlaceholder extends Component {
                                                     }
                                                 }}>
                                         {container.children.map((idBox, index) => {
-                                            if(this.props.boxes[idBox].col === i && this.props.boxes[idBox].row === j) {
+                                            if (this.props.boxes[idBox].col === i && this.props.boxes[idBox].row === j) {
                                                 return (<DaliBox id={idBox}
                                                                  key={index}
                                                                  boxes={this.props.boxes}
@@ -110,18 +110,18 @@ export default class PluginPlaceholder extends Component {
         );
     }
 
-    isAncestorOrSibling(searchingId, actualId){
-        if(searchingId === actualId){
+    isAncestorOrSibling(searchingId, actualId) {
+        if (searchingId === actualId) {
             return true;
         }
         let parentId = this.props.boxes[actualId].parent;
-        if(parentId === searchingId){
+        if (parentId === searchingId) {
             return true;
         }
-        if(parentId.indexOf(ID_PREFIX_PAGE) !== -1 || parentId.indexOf(ID_PREFIX_SECTION) !== -1){
+        if (parentId.indexOf(ID_PREFIX_PAGE) !== -1 || parentId.indexOf(ID_PREFIX_SECTION) !== -1) {
             return false;
         }
-        if(parentId.indexOf(ID_PREFIX_SORTABLE_BOX) === -1) {
+        if (parentId.indexOf(ID_PREFIX_SORTABLE_BOX) === -1) {
             let parentContainers = this.props.boxes[parentId].children;
             if (parentContainers.length !== 0) {
                 for (let i = 0; i < parentContainers.length; i++) {
@@ -138,12 +138,7 @@ export default class PluginPlaceholder extends Component {
         return this.isAncestorOrSibling(searchingId, parentId);
     }
 
-    componentDidUpdate(prevProps, prevState) {
-        let container = this.props.parentBox.sortableContainers[this.props.pluginContainer];
-        interact(ReactDOM.findDOMNode(this)).resizable({enabled: (container && this.props.resizable) ? true : false});
-    }
-
-    componentDidMount(){
+    componentDidMount() {
         interact(ReactDOM.findDOMNode(this))
             .dropzone({
                 accept: '.rib',
@@ -151,10 +146,10 @@ export default class PluginPlaceholder extends Component {
                 ondropactivate: function (event) {
                     event.target.classList.add('drop-active');
                 },
-                ondragenter: function(event){
+                ondragenter: function (event) {
                     event.target.classList.add("drop-target");
                 },
-                ondragleave: function(event){
+                ondragleave: function (event) {
                     event.target.classList.remove("drop-target");
                 },
                 ondrop: function (event) {
@@ -173,13 +168,15 @@ export default class PluginPlaceholder extends Component {
                 }
             })
             .resizable({
-                enabled: (this.props.parentBox.sortableContainers[this.props.pluginContainer] ? true : false) && this.props.resizable,
+                enabled: this.props.resizable,
                 edges: {left: false, right: false, bottom: true, top: false},
                 onmove: (event) => {
                     event.target.style.height = event.rect.height + 'px';
                 },
                 onend: (event) => {
                     this.props.onSortableContainerResized(this.props.pluginContainer, this.props.parentBox.id, parseInt(event.target.style.height));
+                    let toolbar = this.props.toolbars[this.props.parentBox.id];
+                    Dali.Plugins.get(toolbar.config.name).forceUpdate(toolbar.state, this.props.parentBox.id);
                 }
             });
     }

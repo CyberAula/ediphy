@@ -212,6 +212,36 @@ class DaliApp extends Component {
     parsePluginContainers(obj, state) {
         if (obj.child) {
             for (let i = 0; i < obj.child.length; i++) {
+                if (obj.child[i].tag && obj.child[i].tag === "plugin") {
+                    if (obj.child.length > 1) {
+                        console.error("A plugin tag must not have siblings. Please check renderTemplate method");
+                    }
+                    let height = "100%";
+                    let child = obj.child[i];
+                    if (child.attr) {
+                        if (child.attr['plugin-data-height']) {
+                            height = child.attr['plugin-data-height'];
+                        } else if (child.attr['plugin-data-initialHeight']) {
+                            height = child.attr['plugin-data-initialHeight'];
+                        } else {
+                            height = child.attr.hasOwnProperty('plugin-data-resizable') ? 150 : "100%";
+                        }
+                    }
+                    if (!obj.attr) {
+                        obj.attr = {
+                            style: {height: height}
+                        }
+                    } else {
+                        if (!obj.attr.style) {
+                            obj.attr.style = {height: height}
+                        } else {
+                            obj.attr.style.height = height;
+                        }
+                    }
+                    if (obj.attr.style.minHeight) {
+                        delete obj.attr.style.minHeight;
+                    }
+                }
                 this.parsePluginContainers(obj.child[i], state);
             }
         }
@@ -219,10 +249,13 @@ class DaliApp extends Component {
             if (obj.attr && !obj.attr['plugin-data-id']) {
                 obj.attr['plugin-data-id'] = ID_PREFIX_SORTABLE_CONTAINER + Date.now() + this.index++;
             }
-            if (obj.attr['plugin-data-key'] && !state['__pluginContainerIds'][obj.attr['plugin-data-key']]) {
+            if (obj.attr && !obj.attr['plugin-data-height']) {
+                obj.attr['plugin-data-height'] = obj.attr['plugin-data-initialHeight'] || (obj.attr.hasOwnProperty('plugin-data-resizable') ? 150 : "100%");
+            }
+            if (obj.attr && obj.attr['plugin-data-key'] && !state['__pluginContainerIds'][obj.attr['plugin-data-key']]) {
                 state['__pluginContainerIds'][obj.attr['plugin-data-key']] = {
                     id: obj.attr['plugin-data-id'],
-                    height: parseInt(obj.attr['plugin-data-initialHeight']) || (obj.attr['plugin-data-resizable'] ? 150 : "100%")
+                    height: obj.attr['plugin-data-height']
                 }
             }
         }
