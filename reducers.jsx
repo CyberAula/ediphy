@@ -173,22 +173,6 @@ function boxesById(state = {}, action = {}) {
             return Object.assign({}, state, {
                 [action.payload.ids.id]: box
             });
-            /*
-            if (action.payload.ids.parent && action.payload.ids.parent.indexOf(ID_PREFIX_PAGE) !== -1 || action.payload.ids.parent.indexOf(ID_PREFIX_SECTION) !== -1) {
-                return Object.assign({}, state, {
-                    [action.payload.ids.id]: box
-                });
-            }
-            return Object.assign({}, state, {
-                [action.payload.ids.id]: box,
-                [action.payload.ids.parent]: Object.assign({}, state[action.payload.ids.parent], {
-                    children: (state[action.payload.ids.parent].children.indexOf(action.payload.ids.container) !== -1) ?
-                        state[action.payload.ids.parent].children :
-                        [...state[action.payload.ids.parent].children, action.payload.ids.container],
-                    sortableContainers: sortableContainerCreator(state[action.payload.ids.parent].sortableContainers, action)
-                })
-            });
-            */
         case MOVE_BOX:
             return Object.assign({}, state, {
                 [action.payload.id]: Object.assign({}, state[action.payload.id], {

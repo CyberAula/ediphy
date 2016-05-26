@@ -222,7 +222,7 @@ class DaliApp extends Component {
             if (obj.attr['plugin-data-key'] && !state['__pluginContainerIds'][obj.attr['plugin-data-key']]) {
                 state['__pluginContainerIds'][obj.attr['plugin-data-key']] = {
                     id: obj.attr['plugin-data-id'],
-                    height: parseInt(obj.attr['plugin-data-initialHeight']) || 150
+                    height: parseInt(obj.attr['plugin-data-initialHeight']) || (obj.attr['plugin-data-resizable'] ? 150 : "100%")
                 }
             }
         }
