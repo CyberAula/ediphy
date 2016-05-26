@@ -30,7 +30,6 @@ Dali.Plugin = function(){
     var plugin = {
         create: function(obj){
             descendant = obj;
-
             Object.keys(descendant).map(function(id) {
                 if(id !== 'init' &&
                     id !== 'getConfig' &&
@@ -93,7 +92,9 @@ Dali.Plugin = function(){
             if(descendant.getToolbar)
                 toolbar = descendant.getToolbar();
             toolbar = defaultFor(toolbar, []);
-
+           
+            console.log('toolbar')
+             console.log(toolbar)
             /*
              name: 'opacity',
              humanName: 'Opacity',
@@ -113,6 +114,7 @@ Dali.Plugin = function(){
                     toolbar[i].callback = this.update.bind(this);
                 }
             }
+            console.log(toolbar)
             return toolbar;
         },
         getSections: function(){
@@ -137,8 +139,11 @@ Dali.Plugin = function(){
             }
         },
         updateTextChanges: function(text, sender){
+            console.log('updateTextChanges')
+            console.log(text,sender)
             state.text = text;
             id = sender;
+
             this.render(true);
         },
         render: function(isUpdating){
@@ -167,7 +172,7 @@ Dali.Plugin = function(){
                 );
             }
         },
-        update: function(oldState, name, value, sender){
+        update: function(oldState, name, value, sender){           
             state = oldState;
             id = sender;
             if(descendant.handleToolbar)

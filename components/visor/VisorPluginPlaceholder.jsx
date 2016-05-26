@@ -10,7 +10,7 @@ export default class VisorPluginPlaceholder extends Component {
                         width: "100%",
                         height: "100%",
                         position: 'relative'}}
-                     className={"" + this.props.pluginContainer}>
+                     className={"drg" + this.props.pluginContainer}>
                 {container ?
                     container.colDistribution.map((col, i) => {
                         if(container.cols[i]){

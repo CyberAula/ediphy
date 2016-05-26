@@ -99,7 +99,7 @@ export default class PluginToolbar extends Component {
         if(toolbar.config && toolbar.config.needsTextEdition){
             buttons.push(<ButtonInput key={'text'}
                                       onClick={() => {
-                                        this.props.onTextEditorToggled(toolbar.id, !toolbar.showTextEditor, (toolbar.showTextEditor) ? CKEDITOR.instances[this.props.id].getData() : null)}}
+                                        this.props.onTextEditorToggled(this.props.box.id, !toolbar.showTextEditor, (toolbar.showTextEditor) ? CKEDITOR.instances[this.props.box.id].getData() : null)}}
                                       bsStyle={toolbar.showTextEditor ? 'primary' : 'default'}>
                 Edit text</ButtonInput>);
         }
@@ -110,13 +110,20 @@ export default class PluginToolbar extends Component {
                 Open config</ButtonInput>);
         }
         let deletebutton;
+        let duplicateButton;
         if(this.props.box.id[1]!='s' ){
             deletebutton = (<Button key={'delete'}
                                     block
                                     onClick={e => {
-                                        this.props.onBoxDeleted();
-                                        e.stopPropagation();
+                                        this.props.onBoxDeleted(this.props.box.id, this.props.box.parent, this.props.box.container);
+                                        // e.stopPropagation();
                                     }}><i className="fa fa-trash-o fa-2x"></i></Button>);
+            duplicateButton = (<Button key={'duplicate'}
+                                    block
+                                    onClick={e => {
+                                        this.props.onBoxDuplicated(this.props.box.id, this.props.box.parent, this.props.box.container);
+                                        // e.stopPropagation();
+                                    }}><i className="fa fa-files-o fa-2x"></i></Button>);
         }
 
         let indexTab = 1,
@@ -151,6 +158,7 @@ export default class PluginToolbar extends Component {
                         </Nav>
                         <div className="botones">
                         {deletebutton}
+                        {duplicateButton}
                         <br/> 
                         <PanelGroup>
                             {accordion.map((title, index) =>{

@@ -95,6 +95,8 @@ Dali.API = (function(){
             return promise;
         },
         renderPlugin: function(html, toolbar, config, sections, state, isUpdating, ids, initialParams){
+            console.log('RENDERPLUGIN')
+            console.log(html, toolbar, config, sections, state, isUpdating, ids, initialParams)
             Dali.API.Private.emit(Dali.API.Private.events.render, {content: html, toolbar: toolbar, config: config, sections:sections, state: state, isUpdating: isUpdating, ids: ids, initialParams: initialParams});
         }
     }

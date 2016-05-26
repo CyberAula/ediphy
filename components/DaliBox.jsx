@@ -127,7 +127,7 @@ export default class DaliBox extends Component {
                     /*
                     if(toolbar.config && toolbar.config.needsTextEdition){
                         this.props.onTextEditorToggled(this.props.id, true);
-                        this.refs.textarea.focus();
+                        this.refs["textarea"+this.props.id].focus();
                     }*/}}
                  style={{
                     position: 'absolute',
@@ -143,7 +143,7 @@ export default class DaliBox extends Component {
                 }}>
             {border}
             {content}
-            <div contentEditable={true} id={box.id} ref={"textarea"} style={textareaStyle} />
+            <div contentEditable={true} id={box.id} ref={"textarea"+box.id} style={textareaStyle} />
             <div style={{
                     width: "100%",
                     background: "black",
@@ -274,8 +274,9 @@ export default class DaliBox extends Component {
 
     componentDidUpdate(prevProps, prevState){
         let toolbar = this.props.toolbars[this.props.id];
+
         if(toolbar.showTextEditor){
-            this.refs.textarea.focus();
+            this.refs["textarea"+this.props.id].focus();
         }
         if((toolbar.showTextEditor !== prevProps.toolbars[this.props.id].showTextEditor) && this.props.boxes[this.props.id].draggable){
             interact(ReactDOM.findDOMNode(this)).draggable(!toolbar.showTextEditor);
@@ -296,12 +297,21 @@ export default class DaliBox extends Component {
         let box = this.props.boxes[this.props.id];
         if(toolbar.config && toolbar.config.needsTextEdition) {
             CKEDITOR.disableAutoInline = true;
-            let editor = CKEDITOR.inline(this.refs.textarea);
-            editor.on("blur", function (e) {
-                this.blurTextarea();
-            }.bind(this));
+            let editor = CKEDITOR.inline(this.refs["textarea"+this.props.id]);
+            var blurFunction = function (e) {
+
+                 if (e.sender.name == this.props.id){
+                    this.blurTextarea();
+                 }
+     
+
+            }.bind(this);
+            editor.on("blur", blurFunction);
+
+
             if(box.text){
                 editor.setData(box.text);
+               
             }
         }
 
@@ -344,7 +354,6 @@ export default class DaliBox extends Component {
                         return;
                     }
                     event.stopPropagation();
-                    console.log("event")
                     let left = Math.max(Math.min(Math.floor(parseInt(target.style.left) / target.parentElement.offsetWidth * 100), 100), 0) + '%';
                     let top = Math.max(Math.min(Math.floor(parseInt(target.style.top) / target.parentElement.offsetHeight * 100), 100), 0) + '%';
 

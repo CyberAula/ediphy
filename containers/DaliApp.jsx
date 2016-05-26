@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {ActionCreators} from 'redux-undo';
 import {Grid, Col, Row, Button, OverlayTrigger, Popover} from 'react-bootstrap';
 import {addNavItem, selectNavItem, expandNavItem, removeNavItem, reorderNavItem,
-    addBox, selectBox, moveBox, resizeBox, updateBox, deleteBox, reorderBox, dropBox, increaseBoxLevel,
+    addBox, selectBox, moveBox, resizeBox, updateBox, duplicateBox, deleteBox, reorderBox, dropBox, increaseBoxLevel,
     addSortableContainer, resizeSortableContainer, changeCols, changeRows,
     togglePageModal, toggleTextEditor, toggleTitleMode,
     changeDisplayMode, exportStateAsync, importStateAsync, updateToolbar, collapseToolbar} from '../actions';
@@ -55,7 +55,7 @@ class DaliApp extends Component{
                                   if(this.state.pluginTab == categoria && this.state.hideTab == 'show'){
                                       this.setState({ hideTab:'hide'})
                                   } else {
-                                      this.setState({pluginTab:categoria, hideTab:'show'})
+                                      this.setState({ pluginTab: categoria, hideTab:'show' })
                                   }
                               }}/>
               </Row>
@@ -133,7 +133,8 @@ class DaliApp extends Component{
                                onTextEditorToggled={(caller, value, text) => dispatch(toggleTextEditor(caller, value, text))}
                                onToolbarUpdated={(caller, index, name, value) => dispatch(updateToolbar(caller, index, name, value))}
                                onToolbarCollapsed={(id) => dispatch(collapseToolbar(id))}
-                               onBoxDeleted={()=> this.props.dispatch(deleteBox(boxSelected, boxes[boxSelected].parent, boxes[boxSelected].container, this.getDescendants(boxes[boxSelected]))) } />
+                               onBoxDuplicated={(id, parent, container)=> dispatch( duplicateBox( id, parent, container, this.getDescendants(boxes[id]), this.getDuplicatedBoxesIds(this.getDescendants(boxes[id]) ), Date.now()-1 ))}
+                               onBoxDeleted={(id, parent, container)=> dispatch(deleteBox(id, parent, container, this.getDescendants(boxes[id]))) } />
             </Grid>
         );
     }
@@ -152,15 +153,18 @@ class DaliApp extends Component{
         });
 
         Dali.API.Private.listenEmission(Dali.API.Private.events.render, e => {
+ 
+
             if(e.detail.isUpdating) {
                 this.index = 0;
-                this.parsePluginContainers(e.detail.content, e.detail.state);
+                this.parsePluginContainers(e.detail.content, e.detail.state, e.detail.ids.id.substr(3));
                 this.props.dispatch(updateBox(e.detail.ids.id, e.detail.content, e.detail.state));
                 this.addDefaultContainerPlugins(e.detail, e.detail.content);
             }else {
+
                 e.detail.ids.id = ID_PREFIX_BOX + Date.now();
                 this.index = 0;
-                this.parsePluginContainers(e.detail.content, e.detail.state);
+                this.parsePluginContainers(e.detail.content, e.detail.state, e.detail.ids.id.substr(3));
                 this.props.dispatch(addBox(
                     {
                         parent: e.detail.ids.parent,
@@ -187,10 +191,17 @@ class DaliApp extends Component{
           }
           if (key == 89 && e.ctrlKey){
             this.props.dispatch(ActionCreators.redo())
+
+          } else  if (key == 68 && e.ctrlKey){
+            if ( this.props.boxSelected != -1){
+                let box =  this.props.boxes[ this.props.boxSelected];
+                this.props.dispatch(duplicateBox(box.id, box.parent, box.container, this.getDescendants(box), this.getDuplicatedBoxesIds(this.getDescendants(box) ), Date.now()-1 ));
+
+              }
           }
           else if (key == 46) {
               if ( this.props.boxSelected != -1){
-                let box =  this.props.boxes[ this.props.boxSelected];
+                let box =  this.props.boxes[ this.props.boxSelected];         
                 this.props.dispatch(deleteBox(box.id, box.parent, box.container, this.getDescendants(box)));
               }
           }  
@@ -211,15 +222,26 @@ class DaliApp extends Component{
         return selected;
     }
 
-    parsePluginContainers(obj, state){
+    getDuplicatedBoxesIds(descendants){
+      
+      var newIds = {}
+      var date = Date.now();
+      descendants.map(box => {
+          newIds[box.substr(3)] =  date++;
+       })
+      return newIds
+    }
+
+    parsePluginContainers(obj, state, id){
         if(obj.child){
             for(let i = 0; i < obj.child.length; i++){
-                this.parsePluginContainers(obj.child[i], state);
+                this.parsePluginContainers(obj.child[i], state , id);
             }
         }
+
         if(obj.tag && obj.tag === "plugin"){
             if(obj.attr && !obj.attr['plugin-data-id']){
-                obj.attr['plugin-data-id'] = ID_PREFIX_SORTABLE_CONTAINER + Date.now() + this.index++;
+                obj.attr['plugin-data-id'] = ID_PREFIX_SORTABLE_CONTAINER + id +'000'+ Date.now() + '' + (1+this.index++);
             }
             if(obj.attr['plugin-data-key'] && !state['pluginContainerIds'][obj.attr['plugin-data-key']]){
                 state['pluginContainerIds'][obj.attr['plugin-data-key']] = obj.attr['plugin-data-id'];
