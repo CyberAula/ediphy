@@ -154,7 +154,7 @@ export default class DaliBox extends Component {
                         e.stopPropagation();
                     }
                  }}
-                 onDoubleClick={(e)=>{
+                 onDoubleClick={(e)=> {
                     if(this.props.boxLevelSelected === box.level && box.children.length !== 0){
                         this.props.onBoxLevelIncreased();
                     }
@@ -162,7 +162,8 @@ export default class DaliBox extends Component {
                     if(toolbar.config && toolbar.config.needsTextEdition){
                         this.props.onTextEditorToggled(this.props.id, true);
                         this.refs.textarea.focus();
-                    }*/}}
+                    }*/
+                 }}
                  style={{
                     position: 'absolute',
                     left: box.position.x,
