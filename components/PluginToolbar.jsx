@@ -148,7 +148,6 @@ export default class PluginToolbar extends Component {
         let props = {
             key: key,
             type: button.type,
-            defaultValue: button.value,
             value: button.value,
             label: button.__name,
             min: button.min,

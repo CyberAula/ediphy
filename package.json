@@ -9,8 +9,8 @@
     "start": "webpack-dev-server"
   },
   "devDependencies": {
-    "babel-core": "^5.8.25",
-    "babel-loader": "^5.3.2",
+    "babel-core": "^6.9.1",
+    "babel-loader": "^6.2.4",
     "babel-plugin-object-assign": "^1.2.1",
     "css-loader": "^0.23.1",
     "extract-text-webpack-plugin": "^1.0.1",
@@ -24,16 +24,18 @@
     "webpack-dev-server": "^1.8.2"
   },
   "dependencies": {
+    "babel-core": "^6.9.1",
+    "babel-loader": "^5.4.0",
     "bootstrap": "^3.3.6",
     "es6-promise": "^3.0.2",
     "interact.js": "^1.2.6",
     "isomorphic-fetch": "^2.2.0",
-    "react": "^0.14.7",
-    "react-bootstrap": "^0.28.1",
-    "react-dom": "^0.14.0",
-    "react-redux": "^3.1.0",
+    "react": "^15.1.0",
+    "react-bootstrap": "^0.29.4",
+    "react-dom": "^15.1.0",
+    "react-redux": "^4.4.5",
     "redux": "^3.0.2",
-    "redux-thunk": "^1.0.3",
-    "redux-undo": "^0.5.0"
+    "redux-thunk": "^2.1.0",
+    "redux-undo": "^0.6.1"
   }
 }
