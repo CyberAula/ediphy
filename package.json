@@ -24,8 +24,6 @@
     "webpack-dev-server": "^1.8.2"
   },
   "dependencies": {
-    "babel-core": "^6.9.1",
-    "babel-loader": "^5.4.0",
     "bootstrap": "^3.3.6",
     "es6-promise": "^3.0.2",
     "interact.js": "^1.2.6",
