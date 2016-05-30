@@ -153,15 +153,17 @@ class DaliApp extends Component {
         });
 
         Dali.API.Private.listenEmission(Dali.API.Private.events.render, e => {
+            this.index = 0;
+            let newPluginState = {};
             if (e.detail.isUpdating) {
-                this.index = 0;
-                this.parsePluginContainers(e.detail.content, e.detail.state);
-                this.props.dispatch(updateBox(e.detail.ids.id, e.detail.content, e.detail.state));
+                this.parsePluginContainers(e.detail.content, newPluginState);
+                e.detail.state["__pluginContainerIds"] = newPluginState;
+                this.props.dispatch(updateBox(e.detail.ids.id, e.detail.content, e.detail.toolbar, e.detail.state));
                 this.addDefaultContainerPlugins(e.detail, e.detail.content);
             } else {
                 e.detail.ids.id = ID_PREFIX_BOX + Date.now();
-                this.index = 0;
-                this.parsePluginContainers(e.detail.content, e.detail.state);
+                this.parsePluginContainers(e.detail.content, newPluginState);
+                e.detail.state["__pluginContainerIds"] = newPluginState;
                 this.props.dispatch(addBox(
                     {
                         parent: e.detail.ids.parent,
@@ -252,8 +254,8 @@ class DaliApp extends Component {
             if (obj.attr && !obj.attr['plugin-data-height']) {
                 obj.attr['plugin-data-height'] = obj.attr['plugin-data-initialHeight'] || (obj.attr.hasOwnProperty('plugin-data-resizable') ? 150 : "100%");
             }
-            if (obj.attr && obj.attr['plugin-data-key'] && !state['__pluginContainerIds'][obj.attr['plugin-data-key']]) {
-                state['__pluginContainerIds'][obj.attr['plugin-data-key']] = {
+            if (obj.attr && obj.attr['plugin-data-key'] && !state[obj.attr['plugin-data-key']]) {
+                state[obj.attr['plugin-data-key']] = {
                     id: obj.attr['plugin-data-id'],
                     height: obj.attr['plugin-data-height']
                 }
@@ -280,7 +282,7 @@ class DaliApp extends Component {
                     }
                     Dali.Plugins.get(name).getConfig().callback({
                         parent: eventDetails.ids.id,
-                        container: obj.attr['plugin-data-id'],
+                        container: obj.attr['plugin-data-id']
                     });
                 }
             })

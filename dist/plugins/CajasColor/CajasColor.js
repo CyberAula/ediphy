@@ -8,7 +8,7 @@ Dali.Plugins["CajasColor"] = function (base){
             }
         },
         getToolbar: function(){
-            return {
+            let toolbar = {
                 main: {
                     __name: "Main",
                     accordions: {
@@ -43,8 +43,7 @@ Dali.Plugins["CajasColor"] = function (base){
                                 allEqual: {
                                     __name: 'All equal',
                                     type: 'checkbox',
-                                    value: 'unchecked',
-                                    checked: 'false'
+                                    value: 'unchecked'
                                 }
                             },
                             order: ["number", "allEqual", "color"]
@@ -61,6 +60,16 @@ Dali.Plugins["CajasColor"] = function (base){
                     }
                 }
             }
+            for(let i = 0; i < base.getState().nBoxes; i++) {
+                toolbar.main.accordions.boxes.buttons["box" + i] = {
+                    __name: "Caja " + i,
+                    type: "text",
+                    value: "hola"
+                }
+                toolbar.main.accordions.boxes.order.push("box" + i);
+            }
+
+            return toolbar;
         },
         getInitialState: function(){
             return {nBoxes: 2, colors: ['red', '#f87060']};
@@ -85,7 +94,7 @@ Dali.Plugins["CajasColor"] = function (base){
                 if(value > base.getState().nBoxes){
                     base.setState('colors', base.getState().colors.concat(['blue']));
                 }else if(value < base.getState().nBoxes){
-                    base.setState('colors', base.getState().colors.slice(0, base.getState().colors.length()));
+                    base.setState('colors', base.getState().colors.slice(0, base.getState().colors.length - 1));
                 }
                 base.setState(name, value);
             }

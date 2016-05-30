@@ -196,9 +196,33 @@ function boxesById(state = {}, action = {}) {
                 })
             });
         case UPDATE_BOX:
-            return Object.assign({}, state, {
-                [action.payload.id]: Object.assign({}, state[action.payload.id], {content: action.payload.content})
-            });
+            var newState = Object.assign({}, state);
+            newState[action.payload.id].content = action.payload.content;
+            let sortableContainers = {};
+            let children = [];
+            if(action.payload.state.__pluginContainerIds){
+                for(let containerKey in action.payload.state.__pluginContainerIds){
+                    let container = action.payload.state.__pluginContainerIds[containerKey];
+                    if(!newState[container.id]){
+                        sortableContainers[container.id] = {
+                            children: [],
+                            height: container.height,
+                            colDistribution: [100],
+                            cols: [
+                                [100]
+                            ]
+                        }
+                        children.push(container.id);
+                    }else{
+                        sortableContainers[container.id] = newState[action.payload.id].sortableContainers[container.id];
+                        children.push(container.id);
+                    }
+                }
+            }
+
+            newState[action.payload.id].children = children;
+            newState[action.payload.id].sortableContainers = sortableContainers;
+            return newState;
         case DROP_BOX:
             return Object.assign({}, state, {
                 [action.payload.id]: Object.assign({}, state[action.payload.id], {
@@ -550,103 +574,87 @@ function navItemSelected(state = 0, action = {}) {
     }
 }
 
+function createSortableButtons(controls, width, height){
+    if (!controls.main) {
+        controls.main = {
+            __name: "Main",
+            accordions: {
+                sortable: {
+                    __name: "Sortable",
+                    buttons: {}
+                }
+            }
+        };
+    } else if (!controls.main.accordions.sortable) {
+        controls.main.accordions.sortable = {
+            __name: "Sortable",
+            buttons: {}
+        };
+    }
+    controls.main.accordions.sortable.buttons.width = {
+        __name: 'Width (%)',
+        type: 'number',
+        value: width || 100,
+        min: 0,
+        max: 100,
+        step: 5,
+        autoManaged: true
+    };
+    controls.main.accordions.sortable.buttons.height = {
+        __name: 'Height (%)',
+        type: 'number',
+        value: height || 100,
+        min: 0,
+        max: 100,
+        step: 5,
+        autoManaged: true
+    };
+}
+
+function createAliasButton(controls, alias){
+    if (!controls.other) {
+        controls.other = {
+            __name: "Other",
+            accordions: {
+                extra: {
+                    __name: "Extra",
+                    buttons: {}
+                }
+            }
+        };
+    } else if (!controls.other.accordions.extra) {
+        controls.other.accordions.extra = {
+            __name: "Extra",
+            buttons: {}
+        };
+    }
+    controls.other.accordions.extra.buttons.alias = {
+        __name: 'Alias',
+        type: 'text',
+        value: alias || "",
+        autoManaged: true,
+        isAttribute: true
+    };
+}
+
 function toolbarsById(state = {}, action = {}) {
     switch (action.type) {
         case ADD_BOX:
             let toolbar = {
                 id: action.payload.ids.id,
                 controls: action.payload.toolbar || {},
-                config: action.payload.config,
+                config: action.payload.config || {},
                 state: action.payload.state,
                 showTextEditor: false,
                 isCollapsed: false
             };
 
             if (action.payload.ids.container !== 0) {
-                if (!toolbar.controls) {
-                    toolbar.config = {};
-                    toolbar.controls = {};
-                    toolbar.controls.main = {
-                        __name: "Main",
-                        accordions: {
-                            sortable: {
-                                __name: "Sortable",
-                                buttons: {}
-                            }
-                        }
-                    };
-                } else if (!toolbar.controls.main) {
-                    toolbar.controls.main = {
-                        __name: "Main",
-                        accordions: {
-                            sortable: {
-                                __name: "Sortable",
-                                buttons: {}
-                            }
-                        }
-                    };
-                } else if (!toolbar.controls.main.accordions.sortable) {
-                    toolbar.controls.main.accordions.sortable = {
-                        __name: "Sortable",
-                        buttons: {}
-                    };
-                }
-                toolbar.controls.main.accordions.sortable.buttons.width = {
-                    __name: 'Width (%)',
-                    type: 'number',
-                    value: 100,
-                    min: 0,
-                    max: 100,
-                    step: 5,
-                    autoManaged: true
-                };
-                toolbar.controls.main.accordions.sortable.buttons.height = {
-                    __name: 'Height (%)',
-                    type: 'number',
-                    value: 100,
-                    min: 0,
-                    max: 100,
-                    step: 5,
-                    autoManaged: true
-                };
+                createSortableButtons(toolbar.controls);
             }
 
             if (action.payload.ids.id.indexOf(ID_PREFIX_SORTABLE_BOX) === -1) {
-                if (!toolbar.controls) {
-                    toolbar.config = {};
-                    toolbar.controls = {};
-                    toolbar.controls.other = {
-                        __name: "Other",
-                        accordions: {
-                            extra: {
-                                __name: "Extra",
-                                buttons: {}
-                            }
-                        }
-                    };
-                } else if (!toolbar.controls.other) {
-                    toolbar.controls.other = {
-                        __name: "Other",
-                        accordions: {
-                            extra: {
-                                __name: "Extra",
-                                buttons: {}
-                            }
-                        }
-                    };
-                } else if (!toolbar.controls.other.accordions.extra) {
-                    toolbar.controls.other.accordions.extra = {
-                        __name: "Extra",
-                        buttons: {}
-                    };
-                }
-                toolbar.controls.other.accordions.extra.buttons.alias = {
-                    __name: 'Alias',
-                    type: 'text',
-                    value: '',
-                    autoManaged: true,
-                    isAttribute: true
-                };
+                createAliasButton(toolbar.controls);
             }
 
             if (toolbar.config && toolbar.config.aspectRatioButtonConfig) {
@@ -695,9 +703,47 @@ function toolbarsById(state = {}, action = {}) {
                 [action.payload.id]: Object.assign({}, state[action.payload.id], {isCollapsed: !(state[action.payload.id].isCollapsed)})
             });
         case UPDATE_BOX:
-            return Object.assign({}, state, {
-                [action.payload.id]: Object.assign({}, state[action.payload.id], {state: action.payload.state})
-            });
+            let controls = action.payload.toolbar;
+            for(let tabKey in controls){
+                let accordions = controls[tabKey].accordions;
+                for(let accordionKey in accordions){
+                    let buttons = accordions[accordionKey].buttons;
+                    for(let buttonKey in buttons){
+                        if(state[action.payload.id].controls[tabKey].accordions[accordionKey].buttons[buttonKey]) {
+                            buttons[buttonKey].value = state[action.payload.id].controls[tabKey].accordions[accordionKey].buttons[buttonKey].value;
+                        }
+                    }
+                    if(accordions[accordionKey].accordions){
+                        accordions = accordions[accordionKey].accordions;
+                        for(let accordionKey2 in accordions) {
+
+                            buttons = accordions[accordionKey2].buttons;
+                            for (let buttonKey in buttons) {
+                                if(state[action.payload.id].controls[tabKey].accordions[accordionKey].accordions[accordionKey2].buttons[buttonKey]) {
+                                    buttons[buttonKey].value = state[action.payload.id].controls[tabKey].accordions[accordionKey].accordions[accordionKey2].buttons[buttonKey].value;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            
+            try{
+                createSortableButtons(
+                    controls,
+                    state[action.payload.id].controls.main.accordions.sortable.buttons.width.value,
+                    state[action.payload.id].controls.main.accordions.sortable.buttons.height.value
+                );
+                createAliasButton(
+                    controls,
+                    state[action.payload.id].controls.other.accordions.extra.buttons.alias.value
+                );
+            }catch(e){}
+
+            var newState = Object.assign({}, state);
+            newState[action.payload.id].state = action.payload.state;
+            newState[action.payload.id].controls = controls;
+            return newState;
         case TOGGLE_TEXT_EDITOR:
             return Object.assign({}, state, {
                 [action.payload.caller]: Object.assign({}, state[action.payload.caller], {showTextEditor: action.payload.value})
