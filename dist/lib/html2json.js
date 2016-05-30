@@ -13,9 +13,9 @@
 
   function removeDOCTYPE(html) {
     return html
-      .replace(/<\?xml.*\?>\n/, '')
-      .replace(/<!doctype.*\>\n/, '')
-      .replace(/<!DOCTYPE.*\>\n/, '')
+    .replace(/<\?xml.*\?>\n/, '')
+    .replace(/<!doctype.*\>\n/, '')
+    .replace(/<!DOCTYPE.*\>\n/, '')
   }
 
   global.html2json = function html2json(html) {
@@ -39,30 +39,31 @@
             var value = attr.value;
 
             if(name.startsWith("on")){
-                name = "on" + name.charAt(2).toUpperCase() + name.substring(3);
+              name = "on" + name.charAt(2).toUpperCase() + name.substring(3);
             }
-			if(name === 'style'){
-				var keyPattern = /[-\w]+:[\s]*/g;
-				var valuePattern = /:[\s]*[\w\d\s'"%.,()#]*[;]*/g;
-				
-				var keyMatches = value.match(keyPattern);
-				var valueMatches = value.match(valuePattern);
-				if(!(keyMatches === null || valueMatches === null || keyMatches.length !== valueMatches.length)){
-					value = {};
-					for(var i = 0; i < keyMatches.length; i++){
-						var key = keyMatches[i].trim().replace(':', '');
-						if(CAMEL_CASE_STYLE_KEYS){
-							key = key.replace(/-moz-/g, 'Moz-')
-								.replace(/-ms-/g, 'ms-')
-								.replace(/-o-/g, 'O-')
-								.replace(/-webkit-/g, 'Webkit-')
-								.replace(/-\w/g, function fn(x){return x.replace('-', '').toUpperCase()})
-						}
-						value[key] = valueMatches[i].replace(/[:;'"]*/g, '').trim();
-					}
-				}				
-			}else if (value.match(/ /)) {
-              value = value.split(' ');
+            if(name === 'style'){
+              var keyPattern = /[-\w]+:[\s]*/g;
+              var valuePattern = /:[\s]*[\w\d\s'"%.,()#]*[;]*/g;
+
+              var keyMatches = value.match(keyPattern);
+              var valueMatches = value.match(valuePattern);
+              if(!(keyMatches === null || valueMatches === null || keyMatches.length !== valueMatches.length)){
+               value = {};
+               for(var i = 0; i < keyMatches.length; i++){
+                var key = keyMatches[i].trim().replace(':', '');
+                if(CAMEL_CASE_STYLE_KEYS){
+                 key = key.replace(/-moz-/g, 'Moz-')
+                 .replace(/-ms-/g, 'ms-')
+                 .replace(/-o-/g, 'O-')
+                 .replace(/-webkit-/g, 'Webkit-')
+                 .replace(/-\w/g, function fn(x){return x.replace('-', '').toUpperCase()})
+                }
+                  value[key] = valueMatches[i].replace(/[:;'"]*/g, '').trim();
+                }
+              }				
+            }         
+            if(name === "class"){
+                name = "className";
             }
 
             // if attr already exists
@@ -82,8 +83,8 @@
 
             return pre;
           }, {});
-        }
-        if (unary) {
+}
+if (unary) {
           // if this tag dosen't have end tag
           // like <img src="hoge.png"/>
           // add to parents
@@ -141,10 +142,10 @@
         parent.child.push(node);
       },
     });
-    return results;
-  };
+return results;
+};
 
-  global.json2html = function json2html(json) {
+global.json2html = function json2html(json) {
     // Empty Elements - HTML 4.01
     var empty = ['area', 'base', 'basefont', 'br', 'col', 'frame', 'hr', 'img', 'input', 'isindex', 'link', 'meta', 'param', 'embed'];
 

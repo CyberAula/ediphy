@@ -131,7 +131,7 @@ class DaliApp extends Component{
                                onRowsChanged={(id, parent, column, distribution) => dispatch(changeRows(id, parent, column, distribution))}
                                onBoxResized={(id, width, height) => dispatch(resizeBox(id, width, height))}
                                onTextEditorToggled={(caller, value, text) => dispatch(toggleTextEditor(caller, value, text))}
-                               onToolbarUpdated={(caller, index, name, value) => dispatch(updateToolbar(caller, index, name, value))}
+                               onToolbarUpdated={(id, tab, accordion, name, value) => dispatch(updateToolbar(id, tab, accordion, name, value))}
                                onToolbarCollapsed={(id) => dispatch(collapseToolbar(id))}
                                onBoxDuplicated={(id, parent, container)=> dispatch( duplicateBox( id, parent, container, this.getDescendants(boxes[id]), this.getDuplicatedBoxesIds(this.getDescendants(boxes[id]) ), Date.now()-1 ))}
                                onBoxDeleted={(id, parent, container)=> dispatch(deleteBox(id, parent, container, this.getDescendants(boxes[id]))) } />
@@ -177,7 +177,6 @@ class DaliApp extends Component{
                     e.detail.content,
                     e.detail.toolbar,
                     e.detail.config,
-                    e.detail.sections, 
                     e.detail.state,
                     e.detail.initialParams));
                 this.addDefaultContainerPlugins(e.detail, e.detail.content);
@@ -243,8 +242,8 @@ class DaliApp extends Component{
             if(obj.attr && !obj.attr['plugin-data-id']){
                 obj.attr['plugin-data-id'] = ID_PREFIX_SORTABLE_CONTAINER + id +'000'+ Date.now() + '' + (1+this.index++);
             }
-            if(obj.attr['plugin-data-key'] && !state['pluginContainerIds'][obj.attr['plugin-data-key']]){
-                state['pluginContainerIds'][obj.attr['plugin-data-key']] = obj.attr['plugin-data-id'];
+            if(obj.attr['plugin-data-key'] && !state['__pluginContainerIds'][obj.attr['plugin-data-key']]){
+                state['__pluginContainerIds'][obj.attr['plugin-data-key']] = obj.attr['plugin-data-id'];
             }
         }
         if(obj.attr && obj.attr.class){
@@ -260,7 +259,7 @@ class DaliApp extends Component{
             }
         }
         if(obj.tag && obj.tag === "plugin" && obj.attr['plugin-data-default']) {
-            obj.attr['plugin-data-default'].split(" ").map(name =>{
+            obj.attr['plugin-data-default'].split(" ").map(name => {
                 if(!this.props.boxes[eventDetails.ids.id].sortableContainers[obj.attr['plugin-data-id']]) {
                     if(!Dali.Plugins.get(name)){
                         console.error("Plugin " + name + " does not exist");

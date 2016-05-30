@@ -8,34 +8,62 @@ Dali.Plugins["CajasColor"] = function (base){
             }
         },
         getToolbar: function(){
-            return [
-                {
-                    name: 'nBoxes',
-                    humanName: 'Number of boxes',
-                    type: 'number',
-                    value: 2,
-                    max: 8,
-                    min: 1,
-                    autoManaged: false,
-                    tab: 'Main',
-                    accordion: 'Number'
-                }
-            ]
-        },
-        getSections: function(){
-            return [
-                {
-                    tab: 'Main', 
-                    accordion: ['Number']
+            return {
+                main: {
+                    __name: "Main",
+                    accordions: {
+                        boxes: {
+                            __name: "Boxes",
+                            accordions: {
+                                number: {
+                                    __name: "Number",
+                                    buttons: {
+                                        nBoxes: {
+                                            __name: 'Number of boxes',
+                                            type: 'number',
+                                            value: 2,
+                                            max: 8,
+                                            min: 1,
+                                            autoManaged: false
+                                        }
+                                    }
+                                },
+                                color: {
+                                    __name: "Color",
+                                    buttons: {
+                                        color: {
+                                            __name: "Box color",
+                                            type: "color",
+                                            value: "#ff0000"
+                                        }
+                                    }
+                                }
+                            },
+                            buttons: {
+                                allEqual: {
+                                    __name: 'All equal',
+                                    type: 'checkbox',
+                                    value: 'unchecked',
+                                    checked: 'false'
+                                }
+                            },
+                            order: ["number", "allEqual", "color"]
+                        }
+                    }
                 },
-                {
-                    tab: 'Other', 
-                    accordion: ['Extra']
+                other: {
+                    __name: "Other",
+                    accordions: {
+                        extra: {
+                            __name: "Extra",
+                            buttons: {}
+                        }
+                    }
                 }
-            ];
+            }
         },
         getInitialState: function(){
-            return {nBoxes: 2, colors: ['red', 'blue']};
+            return {nBoxes: 2, colors: ['red', '#f87060']};
         },
         getRenderTemplate: function(state){
             var template = "<div style='width: 100%; height: 100%'>";

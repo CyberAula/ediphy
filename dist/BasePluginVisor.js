@@ -14,6 +14,10 @@ Dali.Visor.Plugin = function(descendant){
                 }
             });
         }
+        if(!name && json.attr && json.attr["className"]){
+                json.attr["class"] = json.attr["className"];
+                delete json.attr["className"];
+        }
         if(json.tag && json.tag === "plugin"){
             if(!state['pluginContainerIds']){
                 state['pluginContainerIds'] = {};

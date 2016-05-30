@@ -1,0 +1,138 @@
+/* Colores para las cajas */
+
+	.verdeoscuro {background-color: #196500;}
+	.cyan {	background-color: #5A90B4;}	
+	.granate {background-color: #760807;}
+	.naranja {background-color: #F88A1B;}
+	.rojo {background-color: #BA2E12;}
+	.azul {background-color: #43517A;}
+	.marron {background-color: #604926;}
+	.rojizo {background-color: #9F0038;}
+	.azulpuro {background-color: #002454;}
+	.verde {background-color: #719100;}
+	.azulverdoso {background-color: #52B2AD;}
+	.violeta {background-color: #8A5B9D;}
+	.marronvivo {background-color: #956939;}
+	.gris {background-color: #A9A9A9;}
+	.amarillo {background-color: #887E00;}
+	
+	
+
+	
+	
+	.capa_verdeoscuro {background-color: #CDE4D6; border: 1px solid #196500;}
+	.capa_cyan {background-color: #ECF2FA;border: 1px solid #5A90B4;}
+	.capa_granate {background-color: #FEECF4; border: 1px solid #760807;}
+	.capa_naranja {background-color: #FDF6D4; border: 1px solid #F88A1B;}
+	.capa_rojo {background-color: #FFE2D8; border: 1px solid #BA2E12;}
+	.capa_azul {background-color: #D9E8F5;border: 1px solid #43517A;}
+	.capa_marron {background-color: #EBEBE1; border: 1px solid #604926;}
+	.capa_rojizo {background-color: #FDE4F3; border: 1px solid #9F0038;}
+	.capa_azulpuro {background-color: #D5E3F5; border: 1px solid #002454;}
+	.capa_verde {background-color: #F1FFD3; border: 1px solid #719100;}
+	.capa_azulverdoso {background-color: #E2EFEC; border: 1px solid #52B2AD;}
+	.capa_violeta {background-color: #F4EBF8; border: 1px solid #8A5B9D;}
+	.capa_marronvivo {background-color: #FBE3C9; border: 1px solid #956939;}
+	.capa_gris {background-color: #F9F9F9; border: 1px solid #A9A9A9;}
+	.capa_amarillo {background-color: #E7E5CA; border: 1px solid #887E00;}
+
+
+/* Tabla css ajustada IE7; no valida w3C */
+
+.cajascolor{
+	width: 100%;
+	float: left;
+	*margin-top: 25px;
+	*margin-right: 20%;
+	*margin-bottom: 50px;
+	*margin-left: 20%;
+}	
+
+.clear { clear:both;}
+
+.tabla_colores {
+	display: table;
+	width: 100%;
+    *width: 99%;
+	margin-top: 1%;
+	margin-right: auto;
+	margin-bottom: 0;
+	margin-left: auto;
+}
+
+.fila_colores {
+  display: table-row;
+  width: auto; 
+  *width: 100%;
+  *float: left;
+}
+
+.celda_colores {
+    display: table-cell;
+    width: 49%;
+	*
+    width: 40%;
+    text-align:center;
+    vertical-align: middle;
+    font-size:small;
+    padding:15px;
+	*
+    float: left;
+	*
+    height:60px;
+    color: #FFF;
+    padding-top: 0;
+}
+
+.celda_colores > span{
+	color: #FFF;
+}
+
+.bloque_colores {
+	padding-left: 2%;
+	padding-right: 2%;
+	margin-top: 1%;
+	float: left;
+	width: 100%;
+	margin-bottom: 1%;
+}
+
+
+.celda3_colores {
+    display: table-cell;
+	width: 32%;
+	*width: 26%;
+	text-align:center;
+	vertical-align: middle;
+	font-size:small;
+	padding:15px;
+	*float: left;
+	*height:100%;
+}
+
+.sep {
+	display: table-cell;
+	width: 1%;
+	*
+	float: left;
+}
+.contenido .tabla_colores a{
+	color: #FFF;
+	text-decoration: none;
+	background-image: url(../images/capa_blanca.gif);
+	background-repeat: no-repeat;
+	background-position: right center;
+	padding-right: 12px;
+}
+
+
+/*Ajustes  cajas colores a  768 y menos */
+@media only screen and (max-width: 768px) {
+
+.cajascolor{
+	width: 100%;
+    margin: 35px auto;
+    padding:0;
+    font-size:1em;
+}
+}
