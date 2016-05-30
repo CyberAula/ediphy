@@ -1,13 +1,14 @@
 import {combineReducers} from 'redux';
 import undoable, {excludeAction} from 'redux-undo';
-
-import {ADD_BOX, SELECT_BOX, MOVE_BOX, RESIZE_BOX, UPDATE_BOX, DELETE_BOX, REORDER_BOX, DROP_BOX, INCREASE_LEVEL,
+import './utils';
+import {ADD_BOX, SELECT_BOX, MOVE_BOX, DUPLICATE_BOX, RESIZE_BOX, UPDATE_BOX, DELETE_BOX, REORDER_BOX, DROP_BOX, INCREASE_LEVEL,
     ADD_SORTABLE_CONTAINER, RESIZE_SORTABLE_CONTAINER, CHANGE_COLS, CHANGE_ROWS,
     ADD_NAV_ITEM, SELECT_NAV_ITEM, EXPAND_NAV_ITEM, REMOVE_NAV_ITEM, REORDER_NAV_ITEM,
     TOGGLE_PAGE_MODAL, TOGGLE_TEXT_EDITOR, TOGGLE_TITLE_MODE,
     CHANGE_DISPLAY_MODE, SET_BUSY, UPDATE_TOOLBAR, COLLAPSE_TOOLBAR, IMPORT_STATE
 } from './actions';
-import {ID_PREFIX_SECTION, ID_PREFIX_PAGE, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_SORTABLE_CONTAINER} from './constants';
+import {ID_PREFIX_SECTION, ID_PREFIX_PAGE, ID_PREFIX_BOX, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_SORTABLE_CONTAINER} from './constants';
+
 
 function boxCreator(state = {}, action = {}) {
     switch (action.type) {
@@ -182,6 +183,25 @@ function boxesById(state = {}, action = {}) {
                     }
                 })
             });
+        case DUPLICATE_BOX:
+            let newState = Object.assign({}, state);
+            let replaced = Object.assign({}, state);
+            let newIds = action.payload.newIds;
+            let newId = ID_PREFIX_BOX+ action.payload.newId; 
+            let count = 0;
+            Object.keys(newIds).map(box => { 
+                replaced = Object.replaceAll( replaced, box, newIds[box] );
+             })
+            replaced = Object.replaceAll( replaced, action.payload.id.substr(3),  action.payload.newId  );//split -
+            let defState = Object.assign({}, newState, replaced);
+            if(action.payload.container != 0){
+                 replaced[action.payload.parent].sortableContainers[action.payload.container].children.push( action.payload.id  )
+            }
+
+            return Object.assign({}, defState, {
+                [newId]: Object.assign({}, defState[newId], {position: {x: 0, y: 0}})
+            });
+          
         case RESIZE_BOX:
             return Object.assign({}, state, {
                 [action.payload.id]: Object.assign({}, state[action.payload.id], {
@@ -319,6 +339,8 @@ function boxSelected(state = -1, action = {}) {
             return action.payload.ids.id;
         case SELECT_BOX:
             return action.payload.id;
+        case DUPLICATE_BOX:
+            return ID_PREFIX_BOX + action.payload.newId;
         case DELETE_BOX:
             return -1;
         case SELECT_NAV_ITEM:
@@ -336,6 +358,14 @@ function boxesIds(state = [], action = {}) {
     switch (action.type) {
         case ADD_BOX:
             return [...state, action.payload.ids.id];
+        case DUPLICATE_BOX:
+            let firstJoin = state;
+            firstJoin.push(ID_PREFIX_BOX +action.payload.newId);
+            let newIds = action.payload.newIds
+            Object.keys(newIds).map((box )=> {
+                firstJoin.push(ID_PREFIX_BOX+newIds[box])
+             });            
+            return   firstJoin  ;
         case DELETE_BOX:
             return state.filter(id => {
                 return id !== action.payload.id && (action.payload.children ? action.payload.children.indexOf(id) === -1 : true);
@@ -552,7 +582,19 @@ function navItemsById(state = {}, action = {}) {
                 }
             }
             return state;
-        case IMPORT_STATE:
+        case DUPLICATE_BOX:
+            if (action.payload.parent.indexOf(ID_PREFIX_PAGE) !== -1 || action.payload.parent.indexOf(ID_PREFIX_SECTION) !== -1){ 
+                let newBoxes = state[action.payload.parent].boxes;    
+                newBoxes.push(ID_PREFIX_BOX +action.payload.newId);
+ 
+                if(action.payload.parent !== 0 ){
+                    return Object.assign({}, state, {
+                        [action.payload.parent]: Object.assign({}, state[action.payload.parent], {
+                            boxes: newBoxes})});
+                }
+            }
+            return state;  
+         case IMPORT_STATE:
             return action.payload.present.navItemsById;
         default:
             return state;
@@ -684,11 +726,25 @@ function toolbarsById(state = {}, action = {}) {
                 }
                 newState[action.payload.ids.parent].controls = parentControls;
             }
+
             return newState;
         case DELETE_BOX:
             var newState = Object.assign({}, state);
             delete newState[action.payload.id];
             return newState;
+ 
+        case DUPLICATE_BOX:
+            var newState = Object.assign({},state);
+            let replaced = Object.assign({},state);
+            let newId = ID_PREFIX_BOX + action.payload.newId;
+            let newIds = action.payload.newIds;
+            let count = 0;
+             Object.keys(newIds).map((box )=> {
+                replaced = Object.assign({},Object.replaceAll( replaced, box, newIds[box] ));
+            });           
+            replaced = Object.assign({},Object.replaceAll( replaced, action.payload.id.substr(3),  action.payload.newId));
+            let defState = Object.assign({},newState, replaced);
+            return  defState;
         case UPDATE_TOOLBAR:
             var newState = Object.assign({}, state);
             let pl = action.payload;

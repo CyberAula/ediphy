@@ -8,3 +8,4 @@ export const BOX_TYPES = {
     SORTABLE: 'sortable',
     NORMAL: 'normal'
 }
+

@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {ActionCreators} from 'redux-undo';
 import {Grid, Col, Row, Button, OverlayTrigger, Popover} from 'react-bootstrap';
 import {addNavItem, selectNavItem, expandNavItem, removeNavItem, reorderNavItem,
-    addBox, selectBox, moveBox, resizeBox, updateBox, deleteBox, reorderBox, dropBox, increaseBoxLevel,
+    addBox, selectBox, moveBox, resizeBox, updateBox, duplicateBox, deleteBox, reorderBox, dropBox, increaseBoxLevel,
     addSortableContainer, resizeSortableContainer, changeCols, changeRows,
     togglePageModal, toggleTextEditor, toggleTitleMode,
     changeDisplayMode, exportStateAsync, importStateAsync, updateToolbar, collapseToolbar} from '../actions';
@@ -56,7 +56,7 @@ class DaliApp extends Component {
                                   if(this.state.pluginTab == categoria && this.state.hideTab == 'show'){
                                       this.setState({ hideTab:'hide'})
                                   } else {
-                                      this.setState({pluginTab:categoria, hideTab:'show'})
+                                      this.setState({ pluginTab: categoria, hideTab:'show' })
                                   }
                               }}/>
                 </Row>
@@ -134,7 +134,9 @@ class DaliApp extends Component {
                                onTextEditorToggled={(caller, value, text) => dispatch(toggleTextEditor(caller, value, text))}
                                onToolbarUpdated={(id, tab, accordion, name, value) => dispatch(updateToolbar(id, tab, accordion, name, value))}
                                onToolbarCollapsed={(id) => dispatch(collapseToolbar(id))}
-                               onBoxDeleted={()=> this.props.dispatch(deleteBox(boxSelected, boxes[boxSelected].parent, boxes[boxSelected].container, this.getDescendants(boxes[boxSelected]))) }/>
+                               onBoxDuplicated={(id, parent, container)=> dispatch( duplicateBox( id, parent, container, this.getDescendants(boxes[id]), this.getDuplicatedBoxesIds(this.getDescendants(boxes[id]) ), Date.now()-1 ))}
+                               onBoxDeleted={(id, parent, container)=> dispatch(deleteBox(id, parent, container, this.getDescendants(boxes[id]))) } />
+
             </Grid>
         );
     }
@@ -211,7 +213,17 @@ class DaliApp extends Component {
         return selected;
     }
 
-    parsePluginContainers(obj, state) {
+    getDuplicatedBoxesIds(descendants){
+      
+      var newIds = {}
+      var date = Date.now();
+      descendants.map(box => {
+          newIds[box.substr(3)] =  date++;
+       })
+      return newIds
+    }
+
+    parsePluginContainers(obj, state){
         if (obj.child) {
             for (let i = 0; i < obj.child.length; i++) {
                 if (obj.child[i].tag && obj.child[i].tag === "plugin") {

@@ -3,6 +3,7 @@ import fetch from 'isomorphic-fetch'
 export const ADD_BOX = 'ADD_BOX';
 export const SELECT_BOX = 'SELECT_BOX';
 export const MOVE_BOX = 'MOVE_BOX';
+export const DUPLICATE_BOX = 'DUPLICATE_BOX';
 export const RESIZE_BOX = 'RESIZE_BOX';
 export const UPDATE_BOX = 'UPDATE_BOX';
 export const DELETE_BOX = 'DELETE_BOX';
@@ -61,6 +62,10 @@ export function selectBox(id){
 
 export function moveBox(id, x, y){
     return {type: MOVE_BOX, payload: {id, x, y}};
+}
+
+export function duplicateBox(id, parent, container, children, newIds, newId){
+    return {type: DUPLICATE_BOX, payload: {id, parent, container, children, newIds, newId }};
 }
 
 export function resizeBox(id, width, height){

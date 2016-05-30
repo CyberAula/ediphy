@@ -21,7 +21,7 @@ export default class PluginToolbar extends Component {
         if (toolbar.config && toolbar.config.needsTextEdition) {
             textButton = (<ButtonInput key={'text'}
                                        onClick={() => {
-                                            this.props.onTextEditorToggled(toolbar.id, !toolbar.showTextEditor, (toolbar.showTextEditor) ? CKEDITOR.instances[this.props.id].getData() : null)}}
+                                            this.props.onTextEditorToggled(toolbar.id, !toolbar.showTextEditor, (toolbar.showTextEditor) ? CKEDITOR.instances[toolbar.id].getData() : null)}}
                                        bsStyle={toolbar.showTextEditor ? 'primary' : 'default'}>
                 Edit text</ButtonInput>);
         }
@@ -33,15 +33,27 @@ export default class PluginToolbar extends Component {
                                          }}>
                 Open config</ButtonInput>);
         }
+
+
         let deletebutton;
         if (this.props.box.id[1] != 's') {
             deletebutton = (<Button key={'delete'}
                                     block
                                     onClick={e => {
-                                        this.props.onBoxDeleted();
+                                        this.props.onBoxDeleted(this.props.box.id, this.props.box.parent, this.props.box.container);
                                         e.stopPropagation();
                                     }}><i className="fa fa-trash-o fa-2x"></i></Button>);
         }
+        let duplicateButton;
+        if (this.props.box.id[1] != 's') {   
+            duplicateButton = (<Button key={'duplicate'}
+                                       block
+                                       onClick={e => {
+                                          this.props.onBoxDuplicated(this.props.box.id, this.props.box.parent, this.props.box.container);
+                                          e.stopPropagation();
+                                       }}><i className="fa fa-files-o fa-2x"></i></Button>);
+        }    
+
         let visible = (Object.keys(toolbar.controls).length !== 0 || this.props.box.children.length !== 0) ? 'visible' : 'hidden';
 
         return (<div id="wrap"
@@ -62,6 +74,7 @@ export default class PluginToolbar extends Component {
                             return (
                                 <Tab key={index} eventKey={index} title={tab.__name}>
                                     {deletebutton}
+                                    {/*duplicateButton*/}
                                     <br />
                                     <PanelGroup>
                                         {Object.keys(tab.accordions).map((accordionKey, index) => {
@@ -135,7 +148,6 @@ export default class PluginToolbar extends Component {
         let props = {
             key: key,
             type: button.type,
-            defaultValue: button.value,
             value: button.value,
             label: button.__name,
             min: button.min,
@@ -185,3 +197,5 @@ export default class PluginToolbar extends Component {
 }
 
  
+
+

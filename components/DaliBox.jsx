@@ -176,10 +176,12 @@ export default class DaliBox extends Component {
                     msTouchAction: 'none',
                     cursor: vis ? 'inherit': 'default' //esto evita que aparezcan los cursores de move y resize cuando la caja no está seleccionada
                 }}>
+
                 {border}
                 {content}
                 <div contentEditable={true} id={box.id} ref={"textarea"} style={textareaStyle}/>
                 <div style={{
+
                     width: "100%",
                     background: "black",
                     top: 0,
@@ -313,8 +315,10 @@ export default class DaliBox extends Component {
 
     componentDidUpdate(prevProps, prevState) {
         let toolbar = this.props.toolbars[this.props.id];
+
         if (toolbar.showTextEditor) {
             this.refs.textarea.focus();
+
         }
         if ((toolbar.showTextEditor !== prevProps.toolbars[this.props.id].showTextEditor) && this.props.boxes[this.props.id].draggable) {
             interact(ReactDOM.findDOMNode(this)).draggable(!toolbar.showTextEditor);
@@ -339,7 +343,9 @@ export default class DaliBox extends Component {
                 this.blurTextarea();
             }.bind(this));
             if (box.text) {
+
                 editor.setData(box.text);
+               
             }
         }
 
