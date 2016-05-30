@@ -36,7 +36,7 @@ export default class DaliTitle extends Component {
                         unidad = text;
                     } else {
                         let nivel = (index > 4 )? 6 : index+2;
-                        return React.createElement("h"+nivel, { style:{ marginTop: '16px' }}, text);
+                        return React.createElement("h"+nivel, { key: index, style:{ marginTop: '16px' }}, text);
                     }    
                 })
             );

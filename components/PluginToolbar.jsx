@@ -135,9 +135,12 @@ export default class PluginToolbar extends Component {
         if(buttonKey === '__aspectRatio'){
             this.aspectRatio = (button.value === "checked");
         }
-        let children = [];
+        let children;
         if (button.options && button.type === "select") {
             button.options.map((option, index) => {
+                if(!children){
+                    children = [];
+                }
                 children.push(React.createElement("option", {key: index, value: option}, option));
             });
         }
@@ -190,7 +193,7 @@ export default class PluginToolbar extends Component {
             }
         }
 
-        return React.createElement(Input, props, button.type == 'select' ? children : null);
+        return React.createElement(Input, props, children);
     }
 }
 

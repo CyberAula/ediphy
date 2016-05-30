@@ -154,7 +154,7 @@ export default class DaliBox extends Component {
                         e.stopPropagation();
                     }
                  }}
-                 onDoubleClick={(e)=>{
+                 onDoubleClick={(e)=> {
                     if(this.props.boxLevelSelected === box.level && box.children.length !== 0){
                         this.props.onBoxLevelIncreased();
                     }
@@ -162,7 +162,8 @@ export default class DaliBox extends Component {
                     if(toolbar.config && toolbar.config.needsTextEdition){
                         this.props.onTextEditorToggled(this.props.id, true);
                         this.refs.textarea.focus();
-                    }*/}}
+                    }*/
+                 }}
                  style={{
                     position: 'absolute',
                     left: box.position.x,
@@ -233,8 +234,10 @@ export default class DaliBox extends Component {
                 props.key = key;
                 if (markup.tag === 'plugin') {
                     component = PluginPlaceholder;
+                    let resizable = markup.attr.hasOwnProperty("plugin-data-resizable");
                     props = Object.assign({}, props, {
                         pluginContainer: markup.attr["plugin-data-id"],
+                        resizable: resizable,
                         parentBox: this.props.boxes[this.props.id],
                         boxes: this.props.boxes,
                         boxSelected: this.props.boxSelected,
@@ -244,6 +247,7 @@ export default class DaliBox extends Component {
                         onBoxLevelIncreased: this.props.onBoxLevelIncreased,
                         onBoxMoved: this.props.onBoxMoved,
                         onBoxResized: this.props.onBoxResized,
+                        onSortableContainerResized: this.props.onSortableContainerResized,
                         onBoxDeleted: this.props.onBoxDeleted,
                         onBoxDropped: this.props.onBoxDropped,
                         onBoxModalToggled: this.props.onBoxModalToggled,
