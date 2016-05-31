@@ -260,16 +260,20 @@ class DaliApp extends Component {
             }
         }
         if (obj.tag && obj.tag === "plugin") {
-            if (obj.attr && !obj.attr['plugin-data-id']) {
-                obj.attr['plugin-data-id'] = ID_PREFIX_SORTABLE_CONTAINER + Date.now() + this.index++;
-            }
-            if (obj.attr && !obj.attr['plugin-data-height']) {
-                obj.attr['plugin-data-height'] = obj.attr['plugin-data-initialHeight'] || (obj.attr.hasOwnProperty('plugin-data-resizable') ? 150 : "100%");
-            }
-            if (obj.attr && obj.attr['plugin-data-key'] && !state[obj.attr['plugin-data-key']]) {
-                state[obj.attr['plugin-data-key']] = {
-                    id: obj.attr['plugin-data-id'],
-                    height: obj.attr['plugin-data-height']
+            if (obj.attr) {
+                if (!obj.attr['plugin-data-id']) {
+                    obj.attr['plugin-data-id'] = ID_PREFIX_SORTABLE_CONTAINER + Date.now() + this.index++;
+                } else {
+
+                }
+                if (!obj.attr['plugin-data-height']) {
+                    obj.attr['plugin-data-height'] = obj.attr['plugin-data-initialHeight'] || (obj.attr.hasOwnProperty('plugin-data-resizable') ? 150 : "100%");
+                }
+                if (obj.attr['plugin-data-key'] && !state[obj.attr['plugin-data-key']]) {
+                    state[obj.attr['plugin-data-key']] = {
+                        id: obj.attr['plugin-data-id'],
+                        height: obj.attr['plugin-data-height']
+                    }
                 }
             }
         }
@@ -286,8 +290,8 @@ class DaliApp extends Component {
             }
         }
         if (obj.tag && obj.tag === "plugin" && obj.attr['plugin-data-default']) {
-            obj.attr['plugin-data-default'].split(" ").map(name => {
-                if (this.props.boxes[eventDetails.ids.id].sortableContainers[obj.attr['plugin-data-id']]) {
+            if (this.props.boxes[eventDetails.ids.id].sortableContainers[obj.attr['plugin-data-id']].children.length === 0) {
+                obj.attr['plugin-data-default'].split(" ").map(name => {
                     if (!Dali.Plugins.get(name)) {
                         console.error("Plugin " + name + " does not exist");
                         return;
@@ -296,8 +300,8 @@ class DaliApp extends Component {
                         parent: eventDetails.ids.id,
                         container: obj.attr['plugin-data-id']
                     });
-                }
-            })
+                })
+            }
         }
     }
 }

@@ -189,6 +189,7 @@ export default class PluginToolbar extends Component {
                 if (!button.autoManaged) {
                     button.callback(state, buttonKey, value, id);
                 }
+                e.stopPropagation();
             }
         }
 

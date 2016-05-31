@@ -223,7 +223,7 @@ function boxesById(state = {}, action = {}) {
             if(action.payload.state.__pluginContainerIds){
                 for(let containerKey in action.payload.state.__pluginContainerIds){
                     let container = action.payload.state.__pluginContainerIds[containerKey];
-                    if(!newState[container.id]){
+                    if(!newState[action.payload.id].sortableContainers[container.id]){
                         sortableContainers[container.id] = {
                             children: [],
                             height: container.height,
