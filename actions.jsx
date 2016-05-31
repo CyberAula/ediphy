@@ -72,8 +72,8 @@ export function resizeBox(id, width, height){
     return {type: RESIZE_BOX, payload: {id, width, height}};
 }
 
-export function updateBox(id, content, state){
-    return {type: UPDATE_BOX, payload: {id, content, state}};
+export function updateBox(id, content, toolbar, state){
+    return {type: UPDATE_BOX, payload: {id, content, toolbar, state}};
 }
 
 export function deleteBox(id, parent, container, children){
