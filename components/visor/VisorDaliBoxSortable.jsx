@@ -8,7 +8,7 @@ export default class VisorDaliBoxSortable extends Component{
     render(){
         let box = this.props.boxes[this.props.id];
         return(
-        <div>
+        <div  >
             <div style={{position: 'relative'}}>
                 {box.children.map((idContainer, index)=>{
                     let container = box.sortableContainers[idContainer];

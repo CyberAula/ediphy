@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Input, ButtonInput, Button, Nav, NavItem, PanelGroup, NavDropdown, MenuItem, Accordion, Panel, Tabs, Tab} from 'react-bootstrap';
+import {Input, ButtonInput, Button, PanelGroup, Accordion, Panel, Tabs, Tab} from 'react-bootstrap';
 import ReactDOM from 'react-dom';
 import GridConfigurator from '../components/GridConfigurator.jsx';
 
@@ -9,6 +9,7 @@ export default class PluginToolbar extends Component {
         this.state = {
             open: false
         };
+        this.aspectRatio = false;
     }
 
     render() {
@@ -16,13 +17,11 @@ export default class PluginToolbar extends Component {
             return <div></div>;
         }
         let toolbar = this.props.toolbars[this.props.box.id];
-        let options;
-        let aspectRatio = false;
         let textButton;
         if (toolbar.config && toolbar.config.needsTextEdition) {
             textButton = (<ButtonInput key={'text'}
                                        onClick={() => {
-                                            this.props.onTextEditorToggled(toolbar.id, !toolbar.showTextEditor, (toolbar.showTextEditor) ? CKEDITOR.instances[this.props.id].getData() : null)}}
+                                            this.props.onTextEditorToggled(toolbar.id, !toolbar.showTextEditor, (toolbar.showTextEditor) ? CKEDITOR.instances[toolbar.id].getData() : null)}}
                                        bsStyle={toolbar.showTextEditor ? 'primary' : 'default'}>
                 Edit text</ButtonInput>);
         }
@@ -34,15 +33,27 @@ export default class PluginToolbar extends Component {
                                          }}>
                 Open config</ButtonInput>);
         }
+
+
         let deletebutton;
         if (this.props.box.id[1] != 's') {
             deletebutton = (<Button key={'delete'}
                                     block
                                     onClick={e => {
-                                        this.props.onBoxDeleted();
+                                        this.props.onBoxDeleted(this.props.box.id, this.props.box.parent, this.props.box.container);
                                         e.stopPropagation();
                                     }}><i className="fa fa-trash-o fa-2x"></i></Button>);
         }
+        let duplicateButton;
+        if (this.props.box.id[1] != 's') {   
+            duplicateButton = (<Button key={'duplicate'}
+                                       block
+                                       onClick={e => {
+                                          this.props.onBoxDuplicated(this.props.box.id, this.props.box.parent, this.props.box.container);
+                                          e.stopPropagation();
+                                       }}><i className="fa fa-files-o fa-2x"></i></Button>);
+        }    
+
         let visible = (Object.keys(toolbar.controls).length !== 0 || this.props.box.children.length !== 0) ? 'visible' : 'hidden';
 
         return (<div id="wrap"
@@ -63,79 +74,18 @@ export default class PluginToolbar extends Component {
                             return (
                                 <Tab key={index} eventKey={index} title={tab.__name}>
                                     {deletebutton}
+                                    {/*duplicateButton*/}
                                     <br />
                                     <PanelGroup>
                                         {Object.keys(tab.accordions).map((accordionKey, index) => {
                                             let accordion = tab.accordions[accordionKey];
-                                            return (
-                                                <Panel key={index} className="panelPluginToolbar" collapsible
-                                                       header={accordion.__name}>
-                                                    {Object.keys(accordion.buttons).map((buttonKey, index) => {
-                                                        let button = accordion.buttons[buttonKey];
-                                                        if (button.list) {
-                                                            options = (<datalist key={button.list} id={button.list}>
-                                                                {button.options.map((option, index) => {
-                                                                    return (<option key={index} value={option}/>);
-                                                                })}</datalist>);
-                                                        }
-                                                        if (button.name == 'aspectRatio' && button.value == 'checked') {
-                                                            aspectRatio = true;
-                                                        }
-                                                        return (
-                                                            <Input key={index}
-                                                                   type={button.type}
-                                                                   defaultValue={button.value}
-                                                                   value={button.value}
-                                                                   label={button.__name}
-                                                                   min={button.min}
-                                                                   max={button.max}
-                                                                   step={button.step}
-                                                                   list={button.list}
-                                                                   checked={button.value=='checked'}
-                                                                   style={{width: '100%'}}
-                                                                   onChange={e => {
-                                                                let value = e.target.value;
-                                                                if(buttonKey == 'width'){
-                                                                    if(!aspectRatio){
-                                                                        this.props.onBoxResized(this.props.box.id, value + '%', this.props.box.height);
-                                                                        this.props.onToolbarUpdated(toolbar.id, tabKey, accordionKey, buttonKey, value);
-                                                                    } else {
-                                                                        let newHeight = (parseFloat(this.props.box.height) * value / parseFloat(this.props.box.width));
-                                                                        this.props.onBoxResized(this.props.box.id, value + '%', newHeight + '%');
-                                                                        this.props.onToolbarUpdated(toolbar.id, tabKey, accordionKey, buttonKey, value);
-                                                                        this.props.onToolbarUpdated(toolbar.id, tabKey, accordionKey, 'height', newHeight);
-                                                                    }
-                                                                }
-                                                                if(buttonKey == 'height'){
-                                                                    if(!aspectRatio){
-                                                                        this.props.onBoxResized(this.props.box.id, this.props.box.width, value + '%');
-                                                                        this.props.onToolbarUpdated(toolbar.id, tabKey, accordionKey, buttonKey, value);
-                                                                    } else {
-                                                                        let newWidth = (parseFloat(this.props.box.width) * value / parseFloat(this.props.box.height))
-                                                                        this.props.onBoxResized(this.props.boxSelected, newWidth + '%', value + '%' );
-                                                                        this.props.onToolbarUpdated(toolbar.id, tabKey, accordionKey, buttonKey, value);
-                                                                        this.props.onToolbarUpdated(toolbar.id, tabKey, accordionKey, 'width', newWidth);
-                                                                    }
-                                                                }
-                                                                if(button.type === 'number'){
-                                                                    value = parseFloat(value) || 0;
-                                                                }
-                                                                if(button.type === 'checkbox'){
-                                                                    value = (button.value=='checked') ? 'unchecked' : 'checked';
-                                                                }
-                                                                this.props.onToolbarUpdated(toolbar.id, tabKey, accordionKey, buttonKey, value);
-                                                                if(!button.autoManaged){
-                                                                    button.callback(toolbar.state, buttonKey, value, toolbar.id);
-                                                                }
-                                                           }}/>);
-                                                    })}
-                                                </Panel>
-                                            );
+                                            return this.renderAccordion(accordion, tabKey, [accordionKey], toolbar.state, index);
                                         })}
                                         {this.props.box.children.map((id, index) => {
                                             let container = this.props.box.sortableContainers[id];
                                             if (tabKey === "main") {
-                                                return (<Panel key={id} className="panelPluginToolbar" collapsible header={'Caja '+ (index + 1)}>
+                                                return (<Panel key={id} className="panelPluginToolbar" collapsible
+                                                               header={'Caja '+ (index + 1)}>
                                                     <GridConfigurator id={id}
                                                                       parentId={this.props.box.id}
                                                                       container={container}
@@ -145,7 +95,6 @@ export default class PluginToolbar extends Component {
                                             }
                                         })}
                                     </PanelGroup>
-                                    {options}
                                     {textButton}
                                     {configButton}
                                 </Tab>
@@ -156,6 +105,97 @@ export default class PluginToolbar extends Component {
             </div>
         </div>);
     }
+
+    renderAccordion(accordion, tabKey, accordionKeys, state, key) {
+        let props = {key: key, className: "panelPluginToolbar", collapsible: true, header: accordion.__name};
+        let children = [];
+
+        if (accordion.order) {
+            for (let i = 0; i < accordion.order.length; i++) {
+                if (accordion.accordions[accordion.order[i]]) {
+                    children.push(this.renderAccordion(accordion.accordions[accordion.order[i]], tabKey, [accordionKeys[0], accordion.order[i]], state, i));
+                } else if (accordion.buttons[accordion.order[i]]) {
+                    children.push(this.renderButton(accordion, tabKey, accordionKeys, accordion.order[i], state, i));
+                } else {
+                    console.error("Element %s not defined", accordion.order[i]);
+                }
+            }
+        }else{
+            let buttonKeys = Object.keys(accordion.buttons);
+            for (let i = 0; i < buttonKeys.length; i++) {
+                children.push(this.renderButton(accordion, tabKey, accordionKeys, buttonKeys[i], state, i));
+            }
+        }
+
+        return React.createElement(Panel, props, children);
+    }
+
+    renderButton(accordion, tabKey, accordionKeys, buttonKey, state, key) {
+        let button = accordion.buttons[buttonKey];
+        if(buttonKey === '__aspectRatio'){
+            this.aspectRatio = (button.value === "checked");
+        }
+        let children;
+        if (button.options && button.type === "select") {
+            button.options.map((option, index) => {
+                if(!children){
+                    children = [];
+                }
+                children.push(React.createElement("option", {key: index, value: option}, option));
+            });
+        }
+        let id = this.props.box.id;
+        let props = {
+            key: key,
+            type: button.type,
+            value: button.value,
+            label: button.__name,
+            min: button.min,
+            max: button.max,
+            step: button.step,
+            className: button.class,
+            style: {width: '100%'},
+            onChange: e => {
+                let value = e.target.value;
+                if (buttonKey == 'width') {
+                    if (!this.aspectRatio) {
+                        this.props.onBoxResized(id, value + '%', this.props.box.height);
+                        this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, value);
+                    } else {
+                        let newHeight = (parseFloat(this.props.box.height) * value / parseFloat(this.props.box.width));
+                        this.props.onBoxResized(id, value + '%', newHeight + '%');
+                        this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, value);
+                        this.props.onToolbarUpdated(id, tabKey, accordionKeys, 'height', newHeight);
+                    }
+                }
+                if (buttonKey == 'height') {
+                    if (!this.aspectRatio) {
+                        this.props.onBoxResized(id, this.props.box.width, value + '%');
+                        this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, value);
+                    } else {
+                        let newWidth = (parseFloat(this.props.box.width) * value / parseFloat(this.props.box.height));
+                        this.props.onBoxResized(id, newWidth + '%', value + '%');
+                        this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, value);
+                        this.props.onToolbarUpdated(id, tabKey, accordionKeys, 'width', newWidth);
+                    }
+                }
+                if (button.type === 'number') {
+                    value = parseFloat(value) || 0;
+                }
+                if (button.type === 'checkbox') {
+                    value = (button.value === 'checked') ? 'unchecked' : 'checked';
+                }
+                this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, value);
+                if (!button.autoManaged) {
+                    button.callback(state, buttonKey, value, id);
+                }
+            }
+        }
+
+        return React.createElement(Input, props, children);
+    }
 }
 
  
+
+

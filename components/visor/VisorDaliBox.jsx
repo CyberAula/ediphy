@@ -75,7 +75,7 @@ export default class VisorDaliBox extends Component{
                         pluginContainer: markup.attr["plugin-data-id"],
                         parentBox: this.props.boxes[this.props.id],
                         boxes: this.props.boxes,
-                        toolbars: this.props.toolbars,
+                        toolbars: this.props.toolbars
                     });
                 }else{
                     component = markup.tag;
