@@ -7,72 +7,98 @@ Dali.Plugins["CajasColorBis"] = function (base){
                 icon: 'fa-object-ungroup'
             }
         },
-        getToolbar: function(state){
-            return [
-                {
-                    name: 'nBoxes',
-                    humanName: 'Number of boxes',
-                    type: 'number',
-                    value: 2,
-                    max: 8,
-                    min: 1,
-                    autoManaged: false,
-                    tab: 'Main',
-                    accordion: 'Number'
-                },
-                   {
-                    name: 'wayHorizontal',
-                    humanName: 'WayHorizontal',
-                    type: 'number',
-                    value: 1,
-                    max: 1,
-                    min: 0,
-                    autoManaged: false,
-                    tab: 'Main',
-                    accordion: 'WayHorizontal'
-                },
-                   {
-                    name: 'image',
-                    humanName: 'Image',
-                    type: 'number',
-                    value: 1,
-                    max: 1,
-                    min: 0,
-                    autoManaged: false,
-                    tab: 'Main',
-                    accordion: 'Image'
+        getToolbar: function(){
+            console.log(base.getState());
+
+            var toolBar = {
+                main: {
+                    __name: "Main",
+                    accordions:{
+                        pepe: {
+                            __name: "sub",
+                            buttons: {},
+                            accordions:{
+                                juan:{
+                                    __name: "bravo",
+                                    buttons:{
+                                        __name: "subAcr",
+                                        type: 'number',
+                                        value: 2,
+                                        max: 8,
+                                        min: 1,
+                                        autoManaged: false
+                                    }
+                                }
+                            }   
+                        },
+                        number: {
+                            __name: "Number",
+                            buttons:{
+                                nBoxes:{
+                                    __name: "Number of boxes",
+                                    type: 'number',
+                                    value: 2,
+                                    max: 8,
+                                    min: 1,
+                                    autoManaged: false
+                                }
+                            }
+                        },
+                        style: {
+                            __name: "Estilo CajasColor",
+                            buttons:{
+                                wayHorizontal:{
+                                    __name: "Dirección",
+                                    type: 'number',
+                                    value: 1,
+                                    max: 1,
+                                    min: 0,
+                                    autoManaged: false
+                                },
+                                image:{
+                                    __name: "Imagen",
+                                    type: 'number',
+                                    value: 1,
+                                    max: 1,
+                                    min: 0,
+                                    autoManaged: false 
+                                },
+                                rounded:{
+                                    __name: "Redondeado",
+                                    type: 'number',
+                                    value: 0,
+                                    max: 1,
+                                    min: 0,
+                                    autoManaged: false 
+                                }
+                            }
+                        }
+                    }
                 }
-                ,
-                   {
-                    name: 'rounded',
-                    humanName: 'rounded',
-                    type: 'number',
-                    value: 0,
-                    max: 1,
-                    min: 0,
-                    autoManaged: false,
-                    tab: 'Main',
-                    accordion: 'Rounded'
+            }
+            /*var StyleCajas = {}
+            StyleCajas.__name = "Estilo de los botones";
+            var buttonsSC = {};
+            var objAux;
+*/
+           toolBar.main.accordions.buttonStyle = {__name: "Estilo botones", buttons: {}};
+           for(var i = 0; i < base.getState().nBoxes; i++){
+                toolBar.main.accordions.buttonStyle.buttons["box" + i] = {
+                    __name: "caja" + i,
+                    type: "text",
+                    value: "aa",
+                     isAttribute: true,
+                     autoManaged: false 
                 }
-            ]
-        },
-        getSections: function(){
-            return [
-                {
-                    tab: 'Main', 
-                    accordion: ['Number','WayHorizontal','Image','Rounded']
-                },
-                {
-                    tab: 'Other', 
-                    accordion: ['Extra']
-                }
-            ];
+           }
+console.log(toolBar);
+            return toolBar;
         },
         getInitialState: function(){//el color de las cajas es el capa_{colors[i]}
             return {nBoxes: 2, colors: ['azulverdoso', 'azulpuro'], wayHorizontal: true, image: true, rounded: false};
         },
         getRenderTemplate: function(state){
-            var template = "<div class='cajascolor' style='height: 100%'>";
+            var template = "<div class='cajascolor'>";
             var disp = 'block';
             if(state.image){
                 template += "<div style='height: 100%'><plugin plugin-data-key='image' plugin-data-default='BasicImage' /></div>";
@@ -112,7 +138,7 @@ Dali.Plugins["CajasColorBis"] = function (base){
             return template;
         },
         handleToolbar: function(name, value){
-
+            console.log(value);
             switch(name){
                 case 'nBoxes':
 
@@ -141,7 +167,18 @@ Dali.Plugins["CajasColorBis"] = function (base){
                 case 'rounded':
                     base.setState(name, !!value);
                     break;
+                case /box/.test(name):
+                    console.log(name);
+                    var idB = parseInt(name.slice(4));
+                    var newColors = base.getState().colors;
+                    newColors[idB] = value;
+                    console.log(newColors);
+                    console.log(value);
+                    base.setState('colors', newColors);
+                    break;
+                        
                 default:
+                console.log(name);
 
             }
          

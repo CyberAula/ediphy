@@ -46,7 +46,15 @@
 	*margin-right: 20%;
 	*margin-bottom: 50px;
 	*margin-left: 20%;
+}
+.cajascolorEd{
+	width: 100%;
+	*margin-top: 25px;
+	*margin-right: 20%;
+	*margin-bottom: 50px;
+	*margin-left: 20%;
 }	
+
 
 .clear { clear:both;}
 
@@ -67,6 +75,12 @@
   *float: left;
 }
 
+.fila_coloresEd {
+  display: table-row;
+  width: auto; 
+  *width: 100%;
+}
+
 .celda_colores {
     display: table-cell;
     width: 49%;
@@ -83,6 +97,21 @@
     color: #FFF;
     padding-top: 0;
 }
+.celda_coloresEd {
+    display: table-cell;
+    width: 49%;
+	*
+    width: 40%;
+    text-align:center;
+    vertical-align: middle;
+    font-size:small;
+    padding:15px;
+	*
+    height:60px;
+    color: #FFF;
+    padding-top: 0;
+}
+
 
 .celda_colores > span{
 	color: #FFF;
@@ -93,6 +122,13 @@
 	padding-right: 2%;
 	margin-top: 1%;
 	float: left;
+	width: 100%;
+	margin-bottom: 1%;
+}
+.bloque_coloresEd {
+	padding-left: 2%;
+	padding-right: 2%;
+	margin-top: 1%;
 	width: 100%;
 	margin-bottom: 1%;
 }

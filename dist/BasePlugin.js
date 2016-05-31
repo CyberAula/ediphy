@@ -154,8 +154,9 @@ Dali.Plugin = function(){
         update: function(oldState, name, value, sender){
             state = oldState;
             id = sender;
-            if(descendant.handleToolbar)
+            if(descendant.handleToolbar){
                 descendant.handleToolbar(name, value);
+            }
             this.render(true);
         },
         setState: function(key, value) {
