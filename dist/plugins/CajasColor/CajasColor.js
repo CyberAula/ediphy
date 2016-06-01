@@ -45,9 +45,15 @@ Dali.Plugins["CajasColor"] = function (base){
                                     type: 'checkbox',
                                     value: 'unchecked',
                                     checked: 'false'
+                                },
+                                radios: {
+                                    __name: 'Type',
+                                    type: 'radio',
+                                    value: 'first',
+                                    options: ['first','second','third']
                                 }
                             },
-                            order: ["number", "allEqual", "color"]
+                            order: ["number", "allEqual", "color", "radios"]
                         }
                     }
                 },

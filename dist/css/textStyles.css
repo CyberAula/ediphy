@@ -2165,7 +2165,7 @@ table.tabla_finalizacion { /* Incluir - Se aplica a tablas */
 	width:40%;
 	height:8px;
 	display:block;
-	float;left;
+	/*float:left;*/
 	border:1px #666 solid;
 	background-color:#ccc;
 }

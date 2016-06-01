@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Input, ButtonInput, Button, PanelGroup, Accordion, Panel, Tabs, Tab} from 'react-bootstrap';
+import {Input, ButtonInput, FormControl, FormGroup, Radio, ControlLabel, Checkbox,  Button, PanelGroup, Accordion, Panel, Tabs, Tab} from 'react-bootstrap';
 import ReactDOM from 'react-dom';
 import GridConfigurator from '../components/GridConfigurator.jsx';
 
@@ -7,9 +7,16 @@ export default class PluginToolbar extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            open: false
+            open: false,
+            activeKey: 0
         };
         this.aspectRatio = false;
+    }
+
+    handleSelect(key) {
+      console.log('handle',key)
+      this.setState({activeKey : key});
+      console.log(this.state)
     }
 
     render() {
@@ -19,19 +26,19 @@ export default class PluginToolbar extends Component {
         let toolbar = this.props.toolbars[this.props.box.id];
         let textButton;
         if (toolbar.config && toolbar.config.needsTextEdition) {
-            textButton = (<ButtonInput key={'text'}
-                                       onClick={() => {
-                                            this.props.onTextEditorToggled(toolbar.id, !toolbar.showTextEditor, (toolbar.showTextEditor) ? CKEDITOR.instances[toolbar.id].getData() : null)}}
-                                       bsStyle={toolbar.showTextEditor ? 'primary' : 'default'}>
-                Edit text</ButtonInput>);
+            textButton = (<Button key={'text'}
+                                  onClick={() => {
+                                    this.props.onTextEditorToggled(toolbar.id, !toolbar.showTextEditor, (toolbar.showTextEditor) ? CKEDITOR.instances[toolbar.id].getData() : null)}}
+                                  bsStyle={toolbar.showTextEditor ? 'primary' : 'default'}>
+                Edit text</Button>);
         }
         let configButton;
         if (toolbar.config && toolbar.config.needsConfigModal) {
-            configButton = (<ButtonInput key={'config'}
-                                         onClick={() => {
-                                            Dali.Plugins.get(toolbar.config.name).openConfigModal(true, toolbar.state, toolbar.id)
-                                         }}>
-                Open config</ButtonInput>);
+            configButton = (<Button key={'config'}
+                                    onClick={() => {
+                                      Dali.Plugins.get(toolbar.config.name).openConfigModal(true, toolbar.state, toolbar.id)
+                                    }}>
+                Open config</Button>);
         }
 
 
@@ -68,14 +75,15 @@ export default class PluginToolbar extends Component {
             </div>
             <div id="tools" style={{width: this.state.open? '250px':'0px'}} className="toolbox">
                 <div id="insidetools">
-                    <Tabs defaultActiveKey={0} animation={false}>
+ 
+                    <Tabs ref="tabs" activeKey={this.state.activeKey} animation={false} onSelect={(key) => this.handleSelect(key)} id="controlledTabs" >
                         {Object.keys(toolbar.controls).map((tabKey, index) => {
                             let tab = toolbar.controls[tabKey];
                             return (
-                                <Tab key={index} eventKey={index} title={tab.__name}>
+                                <Tab key={index} eventKey={index} id={"tab"+index}  title={tab.__name}>
                                     {deletebutton}
                                     {/*duplicateButton*/}
-                                    <br />
+                                    <br/>
                                     <PanelGroup>
                                         {Object.keys(tab.accordions).map((accordionKey, index) => {
                                             let accordion = tab.accordions[accordionKey];
@@ -101,7 +109,7 @@ export default class PluginToolbar extends Component {
                             );
                         })}
                     </Tabs>
-                </div>
+                 </div>
             </div>
         </div>);
     }
@@ -136,14 +144,6 @@ export default class PluginToolbar extends Component {
             this.aspectRatio = (button.value === "checked");
         }
         let children;
-        if (button.options && button.type === "select") {
-            button.options.map((option, index) => {
-                if(!children){
-                    children = [];
-                }
-                children.push(React.createElement("option", {key: index, value: option}, option));
-            });
-        }
         let id = this.props.box.id;
         let props = {
             key: key,
@@ -156,44 +156,88 @@ export default class PluginToolbar extends Component {
             className: button.class,
             style: {width: '100%'},
             onChange: e => {
-                let value = e.target.value;
-                if (buttonKey == 'width') {
-                    if (!this.aspectRatio) {
-                        this.props.onBoxResized(id, value + '%', this.props.box.height);
-                        this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, value);
-                    } else {
-                        let newHeight = (parseFloat(this.props.box.height) * value / parseFloat(this.props.box.width));
-                        this.props.onBoxResized(id, value + '%', newHeight + '%');
-                        this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, value);
-                        this.props.onToolbarUpdated(id, tabKey, accordionKeys, 'height', newHeight);
-                    }
-                }
-                if (buttonKey == 'height') {
-                    if (!this.aspectRatio) {
-                        this.props.onBoxResized(id, this.props.box.width, value + '%');
-                        this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, value);
-                    } else {
-                        let newWidth = (parseFloat(this.props.box.width) * value / parseFloat(this.props.box.height));
-                        this.props.onBoxResized(id, newWidth + '%', value + '%');
-                        this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, value);
-                        this.props.onToolbarUpdated(id, tabKey, accordionKeys, 'width', newWidth);
-                    }
-                }
-                if (button.type === 'number') {
-                    value = parseFloat(value) || 0;
-                }
-                if (button.type === 'checkbox') {
-                    value = (button.value === 'checked') ? 'unchecked' : 'checked';
-                }
-                this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, value);
-                if (!button.autoManaged) {
-                    button.callback(state, buttonKey, value, id);
-                }
-            }
-        }
+              let value = e.target.value;
+              if (buttonKey == 'width') {
+                  if (!this.aspectRatio) {
+                      this.props.onBoxResized(id, value + '%', this.props.box.height);
+                      this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, value);
+                  } else {
+                      let newHeight = (parseFloat(this.props.box.height) * value / parseFloat(this.props.box.width));
+                      this.props.onBoxResized(id, value + '%', newHeight + '%');
+                      this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, value);
+                      this.props.onToolbarUpdated(id, tabKey, accordionKeys, 'height', newHeight);
+                  }
+              }
+              if (buttonKey == 'height') {
+                  if (!this.aspectRatio) {
+                    this.props.onBoxResized(id, this.props.box.width, value + '%');
+                    this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, value);
+                  } else {
+                    let newWidth = (parseFloat(this.props.box.width) * value / parseFloat(this.props.box.height));
+                    this.props.onBoxResized(id, newWidth + '%', value + '%');
+                    this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, value);
+                    this.props.onToolbarUpdated(id, tabKey, accordionKeys, 'width', newWidth);
+                  }
+              }
+              if (button.type === 'number') {
+                value = parseFloat(value) || 0;
+              }
+              if (button.type === 'checkbox') {
+                value = (button.value === 'checked') ? 'unchecked' : 'checked';
+              }
+              if (button.type === 'radio') {
+                value = button.options[value]
 
-        return React.createElement(Input, props, children);
+              }
+              this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, value);
+
+              if (!button.autoManaged) {
+                button.callback(state, buttonKey, value, id);
+              }
+          }
+        }
+        if (button.options && button.type === "select") {
+          button.options.map((option, index) => {
+              if(!children){
+                  children = [];
+              }
+              children.push(React.createElement("option", {key: index, value: option}, option));
+          });
+          props.componentClass = "select";
+          return React.createElement( FormGroup,{}, [ React.createElement(ControlLabel, {}, button.__name),
+                                                      React.createElement(FormControl, props, children)]);
+
+        } else if (button.options && button.type === 'checkbox') {
+          return React.createElement(FormGroup, {},
+                                     React.createElement(Checkbox, props,  button.__name));
+
+        } else if (button.options && button.type === 'radio') {
+           button.options.map((radio, index) => {
+              if(!children){
+                  children = [];
+                  children.push(React.createElement(ControlLabel, {}, button.__name));
+              }
+              children.push(React.createElement(Radio, { key: index, 
+                                                         name: button.__name, 
+                                                         value: index, 
+                                                         id: (button.__name + radio), 
+                                                         checked: (button.value == button.options[index]) }, radio));
+          });
+          return React.createElement(FormGroup, props, children);
+
+        } else {
+          return React.createElement(FormGroup, {}, [React.createElement(ControlLabel, {}, button.__name),
+                                                     React.createElement(FormControl, props, null)]);
+
+        }
+       
     }
+    componentWillUpdate(nextProps, nextState){
+      if (this.props.box && nextProps.box && this.props.box.id != nextProps.box.id){
+        nextState.activeKey = 0;
+      }
+    }
+
 }
 
  
