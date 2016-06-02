@@ -325,7 +325,7 @@ export default class DaliBox extends Component {
             interact(ReactDOM.findDOMNode(this)).draggable(!toolbar.showTextEditor);
         }
 
-        interact(ReactDOM.findDOMNode(this)).resizable({preserveAspectRatio: this.checkAspectRatio()})
+        interact(ReactDOM.findDOMNode(this)).resizable({preserveAspectRatio: this.checkAspectRatio()});
         
         if (this.props.boxes[this.props.id].level > this.props.boxLevelSelected) {
             interact(ReactDOM.findDOMNode(this)).draggable({enabled: false});
