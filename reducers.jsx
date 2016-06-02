@@ -292,15 +292,6 @@ function boxesById(state = {}, action = {}) {
             return Object.assign({}, state, {
                 [action.payload.parent]: Object.assign({}, state[action.payload.parent], {children: newChildren})
             });
-        case TOGGLE_TEXT_EDITOR:
-            if (action.payload.text) {
-                return Object.assign({}, state, {
-                    [action.payload.caller]: Object.assign({}, state[action.payload.caller], {
-                        text: action.payload.text
-                    })
-                });
-            }
-            return state;
         case IMPORT_STATE:
             return action.payload.present.boxesById;
         default:

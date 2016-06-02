@@ -6,3 +6,4 @@ dist/bundle.js
 webpack.config.js~
 *.orig
 .sass-cache
+dali_server/config.json

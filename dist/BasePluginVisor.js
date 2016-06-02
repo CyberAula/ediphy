@@ -58,9 +58,17 @@ Dali.Visor.Plugin = function (descendant) {
             var plugin, template;
             if (!Dali.Visor.Plugins[name]) {
                 plugin = Dali.Plugins[name]();
-                template = plugin.getRenderTemplate(state).replace(/[$]dali[$][.]/g, "");
             } else {
                 plugin = Dali.Visor.Plugins[name]();
+            }
+            if (!plugin.getRenderTemplate) {
+                if (state.__text) {
+                    template = state.__text.replace(/[$]dali[$][.]/g, "");
+                } else {
+                    template = "<div></div>";
+                    console.error("Plugin %s has not defined getRenderTemplate", name);
+                }
+            } else {
                 template = plugin.getRenderTemplate(state).replace(/[$]dali[$][.]/g, "");
             }
             if (template.indexOf("pointer-events") !== -1) {
@@ -96,11 +104,21 @@ Dali.Visor.Plugin = function (descendant) {
         },
         render(state, name){
             var json;
+            var plugin;
             if (!Dali.Visor.Plugins[name]) {
-                json = html2json(Dali.Plugins[name]().getRenderTemplate(state));
+                plugin = Dali.Plugins[name]();
+            } else {
+                plugin = Dali.Visor.Plugins[name]();
             }
-            else {
-                json = html2json(Dali.Visor.Plugins[name]().getRenderTemplate(state));
+            if (!plugin.getRenderTemplate) {
+                if (state.__text) {
+                    json = html2json(state.__text);
+                } else {
+                    json = html2json("<div></div>");
+                    console.error("Plugin %s has not defined getRenderTemplate", name);
+                }
+            } else {
+                json = html2json(plugin.getRenderTemplate(state));
             }
             parseJson(json, state, name);
             return json;

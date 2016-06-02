@@ -84,8 +84,8 @@ export default class DaliBox extends Component {
             }
         }
 
-        let content = box.text ?
-            (<div style={style} {...attrs} dangerouslySetInnerHTML={{__html: box.text}}></div>) :
+        let content = toolbar.state.__text ?
+            (<div style={style} {...attrs} dangerouslySetInnerHTML={{__html: toolbar.state.__text}}></div>) :
             (<div style={style} {...attrs}>
                 {this.renderChildren(box.content)}
             </div>);
@@ -179,9 +179,8 @@ export default class DaliBox extends Component {
 
                 {border}
                 {content}
-                <div contentEditable={true} id={box.id} ref={"textarea"} style={textareaStyle}/>
+                {toolbar.state.__text ? <div contentEditable={true} id={box.id} ref={"textarea"} style={textareaStyle} /> : ""}
                 <div style={{
-
                     width: "100%",
                     background: "black",
                     top: 0,
@@ -288,8 +287,10 @@ export default class DaliBox extends Component {
     }
 
     blurTextarea() {
-        this.props.onTextEditorToggled(this.props.id, false, CKEDITOR.instances[this.props.id].getData());
-        Dali.Plugins.get(this.props.toolbars[this.props.id].config.name).updateTextChanges(CKEDITOR.instances[this.props.id].getData(), this.props.id);
+        this.props.onTextEditorToggled(this.props.id, false);
+        let state = this.props.toolbars[this.props.id].state;
+        state.__text = CKEDITOR.instances[this.props.id].getData();
+        Dali.Plugins.get(this.props.toolbars[this.props.id].config.name).forceUpdate(state, this.props.id);
     }
 
     componentWillUpdate(nextProps, nextState) {
@@ -342,10 +343,8 @@ export default class DaliBox extends Component {
             editor.on("blur", function (e) {
                 this.blurTextarea();
             }.bind(this));
-            if (box.text) {
-
-                editor.setData(box.text);
-               
+            if (toolbar.state.__text) {
+                editor.setData(toolbar.state.__text);
             }
         }
 
@@ -369,12 +368,10 @@ export default class DaliBox extends Component {
                         target.style.top = (parseInt(target.style.top) || 0) + event.dy + 'px';
                         target.style.zIndex = 999999;
                         event.stopPropagation();
-
                     } else {
                         event.stopPropagation();
                         return;
                     }
-
                 },
                 onend: (event) => {
                     if (this.props.boxSelected !== this.props.id) {
@@ -397,7 +394,6 @@ export default class DaliBox extends Component {
                         this.props.id,
                         box.container !== 0 ? left : Math.max(parseInt(target.style.left), 0),
                         box.container !== 0 ? top : Math.max(parseInt(target.style.top), 0));
-
                 }
             })
             .ignoreFrom('input, textarea, a')
@@ -410,9 +406,7 @@ export default class DaliBox extends Component {
                     elementRect: {top: 0, left: 0, bottom: 1, right: 1}
                 },
                 edges: {left: true, right: true, bottom: true, top: true},
-
                 onmove: (event) => {
-
                     if (this.props.boxSelected !== this.props.id) {
                         return;
                     }
