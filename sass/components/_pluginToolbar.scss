@@ -45,10 +45,10 @@
 
 
 #tools input[type="checkbox"]{
-
-	width:auto !important;
+	position:relative;
 	display:inline-block;
-	height: 5px;
+	line-height: 5px;
+	margin-right: 5px;
 	vertical-align: text-bottom;
 
 }

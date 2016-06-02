@@ -43,7 +43,6 @@ Dali.Plugins["CajasColor"] = function (base){
                                 allEqual: {
                                     __name: 'All equal',
                                     type: 'checkbox',
-
                                     value: 'unchecked'
                                      
                                 },

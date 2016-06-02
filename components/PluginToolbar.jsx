@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Input, ButtonInput, FormControl, FormGroup, Radio, ControlLabel, Checkbox,  Button, PanelGroup, Accordion, Panel, Tabs, Tab} from 'react-bootstrap';
+import { FormControl, FormGroup, Radio, ControlLabel, Checkbox,  Button, PanelGroup, Accordion, Panel, Tabs, Tab} from 'react-bootstrap';
 import ReactDOM from 'react-dom';
 import GridConfigurator from '../components/GridConfigurator.jsx';
 
@@ -80,7 +80,7 @@ export default class PluginToolbar extends Component {
                             return (
                                 <Tab key={index} eventKey={index}   title={tab.__name}>
                                     {deletebutton}
-                                    {/*duplicateButton*/}
+                                    {duplicateButton}
                                     <br/>
                                     <PanelGroup>
                                         {Object.keys(tab.accordions).map((accordionKey, index) => {
@@ -182,7 +182,7 @@ export default class PluginToolbar extends Component {
                 value = parseFloat(value) || 0;
               }
               if (button.type === 'checkbox') {
-                value = (button.value === 'checked') ? 'unchecked' : 'checked';
+                value = ( value === 'checked') ? 'unchecked' : 'checked';
               }
               if (button.type === 'radio') {
                 value = button.options[value]
@@ -208,7 +208,8 @@ export default class PluginToolbar extends Component {
           return React.createElement( FormGroup, {key: button.__name}, [React.createElement(ControlLabel, {key: 'label_'+button.__name}, button.__name),
                                                      React.createElement(FormControl, props, children)]);
 
-        } else if (button.options && button.type === 'checkbox') {
+        } else if (button.type === 'checkbox') {  
+          props.checked =  button.value == 'checked' ;
           return React.createElement(FormGroup, {key: button.__name},
                                      React.createElement(Checkbox, props,  button.__name));
 
@@ -228,7 +229,7 @@ export default class PluginToolbar extends Component {
 
         } else {
           return React.createElement(FormGroup, {key: button.__name}, [React.createElement(ControlLabel, {key: 'label_'+button.__name}, button.__name),
-                                                     React.createElement(FormControl, props, null)]);
+                                                                       React.createElement(FormControl, props, null)]);
 
         }
        
