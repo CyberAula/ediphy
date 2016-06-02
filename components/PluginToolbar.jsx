@@ -14,9 +14,7 @@ export default class PluginToolbar extends Component {
     }
 
     handleSelect(key) {
-      console.log('handle',key)
       this.setState({activeKey : key});
-      console.log(this.state)
     }
 
     render() {
@@ -80,7 +78,7 @@ export default class PluginToolbar extends Component {
                         {Object.keys(toolbar.controls).map((tabKey, index) => {
                             let tab = toolbar.controls[tabKey];
                             return (
-                                <Tab key={index} eventKey={index} id={"tab"+index}  title={tab.__name}>
+                                <Tab key={index} eventKey={index}   title={tab.__name}>
                                     {deletebutton}
                                     {/*duplicateButton*/}
                                     <br/>
@@ -156,6 +154,7 @@ export default class PluginToolbar extends Component {
             className: button.class,
             style: {width: '100%'},
             onChange: e => {
+
               let value = e.target.value;
               if (buttonKey == 'width') {
                   if (!this.aspectRatio) {
@@ -194,46 +193,50 @@ export default class PluginToolbar extends Component {
               if (!button.autoManaged) {
                 button.callback(state, buttonKey, value, id);
               }
+              e.stopPropagation();
           }
+
         }
         if (button.options && button.type === "select") {
           button.options.map((option, index) => {
               if(!children){
                   children = [];
               }
-              children.push(React.createElement("option", {key: index, value: option}, option));
+              children.push(React.createElement("option", {key: 'child_'+index, value: option}, option));
           });
           props.componentClass = "select";
-          return React.createElement( FormGroup,{}, [ React.createElement(ControlLabel, {}, button.__name),
-                                                      React.createElement(FormControl, props, children)]);
+          return React.createElement( FormGroup, {key: button.__name}, [React.createElement(ControlLabel, {key: 'label_'+button.__name}, button.__name),
+                                                     React.createElement(FormControl, props, children)]);
 
         } else if (button.options && button.type === 'checkbox') {
-          return React.createElement(FormGroup, {},
+          return React.createElement(FormGroup, {key: button.__name},
                                      React.createElement(Checkbox, props,  button.__name));
 
         } else if (button.options && button.type === 'radio') {
            button.options.map((radio, index) => {
               if(!children){
                   children = [];
-                  children.push(React.createElement(ControlLabel, {}, button.__name));
+                  children.push(React.createElement(ControlLabel, {key: 'child_'+index}, button.__name));
               }
-              children.push(React.createElement(Radio, { key: index, 
-                                                         name: button.__name, 
-                                                         value: index, 
-                                                         id: (button.__name + radio), 
-                                                         checked: (button.value == button.options[index]) }, radio));
+              children.push(React.createElement(Radio, {key: index, 
+                                                        name: button.__name, 
+                                                        value: index, 
+                                                        id: (button.__name + radio), 
+                                                        checked: (button.value == button.options[index])}, radio));
           });
           return React.createElement(FormGroup, props, children);
 
         } else {
-          return React.createElement(FormGroup, {}, [React.createElement(ControlLabel, {}, button.__name),
+          return React.createElement(FormGroup, {key: button.__name}, [React.createElement(ControlLabel, {key: 'label_'+button.__name}, button.__name),
                                                      React.createElement(FormControl, props, null)]);
 
         }
        
     }
+
     componentWillUpdate(nextProps, nextState){
       if (this.props.box && nextProps.box && this.props.box.id != nextProps.box.id){
+        this.setState({activeKey: 0})
         nextState.activeKey = 0;
       }
     }
