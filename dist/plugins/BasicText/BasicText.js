@@ -83,12 +83,6 @@ Dali.Plugins["BasicText"] = function (base) {
                     }
                 }
             }
-        },
-        getInitialState: function () {
-            return {text: "Text goes here"};
-        },
-        getRenderTemplate: function (state) {
-            return state.text;
         }
     }
 }

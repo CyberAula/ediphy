@@ -107,7 +107,7 @@ class DaliApp extends Component {
                                         onSortableContainerResized={(id, parent, height) => dispatch(resizeSortableContainer(id, parent, height))}
                                         onBoxReorder={(ids, parent) => dispatch(reorderBox(ids, parent))}
                                         onBoxDropped={(id, row, col) => dispatch(dropBox(id, row, col))}
-                                        onTextEditorToggled={(caller, value, text) => dispatch(toggleTextEditor(caller, value, text))}
+                                        onTextEditorToggled={(caller, value) => dispatch(toggleTextEditor(caller, value))}
                                         titleModeToggled={(id, value) => dispatch(toggleTitleMode(id, value))}/>
                         </Row>
                     </Col>
@@ -131,7 +131,7 @@ class DaliApp extends Component {
                                onColsChanged={(id, parent, distribution) => dispatch(changeCols(id, parent, distribution))}
                                onRowsChanged={(id, parent, column, distribution) => dispatch(changeRows(id, parent, column, distribution))}
                                onBoxResized={(id, width, height) => dispatch(resizeBox(id, width, height))}
-                               onTextEditorToggled={(caller, value, text) => dispatch(toggleTextEditor(caller, value, text))}
+                               onTextEditorToggled={(caller, value) => dispatch(toggleTextEditor(caller, value))}
                                onToolbarUpdated={(id, tab, accordion, name, value) => dispatch(updateToolbar(id, tab, accordion, name, value))}
                                onToolbarCollapsed={(id) => dispatch(collapseToolbar(id))}
                                onBoxDuplicated={(id, parent, container)=> dispatch( duplicateBox( id, parent, container, this.getDescendants(boxes[id]), this.getDuplicatedBoxesIds(this.getDescendants(boxes[id]) ), Date.now()-1 ))}

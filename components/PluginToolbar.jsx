@@ -14,7 +14,7 @@ export default class PluginToolbar extends Component {
     }
 
     handleSelect(key) {
-      this.setState({activeKey : key});
+        this.setState({activeKey: key});
     }
 
     render() {
@@ -50,14 +50,14 @@ export default class PluginToolbar extends Component {
                                     }}><i className="fa fa-trash-o fa-2x"></i></Button>);
         }
         let duplicateButton;
-        if (this.props.box.id[1] != 's') {   
+        if (this.props.box.id[1] != 's') {
             duplicateButton = (<Button key={'duplicate'}
                                        block
                                        onClick={e => {
                                           this.props.onBoxDuplicated(this.props.box.id, this.props.box.parent, this.props.box.container);
                                           e.stopPropagation();
                                        }}><i className="fa fa-files-o fa-2x"></i></Button>);
-        }    
+        }
 
         let visible = (Object.keys(toolbar.controls).length !== 0 || this.props.box.children.length !== 0) ? 'visible' : 'hidden';
 
@@ -73,12 +73,13 @@ export default class PluginToolbar extends Component {
             </div>
             <div id="tools" style={{width: this.state.open? '250px':'0px'}} className="toolbox">
                 <div id="insidetools">
- 
-                    <Tabs ref="tabs" activeKey={this.state.activeKey} animation={false} onSelect={(key) => this.handleSelect(key)} id="controlledTabs" >
+
+                    <Tabs ref="tabs" activeKey={this.state.activeKey} animation={false}
+                          onSelect={(key) => this.handleSelect(key)} id="controlledTabs">
                         {Object.keys(toolbar.controls).map((tabKey, index) => {
                             let tab = toolbar.controls[tabKey];
                             return (
-                                <Tab key={index} eventKey={index}   title={tab.__name}>
+                                <Tab key={index} eventKey={index} title={tab.__name}>
                                     {deletebutton}
                                     {duplicateButton}
                                     <br/>
@@ -107,7 +108,7 @@ export default class PluginToolbar extends Component {
                             );
                         })}
                     </Tabs>
-                 </div>
+                </div>
             </div>
         </div>);
     }
@@ -126,7 +127,7 @@ export default class PluginToolbar extends Component {
                     console.error("Element %s not defined", accordion.order[i]);
                 }
             }
-        }else{
+        } else {
             let buttonKeys = Object.keys(accordion.buttons);
             for (let i = 0; i < buttonKeys.length; i++) {
                 children.push(this.renderButton(accordion, tabKey, accordionKeys, buttonKeys[i], state, i));
@@ -138,7 +139,7 @@ export default class PluginToolbar extends Component {
 
     renderButton(accordion, tabKey, accordionKeys, buttonKey, state, key) {
         let button = accordion.buttons[buttonKey];
-        if(buttonKey === '__aspectRatio'){
+        if (buttonKey === '__aspectRatio') {
             this.aspectRatio = (button.value === "checked");
         }
         let children;
@@ -154,92 +155,92 @@ export default class PluginToolbar extends Component {
             className: button.class,
             style: {width: '100%'},
             onChange: e => {
+                let value = e.target.value;
+                if (buttonKey == 'width') {
+                    if (!this.aspectRatio) {
+                        this.props.onBoxResized(id, value + '%', this.props.box.height);
+                        this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, value);
+                    } else {
+                        let newHeight = (parseFloat(this.props.box.height) * value / parseFloat(this.props.box.width));
+                        this.props.onBoxResized(id, value + '%', newHeight + '%');
+                        this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, value);
+                        this.props.onToolbarUpdated(id, tabKey, accordionKeys, 'height', newHeight);
+                    }
+                }
+                if (buttonKey == 'height') {
+                    if (!this.aspectRatio) {
+                        this.props.onBoxResized(id, this.props.box.width, value + '%');
+                        this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, value);
+                    } else {
+                        let newWidth = (parseFloat(this.props.box.width) * value / parseFloat(this.props.box.height));
+                        this.props.onBoxResized(id, newWidth + '%', value + '%');
+                        this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, value);
+                        this.props.onToolbarUpdated(id, tabKey, accordionKeys, 'width', newWidth);
+                    }
+                }
+                if (button.type === 'number') {
+                    value = parseFloat(value) || 0;
+                }
+                if (button.type === 'checkbox') {
+                    value = ( value === 'checked') ? 'unchecked' : 'checked';
+                }
+                if (button.type === 'radio') {
+                    value = button.options[value]
 
-              let value = e.target.value;
-              if (buttonKey == 'width') {
-                  if (!this.aspectRatio) {
-                      this.props.onBoxResized(id, value + '%', this.props.box.height);
-                      this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, value);
-                  } else {
-                      let newHeight = (parseFloat(this.props.box.height) * value / parseFloat(this.props.box.width));
-                      this.props.onBoxResized(id, value + '%', newHeight + '%');
-                      this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, value);
-                      this.props.onToolbarUpdated(id, tabKey, accordionKeys, 'height', newHeight);
-                  }
-              }
-              if (buttonKey == 'height') {
-                  if (!this.aspectRatio) {
-                    this.props.onBoxResized(id, this.props.box.width, value + '%');
-                    this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, value);
-                  } else {
-                    let newWidth = (parseFloat(this.props.box.width) * value / parseFloat(this.props.box.height));
-                    this.props.onBoxResized(id, newWidth + '%', value + '%');
-                    this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, value);
-                    this.props.onToolbarUpdated(id, tabKey, accordionKeys, 'width', newWidth);
-                  }
-              }
-              if (button.type === 'number') {
-                value = parseFloat(value) || 0;
-              }
-              if (button.type === 'checkbox') {
-                value = ( value === 'checked') ? 'unchecked' : 'checked';
-              }
-              if (button.type === 'radio') {
-                value = button.options[value]
+                }
+                this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, value);
 
-              }
-              this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, value);
-
-              if (!button.autoManaged) {
-                button.callback(state, buttonKey, value, id);
-              }
-              e.stopPropagation();
-          }
+                if (!button.autoManaged) {
+                    button.callback(state, buttonKey, value, id);
+                }
+                e.stopPropagation();
+            }
 
         }
         if (button.options && button.type === "select") {
-          button.options.map((option, index) => {
-              if(!children){
-                  children = [];
-              }
-              children.push(React.createElement("option", {key: 'child_'+index, value: option}, option));
-          });
-          props.componentClass = "select";
-          return React.createElement( FormGroup, {key: button.__name}, [React.createElement(ControlLabel, {key: 'label_'+button.__name}, button.__name),
-                                                     React.createElement(FormControl, props, children)]);
+            button.options.map((option, index) => {
+                if (!children) {
+                    children = [];
+                }
+                children.push(React.createElement("option", {key: 'child_' + index, value: option}, option));
+            });
+            props.componentClass = "select";
+            return React.createElement(FormGroup, {key: button.__name}, [React.createElement(ControlLabel, {key: 'label_' + button.__name}, button.__name),
+                React.createElement(FormControl, props, children)]);
 
-        } else if (button.type === 'checkbox') {  
-          props.checked =  button.value == 'checked' ;
-          return React.createElement(FormGroup, {key: button.__name},
-                                     React.createElement(Checkbox, props,  button.__name));
+        } else if (button.type === 'checkbox') {
+            props.checked = button.value == 'checked';
+            return React.createElement(FormGroup, {key: button.__name},
+                React.createElement(Checkbox, props, button.__name));
 
         } else if (button.options && button.type === 'radio') {
-           button.options.map((radio, index) => {
-              if(!children){
-                  children = [];
-                  children.push(React.createElement(ControlLabel, {key: 'child_'+index}, button.__name));
-              }
-              children.push(React.createElement(Radio, {key: index, 
-                                                        name: button.__name, 
-                                                        value: index, 
-                                                        id: (button.__name + radio), 
-                                                        checked: (button.value == button.options[index])}, radio));
-          });
-          return React.createElement(FormGroup, props, children);
+            button.options.map((radio, index) => {
+                if (!children) {
+                    children = [];
+                    children.push(React.createElement(ControlLabel, {key: 'child_' + index}, button.__name));
+                }
+                children.push(React.createElement(Radio, {
+                    key: index,
+                    name: button.__name,
+                    value: index,
+                    id: (button.__name + radio),
+                    checked: (button.value == button.options[index])
+                }, radio));
+            });
+            return React.createElement(FormGroup, props, children);
 
         } else {
-          return React.createElement(FormGroup, {key: button.__name}, [React.createElement(ControlLabel, {key: 'label_'+button.__name}, button.__name),
-                                                                       React.createElement(FormControl, props, null)]);
-
+            return React.createElement(FormGroup, {key: button.__name}, [React.createElement(ControlLabel, {key: 'label_' + button.__name}, button.__name),
+                React.createElement(FormControl, props, null)]);
         }
-       
+
     }
 
-    componentWillUpdate(nextProps, nextState){
-      if (this.props.box && nextProps.box && this.props.box.id != nextProps.box.id){
-        this.setState({activeKey: 0})
-        nextState.activeKey = 0;
-      }
+    componentWillUpdate(nextProps, nextState) {
+        if (this.props.box && nextProps.box && this.props.box.id != nextProps.box.id) {
+            this.setState({activeKey: 0})
+            nextState.activeKey = 0;
+        }
     }
 
 }

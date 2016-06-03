@@ -20,7 +20,7 @@ var DaliScorm = {
             var zip = new JSZip(data);
             var navs = state.present.navItemsById;
             var sections = [];
-            state.present.navItemsIds.map(page => {
+            state.present.navItemsIds.map(function(page){
 
                 var inner = new EJS({url: '/lib/visor/index.ejs'}).render({
                  page: page,

@@ -89,6 +89,16 @@ Dali.Plugin = function () {
                     state = descendant.getInitialState();
                 }
                 state = defaultFor(state, {});
+                if(needsTextEdition){
+                    if(!state["__text"]){
+                        state["__text"] = "Text goes here";
+                    }
+                    if(!descendant.getRenderTemplate){
+                        descendant.getRenderTemplate = function(state){
+                            return state.__text;
+                        }
+                    }
+                }
                 initialParams = initParams;
                 if (needsConfigModal) {
                     this.openConfigModal(false, state);
@@ -168,11 +178,6 @@ Dali.Plugin = function () {
                 }.bind(this));
             }
         },
-        updateTextChanges: function (text, sender) {
-            state.text = text;
-            id = sender;
-            this.render(true);
-        },
         forceUpdate: function(oldState, sender){
             state = oldState;
             id = sender;
@@ -180,7 +185,7 @@ Dali.Plugin = function () {
         },
         render: function (isUpdating) {
             if (!descendant.getRenderTemplate) {
-                console.error(this.getConfig.name + " has not defined getRenderTemplate method");
+                console.error(this.getConfig().name + " has not defined getRenderTemplate method");
             } else {
                 var jsonTemplate = html2json(descendant.getRenderTemplate(state));
                 assignPluginContainerIds(jsonTemplate);
