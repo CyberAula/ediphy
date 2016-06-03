@@ -47,9 +47,9 @@ class DaliApp extends Component {
                                 undo={() => {dispatch(ActionCreators.undo())}}
                                 redo={() => {dispatch(ActionCreators.redo())}}
                                 visor={() =>{this.setState({visor:true })}}
-                                export={() => {DaliVisor.exports(this.props.store.getState())}}
-                                scorm={() => {DaliScorm.exports(this.props.store.getState())}}
-                                save={() => {dispatch(exportStateAsync(this.props.store.getState()))}}
+                                export={() => {DaliVisor.exports(this.props.store.getState().present)}}
+                                scorm={() => {DaliScorm.exports(this.props.store.getState().present)}}
+                                save={() => {dispatch(exportStateAsync({present: this.props.store.getState().present}))}}
                                 categoria={this.state.pluginTab}
                                 opens={() => {dispatch(importStateAsync())}}
                                 setcat={(categoria) => {

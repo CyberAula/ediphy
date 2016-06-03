@@ -49,7 +49,7 @@ export default class Visor extends Component{
                     <Modal.Title>Preview</Modal.Title>
                 </Modal.Header>
 
-                <Modal.Body style={{padding:'0px', height:'90%'}}>
+                <Modal.Body style={{position: 'absolute', top: '56px', padding: 0, bottom: 0, width: '100%', overflowY: 'auto'}}>
                     <Grid fluid={true} style={{height: '100%'}}>
                         <Row style={{height: '100%', margin:'0'}}>
                             <Col md={12} xs={12} style={{padding: 0, height: '100%'}}>
