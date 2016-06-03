@@ -54,7 +54,7 @@ Dali.Visor.Plugin = function (descendant) {
     }
 
     var plugin = {
-        export(state, name, hasChildren){
+        export: function(state, name, hasChildren){
             var plugin, template;
             if (!Dali.Visor.Plugins[name]) {
                 plugin = Dali.Plugins[name]();
@@ -102,7 +102,7 @@ Dali.Visor.Plugin = function (descendant) {
             parseJson(json, state);
             return json;
         },
-        render(state, name){
+        render: function(state, name){
             var json;
             var plugin;
             if (!Dali.Visor.Plugins[name]) {
