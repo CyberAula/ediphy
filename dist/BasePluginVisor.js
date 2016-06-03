@@ -23,7 +23,7 @@ Dali.Visor.Plugin = function (descendant) {
                     }
                 }
 
-                parseJson(json.child[i], state, name);
+                parseJson(json.child[i], state, hasVisorTemplate, name);
             }
         }
         if (name && json.attr) {

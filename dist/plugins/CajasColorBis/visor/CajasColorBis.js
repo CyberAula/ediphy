@@ -1,11 +1,11 @@
 Dali.Visor.Plugins["CajasColorBis"] = function (){
     return {
         getRenderTemplate: function (state) {
-            var template = "<div class='cajascolor'>";
+            var template = "<div class='cajascolor' style='width: 100%; height: 100%'>";
             var disp = 'none';//noneblock
 
             if(state.image){
-                template += "<div style='min-height: 1px; height: 20vw'><plugin plugin-data-key='image' plugin-data-default='BasicImage' /></div>";
+                template += "<div  style='height: 20%; max-height: 100px;'><plugin plugin-data-key='image' plugin-data-default='BasicImage' /></div>";
             }
 
             var rounded = '';
@@ -19,7 +19,7 @@ Dali.Visor.Plugins["CajasColorBis"] = function (){
                 var bloqId = '';
                 for( var i = 0; i<state.nBoxes; i++){
                     bloqId = 'bloque'+i;
-                    template += "<div class='celda_colores "+state.colors[i]+" "+rounded+"'  onclick='$dali$.showDiv("+i+","+state.nBoxes+")' style='height: 3em; width: " + width + "%'><plugin plugin-data-key='title" + i + "' plugin-data-default='BasicText' /></div>";
+                    template += "<div nBoxes='"+state.nBoxes+"' value='i' class='celda_colores "+state.colors[i]+" "+rounded+"'  onClick='$dali$.showDiv()' style='max-height:50px; height: 10%; width: " + width + "%'><plugin plugin-data-key='title" + i + "' plugin-data-default='BasicText' /></div>";
                     if(i !== (state.nBoxes -1)){
                         template += "<div class='sep'></div>";
                     }
@@ -29,13 +29,14 @@ Dali.Visor.Plugins["CajasColorBis"] = function (){
                 for( var i = 0; i<state.nBoxes; i++){
                       template += "<div id='bloque"+i+"' class='bloque_colores capa_"+state.colors[i]+" "+rounded+"'  style='min-height: 80px; height: 1px; display:"+disp+"'><plugin plugin-data-key='box" + i + "' /></div>";
                 }
+                 template += "</div>"
 
             }else{
                 var bloqId = '';
                 for( var i = 0; i<state.nBoxes; i++){
                      bloqId = 'bloque'+i;;
                     template += "<div class='tabla_colores'><div class='fila_colores'>";
-                    template += "<div class='celda_colores "+state.colors[i]+" "+rounded+"'   onclick='$dali$.showDiv("+i+","+state.nBoxes+")' style='height: 3em'><plugin plugin-data-key='title" + i + "' plugin-data-default='BasicText' /></div>";
+                    template += "<div class='celda_colores "+state.colors[i]+" "+rounded+"' onClick='$dali$.showDiv()' style='height: 3em'><plugin plugin-data-key='title" + i + "' plugin-data-default='BasicText' /></div>";
                     template += "</div></div>"
                     template += "<div id='bloque"+i+"' class='bloque_colores capa_"+state.colors[i]+" "+rounded+"'  style='min-height: 80px; height: 1px; display:"+disp+"'><plugin plugin-data-key='box" + i + "' /></div>";
                 }
@@ -45,8 +46,12 @@ Dali.Visor.Plugins["CajasColorBis"] = function (){
 
             return template;
         },
-        showDiv: function(idDiv,nBoxes)
+        showDiv: function(e)
         {
+
+        console.log(e);
+        console.log(e.relatedTarget);
+        /*
             var idD = '';
             for (var i = 0; i < nBoxes; i++) {
                 idD = '#bloque'+i;
@@ -56,7 +61,7 @@ Dali.Visor.Plugins["CajasColorBis"] = function (){
                     $(idD).fadeToggle("slow");  
                 }
             }
-      
+      */
         }
     }
 }

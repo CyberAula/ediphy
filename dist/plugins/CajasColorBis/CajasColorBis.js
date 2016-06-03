@@ -8,7 +8,7 @@ Dali.Plugins["CajasColorBis"] = function (base){
             }
         },
         getToolbar: function(){
-            console.log(base.getState());
+            //console.log(base.getState());
 
             var toolBar = {
                 main: {
@@ -69,7 +69,7 @@ Dali.Plugins["CajasColorBis"] = function (base){
                                     autoManaged: false
                 }
            }
-            console.log(toolBar);
+            //console.log(toolBar);
             return toolBar;
         },
         getInitialState: function(){//el color de las cajas es el capa_{colors[i]}
@@ -91,7 +91,7 @@ Dali.Plugins["CajasColorBis"] = function (base){
                 template += "<div class='tabla_colores'><div class='fila_colores'>";
                 var width = 100 / state.nBoxes;
                 for( var i = 0; i<state.nBoxes; i++){
-                    template += "<div class='celda_colores "+state.colors[i]+" "+rounded+"'  onclick='$dali$.click()' style='height: 3em; width: " + width + "%'><plugin plugin-data-key='title" + i + "' plugin-data-default='BasicText' /></div>";
+                    template += "<div value='ffd' class='celda_colores "+state.colors[i]+" "+rounded+"'  onclick='$dali$.click()' style='max-height:50px; height: 10%; width: " + width + "%'><plugin plugin-data-key='title" + i + "' plugin-data-default='BasicText'  plugin-data-resizable plugin-data-initialHeight='50px' /></div>";
                     if(i !== (state.nBoxes -1)){
                         template += "<div class='sep'></div>";
                     }
@@ -99,40 +99,30 @@ Dali.Plugins["CajasColorBis"] = function (base){
                  template += "</div></div>"
 
                 for( var i = 0; i<state.nBoxes; i++){
-                       template += "<div class='bloque_colores capa_"+state.colors[i]+" "+rounded+"'  style='min-height: 80px; height: 25%  !important; display:"+disp+"'><plugin plugin-data-key='box" + i + "' /></div>";
+                       template += "<div class='bloque_colores capa_"+state.colors[i]+" "+rounded+"'  style='min-height: 40px; height: 15%  !important; display:"+disp+"'><plugin plugin-data-key='box" + i + "' plugin-data-resizable /></div>";
                 }
 
+                template += "</div>"
             }else{
                 for( var i = 0; i<state.nBoxes; i++){
                     template += "<div class='tabla_colores'><div class='fila_colores'>";
-                    template += "<div class='celda_colores "+state.colors[i]+" "+rounded+"'   onclick='$dali$.click()' style='height: 3em'><plugin plugin-data-key='title" + i + "' plugin-data-default='BasicText' /></div>";
+                    template += "<div class='celda_colores "+state.colors[i]+" "+rounded+"'   onclick='$dali$.click()' style='max-height: 50px; height: 10%;'><plugin plugin-data-key='title" + i + "' plugin-data-default='BasicText'  " + (i % 2 === 0 ? " plugin-data-resizable plugin-data-initialHeight='100px'" : "") + " /></div>";
                     template += "</div></div>"
-                      template += "<div class='bloque_colores capa_"+state.colors[i]+" "+rounded+"'  style='min-height: 80px; height: 25% !important; display:"+disp+"'><plugin plugin-data-key='box" + i + "' /></div>";
+                      template += "<div class='bloque_colores capa_"+state.colors[i]+" "+rounded+"'  style='min-height: 40px; height: 15% !important; display:"+disp+"'><plugin plugin-data-key='box" + i + "'  plugin-data-resizable /></div>";
                 }
             }
 
-            template += "</div></div>"
+            template += "</div>"
 
             return template;
         },
         handleToolbar: function(name, value){
 
             if( /box/.test(name) ){
-                    console.log(name);
-                    console.log('hello');
-                    console.log(name.slice(0));
-                    console.log(name.slice(1));
-                    console.log(name.slice(2));
-                    console.log(name.slice(3));
                     var idB = name.slice(3);
-                    console.log(idB);
                     var newColors = base.getState().colors;
                     newColors[idB] = value;
-                    console.log("newColors");
-                    console.log(newColors);
-                    console.log(value);
                     base.setState('colors', newColors);
-                    console.log(base.getState().colors);
             }else if( name == 'nBoxes' ){
                 var diff = value - base.getState().nBoxes;
                 diff = Math.abs(diff);
