@@ -27,7 +27,7 @@ Dali.Visor.Plugin = function (descendant) {
             }
         }
         if (name && json.attr) {
-            Object.keys(json.attr).forEach(key => {
+            Object.keys(json.attr).forEach(function(key) {
                 if (typeof json.attr[key] === "string" && json.attr[key].indexOf("$dali$") !== -1) {
                     var fnName = json.attr[key].replace(/[$]dali[$][.]/g, "").replace(/[(].*[)]/g, "");
                     json.attr[key] = Dali.Plugins.get(name)[fnName];
