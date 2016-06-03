@@ -10,7 +10,7 @@ export default class DaliBoxSortable extends Component {
         let box = this.props.boxes[this.props.id];
         return (
             <div onClick={e => {
-                this.props.onBoxSelected(this.props.id);
+                this.props.onBoxSelected(this.props.id, 0);
                 e.stopPropagation();
             }}>
                 <div ref="sortableContainer"

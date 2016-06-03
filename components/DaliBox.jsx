@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import {Input,Button} from 'react-bootstrap';
 import interact from 'interact.js';
 import PluginPlaceholder from '../components/PluginPlaceholder';
-import {BOX_TYPES, ID_PREFIX_PAGE, ID_PREFIX_SECTION, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_SORTABLE_CONTAINER} from '../constants';
+import {BOX_TYPES, ID_PREFIX_BOX, ID_PREFIX_PAGE, ID_PREFIX_SECTION, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_SORTABLE_CONTAINER} from '../constants';
 
 export default class DaliBox extends Component {
     render() {
@@ -139,11 +139,12 @@ export default class DaliBox extends Component {
         return (
             <div className={classes}
                  onClick={e => {
-                    if(this.props.boxLevelSelected === box.level){
+                    if(this.props.boxSelected != -1 && box.level == 0 && !this.sameLastParent(box, this.props.boxes[this.props.boxSelected])){
+                         this.props.onBoxSelected(-1);
+                         this.props.onBoxSelected(this.props.id);
+                    } else if(this.props.boxLevelSelected === box.level){
                         if(this.props.boxLevelSelected > 0){
-                            if(this.isAncestorOrSibling(this.props.boxSelected, this.props.id)){
-                                this.props.onBoxSelected(this.props.id);
-                            }
+                            this.props.onBoxSelected(this.props.id);
                         }else{
                             this.props.onBoxSelected(this.props.id);
                         }
@@ -191,7 +192,14 @@ export default class DaliBox extends Component {
                 }}></div>
             </div>);
     }
-
+    sameLastParent(clickedBox, currentBox){
+       
+        if (currentBox.parent.indexOf(ID_PREFIX_BOX) == -1){
+            return currentBox == clickedBox;
+        } else {
+            return this.sameLastParent(clickedBox, this.props.boxes[currentBox.parent]);
+        }
+    }
     isAncestorOrSibling(searchingId, actualId) {
         if (searchingId === actualId) {
             return true;
