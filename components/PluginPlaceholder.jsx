@@ -10,9 +10,13 @@ export default class PluginPlaceholder extends Component {
         let container = this.props.parentBox.sortableContainers[this.props.pluginContainer];
         let showOverlay;
 
-        if (this.props.boxLevelSelected > this.props.parentBox.level + 1) {
+        if (this.props.boxes && this.props.boxes.length == 0) {
+            showOverlay = "hidden";
+        } /*else if (this.props.boxLevelSelected > this.props.parentBox.level + 1) {
             showOverlay = "visible";
-        }/*else if(this.props.boxLevelSelected === (this.props.parentBox.level + 1) &&
+        } 
+        */
+        /*else if(this.props.boxLevelSelected === (this.props.parentBox.level + 1) &&
          !this.isAncestorOrSibling(this.props.boxSelected, (container ? container.children[0] : this.props.parentBox.id))){
          showOverlay = "visible";
          }*/ else {

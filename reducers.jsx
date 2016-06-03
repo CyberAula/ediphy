@@ -317,13 +317,13 @@ function boxLevelSelected(state = 0, action = {}) {
         case SELECT_BOX:
             if (action.payload.id === -1) {
                 return 0;
-            }
+            }  
             if (action.payload.id.indexOf(ID_PREFIX_SORTABLE_BOX) !== -1) {
-                return -1;
+                 return -1;
             }
             return state;
         case DELETE_BOX:
-            return 0;
+            return state;
         case SELECT_NAV_ITEM:
             return 0;
         case REMOVE_NAV_ITEM:
@@ -342,6 +342,9 @@ function boxSelected(state = -1, action = {}) {
         case DUPLICATE_BOX:
             return ID_PREFIX_BOX + action.payload.newId;
         case DELETE_BOX:
+            if (action.payload.parent.indexOf(ID_PREFIX_BOX) !== -1){
+                return action.payload.parent;
+            }
             return -1;
         case SELECT_NAV_ITEM:
             return -1;

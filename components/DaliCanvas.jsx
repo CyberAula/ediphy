@@ -26,6 +26,7 @@ export default class DaliCanvas extends Component{
                       onClick={e => {this.props.onBoxSelected(-1)}}
                       className={this.props.navItems[this.props.navItemSelected.id].type == 'slide' ? 'slide sli':'slide doc'}
                       style={{visibility: (this.props.showCanvas ? 'visible' : 'hidden'), position: 'relative'}}>
+
                     <DaliTitle titles={titles}
                                isReduced={this.props.navItemSelected.titlesReduced}
                                navItemId={this.props.navItemSelected.id}
@@ -34,13 +35,16 @@ export default class DaliCanvas extends Component{
                                <br/>
                     <div style={{
                         width: "100%",
-                        height: "100%",
+                        minHeight: "100%",
                         background: "black",
-                        top: 0,
+                        height: document.getElementById('maincontent') ? document.getElementById('maincontent').scrollHeight:'100%',
                         position: "absolute",
+                        top:0,
                         opacity: 0.4,
-                        visibility: (this.props.boxLevelSelected > 0) ? "visible" : "collapse",
-                    }}></div>
+                        visibility: (this.props.boxLevelSelected > 0) ? "visible" : "collapse"
+                        }}>
+                    </div>
+                    
                     {this.props.navItemSelected.boxes.map(id => {
                         let box = this.props.boxes[id];
                         if (box.type === BOX_TYPES.NORMAL)
@@ -76,7 +80,7 @@ export default class DaliCanvas extends Component{
                                             onBoxModalToggled={this.props.onBoxModalToggled}
                                             onTextEditorToggled={this.props.onTextEditorToggled} />
                     })}
-                </div></div>
+                </div></div> 
            </Col>);
     }
 
