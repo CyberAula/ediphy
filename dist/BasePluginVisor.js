@@ -1,6 +1,6 @@
 Dali.Visor.Plugin = function (descendant) {
 
-    var parseJson = function (json, state, name) {
+    var parseJson = function (json, state, hasVisorTemplate, name) {
         if (json.child) {
             for (var i = 0; i < json.child.length; i++) {
                 if (json.child[i].tag && json.child[i].tag === "plugin") {
@@ -30,7 +30,7 @@ Dali.Visor.Plugin = function (descendant) {
             Object.keys(json.attr).forEach(function(key) {
                 if (typeof json.attr[key] === "string" && json.attr[key].indexOf("$dali$") !== -1) {
                     var fnName = json.attr[key].replace(/[$]dali[$][.]/g, "").replace(/[(].*[)]/g, "");
-                    json.attr[key] = Dali.Plugins.get(name)[fnName];
+                    json.attr[key] = hasVisorTemplate ? Dali.Visor.Plugins.get(name)[fnName] : Dali.Plugins.get(name)[fnName];
                 }
             });
         }
@@ -55,11 +55,14 @@ Dali.Visor.Plugin = function (descendant) {
 
     var plugin = {
         export: function(state, name, hasChildren){
-            var plugin, template;
+            var plugin, template, hasVisorTemplate;
+
             if (!Dali.Visor.Plugins[name]) {
                 plugin = Dali.Plugins[name]();
+                hasVisorTemplate = false;
             } else {
                 plugin = Dali.Visor.Plugins[name]();
+                hasVisorTemplate = true;
             }
             if (!plugin.getRenderTemplate) {
                 if (state.__text) {
@@ -99,16 +102,18 @@ Dali.Visor.Plugin = function (descendant) {
                 return result;
             }
             var json = html2json(result);
-            parseJson(json, state);
+            parseJson(json, state, hasVisorTemplate);
             return json;
         },
         render: function(state, name){
-            var json;
-            var plugin;
+            var json, plugin, hasVisorTemplate;
+
             if (!Dali.Visor.Plugins[name]) {
                 plugin = Dali.Plugins[name]();
+                hasVisorTemplate = false;
             } else {
                 plugin = Dali.Visor.Plugins[name]();
+                hasVisorTemplate = true;
             }
             if (!plugin.getRenderTemplate) {
                 if (state.__text) {
@@ -120,7 +125,7 @@ Dali.Visor.Plugin = function (descendant) {
             } else {
                 json = html2json(plugin.getRenderTemplate(state));
             }
-            parseJson(json, state, name);
+            parseJson(json, state, hasVisorTemplate, name);
             return json;
         },
         callExtraFunction: function (alias, fnAlias) {
