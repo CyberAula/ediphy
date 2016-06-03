@@ -13,8 +13,8 @@ var DaliVisor = {
 
             var zip = new JSZip(data);
             var navs = state.present.navItemsById;
-    
-            state.present.navItemsIds.map(page => {
+
+            state.present.navItemsIds.map(function(page){
                 var inner = new EJS({url: '/lib/visor/index.ejs'}).render({
                     page: page,
                     navs: navs,
