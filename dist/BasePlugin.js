@@ -85,10 +85,10 @@ Dali.Plugin = function () {
             }
 
             callback = function (initParams) {
+                state = {};
                 if (descendant.getInitialState) {
                     state = descendant.getInitialState();
                 }
-                state = defaultFor(state, {});
                 if(needsTextEdition){
                     if(!state["__text"]){
                         state["__text"] = "Text goes here";
