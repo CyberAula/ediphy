@@ -214,13 +214,12 @@ class DaliApp extends Component {
     }
 
     getDuplicatedBoxesIds(descendants){
-      
-      var newIds = {}
-      var date = Date.now();
-      descendants.map(box => {
-          newIds[box.substr(3)] =  date++;
-       })
-      return newIds
+        var newIds = {};
+        var date = Date.now();
+        descendants.map(box => {
+            newIds[box.substr(3)] =  date++;
+        });
+        return newIds
     }
 
     parsePluginContainers(obj, state){
