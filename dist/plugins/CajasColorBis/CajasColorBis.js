@@ -25,7 +25,13 @@ Dali.Plugins["CajasColorBis"] = function (base){
                                     min: 1,
                                     autoManaged: false
                                 },
-                                wayHorizontal:{
+                                rounded:{
+                                    __name: "Border redondeado",
+                                    type: 'checkbox',
+                                    value: 'unchecked',
+                                    autoManaged: false 
+                                },
+                               /* wayHorizontal:{
                                     __name: "Dirección",
                                     type: 'number',
                                     value: 1,
@@ -40,15 +46,14 @@ Dali.Plugins["CajasColorBis"] = function (base){
                                     max: 1,
                                     min: 0,
                                     autoManaged: false 
-                                },
-                                rounded:{
-                                    __name: "Redondeado",
-                                    type: 'number',
-                                    value: 0,
-                                    max: 1,
-                                    min: 0,
+                                },*/
+                                radios: {
+                                    __name: 'Tipo de cajas color',
+                                    type: 'radio',
+                                    value: 'HorizontalNoImagen',
+                                    options: ['HorizontalNoImagen','HorizontalSiImagen','VerticalNoImagen','VerticalSiImagen'],
                                     autoManaged: false 
-                                }
+                                }                           
                             }
                         }//,
                     }
@@ -73,7 +78,7 @@ Dali.Plugins["CajasColorBis"] = function (base){
             return toolBar;
         },
         getInitialState: function(){//el color de las cajas es el capa_{colors[i]}
-            return {nBoxes: 2, colors: ['azulverdoso', 'azulpuro'], wayHorizontal: true, image: true, rounded: false};
+            return {nBoxes: 2, colors: ['azulverdoso', 'azulpuro'], wayHorizontal: true, image: false, rounded: 'unchecked'};
         },
         getRenderTemplate: function(state){
             var template = "<div class='cajascolor' style='width: 100%; height: 100%'>";
@@ -83,7 +88,7 @@ Dali.Plugins["CajasColorBis"] = function (base){
             }
 
             var rounded = '';
-            if(state.rounded){
+            if(state.rounded == 'checked'){
                 rounded = ' rounded';
             }
 
@@ -143,12 +148,14 @@ Dali.Plugins["CajasColorBis"] = function (base){
 
                 }
                 base.setState(name, value);
-            }else if( name == 'wayHorizontal' || name == 'image' || name == 'rounded'){
-                base.setState(name, !!value);
-            }else{
-                console.log("no hizo nada");
+          /*  }else if( name == 'wayHorizontal' || name == 'image'){
+                base.setState(name, !!value);*/
+            }else if(name == 'rounded'){
+                base.setState(name, base.getState().rounded == 'checked' ? 'unchecked' : 'checked');
+            }else if(name == 'radios'){
+                base.setState('image', (/Si/.test(value)));
+                base.setState('wayHorizontal', (/Horizontal/.test(value)));
             }
-
          
         },
         click: function(key){

@@ -9,7 +9,7 @@ Dali.Visor.Plugins["CajasColorBis"] = function (){
             }
 
             var rounded = '';
-            if(state.rounded){
+            if(state.rounded == 'checked'){
                 rounded = ' rounded';
             }
 
@@ -19,7 +19,7 @@ Dali.Visor.Plugins["CajasColorBis"] = function (){
                 var bloqId = '';
                 for( var i = 0; i<state.nBoxes; i++){
                     bloqId = 'bloque'+i;
-                    template += "<div nBoxes='"+state.nBoxes+"' value='i' class='celda_colores "+state.colors[i]+" "+rounded+"'  onClick='$dali$.showDiv()' style='max-height:50px; height: 10%; width: " + width + "%'><plugin plugin-data-key='title" + i + "' plugin-data-default='BasicText' /></div>";
+                    template += "<div data-nboxes=\""+state.nBoxes+"\" data-iddiv=\""+i+"\" class='celda_colores "+state.colors[i]+" "+rounded+"'  onClick='$dali$.showDiv()' style='max-height:50px; height: 10%; width: " + width + "%'><plugin plugin-data-key='title" + i + "' plugin-data-default='BasicText' /></div>";
                     if(i !== (state.nBoxes -1)){
                         template += "<div class='sep'></div>";
                     }
@@ -36,7 +36,7 @@ Dali.Visor.Plugins["CajasColorBis"] = function (){
                 for( var i = 0; i<state.nBoxes; i++){
                      bloqId = 'bloque'+i;;
                     template += "<div class='tabla_colores'><div class='fila_colores'>";
-                    template += "<div class='celda_colores "+state.colors[i]+" "+rounded+"' onClick='$dali$.showDiv()' style='height: 3em'><plugin plugin-data-key='title" + i + "' plugin-data-default='BasicText' /></div>";
+                    template += "<div data-nboxes=\""+state.nBoxes+"\" data-iddiv=\""+i+"\" class='celda_colores "+state.colors[i]+" "+rounded+"' onClick='$dali$.showDiv()' style='height: 3em'><plugin plugin-data-key='title" + i + "' plugin-data-default='BasicText' /></div>";
                     template += "</div></div>"
                     template += "<div id='bloque"+i+"' class='bloque_colores capa_"+state.colors[i]+" "+rounded+"'  style='min-height: 80px; height: 1px; display:"+disp+"'><plugin plugin-data-key='box" + i + "' /></div>";
                 }
@@ -48,10 +48,8 @@ Dali.Visor.Plugins["CajasColorBis"] = function (){
         },
         showDiv: function(e)
         {
-
-        console.log(e);
-        console.log(e.relatedTarget);
-        /*
+        var nBoxes = e.target.getAttribute("data-nboxes");
+        var idDiv =  e.target.getAttribute("data-iddiv");
             var idD = '';
             for (var i = 0; i < nBoxes; i++) {
                 idD = '#bloque'+i;
@@ -61,7 +59,7 @@ Dali.Visor.Plugins["CajasColorBis"] = function (){
                     $(idD).fadeToggle("slow");  
                 }
             }
-      */
+      
         }
     }
 }
