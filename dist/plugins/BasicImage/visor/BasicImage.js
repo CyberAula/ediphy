@@ -9,8 +9,9 @@ Dali.Visor.Plugins["BasicImage"] = function (){
                 "src=\"" + state.url + "\" onclick='$dali$.imageClick()'/>" +
                 "</div>";
         },
-        imageClick: function()
+        imageClick: function(e)
         {
+            console.log(e);
             alert("Miau");
         }
     }

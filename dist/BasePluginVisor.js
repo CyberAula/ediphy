@@ -27,7 +27,7 @@ Dali.Visor.Plugin = function (descendant) {
             }
         }
         if (name && json.attr) {
-            Object.keys(json.attr).forEach(function(key) {
+            Object.keys(json.attr).forEach(function (key) {
                 if (typeof json.attr[key] === "string" && json.attr[key].indexOf("$dali$") !== -1) {
                     var fnName = json.attr[key].replace(/[$]dali[$][.]/g, "").replace(/[(].*[)]/g, "");
                     json.attr[key] = hasVisorTemplate ? Dali.Visor.Plugins.get(name)[fnName] : Dali.Plugins.get(name)[fnName];
@@ -54,7 +54,7 @@ Dali.Visor.Plugin = function (descendant) {
     }
 
     var plugin = {
-        export: function(state, name, hasChildren){
+        export: function (state, name, hasChildren) {
             var plugin, template, hasVisorTemplate;
 
             if (!Dali.Visor.Plugins[name]) {
@@ -66,14 +66,32 @@ Dali.Visor.Plugin = function (descendant) {
             }
             if (!plugin.getRenderTemplate) {
                 if (state.__text) {
-                    template = state.__text.replace(/[$]dali[$][.]/g, "");
+                    template = state.__text;
                 } else {
                     template = "<div></div>";
                     console.error("Plugin %s has not defined getRenderTemplate", name);
                 }
             } else {
-                template = plugin.getRenderTemplate(state).replace(/[$]dali[$][.]/g, "");
+                template = plugin.getRenderTemplate(state);
             }
+
+            var regexp = new RegExp(/[$]dali[$][.][\w\s]+[(]([^)]*)/g);
+            var match = regexp.exec(template);
+            var matches = [];
+
+            while (match !== null) {
+                matches.push(match);
+                match = regexp.exec(template);
+            }
+            matches.map(function (match) {
+                if (match[1].length === 0) {
+                    template = template.replace(match[0], match[0] + "event");
+                } else {
+                    template = template.replace(match[0], match[0].replace(match[1], "event"));
+                }
+                template = template.replace(/[$]dali[$][.]/, "");
+            });
+
             if (template.indexOf("pointer-events") !== -1) {
                 template = template.replace(/pointer-events:[\s'"]+none[\s'"]+/g, "");
             }
@@ -105,7 +123,7 @@ Dali.Visor.Plugin = function (descendant) {
             parseJson(json, state, hasVisorTemplate);
             return json;
         },
-        render: function(state, name){
+        render: function (state, name) {
             var json, plugin, hasVisorTemplate;
 
             if (!Dali.Visor.Plugins[name]) {
