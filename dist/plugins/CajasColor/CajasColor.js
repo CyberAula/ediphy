@@ -106,8 +106,8 @@ Dali.Plugins["CajasColor"] = function (base){
                 base.setState(name, value);
             }
         },
-        clicky: function(e){
-            console.log(e.target);
+        clicky: function(event, element, parent){
+            console.log([event, element, parent]);
         }
     }
 }
