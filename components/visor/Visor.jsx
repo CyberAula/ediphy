@@ -7,10 +7,15 @@ import VisorDaliBoxSortable from '../visor/VisorDaliBoxSortable'
 import {BOX_TYPES, ID_PREFIX_SORTABLE_BOX} from '../../constants';
 
 export default class Visor extends Component{
-    constructor(props) {
-        super(props);
+    shouldComponentUpdate(nextProps, nextState) {
+        return this.props.visorVisible || nextProps.visorVisible;
     }
+
     render() {
+        if(this.props.state.navItemSelected === 0){
+            return <div></div>;
+        }
+
         let navItemSelected = this.props.state.navItemSelected || 0;
         let navItemsById = this.props.state.navItemsById;
         let navItem = navItemsById[navItemSelected];
@@ -39,7 +44,7 @@ export default class Visor extends Component{
 
         return (
             <Modal className="visor modalVisorContainer"
-                   show={this.props.visor}
+                   show={this.props.visorVisible}
                    backdrop={true} bsSize="large" 
                    aria-labelledby="contained-modal-title-lg" 
                    onHide={e => {
@@ -50,35 +55,30 @@ export default class Visor extends Component{
                 </Modal.Header>
 
                 <Modal.Body style={{position: 'absolute', top: '56px', padding: 0, bottom: 0, width: '100%', overflowY: 'auto'}}>
-                    <Grid fluid={true} style={{height: '100%'}}>
-                        <Row style={{height: '100%', margin:'0'}}>
-                            <Col md={12} xs={12} style={{padding: 0, height: '100%'}}>
-                                <div className="outter" style={{paddingTop:'0px'}}>
-                                    <div id="maincontents" className={display} style={{visibility: 'visible'}}>
-                                        <DaliTitle titles={titles}
-                                                   isReduced={navItem.titlesReduced}
-                                                   navItemId={navItem}
-                                                   titleModeToggled={this.props.state.titleModeToggled}
-                                                   showButton={false} /><br/>
-                                        {navItem.boxes.map((id)=> {
-                                            let box = this.props.state.boxesById[id];
-                                            if(box.type === BOX_TYPES.NORMAL) {
-                                                return( <VisorDaliBox key={id}
-                                                                      id={id}
-                                                                      boxes={this.props.state.boxesById}
-                                                                      toolbars={this.props.state.toolbarsById} />)
-                                            } else if(box.type === BOX_TYPES.SORTABLE) {
-                                                return (<VisorDaliBoxSortable key={id}
-                                                                              id={id}
-                                                                              boxes={this.props.state.boxesById}
-                                                                              toolbars={this.props.state.toolbarsById} />)
-                                            }
-                                        })}
+                    {/*
+                        <Grid fluid={true} style={{height: '100%'}}>
+                            <Row style={{height: '100%', margin:'0'}}>
+                                <Col md={12} xs={12} style={{padding: 0, height: '100%'}}>
+                                    <div className="outter" style={{paddingTop:'0px'}}>
+                                        <div id="maincontents" className={display} style={{visibility: 'visible'}}>
+                                            <DaliTitle titles={titles}
+                                                       isReduced={navItem.titlesReduced}
+                                                       navItemId={navItem}
+                                                       titleModeToggled={this.props.state.titleModeToggled}
+                                                       showButton={false}/><br/>
+                                            <div style={{width: "100%", height: "100%"}}
+                                                 dangerouslySetInnerHTML={{__html: DaliVisor.exportPage(this.props.state)}}></div>
+                                        </div>
                                     </div>
-                                </div>
-                            </Col>
-                        </Row>
-                    </Grid>
+                                </Col>
+                            </Row>
+                        </Grid>
+                    */}
+                    <div ref={el => {
+                        if(el !== null){
+                            $(el).html(DaliVisor.exportPage(this.props.state));
+                        }
+                    }} style={{width: "100%", height: "100%"}}></div>
                 </Modal.Body>
             </Modal>
         )
