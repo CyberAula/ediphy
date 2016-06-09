@@ -110,7 +110,7 @@ Dali.Visor.Plugin = function (descendant) {
                 }
             });
             if (scripts.length !== 0) {
-                scripts += " function __getBox(element){if(element.className.indexOf('wholebox') !== -1) return element; return __getPlugin(element.parentElement);}";
+                scripts += " function __getPlugin(element){if(element.className.indexOf('wholebox') !== -1) return element; return __getPlugin(element.parentElement);}";
                 scripts += "</script>";
             }
 
