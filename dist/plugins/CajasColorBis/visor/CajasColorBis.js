@@ -4,13 +4,21 @@ Dali.Visor.Plugins["CajasColorBis"] = function (){
             var template = "<div class='cajascolor' style='width: 100%; height: 100%'>";
             var disp = 'none';//noneblock
 
+ var disI = 'none';
             if(state.image){
-                template += "<div  style='height: 20%; max-height: 100px;'><plugin plugin-data-key='image' plugin-data-default='BasicImage' /></div>";
+                disI = 'block';
+               
             }
-
+/*
+ template += "<div  style='height: 20%; max-height: 100px;display:"+disI+"'><plugin plugin-data-key='image' plugin-data-default='BasicImage' /></div>";
             var rounded = '';
             if(state.rounded == 'checked'){
                 rounded = ' rounded';
+            }
+*/
+
+ if(state.rounded == 'checked'){
+                template += "<div  style='height: 20%; max-height: 100px;'><plugin plugin-data-key='image' plugin-data-default='BasicImage' /></div>";
             }
 
             if(state.wayHorizontal){

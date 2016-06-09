@@ -78,7 +78,7 @@ Dali.Plugins["CajasColorBis"] = function (base){
             return toolBar;
         },
         getInitialState: function(){//el color de las cajas es el capa_{colors[i]}
-            return {nBoxes: 2, colors: ['azulverdoso', 'azulpuro'], wayHorizontal: true, image: false, rounded: 'unchecked'};
+            return {nBoxes: 3, colors: ['azul', 'cyan','gris'], wayHorizontal: true, image: false, rounded: 'unchecked'};
         },
         getRenderTemplate: function(state){
             var template = "<div class='cajascolor' style='width: 100%; height: 100%'>";
@@ -111,7 +111,7 @@ Dali.Plugins["CajasColorBis"] = function (base){
             }else{
                 for( var i = 0; i<state.nBoxes; i++){
                     template += "<div class='tabla_colores'><div class='fila_colores'>";
-                    template += "<div class='celda_colores "+state.colors[i]+" "+rounded+"'   onclick='$dali$.click()' style='max-height: 50px; height: 10%;'><plugin plugin-data-key='title" + i + "' plugin-data-default='BasicText'  " + (i % 2 === 0 ? " plugin-data-resizable plugin-data-initialHeight='100px'" : "") + " /></div>";
+                    template += "<div class='celda_colores "+state.colors[i]+" "+rounded+"'   onclick='$dali$.click()' style='max-height: 50px; height: 10%;'><plugin plugin-data-key='title" + i + "' plugin-data-default='BasicText'  " + (i % 2 === 0 ? " plugin-data-resizable plugin-data-fontSize plugin-data-initialHeight='100px'" : "") + " /></div>";
                     template += "</div></div>"
                       template += "<div class='bloque_colores capa_"+state.colors[i]+" "+rounded+"'  style='min-height: 40px; height: 15% !important; display:"+disp+"'><plugin plugin-data-key='box" + i + "'  plugin-data-resizable /></div>";
                 }
@@ -123,6 +123,7 @@ Dali.Plugins["CajasColorBis"] = function (base){
         },
         handleToolbar: function(name, value){
 
+console.log(name);
             if( /box/.test(name) ){
                     var idB = name.slice(3);
                     var newColors = base.getState().colors;
@@ -156,6 +157,7 @@ Dali.Plugins["CajasColorBis"] = function (base){
                 base.setState('image', (/Si/.test(value)));
                 base.setState('wayHorizontal', (/Horizontal/.test(value)));
             }
+
          
         },
         click: function(key){
