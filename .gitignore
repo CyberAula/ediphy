@@ -8,3 +8,4 @@ webpack.config.js~
 .sass-cache
 dali_server/config.json
 dist/plugins/Test
+dist/plugins/CajasColorBis
