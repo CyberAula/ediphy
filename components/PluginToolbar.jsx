@@ -188,8 +188,11 @@ export default class PluginToolbar extends Component {
                     value = button.options[value]
                 }
 
-                if (button.type === 'select' && button.multiple == true){
+                if (button.type === 'select' && button.multiple === true){
+                    console.log(value)
                     value = [...e.target.options].filter(o => o.selected).map(o => o.value);
+                                        console.log(value)
+
                 }
                 this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, value);
 

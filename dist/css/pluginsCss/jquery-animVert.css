@@ -6,7 +6,7 @@
 
 .desplVert{
 	overflow:hidden;
-	/*height:100%;*/ /* Changed*/
+	/*height:100%;*/ /* Removed*/
 	margin:0 auto;
 }
 
@@ -14,6 +14,7 @@
 	overflow:hidden;
 	height:100%;
 	width: 100%;
+	padding: 0; /*Added*/
 }
 
 .ocultar{

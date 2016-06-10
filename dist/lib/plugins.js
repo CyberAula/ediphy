@@ -11,8 +11,8 @@ Dali.Plugins = (function () {
         'CajasColor',
         'CajasColorBis',
         'Container',
-        /*'ListaNumerada',
-        'RelacionaAll'*/
+        'ListaNumerada',
+        'RelacionaAll'
     ];
 
     var loadPluginFile = function (name) {

@@ -97,7 +97,7 @@ export default class Section extends Component {
         let siblings = navItem.children
         var sections = 1
         for (let i in siblings){
-            if(siblings[i][0] == 's') sections++
+            if(siblings[i].indexOf(ID_PREFIX_SECTION) !== -1) sections++
         }
 
         return sections

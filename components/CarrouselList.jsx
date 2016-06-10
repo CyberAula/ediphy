@@ -13,7 +13,7 @@ export default class CarrouselList extends Component{
                             onClick={e => {
                                         let ids = [this.props.navItemSelected];
                                         let found = this.findChildren(ids);
-                                        let boxes =  this.findBoxes(found);
+                                        let boxes = this.findBoxes(found);
                                         this.props.onNavItemRemoved(ids, this.props.navItems[this.props.navItemSelected].parent, boxes );
                                     }
                                 }><i className="fa fa-trash-o"></i></Button>
@@ -86,7 +86,7 @@ export default class CarrouselList extends Component{
         var current = 1;
         for (let i in this.props.navItemsIds){
          
-            if(this.props.navItemsIds[i][0]=='s'){
+            if(this.props.navItemsIds[i].indexOf(ID_PREFIX_SECTION) !== -1){
                 current++;
             }
         }
