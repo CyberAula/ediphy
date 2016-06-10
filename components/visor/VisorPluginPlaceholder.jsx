@@ -8,7 +8,7 @@ export default class VisorPluginPlaceholder extends Component {
         let container = this.props.parentBox.sortableContainers[this.props.pluginContainer];
         return (
             <div style={{
-                    border: "solid green 5px",
+                    border: "0",
                     width: "100%",
                     height: container ? container.height : "100%",
                     position: 'relative'}}>

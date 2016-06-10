@@ -13,7 +13,15 @@ var DaliVisor = {
 
             var zip = new JSZip(data);
             var navs = state.navItemsById;
-
+          /*  
+            JSZipUtils.getBinaryContent("path/to/picture.png", function (err, data) {
+               if(err) {
+                  throw err; // or handle the error
+               }
+               var zip = new JSZip();
+               zip.file("picture.png", data, {binary:true});
+            });
+            */
             state.navItemsIds.map(function(page){
                 var inner = new EJS({url: '/lib/visor/index.ejs'}).render({
                     page: page,

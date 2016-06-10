@@ -10,7 +10,9 @@ Dali.Plugins = (function () {
         'BasicQuizConnect',
         'CajasColor',
         'CajasColorBis',
-        'Container'
+        'Container',
+        'ListaNumerada',
+        'RelacionaAll'
     ];
 
     var loadPluginFile = function (name) {

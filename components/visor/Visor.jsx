@@ -46,7 +46,7 @@ export default class Visor extends Component{
                         this.props.onVisibilityToggled()
                         }}>
                 <Modal.Header closeButton >
-                    <Modal.Title>Preview</Modal.Title>
+                    <Modal.Title><span id="previewTitle">Preview</span></Modal.Title>
                 </Modal.Header>
 
                 <Modal.Body style={{position: 'absolute', top: '56px', padding: 0, bottom: 0, width: '100%', overflowY: 'auto'}}>

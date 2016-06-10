@@ -66,6 +66,7 @@ class DaliApp extends Component {
                                   navItems={navItems}
                                   navItemSelected={navItemSelected}
                                   displayMode={displayMode}
+                                  onBoxAdded={(ids, type,  draggable, resizable, content, toolbar, config, state) => dispatch(addBox(ids, type, draggable, resizable, content, toolbar, config, state))}
                                   onPageAdded={(caller, value) => dispatch(togglePageModal(caller, value))}
                                   onSectionAdded={(id, name, parent, children, level, type, position) => dispatch(addNavItem(id, name, parent, children, level, type, position))}
                                   onNavItemSelected={id => dispatch(selectNavItem(id))}
@@ -98,7 +99,7 @@ class DaliApp extends Component {
                                         boxLevelSelected={boxLevelSelected}
                                         navItems={navItems}
                                         navItemSelected={navItems[navItemSelected]}
-                                        showCanvas={(navItemsIds.length !== 0)}
+                                        showCanvas={(navItemSelected !== 0)}
                                         toolbars={toolbars}
                                         onBoxSelected={(id) => dispatch(selectBox(id))}
                                         onBoxLevelIncreased={() => dispatch(increaseBoxLevel())}

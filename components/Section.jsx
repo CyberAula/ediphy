@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Button} from 'react-bootstrap';
-import {ID_PREFIX_SECTION, ID_PREFIX_PAGE} from '../constants';
+import {ID_PREFIX_SECTION, ID_PREFIX_PAGE, ID_PREFIX_SORTABLE_BOX, BOX_TYPES} from '../constants';
 
 export default class Section extends Component {
     render() {
@@ -35,6 +35,7 @@ export default class Section extends Component {
                                                     navItemsIds={this.props.navItemsIds}
                                                     navItems={this.props.navItems}
                                                     navItemSelected={this.props.navItemSelected}
+                                                    onBoxAdded={this.props.onBoxAdded}
                                                     onPageAdded={this.props.onPageAdded}
                                                     onSectionAdded={this.props.onSectionAdded}
                                                     onNavItemSelected={this.props.onNavItemSelected}
@@ -56,8 +57,9 @@ export default class Section extends Component {
                 <div style={{marginTop: 10, marginLeft: 20}}>
 
                     <Button onClick={e => {
-                       
-                        this.props.onSectionAdded(ID_PREFIX_SECTION + Date.now(), navItem.name + "." +this.calculateName(navItem), navItem.id, [], navItem.level + 1, 'section', this.calculatePosition());
+                        let idnuevo = ID_PREFIX_SECTION + Date.now();
+                        this.props.onSectionAdded(idnuevo, navItem.name + "." +this.calculateName(navItem), navItem.id, [], navItem.level + 1, 'section', this.calculatePosition());
+                        this.props.onBoxAdded({parent: idnuevo, container: 0, id: ID_PREFIX_SORTABLE_BOX + Date.now()}, BOX_TYPES.SORTABLE, false, false);
                         e.stopPropagation();
                     }}><i className="fa fa-folder-o"></i></Button>
                     <Button onClick={e => {

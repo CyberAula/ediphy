@@ -186,7 +186,10 @@ export default class PluginToolbar extends Component {
                 }
                 if (button.type === 'radio') {
                     value = button.options[value]
+                }
 
+                if (button.type === 'select' && button.multiple == true){
+                    value = [...e.target.options].filter(o => o.selected).map(o => o.value);
                 }
                 this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, value);
 
@@ -202,11 +205,16 @@ export default class PluginToolbar extends Component {
                 if (!children) {
                     children = [];
                 }
-                children.push(React.createElement("option", {key: 'child_' + index, value: option}, option));
+                    children.push(React.createElement("option", {key: 'child_' + index, value: option}, option));
             });
             props.componentClass = "select";
+            if (button.multiple) {
+                props.multiple = "multiple"
+            }          
             return React.createElement(FormGroup, {key: button.__name}, [React.createElement(ControlLabel, {key: 'label_' + button.__name}, button.__name),
-                React.createElement(FormControl, props, children)]);
+                                                                             React.createElement(FormControl, props, children)]);
+            
+           
 
         } else if (button.type === 'checkbox') {
             props.checked = button.value == 'checked';

@@ -49,7 +49,7 @@ function boxCreator(state = {}, action = {}) {
 
             let children = [];
             let sortableContainers = {};
-            if(action.payload.state) {
+            if (action.payload.state) {
                 let pluginContainers = action.payload.state.__pluginContainerIds;
                 if (pluginContainers) {
                     for (let key in pluginContainers) {
@@ -194,7 +194,7 @@ function boxesById(state = {}, action = {}) {
              })
             replaced = Object.replaceAll( replaced, action.payload.id.substr(3),  action.payload.newId  );//split -
             let defState = Object.assign({}, newState, replaced);
-            if(action.payload.container != 0){
+            if (action.payload.container != 0) {
                  replaced[action.payload.parent].sortableContainers[action.payload.container].children.push( action.payload.id  )
             }
 
@@ -220,10 +220,10 @@ function boxesById(state = {}, action = {}) {
             newState[action.payload.id].content = action.payload.content;
             let sortableContainers = {};
             let children = [];
-            if(action.payload.state.__pluginContainerIds){
+            if (action.payload.state.__pluginContainerIds) {
                 for(let containerKey in action.payload.state.__pluginContainerIds){
                     let container = action.payload.state.__pluginContainerIds[containerKey];
-                    if(!newState[action.payload.id].sortableContainers[container.id]){
+                    if (!newState[action.payload.id].sortableContainers[container.id]) {
                         sortableContainers[container.id] = {
                             children: [],
                             height: container.height,
@@ -233,7 +233,7 @@ function boxesById(state = {}, action = {}) {
                             ]
                         }
                         children.push(container.id);
-                    }else{
+                    } else {
                         sortableContainers[container.id] = newState[action.payload.id].sortableContainers[container.id];
                         children.push(container.id);
                     }
@@ -590,7 +590,7 @@ function navItemsById(state = {}, action = {}) {
                 let newBoxes = state[action.payload.parent].boxes;    
                 newBoxes.push(ID_PREFIX_BOX +action.payload.newId);
  
-                if(action.payload.parent !== 0 ){
+                if (action.payload.parent !== 0) {
                     return Object.assign({}, state, {
                         [action.payload.parent]: Object.assign({}, state[action.payload.parent], {
                             boxes: newBoxes})});
@@ -768,17 +768,17 @@ function toolbarsById(state = {}, action = {}) {
                 for(let accordionKey in accordions){
                     let buttons = accordions[accordionKey].buttons;
                     for(let buttonKey in buttons){
-                        if(state[action.payload.id].controls[tabKey].accordions[accordionKey].buttons[buttonKey]) {
+                        if (state[action.payload.id].controls[tabKey].accordions[accordionKey].buttons[buttonKey]) {
                             buttons[buttonKey].value = state[action.payload.id].controls[tabKey].accordions[accordionKey].buttons[buttonKey].value;
                         }
                     }
-                    if(accordions[accordionKey].accordions){
+                    if (accordions[accordionKey].accordions) {
                         accordions = accordions[accordionKey].accordions;
-                        for(let accordionKey2 in accordions) {
+                        for (let accordionKey2 in accordions) {
 
                             buttons = accordions[accordionKey2].buttons;
                             for (let buttonKey in buttons) {
-                                if(state[action.payload.id].controls[tabKey].accordions[accordionKey].accordions[accordionKey2].buttons[buttonKey]) {
+                                if (state[action.payload.id].controls[tabKey].accordions[accordionKey].accordions[accordionKey2].buttons[buttonKey]) {
                                     buttons[buttonKey].value = state[action.payload.id].controls[tabKey].accordions[accordionKey].accordions[accordionKey2].buttons[buttonKey].value;
                                 }
                             }
@@ -817,7 +817,7 @@ function toolbarsById(state = {}, action = {}) {
             return newState;
         case RESIZE_SORTABLE_CONTAINER:
             var newState = Object.assign({}, state);
-            if(newState[action.payload.parent].state) {
+            if (newState[action.payload.parent].state) {
                 let sortableContainers = newState[action.payload.parent].state.__pluginContainerIds;
                 for (let key in sortableContainers) {
                     if (sortableContainers[key].id === action.payload.id) {

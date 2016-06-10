@@ -60,6 +60,7 @@ export default class DaliBoxSortable extends Component {
                                                                              onBoxResized={this.props.onBoxResized}
                                                                              onBoxDropped={this.props.onBoxDropped}
                                                                              onBoxModalToggled={this.props.onBoxModalToggled}
+                                                                             onSortableContainerResized={this.props.onSortableContainerResized}
                                                                              onTextEditorToggled={this.props.onTextEditorToggled}/>);
                                                         }
                                                     })}</div>);

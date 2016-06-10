@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Button, ButtonGroup, Col} from 'react-bootstrap';
-import {ID_PREFIX_SECTION, ID_PREFIX_PAGE} from '../constants';
+import {ID_PREFIX_SECTION, ID_PREFIX_PAGE, ID_PREFIX_SORTABLE_BOX, BOX_TYPES} from '../constants';
 import Section from '../components/Section';
 
 export default class CarrouselList extends Component{
@@ -25,7 +25,9 @@ export default class CarrouselList extends Component{
                                 }><i className="fa fa-files-o"></i></Button>
 
                     <Button className="carrouselButton"  onClick={e => {
-                                    this.props.onSectionAdded(ID_PREFIX_SECTION + Date.now(), "Section "+this.sections(), 0, [], 1, 'section', this.props.navItemsIds.length);
+                                    let idnuevo = ID_PREFIX_SECTION + Date.now();
+                                    this.props.onSectionAdded(idnuevo, "Section "+this.sections(), 0, [], 1, 'section', this.props.navItemsIds.length);
+                                    this.props.onBoxAdded({parent: idnuevo, container: 0, id: ID_PREFIX_SORTABLE_BOX + Date.now()}, BOX_TYPES.SORTABLE, false, false);
                                     e.stopPropagation();
                                 }}><i className="fa fa-folder-o"></i></Button>
                     <Button className="carrouselButton"  onClick={e => {
@@ -44,6 +46,7 @@ export default class CarrouselList extends Component{
                                             navItemSelected={this.props.navItemSelected}
                                             onPageAdded={this.props.onPageAdded}
                                             onSectionAdded={this.props.onSectionAdded}
+                                            onBoxAdded={this.props.onBoxAdded}
                                             onNavItemSelected={this.props.onNavItemSelected}
                                             onNavItemExpanded={this.props.onNavItemExpanded} 
                                             onNavItemReorded={this.props.onNavItemReorded}/>;

@@ -14,12 +14,13 @@ export default class DaliCarousel extends Component{
                                               navItemsIds={this.props.navItemsIds}
                                               navItems={this.props.navItems}
                                               navItemSelected={this.props.navItemSelected}
+                                              onBoxAdded={this.props.onBoxAdded}
                                               onPageAdded={this.props.onPageAdded}
                                               onSectionAdded={this.props.onSectionAdded}
                                               onNavItemSelected={this.props.onNavItemSelected}
                                               onNavItemExpanded={this.props.onNavItemExpanded}
                                               onNavItemRemoved={this.props.onNavItemRemoved}
-                                               onNavItemReorded={this.props.onNavItemReorded}  />;
+                                              onNavItemReorded={this.props.onNavItemReorded}  />;
         }
         return( 
 
