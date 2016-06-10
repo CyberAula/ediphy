@@ -70,7 +70,7 @@ class DaliApp extends Component {
                                   onSectionAdded={(id, name, parent, children, level, type, position) => dispatch(addNavItem(id, name, parent, children, level, type, position))}
                                   onNavItemSelected={id => dispatch(selectNavItem(id))}
                                   onNavItemExpanded={(id, value) => dispatch(expandNavItem(id, value))}
-                                  onNavItemRemoved={(ids, parent,boxes) => {
+                                  onNavItemRemoved={(ids, parent, boxes) => {
                                 if(navItemsIds.length == ids.length){
                                   this.setState({hideTab: 'hide'})
                                 }
@@ -153,7 +153,6 @@ class DaliApp extends Component {
                 Dali.Plugins.get(plugin).init();
             })
         });
-
         Dali.API.Private.listenEmission(Dali.API.Private.events.render, e => {
             this.index = 0;
             let newPluginState = {};
@@ -183,7 +182,54 @@ class DaliApp extends Component {
                 this.addDefaultContainerPlugins(e.detail, e.detail.content);
             }
         });
+        Dali.API.Private.listenEmission(Dali.API.Private.events.getPluginsInView, e => {
+            let plugins = {};
+            let ids = [];
+            let view = e.detail.view ? e.detail.view : this.props.navItemSelected;
 
+            this.props.navItems[view].boxes.map(id => {
+                ids.push(id);
+                ids = ids.concat(this.getDescendants(this.props.boxes[id]));
+            });
+
+            ids.map(id => {
+                let toolbar = this.props.toolbars[id];
+                if(e.detail.getAliasedPugins){
+                    /*
+                     if(toolbar.buttons) {
+                     let lastButton = toolbar.buttons[toolbar.buttons.length - 1];
+                     if (lastButton.humanName === "Alias" && lastButton.value !== "" && toolbar.config.name) {
+                     if(!plugins[toolbar.config.name]){
+                     plugins[toolbar.config.name] = [];
+                     }
+                     plugins[toolbar.config.name].push(lastButton.value);
+                     }
+                     }else if(id.indexOf(ID_PREFIX_SORTABLE_BOX) !== -1){
+                     this.props.boxes[id].children.map(idContainer => {
+                     this.props.boxes[id].sortableContainers[idContainer].children.map(idBox => {
+                     toolbar = this.props.toolbars[idBox];
+                     if(toolbar.buttons) {
+                     let lastButton = toolbar.buttons[toolbar.buttons.length - 1];
+                     if (lastButton.humanName === "Alias" && lastButton.value !== "" && toolbar.config.name) {
+                     if(!plugins[toolbar.config.name]){
+                     plugins[toolbar.config.name] = [];
+                     }
+                     plugins[toolbar.config.name].push(lastButton.value);
+                     }
+                     }
+                     });
+                     });
+                     }
+                     */
+                }else {
+                    if (!plugins[toolbar.config.name]) {
+                        plugins[toolbar.config.name] = true;
+                    }
+                }
+            });
+
+            Dali.API.Private.answer(Dali.API.Private.events.getPluginsInView, plugins);
+        });
         window.onkeyup = function (e) {
             var key = e.keyCode ? e.keyCode : e.which;
             if (key == 90 && e.ctrlKey) {

@@ -45,8 +45,8 @@ export default class Visor extends Component{
         return (
             <Modal className="visor modalVisorContainer"
                    show={this.props.visorVisible}
-                   backdrop={true} bsSize="large" 
-                   aria-labelledby="contained-modal-title-lg" 
+                   backdrop={true} bsSize="large"
+                   aria-labelledby="contained-modal-title-lg"
                    onHide={e => {
                         this.props.onVisibilityToggled()
                         }}>
@@ -75,7 +75,7 @@ export default class Visor extends Component{
                         </Grid>
                     */}
                     <div ref={el => {
-                        if(el !== null){
+                        if(el !== null && this.props.visorVisible){
                             $(el).html(DaliVisor.exportPage(this.props.state));
                         }
                     }} style={{width: "100%", height: "100%"}}></div>

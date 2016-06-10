@@ -891,7 +891,7 @@
 				// Record down the selected element in the dialog.
 				this._.selectedElement = element;
 
-                Dali.Plugins.getPluginsInCurrentView().then(function(elements){
+                Dali.Plugins.getPluginsInCurrentView(true).then(function(elements){
                     var functions = {};
                     Object.keys(elements).forEach(function(pluginName){
                         functions[pluginName] = Dali.Plugins.get(pluginName).getExtraFunctions();

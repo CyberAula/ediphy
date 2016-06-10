@@ -12,10 +12,8 @@ Dali.API = (function(){
             Dali.API.Private.emit(Dali.API.Private.events.openConfig, {name: name, isUpdating: isUpdating});
             return promise;
         },
- 
         renderPlugin: function(html, toolbar, config, state, isUpdating, ids, initialParams){
             Dali.API.Private.emit(Dali.API.Private.events.render, {content: html, toolbar: toolbar, config: config, state: state, isUpdating: isUpdating, ids: ids, initialParams: initialParams});
- 
         }
     }
 })();
@@ -34,9 +32,9 @@ Dali.API.Private = (function(){
                 emit: 'openConfig',
                 answer: 'openConfig_back'
             },
-            getPluginsInCurrentView: {
-                emit: 'getPluginsInCurrentView',
-                answer: 'getPluginsInCurrentView_back'
+            getPluginsInView: {
+                emit: 'getPluginsInView',
+                answer: 'getPluginsInView_back'
             }
         },
         emit: function(name, params) {

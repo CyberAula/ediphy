@@ -46,11 +46,14 @@ Dali.Plugins = (function () {
         getAll: function () {
             return pluginInstancesList;
         },
-        getPluginsInCurrentView: function () {
+        getPluginsInCurrentView: function (getAliasedPugins) {
+            return getPluginsInView(null, getAliasedPugins);
+        },
+        getPluginsInView: function (view, getAliasedPugins) {
             var promise = new Promise(function (resolve) {
-                Dali.API.Private.listenAnswer(Dali.API.Private.events.getPluginsInCurrentView, resolve);
+                Dali.API.Private.listenAnswer(Dali.API.Private.events.getPluginsInView, resolve);
             });
-            Dali.API.Private.emit(Dali.API.Private.events.getPluginsInCurrentView);
+            Dali.API.Private.emit(Dali.API.Private.events.getPluginsInView, {view, getAliasedPugins});
 
             return promise;
         },

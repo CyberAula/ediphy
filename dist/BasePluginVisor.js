@@ -96,31 +96,10 @@ Dali.Visor.Plugin = function (descendant) {
                 template = template.replace(/pointer-events:[\s'"]+none[\s'"]+/g, "");
             }
 
-            var scripts = "";
-            Object.keys(plugin).map(function (fn) {
-                if (fn !== 'init' &&
-                    fn !== 'getConfig' &&
-                    fn !== 'getToolbar' &&
-                    fn !== 'getSections' &&
-                    fn !== 'getInitialState' &&
-                    fn !== 'handleToolbar' &&
-                    fn !== 'getConfigTemplate' &&
-                    fn !== 'getRenderTemplate') {
-                    scripts += (scripts.length === 0 ? "<script type='text/javascript'>" : "") + plugin[fn].toString().replace("function", "function " + fn).replace(/\n/g, "").replace(/[ ]+/g, " ");
-                }
-            });
-            if (scripts.length !== 0) {
-                scripts += " function __getPlugin(element){if(element.className.indexOf('wholebox') !== -1) return element; return __getPlugin(element.parentElement);}";
-                scripts += "</script>";
-            }
-
-            var firstTag = template.substring(0, template.indexOf(">") + 1);
-            template = template.substring(template.indexOf(">") + 1);
-            var result = firstTag + scripts + template;
             if (!hasChildren) {
-                return result;
+                return template;
             }
-            var json = html2json(result);
+            var json = html2json(template);
             parseJson(json, state, hasVisorTemplate);
             return json;
         },
