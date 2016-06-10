@@ -85,9 +85,9 @@ Dali.Visor.Plugin = function (descendant) {
             }
             matches.map(function (match) {
                 if (match[1].length === 0) {
-                    template = template.replace(match[0], match[0] + "event");
+                    template = template.replace(match[0], match[0] + "event, this, __getPlugin(this)");
                 } else {
-                    template = template.replace(match[0], match[0].replace(match[1], "event"));
+                    template = template.replace(match[0], match[0].replace(match[1], "event, this, __getPlugin(this)"));
                 }
                 template = template.replace(/[$]dali[$][.]/, "");
             });
@@ -110,6 +110,7 @@ Dali.Visor.Plugin = function (descendant) {
                 }
             });
             if (scripts.length !== 0) {
+                scripts += " function __getPlugin(element){if(element.className.indexOf('wholebox') !== -1) return element; return __getPlugin(element.parentElement);}";
                 scripts += "</script>";
             }
 

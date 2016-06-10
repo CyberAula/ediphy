@@ -25,7 +25,7 @@ class DaliApp extends Component {
         this.state = {
             pluginTab: 'all',
             hideTab: 'hide',
-            visor: false,
+            visorVisible: false,
             carouselShow: true
         };
     }
@@ -46,7 +46,7 @@ class DaliApp extends Component {
                                 boxSelected={boxSelected}
                                 undo={() => {dispatch(ActionCreators.undo())}}
                                 redo={() => {dispatch(ActionCreators.redo())}}
-                                visor={() =>{this.setState({visor:true })}}
+                                visor={() =>{this.setState({visorVisible: true })}}
                                 export={() => {DaliVisor.exports(this.props.store.getState().present)}}
                                 scorm={() => {DaliScorm.exports(this.props.store.getState().present)}}
                                 save={() => {dispatch(exportStateAsync({present: this.props.store.getState().present}))}}
@@ -121,8 +121,8 @@ class DaliApp extends Component {
                            onVisibilityToggled={(caller, value) => dispatch(togglePageModal(caller, value))}
                            onPageAdded={(id, name, parent, children, level, type, position) => dispatch(addNavItem(id, name, parent, children, level, type, position))}/>
                 <Visor id="visor"
-                       visor={this.state.visor}
-                       onVisibilityToggled={()=> this.setState({visor:!this.state.visor })}
+                       visorVisible={this.state.visorVisible}
+                       onVisibilityToggled={()=> this.setState({visorVisible: !this.state.visorVisible })}
                        state={this.props.store.getState().present}/>
                 <PluginConfigModal />
 
@@ -136,7 +136,7 @@ class DaliApp extends Component {
                                onToolbarUpdated={(id, tab, accordion, name, value) => dispatch(updateToolbar(id, tab, accordion, name, value))}
                                onToolbarCollapsed={(id) => dispatch(collapseToolbar(id))}
                                onBoxDuplicated={(id, parent, container)=> dispatch( duplicateBox( id, parent, container, this.getDescendants(boxes[id]), this.getDuplicatedBoxesIds(this.getDescendants(boxes[id]) ), Date.now()-1 ))}
-                               onBoxDeleted={(id, parent, container)=> dispatch(deleteBox(id, parent, container, this.getDescendants(boxes[id]))) } />
+                               onBoxDeleted={(id, parent, container)=> dispatch(deleteBox(id, parent, container, this.getDescendants(boxes[id]))) }/>
 
             </Grid>
         );
@@ -214,16 +214,16 @@ class DaliApp extends Component {
         return selected;
     }
 
-    getDuplicatedBoxesIds(descendants){
+    getDuplicatedBoxesIds(descendants) {
         var newIds = {};
         var date = Date.now();
         descendants.map(box => {
-            newIds[box.substr(3)] =  date++;
+            newIds[box.substr(3)] = date++;
         });
         return newIds
     }
 
-    parsePluginContainers(obj, state){
+    parsePluginContainers(obj, state) {
         if (obj.child) {
             for (let i = 0; i < obj.child.length; i++) {
                 if (obj.child[i].tag && obj.child[i].tag === "plugin") {

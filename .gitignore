@@ -6,6 +6,7 @@ dist/bundle.js
 webpack.config.js~
 *.orig
 .sass-cache
+<<<<<<< HEAD
 dist/plugins/*
 !dist/plugins/BasicImage
 !dist/plugins/BasicQuizConnect
@@ -17,3 +18,4 @@ dist/plugins/*
 !dist/plugins/Youtube
 !dist/plugins/CajasColorBis
 dali_server/config.json
+ 

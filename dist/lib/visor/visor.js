@@ -38,5 +38,21 @@ var DaliVisor = {
             var content = zip.generate({type:"blob"});
             saveAs(content, "dalivisor.zip");
         });
+    },
+    exportPage: function(state){
+        var today = new Date();
+        var strDate = 'd-m-Y'
+            .replace('d', today.getDate())
+            .replace('m', today.getMonth()+1)
+            .replace('Y', today.getFullYear());
+
+        return new EJS({url: '/lib/visor/page.ejs'}).render({
+            page: state.navItemSelected,
+            navs: state.navItemsById,
+            boxesById: state.boxesById,
+            boxes: state.boxes,
+            toolbarsById: state.toolbarsById,
+            strDate: strDate
+        });
     }
 }
