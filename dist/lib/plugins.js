@@ -21,7 +21,6 @@ Dali.Plugins = (function () {
                 url: ("plugins/" + name + "/" + name + ".js"),
                 dataType: 'script',
                 success: function () { // callback for successful completion
-                    resolve(name);
                     $.ajax({
                         url: ("plugins/" + name + "/visor/" + name + ".js"),
                         dataType: 'script',
@@ -29,6 +28,13 @@ Dali.Plugins = (function () {
                             Dali.Visor.Plugins.add(name);
                         }
                     });
+                },
+                complete: function(xhr, status){
+                    if(status === "success") {
+                        resolve(name);
+                    }else{
+                        resolve();
+                    }
                 }
             });
         });
@@ -64,7 +70,9 @@ Dali.Plugins = (function () {
             plugins.map(function (id, index) {
                 promises.push(loadPluginFile(id));
                 promises[index].then(function (name) {
-                    pluginInstancesList[name] = pluginFactory(name);
+                    if(name) {
+                        pluginInstancesList[name] = pluginFactory(name);
+                    }
                 });
             });
             return Promise.all(promises);

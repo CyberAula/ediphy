@@ -151,7 +151,9 @@ class DaliApp extends Component {
     componentDidMount() {
         Dali.Plugins.loadAllAsync().then(pluginsLoaded => {
             pluginsLoaded.map((plugin) => {
-                Dali.Plugins.get(plugin).init();
+                if(plugin) {
+                    Dali.Plugins.get(plugin).init();
+                }
             })
         });
         Dali.API.Private.listenEmission(Dali.API.Private.events.render, e => {
