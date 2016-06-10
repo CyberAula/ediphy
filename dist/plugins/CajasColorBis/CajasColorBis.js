@@ -122,8 +122,6 @@ Dali.Plugins["CajasColorBis"] = function (base){
             return template;
         },
         handleToolbar: function(name, value){
-
-console.log(name);
             if( /box/.test(name) ){
                     var idB = name.slice(3);
                     var newColors = base.getState().colors;
