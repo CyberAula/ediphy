@@ -25,7 +25,7 @@ export default class PluginPlaceholder extends Component {
 
         return (
             <div style={{
-                    border: "solid green 5px",
+                    border: "solid pink 5px",
                     width: "100%",
                     height: container ? container.height : "100%",
                     position: 'relative'}}

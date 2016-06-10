@@ -57,7 +57,7 @@ export default class PageModal extends Component {
         let siblings = this.props.navItemsIds
         var num = 1
         for (let i in siblings){
-            if(siblings[i][0] == 'p'){
+            if(siblings[i].indexOf(ID_PREFIX_PAGE) !== -1){
                 num++
             }
         }

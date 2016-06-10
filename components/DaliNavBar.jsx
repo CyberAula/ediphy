@@ -9,6 +9,7 @@ export default class DaliNavBar extends Component {
     }
 
     render() {
+        let disablePlugins = (this.props.navItemsIds.length === 0  || this.props.navItemSelected == 0) ? true : false
         return (
             <Col id="iconBar">
                 <button className="navButton" title="Undo" disabled={this.props.undoDisabled}
@@ -34,32 +35,32 @@ export default class DaliNavBar extends Component {
                 </OverlayTrigger>
                 <button
                     className={ this.props.hideTab == 'show' && this.props.categoria == 'all' ? 'navButtonPlug active':'navButtonPlug' }
-                    title='All' disabled={(this.props.navItemsIds.length === 0 ? true : false)}
+                    title='All' disabled={disablePlugins}
                     onClick={() => {this.openPlugin('all') }}><i className="fa fa-th fa-1 "></i> <span
                     className="hideonresize">All</span></button>
                 <button
                     className={ this.props.hideTab == 'show' && this.props.categoria == 'text' ? 'navButtonPlug active':'navButtonPlug' }
-                    title='Text' disabled={(this.props.navItemsIds.length === 0 ? true : false)}
+                    title='Text' disabled={disablePlugins}
                     onClick={() => {this.openPlugin('text')}}><i className="fa fa-edit fa-1 "></i> <span
                     className="hideonresize">Texto</span></button>
                 <button
                     className={ this.props.hideTab == 'show' && this.props.categoria == 'image' ? 'navButtonPlug active':'navButtonPlug' }
-                    title='Images' disabled={(this.props.navItemsIds.length === 0 ? true : false)}
+                    title='Images' disabled={disablePlugins}
                     onClick={() => { this.openPlugin('image')}}><i className="fa fa-photo fa-1 "></i><span
                     className="hideonresize"> Imagen</span></button>
                 <button
                     className={ this.props.hideTab == 'show' && this.props.categoria == 'multimedia' ? 'navButtonPlug active':'navButtonPlug' }
-                    title='Multimedia' disabled={(this.props.navItemsIds.length === 0 ? true : false)}
+                    title='Multimedia' disabled={disablePlugins}
                     onClick={() => {this.openPlugin('multimedia')}}><i className="fa fa-film fa-1 "></i> <span
                     className="hideonresize">Multimedia</span></button>
                 <button
                     className={ this.props.hideTab == 'show' && this.props.categoria == 'animations' ? ' navButtonPlug active':'navButtonPlug' }
-                    title='Animations' disabled={(this.props.navItemsIds.length === 0 ? true : false)}
+                    title='Animations' disabled={disablePlugins}
                     onClick={() => {this.openPlugin('animations')}}><i className="fa fa-play fa-1 "></i> <span
                     className="hideonresize">Animaciones</span></button>
                 <button
                     className={ this.props.hideTab == 'show' && this.props.categoria == 'exercises' ? 'navButtonPlug active':'navButtonPlug' }
-                    title='Exercises' disabled={(this.props.navItemsIds.length === 0 ? true : false)}
+                    title='Exercises' disabled={disablePlugins}
                     onClick={() => {this.openPlugin('exercises') }}><i className="fa fa-mortar-board fa-1 "></i> <span
                     className="hideonresize">Ejercicios</span></button>
             </Col>);

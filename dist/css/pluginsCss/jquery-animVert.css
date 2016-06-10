@@ -1,0 +1,140 @@
+@charset "utf-8";
+
+/* Cajas horizontales desplegables */
+
+
+
+.desplVert{
+	overflow:hidden;
+	/*height:100%;*/ /* Removed*/
+	margin:0 auto;
+}
+
+.container{
+	overflow:hidden;
+	height:100%;
+	width: 100%;
+	padding: 0; /*Added*/
+}
+
+.ocultar{
+    width: 100%;
+	margin-bottom:15px;
+}
+	
+.showLista, #show,#show1, #show2, #show3, #show4, #show5{ /*Changed*/
+	width: 100%;
+	text-align:center;
+	font-size:28px;
+	font-weight: bold;
+	cursor:pointer;
+	margin: 0 auto 15px auto;
+	overflow:hidden;
+}	
+
+#primerdiv{
+    width: 100%;
+	margin-bottom:15px;
+}
+
+
+
+/* Cajas izquierda */
+
+.desplVert .rojo{
+    background-color: #c5524b;
+}
+
+.desplVert .verde{
+    background-color: #719100;
+}
+
+.desplVert .morado{
+    background-color: #8067A5;
+}
+
+.desplVert .azul{
+    background-color: #44adc8;
+}
+
+.desplVert .naranja{
+    background-color: #fb9843;
+}
+
+.desplVert .rosa{
+    background-color: #f978de;
+}
+
+.desplVert .transparente{
+	color: #FFFFFF;
+}
+
+.izq_jq{
+    color: #FFFFFF;
+    float: left;
+    font-size: 20px;
+    font-weight: bold;
+    height: 100%;
+    padding: 5px 2px;
+    text-align: center;
+    width: 35px;
+}
+
+
+
+/* Caja derecha */
+
+.rojoder {
+	background-color: #fff;
+	border:1px solid #c5524b;
+}
+	
+.verdeder {
+	background-color: #fff;
+	border:1px solid #719100;
+}
+
+.moradoder {
+	background-color: #fff;
+	border:1px solid #8067a5;
+}
+
+.azulder {
+	background-color: #fff;
+	border:1px solid #44adc8;
+}
+
+.naranjader {
+	background-color: #fff;
+	border:1px solid #fb9843;
+}
+
+.rosader {
+	background-color: #fff;
+	border:1px solid #f978de;
+}
+
+.container0{
+    height: auto;
+    margin-left: 50px;
+    overflow:hidden;
+	font-size: small;
+    height: auto;
+	overflow:hidden;
+}
+
+.container0 p {
+	margin: 9px;
+}
+
+.container_sin{
+    height: auto;
+    overflow:hidden;
+	font-size: small;
+    height: auto;
+	overflow:hidden;
+}
+
+.container_sin p {
+	margin: 9px;
+}

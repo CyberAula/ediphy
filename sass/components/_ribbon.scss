@@ -51,6 +51,7 @@
 #insideribbon{
 	margin-top:0px;
 	right:0;
+	overflow-y: hidden;
 }
  
 #canvas, #maincontent, #canvasRow {
@@ -63,8 +64,10 @@
 }
 
 #ribbon {
-	 overflow:hidden;
+	 overflow-X:hidden;
+	 overflow-Y:hidden;
 }
 #colRight{
 	overflow-x:hidden;
 }
+

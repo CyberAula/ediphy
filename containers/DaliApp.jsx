@@ -66,16 +66,17 @@ class DaliApp extends Component {
                                   navItems={navItems}
                                   navItemSelected={navItemSelected}
                                   displayMode={displayMode}
+                                  onBoxAdded={(ids, type,  draggable, resizable, content, toolbar, config, state) => dispatch(addBox(ids, type, draggable, resizable, content, toolbar, config, state))}
                                   onPageAdded={(caller, value) => dispatch(togglePageModal(caller, value))}
                                   onSectionAdded={(id, name, parent, children, level, type, position) => dispatch(addNavItem(id, name, parent, children, level, type, position))}
                                   onNavItemSelected={id => dispatch(selectNavItem(id))}
                                   onNavItemExpanded={(id, value) => dispatch(expandNavItem(id, value))}
                                   onNavItemRemoved={(ids, parent, boxes) => {
-                                if(navItemsIds.length == ids.length){
-                                  this.setState({hideTab: 'hide'})
-                                }
-                                dispatch(removeNavItem(ids, parent, boxes));
-                              }}
+                                    if(navItemsIds.length == ids.length){
+                                      this.setState({hideTab: 'hide'})
+                                    }
+                                    dispatch(removeNavItem(ids, parent, boxes));
+                                  }}
                                   onNavItemReorded={(itemId,newParent,type,newIndId,newChildrenInOrder) => dispatch(reorderNavItem(itemId,newParent,type,newIndId,newChildrenInOrder))}
                                   onDisplayModeChanged={mode => dispatch(changeDisplayMode(mode))}
                                   carouselShow={this.state.carouselShow}
@@ -98,7 +99,7 @@ class DaliApp extends Component {
                                         boxLevelSelected={boxLevelSelected}
                                         navItems={navItems}
                                         navItemSelected={navItems[navItemSelected]}
-                                        showCanvas={(navItemsIds.length !== 0)}
+                                        showCanvas={(navItemSelected !== 0)}
                                         toolbars={toolbars}
                                         onBoxSelected={(id) => dispatch(selectBox(id))}
                                         onBoxLevelIncreased={() => dispatch(increaseBoxLevel())}

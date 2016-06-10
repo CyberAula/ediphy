@@ -1,0 +1,6 @@
+[submodule "dist/plugins/ListaNumerada"]
+	path = dist/plugins/ListaNumerada
+	url = https://github.com/sonsoleslp/pluginListaNumerada
+[submodule "dist/plugins/RelacionaAll"]
+	path = dist/plugins/RelacionaAll
+	url = https://github.com/sonsoleslp/pluginRelacionaAll

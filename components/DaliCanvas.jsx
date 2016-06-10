@@ -19,8 +19,16 @@ export default class DaliCanvas extends Component{
             }
             titles.reverse();
         }
-         var paddings= (this.props.navItemSelected.type!= "slide") ? ('0px 0px 0px 0px') : ('30px 0px 30px 0px')
-         return (<Col id="canvas" md={12} xs={12} style={{height:"100%", padding:0}}>
+        let paddings= (this.props.navItemSelected.type!= "slide") ? ('0px 0px 0px 0px') : ('30px 0px 30px 0px')
+        let maincontent = document.getElementById('maincontent');
+        let actualHeight; 
+        if (maincontent){
+            actualHeight = parseInt(maincontent.scrollHeight);
+            actualHeight = (parseInt(maincontent.clientHeight) < actualHeight) ? (actualHeight) +'px' : '100%';
+        }
+        let overlayHeight = actualHeight ? actualHeight:'100%';
+
+        return (<Col id="canvas" md={12} xs={12} style={{height:"100%", padding:0}}>
             <div className="outter" style={{position: 'absolute', width: '100%', height:'100%', padding: (paddings)}} >
                 <div  id="maincontent"
                       onClick={e => {this.props.onBoxSelected(-1)}}
@@ -34,12 +42,11 @@ export default class DaliCanvas extends Component{
                                showButton={true} />
                                <br/>
                     <div style={{
-                        width: "100%",
-                        minHeight: "100%",
+                        width: "100%",  
                         background: "black",
-                        height: document.getElementById('maincontent') ? document.getElementById('maincontent').scrollHeight:'100%',
+                        height: overlayHeight,
                         position: "absolute",
-                        top:0,
+                        top: 0,
                         opacity: 0.4,
                         visibility: (this.props.boxLevelSelected > 0) ? "visible" : "collapse"
                         }}>
