@@ -18,19 +18,8 @@ var DaliVisor = (function () {
             scripts += " function __getPlugin(element){if(element.className.indexOf('wholebox') !== -1) return element; return __getPlugin(element.parentElement);}";
             scripts += "</script>";
         }
-
-        state.navItemsIds.map(function (page) {
-            var inner = new EJS({url: '/lib/visor/index.ejs'}).render({
-                page: page,
-                navs: navs,
-                boxesById: state.boxesById,
-                boxes: state.boxes,
-                toolbarsById: state.toolbarsById,
-                strDate: strDate
-            });
-
-            return scripts;
-        });
+        
+        return scripts;
     }
 
     var getPluginsInView = function (state, page) {
