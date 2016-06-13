@@ -1,0 +1,25 @@
+INSTRUCCIONES PLUGINS PRIVADOS
+
+1. Crear repositorio privado en GitHub y añadir como colaboradores al resto del equipo
+
+2. Desde la carpeta principal del repositorio de Dali ejecutar:
+   git submodule add https://github.com/<username>/<nombreRepositorio> dist/plugins/<nombrePlugin>
+   Ej: git submodule add https://github.com/sonsoleslp/pluginListaNumerada dist/plugins/ListaNumerada
+   Esto creará una carpeta dentro del directorio de plugins que se llama ListaNumerada (la carpeta en sí aparecerá en el repositorio público pero no su contenido)
+
+3. Cuando trabajamos en un submódulo es necesario utilizar 
+	git pull/push desde dist/plugins/<nombrePlugin>
+
+4. Para clonar el repositorio entero con todos sus submódulos: 
+	git clone --recursive https://github.com/pichoneto/dali.git
+
+5. Para actualizar todo: 
+git submodule foreach git pull origin master
+
+   Problema: Sólo actualiza los submódulos cacheados. Para actualizar todo, situarse en directorio principal y hacer:
+   git pull
+   git submodule update --recursive --init
+
+6. A veces falla y la rama de los repos privados se queda detached. En ese caso lo que hay que hacer (en el repo privado) es:
+	git branch
+	git checkout master
