@@ -1,6 +1,5 @@
 Dali.Plugin = function () {
     var descendant, state, id, initialParams;
-    var extraFunctions = {};
 
     var defaultFor = function (arg, value, warn) {
         if (typeof arg !== 'undefined') {
@@ -222,19 +221,7 @@ Dali.Plugin = function () {
         getState: function () {
             return state;
         },
-        registerExtraFunction: function (fn, alias) {
-            if (!alias) {
-                Object.keys(descendant).forEach(function (prop) {
-                    if (descendant[prop] === fn) {
-                        alias = prop;
-                    }
-                });
-            }
-            extraFunctions[alias] = fn;
-        },
-        getExtraFunctions: function () {
-            return Object.keys(extraFunctions);
-        }
+        registerExtraFunction: function() { }
     };
 
     return plugin;

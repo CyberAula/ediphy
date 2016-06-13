@@ -151,7 +151,7 @@ class DaliApp extends Component {
     componentDidMount() {
         Dali.Plugins.loadAllAsync().then(pluginsLoaded => {
             pluginsLoaded.map((plugin) => {
-                if(plugin) {
+                if (plugin) {
                     Dali.Plugins.get(plugin).init();
                 }
             })
@@ -197,34 +197,17 @@ class DaliApp extends Component {
 
             ids.map(id => {
                 let toolbar = this.props.toolbars[id];
-                if(e.detail.getAliasedPugins){
-                    /*
-                     if(toolbar.buttons) {
-                     let lastButton = toolbar.buttons[toolbar.buttons.length - 1];
-                     if (lastButton.humanName === "Alias" && lastButton.value !== "" && toolbar.config.name) {
-                     if(!plugins[toolbar.config.name]){
-                     plugins[toolbar.config.name] = [];
-                     }
-                     plugins[toolbar.config.name].push(lastButton.value);
-                     }
-                     }else if(id.indexOf(ID_PREFIX_SORTABLE_BOX) !== -1){
-                     this.props.boxes[id].children.map(idContainer => {
-                     this.props.boxes[id].sortableContainers[idContainer].children.map(idBox => {
-                     toolbar = this.props.toolbars[idBox];
-                     if(toolbar.buttons) {
-                     let lastButton = toolbar.buttons[toolbar.buttons.length - 1];
-                     if (lastButton.humanName === "Alias" && lastButton.value !== "" && toolbar.config.name) {
-                     if(!plugins[toolbar.config.name]){
-                     plugins[toolbar.config.name] = [];
-                     }
-                     plugins[toolbar.config.name].push(lastButton.value);
-                     }
-                     }
-                     });
-                     });
-                     }
-                     */
-                }else {
+                if (e.detail.getAliasedPugins) {
+                    if(id.indexOf(ID_PREFIX_SORTABLE_BOX) === -1) {
+                        let button = toolbar.controls.other.accordions.extra.buttons.alias;
+                        if (button.value.length !== 0) {
+                            if(!plugins[toolbar.config.name]){
+                                plugins[toolbar.config.name] = [];
+                            }
+                            plugins[toolbar.config.name].push(button.value);
+                        }
+                    }
+                } else {
                     if (!plugins[toolbar.config.name]) {
                         plugins[toolbar.config.name] = true;
                     }
