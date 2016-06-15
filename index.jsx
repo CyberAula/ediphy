@@ -16,7 +16,7 @@ let store = finalCreateStore(GlobalState, initialState);
 
 let root = document.getElementById('root');
 ReactDOM.render(
-    <Provider store={store}>
+    <Provider>
         <div style={{height: '100%'}}>
             <DaliApp id="app" store={store}/>
         </div>
