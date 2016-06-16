@@ -13,11 +13,6 @@ Dali.Visor.Plugins["CajasColorBis"] = function (){
             if(state.rounded == 'checked'){
                 rounded = ' rounded';
             }
-            
-
-            if(state.rounded == 'checked'){
-                template += "<div  style='height: 20%; max-height: 100px;'><plugin plugin-data-key='image' plugin-data-default='BasicImage' /></div>";
-            }
 
             if(state.wayHorizontal){
                 template += "<div class='tabla_colores'><div class='fila_colores'>";

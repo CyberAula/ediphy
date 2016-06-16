@@ -1,5 +1,8 @@
 Dali.Plugins["CajasColor"] = function (base){
     return{
+        init: function(){
+            base.registerExtraFunction(this.clicky);
+        },
         getConfig: function(){
             return {
                 name: 'CajasColor',

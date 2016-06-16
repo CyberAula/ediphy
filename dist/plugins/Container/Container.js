@@ -8,7 +8,7 @@ Dali.Plugins["Container"] = function (base){
             }
         },
         getRenderTemplate: function (state) {
-            return "<div><plugin /></div>";
+            return "<div><plugin plugin-data-key='Container'  /></div>";
         }
     }
 }

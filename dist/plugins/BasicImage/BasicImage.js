@@ -1,9 +1,5 @@
 Dali.Plugins["BasicImage"] = function (base){
     return {
-        init: function(){
-            base.registerExtraFunction(this.imageClick);
-            base.registerExtraFunction(this.printState);
-        },
         getConfig: function(){
             return {
                 name: 'BasicImage',

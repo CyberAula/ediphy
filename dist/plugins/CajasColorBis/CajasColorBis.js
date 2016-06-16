@@ -81,7 +81,7 @@ Dali.Plugins["CajasColorBis"] = function (base){
             return {nBoxes: 3, colors: ['azul', 'cyan','gris'], wayHorizontal: true, image: false, rounded: 'unchecked'};
         },
         getRenderTemplate: function(state){
-            var template = "<div class='cajascolor' style='width: 100%; height: 100%'>";
+            var template = "<div class='cajascolor' plugin-data-initialWidth='500px' style='width: 100%; height: 100%'>";
             var disp = 'block';
             if(state.image){
                 template += "<div style='height: 20%; max-height: 100px;' ><plugin plugin-data-key='image' plugin-data-default='BasicImage' /></div>";

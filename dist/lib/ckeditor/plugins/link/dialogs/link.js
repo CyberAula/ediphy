@@ -894,7 +894,7 @@
                 Dali.Plugins.getPluginsInCurrentView(true).then(function(elements){
                     var functions = {};
                     Object.keys(elements).forEach(function(pluginName){
-                        functions[pluginName] = Dali.Plugins.get(pluginName).getExtraFunctions();
+                        functions[pluginName] = Dali.Visor.Plugins.get(pluginName).getExtraFunctions();
                     });
                     pluginOptions = Object.keys(elements);
                     pluginAliases = elements;
@@ -920,8 +920,8 @@
                     attributes.set['data-cke-pluginType'] = data.pluginType;
                     attributes.set['data-cke-pluginAlias'] = data.pluginAlias;
                     attributes.set['data-cke-pluginFunction'] = data.pluginFunction;
-                    attributes.set['data-cke-saved-href'] = data.pluginFunction;
-                    attributes.set['href'] = "javascript:" + data.pluginType + ".callExtraFunction('" + data.pluginAlias + "','" + data.pluginFunction + "')";
+                    attributes.set['data-cke-saved-href'] = "javascript:Dali.Visor.Plugins.get('" + data.pluginType + "').callExtraFunction('" + data.pluginAlias + "','" + data.pluginFunction + "')";
+                    attributes.set['href'] = "javascript:Dali.Visor.Plugins.get('" + data.pluginType + "').callExtraFunction('" + data.pluginAlias + "','" + data.pluginFunction + "')";
                 }else{
                     attributes.removed.push('data-cke-pluginType');
                     attributes.removed.push('data-cke-pluginAlias');

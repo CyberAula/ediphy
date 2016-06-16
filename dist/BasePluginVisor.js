@@ -1,4 +1,6 @@
-Dali.Visor.Plugin = function (descendant) {
+Dali.Visor.Plugin = function () {
+    var descendant;
+    var extraFunctions = {};
 
     var parseJson = function (json, state, hasVisorTemplate, name) {
         if (json.child) {
@@ -54,6 +56,27 @@ Dali.Visor.Plugin = function (descendant) {
     }
 
     var plugin = {
+        create: function (obj) {
+            descendant = obj;
+
+            Object.keys(descendant).map(function (id) {
+                if (id !== 'init' &&
+                    id !== 'getConfig' &&
+                    id !== 'getToolbar' &&
+                    id !== 'getSections' &&
+                    id !== 'getInitialState' &&
+                    id !== 'handleToolbar' &&
+                    id !== 'getConfigTemplate' &&
+                    id !== 'getRenderTemplate') {
+                    plugin[id] = descendant[id];
+                }
+            });
+        },
+        init: function () {
+            if (descendant.init) {
+                descendant.init();
+            }
+        },
         export: function (state, name, hasChildren) {
             var plugin, template, hasVisorTemplate;
 
@@ -126,26 +149,26 @@ Dali.Visor.Plugin = function (descendant) {
             parseJson(json, state, hasVisorTemplate, name);
             return json;
         },
+        registerExtraFunction: function (fn, alias) {
+            if (!alias) {
+                Object.keys(descendant).forEach(function (prop) {
+                    if (descendant[prop] === fn) {
+                        alias = prop;
+                    }
+                });
+            }
+            extraFunctions[alias] = fn;
+        },
+        getExtraFunctions: function () {
+            return Object.keys(extraFunctions);
+        },
         callExtraFunction: function (alias, fnAlias) {
             var element = $.find("[data-alias='" + alias + "']");
             if (element && extraFunctions && extraFunctions[fnAlias]) {
-                extraFunctions[fnAlias].bind(element[0])();
+               extraFunctions[fnAlias].bind(element[0])();
             }
         }
     }
-
-    Object.keys(descendant).map(function (id) {
-        if (id !== 'init' &&
-            id !== 'getConfig' &&
-            id !== 'getToolbar' &&
-            id !== 'getSections' &&
-            id !== 'getInitialState' &&
-            id !== 'handleToolbar' &&
-            id !== 'getConfigTemplate' &&
-            id !== 'getRenderTemplate') {
-            plugin[id] = descendant[id];
-        }
-    });
 
     return plugin;
 };

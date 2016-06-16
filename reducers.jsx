@@ -281,16 +281,16 @@ function boxesById(state = {}, action = {}) {
             }
             return newState;
         case REMOVE_NAV_ITEM:
-            var newState = Object.assign({}, state)
+            var newState = Object.assign({}, state);
             action.payload.boxes.map(box => {
-                delete newState[box]
+                delete newState[box];
             })
             return newState;
         case REORDER_BOX:
-            let oldChildren = state[action.payload.parent].children
-            var newChildren = Object.keys(oldChildren).map(i => oldChildren[action.payload.ids[i]])
             return Object.assign({}, state, {
-                [action.payload.parent]: Object.assign({}, state[action.payload.parent], {children: newChildren})
+                [action.payload.parent]: Object.assign({}, state[action.payload.parent], {
+                    children: action.payload.ids
+                })
             });
         case TOGGLE_TEXT_EDITOR:
             if (action.payload.text) {

@@ -6,8 +6,6 @@ Dali.Plugins = (function () {
         'BasicVideo',
         'Youtube',
         'Webpage',
-        'BasicPills',
-        'BasicQuizConnect',
         'CajasColor',
         'CajasColorBis',
         'Container',
@@ -41,12 +39,6 @@ Dali.Plugins = (function () {
         return promise;
     };
 
-    var pluginFactory = function (name) {
-        var plugin = new Dali.Plugin();
-        plugin.create(Dali.Plugins[name](plugin));
-        return plugin;
-    }
-
     return {
         get: function (name) {
             return pluginInstancesList[name];
@@ -55,7 +47,7 @@ Dali.Plugins = (function () {
             return pluginInstancesList;
         },
         getPluginsInCurrentView: function (getAliasedPugins) {
-            return getPluginsInView(null, getAliasedPugins);
+            return this.getPluginsInView(null, getAliasedPugins);
         },
         getPluginsInView: function (view, getAliasedPugins) {
             var promise = new Promise(function (resolve) {
@@ -71,7 +63,9 @@ Dali.Plugins = (function () {
                 promises.push(loadPluginFile(id));
                 promises[index].then(function (name) {
                     if(name) {
-                        pluginInstancesList[name] = pluginFactory(name);
+                        var plugin = new Dali.Plugin();
+                        plugin.create(Dali.Plugins[name](plugin));
+                        pluginInstancesList[name] = plugin;
                     }
                 });
             });
@@ -90,11 +84,16 @@ Dali.Visor.Plugins = (function () {
             return pluginInstancesList;
         },
         add: function (name) {
+            var basePlugin = new Dali.Visor.Plugin();
+            var plugin;
             if (Dali.Visor.Plugins[name]) {
-                pluginInstancesList[name] = new Dali.Visor.Plugin(Dali.Visor.Plugins[name]());
+                plugin = Dali.Visor.Plugins[name](basePlugin);
             } else {
-                pluginInstancesList[name] = new Dali.Visor.Plugin(Dali.Plugins[name]());
+                plugin = Dali.Plugins[name](basePlugin);
             }
+            basePlugin.create(plugin);
+            basePlugin.init();
+            pluginInstancesList[name] = basePlugin;
         }
     }
 })();
