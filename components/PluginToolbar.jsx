@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
-import { FormControl, FormGroup, Radio, ControlLabel, Checkbox,  Button, PanelGroup, Accordion, Panel, Tabs, Tab} from 'react-bootstrap';
+import { FormControl, FormGroup, Radio, ControlLabel, Checkbox,  Button, ButtonGroup, PanelGroup, Accordion, Panel, Tabs, Tab} from 'react-bootstrap';
 import ReactDOM from 'react-dom';
 import GridConfigurator from '../components/GridConfigurator.jsx';
+import Select from 'react-select';
+  
 
 export default class PluginToolbar extends Component {
     constructor(props) {
@@ -43,7 +45,7 @@ export default class PluginToolbar extends Component {
         let deletebutton;
         if (this.props.box.id[1] != 's') {
             deletebutton = (<Button key={'delete'}
-                                    block
+                                    className="pluginToolbarMainButton" 
                                     onClick={e => {
                                         this.props.onBoxDeleted(this.props.box.id, this.props.box.parent, this.props.box.container);
                                         e.stopPropagation();
@@ -52,7 +54,7 @@ export default class PluginToolbar extends Component {
         let duplicateButton;
         if (this.props.box.id[1] != 's') {
             duplicateButton = (<Button key={'duplicate'}
-                                       block
+                                       className="pluginToolbarMainButton" 
                                        onClick={e => {
                                           this.props.onBoxDuplicated(this.props.box.id, this.props.box.parent, this.props.box.container);
                                           e.stopPropagation();
@@ -74,15 +76,14 @@ export default class PluginToolbar extends Component {
             <div id="tools" style={{width: this.state.open? '250px':'0px'}} className="toolbox">
                 <div id="insidetools">
 
-                    <Tabs ref="tabs" activeKey={this.state.activeKey} animation={false}
+                    <Tabs className="toolbarTabs" ref="tabs" activeKey={this.state.activeKey} animation={false}
                           onSelect={(key) => this.handleSelect(key)} id="controlledTabs">
                         {Object.keys(toolbar.controls).map((tabKey, index) => {
                             let tab = toolbar.controls[tabKey];
                             return (
-                                <Tab key={index} eventKey={index} title={tab.__name}>
-                                    {deletebutton}
-                                    {duplicateButton}
-                                    <br/>
+                                <Tab key={index} className="toolbarTab" eventKey={index} title={tab.__name}>
+                                <ButtonGroup style={{width: '100%'}}> {deletebutton} {duplicateButton} </ButtonGroup>
+                                    <br/><br/>
                                     <PanelGroup>
                                         {Object.keys(tab.accordions).map((accordionKey, index) => {
                                             let accordion = tab.accordions[accordionKey];
@@ -102,8 +103,10 @@ export default class PluginToolbar extends Component {
                                             }
                                         })}
                                     </PanelGroup>
+                                     
                                     {textButton}
                                     {configButton}
+
                                 </Tab>
                             );
                         })}
@@ -155,7 +158,7 @@ export default class PluginToolbar extends Component {
             className: button.class,
             style: {width: '100%'},
             onChange: e => {
-                let value = e.target.value;
+                 let value = e.target ? e.target.value : e.target;
                 if (buttonKey == 'width') {
                     if (!this.aspectRatio) {
                         this.props.onBoxResized(id, value + '%', this.props.box.height);
@@ -189,36 +192,62 @@ export default class PluginToolbar extends Component {
                 }
 
                 if (button.type === 'select' && button.multiple === true){
-                    console.log(value)
-                    value = [...e.target.options].filter(o => o.selected).map(o => o.value);
-                                        console.log(value)
-
+                    value = button.value;
+                    let ind = button.value.indexOf(e)
+                    value = e  //[...e.target.options].filter(o => o.selected).map(o => o.value);
                 }
+
+                if (button.type === 'colorPicker'){
+                    value = e.value;
+                 }
+
                 this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, value);
 
                 if (!button.autoManaged) {
                     button.callback(state, buttonKey, value, id);
                 }
-                e.stopPropagation();
-            }
+
+               /* 
+                    e.stopPropagation();
+               */
+            } 
 
         }
-        if (button.options && button.type === "select") {
+
+        if (button.options && button.type === 'colorPicker'){
+            props.options = button.options;
+            props.optionRenderer = this.renderOption;
+            props.valueRenderer = this.renderValue;
+            return React.createElement(FormGroup, {key: button.__name}, [React.createElement(ControlLabel, {key: 'label_' + button.__name}, button.__name),
+                React.createElement(Select, props, null)]);
+
+        }
+
+        if (button.options && button.type === 'select') {
+            if (!button.multiple) {
             button.options.map((option, index) => {
                 if (!children) {
                     children = [];
                 }
-                    children.push(React.createElement("option", {key: 'child_' + index, value: option}, option));
+                children.push(React.createElement('option', {key: 'child_' + index, value: option}, option));
             });
-            props.componentClass = "select";
-            if (button.multiple) {
-                props.multiple = "multiple"
-            }          
-            return React.createElement(FormGroup, {key: button.__name}, [React.createElement(ControlLabel, {key: 'label_' + button.__name}, button.__name),
-                                                                             React.createElement(FormControl, props, children)]);
-            
-           
+            props.componentClass = 'select';
 
+                return React.createElement(FormGroup, {key: button.__name}, [React.createElement(ControlLabel, {key: 'label_' + button.__name}, button.__name),
+                                                                             React.createElement(FormControl, props, children)]);
+       
+            } else {
+                props.multiple = 'multiple'
+                props.options = button.options;
+                props.multi = true;
+                props.simpleValue = true;
+                props.placeholder = "No has elegido ninguna opción" 
+                return React.createElement(FormGroup, {key: button.__name}, [React.createElement(ControlLabel, {key: 'label_' + button.__name}, button.__name),
+                                                                             React.createElement(Select, props, null)]);
+            }
+
+               
+              
         } else if (button.type === 'checkbox') {
             props.checked = button.value == 'checked';
             return React.createElement(FormGroup, {key: button.__name},
@@ -247,12 +276,22 @@ export default class PluginToolbar extends Component {
 
     }
 
+    renderOption(option) {
+        return <span>{option.label}<i style={{color: option.color, float: 'right'}} className="fa fa-stop"></i></span>;
+    }
+
+    renderValue(option) {
+        return <span>{option.label}</span>;
+    }
+
     componentWillUpdate(nextProps, nextState) {
         if (this.props.box && nextProps.box && this.props.box.id != nextProps.box.id) {
             this.setState({activeKey: 0})
             nextState.activeKey = 0;
         }
     }
+
+
 
 }
 

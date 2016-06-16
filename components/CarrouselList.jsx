@@ -26,7 +26,7 @@ export default class CarrouselList extends Component{
 
                     <Button className="carrouselButton"  onClick={e => {
                                     let idnuevo = ID_PREFIX_SECTION + Date.now();
-                                    this.props.onSectionAdded(idnuevo, "Section "+this.sections(), 0, [], 1, 'section', this.props.navItemsIds.length);
+                                    this.props.onSectionAdded(idnuevo, "Section "+this.sections(), 0, [], 1, 'section', this.props.navItemsIds.length, 'expanded');
                                     this.props.onBoxAdded({parent: idnuevo, container: 0, id: ID_PREFIX_SORTABLE_BOX + Date.now()}, BOX_TYPES.SORTABLE, false, false);
                                     e.stopPropagation();
                                 }}><i className="fa fa-folder-o"></i></Button>

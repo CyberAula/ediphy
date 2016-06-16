@@ -68,7 +68,7 @@ class DaliApp extends Component {
                                   displayMode={displayMode}
                                   onBoxAdded={(ids, type,  draggable, resizable, content, toolbar, config, state) => dispatch(addBox(ids, type, draggable, resizable, content, toolbar, config, state))}
                                   onPageAdded={(caller, value) => dispatch(togglePageModal(caller, value))}
-                                  onSectionAdded={(id, name, parent, children, level, type, position) => dispatch(addNavItem(id, name, parent, children, level, type, position))}
+                                  onSectionAdded={(id, name, parent, children, level, type, position, titlesReduced) => dispatch(addNavItem(id, name, parent, children, level, type, position, titlesReduced))}
                                   onNavItemSelected={id => dispatch(selectNavItem(id))}
                                   onNavItemExpanded={(id, value) => dispatch(expandNavItem(id, value))}
                                   onNavItemRemoved={(ids, parent, boxes) => {
@@ -119,7 +119,7 @@ class DaliApp extends Component {
                            navItemsIds={navItemsIds}
                            onBoxAdded={(ids, type,  draggable, resizable, content, toolbar, config, state) => dispatch(addBox(ids, type, draggable, resizable, content, toolbar, config, state))}
                            onVisibilityToggled={(caller, value) => dispatch(togglePageModal(caller, value))}
-                           onPageAdded={(id, name, parent, children, level, type, position) => dispatch(addNavItem(id, name, parent, children, level, type, position))}/>
+                           onPageAdded={(id, name, parent, children, level, type, position, titlesReduced) => dispatch(addNavItem(id, name, parent, children, level, type, position, titlesReduced))}/>
                 <Visor id="visor"
                        visorVisible={this.state.visorVisible}
                        onVisibilityToggled={()=> this.setState({visorVisible: !this.state.visorVisible })}

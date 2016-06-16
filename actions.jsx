@@ -36,8 +36,8 @@ export function selectNavItem(id){
     return {type: SELECT_NAV_ITEM, payload: {id}};
 }
 
-export function addNavItem(id, name, parent, children, level, type, position){
-    return {type: ADD_NAV_ITEM, payload: {id, name, parent, children, level, type, position}};
+export function addNavItem(id, name, parent, children, level, type, position, titlesReduced){
+    return {type: ADD_NAV_ITEM, payload: {id, name, parent, children, level, type, position, titlesReduced}};
 }
 
 export function expandNavItem(id, value){

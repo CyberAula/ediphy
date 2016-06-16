@@ -490,7 +490,7 @@ function navItemsById(state = {}, action = {}) {
                 [action.payload.id]: navItemCreator(state[action.payload.id], action),
                 [action.payload.parent]: Object.assign({}, state[action.payload.parent], {children: [...state[action.payload.parent].children, action.payload.id]})
             });
-            return recalculateNames(newState, newState[action.payload.id], 0)
+             return recalculateNames(newState, newState[action.payload.id], 0)
         case EXPAND_NAV_ITEM:
             return Object.assign({}, state, {[action.payload.id]: Object.assign({}, state[action.payload.id], {isExpanded: action.payload.value})});
         case TOGGLE_TITLE_MODE:

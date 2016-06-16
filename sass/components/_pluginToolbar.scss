@@ -59,3 +59,24 @@
 .form-group{
 	margin-top: 15px;
 }
+
+.pluginToolbarMainButton {
+	min-width: 20px;
+	width: 50%;
+}
+
+
+.toolbarTabs{
+	li{
+		padding-bottom: 0;
+		a {
+			border-radius: 7px 7px 0px 0px;
+			border-color: transparent;
+		}
+		
+	}
+}
+
+.toolbarTab{
+	color:green;
+}
