@@ -7,6 +7,24 @@
 #iconBar{
 	z-index: 999 !important;
 	whiteSpace: nowrap;
+	#dropdown-menu{
+		margin-left: -30px;
+		width:70px;
+		.navButton{
+	        font-size: 12px;
+	    }
+	}
+	.dropdown-menu{
+		right:0;
+		left:auto;
+		.disabled .dropdownButton{ 
+			color:#aaa;
+		}
+
+
+	}
+
+
 }
 
 .indentmin{
@@ -78,28 +96,6 @@ button[disabled].navButton {
 	margin-left: 0px;
 }
 
-#dropdown-menu{
-	margin-left: -30px;
-	width:70px;
-	.navButton{
-        font-size: 12px;
-    }
-}
-.dropdown-menu{
-	right:0;
-	left:auto;
-	.disabled .dropdownButton{ 
-		color:#aaa;
-	}
-
-
-}
-
-.dropdown-menu {
-    min-width: 90px;
-    left: 0px;
-	
-}
 
 
 .dropdownButton{
