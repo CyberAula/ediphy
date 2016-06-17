@@ -60,7 +60,7 @@ class DaliApp extends Component {
                                   }
                               }}/>
                 </Row>
-                <Row style={{height: 'calc(100% - 39px)'}}>
+                <Row style={{height: 'calc(100% - 60px)'}}>
                     <DaliCarousel boxes={boxes}
                                   navItemsIds={navItemsIds}
                                   navItems={navItems}
@@ -72,9 +72,9 @@ class DaliApp extends Component {
                                   onNavItemSelected={id => dispatch(selectNavItem(id))}
                                   onNavItemExpanded={(id, value) => dispatch(expandNavItem(id, value))}
                                   onNavItemRemoved={(ids, parent, boxes) => {
-                                    if(navItemsIds.length == ids.length){
+                                    // if(navItemsIds.length == ids.length){
                                       this.setState({hideTab: 'hide'})
-                                    }
+                                    // }
                                     dispatch(removeNavItem(ids, parent, boxes));
                                   }}
                                   onNavItemReorded={(itemId,newParent,type,newIndId,newChildrenInOrder) => dispatch(reorderNavItem(itemId,newParent,type,newIndId,newChildrenInOrder))}
@@ -84,7 +84,7 @@ class DaliApp extends Component {
                                 this.setState({carouselShow: !this.state.carouselShow})
                               }}/>
 
-                    <Col id="colRight" xs={this.state.carouselShow? 10:12} style={{height: '100%'}}>
+                    <Col id="colRight" xs={12} style={{height: '100%', width: this.state.carouselShow? '83.333333%':'calc(100% - 80px)'}}>
                         <Row id="ribbonRow">
                             <PluginRibbon disabled={navItemsIds.length === 0 ? true : false}
                                           navItemSelected={navItemSelected}

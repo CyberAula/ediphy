@@ -1,54 +1,145 @@
 
+.botones{
+	padding:15px;
+}
+#insidetools,#tools{
+	width: 250px;
+}
 
-
-@media screen and (max-width: 1147px) {
-	.hideonresize{
-		display: none;
-	}
-	.navButtonPlug{
-	 width:50px;
-	 padding:0;
-	  .active{ color:white !important;}
-	}
+.toolbox{
+	height: 100%;
+    // background-color: rgba(222,222,222,0.8);
+    background-color: rgba(44,44,44,0.8);
+    display:inline-block;
+    vertical-align: baseline;
+}
+.pluginToolbarMainButton {
+	min-width: 20px;
+	width: 50%;
 }
 
 
+.toolbarTabs{
+	color: $lightestgrey;
+	li{
+		padding-bottom: 0;
+		a {
+			border-color: transparent;
+			color: $lightestgrey;
+			border-radius:0;
 
-.navButtonPlug{
-	@extend .navButton;
-	width:auto;
-	padding: 0px 2px;
-	&:after  {
- 		border: 8px solid transparent;
-		content: "\200B";	
-		position: relative;
-		top: 0px;
-		left: -50%;
-		transition: all 0.3s ease-in;
+
+			&:hover{
+				border-color: transparent;
+				background-color: transparent;
+				color: $naranjaadams;
+			}
+		}
+		
 	}
 
 }
-.navButtonPlug[ title="All"]{
-	padding-left: 8px;
-}
 
+.pestana{
 
-.navButtonPlug.active{
+	width: 0;
+    height: 0;
+    border-width: 10px;
+    border-style: solid;
+    text-align: center;
+    z-index: 999;
+    display: inline-block;
+    position: absolute;
+	top:$pestanaHeight;
+	right:100%;
+	// border-radius: 8px 0px 0px 8px;
+  	border-color: transparent;
+    border-right-color: rgba(44,44,44,0.8);
+    color: #133329;}
+
+.wrapper{
  
-	color:$naranjaadams !important; 
-	background-color: $verdeadams;
-	&:after  {
-		 
-		border-bottom: 8px solid $naranjaadams;
-	}
- }
+	margin: 0;
+    position: fixed;
+   	bottom:0;
+ 
 
+}
+
+
+
+ #tools{
+	overflow-x:hidden;
+	overflow-y:auto;
+ 
+	input[type="checkbox"]{
+		
+		padding:0 !important;
+		margin-left:0
+	}
+	label{
+			margin:0 !important;
+		padding:0 !important;
+		font-size: inherit;
+		font-weight: bold;
+	}
+}
+
+
+
+
+.panelPluginToolbar{
+	a {
+		display:block;
+	}
+
+	border:0;
+	border-radius:0;
+	
+	
+	.panel-heading{
+		border:0;
+		border-radius:0;
+		color:$lightestgrey;
+		background-color: $darkest;
+	}
+
+	.panel-group, .panel {
+	    margin-bottom: 0;
+	    border-radius: 0;
+	    border: 0;
+	}	
+
+}
+
+
+.toolbarTab{
+	color:$naranjaadams;
+}
+
+#insidetools {
+	.btn-group, .pluginToolbarMainButton {
+		background-color: $darkest;
+		border:0;
+		color:white;
+		font-weight: lighter !important;
+	}
+
+	.tablist{
+		li{
+			.active{
+				color: $lightestgrey;
+			}
+		}
+	}
+	border-left: 2px solid rgba(44,44,44,0.8);
+	border-right: 2px solid rgba(44,44,44,0.8);
+}
 
 #tools input[type="checkbox"]{
 	position:relative;
 	display:inline-block;
 	line-height: 5px;
-	margin-right: 5px;
 	vertical-align: text-bottom;
 
 }
@@ -60,23 +151,14 @@
 	margin-top: 15px;
 }
 
-.pluginToolbarMainButton {
-	min-width: 20px;
-	width: 50%;
-}
+.toolbarButton{
+	border-radius: 0;
+	background-color: rgba(44,44,44,0.8);
+	color: white;
+	border:0;
+	margin: 5px;
 
-
-.toolbarTabs{
-	li{
-		padding-bottom: 0;
-		a {
-			border-radius: 7px 7px 0px 0px;
-			border-color: transparent;
-		}
-		
+	&.textediting {
+		background-color: $naranjaadams;
 	}
-}
-
-.toolbarTab{
-	color:green;
 }

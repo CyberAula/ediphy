@@ -27,14 +27,15 @@ export default class PluginToolbar extends Component {
         let textButton;
         if (toolbar.config && toolbar.config.needsTextEdition) {
             textButton = (<Button key={'text'}
+                                  className={toolbar.showTextEditor ? 'toolbarButton textediting' : 'toolbarButton'}
                                   onClick={() => {
-                                    this.props.onTextEditorToggled(toolbar.id, !toolbar.showTextEditor, (toolbar.showTextEditor) ? CKEDITOR.instances[toolbar.id].getData() : null)}}
-                                  bsStyle={toolbar.showTextEditor ? 'primary' : 'default'}>
+                                    this.props.onTextEditorToggled(toolbar.id, !toolbar.showTextEditor, (toolbar.showTextEditor) ? CKEDITOR.instances[toolbar.id].getData() : null)}} >
                 Edit text</Button>);
         }
         let configButton;
         if (toolbar.config && toolbar.config.needsConfigModal) {
             configButton = (<Button key={'config'}
+                                    className='toolbarButton'
                                     onClick={() => {
                                       Dali.Plugins.get(toolbar.config.name).openConfigModal(true, toolbar.state, toolbar.id)
                                     }}>
@@ -67,14 +68,17 @@ export default class PluginToolbar extends Component {
                      className="wrapper"
                      style={{
                         right: '0px',
-                        top: '39px',
+                        top: '60px',
                         visibility: visible
                      }}>
             <div className="pestana" onClick={() => {this.setState({open: !this.state.open})}}>
-                <i className="fa fa-gear fa-2x"></i>
+              {/*  <i className="fa fa-gear fa-2x"></i>*/}
             </div>
-            <div id="tools" style={{width: this.state.open? '250px':'0px'}} className="toolbox">
-                <div id="insidetools">
+            <div id="tools" style={{width: this.state.open? '250px':'80px'}} className="toolbox">
+                <p  onClick={() => {this.setState({open: !this.state.open})}} style={{display: this.state.open? 'none':'block', textAlign: 'center'}} className={this.props.carouselShow ? 'carouselListTitle toolbarSpread':'carouselListTitle toolbarHide'}>
+                 <br/> <i className="fa fa-wrench fa-2x"></i><br/>CONF.
+                </p>
+                <div id="insidetools" style={{display: this.state.open? 'block':'none'}}>
 
                     <Tabs className="toolbarTabs" ref="tabs" activeKey={this.state.activeKey} animation={false}
                           onSelect={(key) => this.handleSelect(key)} id="controlledTabs">

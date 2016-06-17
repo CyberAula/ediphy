@@ -24,15 +24,24 @@ export default class DaliCarousel extends Component{
         }
         return( 
 
-          <div  style={{ width: this.props.carouselShow?'16.66666%':'0%' }} id="colLeft">
+          <div  style={{ width: this.props.carouselShow ? '16.66666%':'80px' }} id="colLeft">
             <div className="wrapperCarousel">
-            <div id="indice" className="daliCarousel " key="indice" style={{height: '100%'}} >
-                {carrouselContent}
- 
+            <p  style={{textAlign: this.props.carouselShow ? 'left' : 'center'}} 
+                onClick={() => {this.toggleWidth()}} 
+                className={this.props.carouselShow ? 'carouselListTitle toolbarSpread':'carouselListTitle toolbarHide'}>
+              <i className={this.props.carouselShow ? "fa fa-list-ol":"fa fa-list-ol fa-2x" }></i> {!this.props.carouselShow ? <br/>:null} ÍNDICE
+            </p>
+            <div id="indice" 
+                 className="daliCarousel" 
+                 key="indice" 
+                 style={{height: '100%'}} >
+                {this.props.carouselShow ? carrouselContent : <br/>}
             </div>
-            <div className="pestanaCarousel"  id="pestcar" onClick={() => {this.toggleWidth() }}>
-                 <i className="fa fa-list-alt fa-2x"> </i> 
-              </div>
+            <div className="pestanaCarousel"  
+                 id="pestcar" 
+                 onClick={() => {this.toggleWidth() }}>
+                 {/*  <i className="fa fa-list-alt fa-2x"> </i> */}           
+             </div>
          
             </div>
           </div>

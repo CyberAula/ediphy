@@ -35,6 +35,10 @@ export default class DaliCanvas extends Component{
                       className={this.props.navItems[this.props.navItemSelected.id].type == 'slide' ? 'slide sli':'slide doc'}
                       style={{visibility: (this.props.showCanvas ? 'visible' : 'hidden'), position: 'relative'}}>
 
+                    {/*<div className="canvasHelper" style={{visibility: (this.props.showCanvas ? 'hidden' : 'visible'), position: 'relative'}}>
+                        <div className="canvasMessage" >CREA UNA SECCIÓN PARA EMPEZAR</div>
+                    </div>*/}
+
                     <DaliTitle titles={titles}
                                isReduced={this.props.navItemSelected.titlesReduced}
                                navItemId={this.props.navItemSelected.id}

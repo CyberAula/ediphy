@@ -1,8 +1,6 @@
 .navBar{
-	background-color: $verdeadams;
- 
- 
-	height: 39px;
+	background-color: $lightestgrey;
+	height: 60px;
 	z-index: 99999999 !important;
 }
 
@@ -27,22 +25,23 @@
 	 -moz-border-radius: 0;
 	 width: auto;
 	 height: auto;
-	 width:50px;
+	 min-width:50px;
 	 font-size: 20px;
-	 height:35px;
+	 height:60px;
 	 padding: 0px 0px 0px 0px;
-	 background-color: $verdeadams;
+	 color:#425D54;
+	 background-color: $lightestgrey;
 	 -webkit-box-shadow: none;
 	 -moz-box-shadow: none;
  	 box-shadow: none;
      vertical-align: middle;
 	 &:hover, &:active{
 		 border-bottom: 0px solid $grisclaro;
-		 background-color: $verdeadams;
+		 background-color: $lightestgrey;
 		 -webkit-box-shadow: none;
 		  -moz-box-shadow: none;
          box-shadow: none;
-         color:grey;
+         color: $detailgreen;
 	}	
 }
 
@@ -50,8 +49,8 @@
 button[disabled].navButton {
 	background-color: $verdedisabled;
 	border:none;
-	color:$verdeadams;
-	height:39px;
+	color:#ddd;
+	height:60px;
     box-shadow:none;
 	&:hover{
 			background-color: $verdedisabled;
@@ -77,4 +76,41 @@ button[disabled].navButton {
 
 .sinmargen{
 	margin-left: 0px;
+}
+
+#dropdown-menu{
+	margin-left: -30px;
+	width:70px;
+	.navButton{
+        font-size: 12px;
+    }
+}
+.dropdown-menu{
+	right:0;
+	left:auto;
+	.disabled .dropdownButton{ 
+		color:#aaa;
+	}
+
+
+}
+
+.dropdownButton{
+	 display: block;
+	 border: none;
+	 border-radius: 0px;
+	 -webkit-border-radius: 0;
+	 -moz-border-radius: 0;
+	 width: auto;
+	 height: auto;
+	 font-size: 15px;
+	 padding: 0px 0px 0px 0px;
+	 color:#425D54;
+	 background-color: transparent;
+	 -webkit-box-shadow: none;
+	 -moz-box-shadow: none;
+ 	 box-shadow: none;
+     vertical-align: middle;
+
+ 
 }

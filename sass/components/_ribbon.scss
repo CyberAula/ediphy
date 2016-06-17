@@ -7,7 +7,6 @@
 
 .rib{
 	position:relative;
- 
 	padding: 6px 15px;
 	font-size: 14px !important;
 	border-radius: 0;
@@ -16,7 +15,6 @@
 	border:none;
 	color:$verdeadams;
 	&:hover{
-
 		background-color: transparent !important ; 
 		color:white ;
 		box-shadow: none !important;
@@ -32,7 +30,7 @@
 }
 
 #ribbon{
-	background-color:$naranjaadams;
+	background-color:$grismedio;
 	height:60px;
 	padding:0;
 	z-index:0;

@@ -56,16 +56,16 @@ export default class Section extends Component {
                   </div>
                 <div style={{marginTop: 10, marginLeft: 20}}>
 
-                    <Button onClick={e => {
-                        let idnuevo = ID_PREFIX_SECTION + Date.now();
-                        this.props.onSectionAdded(idnuevo, navItem.name + "." +this.calculateName(navItem), navItem.id, [], navItem.level + 1, 'section', this.calculatePosition(), 'expanded');
-                        this.props.onBoxAdded({parent: idnuevo, container: 0, id: ID_PREFIX_SORTABLE_BOX + Date.now()}, BOX_TYPES.SORTABLE, false, false);
-                        e.stopPropagation();
-                    }}><i className="fa fa-folder-o"></i></Button>
-                    <Button onClick={e => {
-                        this.props.onPageAdded(navItem.id, true)
-                        e.stopPropagation();
-                    }}><i className="fa fa-file-o"></i></Button>
+                 {/* <Button onClick={e => {
+                                         let idnuevo = ID_PREFIX_SECTION + Date.now();
+                                         this.props.onSectionAdded(idnuevo, navItem.name + "." +this.calculateName(navItem), navItem.id, [], navItem.level + 1, 'section', this.calculatePosition(), 'expanded');
+                                         this.props.onBoxAdded({parent: idnuevo, container: 0, id: ID_PREFIX_SORTABLE_BOX + Date.now()}, BOX_TYPES.SORTABLE, false, false);
+                                         e.stopPropagation();
+                                     }}><i className="fa fa-folder-o"></i></Button>
+                                     <Button onClick={e => {
+                                         this.props.onPageAdded(navItem.id, true)
+                                         e.stopPropagation();
+                                     }}><i className="fa fa-file-o"></i></Button>*/}
                 </div>
                 </div>
             </div>

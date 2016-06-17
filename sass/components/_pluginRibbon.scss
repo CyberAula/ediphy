@@ -1,0 +1,49 @@
+
+
+
+@media screen and (max-width: 1147px) {
+	.hideonresize{
+		display: none;
+	}
+	.navButtonPlug{
+	 width:50px;
+	 padding:0;
+	  .active{ color:white !important;}
+	}
+}
+
+
+
+.navButtonPlug{
+	@extend .navButton;
+	width:auto;
+	min-width: 80px;
+	padding-left: 7px;
+	padding-right: 7px;
+	margin: 0px 0px;
+	/*&:after  {
+ 		border: 8px solid transparent;
+		content: "\200B";	
+		position: relative;
+		top: 0px;
+		left: -50%;
+		transition: all 0.3s ease-in;
+	}*/
+
+}
+.navButtonPlug[ title="All"]{
+	padding-left: 8px;
+}
+
+
+.navButtonPlug.active{
+	color:white !important; 
+	background-color: $grismedio;
+	&:after  {
+		 
+		border-bottom: 8px solid $naranjaadams;
+	}
+ }
+
+
+

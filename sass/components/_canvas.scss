@@ -54,3 +54,25 @@
 	top:20px;
 	right:75px;
 }
+
+
+.canvasHelper {
+
+	text-align: center;
+	vertical-align: center;
+	position:relative;
+	color: $naranjaadams;
+	width: 100%;
+	height: 100%;
+
+	.canvasMessage {
+		font-size: 22px;
+		position:absolute;
+		display:inline-block;
+		top:100px;
+		left:25%;
+		width: 50%;
+		height:300px;
+		border: 5px dashed $naranjaadams;
+	}
+}

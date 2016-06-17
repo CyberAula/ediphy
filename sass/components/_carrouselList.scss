@@ -2,9 +2,21 @@
 
 
 .carrouselButton{
-	
-	min-width: 20px;
-	width: 25%;
+	border:0;
+	padding:1px;
+	font-size: 16px;
+	color:white;
+	background-color: transparent;
+	min-width: 20%;
+	border-radius: 0;
+	&:hover, &:active, &:focus, &:selected { 
+		-webkit-box-shadow: none !important;
+	     box-shadow: none !important;
+	     -moz-box-shadow: none !important;
+	     outline:none;
+ 		color: $naranjaadams;
+ 		background-color: transparent !important;
+	}
 
 }
 .carList{
@@ -14,9 +26,25 @@
 	color: $fondo;
 }
 
+.carouselListTitle{
+	margin:5px;
+	height:10px;
+		* {
+			margin:6px;
+		}
+}
+.toolbarSpread {
+	color: $naranjaadams;
+
+}
+.toolbarHide {
+	color: $grismedio;
+
+}
 
 .expandir {
 	width: 30px;
+	color: grey;
 	background-color: transparent !important;
 	border: none !important;
 	outline: none !important;
@@ -43,35 +71,39 @@
 }
 
 .selected{
-	color: $naranjaadams;
+	font-size:15px;
+	color: white;
+	/* background-color: $grismedio; */
 }
 
 .notSelected{
-	color: #555;
+	font-size:15px;
+	color: $grismedio;
 }
 
 .wrapperCarousel{
-	background-color: $grisclaro;
+	background-color: $darkest;
 	margin:0;
 	padding: 12px 0px 5px 0px;
-	 height: 100%; 
-	 overflow-y: hidden;
-	 width:100%;
-	 overflow-x:hidden;
+	height: 100%; 
+	overflow-y: hidden;
+	width: 100%;
+	overflow-x: hidden;
 }
 .pestanaCarousel{
-	background-color: #dedede;
-	width:35px;
-	height: 35px;
-	padding:5px;
-	text-align: center;
-	z-index: 999;
-	display:inline-block;
-	position: absolute;
-	top:$pestanaHeight;
-	left:100%;
-	border-radius:0px  8px  8px 0px ;
-	color: $verdeadams;
+    width: 0;
+    height: 0;
+    border-width: 10px;
+    border-style: solid;
+    text-align: center;
+    z-index: 999;
+    display: inline-block;
+    position: absolute;
+    top: 60px;
+    left: 100%;
+    border-color: transparent;
+    border-left-color: $darkest;
+    color: #133329;
 }
 
 .indiceoculto{
@@ -86,8 +118,8 @@
 	width:100%;
 }
 #indice{
-	padding-left:10px;
-	padding-right:10px;	
+/*	padding-left:10px;
+	padding-right:10px;	*/
 }
 #colLeft{
 	 position: relative; 
