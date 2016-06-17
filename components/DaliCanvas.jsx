@@ -19,7 +19,7 @@ export default class DaliCanvas extends Component{
             }
             titles.reverse();
         }
-        let paddings= (this.props.navItemSelected.type!= "slide") ? ('0px 0px 0px 0px') : ('30px 0px 30px 0px')
+        let paddings= (this.props.navItemSelected.type!= "slide") ? ('5px 5px 5px 5px') : ('30px 0px 30px 0px')
         let maincontent = document.getElementById('maincontent');
         let actualHeight; 
         if (maincontent){

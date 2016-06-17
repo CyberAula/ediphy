@@ -91,6 +91,11 @@
 .panelPluginToolbar{
 	a {
 		display:block;
+		&:hover, &:focus, &:selected, &:active {
+			text-decoration: none;
+			color: $naranjaadams;
+		}
+
 	}
 
 	border:0;

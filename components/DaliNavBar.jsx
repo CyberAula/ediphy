@@ -56,7 +56,7 @@ export default class DaliNavBar extends Component {
                 <Dropdown  id="dropdown-menu" style={{float:'right'}}>
                     <Dropdown.Toggle noCaret className="navButton">
                         <i className="fa fa-ellipsis-v fa-1"></i><br/>
-                        <span style={{fontSize: '12px'}}>Menu</span>
+                        <span className="hideonresize" style={{fontSize: '12px'}}>Menu</span>
                     </Dropdown.Toggle>
                     <Dropdown.Menu  className="super-colors">
                         <MenuItem disabled={this.props.undoDisabled} eventKey="1">
@@ -104,7 +104,7 @@ export default class DaliNavBar extends Component {
                         disabled={this.props.undoDisabled}
                         onClick={() =>this.props.visor()}><i className="fa fa-eye fa-1 "></i>
                     <br/>
-                    <span style={{fontSize: '12px'}}>Preview</span>
+                    <span className="hideonresize" style={{fontSize: '12px'}}>Preview</span>
                 </button>
             </Col>);
     }

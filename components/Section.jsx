@@ -23,7 +23,7 @@ export default class Section extends Component {
                 <span className={classSelected}style={{ display: 'inline'}}>{navItem.name}</span>
 
             </div>
-            <div style={{display: (navItem.isExpanded ? 'block' : 'none'), borderLeft: '1px dotted black'}}>
+            <div style={{display: (navItem.isExpanded ? 'block' : 'none'), borderLeft: '1px dotted white'}}>
                 
                 <div style={{marginLeft: 20}}>
                     <div ref="sortableListS" style={{paddingTop: (navItem.children.length > 0 ? 2 : 20) }} className="sectionList connectedSortables">

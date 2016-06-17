@@ -29,7 +29,7 @@ export default class DaliBoxSortable extends Component {
                                     width: '100%',
                                     minHeight: 150,
                                     height: container.height,
-                                    border: '1px solid #999',
+                                    border: '0',
                                     boxSizing: 'border-box',
                                     position: 'relative'}}>
                             {container.colDistribution.map((col, i) => {

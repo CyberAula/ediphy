@@ -21,13 +21,15 @@
 }
 .carList{
 	overflow-y: auto; 
-	height: 92%;
+	height: calc(100% - 40px);
 	margin: 4px 0px 0px 0px;
 	color: $fondo;
+	padding: 5px;
 }
 
 .carouselListTitle{
-	margin:5px;
+	margin:5px 15px;
+
 	height:10px;
 		* {
 			margin:6px;
@@ -127,4 +129,20 @@
 	 padding: 0;
 	 height: 100%;
 	 z-index:1;
+}
+
+.pageMenu {
+ 	a:hover  {
+		text-decoration: none;
+		color: $naranjaadams !important;
+	}
+}
+
+.dropdown-custom-2{
+	min-width: 20%;
+	.dropdown-menu > li > a {
+     padding:  0px;
+ 
+
+    }	
 }

@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Button, ButtonGroup, Col} from 'react-bootstrap';
 import {ID_PREFIX_SECTION, ID_PREFIX_PAGE, ID_PREFIX_SORTABLE_BOX, BOX_TYPES} from '../constants';
 import Section from '../components/Section';
+import PageMenu from '../components/PageMenu';
 
 export default class CarrouselList extends Component{
     render(){
@@ -44,10 +45,14 @@ export default class CarrouselList extends Component{
                                     this.props.onBoxAdded({parent: idnuevo, container: 0, id: ID_PREFIX_SORTABLE_BOX + Date.now()}, BOX_TYPES.SORTABLE, false, false);
                                     e.stopPropagation();
                                 }}><i className="fa fa-folder-o"></i></Button>
-                    <Button className="carrouselButton"  onClick={e => {
-                                    this.props.onPageAdded(0, true);
-                                    e.stopPropagation();
-                                }}><i className="fa fa-file-o"></i></Button>
+ 
+                     <PageMenu caller={0}
+                               navItems={this.props.navItems}
+                               navItemsIds={this.props.navItemsIds}
+                               onBoxAdded={this.props.onBoxAdded}   
+                               onPageAdded={this.props.onSectionAdded} /> 
+ 
+                                 
                     <Button className="carrouselButton" 
                             disabled={this.props.navItemSelected === 0}
                             style={{float: 'right'}}

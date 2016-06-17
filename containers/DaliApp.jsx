@@ -68,7 +68,8 @@ class DaliApp extends Component {
                                   displayMode={displayMode}
                                   onBoxAdded={(ids, type,  draggable, resizable, content, toolbar, config, state) => dispatch(addBox(ids, type, draggable, resizable, content, toolbar, config, state))}
                                   onPageAdded={(caller, value) => dispatch(togglePageModal(caller, value))}
-                                  onSectionAdded={(id, name, parent, children, level, type, position, titlesReduced) => dispatch(addNavItem(id, name, parent, children, level, type, position, titlesReduced))}
+                                  onBoxAdded={(ids, type,  draggable, resizable, content, toolbar, config, state) => dispatch(addBox(ids, type, draggable, resizable, content, toolbar, config, state))}
+                                onSectionAdded={(id, name, parent, children, level, type, position, titlesReduced) => dispatch(addNavItem(id, name, parent, children, level, type, position, titlesReduced))}
                                   onNavItemSelected={id => dispatch(selectNavItem(id))}
                                   onNavItemExpanded={(id, value) => dispatch(expandNavItem(id, value))}
                                   onNavItemRemoved={(ids, parent, boxes) => {
