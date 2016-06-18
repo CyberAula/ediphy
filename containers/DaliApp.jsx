@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {ActionCreators} from 'redux-undo';
 import {Grid, Col, Row, Button, OverlayTrigger, Popover} from 'react-bootstrap';
 import {addNavItem, selectNavItem, expandNavItem, removeNavItem, reorderNavItem,
-    addBox, selectBox, moveBox, resizeBox, updateBox, duplicateBox, deleteBox, reorderBox, dropBox, increaseBoxLevel,
+    addBox, changeTitle, selectBox, moveBox, resizeBox, updateBox, duplicateBox, deleteBox, reorderBox, dropBox, increaseBoxLevel,
     addSortableContainer, resizeSortableContainer, changeCols, changeRows,
     togglePageModal, toggleTextEditor, toggleTitleMode,
     changeDisplayMode, exportStateAsync, importStateAsync, updateToolbar, collapseToolbar} from '../actions';
@@ -32,8 +32,8 @@ class DaliApp extends Component {
 
     render() {
         const { dispatch, boxes, boxesIds, boxSelected, boxLevelSelected, navItemsIds, navItems, navItemSelected,
-            pageModalToggled, undoDisabled, redoDisabled, displayMode, isBusy, toolbars } = this.props;
-        var ribbonHeight = this.state.hideTab == 'hide' ? '0px' : '60px';
+            pageModalToggled, undoDisabled, redoDisabled, displayMode, isBusy, toolbars, title } = this.props;
+        var ribbonHeight = this.state.hideTab == 'hide' ? 0 : 47;
         return (
             <Grid id="app" fluid={true} style={{height: '100%'}}>
                 <Row className="navBar">
@@ -42,6 +42,8 @@ class DaliApp extends Component {
                                 undoDisabled={undoDisabled}
                                 redoDisabled={redoDisabled}
                                 navItemsIds={navItemsIds}
+                                title={title}
+                                changeTitle={(title) => dispatch(changeTitle(title))}
                                 navItemSelected={navItemSelected}
                                 boxSelected={boxSelected}
                                 undo={() => {dispatch(ActionCreators.undo())}}
@@ -68,8 +70,7 @@ class DaliApp extends Component {
                                   displayMode={displayMode}
                                   onBoxAdded={(ids, type,  draggable, resizable, content, toolbar, config, state) => dispatch(addBox(ids, type, draggable, resizable, content, toolbar, config, state))}
                                   onPageAdded={(caller, value) => dispatch(togglePageModal(caller, value))}
-                                  onBoxAdded={(ids, type,  draggable, resizable, content, toolbar, config, state) => dispatch(addBox(ids, type, draggable, resizable, content, toolbar, config, state))}
-                                onSectionAdded={(id, name, parent, children, level, type, position, titlesReduced) => dispatch(addNavItem(id, name, parent, children, level, type, position, titlesReduced))}
+                                  onSectionAdded={(id, name, parent, children, level, type, position, titlesReduced) => dispatch(addNavItem(id, name, parent, children, level, type, position, titlesReduced))}
                                   onNavItemSelected={id => dispatch(selectNavItem(id))}
                                   onNavItemExpanded={(id, value) => dispatch(expandNavItem(id, value))}
                                   onNavItemRemoved={(ids, parent, boxes) => {
@@ -89,11 +90,16 @@ class DaliApp extends Component {
                         <Row id="ribbonRow">
                             <PluginRibbon disabled={navItemsIds.length === 0 ? true : false}
                                           navItemSelected={navItemSelected}
+                                          boxSelected={boxSelected}
                                           category={this.state.pluginTab}
                                           hideTab={this.state.hideTab}
-                                          ribbonHeight={ribbonHeight}/>
+                                          undoDisabled={undoDisabled}
+                                          redoDisabled={redoDisabled}
+                                          undo={() => {dispatch(ActionCreators.undo())}}
+                                          redo={() => {dispatch(ActionCreators.redo())}}
+                                          ribbonHeight={ribbonHeight+'px'}/>
                         </Row>
-                        <Row id="canvasRow" style={{height: 'calc(100% - '+ribbonHeight+')'}}>
+                        <Row id="canvasRow" style={{height: 'calc(100% - '+ribbonHeight+'px)'}}>
                             <DaliCanvas boxes={boxes}
                                         boxesIds={boxesIds}
                                         boxSelected={boxSelected}
@@ -102,6 +108,7 @@ class DaliApp extends Component {
                                         navItemSelected={navItems[navItemSelected]}
                                         showCanvas={(navItemSelected !== 0)}
                                         toolbars={toolbars}
+                                        title={title}
                                         onBoxSelected={(id) => dispatch(selectBox(id))}
                                         onBoxLevelIncreased={() => dispatch(increaseBoxLevel())}
                                         onBoxMoved={(id, x, y) => dispatch(moveBox(id, x, y))}
@@ -122,12 +129,14 @@ class DaliApp extends Component {
                            onVisibilityToggled={(caller, value) => dispatch(togglePageModal(caller, value))}
                            onPageAdded={(id, name, parent, children, level, type, position, titlesReduced) => dispatch(addNavItem(id, name, parent, children, level, type, position, titlesReduced))}/>
                 <Visor id="visor"
+                       title={title}
                        visorVisible={this.state.visorVisible}
                        onVisibilityToggled={()=> this.setState({visorVisible: !this.state.visorVisible })}
                        state={this.props.store.getState().present}/>
                 <PluginConfigModal />
 
-                <PluginToolbar toolbars={toolbars}
+                <PluginToolbar top={(60+ribbonHeight)+'px'}
+                               toolbars={toolbars}
                                box={boxes[boxSelected]}
                                boxSelected={boxSelected}
                                onColsChanged={(id, parent, distribution) => dispatch(changeCols(id, parent, distribution))}
@@ -340,6 +349,7 @@ class DaliApp extends Component {
 
 function mapStateToProps(state) {
     return {
+        title: state.present.title,
         boxes: state.present.boxesById,
         boxesIds: state.present.boxes,
         boxSelected: state.present.boxSelected,

@@ -17,11 +17,11 @@ export default class PluginRibbon extends Component {
                  md={12}
                  xs={12}
                  style={{ 
-                    height:  this.props.ribbonHeight,
+                    height: this.props.ribbonHeight,
                     overflowY:'hidden'  
                 }}>
-                <div id="insideribbon" style={{}} className="row">
-                    <div id="ribbonList" style={{ }}>
+                <div id="insideribbon" className="row">
+                    <div id="ribbonList">
                         {this.state.buttons.map((item, index) => {
                             if (this.state.buttons[index].category === this.props.category || this.props.category == 'all') {
                                 var clase = "fa " + this.state.buttons[index].icon + " fa-1";
@@ -31,13 +31,39 @@ export default class PluginRibbon extends Component {
                                             key={index}
                                             name={item.name}
                                             bsSize="large"
-                                            draggable="true">
-                                        <i className={clase}></i><br/> {this.state.buttons[index].name}
+                                            draggable="false">
+                                        <i className={clase}></i> {this.state.buttons[index].name}
                                     </Button>
                                 </div>);
                             }
                         })}
                     </div>
+                </div>
+                <div className="mainButtons">
+                    <button className="ribShortcut" 
+                            title="Undo" 
+                            disabled={this.props.undoDisabled} 
+                            onClick={() => this.props.undo()}>
+                        <i className="fa fa-mail-reply fa-1"></i>
+                    </button>
+                    <button className="ribShortcut" 
+                            title="Redo" 
+                            disabled={this.props.redoDisabled} 
+                            onClick={() => this.props.redo()}>
+                        <i className="fa fa-mail-forward fa-1 "></i>
+                    </button>
+                    <button className="ribShortcut" 
+                            title="Copy" 
+                            disabled={this.props.boxSelected == -1} 
+                            onClick={() => alert('Aún no hace nada')}>
+                        <i className="fa fa-paperclip fa-1"></i>
+                    </button>
+                    <button className="ribShortcut" 
+                            title="Paste" 
+                            disabled={this.props.boxSelected == -1} 
+                            onClick={() => alert('Aún no hace nada')}>
+                        <i className="fa fa-paste fa-1 "></i>
+                    </button>
                 </div>
             </Col>);
     }
@@ -52,20 +78,35 @@ export default class PluginRibbon extends Component {
                 autoScroll: false,
                 onstart: function (event) {
                     changeOverflow(true);
+                    let original = event.target;
+                    let parent = original.parentNode;
+                    let dw = original.offsetWidth;
+                    let clone = original.cloneNode(true),
+                        x = (parseFloat(original.getAttribute('data-x')-dw) || 0),
+                        y = (parseFloat(original.getAttribute('data-y')) || 0);
+                    clone.setAttribute("id", "clone");
+                    clone.setAttribute('data-x', x);
+                    clone.setAttribute('data-y', y);
+                    parent.appendChild(clone);
+                      // translate the element
+                    clone.style.webkitTransform =
+                        clone.style.transform =
+
+                            'translate(' + (x) + 'px, ' + (y) + 'px)';
+
                 },
                 onmove: (event) => {
-                    let target = event.target,
+                    let target = document.getElementById('clone'),
                     // keep the dragged position in the data-x/data-y attributes
                         x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
                         y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
-
+                    
                     // translate the element
                     target.style.webkitTransform =
                         target.style.transform =
 
-                            'translate(' + (x ) + 'px, ' + (y) + 'px)';
+                            'translate(' + (x) + 'px, ' + (y) + 'px)';
                     target.style.zIndex = '9999';
-                    // target.style.position = 'fixed';
                     target.classList.add('ribdrag');
 
                     // update the position attributes
@@ -74,7 +115,12 @@ export default class PluginRibbon extends Component {
                 },
                 onend: (event) => {
                     changeOverflow(false);
-                    var target = event.target,
+                    let original = event.target;
+                    let parent = original.parentNode;
+                    let dw = original.offsetWidth;
+                    let clone = document.getElementById('clone');
+                    
+                    var target = clone,
                         x = 0,
                         y = 0;
                     target.style.webkitTransform =
@@ -85,13 +131,17 @@ export default class PluginRibbon extends Component {
                     target.style.position = 'relative';
                     target.classList.remove('ribdrag');
 
-                    target.setAttribute('data-x', x);
+                    target.setAttribute('data-x', x );
                     target.setAttribute('data-y', y);
+
+                   parent.removeChild(clone);
                     event.stopPropagation();
                 }
             });
     }
 }
+
+
 
 
 function changeOverflow(bool) {

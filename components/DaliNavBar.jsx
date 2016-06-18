@@ -13,13 +13,10 @@ export default class DaliNavBar extends Component {
         return (
             <Col id="iconBar">
                 <img src="images/icon.png"/>
-
-                <button className="navButton" title="Undo" disabled={this.props.undoDisabled} style={{width:80}}
-                        onClick={() => this.props.undo()}><i className="fa fa-mail-reply fa-1"></i></button>
-                <button className="navButton" title="Redo" disabled={this.props.redoDisabled} style={{width:80}}
-                        onClick={() => this.props.redo()}><i className="fa fa-mail-forward fa-1 "></i></button>
-               
-                
+                <div className="navBarSpace" >
+                  <i className="fa fa-pencil fa-1"></i>   
+                  <span className="tituloCurso" contentEditable suppressContentEditableWarning   onBlur={(e) => {this.props.changeTitle(e.target.innerHTML)}}>{this.props.title}</span>
+                 </div>
                 <button
                     className={ this.props.hideTab == 'show' && this.props.categoria == 'all' ? 'navButtonPlug active':'navButtonPlug' }
                     title='All' disabled={disablePlugins}
@@ -51,7 +48,7 @@ export default class DaliNavBar extends Component {
                     onClick={() => {this.openPlugin('exercises') }}><i className="fa fa-mortar-board fa-1 "></i><br/> <span
                     className="hideonresize">Ejercicios</span></button>
 
-                
+               
 
                 <Dropdown  id="dropdown-menu" style={{float:'right'}}>
                     <Dropdown.Toggle noCaret className="navButton">

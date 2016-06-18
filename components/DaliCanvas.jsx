@@ -40,6 +40,7 @@ export default class DaliCanvas extends Component{
                     </div>*/}
 
                     <DaliTitle titles={titles}
+                               courseTitle={this.props.title}
                                isReduced={this.props.navItemSelected.titlesReduced}
                                navItemId={this.props.navItemSelected.id}
                                titleModeToggled={this.props.titleModeToggled}

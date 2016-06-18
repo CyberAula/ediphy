@@ -8,8 +8,8 @@ export default class PageMenu extends Component {
         let navItem = this.props.navItems[this.props.caller];
         let proposedName = "Page " +  this.calculateName();
         return (
-              <Dropdown role="menuitem" dropup id="dropdown-custom-2" >
-                 <Dropdown.Toggle noCaret rootClose className="carrouselButton" style={{float: 'none'}}>
+              <Dropdown role="menuitem" dropup className="carouselDropup" id="dropdown-custom-2" >
+                 <Dropdown.Toggle noCaret rootClose className="carrouselButton">
                    <i className="fa fa-file-o"></i>
                  </Dropdown.Toggle>
                  <Dropdown.Menu className="pageMenu"  onSelect={() => null}>

@@ -9,31 +9,35 @@
 	background-color: transparent;
 	min-width: 20%;
 	border-radius: 0;
+	float:none;
 	&:hover, &:active, &:focus, &:selected { 
 		-webkit-box-shadow: none !important;
-	     box-shadow: none !important;
-	     -moz-box-shadow: none !important;
-	     outline:none;
- 		color: $naranjaadams;
- 		background-color: transparent !important;
+		box-shadow: none !important;
+		-moz-box-shadow: none !important;
+		outline:none;
+		color: $naranjaadams;
+		background-color: transparent !important;
 	}
 
 }
 .carList{
 	overflow-y: auto; 
-	height: calc(100% - 40px);
+	height: calc(100% - 60px);
 	margin: 4px 0px 0px 0px;
 	color: $fondo;
 	padding: 5px;
 }
 
+.carouselDropup {
+	min-width: 20% !important;
+}
+
 .carouselListTitle{
 	margin:5px 15px;
-
-	height:10px;
-		* {
-			margin:6px;
-		}
+	cursor:pointer;
+	* { @include animacion(all,0.3s);
+		margin:6px;
+	}
 }
 .toolbarSpread {
 	color: $naranjaadams;
@@ -52,20 +56,20 @@
 	outline: none !important;
 	&:hover, &:active, &:focus, &:selected { 
 		-webkit-box-shadow: none !important;
-	     box-shadow: none !important;
-	     -moz-box-shadow: none !important;
-	     outline:none;
-	   }
+		box-shadow: none !important;
+		-moz-box-shadow: none !important;
+		outline:none;
+	}
 }
 .daliCarousel{
 	.row {
 		// z-index:2 !important;
 	}
-	 h3,h4{
-	 	&:hover{
-	 		cursor:pointer;
-	 	}
-	 }
+	h3,h4{
+		&:hover{
+			cursor:pointer;
+		}
+	}
 }
 
 .breadcrumb a{
@@ -93,19 +97,20 @@
 	overflow-x: hidden;
 }
 .pestanaCarousel{
-    width: 0;
-    height: 0;
-    border-width: 10px;
-    border-style: solid;
-    text-align: center;
-    z-index: 999;
-    display: inline-block;
-    position: absolute;
-    top: 60px;
-    left: 100%;
-    border-color: transparent;
-    border-left-color: $darkest;
-    color: #133329;
+	cursor:pointer;
+	width: 0;
+	height: 0;
+	border-width: 10px;
+	border-style: solid;
+	text-align: center;
+	z-index: 999;
+	display: inline-block;
+	position: absolute;
+	top: 60px;
+	left: 100%;
+	border-color: transparent;
+	border-left-color: $darkest;
+	color: #133329;
 }
 
 .indiceoculto{
@@ -124,30 +129,29 @@
 	padding-right:10px;	*/
 }
 #colLeft{
-	 position: relative; 
-	 float: left;
-	 padding: 0;
-	 height: 100%;
-	 z-index:1;
+	position: relative; 
+	float: left;
+	padding: 0;
+	height: 100%;
+	z-index:1;
 }
 
 .pageMenu {
- 	a:hover  {
+	a:hover  {
 		text-decoration: none;
 		color: $naranjaadams !important;
 	}
+
+	min-width: 105px;
 }
 
-.dropdown-custom-2{
-	min-width: 20%;
+#dropdown-custom-2{
+	width: 100%;
 	.dropdown-menu > li > a {
-     padding:  0px;
- 
+		padding:  0px;
 
-    }	
-    .dropdown-menu {
-	    min-width: 90px;
-	    left: 0px;
-	
 	}
 }
+
+
+

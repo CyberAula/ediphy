@@ -41,7 +41,7 @@
 }
 
 .pestana{
-
+	cursor: pointer;
 	width: 0;
     height: 0;
     border-width: 10px;
@@ -58,7 +58,8 @@
     color: #133329;}
 
 .wrapper{
- 
+ 	 	@include animacion(top, 0.3s);
+
 	margin: 0;
     position: fixed;
    	bottom:0;
@@ -71,7 +72,7 @@
  #tools{
 	overflow-x:hidden;
 	overflow-y:auto;
- 
+
 	input[type="checkbox"]{
 		
 		padding:0 !important;
@@ -79,7 +80,7 @@
 	}
 	label{
 			margin:0 !important;
-		padding:0 !important;
+		padding: 0 !important;
 		font-size: inherit;
 		font-weight: bold;
 	}
@@ -91,7 +92,7 @@
 .panelPluginToolbar{
 	a {
 		display:block;
-		&:hover, &:focus, &:selected, &:active {
+		&:hover, &:focus, &:active {
 			text-decoration: none;
 			color: $naranjaadams;
 		}

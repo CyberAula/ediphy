@@ -31,6 +31,7 @@ export const UPDATE_TOOLBAR = 'UPDATE_TOOLBAR';
 export const COLLAPSE_TOOLBAR = 'COLLAPSE_TOOLBAR';
 
 export const IMPORT_STATE = 'IMPORT_STATE';
+export const CHANGE_TITLE = 'CHANGE_TITLE';
 
 export function selectNavItem(id){
     return {type: SELECT_NAV_ITEM, payload: {id}};
@@ -127,6 +128,10 @@ export function changeDisplayMode(mode){
 
 export function setBusy(value, msg){
     return {type: SET_BUSY, payload: {value, msg}};
+}
+
+export function changeTitle(title){
+    return {type: CHANGE_TITLE, payload: title};
 }
 
 export function importState(state){

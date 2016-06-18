@@ -27,10 +27,10 @@
 %>
 
 <div style="visibility: visible; overflow: auto; display: <%=(navs[page].titlesReduced == 'hidden')?'none':'inherit' %>;" class="caja">
-    <div class="cab">
+    <div class="cab" style="display: <%=(navs[page].titlesReduced == 'hidden')?'none':'inherit' %>;">
         <div class="cabtabla_numero"><%=sectiontitle%></div>
         <div class="tit_ud_cap">
-            <h1> Título Curso -  <%strDate%></h1>
+            <h1>  <%=title%></h1>
             <h2>Título Unidad</h2>
         </div>
         <div class="cabtabla_lapiz">

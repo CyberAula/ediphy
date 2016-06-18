@@ -56,11 +56,7 @@ var DaliVisor = (function () {
     return {
         exports: function (state) {
             var today = new Date();
-            var strDate = 'd-m-Y'
-                .replace('d', today.getDate())
-                .replace('m', today.getMonth() + 1)
-                .replace('Y', today.getFullYear());
-
+           
             JSZipUtils.getBinaryContent('/lib/visor/dist.zip', function (err, data) {
                 if (err) {
                     throw err; // or handle err
@@ -81,12 +77,12 @@ var DaliVisor = (function () {
                 state.navItemsIds.map(function (page) {
                     var inner = new EJS({url: '/lib/visor/index.ejs'}).render({
                         scripts: getScripts(state, page),
+                        title: state.title,
                         page: page,
                         navs: navs,
                         boxesById: state.boxesById,
                         boxes: state.boxes,
-                        toolbarsById: state.toolbarsById,
-                        strDate: strDate
+                        toolbarsById: state.toolbarsById
                     });
 
                     var nombre = navs[page].name;
@@ -99,19 +95,16 @@ var DaliVisor = (function () {
         },
         exportPage: function (state) {
             var today = new Date();
-            var strDate = 'd-m-Y'
-                .replace('d', today.getDate())
-                .replace('m', today.getMonth() + 1)
-                .replace('Y', today.getFullYear());
+           
 
             return new EJS({url: '/lib/visor/page.ejs'}).render({
+                title: state.title,
                 scripts: getScripts(state, state.navItemSelected),
                 page: state.navItemSelected,
                 navs: state.navItemsById,
                 boxesById: state.boxesById,
                 boxes: state.boxes,
-                toolbarsById: state.toolbarsById,
-                strDate: strDate
+                toolbarsById: state.toolbarsById
             });
         }
     }

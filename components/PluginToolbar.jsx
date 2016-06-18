@@ -68,7 +68,7 @@ export default class PluginToolbar extends Component {
                      className="wrapper"
                      style={{
                         right: '0px',
-                        top: '60px',
+                        top: this.props.top,
                         visibility: visible
                      }}>
             <div className="pestana" onClick={() => {this.setState({open: !this.state.open})}}>

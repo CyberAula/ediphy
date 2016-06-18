@@ -64,7 +64,7 @@ export default class DaliTitle extends Component {
                     <div className="cab" style={{backgroundColor: 'transparent'}}>
                         <div className="cabtabla_numero">1</div>
                         <div className="tit_ud_cap">
-                           <h1>Título Curso</h1>
+                           <h1>{this.props.courseTitle}</h1>
                            <h2>{unidad}</h2>
                         </div>
                         <div className="cabtabla_lapiz">            

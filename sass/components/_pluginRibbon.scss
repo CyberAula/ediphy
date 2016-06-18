@@ -1,49 +1,106 @@
 
 
 
-@media screen and (max-width: 1147px) {
-	.hideonresize{
-		display: none;
-	}
-	.navButtonPlug{
-	 width:50px;
-	 padding:0;
-	  .active{ color:white !important;}
-	}
-}
-
-
-
-.navButtonPlug{
-	@extend .navButton;
+.buttonPlace{
+	position:relative;
+	display: inline-block;
 	width:auto;
-	min-width: 80px;
-	padding-left: 7px;
-	padding-right: 7px;
-	margin: 0px 0px;
-	/*&:after  {
- 		border: 8px solid transparent;
-		content: "\200B";	
-		position: relative;
-		top: 0px;
-		left: -50%;
-		transition: all 0.3s ease-in;
-	}*/
-
-}
-.navButtonPlug[ title="All"]{
-	padding-left: 8px;
+	z-index: 0;
+	height:100%;
 }
 
-
-.navButtonPlug.active{
-	color:white !important; 
-	background-color: $grismedio;
-	&:after  {
-		 
-		border-bottom: 8px solid $naranjaadams;
+.rib{
+	position:relative;
+	padding: 6px 15px;
+	font-size: 14px !important;
+	border-radius: 0;
+	height:100%;
+	background-color: transparent;
+	border:none;
+	color:$verdeadams;
+	&:hover{
+		background-color: transparent !important ; 
+		color:white ;
+		box-shadow: none !important;
+		-webkit-box-shadow: none !important;
+		-moz-box-shadow: none !important;
 	}
+ 
+}
+
+#ribbonList{
+	white-space: nowrap !important;
+	margin-left: 15px;
+	height:100%;
+}
+
+#ribbon{
+	background-color:$grismedio;
+	height:60px;
+	padding:0;
+	z-index:0;
+	overflow-x: hidden;
  }
 
+ 
+.ribdrag{
+	
+	color:$verdeadams;
+	&:hover{
+ 
+		color:$verdeadams !important ;
+	}
+}
+#insideribbon{
+	margin-top:0px;
+	right:0;
+	overflow-y: hidden;
+	height:100%;
+	width: calc(100% - 200px);
+}
+ 
+#canvas, #maincontent, #canvasRow {
+	z-index:0 ;
+}
+
+#ribbonRow{
+	 overflow-x: auto;
+	 overflow-y: hidden;
+}
+
+#ribbon {
+	 overflow-X:hidden;
+	 overflow-Y:hidden;
+}
+#colRight{
+	overflow-x:hidden;
+}
 
 
+.mainButtons{
+	display:inline-block;
+	position:absolute;
+	height:100%;
+	margin-top:0px;
+	width:195px;
+	right:0px;
+	top:0;
+	background-color: $grismedio; 
+}
+
+.ribShortcut{
+	width:40px;
+	height:40px;
+	margin:4px;
+	border:0;
+	color: $verdeoscurogrisaceo;
+	background-color: $lightestgrey;
+	display:inline-block;
+	&:hover{
+		color: $naranjaadams;
+	}
+}
+
+button[disabled].ribShortcut {
+	color: #ccc;
+}
