@@ -1,54 +1,151 @@
 
+.botones{
+	padding:15px;
+}
+#insidetools,#tools{
+	width: 250px;
+}
 
-
-@media screen and (max-width: 1147px) {
-	.hideonresize{
-		display: none;
-	}
-	.navButtonPlug{
-	 width:50px;
-	 padding:0;
-	  .active{ color:white !important;}
+.toolbox{
+	height: 100%;
+    background-color: rgba(44,44,44,0.8);
+    display:inline-block;
+    vertical-align: baseline;
+}
+.pluginToolbarMainButton {
+	min-width: 20px;
+	width: 50%;
+	&:hover {
+		color:orange;
 	}
 }
 
+.toolbarTabs{
+	color: $lightestgrey;
+	li {
+		padding-bottom: 0;
+		a {
+			border-color: transparent;
+			color: $lightestgrey;
+			border-radius:0;
 
-
-.navButtonPlug{
-	@extend .navButton;
-	width:auto;
-	padding: 0px 2px;
-	&:after  {
- 		border: 8px solid transparent;
-		content: "\200B";	
-		position: relative;
-		top: 0px;
-		left: -50%;
-		transition: all 0.3s ease-in;
+			&:hover{
+				border-color: transparent;
+				background-color: transparent;
+				color: $naranjaadams;
+			}
+		}
+		
 	}
 
 }
-.navButtonPlug[ title="All"]{
-	padding-left: 8px;
-}
 
+.pestana{
+	cursor: pointer;
+	width: 0;
+    height: 0;
+    border-width: 10px;
+    border-style: solid;
+    text-align: center;
+    z-index: 999;
+    display: inline-block;
+    position: absolute;
+	top:$pestanaHeight;
+	right:100%;
+  	border-color: transparent;
+    border-right-color: rgba(44,44,44,0.8);
+    color: #133329;}
 
-.navButtonPlug.active{
+.wrapper{
+ 	@include animacion(top, 0.3s);
+	margin: 0;
+    position: fixed;
+   	bottom:0;
  
-	color:$naranjaadams !important; 
-	background-color: $verdeadams;
-	&:after  {
-		 
-		border-bottom: 8px solid $naranjaadams;
-	}
- }
 
+}
+
+
+
+ #tools{
+	overflow-x:hidden;
+	overflow-y:auto;
+
+	input[type="checkbox"]{
+		padding:0 !important;
+		margin-left:0
+	}
+	label{
+		margin:0 !important;
+		padding: 0 !important;
+		font-size: inherit;
+		font-weight: bold;
+	}
+}
+
+
+
+
+.panelPluginToolbar{
+	a {
+		display:block;
+		&:hover, &:focus, &:active {
+			text-decoration: none;
+			color: $naranjaadams;
+		}
+
+	}
+	
+	border:0;
+	border-radius:0;
+	.panel-body {
+		border:0 !important;
+		background-color: #555;
+	}
+	
+	.panel-heading{
+		border:0;
+		border-radius:0;
+		color:$lightestgrey;
+		background-color: $darkest;
+	}
+
+	.panel-group, .panel {
+	    margin-bottom: 0;
+	    border-radius: 0;
+	    border: 0;
+	}	
+
+}
+
+
+.toolbarTab{
+	color:$naranjaadams;
+}
+
+#insidetools {
+	.btn-group, .pluginToolbarMainButton {
+		background-color: $darkest;
+		border:0;
+		color:white;
+		font-weight: lighter !important;
+	}
+
+	.tablist{
+		li{
+			.active{
+				color: $lightestgrey;
+			}
+		}
+	}
+	border-left: 2px solid rgba(44,44,44,0.8);
+	border-right: 2px solid rgba(44,44,44,0.8);
+}
 
 #tools input[type="checkbox"]{
 	position:relative;
 	display:inline-block;
 	line-height: 5px;
-	margin-right: 5px;
 	vertical-align: text-bottom;
 
 }
@@ -58,4 +155,31 @@
 }
 .form-group{
 	margin-top: 15px;
+}
+
+.toolbarButton{
+	border-radius: 0;
+	background-color: rgba(44,44,44,0.8);
+	color: white;
+	border:0;
+	margin: 5px;
+
+
+	&.textediting {
+		background-color: $naranjaadams;
+	}
+}
+
+#tools .form-control {
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	box-shadow: none;
+	// border: 1px solid $naranjaadams;
+	border-radius: 0;
+	border:0;
+	background-color: $darkinput;
+	&:active,&:focus {
+		border-color: orange;
+	}
+	color:black;
 }

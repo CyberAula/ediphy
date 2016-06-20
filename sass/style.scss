@@ -1,20 +1,19 @@
 
 @import 'variables';
+@import 'general/mixins/mixins';
+@import 'general/tipography/tipo';
 @import 'components/canvas';
 @import 'components/carrouselList';
 @import 'components/navBar';
-@import 'components/ribbon';
-@import 'components/toolbox';
+@import 'components/pluginRibbon';
 @import 'components/pluginToolbar';
 @import 'components/visor';
-@import 'components/plugins/pills';
+@import 'components/colorPicker';
 @import 'events/draganddrop';
 @import 'general/elements/btn';
 @import 'general/elements/scrollbar';
 @import 'general/elements/thumbnails';
-@import 'general/mixins/mixins';
-@import 'general/tipography/tipo';
-  
+
  
 
 @include selection {
@@ -26,21 +25,31 @@
 	margin:0;
 }
 
-#colLeft, #colRight, #ribbon, #insideribbon,#tools, #indice{
-	transition: width 0.3s ease-in;
+#colLeft, #colRight, #ribbon, #insideribbon, #tools, #indice{
+	@include animacion(width, 0.3s);
     min-height: 0;
-
 }
+
+
+#colLeft{
+    position: relative; 
+    float: left;
+    padding: 0;
+    height: 100%;
+    z-index:1;
+}
+
 #canvasRow, #ribbonRow{
-    transition: height 0.3s ease-in-out;
+    @include animacion(height, 0.3s);
     >div{
-         transition: height 0.3s ease-in-out;
+        @include animacion(height, 0.3s);
     }
 }
 
 .full{
 	width:100% !important;
-	transition: width 0.3s ease-in;}
+    @include animacion(height, 0.3s);
+}
 
  
 .hidden{

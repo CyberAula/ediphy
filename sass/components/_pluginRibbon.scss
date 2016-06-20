@@ -1,13 +1,16 @@
+
+
+
 .buttonPlace{
 	position:relative;
 	display: inline-block;
 	width:auto;
 	z-index: 0;
+	height:100%;
 }
 
 .rib{
 	position:relative;
- 
 	padding: 6px 15px;
 	font-size: 14px !important;
 	border-radius: 0;
@@ -16,12 +19,15 @@
 	border:none;
 	color:$verdeadams;
 	&:hover{
-
 		background-color: transparent !important ; 
 		color:white ;
 		box-shadow: none !important;
 		-webkit-box-shadow: none !important;
 		-moz-box-shadow: none !important;
+	}
+	.material-icons {
+		vertical-align: text-bottom;
+		font-size: 18px;
 	}
  
 }
@@ -29,19 +35,20 @@
 #ribbonList{
 	white-space: nowrap !important;
 	margin-left: 15px;
+	height:100%;
 }
 
 #ribbon{
-	background-color:$naranjaadams;
+	background-color:$grismedio;
 	height:60px;
 	padding:0;
 	z-index:0;
-	overflow-x: hidden;
+	overflow-X:hidden;
+	overflow-Y:hidden;
  }
 
  
 .ribdrag{
-	
 	color:$verdeadams;
 	&:hover{
  
@@ -52,6 +59,8 @@
 	margin-top:0px;
 	right:0;
 	overflow-y: hidden;
+	height:100%;
+	width: calc(100% - 200px);
 }
  
 #canvas, #maincontent, #canvasRow {
@@ -63,11 +72,36 @@
 	 overflow-y: hidden;
 }
 
-#ribbon {
-	 overflow-X:hidden;
-	 overflow-Y:hidden;
-}
+
 #colRight{
 	overflow-x:hidden;
 }
 
+
+.mainButtons{
+	display:inline-block;
+	position:absolute;
+	height:100%;
+	margin-top:0px;
+	width:195px;
+	right:0px;
+	top:0;
+	background-color: $grismedio; 
+}
+
+.ribShortcut{
+	width:40px;
+	height:40px;
+	margin:4px;
+	border:0;
+	color: $verdeoscurogrisaceo;
+	background-color: $lightestgrey;
+	display:inline-block;
+	&:hover{
+		color: $naranjaadams;
+	}
+}
+
+button[disabled].ribShortcut {
+	color: #ccc;
+}

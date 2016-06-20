@@ -6,7 +6,7 @@ Dali.Plugins["Webpage"] = function (base){
                 category: 'multimedia',
                 needsConfigModal: false,
                 needsTextEdition: false,
-                icon: 'fa-globe'
+                icon: 'public'
             };
         },
         getToolbar: function () {

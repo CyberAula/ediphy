@@ -6,7 +6,7 @@ Dali.Plugins["BasicVideo"] = function (base){
                 category: 'multimedia',
                 needsConfigModal: false,
                 needsTextEdition: false,
-                icon: 'fa-video-camera'
+                icon: 'play_arrow'
             };
         },
         getToolbar: function () {

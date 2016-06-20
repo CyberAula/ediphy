@@ -4,7 +4,7 @@ import './utils';
 import {ADD_BOX, SELECT_BOX, MOVE_BOX, DUPLICATE_BOX, RESIZE_BOX, UPDATE_BOX, DELETE_BOX, REORDER_BOX, DROP_BOX, INCREASE_LEVEL,
     ADD_SORTABLE_CONTAINER, RESIZE_SORTABLE_CONTAINER, CHANGE_COLS, CHANGE_ROWS,
     ADD_NAV_ITEM, SELECT_NAV_ITEM, EXPAND_NAV_ITEM, REMOVE_NAV_ITEM, REORDER_NAV_ITEM,
-    TOGGLE_PAGE_MODAL, TOGGLE_TEXT_EDITOR, TOGGLE_TITLE_MODE,
+    TOGGLE_PAGE_MODAL, TOGGLE_TEXT_EDITOR, TOGGLE_TITLE_MODE, CHANGE_TITLE,
     CHANGE_DISPLAY_MODE, SET_BUSY, UPDATE_TOOLBAR, COLLAPSE_TOOLBAR, IMPORT_STATE
 } from './actions';
 import {ID_PREFIX_SECTION, ID_PREFIX_PAGE, ID_PREFIX_BOX, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_SORTABLE_CONTAINER} from './constants';
@@ -490,7 +490,7 @@ function navItemsById(state = {}, action = {}) {
                 [action.payload.id]: navItemCreator(state[action.payload.id], action),
                 [action.payload.parent]: Object.assign({}, state[action.payload.parent], {children: [...state[action.payload.parent].children, action.payload.id]})
             });
-            return recalculateNames(newState, newState[action.payload.id], 0)
+             return recalculateNames(newState, newState[action.payload.id], 0)
         case EXPAND_NAV_ITEM:
             return Object.assign({}, state, {[action.payload.id]: Object.assign({}, state[action.payload.id], {isExpanded: action.payload.value})});
         case TOGGLE_TITLE_MODE:
@@ -845,6 +845,18 @@ function togglePageModal(state = {value: false, caller: 0}, action = {}) {
     }
 }
 
+
+function changeTitle (state = "", action = {}) {
+    switch (action.type) {
+        case CHANGE_TITLE:
+            return action.payload;
+        case IMPORT_STATE:
+            return action.payload.present.title;
+        default:
+            return state;
+    }  
+}
+
 function changeDisplayMode(state = "", action = {}) {
     switch (action.type) {
         case CHANGE_DISPLAY_MODE:
@@ -868,6 +880,7 @@ function isBusy(state = "", action = {}) {
 }
 
 const GlobalState = undoable(combineReducers({
+    title: changeTitle,
     pageModalToggled: togglePageModal,
     boxesById: boxesById, //{0: box0, 1: box1}
     boxSelected: boxSelected, //0

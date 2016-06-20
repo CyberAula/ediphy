@@ -2,39 +2,13 @@ import React, {Component} from 'react';
 import {Button, ButtonGroup, Col} from 'react-bootstrap';
 import {ID_PREFIX_SECTION, ID_PREFIX_PAGE, ID_PREFIX_SORTABLE_BOX, BOX_TYPES} from '../constants';
 import Section from '../components/Section';
+import PageMenu from '../components/PageMenu';
 
 export default class CarrouselList extends Component{
     render(){
         return(
             <div style={{height: '100%'}}>
-                <ButtonGroup style={{width: '100%'}}>
-                    <Button className="carrouselButton" 
-                            disabled={this.props.navItemSelected === 0}
-                            onClick={e => {
-                                        let ids = [this.props.navItemSelected];
-                                        let found = this.findChildren(ids);
-                                        let boxes = this.findBoxes(found);
-                                        this.props.onNavItemRemoved(ids, this.props.navItems[this.props.navItemSelected].parent, boxes );
-                                    }
-                                }><i className="fa fa-trash-o"></i></Button>
-                    <Button className="carrouselButton" 
-                            disabled={this.props.navItemSelected === 0}
-                            onClick={e => {
-                                        //this.props.onSectionDuplicated(this.props.sectionSelected);
-                                    }
-                                }><i className="fa fa-files-o"></i></Button>
-
-                    <Button className="carrouselButton"  onClick={e => {
-                                    let idnuevo = ID_PREFIX_SECTION + Date.now();
-                                    this.props.onSectionAdded(idnuevo, "Section "+this.sections(), 0, [], 1, 'section', this.props.navItemsIds.length);
-                                    this.props.onBoxAdded({parent: idnuevo, container: 0, id: ID_PREFIX_SORTABLE_BOX + Date.now()}, BOX_TYPES.SORTABLE, false, false);
-                                    e.stopPropagation();
-                                }}><i className="fa fa-folder-o"></i></Button>
-                    <Button className="carrouselButton"  onClick={e => {
-                                    this.props.onPageAdded(0, true);
-                                    e.stopPropagation();
-                                }}><i className="fa fa-file-o"></i></Button>
-                </ButtonGroup>
+               
                 <div  ref="sortableList" className="carList connectedSortables">
                     {
                     this.props.navItems[0].children.map((id, index) => {
@@ -62,6 +36,34 @@ export default class CarrouselList extends Component{
                                             
                         }
                     })}
+                </div>
+                 <div style={{width: '100%', borderTop: '1px solid grey', marginTop: '0px'}}>
+
+                    <Button className="carrouselButton"  onClick={e => {
+                                    let idnuevo = ID_PREFIX_SECTION + Date.now();
+                                    this.props.onSectionAdded(idnuevo, "Section "+this.sections(), 0, [], 1, 'section', this.props.navItemsIds.length, 'expanded');
+                                    this.props.onBoxAdded({parent: idnuevo, container: 0, id: ID_PREFIX_SORTABLE_BOX + Date.now()}, BOX_TYPES.SORTABLE, false, false);
+                                    e.stopPropagation();
+                                }}><i className="material-icons">create_new_folder</i></Button>
+ 
+                     <PageMenu caller={0}
+                               navItems={this.props.navItems}
+                               navItemsIds={this.props.navItemsIds}
+                               onBoxAdded={this.props.onBoxAdded}   
+                               onPageAdded={this.props.onSectionAdded} /> 
+ 
+                                 
+                    <Button className="carrouselButton" 
+                            disabled={this.props.navItemSelected === 0}
+                            style={{float: 'right'}}
+                            onClick={e => {
+                                        let ids = [this.props.navItemSelected];
+                                        let found = this.findChildren(ids);
+                                        let boxes = this.findBoxes(found);
+                                        this.props.onNavItemRemoved(ids, this.props.navItems[this.props.navItemSelected].parent, boxes );
+                                    }
+                                }><i className="material-icons">delete</i></Button>
+
                 </div>
             </div>
         )

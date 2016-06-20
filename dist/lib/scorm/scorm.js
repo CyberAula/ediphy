@@ -6,10 +6,7 @@ var DaliScorm = {
     exports: function(state){
 
         var today = new Date();
-        var strDate = 'd-m-Y'
-          .replace('d', today.getDate())
-          .replace('m', today.getMonth()+1)
-          .replace('Y', today.getFullYear());
+      
 
         JSZipUtils.getBinaryContent('/lib/scorm/scorm.zip', function(err, data) {
 
@@ -23,12 +20,12 @@ var DaliScorm = {
             state.navItemsIds.map(function(page){
 
                 var inner = new EJS({url: '/lib/visor/index.ejs'}).render({
+                 title: state.title,
                  page: page,
                  navs: navs,
                  boxesById: state.boxesById,
                  boxes: state.boxes,
-                 toolbarsById: state.toolbarsById,
-                 strDate: strDate
+                 toolbarsById: state.toolbarsById
                 });
 
                 var nombre = navs[page].name;

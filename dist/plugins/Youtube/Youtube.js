@@ -6,7 +6,7 @@ Dali.Plugins["Youtube"] = function (base) {
                 category: 'multimedia',
                 needsConfigModal: false,
                 needsTextEdition: false,
-                icon: 'fa-youtube'
+                icon: 'slideshow'
             };
         },
         getToolbar: function () {

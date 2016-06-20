@@ -23,7 +23,7 @@ export default class Section extends Component {
                 <span className={classSelected}style={{ display: 'inline'}}>{navItem.name}</span>
 
             </div>
-            <div style={{display: (navItem.isExpanded ? 'block' : 'none'), borderLeft: '1px dotted black'}}>
+            <div style={{display: (navItem.isExpanded ? 'block' : 'none'), borderLeft: '1px dotted white'}}>
                 
                 <div style={{marginLeft: 20}}>
                     <div ref="sortableListS" style={{paddingTop: (navItem.children.length > 0 ? 2 : 20) }} className="sectionList connectedSortables">
@@ -56,16 +56,16 @@ export default class Section extends Component {
                   </div>
                 <div style={{marginTop: 10, marginLeft: 20}}>
 
-                    <Button onClick={e => {
-                        let idnuevo = ID_PREFIX_SECTION + Date.now();
-                        this.props.onSectionAdded(idnuevo, navItem.name + "." +this.calculateName(navItem), navItem.id, [], navItem.level + 1, 'section', this.calculatePosition());
-                        this.props.onBoxAdded({parent: idnuevo, container: 0, id: ID_PREFIX_SORTABLE_BOX + Date.now()}, BOX_TYPES.SORTABLE, false, false);
-                        e.stopPropagation();
-                    }}><i className="fa fa-folder-o"></i></Button>
-                    <Button onClick={e => {
-                        this.props.onPageAdded(navItem.id, true)
-                        e.stopPropagation();
-                    }}><i className="fa fa-file-o"></i></Button>
+                 {/* <Button onClick={e => {
+                                         let idnuevo = ID_PREFIX_SECTION + Date.now();
+                                         this.props.onSectionAdded(idnuevo, navItem.name + "." +this.calculateName(navItem), navItem.id, [], navItem.level + 1, 'section', this.calculatePosition(), 'expanded');
+                                         this.props.onBoxAdded({parent: idnuevo, container: 0, id: ID_PREFIX_SORTABLE_BOX + Date.now()}, BOX_TYPES.SORTABLE, false, false);
+                                         e.stopPropagation();
+                                     }}><i className="fa fa-folder-o"></i></Button>
+                                     <Button onClick={e => {
+                                         this.props.onPageAdded(navItem.id, true)
+                                         e.stopPropagation();
+                                     }}><i className="fa fa-file-o"></i></Button>*/}
                 </div>
                 </div>
             </div>

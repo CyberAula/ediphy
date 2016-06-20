@@ -94,14 +94,14 @@ export default class DaliBox extends Component {
         if (box.container === 0) {
             helpersResizable = (
                 <div>
-                    <div
-                        style={{position: 'absolute', left:  -cornerSize/2, top: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray', cursor: (box.container === 0 ? 'nw-resize' : 'move')}}></div>
-                    <div
-                        style={{position: 'absolute', right: -cornerSize/2, top: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray', cursor: (box.container === 0 ? 'ne-resize' : 'move')}}></div>
-                    <div
-                        style={{position: 'absolute', left:  -cornerSize/2, bottom: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray', cursor: (box.container === 0 ? 'sw-resize' : 'move')}}></div>
-                    <div
-                        style={{position: 'absolute', right: -cornerSize/2, bottom: -cornerSize/2, width: cornerSize, height: cornerSize, backgroundColor: 'lightgray', cursor: (box.container === 0 ? 'se-resize' : 'move')}}></div>
+                    <div className="helpersResizable"
+                        style={{position: 'absolute', left:  -cornerSize/2, top: -cornerSize/2, width: cornerSize, height: cornerSize, cursor: (box.container === 0 ? 'nw-resize' : 'move')}}></div>
+                    <div className="helpersResizable"
+                        style={{position: 'absolute', right: -cornerSize/2, top: -cornerSize/2, width: cornerSize, height: cornerSize, cursor: (box.container === 0 ? 'ne-resize' : 'move')}}></div>
+                    <div className="helpersResizable"
+                        style={{position: 'absolute', left:  -cornerSize/2, bottom: -cornerSize/2, width: cornerSize, height: cornerSize, cursor: (box.container === 0 ? 'sw-resize' : 'move')}}></div>
+                    <div className="helpersResizable"
+                        style={{position: 'absolute', right: -cornerSize/2, bottom: -cornerSize/2, width: cornerSize, height: cornerSize, cursor: (box.container === 0 ? 'se-resize' : 'move')}}></div>
                 </div>
             );
         } else {
@@ -116,7 +116,7 @@ export default class DaliBox extends Component {
                     left: -(borderSize),
                     width: '100%',
                     height: '100%',
-                    border: (borderSize + "px dashed black"),
+                    border: (borderSize + "px dashed #555"),
                     boxSizing: 'content-box'
                 }}>
                 </div>
@@ -312,9 +312,20 @@ export default class DaliBox extends Component {
         if (toolbar.config.aspectRatioButtonConfig) {
             let arb = toolbar.config.aspectRatioButtonConfig;
             if (arb.location.length == 2) {
-                return toolbar.controls[arb.location[0]].accordions[arb.location[1]].buttons.__aspectRatio.value === "checked";
+                let comp = toolbar.controls[arb.location[0]].accordions[arb.location[1]].buttons.__aspectRatio;
+                if (comp){
+                    return (comp.value === "checked");       
+                } else {
+                    return false;
+                }
+            
             } else {
-                return toolbar.controls[arb.location[0]].accordions[arb.location[1]].accordions[arb.location[2]].buttons.__aspectRatio.value === "checked";
+                let comp = toolbar.controls[arb.location[0]].accordions[arb.location[1]].accordions[arb.location[2]].buttons.__aspectRatio;
+                if (comp) {
+                    return comp.value === "checked";
+                } else {
+                    return false;
+                }
             }
         }
 

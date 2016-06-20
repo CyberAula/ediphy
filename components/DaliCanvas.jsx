@@ -19,7 +19,7 @@ export default class DaliCanvas extends Component{
             }
             titles.reverse();
         }
-        let paddings= (this.props.navItemSelected.type!= "slide") ? ('0px 0px 0px 0px') : ('30px 0px 30px 0px')
+        let paddings= (this.props.navItemSelected.type!= "slide") ? ('5px 5px 5px 5px') : ('30px 0px 30px 0px')
         let maincontent = document.getElementById('maincontent');
         let actualHeight; 
         if (maincontent){
@@ -35,7 +35,12 @@ export default class DaliCanvas extends Component{
                       className={this.props.navItems[this.props.navItemSelected.id].type == 'slide' ? 'slide sli':'slide doc'}
                       style={{visibility: (this.props.showCanvas ? 'visible' : 'hidden'), position: 'relative'}}>
 
+                    {/*<div className="canvasHelper" style={{visibility: (this.props.showCanvas ? 'hidden' : 'visible'), position: 'relative'}}>
+                        <div className="canvasMessage" >CREA UNA SECCIÓN PARA EMPEZAR</div>
+                    </div>*/}
+
                     <DaliTitle titles={titles}
+                               courseTitle={this.props.title}
                                isReduced={this.props.navItemSelected.titlesReduced}
                                navItemId={this.props.navItemSelected.id}
                                titleModeToggled={this.props.titleModeToggled}

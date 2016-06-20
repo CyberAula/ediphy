@@ -1,8 +1,8 @@
-@mixin animacion($prop: all) {
-	transition: $prop 1s ease-in;
-	-webkit-transition: $prop 1s ease-in;
-	-moz-transition: $prop 1s ease-in; 	
-	-o-transition: $prop 1s ease-in; 	
+@mixin animacion($prop: all, $duracion: 0.3s) {
+	transition: $prop $duracion ease-in;
+	-webkit-transition: $prop $duracion ease-in;
+	-moz-transition: $prop $duracion ease-in; 	
+	-o-transition: $prop $duracion ease-in; 	
 
 }
 

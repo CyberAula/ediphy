@@ -10,7 +10,7 @@ import GlobalState from './reducers';
 const finalCreateStore = compose(applyMiddleware(thunkMiddleware), DevTools.instrument())(createStore);
 
 let initialState = {
-    present: {displayMode: "list", navItemsById: {0: {id: 0, children: [], boxes: [], level: 0, type: ''}}}
+    present: {title: "Título Curso", displayMode: "list", navItemsById: {0: {id: 0, children: [], boxes: [], level: 0, type: ''}}}
 };
 let store = finalCreateStore(GlobalState, initialState);
 

@@ -7,7 +7,7 @@ Dali.Plugins["BasicImage"] = function (base){
                 needsConfigModal: false,
                 needsTextEdition: false,
                 aspectRatioButtonConfig: {name: "Aspect Ratio", location: ["main", "basic"], defaultValue: "checked"},
-                icon: 'fa-picture-o'
+                icon: 'panorama'
             };
         },
         getToolbar: function(){

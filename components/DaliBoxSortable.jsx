@@ -30,7 +30,7 @@ export default class DaliBoxSortable extends Component {
                                     minHeight: 150,
                                     height: container.height,
                                     overflow: 'hidden',
-                                    border: '1px solid #999',
+                                    border: '0',
                                     boxSizing: 'border-box',
                                     position: 'relative'}}>
                             {container.colDistribution.map((col, i) => {
@@ -70,7 +70,7 @@ export default class DaliBoxSortable extends Component {
                                 }
                             })}
                             <div style={{position: 'absolute', bottom: 0}}>
-                                <i style={{verticalAlign: 'middle'}} className="fa fa-bars fa-2x drag-handle"></i>
+                                <i style={{verticalAlign: 'middle'}} className="material-icons drag-handle">swap_vert</i>
                             </div>
                         </div>);
                     })}

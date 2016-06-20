@@ -27,9 +27,9 @@ export default class Visor extends Component{
         let sectionTitle = patt.exec(parentName)? patt.exec(parentName)[0] : '0';
         let today = new Date();
         let strDate = 'd-m-Y'
-        .replace('d', today.getDate())
-        .replace('m', today.getMonth()+1)
-        .replace('Y', today.getFullYear());
+            .replace('d', today.getDate())
+            .replace('m', today.getMonth()+1)
+            .replace('Y', today.getFullYear());
         let boxes = navItemSelected!=-1? navItem.boxes : [];
         let titles = [];
         if (navItemSelected !== 0) {
