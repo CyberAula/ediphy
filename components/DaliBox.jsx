@@ -25,7 +25,7 @@ export default class DaliBox extends Component {
             width: '100%',
             height: '100%',
             top: 0,
-            position: 'absolute',
+            position: (toolbar.showTextEditor ? '' : 'absolute'),
             resize: 'none',
             visibility: (toolbar.showTextEditor ? 'visible' : 'hidden')
         }
@@ -134,7 +134,7 @@ export default class DaliBox extends Component {
         } else if (this.props.boxLevelSelected === box.level && box.level !== 0 && !this.isAncestorOrSibling(this.props.boxSelected, this.props.id)) {
             showOverlay = "visible";
         } else {
-            showOverlay = "collapse";
+            showOverlay = "hidden";
         }
         return (
             <div className={classes}
@@ -166,7 +166,7 @@ export default class DaliBox extends Component {
                     }*/
                  }}
                  style={{
-                    position: 'absolute',
+                    position: (box.container !== 0 ? '' : 'absolute'),
                     left: box.position.x,
                     top: box.position.y,
                     width: box.width ,
@@ -193,7 +193,6 @@ export default class DaliBox extends Component {
             </div>);
     }
     sameLastParent(clickedBox, currentBox){
-       
         if (currentBox.parent.indexOf(ID_PREFIX_BOX) == -1){
             return currentBox == clickedBox;
         } else {
@@ -324,22 +323,29 @@ export default class DaliBox extends Component {
 
     componentDidUpdate(prevProps, prevState) {
         let toolbar = this.props.toolbars[this.props.id];
+        let node = ReactDOM.findDOMNode(this);
 
         if (toolbar.showTextEditor) {
             this.refs.textarea.focus();
 
         }
         if ((toolbar.showTextEditor !== prevProps.toolbars[this.props.id].showTextEditor) && this.props.boxes[this.props.id].draggable) {
-            interact(ReactDOM.findDOMNode(this)).draggable(!toolbar.showTextEditor);
+            interact(node).draggable(!toolbar.showTextEditor);
         }
 
-        interact(ReactDOM.findDOMNode(this)).resizable({preserveAspectRatio: this.checkAspectRatio()});
+        interact(node).resizable({preserveAspectRatio: this.checkAspectRatio()});
         
         if (this.props.boxes[this.props.id].level > this.props.boxLevelSelected) {
-            interact(ReactDOM.findDOMNode(this)).draggable({enabled: false});
+            interact(node).draggable({enabled: false});
         } else {
-            interact(ReactDOM.findDOMNode(this)).draggable({enabled: (this.draggable)});
+            interact(node).draggable({enabled: (this.draggable)});
         }
+
+        /*
+        if(node.getBoundingClientRect().height !== 0) {
+            node.setAttribute("data-height", node.getBoundingClientRect().height);
+        }
+        */
     }
 
     componentDidMount() {
@@ -365,6 +371,12 @@ export default class DaliBox extends Component {
                     elementRect: {top: 0, left: 0, bottom: 1, right: 1}
                 },
                 autoScroll: true,
+                /*
+                onstart: (event) => {
+                    event.target.style.position = "absolute";
+                    event.target.style.height = event.target.getAttribute("data-height") + "px";
+                },
+                */
                 onmove: (event) => {
                     if (this.props.boxSelected !== this.props.id) {
                         this.props.onBoxSelected(this.props.id);
@@ -380,6 +392,8 @@ export default class DaliBox extends Component {
                         event.stopPropagation();
                         return;
                     }
+
+                    // target.style.height = target.getAttribute("data-height") + "px";
                 },
                 onend: (event) => {
                     if (this.props.boxSelected !== this.props.id) {
@@ -397,6 +411,12 @@ export default class DaliBox extends Component {
                     target.style.left = box.container !== 0 ? left : target.style.left;
                     target.style.top = box.container !== 0 ? top : target.style.top;
                     target.style.zIndex = 'initial';
+                    /*
+                    if (box.container !== 0){
+                        target.style.position = "";
+                        target.style.height = "auto";
+                    }
+                    */
 
                     this.props.onBoxMoved(
                         this.props.id,

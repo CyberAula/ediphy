@@ -100,7 +100,7 @@ function sortableContainerCreator(state = {}, action = {}) {
                         children: [...state[action.payload.ids.container].children, action.payload.ids.id]
                     }) : {
                     children: [action.payload.ids.id],
-                    height: 150,
+                    height: "auto",
                     colDistribution: [100],
                     cols: [
                         [100]

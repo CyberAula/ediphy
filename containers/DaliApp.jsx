@@ -269,7 +269,7 @@ class DaliApp extends Component {
                         } else if (child.attr['plugin-data-initialHeight']) {
                             height = child.attr['plugin-data-initialHeight'];
                         } else {
-                            height = child.attr.hasOwnProperty('plugin-data-resizable') ? 150 : "100%";
+                            height = child.attr.hasOwnProperty('plugin-data-resizable') ? "auto" : "100%";
                         }
                     }
                     if (!obj.attr) {
@@ -298,7 +298,7 @@ class DaliApp extends Component {
 
                 }
                 if (!obj.attr['plugin-data-height']) {
-                    obj.attr['plugin-data-height'] = obj.attr['plugin-data-initialHeight'] || (obj.attr.hasOwnProperty('plugin-data-resizable') ? 150 : "100%");
+                    obj.attr['plugin-data-height'] = obj.attr['plugin-data-initialHeight'] || (obj.attr.hasOwnProperty('plugin-data-resizable') ? "auto" : "100%");
                 }
                 if (obj.attr['plugin-data-key'] && !state[obj.attr['plugin-data-key']]) {
                     state[obj.attr['plugin-data-key']] = {

@@ -29,6 +29,7 @@ export default class DaliBoxSortable extends Component {
                                     width: '100%',
                                     minHeight: 150,
                                     height: container.height,
+                                    overflow: 'hidden',
                                     border: '1px solid #999',
                                     boxSizing: 'border-box',
                                     position: 'relative'}}>

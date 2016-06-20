@@ -28,6 +28,8 @@ export default class PluginPlaceholder extends Component {
                     border: "solid pink 5px",
                     width: "100%",
                     height: container ? container.height : "100%",
+                    minHeight: 150,
+                    overflow: "hidden",
                     position: 'relative'}}
                  className={"drg" + this.props.pluginContainer}>
                 <div style={{
@@ -141,7 +143,12 @@ export default class PluginPlaceholder extends Component {
 
         return this.isAncestorOrSibling(searchingId, parentId);
     }
-
+/*
+    componentDidUpdate(){
+        let node = ReactDOM.findDOMNode(this);
+        node.setAttribute("data-computed-height", node.getBoundingClientRect().height);
+    }
+*/
     componentDidMount() {
         interact(ReactDOM.findDOMNode(this))
             .dropzone({
