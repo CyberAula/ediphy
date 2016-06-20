@@ -15,10 +15,7 @@
 }
 
 .outter > .sli{
-	
 	padding-bottom: 1%;
-
-
 }
 
 .sli {
@@ -36,9 +33,7 @@
 	overflow-y: auto;
 }
 
-.wholebox {
-	// border:5px solid transparent;
-	}
+ 
 
 .title{
 	margin-left: 30px;
@@ -53,6 +48,11 @@
 	position: absolute;
 	top:20px;
 	right:75px;
+	padding:6px 8px;
+	.material-icons {
+		margin:0;
+		vertical-align: text-bottom;
+	}
 }
 
 

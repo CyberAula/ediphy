@@ -25,6 +25,10 @@
 		-webkit-box-shadow: none !important;
 		-moz-box-shadow: none !important;
 	}
+	.material-icons {
+		vertical-align: text-bottom;
+		font-size: 18px;
+	}
  
 }
 
@@ -39,7 +43,8 @@
 	height:60px;
 	padding:0;
 	z-index:0;
-	overflow-x: hidden;
+	overflow-X:hidden;
+	overflow-Y:hidden;
  }
 
  
@@ -67,10 +72,7 @@
 	 overflow-y: hidden;
 }
 
-#ribbon {
-	 overflow-X:hidden;
-	 overflow-Y:hidden;
-}
+
 #colRight{
 	overflow-x:hidden;
 }

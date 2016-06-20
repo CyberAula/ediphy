@@ -69,7 +69,7 @@ export default class DaliBoxSortable extends Component {
                                 }
                             })}
                             <div style={{position: 'absolute', bottom: 0}}>
-                                <i style={{verticalAlign: 'middle'}} className="fa fa-bars fa-2x drag-handle"></i>
+                                <i style={{verticalAlign: 'middle'}} className="material-icons drag-handle">swap_vert</i>
                             </div>
                         </div>);
                     })}

@@ -53,9 +53,9 @@ export default class DaliTitle extends Component {
             nextstatus = 'hidden';
         }
 
-        let icons = {'reduced':'fa fa-minus',
-                     'expanded':'fa fa-plus',
-                     'hidden': 'fa fa-eye-slash'};
+        let icons = {'reduced':'remove',
+                     'expanded':'add',
+                     'hidden': 'close'};
 
         let currenticon = icons[nextstatus];
         return (
@@ -72,7 +72,7 @@ export default class DaliTitle extends Component {
                                     style={{visibility: (this.props.showButton && !hideButton)? 'visible' : 'hidden'}} 
                                     onClick={() => {
                                         this.props.titleModeToggled(this.props.navItemId, nextstatus);}}>
-                                <i className={currenticon}></i>
+                                <i className="material-icons">{currenticon}</i>
                             </Button>
                             <img style={{visibility: currentstatus=='hidden'? 'hidden':'inherit'}} src="images/ico_alumno.gif" alt="Alumno"/>
                             <div id="alumno2"> Alumno</div>

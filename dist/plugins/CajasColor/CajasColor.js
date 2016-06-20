@@ -7,7 +7,7 @@ Dali.Plugins["CajasColor"] = function (base){
             return {
                 name: 'CajasColor',
                 category: 'text',
-                icon: 'fa-object-ungroup'
+                icon: 'view_week'
             }
         },
         getToolbar: function(){

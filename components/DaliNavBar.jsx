@@ -14,56 +14,56 @@ export default class DaliNavBar extends Component {
             <Col id="iconBar">
                 <img src="images/icon.png"/>
                 <div className="navBarSpace" >
-                  <i className="fa fa-pencil fa-1"></i>   
+                  <i className="material-icons">mode_edit</i>   
                   <span className="tituloCurso" contentEditable suppressContentEditableWarning   onBlur={(e) => {this.props.changeTitle(e.target.innerHTML)}}>{this.props.title}</span>
                  </div>
                 <button
                     className={ this.props.hideTab == 'show' && this.props.categoria == 'all' ? 'navButtonPlug active':'navButtonPlug' }
                     title='All' disabled={disablePlugins}
-                    onClick={() => {this.openPlugin('all') }}><i className="fa fa-th fa-1 "></i><br/> <span
+                    onClick={() => {this.openPlugin('all') }}><i className="material-icons">apps</i><br/> <span
                     className="hideonresize">All</span></button>
                 <button
                     className={ this.props.hideTab == 'show' && this.props.categoria == 'text' ? 'navButtonPlug active':'navButtonPlug' }
                     title='Text' disabled={disablePlugins}
-                    onClick={() => {this.openPlugin('text')}}><i className="fa fa-edit fa-1 "></i><br/> <span
+                    onClick={() => {this.openPlugin('text')}}><i className="material-icons">format_color_text</i><br/> <span
                     className="hideonresize">Texto</span></button>
                 <button
                     className={ this.props.hideTab == 'show' && this.props.categoria == 'image' ? 'navButtonPlug active':'navButtonPlug' }
                     title='Images' disabled={disablePlugins}
-                    onClick={() => { this.openPlugin('image')}}><i className="fa fa-photo fa-1 "></i><br/><span
+                    onClick={() => { this.openPlugin('image')}}><i className="material-icons">panorama</i><br/><span
                     className="hideonresize"> Imagen</span></button>
                 <button
                     className={ this.props.hideTab == 'show' && this.props.categoria == 'multimedia' ? 'navButtonPlug active':'navButtonPlug' }
                     title='Multimedia' disabled={disablePlugins}
-                    onClick={() => {this.openPlugin('multimedia')}}><i className="fa fa-film fa-1 "></i><br/> <span
+                    onClick={() => {this.openPlugin('multimedia')}}><i className="material-icons">play_circle_filled</i><br/> <span
                     className="hideonresize">Multimedia</span></button>
                 <button
                     className={ this.props.hideTab == 'show' && this.props.categoria == 'animations' ? ' navButtonPlug active':'navButtonPlug' }
                     title='Animations' disabled={disablePlugins}
-                    onClick={() => {this.openPlugin('animations')}}><i className="fa fa-play fa-1 "></i><br/> <span
+                    onClick={() => {this.openPlugin('animations')}}><i className="material-icons">toys</i><br/> <span
                     className="hideonresize">Animaciones</span></button>
                 <button
                     className={ this.props.hideTab == 'show' && this.props.categoria == 'exercises' ? 'navButtonPlug active':'navButtonPlug' }
                     title='Exercises' disabled={disablePlugins}
-                    onClick={() => {this.openPlugin('exercises') }}><i className="fa fa-mortar-board fa-1 "></i><br/> <span
+                    onClick={() => {this.openPlugin('exercises') }}><i className="material-icons">school</i><br/> <span
                     className="hideonresize">Ejercicios</span></button>
 
                
 
                 <Dropdown  id="dropdown-menu" style={{float:'right'}}>
                     <Dropdown.Toggle noCaret className="navButton">
-                        <i className="fa fa-ellipsis-v fa-1"></i><br/>
+                        <i className="material-icons">more_vert</i><br/>
                         <span className="hideonresize" style={{fontSize: '12px'}}>Menu</span>
                     </Dropdown.Toggle>
                     <Dropdown.Menu  className="super-colors">
                         <MenuItem disabled={this.props.undoDisabled} eventKey="1">
                             <button className="dropdownButton" title="Export HTML ZIP" disabled={this.props.undoDisabled}
-                            onClick={() => this.props.export() }><i className="fa fa-download fa-1 "></i> Exportar a HTML
+                            onClick={() => this.props.export() }><i className="material-icons">file_download</i> Exportar a HTML
                             </button>
                         </MenuItem>
                         <MenuItem disabled={this.props.undoDisabled} eventKey="2">
                             <button className="dropdownButton" title="Scorm" disabled={this.props.undoDisabled}
-                                    onClick={() => this.props.scorm() }><i className="fa fa-cart-arrow-down fa-1 "></i> Exportar a Scorm
+                                    onClick={() => this.props.scorm() }><i className="material-icons">class</i> Exportar a Scorm
                             </button>
                         </MenuItem>
                         <MenuItem divider />
@@ -76,7 +76,7 @@ export default class DaliNavBar extends Component {
                                         onClick={(e) => {
                                          this.props.save()
                                         }}>
-                                        <i className="fa fa-save fa-1 "></i> Guardar
+                                        <i className="material-icons">save</i> Guardar
                                 </button>
                             </OverlayTrigger>
                         </MenuItem>
@@ -88,7 +88,7 @@ export default class DaliNavBar extends Component {
                                          onClick={(e) => {
                                     this.props.opens()
                                    }}>
-                                   <i className="fa fa-folder-open fa-1 "></i> Abrir
+                                   <i className="material-icons">folder_open</i> Abrir
                                 </button>
 
                             </OverlayTrigger>
@@ -99,7 +99,7 @@ export default class DaliNavBar extends Component {
                         style={{float:'right', marginRight: '30px'}} 
                         title="Preview" 
                         disabled={this.props.undoDisabled}
-                        onClick={() =>this.props.visor()}><i className="fa fa-eye fa-1 "></i>
+                        onClick={() =>this.props.visor()}><i className="material-icons">visibility</i>
                     <br/>
                     <span className="hideonresize" style={{fontSize: '12px'}}>Preview</span>
                 </button>

@@ -1,10 +1,8 @@
 
-
-
 .carrouselButton{
 	border:0;
 	padding:1px;
-	font-size: 16px;
+	font-size: 20px;
 	color:white;
 	background-color: transparent;
 	min-width: 20%;
@@ -95,6 +93,11 @@
 	overflow-y: hidden;
 	width: 100%;
 	overflow-x: hidden;
+	.material-icons {
+		font-size: 18px;
+		vertical-align:text-bottom;
+		margin-bottom:0;
+	}
 }
 .pestanaCarousel{
 	cursor:pointer;
@@ -124,17 +127,7 @@
 .carouselshow{
 	width:100%;
 }
-#indice{
-/*	padding-left:10px;
-	padding-right:10px;	*/
-}
-#colLeft{
-	position: relative; 
-	float: left;
-	padding: 0;
-	height: 100%;
-	z-index:1;
-}
+ 
 
 .pageMenu {
 	a:hover  {
@@ -151,6 +144,10 @@
 		padding:  0px;
 
 	}
+}
+
+.dropdown-menu {
+	border-radius: 0;
 }
 
 

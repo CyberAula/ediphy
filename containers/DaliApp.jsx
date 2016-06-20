@@ -33,7 +33,7 @@ class DaliApp extends Component {
     render() {
         const { dispatch, boxes, boxesIds, boxSelected, boxLevelSelected, navItemsIds, navItems, navItemSelected,
             pageModalToggled, undoDisabled, redoDisabled, displayMode, isBusy, toolbars, title } = this.props;
-        var ribbonHeight = this.state.hideTab == 'hide' ? 0 : 47;
+        let ribbonHeight = this.state.hideTab == 'hide' ? 0 : 47;
         return (
             <Grid id="app" fluid={true} style={{height: '100%'}}>
                 <Row className="navBar">
@@ -86,7 +86,7 @@ class DaliApp extends Component {
                                 this.setState({carouselShow: !this.state.carouselShow})
                               }}/>
 
-                    <Col id="colRight" xs={12} style={{height: '100%', width: this.state.carouselShow? '83.333333%':'calc(100% - 80px)'}}>
+                    <Col id="colRight" xs={12} style={{height: '100%', width: (this.state.carouselShow? '83.333333%':'calc(100% - 80px)')}}>
                         <Row id="ribbonRow">
                             <PluginRibbon disabled={navItemsIds.length === 0 ? true : false}
                                           navItemSelected={navItemSelected}

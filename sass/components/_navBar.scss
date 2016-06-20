@@ -20,11 +20,7 @@
 		.disabled .dropdownButton{ 
 			color:#aaa;
 		}
-
-
 	}
-
-
 }
 
 .indentmin{
@@ -35,32 +31,35 @@
 }
 
 .navButton{
-	 display: inline-block;
-	 border: none;
-	 color: white;
-	 border-radius: 0px;
-	 -webkit-border-radius: 0;
-	 -moz-border-radius: 0;
-	 width: auto;
-	 height: auto;
-	 min-width:50px;
-	 font-size: 20px;
-	 height:60px;
-	 padding: 0px 0px 0px 0px;
-	 color: $verdeoscurogrisaceo;
-	 background-color: $lightestgrey;
-	 -webkit-box-shadow: none;
-	 -moz-box-shadow: none;
- 	 box-shadow: none;
-     vertical-align: middle;
-	 &:hover, &:active{
-		 border-bottom: 0px solid $grisclaro;
-		 background-color: $lightestgrey;
-		 -webkit-box-shadow: none;
-		  -moz-box-shadow: none;
-         box-shadow: none;
-         color: $detailgreen;
+	display: inline-block;
+	border: none;
+	color: white;
+	border-radius: 0px;
+	-webkit-border-radius: 0;
+	-moz-border-radius: 0;
+	width: auto;
+	height: auto;
+	min-width:50px;
+	font-size: 20px;
+	height:60px;
+	padding: 0px 0px 0px 0px;
+	color: $verdeoscurogrisaceo;
+	background-color: $lightestgrey;
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+ 	box-shadow: none;
+    vertical-align: middle;
+	&:hover, &:active{
+		border-bottom: 0px solid $grisclaro;
+		background-color: $lightestgrey;
+		-webkit-box-shadow: none;
+		-moz-box-shadow: none;
+        box-shadow: none;
+        color: $detailgreen;
 	}	
+	.material-icons{
+		vertical-align: middle;
+	}
 }
 
 
@@ -89,8 +88,6 @@ button[disabled].navButton {
 	font-size: 20px;
 	vertical-align: middle;
 	line-height: 20px;
-
-
 }
 
 .tituloCurso{
@@ -112,15 +109,11 @@ button[disabled].navButton {
 }
 
 
-
 .hideonresize{
 	font-size: 12px;
 	vertical-align: middle;
 	margin:auto;
 }
-
-
-
 
 
 
@@ -131,7 +124,11 @@ button[disabled].navButton {
 	padding-left: 7px;
 	padding-right: 7px;
 	margin: 0px 0px;
-	/*&:after  {
+	.material-icons{
+		vertical-align: middle;
+	}
+	/*
+	&:after  {
  		border: 8px solid transparent;
 		content: "\200B";	
 		position: relative;
@@ -143,14 +140,14 @@ button[disabled].navButton {
 }
 .navButtonPlug[ title="All"]{
 	padding-left: 8px;
+	
 }
 
 
 .navButtonPlug.active{
 	color:white !important; 
 	background-color: $grismedio;
-	&:after  {
-		 
+	&:after  {	 
 		border-bottom: 8px solid $naranjaadams;
 	}
  }
@@ -179,21 +176,24 @@ button[disabled].navButton {
 
 
 .dropdownButton{
-	 display: block;
-	 border: none;
-	 border-radius: 0px;
-	 -webkit-border-radius: 0;
-	 -moz-border-radius: 0;
-	 width: auto;
-	 height: auto;
-	 font-size: 15px;
-	 padding: 0px 0px 0px 0px;
-	 color:#425D54;
-	 background-color: transparent;
-	 -webkit-box-shadow: none;
-	 -moz-box-shadow: none;
- 	 box-shadow: none;
-     vertical-align: middle;
-
+	display: block;
+	border: none;
+	border-radius: 0px;
+	-webkit-border-radius: 0;
+	-moz-border-radius: 0;
+	width: auto;
+	height: auto;
+	font-size: 12px;
+	padding: 0px 0px 0px 0px;
+	color:#425D54;
+	background-color: transparent;
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	box-shadow: none;
+	vertical-align: middle;
+	.material-icons {
+		font-size: 15px;
+		vertical-align:text-bottom;
+	}
  
 }

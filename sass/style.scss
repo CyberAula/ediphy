@@ -9,7 +9,6 @@
 @import 'components/pluginToolbar';
 @import 'components/visor';
 @import 'components/colorPicker';
-@import 'components/plugins/pills';
 @import 'events/draganddrop';
 @import 'general/elements/btn';
 @import 'general/elements/scrollbar';
@@ -27,11 +26,19 @@
 }
 
 #colLeft, #colRight, #ribbon, #insideribbon, #tools, #indice{
-	 @include animacion(width, 0.3s);
-
+	@include animacion(width, 0.3s);
     min-height: 0;
-
 }
+
+
+#colLeft{
+    position: relative; 
+    float: left;
+    padding: 0;
+    height: 100%;
+    z-index:1;
+}
+
 #canvasRow, #ribbonRow{
     @include animacion(height, 0.3s);
     >div{

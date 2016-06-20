@@ -8,7 +8,6 @@
 
 .toolbox{
 	height: 100%;
-    // background-color: rgba(222,222,222,0.8);
     background-color: rgba(44,44,44,0.8);
     display:inline-block;
     vertical-align: baseline;
@@ -16,18 +15,19 @@
 .pluginToolbarMainButton {
 	min-width: 20px;
 	width: 50%;
+	&:hover {
+		color:orange;
+	}
 }
-
 
 .toolbarTabs{
 	color: $lightestgrey;
-	li{
+	li {
 		padding-bottom: 0;
 		a {
 			border-color: transparent;
 			color: $lightestgrey;
 			border-radius:0;
-
 
 			&:hover{
 				border-color: transparent;
@@ -52,14 +52,12 @@
     position: absolute;
 	top:$pestanaHeight;
 	right:100%;
-	// border-radius: 8px 0px 0px 8px;
   	border-color: transparent;
     border-right-color: rgba(44,44,44,0.8);
     color: #133329;}
 
 .wrapper{
- 	 	@include animacion(top, 0.3s);
-
+ 	@include animacion(top, 0.3s);
 	margin: 0;
     position: fixed;
    	bottom:0;
@@ -74,12 +72,11 @@
 	overflow-y:auto;
 
 	input[type="checkbox"]{
-		
 		padding:0 !important;
 		margin-left:0
 	}
 	label{
-			margin:0 !important;
+		margin:0 !important;
 		padding: 0 !important;
 		font-size: inherit;
 		font-weight: bold;
@@ -98,10 +95,13 @@
 		}
 
 	}
-
+	
 	border:0;
 	border-radius:0;
-	
+	.panel-body {
+		border:0 !important;
+		background-color: #555;
+	}
 	
 	.panel-heading{
 		border:0;
@@ -164,7 +164,22 @@
 	border:0;
 	margin: 5px;
 
+
 	&.textediting {
 		background-color: $naranjaadams;
 	}
+}
+
+#tools .form-control {
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	box-shadow: none;
+	// border: 1px solid $naranjaadams;
+	border-radius: 0;
+	border:0;
+	background-color: $darkinput;
+	&:active,&:focus {
+		border-color: orange;
+	}
+	color:black;
 }

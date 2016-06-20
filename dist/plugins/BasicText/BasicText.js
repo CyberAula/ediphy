@@ -6,7 +6,7 @@ Dali.Plugins["BasicText"] = function (base) {
                 category: 'text',
                 needsConfigModal: false,
                 needsTextEdition: true,
-                icon: 'fa-align-left'
+                icon: 'format_color_text'
             };
         },
         getToolbar: function () {
@@ -49,7 +49,7 @@ Dali.Plugins["BasicText"] = function (base) {
                     }
                 },
                 box: {
-                    name: "Box",
+                    __name: "Box",
                     accordions: {
                         layout: {
                             __name: "Layout",

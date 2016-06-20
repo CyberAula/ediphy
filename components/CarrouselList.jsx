@@ -44,7 +44,7 @@ export default class CarrouselList extends Component{
                                     this.props.onSectionAdded(idnuevo, "Section "+this.sections(), 0, [], 1, 'section', this.props.navItemsIds.length, 'expanded');
                                     this.props.onBoxAdded({parent: idnuevo, container: 0, id: ID_PREFIX_SORTABLE_BOX + Date.now()}, BOX_TYPES.SORTABLE, false, false);
                                     e.stopPropagation();
-                                }}><i className="fa fa-folder-o"></i></Button>
+                                }}><i className="material-icons">create_new_folder</i></Button>
  
                      <PageMenu caller={0}
                                navItems={this.props.navItems}
@@ -62,7 +62,7 @@ export default class CarrouselList extends Component{
                                         let boxes = this.findBoxes(found);
                                         this.props.onNavItemRemoved(ids, this.props.navItems[this.props.navItemSelected].parent, boxes );
                                     }
-                                }><i className="fa fa-trash-o"></i></Button>
+                                }><i className="material-icons">delete</i></Button>
 
                 </div>
             </div>

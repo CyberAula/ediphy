@@ -24,7 +24,7 @@ export default class PluginRibbon extends Component {
                     <div id="ribbonList">
                         {this.state.buttons.map((item, index) => {
                             if (this.state.buttons[index].category === this.props.category || this.props.category == 'all') {
-                                var clase = "fa " + this.state.buttons[index].icon + " fa-1";
+                                var clase = "" + this.state.buttons[index].icon ;
                                 return (<div key={index} className="buttonPlace">
                                     <Button className="rib"
                                             disabled={this.props.disabled}
@@ -32,7 +32,7 @@ export default class PluginRibbon extends Component {
                                             name={item.name}
                                             bsSize="large"
                                             draggable="false">
-                                        <i className={clase}></i> {this.state.buttons[index].name}
+                                        <i className="material-icons">{clase}</i> {this.state.buttons[index].name}
                                     </Button>
                                 </div>);
                             }
@@ -44,25 +44,25 @@ export default class PluginRibbon extends Component {
                             title="Undo" 
                             disabled={this.props.undoDisabled} 
                             onClick={() => this.props.undo()}>
-                        <i className="fa fa-mail-reply fa-1"></i>
+                        <i className="material-icons">undo</i>
                     </button>
                     <button className="ribShortcut" 
                             title="Redo" 
                             disabled={this.props.redoDisabled} 
                             onClick={() => this.props.redo()}>
-                        <i className="fa fa-mail-forward fa-1 "></i>
+                        <i className="material-icons">redo</i>
                     </button>
                     <button className="ribShortcut" 
                             title="Copy" 
                             disabled={this.props.boxSelected == -1} 
                             onClick={() => alert('Aún no hace nada')}>
-                        <i className="fa fa-paperclip fa-1"></i>
+                        <i className="material-icons">content_copy</i>
                     </button>
                     <button className="ribShortcut" 
                             title="Paste" 
                             disabled={this.props.boxSelected == -1} 
                             onClick={() => alert('Aún no hace nada')}>
-                        <i className="fa fa-paste fa-1 "></i>
+                        <i className="material-icons">content_paste</i>
                     </button>
                 </div>
             </Col>);

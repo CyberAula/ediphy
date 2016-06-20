@@ -9,8 +9,8 @@ export default class PageMenu extends Component {
         let proposedName = "Page " +  this.calculateName();
         return (
               <Dropdown role="menuitem" dropup className="carouselDropup" id="dropdown-custom-2" >
-                 <Dropdown.Toggle noCaret rootClose className="carrouselButton">
-                   <i className="fa fa-file-o"></i>
+                 <Dropdown.Toggle rootClose className="carrouselButton">
+                   <i className="material-icons">note_add</i>
                  </Dropdown.Toggle>
                  <Dropdown.Menu className="pageMenu"  onSelect={() => null}>
        

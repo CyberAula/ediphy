@@ -4,7 +4,7 @@ Dali.Plugins["CajasColorBis"] = function (base){
             return {
                 name: 'CajasColorBis',
                 category: 'text',
-                icon: 'fa-object-ungroup'
+                icon: 'view_column'
             }
         },
         getToolbar: function(){
@@ -67,7 +67,7 @@ Dali.Plugins["CajasColorBis"] = function (base){
            toolBar.main.accordions.buttonStyle = {__name: "Estilo botones", buttons: {}};
            for(var i = 0; i < base.getState().nBoxes; i++){
                 toolBar.main.accordions.buttonStyle.buttons["box" + i] = {
-                __name: 'caja'+i,
+                __name: 'Caja '+i,
                                     type: 'select',
                                     value: 'verdeoscuro',
                                     options: ['verdeoscuro', 'cyan', 'granate', 'naranja', 'rojo', 'azul', 'marron', 'rojizo', 'azulpuro', 'azulverdoso', 'violeta', 'marronvivo','gris','amarillo'],

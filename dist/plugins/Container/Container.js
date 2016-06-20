@@ -4,7 +4,7 @@ Dali.Plugins["Container"] = function (base){
             return {
                 name: 'Container',
                 category: 'multimedia',
-                icon: 'fa-object-group'
+                icon: 'view_agenda'
             }
         },
         getRenderTemplate: function (state) {

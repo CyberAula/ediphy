@@ -50,7 +50,7 @@ export default class PluginToolbar extends Component {
                                     onClick={e => {
                                         this.props.onBoxDeleted(this.props.box.id, this.props.box.parent, this.props.box.container);
                                         e.stopPropagation();
-                                    }}><i className="fa fa-trash-o fa-2x"></i></Button>);
+                                    }}><i className="material-icons">delete</i></Button>);
         }
         let duplicateButton;
         if (this.props.box.id[1] != 's') {
@@ -59,7 +59,7 @@ export default class PluginToolbar extends Component {
                                        onClick={e => {
                                           this.props.onBoxDuplicated(this.props.box.id, this.props.box.parent, this.props.box.container);
                                           e.stopPropagation();
-                                       }}><i className="fa fa-files-o fa-2x"></i></Button>);
+                                       }}><i className="material-icons">content_copy</i></Button>);
         }
 
         let visible = (Object.keys(toolbar.controls).length !== 0 || this.props.box.children.length !== 0) ? 'visible' : 'hidden';
@@ -76,7 +76,7 @@ export default class PluginToolbar extends Component {
             </div>
             <div id="tools" style={{width: this.state.open? '250px':'80px'}} className="toolbox">
                 <p  onClick={() => {this.setState({open: !this.state.open})}} style={{display: this.state.open? 'none':'block', textAlign: 'center'}} className={this.props.carouselShow ? 'carouselListTitle toolbarSpread':'carouselListTitle toolbarHide'}>
-                 <br/> <i className="fa fa-wrench fa-2x"></i><br/>CONF.
+                 <br/> <i className="material-icons">build</i><br/>CONF.
                 </p>
                 <div id="insidetools" style={{display: this.state.open? 'block':'none'}}>
 

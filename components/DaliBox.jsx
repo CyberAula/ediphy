@@ -313,9 +313,20 @@ export default class DaliBox extends Component {
         if (toolbar.config.aspectRatioButtonConfig) {
             let arb = toolbar.config.aspectRatioButtonConfig;
             if (arb.location.length == 2) {
-                return toolbar.controls[arb.location[0]].accordions[arb.location[1]].buttons.__aspectRatio.value === "checked";
+                let comp = toolbar.controls[arb.location[0]].accordions[arb.location[1]].buttons.__aspectRatio;
+                if (comp){
+                    return (comp.value === "checked");       
+                } else {
+                    return false;
+                }
+            
             } else {
-                return toolbar.controls[arb.location[0]].accordions[arb.location[1]].accordions[arb.location[2]].buttons.__aspectRatio.value === "checked";
+                let comp = toolbar.controls[arb.location[0]].accordions[arb.location[1]].accordions[arb.location[2]].buttons.__aspectRatio;
+                if (comp) {
+                    return comp.value === "checked";
+                } else {
+                    return false;
+                }
             }
         }
 
