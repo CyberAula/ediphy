@@ -339,7 +339,8 @@ class DaliApp extends Component {
                     }
                     Dali.Plugins.get(name).getConfig().callback({
                         parent: eventDetails.ids.id,
-                        container: obj.attr['plugin-data-id']
+                        container: obj.attr['plugin-data-id'],
+                        isDefaultPlugin: true
                     });
                 })
             }

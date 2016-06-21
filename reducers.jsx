@@ -336,7 +336,7 @@ function boxLevelSelected(state = 0, action = {}) {
 function boxSelected(state = -1, action = {}) {
     switch (action.type) {
         case ADD_BOX:
-            return action.payload.ids.id;
+            return (action.payload.initialParams && action.payload.initialParams.isDefaultPlugin) ? state : action.payload.ids.id;
         case SELECT_BOX:
             return action.payload.id;
         case DUPLICATE_BOX:

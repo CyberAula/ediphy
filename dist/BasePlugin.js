@@ -202,7 +202,8 @@ Dali.Plugin = function () {
                     {
                         position: initialParams.position,
                         row: initialParams.row,
-                        col: initialParams.col
+                        col: initialParams.col,
+                        isDefaultPlugin: defaultFor(initialParams.isDefaultPlugin, false)
                     }
                 );
             }
