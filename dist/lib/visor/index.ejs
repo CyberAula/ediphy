@@ -175,7 +175,7 @@
                 });
             };%>
             <div class="wholebox"
-                 style="position: absolute;
+                 style="position: <%=box.container !== 0 ? '' : 'absolute'%>;
                          left: <%=box.position.x%>px;
                          top: <%=box.position.y%>px;
                          width: <%=box.width %><%=(box.width  && isNaN(box.width ))? "" : "px" %>;
