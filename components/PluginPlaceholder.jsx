@@ -77,6 +77,9 @@ export default class PluginPlaceholder extends Component {
                                                                     let boxDragged = this.props.boxes[this.props.boxSelected];
                                                                     if(boxDragged && (boxDragged.col !== i || boxDragged.row !== j)){
                                                                         this.props.onBoxDropped(this.props.boxSelected, j, i);
+
+                                                                        let clone = document.getElementById('clone');
+                                                                        clone.parentElement.removeChild(clone);
                                                                     }
                                                                 }
                                                             }.bind(this),

@@ -91,9 +91,7 @@ export default class PluginRibbon extends Component {
                       // translate the element
                     clone.style.webkitTransform =
                         clone.style.transform =
-
                             'translate(' + (x) + 'px, ' + (y) + 'px)';
-
                 },
                 onmove: (event) => {
                     let target = document.getElementById('clone'),
@@ -104,7 +102,6 @@ export default class PluginRibbon extends Component {
                     // translate the element
                     target.style.webkitTransform =
                         target.style.transform =
-
                             'translate(' + (x) + 'px, ' + (y) + 'px)';
                     target.style.zIndex = '9999';
                     target.classList.add('ribdrag');
@@ -134,7 +131,7 @@ export default class PluginRibbon extends Component {
                     target.setAttribute('data-x', x );
                     target.setAttribute('data-y', y);
 
-                   parent.removeChild(clone);
+                    parent.removeChild(clone);
                     event.stopPropagation();
                 }
             });

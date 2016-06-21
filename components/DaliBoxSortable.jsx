@@ -30,7 +30,7 @@ export default class DaliBoxSortable extends Component {
                                     minHeight: 150,
                                     height: container.height,
                                     overflow: 'hidden',
-                                    border: '0',
+                                    border: 0,
                                     boxSizing: 'border-box',
                                     position: 'relative'}}>
                             {container.colDistribution.map((col, i) => {
@@ -44,7 +44,7 @@ export default class DaliBoxSortable extends Component {
                                                              ref={e => {
                                                         if(e !== null){
                                                             let selector = ".rib, .dnd" + idContainer;
-                                                            this.dropZone(ReactDOM.findDOMNode(e), "render",selector, {idContainer:idContainer, i:i, j:j});
+                                                            this.dropZone(ReactDOM.findDOMNode(e), "render", selector, {idContainer:idContainer, i:i, j:j});
                                                         }
                                                     }}>
                                                     {container.children.map((idBox, index) => {
@@ -128,7 +128,6 @@ export default class DaliBoxSortable extends Component {
                 //addBox
                 if (container == 'render'){
                     if(event.relatedTarget.className.indexOf("rib") !== -1){
-
                         let initialParams = {
                             parent: this.props.id,
                             container: render.idContainer,
@@ -137,16 +136,14 @@ export default class DaliBoxSortable extends Component {
                         };
 
                         Dali.Plugins.get(event.relatedTarget.getAttribute("name")).getConfig().callback(initialParams);
-
                     } else {
-
                         let boxDragged = this.props.boxes[this.props.boxSelected];
-                       
                         if(boxDragged && (boxDragged.col !== render.i || boxDragged.row !== render.j)){
                             this.props.onBoxDropped(this.props.boxSelected, render.j, render.i);
                         }
+                        let clone = document.getElementById('clone');
+                        clone.parentElement.removeChild(clone);
                     }
-
                 }else{ 
                     let initialParams = {}
                     if(container == 'first'){
@@ -154,20 +151,15 @@ export default class DaliBoxSortable extends Component {
                             parent: this.props.id,
                             container: event.target.getAttribute("data-id")
                         };
-
                     } else if (container == 'second'){
                         initialParams = {
                             parent: this.props.id,
                             container: ID_PREFIX_SORTABLE_CONTAINER + Date.now()
                         };
-
-                    }  
-
+                    }
                     Dali.Plugins.get(event.relatedTarget.getAttribute("name")).getConfig().callback(initialParams);
                     event.dragEvent.stopPropagation();
-
                 }
-               
             }.bind(this),
             ondropdeactivate: function (event) {
                 event.target.classList.remove('drop-active');

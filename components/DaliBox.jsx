@@ -382,57 +382,91 @@ export default class DaliBox extends Component {
                     elementRect: {top: 0, left: 0, bottom: 1, right: 1}
                 },
                 autoScroll: true,
-                /*
                 onstart: (event) => {
-                    event.target.style.position = "absolute";
-                    event.target.style.height = event.target.getAttribute("data-height") + "px";
+                    if(box.container !== 0) {
+                        let original = event.target;
+                        let parent = original;
+                        let iterate = true;
+                        while (iterate) {
+                            parent = parent.parentNode;
+                            if (parent.className && (parent.className.indexOf("daliBoxSortableContainer") !== -1 || parent.className.indexOf("drg" + box.container) !== -1)) {
+                                iterate = false;
+                            }
+                        }
+                        let clone = original.cloneNode(true);
+                        let originalRect = original.getBoundingClientRect();
+                        let parentRect = parent.getBoundingClientRect();
+                        let x = originalRect.left - parentRect.left;
+                        let y = originalRect.top - parentRect.top;
+
+                        clone.setAttribute("id", "clone");
+                        clone.setAttribute('data-x', x);
+                        clone.setAttribute('data-y', y);
+                        parent.appendChild(clone);
+                        // translate the element
+                        clone.style.webkitTransform =
+                            clone.style.transform =
+                                'translate(' + (x) + 'px, ' + (y) + 'px)';
+
+                        clone.style.height = originalRect.height + "px";
+                        clone.style.width = originalRect.width + "px";
+                        original.style.opacity = 0;
+                    }
                 },
-                */
                 onmove: (event) => {
                     if (this.props.boxSelected !== this.props.id) {
                         this.props.onBoxSelected(this.props.id);
                     }
 
-                    if ((box.level - this.props.boxLevelSelected) <= 0 && (box.level - this.props.boxLevelSelected) >= 0) {
-                        var target = event.target;
-                        target.style.left = (parseInt(target.style.left) || 0) + event.dx + 'px';
-                        target.style.top = (parseInt(target.style.top) || 0) + event.dy + 'px';
-                        target.style.zIndex = 999999;
-                        event.stopPropagation();
-                    } else {
-                        event.stopPropagation();
-                        return;
-                    }
+                    if ((box.level - this.props.boxLevelSelected) === 0) {
+                        if(box.container === 0) {
+                            let target = event.target;
+                            target.style.left = (parseInt(target.style.left) || 0) + event.dx + 'px';
+                            target.style.top = (parseInt(target.style.top) || 0) + event.dy + 'px';
+                            target.style.zIndex = '9999';
+                        }else {
+                            let target = document.getElementById('clone'),
+                                x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
+                                y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
 
-                    // target.style.height = target.getAttribute("data-height") + "px";
+                            // translate the element
+                            target.style.webkitTransform =
+                                target.style.transform =
+                                    'translate(' + (x) + 'px, ' + (y) + 'px)';
+                            target.style.zIndex = '9999';
+
+                            // update the position attributes
+                            target.setAttribute('data-x', x);
+                            target.setAttribute('data-y', y);
+                        }
+                    }
                 },
                 onend: (event) => {
                     if (this.props.boxSelected !== this.props.id) {
                         return;
                     }
 
-                    var target = event.target;
+                    let target = event.target;
                     if (!target.parentElement) {
                         return;
                     }
-                    event.stopPropagation();
+
                     let left = Math.max(Math.min(Math.floor(parseInt(target.style.left) / target.parentElement.offsetWidth * 100), 100), 0) + '%';
                     let top = Math.max(Math.min(Math.floor(parseInt(target.style.top) / target.parentElement.offsetHeight * 100), 100), 0) + '%';
 
                     target.style.left = box.container !== 0 ? left : target.style.left;
                     target.style.top = box.container !== 0 ? top : target.style.top;
                     target.style.zIndex = 'initial';
-                    /*
-                    if (box.container !== 0){
-                        target.style.position = "";
-                        target.style.height = "auto";
-                    }
-                    */
 
+                    if(box.container !== 0) {
+                        let clone = document.getElementById('clone');
+                        clone.parentElement.removeChild(clone);
+                    }
                     this.props.onBoxMoved(
                         this.props.id,
                         box.container !== 0 ? left : Math.max(parseInt(target.style.left), 0),
                         box.container !== 0 ? top : Math.max(parseInt(target.style.top), 0));
+                    event.stopPropagation();
                 }
             })
             .ignoreFrom('input, textarea, a')
@@ -445,6 +479,9 @@ export default class DaliBox extends Component {
                     elementRect: {top: 0, left: 0, bottom: 1, right: 1}
                 },
                 edges: {left: true, right: true, bottom: true, top: true},
+                onstart: (event) => {
+                    console.log("resize");
+                },
                 onmove: (event) => {
                     if (this.props.boxSelected !== this.props.id) {
                         return;
