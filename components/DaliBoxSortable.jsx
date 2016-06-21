@@ -27,17 +27,17 @@ export default class DaliBoxSortable extends Component {
                                  data-id={idContainer}
                                  style={{
                                     width: '100%',
-                                    minHeight: 150,
                                     height: container.height,
                                     overflow: 'hidden',
                                     border: 0,
                                     boxSizing: 'border-box',
                                     position: 'relative'}}>
+                            <div style={{display: "table", width: "100%", height: "100%"}}>
                             {container.colDistribution.map((col, i) => {
                                 if (container.cols[i]) {
                                     return (
                                         <div key={i}
-                                             style={{width: col + "%", height: '100%', float: 'left'}}>
+                                             style={{width: col + "%", height: '100%', display: "table-cell"}}>
                                             {container.cols[i].map((row, j) => {
                                                 return (<div key={j}
                                                              style={{width: "100%", height: row + "%", position: 'relative'}}
@@ -69,9 +69,8 @@ export default class DaliBoxSortable extends Component {
                                         </div>);
                                 }
                             })}
-                            <div style={{position: 'absolute', bottom: 0}}>
-                                <i style={{verticalAlign: 'middle'}} className="material-icons drag-handle">swap_vert</i>
                             </div>
+                            <i style={{verticalAlign: 'middle'}} className="material-icons drag-handle">swap_vert</i>
                         </div>);
                     })}
                 </div>

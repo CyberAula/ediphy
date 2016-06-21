@@ -351,12 +351,6 @@ export default class DaliBox extends Component {
         } else {
             interact(node).draggable({enabled: (this.draggable)});
         }
-
-        /*
-        if(node.getBoundingClientRect().height !== 0) {
-            node.setAttribute("data-height", node.getBoundingClientRect().height);
-        }
-        */
     }
 
     componentDidMount() {
@@ -458,8 +452,8 @@ export default class DaliBox extends Component {
                     target.style.top = box.container !== 0 ? top : target.style.top;
                     target.style.zIndex = 'initial';
 
-                    if(box.container !== 0) {
-                        let clone = document.getElementById('clone');
+                    let clone = document.getElementById('clone');
+                    if(clone) {
                         clone.parentElement.removeChild(clone);
                     }
                     this.props.onBoxMoved(

@@ -28,8 +28,8 @@ export default class PluginPlaceholder extends Component {
                     border: "solid pink 5px",
                     width: "100%",
                     height: container ? container.height : "100%",
-                    minHeight: 150,
                     overflow: "hidden",
+                    display: "table",
                     position: 'relative'}}
                  className={"drg" + this.props.pluginContainer}>
                 <div style={{
@@ -45,7 +45,7 @@ export default class PluginPlaceholder extends Component {
                     if (container.cols[i]) {
                         return (
                             <div key={i}
-                                 style={{width: col + "%", height: '100%', float: 'left'}}>
+                                 style={{width: col + "%", height: '100%', display: "table-cell"}}>
                                 {container.cols[i].map((row, j) => {
                                     return (<div key={j}
                                                  style={{width: "100%", height: row + "%", position: 'relative'}}
