@@ -166,22 +166,22 @@ export default class PluginToolbar extends Component {
                 if (buttonKey == 'width') {
                     if (!this.aspectRatio) {
                         this.props.onBoxResized(id, value + '%', this.props.box.height);
-                        this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, value);
+                        this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, parseFloat(value));
                     } else {
-                        let newHeight = (parseFloat(this.props.box.height) * value / parseFloat(this.props.box.width));
+                        let newHeight = (parseFloat(this.props.box.height) * parseFloat(value) / parseFloat(this.props.box.width));
                         this.props.onBoxResized(id, value + '%', newHeight + '%');
-                        this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, value);
+                        this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, parseFloat(value));
                         this.props.onToolbarUpdated(id, tabKey, accordionKeys, 'height', newHeight);
                     }
                 }
                 if (buttonKey == 'height') {
                     if (!this.aspectRatio) {
                         this.props.onBoxResized(id, this.props.box.width, value + '%');
-                        this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, value);
+                        this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, parseFloat(value));
                     } else {
-                        let newWidth = (parseFloat(this.props.box.width) * value / parseFloat(this.props.box.height));
+                        let newWidth = (parseFloat(this.props.box.width) * parseFloat(value) / parseFloat(this.props.box.height));
                         this.props.onBoxResized(id, newWidth + '%', value + '%');
-                        this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, value);
+                        this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, parseFloat(value));
                         this.props.onToolbarUpdated(id, tabKey, accordionKeys, 'width', newWidth);
                     }
                 }
