@@ -452,9 +452,12 @@ export default class DaliBox extends Component {
                     target.style.top = box.container !== 0 ? top : target.style.top;
                     target.style.zIndex = 'initial';
 
-                    let clone = document.getElementById('clone');
-                    if(clone) {
-                        clone.parentElement.removeChild(clone);
+                    if(box.container !== 0) {
+                        let clone = document.getElementById('clone');
+                        if (clone) {
+                            clone.parentElement.removeChild(clone);
+                        }
+                        target.style.opacity = 1;
                     }
                     this.props.onBoxMoved(
                         this.props.id,
