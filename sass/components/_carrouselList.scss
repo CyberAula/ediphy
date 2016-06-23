@@ -1,23 +1,4 @@
-
-.carrouselButton{
-	border:0;
-	padding:1px;
-	font-size: 20px;
-	color:$grismedio;
-	background-color: transparent !important;;
-	min-width: 20%;
-	border-radius: 0;
-	float:none;
-	&:hover, &:active{ 
-		-webkit-box-shadow: none !important;
-		box-shadow: none !important;
-		-moz-box-shadow: none !important;
-		outline:none;
-		color: white !important;
-		background-color: transparent !important;
-	}
-
-}
+/* Índice */
 .carList{
 	overflow-y: auto; 
 	height: calc(100% - 60px);
@@ -26,10 +7,8 @@
 	// padding: 5px;
 }
 
-.carouselDropup {
-	min-width: 20% !important;
-}
 
+/*Título del componente*/
 .carouselListTitle{
 	margin:5px 15px;
 	cursor:pointer;
@@ -37,15 +16,8 @@
 		margin:6px;
 	}
 }
-.toolbarSpread {
-	color: $naranjaadams;
 
-}
-.toolbarHide {
-	color: $grismedio;
-
-}
-
+/*Section*/
 .expandir {
 	width: 30px;
 	color: grey;
@@ -59,10 +31,10 @@
 		outline:none;
 	}
 }
+
+/*Overriding bootstrap*/
 .daliCarousel{
-	.row {
-		// z-index:2 !important;
-	}
+ 
 	h3,h4{
 		&:hover{
 			cursor:pointer;
@@ -71,6 +43,7 @@
 	.open > .dropdown-toggle.btn-default  {
 		color:white !important;
 	}
+
 	.btn-default, .open > .dropdown-toggle.btn-default  {
 		&:focus{
 			color:white !important;
@@ -78,18 +51,17 @@
 	}
 }
 
-.breadcrumb a{
-	color: $verdeadams;
-}
 
 
 
+/*NavItem Selected*/
 .selected{
 	font-size:13px;
 	color: white;
 	 background-color: $greyNavItemSelected; 
 }
 
+/*NavItem NOT Selected*/
 .notSelected{
 	font-size:13px;
 	color: $grismedio;
@@ -98,11 +70,14 @@
 	 
 	}
 }
-
+/*Each NavItem*/
 .navItemBlock {
 	padding: 5px;
 	
 }
+
+
+/*Wrapper for the whole component including tab*/
 .wrapperCarousel{
 	background-color: $darkest;
 	margin:0;
@@ -117,6 +92,8 @@
 		margin-bottom:0;
 	}
 }
+
+/*Spread tab*/
 .pestanaCarousel{
 	cursor:pointer;
 	width: 0;
@@ -133,25 +110,61 @@
 	border-left-color: $darkest;
 	color: #133329;
 }
-
+/*Collapsed Carrousel*/
 .indiceoculto{
 	left:0;
 	top:0;
 	position:absolute;
 }
+/*Hide Sections when collapsed*/
 .carouseloculto{
 	width:0;
 }
+/*Show Sections when collapsed*/
 .carouselshow{
 	width:100%;
 }
- 
 
-.pageMenu {
+/*Buttons that act upon navItems*/
+.carrouselButton{
+	border:0;
+	padding:1px;
+	font-size: 20px;
+	color:$grismedio;
+	background-color: transparent !important;;
+	min-width: 20%;
+	border-radius: 0;
+	float:none;
 	
+	&:hover, &:active{ 
+		-webkit-box-shadow: none !important;
+		box-shadow: none !important;
+		-moz-box-shadow: none !important;
+		outline:none;
+		color: white !important;
+		background-color: transparent !important;
+	}
+
+}
+/******************Dropup*********************/
+.pageMenu {
+ 
+	min-width: 105px;
+	background-color: $darkest;
+
+	.dropdown-menu {
+		/*Divider inside dropup menu*/
+		.divider {
+			background-color:$grismedio;
+		}
+	 
+		border-radius: 0;
+	}
+	/*Menu items*/
 	li {
 		padding-bottom: 0;
-		a{  padding:5px;
+		a {  
+			padding:5px;
 			color: $grismedio;
 			&:active {
 				color: white !important;
@@ -169,20 +182,19 @@
 			}
 		}
 	}
+	/*Disabled menu items*/
 	li.disabled {
 		a {
 			color: #555;
 		}
 	}
- 
-
-	min-width: 105px;
-	background-color: $darkest;
 }
 
+/*Inside DropUp*/
 #bottomMenu{
 	background-color: #222;
 }
+/*DropUp Tooltip*/
 #bottomMenu::after{
 	content:"";
 	border:8px solid transparent;
@@ -193,19 +205,9 @@
  
 }
 
-#topMenu::after {
-	content:"";
-	border:8px solid transparent;
-	border-bottom-color: $darkest;
-	position: absolute;
-	margin-top: -16px;
-	right:25px;
-	top:0%; 
- 
-}
 
 
-#dropdown-custom-2{
+#carouselDropUp{
 	width: 100%;
 	.dropdown-menu > li > a {
 		padding:  0px;
@@ -213,24 +215,13 @@
 	}
 }
 
-.dropdown-menu {
-	.divider {
-		background-color:$grismedio;
-	}
-	a {
-		
-	
-	}
-	border-radius: 0;
+
+ .carouselDropup {
+	min-width: 20% !important;
 }
+/********************************************/
 
-
-
-.sectionBlock {
-	margin-left: 20px;
-}
-
-
+/********* Delete popover******************/
 .popoverButton {
 
 	@extend .daliTitleButton;
@@ -257,3 +248,5 @@
 #popov.top > .arrow::after{
 	border-top-color: $darkest;
 }
+/***************************************/
+

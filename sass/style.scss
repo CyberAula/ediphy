@@ -10,6 +10,7 @@
 @import 'components/pluginToolbar';
 @import 'components/visor';
 @import 'components/colorPicker';
+@import 'components/daliTitle';
 @import 'events/draganddrop';
 @import 'general/elements/btn';
 @import 'general/elements/scrollbar';
@@ -26,12 +27,13 @@
 	margin:0;
 }
 
+/*Transition for hiding toolbars and navbars*/
 #colLeft, #colRight, #ribbon, #insideribbon, #tools, #indice{
 	@include animacion(width, 0.3s);
     min-height: 0;
 }
 
-
+/*Left column with index*/
 #colLeft{
     position: relative; 
     float: left;
@@ -39,13 +41,26 @@
     height: 100%;
     z-index:1;
 }
+/*Right column with ribbon and canvas */
+#colRight{
+    overflow-x:hidden;
 
-#canvasRow, #ribbonRow{
-    @include animacion(height, 0.3s);
-    >div{
+    /*Canvas row and ribbon row*/
+    #canvasRow, #ribbonRow{
         @include animacion(height, 0.3s);
+        >div{
+            @include animacion(height, 0.3s);
+        }
     }
+
+    #canvas, #maincontent, #canvasRow {
+        z-index:0 ;
+    }
+
+
 }
+
+
 
 .full{
 	width:100% !important;

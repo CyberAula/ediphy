@@ -1,25 +1,84 @@
 
-.botones{
-	padding:15px;
-}
+/*Plugin Toolbar*/
 #insidetools,#tools{
 	width: 250px;
 }
 
-.toolbox{
+/*Toolbar wrapper including tab*/
+.wrapper{
+ 	@include animacion(top, 0.3s);
+	margin: 0;
+    position: fixed;
+   	bottom:0;
+ 
+
+}
+
+/*Actual toolbar*/
+#tools{
 	height: 100%;
     background-color: rgba(44,44,44,0.8);
     display:inline-block;
     vertical-align: baseline;
-}
-.pluginToolbarMainButton {
-	min-width: 20px;
-	width: 50%;
-	&:hover {
-		color:orange;
-	}
+    overflow-x:hidden;
+    overflow-y:auto;
+
+    input[type="checkbox"]{
+    	padding:0 !important;
+    	margin-left:0;
+    	position:relative;
+    	display:inline-block;
+    	line-height: 5px;
+    	vertical-align: text-bottom;
+    }
+
+    label, .label{
+    	margin:0 !important;
+    	padding: 0 !important;
+    	font-size: inherit;
+    	font-weight: normal;
+
+    }
+
+ 
+    .form-control {
+    	-webkit-box-shadow: none;
+    	-moz-box-shadow: none;
+    	box-shadow: none;
+    	// border: 1px solid $naranjaadams;
+    	border-radius: 0;
+    	border:0;
+    	background-color: $darkinput;
+    	&:active,&:focus {
+    		border-color: orange;
+    	}
+    	color:black;
+    }
+
+    .radio{
+    	margin-left: 20px;
+    }
+    .form-group{
+    	margin-top: 15px;
+    }
+
+    .toolbarButton{
+    	border-radius: 0;
+    	background-color: rgba(44,44,44,0.8);
+    	color: white;
+    	border:0;
+    	margin: 5px;
+
+		/*Edit text button when CKEditor is active */
+    	&.textediting {
+    		background-color: $naranjaadams;
+    	}
+    }
 }
 
+
+
+/*Navigation Tabs*/
 .toolbarTabs{
 	color: $lightestgrey;
 	li {
@@ -27,8 +86,8 @@
 		a {
 			border-color: transparent;
 			color: $lightestgrey;
-			border-radius:0;
-
+			border-radius:0;	
+			padding: 10px 12px;
 			&:hover{
 				border-color: transparent;
 				background-color: transparent;
@@ -40,6 +99,7 @@
 
 }
 
+/*Pestaña (old)*/
 .pestana{
 	cursor: pointer;
 	width: 0;
@@ -54,39 +114,18 @@
 	right:100%;
   	border-color: transparent;
     border-right-color: rgba(44,44,44,0.8);
-    color: #133329;}
-
-.wrapper{
- 	@include animacion(top, 0.3s);
-	margin: 0;
-    position: fixed;
-   	bottom:0;
- 
-
+    color: #133329;
 }
 
 
-
- #tools{
-	overflow-x:hidden;
-	overflow-y:auto;
-
-	input[type="checkbox"]{
-		padding:0 !important;
-		margin-left:0
-	}
-	label{
-		margin:0 !important;
-		padding: 0 !important;
-		font-size: inherit;
-		font-weight: bold;
-	}
-}
-
-
-
-
+/*Collapsible panel*/
 .panelPluginToolbar{
+	border:0;
+	border-radius:0;
+	.toolbarTab{
+		color:$naranjaadams;
+	}
+
 	a {
 		display:block;
 		&:hover, &:focus, &:active {
@@ -96,8 +135,6 @@
 
 	}
 	
-	border:0;
-	border-radius:0;
 	.panel-body {
 		border:0 !important;
 		background-color: #555;
@@ -119,9 +156,6 @@
 }
 
 
-.toolbarTab{
-	color:$naranjaadams;
-}
 
 #insidetools {
 	.btn-group, .pluginToolbarMainButton {
@@ -138,49 +172,19 @@
 			}
 		}
 	}
+
 	border-left: 2px solid rgba(44,44,44,0.8);
 	border-right: 2px solid rgba(44,44,44,0.8);
 }
 
-#tools input[type="checkbox"]{
-	position:relative;
-	display:inline-block;
-	line-height: 5px;
-	vertical-align: text-bottom;
 
+ /*Toolbar title when spread*/
+.toolbarSpread {
+	color: $naranjaadams;
 }
 
-.radio{
-	margin-left: 20px;
-}
-.form-group{
-	margin-top: 15px;
-}
+ /*Toolbar title when collapsed*/
+.toolbarHide {
+	color: $grismedio;
 
-.toolbarButton{
-	border-radius: 0;
-	background-color: rgba(44,44,44,0.8);
-	color: white;
-	border:0;
-	margin: 5px;
-
-
-	&.textediting {
-		background-color: $naranjaadams;
-	}
 }
-
-#tools .form-control {
-	-webkit-box-shadow: none;
-	-moz-box-shadow: none;
-	box-shadow: none;
-	// border: 1px solid $naranjaadams;
-	border-radius: 0;
-	border:0;
-	background-color: $darkinput;
-	&:active,&:focus {
-		border-color: orange;
-	}
-	color:black;
-}
- 

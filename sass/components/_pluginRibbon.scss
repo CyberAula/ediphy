@@ -1,6 +1,42 @@
+/*Ribbon column*/
+#ribbonRow{
+	 overflow-x: auto;
+	 overflow-y: hidden;
+	 .btn-group.open .dropdown-toggle {
+	    -webkit-box-shadow: none;
+	    box-shadow: none;
+	}
+}
+
+/*Ribbon Column*/
+#ribbon{
+	background-color:$grismedio;
+	height:60px;
+	padding:0;
+	z-index:0;
+	overflow-X:hidden;
+	overflow-Y:hidden;
+ }
+
+/************Plugin list***************/
+
+#insideribbon{
+	margin-top:0px;
+	right:0;
+	overflow-y: hidden;
+	height:100%;
+	width: calc(100% - 200px);
+}
+
+#ribbonList{
+	white-space: nowrap !important;
+	margin-left: 15px;
+	height:100%;
+}
+/***************************************/
 
 
-
+/*Plugin name placeholder for dnd*/
 .buttonPlace{
 	position:relative;
 	display: inline-block;
@@ -9,6 +45,7 @@
 	height:100%;
 }
 
+/*Ribbon buttons*/
 .rib{
 	position:relative;
 	padding: 6px 15px;
@@ -32,56 +69,18 @@
  
 }
 
-#ribbonList{
-	white-space: nowrap !important;
-	margin-left: 15px;
-	height:100%;
-}
-
-#ribbon{
-	background-color:$grismedio;
-	height:60px;
-	padding:0;
-	z-index:0;
-	overflow-X:hidden;
-	overflow-Y:hidden;
- }
-
- 
+/*Plugin class while dragging*/
 .ribdrag{
 	color:$verdeadams;
-	&:hover{
- 
+	&:hover{ 
 		color:$verdeadams !important ;
 	}
 }
-#insideribbon{
-	margin-top:0px;
-	right:0;
-	overflow-y: hidden;
-	height:100%;
-	width: calc(100% - 200px);
-}
- 
-#canvas, #maincontent, #canvasRow {
-	z-index:0 ;
-}
-
-#ribbonRow{
-	 overflow-x: auto;
-	 overflow-y: hidden;
-	 .btn-group.open .dropdown-toggle {
-	    -webkit-box-shadow: none;
-	    box-shadow: none;
-	}
-}
 
 
-#colRight{
-	overflow-x:hidden;
-}
 
-
+/*****************Shortcut buttons*******************/
+/*Shortcut buttons container*/
 .mainButtons{
 	display:inline-block;
 	position:absolute;
@@ -93,7 +92,7 @@
 	padding:4px;
 	background-color: $grismedio; 
 }
-
+/*Shortcut button*/
 .ribShortcut{
 	width:34px;
 	height:34px;
@@ -109,7 +108,8 @@
 		font-size: 18px;
 	}
 }
-
+/*Disabled button*/
 button[disabled].ribShortcut {
 	color: #ccc;
 }
+/****************************************************/

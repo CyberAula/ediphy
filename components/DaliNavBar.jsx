@@ -4,7 +4,6 @@ import {Col, Row, Input, Button, OverlayTrigger, Popover, Dropdown, Tooltip, Men
 
 
 export default class DaliNavBar extends Component {
- 
 
     openPlugin(categoria) {
         this.props.setcat(categoria)

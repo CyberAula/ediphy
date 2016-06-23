@@ -1,12 +1,14 @@
+/*Whole navbar row*/
 .navBar{
 	background-color: $lightestgrey;
 	height: 60px;
 	z-index: 99999999 !important;
 }
 
+/*Navbar Component*/
 #iconBar{
 	z-index: 999 !important;
-	whiteSpace: nowrap;
+	white-space: nowrap;
 	#dropdown-menu{
 		margin-left: -30px;
 		width:70px;
@@ -22,14 +24,7 @@
 		}
 	}
 }
-
-.indentmin{
-	padding-left: 20px !important;
-}
-.indentmax{
-	padding-left: 250px !important;
-}
-
+/*Buttons at right of navBar*/
 .navButton{
 	display: inline-block;
 	border: none;
@@ -62,7 +57,7 @@
 	}
 }
 
-
+/*Disabled buttons in navbar*/
 button[disabled].navButton {
 	background-color: $verdedisabled;
 	border:none;
@@ -75,10 +70,8 @@ button[disabled].navButton {
 	}
 }
 
-.nav_but {
-	margin:0px 0px;
-}
-
+/*****************Course title******************/
+/*Gap for course title*/
 .navBarSpace {
 	height: 100%;
 	padding-left: 20px;
@@ -90,8 +83,8 @@ button[disabled].navButton {
 	line-height: 20px;
 }
 
+/*Editable course title*/
 .tituloCurso{
-
 	margin-left: 10px;
  	line-height: 25px;
 	width:calc(90% - 20px);
@@ -107,16 +100,29 @@ button[disabled].navButton {
 	    text-overflow:ellipsis;
 	}
 }
-
-
+/*************************************************/
+/****Make navbar icons fit into smaller screens****/
 .hideonresize{
 	font-size: 12px;
 	vertical-align: middle;
 	margin:auto;
 }
 
+@media screen and (max-width: 1147px) {
+	.hideonresize{
+		display: none;
+	}
+	.navButtonPlug{
+		min-width:7%;
+		padding:5px;
+	 	.active{ 
+	  		color:white !important;
+	  	}
+	}
+}
+/****************************************************/
 
-
+/*Plugin buttons: Image, Text, Multimedia...*/
 .navButtonPlug{
 	@extend .navButton;
 	width:auto;
@@ -127,53 +133,21 @@ button[disabled].navButton {
 	.material-icons{
 		vertical-align: middle;
 	}
-	/*
-	&:after  {
- 		border: 8px solid transparent;
-		content: "\200B";	
-		position: relative;
-		top: 0px;
-		left: -50%;
-		transition: all 0.3s ease-in;
-	}*/
-
-}
-.navButtonPlug[ title="All"]{
-	padding-left: 8px;
-	
+	&.active{
+		color:white !important; 
+		background-color: $grismedio;
+		&:after  {	 
+			border-bottom: 8px solid $naranjaadams;
+		}
+	 }
 }
 
-
-.navButtonPlug.active{
-	color:white !important; 
-	background-color: $grismedio;
-	&:after  {	 
-		border-bottom: 8px solid $naranjaadams;
-	}
- }
+ 
 
 
-@media screen and (max-width: 1147px) {
-	.hideonresize{
-		display: none;
-	}
-	.navButtonPlug{
-	 min-width:7%;
-	 padding:5px;
-	  .active{ color:white !important;}
-	}
-}
 
 
-.conmargen{
-	margin-left:-15px;
-}
-
-.sinmargen{
-	margin-left: 0px;
-}
-
-
+/***********Menu desplegable*****************/ 
 
 .dropdownButton{
 	
@@ -202,4 +176,15 @@ button[disabled].navButton {
 }
 
 
+ #topMenu::after {
+	content:"";
+	border:8px solid transparent;
+	border-bottom-color: $darkest;
+	position: absolute;
+	margin-top: -16px;
+	right:25px;
+	top:0%; 
  
+}
+
+ /******************************************/

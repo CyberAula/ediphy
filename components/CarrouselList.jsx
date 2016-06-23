@@ -8,7 +8,7 @@ export default class CarrouselList extends Component{
     render(){
         return(
             <div style={{height: '100%'}}>
-                <div  ref="sortableList" className="carList connectedSortables">
+                <div ref="sortableList" className="carList connectedSortables">
                     {
                     this.props.navItems[0].children.map((id, index) => {
                         if(id.indexOf(ID_PREFIX_SECTION) !== -1){
