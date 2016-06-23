@@ -20,6 +20,7 @@ export default class DaliCanvas extends Component{
             titles.reverse();
         }
         let paddings= (this.props.navItemSelected.type!= "slide") ? ('5px 5px 5px 5px') : ('30px 0px 30px 0px')
+
         let maincontent = document.getElementById('maincontent');
         let actualHeight; 
         if (maincontent){
@@ -35,9 +36,7 @@ export default class DaliCanvas extends Component{
                       className={this.props.navItems[this.props.navItemSelected.id].type == 'slide' ? 'slide sli':'slide doc'}
                       style={{visibility: (this.props.showCanvas ? 'visible' : 'hidden'), position: 'relative'}}>
 
-                    {/*<div className="canvasHelper" style={{visibility: (this.props.showCanvas ? 'hidden' : 'visible'), position: 'relative'}}>
-                        <div className="canvasMessage" >CREA UNA SECCIÓN PARA EMPEZAR</div>
-                    </div>*/}
+
 
                     <DaliTitle titles={titles}
                                courseTitle={this.props.title}
@@ -45,7 +44,7 @@ export default class DaliCanvas extends Component{
                                navItemId={this.props.navItemSelected.id}
                                titleModeToggled={this.props.titleModeToggled}
                                showButton={true} />
-                               <br/>
+                     <br/>
                     <div style={{
                         width: "100%",  
                         background: "black",
@@ -97,6 +96,7 @@ export default class DaliCanvas extends Component{
     }
 
     componentDidMount(){
+ 
         interact(ReactDOM.findDOMNode(this)).dropzone({
             accept: '.rib',
             overlap: 'pointer',
@@ -111,8 +111,8 @@ export default class DaliCanvas extends Component{
             },
             ondrop: function (event) {
                 let position = {
-                    x: event.dragEvent.clientX - event.target.getBoundingClientRect().left,
-                    y: event.dragEvent.clientY - event.target.getBoundingClientRect().top,
+                    x: event.dragEvent.clientX - event.target.getBoundingClientRect().left - document.getElementById('maincontent').offsetLeft,
+                    y: event.dragEvent.clientY - event.target.getBoundingClientRect().top  - document.getElementById('maincontent').offsetTop,
                 };
                 let initialParams = {
                     parent: this.props.navItemSelected.id,

@@ -12,61 +12,50 @@ export default class Section extends Component {
                 this.props.onNavItemSelected(navItem.id);
                 e.stopPropagation();
             }}>
-            <div >
-                <button   className="expandir" onClick={e => {
-                    this.props.onNavItemExpanded(navItem.id, !navItem.isExpanded)
-                    e.stopPropagation();
-                }}><i onClick={e => {
-                    this.props.onNavItemExpanded(navItem.id, !navItem.isExpanded)
-                    e.stopPropagation();}} className={navItem.isExpanded ? "fa fa-chevron-down" : "fa fa-chevron-right"}></i></button>
+                <div className={"navItemBlock " + classSelected}>
+                    <span style={{marginLeft: 20*(this.props.navItems[this.props.id].level-1)}}>
+                    <button className="expandir" onClick={e => {
+                        this.props.onNavItemExpanded(navItem.id, !navItem.isExpanded)
+                        e.stopPropagation();
+                    }}><i onClick={e => {
+                        this.props.onNavItemExpanded(navItem.id, !navItem.isExpanded)
+                        e.stopPropagation();}} className={classSelected + '  material-icons'} >folder</i></button>
 
-                <span className={classSelected}style={{ display: 'inline'}}>{navItem.name}</span>
-
-            </div>
-            <div style={{display: (navItem.isExpanded ? 'block' : 'none'), borderLeft: '1px dotted white'}}>
-                
-                <div style={{marginLeft: 20}}>
-                    <div ref="sortableListS" style={{paddingTop: (navItem.children.length > 0 ? 2 : 20) }} className="sectionList connectedSortables">
-                        {
-                            navItem.children.map((id, index) => {
-                                if (id.indexOf(ID_PREFIX_SECTION) !== -1) {
-                                    return <Section id={id}
-                                                    key={index}
-                                                    navItemsIds={this.props.navItemsIds}
-                                                    navItems={this.props.navItems}
-                                                    navItemSelected={this.props.navItemSelected}
-                                                    onBoxAdded={this.props.onBoxAdded}
-                                                    onPageAdded={this.props.onPageAdded}
-                                                    onSectionAdded={this.props.onSectionAdded}
-                                                    onNavItemSelected={this.props.onNavItemSelected}
-                                                    onNavItemExpanded={this.props.onNavItemExpanded}
-                                                    onNavItemReorded={this.props.onNavItemReorded}/>;
-                                } else if (id.indexOf(ID_PREFIX_PAGE) !== -1) {
-                                   // let classSelected = this.props.navItemSelected === id ? 'selected' : 'notSelected';
-                                    let classSelected = this.props.navItemSelected === id ? 'selected dragS' : 'notSelected dragS';
-                                    
-                                    let color = this.props.navItemSelected === id ? '#f87060' : '#555';
-                                    return <h4 key={index} id={id} className={classSelected} onMouseDown={e => {
-                                        this.props.onNavItemSelected(id);
-                                        e.stopPropagation();
-                                    }}>{this.props.navItems[id].name}</h4>;
-                                }
-                            })}
-                     </div>
-                  </div>
-                <div style={{marginTop: 10, marginLeft: 20}}>
-
-                 {/* <Button onClick={e => {
-                                         let idnuevo = ID_PREFIX_SECTION + Date.now();
-                                         this.props.onSectionAdded(idnuevo, navItem.name + "." +this.calculateName(navItem), navItem.id, [], navItem.level + 1, 'section', this.calculatePosition(), 'expanded');
-                                         this.props.onBoxAdded({parent: idnuevo, container: 0, id: ID_PREFIX_SORTABLE_BOX + Date.now()}, BOX_TYPES.SORTABLE, false, false);
-                                         e.stopPropagation();
-                                     }}><i className="fa fa-folder-o"></i></Button>
-                                     <Button onClick={e => {
-                                         this.props.onPageAdded(navItem.id, true)
-                                         e.stopPropagation();
-                                     }}><i className="fa fa-file-o"></i></Button>*/}
+                    <span className={classSelected}style={{display: 'inline'}}>{navItem.name}</span>
+                    </span>
                 </div>
+                <div style={{display: (navItem.isExpanded ? 'block' : 'none') }}>
+                    
+                    <div >
+                        <div ref="sortableListS" style={{paddingTop: (navItem.children.length > 0 ? 2 : 20) }} className="sectionList connectedSortables">
+                            {
+                                navItem.children.map((id, index) => {
+                                    if (id.indexOf(ID_PREFIX_SECTION) !== -1) {
+                                        return <Section id={id}
+                                                        key={index}
+                                                        navItemsIds={this.props.navItemsIds}
+                                                        navItems={this.props.navItems}
+                                                        navItemSelected={this.props.navItemSelected}
+                                                        onBoxAdded={this.props.onBoxAdded}
+                                                        onPageAdded={this.props.onPageAdded}
+                                                        onSectionAdded={this.props.onSectionAdded}
+                                                        onNavItemSelected={this.props.onNavItemSelected}
+                                                        onNavItemExpanded={this.props.onNavItemExpanded}
+                                                        onNavItemReorded={this.props.onNavItemReorded}/>;
+                                    } else if (id.indexOf(ID_PREFIX_PAGE) !== -1) {
+                                        let classSelected = this.props.navItemSelected === id ? 'selected dragS' : 'notSelected dragS';
+                                        let color = this.props.navItemSelected === id ? '#f87060' : '#555';
+                                        return <h4  key={index} id={id} className={'navItemBlock ' + classSelected} onMouseDown={e => {
+                                                 this.props.onNavItemSelected(id);
+                                                 e.stopPropagation();}}>
+                                                <span style={{marginLeft: 20*(this.props.navItems[id].level-1)}}>
+                                                    <i className="material-icons">insert_drive_file</i>{this.props.navItems[id].name}
+                                                </span>
+                                               </h4>;
+                                    }
+                                })}
+                         </div>
+                      </div>
                 </div>
             </div>
         );

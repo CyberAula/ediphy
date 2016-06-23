@@ -134,10 +134,8 @@ Dali.Plugins["BasicVideo"] = function (base){
         showPreview: function () {
             var vid = $('#BasicImage_preview');
             var input = $('#BasicImage_input');
-            // base.setState('url', input.val());
-            base.setState('thumbnailVisibility', 'visible');
-            // vid.attr('src', input.val());
-            vid.css('visibility', 'visible');
+             base.setState('thumbnailVisibility', 'visible');
+             vid.css('visibility', 'visible');
         },
         click: function(){
             alert("Guau");

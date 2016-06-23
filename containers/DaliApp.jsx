@@ -17,18 +17,21 @@ import PluginToolbar from '../components/PluginToolbar';
 import Visor from '../components/visor/Visor';
 import PluginRibbon from '../components/PluginRibbon';
 import DaliNavBar from '../components/DaliNavBar';
+import ServerFeedback from '../components/ServerFeedback';
 require('../sass/style.scss');
+
 
 class DaliApp extends Component {
     constructor(props) {
         super(props);
         this.index = 0;
         this.state = {
-            pluginTab: 'all',
-            hideTab: 'hide',
+            pluginTab: 'text',
+            hideTab: 'show',
             visorVisible: false,
             xmlEditorVisible: false,
-            carouselShow: true
+            carouselShow: true,
+            serverModal: false
         };
     }
 
@@ -52,16 +55,16 @@ class DaliApp extends Component {
                                 redo={() => {dispatch(ActionCreators.redo())}}
                                 visor={() =>{this.setState({visorVisible: true })}}
                                 export={() => {DaliVisor.exports(this.props.store.getState().present)}}
-                                scorm={() => {DaliScorm.exports(this.props.store.getState().present)}}
-                                save={() => {dispatch(exportStateAsync({present: this.props.store.getState().present}))}}
+                                scorm={() => {DaliVisor.exportScorm(this.props.store.getState().present)}}
                                 categoria={this.state.pluginTab}
                                 opens={() => {dispatch(importStateAsync())}}
+                                serverModalOpen={()=>{this.setState({serverModal: true })}}
                                 setcat={(categoria) => {
-                                  if(this.state.pluginTab == categoria && this.state.hideTab == 'show'){
+                                 /* if(this.state.pluginTab == categoria && this.state.hideTab == 'show'){
                                       this.setState({ hideTab:'hide'})
-                                  } else {
-                                      this.setState({ pluginTab: categoria, hideTab:'show' })
-                                  }
+                                  } else {*/
+                                      this.setState({ pluginTab: categoria, hideTab:'show' });
+                                 /* }*/
                               }}/>
                 </Row>
                 <Row style={{height: 'calc(100% - 60px)'}}>
@@ -77,7 +80,7 @@ class DaliApp extends Component {
                                   onNavItemExpanded={(id, value) => dispatch(expandNavItem(id, value))}
                                   onNavItemRemoved={(ids, parent, boxes) => {
                                     // if(navItemsIds.length == ids.length){
-                                      this.setState({hideTab: 'hide'})
+                                    //  this.setState({hideTab: 'hide'})
                                     // }
                                     dispatch(removeNavItem(ids, parent, boxes));
                                   }}
@@ -99,7 +102,9 @@ class DaliApp extends Component {
                                           redoDisabled={redoDisabled}
                                           undo={() => {dispatch(ActionCreators.undo())}}
                                           redo={() => {dispatch(ActionCreators.redo())}}
-                                          ribbonHeight={ribbonHeight+'px'}/>
+                                          save={() => {dispatch(exportStateAsync({present: this.props.store.getState().present}))}}
+                                          ribbonHeight={ribbonHeight+'px'}
+                                          serverModalOpen={()=>{this.setState({serverModal: true })}} />
                         </Row>
                         <Row id="canvasRow" style={{height: 'calc(100% - '+ribbonHeight+'px)'}}>
                             <DaliCanvas boxes={boxes}
@@ -123,6 +128,10 @@ class DaliApp extends Component {
                         </Row>
                     </Col>
                 </Row>
+                <ServerFeedback show={this.state.serverModal}
+                                title={"Server"}
+                                content={isBusy}
+                                hideModal={() => this.setState({serverModal: false })} />
                 <PageModal visibility={pageModalToggled.value}
                            caller={pageModalToggled.caller}
                            navItems={navItems}
@@ -162,7 +171,7 @@ class DaliApp extends Component {
 
     componentWillReceiveProps(nextProps) {
         if (this.props.navItemsIds.length !== 0 && nextProps.navItemsIds.length === 0) {
-            this.setState({hideTab: 'hide'})
+            // this.setState({hideTab: 'hide'})
         }
     }
 

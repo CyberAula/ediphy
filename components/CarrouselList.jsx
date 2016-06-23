@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Button, ButtonGroup, Col} from 'react-bootstrap';
+import {Button, ButtonGroup, Col, OverlayTrigger, Popover} from 'react-bootstrap';
 import {ID_PREFIX_SECTION, ID_PREFIX_PAGE, ID_PREFIX_SORTABLE_BOX, BOX_TYPES} from '../constants';
 import Section from '../components/Section';
 import PageMenu from '../components/PageMenu';
@@ -8,7 +8,6 @@ export default class CarrouselList extends Component{
     render(){
         return(
             <div style={{height: '100%'}}>
-               
                 <div  ref="sortableList" className="carList connectedSortables">
                     {
                     this.props.navItems[0].children.map((id, index) => {
@@ -24,45 +23,68 @@ export default class CarrouselList extends Component{
                                             onNavItemSelected={this.props.onNavItemSelected}
                                             onNavItemExpanded={this.props.onNavItemExpanded} 
                                             onNavItemReorded={this.props.onNavItemReorded}/>;
-                        }else if(id.indexOf(ID_PREFIX_PAGE) !== -1){
-                            let classSelected = this.props.navItemSelected === id ? 'selected drag-handle' : 'notSelected drag-handle';
+                        } else if(id.indexOf(ID_PREFIX_PAGE) !== -1){
+                            let classSelected = (this.props.navItemSelected === id) ? 'selected drag-handle' : 'notSelected drag-handle';
                             return <h4 key={index}
                                         id={id} 
-                                        className={classSelected}
-                                         onMouseDown={e => {
+                                        className={'navItemBlock ' +classSelected}
+                                        onMouseDown={e => {
                                                     this.props.onNavItemSelected(id);
                                                     e.stopPropagation();
-                                               }}>{this.props.navItems[id].name}</h4>
+                                               }}><span style={{marginLeft: 20*(this.props.navItems[id].level-1)}} ><i className="material-icons">insert_drive_file</i>   {this.props.navItems[id].name}</span></h4>
+                                              
                                             
                         }
                     })}
                 </div>
-                 <div style={{width: '100%', borderTop: '1px solid grey', marginTop: '0px'}}>
-
+                <div style={{width: '100%', borderTop: '1px solid grey', marginTop: '0px'}}>
                     <Button className="carrouselButton"  onClick={e => {
                                     let idnuevo = ID_PREFIX_SECTION + Date.now();
                                     this.props.onSectionAdded(idnuevo, "Section "+this.sections(), 0, [], 1, 'section', this.props.navItemsIds.length, 'expanded');
                                     this.props.onBoxAdded({parent: idnuevo, container: 0, id: ID_PREFIX_SORTABLE_BOX + Date.now()}, BOX_TYPES.SORTABLE, false, false);
                                     e.stopPropagation();
-                                }}><i className="material-icons">create_new_folder</i></Button>
- 
-                     <PageMenu caller={0}
+                                }}>
+                        <i className="material-icons">create_new_folder</i>
+                    </Button>
+                    <PageMenu caller={0}
                                navItems={this.props.navItems}
                                navItemsIds={this.props.navItemsIds}
                                onBoxAdded={this.props.onBoxAdded}   
                                onPageAdded={this.props.onSectionAdded} /> 
- 
-                                 
-                    <Button className="carrouselButton" 
+
+                    <OverlayTrigger trigger="focus" placement="top" overlay={
+                        <Popover id="popov" title="Eliminar página">
+                            <i style={{color: 'yellow', fontSize: '13px'}} className="material-icons">warning</i> Esta acción borrará todo el contenido de la página.<br/>
+                                <Button className="popoverButton" 
+                                    disabled={this.props.navItemSelected === 0}
+                                    style={{float: 'right'}}
+                                    onClick={e => {
+                                                let ids = [this.props.navItemSelected];
+                                                let found = this.findChildren(ids);
+                                                let boxes = this.findBoxes(found);
+                                                this.props.onNavItemRemoved(ids, this.props.navItems[this.props.navItemSelected].parent, boxes );
+                                            }
+                                        }>
+                                    Aceptar
+                                </Button>
+                                <Button className="popoverButton" 
+                                    disabled={this.props.navItemSelected === 0}
+                                    style={{float: 'right'}}  >
+                                    Cancelar
+                                </Button>          
+
+                         </Popover>}>
+
+
+                        <Button className="carrouselButton" 
                             disabled={this.props.navItemSelected === 0}
-                            style={{float: 'right'}}
-                            onClick={e => {
-                                        let ids = [this.props.navItemSelected];
-                                        let found = this.findChildren(ids);
-                                        let boxes = this.findBoxes(found);
-                                        this.props.onNavItemRemoved(ids, this.props.navItems[this.props.navItemSelected].parent, boxes );
-                                    }
-                                }><i className="material-icons">delete</i></Button>
+                            style={{float: 'right'}} >
+                         <i className="material-icons">delete</i>
+                        </Button> 
+
+                    </OverlayTrigger>
+                                 
+                  
 
                 </div>
             </div>

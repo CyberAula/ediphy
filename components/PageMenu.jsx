@@ -9,20 +9,21 @@ export default class PageMenu extends Component {
         let proposedName = "Page " +  this.calculateName();
         return (
               <Dropdown role="menuitem" dropup className="carouselDropup" id="dropdown-custom-2" >
-                 <Dropdown.Toggle rootClose className="carrouselButton">
+                 <Dropdown.Toggle noCaret rootClose className="carrouselButton">
                    <i className="material-icons">note_add</i>
                  </Dropdown.Toggle>
-                 <Dropdown.Menu className="pageMenu"  onSelect={() => null}>
+                 <Dropdown.Menu className="pageMenu" id="bottomMenu" onSelect={() => null}>
        
                         <MenuItem eventKey="1" onClick={e =>{
                            var idnuevo = ID_PREFIX_PAGE + Date.now();
                            this.props.onPageAdded(idnuevo, proposedName, this.props.caller, [], navItem.level + 1, 'document', this.calculatePosition(), 'expanded')
                            this.props.onBoxAdded({parent: idnuevo, container: 0, id: ID_PREFIX_SORTABLE_BOX + Date.now()}, BOX_TYPES.SORTABLE, false, false);
-                          }}>Document</MenuItem>
+                          }}><i className="material-icons">view_day</i> Document</MenuItem>
 
-                        <MenuItem eventKey="2"onClick={e => this.props.onPageAdded(ID_PREFIX_PAGE + Date.now(), proposedName, this.props.caller, [], navItem.level + 1, 'slide', this.calculatePosition(), 'hidden')}>Slide</MenuItem>
-                        <MenuItem eventKey="3" disabled>Poster</MenuItem>
-                        <MenuItem eventKey="4" disabled>Others</MenuItem>
+                        <MenuItem eventKey="2"onClick={e => this.props.onPageAdded(ID_PREFIX_PAGE + Date.now(), proposedName, this.props.caller, [], navItem.level + 1, 'slide', this.calculatePosition(), 'hidden')}>
+                        <i className="material-icons">view_carousel</i> Slide</MenuItem>
+                        <MenuItem eventKey="3" disabled><i className="material-icons">dashboard</i> Poster</MenuItem>
+                        <MenuItem eventKey="4" disabled><i className="material-icons">web</i> Other</MenuItem>
  
              </Dropdown.Menu>
         </Dropdown>

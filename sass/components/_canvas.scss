@@ -82,3 +82,28 @@
 	background-color: white;
 	z-index: 1;
 }
+.caja{
+	border: 1px solid transparent;
+}
+.selectedTitle {
+	border: 1px dashed grey;
+}
+
+
+.daliTitleButton {
+	@extend .ribShortcut;
+	background-color: $grismedio !important;
+	color:white !important;
+	text-align: center;
+	&:hover {
+		background-color: $naranjaadams !important;
+	}
+}
+
+#daliTitleButtons {
+	text-align: center;
+}
+.activeTitle{
+		background-color: $darkest !important;
+
+}
