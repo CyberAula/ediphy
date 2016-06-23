@@ -229,3 +229,31 @@
 .sectionBlock {
 	margin-left: 20px;
 }
+
+
+.popoverButton {
+
+	@extend .daliTitleButton;
+	margin-top: 10px !important;
+	padding: 2px 5px !important;
+	width:auto !important;
+	height:auto !important;
+	border-radius: 0;
+}
+
+#popov {
+	width:200px;
+	border-radius: 0;
+	color: $grismedio;
+
+	background-color: $darkest;
+	.popover-title{
+		color: $naranjaadams;
+		border-color: #333;
+		border-radius: 0;
+		background-color: transparent;
+	}
+}
+#popov.top > .arrow::after{
+	border-top-color: $darkest;
+}

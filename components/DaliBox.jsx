@@ -6,13 +6,17 @@ import PluginPlaceholder from '../components/PluginPlaceholder';
 import {BOX_TYPES, ID_PREFIX_BOX, ID_PREFIX_PAGE, ID_PREFIX_SECTION, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_SORTABLE_CONTAINER} from '../constants';
 
 export default class DaliBox extends Component {
+    constructor(props) {
+        super(props);
+        this.borderSize = 2;
+    }
+
     render() {
-        let borderSize = 2;
         let cornerSize = 15;
 
         let box = this.props.boxes[this.props.id];
         let toolbar = this.props.toolbars[this.props.id];
-        let vis = ((this.props.boxSelected === this.props.id) && box.type !== BOX_TYPES.SORTABLE)
+        let vis = this.props.boxSelected === this.props.id;
         let style = {
             width: '100%',
             height: '100%',
@@ -90,38 +94,29 @@ export default class DaliBox extends Component {
                 {this.renderChildren(box.content)}
             </div>);
 
-        let helpersResizable;
-        if (box.container === 0) {
-            helpersResizable = (
-                <div>
-                    <div className="helpersResizable"
-                        style={{position: 'absolute', left:  -cornerSize/2, top: -cornerSize/2, width: cornerSize, height: cornerSize, cursor: (box.container === 0 ? 'nw-resize' : 'move')}}></div>
-                    <div className="helpersResizable"
-                        style={{position: 'absolute', right: -cornerSize/2, top: -cornerSize/2, width: cornerSize, height: cornerSize, cursor: (box.container === 0 ? 'ne-resize' : 'move')}}></div>
-                    <div className="helpersResizable"
-                        style={{position: 'absolute', left:  -cornerSize/2, bottom: -cornerSize/2, width: cornerSize, height: cornerSize, cursor: (box.container === 0 ? 'sw-resize' : 'move')}}></div>
-                    <div className="helpersResizable"
-                        style={{position: 'absolute', right: -cornerSize/2, bottom: -cornerSize/2, width: cornerSize, height: cornerSize, cursor: (box.container === 0 ? 'se-resize' : 'move')}}></div>
-                </div>
-            );
-        } else {
-            helpersResizable = (<div></div>);
-        }
-
-        let border = (
+        let border = box.container === 0 ? (
             <div style={{visibility: (vis ? 'visible' : 'hidden')}}>
                 <div style={{
                     position: 'absolute',
-                    top: -(borderSize),
-                    left: -(borderSize),
+                    top: -(this.borderSize),
+                    left: -(this.borderSize),
                     width: '100%',
                     height: '100%',
-                    border: (borderSize + "px dashed #555"),
+                    border: (this.borderSize + "px dashed #555"),
                     boxSizing: 'content-box'
                 }}>
                 </div>
-                {helpersResizable}
-            </div>);
+                <div>
+                    <div className="helpersResizable"
+                         style={{position: 'absolute', left:  -cornerSize/2, top: -cornerSize/2, width: cornerSize, height: cornerSize, cursor: (box.container === 0 ? 'nw-resize' : 'move')}}></div>
+                    <div className="helpersResizable"
+                         style={{position: 'absolute', right: -cornerSize/2, top: -cornerSize/2, width: cornerSize, height: cornerSize, cursor: (box.container === 0 ? 'ne-resize' : 'move')}}></div>
+                    <div className="helpersResizable"
+                         style={{position: 'absolute', left:  -cornerSize/2, bottom: -cornerSize/2, width: cornerSize, height: cornerSize, cursor: (box.container === 0 ? 'sw-resize' : 'move')}}></div>
+                    <div className="helpersResizable"
+                         style={{position: 'absolute', right: -cornerSize/2, bottom: -cornerSize/2, width: cornerSize, height: cornerSize, cursor: (box.container === 0 ? 'se-resize' : 'move')}}></div>
+                </div>
+            </div>) : "";
 
         let classes = "wholebox";
         if (box.container) {
@@ -173,6 +168,7 @@ export default class DaliBox extends Component {
                     height: box.height,
                     maxWidth: '100%',
                     maxHeight: '100%',
+                    border: ((box.container !== 0 && vis) ? (this.borderSize + "px dashed #555") : 0),
                     touchAction: 'none',
                     msTouchAction: 'none',
                     cursor: vis ? 'inherit': 'default' //esto evita que aparezcan los cursores de move y resize cuando la caja no está seleccionada
@@ -404,6 +400,7 @@ export default class DaliBox extends Component {
 
                         clone.style.height = originalRect.height + "px";
                         clone.style.width = originalRect.width + "px";
+                        clone.style.border = this.borderSize + "px dashed #555";
                         original.style.opacity = 0;
                     }
                 },
@@ -452,9 +449,12 @@ export default class DaliBox extends Component {
                     target.style.top = box.container !== 0 ? top : target.style.top;
                     target.style.zIndex = 'initial';
 
-                    let clone = document.getElementById('clone');
-                    if(clone) {
-                        clone.parentElement.removeChild(clone);
+                    if(box.container !== 0) {
+                        let clone = document.getElementById('clone');
+                        if (clone) {
+                            clone.parentElement.removeChild(clone);
+                        }
+                        target.style.opacity = 1;
                     }
                     this.props.onBoxMoved(
                         this.props.id,

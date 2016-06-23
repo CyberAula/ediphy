@@ -45,7 +45,7 @@ export default class PluginPlaceholder extends Component {
                     if (container.cols[i]) {
                         return (
                             <div key={i}
-                                 style={{width: col + "%", height: '100%', display: "table-cell"}}>
+                                 style={{width: col + "%", height: '100%', display: "table-cell", verticalAlign: "top"}}>
                                 {container.cols[i].map((row, j) => {
                                     return (<div key={j}
                                                  style={{width: "100%", height: row + "%", position: 'relative'}}

@@ -106,30 +106,29 @@ Dali.Plugins["Youtube"] = function (base) {
         showPreview: function () {
             var vid = $('#BasicImage_preview');
             var input = $('#BasicImage_input');
-            //base.setState('url', base.parseURL(input.val()));
-            base.setState('thumbnailVisibility', 'visible');
-            //vid.attr('src', base.parseURL(input.val()));
-            vid.css('visibility', 'visible');
-        }
-        ,
+             base.setState('thumbnailVisibility', 'visible');
+             vid.css('visibility', 'visible');
+        },
         parseURL: function (url) {
-            if (url == '') return url
-            var patt1 = /youtube.com\/watch\?v=(.*)/
-            var patt2 = /youtube.com\/embed\/(.*)/
-            var patt3 = /youtu.be\/(.*)/
+            if (url == ''){ 
+                return url; 
+            }
+            var patt1 = /youtube.com\/watch\?v=(.*)/;
+            var patt2 = /youtube.com\/embed\/(.*)/;
+            var patt3 = /youtu.be\/(.*)/;
             if (patt2.exec(url)) {
                 return url;
             }
-            var code = patt1.exec(url)
+            var code = patt1.exec(url);
             if (code) {
-                return 'https://www.youtube.com/embed/' + code[1]
+                return 'https://www.youtube.com/embed/' + code[1];
             }
-            var code2 = patt3.exec(url)
+            var code2 = patt3.exec(url);
             if (code2) {
-                return 'https://www.youtube.com/embed/' + code2[1]
+                return 'https://www.youtube.com/embed/' + code2[1];
             }
-            alert('No es un video de youtube.')
-            return ''
+            alert('No es un video de youtube.');
+            return '';
         }
 
     }

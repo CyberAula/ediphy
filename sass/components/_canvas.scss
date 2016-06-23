@@ -94,6 +94,7 @@
 	@extend .ribShortcut;
 	background-color: $grismedio !important;
 	color:white !important;
+	text-align: center;
 	&:hover {
 		background-color: $naranjaadams !important;
 	}

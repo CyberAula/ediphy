@@ -53,7 +53,7 @@ class DaliApp extends Component {
                                 redo={() => {dispatch(ActionCreators.redo())}}
                                 visor={() =>{this.setState({visorVisible: true })}}
                                 export={() => {DaliVisor.exports(this.props.store.getState().present)}}
-                                scorm={() => {DaliScorm.exports(this.props.store.getState().present)}}
+                                scorm={() => {DaliVisor.exportScorm(this.props.store.getState().present)}}
                                 categoria={this.state.pluginTab}
                                 opens={() => {dispatch(importStateAsync())}}
                                 serverModalOpen={()=>{this.setState({serverModal: true })}}

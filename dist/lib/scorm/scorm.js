@@ -3,53 +3,6 @@
 var DaliScorm = {
 
 
-    exports: function(state){
-
-        var today = new Date();
-      
-
-        JSZipUtils.getBinaryContent('/lib/scorm/scorm.zip', function(err, data) {
-
-            if(err) {
-                throw err; // or handle err
-            }
-
-            var zip = new JSZip(data);
-            var navs = state.navItemsById;
-            var sections = [];
-            state.navItemsIds.map(function(page){
-
-                var inner = new EJS({url: '/lib/visor/index.ejs'}).render({
-                 title: state.title,
-                 page: page,
-                 navs: navs,
-                 boxesById: state.boxesById,
-                 boxes: state.boxes,
-                 toolbarsById: state.toolbarsById
-                });
-
-                var nombre = navs[page].name;
-                sections.push(nombre);
-
-                zip.file(nombre+".html", inner);
-            });
-
-            zip.file("imsmanifest.xml",DaliScorm.testXML("Título Curso", sections));
-
-
-
-            var content = zip.generate({type:"blob"});
-            saveAs(content, "scorm.zip");
-
-
-
-        });
-
-
-
-    } ,
-
-
     testXML: function(title, sections){
       var doc = document.implementation.createDocument("", "", null);
 
