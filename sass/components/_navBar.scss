@@ -176,16 +176,19 @@ button[disabled].navButton {
 
 
 .dropdownButton{
+	
 	display: block;
+	text-align: left;
 	border: none;
 	border-radius: 0px;
 	-webkit-border-radius: 0;
 	-moz-border-radius: 0;
-	width: auto;
+	width: 100%;
 	height: auto;
 	font-size: 12px;
-	padding: 0px 0px 0px 0px;
-	color:#425D54;
+	padding: 3px 12px;
+	color:$grismedio;
+	&:hover{color:white;}
 	background-color: transparent;
 	-webkit-box-shadow: none;
 	-moz-box-shadow: none;
@@ -197,3 +200,6 @@ button[disabled].navButton {
 	}
  
 }
+
+
+ 

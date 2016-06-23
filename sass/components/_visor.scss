@@ -39,8 +39,15 @@ height:100% !important;
   height:100%;
   }
 
-.visor .modal-content{
-  height:90%;
+.visor {
+  .modal-content{
+    height:90%;
+    border-radius: 0;
+  }
+  .modal-header {
+    border-bottom: 1px solid #ddd;
+    border-radius:0;
+  }
 }
 
 .outter2{

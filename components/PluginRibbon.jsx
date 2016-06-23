@@ -64,6 +64,15 @@ export default class PluginRibbon extends Component {
                             onClick={() => alert('Aún no hace nada')}>
                         <i className="material-icons">content_paste</i>
                     </button>
+                    <button className="ribShortcut" 
+                            title="Save" 
+                            disabled={this.props.undoDisabled } 
+                            onClick={() => {
+                                this.props.save();
+                                this.props.serverModalOpen();
+                            }}>
+                        <i className="material-icons">save</i>
+                    </button>
                 </div>
             </Col>);
     }
@@ -117,18 +126,19 @@ export default class PluginRibbon extends Component {
                     let dw = original.offsetWidth;
                     let clone = document.getElementById('clone');
                     
+                    
                     var target = clone,
                         x = 0,
                         y = 0;
                     target.style.webkitTransform =
                         target.style.transform =
-                            'translate(' + x + 'px, ' + y + 'px)';
+                            'translate(' + (x) + 'px, ' + y + 'px)';
 
                     target.style.zIndex = '9999';
                     target.style.position = 'relative';
                     target.classList.remove('ribdrag');
 
-                    target.setAttribute('data-x', x );
+                    target.setAttribute('data-x', x);
                     target.setAttribute('data-y', y);
 
                     parent.removeChild(clone);

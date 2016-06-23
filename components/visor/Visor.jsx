@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Modal, Row, Col, Grid, Button, ButtonGroup} from 'react-bootstrap';
 import VisorPluginPlaceholder from '../visor/VisorPluginPlaceholder';
-import DaliTitle from '../DaliTitle';
+// import DaliTitle from '../DaliTitle';
 import VisorDaliBox from '../visor/VisorDaliBox'
 import VisorDaliBoxSortable from '../visor/VisorDaliBoxSortable'
 import {BOX_TYPES, ID_PREFIX_SORTABLE_BOX} from '../../constants';

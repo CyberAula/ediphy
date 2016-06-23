@@ -8,7 +8,6 @@ export default class CarrouselList extends Component{
     render(){
         return(
             <div style={{height: '100%'}}>
-               
                 <div  ref="sortableList" className="carList connectedSortables">
                     {
                     this.props.navItems[0].children.map((id, index) => {
@@ -24,15 +23,16 @@ export default class CarrouselList extends Component{
                                             onNavItemSelected={this.props.onNavItemSelected}
                                             onNavItemExpanded={this.props.onNavItemExpanded} 
                                             onNavItemReorded={this.props.onNavItemReorded}/>;
-                        }else if(id.indexOf(ID_PREFIX_PAGE) !== -1){
-                            let classSelected = this.props.navItemSelected === id ? 'selected drag-handle' : 'notSelected drag-handle';
+                        } else if(id.indexOf(ID_PREFIX_PAGE) !== -1){
+                            let classSelected = (this.props.navItemSelected === id) ? 'selected drag-handle' : 'notSelected drag-handle';
                             return <h4 key={index}
                                         id={id} 
-                                        className={classSelected}
-                                         onMouseDown={e => {
+                                        className={'navItemBlock ' +classSelected}
+                                        onMouseDown={e => {
                                                     this.props.onNavItemSelected(id);
                                                     e.stopPropagation();
-                                               }}>{this.props.navItems[id].name}</h4>
+                                               }}><span style={{marginLeft: 20*(this.props.navItems[id].level-1)}} ><i className="material-icons">insert_drive_file</i>   {this.props.navItems[id].name}</span></h4>
+                                              
                                             
                         }
                     })}
@@ -46,7 +46,7 @@ export default class CarrouselList extends Component{
                                     e.stopPropagation();
                                 }}><i className="material-icons">create_new_folder</i></Button>
  
-                     <PageMenu caller={0}
+                    <PageMenu caller={0}
                                navItems={this.props.navItems}
                                navItemsIds={this.props.navItemsIds}
                                onBoxAdded={this.props.onBoxAdded}   
