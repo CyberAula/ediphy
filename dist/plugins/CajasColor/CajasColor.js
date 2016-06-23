@@ -7,7 +7,8 @@ Dali.Plugins["CajasColor"] = function (base){
             return {
                 name: 'CajasColor',
                 category: 'text',
-                icon: 'view_week'
+                icon: 'view_week',
+                needsXMLEdition: true
             }
         },
         getToolbar: function(){

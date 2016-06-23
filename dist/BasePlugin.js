@@ -58,13 +58,14 @@ Dali.Plugin = function () {
             }
         },
         getConfig: function () {
-            var name, category, callback, needsConfigModal, needsTextEdition, icon, aspectRatioButtonConfig;
+            var name, category, callback, needsConfigModal, needsTextEdition, needsXMLEdition, icon, aspectRatioButtonConfig;
             if (descendant.getConfig) {
                 name = descendant.getConfig().name;
                 category = descendant.getConfig().category;
                 icon = descendant.getConfig().icon;
                 needsConfigModal = descendant.getConfig().needsConfigModal;
                 needsTextEdition = descendant.getConfig().needsTextEdition;
+                needsXMLEdition = descendant.getConfig().needsXMLEdition;
                 aspectRatioButtonConfig = descendant.getConfig().aspectRatioButtonConfig;
             }
 
@@ -72,6 +73,7 @@ Dali.Plugin = function () {
             category = defaultFor(category, 'text', "Plugin category not assigned");
             needsConfigModal = defaultFor(needsConfigModal, false);
             needsTextEdition = defaultFor(needsTextEdition, false);
+            needsXMLEdition = defaultFor(needsXMLEdition, false);
             icon = defaultFor(icon, 'fa-cogs', "Plugin icon not assigned");
 
             if(aspectRatioButtonConfig){
@@ -112,6 +114,7 @@ Dali.Plugin = function () {
                 callback: callback,
                 needsConfigModal: needsConfigModal,
                 needsTextEdition: needsTextEdition,
+                needsXMLEdition: needsXMLEdition,
                 aspectRatioButtonConfig: aspectRatioButtonConfig,
                 icon: icon
             };

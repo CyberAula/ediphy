@@ -32,6 +32,14 @@ export default class PluginToolbar extends Component {
                                     this.props.onTextEditorToggled(toolbar.id, !toolbar.showTextEditor, (toolbar.showTextEditor) ? CKEDITOR.instances[toolbar.id].getData() : null)}} >
                 Edit text</Button>);
         }
+        let xmlButton;
+        if (toolbar.config && toolbar.config.needsXMLEdition) {
+            xmlButton = (<Button key={'xml'}
+                                  className={toolbar.showXMLEditor ? 'toolbarButton textediting' : 'toolbarButton'}
+                                  onClick={() => {
+                                    this.props.onXMLEditorToggled()}}>
+                Edit XML</Button>);
+        }
         let configButton;
         if (toolbar.config && toolbar.config.needsConfigModal) {
             configButton = (<Button key={'config'}
@@ -109,8 +117,8 @@ export default class PluginToolbar extends Component {
                                     </PanelGroup>
                                      
                                     {textButton}
+                                    {xmlButton}
                                     {configButton}
-
                                 </Tab>
                             );
                         })}

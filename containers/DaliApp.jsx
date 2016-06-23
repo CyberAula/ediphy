@@ -12,6 +12,7 @@ import DaliCanvas from '../components/DaliCanvas';
 import DaliCarousel from '../components/DaliCarousel';
 import PageModal from '../components/PageModal';
 import PluginConfigModal from '../components/PluginConfigModal';
+import XMLConfigModal from '../components/XMLConfigModal';
 import PluginToolbar from '../components/PluginToolbar';
 import Visor from '../components/visor/Visor';
 import PluginRibbon from '../components/PluginRibbon';
@@ -26,6 +27,7 @@ class DaliApp extends Component {
             pluginTab: 'all',
             hideTab: 'hide',
             visorVisible: false,
+            xmlEditorVisible: false,
             carouselShow: true
         };
     }
@@ -134,6 +136,10 @@ class DaliApp extends Component {
                        onVisibilityToggled={()=> this.setState({visorVisible: !this.state.visorVisible })}
                        state={this.props.store.getState().present}/>
                 <PluginConfigModal />
+                <XMLConfigModal id={boxSelected}
+                                toolbar={toolbars[boxSelected]}
+                                visible={this.state.xmlEditorVisible}
+                                onXMLEditorToggled={() => this.setState({xmlEditorVisible: !this.state.xmlEditorVisible})} />
 
                 <PluginToolbar top={(60+ribbonHeight)+'px'}
                                toolbars={toolbars}
@@ -146,7 +152,9 @@ class DaliApp extends Component {
                                onToolbarUpdated={(id, tab, accordion, name, value) => dispatch(updateToolbar(id, tab, accordion, name, value))}
                                onToolbarCollapsed={(id) => dispatch(collapseToolbar(id))}
                                onBoxDuplicated={(id, parent, container)=> dispatch( duplicateBox( id, parent, container, this.getDescendants(boxes[id]), this.getDuplicatedBoxesIds(this.getDescendants(boxes[id]) ), Date.now()-1 ))}
-                               onBoxDeleted={(id, parent, container)=> dispatch(deleteBox(id, parent, container, this.getDescendants(boxes[id]))) }/>
+                               onBoxDeleted={(id, parent, container)=> dispatch(deleteBox(id, parent, container, this.getDescendants(boxes[id])))}
+                               onXMLEditorToggled={() => this.setState({xmlEditorVisible: !this.state.xmlEditorVisible})}
+                />
 
             </Grid>
         );
@@ -172,6 +180,7 @@ class DaliApp extends Component {
             if (e.detail.isUpdating) {
                 this.parsePluginContainers(e.detail.content, newPluginState);
                 e.detail.state["__pluginContainerIds"] = newPluginState;
+                console.log(e.detail.state);
                 this.props.dispatch(updateBox(e.detail.ids.id, e.detail.content, e.detail.toolbar, e.detail.state));
                 this.addDefaultContainerPlugins(e.detail, e.detail.content);
             } else {
