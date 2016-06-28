@@ -190,7 +190,7 @@ export default class CarrouselList extends Component{
                 }else{
                 }
             },
-            receive: function(event, ui) {
+            receive: (event, ui) => {
                 const reorderedIndexesId = list.sortable('toArray', {attribute: 'id'})
                 const parent = this.props.navItems[this.props.navItemSelected].parent;
                 const navItems = this.props.navItems;
