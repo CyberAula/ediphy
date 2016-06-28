@@ -8,7 +8,6 @@
 /*Navbar Component*/
 #iconBar{
 	z-index: 999 !important;
-	white-space: nowrap;
 	#dropdown-menu{
 		margin-left: -30px;
 		width:70px;
@@ -151,7 +150,7 @@ button[disabled].navButton {
 
 .dropdownButton{
 	
-	display: block;
+	display: inline-block;
 	text-align: left;
 	border: none;
 	border-radius: 0px;
