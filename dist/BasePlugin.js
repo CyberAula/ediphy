@@ -225,6 +225,9 @@ Dali.Plugin = function () {
         getState: function () {
             return state;
         },
+        setCompleteState: function (newState) {
+            state = newState;
+        },
         registerExtraFunction: function() { }
     };
 
