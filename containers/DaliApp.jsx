@@ -255,7 +255,10 @@ class DaliApp extends Component {
             else if (key == 46) {
                 if (this.props.boxSelected != -1) {
                     let box = this.props.boxes[this.props.boxSelected];
-                    this.props.dispatch(deleteBox(box.id, box.parent, box.container, this.getDescendants(box)));
+                    let toolbar = this.props.toolbars[this.props.boxSelected];
+                    if(!toolbar.showTextEditor){
+                      this.props.dispatch(deleteBox(box.id, box.parent, box.container, this.getDescendants(box)));
+                    }
                 }
             }
         }.bind(this);
@@ -364,7 +367,10 @@ class DaliApp extends Component {
             }
         }
     }
+
 }
+
+ 
 
 function mapStateToProps(state) {
     return {

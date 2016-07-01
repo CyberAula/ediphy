@@ -1,0 +1,25 @@
+.pageModal{
+  	button{
+		border-radius: 0;
+	}
+   .modal-content{
+        min-height: 50px;
+    	border-radius: 0;
+  	}
+    .modal-header {
+	    border-radius:0;
+	    font-size: 18px;
+	    color: $naranjaadams;
+  	}
+  	.modal-footer{
+  		button{
+  			background-color: #9A9A9A;
+  			color: white !important;
+  			border:none;
+  			&:hover{
+  				background-color: $naranjaadams !important;
+  			}
+  		}
+ 	}
+}
+

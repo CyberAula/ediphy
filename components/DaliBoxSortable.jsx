@@ -28,7 +28,7 @@ export default class DaliBoxSortable extends Component {
                                  style={{
                                     width: '100%',
                                     height: container.height,
-                                    overflow: 'hidden',
+                                   /* overflow: 'hidden',*/
                                     border: 0,
                                     boxSizing: 'border-box',
                                     position: 'relative'}}>

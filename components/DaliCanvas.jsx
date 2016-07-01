@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import DaliBox from '../components/DaliBox';
 import DaliBoxSortable from '../components/DaliBoxSortable';
+import DaliShortcuts from '../components/DaliShortcuts';
 import {Col} from 'react-bootstrap';
 import DaliTitle from '../components/DaliTitle';
 import interact from 'interact.js';
@@ -45,6 +46,11 @@ export default class DaliCanvas extends Component{
                                titleModeToggled={this.props.titleModeToggled}
                                showButton={true} />
                      <br/>
+                     <DaliShortcuts box={this.props.boxSelected == -1 ? -1 : this.props.boxes[this.props.boxSelected]}
+                                    onTextEditorToggled={this.props.onTextEditorToggled} 
+                                    toolbar={this.props.toolbars[this.props.boxSelected]} />
+
+                     
                     <div style={{
                         width: "100%",  
                         background: "black",

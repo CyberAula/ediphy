@@ -4,7 +4,7 @@ import {Modal, Button} from 'react-bootstrap';
 export default class XMLConfigModal extends Component {
     render() {
         return (
-            <Modal backdrop={true} bsSize="large" show={this.props.visible}>
+            <Modal className="pageModal" backdrop={true} bsSize="large" show={this.props.visible}>
                 <Modal.Header>
                     <Modal.Title>XML Configuration</Modal.Title>
                 </Modal.Header>

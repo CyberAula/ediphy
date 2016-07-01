@@ -11,11 +11,13 @@
 @import 'components/visor';
 @import 'components/colorPicker';
 @import 'components/daliTitle';
+@import 'components/daliBox';
+@import 'components/pageModal';
 @import 'events/draganddrop';
 @import 'general/elements/btn';
 @import 'general/elements/scrollbar';
 @import 'general/elements/thumbnails';
-
+ 
  
 
 @include selection {

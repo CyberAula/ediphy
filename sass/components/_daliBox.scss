@@ -1,0 +1,65 @@
+/*DALI BOX SASS*/
+
+
+/*Resize box squares*/
+.helpersResizable{
+	border: 1px solid #777;
+	background-color: white;
+	z-index: 1;
+	position: absolute;
+}
+
+/*Dali Box*/
+.boxStyle{
+	width: 100%;
+	height: 100%;
+    position: relative;
+    word-wrap: break-word;
+    overflow:visible;
+}
+
+/*Dali Box needsTextEdition*/
+.textareaStyle{
+	width: 100%;
+    height: 100%;
+	top: 0;
+}
+
+/*Box overlay*/
+.showOverlay {
+	width: 100%;
+    background: black;
+    top: 0;
+    bottom:0;
+    position: absolute;
+    opacity: 0.4;
+}
+
+/*Box editing shortcuts*/
+#daliBoxIcons {
+
+	position:absolute;
+	text-align: center;
+	height:40px;
+	margin-top: 0px;
+	z-index: 999;
+	width: 100%;
+	margin-top: -40px;
+ 	.daliTitleButton {
+ 		background-color: #bababa !important;
+ 		&:hover {
+			background-color: $naranjaadams !important;
+
+ 		}
+ 	}
+}
+
+ 
+/*Box -selected*/
+.boxSelected {
+	visibility:visible;
+}
+/*Box not selected*/
+.notBoxSelected {
+	visibility:hidden;
+}

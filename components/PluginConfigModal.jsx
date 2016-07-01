@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Modal, Button} from 'react-bootstrap';
+import {Modal, Button, Row} from 'react-bootstrap';
 
 export default class PluginConfigModal extends Component {
 
@@ -14,17 +14,19 @@ export default class PluginConfigModal extends Component {
 
     render() {
         return (
-            <Modal backdrop={true} bsSize="large" show={this.state.show}>
+            <Modal className="pageModal" backdrop={true} bsSize="large" show={this.state.show}>
                 <Modal.Header>
                     <Modal.Title>Plugin Configuration</Modal.Title>
                 </Modal.Header>
 
                 <Modal.Body>
+                    <Row>
                     <div ref={c => {
                         if(c !== null){
                             Dali.API.Private.answer(Dali.API.Private.events.openConfig, c);
                         }
                     }}></div>
+                    </Row>
                 </Modal.Body>
 
                 <Modal.Footer>

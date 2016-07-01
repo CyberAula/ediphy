@@ -346,6 +346,8 @@ function boxSelected(state = -1, action = {}) {
                 return action.payload.parent;
             }
             return -1;
+        case ADD_NAV_ITEM:
+            return -1;
         case SELECT_NAV_ITEM:
             return -1;
         case REMOVE_NAV_ITEM:
