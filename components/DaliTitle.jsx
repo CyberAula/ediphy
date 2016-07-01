@@ -56,8 +56,8 @@ export default class DaliTitle extends Component {
         return (
             <div className="title" onClick={(e) => {
                                     this.setState({showButtons: !this.state.showButtons });
-                                    e.stopPropagation(); }}  > 
-                <div id="daliTitleButtons"  style={{height:'40px'}}  >
+                                    e.stopPropagation(); }} > 
+                <div id="daliTitleButtons"   style={{height:'40px'}}  >
                                             
                     <button className={((!this.state.showButtons || currentstatus == 'hidden' )? 'daliTitleButton hidden ' : ' daliTitleButton ')  
                                      + ((currentstatus == 'expanded') ? ' activeTitle' : ' ')}

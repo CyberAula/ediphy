@@ -24,6 +24,7 @@ export default class DaliBox extends Component {
         let textareaStyle = {
             position: (toolbar.showTextEditor ? '' : 'absolute'),
             resize: 'none',
+            top: '0%',
             visibility: (toolbar.showTextEditor ? 'visible' : 'hidden')
         }
         let attrs = {};
@@ -157,10 +158,10 @@ export default class DaliBox extends Component {
                     if(this.props.boxLevelSelected === box.level && box.children.length !== 0){
                         this.props.onBoxLevelIncreased();
                     }
-                    /* else if(toolbar.config && toolbar.config.needsTextEdition){
+                     /* else if(toolbar.config && toolbar.config.needsTextEdition){
                         this.props.onTextEditorToggled(this.props.id, true);
                         this.refs.textarea.focus();
-                    }*/
+                    } */
                  }}
                  style={{
                     position: (box.container !== 0 ? '' : 'absolute'),
