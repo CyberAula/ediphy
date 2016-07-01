@@ -2,6 +2,11 @@
   	button{
 		border-radius: 0;
 	}
+	.modal-body{
+		max-height:500px;
+		overflow-y: auto;
+		max-height: 70vh;
+	}
    .modal-content{
         min-height: 50px;
     	border-radius: 0;
@@ -23,3 +28,18 @@
  	}
 }
 
+.pluginconfig {
+	.form-control {
+		border-radius: 0;
+ 		box-shadow: none;
+		-webkit-box-shadow: none; 
+		&:focus{
+			border-color: $naranjaadams;
+		}
+		margin-bottom: 5px;
+	}
+	label {
+		font-variant: small-caps;
+		color: $naranjaadams;
+	}
+}

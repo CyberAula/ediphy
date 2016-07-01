@@ -14,13 +14,13 @@ export default class PluginConfigModal extends Component {
 
     render() {
         return (
-            <Modal className="pageModal" backdrop={true} bsSize="large" show={this.state.show}>
+            <Modal className="pageModal pluginconfig" backdrop={true} bsSize="large" show={this.state.show}>
                 <Modal.Header>
                     <Modal.Title>Plugin Configuration</Modal.Title>
                 </Modal.Header>
 
                 <Modal.Body>
-                    <Row>
+                    <Row >
                     <div ref={c => {
                         if(c !== null){
                             Dali.API.Private.answer(Dali.API.Private.events.openConfig, c);

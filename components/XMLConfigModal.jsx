@@ -1,18 +1,20 @@
 import React, {Component} from 'react';
-import {Modal, Button} from 'react-bootstrap';
+import {Modal, Button, Row} from 'react-bootstrap';
 
 export default class XMLConfigModal extends Component {
     render() {
         return (
-            <Modal className="pageModal" backdrop={true} bsSize="large" show={this.props.visible}>
+            <Modal className="pageModal pluginconfig" backdrop={true} bsSize="large" show={this.props.visible}>
                 <Modal.Header>
                     <Modal.Title>XML Configuration</Modal.Title>
                 </Modal.Header>
 
                 <Modal.Body>
-                    <div ref={"container"}>
-                        Import XML
-                    </div>
+                    <Row  >
+                      <div ref={"container"}>
+                          Import XML
+                      </div>
+                    </Row>
                 </Modal.Body>
 
                 <Modal.Footer>
@@ -72,13 +74,13 @@ export default class XMLConfigModal extends Component {
               auxName = x[i].attributes[j].name;
               auxValue = x[i].attributes[j].value;
               if(auxName.match('col') || auxName == 'esquinas' || auxName == 'grosLine' ){
-                stuffItems += colX3 + '<label for="'+auxName+'">'+auxName+':</label> <input onchange="this.changeValue('+auxName+')" type="text" autofocus id="'+auxName+'" value= "'+ auxValue +'">' + close;
+                stuffItems += colX3 + '<label for="'+auxName+'">'+auxName+':</label> <input class="form-control" onchange="this.changeValue('+auxName+')" type="text" autofocus id="'+auxName+'" value= "'+ auxValue +'">' + close;
               }else if(scormWords.indexOf(auxName) >= 0){
-                scorm += colX3 + '<label for="'+auxName+'">'+auxName+':</label> <input onchange="this.changeValue('+auxName+')" type="text" autofocus id="'+auxName+'" value= "'+ auxValue +'">' + close;
+                scorm += colX3 + '<label for="'+auxName+'">'+auxName+':</label> <input class="form-control" onchange="this.changeValue('+auxName+')" type="text" autofocus id="'+auxName+'" value= "'+ auxValue +'">' + close;
               }else if(auxName == 'obj'){
-               tipo += colX6 + '<label for="'+auxName+'">'+auxName+':</label> <input onchange='+this.changeValue(auxName)+' type="text" autofocus id="'+auxName+'" value= "'+ auxValue +'">' + close;
+               tipo += colX6 + '<label for="'+auxName+'">'+auxName+':</label> <input class="form-control" onchange='+this.changeValue(auxName)+' type="text" autofocus id="'+auxName+'" value= "'+ auxValue +'">' + close;
              }else{
-              moreStuff += colX3 + '<label for="'+auxName+'">'+auxName+':</label> <input onchange="this.changeValue('+auxName+')" type="text" autofocus id="'+auxName+'" value= "'+ auxValue +'">' + close;
+              moreStuff += colX3 + '<label for="'+auxName+'">'+auxName+':</label> <input class="form-control" onchange="this.changeValue('+auxName+')" type="text" autofocus id="'+auxName+'" value= "'+ auxValue +'">' + close;
             }
             //state.items.attributes[auxName] = auxValue;
           }
