@@ -55,7 +55,8 @@ export default class DaliTitle extends Component {
 
         return (
             <div className="title" onClick={(e) => {
-                                    this.setState({showButtons: !this.state.showButtons });
+                                    this.props.onBoxSelected(-1);
+                                    this.setState({showButtons: true });
                                     e.stopPropagation(); }} > 
                 <div id="daliTitleButtons"   style={{height:'40px'}}  >
                                             
@@ -110,5 +111,12 @@ export default class DaliTitle extends Component {
                 <br style={{clear:'both',  visibility: currentstatus=='hidden'? 'hidden':'inherit'}}/>
             </div>
         );
+    }
+    componentWillReceiveProps(nextProps) {
+ 
+        if (nextProps.boxSelected != this.props.boxSelected){
+            this.setState({ showButtons: false });
+        }
+      
     }
 }

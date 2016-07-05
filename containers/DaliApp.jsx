@@ -154,6 +154,7 @@ class DaliApp extends Component {
                                toolbars={toolbars}
                                box={boxes[boxSelected]}
                                boxSelected={boxSelected}
+                               carouselShow={boxSelected != -1}
                                onColsChanged={(id, parent, distribution) => dispatch(changeCols(id, parent, distribution))}
                                onRowsChanged={(id, parent, column, distribution) => dispatch(changeRows(id, parent, column, distribution))}
                                onBoxResized={(id, width, height) => dispatch(resizeBox(id, width, height))}
@@ -189,7 +190,6 @@ class DaliApp extends Component {
             if (e.detail.isUpdating) {
                 this.parsePluginContainers(e.detail.content, newPluginState);
                 e.detail.state["__pluginContainerIds"] = newPluginState;
-                console.log(e.detail.state);
                 this.props.dispatch(updateBox(e.detail.ids.id, e.detail.content, e.detail.toolbar, e.detail.state));
                 this.addDefaultContainerPlugins(e.detail, e.detail.content);
             } else {

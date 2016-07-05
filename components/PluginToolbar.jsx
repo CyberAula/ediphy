@@ -83,8 +83,8 @@ export default class PluginToolbar extends Component {
               {/*  <i className="fa fa-gear fa-2x"></i>*/}
             </div>
             <div id="tools" style={{width: this.state.open? '250px':'80px'}} className="toolbox">
-                <p  onClick={() => {this.setState({open: !this.state.open})}} style={{display: this.state.open? 'none':'block', textAlign: 'center'}} className={this.props.carouselShow ? 'carouselListTitle toolbarSpread':'carouselListTitle toolbarHide'}>
-                 <br/> <i className="material-icons">build</i><br/>CONF.
+                <p  onClick={() => {this.setState({open: !this.state.open})}} style={{display: this.props.carouselShow? 'block':'none', textAlign: 'center'}} className={this.state.open ? 'carouselListTitle toolbarSpread':'carouselListTitle toolbarHide'}>
+                 <br/> <i className="material-icons">build</i> CONF.
                 </p>
                 <div id="insidetools" style={{display: this.state.open? 'block':'none'}}>
 

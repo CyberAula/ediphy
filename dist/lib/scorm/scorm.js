@@ -82,7 +82,12 @@ var DaliScorm = {
 
       doc.appendChild(manifest);
 
-      return new XMLSerializer().serializeToString(doc)
+      return (new XMLSerializer().serializeToString(doc));
+    },
+
+    getIndex: function(navs){
+      var path = '/lib/scorm/scorm_nav.ejs';
+      return (new EJS({url: path}).render({  navs: navs }));
     }
 
 

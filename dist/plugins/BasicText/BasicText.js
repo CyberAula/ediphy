@@ -66,7 +66,7 @@ Dali.Plugins["BasicText"] = function (base) {
                                     __name: 'Padding (px)',
                                     type: 'number',
                                     units: 'px',
-                                    value: 0,
+                                    value: 1,
                                     min: 0
                                 }
                             }

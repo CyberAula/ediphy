@@ -180,11 +180,14 @@
 
  /*Toolbar title when spread*/
 .toolbarSpread {
+	.material-icons{
+		font-size: 16px;
+	}
 	color: $naranjaadams;
 }
 
  /*Toolbar title when collapsed*/
 .toolbarHide {
-	color: $grismedio;
 
-}
+	color: $grismedio;
+ }

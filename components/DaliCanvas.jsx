@@ -34,19 +34,21 @@ export default class DaliCanvas extends Component{
             <div className="outter" style={{position: 'absolute', width: '100%', height:'100%', padding: (paddings)}} >
                 <div  id="maincontent"
                       onClick={e => {this.props.onBoxSelected(-1)}}
-                      className={this.props.navItems[this.props.navItemSelected.id].type == 'slide' ? 'slide sli':'slide doc'}
+                      className={this.props.navItems[this.props.navItemSelected.id].type == 'slide' ? 'innercanvas sli':'innercanvas doc'}
                       style={{visibility: (this.props.showCanvas ? 'visible' : 'hidden'), position: 'relative'}}>
 
 
 
-                    <DaliTitle titles={titles}
-                               courseTitle={this.props.title}
-                               isReduced={this.props.navItemSelected.titlesReduced}
-                               navItemId={this.props.navItemSelected.id}
-                               titleModeToggled={this.props.titleModeToggled}
-                               showButton={true} />
+                    <DaliTitle  titles={titles}
+                                boxSelected={this.props.boxSelected}
+                                onBoxSelected={this.props.onBoxSelected}
+                                courseTitle={this.props.title}
+                                isReduced={this.props.navItemSelected.titlesReduced}
+                                navItemId={this.props.navItemSelected.id}
+                                titleModeToggled={this.props.titleModeToggled}
+                                showButton={true} />
                      <br/>
-                     <DaliShortcuts box={this.props.boxSelected == -1 ? -1 : this.props.boxes[this.props.boxSelected]}
+                    <DaliShortcuts  box={this.props.boxSelected == -1 ? -1 : this.props.boxes[this.props.boxSelected]}
                                     onTextEditorToggled={this.props.onTextEditorToggled} 
                                     toolbar={this.props.toolbars[this.props.boxSelected]} />
 
@@ -100,6 +102,8 @@ export default class DaliCanvas extends Component{
                 </div></div> 
            </Col>);
     }
+
+
 
     componentDidMount(){
  

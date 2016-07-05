@@ -1,0 +1,121 @@
+<head>
+  <link href="scorm/default.css" type="text/css" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+<%
+function parseChildren(children){%>
+  <ul style="list-style-type: none;">
+   <%children.map( function(i){  
+     var hasChildren = navs[i].children && navs[i].children.length > 0; %>
+     <li class="nivel<%=navs[i].level%>">    
+      <img src="scorm/completed<%=hasChildren? "_dsp":""%>.png" class="imagenDot" hspace="5" border="0">
+      <a title="<%=navs[i].name%>" href="#" id="temariol-fichero-327" rel="327" class=""><%=navs[i].name%></a>
+      <%if (hasChildren){ 
+        parseChildren(navs[i].children);
+      }%>
+    </li>
+    <%})%>
+  </ul>
+  <%} %>
+  <body>
+    <div id="temarioCurso"> 
+      <div style="width: 40%; height: 98%; left: 0px;" id="menuBlock" class="colorFondo"> 
+        <div id="menuTopContent" style="float:left;width:100%;">
+          <div id="logo" style="height:200px">                            
+            <img id="logoImgAula" src="http://www.campusadams.com/img_centros/1/logoCentro.gif" alt="Temario" class="imgLogo" height="200">
+          </div>             
+          <div id="ultRecurso1" class="ult1 ultRecurso"> 
+            <a href="#" id="temariol-fichero-372" class="lastResource" title="Último recurso visto">Último recurso visto<img src="scorm/go.png" style="vertical-align:middle" alt="Último recurso visto" hspace="10" border="0"></a>
+           </div>
+           <div class="ult2 ultRecurso"><b>Indice</b></div>            
+           <div id="contenedor-recursos"></div> 
+         </div><!-- menuTopContent-->
+     <div style="height: 426px;" id="baseMenu">
+      <div style="display: block;" id="indiceCurso">
+        <ul id="biglist" style="list-style-type: none;">
+         <% navs[0].children.map( function(nav){ 
+          var hasChildren = navs[nav].children && navs[nav].children.length > 0; %>
+          <li   class="nivel<%=navs[nav].level%>">    
+            <img src="scorm/completed<%=hasChildren? "_dsp":""%>.png" class="imagenDot" hspace="5" border="0">
+            <a href="#" title="<%=navs[nav].name%>" id="temariol-fichero-372" rel="372" class=""><%=navs[nav].name%></a>              
+            <%if (hasChildren){ 
+              parseChildren(navs[nav].children) 
+            }%> 
+          </li>  
+        <%})%>
+      </ul>
+     </div>
+   </div> 
+
+ </div>
+ <div style="top: 200px; left: 0px;" id="atajos"><!--Accesos directos a herramientas-->
+  <div style="border-top-right-radius: 10px; border-bottom-right-radius: 10px; background-image: url(scorm/menu.png);" id="closeMenu" class="roundedRight" rel="opened" title="Pulsa el botón menú para mostrar u ocultar el índice."></div>    
+
+
+
+  <div id="botToolsTemario"><a href="#" onclick="loadItemContent($(this),1)" rel="guia.php" name="guia"><img src="scorm/guia.png" alt="Guía didáctica" title="Guía didáctica" height="47px" align="left" border="0"></a></div><div id="botToolsTemario"><a href="#" onclick="loadItemContent($(this),1)" rel="glosario.php" name="glosario"><img src="scorm/glosario.png" alt="Glosario" title="Glosario" height="47px" align="left" border="0"></a></div><div id="botToolsTemario"><a href="#" onclick="loadItemContent($(this),1)" rel="biblioteca.php" name="biblioteca"><img src="scorm/biblioteca.png" alt="Biblioteca" title="Biblioteca" height="47px" align="left" border="0"></a></div><div id="botToolsTemario"><a href="#" onclick="loadItemContent($(this),1)" rel="actualiza.php" name="actualizaciones"><img src="scorm/actualizaciones.png" alt="Actualizaciones" title="Actualizaciones" height="47px" align="left" border="0"></a></div><div id="botToolsTemario"><a href="#" onclick="loadItemContent($(this),1)" rel="faq.php" name="faq"><img src="scorm/faq.png" alt="FAQs" title="FAQs" height="47px" align="left" border="0"></a></div><div id="botToolsTemario"><a href="#" onclick="loadItemContent($(this),1)" rel="expediente.php" name="expediente"><img src="scorm/expediente.png" alt="Expediente" title="Expediente" height="47px" align="left" border="0"></a></div></div>
+<div style="right:0; width:calc(60% - 70px);" id="theFrame">       
+
+    <iframe id="pantalla-curso" src="<%=navs[0].children.length>0 ? navs[navs[0].children[0]].name:"0" %>.html" scrolling="auto" frameborder="0"></iframe>
+  </div>
+</div>
+<!-- <div id="pasapaginaTemario" style="margin-top:-30px;">
+<div id="admonTools" class="left" style="width: auto; text-align: left; display: none;"></div>
+          <div style="display: block; left: 0px; width: 100%;" id="botsPasaPagina">
+           <a style="color: rgb(204, 204, 204);" href="#" id="pag-" class="anterior" rel="">
+                     <img src="scorm/fanterior.png" alt="Anterior" style="vertical-align:middle" title="Anterior" border="0"> 
+                     Anterior
+          </a>
+          <a style="color: rgb(204, 204, 204);" href="#" id="pag-temariol-fichero-324" class="siguiente" rel="">
+            - Siguiente
+           <img src="scorm/fsiguiente.png" alt="" style="vertical-align:middle" title="" border="0">
+           </a>
+       </div>
+      
+           
+     </div> -->
+  </div>
+<script>
+  var prev = ""
+  $('#closeMenu').click(function(){
+
+    if (document.getElementById('menuBlock').style.width == '40%'){
+      document.getElementById('menuBlock').style.width = '0%';
+      document.getElementById('theFrame').style.width = 'calc(100% - 70px)';
+    } else {
+      document.getElementById('menuBlock').style.width = '40%';
+      document.getElementById('theFrame').style.width = 'calc(60% - 70px)';
+    }
+  });
+
+  $('#biglist li img').click(function(e){
+   if(e.currentTarget.parentNode.children[2]){
+    e.currentTarget.parentNode.children[2].style.display = e.currentTarget.parentNode.children[2].style.display != 'none' ? 'none':'block'
+  } 
+
+})
+  $('#biglist a').click(function(e){
+    if(e.currentTarget && e.currentTarget.title){
+      prev = document.getElementById('pantalla-curso').src;
+      document.getElementById('pantalla-curso').src = e.currentTarget.title+'.html'
+    }
+
+  })
+  $('.lastResource').click(function(e){
+   if(e.currentTarget && e.currentTarget.title){
+    document.getElementById('pantalla-curso').src = prev;
+  } 
+})
+</script>
+
+<style>
+  #menuBlock,#theFrame{
+    transition: width 0.4s ease-in;
+  }
+  #biglist li ul{
+    display:none;
+  }
+</style>
+
+</body>

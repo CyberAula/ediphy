@@ -1,0 +1,2304 @@
+img.bg {
+ 
+  min-height: 100%;
+  min-width: 1024px;
+  width: 100%;
+  height: auto;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index:-1;
+}
+
+button, input[type="button"], input[type="submit"] {
+     padding: 3px 10px;
+     display: inline;
+     background: #666;
+     border: none;
+     color: #fff;
+     cursor: pointer;
+     border-radius: 5px;
+     -moz-border-radius: 5px;
+     -webkit-border-radius: 5px;
+
+     }
+	 
+.button:link {
+     color: #fff;
+     }
+.button:active {
+     color: #fff;
+     }
+.button:visited {
+     color: #fff;
+     }
+	 
+.button:hover {
+	 background: #333;
+	 color: #fff;
+	 font-size:1.1em;
+     }
+.button:active {
+     background-position: 0 top;
+     position: relative;
+     top: 1px;
+     padding: 6px 10px 4px;
+	 color: #fff;
+     }
+
+
+
+html{
+	margin: 0;
+    padding: 0;
+	font-size:12px;
+	height:100%;
+	overflow-x:hidden;
+	
+}
+body {
+	font-family:Arial, Helvetica, sans-serif;	
+	line-height:1.5em;
+	letter-spacing:0.1em;
+	overflow-x:hidden;
+	z-index:0;
+	background-color: #FFF;
+	margin: 0;
+    padding: 0;
+	min-height:100%;
+} 
+
+h1{	
+	font-size:2em;
+	font-weight:bold;
+}
+
+#log h1 {
+    font-size: 2em;
+    font-weight: bold;
+    margin-bottom: 30px;}
+
+h2{	
+	 font-size: 1.5em;
+    font-weight: bold;
+    margin: 0;
+    padding: 10px 0;
+}
+
+textarea{
+	-webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  width: 98%;
+ 
+}
+/*///////////////////////////////////////*/
+
+.subtitulo{
+	font-size:1em;
+	font-weight:bold;
+	color: #F63;
+	text-transform:uppercase
+}
+
+#noticiasDef a {
+	color: #900;
+}
+
+.degradedClaro{
+	background: url("../img/tools/degradedClaro.gif") repeat-x scroll 0 0 transparent;
+}
+.degraded{color:#fff;}
+
+
+
+
+/*///////////////////////////////////////*/
+
+.falta{
+	
+background-color:#F00;
+color:#FF0;}
+
+/*///////////////////////////////////////*/
+
+img{	
+	border:none;
+	}
+	
+
+
+#oculto{
+	visibility:hidden;
+}
+.oculto{
+	visibility:hidden;
+}
+#right{
+	float:right;
+	margin-right:10px;
+	background-color:#FF0;
+}
+
+#left{
+	float:left;
+	background-color:#F00;
+}
+.right{
+	float:right;
+	margin-right:10px;
+}
+
+.left{
+	float:left;
+}
+#titular{
+	font-weight:normal;
+	font-size:1.2em;
+	background-color:#fff;
+	display: block;
+	float: left;
+	padding-left:10px;
+	padding-right:10px;
+	min-width:250px;
+}
+
+#titularNov{
+	font-weight:normal;
+	font-size:1.2em;
+	display: block;
+	float: left;
+	margin-left:10px;
+	
+	
+}
+
+
+#listado{
+	font-size: 1em;
+    font-weight: normal;
+    /*height: 100%;*/
+	padding:10px;
+	
+}
+
+
+a:link {
+	color: #000;
+	cursor:pointer;
+	text-decoration:none;
+}
+a:hover {
+	color: #900;
+	cursor:pointer;
+	text-decoration:none;
+
+}
+a:active {
+	color: #000;
+	cursor:pointer;
+	text-decoration:none;
+}
+a:visited {
+	color: #000;
+}
+a.red:link {
+	color: #900;
+	cursor:pointer;
+	text-decoration:none;
+}
+a.red:hover {
+	color: #900;
+
+
+}
+a.red:active {
+	color: #900;
+
+}
+a.red:visited {
+	color: #900;
+
+}
+
+a.small:link {
+	color: #333;
+	cursor:pointer;
+	text-decoration:none;
+
+}
+a.small:hover {
+	color: #666;
+	text-decoration:none;
+
+}
+a.small:visited {
+	color: #666;
+	text-decoration:none;
+
+}
+a.small:active {
+	color: #666;
+	text-decoration:none;
+
+}
+
+a.smallRed:link {
+	color: #E44818;
+	cursor:pointer;
+	text-decoration:none;
+	font-size:0.8em;
+	font-weight:bold;
+}
+a.smallRed:hover {
+	color: #666;
+	cursor:pointer;
+	text-decoration:none;
+	font-size:0.8em;
+	font-weight:bold;
+}
+a.smallRed:active {
+	color: #E44818;
+	cursor:pointer;
+	text-decoration:none;
+	font-size:0.8em;
+	font-weight:bold;
+}
+a.smallRed:visited {
+	color: #E44818;
+	cursor:pointer;
+	text-decoration:none;
+	font-size:0.8em;
+	font-weight:bold;
+}
+a.enlaceNov:link {
+	color: #036;
+	cursor:pointer;
+	text-decoration:none;
+}
+a.enlaceNov:hover {
+	color: #e44818;
+	cursor:pointer;
+	text-decoration:none;
+
+}
+a.enlaceNov:active {
+	color: #036;
+	cursor:pointer;
+	text-decoration:none;
+}
+a.enlaceNov:visited {
+	color: #036;
+	cursor:pointer;
+	text-decoration:none;
+}
+
+#espacio{
+	position:relative;
+	float:left;
+	display:block;
+	width:20px;
+	height:20px;
+	/*background-color:#666;*/
+	
+}
+
+
+#inicio{
+	/*background-image: url(../img/recursos/backIntro.gif);
+	background-repeat: no-repeat;
+	background-position: middle;*/
+	position: relative;
+	border: 1px solid #ccc;
+	margin-left:10%;
+	left:10%;
+	overflow:visible;
+	z-index:0;
+	min-height: 75%;
+	min-width: 75%;
+	display:block;
+	float:left;
+}
+
+#full{
+	height: 100%;
+  	width:100%;
+    position: relative;
+	display:block;
+	z-index:1;
+	background-color: #FFF;
+	/*border: 1px solid #EFEFEF;*/
+	float:left;
+	overflow:hidden;
+	 /* min-width: 980px;
+	min-height: 700px;
+	width:expression(document.body.clientWidth < 600? "600px": "auto" );*/
+}
+
+#loaderAula{	
+	height:9%;
+	width:100%;
+	display:none;
+	/*overflow:hidden;*/
+	
+	/*background-color:#930*/
+}
+
+#loaderBar {
+	position:relative;
+	background-image: url(../img/recursos/adamsLogoSLong.jpg);
+	background-repeat: no-repeat;
+	background-position: right center;
+	background-color: #000;
+	height: 25px;
+	width: 100%;
+	color:#FFF;
+	top:0px;
+	
+		
+}
+
+#content{		
+	float:left;
+	clear:both;
+	 display: block;
+    position: relative;
+    width: 100%;
+    z-index: 0;
+	height:100%;
+	background-color: #FFF;
+
+	/*background-color:#F00;*/
+}
+
+
+#aulaContent{	
+	/*background-image: url("../img/recursos/libro.jpg");*/
+    background-color:#FFF;
+	position:relative;
+	min-height: 99%;
+	width:100%;
+	display:block;
+	overflow:hidden;
+	clear:both;
+	float:left;
+	left:0px;
+	
+	
+	/*background-color:#F00;*/
+}
+
+#aulaBase{	
+    display: block;
+    font-size: 1em;
+   	min-height: 100%;
+    position: relative;
+    width: 100%;
+	/*padding:1%;*/
+	float:left;
+	/*overflow:hidden;*/
+	/*background-color:#F00;*/
+}
+
+.formIncidencias{STYLE="max-width:650px;width:100%;margin:auto;"}
+
+
+/*BLOQUE +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+.bloque{
+	position:relative;
+	width:100%;	
+	/*height:auto;*/
+	/*overflow:hidden;*/
+	/*background-color:#FFC;*/
+	display:block;
+	clear:both;
+	float:left;
+}
+.bloqueM{
+	position:relative;
+	width:98%;	
+	overflow:hidden;
+	padding:1%;
+	display:block;
+	clear:both;
+	float:left;
+}
+#bloque{
+	position:relative;
+	width:100%;
+	/*height:auto;*/
+	/*overflow:hidden;*/
+	background-color:#fff;
+	display:block;
+	clear:both;
+	float:left;
+}
+#bloqueVacio{ 
+	position:relative;
+	width:98%;	
+	height:20px;
+	/*overflow:hidden;
+	background-color:#FFC;*/
+	display:block;
+	clear:both;
+}
+
+.ultRecurso{
+	position:relative;
+	display:block;
+	clear:both;
+	width: 98%;
+	text-align:left;
+	padding:1%;
+	background-color:#FFF;
+	border: 1px solid #EFEFEF;
+	
+}
+#logo{	
+	position:relative;
+	display:block;
+	clear:both;
+	width: 100%;
+	text-align:center;
+	background-color:#FFF;
+}	
+
+#logoAula{	
+	width: 20%;
+	min-width:250px;
+	float: left;
+	display:block;
+	position:relative;
+	margin:0px;
+	text-align:center;
+}
+
+#txtIntro{
+	float: left;
+    margin: 0px;
+   	left:40px;
+	display:block;
+	position:relative;
+	width:74%;
+	margin-top:10px;
+
+}
+
+/*Alumnmo +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+#alumno{
+	background-color: #cccccc;
+    color: #FFFFFF;
+    font-size: 1.1em;
+    font-weight: bold;
+    overflow: hidden;
+    padding: 4px 8px;
+    position: absolute;
+    right: 50px;
+    top: 40px;
+}
+
+/* MENU CAMPUS *****************************************************************/
+#menuDiv{
+	float: left;
+	padding: 10px 15px 10px 20px;
+    position: relative;
+	display:block;
+    width: 220px;
+	height:100%;
+    z-index: 5;
+}
+
+#logoCampus{	
+	width:100%;
+	overflow:hidden;
+	text-align:center;
+	
+}
+#menuCampus{	
+	/*background-color:#0C0;*/
+	overflow:hidden;
+	position:relative;
+	display:block;
+	
+}
+
+#menuContent{		
+	padding:0px;
+	margin:0;
+	overflow-y:auto;
+	display:block;
+	
+}
+.botMenu{	
+	height:auto;
+	display:block;
+	margin-bottom:1px;
+	letter-spacing:0px;
+	padding:5px;
+}
+
+.botMenu:hover{	
+	background-color:#FFF;
+	border:solid;
+	border-color:#EEE;	
+}
+
+.botMenu a{	
+	height:100%;
+	display:block;
+}
+
+
+
+/* CONTENIDOS *****************************************************************/
+
+
+#menuAdmin{
+	position:relative;
+	display:block;
+	right:0px;
+	background-color:#EEE;
+	float:right;
+	padding:10px;
+}
+
+
+.tabla{
+	height: 100%;
+	width: 100%;
+}
+
+#campusfondo{	
+	/*height: 100%;*/
+	/*background-color:#090;*/ 		
+}
+#campusContent{	
+	height: 100%;	
+	margin: 15px;
+	display:block;
+	position:relative;	
+	float:left;
+	overflow:hidden;
+	/*background-image: url(../img/recursos/raton.jpg);
+	background-repeat: no-repeat;
+	background-position:right bottom;*/
+	
+	
+	/*background-color:#0F0*/
+}
+
+	
+	
+#contentListado{
+	clear: both;
+    float: left;
+    margin-top: 3px;
+	margin-bottom:50px;
+    padding: 0;
+    position: relative;
+    width: 100%;
+    z-index: 5;
+	
+	
+}
+
+#listadoCursos {
+	list-style: inside;
+	list-style-position: inside;
+	list-style-type: none;
+	margin: 1%;
+	padding: 0px;
+	overflow: hidden;
+	width: 98%;
+	/*background-color: #FFF*/
+}
+#listadoCursos li{
+	overflow: hidden;
+	width: 99%;
+	list-style: inside;
+	list-style-position: inside;
+	list-style-type: none;
+	margin:0;
+	padding:0.5%;
+	float:left;
+	
+	/*background-color: #FFF*/
+}
+#listadoCursos li:hover{
+	/*background-color: #FFF;*/
+}
+#listadoCursos ul {
+	list-style: inside;
+	list-style-position: inside;
+	list-style-type: none;
+	margin: 0px;
+	padding: 0px;
+	overflow: hidden;
+	width: 100%;
+	float:left;
+}
+#listadoCursos ul li {
+	padding: 1%;
+	border-bottom: 1px solid #FFF;
+	display: block;
+	background-color : #F4F4F4;
+	float:left;
+	width:98%;
+}
+#listadoCursos ul li:hover {
+	background-color : #FFFFFF;
+}
+/*#listadoCursos{		
+	position:relative;
+	height:80%;
+	width:100%;
+	list-style:none;
+	overflow-y:auto;
+	overflow-x:hidden;
+	list-style: none none none;	
+	padding:0px;
+}*/
+
+.listaH{
+	list-style: inside;
+	list-style-position: inside;
+	list-style-type: none;
+	margin: 0px;
+	padding: 0px;
+	overflow: hidden;
+	width: 100%;
+	float:left;
+}
+
+.listaH li{
+	padding: 1%;
+	border-bottom: 1px solid #F4F4F4;
+	display: block;
+	float:left;
+}
+
+.over:hover{
+	background-color:#F4F4F4;
+}
+/* MENU LISTADO*****************************************************************/
+
+.catCursoOff{
+	/*background-color: #DEE2E4;*/
+    background-image: url("../img/iconos_s/masforo.png");
+    background-position: right center;
+    background-repeat: no-repeat;
+    border-bottom: 1px solid #FFFFFF;
+    display: block;
+    font-weight: bold;
+    height: auto;
+    position:relative;
+	float:left;
+	width:100%;
+	
+}
+
+.catCursoOff:hover{
+	background-color: #D7D7D7;
+}
+.activeAula{
+	background-color: #FFF;
+	background-image: url("../img/iconos/activeAula.gif");
+    background-position: left center;
+    background-repeat: no-repeat;
+	
+}
+#catCursoOn{
+	 background-image: url("../img/iconos_s/menosforo.png");
+    background-position: right center;
+    background-repeat: no-repeat;
+    border-bottom: 1px solid #FFFFFF;
+    display: block;
+    font-weight: bold;
+    height: auto;
+    padding: 10px;
+	top:50%;
+	position:relative;
+	
+}
+.nombreCurso{
+	font-weight: normal;
+	padding:0px;
+	display:block;
+	position:relative;
+	padding:10px;
+	border-bottom: 1px solid #fff;
+	float:left;
+	
+}
+.nombreCurso:hover{
+	background-color:#FFF;
+	
+}
+
+
+.opcion {
+	float:left;
+}
+	
+.avisos{	
+}
+
+/*POP SERVICIOS /////////////////*/
+.popFondoIe{
+	border:1px solid #000;
+	background-color:#FFF;
+}
+
+
+#popService{
+	position:absolute;
+	border:1px solid #000;
+	z-index:50;
+	overflow:hidden;
+	display:block;
+	/*height:80%;
+	width:80%;*/
+	min-width:70%;
+}
+#popServiceContent{
+	overflow:hidden;
+	overflow-y:auto;
+	display:block;
+	height:95%;
+	width:99%;
+	position:relative;
+	margin-left:0.5%;
+	margin-right:0.5%;
+	margin-bottom:0.5%;
+}
+/*POP Tuto /////////////////*/
+
+#popTutoVer{
+	position:absolute;
+	border:1px solid #000;
+	z-index:50;
+	overflow:hidden;
+	display:block;
+	height:auto;
+	/*max-height:80%;*/
+	width:75%;	
+	
+	
+}
+#popTutoVerContent{
+	overflow:hidden;
+	overflow-y:auto;
+	display:block;
+	height:95%;
+	width:99%;
+	position:relative;
+	margin-left:0.5%;
+	margin-right:0.5%;
+	margin-bottom:0.5%;
+	
+}
+
+
+/*POP CORREO Nuevo/////////////////*/
+a.correoNuevo:link{
+	font-weight:bold;
+	color:#F00;
+	font-size:1.1em;
+	
+	
+}
+#popCorreoNuevo{
+	position:absolute;
+	border:1px solid #000;
+	z-index:50;
+	overflow:hidden;
+	display:block;
+	height:55%;
+	/*height:80%;*/
+	width:75%;	
+	
+}
+#popCorreoNuevoContent{
+	overflow:hidden;
+	overflow-y:auto;
+	display:block;
+	height:95%;
+	width:99%;
+	position:relative;
+	margin-left:0.5%;
+	margin-right:0.5%;
+	margin-bottom:0.5%;
+}
+
+
+#attachedFiles{
+	list-style: inside;
+	list-style-position: inside;
+	list-style-type: none;
+	margin: 0px;
+	padding: 0px;
+	overflow: hidden;
+	width: 100%;
+	margin-top:5px;
+	
+}
+#attachedFiles li {
+	margin: 0px;
+	padding: 10px;
+	border-right: 1px solid #FFF;
+	display: block;
+	background-color : #F4F4F4;
+	float:left;
+}
+
+/*/Correo Listas///////////////////////////*/
+#popCorreoListas{
+	position:absolute;
+	height:350px;
+	width:500px;
+	border:1px solid #000;
+	z-index:60;
+	overflow:hidden;
+	
+	
+}
+#popCorreoListasContent{
+	overflow:hidden;
+	overflow-y:auto;
+	display:block;
+	/*height:90%;*/
+	position:relative;	
+	top:5px;
+	margin-left:10px;
+	float:left;
+}
+
+/*POP CORREO Nuevo/////////////////*/
+
+#popTablonNuevo{
+	position:absolute;
+	border:1px solid #000;
+	z-index:60;
+	overflow:hidden;
+	display:block;
+	max-height:80%;
+	width:40%;	
+	
+}
+#popTablonNuevoContent{
+	overflow:hidden;
+	overflow-y:auto;
+	display:block;
+	height:95%;
+	position:relative;
+	margin: 0px 0px 10px 10px;
+}
+/*GLOSARIO //////////////////////////*/
+
+#popGlosario{
+	position:absolute;
+	height:460px;
+	width:640px;
+	border:1px solid #000;
+	z-index:60;
+	overflow:hidden;
+	display:none;
+	
+}
+#popGlosarioContent{
+	overflow:hidden;
+	overflow-y:auto;
+	display:block;
+	height:90%;
+	position:relative;	
+	float:right;
+	width:100%;
+	
+}
+
+#popPsw{
+	position:absolute;
+	height:230px;
+	width:400px;
+	border:1px solid #000;
+	z-index:60;
+	overflow:hidden;
+	display:none;
+	
+}
+#popPswContent{
+	overflow:hidden;
+	overflow-y:auto;
+	display:block;
+	height:100%;
+	position:relative;	
+	float:right;
+	width:100%;
+	
+}
+
+
+
+/*POP AGENDA /////////////////*/
+
+
+.citaTipo1, .citaTipo2, .citaTipo3, .citaTipo4, .citaTipo5, .citaTipo6, .citaTipo7, .citaTipo8, .citaTipo9{	
+	height:16px;
+	display: block;
+	position:relative;
+	float:left;
+	vertical-align:middle;
+	
+} 
+#popAgenda{
+	position:absolute;
+	border:1px solid #000;
+	z-index:50;
+	overflow:hidden;
+	display:block;
+	width:auto;
+	min-width : 30%;
+	max-width:60%;
+	
+}
+#popAgendaContent{
+	overflow:hidden;
+	overflow-y:auto;
+	display:block;
+	height:95%;
+	position:relative;
+	float:left;
+	
+}
+
+#popCita{
+	position:absolute;
+	border:1px solid #000;
+	z-index:60;
+	overflow:hidden;
+	display:block;
+	max-height:450px;
+	width:450px;	
+	
+}
+#popCitaContent{
+	overflow:hidden;
+	overflow-y:auto;
+	display:block;
+	height:95%;
+	position:relative;
+	
+	
+}
+/*POP FORO /////////////////*/
+	
+#popForoMensaje{
+	position:absolute;
+	border:1px solid #000;
+	z-index:60;
+	overflow:hidden;
+	display:block;
+	/*max-height:80%;*/
+	width:75%;	
+	
+}
+#popForoMensajeContent{
+	overflow:hidden;
+	overflow-y:auto;
+	display:block;
+	height:95%;
+	position:relative;
+	width:98%;
+	margin-left:1%;
+	
+	
+}
+/*POP CONECTADOS /////////////////*/
+
+#popConect{
+	position:absolute;
+	border:1px solid #000;
+	z-index:50;
+	overflow:hidden;
+	display:block;
+	max-height:450px;
+	width:70%;	
+	
+}
+#popConectContent{
+	overflow:hidden;
+	overflow-y:auto;
+	display:block;
+	height:95%;
+	width:99%;
+	position:relative;
+	margin-left:0.5%;
+	margin-right:0.5%;
+	margin-bottom:0.5%;
+	
+	
+}
+
+
+
+/*/pop FICHA ///////////////////////////*/
+#popFicha{
+	position:absolute;
+	height:450px;
+	width:600px;
+	border:1px solid #000;
+	z-index:50;
+	overflow:hidden;
+	
+	
+}
+#popFichaContent{
+	overflow:hidden;
+	overflow-y:auto;
+	display:block;
+	height:90%;
+	position:relative;	
+	top:5px;
+	margin: 0px 0px 10px 10px;
+}
+
+/*POP Notas /////////////////*/
+
+#popNotas{
+	position:absolute;
+	border:1px solid #000;
+	z-index:60;
+	overflow:hidden;
+	display:block;
+	height:90%;
+	width:90%;	
+	
+}
+#popNotasContent{
+	overflow:hidden;
+	overflow-y:auto;
+	display:block;
+	height:95%;
+	width:99%;
+	position:relative;
+	margin-left:0.5%;
+	margin-right:0.5%;
+	margin-bottom:0.5%;
+	
+	
+}
+/*POP SOLUCION EJERS /////////////////*/
+
+#popSol{
+	position:absolute;
+	border:1px solid #000;
+	z-index:70;
+	overflow:hidden;
+	display:block;
+	height:90%;
+	width:90%;	
+}
+#popSolContent{
+	overflow:hidden;
+	overflow-y:auto;
+	display:block;
+	height:95%;
+	position:relative;
+	margin: 0px 10px 10px 10px;
+	
+	
+}
+
+
+/*POP Novedades /////////////////*/
+
+#popNovedades{
+	position:absolute;
+	border:1px solid #000;
+	z-index:50;
+	overflow:hidden;
+	display:block;
+	max-height:450px;
+	width:450px;	
+	
+}
+#popNovedadesContent{
+	overflow:hidden;
+	overflow-y:auto;
+	display:block;
+	height:95%;
+	width:96%;
+	margin-left:2%;
+	position:relative;
+	
+	
+}
+/*POP Alumos /////////////////*/
+
+#popAlumno{
+	position:absolute;
+	border:1px solid #000;
+	z-index:80;
+	overflow:hidden;
+	display:block;
+	max-height:80%;
+	min-width:40%;
+	width:70%;
+	
+}
+#popAlumnoContent{
+	overflow:hidden;
+	overflow-y:auto;
+	display:block;
+	height:95%;
+	width:99%;
+	position:relative;
+	margin-left:0.5%;
+	margin-right:0.5%;
+	margin-bottom:0.5%;
+}
+
+
+	
+/*POP Evaluaciones /////////////////*/
+
+#popEval{
+	position:absolute;
+	border:1px solid #000;
+	z-index:50;
+	overflow:hidden;
+	display:block;
+	max-height:90%;
+	width:80%;	
+	
+}
+
+
+#popEvalContent{
+	overflow:hidden;
+	overflow-y:auto;
+	display:block;
+	height:95%;
+	width:98%;
+	position:relative;
+	margin: 0.5%;
+}
+#popEvalPdf{
+	position:absolute;
+	border:1px solid #000;
+	z-index:50;
+	overflow:hidden;
+	display:block;
+	max-height:95%;
+	width:90%;	
+	
+}
+#popEvalPdfContent{
+	overflow:hidden;
+	overflow-y:auto;
+	display:block;
+	float:left;
+	max-height:99%;
+	position:relative;
+	margin: 0px 0px 10px 10px;
+	width:98%;
+}
+
+/*POP cambioPerfil /////////////////*/
+
+#popPerfil{
+	position:absolute;
+	border:1px solid #000;
+	z-index:50;
+	overflow:hidden;
+	display:block;
+	max-height:450px;
+	width:500px;	
+	
+}
+#popPerfilContent{
+	overflow:hidden;
+	overflow-y:auto;
+	display:block;
+	height:95%;
+	position:relative;
+	padding:5px;
+	
+	
+}
+/*BIBLIOTECA //////////////////////////*/
+
+#biblioteca{
+	/*position:relative;
+	max-height:410px;
+	width:600px;	
+	top:50%;
+	left:50%;
+	margin-top:-200px;	
+	margin-left:-200px;	
+	border:solid;
+	border-color:#000;	
+	z-index:50;
+	overflow:hidden;
+	display:none;*/
+	
+}
+
+/*NOVEDADES +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+
+#novedadesDiv{
+	/*background-color: #DEE2E4;*/
+    display: block;
+    float: left;
+   	width:99%;
+	margin:0.5%
+}
+
+#novedades{
+	/*background-color: #DEE2E4;*/
+    display: block;
+    float: left;
+    margin: 0px;
+    overflow: hidden;
+    position: relative;
+    top: 0;
+    width: 20%;
+	min-width:250px;
+	padding:0.4%;
+}
+
+
+#novedadesContent {
+   width: 100%;
+   display: block;
+    float: left;
+	margin:0;
+}
+
+.novedadesBloque {
+	 width: 100%;
+	 display:block;
+	 background-color:#FFF;
+	 float:left;
+	 position:relative;
+	
+}
+
+.novedadesBloque p {
+	 padding:10px;
+}
+
+ul.novedadesList{
+	list-style: none none;
+	padding: 0px 0px 0px 0px;
+	margin: 0px 0px 0px 0px;
+    margin: 0;
+  	display:block;
+	
+	
+}
+ul.novedadesList li{
+	display:block;
+	padding:10px;
+	border-bottom:1px solid #EEE;	
+}
+
+ul.novedadesList li:hover {
+	background-color:#F7F7F7;
+	cursor:hand;
+}
+
+ul.novedadesList li a:hover {
+	/*color:#FFF;*/
+
+}
+
+/*NOTICIAS +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+
+#noticias{
+	position:relative;
+	/*height:60%;*/
+	width:75%;	
+	/*background-color:#DEE2E4;*/
+	float: left;
+	clear:right;
+	display:block;
+	top:0px;
+	left:20px;
+}
+
+#bloqueNoticias{
+	/* padding: 10px;*/
+    position: relative;
+    width: 100%;
+	/*height: 100%;*/
+	background-color:#FFF;
+	display:block;
+	float:left;
+	overflow:hidden;
+}
+
+#ulNoticias{
+	list-style: none outside none;
+    margin: 0;
+    padding: 0px;
+	
+}
+#ulNoticias li{
+	border-bottom: 1px solid #CCCCCC;
+    color: #333333;
+    cursor: pointer;
+	padding:10px;
+	
+}
+#ulNoticias li:hover{
+	background-color:#EEE;	
+}
+
+#noticiasContent {
+	margin:0;
+	padding:0.5%;
+	display:block;
+	position:relative;
+	float:left;
+	width:99%;
+	
+	
+}
+	
+
+.titNoticia {
+	font-weight:normal;
+	font-size:1.3em;
+	font-weight:bold;
+	}
+
+
+#noticiasList{
+	/*background-color: #FFFFFF;*/
+    display: block;
+    float: left;
+    /*height: 100%;*/
+   /** margin-left: 10px;*/
+    overflow-x: hidden;
+    overflow-y: auto;
+   /* padding: 10px;*/
+    width: 40%;
+	position:relative;
+}
+
+#noticiasDef{	
+	background-color: #FFFFFF;
+    display: block;
+   /* height: 100%;*/
+    overflow-x: hidden;
+   /* overflow-y: auto;*/
+   /* padding: 10px;*/
+    position: relative;
+    left: 10px;
+    width: 58%;
+	float: left;
+	clear:right;
+	
+	/*background-color:#063;*/	
+}
+#noticiasBloque{	
+	height:100%;;	
+	display:block;
+	
+	/*background-color:#063;*/	
+}
+
+#listado #tablaPags p {
+	float:left;
+	font-weight:bold;
+	color:#555;
+	}
+
+
+
+#servSubMenu{
+	display:block;
+	float:right;
+	padding-right:5px;
+	padding-left:10px;
+}
+/* ELEMENTOS COMUNES +++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+
+
+
+a.listado:link{
+	font-size :1em;
+	color:#000;
+	text-transform:none;
+	margin-top:0px;
+	margin-bottom:1px;
+	display:block;
+	/*background-color:#FFF*/
+}
+a.listado:hover{
+	font-size :1em;
+	color:#000;
+	text-transform:none;
+	
+}
+a.listado:visited{
+	font-size :1em;
+	color:#000;
+	text-transform:none;
+}
+
+.asunto{
+	border-bottom: 1px solid #CCCCCC;
+    color: #333333;
+    cursor: pointer;
+    font-size: 1em;
+    padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+.asunto:hover{
+	background-color:#EEE;
+}
+
+.linea{
+	font-weight:normal;
+}
+
+
+#tablaPags{
+	/*background-color: #FFFFFF;*/
+    display: none;
+    float: left;
+    padding: 0.5%;
+    position: relative;
+    text-align: center;
+    width: 99%;
+}
+.fecha{
+	color: #900;
+	font-size: 0.9em;
+	text-align: left;
+	font-style: normal;
+}
+
+/* TEMARIO *****************************************************************************/
+.imagenDot{vertical-align:middle;cursor:pointer;float:left;margin-top:2px;}
+#botToolsTemario{
+	left:0px;
+	clear:both;
+	overflow:visible;
+	display:block;
+	position:relative;
+	float:left;
+	width:50px;
+}
+#temarioCurso{
+	position:relative;
+	top:0px;
+	width:100%;
+	/*height:90%;*/
+	float:left;
+	overflow:hidden;
+	/*background-color:#342;*/
+	margin:0px;
+	padding:0px;
+	display:block;
+}
+
+#menuBlock{
+	position:relative;
+	top:0px;
+	width:20%;
+	float:left;
+	overflow-x:hidden;
+	overflow-y:auto;
+	margin:0px;
+	padding:0px;
+	display:block;
+	/*background-color:#EBEBEB;*/
+	border-right: 1px solid #EFEFEF;	
+	
+}
+#baseMenu{
+	position:relative;
+	top:0px;
+	width:100%;
+	/*height:85%;*/
+	float:left;
+	overflow:hidden;
+	/*background-color:#FFF;*/
+	margin:0px;
+	padding:0px;
+	text-align:left;
+	display:block;
+}
+
+#theFrame{
+	position:absolute;
+	top:0px;
+	width:77%;
+	height:100%;
+	float:left;
+	overflow:hidden;
+	display:block;
+	z-index:1;
+	float:left;
+	
+	/*background-color:#FFF;*/
+}
+
+#pantalla-curso{
+	position:relative;
+	left: 0;
+	top: 0;
+	z-index: 1;
+	width:100%;
+	height:100%;
+	overflow:hidden;
+	overflow-y:auto;
+	/*-webkit-overflow-scrolling: touch !important;
+    overflow: scroll !important;*/
+	/*border:2px;
+	border-style:solid;
+	border-color:#F30;*/
+	display:block;
+	float:left;
+}
+
+
+#menuTemario{
+	position:relative;
+	text-align:center;
+	width:100%;	
+	height:35px;
+	margin-top:10px;
+	display:block;
+}
+
+.navNo{
+	color:#ccc;
+}
+a.navOff:link{
+	color:#999;
+}
+
+a.navOn:link{	
+	color:#FFF;
+}
+a.navOn:visited{	
+	color:#ccc;
+}
+
+#footerTemario{
+	position:fixed;
+	text-align:right;
+	width:100%;	
+	display:block;
+	bottom:0px;
+	overflow:visible;
+	z-index:200;
+	height:30px;
+	/*background-color:#FF0;*/
+	
+	
+}
+
+#pasapaginaTemario{
+	position:relative;
+	float:left;
+	text-align:center;
+	width:100%;	
+	display:block;
+	bottom:0px;
+	overflow:visible;
+	z-index:20;
+	height:30px;
+	/*padding:5px;*/
+	background-color:#FFF;
+	
+	
+}
+#botsPasaPagina{float:left;margin-left:auto;margin-right:auto;width:100%;position:absolute;z-index:-1;}
+/*Botones indice*/
+
+#atajos{
+	position:relative;
+	display:block;
+	/*background-color:#fff;*/
+	z-index:5;	
+	float:left;
+	width:60px;
+	
+}
+#closeMenu{
+	position:relative;
+	float:left;
+	width:20px;
+	height:150px;
+	display:block;
+	background-color:#000;
+	z-index:50;
+	background-image: url(../img/menu.png);
+	background-repeat: no-repeat;
+	background-position:center;
+	cursor:pointer;
+	
+	
+}
+
+
+#div-menu{
+	position:relative;
+	width:280px;
+	display:block;
+	background-color:#000000;
+	/*margin-right:40px;
+	float:right;*/
+}
+
+
+
+#dragBar{
+	position:relative;
+	width:20px;	
+	height:100%;
+	/*overflow:hidden;*/
+	background-color:#000;
+	display:block;
+	/*float:left;
+	cursor:pointer;*/
+}
+
+/*#menuTemario{
+	background-color:#000;
+	padding:0px;
+	margin:0px;
+	margin-bottom:1px;
+}*/
+
+/* OLD, se muestra dos veces el contenido del bloque al que pertenece la unidad seleccionada 
+#listado-recursos{
+	position:relative;
+	height:100%;
+	width:100%;
+	list-style:none;
+	overflow-y:auto;
+	overflow-x:hidden;
+	list-style: none none none;	
+	padding:0px;
+	display:none;
+	
+	
+}
+#listado-recursos a{
+	color:#000;
+	display:block;
+	width:100%;
+}
+#listado-recursos ul{
+	margin:0px;
+	padding:0px;
+	display:block;
+	background-color:#EEE;
+} */
+
+/* corrige el error para no mostrar dos veces el contenido del bloque  */
+#listado-recursos{
+	position:relative;
+	height:75%;
+	width:100%;
+	list-style:none;
+	overflow-y:auto;
+	overflow-x:hidden;
+	list-style: none none none;	
+	padding:0px;
+	
+	
+}
+#listado-recursos a{
+	color:#000;
+}
+#listado-recursos ul{
+	margin:0px;
+	padding:0px;
+	display:block;
+	background-color:#EEE;
+} 
+/* fin correción */
+#indiceCurso{
+	position:relative;
+	height:100%;
+	width:100%;
+	list-style:none;
+	overflow-y:auto;
+	overflow-x:hidden;
+	list-style: none none none;	
+	padding:0px;
+
+	
+	
+}
+#indiceCurso a{
+	color:#000;
+	display:block;
+	width:100%;
+}
+#indiceCurso ul{
+	margin:0px;
+	padding:0px;
+	display:block;
+	background-color:#EEE;
+}
+
+.nivel1{
+	display:block;
+	position:relative;
+	padding:10px;
+	color:#000 ;
+	background-color:#FFF ;
+	border-top: 1px solid #EEE;
+}
+
+.nivel1:hover{
+	background-color:#F7F7F7;
+}
+
+.nivel2{
+	background-color:#FFF ;
+	display:block;
+	position:relative;
+	padding:5px;
+	border-top: 1px solid #EEE;
+	padding-left:20px;
+}
+.nivel2:hover{
+	background-color:#D8DDE7;
+}
+
+.nivel3{
+	background-color:#FFF;
+	display:block;
+	position:relative;
+	padding:5px;
+	border-top: 1px solid #EEE;
+	padding-left:20px;
+}
+.nivel3:hover{
+	background-color:#EAEDF2;
+}
+
+.nivel4{
+	background-color:#FFF;
+	display:block;
+	position:relative;
+	padding:5px;
+	border-top: 1px solid #EEE;
+	padding-left:20px;
+}
+.nivel4:hover{
+	background-color:#F3F5F8;
+}
+
+
+
+
+
+/* CSS ACCESO CAMPUS*****************************************************************/
+#log {
+	height: 100px;
+	position: relative;
+	right: 35px;
+	text-align: right;
+	top: 101px;
+	width: 460px;
+	float: right;
+}
+
+#logoCentro{
+	position:relative;
+	/*background-color:#E8E8E8;*/
+	padding:0px;
+	width:200px;
+	height:200px;
+	left:80px;
+	top:80px;
+	float:left;
+}
+
+#logoInf{	
+	background-image: url("descarga.php?f=graficos/logoColaborador.png");/*en una carpeta llamada iconos dentro del curso*/
+    background-position: center center;
+    background-repeat: no-repeat;
+    display:block;
+    height: 80px;
+    left: 36%;
+    position: relative;
+    width: 560px;
+	margin:10px;
+   
+}
+#logoCalidadInicio{
+	background-repeat: no-repeat;
+	float: right;
+	min-height:50px;
+	/*height: 50px;
+	padding: 0;
+	position: relative;
+	right: 0px;
+	width: 80px;
+	margin: 10px;
+	margin-top: 20px;*/
+}
+
+
+#logExtra {
+	height: 110px;
+	position: relative;
+	right: 35px;
+	text-align: right;
+	top: 215px;
+	width: 235px;
+	float: right;
+}
+
+
+#preloader{
+	position:absolute;
+	top:0px;
+	right:0px;
+	width:100%;
+	height:100%;
+	background-color:#000;
+	/*background-image:url(../img/recursos/loading.gif);
+	background-repeat: no-repeat;
+	background-position:center center;*/
+	z-index:20;
+	
+}
+
+.preloaderSmall{
+	position:absolute;
+	float:left;
+	width:auto;
+	height:50px;
+	padding:5px;
+	background-color:#FFF;
+	background-image:url(../img/recursos/loading.gif);
+	background-repeat: no-repeat;
+	background-position:5px;
+	border: 1px solid #ccc;
+	z-index:100;
+	float: left;
+}
+
+#preloaderIn{
+	position:absolute;
+	width:100%;
+	height:100%;
+	background-color:#000;
+	background-image:url(../img/recursos/loading.gif);
+	background-repeat: no-repeat;
+	background-position:center center;
+	z-index:20;
+}
+
+#menuPreloader{
+	position:absolute;
+	display:block;
+	top:0px;
+	right:0px;
+	width:100%;
+	height:100%;
+	background-color:#000;
+	background-image:url(../img/recursos/loading.gif);
+	background-repeat: no-repeat;
+	background-position:center center;
+	z-index:100;
+	
+	
+}
+form label{
+    margin-left:5px;}
+
+/* AULA */
+
+.aulaMenuImg{
+	position:relative;
+	top:10px;
+	margin-right:5px;
+	
+}
+/* CSS NUESTROS CURSOS//////////////////////////////////////*/
+
+#courses{
+	max-height:100%;
+	width:auto;
+	display:none;
+	/*overflow:hidden;*/
+	position:relative;
+	z-index:100;
+	background-color:#fff;
+	width:100%;
+
+}
+
+#coursesContent{
+	height:100%;
+	width:100%;
+	display:block;
+	overflow:hidden;
+	position:relative;
+	
+	
+
+}
+
+#nuestrosCursos {
+	display: block;
+	overflow: hidden;
+	padding: 6px 15px;
+	position: relative;
+	text-align: center;
+	width: 100%;
+	
+}
+
+#nuestrosCursos a {
+	/*background-color: #000000;*/
+    color: #666;
+	cursor: pointer;
+	font-weight: bold;
+	padding: 15px;
+	border-radius:5px;
+	}
+	
+#listadoAulas{
+	height:100%;
+	width:100%;
+	overflow:hidden;
+	overflow-y:auto;
+		
+}
+#listadoContent{
+	height:100%;
+	width:100%;
+	
+}
+#listadoTit{
+	position:static;
+	background-color:#ccc;
+	width:100%;
+	border:0px;
+	padding:0px;
+	padding-left:0px;	
+}
+.listTit{
+	padding:5px;
+	line-height:2.5;
+	font-size:1em;
+	color:#000;
+	font-weight:bold;	
+}
+
+#listadoItem{
+	position:static;
+	cursor:pointer;
+	background-color:#FFF;	
+	border:0px;	
+	margin-bottom:1px;
+	padding:5px;
+}
+#listadoItem:hover{
+	background-color:#E4E4E4;
+}
+
+.listItemTit{
+	padding-left:10px;
+	display:block;
+	font-size:1em;
+	color:#000;
+	padding:5px;
+
+}
+
+.aulaInfo{
+	width:74%;
+	margin:0.5%;
+	overflow:hidden;
+	overflow-y:auto;
+}
+
+.clear {clear:both;}	
+
+.botMenu.cursor img {margin-right:8px;}
+
+
+
+.divCourse {
+	
+	/*background-color:#FFF;	*/
+	}
+
+
+
+#campusContent .aumentar, .aumentar{
+	position:absolute;
+	right:10px;
+	z-index: 9;
+	overflow:visible;}
+	
+
+
+#txtInfo {
+	display:block;
+	position:relative;
+	clear:both;
+	padding:10px;
+	}
+	
+	
+
+
+/*/GUIA //////////////////////////////////*/
+#descargaFicheros{
+	display:block;
+	position:relative;
+	height:100%;
+	
+}
+
+#guia{
+	display:block;
+	position:relative;
+	height:100%;
+	width:100%;
+	float:left;
+	
+}
+
+
+
+/* /// FORMULARIOS///////////////////////////////*/
+#fullForm{	
+  	width:100%;
+    position: relative;
+	display:block;
+	display:none;
+	/*margin:20px;*/
+	
+	
+}
+#contentForm{		
+	display: block;
+    position: relative;
+    width: 100%;
+   	height:98%;
+}
+
+#formItems{		
+	display: block;
+    position: relative;
+    width: 100%;
+   	height:70%;
+	overflow-x:hidden;
+	/*overflow-y:scroll;*/
+	clear:both;
+}
+
+#filaForm{
+	position:relative;
+	display:block;
+	float:left;
+	width:98%;
+	background-color:#fff;
+	margin-top:1px;
+	border-bottom-color:#EEE;
+	border-bottom-width:thin;
+	border-bottom-style:solid;
+	padding:10px;
+	clear:both;
+	
+	
+}
+
+#divFormCommon{	
+	position:relative;
+	display:block;
+	float:left;
+	width:40%;
+	margin-right:1px;
+	margin-left:10px;
+	margin-bottom:5px;
+	margin-top:5px;
+	
+	
+	}
+	
+	
+/*Resumen y objetivos */
+#divObjetivos{
+	position:relative;
+	display:block;
+	float:left;
+	width:95%;
+	height:95%;
+	margin-top:50px;
+	background-image:url(../img/recursos/objetivos.png);
+	background-repeat: no-repeat;
+	background-position: bottom right;
+	overflow:hidden;
+	overflow-y:auto;
+}
+#divResumen{
+	position:relative;
+	display:block;
+	float:left;
+	width:95%;
+	height:95%;
+	margin-top:50px;
+	background-image:url(../img/recursos/resumen.png);
+	background-repeat: no-repeat;
+	background-position: bottom right;
+	overflow:hidden;
+	overflow-y:auto;
+}
+#titulo{
+	color: #333333;
+    font-size: 2em;
+    font-weight: bold;
+    padding: 5px 3px;
+}
+#titulotema{
+	display:block;
+	clear:both;
+	 font-size: 2em;
+	 color:#900;
+	 line-height:1.5em;
+}
+#cabecera{
+	 color: #333333;
+    font-size: 1.5em;
+    font-weight: bold;
+    padding: 5px 3px;
+}
+#numero{
+	color: #900;
+	font-size: 2em;
+	font-weight: bold;
+	padding: 5px 3px;
+	width:20px;
+	float:left;
+	margin-top:50px;
+	margin-bottom:50px;
+}
+#encabezadoobj{
+	 color: #333333;
+    font-size: 1.2em;
+    font-weight: normal;
+    padding: 5px 3px;
+	display:block;
+	float:left;
+	margin-bottom:10px;
+	
+	
+}
+
+
+#objetivos{
+	display:block;
+	float:left;
+}
+
+#tablaobjetivo{
+	 color: #333333;
+    font-size: 1em;
+   padding:10px;
+}
+
+#allData label, #formsubirarchivo label{cursor:pointer;}
+#popUpload{z-index:50;}
+#popUploadContent{overflow:hidden;float:left;width:450px;}
+#popUploadContent p{width:100%;float:left;}
+
+#documentos,#documentos li > ul, #popUpload ul{
+	list-style:none;
+	width:100%;
+	float:left;
+	margin-top:0;
+}
+#documentos li ul{border-bottom:1px solid #eee;}
+
+#documentos > li, #popUpload >li{
+	/*border-bottom:1px solid #CCC;*/
+	float:left;
+	width:98%;
+	marin-left:2%;
+}
+#documentos li ul li{
+	float:left;padding:1%;	
+}
+
+
+.listaDocs li{float:left;padding:1%;border-bottom:1px solid #EEE;}
+.listaDocs li:first-child{font-weight:bold;width:40%;}
+
+.verDoc,.archivo,.modificar,.borrar{
+	cursor:pointer;	
+	color:#030;
+	font-weight:bold;
+}
+.uploader label{width:100%;}
+
+
+.ulUpload li {float:left;padding:10px;margin-right:30px;list-style:none;}
+.ulUpload li:odd {background-color:#ccc;}
+.ulUpload li span{float:left;color:#900;}
+
+div.upload {
+    width: 25px;
+    height: 25px;
+    background: url(../img/recursos/upload.png);
+	background-repeat:no-repeat;
+	background-position:center;
+    overflow: hidden;
+	float:left;vertical-align:middle;
+	cursor:pointer;
+	float:left;
+	margin-top:-5px;
+}
+
+div.upload input {
+    display: block !important;
+    width: 157px !important;
+    height: 57px !important;
+    opacity: 0 !important;
+    overflow: hidden !important;
+	cursor:pointer;
+}
+/*
+	Luis Miguel del Corral
+	Creado: Añade clases al menu de la plataforma según su contenido para los Certificados de Profesionalidad
+	Datos: Se modifican los estilos de los items que comiencen con alguna de estos textos MF/UF/Unidad	
+*/
+#indiceCurso li{
+	overflow:hidden;
+	white-space:nowrap;
+	margin-right:10px;
+}
+#indiceCurso  li:hover{
+	white-space:inherit;
+}
+
+.mf-class{
+	background-color: #333;
+	color:#FFF !important;
+}
+
+.uf-class{
+	background-color: #999;
+	color:#FFF !important;
+}
+.ud-class{
+	font-weight:bolder;
+}

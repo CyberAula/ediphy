@@ -126,7 +126,7 @@ Dali.Plugins["BasicVideo"] = function (base){
             return "<div> Url: <input type=\"text\" autofocus id=\"BasicImage_input\" value=\"" + state.url + "\"><br><button onclick=\"$dali$.showPreview()\">Show preview</button><iframe width=\"560\" height=\"315\"id=\"BasicImage_preview\" frameborder=\"0\" allowfullscreen src=\"" + state.url + "\" style=\"width: 180px; height: auto; visibility: " + state.thumbnailVisibility + ";\"  ></video></div>";
         },
         getRenderTemplate: function (state) {
-            return "<video width=\"560\" height=\"315\" onclick=\"$dali$.click()\"" + ((state.controls == "checked") ? "controls=\"controls\" " : " ") + " frameBorder=\"0\" allowFullScreen style=\"width: 100%; height: 100%; pointer-events: 'none'; border: " + state.borderStyle + " " + state.borderSize + "px " + state.borderColor + "; z-index:0;\" src=\"" + state.url + "\"></video>";
+            return "<video width=\"560\" height=\"315\" autoplay onclick=\"$dali$.click()\"" + ((state.controls == "checked") ? "controls=\"controls\" " : " ") + " frameBorder=\"0\" allowFullScreen style=\"width: 100%; height: 100%; pointer-events: 'none'; border: " + state.borderStyle + " " + state.borderSize + "px " + state.borderColor + "; z-index:0;\" src=\"" + state.url + "\"></video>";
         },
         handleToolbar: function (name, value) {
             base.setState(name, value);

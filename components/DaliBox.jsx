@@ -22,7 +22,7 @@ export default class DaliBox extends Component {
         };
 
         let textareaStyle = {
-            position: (toolbar.showTextEditor ? '' : 'absolute'),
+            position: (toolbar.showTextEditor ? 'absolute' : 'absolute'),
             resize: 'none',
             top: '0%',
             visibility: (toolbar.showTextEditor ? 'visible' : 'hidden')

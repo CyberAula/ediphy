@@ -20,7 +20,7 @@ export default class Visor extends Component{
         let navItemsById = this.props.state.navItemsById;
         let navItem = navItemsById[navItemSelected];
 
-        let display = navItem.type == "slide"? "sli slide":"sli doc";
+        let display = navItem.type == "slide"? "innercanvas sli ":"innercanvas doc";
         let firstParent = navItem.parent || 0;
         let parentName = navItemsById[firstParent].name || 'Section 0';
         let patt = /([0-9]+((\.[0-9]+)+)?)/;  //Detecta número de sección. Ej. Section (2.3.4.2)

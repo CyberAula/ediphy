@@ -116,7 +116,7 @@ var DaliVisor = (function () {
                     sections.push(nombre);
                     zip.file(nombre+".html", inner);
                 });
-
+                zip.file("index.html", DaliScorm.getIndex(navs));
                 zip.file("imsmanifest.xml",DaliScorm.testXML(state.title, sections));
 
                 var content = zip.generate({type:"blob"});
