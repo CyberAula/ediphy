@@ -44,14 +44,40 @@ export default class XMLConfigModal extends Component {
             this.refs.container.innerHtml = this.generateViewFromXML(this.props.toolbar.state["__xml"])
         }
     }
-    //Como hay un xml por parametro entiendo que este xml viene del estado cargado antes(Como se hace en el componentDidMount)
-    //además enteindo que esta función sirve para generar el formulario
+
     generateViewFromXML(xml){
         console.log("modal")
         console.log(xml)
 
-        //Esto es por si se quiere hacer un diccionario
+        //Esto es por si se quiere hacer diccionarios de palabras
         var scormWords = ['tries', 'notaCorteGlobal', 'scoreBase', 'recordScore'];
+
+        var tipo = '', scorm = '', stuffItems = '', stuffItem = '', moreStuff = '', enunciado='', preguntas='', respuestas='', preguntasArray = [], respuestasArray = [], solArr = [], feedBack = '';
+
+        const colX12 = '<div class="col-xs-12">', colX6 = '<div class="col-xs-6">', colX4 = '<div class="col-xs-4">', colX3 = '<div class="col-xs-3">', close = '</div>', raw = '<div class="raw">';
+        var auxName = '', auxValue = '', auxTemplate = '';
+
+        var x = xml.getElementsByTagName('ITEMS');
+        
+        for( i = 0; i < x.length; i++){
+          console.log("relativo a ITEMS")
+          for( j = 0; j < x[i].attributes.length; j++){
+            auxName = x[i].attributes[j].name;
+            auxValue = x[i].attributes[j].value;
+             if(auxName.match('col') || auxName == 'esquinas' || auxName == 'grosLine' ){
+                stuffItems += colX3 + '<label for="'+auxName+'">'+auxName+':</label> <input class="form-control" type="text" autofocus id="'+auxName+'" value= "'+ auxValue +'">' + close;
+              }else if(scormWords.indexOf(auxName) >= 0){
+                scorm += colX3 + '<label for="'+auxName+'">'+auxName+':</label> <input class="form-control" type="text" autofocus id="'+auxName+'" value= "'+ auxValue +'">' + close;
+              }else if(auxName == 'obj'){
+               tipo += colX6 + '<label for="'+auxName+'">'+auxName+':</label> <input class="form-control"  type="text" autofocus id="'+auxName+'" value= "'+ auxValue +'">' + close;
+             }else{
+              moreStuff += colX3 + '<label for="'+auxName+'">'+auxName+':</label> <input class="form-control"  type="text" autofocus id="'+auxName+'" value= "'+ auxValue +'">' + close;
+            }
+          }
+        }
+
+        //Esto es por si se quiere hacer un diccionario
+       /* var scormWords = ['tries', 'notaCorteGlobal', 'scoreBase', 'recordScore'];
         var tipo = '', scorm = '', stuffItems = '', stuffItem = '', moreStuff = '', enunciado='', preguntas='', respuestas='', preguntasArray = [], respuestasArray = [], solArr = [], feedBack = '';
 
         const colX12 = '<div class="col-xs-12">', colX6 = '<div class="col-xs-6">', colX4 = '<div class="col-xs-4">', colX3 = '<div class="col-xs-3">', close = '</div>', raw = '<div class="raw">';
@@ -138,7 +164,7 @@ var numAns = 0;
   preguntas = '<div id="preguntasRespuestas">'+preguntas;
   respuestas = respuestas + '</div>';
   auxTemplate = '<div class="form-group">'+tipo + stuffItems + scorm + enunciado+ stuffItem + preguntas + respuestas +feedBack +moreStuff + '</div>';
-
+*/
         return auxTemplate;
 
 
