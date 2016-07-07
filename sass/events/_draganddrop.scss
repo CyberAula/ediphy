@@ -1,11 +1,11 @@
 .drop-active {
-    border: dashed 2px #aaa;
+    border: dashed 2px $naranjaadams;
     border-radius: 4px;
     transition: background-color 0.3s;
 }
 
 .drop-target {
-    background-color: $grisclaro;
+    background-color: $naranjaclaro;
     border-color: #fff;
     border-style: solid;
     z-index:0;

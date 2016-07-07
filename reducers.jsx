@@ -30,8 +30,8 @@ function boxCreator(state = {}, action = {}) {
             if (action.payload.ids.container !== 0) {
                 position.x = 0;
                 position.y = 0;
-                width = '100%';
-                height = '100%';
+                width = '200px';
+                height = 'auto';
             }
             let col = 0;
             let row = 0;

@@ -56,12 +56,7 @@
 }
 
  
-/*Box -selected*/
-.boxSelected {
-	visibility:visible;
+.selectedBox {
+	background-color: $naranjaclaro;
+	border: 2px dashed black;
 }
-/*Box not selected*/
-.notBoxSelected {
-	visibility:hidden;
-}
-

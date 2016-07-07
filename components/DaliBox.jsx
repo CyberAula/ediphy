@@ -22,7 +22,7 @@ export default class DaliBox extends Component {
         };
 
         let textareaStyle = {
-            position: (toolbar.showTextEditor ? 'absolute' : 'absolute'),
+            position: 'absolute',  
             resize: 'none',
             top: '0%',
             visibility: (toolbar.showTextEditor ? 'visible' : 'hidden')
@@ -97,7 +97,7 @@ export default class DaliBox extends Component {
                     left: -(this.borderSize),
                     width: '100%',
                     height: '100%',
-                    border: (this.borderSize + "px dashed #555"),
+                    border: (/*this.borderSize + */"2px dashed #555"),
                     boxSizing: 'content-box'
                 }}>
                 </div>
@@ -120,6 +120,9 @@ export default class DaliBox extends Component {
         let classes = "wholebox";
         if (box.container) {
             classes += " dnd" + box.container;
+        }
+        if (this.props.id == this.props.boxSelected){
+            classes += " selectedBox"
         }
 
         let showOverlay;
@@ -171,7 +174,7 @@ export default class DaliBox extends Component {
                     height: box.height,
                     maxWidth: '100%',
                     maxHeight: '100%',
-                    border: ((box.container !== 0 && vis) ? (this.borderSize + "px dashed #555") : 0),
+                    /*border: ((box.container !== 0 && vis) ? (this.borderSize + "px dashed #555") : 0),*/
                     touchAction: 'none',
                     msTouchAction: 'none',
                     cursor: vis ? 'inherit': 'default' //esto evita que aparezcan los cursores de move y resize cuando la caja no está seleccionada
@@ -332,7 +335,7 @@ export default class DaliBox extends Component {
             this.refs.textarea.focus();
 
         }
-        if ((toolbar.showTextEditor !== prevProps.toolbars[this.props.id].showTextEditor) && this.props.boxes[this.props.id].draggable) {
+        if ( prevProps.toolbars[this.props.id] && (toolbar.showTextEditor !== prevProps.toolbars[this.props.id].showTextEditor) && this.props.boxes[this.props.id].draggable) {
             interact(node).draggable(!toolbar.showTextEditor);
         }
 
@@ -397,8 +400,9 @@ export default class DaliBox extends Component {
 
                         clone.style.height = originalRect.height + "px";
                         clone.style.width = originalRect.width + "px";
-                        clone.style.border = this.borderSize + "px dashed #555";
+                        clone.style.border =/* this.borderSize +*/ "2px dashed #555";
                         original.style.opacity = 0;
+
 
 
                     }
@@ -420,7 +424,7 @@ export default class DaliBox extends Component {
                                 x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
                                 y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
 
-                            // translate the element
+                            // translate the elem/ent
                             target.style.webkitTransform =
                                 target.style.transform =
                                     'translate(' + (x) + 'px, ' + (y) + 'px)';

@@ -21,7 +21,7 @@
 .sli {
 	height: 100%;
 	background-color: white ;
-	margin: 0px 100px 0px 100px;  
+	// margin: 0px 100px 0px 100px;  
 	overflow-x: hidden;
 	overflow-y: hidden;
 }
@@ -76,3 +76,12 @@
 		border: 5px dashed $naranjaadams;
 	}
 }
+
+#canvas{
+	position: relative; 
+	width: calc(100% - 40px);
+ }
+
+ #maincontent{
+ 	position:relative;
+ }

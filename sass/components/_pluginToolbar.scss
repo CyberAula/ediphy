@@ -13,11 +13,19 @@
  
 
 }
+/*Wrapper when no box is selected*/
+.hiddenWrapper{
+	right: 0px;
+	visibility: visible;
+    background-color:$darkest;
+    width: 40px;
+}
 
 /*Actual toolbar*/
 #tools{
+	width: 40px;
 	height: 100%;
-    background-color: rgba(44,44,44,0.8);
+    background-color: $darkest;
     display:inline-block;
     vertical-align: baseline;
     overflow-x:hidden;
@@ -64,7 +72,7 @@
 
     .toolbarButton{
     	border-radius: 0;
-    	background-color: rgba(44,44,44,0.8);
+    	background-color: #121212;
     	color: white;
     	border:0;
     	margin: 5px;
@@ -113,7 +121,7 @@
 	top:$pestanaHeight;
 	right:100%;
   	border-color: transparent;
-    border-right-color: rgba(44,44,44,0.8);
+    border-right-color: $darkest;
     color: #133329;
 }
 
@@ -137,14 +145,14 @@
 	
 	.panel-body {
 		border:0 !important;
-		background-color: #555;
+		background-color:$darkest;
 	}
 	
 	.panel-heading{
 		border:0;
 		border-radius:0;
 		color:$lightestgrey;
-		background-color: $darkest;
+		background-color: #121212
 	}
 
 	.panel-group, .panel {
@@ -173,8 +181,8 @@
 		}
 	}
 
-	border-left: 2px solid rgba(44,44,44,0.8);
-	border-right: 2px solid rgba(44,44,44,0.8);
+	border-left: 2px solid $darkest;
+	border-right: 2px solid $darkest;
 }
 
 

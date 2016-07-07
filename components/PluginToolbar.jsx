@@ -20,9 +20,18 @@ export default class PluginToolbar extends Component {
     }
 
     render() {
-        if (this.props.boxSelected === -1) {
-            return <div></div>;
-        }
+        if (this.props.boxSelected == -1) {
+            return (
+                <div id="wrap"
+                         className="wrapper hiddenWrapper"
+                         style={{
+                            top: this.props.top,
+                         }}>
+                    <div id="tools"  className="toolbox">
+                    </div>
+            </div>);
+        } 
+
         let toolbar = this.props.toolbars[this.props.box.id];
         let textButton;
         if (toolbar.config && toolbar.config.needsTextEdition) {
@@ -70,7 +79,7 @@ export default class PluginToolbar extends Component {
                                        }}><i className="material-icons">content_copy</i></Button>);
         }
 
-        let visible = (Object.keys(toolbar.controls).length !== 0 || this.props.box.children.length !== 0) ? 'visible' : 'hidden';
+        let visible = (Object.keys(toolbar.controls).length !== 0 || this.props.box.children.length !== 0); //? 'visible' : 'hidden';
 
         return (<div id="wrap"
                      className="wrapper"
@@ -82,7 +91,7 @@ export default class PluginToolbar extends Component {
             <div className="pestana" onClick={() => {this.setState({open: !this.state.open})}}>
               {/*  <i className="fa fa-gear fa-2x"></i>*/}
             </div>
-            <div id="tools" style={{width: this.state.open? '250px':'80px'}} className="toolbox">
+            <div id="tools" style={{width:  this.state.open? '250px':'40px'}} className="toolbox">
                 <p  onClick={() => {this.setState({open: !this.state.open})}} style={{display: this.props.carouselShow? 'block':'none', textAlign: 'center'}} className={this.state.open ? 'carouselListTitle toolbarSpread':'carouselListTitle toolbarHide'}>
                  <br/> <i className="material-icons">build</i> CONF.
                 </p>

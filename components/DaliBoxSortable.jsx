@@ -14,16 +14,17 @@ export default class DaliBoxSortable extends Component {
                 e.stopPropagation();
             }}>
                 <div ref="sortableContainer"
+                     className={(this.props.id === this.props.boxSelected) ? 'selectedBox':''}
                      style={{
-                    position: 'relative',
-                    border: (this.props.id === this.props.boxSelected ? '1px dashed black' : '1px solid #999'),
-                    boxSizing: 'border-box',
+                     position: 'relative',
+                   /* border: (this.props.id === this.props.boxSelected ? '1px dashed black' : '1px solid #999'),*/
+                     boxSizing: 'border-box',
                 }}>
                 {box.children.map((idContainer, index)=>{
                     let container = box.sortableContainers[idContainer];
 
                     return (<div key={index}
-                                 className="daliBoxSortableContainer"
+                                 className="daliBoxSortableContainer" 
                                  data-id={idContainer}
                                  style={{
                                     width: '100%',

@@ -9,6 +9,12 @@ import interact from 'interact.js';
 import {BOX_TYPES, ID_PREFIX_SORTABLE_BOX} from '../constants';
 
 export default class DaliCanvas extends Component{
+    constructor(props) {
+        super(props);
+        this.state = {
+            showTitle: false
+        };
+    }
     render() {
         let titles = [];
         if (this.props.navItemSelected.id !== 0) {
@@ -20,7 +26,7 @@ export default class DaliCanvas extends Component{
             }
             titles.reverse();
         }
-        let paddings= (this.props.navItemSelected.type!= "slide") ? ('5px 5px 5px 5px') : ('30px 0px 30px 0px')
+        let paddings= /*(this.props.navItemSelected.type!= "slide") ? (*/'5px 5px 5px 5px'/*) : ('30px 0px 30px 0px')*/
 
         let maincontent = document.getElementById('maincontent');
         let actualHeight; 
@@ -28,19 +34,24 @@ export default class DaliCanvas extends Component{
             actualHeight = parseInt(maincontent.scrollHeight);
             actualHeight = (parseInt(maincontent.clientHeight) < actualHeight) ? (actualHeight) +'px' : '100%';
         }
+        
         let overlayHeight = actualHeight ? actualHeight:'100%';
-
+   
         return (<Col id="canvas" md={12} xs={12} style={{height:"100%", padding:0}}>
             <div className="outter" style={{position: 'absolute', width: '100%', height:'100%', padding: (paddings)}} >
                 <div  id="maincontent"
-                      onClick={e => {this.props.onBoxSelected(-1)}}
+                      onClick={e => {
+                        this.props.onBoxSelected(-1);
+                        this.setState({showTitle:false})
+                       }}
                       className={this.props.navItems[this.props.navItemSelected.id].type == 'slide' ? 'innercanvas sli':'innercanvas doc'}
-                      style={{visibility: (this.props.showCanvas ? 'visible' : 'hidden'), position: 'relative'}}>
-
+                      style={{visibility: (this.props.showCanvas ? 'visible' : 'hidden')}}>
 
 
                     <DaliTitle  titles={titles}
                                 boxSelected={this.props.boxSelected}
+                                showButtons={this.state.showTitle}
+                                onShowTitle={()=>this.setState({showTitle:true})}
                                 onBoxSelected={this.props.onBoxSelected}
                                 courseTitle={this.props.title}
                                 isReduced={this.props.navItemSelected.titlesReduced}
@@ -50,6 +61,7 @@ export default class DaliCanvas extends Component{
                      <br/>
                     <DaliShortcuts  box={this.props.boxSelected == -1 ? -1 : this.props.boxes[this.props.boxSelected]}
                                     onTextEditorToggled={this.props.onTextEditorToggled} 
+                                    onBoxResized={this.props.onBoxResized}
                                     toolbar={this.props.toolbars[this.props.boxSelected]} />
 
                      
@@ -103,7 +115,11 @@ export default class DaliCanvas extends Component{
            </Col>);
     }
 
-
+    componentWillReceiveProps(nextProps) {
+        if(nextProps.boxSelected !=-1){
+            this.setState({showTitle: false});
+        }      
+    }
 
     componentDidMount(){
  
