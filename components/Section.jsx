@@ -19,9 +19,9 @@ export default class Section extends Component {
                         e.stopPropagation();
                     }}><i onClick={e => {
                         this.props.onNavItemExpanded(navItem.id, !navItem.isExpanded)
-                        e.stopPropagation();}} className={classSelected + '  material-icons'} >folder</i></button>
+                        e.stopPropagation();}} className={classSelected + '  material-icons'} >{navItem.isExpanded ? "arrow_drop_down" : "play_arrow"}</i></button>
 
-                    <span className={classSelected}style={{display: 'inline'}}>{navItem.name}</span>
+                    <span className={classSelected}style={{display: 'inline'}}><i className={classSelected + '  material-icons'} >folder</i>  {navItem.name}</span>
                     </span>
                 </div>
                 <div style={{display: (navItem.isExpanded ? 'block' : 'none') }}>
