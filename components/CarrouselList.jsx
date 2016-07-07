@@ -201,6 +201,9 @@ export default class CarrouselList extends Component{
 
                 $(ui.sender).sortable('cancel');
 
+                if(navItems[0].children.length == reorderedIndexesId.length){
+                    reorderedIndexesId.push(this.props.navItemSelected);
+                }
                 auxInd = reorderedIndexesId.indexOf(this.props.navItemSelected);
 
                 var newIndexesAux = [] ;
