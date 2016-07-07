@@ -145,7 +145,8 @@
 	
 	.panel-body {
 		border:0 !important;
-		background-color:$darkest;
+		background-color:$greyInsidePanels;
+		margin-bottom: -6px;
 	}
 	
 	.panel-heading{
@@ -188,14 +189,32 @@
 
  /*Toolbar title when spread*/
 .toolbarSpread {
+	text-align: left;
+	font-weight: bold;
 	.material-icons{
 		font-size: 16px;
 	}
-	color: $naranjaadams;
+	color: white;
+	.toolbarTitle{
+		font-variant: small-caps;
+
+	}
+	.pluginTitleInToolbar{
+		margin-left: 39px;
+		color: $naranjaadams;
+	}
+
 }
 
  /*Toolbar title when collapsed*/
 .toolbarHide {
-
+	margin-top:30px;
 	color: $grismedio;
+	&:hover{
+		color:white;
+	}
+	.toolbarTitle, .pluginTitleInToolbar { 
+		display:none;
+
+	}
  }

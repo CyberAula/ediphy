@@ -10,16 +10,16 @@ export default class DaliCarousel extends Component{
         let carrouselContent;
         if (this.props.displayMode === "list") {
              carrouselContent = <CarrouselList boxes={this.props.boxes}
-                                              navItemsIds={this.props.navItemsIds}
-                                              navItems={this.props.navItems}
-                                              navItemSelected={this.props.navItemSelected}
-                                              onBoxAdded={this.props.onBoxAdded}
-                                              onPageAdded={this.props.onPageAdded}
-                                              onSectionAdded={this.props.onSectionAdded}
-                                              onNavItemSelected={this.props.onNavItemSelected}
-                                              onNavItemExpanded={this.props.onNavItemExpanded}
-                                              onNavItemRemoved={this.props.onNavItemRemoved}
-                                              onNavItemReorded={this.props.onNavItemReorded}  />;
+                                               navItemsIds={this.props.navItemsIds}
+                                               navItems={this.props.navItems}
+                                               navItemSelected={this.props.navItemSelected}
+                                               onBoxAdded={this.props.onBoxAdded}
+                                               onPageAdded={this.props.onPageAdded}
+                                               onSectionAdded={this.props.onSectionAdded}
+                                               onNavItemSelected={this.props.onNavItemSelected}
+                                               onNavItemExpanded={this.props.onNavItemExpanded}
+                                               onNavItemRemoved={this.props.onNavItemRemoved}
+                                               onNavItemReorded={this.props.onNavItemReorded}  />;
         }
         return( 
 
@@ -32,6 +32,7 @@ export default class DaliCarousel extends Component{
               
               </i> {!this.props.carouselShow ? <br/>:null} ÍNDICE
             </p>
+            <p className="courseTitleCarousel"> {this.props.title}</p>
             <div id="indice" 
                  className="daliCarousel" 
                  key="indice" 

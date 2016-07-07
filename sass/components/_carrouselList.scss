@@ -91,9 +91,23 @@
 		vertical-align:text-bottom;
 		margin-bottom:0;
 	}
-	.toolbarHide {
-		// padding-top: 50px;	
+	.toolbarHide + .courseTitleCarousel{
+		display: none;
+		visibility: hidden;
+
 	}
+
+}
+/*Título curso*/
+.courseTitleCarousel{
+	margin-left: 10px;
+	color: $grismedio;
+	font-size: 14px;
+	font-weight: bold;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	height:15px;
 
 }
 
@@ -119,6 +133,7 @@
 	left:0;
 	top:0;
 	position:absolute;
+
 }
 /*Hide Sections when collapsed*/
 .carouseloculto{

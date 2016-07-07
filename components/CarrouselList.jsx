@@ -7,7 +7,7 @@ import PageMenu from '../components/PageMenu';
 export default class CarrouselList extends Component{
     render(){
          return(
-            <div style={{height: '100%'}}>
+            <div style={{height: 'calc(100% - 25px)'}}>
                 <div ref="sortableList" className="carList connectedSortables">
                     {
                     this.props.navItems[0].children.map((id, index) => {

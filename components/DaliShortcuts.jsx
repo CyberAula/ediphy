@@ -21,7 +21,9 @@ export default class DaliShortcuts extends Component {
                    <OverlayTrigger placement="top" overlay={ <Tooltip id="ajustaradocumento"> Ajustar a documento </Tooltip>}> 
                         <button className="daliTitleButton"
                             onClick={(e) => {
-                                this.props.onBoxResized(toolbar.id, '100%', 'auto');
+                                console.log(box)
+                                let newWidth = box.width == '100%' ? '200px': '100%'
+                                this.props.onBoxResized(toolbar.id, newWidth, 'auto');
                                 e.stopPropagation(); }} >
                             <i className="material-icons">code</i>
                         </button>
