@@ -8,7 +8,7 @@ import {ID_PREFIX_SORTABLE_CONTAINER} from '../constants';
 export default class DaliBoxSortable extends Component {
     render() {
         let box = this.props.boxes[this.props.id];
-        return (
+         return (
             <div className="daliBoxSortable" onClick={e => {
                 this.props.onBoxSelected(this.props.id, 0);
                 e.stopPropagation();

@@ -109,7 +109,10 @@ export default class PluginPlaceholder extends Component {
                                                                  onTextEditorToggled={this.props.onTextEditorToggled}/>);
                                             }
                                         })}
+                                        {(container.children.length == 0) ? (<br/>):null}
+                                  
                                     </div>)
+
                                 })}
                             </div>
                         )
