@@ -152,7 +152,16 @@ export default class CarrouselList extends Component{
            // handle: '.drag-handle' ,
             tolerance: 'intersect',
             connectWith: '.connectedSortables',
+            placeholder: "sortable-placeholder",
             //helper: "clone",
+            over: (event, ui) => {
+                console.log(event.target)
+                $(event.target).css("border-left", "3px solid #F47920");
+            },
+            out: (event, ui) => {
+                 console.log(event.target)
+        $(event.target).css("border-left", "none");
+            },
             stop: (event, ui) => {
                 const reorderedIndexesId = list.sortable('toArray', {attribute: 'id'})
                 const select = this.props.navItemSelected;

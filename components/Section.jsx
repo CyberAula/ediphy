@@ -27,7 +27,7 @@ export default class Section extends Component {
                 <div style={{display: (navItem.isExpanded ? 'block' : 'none') }}>
                     
                     <div >
-                        <div ref="sortableListS" style={{paddingTop: (navItem.children.length > 0 ? 2 : 20) }} className="sectionList connectedSortables">
+                        <div ref="sortableListS" style={{paddingTop: (navItem.children.length > 0 ? 2 : 5) }} className="sectionList connectedSortables">
                             {
                                 navItem.children.map((id, index) => {
                                     if (id.indexOf(ID_PREFIX_SECTION) !== -1) {
@@ -97,6 +97,19 @@ export default class Section extends Component {
         list.sortable({ 
             tolerance: 'intersect',
             connectWith: '.connectedSortables',
+            placeholder: "sortable-placeholder",
+             over: (event, ui) => {
+                console.log(event.target)
+                $(".carList").css("border-left", "none");
+                $(".sectionList").css("border-top", "none");
+                $(event.target).css("border-top", "3px solid #F47920");
+            },
+            out: (event, ui) => {
+                 console.log(event.target)
+                    $(".carList").css("border-left", "none");
+                  $(".sectionList").css("border-top", "none");
+                $(event.target).css("border-top", "none");
+            },
             stop: (event, ui) => {
                 const reorderedIndexesId = list.sortable('toArray', {attribute: 'id'}); //Obtiene la nueva disposición de elementos por id esta es la válida.
                 const selected = this.props.navItemSelected;
