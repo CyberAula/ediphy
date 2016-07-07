@@ -9,12 +9,12 @@ export default class DaliBoxSortable extends Component {
     render() {
         let box = this.props.boxes[this.props.id];
         return (
-            <div onClick={e => {
+            <div className="daliBoxSortable" onClick={e => {
                 this.props.onBoxSelected(this.props.id, 0);
                 e.stopPropagation();
             }}>
                 <div ref="sortableContainer"
-                     className={(this.props.id === this.props.boxSelected && box.children.length > 0) ? 'selectedBox':''}
+                     className={(this.props.id === this.props.boxSelected && box.children.length > 0) ? ' selectedBox':' '}
                      style={{
                      position: 'relative',
                    /* border: (this.props.id === this.props.boxSelected ? '1px dashed black' : '1px solid #999'),*/

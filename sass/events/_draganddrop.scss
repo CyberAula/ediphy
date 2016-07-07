@@ -1,10 +1,10 @@
-.drop-active {
+.drop-active:not(#canvas):not(.daliBoxSortable), .drop-active .dragContentHere {
     border: 1px  dashed #ddd;
     border-radius: 4px;
     transition: background-color 0.3s;
 }
 
-.drop-target {
+.drop-target:not(.daliBoxSortable), .drop-target .dragContentHere {
     background-color: $naranjaclaro;
     border-color: #fff;
     border-style: solid;
