@@ -58,5 +58,12 @@
  
 .selectedBox {
 	background-color: $naranjaclaro;
-	border: 2px dashed black;
+	border: 1px dashed black;
+}
+
+.dragContentHere {
+	text-align: center;
+	min-height: 100px;
+	color: #aaa;
+	font-size:18px;
 }

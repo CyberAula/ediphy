@@ -14,7 +14,7 @@ export default class DaliBoxSortable extends Component {
                 e.stopPropagation();
             }}>
                 <div ref="sortableContainer"
-                     className={(this.props.id === this.props.boxSelected) ? 'selectedBox':''}
+                     className={(this.props.id === this.props.boxSelected && box.children.length > 0) ? 'selectedBox':''}
                      style={{
                      position: 'relative',
                    /* border: (this.props.id === this.props.boxSelected ? '1px dashed black' : '1px solid #999'),*/
@@ -75,7 +75,7 @@ export default class DaliBoxSortable extends Component {
                         </div>);
                     })}
                 </div>
-                <div style={{textAlign:'center', minHeight: '100px'}}>
+                <div className="dragContentHere">
                     Drag content here
                 </div>
             </div>

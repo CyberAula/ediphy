@@ -97,7 +97,6 @@ export default class DaliBox extends Component {
                     left: -(this.borderSize),
                     width: '100%',
                     height: '100%',
-                    border: (/*this.borderSize + */"2px dashed #555"),
                     boxSizing: 'content-box'
                 }}>
                 </div>
@@ -400,7 +399,7 @@ export default class DaliBox extends Component {
 
                         clone.style.height = originalRect.height + "px";
                         clone.style.width = originalRect.width + "px";
-                        clone.style.border =/* this.borderSize +*/ "2px dashed #555";
+                        clone.style.border =/* this.borderSize +*/ "1px dashed #555";
                         original.style.opacity = 0;
 
 
