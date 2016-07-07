@@ -1,0 +1,184 @@
+/* CSS Document
+Ejercicio drag and drop
+ */
+ 
+#velo{
+	display:block;
+	float:left;
+	position:fixed;
+	width:100%;
+	height:100%;
+	background-color:#000;
+	top:0;
+	left:0;
+}
+#paginacion{
+	font-size:0.9em;
+	text-align:center;
+	position:relative;
+	display:block;
+	width: 100%;
+	height: 100%;
+	float: left;
+	margin-bottom:10px;
+	vertical-align:middle;
+	
+}
+#enunciadoEjer{
+	margin-bottom:10px;
+	font-size:1em;
+	font-weight:bold;
+	
+}
+
+#instruccionesEjer{
+	font-style:italic;
+	margin-bottom:10px;
+	font-size:0.9em;
+	color:#666;
+	
+}
+#corregir {
+	font-size:0.9em;
+	text-align:center;
+	position:relative;
+	display:block;
+	width: 100%;
+	height: 100%;
+	float: left;
+	margin-bottom:10px;
+	
+}
+#ejercicio {
+	font-size:0.9em;
+	text-align:left;
+	/*position:relative;*/
+	display:block;
+	width: 100%;
+	height: 100%;
+	float: left;
+
+	
+}
+#ejercicioBase {
+	width: 100%;
+	height: 100%;
+	display: block;
+}
+#drags{
+	display:block;
+	float:left;
+	margin:10px;
+	z-index:0;
+	background-color:#E5E5E5;
+}
+#drops{
+	display:block;
+	float:left;
+	margin:10px;
+	z-index:1;
+	background-color:#E5E5E5;
+}
+.dragImg{	
+	vertical-align:middle;
+	margin-right:5px;
+}
+.dropImg{	
+	vertical-align:middle;
+	margin-left:5px;
+}
+.draggable {
+	position:relative;
+	width: 100px;
+	padding: 0.5em;
+	float: left;
+	margin: 10px 50px 10px 0;
+	z-index:0;
+	cursor:move;
+	background-color:#FFF;
+}
+.droppable {
+	position:relative;
+	width: 150px;
+	padding: 0.5em;
+	float: left;
+	margin:10px 10px 10px 50px;
+	z-index:-1;
+	/*background-color:#FFF;*/
+	clear:both;
+}
+
+.boxDrag {
+	position:relative;
+	width: 150px;
+	padding: 0.5em;
+	float: left;
+	margin:10px 10px 10px 10px;
+	z-index:0;
+	background-color:#FFF;
+	z-index:auto;
+	display:block;
+	clear:both;
+}
+.boxDrop {
+	position:relative;
+	width: 150px;
+	padding: 0.5em;
+	float: left;
+	margin:10px 10px 10px 0;
+	z-index:0;
+	background-color:#FFF;
+	z-index:auto;
+	display:block;	
+}
+
+.fondoNormal{
+	background-color:#FFF;
+}
+.fondoHover{
+	background-color:#666;
+	font-weight:bold;
+	color:#FFF;
+}
+
+
+/*ejercicio bloques}*/
+
+#inicialte{ float:left; width:98%; height: auto; padding:1%; margin:0;background-color:#DBDBEA;}
+.titDrop{float:left; width:98%; height: auto; padding:1%; background-color:#004030;
+
+}
+.palabra { float:left; width:30%; height: auto; padding:1%; font-size: 11px; margin:0.5%; cursor: move; background-color:#999;}
+.columna { width:30.25%; height:auto; min-height: 300px; min-width:24%; float:left; height:auto; padding:1%; margin:0.5%;  background-color:#ebece5; color:#000;}
+.galeria { width: 98%;  height: auto; float: left; padding:1%; background-color:#ebece5;}
+
+#drag li,#drop li{
+	 width:30.25%; height:auto; float:left; height:auto; padding:1%; margin:0.5%;  background-color:#FFF; color:#000;
+}
+
+
+#drag{list-style-type: none;margin:0;padding:0;display:block;float:left;width:100%;}
+#drop{
+	 list-style-type: none;width:30.25%; height:auto; min-height: 300px; float:left; height:auto; padding:1%; margin:0.5%;  background-color:#ebece5; color:#000;
+}
+#drop li{
+	width:97%;
+}
+#drag li:hover{
+	background-color:#99B2FF;
+}
+
+/*EJERCICIO SELECCIONAR TEXTOS*/
+
+#selectedText{
+	  margin: 1% 0;
+	padding: 0;
+	list-style:none;
+}
+#selectedText li{
+	background-color:#EEEEEE;
+	width:98%;
+	padding:1%;
+	margin-top:2px;
+}
+

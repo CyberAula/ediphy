@@ -4,6 +4,7 @@ import {Input,Button, Tooltip, OverlayTrigger} from 'react-bootstrap';
 import interact from 'interact.js';
 import PluginPlaceholder from '../components/PluginPlaceholder';
 import {BOX_TYPES, ID_PREFIX_BOX, ID_PREFIX_PAGE, ID_PREFIX_SECTION, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_SORTABLE_CONTAINER} from '../constants';
+import {ADD_BOX, UPDATE_BOX} from '../actions';
 
 export default class DaliBox extends Component {
     constructor(props) {
@@ -83,8 +84,8 @@ export default class DaliBox extends Component {
         }
 
         let content = toolbar.state.__text ?
-            (<div className="boxStyle" style={style} {...attrs} dangerouslySetInnerHTML={{__html: toolbar.state.__text}}></div>) :
-            (<div className="boxStyle" style={style} {...attrs}>
+            (<div className="boxStyle" style={style} {...attrs} ref={"content"} dangerouslySetInnerHTML={{__html: toolbar.state.__text}}></div>) :
+            (<div className="boxStyle" style={style} {...attrs} ref={"content"}>
                 {this.renderChildren(box.content)}
             </div>);
 
@@ -242,6 +243,7 @@ export default class DaliBox extends Component {
                         boxSelected: this.props.boxSelected,
                         boxLevelSelected: this.props.boxLevelSelected,
                         toolbars: this.props.toolbars,
+                        lastActionDispatched: this.props.lastActionDispatched,
                         onBoxSelected: this.props.onBoxSelected,
                         onBoxLevelIncreased: this.props.onBoxLevelIncreased,
                         onBoxMoved: this.props.onBoxMoved,
@@ -307,7 +309,7 @@ export default class DaliBox extends Component {
             if (arb.location.length == 2) {
                 let comp = toolbar.controls[arb.location[0]].accordions[arb.location[1]].buttons.__aspectRatio;
                 if (comp){
-                    return (comp.value === "checked");       
+                    return (comp.value === "checked");
                 } else {
                     return false;
                 }
@@ -326,7 +328,7 @@ export default class DaliBox extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        this.recalculatePosition(this.props.boxSelected)
+        this.recalculatePosition(this.props.boxSelected);
         let toolbar = this.props.toolbars[this.props.id];
         let node = ReactDOM.findDOMNode(this);
 
@@ -345,10 +347,16 @@ export default class DaliBox extends Component {
         } else {
             interact(node).draggable({enabled: (this.draggable)});
         }
+
+        let action = this.props.lastActionDispatched;
+        if((action.type === ADD_BOX || action.type === UPDATE_BOX) &&
+            ((action.payload.id || action.payload.ids.id) === this.props.id)){
+            Dali.Plugins.get(toolbar.config.name).afterRender(this.refs.content, toolbar.state, this.props.id);
+        }
     }
 
     componentDidMount() {
-        this.recalculatePosition(this.props.boxSelected)
+        this.recalculatePosition(this.props.boxSelected);
         let toolbar = this.props.toolbars[this.props.id];
         let box = this.props.boxes[this.props.id];
         if (toolbar.config && toolbar.config.needsTextEdition) {
@@ -361,6 +369,8 @@ export default class DaliBox extends Component {
                 editor.setData(toolbar.state.__text);
             }
         }
+
+        Dali.Plugins.get(toolbar.config.name).afterRender(this.refs.content, toolbar.state);
 
         let dragRestrictionSelector = (box.container !== 0) ? ".daliBoxSortableContainer, .drg" + box.container : "parent";
         interact(ReactDOM.findDOMNode(this))

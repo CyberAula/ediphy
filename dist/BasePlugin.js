@@ -100,6 +100,11 @@ Dali.Plugin = function () {
                         }
                     }
                 }
+                if(needsXMLEdition){
+                    if(!state["__xml"]){
+                        state["__xml"] = null;
+                    }
+                }
                 initialParams = initParams;
                 if (needsConfigModal) {
                     this.openConfigModal(false, state);
@@ -209,6 +214,11 @@ Dali.Plugin = function () {
                         isDefaultPlugin: defaultFor(initialParams.isDefaultPlugin, false)
                     }
                 );
+            }
+        },
+        afterRender: function(element, state){
+            if(descendant.afterRender){
+                descendant.afterRender(element, state);
             }
         },
         update: function (oldState, name, value, sender) {

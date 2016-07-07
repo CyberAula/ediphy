@@ -31,7 +31,8 @@ class DaliApp extends Component {
             visorVisible: false,
             xmlEditorVisible: false,
             carouselShow: true,
-            serverModal: false
+            serverModal: false,
+            lastAction: "",
         };
     }
 
@@ -48,16 +49,16 @@ class DaliApp extends Component {
                                 redoDisabled={redoDisabled}
                                 navItemsIds={navItemsIds}
                                 title={title}
-                                changeTitle={(title) => dispatch(changeTitle(title))}
+                                changeTitle={(title) => this.dispatchAndSetState(changeTitle(title))}
                                 navItemSelected={navItemSelected}
                                 boxSelected={boxSelected}
-                                undo={() => {dispatch(ActionCreators.undo())}}
-                                redo={() => {dispatch(ActionCreators.redo())}}
+                                undo={() => {this.dispatchAndSetState(ActionCreators.undo())}}
+                                redo={() => {this.dispatchAndSetState(ActionCreators.redo())}}
                                 visor={() =>{this.setState({visorVisible: true })}}
                                 export={() => {DaliVisor.exports(this.props.store.getState().present)}}
                                 scorm={() => {DaliVisor.exportScorm(this.props.store.getState().present)}}
                                 categoria={this.state.pluginTab}
-                                opens={() => {dispatch(importStateAsync())}}
+                                opens={() => {this.dispatchAndSetState(importStateAsync())}}
                                 serverModalOpen={()=>{this.setState({serverModal: true })}}
                                 setcat={(categoria) => {
                                  /* if(this.state.pluginTab == categoria && this.state.hideTab == 'show'){
@@ -74,19 +75,19 @@ class DaliApp extends Component {
                                   navItems={navItems}
                                   navItemSelected={navItemSelected}
                                   displayMode={displayMode}
-                                  onBoxAdded={(ids, type,  draggable, resizable, content, toolbar, config, state) => dispatch(addBox(ids, type, draggable, resizable, content, toolbar, config, state))}
-                                  onPageAdded={(caller, value) => dispatch(togglePageModal(caller, value))}
-                                  onSectionAdded={(id, name, parent, children, level, type, position, titlesReduced) => dispatch(addNavItem(id, name, parent, children, level, type, position, titlesReduced))}
-                                  onNavItemSelected={id => dispatch(selectNavItem(id))}
-                                  onNavItemExpanded={(id, value) => dispatch(expandNavItem(id, value))}
+                                  onBoxAdded={(ids, type,  draggable, resizable, content, toolbar, config, state) => this.dispatchAndSetState(addBox(ids, type, draggable, resizable, content, toolbar, config, state))}
+                                  onPageAdded={(caller, value) => this.dispatchAndSetState(togglePageModal(caller, value))}
+                                  onSectionAdded={(id, name, parent, children, level, type, position, titlesReduced) => this.dispatchAndSetState(addNavItem(id, name, parent, children, level, type, position, titlesReduced))}
+                                  onNavItemSelected={id => this.dispatchAndSetState(selectNavItem(id))}
+                                  onNavItemExpanded={(id, value) => this.dispatchAndSetState(expandNavItem(id, value))}
                                   onNavItemRemoved={(ids, parent, boxes) => {
                                     // if(navItemsIds.length == ids.length){
                                     //  this.setState({hideTab: 'hide'})
                                     // }
-                                    dispatch(removeNavItem(ids, parent, boxes));
+                                    this.dispatchAndSetState(removeNavItem(ids, parent, boxes));
                                   }}
-                                  onNavItemReorded={(itemId,newParent,type,newIndId,newChildrenInOrder) => dispatch(reorderNavItem(itemId,newParent,type,newIndId,newChildrenInOrder))}
-                                  onDisplayModeChanged={mode => dispatch(changeDisplayMode(mode))}
+                                  onNavItemReorded={(itemId,newParent,type,newIndId,newChildrenInOrder) => this.dispatchAndSetState(reorderNavItem(itemId,newParent,type,newIndId,newChildrenInOrder))}
+                                  onDisplayModeChanged={mode => this.dispatchAndSetState(changeDisplayMode(mode))}
                                   carouselShow={this.state.carouselShow}
                                   onToggleWidth={()=>{
                                 this.setState({carouselShow: !this.state.carouselShow})
@@ -101,9 +102,9 @@ class DaliApp extends Component {
                                           hideTab={this.state.hideTab}
                                           undoDisabled={undoDisabled}
                                           redoDisabled={redoDisabled}
-                                          undo={() => {dispatch(ActionCreators.undo())}}
-                                          redo={() => {dispatch(ActionCreators.redo())}}
-                                          save={() => {dispatch(exportStateAsync({present: this.props.store.getState().present}))}}
+                                          undo={() => {this.dispatchAndSetState(ActionCreators.undo())}}
+                                          redo={() => {this.dispatchAndSetState(ActionCreators.redo())}}
+                                          save={() => {this.dispatchAndSetState(exportStateAsync({present: this.props.store.getState().present}))}}
                                           ribbonHeight={ribbonHeight+'px'}
                                           serverModalOpen={()=>{this.setState({serverModal: true })}} />
                         </Row>
@@ -117,15 +118,16 @@ class DaliApp extends Component {
                                         showCanvas={(navItemSelected !== 0)}
                                         toolbars={toolbars}
                                         title={title}
-                                        onBoxSelected={(id) => dispatch(selectBox(id))}
-                                        onBoxLevelIncreased={() => dispatch(increaseBoxLevel())}
-                                        onBoxMoved={(id, x, y) => dispatch(moveBox(id, x, y))}
-                                        onBoxResized={(id, width, height) => dispatch(resizeBox(id, width, height))}
-                                        onSortableContainerResized={(id, parent, height) => dispatch(resizeSortableContainer(id, parent, height))}
-                                        onBoxReorder={(ids, parent) => dispatch(reorderBox(ids, parent))}
-                                        onBoxDropped={(id, row, col) => dispatch(dropBox(id, row, col))}
-                                        onTextEditorToggled={(caller, value) => dispatch(toggleTextEditor(caller, value))}
-                                        titleModeToggled={(id, value) => dispatch(toggleTitleMode(id, value))}/>
+                                        lastActionDispatched={this.state.lastAction}
+                                        onBoxSelected={(id) => this.dispatchAndSetState(selectBox(id))}
+                                        onBoxLevelIncreased={() => this.dispatchAndSetState(increaseBoxLevel())}
+                                        onBoxMoved={(id, x, y) => this.dispatchAndSetState(moveBox(id, x, y))}
+                                        onBoxResized={(id, width, height) => this.dispatchAndSetState(resizeBox(id, width, height))}
+                                        onSortableContainerResized={(id, parent, height) => this.dispatchAndSetState(resizeSortableContainer(id, parent, height))}
+                                        onBoxReorder={(ids, parent) => this.dispatchAndSetState(reorderBox(ids, parent))}
+                                        onBoxDropped={(id, row, col) => this.dispatchAndSetState(dropBox(id, row, col))}
+                                        onTextEditorToggled={(caller, value) => this.dispatchAndSetState(toggleTextEditor(caller, value))}
+                                        titleModeToggled={(id, value) => this.dispatchAndSetState(toggleTitleMode(id, value))}/>
                         </Row>
                     </Col>
                 </Row>
@@ -137,9 +139,9 @@ class DaliApp extends Component {
                            caller={pageModalToggled.caller}
                            navItems={navItems}
                            navItemsIds={navItemsIds}
-                           onBoxAdded={(ids, type,  draggable, resizable, content, toolbar, config, state) => dispatch(addBox(ids, type, draggable, resizable, content, toolbar, config, state))}
-                           onVisibilityToggled={(caller, value) => dispatch(togglePageModal(caller, value))}
-                           onPageAdded={(id, name, parent, children, level, type, position, titlesReduced) => dispatch(addNavItem(id, name, parent, children, level, type, position, titlesReduced))}/>
+                           onBoxAdded={(ids, type,  draggable, resizable, content, toolbar, config, state) => this.dispatchAndSetState(addBox(ids, type, draggable, resizable, content, toolbar, config, state))}
+                           onVisibilityToggled={(caller, value) => this.dispatchAndSetState(togglePageModal(caller, value))}
+                           onPageAdded={(id, name, parent, children, level, type, position, titlesReduced) => this.dispatchAndSetState(addNavItem(id, name, parent, children, level, type, position, titlesReduced))}/>
                 <Visor id="visor"
                        title={title}
                        visorVisible={this.state.visorVisible}
@@ -156,14 +158,14 @@ class DaliApp extends Component {
                                box={boxes[boxSelected]}
                                boxSelected={boxSelected}
                                carouselShow={boxSelected != -1}
-                               onColsChanged={(id, parent, distribution) => dispatch(changeCols(id, parent, distribution))}
-                               onRowsChanged={(id, parent, column, distribution) => dispatch(changeRows(id, parent, column, distribution))}
-                               onBoxResized={(id, width, height) => dispatch(resizeBox(id, width, height))}
-                               onTextEditorToggled={(caller, value) => dispatch(toggleTextEditor(caller, value))}
-                               onToolbarUpdated={(id, tab, accordion, name, value) => dispatch(updateToolbar(id, tab, accordion, name, value))}
-                               onToolbarCollapsed={(id) => dispatch(collapseToolbar(id))}
-                               onBoxDuplicated={(id, parent, container)=> dispatch( duplicateBox( id, parent, container, this.getDescendants(boxes[id]), this.getDuplicatedBoxesIds(this.getDescendants(boxes[id]) ), Date.now()-1 ))}
-                               onBoxDeleted={(id, parent, container)=> dispatch(deleteBox(id, parent, container, this.getDescendants(boxes[id])))}
+                               onColsChanged={(id, parent, distribution) => this.dispatchAndSetState(changeCols(id, parent, distribution))}
+                               onRowsChanged={(id, parent, column, distribution) => this.dispatchAndSetState(changeRows(id, parent, column, distribution))}
+                               onBoxResized={(id, width, height) => this.dispatchAndSetState(resizeBox(id, width, height))}
+                               onTextEditorToggled={(caller, value) => this.dispatchAndSetState(toggleTextEditor(caller, value))}
+                               onToolbarUpdated={(id, tab, accordion, name, value) => this.dispatchAndSetState(updateToolbar(id, tab, accordion, name, value))}
+                               onToolbarCollapsed={(id) => this.dispatchAndSetState(collapseToolbar(id))}
+                               onBoxDuplicated={(id, parent, container)=> this.dispatchAndSetState( duplicateBox( id, parent, container, this.getDescendants(boxes[id]), this.getDuplicatedBoxesIds(this.getDescendants(boxes[id]) ), Date.now()-1 ))}
+                               onBoxDeleted={(id, parent, container)=> this.dispatchAndSetState(deleteBox(id, parent, container, this.getDescendants(boxes[id])))}
                                onXMLEditorToggled={() => this.setState({xmlEditorVisible: !this.state.xmlEditorVisible})}
                 />
 
@@ -171,10 +173,8 @@ class DaliApp extends Component {
         );
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (this.props.navItemsIds.length !== 0 && nextProps.navItemsIds.length === 0) {
-            // this.setState({hideTab: 'hide'})
-        }
+    dispatchAndSetState(actionCreator){
+        this.setState({lastAction: this.props.dispatch(actionCreator)});
     }
 
     componentDidMount() {
@@ -191,13 +191,13 @@ class DaliApp extends Component {
             if (e.detail.isUpdating) {
                 this.parsePluginContainers(e.detail.content, newPluginState);
                 e.detail.state["__pluginContainerIds"] = newPluginState;
-                this.props.dispatch(updateBox(e.detail.ids.id, e.detail.content, e.detail.toolbar, e.detail.state));
+                this.dispatchAndSetState(updateBox(e.detail.ids.id, e.detail.content, e.detail.toolbar, e.detail.state));
                 this.addDefaultContainerPlugins(e.detail, e.detail.content);
             } else {
                 e.detail.ids.id = ID_PREFIX_BOX + Date.now();
                 this.parsePluginContainers(e.detail.content, newPluginState);
                 e.detail.state["__pluginContainerIds"] = newPluginState;
-                this.props.dispatch(addBox(
+                this.dispatchAndSetState(addBox(
                     {
                         parent: e.detail.ids.parent,
                         id: e.detail.ids.id,
@@ -248,17 +248,17 @@ class DaliApp extends Component {
         window.onkeyup = function (e) {
             var key = e.keyCode ? e.keyCode : e.which;
             if (key == 90 && e.ctrlKey) {
-                this.props.dispatch(ActionCreators.undo())
+                this.dispatchAndSetState(ActionCreators.undo())
             }
             if (key == 89 && e.ctrlKey) {
-                this.props.dispatch(ActionCreators.redo())
+                this.dispatchAndSetState(ActionCreators.redo())
             }
             else if (key == 46) {
                 if (this.props.boxSelected != -1) {
                     let box = this.props.boxes[this.props.boxSelected];
                     let toolbar = this.props.toolbars[this.props.boxSelected];
                     if(!toolbar.showTextEditor){
-                      this.props.dispatch(deleteBox(box.id, box.parent, box.container, this.getDescendants(box)));
+                      this.dispatchAndSetState(deleteBox(box.id, box.parent, box.container, this.getDescendants(box)));
                     }
                 }
             }
