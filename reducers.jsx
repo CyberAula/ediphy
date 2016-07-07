@@ -634,7 +634,7 @@ function createSortableButtons(controls, width, height){
         };
     } else if (!controls.main.accordions.sortable) {
         controls.main.accordions.sortable = {
-            __name: "Sortable",
+            __name: "Dimensions",
             buttons: {}
         };
     }
@@ -656,6 +656,7 @@ function createSortableButtons(controls, width, height){
         step: 5,
         autoManaged: true
     };
+    
 }
 
 function createAliasButton(controls, alias){

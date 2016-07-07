@@ -6,7 +6,7 @@ import PageMenu from '../components/PageMenu';
 
 export default class CarrouselList extends Component{
     render(){
-        return(
+         return(
             <div style={{height: '100%'}}>
                 <div ref="sortableList" className="carList connectedSortables">
                     {
@@ -46,6 +46,7 @@ export default class CarrouselList extends Component{
                                 }}>
                         <i className="material-icons">create_new_folder</i>
                     </Button>
+
                     <PageMenu caller={0}
                                navItems={this.props.navItems}
                                navItemsIds={this.props.navItemsIds}
