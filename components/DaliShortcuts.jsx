@@ -16,15 +16,18 @@ export default class DaliShortcuts extends Component {
         let toolbar = this.props.toolbar;
         if (box) {
             return  (
-                <div id="daliBoxIcons" className="" style= {{display: (this.props.box  != -1 && this.props.box.type != "sortable")? 'block':'none'/*, width: 'auto'*/}}  >
-                    <OverlayTrigger placement="top" overlay={ <Tooltip id="ajustaradocumento"> Ajustar a documento </Tooltip>}> 
+                <div id="daliBoxIcons" className="" style= {{display: (this.props.box  != -1 && this.props.box.type != "sortable" )? 'block':'none'/*, width: 'auto'*/}}  >
+                { (this.props.box.container != 0) ? (
+                   <OverlayTrigger placement="top" overlay={ <Tooltip id="ajustaradocumento"> Ajustar a documento </Tooltip>}> 
                         <button className="daliTitleButton"
                             onClick={(e) => {
-                                alert('No hace nada aún')
+                                this.props.onBoxResized(toolbar.id, '100%', 'auto');
                                 e.stopPropagation(); }} >
                             <i className="material-icons">code</i>
                         </button>
                     </OverlayTrigger>
+                    ): (<span></span> )
+                }
                 { (toolbar && toolbar.config && toolbar.config.needsTextEdition) ? (
                     <OverlayTrigger placement="top"  overlay={ <Tooltip id="editartexto" >Editar texto</Tooltip>}> 
                         <button className="daliTitleButton"
@@ -34,7 +37,7 @@ export default class DaliShortcuts extends Component {
                             <i className="material-icons">mode_edit</i>
                         </button>
                     </OverlayTrigger>
-                    ):<br/> 
+                    ):(<span></span> )
                 } 
                 </div> );
 
@@ -47,7 +50,11 @@ export default class DaliShortcuts extends Component {
             recalculatePosition(this.props.box.id);
         }   
     }
-   
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.box && nextProps.box.id){
+            recalculatePosition(nextProps.box.id);
+        }   
+    }
  
 
  }

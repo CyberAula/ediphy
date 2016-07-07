@@ -3,13 +3,7 @@ import {Breadcrumb, BreadcrumbItem, Button} from 'react-bootstrap';
 
 export default class DaliTitle extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            showButtons: false
-            
-        };
-    }
+ 
 
     render() {
         let content;
@@ -56,25 +50,25 @@ export default class DaliTitle extends Component {
         return (
             <div className="title" onClick={(e) => {
                                     this.props.onBoxSelected(-1);
-                                    this.setState({showButtons: true });
+                                    this.props.onShowTitle();
                                     e.stopPropagation(); }} > 
                 <div id="daliTitleButtons"   style={{height:'40px'}}  >
                                             
-                    <button className={((!this.state.showButtons || currentstatus == 'hidden' )? 'daliTitleButton hidden ' : ' daliTitleButton ')  
+                    <button className={((!this.props.showButtons || currentstatus == 'hidden' )? 'daliTitleButton hidden ' : ' daliTitleButton ')  
                                      + ((currentstatus == 'expanded') ? ' activeTitle' : ' ')}
                             onClick={(e) => {
                                 this.props.titleModeToggled(this.props.navItemId, 'expanded' );
                                 e.stopPropagation(); }} >
                         <i className="material-icons">vertical_align_bottom</i>
                     </button>
-                    <button className={((!this.state.showButtons || currentstatus == 'hidden' )? ' daliTitleButton hidden ' : ' daliTitleButton ')  
+                    <button className={((!this.props.showButtons || currentstatus == 'hidden' )? ' daliTitleButton hidden ' : ' daliTitleButton ')  
                                      + ((currentstatus == 'reduced') ? ' activeTitle ' : ' ')}
                             onClick={(e) => {
                                 this.props.titleModeToggled(this.props.navItemId, 'reduced');
                                 e.stopPropagation();}}>
                         <i className="material-icons">keyboard_tab</i>
                     </button>
-                    <button className={((!this.state.showButtons || currentstatus == 'hidden' )? 'daliTitleButton hidden activeTitle' : 'daliTitleButton ')}
+                    <button className={((!this.props.showButtons || currentstatus == 'hidden' )? 'daliTitleButton hidden activeTitle' : 'daliTitleButton ')}
                             onClick={(e) => {
                                 this.props.titleModeToggled(this.props.navItemId, 'hidden');
                                 e.stopPropagation();}}>
@@ -83,14 +77,14 @@ export default class DaliTitle extends Component {
                     <button className={currentstatus == 'hidden' ? 'daliTitleButton  ' : 'daliTitleButton hidden'} 
                              onClick={(e) => {
                                 this.props.titleModeToggled(this.props.navItemId, 'reduced');
-                                this.setState({showButtons: true });
+                                this.props.onShowTitle();
                                 e.stopPropagation();}}>
                         <i className="material-icons">visibility</i>
                     </button>
            
 
                 </div>
-                <div className={this.state.showButtons ?  "caja selectedTitle":"caja"} >
+                <div className={this.props.showButtons ?  "caja selectedTitle selectedBox":"caja"} >
                     <div className="cab" style={{backgroundColor: 'transparent',  visibility: currentstatus=='hidden'? 'hidden':'inherit'}}>
                         <div className="cabtabla_numero">1</div>
                         <div className="tit_ud_cap">
@@ -112,11 +106,5 @@ export default class DaliTitle extends Component {
             </div>
         );
     }
-    componentWillReceiveProps(nextProps) {
- 
-        if (nextProps.boxSelected != this.props.boxSelected){
-            this.setState({ showButtons: false });
-        }
-      
-    }
+     
 }

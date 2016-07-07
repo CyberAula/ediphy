@@ -9,21 +9,22 @@ export default class DaliBoxSortable extends Component {
     render() {
         let box = this.props.boxes[this.props.id];
         return (
-            <div onClick={e => {
+            <div className="daliBoxSortable" onClick={e => {
                 this.props.onBoxSelected(this.props.id, 0);
                 e.stopPropagation();
             }}>
                 <div ref="sortableContainer"
+                     className={(this.props.id === this.props.boxSelected && box.children.length > 0) ? ' selectedBox':' '}
                      style={{
-                    position: 'relative',
-                    border: (this.props.id === this.props.boxSelected ? '1px dashed black' : '1px solid #999'),
-                    boxSizing: 'border-box',
+                     position: 'relative',
+                   /* border: (this.props.id === this.props.boxSelected ? '1px dashed black' : '1px solid #999'),*/
+                     boxSizing: 'border-box',
                 }}>
                 {box.children.map((idContainer, index)=>{
                     let container = box.sortableContainers[idContainer];
 
                     return (<div key={index}
-                                 className="daliBoxSortableContainer"
+                                 className="daliBoxSortableContainer" 
                                  data-id={idContainer}
                                  style={{
                                     width: '100%',
@@ -74,7 +75,7 @@ export default class DaliBoxSortable extends Component {
                         </div>);
                     })}
                 </div>
-                <div style={{textAlign:'center', minHeight: '100px'}}>
+                <div className="dragContentHere">
                     Drag content here
                 </div>
             </div>

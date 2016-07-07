@@ -56,12 +56,14 @@
 }
 
  
-/*Box -selected*/
-.boxSelected {
-	visibility:visible;
-}
-/*Box not selected*/
-.notBoxSelected {
-	visibility:hidden;
+.selectedBox {
+	background-color: $naranjaclaro;
+	border: 1px dashed black;
 }
 
+.dragContentHere {
+	text-align: center;
+	min-height: 100px;
+	color: #aaa;
+	font-size:18px;
+}
