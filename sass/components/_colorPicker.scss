@@ -17,7 +17,7 @@
   box-sizing: border-box;
 }
 .Select.is-disabled > .Select-control {
-  background-color: #f9f9f9;
+  background-color: #fff;
 }
 .Select.is-disabled > .Select-control:hover {
   box-shadow: none;
@@ -249,7 +249,7 @@
 }
 .Select-option {
   box-sizing: border-box;
-  background-color: #ddd;
+  background-color: #eee;
   color: #666666;
   cursor: pointer;
   display: block;
@@ -260,15 +260,15 @@
   border-bottom-left-radius: 4px;
 }
 .Select-option.is-selected {
-  background-color: #f5faff;
+  background-color: #ddd;
   /* Fallback color for IE 8 */
-  background-color: rgba(0, 126, 255, 0.04);
+  background-color: rgba(250, 250, 250, 0.04);
   color: #333;
 }
 .Select-option.is-focused {
-  background-color: #ebf5ff;
+  background-color: #ddd;
   /* Fallback color for IE 8 */
-  background-color: rgba(0, 126, 255, 0.08);
+  background-color: rgba(250, 250, 250, 0.08);
   color: #333;
 }
 .Select-option.is-disabled {

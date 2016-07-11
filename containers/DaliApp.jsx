@@ -202,7 +202,8 @@ class DaliApp extends Component {
                     {
                         parent: e.detail.ids.parent,
                         id: e.detail.ids.id,
-                        container: e.detail.ids.container
+                        container: e.detail.ids.container,
+                        view: this.props.navItemSelected
                     },
                     BOX_TYPES.NORMAL,
                     true,
