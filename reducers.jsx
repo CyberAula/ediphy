@@ -70,6 +70,7 @@ function boxCreator(state = {}, action = {}) {
                 id: action.payload.ids.id,
                 parent: action.payload.ids.parent,
                 container: action.payload.ids.container,
+                view: action.payload.ids.view,
                 type: action.payload.type,
                 level: level,
                 col: col,
@@ -159,7 +160,7 @@ function boxesById(state = {}, action = {}) {
         case ADD_BOX:
             let box = boxCreator(state, action);
 
-            if(action.payload.ids.parent.indexOf(ID_PREFIX_SORTABLE_BOX) !== -1 || action.payload.ids.container !== 0){
+            if (action.payload.ids.parent.indexOf(ID_PREFIX_SORTABLE_BOX) !== -1 || action.payload.ids.container !== 0) {
                 return Object.assign({}, state, {
                     [action.payload.ids.id]: box,
                     [action.payload.ids.parent]: Object.assign({}, state[action.payload.ids.parent], {
@@ -187,21 +188,21 @@ function boxesById(state = {}, action = {}) {
             let newState = Object.assign({}, state);
             let replaced = Object.assign({}, state);
             let newIds = action.payload.newIds;
-            let newId = ID_PREFIX_BOX+ action.payload.newId; 
+            let newId = ID_PREFIX_BOX + action.payload.newId;
             let count = 0;
-            Object.keys(newIds).map(box => { 
-                replaced = Object.replaceAll( replaced, box, newIds[box] );
-             })
-            replaced = Object.replaceAll( replaced, action.payload.id.substr(3),  action.payload.newId  );//split -
+            Object.keys(newIds).map(box => {
+                replaced = Object.replaceAll(replaced, box, newIds[box]);
+            })
+            replaced = Object.replaceAll(replaced, action.payload.id.substr(3), action.payload.newId);//split -
             let defState = Object.assign({}, newState, replaced);
             if (action.payload.container != 0) {
-                 replaced[action.payload.parent].sortableContainers[action.payload.container].children.push( action.payload.id  )
+                replaced[action.payload.parent].sortableContainers[action.payload.container].children.push(action.payload.id)
             }
 
             return Object.assign({}, defState, {
                 [newId]: Object.assign({}, defState[newId], {position: {x: 0, y: 0}})
             });
-          
+
         case RESIZE_BOX:
             return Object.assign({}, state, {
                 [action.payload.id]: Object.assign({}, state[action.payload.id], {
@@ -221,7 +222,7 @@ function boxesById(state = {}, action = {}) {
             let sortableContainers = {};
             let children = [];
             if (action.payload.state.__pluginContainerIds) {
-                for(let containerKey in action.payload.state.__pluginContainerIds){
+                for (let containerKey in action.payload.state.__pluginContainerIds) {
                     let container = action.payload.state.__pluginContainerIds[containerKey];
                     if (!newState[action.payload.id].sortableContainers[container.id]) {
                         sortableContainers[container.id] = {
@@ -317,9 +318,9 @@ function boxLevelSelected(state = 0, action = {}) {
         case SELECT_BOX:
             if (action.payload.id === -1) {
                 return 0;
-            }  
+            }
             if (action.payload.id.indexOf(ID_PREFIX_SORTABLE_BOX) !== -1) {
-                 return -1;
+                return -1;
             }
             return state;
         case DELETE_BOX:
@@ -342,7 +343,7 @@ function boxSelected(state = -1, action = {}) {
         case DUPLICATE_BOX:
             return ID_PREFIX_BOX + action.payload.newId;
         case DELETE_BOX:
-            if (action.payload.parent.indexOf(ID_PREFIX_BOX) !== -1){
+            if (action.payload.parent.indexOf(ID_PREFIX_BOX) !== -1) {
                 return action.payload.parent;
             }
             return -1;
@@ -365,12 +366,12 @@ function boxesIds(state = [], action = {}) {
             return [...state, action.payload.ids.id];
         case DUPLICATE_BOX:
             let firstJoin = state;
-            firstJoin.push(ID_PREFIX_BOX +action.payload.newId);
+            firstJoin.push(ID_PREFIX_BOX + action.payload.newId);
             let newIds = action.payload.newIds
-            Object.keys(newIds).map((box )=> {
-                firstJoin.push(ID_PREFIX_BOX+newIds[box])
-             });            
-            return   firstJoin  ;
+            Object.keys(newIds).map((box)=> {
+                firstJoin.push(ID_PREFIX_BOX + newIds[box])
+            });
+            return firstJoin;
         case DELETE_BOX:
             return state.filter(id => {
                 return id !== action.payload.id && (action.payload.children ? action.payload.children.indexOf(id) === -1 : true);
@@ -396,6 +397,7 @@ function navItemCreator(state = {}, action = {}) {
                 parent: action.payload.parent,
                 children: action.payload.children,
                 boxes: [],
+                template: {name: "", overridable: true},
                 level: action.payload.level,
                 type: action.payload.type,
                 position: action.payload.position,
@@ -492,14 +494,14 @@ function navItemsById(state = {}, action = {}) {
                 [action.payload.id]: navItemCreator(state[action.payload.id], action),
                 [action.payload.parent]: Object.assign({}, state[action.payload.parent], {children: [...state[action.payload.parent].children, action.payload.id]})
             });
-             return recalculateNames(newState, newState[action.payload.id], 0)
+            return recalculateNames(newState, newState[action.payload.id], 0);
         case EXPAND_NAV_ITEM:
             return Object.assign({}, state, {[action.payload.id]: Object.assign({}, state[action.payload.id], {isExpanded: action.payload.value})});
         case TOGGLE_TITLE_MODE:
             return Object.assign({}, state, {[action.payload.id]: Object.assign({}, state[action.payload.id], {titlesReduced: action.payload.value})});
         case REMOVE_NAV_ITEM:
-            let oldOne = Object.assign({}, state[action.payload.ids[0]])
-            let newState = Object.assign({}, state);
+            let oldOne = Object.assign({}, state[action.payload.ids[0]]);
+            var newState = Object.assign({}, state);
             action.payload.ids.map(id => {
                 delete newState[id];
             });
@@ -509,25 +511,20 @@ function navItemsById(state = {}, action = {}) {
             return recalculateNames(wrongNames, oldOne, 1, action.payload.ids.length)
         case REORDER_NAV_ITEM:
             //   0--> exterior a exterior /   1--> exterior a seccion /   2--> seccionA a seccionB /   3--> seccion a seccion  /   4--> seccion a exterior
-
-            var newSt = {}
+            var newSt = {};
             //var auxState = state;
-
             if (action.payload.type == 0 || action.payload.type == 3) {
-
                 newSt = Object.assign({}, state, {
                     [action.payload.newParent]: Object.assign({}, state[action.payload.newParent], {children: action.payload.newChildrenInOrder})
-                })
-
+                });
                 action.payload.newIndId.forEach(elem => {
                     newSt = Object.assign({}, newSt, {
                         [elem]: Object.assign({}, newSt[elem], {position: action.payload.newIndId.indexOf(elem)})
-                    })
+                    });
                 });
 
                 return newSt;
             } else if (action.payload.type == 1 || action.payload.type == 2 || action.payload.type == 4) {
-
                 var oldParent = state[action.payload.itemId].parent;
                 var oldParentChildren = state[oldParent].children;
                 oldParentChildren.splice(oldParentChildren.indexOf(action.payload.itemId), 1);
@@ -550,29 +547,35 @@ function navItemsById(state = {}, action = {}) {
                     newSt = Object.assign({}, newSt, {
                         [currentElement]: Object.assign({}, newSt[currentElement], {level: auxLevel})
                     })
-                } while (elementsToVisit.length > 0)
+                } while (elementsToVisit.length > 0);
 
                 action.payload.newIndId.forEach(elem => {
                     newSt = Object.assign({}, newSt, {
                         [elem]: Object.assign({}, newSt[elem], {position: action.payload.newIndId.indexOf(elem)})
-                    })
+                    });
                 });
-
                 return newSt;
-
             } else {
-
                 return state
             }
-
         case ADD_BOX:
             if (action.payload.ids.parent && action.payload.ids.parent.indexOf(ID_PREFIX_PAGE) !== -1 || action.payload.ids.parent.indexOf(ID_PREFIX_SECTION) !== -1) {
                 return Object.assign({}, state, {
                     [action.payload.ids.parent]: Object.assign({}, state[action.payload.ids.parent], {
-                        boxes: [...state[action.payload.ids.parent].boxes, action.payload.ids.id]
+                        boxes: [...state[action.payload.ids.parent].boxes, action.payload.ids.id],
+                        template: (state[action.payload.ids.parent].template.overridable) ? action.payload.config.ejsTemplate : state[action.payload.ids.parent].template,
+                        templateParams: action.payload.config.ejsParams
+                    })
+                });
+            } else {
+                return Object.assign({}, state, {
+                    [action.payload.ids.view]: Object.assign({}, state[action.payload.ids.view], {
+                        template: (state[action.payload.ids.view].template.overridable) ? action.payload.config.ejsTemplate : state[action.payload.ids.view].template,
+                        templateParams: action.payload.config.ejsParams
                     })
                 });
             }
+            console.log([state[action.payload.ids.parent], action.payload]);
             return state
         case DELETE_BOX:
             if (action.payload.parent.indexOf(ID_PREFIX_PAGE) !== -1 || action.payload.parent.indexOf(ID_PREFIX_SECTION) !== -1) {
@@ -588,18 +591,20 @@ function navItemsById(state = {}, action = {}) {
             }
             return state;
         case DUPLICATE_BOX:
-            if (action.payload.parent.indexOf(ID_PREFIX_PAGE) !== -1 || action.payload.parent.indexOf(ID_PREFIX_SECTION) !== -1){ 
-                let newBoxes = state[action.payload.parent].boxes;    
-                newBoxes.push(ID_PREFIX_BOX +action.payload.newId);
- 
+            if (action.payload.parent.indexOf(ID_PREFIX_PAGE) !== -1 || action.payload.parent.indexOf(ID_PREFIX_SECTION) !== -1) {
+                let newBoxes = state[action.payload.parent].boxes;
+                newBoxes.push(ID_PREFIX_BOX + action.payload.newId);
+
                 if (action.payload.parent !== 0) {
                     return Object.assign({}, state, {
                         [action.payload.parent]: Object.assign({}, state[action.payload.parent], {
-                            boxes: newBoxes})});
+                            boxes: newBoxes
+                        })
+                    });
                 }
             }
-            return state;  
-         case IMPORT_STATE:
+            return state;
+        case IMPORT_STATE:
             return action.payload.present.navItemsById;
         default:
             return state;
@@ -621,7 +626,7 @@ function navItemSelected(state = 0, action = {}) {
     }
 }
 
-function createSortableButtons(controls, width, height){
+function createSortableButtons(controls, width, height) {
     if (!controls.main) {
         controls.main = {
             __name: "Main",
@@ -656,10 +661,10 @@ function createSortableButtons(controls, width, height){
         step: 5,
         autoManaged: true
     };
-    
+
 }
 
-function createAliasButton(controls, alias){
+function createAliasButton(controls, alias) {
     if (!controls.other) {
         controls.other = {
             __name: "Other",
@@ -738,19 +743,19 @@ function toolbarsById(state = {}, action = {}) {
             var newState = Object.assign({}, state);
             delete newState[action.payload.id];
             return newState;
- 
+
         case DUPLICATE_BOX:
-            var newState = Object.assign({},state);
-            let replaced = Object.assign({},state);
+            var newState = Object.assign({}, state);
+            let replaced = Object.assign({}, state);
             let newId = ID_PREFIX_BOX + action.payload.newId;
             let newIds = action.payload.newIds;
             let count = 0;
-             Object.keys(newIds).map((box )=> {
-                replaced = Object.assign({},Object.replaceAll( replaced, box, newIds[box] ));
-            });           
-            replaced = Object.assign({},Object.replaceAll( replaced, action.payload.id.substr(3),  action.payload.newId));
-            let defState = Object.assign({},newState, replaced);
-            return  defState;
+            Object.keys(newIds).map((box)=> {
+                replaced = Object.assign({}, Object.replaceAll(replaced, box, newIds[box]));
+            });
+            replaced = Object.assign({}, Object.replaceAll(replaced, action.payload.id.substr(3), action.payload.newId));
+            let defState = Object.assign({}, newState, replaced);
+            return defState;
         case UPDATE_TOOLBAR:
             var newState = Object.assign({}, state);
             let pl = action.payload;
@@ -766,11 +771,11 @@ function toolbarsById(state = {}, action = {}) {
             });
         case UPDATE_BOX:
             let controls = action.payload.toolbar;
-            for(let tabKey in controls){
+            for (let tabKey in controls) {
                 let accordions = controls[tabKey].accordions;
-                for(let accordionKey in accordions){
+                for (let accordionKey in accordions) {
                     let buttons = accordions[accordionKey].buttons;
-                    for(let buttonKey in buttons){
+                    for (let buttonKey in buttons) {
                         if (state[action.payload.id].controls[tabKey].accordions[accordionKey].buttons[buttonKey]) {
                             buttons[buttonKey].value = state[action.payload.id].controls[tabKey].accordions[accordionKey].buttons[buttonKey].value;
                         }
@@ -789,8 +794,8 @@ function toolbarsById(state = {}, action = {}) {
                     }
                 }
             }
-            
-            try{
+
+            try {
                 createSortableButtons(
                     controls,
                     state[action.payload.id].controls.main.accordions.sortable.buttons.width.value,
@@ -800,7 +805,8 @@ function toolbarsById(state = {}, action = {}) {
                     controls,
                     state[action.payload.id].controls.other.accordions.extra.buttons.alias.value
                 );
-            }catch(e){}
+            } catch (e) {
+            }
 
             var newState = Object.assign({}, state);
             newState[action.payload.id].state = action.payload.state;
@@ -849,7 +855,7 @@ function togglePageModal(state = {value: false, caller: 0}, action = {}) {
 }
 
 
-function changeTitle (state = "", action = {}) {
+function changeTitle(state = "", action = {}) {
     switch (action.type) {
         case CHANGE_TITLE:
             return action.payload;
@@ -857,7 +863,7 @@ function changeTitle (state = "", action = {}) {
             return action.payload.present.title;
         default:
             return state;
-    }  
+    }
 }
 
 function changeDisplayMode(state = "", action = {}) {
