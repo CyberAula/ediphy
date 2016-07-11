@@ -62,6 +62,7 @@ export default class DaliCanvas extends Component{
                     <DaliShortcuts  box={this.props.boxSelected == -1 ? -1 : this.props.boxes[this.props.boxSelected]}
                                     onTextEditorToggled={this.props.onTextEditorToggled} 
                                     onBoxResized={this.props.onBoxResized}
+                                    onBoxDeleted={this.props.onBoxDeleted}
                                     toolbar={this.props.toolbars[this.props.boxSelected]} />
 
                      

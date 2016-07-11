@@ -292,7 +292,8 @@ export default class PluginToolbar extends Component {
             return React.createElement(FormGroup, props, children);
 
         } else {
-            return React.createElement(FormGroup, {key: button.__name}, [React.createElement(ControlLabel, {key: 'label_' + button.__name}, button.__name),
+            let output = button.type == "range" ? "   " + button.value : null;
+            return React.createElement(FormGroup, {key: button.__name}, [React.createElement(ControlLabel, {key: 'label_' + button.__name}, button.__name),  React.createElement("span", {key:  'output_span' + button.__name, className: 'rangeOutput'}, output),
                 React.createElement(FormControl, props, null)]);
         }
 

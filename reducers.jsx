@@ -31,7 +31,7 @@ function boxCreator(state = {}, action = {}) {
                 position.x = 0;
                 position.y = 0;
                 width = '100%';
-                height = 'auto';
+                height = '100%';
             }
             let col = 0;
             let row = 0;

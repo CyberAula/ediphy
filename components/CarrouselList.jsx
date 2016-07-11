@@ -59,7 +59,7 @@ export default class CarrouselList extends Component{
                                 <Button className="popoverButton" 
                                     disabled={this.props.navItemSelected === 0}
                                     style={{float: 'right'}}
-                                    onClick={e => {
+                                    onClick={(e) => {
                                                 let ids = [this.props.navItemSelected];
                                                 let found = this.findChildren(ids);
                                                 let boxes = this.findBoxes(found);

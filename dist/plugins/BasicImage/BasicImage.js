@@ -31,7 +31,7 @@ Dali.Plugins["BasicImage"] = function (base){
                             buttons: {
                                 opacity: {
                                     __name: 'Opacity',
-                                    type: 'number',
+                                    type: 'range',
                                     value: 1,
                                     min: 0,
                                     max: 1,
