@@ -191,6 +191,7 @@ export default class Section extends Component {
                 const selec = this.props.navItemSelected;
                 const parent = this.props.navItems[this.props.navItemSelected].parent;
                 const reorderedIndexesId = list.sortable('toArray', {attribute: 'id'})
+                console.log(reorderedIndexesId);
                 const previos = this.props.navItemsIds;
 
                 $(ui.sender).sortable('cancel');
