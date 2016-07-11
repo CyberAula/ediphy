@@ -563,15 +563,15 @@ function navItemsById(state = {}, action = {}) {
                 return Object.assign({}, state, {
                     [action.payload.ids.parent]: Object.assign({}, state[action.payload.ids.parent], {
                         boxes: [...state[action.payload.ids.parent].boxes, action.payload.ids.id],
-                        template: (state[action.payload.ids.parent].template.overridable) ? action.payload.config.ejsTemplate : state[action.payload.ids.parent].template,
-                        templateParams: action.payload.config.ejsParams
+                        template: (state[action.payload.ids.parent].template.overridable && action.payload.config) ? action.payload.config.ejsTemplate : state[action.payload.ids.parent].template,
+                        templateParams: (state[action.payload.ids.parent].template.overridable && action.payload.config) ? action.payload.config.ejsParams : {}
                     })
                 });
             } else {
                 return Object.assign({}, state, {
                     [action.payload.ids.view]: Object.assign({}, state[action.payload.ids.view], {
-                        template: (state[action.payload.ids.view].template.overridable) ? action.payload.config.ejsTemplate : state[action.payload.ids.view].template,
-                        templateParams: action.payload.config.ejsParams
+                        template: (state[action.payload.ids.view].template.overridable && action.payload.config) ? action.payload.config.ejsTemplate : state[action.payload.ids.view].template,
+                        templateParams: (state[action.payload.ids.view].template.overridable && action.payload.config) ? action.payload.config.ejsParams : {}
                     })
                 });
             }
