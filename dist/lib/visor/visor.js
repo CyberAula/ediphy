@@ -5,8 +5,13 @@ var DaliVisor = (function () {
             var plugin = Dali.Visor.Plugins.get(name);
             for (var fnName in plugin) {
                 if (fnName !== "callExtraFunction" &&
+                    fnName !== "registerExtraFunction" &&
+                    fnName !== "getExtraFunctions" &&
                     fnName !== "export" &&
-                    fnName !== "render") {
+                    fnName !== "render" &&
+                    fnName !== "create" &&
+                    fnName !== "init"
+                ) {
                     scripts += (scripts.length === 0 ? "<script type='text/javascript'>" : "")
                         + plugin[fnName].toString().replace("function", "function " + fnName)
                             .replace(/\n/g, "").replace(/\s+/g, " ");
@@ -87,8 +92,7 @@ var DaliVisor = (function () {
             });
         },
         exportPage: function (state) {
- 
-            return new EJS({url: '/lib/visor/page.ejs'}).render({
+            return new EJS({url: '/lib/visor/index.ejs'}).render({
                 title: state.title,
                 scripts: getScripts(state, state.navItemSelected),
                 page: state.navItemSelected,

@@ -2,7 +2,7 @@ Dali.Visor.Plugin = function () {
     var descendant;
     var extraFunctions = {};
 
-    var parseJson = function (json, state, hasVisorTemplate, name) {
+    var parseJson = function (json, state, hasVisorTemplate) {
         if (json.child) {
             for (var i = 0; i < json.child.length; i++) {
                 if (json.child[i].tag && json.child[i].tag === "plugin") {
@@ -25,18 +25,10 @@ Dali.Visor.Plugin = function () {
                     }
                 }
 
-                parseJson(json.child[i], state, hasVisorTemplate, name);
+                parseJson(json.child[i], state, hasVisorTemplate);
             }
         }
-        if (name && json.attr) {
-            Object.keys(json.attr).forEach(function (key) {
-                if (typeof json.attr[key] === "string" && json.attr[key].indexOf("$dali$") !== -1) {
-                    var fnName = json.attr[key].replace(/[$]dali[$][.]/g, "").replace(/[(].*[)]/g, "");
-                    json.attr[key] = hasVisorTemplate ? Dali.Visor.Plugins.get(name)[fnName] : Dali.Plugins.get(name)[fnName];
-                }
-            });
-        }
-        if (!name && json.attr && json.attr["className"]) {
+        if (json.attr && json.attr["className"]) {
             json.attr["class"] = json.attr["className"];
             delete json.attr["className"];
         }
@@ -124,29 +116,6 @@ Dali.Visor.Plugin = function () {
             }
             var json = html2json(template);
             parseJson(json, state, hasVisorTemplate);
-            return json;
-        },
-        render: function (state, name) {
-            var json, plugin, hasVisorTemplate;
-
-            if (!Dali.Visor.Plugins[name]) {
-                plugin = Dali.Plugins[name]();
-                hasVisorTemplate = false;
-            } else {
-                plugin = Dali.Visor.Plugins[name]();
-                hasVisorTemplate = true;
-            }
-            if (!plugin.getRenderTemplate) {
-                if (state.__text) {
-                    json = html2json(state.__text);
-                } else {
-                    json = html2json("<div></div>");
-                    console.error("Plugin %s has not defined getRenderTemplate", name);
-                }
-            } else {
-                json = html2json(plugin.getRenderTemplate(state));
-            }
-            parseJson(json, state, hasVisorTemplate, name);
             return json;
         },
         registerExtraFunction: function (fn, alias) {
