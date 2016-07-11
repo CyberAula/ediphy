@@ -92,11 +92,12 @@ button[disabled].navButton {
     text-overflow:ellipsis;
     white-space:nowrap;
     display: inline-block;
+    direction: ltr;
 	&:focus {
     	text-overflow: clip;
 	}
 	&:not(:focus) {
-	    text-overflow:ellipsis;
+	    text-overflow: ellipsis;
 	}
 }
 /*************************************************/

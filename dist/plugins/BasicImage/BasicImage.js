@@ -35,7 +35,7 @@ Dali.Plugins["BasicImage"] = function (base){
                                     value: 1,
                                     min: 0,
                                     max: 1,
-                                    step: 0.1
+                                    step: 0.01
                                 },
                                 borderSize: {
                                     __name: 'Border Size',
