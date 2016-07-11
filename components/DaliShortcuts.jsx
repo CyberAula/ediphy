@@ -21,7 +21,6 @@ export default class DaliShortcuts extends Component {
                    <OverlayTrigger placement="top" overlay={ <Tooltip id="ajustaradocumento"> Ajustar a documento </Tooltip>}> 
                         <button className="daliTitleButton"
                             onClick={(e) => {
-                                console.log(box)
                                 let newWidth = box.width == '100%' ? '200px': '100%'
                                 this.props.onBoxResized(toolbar.id, newWidth, 'auto');
                                 e.stopPropagation(); }} >
@@ -41,6 +40,14 @@ export default class DaliShortcuts extends Component {
                     </OverlayTrigger>
                     ):(<span></span> )
                 } 
+                <OverlayTrigger placement="top"  overlay={ <Tooltip id="borrarcaja" >Borrar plugin</Tooltip>}> 
+                        <button className="daliTitleButton"
+                            onClick={(e) => {
+                                this.props.onBoxDeleted(this.props.box.id, this.props.box.parent, this.props.box.container);
+                                e.stopPropagation(); }} >
+                            <i className="material-icons">delete</i>
+                        </button>
+                    </OverlayTrigger>
                 </div> );
 
         } else {

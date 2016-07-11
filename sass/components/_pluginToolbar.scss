@@ -63,6 +63,11 @@
     	color:black;
     }
 
+    input.form-control[type="range"]{
+    	background-color: transparent;
+    	outline:none;
+    }
+
     .radio{
     	margin-left: 20px;
     }
@@ -218,3 +223,9 @@
 
 	}
  }
+
+.rangeOutput{
+	color: $darkest;
+	float:right;
+	margin-right: 12px;
+}
