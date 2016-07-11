@@ -99,13 +99,11 @@ export default class Section extends Component {
             connectWith: '.connectedSortables',
             placeholder: "sortable-placeholder",
              over: (event, ui) => {
-                console.log(event.target)
                 $(".carList").css("border-left", "none");
                 $(".sectionList").css("border-top", "none");
                 $(event.target).css("border-top", "3px solid #F47920");
             },
             out: (event, ui) => {
-                 console.log(event.target)
                     $(".carList").css("border-left", "none");
                   $(".sectionList").css("border-top", "none");
                 $(event.target).css("border-top", "none");
@@ -191,7 +189,6 @@ export default class Section extends Component {
                 const selec = this.props.navItemSelected;
                 const parent = this.props.navItems[this.props.navItemSelected].parent;
                 const reorderedIndexesId = list.sortable('toArray', {attribute: 'id'})
-                console.log(reorderedIndexesId);
                 const previos = this.props.navItemsIds;
 
                 $(ui.sender).sortable('cancel');
