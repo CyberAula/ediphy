@@ -158,12 +158,24 @@ export default class CarrouselList extends Component{
                 $(event.target).css("border-left", "3px solid #F47920");
             },
             out: (event, ui) => {
-                $(event.target).css("border-left", "none");
+                //$(event.target).css("border-left", "none");
+            },
+            start: (event,ui) => {
+                //$(".selected").css("background-color", "rgba(84, 84, 84 , 0.5)")
+                console.log($(".selected").css("background-color"));
             },
             stop: (event, ui) => {
+                //$(".selected").css("background-color", "rgba(84, 84, 84 , 1)");
                 const reorderedIndexesId = list.sortable('toArray', {attribute: 'id'})
+      
                 const select = this.props.navItemSelected;
                 const navItems = this.props.navItems;
+                const old = navItems[0].children;
+
+                if($('.carList').css("border-left") == "3px solid rgb(244, 121, 32)" && (reorderedIndexesId.length !== old.length)){
+                    reorderedIndexesId.push(select);
+                }
+                $(event.target).css("border-left", "none");
 
                 if( reorderedIndexesId.indexOf(select) >= 0){
                     list.sortable('cancel');
@@ -196,9 +208,11 @@ export default class CarrouselList extends Component{
 
                     this.props.onNavItemReorded(this.props.navItemSelected, 0,0,newIndexesAux,reorderedIndexesId);
                 }else{
+
                 }
             },
             receive: (event, ui) => {
+                  //$(".selected").css("background-color", "rgba(84, 84, 84 , 1)");
                 const reorderedIndexesId = list.sortable('toArray', {attribute: 'id'})
                 const parent = this.props.navItems[this.props.navItemSelected].parent;
                 const navItems = this.props.navItems;
@@ -211,6 +225,7 @@ export default class CarrouselList extends Component{
                 if(navItems[0].children.length == reorderedIndexesId.length){
                     reorderedIndexesId.push(this.props.navItemSelected);
                 }
+
                 auxInd = reorderedIndexesId.indexOf(this.props.navItemSelected);
 
                 var newIndexesAux = [] ;

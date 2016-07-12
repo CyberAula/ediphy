@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { FormControl, FormGroup, Radio, ControlLabel, Checkbox,  Button, ButtonGroup, PanelGroup, Accordion, Panel, Tabs, Tab} from 'react-bootstrap';
+import {Tooltip, FormControl, OverlayTrigger, FormGroup, Radio, ControlLabel, Checkbox,  Button, ButtonGroup, PanelGroup, Accordion, Panel, Tabs, Tab} from 'react-bootstrap';
 import ReactDOM from 'react-dom';
 import GridConfigurator from '../components/GridConfigurator.jsx';
 import Select from 'react-select';
@@ -92,10 +92,12 @@ export default class PluginToolbar extends Component {
               {/*  <i className="fa fa-gear fa-2x"></i>*/}
             </div>
             <div id="tools" style={{width:  this.state.open? '250px':'40px'}} className="toolbox">
+                <OverlayTrigger placement="left" overlay={ <Tooltip className={this.state.open ? 'hidden':''} id="tooltip_props">propiedades</Tooltip>}>
                 <p  onClick={() => {this.setState({open: !this.state.open})}} style={{display: this.props.carouselShow? 'block':'none'}} className={this.state.open ? 'carouselListTitle toolbarSpread':'carouselListTitle toolbarHide'}>
                   <i className="material-icons">palette</i>  <span className="toolbarTitle">Propiedades  </span><br/>
                   <span className="  pluginTitleInToolbar">   {toolbar.config.name || ""}</span>
                 </p>
+                </OverlayTrigger>
                 <div id="insidetools" style={{display: this.state.open? 'block':'none'}}>
 
                     <Tabs className="toolbarTabs" ref="tabs" activeKey={this.state.activeKey} animation={false}

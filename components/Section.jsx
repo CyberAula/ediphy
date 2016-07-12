@@ -26,7 +26,7 @@ export default class Section extends Component {
                 </div>
                 <div style={{display: (navItem.isExpanded ? 'block' : 'none') }}>
                     
-                    <div >
+                   
                         <div ref="sortableListS" style={{paddingTop: (navItem.children.length > 0 ? 2 : 5) }} className="sectionList connectedSortables">
                             {
                                 navItem.children.map((id, index) => {
@@ -55,7 +55,7 @@ export default class Section extends Component {
                                     }
                                 })}
                          </div>
-                      </div>
+                      
                 </div>
             </div>
         );
@@ -108,16 +108,22 @@ export default class Section extends Component {
                   $(".sectionList").css("border-top", "none");
                 $(event.target).css("border-top", "none");
             },
+            start: (event,ui) => {
+                //$(".selected").css("background-color", "rgba(84, 84, 84 , 0.5)");
+            },
             stop: (event, ui) => {
+                //$(".selected").css("background-color", "rgba(84, 84, 84 , 1)");
                 const reorderedIndexesId = list.sortable('toArray', {attribute: 'id'}); //Obtiene la nueva disposición de elementos por id esta es la válida.
                 const selected = this.props.navItemSelected;
                 const previos = this.props.navItemsIds;
                 const parent =this.props.navItems[selected].parent;
                           
+
                 var oldChilds = this.props.navItems[this.props.id].children; //Saca los hijos del pasado del elemento seleccionado       
                 var newChilds = reorderedIndexesId;
 
                 if( newChilds.indexOf(selected) >= 0 && oldChilds.indexOf(selected) >= 0){
+
                     list.sortable('cancel');
                     
                     var part1 = previos.slice(0,previos.indexOf(parent)+1);
@@ -184,7 +190,8 @@ export default class Section extends Component {
                 }       
             }.bind(this),
             receive: (event, ui) => {
-                                
+                  //$(".selected").css("background-color", "rgba(84, 84, 84 , 1)");
+
                 const id = this.props.id;
                 const selec = this.props.navItemSelected;
                 const parent = this.props.navItems[this.props.navItemSelected].parent;
