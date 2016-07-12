@@ -70,7 +70,6 @@ function boxCreator(state = {}, action = {}) {
                 id: action.payload.ids.id,
                 parent: action.payload.ids.parent,
                 container: action.payload.ids.container,
-                view: action.payload.ids.view,
                 type: action.payload.type,
                 level: level,
                 col: col,
@@ -398,7 +397,6 @@ function navItemCreator(state = {}, action = {}) {
                 parent: action.payload.parent,
                 children: action.payload.children,
                 boxes: [],
-                template: {name: "", overridable: true},
                 level: action.payload.level,
                 type: action.payload.type,
                 position: action.payload.position,
@@ -563,20 +561,10 @@ function navItemsById(state = {}, action = {}) {
             if (action.payload.ids.parent && action.payload.ids.parent.indexOf(ID_PREFIX_PAGE) !== -1 || action.payload.ids.parent.indexOf(ID_PREFIX_SECTION) !== -1) {
                 return Object.assign({}, state, {
                     [action.payload.ids.parent]: Object.assign({}, state[action.payload.ids.parent], {
-                        boxes: [...state[action.payload.ids.parent].boxes, action.payload.ids.id],
-                        template: (state[action.payload.ids.parent].template.overridable && action.payload.config) ? action.payload.config.ejsTemplate : state[action.payload.ids.parent].template,
-                        templateParams: (state[action.payload.ids.parent].template.overridable && action.payload.config) ? action.payload.config.ejsParams : {}
-                    })
-                });
-            } else {
-                return Object.assign({}, state, {
-                    [action.payload.ids.view]: Object.assign({}, state[action.payload.ids.view], {
-                        template: (state[action.payload.ids.view].template.overridable && action.payload.config) ? action.payload.config.ejsTemplate : state[action.payload.ids.view].template,
-                        templateParams: (state[action.payload.ids.view].template.overridable && action.payload.config) ? action.payload.config.ejsParams : {}
+                        boxes: [...state[action.payload.ids.parent].boxes, action.payload.ids.id]
                     })
                 });
             }
-            console.log([state[action.payload.ids.parent], action.payload]);
             return state
         case DELETE_BOX:
             if (action.payload.parent.indexOf(ID_PREFIX_PAGE) !== -1 || action.payload.parent.indexOf(ID_PREFIX_SECTION) !== -1) {
