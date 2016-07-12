@@ -62,7 +62,7 @@
 		}
 		color:black;
 	}
-	.popover.bottom > .arrow {
-		background-color: $darkest;
+	.arrow::after{
+		border-bottom-color: $darkest;
 	}
 }
