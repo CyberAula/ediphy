@@ -141,7 +141,7 @@ export default class DaliCanvas extends Component{
             ondrop: function (event) {
                 let position = {
                     x: event.dragEvent.clientX - event.target.getBoundingClientRect().left - document.getElementById('maincontent').offsetLeft,
-                    y: event.dragEvent.clientY - event.target.getBoundingClientRect().top  - document.getElementById('maincontent').offsetTop,
+                    y: event.dragEvent.clientY - event.target.getBoundingClientRect().top  + document.getElementById('maincontent').scrollTop ,
                 };
                 let initialParams = {
                     parent: this.props.navItemSelected.id,

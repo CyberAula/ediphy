@@ -54,13 +54,16 @@ export default class PluginRibbon extends Component {
                     </button>
                     <button className="ribShortcut" 
                             title="Copy" 
-                            disabled={this.props.boxSelected == -1} 
-                            onClick={() => alert('Aún no hace nada')}>
+                            disabled={this.props.boxSelected == -1 || this.props.boxSelected.id == -1 || this.props.boxSelected.id.indexOf(ID_PREFIX_SORTABLE_BOX) != -1} 
+                            onClick={() => {
+                                this.props.onBoxDuplicated(this.props.boxSelected.id, this.props.boxSelected.parent, this.props.boxSelected.container);
+                                e.stopPropagation();
+                            }}>
                         <i className="material-icons">content_copy</i>
                     </button>
                     <button className="ribShortcut" 
                             title="Paste" 
-                            disabled={this.props.boxSelected == -1} 
+                            disabled={this.props.boxSelected.id == -1} 
                             onClick={() => alert('Aún no hace nada')}>
                         <i className="material-icons">content_paste</i>
                     </button>

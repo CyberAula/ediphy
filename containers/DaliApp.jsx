@@ -97,7 +97,8 @@ class DaliApp extends Component {
                         <Row id="ribbonRow">
                             <PluginRibbon disabled={navItemsIds.length === 0 ? true : false}
                                           navItemSelected={navItemSelected}
-                                          boxSelected={boxSelected}
+                                          onBoxDuplicated={(id, parent, container)=> this.dispatchAndSetState( duplicateBox( id, parent, container, this.getDescendants(boxes[id]), this.getDuplicatedBoxesIds(this.getDescendants(boxes[id]) ), Date.now()-1 ))}
+                                          boxSelected={(boxSelected && boxSelected != -1) ? boxes[boxSelected] : -1}
                                           category={this.state.pluginTab}
                                           hideTab={this.state.hideTab}
                                           undoDisabled={undoDisabled}
