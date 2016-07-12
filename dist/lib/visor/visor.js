@@ -79,7 +79,7 @@ var DaliVisor = (function () {
                 var navs = state.navItemsById;
          
                 state.navItemsIds.map(function (page) {
-                    var inner = parseEJS('./lib/visor/' + navs[page].template.name, page, state);
+                    var inner = parseEJS('./lib/visor/index.ejs', page, state);
                     var nombre = navs[page].name;
                     zip.file(nombre + ".html", inner);
                 });
@@ -89,7 +89,7 @@ var DaliVisor = (function () {
             });
         },
         exportPage: function (state) {
-            return new EJS({url: './lib/visor/' + state.navItemsById[state.navItemSelected].template.name}).render({
+            return new EJS({url: './lib/visor/index.ejs'}).render({
                 title: state.title,
                 scripts: getScripts(state, state.navItemSelected),
                 page: state.navItemSelected,
