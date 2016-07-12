@@ -22,13 +22,14 @@
 	width: 90%; 
 	height: 100px;
 	background-color: grey;
+	word-wrap:none;
+	overflow:hidden; 
 }
 
 /*Columns*/
 .gc_columns {
 	display: inline-block;
 	height: 100%; 
-	
 }
 
 /*Rows*/
@@ -36,4 +37,32 @@
 	border: 2px solid white;
 	width: 100%;
 	background-color: $naranjaadams;
+}
+
+#advancedrows, #advancedcols {
+	background-color: $darkest;
+	color: white;
+	.popover-title{
+		background-color: $darkest;
+		color: $naranjaadams;
+		border:0;
+		border-radius: 0;
+	}
+	border-radius: 0;
+	.form-control {
+		-webkit-box-shadow: none;
+		-moz-box-shadow: none;
+		box-shadow: none;
+		// border: 1px solid $naranjaadams;
+		border-radius: 0;
+		border:0;
+		background-color: $darkinput;
+		&:active,&:focus {
+			border-color: orange;
+		}
+		color:black;
+	}
+	.popover.bottom > .arrow {
+		background-color: $darkest;
+	}
 }

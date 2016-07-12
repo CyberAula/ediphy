@@ -41,7 +41,7 @@ export default class GridConfigurator extends Component {
                                   }
                                   this.props.onColsChanged(this.props.id, this.props.parentId, dist);
                              }} />
-                      <OverlayTrigger trigger="click" rootClose placement="bottom" overlay={<Popover title="Advanced">{advancedColumns}</Popover>}>
+                      <OverlayTrigger trigger="click" rootClose placement="bottom" overlay={<Popover id="advancedcols"  title="Advanced">{advancedColumns}</Popover>}>
                                   <InputGroup.Addon className="gc_addon"><i className="material-icons gridconficons ">settings</i></InputGroup.Addon>
                       </OverlayTrigger>
                   </InputGroup>
@@ -70,7 +70,7 @@ export default class GridConfigurator extends Component {
                           </FormGroup>
 
                         )
-                        return (<div>
+                        return ( 
                          <FormGroup key={index+'_0'}>
                           <ControlLabel>{"Row number in col " + (index + 1)}</ControlLabel>
                           <InputGroup style={{width: '50%'}}>
@@ -88,23 +88,21 @@ export default class GridConfigurator extends Component {
                                                   }
                                                   this.props.onRowsChanged(this.props.id, this.props.parentId, index, dist);
                                             }} />
-                              <OverlayTrigger trigger="click" rootClose placement="bottom" overlay={<Popover title="Advanced">{advancedRows}</Popover>}>
+                              <OverlayTrigger trigger="click" rootClose placement="bottom" overlay={<Popover id="advancedrows" title="Advanced">{advancedRows}</Popover>}>
                                 <InputGroup.Addon className="gc_addon"><i className="material-icons gridconficons ">settings</i></InputGroup.Addon>
                               </OverlayTrigger>
                               
                             </InputGroup>
-                        </FormGroup>
-     
-                        </div>)
+                        </FormGroup> )
 
                     })
                 }
 
                 <div className="configurator">
                   { this.props.container.cols.map((item, index) => {
-                      return (<div className="gc_columns" style={{width: this.props.container.colDistribution[index]+'%'}}>
+                      return (<div className="gc_columns" key={index} style={{width: this.props.container.colDistribution[index]+'%'}}>
                           { item.map((it, index) => {
-                            return <div className="gc_rows" style={{ height: it+'%'}}></div>
+                            return <div className="gc_rows" key={index} style={{ height: it+'%'}}></div>
                           })}
                         </div>);
                     })
