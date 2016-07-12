@@ -88,12 +88,7 @@ Dali.Plugins["BasicVideo"] = function (base){
                                     options: ['none', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset', 'initial', 'inherit']
                                 },
                             }
-                        }
-                    }
-                },
-                other: {
-                    __name: "Other",
-                    accordions: {
+                        },
                         extra: {
                             __name: "Extra",
                             buttons: {

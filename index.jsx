@@ -24,7 +24,7 @@ let initialState = {
 	    	'bs-1467887497412': { id: "bs-1467887497412", parent: "se-1467887497411", container: 0, content: undefined, type: "sortable", level: -1, col: 0, row: 0, position: {x:0, y:0}, width: "100%", height: undefined, text: null, draggable: false, resizable: false, showTextEditor: false, fragment:{}, children: [], sortableContainers:{} }
 	    },
  	    toolbarsById:{
-	    	'bs-1467887497412': {id: "bs-1467887497412", state: undefined, controls: {}, config: {}, showTextEditor: false, isCollapsed: false}
+	    	'bs-1467887497412': {id: "bs-1467887497412", state: undefined, controls: {}, config: {name: "Contenedor"}, showTextEditor: false, isCollapsed: false}
 	    }
  	}
 };

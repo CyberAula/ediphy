@@ -126,9 +126,10 @@ function sortableContainerCreator(state = {}, action = {}) {
             if (action.payload.distribution.length < cols.length) {
                 cols = cols.slice(0, cols.length - 1);
             }
-            if (action.payload.distribution.reduce(function (prev, curr) {
+            let reduced = action.payload.distribution.reduce(function (prev, curr) {
                     return prev + curr
-                }) === 100) {
+                });
+            if (reduced > 99 || reduced <= 101) {
                 if (action.payload.distribution.length > cols.length) {
                     let difference = action.payload.distribution.length - cols.length;
                     for (var i = 0; i < difference; i++) {
@@ -665,8 +666,8 @@ function createSortableButtons(controls, width, height) {
 }
 
 function createAliasButton(controls, alias) {
-    if (!controls.other) {
-        controls.other = {
+    if (!controls.main) {
+        controls.main = {
             __name: "Other",
             accordions: {
                 extra: {
@@ -675,13 +676,13 @@ function createAliasButton(controls, alias) {
                 }
             }
         };
-    } else if (!controls.other.accordions.extra) {
-        controls.other.accordions.extra = {
+    } else if (!controls.main.accordions.extra) {
+        controls.main.accordions.extra = {
             __name: "Extra",
             buttons: {}
         };
     }
-    controls.other.accordions.extra.buttons.alias = {
+    controls.main.accordions.extra.buttons.alias = {
         __name: 'Alias',
         type: 'text',
         value: alias || "",
@@ -701,7 +702,11 @@ function toolbarsById(state = {}, action = {}) {
                 showTextEditor: false,
                 isCollapsed: false
             };
-
+            if (action.payload.type && action.payload.type == 'sortable') {
+                if (toolbar.config){
+                    toolbar.config.name = 'Contenedor';
+                }
+            }
             if (action.payload.ids.container !== 0) {
                 createSortableButtons(toolbar.controls);
             }
