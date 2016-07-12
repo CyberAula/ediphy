@@ -21,6 +21,7 @@ export const SELECT_NAV_ITEM = 'SELECT_NAV_ITEM';
 export const EXPAND_NAV_ITEM = 'EXPAND_NAV_ITEM';
 export const REMOVE_NAV_ITEM = 'REMOVE_NAV_ITEM';
 export const REORDER_NAV_ITEM = 'REORDER_NAV_ITEM';
+export const CHANGE_SECTION_TITLE = 'CHANGE_SECTION_TITLE';
 
 export const TOGGLE_PAGE_MODAL = 'TOGGLE_PAGE_MODAL';
 export const TOGGLE_TEXT_EDITOR = 'TOGGLE_TEXT_EDITOR';
@@ -51,6 +52,10 @@ export function removeNavItem(ids, parent, boxes){
 
 export function reorderNavItem(itemId, newParent,type,newIndId,newChildrenInOrder){
     return {type: REORDER_NAV_ITEM, payload: {itemId, newParent,type,newIndId,newChildrenInOrder}};
+}
+
+export function changeSectionTitle(id, title){
+    return {type: CHANGE_SECTION_TITLE, payload: {id, title}};
 }
 
 export function addBox(ids, type, draggable, resizable, content, toolbar, config, state, initialParams){
@@ -92,7 +97,6 @@ export function dropBox(id, row, col){
 export function increaseBoxLevel(){
     return {type: INCREASE_LEVEL, payload: {}};
 }
-
 
 export function resizeSortableContainer(id, parent, height){
     return {type: RESIZE_SORTABLE_CONTAINER, payload: {id, parent, height}};

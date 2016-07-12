@@ -14,10 +14,7 @@ Dali.Plugins["BasicText"] = function (base) {
                 main: {
                     __name: "Main",
                     accordions: {
-                        basic: {
-                            __name: "Basic",
-                            buttons: {}
-                        },
+                         
                         size: {
                             __name: "Size",
                             buttons: {

@@ -1,0 +1,32 @@
+/***************Name of every navitem ****************/
+/*Input*/
+.editSectionTitle {
+	width: 25%;
+	height:15px;
+	border-box:0;
+	-moz-border-box:0;
+	border-radius:0;
+	display: inline-block;
+	border:0;
+	padding:0;
+	font-size: 13px;
+}
+
+/*Edit icon*/
+.editIndexTitleIcon {
+	font-size: 14px !important;
+	float:right;
+	height:22px !important;
+	vertical-align: middle;
+}
+
+/*Title on read mode*/
+.actualSectionTitle {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    direction: ltr;
+    width: auto !important;
+    max-width: 50%;
+    display: inline-block;
+}

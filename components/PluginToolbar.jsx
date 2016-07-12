@@ -23,13 +23,13 @@ export default class PluginToolbar extends Component {
         if (this.props.boxSelected == -1) {
             return (
                 <div id="wrap"
-                         className="wrapper hiddenWrapper"
-                         style={{
-                            top: this.props.top,
-                         }}>
+                     className="wrapper hiddenWrapper"
+                     style={{
+                        top: this.props.top,
+                     }}>
                     <div id="tools"  className="toolbox">
                     </div>
-            </div>);
+                </div>);
         } 
 
         let toolbar = this.props.toolbars[this.props.box.id];
