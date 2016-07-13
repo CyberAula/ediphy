@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Button} from 'react-bootstrap';
 import {ID_PREFIX_SECTION, ID_PREFIX_PAGE, ID_PREFIX_SORTABLE_BOX, BOX_TYPES} from '../constants';
+import DaliIndexTitle from '../components/DaliIndexTitle';
 
 export default class Section extends Component {
     render() {
@@ -21,7 +22,7 @@ export default class Section extends Component {
                         this.props.onNavItemExpanded(navItem.id, !navItem.isExpanded)
                         e.stopPropagation();}} className={classSelected + '  material-icons'} >{navItem.isExpanded ? "arrow_drop_down" : "play_arrow"}</i></button>
 
-                    <span className={classSelected} style={{display: 'inline'}}><i className={classSelected + '  material-icons'} >folder</i>  {navItem.name}</span>
+                    <span className={classSelected} style={{display: 'inline'}}><i className={classSelected + '  material-icons'} >folder</i>   <DaliIndexTitle id={this.props.id} title={this.props.navItems[this.props.id].name} onTitleChange={this.props.onTitleChange} /></span>
                     </span>
                 </div>
                 <div style={{display: (navItem.isExpanded ? 'block' : 'none') }}>
@@ -39,6 +40,7 @@ export default class Section extends Component {
                                                         onBoxAdded={this.props.onBoxAdded}
                                                         onPageAdded={this.props.onPageAdded}
                                                         onSectionAdded={this.props.onSectionAdded}
+                                                        onTitleChange={this.props.onTitleChange}                                                       
                                                         onNavItemSelected={this.props.onNavItemSelected}
                                                         onNavItemExpanded={this.props.onNavItemExpanded}
                                                         onNavItemReorded={this.props.onNavItemReorded}/>;
@@ -49,7 +51,7 @@ export default class Section extends Component {
                                                  this.props.onNavItemSelected(id);
                                                  e.stopPropagation();}}>
                                                 <span style={{marginLeft: 20*(this.props.navItems[id].level-1)}}>
-                                                    <i className="material-icons">insert_drive_file</i>{this.props.navItems[id].name}
+                                                    <i className="material-icons">insert_drive_file</i>    <DaliIndexTitle id={id} title={this.props.navItems[id].name} onTitleChange={this.props.onTitleChange} />
                                                 </span>
                                                </h4>;
                                     }

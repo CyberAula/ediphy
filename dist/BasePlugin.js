@@ -58,7 +58,7 @@ Dali.Plugin = function () {
             }
         },
         getConfig: function () {
-            var name, category, callback, needsConfigModal, needsTextEdition, needsXMLEdition, icon, aspectRatioButtonConfig, ejsTemplate, ejsParams;
+            var name, category, callback, needsConfigModal, needsTextEdition, needsXMLEdition, icon, aspectRatioButtonConfig;
             if (descendant.getConfig) {
                 name = descendant.getConfig().name;
                 category = descendant.getConfig().category;
@@ -67,8 +67,6 @@ Dali.Plugin = function () {
                 needsTextEdition = descendant.getConfig().needsTextEdition;
                 needsXMLEdition = descendant.getConfig().needsXMLEdition;
                 aspectRatioButtonConfig = descendant.getConfig().aspectRatioButtonConfig;
-                ejsTemplate = descendant.getConfig().ejs_template;
-                ejsParams = descendant.getConfig().ejs_params;
             }
 
             name = defaultFor(name, 'PluginName', "Plugin name not assigned");
@@ -77,8 +75,6 @@ Dali.Plugin = function () {
             needsTextEdition = defaultFor(needsTextEdition, false);
             needsXMLEdition = defaultFor(needsXMLEdition, false);
             icon = defaultFor(icon, 'fa-cogs', "Plugin icon not assigned");
-            ejsTemplate = defaultFor(ejsTemplate, {name: "index.ejs", overridable: true});
-            ejsParams = defaultFor(ejsParams, {});
 
             if(aspectRatioButtonConfig){
                 aspectRatioButtonConfig.name = defaultFor(aspectRatioButtonConfig.name, "Aspect Ratio");
@@ -125,8 +121,6 @@ Dali.Plugin = function () {
                 needsTextEdition: needsTextEdition,
                 needsXMLEdition: needsXMLEdition,
                 aspectRatioButtonConfig: aspectRatioButtonConfig,
-                ejsTemplate: ejsTemplate,
-                ejsParams: ejsParams,
                 icon: icon
             };
         },

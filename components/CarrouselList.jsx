@@ -3,6 +3,7 @@ import {Button, ButtonGroup, Col, OverlayTrigger, Popover} from 'react-bootstrap
 import {ID_PREFIX_SECTION, ID_PREFIX_PAGE, ID_PREFIX_SORTABLE_BOX, BOX_TYPES} from '../constants';
 import Section from '../components/Section';
 import PageMenu from '../components/PageMenu';
+import DaliIndexTitle from '../components/DaliIndexTitle';
 
 export default class CarrouselList extends Component{
     render(){
@@ -18,6 +19,7 @@ export default class CarrouselList extends Component{
                                             navItems={this.props.navItems}
                                             navItemSelected={this.props.navItemSelected}
                                             onPageAdded={this.props.onPageAdded}
+                                            onTitleChange={this.props.onTitleChange}
                                             onSectionAdded={this.props.onSectionAdded}
                                             onBoxAdded={this.props.onBoxAdded}
                                             onNavItemSelected={this.props.onNavItemSelected}
@@ -31,7 +33,10 @@ export default class CarrouselList extends Component{
                                         onMouseDown={e => {
                                                     this.props.onNavItemSelected(id);
                                                     e.stopPropagation();
-                                               }}><span style={{marginLeft: 20*(this.props.navItems[id].level-1)}} ><i className="material-icons">insert_drive_file</i>   {this.props.navItems[id].name}</span></h4>
+                                               }}>
+                                        <span style={{marginLeft: 20*(this.props.navItems[id].level-1)}} >
+                                            <i className="material-icons">insert_drive_file</i>   <DaliIndexTitle id={id} title={this.props.navItems[id].name} onTitleChange={this.props.onTitleChange} /></span>
+                                     </h4>
                                               
                                             
                         }

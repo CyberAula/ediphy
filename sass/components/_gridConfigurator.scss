@@ -14,6 +14,7 @@
 	border:0;
 	background-color: white;
 	cursor:pointer;
+ 
 }
 
 /******************GRID LAYOUT*******************/
@@ -24,6 +25,7 @@
 	background-color: grey;
 	word-wrap:none;
 	overflow:hidden; 
+	border: 1px solid white;
 }
 
 /*Columns*/
@@ -65,4 +67,5 @@
 	.arrow::after{
 		border-bottom-color: $darkest;
 	}
+	
 }

@@ -45,12 +45,7 @@ Dali.Plugins["Youtube"] = function (base) {
                                     autoManaged: false
                                 }
                             }
-                        }
-                    }
-                },
-                other: {
-                    __name: "Other",
-                    accordions: {
+                        },
                         extra: {
                             __name: "Extra",
                             buttons: {

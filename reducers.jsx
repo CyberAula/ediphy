@@ -3,7 +3,7 @@ import undoable, {excludeAction} from 'redux-undo';
 import './utils';
 import {ADD_BOX, SELECT_BOX, MOVE_BOX, DUPLICATE_BOX, RESIZE_BOX, UPDATE_BOX, DELETE_BOX, REORDER_BOX, DROP_BOX, INCREASE_LEVEL,
     ADD_SORTABLE_CONTAINER, RESIZE_SORTABLE_CONTAINER, CHANGE_COLS, CHANGE_ROWS,
-    ADD_NAV_ITEM, SELECT_NAV_ITEM, EXPAND_NAV_ITEM, REMOVE_NAV_ITEM, REORDER_NAV_ITEM,
+    ADD_NAV_ITEM, SELECT_NAV_ITEM, EXPAND_NAV_ITEM, REMOVE_NAV_ITEM, REORDER_NAV_ITEM, CHANGE_SECTION_TITLE,
     TOGGLE_PAGE_MODAL, TOGGLE_TEXT_EDITOR, TOGGLE_TITLE_MODE, CHANGE_TITLE,
     CHANGE_DISPLAY_MODE, SET_BUSY, UPDATE_TOOLBAR, COLLAPSE_TOOLBAR, IMPORT_STATE
 } from './actions';
@@ -70,7 +70,6 @@ function boxCreator(state = {}, action = {}) {
                 id: action.payload.ids.id,
                 parent: action.payload.ids.parent,
                 container: action.payload.ids.container,
-                view: action.payload.ids.view,
                 type: action.payload.type,
                 level: level,
                 col: col,
@@ -126,9 +125,10 @@ function sortableContainerCreator(state = {}, action = {}) {
             if (action.payload.distribution.length < cols.length) {
                 cols = cols.slice(0, cols.length - 1);
             }
-            if (action.payload.distribution.reduce(function (prev, curr) {
+            let reduced = action.payload.distribution.reduce(function (prev, curr) {
                     return prev + curr
-                }) === 100) {
+                });
+            if (reduced > 99 || reduced <= 101) {
                 if (action.payload.distribution.length > cols.length) {
                     let difference = action.payload.distribution.length - cols.length;
                     for (var i = 0; i < difference; i++) {
@@ -397,7 +397,6 @@ function navItemCreator(state = {}, action = {}) {
                 parent: action.payload.parent,
                 children: action.payload.children,
                 boxes: [],
-                template: {name: "", overridable: true},
                 level: action.payload.level,
                 type: action.payload.type,
                 position: action.payload.position,
@@ -558,24 +557,22 @@ function navItemsById(state = {}, action = {}) {
             } else {
                 return state
             }
+        case CHANGE_SECTION_TITLE:
+            return Object.assign({}, state, {
+                    [action.payload.id ]: Object.assign({},state[action.payload.id],{name: action.payload.title}) 
+                    });
+                
+
+            // return Object.assign({}, state, {action.payload.id:});
+            return state;
         case ADD_BOX:
             if (action.payload.ids.parent && action.payload.ids.parent.indexOf(ID_PREFIX_PAGE) !== -1 || action.payload.ids.parent.indexOf(ID_PREFIX_SECTION) !== -1) {
                 return Object.assign({}, state, {
                     [action.payload.ids.parent]: Object.assign({}, state[action.payload.ids.parent], {
-                        boxes: [...state[action.payload.ids.parent].boxes, action.payload.ids.id],
-                        template: (state[action.payload.ids.parent].template.overridable && action.payload.config) ? action.payload.config.ejsTemplate : state[action.payload.ids.parent].template,
-                        templateParams: (state[action.payload.ids.parent].template.overridable && action.payload.config) ? action.payload.config.ejsParams : {}
-                    })
-                });
-            } else {
-                return Object.assign({}, state, {
-                    [action.payload.ids.view]: Object.assign({}, state[action.payload.ids.view], {
-                        template: (state[action.payload.ids.view].template.overridable && action.payload.config) ? action.payload.config.ejsTemplate : state[action.payload.ids.view].template,
-                        templateParams: (state[action.payload.ids.view].template.overridable && action.payload.config) ? action.payload.config.ejsParams : {}
+                        boxes: [...state[action.payload.ids.parent].boxes, action.payload.ids.id]
                     })
                 });
             }
-            console.log([state[action.payload.ids.parent], action.payload]);
             return state
         case DELETE_BOX:
             if (action.payload.parent.indexOf(ID_PREFIX_PAGE) !== -1 || action.payload.parent.indexOf(ID_PREFIX_SECTION) !== -1) {
@@ -665,8 +662,8 @@ function createSortableButtons(controls, width, height) {
 }
 
 function createAliasButton(controls, alias) {
-    if (!controls.other) {
-        controls.other = {
+    if (!controls.main) {
+        controls.main = {
             __name: "Other",
             accordions: {
                 extra: {
@@ -675,13 +672,13 @@ function createAliasButton(controls, alias) {
                 }
             }
         };
-    } else if (!controls.other.accordions.extra) {
-        controls.other.accordions.extra = {
+    } else if (!controls.main.accordions.extra) {
+        controls.main.accordions.extra = {
             __name: "Extra",
             buttons: {}
         };
     }
-    controls.other.accordions.extra.buttons.alias = {
+    controls.main.accordions.extra.buttons.alias = {
         __name: 'Alias',
         type: 'text',
         value: alias || "",
@@ -701,7 +698,11 @@ function toolbarsById(state = {}, action = {}) {
                 showTextEditor: false,
                 isCollapsed: false
             };
-
+            if (action.payload.type && action.payload.type == 'sortable') {
+                if (toolbar.config){
+                    toolbar.config.name = 'Contenedor';
+                }
+            }
             if (action.payload.ids.container !== 0) {
                 createSortableButtons(toolbar.controls);
             }

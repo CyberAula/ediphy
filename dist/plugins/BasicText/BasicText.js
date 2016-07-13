@@ -14,15 +14,7 @@ Dali.Plugins["BasicText"] = function (base) {
                 main: {
                     __name: "Main",
                     accordions: {
-                        basic: {
-                            __name: "Basic",
-                            buttons: {}
-                        }
-                    }
-                },
-                font: {
-                    __name: "Font",
-                    accordions: {
+                         
                         size: {
                             __name: "Size",
                             buttons: {
@@ -45,12 +37,7 @@ Dali.Plugins["BasicText"] = function (base) {
                                     value: 'black'
                                 }
                             }
-                        }
-                    }
-                },
-                box: {
-                    __name: "Box",
-                    accordions: {
+                        },
                         layout: {
                             __name: "Layout",
                             buttons: {
@@ -70,12 +57,7 @@ Dali.Plugins["BasicText"] = function (base) {
                                     min: 0
                                 }
                             }
-                        }
-                    }
-                },
-                other: {
-                    __name: "Other",
-                    accordions: {
+                        },
                         extra: {
                             __name: "Extra",
                             buttons: {}
