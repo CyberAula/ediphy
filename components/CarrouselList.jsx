@@ -45,7 +45,7 @@ export default class CarrouselList extends Component{
                 <div style={{width: '100%', borderTop: '1px solid grey', marginTop: '0px'}}>
                     <Button className="carrouselButton"  onClick={e => {
                                     let idnuevo = ID_PREFIX_SECTION + Date.now();
-                                    this.props.onSectionAdded(idnuevo, "Section "+this.sections(), 0, [], 1, 'section', this.props.navItemsIds.length, 'expanded');
+                                    this.props.onSectionAdded(idnuevo, "Section "+this.sections(), 0, [], 1, 'section', this.props.navItemsIds.length+1, 'expanded');
                                     this.props.onBoxAdded({parent: idnuevo, container: 0, id: ID_PREFIX_SORTABLE_BOX + Date.now()}, BOX_TYPES.SORTABLE, false, false);
                                     e.stopPropagation();
                                 }}>
@@ -54,6 +54,7 @@ export default class CarrouselList extends Component{
 
                     <PageMenu caller={0}
                                navItems={this.props.navItems}
+                                navItemSelected={this.props.navItemSelected}
                                navItemsIds={this.props.navItemsIds}
                                onBoxAdded={this.props.onBoxAdded}   
                                onPageAdded={this.props.onSectionAdded} /> 

@@ -5,7 +5,7 @@ import {ID_PREFIX_SORTABLE_BOX} from '../constants';
 import {BOX_TYPES} from '../constants';
 export default class PageMenu extends Component {
     render() {
-        let navItem = this.props.navItems[this.props.caller];
+       
         let proposedName = "Page " +  this.calculateName();
         return (
               <Dropdown role="menuitem" dropup className="carouselDropup" id="carouselDropUp" >
@@ -16,7 +16,7 @@ export default class PageMenu extends Component {
        
                         <MenuItem eventKey="1" onClick={e =>{
                            var idnuevo = ID_PREFIX_PAGE + Date.now();
-                           this.props.onPageAdded(idnuevo, proposedName, this.props.caller, [], navItem.level + 1, 'document', this.calculatePosition(), 'expanded')
+                           this.props.onPageAdded(idnuevo, proposedName, this.calculateParent().id , [], this.calculateParent().level + 1, 'document', this.calculateNewPosition(), 'expanded')
                            this.props.onBoxAdded({parent: idnuevo, container: 0, id: ID_PREFIX_SORTABLE_BOX + Date.now()}, BOX_TYPES.SORTABLE, false, false);
                           }}><i className="material-icons">view_day</i> Document</MenuItem>
 
@@ -28,6 +28,34 @@ export default class PageMenu extends Component {
              </Dropdown.Menu>
         </Dropdown>
         );
+    }
+
+    calculateParent(){
+
+    if(this.props.navItems[this.props.navItemSelected].type == "section"){
+        var navItem = this.props.navItems[this.props.navItemSelected];  
+      }else{
+        var navItem = this.props.navItems[this.props.navItems[this.props.navItemSelected].parent];
+      } 
+     return navItem;
+    }
+
+    calculateNewPosition(){
+
+      if(this.props.navItems[this.props.navItemSelected].type == "section"){
+        var navItem = this.props.navItems[this.props.navItemSelected];
+        if(this.props.navItems[navItem.id].children.length > 0){
+          var nextPosition = this.props.navItems[this.props.navItems[navItem.id].children[this.props.navItems[navItem.id].children.length - 1]].position;
+        }else{
+          var nextPosition = navItem.position;
+        }    
+      }else{
+        var navItem = this.props.navItems[this.props.navItems[this.props.navItemSelected].parent];
+        var nextPosition = this.props.navItems[this.props.navItemSelected].position;
+      } 
+      nextPosition++;
+
+      return nextPosition;
     }
 
     calculatePosition(){
