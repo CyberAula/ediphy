@@ -161,11 +161,12 @@ export default class CarrouselList extends Component{
                 //$(event.target).css("border-left", "none");
             },
             start: (event,ui) => {
-                //$(".selected").css("background-color", "rgba(84, 84, 84 , 0.5)")
+                $("#"+this.props.navItemSelected).css("opacity", "0.5");
                 console.log($(".selected").css("background-color"));
             },
             stop: (event, ui) => {
                 //$(".selected").css("background-color", "rgba(84, 84, 84 , 1)");
+                $("#"+this.props.navItemSelected).css("opacity", "1");
                 const reorderedIndexesId = list.sortable('toArray', {attribute: 'id'})
       
                 const select = this.props.navItemSelected;

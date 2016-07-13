@@ -110,9 +110,11 @@ export default class Section extends Component {
             },
             start: (event,ui) => {
                 //$(".selected").css("background-color", "rgba(84, 84, 84 , 0.5)");
+                $("#"+this.props.navItemSelected).css("opacity", "0.5");
             },
             stop: (event, ui) => {
                 //$(".selected").css("background-color", "rgba(84, 84, 84 , 1)");
+                $("#"+this.props.navItemSelected).css("opacity", "1");
                 const reorderedIndexesId = list.sortable('toArray', {attribute: 'id'}); //Obtiene la nueva disposición de elementos por id esta es la válida.
                 const selected = this.props.navItemSelected;
                 const previos = this.props.navItemsIds;
