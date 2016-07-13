@@ -432,7 +432,7 @@ function recalculateNames(state = {}, old = {}, resta = 0, numeroBorrados = 0) {
     });
 
     pages.forEach((page, index) => {
-        items[page].name = 'Page ' + (index + 1);
+        // items[page].name = 'Page ' + (index + 1);
     });
 
     // Rename sections
@@ -449,7 +449,7 @@ function recalculateNames(state = {}, old = {}, resta = 0, numeroBorrados = 0) {
 
     sections.forEach((section, index) => {
         if (items[section].level == 1) {
-            items[section].name = 'Section ' + (mainindex++);
+            // items[section].name = 'Section ' + (mainindex++);
         } else {
             var sub = items[items[section].parent].children.filter(s => s[0] == 's').indexOf(section) + 1
             items[section].name = items[items[section].parent].name + '.' + sub;
