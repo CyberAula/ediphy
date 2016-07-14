@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Button, FormControl, InputGroup, FormGroup, ControlLabel, OverlayTrigger, Popover} from 'react-bootstrap';
+import { Button, FormControl, InputGroup, FormGroup, ControlLabel, OverlayTrigger, Popover, Tooltip} from 'react-bootstrap';
 
 export default class GridConfigurator extends Component {
     constructor(props) {
@@ -27,29 +27,33 @@ export default class GridConfigurator extends Component {
                             this.props.onColsChanged(this.props.id, this.props.parentId, dist);
                        }} />
                 </FormGroup>);
+        let tooltip = <Tooltip id="tooltipHeight">Sólo si fijas una altura podrán tener alturas relativas las cajas en su interior</Tooltip>
+        let height = this.props.sortableProps.height;
         return (
           <div style={{width: '100%'}}>
             <FormGroup>
-                <InputGroup style={{width: '10%', float: 'right'}}>
-                <ControlLabel> auto</ControlLabel>
-                    <FormControl type="checkbox"
-                             key="height"
-                             value={this.props.sortableProps.height == 'auto' ? "checked" : "unchecked"}
-                             checked={this.props.sortableProps.height == 'auto'}
-                             label="Height auto"
-                             style={{width: '100%'}}
-                             onChange={e => {
-                                let current = this.props.sortableProps.height == 'auto'
-                                let newHeight = current ? parseFloat(document.getElementById(this.props.id).clientHeight) : 'auto';
-                                this.props.onSortableContainerResized(this.props.id, this.props.parentId, newHeight);
-                             }} />
-                </InputGroup>
-                 <ControlLabel>Height</ControlLabel>
+                <OverlayTrigger trigger="focus" placement="left" overlay={height != 'auto' ? tooltip: <i/>}>
+                  <InputGroup style={{width: '10%', float: 'right'}}>
+                  <ControlLabel> auto</ControlLabel>
+                      <FormControl type="checkbox"
+                               key="height"
+                               value={height == 'auto' ? "checked" : "unchecked"}
+                               checked={height == 'auto'}
+                               label="Height auto"
+                               style={{width: '100%'}}
+                               onChange={e => {
+                                  let current = height == 'auto'
+                                  let newHeight = current ? parseFloat(document.getElementById(this.props.id).clientHeight) : 'auto';
+                                  this.props.onSortableContainerResized(this.props.id, this.props.parentId, newHeight);
+                               }} />
+                  </InputGroup>
+                </OverlayTrigger>
+                <ControlLabel>Height</ControlLabel>
                 <InputGroup style={{width: '50%'}}>
-                    <FormControl type="number"
+                    <FormControl type={height == 'auto' ? 'text' : 'number'}
                              key="height"
-                             disabled={this.props.sortableProps.height == 'auto'}
-                             value={parseFloat(document.getElementById(this.props.id).style.height)}
+                             disabled={height == 'auto'}
+                             value={height /*parseFloat(document.getElementById(this.props.id).style.height)*/}
                              label="Block Height"
                              style={{width: '100%'}}
                              min={1}
@@ -109,8 +113,7 @@ export default class GridConfigurator extends Component {
                                                     return 0;
                                                   }
                                               });
-                                              console.log(dist)
-                                              this.props.onRowsChanged(this.props.id, this.props.parentId, index, dist);
+                                               this.props.onRowsChanged(this.props.id, this.props.parentId, index, dist);
                                         }} />
                         </FormGroup>
 

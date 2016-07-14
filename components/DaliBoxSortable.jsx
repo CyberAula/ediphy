@@ -29,7 +29,7 @@ export default class DaliBoxSortable extends Component {
                                  id={idContainer}
                                  style={{
                                     width: '100%',
-                                    height: container.height + 'px',
+                                    height: container.height == 'auto' ? container.height : container.height + 'px',
                                    /* overflow: 'hidden',*/
                                     border: 0,
                                     borderBottom: '5px solid rgba(255,121,32,0.5)',

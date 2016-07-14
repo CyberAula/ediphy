@@ -16,6 +16,7 @@
 	    }
 	}
 	.dropdown-menu{
+		border-radius:0;
 		right:0;
 		left:auto;
 		.disabled .dropdownButton{ 
@@ -181,7 +182,7 @@ button[disabled].navButton {
 	border:8px solid transparent;
 	border-bottom-color: $darkest;
 	position: absolute;
-	margin-top: -16px;
+	margin-top: -15px;
 	right:25px;
 	top:0%; 
  
