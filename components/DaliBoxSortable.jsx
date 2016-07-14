@@ -45,14 +45,14 @@ export default class DaliBoxSortable extends Component {
                                                 return (<div key={j}
                                                              style={{width: "100%", height: row + "%", position: 'relative'}}
                                                              ref={e => {
-                                                        if(e !== null){
-                                                            let selector = ".rib, .dnd" + idContainer;
-                                                            this.dropZone(ReactDOM.findDOMNode(e), "render", selector, {idContainer:idContainer, i:i, j:j});
-                                                        }
-                                                    }}>
+                                                                if(e !== null){
+                                                                    let selector = ".rib, .dnd" + idContainer;
+                                                                    this.dropZone(ReactDOM.findDOMNode(e), "render", selector, {idContainer:idContainer, i:i, j:j});
+                                                                }
+                                                              }}>
                                                     {container.children.map((idBox, index) => {
-                                                        if (this.props.boxes[idBox].col === i && this.props.boxes[idBox].row === j) {
-                                                            return (<DaliBox id={idBox}
+                                                         if (this.props.boxes[idBox].col === i && this.props.boxes[idBox].row === j) {
+                                                             return (<DaliBox id={idBox}
                                                                              key={index}
                                                                              boxes={this.props.boxes}
                                                                              boxSelected={this.props.boxSelected}
@@ -67,10 +67,15 @@ export default class DaliBoxSortable extends Component {
                                                                              onBoxModalToggled={this.props.onBoxModalToggled}
                                                                              onSortableContainerResized={this.props.onSortableContainerResized}
                                                                              onTextEditorToggled={this.props.onTextEditorToggled}/>);
+                                                        } else if (index == container.children.length -1){
+                                                            return (<br/>);
                                                         }
-                                                    })}</div>);
-                                            })}
-                                        </div>);
+                                                    })
+                                                }
+
+                                            </div>);
+                                        })}
+                                    </div>);
                                 }
                             })}
                             </div>
