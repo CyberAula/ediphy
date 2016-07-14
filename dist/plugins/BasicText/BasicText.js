@@ -15,8 +15,8 @@ Dali.Plugins["BasicText"] = function (base) {
                     __name: "Main",
                     accordions: {
                          
-                        size: {
-                            __name: "Size",
+                        basic: {
+                            __name: "Basic",
                             buttons: {
                                 fontSize: {
                                     __name: 'Font Size (ems)',
@@ -25,22 +25,12 @@ Dali.Plugins["BasicText"] = function (base) {
                                     value: 1,
                                     min: 1,
                                     max: 10
-                                }
-                            }
-                        },
-                        color: {
-                            __name: "Color",
-                            buttons: {
+                                },
                                 color: {
                                     __name: 'Font color',
                                     type: 'text',
                                     value: 'black'
-                                }
-                            }
-                        },
-                        layout: {
-                            __name: "Layout",
-                            buttons: {
+                                },
                                 opacity: {
                                     __name: 'Opacity',
                                     type: 'range',

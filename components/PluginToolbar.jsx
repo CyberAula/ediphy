@@ -13,6 +13,7 @@ export default class PluginToolbar extends Component {
             activeKey: 0
         };
         this.aspectRatio = false;
+        this.heightAuto = true;
     }
 
     handleSelect(key) {
@@ -125,7 +126,9 @@ export default class PluginToolbar extends Component {
                                                                           parentId={this.props.box.id}
                                                                           container={container}
                                                                           onColsChanged={this.props.onColsChanged}
-                                                                          onRowsChanged={this.props.onRowsChanged}/>
+                                                                          onRowsChanged={this.props.onRowsChanged}
+                                                                          sortableProps={this.props.box.sortableContainers[id]}
+                                                                          onSortableContainerResized={this.props.onSortableContainerResized} />
                                                     </Panel>)
                                             }
                                         })}
@@ -174,6 +177,9 @@ export default class PluginToolbar extends Component {
         if (buttonKey === '__aspectRatio') {
             this.aspectRatio = (button.value === "checked");
         }
+        if (buttonKey === '___heightAuto') {
+            this.heightAuto = (button.value === "checked");
+        }
         let children;
         let id = this.props.box.id;
         let props = {
@@ -184,16 +190,26 @@ export default class PluginToolbar extends Component {
             min: button.min,
             max: button.max,
             step: button.step,
+            disabled: false/*buttonKey == 'height' && this.heightAuto*/,
             className: button.class,
             style: {width: '100%'},
             onChange: e => {
-                 let value = e.target ? e.target.value : e.target;
+                let value = e.target ? e.target.value : e.target;
+                if (buttonKey == '___heightAuto') {
+                    this.heightAuto = !this.heightAuto;
+                    this.props.onToolbarUpdated(id, tabKey, accordionKeys, 'height',  this.heightAuto ? 'auto' : 100);
+                    this.props.onBoxResized(id,this.props.box.width, this.heightAuto ? 'auto' : '100%');
+
+                }
                 if (buttonKey == 'width') {
                     if (!this.aspectRatio) {
-                        this.props.onBoxResized(id, value + '%', this.props.box.height);
+                        this.props.onBoxResized(id, value  + '%', this.props.box.height);
                         this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, parseFloat(value));
                     } else {
-                        let newHeight = (parseFloat(this.props.box.height) * parseFloat(value) / parseFloat(this.props.box.width));
+                        let newHeight = (parseFloat(this.props.box.height) * parseFloat(value) / parseFloat(this.props.box.width)) ;
+                         if (this.heightAuto) {
+                            newHeight = 'auto';
+                        } 
                         this.props.onBoxResized(id, value + '%', newHeight + '%');
                         this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, parseFloat(value));
                         this.props.onToolbarUpdated(id, tabKey, accordionKeys, 'height', newHeight);
@@ -210,6 +226,7 @@ export default class PluginToolbar extends Component {
                         this.props.onToolbarUpdated(id, tabKey, accordionKeys, 'width', newWidth);
                     }
                 }
+
                 if (button.type === 'number') {
                     value = parseFloat(value) || 0;
                 }
@@ -242,7 +259,14 @@ export default class PluginToolbar extends Component {
             } 
 
         }
-
+        if (buttonKey == 'height') {
+            props.value = this.heightAuto ? 'auto' : parseFloat(this.props.box.height);
+            props.disabled = this.heightAuto;
+            props.type = this.heightAuto ? 'text' : 'number';
+        }
+        if (buttonKey == 'width') {
+            props.value = parseFloat(this.props.box.width);
+        }
         if (button.options && button.type === 'colorPicker'){
             props.options = button.options;
             props.optionRenderer = this.renderOption;

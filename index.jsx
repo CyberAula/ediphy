@@ -19,7 +19,7 @@ let initialState = {
 	    }, 
 	    navItemsIds:['se-1467887497411'],
 	    navItemSelected: 'se-1467887497411',
-	    // boxesIds: ['bs-1467887497412'],
+	    boxes: ['bs-1467887497412'],
 	    boxesById:{
 	    	'bs-1467887497412': { id: "bs-1467887497412", parent: "se-1467887497411", container: 0, content: undefined, type: "sortable", level: -1, col: 0, row: 0, position: {x:0, y:0}, width: "100%", height: undefined, text: null, draggable: false, resizable: false, showTextEditor: false, fragment:{}, children: [], sortableContainers:{} }
 	    },
@@ -35,6 +35,7 @@ ReactDOM.render(
     <Provider store={store}>
         <div style={{height: '100%'}}>
             <DaliApp id="app" store={store}/>
+            <DevTools/>
            </div>
     </Provider>, root
     );

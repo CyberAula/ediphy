@@ -6,7 +6,10 @@
   "author": "",
   "license": "ISC",
   "scripts": {
-    "start": "webpack-dev-server"
+    "start": "webpack-dev-server",
+    "both": "npm run start-webpack & npm run watch-sass",
+    "start-webpack": "webpack-dev-server",
+    "watch-sass": "sass --watch sass/style.scss:dist/css/compiledsass.css"
   },
   "devDependencies": {
     "babel-core": "^5.8.25",

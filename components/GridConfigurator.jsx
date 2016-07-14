@@ -2,6 +2,11 @@ import React, {Component} from 'react';
 import { Button, FormControl, InputGroup, FormGroup, ControlLabel, OverlayTrigger, Popover} from 'react-bootstrap';
 
 export default class GridConfigurator extends Component {
+    constructor(props) {
+        super(props);
+        
+        this.height = 200
+    }
     render() {
         let advancedColumns= (
                 <FormGroup>
@@ -22,9 +27,38 @@ export default class GridConfigurator extends Component {
                             this.props.onColsChanged(this.props.id, this.props.parentId, dist);
                        }} />
                 </FormGroup>);
-              
         return (
-            <div style={{width: '100%'}}>
+          <div style={{width: '100%'}}>
+            <FormGroup>
+                <InputGroup style={{width: '10%', float: 'right'}}>
+                <ControlLabel> auto</ControlLabel>
+                    <FormControl type="checkbox"
+                             key="height"
+                             value={this.props.sortableProps.height == 'auto' ? "checked" : "unchecked"}
+                             checked={this.props.sortableProps.height == 'auto'}
+                             label="Height auto"
+                             style={{width: '100%'}}
+                             onChange={e => {
+                                let current = this.props.sortableProps.height == 'auto'
+                                let newHeight = current ? parseFloat(document.getElementById(this.props.id).clientHeight) : 'auto';
+                                this.props.onSortableContainerResized(this.props.id, this.props.parentId, newHeight);
+                             }} />
+                </InputGroup>
+                 <ControlLabel>Height</ControlLabel>
+                <InputGroup style={{width: '50%'}}>
+                    <FormControl type="number"
+                             key="height"
+                             disabled={this.props.sortableProps.height == 'auto'}
+                             value={parseFloat(document.getElementById(this.props.id).style.height)}
+                             label="Block Height"
+                             style={{width: '100%'}}
+                             min={1}
+                             step={1}
+                             onChange={e => {
+                               this.props.onSortableContainerResized(this.props.id, this.props.parentId, e.target.value);
+                             }} />
+                </InputGroup>
+            </FormGroup>
             <FormGroup>
                 <ControlLabel>Column number</ControlLabel>
                 <InputGroup style={{width: '50%'}}>

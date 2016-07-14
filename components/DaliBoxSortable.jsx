@@ -26,11 +26,13 @@ export default class DaliBoxSortable extends Component {
                     return (<div key={index}
                                  className="daliBoxSortableContainer" 
                                  data-id={idContainer}
+                                 id={idContainer}
                                  style={{
                                     width: '100%',
-                                    height: container.height,
+                                    height: container.height + 'px',
                                    /* overflow: 'hidden',*/
                                     border: 0,
+                                    borderBottom: '5px solid rgba(255,121,32,0.5)',
                                     boxSizing: 'border-box',
                                     position: 'relative'}}>
                             <div style={{display: "table", width: "100%", height: "100%"}}>

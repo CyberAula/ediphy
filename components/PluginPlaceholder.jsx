@@ -31,6 +31,7 @@ export default class PluginPlaceholder extends Component {
                     overflow: "hidden",
                     display: "table",
                     position: 'relative'}}
+                 id={this.props.pluginContainer}
                  className={"drg" + this.props.pluginContainer}>
                 <div style={{
                     width: "100%",
