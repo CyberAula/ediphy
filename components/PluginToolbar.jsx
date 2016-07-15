@@ -92,11 +92,11 @@ export default class PluginToolbar extends Component {
             <div className="pestana" onClick={() => {this.setState({open: !this.state.open})}}> </div>
             <div id="tools" style={{width:  this.state.open? '250px':'40px'}} className="toolbox">
                 <OverlayTrigger placement="left" overlay={ <Tooltip className={this.state.open ? 'hidden':''} id="tooltip_props">propiedades</Tooltip>}>
-                    <p  onClick={() => {this.setState({open: !this.state.open})}} style={{display: this.props.carouselShow? 'block':'none'}} className={this.state.open ? 'carouselListTitle toolbarSpread':'carouselListTitle toolbarHide'}>
+                    <div  onClick={() => {this.setState({open: !this.state.open})}} style={{display: this.props.carouselShow? 'block':'none'}} className={this.state.open ? 'carouselListTitle toolbarSpread':'carouselListTitle toolbarHide'}>
 
                       <div className="toolbarTitle"><i className="material-icons">palette</i><span className="toolbarTitletxt">Propiedades</span></div>
                       <div className="pluginTitleInToolbar"> {toolbar.config.name || ""}</div>
-                    </p>
+                    </div>
                 </OverlayTrigger>
                 <div id="insidetools" style={{display: this.state.open? 'block':'none'}}>
                     <div className="toolbarTabs" id="controlledTabs">
@@ -104,13 +104,13 @@ export default class PluginToolbar extends Component {
                                              onSelect={(key) => this.handleSelect(key)} id="controlledTabs">*/}
                         {Object.keys(toolbar.controls).map((tabKey, index) => {
                             let tab = toolbar.controls[tabKey];
-                            return (
+                             return (
                                 <div  key={index}  className={"toolbarTab"}>
                                     {/*<Tab key={index} className={"toolbarTab"} eventKey={index} title={tab.__name}>
                                             <ButtonGroup style={{width: '100%'}}> {deletebutton} {duplicateButton} </ButtonGroup>
                                         <br/><br/>*/}
                                     <PanelGroup>
-                                        {Object.keys(tab.accordions).map((accordionKey, index) => {
+                                        {Object.keys(tab.accordions).sort().map((accordionKey, index) => {
                                             let accordion = tab.accordions[accordionKey];
                                             return this.renderAccordion(accordion, tabKey, [accordionKey], toolbar.state, index);
                                         })}
@@ -194,7 +194,6 @@ export default class PluginToolbar extends Component {
             className: button.class,
             style: {width: '100%'},
             onChange: e => {
-                console.log(this.props.box)
                 let value = e.target ? e.target.value : e.target;
                 if (buttonKey == '___heightAuto') {
                     this.heightAuto = !this.heightAuto;

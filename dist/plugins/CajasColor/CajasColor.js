@@ -59,7 +59,7 @@ Dali.Plugins["CajasColor"] = function (base){
                             },
                             order: ["number", "allEqual", "color", "radios"]
                         },
-                        extra: {
+                        '~extra': {
                             __name: "Extra",
                             buttons: {}
                         }

@@ -69,7 +69,7 @@ Dali.Plugins["BasicText"] = function (base) {
                                 }
                             }
                         },
-                        extra: {
+                        '~extra': {
                             icon: 'more_horiz',
                             __name: "Extra",
                             buttons: {}

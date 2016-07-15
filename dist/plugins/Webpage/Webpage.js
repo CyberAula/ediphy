@@ -46,7 +46,7 @@ Dali.Plugins["Webpage"] = function (base){
                                 }
                             }
                         },
-                        extra: {
+                        '~extra': {
                             __name: "Extra",
                             buttons: {
                                 test: {

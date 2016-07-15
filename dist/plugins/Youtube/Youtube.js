@@ -46,7 +46,7 @@ Dali.Plugins["Youtube"] = function (base) {
                                 }
                             }
                         },
-                        extra: {
+                        '~extra': {
                             __name: "Extra",
                             buttons: {
                                 test: {

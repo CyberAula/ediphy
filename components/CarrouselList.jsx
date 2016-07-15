@@ -59,7 +59,7 @@ export default class CarrouselList extends Component{
                                onBoxAdded={this.props.onBoxAdded}   
                                onPageAdded={this.props.onSectionAdded} /> 
 
-                    <OverlayTrigger trigger="focus" placement="top" overlay={
+                    <OverlayTrigger trigger="click" rootClose placement="top" overlay={
                         <Popover id="popov" title="Eliminar página">
                             <i style={{color: 'yellow', fontSize: '13px'}} className="material-icons">warning</i> Esta acción borrará todo el contenido de la página.<br/>
                                 <Button className="popoverButton" 

@@ -89,7 +89,7 @@ Dali.Plugins["BasicVideo"] = function (base){
                                 },
                             }
                         },
-                        extra: {
+                        '~extra': {
                             __name: "Alias",
                             buttons: {
                                 test: {

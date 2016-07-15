@@ -465,9 +465,7 @@ function navItemsIds(state = [], action = {}) {
     switch (action.type) {
         case ADD_NAV_ITEM:
             let nState = state.slice();
-            console.log(nState)
             nState.splice(action.payload.position-1, 0, action.payload.id);
-            console.log(nState)
             return nState;
         case REMOVE_NAV_ITEM:
             let newState = state.slice();
@@ -629,20 +627,20 @@ function createSortableButtons(controls, width, height) {
         controls.main = {
             __name: "Main",
             accordions: {
-                sortable: {
+                _sortable: {
                     __name: "Estructura",
                     buttons: {}
                 }
             }
         };
-    } else if (!controls.main.accordions.sortable) {
-        controls.main.accordions.sortable = {
+    } else if (!controls.main.accordions._sortable) {
+        controls.main.accordions._sortable = {
             __name: "Estructura",
             icon: 'dashboard',
             buttons: {}
         };
     }
-    controls.main.accordions.sortable.buttons.width = {
+    controls.main.accordions._sortable.buttons.width = {
         __name: 'Width (%)',
         type: 'number',
         value: width || 100,
@@ -651,7 +649,7 @@ function createSortableButtons(controls, width, height) {
         step: 5,
         autoManaged: true
     };
-    controls.main.accordions.sortable.buttons.height = {
+    controls.main.accordions._sortable.buttons.height = {
         __name: 'Height (%)',
         type: 'number',
         value: 'auto',
@@ -660,14 +658,14 @@ function createSortableButtons(controls, width, height) {
         step: 5,
         autoManaged: true
     };
-    controls.main.accordions.sortable.buttons.___heightAuto = {
+    controls.main.accordions._sortable.buttons.___heightAuto = {
         __name: 'Height Auto',
         type: 'checkbox',
         value: 'checked',
         checked: 'true',
         autoManaged: true
     };
-    controls.main.accordions.sortable.buttons.___position = {
+    controls.main.accordions._sortable.buttons.___position = {
         __name: 'Position',
         type: 'radio',
         value: 'relative',
@@ -682,21 +680,21 @@ function createFloatingBoxButtons(controls, width, height) {
         controls.main = {
             __name: "Main",
             accordions: {
-                sortable: {
+                _sortable: {
                     __name: "Estructura",
                     buttons: {}
                 }
             }
         };
-    } else if (!controls.main.accordions.sortable) {
-        controls.main.accordions.sortable = {
+    } else if (!controls.main.accordions._sortable) {
+        controls.main.accordions._sortable = {
             __name: "Estructura",
             icon: 'dashboard',
             buttons: {}
         };
     }
      
-    controls.main.accordions.sortable.buttons.width = {
+    controls.main.accordions._sortable.buttons.width = {
         __name: 'Width (px)',
         type: 'number',
         value: width || 100,
@@ -705,7 +703,7 @@ function createFloatingBoxButtons(controls, width, height) {
         step: 5,
         autoManaged: true
     };
-    controls.main.accordions.sortable.buttons.height = {
+    controls.main.accordions._sortable.buttons.height = {
         __name: 'Height (px)',
         type: 'number',
         value: 'auto',
@@ -714,7 +712,7 @@ function createFloatingBoxButtons(controls, width, height) {
         step: 5,
         autoManaged: true
     };
-    controls.main.accordions.sortable.buttons.___heightAuto = {
+    controls.main.accordions._sortable.buttons.___heightAuto = {
         __name: 'Height Auto',
         type: 'checkbox',
         value: 'checked',
@@ -732,19 +730,19 @@ function createAliasButton(controls, alias) {
             __name: "Alias",
             icon: 'link',
             accordions: {
-                extra: {
+                '~extra': {
                     __name: "Extra",
                     buttons: {}
                 }
             }
         };
-    } else if (!controls.main.accordions.extra) {
-        controls.main.accordions.extra = {
+    } else if (!controls.main.accordions['~extra']) {
+        controls.main.accordions['~extra'] = {
             __name: "Extra",
             buttons: {}
         };
     }
-    controls.main.accordions.extra.buttons.alias = {
+    controls.main.accordions['~extra'].buttons.alias = {
         __name: 'Alias',
         type: 'text',
         value: alias || "",
@@ -778,9 +776,9 @@ function toolbarsById(state = {}, action = {}) {
             if (action.payload.ids.id.indexOf(ID_PREFIX_SORTABLE_BOX) === -1) {
                 createAliasButton(toolbar.controls);
             }
-
             if (toolbar.config && toolbar.config.aspectRatioButtonConfig) {
                 let arb = toolbar.config.aspectRatioButtonConfig;
+
                 let button = {
                     __name: arb.name,
                     type: "checkbox",
@@ -846,15 +844,15 @@ function toolbarsById(state = {}, action = {}) {
 
             if (newState[action.payload.id] && newState[action.payload.id].controls){
                 if (newState[action.payload.id].controls.main && newState[action.payload.id].controls.main.accordions) {
-                    if (newState[action.payload.id].controls.main.accordions['sortable']) {
-                        let buttons = newState[action.payload.id].controls.main.accordions['sortable'].buttons
+                    if (newState[action.payload.id].controls.main.accordions['_sortable']) {
+                        let buttons = newState[action.payload.id].controls.main.accordions['_sortable'].buttons
                         if (buttons.___heightAuto) {
-                            newState[action.payload.id].controls.main.accordions['sortable'].buttons.___heightAuto.checked = heightAuto;
-                            newState[action.payload.id].controls.main.accordions['sortable'].buttons.___heightAuto.value = heightAuto  ? 'checked' : 'unchecked';                          
+                            newState[action.payload.id].controls.main.accordions['_sortable'].buttons.___heightAuto.checked = heightAuto;
+                            newState[action.payload.id].controls.main.accordions['_sortable'].buttons.___heightAuto.value = heightAuto  ? 'checked' : 'unchecked';                          
                         }   
                         if (buttons.height && buttons.width) {
-                            newState[action.payload.id].controls.main.accordions['sortable'].buttons.height.value = height;
-                            newState[action.payload.id].controls.main.accordions['sortable'].buttons.width.value = height;
+                            newState[action.payload.id].controls.main.accordions['_sortable'].buttons.height.value = height;
+                            newState[action.payload.id].controls.main.accordions['_sortable'].buttons.width.value = height;
                         }   
                     }
                 }
@@ -890,12 +888,12 @@ function toolbarsById(state = {}, action = {}) {
             try {
                 createSortableButtons(
                     controls,
-                    state[action.payload.id].controls.main.accordions.sortable.buttons.width.value,
-                    state[action.payload.id].controls.main.accordions.sortable.buttons.height.value
+                    state[action.payload.id].controls.main.accordions._sortable.buttons.width.value,
+                    state[action.payload.id].controls.main.accordions._sortable.buttons.height.value
                 );
                 createAliasButton(
                     controls,
-                    state[action.payload.id].controls.other.accordions.extra.buttons.alias.value
+                    state[action.payload.id].controls.other.accordions['~extra'].buttons.alias.value
                 );
             } catch (e) {
             }

@@ -6,7 +6,7 @@ Dali.Plugins["BasicImage"] = function (base){
                 category: 'image',
                 needsConfigModal: false,
                 needsTextEdition: false,
-                aspectRatioButtonConfig: {name: "Aspect Ratio", location: ["main", "sortable"], defaultValue: "checked"},
+                aspectRatioButtonConfig: {name: "Aspect Ratio", location: ["main", "_sortable"], defaultValue: "checked"},
                 icon: 'panorama'
             };
         },
@@ -84,7 +84,7 @@ Dali.Plugins["BasicImage"] = function (base){
                                 }
                             }
                         },
-                        extra: {
+                        '~extra': {
                             __name: "Extra",
                             icon: 'more_horiz',
                             buttons: {
