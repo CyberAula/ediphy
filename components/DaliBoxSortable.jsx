@@ -67,6 +67,8 @@ export default class DaliBoxSortable extends Component {
                                                                              onBoxModalToggled={this.props.onBoxModalToggled}
                                                                              onSortableContainerResized={this.props.onSortableContainerResized}
                                                                              onTextEditorToggled={this.props.onTextEditorToggled}/>);
+                                                        } else if (index == container.children.length - 1) {
+                                                            return (<br/>)
                                                         }
                                                     })}</div>);
                                             })}
@@ -74,7 +76,10 @@ export default class DaliBoxSortable extends Component {
                                 }
                             })}
                             </div>
-                            <i style={{verticalAlign: 'middle'}} className="material-icons drag-handle">swap_vert</i>
+                            <i style={{verticalAlign: 'middle', 
+                                       position: container.height == 'auto' ? 'relative' : 'absolute',
+                                       marginTop: container.height == 'auto' ? '0px' : '-24px'
+                                   }} className="material-icons drag-handle">swap_vert</i>
                         </div>);
                     })}
                 </div>
@@ -89,6 +94,9 @@ export default class DaliBoxSortable extends Component {
         this.dropZone(".daliBoxSortableContainer", "first", ".rib", 0);
         interact(".daliBoxSortableContainer").resizable({
             edges: {left: false, right: false, bottom: true, top: false},
+            onstart: (event) => {
+                this.props.onSortableContainerResized(event.target.getAttribute("data-id"), this.props.id, parseInt(event.target.style.height));
+            },            
             onmove: (event) => {
                 event.target.style.height = event.rect.height + 'px';
             },
