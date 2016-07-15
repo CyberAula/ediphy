@@ -146,8 +146,8 @@ export default class GridConfigurator extends Component {
                   })
                 }
                 <h4 className="sortableToolbarTitle">Estilo</h4>
-                <p>Borde, fondo, padding, opacidad, etc</p>
-
+                <span>Borde, fondo, padding, opacidad, etc</span>
+                 
 
             </div>
         )

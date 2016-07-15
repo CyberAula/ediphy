@@ -47,7 +47,7 @@ Dali.Plugins["BasicVideo"] = function (base){
                             }
                         },
                         style: {
-                            __name: "Style",
+                            __name: "Estilo caja",
                             buttons: {
                                 opacity: {
                                     __name: 'Opacity',
@@ -90,7 +90,7 @@ Dali.Plugins["BasicVideo"] = function (base){
                             }
                         },
                         extra: {
-                            __name: "Extra",
+                            __name: "Alias",
                             buttons: {
                                 test: {
                                     __name: 'Test',

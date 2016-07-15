@@ -149,7 +149,7 @@ export default class PluginToolbar extends Component {
     }
 
     renderAccordion(accordion, tabKey, accordionKeys, state, key) {
-        let props = {key: key, className: "panelPluginToolbar", collapsible: true, header: accordion.__name};
+        let props = {key: key, className: "panelPluginToolbar", collapsible: true, header: (<span><i className="toolbarIcons material-icons">{accordion.icon ? accordion.icon : <span className="toolbarIcons" />}</i>{accordion.__name}</span>)};
         let children = [];
 
         if (accordion.order) {
@@ -194,6 +194,7 @@ export default class PluginToolbar extends Component {
             className: button.class,
             style: {width: '100%'},
             onChange: e => {
+                console.log(this.props.box)
                 let value = e.target ? e.target.value : e.target;
                 if (buttonKey == '___heightAuto') {
                     this.heightAuto = !this.heightAuto;
@@ -202,26 +203,30 @@ export default class PluginToolbar extends Component {
 
                 }
                 if (buttonKey == 'width') {
+                    let units =  (this.props.box.container == 0) ? 'px':'%';
                     if (!this.aspectRatio) {
-                        this.props.onBoxResized(id, value  + '%', this.props.box.height);
-                        this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, parseFloat(value));
-                    } else {
-                        let newHeight = (parseFloat(this.props.box.height) * parseFloat(value) / parseFloat(this.props.box.width)) ;
-                         if (this.heightAuto) {
+                        let newHeight =  parseFloat(value);
+                        if (this.heightAuto) {
                             newHeight = 'auto';
                         }
-                        this.props.onBoxResized(id, value + '%', newHeight + '%');
+                        this.props.onBoxResized(id, value  + units, this.props.box.height);
+                        this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, parseFloat(value));
+                    } else {
+                        let newHeight = this.heightAuto ? 'auto' : (parseFloat(this.props.box.height) * parseFloat(value) / parseFloat(this.props.box.width)) ;
+                        this.props.onBoxResized(id, value + units, this.heightAuto ? newHeight : (newHeight + units));
                         this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, parseFloat(value));
                         this.props.onToolbarUpdated(id, tabKey, accordionKeys, 'height', newHeight);
+                        
                     }
                 }
                 if (buttonKey == 'height') {
+                    let units =  (this.props.box.container == 0) ? 'px':'%';
                     if (!this.aspectRatio) {
-                        this.props.onBoxResized(id, this.props.box.width, value + '%');
+                        this.props.onBoxResized(id, this.props.box.width, value + units);
                         this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, parseFloat(value));
                     } else {
                         let newWidth = (parseFloat(this.props.box.width) * parseFloat(value) / parseFloat(this.props.box.height));
-                        this.props.onBoxResized(id, newWidth + '%', value + '%');
+                        this.props.onBoxResized(id, newWidth + units, value + units);
                         this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, parseFloat(value));
                         this.props.onToolbarUpdated(id, tabKey, accordionKeys, 'width', newWidth);
                     }

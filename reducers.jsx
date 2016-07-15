@@ -630,7 +630,7 @@ function createSortableButtons(controls, width, height) {
             __name: "Main",
             accordions: {
                 sortable: {
-                    __name: "Sortable",
+                    __name: "Estructura",
                     buttons: {}
                 }
             }
@@ -638,6 +638,7 @@ function createSortableButtons(controls, width, height) {
     } else if (!controls.main.accordions.sortable) {
         controls.main.accordions.sortable = {
             __name: "Estructura",
+            icon: 'dashboard',
             buttons: {}
         };
     }
@@ -676,10 +677,60 @@ function createSortableButtons(controls, width, height) {
 
 }
 
+function createFloatingBoxButtons(controls, width, height) {
+    if (!controls.main) {
+        controls.main = {
+            __name: "Main",
+            accordions: {
+                sortable: {
+                    __name: "Estructura",
+                    buttons: {}
+                }
+            }
+        };
+    } else if (!controls.main.accordions.sortable) {
+        controls.main.accordions.sortable = {
+            __name: "Estructura",
+            icon: 'dashboard',
+            buttons: {}
+        };
+    }
+     
+    controls.main.accordions.sortable.buttons.width = {
+        __name: 'Width (px)',
+        type: 'number',
+        value: width || 100,
+        min: 0,
+        max: 100,
+        step: 5,
+        autoManaged: true
+    };
+    controls.main.accordions.sortable.buttons.height = {
+        __name: 'Height (px)',
+        type: 'number',
+        value: 'auto',
+        min: 0,
+        max: 100,
+        step: 5,
+        autoManaged: true
+    };
+    controls.main.accordions.sortable.buttons.___heightAuto = {
+        __name: 'Height Auto',
+        type: 'checkbox',
+        value: 'checked',
+        checked: 'true',
+        autoManaged: true
+    };
+      
+
+}
+
+
 function createAliasButton(controls, alias) {
     if (!controls.main) {
         controls.main = {
-            __name: "Other",
+            __name: "Alias",
+            icon: 'link',
             accordions: {
                 extra: {
                     __name: "Extra",
@@ -720,6 +771,8 @@ function toolbarsById(state = {}, action = {}) {
             }
             if (action.payload.ids.container !== 0) {
                 createSortableButtons(toolbar.controls);
+            } else {
+                createFloatingBoxButtons(toolbar.controls)
             }
 
             if (action.payload.ids.id.indexOf(ID_PREFIX_SORTABLE_BOX) === -1) {
