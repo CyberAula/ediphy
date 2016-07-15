@@ -4,7 +4,7 @@ import { Button, FormControl, InputGroup, FormGroup, ControlLabel, OverlayTrigge
 export default class GridConfigurator extends Component {
     constructor(props) {
         super(props);
-        
+
         this.height = 200
     }
     render() {
@@ -20,7 +20,7 @@ export default class GridConfigurator extends Component {
                             let dist = e.target.value.split(" ").map(function (i){
                                 if(i && !isNaN(parseFloat(i))){
                                     return parseFloat(i);
-                                } else{ 
+                                } else{
                                   return 0;
                                 }
                             });
@@ -31,6 +31,7 @@ export default class GridConfigurator extends Component {
         let height = this.props.sortableProps.height;
         return (
           <div style={{width: '100%'}}>
+            <h4 className="sortableToolbarTitle">Estructura</h4>
             <FormGroup>
                 <OverlayTrigger trigger="focus" placement="left" overlay={height != 'auto' ? tooltip: <i/>}>
                   <InputGroup style={{width: '10%', float: 'right'}}>
@@ -63,6 +64,15 @@ export default class GridConfigurator extends Component {
                              }} />
                 </InputGroup>
             </FormGroup>
+            <div className="configurator">
+              { this.props.container.cols.map((item, index) => {
+                  return (<div className="gc_columns" key={index} style={{width: this.props.container.colDistribution[index]+'%'}}>
+                    { item.map((it, index) => {
+                        return <div className="gc_rows" key={index} style={{ height: it+'%'}}></div>
+                    })}
+                  </div>);
+              })}
+            </div>
             <FormGroup>
                 <ControlLabel>Column number</ControlLabel>
                 <InputGroup style={{width: '50%'}}>
@@ -86,15 +96,7 @@ export default class GridConfigurator extends Component {
                       </OverlayTrigger>
                   </InputGroup>
             </FormGroup>
-            <div className="configurator">
-              { this.props.container.cols.map((item, index) => {
-                  return (<div className="gc_columns" key={index} style={{width: this.props.container.colDistribution[index]+'%'}}>
-                    { item.map((it, index) => {
-                        return <div className="gc_rows" key={index} style={{ height: it+'%'}}></div>
-                    })}
-                  </div>);
-              })}
-            </div>
+
                 { this.props.container.cols.map((item, index) => {
                     let advancedRows = (
                         <FormGroup key={index}>
@@ -109,7 +111,7 @@ export default class GridConfigurator extends Component {
                                               let dist = e.target.value.split(" ").map(function (i){
                                                   if(i && !isNaN(parseFloat(i))){
                                                     return parseFloat(i);
-                                                  } else { 
+                                                  } else {
                                                     return 0;
                                                   }
                                               });
@@ -118,7 +120,7 @@ export default class GridConfigurator extends Component {
                         </FormGroup>
 
                       )
-                      return ( 
+                      return (
                        <FormGroup key={index+'_0'}>
                         <ControlLabel>{"Row number in col " + (index + 1)}</ControlLabel>
                         <InputGroup style={{width: '50%'}}>
@@ -143,6 +145,8 @@ export default class GridConfigurator extends Component {
                       </FormGroup> )
                   })
                 }
+                <h4 className="sortableToolbarTitle">Estilo</h4>
+                <p>Borde, fondo, padding, opacidad, etc</p>
 
 
             </div>

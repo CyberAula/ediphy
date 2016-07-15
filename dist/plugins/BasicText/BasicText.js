@@ -14,7 +14,7 @@ Dali.Plugins["BasicText"] = function (base) {
                 main: {
                     __name: "Main",
                     accordions: {
-                         
+
                         basic: {
                             __name: "Basic",
                             buttons: {
@@ -43,7 +43,7 @@ Dali.Plugins["BasicText"] = function (base) {
                                     __name: 'Padding (px)',
                                     type: 'number',
                                     units: 'px',
-                                    value: 1,
+                                    value: 15,
                                     min: 0
                                 }
                             }

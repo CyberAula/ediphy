@@ -14,24 +14,24 @@
 	border:0;
 	background-color: white;
 	cursor:pointer;
- 
+
 }
 
 /******************GRID LAYOUT*******************/
 /*Container*/
 .configurator {
-	width: 90%; 
+	width: 100%; 
 	height: 100px;
 	background-color: grey;
 	word-wrap:none;
-	overflow:hidden; 
+	overflow:hidden;
 	border: 1px solid white;
 }
 
 /*Columns*/
 .gc_columns {
 	display: inline-block;
-	height: 100%; 
+	height: 100%;
 }
 
 /*Rows*/
@@ -70,5 +70,5 @@
 	.arrow::after{
 		border-bottom-color: $darkest;
 	}
-	
+
 }

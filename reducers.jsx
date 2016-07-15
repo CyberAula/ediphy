@@ -563,9 +563,9 @@ function navItemsById(state = {}, action = {}) {
             }
         case CHANGE_SECTION_TITLE:
             return Object.assign({}, state, {
-                    [action.payload.id ]: Object.assign({},state[action.payload.id],{name: action.payload.title}) 
+                    [action.payload.id ]: Object.assign({},state[action.payload.id],{name: action.payload.title})
                     });
-         
+
         case ADD_BOX:
             if (action.payload.ids.parent && action.payload.ids.parent.indexOf(ID_PREFIX_PAGE) !== -1 || action.payload.ids.parent.indexOf(ID_PREFIX_SECTION) !== -1) {
                 return Object.assign({}, state, {
@@ -637,7 +637,7 @@ function createSortableButtons(controls, width, height) {
         };
     } else if (!controls.main.accordions.sortable) {
         controls.main.accordions.sortable = {
-            __name: "Layout",
+            __name: "Estructura",
             buttons: {}
         };
     }
@@ -663,7 +663,7 @@ function createSortableButtons(controls, width, height) {
         __name: 'Height Auto',
         type: 'checkbox',
         value: 'checked',
-        checked: 'true', 
+        checked: 'true',
         autoManaged: true
     };
     controls.main.accordions.sortable.buttons.___position = {

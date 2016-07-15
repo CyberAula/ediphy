@@ -31,20 +31,21 @@ Dali.Plugins["BasicImage"] = function (base){
                             __name: "Style",
                             icon: 'style',
                             buttons: {
-                                opacity: {
-                                    __name: 'Opacity',
-                                    type: 'range',
-                                    value: 1,
-                                    min: 0,
-                                    max: 1,
-                                    step: 0.01
-                                },
+
+
                                 borderSize: {
-                                    __name: 'Border Size',
-                                    type: 'number',
-                                    value: 0,
-                                    min: 0,
-                                    max: 10,
+                                      __name: 'Border Size',
+                                      type: 'number',
+                                      value: 0,
+                                      min: 0,
+                                      max: 10,
+                                      autoManaged: false
+                                },
+                                borderStyle: {
+                                    __name: 'Border Style',
+                                    type: 'select',
+                                    value: 'solid',
+                                    options: ['none', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset', 'initial', 'inherit'],
                                     autoManaged: false
                                 },
                                 borderColor: {
@@ -54,19 +55,20 @@ Dali.Plugins["BasicImage"] = function (base){
                                     autoManaged: false
                                 },
                                 borderRadius: {
-                                    __name: 'Border Radius',
+                                    __name: 'Radius',
                                     type: 'number',
                                     value: '0',
                                     min: '0',
                                     max: '50',
                                     autoManaged: false
                                 },
-                                borderStyle: {
-                                    __name: 'Border Style',
-                                    type: 'select',
-                                    value: 'solid',
-                                    options: ['none', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset', 'initial', 'inherit'],
-                                    autoManaged: false
+                                opacity: {
+                                    __name: 'Opacity',
+                                    type: 'range',
+                                    value: 1,
+                                    min: 0,
+                                    max: 1,
+                                    step: 0.01
                                 }
                             }
                         },
