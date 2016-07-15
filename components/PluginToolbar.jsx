@@ -3,7 +3,7 @@ import {Tooltip, FormControl, OverlayTrigger, FormGroup, Radio, ControlLabel, Ch
 import ReactDOM from 'react-dom';
 import GridConfigurator from '../components/GridConfigurator.jsx';
 import Select from 'react-select';
-  
+
 
 export default class PluginToolbar extends Component {
     constructor(props) {
@@ -31,7 +31,7 @@ export default class PluginToolbar extends Component {
                     <div id="tools"  className="toolbox">
                     </div>
                 </div>);
-        } 
+        }
 
         let toolbar = this.props.toolbars[this.props.box.id];
         let textButton;
@@ -64,7 +64,7 @@ export default class PluginToolbar extends Component {
         let deletebutton;
         if (this.props.box.id[1] != 's') {
             deletebutton = (<Button key={'delete'}
-                                    className="pluginToolbarMainButton" 
+                                    className="pluginToolbarMainButton"
                                     onClick={e => {
                                         this.props.onBoxDeleted(this.props.box.id, this.props.box.parent, this.props.box.container);
                                         e.stopPropagation();
@@ -73,7 +73,7 @@ export default class PluginToolbar extends Component {
         let duplicateButton;
         if (this.props.box.id[1] != 's') {
             duplicateButton = (<Button key={'duplicate'}
-                                       className="pluginToolbarMainButton" 
+                                       className="pluginToolbarMainButton"
                                        onClick={e => {
                                           this.props.onBoxDuplicated(this.props.box.id, this.props.box.parent, this.props.box.container);
                                           e.stopPropagation();
@@ -93,9 +93,9 @@ export default class PluginToolbar extends Component {
             <div id="tools" style={{width:  this.state.open? '250px':'40px'}} className="toolbox">
                 <OverlayTrigger placement="left" overlay={ <Tooltip className={this.state.open ? 'hidden':''} id="tooltip_props">propiedades</Tooltip>}>
                     <p  onClick={() => {this.setState({open: !this.state.open})}} style={{display: this.props.carouselShow? 'block':'none'}} className={this.state.open ? 'carouselListTitle toolbarSpread':'carouselListTitle toolbarHide'}>
-                      <i className="material-icons">palette</i>  
-                      <span className="toolbarTitle">Propiedades  </span><br/>
-                      <span className="pluginTitleInToolbar">   {toolbar.config.name || ""}</span>
+
+                      <div className="toolbarTitle"><i className="material-icons">palette</i><span className="toolbarTitletxt">Propiedades</span></div>
+                      <div className="pluginTitleInToolbar"> {toolbar.config.name || ""}</div>
                     </p>
                 </OverlayTrigger>
                 <div id="insidetools" style={{display: this.state.open? 'block':'none'}}>
@@ -118,10 +118,10 @@ export default class PluginToolbar extends Component {
                                             let container = this.props.box.sortableContainers[id];
                                             if (tabKey === "main") {
                                                 return (
-                                                    <Panel  key={id} 
-                                                            className="panelPluginToolbar" 
+                                                    <Panel  key={id}
+                                                            className="panelPluginToolbar"
                                                             collapsible
-                                                            header={'Caja '+ (index + 1)}>
+                                                            header={'Bloque '+ (index + 1)}>
                                                         <GridConfigurator id={id}
                                                                           parentId={this.props.box.id}
                                                                           container={container}
@@ -133,7 +133,7 @@ export default class PluginToolbar extends Component {
                                             }
                                         })}
                                     </PanelGroup>
-                                     
+
                                     {textButton}
                                     {xmlButton}
                                     {configButton}
@@ -149,7 +149,7 @@ export default class PluginToolbar extends Component {
     }
 
     renderAccordion(accordion, tabKey, accordionKeys, state, key) {
-        let props = {key: key, className: "panelPluginToolbar", collapsible: true, header: accordion.__name};
+        let props = {key: key, className: "panelPluginToolbar", collapsible: true, header: (<span><i className="toolbarIcons material-icons">{accordion.icon ? accordion.icon : <span className="toolbarIcons" />}</i>{accordion.__name}</span>)};
         let children = [];
 
         if (accordion.order) {
@@ -194,6 +194,7 @@ export default class PluginToolbar extends Component {
             className: button.class,
             style: {width: '100%'},
             onChange: e => {
+                console.log(this.props.box)
                 let value = e.target ? e.target.value : e.target;
                 if (buttonKey == '___heightAuto') {
                     this.heightAuto = !this.heightAuto;
@@ -202,26 +203,30 @@ export default class PluginToolbar extends Component {
 
                 }
                 if (buttonKey == 'width') {
+                    let units =  (this.props.box.container == 0) ? 'px':'%';
                     if (!this.aspectRatio) {
-                        this.props.onBoxResized(id, value  + '%', this.props.box.height);
+                        let newHeight =  parseFloat(value);
+                        if (this.heightAuto) {
+                            newHeight = 'auto';
+                        }
+                        this.props.onBoxResized(id, value  + units, this.props.box.height);
                         this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, parseFloat(value));
                     } else {
-                        let newHeight = (parseFloat(this.props.box.height) * parseFloat(value) / parseFloat(this.props.box.width)) ;
-                         if (this.heightAuto) {
-                            newHeight = 'auto';
-                        } 
-                        this.props.onBoxResized(id, value + '%', newHeight + '%');
+                        let newHeight = this.heightAuto ? 'auto' : (parseFloat(this.props.box.height) * parseFloat(value) / parseFloat(this.props.box.width)) ;
+                        this.props.onBoxResized(id, value + units, this.heightAuto ? newHeight : (newHeight + units));
                         this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, parseFloat(value));
                         this.props.onToolbarUpdated(id, tabKey, accordionKeys, 'height', newHeight);
+                        
                     }
                 }
                 if (buttonKey == 'height') {
+                    let units =  (this.props.box.container == 0) ? 'px':'%';
                     if (!this.aspectRatio) {
-                        this.props.onBoxResized(id, this.props.box.width, value + '%');
+                        this.props.onBoxResized(id, this.props.box.width, value + units);
                         this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, parseFloat(value));
                     } else {
                         let newWidth = (parseFloat(this.props.box.width) * parseFloat(value) / parseFloat(this.props.box.height));
-                        this.props.onBoxResized(id, newWidth + '%', value + '%');
+                        this.props.onBoxResized(id, newWidth + units, value + units);
                         this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, parseFloat(value));
                         this.props.onToolbarUpdated(id, tabKey, accordionKeys, 'width', newWidth);
                     }
@@ -235,6 +240,11 @@ export default class PluginToolbar extends Component {
                 }
                 if (button.type === 'radio') {
                     value = button.options[value]
+                    if (buttonKey == '___position') {
+                        this.props.onToolbarUpdated(id, tabKey, accordionKeys, '___position', value);
+                        this.props.onBoxMoved(id, 0, 0, value);
+
+                    }
                 }
 
                 if (button.type === 'select' && button.multiple === true){
@@ -253,10 +263,10 @@ export default class PluginToolbar extends Component {
                     button.callback(state, buttonKey, value, id);
                 }
 
-               /* 
+               /*
                     e.stopPropagation();
                */
-            } 
+            }
 
         }
         if (buttonKey == 'height') {
@@ -288,19 +298,19 @@ export default class PluginToolbar extends Component {
 
                 return React.createElement(FormGroup, {key: button.__name}, [React.createElement(ControlLabel, {key: 'label_' + button.__name}, button.__name),
                                                                              React.createElement(FormControl, props, children)]);
-       
+
             } else {
                 props.multiple = 'multiple'
                 props.options = button.options;
                 props.multi = true;
                 props.simpleValue = true;
-                props.placeholder = "No has elegido ninguna opción" 
+                props.placeholder = "No has elegido ninguna opción"
                 return React.createElement(FormGroup, {key: button.__name}, [React.createElement(ControlLabel, {key: 'label_' + button.__name}, button.__name),
                                                                              React.createElement(Select, props, null)]);
             }
 
-               
-              
+
+
         } else if (button.type === 'checkbox') {
             props.checked = button.value == 'checked';
             return React.createElement(FormGroup, {key: button.__name},
@@ -348,7 +358,3 @@ export default class PluginToolbar extends Component {
 
 
 }
-
- 
-
-

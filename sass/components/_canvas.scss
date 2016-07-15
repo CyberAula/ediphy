@@ -3,7 +3,7 @@
 .outter{
 	background-color: $fondo;
 	height: 100%;
-	padding-top: 39px; 
+	padding-top: 39px;
 
 }
 
@@ -21,25 +21,16 @@
 .sli {
 	height: 100%;
 	background-color: white ;
-	// margin: 0px 100px 0px 100px;  
+	// margin: 0px 100px 0px 100px;
 	overflow-x: hidden;
 	overflow-y: hidden;
 }
 .doc {
 	height: 100%;
 	background-color: white;
-	margin: 0px;  
+	margin: 0px;
 	overflow-x: hidden;
 	overflow-y: auto;
-}
-
- 
-
-.title{
-	margin-left: 30px;
-	margin-right: 30px;
-	padding-top: 10px;
-	position: relative;
 }
 
 .buttonTitle{
@@ -78,10 +69,13 @@
 }
 
 #canvas{
-	position: relative; 
+	position: relative;
 	width: calc(100% - 40px);
  }
 
  #maincontent{
  	position:relative;
+ }
+ .drag-handle {
+
  }

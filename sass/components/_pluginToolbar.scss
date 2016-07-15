@@ -10,7 +10,7 @@
 	margin: 0;
     position: fixed;
    	bottom:0;
- 
+
 
 }
 /*Wrapper when no box is selected*/
@@ -50,7 +50,7 @@
 
     }
 
- 
+
     .form-control {
     	height: auto;
     	-webkit-box-shadow: none;
@@ -102,7 +102,7 @@
 		a {
 			border-color: transparent;
 			color: $lightestgrey;
-			border-radius:0;	
+			border-radius:0;
 			padding: 10px 12px;
 			&:hover{
 				border-color: transparent;
@@ -110,7 +110,7 @@
 				color: $naranjaadams;
 			}
 		}
-		
+
 	}
 
 }
@@ -150,13 +150,14 @@
 		}
 
 	}
-	
+
 	.panel-body {
 		border:0 !important;
 		background-color: $greyInsidePanels;
 		margin-bottom: -6px;
+		padding: 25px;
 	}
-	
+
 	.panel-heading{
 		border:0;
 		border-radius:0;
@@ -168,7 +169,7 @@
 	    margin-bottom: 0;
 	    border-radius: 0;
 	    border: 0;
-	}	
+	}
 
 }
 
@@ -199,16 +200,14 @@
 .toolbarSpread {
 	text-align: left;
 	font-weight: bold;
+	color: white;
 	.material-icons{
 		font-size: 16px;
 	}
-	color: white;
-	.toolbarTitle{
-		font-variant: small-caps;
 
-	}
+
 	.pluginTitleInToolbar{
-		margin-left: 34px;
+		margin-left: 36px;
 		color: $naranjaadams;
 	}
 
@@ -221,7 +220,7 @@
 	&:hover{
 		color:white;
 	}
-	.toolbarTitle, .pluginTitleInToolbar { 
+	.toolbarTitletxt, .pluginTitleInToolbar {
 		display:none;
 
 	}
@@ -239,7 +238,7 @@
 #tools {
 	/*
 		Generated with
-		http://danielstern.ca/range.css/?ref=css-tricks#/  
+		http://danielstern.ca/range.css/?ref=css-tricks#/
 	*/
 
 	input[type=range] {
@@ -328,4 +327,11 @@
 	  background: #cccccc;
 	}
 
+}
+
+
+
+.toolbarIcons {
+	font-size: 14px;
+	width:24px;
 }
