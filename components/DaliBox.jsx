@@ -167,7 +167,7 @@ export default class DaliBox extends Component {
                     } */
                  }}
                  style={{
-                    position: (box.container !== 0 ? '' : 'absolute'),
+                    position: box.position.type,
                     left: box.position.x,
                     top: box.position.y,
                     width: box.width ,
@@ -401,6 +401,7 @@ export default class DaliBox extends Component {
                         clone.setAttribute("id", "clone");
                         clone.setAttribute('data-x', x);
                         clone.setAttribute('data-y', y);
+                        clone.style.position = 'absolute'
                         parent.appendChild(clone);
                         // translate the element
                         clone.style.webkitTransform =
@@ -472,7 +473,9 @@ export default class DaliBox extends Component {
                     this.props.onBoxMoved(
                         this.props.id,
                         box.container !== 0 ? left : Math.max(parseInt(target.style.left), 0),
-                        box.container !== 0 ? top : Math.max(parseInt(target.style.top), 0));
+                        box.container !== 0 ? top : Math.max(parseInt(target.style.top), 0),
+                        this.props.boxes[this.props.id].position.type
+                        );
                     event.stopPropagation();
                      document.getElementById('daliBoxIcons').classList.remove('hidden');
                 }
@@ -543,7 +546,7 @@ export default class DaliBox extends Component {
                         this.props.id,
                         box.container !== 0 ? width : parseInt(target.style.width),
                         box.container !== 0 ? height : parseInt(target.style.height));
-                    this.props.onBoxMoved(this.props.id, parseInt(target.style.left), parseInt(target.style.top));
+                    this.props.onBoxMoved(this.props.id, parseInt(target.style.left), parseInt(target.style.top), this.props.boxes[this.props.id].position.type);
                     event.stopPropagation();
                     document.getElementById('daliBoxIcons').classList.remove('hidden');
 

@@ -235,6 +235,11 @@ export default class PluginToolbar extends Component {
                 }
                 if (button.type === 'radio') {
                     value = button.options[value]
+                    if (buttonKey == '___position') {
+                        this.props.onToolbarUpdated(id, tabKey, accordionKeys, '___position', value);
+                        this.props.onBoxMoved(id, 0, 0, value);
+
+                    }
                 }
 
                 if (button.type === 'select' && button.multiple === true){

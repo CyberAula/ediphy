@@ -123,7 +123,7 @@ class DaliApp extends Component {
                                         lastActionDispatched={this.state.lastAction}
                                         onBoxSelected={(id) => this.dispatchAndSetState(selectBox(id))}
                                         onBoxLevelIncreased={() => this.dispatchAndSetState(increaseBoxLevel())}
-                                        onBoxMoved={(id, x, y) => this.dispatchAndSetState(moveBox(id, x, y))}
+                                        onBoxMoved={(id, x, y, position) => this.dispatchAndSetState(moveBox(id, x, y, position))}
                                         onBoxResized={(id, width, height) => this.dispatchAndSetState(resizeBox(id, width, height))}
                                         onSortableContainerResized={(id, parent, height) => this.dispatchAndSetState(resizeSortableContainer(id, parent, height))}
                                         onBoxReorder={(ids, parent) => this.dispatchAndSetState(reorderBox(ids, parent))}
@@ -164,6 +164,7 @@ class DaliApp extends Component {
                                onColsChanged={(id, parent, distribution) => this.dispatchAndSetState(changeCols(id, parent, distribution))}
                                onRowsChanged={(id, parent, column, distribution) => this.dispatchAndSetState(changeRows(id, parent, column, distribution))}
                                onBoxResized={(id, width, height) => this.dispatchAndSetState(resizeBox(id, width, height))}
+                               onBoxMoved={(id, x, y, position) => this.dispatchAndSetState(moveBox(id, x, y, position))}
                                onTextEditorToggled={(caller, value) => this.dispatchAndSetState(toggleTextEditor(caller, value))}
                                onSortableContainerResized={(id, parent, height) => this.dispatchAndSetState(resizeSortableContainer(id, parent, height))}
                                onToolbarUpdated={(id, tab, accordion, name, value) => this.dispatchAndSetState(updateToolbar(id, tab, accordion, name, value))}
@@ -257,7 +258,7 @@ class DaliApp extends Component {
             if (key == 89 && e.ctrlKey) {
                 this.dispatchAndSetState(ActionCreators.redo())
             }
-            else if (key == 46) {
+            /*else if (key == 46) {
                 if (this.props.boxSelected != -1) {
                     let box = this.props.boxes[this.props.boxSelected];
                     let toolbar = this.props.toolbars[this.props.boxSelected];
@@ -265,7 +266,7 @@ class DaliApp extends Component {
                       this.dispatchAndSetState(deleteBox(box.id, box.parent, box.container, this.getDescendants(box)));
                     }
                 }
-            }
+            }*/
         }.bind(this);
     }
 

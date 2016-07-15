@@ -17,12 +17,12 @@ function boxCreator(state = {}, action = {}) {
             let level = (state[action.payload.ids.parent]) ? state[action.payload.ids.parent].level + 1 : 0;
             switch (action.payload.type) {
                 case 'sortable':
-                    position = {x: 0, y: 0};
+                    position = {x: 0, y: 0, type: 'relative'};
                     width = '100%';
                     level = -1;
                     break;
                 default:
-                    position = {x: Math.floor(Math.random() * 200), y: Math.floor(Math.random() * 200)}
+                    position = {x: Math.floor(Math.random() * 200), y: Math.floor(Math.random() * 200), type: 'absolute'}
                     width = 200;
                     height = 200;
                     break;
@@ -30,8 +30,9 @@ function boxCreator(state = {}, action = {}) {
             if (action.payload.ids.container !== 0) {
                 position.x = 0;
                 position.y = 0;
+                position.type = 'relative'
                 width = '100%';
-                height = '100%';
+                height = 'auto';
             }
             let col = 0;
             let row = 0;
@@ -180,7 +181,8 @@ function boxesById(state = {}, action = {}) {
                 [action.payload.id]: Object.assign({}, state[action.payload.id], {
                     position: {
                         x: action.payload.x,
-                        y: action.payload.y
+                        y: action.payload.y,
+                        type: action.payload.position
                     }
                 })
             });
@@ -200,7 +202,7 @@ function boxesById(state = {}, action = {}) {
             }
 
             return Object.assign({}, defState, {
-                [newId]: Object.assign({}, defState[newId], {position: {x: 0, y: 0}})
+                [newId]: Object.assign({}, defState[newId], {position: {x: 0, y: 0, position: 'absolute'}})
             });
 
         case RESIZE_BOX:
@@ -664,6 +666,13 @@ function createSortableButtons(controls, width, height) {
         checked: 'true', 
         autoManaged: true
     };
+    controls.main.accordions.sortable.buttons.___position = {
+        __name: 'Position',
+        type: 'radio',
+        value: 'relative',
+        options: ['absolute', 'relative'],
+        autoManaged: true
+    };    
 
 }
 
@@ -776,6 +785,29 @@ function toolbarsById(state = {}, action = {}) {
             return Object.assign({}, state, {
                 [action.payload.id]: Object.assign({}, state[action.payload.id], {isCollapsed: !(state[action.payload.id].isCollapsed)})
             });
+        case RESIZE_BOX:
+            var newState = Object.assign({}, state);
+            let height = action.payload.height;
+            let width = action.payload.width;
+            let heightAuto = height == 'auto';
+
+            if (newState[action.payload.id] && newState[action.payload.id].controls){
+                if (newState[action.payload.id].controls.main && newState[action.payload.id].controls.main.accordions) {
+                    if (newState[action.payload.id].controls.main.accordions['sortable']) {
+                        let buttons = newState[action.payload.id].controls.main.accordions['sortable'].buttons
+                        if (buttons.___heightAuto) {
+                            newState[action.payload.id].controls.main.accordions['sortable'].buttons.___heightAuto.checked = heightAuto;
+                            newState[action.payload.id].controls.main.accordions['sortable'].buttons.___heightAuto.value = heightAuto  ? 'checked' : 'unchecked';                          
+                        }   
+                        if (buttons.height && buttons.width) {
+                            newState[action.payload.id].controls.main.accordions['sortable'].buttons.height.value = height;
+                            newState[action.payload.id].controls.main.accordions['sortable'].buttons.width.value = height;
+                        }   
+                    }
+                }
+            }
+             
+            return newState;
         case UPDATE_BOX:
             let controls = action.payload.toolbar;
             for (let tabKey in controls) {

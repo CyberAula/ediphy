@@ -17,6 +17,7 @@ Dali.Plugins["BasicImage"] = function (base){
                     accordions: {
                         basic: {
                             __name: "Basic",
+                            icon: 'build',
                             buttons: {
                                 url: {
                                     __name: 'URL',
@@ -28,6 +29,7 @@ Dali.Plugins["BasicImage"] = function (base){
                         },
                         style: {
                             __name: "Style",
+                            icon: 'style',
                             buttons: {
                                 opacity: {
                                     __name: 'Opacity',
@@ -70,6 +72,7 @@ Dali.Plugins["BasicImage"] = function (base){
                         },
                         extra: {
                             __name: "Extra",
+                            icon: 'more_horiz',
                             buttons: {
                                 test: {
                                     __name: 'Test',
