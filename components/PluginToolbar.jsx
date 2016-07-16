@@ -167,7 +167,7 @@ export default class PluginToolbar extends Component {
             for (let i = 0; i < buttonKeys.length; i++) {
                 let w =  (buttonKeys[i] == 'width' || buttonKeys[i] == 'height') ? '40%' : '100%';
                 let m =  (buttonKeys[i] == 'width' || buttonKeys[i] == 'height') ? '5%' : '0px'
-                children.push(<div style={{width: w, marginRight: m, display: 'inline-block'}}>
+                children.push(<div key={'div_' + i } style={{width: w, marginRight: m, display: 'inline-block'}}>
                     {this.renderButton(accordion, tabKey, accordionKeys, buttonKeys[i], state, i)}
                 </div>);
             }
@@ -335,6 +335,7 @@ export default class PluginToolbar extends Component {
                     name: button.__name,
                     value: index,
                     id: (button.__name + radio),
+                    onChange: props.onChange,
                     checked: (button.value == button.options[index])
                 }, radio));
             });
