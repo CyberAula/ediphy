@@ -15,7 +15,8 @@ Dali.Plugins["Webpage"] = function (base){
                     __name: "Main",
                     accordions: {
                         basic: {
-                            __name: "Basic",
+                            __name: "URL",
+                            icon: 'build',
                             buttons: {
                                 url: {
                                     __name: 'URL',
@@ -25,29 +26,56 @@ Dali.Plugins["Webpage"] = function (base){
                                 }
                             }
                         },
-                        box: {
-                            __name: "Box",
+                        style: {
+                            __name: "Estilo caja",
+                            icon: 'style',
                             buttons: {
-                                opacity: {
-                                    __name: 'Opacity',
-                                    type: 'range',
-                                    value: 1,
-                                    min: 0,
-                                    max: 1,
-                                    step: 0.1
-                                },
                                 borderSize: {
-                                    __name: 'Border Size',
+                                    __name: 'Grosor de borde',
                                     type: 'number',
                                     value: 0,
                                     min: 0,
                                     max: 10,
+                                    units: 'px',
                                     autoManaged: false
+                                },
+                                borderStyle: {
+                                    __name: 'Estilo de borde',
+                                    type: 'text',
+                                    value: 'solid',
+                                    autoManaged: false,
+                                    list: 'borderStyle',
+                                    options: ['none', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset', 'initial', 'inherit']
+                                },
+                                borderColor: {
+                                    __name: 'Color de borde',
+                                    type: 'color',
+                                    value: '#000000',
+                                    autoManaged: false
+                                },
+                                borderRadius: {
+                                    __name: 'Radio',
+                                    type: 'number',
+                                    value: '0',
+                                    min: '0',
+                                    max: '50',
+                                    units: '%',
+                                    autoManaged: false
+                                },
+                                opacity: {
+                                    __name: 'Opacidad',
+                                    type: 'range',
+                                    value: 1,
+                                    min: 0,
+                                    max: 1,
+                                    step: 0.05
                                 }
+                                
                             }
                         },
                         '~extra': {
-                            __name: "Extra",
+                            __name: "Alias",
+                            icon: 'more_horiz',
                             buttons: {
                                 test: {
                                     __name: 'Test',

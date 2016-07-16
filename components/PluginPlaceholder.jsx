@@ -24,13 +24,13 @@ export default class PluginPlaceholder extends Component {
         }
 
         return (
-            <div style={{
+            <div style={Object.assign({},{
                     border: "solid pink 5px",
                     width: "100%",
-                    height: container ? container.height : "100%",
+                    height: container ? container.height +'px': "100%",
                     overflow: "hidden",
                     display: "table",
-                    position: 'relative'}}
+                    position: 'relative'},container.style)}
                  id={this.props.pluginContainer}
                  className={"drg" + this.props.pluginContainer}>
                 <div style={{

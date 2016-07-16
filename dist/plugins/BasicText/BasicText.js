@@ -14,7 +14,6 @@ Dali.Plugins["BasicText"] = function (base) {
                 main: {
                     __name: "Main",
                     accordions: {
-
                         style: {
                             __name: "Estilo caja",
                             icon: 'style',
@@ -27,18 +26,13 @@ Dali.Plugins["BasicText"] = function (base) {
                                     max: 100,
                                     units: 'px' 
                                 },
-                                backgroundColor: {
-                                    __name: 'Color de fondo',
-                                    type: 'color',
-                                    value: 'transparent' 
-                                },
+      
                                 borderWidth: {
                                     __name: 'Grosor de borde',
                                     type: 'number',
                                     value: 0,
                                     min: 0,
                                     max: 10 
-
                                 },
                                 borderStyle: {
                                     __name: 'Estilo de borde',
@@ -50,14 +44,17 @@ Dali.Plugins["BasicText"] = function (base) {
                                 borderColor: {
                                     __name: 'Color de borde',
                                     type: 'color',
-                                    value: 'transparent' 
+                                    value: '#000000' 
                                 },
                                 borderRadius: {
                                     __name: 'Radio',
                                     type: 'number',
                                     value: '0',
                                     min: '0',
-                                    max: '50' 
+                                    max: '50',
+                                    step:'5',
+                                    units: '%'
+
                                 },
                                 opacity: {
                                     __name: 'Opacidad',

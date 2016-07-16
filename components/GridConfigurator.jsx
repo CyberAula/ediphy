@@ -54,7 +54,7 @@ export default class GridConfigurator extends Component {
                     <FormControl type={height == 'auto' ? 'text' : 'number'}
                              key="height"
                              disabled={height == 'auto'}
-                             value={height /*parseFloat(document.getElementById(this.props.id).style.height)*/}
+                             value={height == 'auto' ? 'auto' : parseFloat(height) /*parseFloat(document.getElementById(this.props.id).style.height)*/}
                              label="Block Height"
                              style={{width: '100%'}}
                              min={1}
@@ -119,7 +119,7 @@ export default class GridConfigurator extends Component {
                                         }} />
                         </FormGroup>
 
-                      )
+                      );
                       return (
                        <FormGroup key={index+'_0'}>
                         <ControlLabel>{"Row number in col " + (index + 1)}</ControlLabel>
@@ -146,7 +146,70 @@ export default class GridConfigurator extends Component {
                   })
                 }
                 <h4 className="sortableToolbarTitle">Estilo</h4>
-                <span>Borde, fondo, padding, opacidad, etc</span>
+                <FormGroup>
+                  <ControlLabel>Padding (px)</ControlLabel>
+                  <FormControl  type="number"
+                                value={this.props.container.style ? parseFloat(this.props.container.style.padding) : 0}
+                                label={"Padding"}
+                                min={0}
+                                max={100}
+                                style={{width: '100%'}}
+                                onChange={e => {
+                                    this.props.onChangeSortableProps(this.props.id, this.props.parentId, 'padding', e.target.value + 'px');
+                                }} />
+                </FormGroup>
+                <FormGroup>
+                  <ControlLabel>Color del borde</ControlLabel>
+                  <FormControl  type="color"
+                                value={this.props.container.style ? this.props.container.style.borderColor : '#ffffff'}
+                                label={"Color del borde"}
+                                style={{width: '100%'}}
+                                onChange={e => {
+                                    this.props.onChangeSortableProps(this.props.id, this.props.parentId, 'borderColor', e.target.value);
+                                }} />
+                </FormGroup>
+                <FormGroup>
+                  <ControlLabel>Grosor del borde</ControlLabel>
+                  <FormControl  type="number"
+                                value={this.props.container.style ? parseFloat(this.props.container.style.borderWidth) : 0}
+                                label={"Grosor del borde"}
+                                min={0}
+                                style={{width: '100%'}}
+                                onChange={e => {
+                                    this.props.onChangeSortableProps(this.props.id, this.props.parentId, 'borderWidth', e.target.value + 'px');
+                                }} />
+                </FormGroup>
+                <FormGroup>
+                  <ControlLabel>Opacidad</ControlLabel>
+                  <FormControl  type="range"
+                                value={this.props.container.style ? this.props.container.style.opacity : 1+'%'}
+                                label={"Opacidad"}
+                                style={{width: '100%'}}
+                                min={0}
+                                step={0.05}
+                                max={1}
+                                onChange={e => {
+                                    this.props.onChangeSortableProps(this.props.id, this.props.parentId, 'opacity', e.target.value );
+                                }} />
+                </FormGroup>
+
+                              
+
+                {React.createElement(FormGroup, {key: 'borderstyle'}, 
+                    [React.createElement(ControlLabel, {key: 'estiloborde'}, 'Estilo borde'),
+                     React.createElement(FormControl, {componentClass: 'select',  key:'sel', onChange: e => {this.props.onChangeSortableProps(this.props.id, this.props.parentId, 'borderStyle', e.target.value )}},
+                      ['none', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset', 'initial', 'inherit']
+                        .map((option, index) => {
+                             return (React.createElement('option', 
+                                {key: 'child_' + index,
+                                 defaultChecked: 'solid',
+                                 value: (this.props.container.style ? this.props.container.style.borderStyle : 'solid')
+                                }, option))
+                         }))]) 
+                } 
+                                                                                  
+
+                
                  
 
             </div>

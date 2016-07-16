@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
-import {Input,Button, Tooltip, OverlayTrigger} from 'react-bootstrap';
+import {Input, Button, Tooltip, OverlayTrigger} from 'react-bootstrap';
 import interact from 'interact.js';
- import {BOX_TYPES, ID_PREFIX_BOX, ID_PREFIX_PAGE, ID_PREFIX_SECTION, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_SORTABLE_CONTAINER} from '../constants';
+import {BOX_TYPES, ID_PREFIX_BOX, ID_PREFIX_PAGE, ID_PREFIX_SECTION, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_SORTABLE_CONTAINER} from '../constants';
 
 export default class DaliShortcuts extends Component {
     constructor(props) {

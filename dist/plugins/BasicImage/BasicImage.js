@@ -36,6 +36,7 @@ Dali.Plugins["BasicImage"] = function (base){
                                     type: 'number',
                                     value: 0,
                                     min: 0,
+                                    units: 'px',
                                     max: 100,
                                     autoManaged: false
                                 },
@@ -50,6 +51,7 @@ Dali.Plugins["BasicImage"] = function (base){
                                     type: 'number',
                                     value: 0,
                                     min: 0,
+                                    units: 'px',
                                     max: 10,
                                     autoManaged: false
                                 },
@@ -72,6 +74,7 @@ Dali.Plugins["BasicImage"] = function (base){
                                     value: '0',
                                     min: '0',
                                     max: '50',
+                                    units: '%',
                                     autoManaged: false
                                 },
                                 opacity: {
@@ -85,7 +88,7 @@ Dali.Plugins["BasicImage"] = function (base){
                             }
                         },
                         '~extra': {
-                            __name: "Extra",
+                            __name: "Alias",
                             icon: 'more_horiz',
                             buttons: {
                                 test: {
@@ -100,13 +103,13 @@ Dali.Plugins["BasicImage"] = function (base){
             }
         },
         getInitialState: function(){
-            return {url: 'http://nemanjakovacevic.net/wp-content/uploads/2013/07/placeholder.png', aspectRatio:'unchecked', borderSize: 0, borderSize: 0, borderStyle:'solid', borderRadius: 0, borderColor: '#000000', backgroundColor: 'transparent', padding: 0, thumbnailVisibility: 'hidden'};
+            return {url: 'http://nemanjakovacevic.net/wp-content/uploads/2013/07/placeholder.png', aspectRatio:'unchecked', borderSize: 0, borderSize: 0, borderStyle:'solid', borderRadius: '0%', borderColor: '#000000', backgroundColor: 'transparent', padding: '0px', thumbnailVisibility: 'hidden'};
         },
         getConfigTemplate: function(state){
             return "<div> Url: <input type=\"text\" autofocus id=\"BasicImage_input\" value=\"" + state.url + "\"><br><button onclick=\"$dali$.showPreview()\">Show preview</button><img id=\"BasicImage_preview\" src=\"" + state.url + "\" style=\"width: 100px; height: 100px; visibility: " + state.thumbnailVisibility + ";\" onclick=\"$dali$.imageClick()\" /></div>";
         },
         getRenderTemplate: function(state){
-            return "<div style=\"width: 100%; height: 100%\"><img onclick=\"$dali$.showPreview()\" style=\"width: 100%; height: 100%; padding: " + state.padding + "; background-color: " + state.backgroundColor + "; border-radius: " + state.borderRadius + "%; border: " + state.borderSize + "px " + state.borderStyle +" "+ state.borderColor +";\" src=\"" + state.url + "\"/></div>";
+            return "<div style=\"width: 100%; height: 100%\"><img onclick=\"$dali$.showPreview()\" style=\"width: 100%; height: 100%; padding: " + state.padding + " ; background-color: " + state.backgroundColor + "; border-radius: " + state.borderRadius +  "; border: " + state.borderSize + "px " + state.borderStyle +" "+ state.borderColor +";\" src=\"" + state.url + "\"/></div>";
         },
         handleToolbar: function(name, value){
             if(name=='aspectRatio') {

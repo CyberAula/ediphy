@@ -30,6 +30,7 @@ Dali.Plugins["CajasColorBis"] = function (base){
                                     __name: "Border redondeado",
                                     type: 'checkbox',
                                     value: 'unchecked',
+                                    units: '%',
                                     autoManaged: false 
                                 },
                                /* wayHorizontal:{

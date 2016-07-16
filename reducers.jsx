@@ -2,7 +2,7 @@ import {combineReducers} from 'redux';
 import undoable, {excludeAction} from 'redux-undo';
 import './utils';
 import {ADD_BOX, SELECT_BOX, MOVE_BOX, DUPLICATE_BOX, RESIZE_BOX, UPDATE_BOX, DELETE_BOX, REORDER_BOX, DROP_BOX, INCREASE_LEVEL,
-    ADD_SORTABLE_CONTAINER, RESIZE_SORTABLE_CONTAINER, CHANGE_COLS, CHANGE_ROWS,
+    ADD_SORTABLE_CONTAINER, RESIZE_SORTABLE_CONTAINER, CHANGE_COLS, CHANGE_ROWS, CHANGE_SORTABLE_PROPS,
     ADD_NAV_ITEM, SELECT_NAV_ITEM, EXPAND_NAV_ITEM, REMOVE_NAV_ITEM, REORDER_NAV_ITEM, CHANGE_SECTION_TITLE,
     TOGGLE_PAGE_MODAL, TOGGLE_TEXT_EDITOR, TOGGLE_TITLE_MODE, CHANGE_TITLE,
     CHANGE_DISPLAY_MODE, SET_BUSY, UPDATE_TOOLBAR, COLLAPSE_TOOLBAR, IMPORT_STATE
@@ -24,7 +24,7 @@ function boxCreator(state = {}, action = {}) {
                 default:
                     position = {x: Math.floor(Math.random() * 200), y: Math.floor(Math.random() * 200), type: 'absolute'}
                     width = 200;
-                    height = 200;
+                    height = 'auto'; 
                     break;
             }
             if (action.payload.ids.container !== 0) {
@@ -57,7 +57,8 @@ function boxCreator(state = {}, action = {}) {
                         children.push(pluginContainers[key].id);
                         sortableContainers[pluginContainers[key].id] = {
                             children: [],
-                            height: pluginContainers[key].height,
+                            style: {padding: '0px', borderColor: '#ffffff', borderWidth: '0px', borderStyle: 'solid', opacity: '1'}, 
+                            height: pluginContainers[key].height || 'auto',
                             colDistribution: [100],
                             cols: [
                                 [100]
@@ -102,6 +103,7 @@ function sortableContainerCreator(state = {}, action = {}) {
                     }) : {
                     children: [action.payload.ids.id],
                     height: "auto",
+                    style: {padding: '0px', borderColor: '#ffffff', borderWidth: '0px', borderStyle: 'solid', opacity: 1},
                     colDistribution: [100],
                     cols: [
                         [100]
@@ -160,7 +162,6 @@ function boxesById(state = {}, action = {}) {
     switch (action.type) {
         case ADD_BOX:
             let box = boxCreator(state, action);
-
             if (action.payload.ids.parent.indexOf(ID_PREFIX_SORTABLE_BOX) !== -1 || action.payload.ids.container !== 0) {
                 return Object.assign({}, state, {
                     [action.payload.ids.id]: box,
@@ -229,6 +230,7 @@ function boxesById(state = {}, action = {}) {
                     if (!newState[action.payload.id].sortableContainers[container.id]) {
                         sortableContainers[container.id] = {
                             children: [],
+                            style: container.style,
                             height: container.height,
                             colDistribution: [100],
                             cols: [
@@ -246,6 +248,10 @@ function boxesById(state = {}, action = {}) {
             newState[action.payload.id].children = children;
             newState[action.payload.id].sortableContainers = sortableContainers;
             return newState;
+        case CHANGE_SORTABLE_PROPS:
+            let changedState = Object.assign({},state);
+            changedState[action.payload.parent].sortableContainers[action.payload.id].style[action.payload.prop] = action.payload.value;
+            return changedState;
         case DROP_BOX:
             return Object.assign({}, state, {
                 [action.payload.id]: Object.assign({}, state[action.payload.id], {
@@ -339,6 +345,9 @@ function boxLevelSelected(state = 0, action = {}) {
 function boxSelected(state = -1, action = {}) {
     switch (action.type) {
         case ADD_BOX:
+            if (action.payload.ids.id.indexOf(ID_PREFIX_SORTABLE_BOX) != -1) {
+                return -1;
+            }
             return (action.payload.initialParams && action.payload.initialParams.isDefaultPlugin) ? state : action.payload.ids.id;
         case SELECT_BOX:
             return action.payload.id;
@@ -629,6 +638,7 @@ function createSortableButtons(controls, width, height) {
             accordions: {
                 _sortable: {
                     __name: "Estructura",
+                    icon: 'dashboard',
                     buttons: {}
                 }
             }
@@ -647,6 +657,7 @@ function createSortableButtons(controls, width, height) {
         min: 0,
         max: 100,
         step: 5,
+        units: '%',
         autoManaged: true
     };
     controls.main.accordions._sortable.buttons.height = {
@@ -656,6 +667,7 @@ function createSortableButtons(controls, width, height) {
         min: 0,
         max: 100,
         step: 5,
+        units: '%',
         autoManaged: true
     };
     controls.main.accordions._sortable.buttons.___heightAuto = {
@@ -682,6 +694,7 @@ function createFloatingBoxButtons(controls, width, height) {
             accordions: {
                 _sortable: {
                     __name: "Estructura",
+                    icon: 'dashboard',
                     buttons: {}
                 }
             }
@@ -701,6 +714,7 @@ function createFloatingBoxButtons(controls, width, height) {
         min: 0,
         max: 100,
         step: 5,
+        units: 'px',
         autoManaged: true
     };
     controls.main.accordions._sortable.buttons.height = {
@@ -710,6 +724,7 @@ function createFloatingBoxButtons(controls, width, height) {
         min: 0,
         max: 100,
         step: 5,
+        units: 'px',
         autoManaged: true
     };
     controls.main.accordions._sortable.buttons.___heightAuto = {
@@ -731,14 +746,15 @@ function createAliasButton(controls, alias) {
             icon: 'link',
             accordions: {
                 '~extra': {
-                    __name: "Extra",
+                    __name: "Alias",
                     buttons: {}
                 }
             }
         };
     } else if (!controls.main.accordions['~extra']) {
         controls.main.accordions['~extra'] = {
-            __name: "Extra",
+            __name: "Alias",
+            icon: 'link',
             buttons: {}
         };
     }
@@ -769,8 +785,8 @@ function toolbarsById(state = {}, action = {}) {
             }
             if (action.payload.ids.container !== 0) {
                 createSortableButtons(toolbar.controls);
-            } else {
-                createFloatingBoxButtons(toolbar.controls)
+            } else if(action.payload.ids.id.indexOf('ID_PREFIX_SORTABLE_BOX') == -1) {
+                createFloatingBoxButtons(toolbar.controls);
             }
 
             if (action.payload.ids.id.indexOf(ID_PREFIX_SORTABLE_BOX) === -1) {
@@ -778,7 +794,6 @@ function toolbarsById(state = {}, action = {}) {
             }
             if (toolbar.config && toolbar.config.aspectRatioButtonConfig) {
                 let arb = toolbar.config.aspectRatioButtonConfig;
-
                 let button = {
                     __name: arb.name,
                     type: "checkbox",
@@ -859,6 +874,7 @@ function toolbarsById(state = {}, action = {}) {
             }
              
             return newState;
+       
         case UPDATE_BOX:
             let controls = action.payload.toolbar;
             for (let tabKey in controls) {

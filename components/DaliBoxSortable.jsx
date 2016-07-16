@@ -10,7 +10,9 @@ export default class DaliBoxSortable extends Component {
         let box = this.props.boxes[this.props.id];
          return (
             <div className="daliBoxSortable" onClick={e => {
-                this.props.onBoxSelected(this.props.id, 0);
+                if(box.children.length != 0) {
+                    this.props.onBoxSelected(this.props.id, 0);
+                }
                 e.stopPropagation();
             }}>
                 <div ref="sortableContainer"
@@ -27,14 +29,14 @@ export default class DaliBoxSortable extends Component {
                                  className="daliBoxSortableContainer" 
                                  data-id={idContainer}
                                  id={idContainer}
-                                 style={{
+                                 style={Object.assign({},{
                                     width: '100%',
                                     height: container.height == 'auto' ? container.height : container.height + 'px',
                                    /* overflow: 'hidden',*/
                                    /* border: 0,
                                     borderBottom: '5px solid rgba(255,121,32,0.5)',*/
                                     boxSizing: 'border-box',
-                                    position: 'relative'}}>
+                                    position: 'relative'},container.style)}>
                             <div style={{display: "table", width: "100%", height: "100%"}}>
                             {container.colDistribution.map((col, i) => {
                                 if (container.cols[i]) {

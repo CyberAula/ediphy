@@ -19,7 +19,17 @@ export default class DaliNavBar extends Component {
                 <img src="images/icon.png"/>
                 <div className="navBarSpace" >
                   <i className="material-icons">mode_edit</i>   
-                  <span className="tituloCurso" contentEditable suppressContentEditableWarning   onBlur={(e) => {this.props.changeTitle(e.target.innerHTML)}}>{this.props.title}</span>
+                  <span className="tituloCurso" contentEditable suppressContentEditableWarning  
+                         onBlur={(e) => {this.props.changeTitle(e.target.innerHTML)}}  
+                         onFocus={(e) =>  {
+                                var range = document.createRange();
+                                range.selectNodeContents(e.target);
+                                var sel = window.getSelection();
+                                sel.removeAllRanges();
+                                sel.addRange(range);
+                            }
+                         }>
+                   {this.props.title}</span>
                  </div>
  
                 <button
