@@ -463,7 +463,7 @@ function recalculateNames(state = {}, old = {}, resta = 0, numeroBorrados = 0) {
             // items[section].name = 'Section ' + (mainindex++);
         } else {
             var sub = items[items[section].parent].children.filter(s => s[0] == 's').indexOf(section) + 1
-            items[section].name = items[items[section].parent].name + '.' + sub;
+            //items[section].name = items[items[section].parent].name + '.' + sub;
         }
     });
 

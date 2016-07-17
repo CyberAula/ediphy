@@ -168,7 +168,7 @@ export default class CarrouselList extends Component{
             },
             start: (event,ui) => {
                 $("#"+this.props.navItemSelected).css("opacity", "0.5");
-                console.log($(".selected").css("background-color"));
+                // console.log($(".selected").css("background-color"));
             },
             stop: (event, ui) => {
                 //$(".selected").css("background-color", "rgba(84, 84, 84 , 1)");
