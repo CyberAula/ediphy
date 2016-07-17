@@ -122,7 +122,7 @@ export default class PluginToolbar extends Component {
                                                             className="panelPluginToolbar"
                                                             collapsible
                                                             header={<span><i className="toolbarIcons material-icons">web_asset</i>{'Bloque '+ (index + 1)}</span>} >
-                                                        <GridConfigurator id={'grid_' + id}
+                                                        <GridConfigurator id={id}
                                                                           parentId={this.props.box.id}
                                                                           container={container}
                                                                           onColsChanged={this.props.onColsChanged}

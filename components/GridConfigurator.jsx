@@ -197,14 +197,11 @@ export default class GridConfigurator extends Component {
 
                 {React.createElement(FormGroup, {key: 'borderstyle'}, 
                     [React.createElement(ControlLabel, {key: 'estiloborde'}, 'Estilo borde'),
-                     React.createElement(FormControl, {componentClass: 'select',  key:'sel', onChange: e => {this.props.onChangeSortableProps(this.props.id, this.props.parentId, 'borderStyle', e.target.value )}},
+                     React.createElement(FormControl, {componentClass: 'select', value: this.props.container.style ? this.props.container.style.borderStyle : 'none', key:'sel', onChange: e => {console.log(e.target); this.props.onChangeSortableProps(this.props.id, this.props.parentId, 'borderStyle', e.target.value )}},
                       ['none', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset', 'initial', 'inherit']
                         .map((option, index) => {
                              return (React.createElement('option', 
-                                {key: 'child_' + index,
-                                 defaultChecked: 'solid',
-                                 value: (this.props.container.style ? this.props.container.style.borderStyle : 'solid')
-                                }, option))
+                                {key: 'child_' + index, value: option}, option))
                          }))]) 
                 } 
                                                                                   
