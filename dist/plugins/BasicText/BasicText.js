@@ -30,7 +30,7 @@ Dali.Plugins["BasicText"] = function (base) {
                                 borderWidth: {
                                     __name: 'Grosor de borde',
                                     type: 'number',
-                                    value: 0,
+                                    value: '0px',
                                     min: 0,
                                     max: 10 
                                 },
@@ -49,7 +49,7 @@ Dali.Plugins["BasicText"] = function (base) {
                                 borderRadius: {
                                     __name: 'Radio',
                                     type: 'number',
-                                    value: '0',
+                                    value: '0%',
                                     min: '0',
                                     max: '50',
                                     step:'5',

@@ -43,7 +43,7 @@ Dali.Plugins["BasicImage"] = function (base){
                                 backgroundColor: {
                                     __name: 'Color de fondo',
                                     type: 'color',
-                                    value: 'transparent',
+                                    value: '#ffffff',
                                     autoManaged: false
                                 },
                                 borderSize: {
