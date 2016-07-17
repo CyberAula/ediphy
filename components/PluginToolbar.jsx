@@ -264,7 +264,7 @@ export default class PluginToolbar extends Component {
                 if (button.type === 'colorPicker'){
                     value = e.value;
                  }
-
+                console.log(value)
                 this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, value);
 
                 if (!button.autoManaged) {

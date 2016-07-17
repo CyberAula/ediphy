@@ -21,7 +21,7 @@ Dali.Plugins["BasicText"] = function (base) {
                                 padding: {
                                     __name: 'Padding',
                                     type: 'number',
-                                    value: 15,
+                                    value: '15px',
                                     min: 0,
                                     max: 100,
                                     units: 'px' 

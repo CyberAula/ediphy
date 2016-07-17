@@ -30,6 +30,15 @@ Dali.Plugins["Webpage"] = function (base){
                             __name: "Estilo caja",
                             icon: 'style',
                             buttons: {
+                                padding: {
+                                    __name: 'Padding',
+                                    type: 'number',
+                                    value: 0,
+                                    min: 0,
+                                    units: 'px',
+                                    max: 100,
+                                    autoManaged: false
+                                },
                                 borderSize: {
                                     __name: 'Grosor de borde',
                                     type: 'number',
@@ -41,11 +50,10 @@ Dali.Plugins["Webpage"] = function (base){
                                 },
                                 borderStyle: {
                                     __name: 'Estilo de borde',
-                                    type: 'text',
+                                    type: 'select',
                                     value: 'solid',
-                                    autoManaged: false,
-                                    list: 'borderStyle',
-                                    options: ['none', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset', 'initial', 'inherit']
+                                    options: ['none', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset', 'initial', 'inherit'],
+                                    autoManaged: false
                                 },
                                 borderColor: {
                                     __name: 'Color de borde',
@@ -89,13 +97,13 @@ Dali.Plugins["Webpage"] = function (base){
             }
         },
         getInitialState: function () {
-            return {url: 'http://www.adams.es/', borderSize: 0, thumbnailVisibility: 'hidden'};
+            return {url: 'http://www.adams.es/', borderSize: '0px', thumbnailVisibility: 'hidden', padding: '0px', borderStyle: 'none', borderColor: '#ffffff', borderRadius: '0%', opacity : 1};
         },
         getConfigTemplate: function (state) {
             return "<div> Url: <input type=\"text\" autofocus id=\"BasicImage_input\" value=\"" + state.url + "\"><br><button onclick=\"$dali$.showPreview()\">Show preview</button><iframe width=\"560\" height=\"315\"id=\"BasicImage_preview\" frameborder=\"0\" allowfullscreen src=\"" + state.url + "\" style=\"width: 180px; height: auto; visibility: " + state.thumbnailVisibility + ";\"></iframe></div>";
         },
         getRenderTemplate: function (state) {
-            return "<iframe width=\"560\" height=\"315\" style=\"width: 100%; height: 100%; pointer-events: none; border: solid " + state.borderSize + "px green; z-index:0;\" src=\"" + state.url + "\"></iframe>";
+            return "<iframe width=\"560\" height=\"315\" style=\"width: 100%; height: 100%; padding: " + state.padding + " pointer-events: none; border-radius: " + state.borderRadius + "; border: " + state.borderSize + " " + state.borderStyle + " " + state.borderColor + "; opacity: " + state.opacity + "; z-index:0;\" src=\"" + state.url + "\"></iframe>";
         },
         handleToolbar: function (name, value) {
             base.setState(name, value);

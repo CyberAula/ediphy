@@ -182,9 +182,9 @@
                          top: <%=box.position.y%>px;
                          width: <%=box.width %><%=(box.width  && isNaN(box.width ))? "" : "px" %>;
                          height: <%=box.height%><%=(box.height && isNaN(box.height))? "" : "px" %>;
-                         cursor:  default ;"  >
+                         cursor:  default ; pointer-events: all; !important"  >
 
-                <div style="<%= style%>"  <%= attrs%> >
+                <div class="insidewb" style="<%= style%>"  <%= attrs%> >
                     <%renderChildren(id, Dali.Visor.Plugins.get(toolbar.config.name).export(toolbar.state, toolbar.config.name, box.children.length !== 0), 0)%>
                 </div>
             </div>
@@ -196,18 +196,24 @@
             <div>
                 <div ref="sortableContainer"  style="position: relative;" >
                 <%box.children.map(function(idContainer, index){
-                    var container = box.sortableContainers[idContainer];%>
+                    var container = box.sortableContainers[idContainer];
+                    var style = container.style;
+                     %>
                     <div class="daliBoxSortableContainer"
                          data-id="idContainer"
                          style="
                   width: 100%;
-                  height: <%=container.height%><%=(container.height && isNaN(container.height))? "" : "px" %>; 
+                  height: <%=container.height == 'auto' ? container.height : container.height + 'px'%>; 
                   box-sizing: border-box;
-                  position: relative;">
+                  position: relative;
+                  border: <%=style.borderWidth + " " + style.borderStyle +" " + style.borderColor%>;
+                  padding: <%=style.padding%>;
+                  opacity: <%=style.opacity%>;
+                  ">
 
                         <%container.colDistribution.map(function(col, i){
                             if(container.cols[i]) { %>
-                                <div style="width: <%=col%>%; height: 100%; float: left;">
+                                <div style="width: <%=col%>%; height: 100%; ">
                                 <%container.cols[i].map(function(row, j){ %>
                                     <div style="width: 100%; height: <%=row%>%; position: relative;"  >
                                     <%container.children.map(function(idBox, index){

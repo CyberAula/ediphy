@@ -51,6 +51,15 @@ Dali.Plugins["BasicVideo"] = function (base){
                             __name: "Estilo caja",
                             icon: 'style',
                             buttons: {
+                                padding: {
+                                    __name: 'Padding',
+                                    type: 'number',
+                                    value: 0,
+                                    min: 0,
+                                    units: 'px',
+                                    max: 100,
+                                    autoManaged: false
+                                },
                                 borderSize: {
                                     __name: 'Grosor de borde',
                                     type: 'number',
@@ -62,11 +71,10 @@ Dali.Plugins["BasicVideo"] = function (base){
                                 },
                                 borderStyle: {
                                     __name: 'Estilo de borde',
-                                    type: 'text',
+                                    type: 'select',
                                     value: 'solid',
-                                    autoManaged: false,
-                                    list: 'borderStyle',
-                                    options: ['none', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset', 'initial', 'inherit']
+                                    options: ['none', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset', 'initial', 'inherit'],
+                                    autoManaged: false
                                 },
                                 borderColor: {
                                     __name: 'Color de borde',
@@ -119,7 +127,9 @@ Dali.Plugins["BasicVideo"] = function (base){
                 borderSize: 0,
                 borderStyle: 'solid',
                 borderRadius: 0,
+                padding: '0px',
                 borderColor: '#000000',
+                opacity: 1,
                 thumbnailVisibility: 'hidden'
             };
         },
@@ -127,7 +137,7 @@ Dali.Plugins["BasicVideo"] = function (base){
             return "<div> Url: <input type=\"text\" autofocus id=\"BasicImage_input\" value=\"" + state.url + "\"><br><button onclick=\"$dali$.showPreview()\">Show preview</button><iframe width=\"560\" height=\"315\"id=\"BasicImage_preview\" frameborder=\"0\" allowfullscreen src=\"" + state.url + "\" style=\"width: 180px; height: auto; visibility: " + state.thumbnailVisibility + ";\"  ></video></div>";
         },
         getRenderTemplate: function (state) {
-            return "<video width=\"560\" height=\"315\" autoplay onclick=\"$dali$.click()\"" + ((state.controls == "checked") ? "controls=\"controls\" " : " ") + " frameBorder=\"0\" allowFullScreen style=\"width: 100%; height: 100%; pointer-events: 'none'; border: " + state.borderStyle + " " + state.borderSize + "px " + state.borderColor + "; z-index:0;\" src=\"" + state.url + "\"></video>";
+            return "<video width=\"560\" height=\"315\" autoplay onclick=\"$dali$.click()\"" + ((state.controls == "checked") ? "controls=\"controls\" " : " ") + " frameBorder=\"0\" allowFullScreen style=\"width: 100%; height: 100%; pointer-events: 'none'; padding: " + state.padding + "; border: " + state.borderStyle + " " + state.borderSize + " " + state.borderColor + "; border-radius:" + state.borderRadius + "; opacity:" + state.opacity + "; z-index:0;\" src=\"" + state.url + "\"></video>";
         },
         handleToolbar: function (name, value) {
             base.setState(name, value);

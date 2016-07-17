@@ -7,10 +7,16 @@ Dali.Visor.Plugins["BasicImage"] = function (base){
             return "<div style=\"width: 100%; height: 100%\">" +
                 "<img style=\"width: 100%; " +
                 "height: 100%; " +
-                "border-radius: " + state.borderRadius + "%; " +
-                "border: " + state.borderSize + "px " + state.borderStyle + " " + state.borderColor + ";\" " +
+                "padding: " + state.padding + "; " +
+                "border-radius: " + state.borderRadius + "; " +
+                "background-color: " + state.backgroundColor + "; " +
+                "opacity: " + state.opacity + "; " +
+                "border: " + state.borderSize + " " + state.borderStyle + " " + state.borderColor + ";\" " +
                 "src=\"" + state.url + "\" onclick='$dali$.imageClick()'/>" +
                 "</div>";
+                                   
+
+
         },
         imageClick: function(e)
         {

@@ -38,9 +38,9 @@ export default class DaliBox extends Component {
                         if (!button.isAttribute) {
                             if (buttonKey !== 'width' && buttonKey !== 'height') {
                                 style[buttonKey] = button.value;
-                                if (button.units) {
+                                /*if (button.units) {
                                     style[buttonKey] += button.units;
-                                }
+                                }*/
                             }
                         } else {
                             attrs['data-' + buttonKey] = button.value;
@@ -62,9 +62,9 @@ export default class DaliBox extends Component {
                                 if (!button.isAttribute) {
                                     if (buttonKey !== 'width' && buttonKey !== 'height') {
                                         style[buttonKey] = button.value;
-                                        if (button.units) {
+                                        /*if (button.units) {
                                             style[buttonKey] += button.units;
-                                        }
+                                        }*/
                                     }
                                 } else {
                                     attrs['data-' + buttonKey] = button.value;
