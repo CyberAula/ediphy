@@ -261,7 +261,7 @@ class DaliApp extends Component {
             }
             else if (key == 46) {
               let focus = document.activeElement.className;
-              if (this.props.boxSelected != -1) {
+              if (this.props.boxSelected != -1 && boxSelected.indexOf(ID_PREFIX_SORTABLE_BOX) == -1)  {
                 if( focus.indexOf('form-control') == -1 && focus.indexOf('tituloCurso') == -1 && focus.indexOf('cke_editable') == -1) {
                   let box = this.props.boxes[this.props.boxSelected];
                   let toolbar = this.props.toolbars[this.props.boxSelected];
