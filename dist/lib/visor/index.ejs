@@ -141,7 +141,7 @@
                         <% break;
                     case 'root': %>
                         <div style="width:100%; height:100%;">
-                        <% if (markup.child) {
+                        <%if (markup.child) {
                             markup.child.forEach(function(child, index){
                                 renderChildren(id, child, index);
                             });
@@ -158,9 +158,7 @@
             var box = boxesById[id];
             var toolbar =  toolbarsById[id];
             var style = "width: 100%; height: 100%; position: relative; word-wrap: break-word;";
-            var attrs = " ";
-                            console.log(toolbar)
-
+            var attrs = " " 
             if(toolbar.buttons) {
 
                 console.log(toolbar.buttons)
@@ -181,8 +179,7 @@
                     }
                 });
             };
-            %>
-            <div class="wholebox"
+            %><div class="wholebox"
                  style="position: <%=box.container !== 0 ? '' : 'absolute'%>;
                          left: <%=box.position.x%>px;
                          top: <%=box.position.y%>px;
@@ -191,10 +188,10 @@
                          height: <%=box.height%><%=(box.height && isNaN(box.height))? "" : "px" %>;
                          cursor:  default ; "  >
                  <div class="insidewb" style="<%= style%>"  <%= attrs%> >
-                    <% renderChildren(id, Dali.Visor.Plugins.get(toolbar.config.name).export(toolbar.state, toolbar.config.name, box.children.length !== 0), 0)%>
+                    <%renderChildren(id, Dali.Visor.Plugins.get(toolbar.config.name).export(toolbar.state, toolbar.config.name, box.children.length !== 0), 0)%>
                 </div>
-            </div>
-        <%}%>
+            </div><%}%>
+        
 
         <!-- VISORDALIBOXSORTABLE-->
         <%function daliBoxSortable(id){
@@ -215,8 +212,7 @@
                           border: <%=style.borderWidth + " " + style.borderStyle +" " + style.borderColor%>;
                           padding: <%=style.padding%>;
                           opacity: <%=style.opacity%>;
-                          ">
-
+                          "> 
                         <%container.colDistribution.map(function(col, i){
                             if(container.cols[i]) { %>
                                 <div style="width: <%=col%>%; height: 100%; display:table-cell; ">
@@ -267,7 +263,7 @@
             if(box.type === 'normal'){
                 daliBox(box.id);
             }else if(box.type === 'sortable') {
-                daliBoxSortable(box.id )
+                daliBoxSortable(box.id)
         }})%>
     </div>
 </div>

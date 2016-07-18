@@ -418,6 +418,7 @@ export default class DaliBox extends Component {
                     }
                 },
                 onmove: (event) => {
+
                     if (this.props.boxSelected !== this.props.id) {
                         this.props.onBoxSelected(this.props.id);
                     }
@@ -492,9 +493,17 @@ export default class DaliBox extends Component {
                 edges: {left: true, right: true, bottom: true, top: true},
                 onstart: (event) => {
                     document.getElementById('daliBoxIcons').classList.add('hidden');
-
+                    let sb = document.getElementsByClassName('selectedBox');
+                    if (sb) {
+                        var span = document.createElement("span");
+                        span.setAttribute("id", "sizing");
+                        var t = document.createTextNode(" ");       
+                        span.appendChild(t);         
+                        sb[0].appendChild(span)
+                    }
                 },
                 onmove: (event) => {
+ 
                     if (this.props.boxSelected !== this.props.id) {
                         return;
                     }
@@ -532,6 +541,10 @@ export default class DaliBox extends Component {
                      }
                      }
                      */
+                    let span = document.getElementById('sizing')
+                    if (span) {
+                        span.innerHTML = target.style.width + " × " +  target.style.height;
+                    }
                 },
                 onend: (event) => {
                     if (this.props.boxSelected !== this.props.id) {
@@ -549,6 +562,11 @@ export default class DaliBox extends Component {
                     this.props.onBoxMoved(this.props.id, parseInt(target.style.left), parseInt(target.style.top), this.props.boxes[this.props.id].position.type);
                     event.stopPropagation();
                     document.getElementById('daliBoxIcons').classList.remove('hidden');
+                    let sb = document.getElementsByClassName('selectedBox');
+                    let span = document.getElementById('sizing')
+                    if (sb && span) {
+                        sb[0].removeChild(span)
+                    }
 
                 }
             });

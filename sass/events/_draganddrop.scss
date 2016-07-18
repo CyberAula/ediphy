@@ -18,3 +18,16 @@
 	border: 2px dashed $verdeoscurogrisaceo;
 	background-color: white;
 }
+
+/*Resize*/
+
+#sizing {
+    position: absolute;
+    background-color: $darkest;
+    height:20px;
+    top:-22px;
+    right:0;
+    color: white;
+    font-size: 0.8em;
+    padding:2px;
+}
