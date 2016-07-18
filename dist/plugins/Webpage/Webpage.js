@@ -83,7 +83,7 @@ Dali.Plugins["Webpage"] = function (base){
                         },
                         '~extra': {
                             __name: "Alias",
-                            icon: 'more_horiz',
+                            icon: 'link',
                             buttons: {
                                 test: {
                                     __name: 'Test',

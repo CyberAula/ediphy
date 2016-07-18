@@ -6,7 +6,6 @@ Dali.Plugins = (function () {
         'BasicVideo',
         'Youtube',
         'Webpage',
-        'CajasColor',
         'CajasColorBis',
         'Container',
         'ListaNumerada',

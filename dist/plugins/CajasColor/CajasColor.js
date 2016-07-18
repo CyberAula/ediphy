@@ -61,6 +61,7 @@ Dali.Plugins["CajasColor"] = function (base){
                         },
                         '~extra': {
                             __name: "Extra",
+                            icon: 'link',
                             buttons: {}
                         }
                     }

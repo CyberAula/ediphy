@@ -41,7 +41,7 @@
         <div class="clear"></div>
     </div>
 
-    <div class="contenido" style="height:auto;">
+    <div class="contenido" style="height:auto; pointer-events: all !important;">
         <!--DALITITLE-->
         <%
         var alltitles = [];
@@ -186,9 +186,10 @@
                  style="position: <%=box.container !== 0 ? '' : 'absolute'%>;
                          left: <%=box.position.x%>px;
                          top: <%=box.position.y%>px;
+                         pointer-events: all  !important;
                          width: <%=box.width %><%=(box.width  && isNaN(box.width ))? "" : "px" %>;
                          height: <%=box.height%><%=(box.height && isNaN(box.height))? "" : "px" %>;
-                         cursor:  default ; pointer-events: all; !important"  >
+                         cursor:  default ; "  >
                  <div class="insidewb" style="<%= style%>"  <%= attrs%> >
                     <% renderChildren(id, Dali.Visor.Plugins.get(toolbar.config.name).export(toolbar.state, toolbar.config.name, box.children.length !== 0), 0)%>
                 </div>

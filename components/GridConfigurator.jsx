@@ -181,6 +181,7 @@ export default class GridConfigurator extends Component {
                 </FormGroup>
                 <FormGroup>
                   <ControlLabel>Opacidad</ControlLabel>
+                  <span className='rangeOutput'  >{this.props.container.style ? this.props.container.style.opacity : 1+'%'}</span>     
                   <FormControl  type="range"
                                 value={this.props.container.style ? this.props.container.style.opacity : 1+'%'}
                                 label={"Opacidad"}

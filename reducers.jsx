@@ -638,7 +638,7 @@ function createSortableButtons(controls, width, height) {
             accordions: {
                 _sortable: {
                     __name: "Estructura",
-                    icon: 'dashboard',
+                    icon: 'border_all',
                     buttons: {}
                 }
             }
@@ -646,7 +646,7 @@ function createSortableButtons(controls, width, height) {
     } else if (!controls.main.accordions._sortable) {
         controls.main.accordions._sortable = {
             __name: "Estructura",
-            icon: 'dashboard',
+            icon: 'border_all',
             buttons: {}
         };
     }
@@ -694,7 +694,7 @@ function createFloatingBoxButtons(controls, width, height) {
             accordions: {
                 _sortable: {
                     __name: "Estructura",
-                    icon: 'dashboard',
+                    icon: 'border_all',
                     buttons: {}
                 }
             }
@@ -702,7 +702,7 @@ function createFloatingBoxButtons(controls, width, height) {
     } else if (!controls.main.accordions._sortable) {
         controls.main.accordions._sortable = {
             __name: "Estructura",
-            icon: 'dashboard',
+            icon: 'border_all',
             buttons: {}
         };
     }
@@ -783,10 +783,12 @@ function toolbarsById(state = {}, action = {}) {
                     toolbar.config.name = 'Contenedor';
                 }
             }
+            
             if (action.payload.ids.container !== 0) {
                 createSortableButtons(toolbar.controls);
-            } else if(action.payload.ids.id.indexOf('ID_PREFIX_SORTABLE_BOX') == -1) {
+            } else if(action.payload.ids.id.indexOf(ID_PREFIX_SORTABLE_BOX) == -1) {
                 createFloatingBoxButtons(toolbar.controls);
+                 
             }
 
             if (action.payload.ids.id.indexOf(ID_PREFIX_SORTABLE_BOX) === -1) {

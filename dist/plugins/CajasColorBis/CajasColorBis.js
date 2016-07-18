@@ -4,7 +4,7 @@ Dali.Plugins["CajasColorBis"] = function (base){
         getConfig: function(){
             return {
                 name: 'CajasColorBis',
-                category: 'text',
+                category: 'animations',
                 icon: 'view_column'
             }
         },
