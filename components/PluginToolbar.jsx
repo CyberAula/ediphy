@@ -109,7 +109,7 @@ export default class PluginToolbar extends Component {
                                     {/*<Tab key={index} className={"toolbarTab"} eventKey={index} title={tab.__name}>
                                             <ButtonGroup style={{width: '100%'}}> {deletebutton} {duplicateButton} </ButtonGroup>
                                         <br/><br/>*/}
-                                    <PanelGroup>
+                                    <PanelGroup >
                                         {Object.keys(tab.accordions).sort().map((accordionKey, index) => {
                                             let accordion = tab.accordions[accordionKey];
                                             return this.renderAccordion(accordion, tabKey, [accordionKey], toolbar.state, index);
