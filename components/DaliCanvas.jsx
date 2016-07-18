@@ -38,7 +38,7 @@ export default class DaliCanvas extends Component{
         let overlayHeight = actualHeight ? actualHeight:'100%';
    
         return (<Col id="canvas" md={12} xs={12} style={{height:"100%", padding:0}}>
-            <div className="outter" style={{position: 'absolute', width: '100%', height:'100%', padding: (paddings)}} >
+            <div className="outter canvaseditor" style={{position: 'absolute', width: '100%', height:'100%', padding: (paddings)}} >
                 <div  id="maincontent"
                       onClick={e => {
                         this.props.onBoxSelected(-1);

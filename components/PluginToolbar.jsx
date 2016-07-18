@@ -116,11 +116,13 @@ export default class PluginToolbar extends Component {
                                         })}
                                         {this.props.box.children.map((id, index) => {
                                             let container = this.props.box.sortableContainers[id];
-                                            if (tabKey === "main") {
+                                             if (tabKey === "main") {
                                                 return (
                                                     <Panel  key={'panel_' + id}
                                                             className="panelPluginToolbar"
                                                             collapsible
+                                                            onEntered={(panel) => {panel.parentNode.classList.add("extendedPanel")}}
+                                                            onExited={(panel) => {panel.parentNode.classList.remove("extendedPanel")}}
                                                             header={<span><i className="toolbarIcons material-icons">web_asset</i>{'Bloque '+ (index + 1)}</span>} >
                                                         <GridConfigurator id={id}
                                                                           parentId={this.props.box.id}
@@ -150,7 +152,12 @@ export default class PluginToolbar extends Component {
     }
 
     renderAccordion(accordion, tabKey, accordionKeys, state, key) {
-        let props = {key: key, className: "panelPluginToolbar", collapsible: true, header: (<span key={'span' + key} ><i className="toolbarIcons material-icons">{accordion.icon ? accordion.icon : <span className="toolbarIcons" />}</i>{accordion.__name}</span>)};
+        let props = { key: key, 
+                      className: "panelPluginToolbar", 
+                      collapsible: true, 
+                      onEntered: (panel) => {panel.parentNode.classList.add("extendedPanel")},
+                      onExited: (panel) => {panel.parentNode.classList.remove("extendedPanel")},
+                      header: (<span key={'span' + key} ><i className="toolbarIcons material-icons">{accordion.icon ? accordion.icon : <span className="toolbarIcons" />}</i>{accordion.__name}</span>)};
         let children = [];
          if (accordion.order) {
             for (let i = 0; i < accordion.order.length; i++) {

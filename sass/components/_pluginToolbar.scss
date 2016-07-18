@@ -147,7 +147,7 @@
 		padding: 5px 25px;
 	}
 
-	.panel-heading{
+	.panel-heading {
 		border:0;
 		border-radius:0;
 		color:$lightestgrey;
@@ -158,6 +158,9 @@
 			border-radius: 0;
 		}
 	}
+
+	
+	
  
 	.panel-group, .panel {
 	    margin-bottom: 0;
@@ -167,6 +170,10 @@
 
 }
 
+.extendedPanel .panel-heading{
+	border-left: 3px solid $naranjaadams;
+	border-radius: 0;
+}
 
 
 #insidetools {
@@ -345,4 +352,13 @@
 .toolbarIcons {
 	font-size: 14px;
 	width:24px;
+}
+
+
+.p_open {
+	color: red;
+}
+
+.p_close {
+	color: blue;	
 }
