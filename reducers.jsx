@@ -15,7 +15,7 @@ function boxCreator(state = {}, action = {}) {
         case ADD_BOX:
             let position, width, height;
             let level = (state[action.payload.ids.parent]) ? state[action.payload.ids.parent].level + 1 : 0;
-            switch (action.payload.type) {
+             switch (action.payload.type) {
                 case 'sortable':
                     position = {x: 0, y: 0, type: 'relative'};
                     width = '100%';
@@ -32,6 +32,9 @@ function boxCreator(state = {}, action = {}) {
                 position.y = 0;
                 position.type = 'relative'
                 width = '100%';
+                if (action.payload.ids.parent.indexOf(ID_PREFIX_SORTABLE_BOX) != -1) {
+                    width = '25%';
+                } 
                 height = 'auto';
             }
             let col = 0;
