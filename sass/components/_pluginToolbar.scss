@@ -31,7 +31,24 @@
     overflow-x:hidden;
     overflow-y:auto;
 
-    input[type="checkbox"]{
+		.form-group{
+    	margin: 10px 0;
+    }
+		/* Input text */
+		.form-control {
+    	-webkit-box-shadow: none;
+    	-moz-box-shadow: none;
+    	box-shadow: none;
+    	border-radius: 0;
+    	border:0;
+    	background-color: $darkinput;
+			color: black;
+    	&:active,&:focus {
+    		border-color: orange;
+    	}
+    }
+
+		input[type="checkbox"]{
     	padding:0 !important;
     	margin-left:0;
     	position:relative;
@@ -41,38 +58,17 @@
     	vertical-align: text-bottom;
     }
 
-
-
     label, .label{
     	margin:0 !important;
     	padding: 0 !important;
     	font-size: inherit;
     	font-weight: normal;
-
-    }
-
-
-    .form-control {
-    	// height: auto;
-    	-webkit-box-shadow: none;
-    	-moz-box-shadow: none;
-    	box-shadow: none;
-    	// border: 1px solid $naranjaadams;
-    	border-radius: 0;
-    	border:0;
-    	background-color: $darkinput;
-    	&:active,&:focus {
-    		border-color: orange;
-    	}
-    	color:black;
     }
 
     .radio{
     	margin-left: 20px;
     }
-    .form-group{
-    	margin-top: 15px;
-    }
+
 
     .toolbarButton{
     	border-radius: 0;
@@ -132,34 +128,35 @@
 
 /*Collapsible panel*/
 .panelPluginToolbar{
-	border:0;
-	border-radius:0;
+	border: 0;
+	border-radius: 0;
+
 	.toolbarTab{
 		color:$naranjaadams;
 	}
-
 	a {
 		display:block;
 		text-decoration: none;
-		&:hover  {
-			text-decoration: none;
-			color: $naranjaadams;
-		}
-
+		font-size: 0.9em;
 	}
 
 	.panel-body {
 		border:0 !important;
 		background-color: $greyInsidePanels;
 		margin-bottom: -6px;
-		padding: 25px;
+		padding: 5px 25px;
 	}
 
 	.panel-heading{
 		border:0;
 		border-radius:0;
 		color:$lightestgrey;
-		background-color: #121212
+		background-color: #121212;
+		@include animacion(all,0.2s);
+		&:hover, &:active {
+			border-left: 3px solid $naranjaadams;
+			border-radius: 0;
+		}
 	}
 
 	.panel-group, .panel {
@@ -204,7 +201,7 @@
 
 
 	.pluginTitleInToolbar{
-		margin-left: 36px;
+		margin: 0 0 7px 36px;
 		color: $naranjaadams;
 	}
 
@@ -323,16 +320,16 @@
 	input[type=range]:focus::-ms-fill-upper {
 	  background: #cccccc;
 	}
-	
+
     input.form-control[type="range"]{
     	background-color: transparent;
     	outline:none !important;
 
     }
-	input[type='range'], 
-	input[type='range']:focus, 
-	input[type='range']:active, 
-	input[type='range']::-moz-focus-inner, 
+	input[type='range'],
+	input[type='range']:focus,
+	input[type='range']:active,
+	input[type='range']::-moz-focus-inner,
 	input[type='range']:-moz-focusring {
 	    border: 0 !important;
 	    outline: none !important;

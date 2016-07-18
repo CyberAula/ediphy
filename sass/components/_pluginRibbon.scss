@@ -56,7 +56,7 @@
 	border: none;
 	color: $darkest;
 	&:hover{
-		background-color: transparent !important ; 
+		background-color: transparent !important ;
 		color: white ;
 		box-shadow: none !important;
 		-webkit-box-shadow: none !important;
@@ -66,13 +66,13 @@
 		vertical-align: text-bottom;
 		font-size: 18px;
 	}
- 
+
 }
 
 /*Plugin class while dragging*/
 .ribdrag{
 	color: $darkest;
-	&:hover{ 
+	&:hover{
 		color: $darkest !important ;
 	}
 }
@@ -90,13 +90,14 @@
 	right:0px;
 	top:0;
 	padding:4px;
-	background-color: $grismedio; 
+	background-color: $grismedio;
 }
 /*Shortcut button*/
 .ribShortcut{
 	width:34px;
 	height:34px;
 	margin:3px;
+	padding: 8px;
 	border:0;
 	color: $verdeoscurogrisaceo;
 	background-color: $lightestgrey;
