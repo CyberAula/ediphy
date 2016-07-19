@@ -555,7 +555,7 @@ export default class DaliBox extends Component {
                      */
                     let span = document.getElementById('sizing')
                     if (span) {
-                        span.innerHTML = target.style.width + " × " +  target.style.height;
+                        span.innerHTML = parseInt(target.style.width) + " × " +  parseInt(target.style.height);
                     }
                 },
                 onend: (event) => {

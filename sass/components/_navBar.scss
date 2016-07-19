@@ -102,26 +102,6 @@ button[disabled].navButton {
 	}
 }
 /*************************************************/
-/****Make navbar icons fit into smaller screens****/
-.hideonresize{
-	font-size: 12px;
-	vertical-align: middle;
-	margin:auto;
-}
-
-@media screen and (max-width: 1147px) {
-	.hideonresize{
-		display: none;
-	}
-	.navButtonPlug{
-		min-width:7%;
-		padding:5px;
-	 	.active{ 
-	  		color:white !important;
-	  	}
-	}
-}
-/****************************************************/
 
 /*Plugin buttons: Image, Text, Multimedia...*/
 .navButtonPlug{
@@ -143,6 +123,27 @@ button[disabled].navButton {
 	 }
 }
 
+/****Make navbar icons fit into smaller screens****/
+.hideonresize{
+	font-size: 12px;
+	vertical-align: middle;
+	margin:auto;
+}
+
+@media screen and (max-width: 1147px) {
+	.hideonresize{
+		display: none;
+	}
+	.navButtonPlug{
+		min-width: 15px;
+		width: auto;
+		padding:5px;
+	 	.active{ 
+	  		color:white !important;
+	  	}
+	}
+}
+/****************************************************/
  
 
 
