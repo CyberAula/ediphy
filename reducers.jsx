@@ -233,7 +233,7 @@ function boxesById(state = {}, action = {}) {
                     if (!newState[action.payload.id].sortableContainers[container.id]) {
                         sortableContainers[container.id] = {
                             children: [],
-                            style: container.style,
+                            style: container.style ||  {padding: '0px', borderColor: '#ffffff', borderWidth: '0px', borderStyle: 'solid', opacity: '1'},
                             height: container.height,
                             colDistribution: [100],
                             cols: [

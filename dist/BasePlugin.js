@@ -78,7 +78,7 @@ Dali.Plugin = function () {
 
             if(aspectRatioButtonConfig){
                 aspectRatioButtonConfig.name = defaultFor(aspectRatioButtonConfig.name, "Aspect Ratio");
-                aspectRatioButtonConfig.location = defaultFor(aspectRatioButtonConfig.location, ["other", "extra"], "Aspect ratio button location not defined");
+                aspectRatioButtonConfig.location = defaultFor(aspectRatioButtonConfig.location, ["other", "~extra"], "Aspect ratio button location not defined");
                 if(!Array.isArray(aspectRatioButtonConfig.location) || aspectRatioButtonConfig.location.length < 2 || aspectRatioButtonConfig.location.length > 3){
                     console.error("Aspect ratio button location malformed");
                 }

@@ -18,9 +18,9 @@ export default class GridConfigurator extends Component {
                        style={{width: '100%'}}
                        onChange={e => {
                             let dist = e.target.value.split(" ").map(function (i){
-                                if(i && !isNaN(parseFloat(i))){
+                                if (i && !isNaN(parseFloat(i))) {
                                     return parseFloat(i);
-                                } else{
+                                } else {
                                   return 0;
                                 }
                             });
@@ -198,7 +198,7 @@ export default class GridConfigurator extends Component {
 
                 {React.createElement(FormGroup, {key: 'borderstyle'}, 
                     [React.createElement(ControlLabel, {key: 'estiloborde'}, 'Estilo borde'),
-                     React.createElement(FormControl, {componentClass: 'select', value: this.props.container.style ? this.props.container.style.borderStyle : 'none', key:'sel', onChange: e => {console.log(e.target); this.props.onChangeSortableProps(this.props.id, this.props.parentId, 'borderStyle', e.target.value )}},
+                     React.createElement(FormControl, {componentClass: 'select', value: this.props.container.style ? this.props.container.style.borderStyle : 'none', key:'sel', onChange: e => {this.props.onChangeSortableProps(this.props.id, this.props.parentId, 'borderStyle', e.target.value )}},
                       ['none', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset', 'initial', 'inherit']
                         .map((option, index) => {
                              return (React.createElement('option', 

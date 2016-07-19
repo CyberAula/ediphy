@@ -123,10 +123,9 @@ Dali.Plugins["BasicVideo"] = function (base){
             return {
                 url: 'http://video.webmfiles.org/big-buck-bunny_trailer.webm',
                 aspectRatio: 'unchecked',
-                borderSize: 0,
-                borderSize: 0,
+                borderSize: '0px',
                 borderStyle: 'solid',
-                borderRadius: 0,
+                borderRadius: '0%',
                 padding: '0px',
                 borderColor: '#000000',
                 opacity: 1,

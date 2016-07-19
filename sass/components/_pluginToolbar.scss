@@ -153,7 +153,7 @@
 		color:$lightestgrey;
 		background-color: #121212;
 		@include animacion(all,0.2s);
-		&:hover, &:active {
+		&:hover, &:active, &:focus {
 			border-left: 3px solid $naranjaadams;
 			border-radius: 0;
 		}

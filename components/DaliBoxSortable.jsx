@@ -83,7 +83,7 @@ export default class DaliBoxSortable extends Component {
                             })}
                             </div>
                             <i style={{verticalAlign: 'middle', 
-                                        position: 'absolute', bottom: '0px'
+                                        position: 'absolute', bottom: '0px', left: '0px',
                                        /*display: 'inline-block', position: container.height == 'auto' ? 'relative' : 'absolute', marginTop: container.height == 'auto' ? '0px' : '-24px'*/
                                    }} className="material-icons drag-handle">swap_vert</i>
                         </div>);

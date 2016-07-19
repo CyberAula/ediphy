@@ -234,7 +234,7 @@ class DaliApp extends Component {
                 let toolbar = this.props.toolbars[id];
                 if (e.detail.getAliasedPugins) {
                     if(id.indexOf(ID_PREFIX_SORTABLE_BOX) === -1) {
-                        let button = toolbar.controls.other.accordions.extra.buttons.alias;
+                        let button = toolbar.controls.other.accordions['~extra'].buttons.alias;
                         if (button.value.length !== 0) {
                             if(!plugins[toolbar.config.name]){
                                 plugins[toolbar.config.name] = [];
@@ -296,6 +296,7 @@ class DaliApp extends Component {
     }
 
     parsePluginContainers(obj, state) {
+ 
         if (obj.child) {
             for (let i = 0; i < obj.child.length; i++) {
                 if (obj.child[i].tag && obj.child[i].tag === "plugin") {
@@ -358,7 +359,7 @@ class DaliApp extends Component {
     addDefaultContainerPlugins(eventDetails, obj) {
         if (obj.child) {
             for (let i = 0; i < obj.child.length; i++) {
-                this.addDefaultContainerPlugins(eventDetails, obj.child[i]);
+                 this.addDefaultContainerPlugins(eventDetails, obj.child[i]);
             }
         }
         if (obj.tag && obj.tag === "plugin" && obj.attr['plugin-data-default']) {
