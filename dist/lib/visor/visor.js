@@ -23,7 +23,7 @@ var DaliVisor = (function () {
             scripts += " function __getPlugin(element){if(element.className.indexOf('wholebox') !== -1) return element; return __getPlugin(element.parentElement);}";
             scripts += "</script>";
         }
-        
+
         return scripts;
     }
 
@@ -57,16 +57,16 @@ var DaliVisor = (function () {
         }
         return selected;
     };
-    var parseEJS = function(path, page, state){
+    var parseEJS = function (path, page, state) {
         return (new EJS({url: path}).render({
-                                        scripts: getScripts(state, page),
-                                        title: state.title,
-                                        page: page,
-                                        navs: state.navItemsById,
-                                        boxesById: state.boxesById,
-                                        boxes: state.boxes,
-                                        toolbarsById: state.toolbarsById
-                                    }));
+            scripts: getScripts(state, page),
+            title: state.title,
+            page: page,
+            navs: state.navItemsById,
+            boxesById: state.boxesById,
+            boxes: state.boxes,
+            toolbarsById: state.toolbarsById
+        }));
     }
 
     return {
@@ -75,17 +75,20 @@ var DaliVisor = (function () {
                 if (err) {
                     throw err; // or handle err
                 }
-                var zip = new JSZip(data);
-                var navs = state.navItemsById;
-         
-                state.navItemsIds.map(function (page) {
-                    var inner = parseEJS('./lib/visor/index.ejs', page, state);
-                    var nombre = navs[page].name;
-                    zip.file(nombre + ".html", inner);
-                });
+                JSZip.loadAsync(data).then(function (zip) {
+                    var navs = state.navItemsById;
 
-                var content = zip.generate({type: "blob"});
-                saveAs(content, "dalivisor.zip");
+                    state.navItemsIds.map(function (page) {
+                        var inner = parseEJS('./lib/visor/index.ejs', page, state);
+                        var nombre = navs[page].name;
+                        zip.file(nombre + ".html", inner);
+                    });
+                    return zip;
+                }).then(function (zip) {
+                    return zip.generateAsync({type: "blob"});
+                }).then(function (blob) {
+                    FileSaver.saveAs(blob, "dalivisor.zip");
+                });
             });
         },
         exportPage: function (state) {
@@ -100,25 +103,29 @@ var DaliVisor = (function () {
             });
         },
         exportScorm: function (state) {
-            JSZipUtils.getBinaryContent('./lib/scorm/scorm.zip', function(err, data) {
-                if(err) {
+            JSZipUtils.getBinaryContent('./lib/scorm/scorm.zip', function (err, data) {
+                if (err) {
                     throw err; // or handle err
                 }
-                var zip = new JSZip(data);
-                var navs = state.navItemsById;
-                var sections = [];
-                state.navItemsIds.map(function(page){
-                    var inner = parseEJS('./lib/visor/index.ejs', page, state);
-                    var nombre = navs[page].name;
-                    sections.push(nombre);
-                    zip.file(nombre+".html", inner);
-                });
-                zip.file("index.html", DaliScorm.getIndex(navs));
-                zip.file("imsmanifest.xml",DaliScorm.testXML(state.title, sections));
+                JSZip.loadAsync(data).then(function (zip) {
+                    var navs = state.navItemsById;
+                    var sections = [];
+                    state.navItemsIds.map(function (page) {
+                        var inner = parseEJS('./lib/visor/index.ejs', page, state);
+                        var nombre = navs[page].name;
+                        sections.push(nombre);
+                        zip.file(nombre + ".html", inner);
+                    });
+                    zip.file("index.html", DaliScorm.getIndex(navs));
+                    zip.file("imsmanifest.xml", DaliScorm.testXML(state.title, sections));
 
-                var content = zip.generate({type:"blob"});
-                saveAs(content, "scorm.zip");
+                    return zip;
+                }).then(function (zip) {
+                    return zip.generateAsync({type: "blob"});
+                }).then(function (blob) {
+                    FileSaver.saveAs(blob, "dalivisor.zip");
+                });
             });
         }
-     }
+    }
 })();

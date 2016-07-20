@@ -96,7 +96,7 @@ export default class Section extends Component {
 
     componentDidMount(){
         let list = jQuery(this.refs.sortableListS);
-        list.sortable({ 
+        list.sortable({
             tolerance: 'intersect',
             connectWith: '.connectedSortables',
             placeholder: "sortable-placeholder",
@@ -192,10 +192,9 @@ export default class Section extends Component {
                     this.props.onNavItemReorded(this.props.navItemSelected, this.props.id,3,newIndexesIds,newChilds); 
                 }else{
                 }       
-            }.bind(this),
+            },
             receive: (event, ui) => {
                   //$(".selected").css("background-color", "rgba(84, 84, 84 , 1)");
-
                 const id = this.props.id;
                 const selec = this.props.navItemSelected;
                 const parent = this.props.navItems[this.props.navItemSelected].parent;
@@ -326,10 +325,7 @@ export default class Section extends Component {
                 }
             }else{
             }
-        }.bind(this)
+        }
     }).bind(this);
-
-
-}
-
+    }
 }

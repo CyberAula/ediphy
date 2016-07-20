@@ -119,20 +119,8 @@ Dali.Plugins["BasicImage"] = function (base){
                 base.setState(name, value);
             }
         },
-        showPreview: function(){
-            var img = $('#BasicImage_preview');
-            var input = $('#BasicImage_input');
-
-            //BasicImage.setState('url', input.val());
-            base.setState('thumbnailVisibility', 'visible');
-            // img.attr('src', input.val());
-            img.css('visibility', 'visible');
-        },
         imageClick: function() {
             alert("Miaua!");
-        },
-        printState: function() {
-            console.log(this);
         }
     }
 };

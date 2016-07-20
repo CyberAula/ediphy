@@ -154,7 +154,7 @@ export default class CarrouselList extends Component{
     componentDidMount(){
         let list = jQuery(this.refs.sortableList);
         let props = this.props;
-        list.sortable({ 
+        list.sortable({
            // handle: '.drag-handle' ,
             tolerance: 'intersect',
             connectWith: '.connectedSortables',
@@ -262,8 +262,7 @@ export default class CarrouselList extends Component{
                 }         
 
                 this.props.onNavItemReorded(this.props.navItemSelected, 0,4,newIndexesAux,reorderedIndexesId);
-            
-            }.bind(this)
+            }
         }).bind(this);
     }
 }
