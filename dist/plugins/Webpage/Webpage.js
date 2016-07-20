@@ -19,7 +19,7 @@ Dali.Plugins["Webpage"] = function (base){
                             icon: 'build',
                             buttons: {
                                 url: {
-                                    __name: 'URL',
+                                    __name: '',
                                     type: 'text',
                                     autoManaged: false,
                                     value: 'http://www.adams.es/'

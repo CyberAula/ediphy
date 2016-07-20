@@ -88,8 +88,7 @@ export default class DaliBox extends Component {
             (<div className="boxStyle" style={style} {...attrs} ref={"content"}>
                 {this.renderChildren(box.content)}
             </div>);
-
-        let border = box.container === 0 ? (
+         let border = /*box.container === 0 ? */ (
             <div style={{visibility: (vis ? 'visible' : 'hidden')}}>
                
                 <div style={{
@@ -111,7 +110,7 @@ export default class DaliBox extends Component {
                     <div className="helpersResizable"
                          style={{ right: -cornerSize/2, bottom: -cornerSize/2, width: cornerSize, height: cornerSize, cursor: (box.container === 0 ? 'se-resize' : 'move')}}></div>
                 </div>
-            </div>) : "";
+            </div>) /*: ""*/;
 
 
  
@@ -158,13 +157,13 @@ export default class DaliBox extends Component {
                  
                  }}
                  onDoubleClick={(e)=> {
-                    if(this.props.boxLevelSelected === box.level && box.children.length !== 0){
+                     if(this.props.boxLevelSelected === box.level && box.children.length !== 0){
                         this.props.onBoxLevelIncreased();
-                    }
-                     /* else if(toolbar.config && toolbar.config.needsTextEdition){
+                     }
+                      else if(toolbar.config && toolbar.config.needsTextEdition && this.props.id == this.props.boxSelected){
                         this.props.onTextEditorToggled(this.props.id, true);
                         this.refs.textarea.focus();
-                    } */
+                    }  
                  }}
                  style={{
                     position: box.position.type,
@@ -504,12 +503,12 @@ export default class DaliBox extends Component {
                 onstart: (event) => {
                     document.getElementById('daliBoxIcons').classList.add('hidden');
                     let sb = document.getElementsByClassName('selectedBox');
-                    if (sb) {
+                    if (sb && 'box-' + this.props.boxSelected == sb[0].getAttribute('id')) {
                         var span = document.createElement("span");
                         span.setAttribute("id", "sizing");
-                        var t = document.createTextNode(" ");       
-                        span.appendChild(t);         
-                        sb[0].appendChild(span)
+                        var t = document.createTextNode(" ");
+                        sb[0].appendChild(span);
+                          
                     }
                 },
                 onmove: (event) => {
@@ -574,10 +573,9 @@ export default class DaliBox extends Component {
                     this.props.onBoxMoved(this.props.id, parseInt(target.style.left), parseInt(target.style.top), this.props.boxes[this.props.id].position.type);
                     event.stopPropagation();
                     document.getElementById('daliBoxIcons').classList.remove('hidden');
-                    let sb = document.getElementsByClassName('selectedBox');
                     let span = document.getElementById('sizing')
-                    if (sb && span) {
-                        sb[0].removeChild(span)
+                    if (span) {
+                        span.parentNode.removeChild(span)
                     }
 
                 }

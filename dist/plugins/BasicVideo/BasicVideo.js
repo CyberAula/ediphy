@@ -6,6 +6,7 @@ Dali.Plugins["BasicVideo"] = function (base){
                 category: 'multimedia',
                 needsConfigModal: false,
                 needsTextEdition: false,
+                aspectRatioButtonConfig: {name: "Aspect Ratio", location: ["main", "_sortable"], defaultValue: "checked"},
                 icon: 'play_arrow'
             };
         },
@@ -24,13 +25,7 @@ Dali.Plugins["BasicVideo"] = function (base){
                                     autoManaged: false,
                                     value: 'http://video.webmfiles.org/big-buck-bunny_trailer.webm'
                                 },
-                                aspectRatio: {
-                                    __name: 'Aspect Ratio',
-                                    type: 'checkbox',
-                                    value: 'unchecked',
-                                    checked: 'false',
-                                    autoManaged: false
-                                },
+                       
                                 allowFullScreen: {
                                     __name: 'Allow FullScreen',
                                     type: 'checkbox',

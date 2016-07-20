@@ -33,7 +33,7 @@ export default class GridConfigurator extends Component {
           <div style={{width: '100%'}}>
             <h4 className="sortableToolbarTitle">Estructura</h4>
             <FormGroup>
-                <OverlayTrigger trigger="focus" placement="left" overlay={height != 'auto' ? tooltip: <i/>}>
+                <OverlayTrigger trigger="click" placement="left" overlay={height != 'auto' ? tooltip: <Tooltip id="none" style={{display: 'none'}}/>}>
                   <InputGroup style={{width: '10%', float: 'right'}}>
                   <ControlLabel> auto</ControlLabel>
                       <FormControl type="checkbox"

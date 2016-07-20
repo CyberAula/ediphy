@@ -6,6 +6,7 @@ Dali.Plugins["Youtube"] = function (base) {
                 category: 'multimedia',
                 needsConfigModal: false,
                 needsTextEdition: false,
+                aspectRatioButtonConfig: {name: "Aspect Ratio", location: ["main", "_sortable"], defaultValue: "checked"},
                 icon: 'slideshow'
             };
         },
