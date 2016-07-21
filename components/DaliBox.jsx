@@ -478,6 +478,7 @@ export default class DaliBox extends Component {
                         }
                         target.style.opacity = 1;
                     }
+
                     this.props.onBoxMoved(
                         this.props.id,
                         box.container !== 0 ? left : Math.max(parseInt(target.style.left), 0),

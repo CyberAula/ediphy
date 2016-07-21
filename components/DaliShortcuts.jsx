@@ -16,7 +16,7 @@ export default class DaliShortcuts extends Component {
         let toolbar = this.props.toolbar;
         if (box) {
             return  (
-                <div id="daliBoxIcons" className="" style= {{display: (this.props.box  != -1 && this.props.box.type != "sortable" )? 'block':'none'/*, width: 'auto'*/}}  >
+                <div id="daliBoxIcons" className="" style= {{display: (this.props.box  != -1 && this.props.box.type != "sortable" ) ? 'block' : 'none' }}  >
                 { (this.props.box.container != 0) ? (
                    <OverlayTrigger placement="top" overlay={ <Tooltip id="ajustaradocumento"> Ajustar a documento </Tooltip>}> 
                         <button className="daliTitleButton"
