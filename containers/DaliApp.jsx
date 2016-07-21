@@ -4,7 +4,7 @@ import {ActionCreators} from 'redux-undo';
 import {Grid, Col, Row, Button, OverlayTrigger, Popover} from 'react-bootstrap';
 import {addNavItem, selectNavItem, expandNavItem, removeNavItem, reorderNavItem, changeSectionTitle,
     addBox, changeTitle, selectBox, moveBox, resizeBox, updateBox, duplicateBox, deleteBox, reorderBox, dropBox, increaseBoxLevel,
-    addSortableContainer, resizeSortableContainer, changeCols, changeRows, changeSortableProps, 
+    addSortableContainer, resizeSortableContainer, changeCols, changeRows, changeSortableProps, reorderBoxes,
     togglePageModal, toggleTextEditor, toggleTitleMode, 
     changeDisplayMode, exportStateAsync, importStateAsync, updateToolbar, collapseToolbar} from '../actions';
 import {ID_PREFIX_BOX, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_SORTABLE_CONTAINER, BOX_TYPES} from '../constants';
@@ -127,6 +127,7 @@ class DaliApp extends Component {
                                         onBoxDropped={(id, row, col) => this.dispatchAndSetState(dropBox(id, row, col))}
                                         onBoxDeleted={(id, parent, container)=> this.dispatchAndSetState(deleteBox(id, parent, container, this.getDescendants(boxes[id])))}
                                         onTextEditorToggled={(caller, value) => this.dispatchAndSetState(toggleTextEditor(caller, value))}
+                                        onBoxesInsideSortableReorder={(parent, container, order) => {this.dispatchAndSetState(reorderBoxes(parent, container, order))}}
                                         titleModeToggled={(id, value) => this.dispatchAndSetState(toggleTitleMode(id, value))}/>
                         </Row>
                     </Col>

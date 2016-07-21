@@ -5,7 +5,7 @@ import interact from 'interact.js';
 import PluginPlaceholder from '../components/PluginPlaceholder';
 import {BOX_TYPES, ID_PREFIX_BOX, ID_PREFIX_PAGE, ID_PREFIX_SECTION, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_SORTABLE_CONTAINER} from '../constants';
 import {ADD_BOX, UPDATE_BOX} from '../actions';
-
+ 
 export default class DaliBox extends Component {
     constructor(props) {
         super(props);
@@ -121,7 +121,7 @@ export default class DaliBox extends Component {
             classes += " dnd" + box.container;
         }
         if (this.props.id == this.props.boxSelected){
-            classes += " selectedBox"
+            classes += " selectedBox";
         }
 
         let showOverlay;
@@ -420,8 +420,7 @@ export default class DaliBox extends Component {
                     }
                 },
                 onmove: (event) => {
-
-                    if (this.props.boxSelected !== this.props.id) {
+                     if (this.props.boxSelected !== this.props.id) {
                         this.props.onBoxSelected(this.props.id);
                     }
                     document.getElementById('daliBoxIcons').classList.add('hidden');
@@ -465,6 +464,20 @@ export default class DaliBox extends Component {
                     let actualLeft = pos == 'relative' ? target.style.left : target.getAttribute('data-x');
                     let actualTop = pos == 'relative' ? target.style.top : target.getAttribute('data-y');
 
+                    let release = document.elementFromPoint(event.clientX, event.clientY).parentNode.getAttribute('id');
+                    if (release && release.indexOf('box-bo') != -1) {
+                        let hoverID = release.split('box-')[1];
+                        let box = this.props.boxes[this.props.id];
+                        if(box.container != 0){
+                            let children = this.props.boxes[box.parent].sortableContainers[box.container].children;
+                            let newOrder = Object.assign([],children);
+                            newOrder.splice(children.indexOf(hoverID), 0, newOrder.splice(children.indexOf(box.id), 1)[0]);
+                            this.props.onBoxesInsideSortableReorder (box.parent, box.container, newOrder);
+                        }
+                      
+
+                    } 
+
                     let left = Math.max(Math.min(Math.floor(parseInt(actualLeft) / target.parentElement.offsetWidth * 100), 100), 0) + '%';
                     let top = Math.max(Math.min(Math.floor(parseInt(actualTop) / target.parentElement.offsetHeight * 100), 100), 0) + '%';
                     target.style.left = box.container !== 0 ? left : target.style.left;
@@ -488,7 +501,7 @@ export default class DaliBox extends Component {
                     target.setAttribute('data-x', 0);
                     target.setAttribute('data-y', 0);
                     event.stopPropagation();
-                     document.getElementById('daliBoxIcons').classList.remove('hidden');
+                    document.getElementById('daliBoxIcons').classList.remove('hidden');
                 }
             })
             .ignoreFrom('input, textarea, .textAreaStyle,  a')

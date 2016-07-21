@@ -16,6 +16,7 @@ export const RESIZE_SORTABLE_CONTAINER = 'RESIZE_SORTABLE_CONTAINER';
 export const CHANGE_SORTABLE_PROPS = 'CHANGE_SORTABLE_PROPS'
 export const CHANGE_COLS = 'CHANGE_COLS';
 export const CHANGE_ROWS = 'CHANGE_ROWS';
+export const REORDER_BOXES = 'REORDER_BOXES';
 
 export const ADD_NAV_ITEM = 'ADD_NAV_ITEM';
 export const SELECT_NAV_ITEM = 'SELECT_NAV_ITEM';
@@ -112,6 +113,10 @@ export function changeCols(id, parent, distribution){
 
 export function changeRows(id, parent, column, distribution){
     return {type: CHANGE_ROWS, payload: {id, parent, column, distribution}};
+}
+
+export function reorderBoxes(parent, container, order){
+    return {type: REORDER_BOXES, payload: {parent, container, order}};
 }
 
 export function duplicateSection(id){

@@ -92,6 +92,7 @@ export default class DaliCanvas extends Component{
                                             onBoxMoved={this.props.onBoxMoved}
                                             onBoxResized={this.props.onBoxResized}
                                             onSortableContainerResized={this.props.onSortableContainerResized}
+                                            onBoxesInsideSortableReorder={this.props.onBoxesInsideSortableReorder}
                                             onBoxDropped={this.props.onBoxDropped}
                                             onBoxModalToggled={this.props.onBoxModalToggled}
                                             onTextEditorToggled={this.props.onTextEditorToggled} 
@@ -108,6 +109,7 @@ export default class DaliCanvas extends Component{
                                             onBoxLevelIncreased={this.props.onBoxLevelIncreased}
                                             onBoxMoved={this.props.onBoxMoved}
                                             onBoxResized={this.props.onBoxResized}
+                                            onBoxesInsideSortableReorder={this.props.onBoxesInsideSortableReorder}
                                             onSortableContainerResized={this.props.onSortableContainerResized}
                                             onBoxReorder={this.props.onBoxReorder}
                                             onBoxDropped={this.props.onBoxDropped}

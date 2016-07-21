@@ -2,7 +2,7 @@ import {combineReducers} from 'redux';
 import undoable, {excludeAction} from 'redux-undo';
 import './utils';
 import {ADD_BOX, SELECT_BOX, MOVE_BOX, DUPLICATE_BOX, RESIZE_BOX, UPDATE_BOX, DELETE_BOX, REORDER_BOX, DROP_BOX, INCREASE_LEVEL,
-    ADD_SORTABLE_CONTAINER, RESIZE_SORTABLE_CONTAINER, CHANGE_COLS, CHANGE_ROWS, CHANGE_SORTABLE_PROPS,
+    ADD_SORTABLE_CONTAINER, RESIZE_SORTABLE_CONTAINER, CHANGE_COLS, CHANGE_ROWS, CHANGE_SORTABLE_PROPS, REORDER_BOXES,
     ADD_NAV_ITEM, SELECT_NAV_ITEM, EXPAND_NAV_ITEM, REMOVE_NAV_ITEM, REORDER_NAV_ITEM, CHANGE_SECTION_TITLE,
     TOGGLE_PAGE_MODAL, TOGGLE_TEXT_EDITOR, TOGGLE_TITLE_MODE, CHANGE_TITLE,
     CHANGE_DISPLAY_MODE, SET_BUSY, UPDATE_TOOLBAR, COLLAPSE_TOOLBAR, IMPORT_STATE
@@ -251,6 +251,17 @@ function boxesById(state = {}, action = {}) {
             newState[action.payload.id].children = children;
             newState[action.payload.id].sortableContainers = sortableContainers;
             return newState;
+        case REORDER_BOXES:
+            return Object.assign({}, state, {
+                [action.payload.parent]: Object.assign({}, state[action.payload.parent], {
+                    sortableContainers: Object.assign({}, state[action.payload.parent].sortableContainers[action.payload.container], {
+                        [action.payload.container]: Object.assign( {}, state[action.payload.parent].sortableContainers[action.payload.container], 
+                            { children: action.payload.order } 
+                        )
+                    })
+                })
+            });
+
         case CHANGE_SORTABLE_PROPS:
             let changedState = Object.assign({},state);
             changedState[action.payload.parent].sortableContainers[action.payload.id].style[action.payload.prop] = action.payload.value;
