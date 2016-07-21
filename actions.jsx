@@ -172,7 +172,7 @@ export function exportStateAsync(state){
 
         // In this case, we return a promise to wait for.
         // This is not required by thunk middleware, but it is convenient for us.
-        return fetch('http://127.0.0.1:8081/saveConfig', {
+        return fetch(Dali.Config.export_url, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -198,7 +198,7 @@ export function importStateAsync(){
     return dispatch => {
         dispatch(setBusy(true, "Importing..."));
 
-        return fetch('http://127.0.0.1:8081/getConfig')
+        return fetch(Dali.Config.import_url)
             .then(response => {
                 if(response.status >= 400)
                     throw new Error("Error while importing");

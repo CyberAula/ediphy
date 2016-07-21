@@ -86,8 +86,7 @@ var DaliScorm = {
     },
 
     getIndex: function(navs){
-      var path = '/lib/scorm/scorm_nav.ejs';
-      return (new EJS({url: path}).render({  navs: navs }));
+      return (new EJS({url: Dali.Config.scorm_ejs}).render({  navs: navs }));
     }
 
 
