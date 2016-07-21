@@ -18,7 +18,6 @@ import Visor from '../components/visor/Visor';
 import PluginRibbon from '../components/PluginRibbon';
 import DaliNavBar from '../components/DaliNavBar';
 import ServerFeedback from '../components/ServerFeedback';
-
 class DaliApp extends Component {
     constructor(props) {
         super(props);

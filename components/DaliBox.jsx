@@ -524,13 +524,23 @@ export default class DaliBox extends Component {
                             target.style.top = (parseInt(target.style.top) || 0);
                         }
                         if (event.edges.left) { //Izquierda
-                            target.style.left = (parseInt(target.style.left) || 0) + event.dx + 'px';
+                            if( box.container != 0){
+                                let delta =  event.dx * 100 / target.parentElement.offsetWidth;  
+                                target.style.left = ( parseFloat(target.style.left)  || 0) + delta  + '%';
+                            } else {
+                                target.style.left = (parseInt(target.style.left) || 0) + event.dx + 'px';
+                            }
                         }
                         if (event.edges.right) { //Derecha
-                            target.style.left = (parseInt(target.style.left) || 0);
+                            target.style.left = (parseInt(target.style.left) || 0) + box.container != 0 ? '%' : 'px';
                         }
                         if (event.edges.top) { //Arriba
-                            target.style.top = (parseInt(target.style.top) || 0) + event.dy + 'px';
+                            if( box.container != 0){
+                                let delta =  event.dy * 100 / target.parentElement.offsetHeight;  
+                                target.style.top = ( parseFloat(target.style.top)  || 0) + delta  + '%';
+                            } else {
+                                target.style.top = (parseInt(target.style.top) || 0) + event.dy + box.container != 0 ? '%' : 'px';
+                            }
                         }
                     }
                     target.style.width = event.rect.width + 'px';
@@ -561,16 +571,14 @@ export default class DaliBox extends Component {
                     if (this.props.boxSelected !== this.props.id) {
                         return;
                     }
-
                     let target = event.target;
                     let width = Math.min(Math.floor(parseInt(target.style.width) / target.parentElement.offsetWidth * 100), 100) + '%';
                     let height = Math.min(Math.floor(parseInt(target.style.height) / target.parentElement.offsetHeight * 100), 100) + '%';
-
                     this.props.onBoxResized(
                         this.props.id,
                         box.container !== 0 ? width : parseInt(target.style.width),
                         box.container !== 0 ? height : parseInt(target.style.height));
-                    this.props.onBoxMoved(this.props.id, parseInt(target.style.left), parseInt(target.style.top), this.props.boxes[this.props.id].position.type);
+                    this.props.onBoxMoved(this.props.id, target.style.left, target.style.top, this.props.boxes[this.props.id].position.type);
                     event.stopPropagation();
                     document.getElementById('daliBoxIcons').classList.remove('hidden');
                     let span = document.getElementById('sizing')

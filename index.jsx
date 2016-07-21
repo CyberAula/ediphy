@@ -13,12 +13,11 @@ require('jquery-ui-touch-punch');
 require('jszip');
 require('jszip-utils');
 require('file-saver');
-require('./sass/style.scss');
 require('./dist/css/textStyles.css');
 require('./dist/css/cajascolor.css');
 require('./dist/css/jquery-animVert.css');
 require('./dist/css/ejercicios.css');
-
+require('./sass/style.scss');
 const finalCreateStore = compose(applyMiddleware(thunkMiddleware), DevTools.instrument())(createStore);
 
 let initialState = {

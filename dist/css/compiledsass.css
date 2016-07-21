@@ -366,22 +366,6 @@ button[disabled].navButton, button[disabled].navButtonPlug {
     text-overflow: ellipsis; }
 
 /*************************************************/
-/****Make navbar icons fit into smaller screens****/
-.hideonresize {
-  font-size: 12px;
-  vertical-align: middle;
-  margin: auto; }
-
-@media screen and (max-width: 1147px) {
-  .hideonresize {
-    display: none; }
-
-  .navButtonPlug {
-    min-width: 7%;
-    padding: 5px; }
-    .navButtonPlug .active {
-      color: white !important; } }
-/****************************************************/
 /*Plugin buttons: Image, Text, Multimedia...*/
 .navButtonPlug {
   width: auto;
@@ -397,6 +381,33 @@ button[disabled].navButton, button[disabled].navButtonPlug {
     .navButtonPlug.active:after {
       border-bottom: 8px solid #F47920; }
 
+/****Make navbar icons fit into smaller screens****/
+.hideonresize {
+  font-size: 12px;
+  vertical-align: middle;
+  margin: auto; }
+
+@media screen and (max-width: 1147px) {
+  .hideonresize {
+    display: none; }
+
+  .navButtonPlug {
+    min-width: 55px;
+    width: auto;
+    padding: 5px; }
+    .navButtonPlug .active {
+      color: white !important; } }
+@media screen and (max-width: 700px) {
+  .hideonresize {
+    display: none; }
+
+  .navButtonPlug {
+    min-width: 15px;
+    width: auto;
+    padding: 5px; }
+    .navButtonPlug .active {
+      color: white !important; } }
+/****************************************************/
 /***********Menu desplegable*****************/
 .dropdownButton {
   display: inline-block;
@@ -531,6 +542,7 @@ button[disabled].navButton, button[disabled].navButtonPlug {
   width: 34px;
   height: 34px;
   margin: 3px;
+  padding: 8px;
   border: 0;
   color: #425D54;
   background-color: #F5F5F5;
@@ -574,7 +586,20 @@ button[disabled].ribShortcut, button[disabled].daliTitleButton, button[disabled]
   display: inline-block;
   vertical-align: baseline;
   overflow-x: hidden;
-  overflow-y: auto; }
+  overflow-y: auto;
+  /* Input text */ }
+  #tools .form-group {
+    margin: 10px 0; }
+  #tools .form-control {
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    border-radius: 0;
+    border: 0;
+    background-color: white;
+    color: black; }
+    #tools .form-control:active, #tools .form-control:focus {
+      border-color: orange; }
   #tools input[type="checkbox"] {
     padding: 0 !important;
     margin-left: 0;
@@ -588,20 +613,8 @@ button[disabled].ribShortcut, button[disabled].daliTitleButton, button[disabled]
     padding: 0 !important;
     font-size: inherit;
     font-weight: normal; }
-  #tools .form-control {
-    -webkit-box-shadow: none;
-    -moz-box-shadow: none;
-    box-shadow: none;
-    border-radius: 0;
-    border: 0;
-    background-color: white;
-    color: black; }
-    #tools .form-control:active, #tools .form-control:focus {
-      border-color: orange; }
   #tools .radio {
     margin-left: 20px; }
-  #tools .form-group {
-    margin-top: 15px; }
   #tools .toolbarButton {
     border-radius: 0;
     background-color: #121212;
@@ -652,24 +665,33 @@ button[disabled].ribShortcut, button[disabled].daliTitleButton, button[disabled]
     color: #F47920; }
   .panelPluginToolbar a {
     display: block;
-    text-decoration: none; }
-    .panelPluginToolbar a:hover {
-      text-decoration: none;
-      color: #F47920; }
+    text-decoration: none;
+    font-size: 0.9em; }
   .panelPluginToolbar .panel-body {
     border: 0 !important;
     background-color: #545454;
     margin-bottom: -6px;
-    padding: 25px; }
+    padding: 5px 25px; }
   .panelPluginToolbar .panel-heading {
     border: 0;
     border-radius: 0;
     color: #F5F5F5;
-    background-color: #121212; }
+    background-color: #121212;
+    transition: all 0.2s ease-in;
+    -webkit-transition: all 0.2s ease-in;
+    -moz-transition: all 0.2s ease-in;
+    -o-transition: all 0.2s ease-in; }
+    .panelPluginToolbar .panel-heading:hover, .panelPluginToolbar .panel-heading:active, .panelPluginToolbar .panel-heading:focus {
+      border-left: 3px solid #F47920;
+      border-radius: 0; }
   .panelPluginToolbar .panel-group, .panelPluginToolbar .panel {
     margin-bottom: 0;
     border-radius: 0;
     border: 0; }
+
+.extendedPanel .panel-heading {
+  border-left: 3px solid #F47920;
+  border-radius: 0; }
 
 #insidetools {
   border-left: 2px solid #2C2C2C;
@@ -690,7 +712,7 @@ button[disabled].ribShortcut, button[disabled].daliTitleButton, button[disabled]
   .toolbarSpread .material-icons {
     font-size: 16px; }
   .toolbarSpread .pluginTitleInToolbar {
-    margin-left: 36px;
+    margin: 0 0 7px 36px;
     color: #F47920; }
 
 /*Toolbar title when collapsed*/
@@ -801,6 +823,12 @@ button[disabled].ribShortcut, button[disabled].daliTitleButton, button[disabled]
 .toolbarIcons {
   font-size: 14px;
   width: 24px; }
+
+.p_open {
+  color: red; }
+
+.p_close {
+  color: blue; }
 
 /*******************Edit configuration advanced icon**********************/
 /*Icon*/
@@ -1362,15 +1390,23 @@ ul li a {
 /*Input*/
 .editSectionTitle {
   width: 40%;
-  height: 15px;
+  height: 19px;
   border-box: 0;
   -moz-border-box: 0;
   border-radius: 0;
   display: inline-block;
   border: 0;
   padding: 0;
+  vertical-align: top;
   font-size: 13px;
-  line-height: 1.3; }
+  line-height: 1em;
+  border: 0;
+  box-shadow: none;
+  -moz-box-shadow: none; }
+  .editSectionTitle:focus {
+    border: 0;
+    box-shadow: none;
+    -moz-box-shadow: none; }
 
 /*Edit icon*/
 .editIndexTitleIcon {
@@ -1453,6 +1489,12 @@ ul li a {
 .daliBoxSortableContainer {
   border-bottom: 1px dashed black; }
 
+.canvaseditor .wholebox > div > div > iframe, .canvaseditor .wholebox > div > div > video {
+  pointer-events: none !important; }
+
+.canvasvisor .wholebox > div > div > iframe, .canvasvisor .wholebox > div > div > video {
+  pointer-events: none !important; }
+
 .pageModal button {
   border-radius: 0; }
 .pageModal .modal-body {
@@ -1500,6 +1542,21 @@ ul li a {
   color: #425D54;
   border: 2px dashed #425D54;
   background-color: white; }
+
+/*Resize*/
+#sizing {
+  position: absolute;
+  background-color: #2C2C2C;
+  height: 20px;
+  top: -22px;
+  right: 0;
+  color: white;
+  font-size: 0.8em;
+  padding: 2px;
+  width: auto;
+  max-width: 100%;
+  text-overflow: ellipsis;
+  white-space: nowrap; }
 
 .btn-primary {
   border-color: #133329;

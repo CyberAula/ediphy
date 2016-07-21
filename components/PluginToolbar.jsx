@@ -91,7 +91,7 @@ export default class PluginToolbar extends Component {
                      }}>
             <div className="pestana" onClick={() => {this.setState({open: !this.state.open})}}> </div>
             <div id="tools" style={{width:  this.state.open? '250px':'40px'}} className="toolbox">
-                <OverlayTrigger placement="left" overlay={ <Tooltip className={this.state.open ? 'hidden':''} id="tooltip_props">propiedades</Tooltip>}>
+                <OverlayTrigger placement="left" overlay={ <Tooltip className={this.state.open ? 'hidden':''} id="tooltip_props" >propiedades</Tooltip>}>
                     <div  onClick={() => {this.setState({open: !this.state.open})}} style={{display: this.props.carouselShow? 'block':'none'}} className={this.state.open ? 'carouselListTitle toolbarSpread':'carouselListTitle toolbarHide'}>
 
                       <div className="toolbarTitle"><i className="material-icons">palette</i><span className="toolbarTitletxt">Propiedades</span></div>

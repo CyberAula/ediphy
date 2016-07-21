@@ -181,7 +181,7 @@ function boxesById(state = {}, action = {}) {
                 [action.payload.ids.id]: box
             });
         case MOVE_BOX:
-            return Object.assign({}, state, {
+             return Object.assign({}, state, {
                 [action.payload.id]: Object.assign({}, state[action.payload.id], {
                     position: {
                         x: action.payload.x,
