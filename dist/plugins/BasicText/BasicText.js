@@ -32,7 +32,8 @@ Dali.Plugins["BasicText"] = function (base) {
                                     type: 'number',
                                     value: '0px',
                                     min: 0,
-                                    max: 10 
+                                    max: 10,
+                                    units: 'px'
                                 },
                                 borderStyle: {
                                     __name: 'Estilo de borde',

@@ -158,27 +158,41 @@
             var box = boxesById[id];
             var toolbar =  toolbarsById[id];
             var style = "width: 100%; height: 100%; position: relative; word-wrap: break-word;";
-            var attrs = " " 
-            if(toolbar.buttons) {
-
-                console.log(toolbar.buttons)
-                toolbar.buttons.map(function(item, index){
-                     console.log(item)
-                    if (item.autoManaged) {
-                        if (!item.isAttribute) {
-                            if(item.name !== 'width' && item.name !== 'height') {
-                                style += " " + camel(item.name ) + " : " + item.value;
-                                if (item.units){
-                                    style += item.units;
+            var attrs = " "
+            for (var tabKey in toolbar.controls) {
+                for (var accordionKey in toolbar.controls[tabKey].accordions) {
+                    for (var buttonKey in toolbar.controls[tabKey].accordions[accordionKey].buttons) {
+                        var button = toolbar.controls[tabKey].accordions[accordionKey].buttons[buttonKey];
+                        if (button.autoManaged) {
+                            buttonKey = buttonKey.split(/(?=[A-Z])/).join('-').toLowerCase();
+                            if (!button.isAttribute) {
+                                if (buttonKey !== 'width' && buttonKey !== 'height') {
+                                    style += buttonKey + ":" + button.value + "; ";
                                 }
-                                style+="; ";
+                            } else {
+                                attrs += 'data-' + buttonKey + "=" + button.value;
                             }
-                        }else {
-                            attrs += 'data-' + item.name +"= " + item.value +" "
                         }
                     }
-                });
-            };
+                    if (toolbar.controls[tabKey].accordions[accordionKey].accordions) {
+                        for (var accordionKey2 in toolbar.controls[tabKey].accordions[accordionKey].accordions) {
+                            for (buttonKey in toolbar.controls[tabKey].accordions[accordionKey].accordions[accordionKey2].buttons) {
+                                button = toolbar.controls[tabKey].accordions[accordionKey].accordions[accordionKey2].buttons[buttonKey];
+                                if (button.autoManaged) {
+                                    buttonKey = buttonKey.split(/(?=[A-Z])/).join('-').toLowerCase();
+                                    if (!button.isAttribute) {
+                                        if (buttonKey !== 'width' && buttonKey !== 'height') {
+                                            style += buttonKey + ":" + button.value + "; ";
+                                        }
+                                    } else {
+                                        attrs += 'data-' + buttonKey + "=" + button.value;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
             %><div class="wholebox"
                  style="position: <%=box.container !== 0 ? '' : 'absolute'%>;
                          left: <%=box.position.x%>px;
