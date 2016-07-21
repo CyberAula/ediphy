@@ -71,7 +71,7 @@ var DaliVisor = (function () {
 
     return {
         exports: function (state) {
-            JSZipUtils.getBinaryContent('./lib/visor/dist.zip', function (err, data) {
+            JSZipUtils.getBinaryContent(Dali.Config.visor_zip, function (err, data) {
                 if (err) {
                     throw err; // or handle err
                 }
@@ -79,7 +79,7 @@ var DaliVisor = (function () {
                     var navs = state.navItemsById;
 
                     state.navItemsIds.map(function (page) {
-                        var inner = parseEJS('./lib/visor/index.ejs', page, state);
+                        var inner = parseEJS(Dali.Config.visor_ejs, page, state);
                         var nombre = navs[page].name;
                         zip.file(nombre + ".html", inner);
                     });
@@ -92,7 +92,7 @@ var DaliVisor = (function () {
             });
         },
         exportPage: function (state) {
-            return new EJS({url: './lib/visor/index.ejs'}).render({
+            return new EJS({url: Dali.Config.visor_ejs}).render({
                 title: state.title,
                 scripts: getScripts(state, state.navItemSelected),
                 page: state.navItemSelected,
@@ -103,7 +103,7 @@ var DaliVisor = (function () {
             });
         },
         exportScorm: function (state) {
-            JSZipUtils.getBinaryContent('./lib/scorm/scorm.zip', function (err, data) {
+            JSZipUtils.getBinaryContent(Dali.Config.scorm_zip, function (err, data) {
                 if (err) {
                     throw err; // or handle err
                 }
@@ -111,7 +111,7 @@ var DaliVisor = (function () {
                     var navs = state.navItemsById;
                     var sections = [];
                     state.navItemsIds.map(function (page) {
-                        var inner = parseEJS('./lib/visor/index.ejs', page, state);
+                        var inner = parseEJS(Dali.Config.visor_ejs, page, state);
                         var nombre = navs[page].name;
                         sections.push(nombre);
                         zip.file(nombre + ".html", inner);

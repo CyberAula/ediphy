@@ -27,7 +27,10 @@ export default class XMLConfigModal extends Component {
                         $.ajax({
                             url: state["__xml_path"] ? state["__xml_path"] : Dali.Config.xml_path,
                             type: state["__xml_path"] ? 'PUT' : 'POST',
-                            data: new XMLSerializer().serializeToString(xml),
+                            data: {
+                                url: "test/contoso.com",
+                                xml: new XMLSerializer().serializeToString(xml)
+                            },
                             success: function(response, status, xhr) {
 
                             },
