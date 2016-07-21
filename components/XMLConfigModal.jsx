@@ -28,7 +28,7 @@ export default class XMLConfigModal extends Component {
                             url: state["__xml_path"] ? state["__xml_path"] : Dali.Config.xml_path,
                             type: state["__xml_path"] ? 'PUT' : 'POST',
                             data: {
-                                url: "test/contoso.com",
+                                url: window.location.pathname,
                                 xml: new XMLSerializer().serializeToString(xml)
                             },
                             success: function(response, status, xhr) {
