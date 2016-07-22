@@ -490,23 +490,32 @@ export default class DaliBox extends Component {
                     let releaseClick = document.elementFromPoint(event.clientX, event.clientY);
                     if (releaseClick) {
                         let release = releaseClick.getAttribute('id') || "noid";
-                        let counter = 3;
+                        let counter = 5;
                         while(release && release.indexOf('box-bo') == -1 && counter > 0 && releaseClick.parentNode){
                             releaseClick = releaseClick.parentNode;
-                            release = releaseClick.getAttribute('id') || "noid";
+                            if(releaseClick) {
+                                release = releaseClick.getAttribute('id') || "noid";
+                            } else {
+                                counter = 0;
+                                break;
+                            }
                             counter--;
                         }
                         if (counter > 0 && release && release.indexOf('box-bo') != -1) {
-                            let hoverID = release.split('box-')[1];
-                            let box = this.props.boxes[this.props.id];
-                            if (box.container != 0) {
-                                let children = this.props.boxes[box.parent].sortableContainers[box.container].children;
-                                if (children.indexOf(hoverID) != -1){
-                                    let newOrder = Object.assign([],children);
-                                    newOrder.splice(children.indexOf(hoverID), 0, newOrder.splice(children.indexOf(box.id), 1)[0]);
-                                    this.props.onBoxesInsideSortableReorder(box.parent, box.container, newOrder);
+                            let partialID = release.split('box-');
+                            if(partialID && partialID.length > 0){
+                                let hoverID = partialID[1];
+                                let box = this.props.boxes[this.props.id];
+                                if (box && box.container != 0) {
+                                    let children = this.props.boxes[box.parent].sortableContainers[box.container].children;
+                                    if (children.indexOf(hoverID) != -1){
+                                        let newOrder = Object.assign([],children);
+                                        newOrder.splice(newOrder.indexOf(hoverID), 0, newOrder.splice(newOrder.indexOf(box.id), 1)[0]);
+                                        this.props.onBoxesInsideSortableReorder(box.parent, box.container, newOrder);
+                                    }
                                 }
                             }
+                           
                         } 
                     }
                     target.setAttribute('data-x', 0);

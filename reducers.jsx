@@ -254,7 +254,7 @@ function boxesById(state = {}, action = {}) {
         case REORDER_BOXES:
             return Object.assign({}, state, {
                 [action.payload.parent]: Object.assign({}, state[action.payload.parent], {
-                    sortableContainers: Object.assign({}, state[action.payload.parent].sortableContainers[action.payload.container], {
+                    sortableContainers: Object.assign({}, state[action.payload.parent].sortableContainers, {
                         [action.payload.container]: Object.assign( {}, state[action.payload.parent].sortableContainers[action.payload.container], 
                             { children: action.payload.order } 
                         )
