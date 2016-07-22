@@ -10,12 +10,12 @@ export default class PluginPlaceholder extends Component {
         let container = this.props.parentBox.sortableContainers[this.props.pluginContainer];
         let showOverlay;
 
-        if (this.props.boxes && this.props.boxes.length == 0) {
+        if (this.props.boxes && this.props.boxes.length === 0) {
             showOverlay = "hidden";
         } /*else if (this.props.boxLevelSelected > this.props.parentBox.level + 1) {
-            showOverlay = "visible";
-        } 
-        */
+         showOverlay = "visible";
+         }
+         */
         /*else if(this.props.boxLevelSelected === (this.props.parentBox.level + 1) &&
          !this.isAncestorOrSibling(this.props.boxSelected, (container ? container.children[0] : this.props.parentBox.id))){
          showOverlay = "visible";
@@ -24,6 +24,7 @@ export default class PluginPlaceholder extends Component {
         }
 
         return (
+            /* jshint ignore:start */
             <div style={Object.assign({},{
                     border: "solid pink 5px",
                     width: "100%",
@@ -111,8 +112,8 @@ export default class PluginPlaceholder extends Component {
                                                                  onTextEditorToggled={this.props.onTextEditorToggled}/>);
                                             }
                                         })}
-                                        {(container.children.length == 0) ? (<br/>):null}
-                                  
+                                        {(container.children.length == 0) ? (<br/>) : null}
+
                                     </div>)
 
                                 })}
@@ -121,6 +122,7 @@ export default class PluginPlaceholder extends Component {
                     }
                 })}
             </div>
+            /* jshint ignore:end */
         );
     }
 
@@ -151,12 +153,13 @@ export default class PluginPlaceholder extends Component {
 
         return this.isAncestorOrSibling(searchingId, parentId);
     }
-/*
-    componentDidUpdate(){
-        let node = ReactDOM.findDOMNode(this);
-        node.setAttribute("data-computed-height", node.getBoundingClientRect().height);
-    }
-*/
+
+    /*
+     componentDidUpdate(){
+     let node = ReactDOM.findDOMNode(this);
+     node.setAttribute("data-computed-height", node.getBoundingClientRect().height);
+     }
+     */
     componentDidMount() {
         interact(ReactDOM.findDOMNode(this))
             .dropzone({
