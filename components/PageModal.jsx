@@ -6,9 +6,11 @@ import {BOX_TYPES} from '../constants';
 export default class PageModal extends Component {
     render() {
         let navItem = this.props.navItems[this.props.caller];
-        let proposedName = "Page " +  this.calculateName();
+        let proposedName = "Page " + this.calculateName();
         return (
-            <Modal show={this.props.visibility} backdrop={true} bsSize="large" onHide={e => this.props.onVisibilityToggled(0, false)}>
+            /* jshint ignore:start */
+            <Modal show={this.props.visibility} backdrop={true} bsSize="large"
+                   onHide={e => this.props.onVisibilityToggled(0, false)}>
                 <Modal.Header closeButton>
                     <Modal.Title>Create new page</Modal.Title>
                 </Modal.Header>
@@ -22,43 +24,46 @@ export default class PageModal extends Component {
 
                     
                     }}>Document</Button>
-                        <Button bsStyle="primary" onClick={e => this.props.onPageAdded(ID_PREFIX_PAGE + Date.now(), proposedName, this.props.caller, [], navItem.level + 1, 'slide', this.calculatePosition(), 'hidden')}>Slide</Button>
+                        <Button bsStyle="primary"
+                                onClick={e => this.props.onPageAdded(ID_PREFIX_PAGE + Date.now(), proposedName, this.props.caller, [], navItem.level + 1, 'slide', this.calculatePosition(), 'hidden')}>Slide</Button>
                         <Button bsStyle="primary" disabled>Poster</Button>
                         <Button bsStyle="primary" disabled>Others</Button>
                     </ButtonGroup>
                 </Modal.Body>
             </Modal>
+            /* jshint ignore:end */
         );
     }
 
-    calculatePosition(){
-        if(this.props.caller == 0) {
+    calculatePosition() {
+        if (this.props.caller === 0) {
             return this.props.navItemsIds.length;
         }
 
         let navItem = this.props.navItems[this.props.caller];
-        var cuenta = 0
-        var exit= 0;
-        this.props.navItemsIds.map(i=>{
-
-            if(exit == 0 & this.props.navItems[i].position > navItem.position/* && prev > navItem.level*/) {
-                if( this.props.navItems[i].level > navItem.level ){
-                    cuenta++; return;
-                } 
-                else{   
-                    exit =1; return;
+        var cuenta = 0;
+        var exit = 0;
+        this.props.navItemsIds.map(i=> {
+            if (exit === 0 && this.props.navItems[i].position > navItem.position/* && prev > navItem.level*/) {
+                if (this.props.navItems[i].level > navItem.level) {
+                    cuenta++;
+                    return;
+                }
+                else {
+                    exit = 1;
+                    return;
                 }
             }
         });
-           return navItem.position +cuenta + 1;
+        return navItem.position + cuenta + 1;
     }
 
-    calculateName(){
-        let siblings = this.props.navItemsIds
-        var num = 1
-        for (let i in siblings){
-            if(siblings[i].indexOf(ID_PREFIX_PAGE) !== -1){
-                num++
+    calculateName() {
+        let siblings = this.props.navItemsIds;
+        var num = 1;
+        for (let i in siblings) {
+            if (siblings[i].indexOf(ID_PREFIX_PAGE) !== -1) {
+                num++;
             }
         }
         return num;

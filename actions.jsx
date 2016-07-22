@@ -1,4 +1,4 @@
-import fetch from 'isomorphic-fetch'
+import fetch from 'isomorphic-fetch';
 
 export const ADD_BOX = 'ADD_BOX';
 export const SELECT_BOX = 'SELECT_BOX';
@@ -10,10 +10,9 @@ export const DELETE_BOX = 'DELETE_BOX';
 export const REORDER_BOX = 'REORDER_BOX';
 export const DROP_BOX = 'DROP_BOX';
 export const INCREASE_LEVEL = 'INCREASE_LEVEL';
-export const DUPLICATE_SECTION = 'DUPLICATE_SECTION';
 
 export const RESIZE_SORTABLE_CONTAINER = 'RESIZE_SORTABLE_CONTAINER';
-export const CHANGE_SORTABLE_PROPS = 'CHANGE_SORTABLE_PROPS'
+export const CHANGE_SORTABLE_PROPS = 'CHANGE_SORTABLE_PROPS';
 export const CHANGE_COLS = 'CHANGE_COLS';
 export const CHANGE_ROWS = 'CHANGE_ROWS';
 export const REORDER_BOXES = 'REORDER_BOXES';
@@ -36,131 +35,127 @@ export const COLLAPSE_TOOLBAR = 'COLLAPSE_TOOLBAR';
 export const IMPORT_STATE = 'IMPORT_STATE';
 export const CHANGE_TITLE = 'CHANGE_TITLE';
 
-export function selectNavItem(id){
+export function selectNavItem(id) {
     return {type: SELECT_NAV_ITEM, payload: {id}};
 }
 
-export function addNavItem(id, name, parent, children, level, type, position, titlesReduced){
+export function addNavItem(id, name, parent, children, level, type, position, titlesReduced) {
     return {type: ADD_NAV_ITEM, payload: {id, name, parent, children, level, type, position, titlesReduced}};
 }
 
-export function expandNavItem(id, value){
+export function expandNavItem(id, value) {
     return {type: EXPAND_NAV_ITEM, payload: {id, value}};
 }
 
-export function removeNavItem(ids, parent, boxes){
+export function removeNavItem(ids, parent, boxes) {
     return {type: REMOVE_NAV_ITEM, payload: {ids, parent, boxes}};
 }
 
-export function reorderNavItem(itemId, newParent,type,newIndId,newChildrenInOrder){
-    return {type: REORDER_NAV_ITEM, payload: {itemId, newParent,type,newIndId,newChildrenInOrder}};
+export function reorderNavItem(itemId, newParent, type, newIndId, newChildrenInOrder) {
+    return {type: REORDER_NAV_ITEM, payload: {itemId, newParent, type, newIndId, newChildrenInOrder}};
 }
 
-export function changeSectionTitle(id, title){
+export function changeSectionTitle(id, title) {
     return {type: CHANGE_SECTION_TITLE, payload: {id, title}};
 }
 
-export function addBox(ids, type, draggable, resizable, content, toolbar, config, state, initialParams){
-    return {type: ADD_BOX, payload: {ids, type,  draggable, resizable, content, toolbar, config, state, initialParams}};
+export function addBox(ids, type, draggable, resizable, content, toolbar, config, state, initialParams) {
+    return {type: ADD_BOX, payload: {ids, type, draggable, resizable, content, toolbar, config, state, initialParams}};
 }
 
-export function selectBox(id){
+export function selectBox(id) {
     return {type: SELECT_BOX, payload: {id}};
 }
 
-export function moveBox(id, x, y, position){
+export function moveBox(id, x, y, position) {
     return {type: MOVE_BOX, payload: {id, x, y, position}};
 }
 
-export function duplicateBox(id, parent, container, children, newIds, newId){
-    return {type: DUPLICATE_BOX, payload: {id, parent, container, children, newIds, newId }};
+export function duplicateBox(id, parent, container, children, newIds, newId) {
+    return {type: DUPLICATE_BOX, payload: {id, parent, container, children, newIds, newId}};
 }
 
-export function resizeBox(id, width, height){
+export function resizeBox(id, width, height) {
     return {type: RESIZE_BOX, payload: {id, width, height}};
 }
 
-export function updateBox(id, content, toolbar, state){
+export function updateBox(id, content, toolbar, state) {
     return {type: UPDATE_BOX, payload: {id, content, toolbar, state}};
 }
 
-export function deleteBox(id, parent, container, children){
+export function deleteBox(id, parent, container, children) {
     return {type: DELETE_BOX, payload: {id, parent, container, children}};
 }
 
-export function reorderBox(ids, parent){
+export function reorderBox(ids, parent) {
     return {type: REORDER_BOX, payload: {ids, parent}};
 }
 
-export function dropBox(id, row, col){
+export function dropBox(id, row, col) {
     return {type: DROP_BOX, payload: {id, row, col}};
 }
 
-export function increaseBoxLevel(){
+export function increaseBoxLevel() {
     return {type: INCREASE_LEVEL, payload: {}};
 }
 
-export function resizeSortableContainer(id, parent, height){
+export function resizeSortableContainer(id, parent, height) {
     return {type: RESIZE_SORTABLE_CONTAINER, payload: {id, parent, height}};
 }
 
-export function changeSortableProps(id, parent, prop, value){
+export function changeSortableProps(id, parent, prop, value) {
     return {type: CHANGE_SORTABLE_PROPS, payload: {id, parent, prop, value}};
 }
-export function changeCols(id, parent, distribution){
+export function changeCols(id, parent, distribution) {
     return {type: CHANGE_COLS, payload: {id, parent, distribution}};
 }
 
-export function changeRows(id, parent, column, distribution){
+export function changeRows(id, parent, column, distribution) {
     return {type: CHANGE_ROWS, payload: {id, parent, column, distribution}};
 }
 
-export function reorderBoxes(parent, container, order){
+export function reorderBoxes(parent, container, order) {
     return {type: REORDER_BOXES, payload: {parent, container, order}};
 }
 
-export function duplicateSection(id){
-    return {type: DUPLICATE_SECTION, payload: {id}};
-}
-
-export function togglePageModal(caller, value){
+export function togglePageModal(caller, value) {
     return {type: TOGGLE_PAGE_MODAL, payload: {caller, value}};
 }
 
-export function toggleTextEditor(caller, value){
+export function toggleTextEditor(caller, value) {
     return {type: TOGGLE_TEXT_EDITOR, payload: {caller, value}};
 }
 
-export function toggleTitleMode(id, value){
+export function toggleTitleMode(id, value) {
     return {type: TOGGLE_TITLE_MODE, payload: {id, value}};
 }
 
-export function changeDisplayMode(mode){
+export function changeDisplayMode(mode) {
     return {type: CHANGE_DISPLAY_MODE, payload: {mode}};
 }
 
-export function setBusy(value, msg){
+export function setBusy(value, msg) {
     return {type: SET_BUSY, payload: {value, msg}};
 }
 
-export function changeTitle(title){
+export function changeTitle(title) {
     return {type: CHANGE_TITLE, payload: title};
 }
 
-export function importState(state){
+export function importState(state) {
     return {type: IMPORT_STATE, payload: state};
 }
 
-export function updateToolbar(id, tab, accordions, name, value){
+export function updateToolbar(id, tab, accordions, name, value) {
     return {type: UPDATE_TOOLBAR, payload: {id, tab, accordions, name, value}};
 }
 
-export function collapseToolbar(id){
+export function collapseToolbar(id) {
     return {type: COLLAPSE_TOOLBAR, payload: {id}};
 }
 
 //Async actions
-export function exportStateAsync(state){
+export function exportStateAsync(state) {
     return dispatch => {
 
         // First dispatch: the app state is updated to inform
@@ -181,38 +176,40 @@ export function exportStateAsync(state){
             body: JSON.stringify(state)
         })
             .then(response => {
-                if(response.status >= 400)
+                if (response.status >= 400) {
                     throw new Error("Error while exporting");
+                }
                 return true;
             })
-            .then(result => {
-                dispatch(setBusy(false, "Success!"))
+            .then(() => {
+                dispatch(setBusy(false, "Success!"));
             })
-            .catch(e =>{
+            .catch(e => {
                 dispatch(setBusy(false, e.message));
             });
-    }
+    };
 }
 
-export function importStateAsync(){
+export function importStateAsync() {
     return dispatch => {
         dispatch(setBusy(true, "Importing..."));
 
         return fetch(Dali.Config.import_url)
             .then(response => {
-                if(response.status >= 400)
+                if (response.status >= 400) {
                     throw new Error("Error while importing");
+                }
                 return response.text();
             })
             .then(result => {
                 dispatch(importState(JSON.parse(result)));
                 return true;
             })
-            .then(result =>{
+            .then(() => {
                 dispatch(setBusy(false, "Success!"));
             })
-            .catch(e =>{
+            .catch(e => {
                 dispatch(setBusy(false, e.message));
             });
-    }
+    };
 }

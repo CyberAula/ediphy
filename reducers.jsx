@@ -2,12 +2,12 @@ import {combineReducers} from 'redux';
 import undoable, {excludeAction} from 'redux-undo';
 import './utils';
 import {ADD_BOX, SELECT_BOX, MOVE_BOX, DUPLICATE_BOX, RESIZE_BOX, UPDATE_BOX, DELETE_BOX, REORDER_BOX, DROP_BOX, INCREASE_LEVEL,
-    ADD_SORTABLE_CONTAINER, RESIZE_SORTABLE_CONTAINER, CHANGE_COLS, CHANGE_ROWS, CHANGE_SORTABLE_PROPS, REORDER_BOXES,
+    RESIZE_SORTABLE_CONTAINER, CHANGE_COLS, CHANGE_ROWS, CHANGE_SORTABLE_PROPS, REORDER_BOXES,
     ADD_NAV_ITEM, SELECT_NAV_ITEM, EXPAND_NAV_ITEM, REMOVE_NAV_ITEM, REORDER_NAV_ITEM, CHANGE_SECTION_TITLE,
     TOGGLE_PAGE_MODAL, TOGGLE_TEXT_EDITOR, TOGGLE_TITLE_MODE, CHANGE_TITLE,
     CHANGE_DISPLAY_MODE, SET_BUSY, UPDATE_TOOLBAR, COLLAPSE_TOOLBAR, IMPORT_STATE
 } from './actions';
-import {ID_PREFIX_SECTION, ID_PREFIX_PAGE, ID_PREFIX_BOX, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_SORTABLE_CONTAINER} from './constants';
+import {ID_PREFIX_SECTION, ID_PREFIX_PAGE, ID_PREFIX_BOX, ID_PREFIX_SORTABLE_BOX} from './constants';
 
 
 function boxCreator(state = {}, action = {}) {
@@ -15,26 +15,30 @@ function boxCreator(state = {}, action = {}) {
         case ADD_BOX:
             let position, width, height;
             let level = (state[action.payload.ids.parent]) ? state[action.payload.ids.parent].level + 1 : 0;
-             switch (action.payload.type) {
+            switch (action.payload.type) {
                 case 'sortable':
                     position = {x: 0, y: 0, type: 'relative'};
                     width = '100%';
                     level = -1;
                     break;
                 default:
-                    position = {x: Math.floor(Math.random() * 200), y: Math.floor(Math.random() * 200), type: 'absolute'}
+                    position = {
+                        x: Math.floor(Math.random() * 200),
+                        y: Math.floor(Math.random() * 200),
+                        type: 'absolute'
+                    };
                     width = 200;
-                    height = 'auto'; 
+                    height = 'auto';
                     break;
             }
             if (action.payload.ids.container !== 0) {
                 position.x = 0;
                 position.y = 0;
-                position.type = 'relative'
+                position.type = 'relative';
                 width = '100%';
-                if (action.payload.ids.parent.indexOf(ID_PREFIX_SORTABLE_BOX) != -1) {
+                if (action.payload.ids.parent.indexOf(ID_PREFIX_SORTABLE_BOX) !== -1) {
                     width = '25%';
-                } 
+                }
                 height = 'auto';
             }
             let col = 0;
@@ -60,13 +64,19 @@ function boxCreator(state = {}, action = {}) {
                         children.push(pluginContainers[key].id);
                         sortableContainers[pluginContainers[key].id] = {
                             children: [],
-                            style: {padding: '0px', borderColor: '#ffffff', borderWidth: '0px', borderStyle: 'solid', opacity: '1'}, 
+                            style: {
+                                padding: '0px',
+                                borderColor: '#ffffff',
+                                borderWidth: '0px',
+                                borderStyle: 'solid',
+                                opacity: '1'
+                            },
                             height: pluginContainers[key].height || 'auto',
                             colDistribution: [100],
                             cols: [
                                 [100]
                             ]
-                        }
+                        };
                     }
                 }
             }
@@ -106,7 +116,13 @@ function sortableContainerCreator(state = {}, action = {}) {
                     }) : {
                     children: [action.payload.ids.id],
                     height: "auto",
-                    style: {padding: '0px', borderColor: '#ffffff', borderWidth: '0px', borderStyle: 'solid', opacity: 1},
+                    style: {
+                        padding: '0px',
+                        borderColor: '#ffffff',
+                        borderWidth: '0px',
+                        borderStyle: 'solid',
+                        opacity: 1
+                    },
                     colDistribution: [100],
                     cols: [
                         [100]
@@ -118,7 +134,7 @@ function sortableContainerCreator(state = {}, action = {}) {
                 [action.payload.id]: Object.assign({}, state[action.payload.id], {
                     height: action.payload.height
                 })
-            })
+            });
         case DELETE_BOX:
             let newChildren = state[action.payload.container].children.filter(id => id !== action.payload.id);
             return Object.assign({}, state, {
@@ -132,8 +148,8 @@ function sortableContainerCreator(state = {}, action = {}) {
                 cols = cols.slice(0, cols.length - 1);
             }
             let reduced = action.payload.distribution.reduce(function (prev, curr) {
-                    return prev + curr
-                });
+                return prev + curr;
+            });
             if (reduced > 99 || reduced <= 101) {
                 if (action.payload.distribution.length > cols.length) {
                     let difference = action.payload.distribution.length - cols.length;
@@ -162,6 +178,7 @@ function sortableContainerCreator(state = {}, action = {}) {
 }
 
 function boxesById(state = {}, action = {}) {
+    var newState;
     switch (action.type) {
         case ADD_BOX:
             let box = boxCreator(state, action);
@@ -181,7 +198,7 @@ function boxesById(state = {}, action = {}) {
                 [action.payload.ids.id]: box
             });
         case MOVE_BOX:
-             return Object.assign({}, state, {
+            return Object.assign({}, state, {
                 [action.payload.id]: Object.assign({}, state[action.payload.id], {
                     position: {
                         x: action.payload.x,
@@ -191,18 +208,18 @@ function boxesById(state = {}, action = {}) {
                 })
             });
         case DUPLICATE_BOX:
-            let newState = Object.assign({}, state);
+            newState = Object.assign({}, state);
             let replaced = Object.assign({}, state);
             let newIds = action.payload.newIds;
             let newId = ID_PREFIX_BOX + action.payload.newId;
-            let count = 0;
+            //let count = 0;
             Object.keys(newIds).map(box => {
                 replaced = Object.replaceAll(replaced, box, newIds[box]);
-            })
+            });
             replaced = Object.replaceAll(replaced, action.payload.id.substr(3), action.payload.newId);//split -
             let defState = Object.assign({}, newState, replaced);
-            if (action.payload.container != 0) {
-                replaced[action.payload.parent].sortableContainers[action.payload.container].children.push(action.payload.id)
+            if (action.payload.container !== 0) {
+                replaced[action.payload.parent].sortableContainers[action.payload.container].children.push(action.payload.id);
             }
 
             return Object.assign({}, defState, {
@@ -223,7 +240,7 @@ function boxesById(state = {}, action = {}) {
                 })
             });
         case UPDATE_BOX:
-            var newState = Object.assign({}, state);
+            newState = Object.assign({}, state);
             newState[action.payload.id].content = action.payload.content;
             let sortableContainers = {};
             let children = [];
@@ -233,13 +250,19 @@ function boxesById(state = {}, action = {}) {
                     if (!newState[action.payload.id].sortableContainers[container.id]) {
                         sortableContainers[container.id] = {
                             children: [],
-                            style: container.style ||  {padding: '0px', borderColor: '#ffffff', borderWidth: '0px', borderStyle: 'solid', opacity: '1'},
+                            style: container.style || {
+                                padding: '0px',
+                                borderColor: '#ffffff',
+                                borderWidth: '0px',
+                                borderStyle: 'solid',
+                                opacity: '1'
+                            },
                             height: container.height,
                             colDistribution: [100],
                             cols: [
                                 [100]
                             ]
-                        }
+                        };
                         children.push(container.id);
                     } else {
                         sortableContainers[container.id] = newState[action.payload.id].sortableContainers[container.id];
@@ -255,15 +278,15 @@ function boxesById(state = {}, action = {}) {
             return Object.assign({}, state, {
                 [action.payload.parent]: Object.assign({}, state[action.payload.parent], {
                     sortableContainers: Object.assign({}, state[action.payload.parent].sortableContainers, {
-                        [action.payload.container]: Object.assign( {}, state[action.payload.parent].sortableContainers[action.payload.container], 
-                            { children: action.payload.order } 
-                        )
+                        [action.payload.container]: Object.assign({}, state[action.payload.parent].sortableContainers[action.payload.container], {
+                            children: action.payload.order
+                        })
                     })
                 })
             });
 
         case CHANGE_SORTABLE_PROPS:
-            let changedState = Object.assign({},state);
+            let changedState = Object.assign({}, state);
             changedState[action.payload.parent].sortableContainers[action.payload.id].style[action.payload.prop] = action.payload.value;
             return changedState;
         case DROP_BOX:
@@ -286,7 +309,7 @@ function boxesById(state = {}, action = {}) {
                 })
             });
         case DELETE_BOX:
-            var newState = Object.assign({}, state);
+            newState = Object.assign({}, state);
             delete newState[action.payload.id];
             if (action.payload.children) {
                 action.payload.children.forEach(id => {
@@ -304,10 +327,10 @@ function boxesById(state = {}, action = {}) {
             }
             return newState;
         case REMOVE_NAV_ITEM:
-            var newState = Object.assign({}, state);
+            newState = Object.assign({}, state);
             action.payload.boxes.map(box => {
                 delete newState[box];
-            })
+            });
             return newState;
         case REORDER_BOX:
             return Object.assign({}, state, {
@@ -359,7 +382,7 @@ function boxLevelSelected(state = 0, action = {}) {
 function boxSelected(state = -1, action = {}) {
     switch (action.type) {
         case ADD_BOX:
-            if (action.payload.ids.id.indexOf(ID_PREFIX_SORTABLE_BOX) != -1) {
+            if (action.payload.ids.id.indexOf(ID_PREFIX_SORTABLE_BOX) !== -1) {
                 return -1;
             }
             return (action.payload.initialParams && action.payload.initialParams.isDefaultPlugin) ? state : action.payload.ids.id;
@@ -392,9 +415,9 @@ function boxesIds(state = [], action = {}) {
         case DUPLICATE_BOX:
             let firstJoin = state;
             firstJoin.push(ID_PREFIX_BOX + action.payload.newId);
-            let newIds = action.payload.newIds
+            let newIds = action.payload.newIds;
             Object.keys(newIds).map((box)=> {
-                firstJoin.push(ID_PREFIX_BOX + newIds[box])
+                firstJoin.push(ID_PREFIX_BOX + newIds[box]);
             });
             return firstJoin;
         case DELETE_BOX:
@@ -431,52 +454,53 @@ function navItemCreator(state = {}, action = {}) {
             return state;
     }
 }
-
+//TODO Repasar por qué sobra tanto código
 function recalculateNames(state = {}, old = {}, resta = 0, numeroBorrados = 0) {
-    var items = state
-    var sectionNum = 1;
+    var items = state;
+    //var sectionNum = 1;
     //Recalculate positions
     for (let i in items) {
-        if (resta == 1) {
+        if (resta === 1) {
             if (items[i].position >= old.position) {
                 items[i].position -= numeroBorrados;
             }
         } else {
-            if (items[i].position > old.position || (items[i].position == old.position && items[i].level < old.level)) {
+            if (items[i].position > old.position || (items[i].position === old.position && items[i].level < old.level)) {
                 items[i].position++;
             }
         }
     }
     // Rename pages
-    var pages = Object.keys(state).filter(page => {
-        if (state[page].type == 'slide' || state[page].type == 'document') {
+    /*var pages = */
+    Object.keys(state).filter(page => {
+        if (state[page].type === 'slide' || state[page].type === 'document') {
             return page;
         }
     }).sort(function (a, b) {
         return state[a].position - state[b].position;
     });
 
-    pages.forEach((page, index) => {
-        // items[page].name = 'Page ' + (index + 1);
-    });
+    //pages.forEach((page, index) => {
+    // items[page].name = 'Page ' + (index + 1);
+    //});
 
     // Rename sections
-    var mainindex = 1;
-    var secondindex = 1;
+    //var mainindex = 1;
+    //var secondindex = 1;
 
     var sections = Object.keys(state).filter(sec => {
-        if (state[sec].type == 'section') {
+        if (state[sec].type === 'section') {
             return sec;
         }
     }).sort(function (a, b) {
-        return state[a].position - state[b].position
+        return state[a].position - state[b].position;
     });
 
-    sections.forEach((section, index) => {
-        if (items[section].level == 1) {
+    sections.forEach((section) => {
+        if (items[section].level === 1) {
             // items[section].name = 'Section ' + (mainindex++);
         } else {
-            var sub = items[items[section].parent].children.filter(s => s[0] == 's').indexOf(section) + 1
+            var sub = items[items[section].parent].children.filter(s => s[0] === 's').indexOf(section) + 1;
             //items[section].name = items[items[section].parent].name + '.' + sub;
         }
     });
@@ -488,7 +512,7 @@ function navItemsIds(state = [], action = {}) {
     switch (action.type) {
         case ADD_NAV_ITEM:
             let nState = state.slice();
-            nState.splice(action.payload.position-1, 0, action.payload.id);
+            nState.splice(action.payload.position - 1, 0, action.payload.id);
             return nState;
         case REMOVE_NAV_ITEM:
             let newState = state.slice();
@@ -499,9 +523,8 @@ function navItemsIds(state = [], action = {}) {
         case REORDER_NAV_ITEM:
             if (action.payload.type < 5) {
                 return action.payload.newIndId;
-            } else {
-                return state;
             }
+            return state;
         case IMPORT_STATE:
             return action.payload.present.navItemsIds;
         default:
@@ -510,11 +533,13 @@ function navItemsIds(state = [], action = {}) {
 }
 
 function navItemsById(state = {}, action = {}) {
+    var newState;
+    var newBoxes;
     switch (action.type) {
         case SELECT_NAV_ITEM:
             return state;
         case ADD_NAV_ITEM:
-            var newState = Object.assign({}, state, {
+            newState = Object.assign({}, state, {
                 [action.payload.id]: navItemCreator(state[action.payload.id], action),
                 [action.payload.parent]: Object.assign({}, state[action.payload.parent], {children: [...state[action.payload.parent].children, action.payload.id]})
             });
@@ -525,19 +550,19 @@ function navItemsById(state = {}, action = {}) {
             return Object.assign({}, state, {[action.payload.id]: Object.assign({}, state[action.payload.id], {titlesReduced: action.payload.value})});
         case REMOVE_NAV_ITEM:
             let oldOne = Object.assign({}, state[action.payload.ids[0]]);
-            var newState = Object.assign({}, state);
+            newState = Object.assign({}, state);
             action.payload.ids.map(id => {
                 delete newState[id];
             });
             let newChildren = newState[action.payload.parent].children.slice();
             newChildren.splice(newChildren.indexOf(action.payload.ids[0]), 1);
             let wrongNames = Object.assign({}, newState, {[action.payload.parent]: Object.assign({}, newState[action.payload.parent], {children: newChildren})});
-            return recalculateNames(wrongNames, oldOne, 1, action.payload.ids.length)
+            return recalculateNames(wrongNames, oldOne, 1, action.payload.ids.length);
         case REORDER_NAV_ITEM:
             //   0--> exterior a exterior /   1--> exterior a seccion /   2--> seccionA a seccionB /   3--> seccion a seccion  /   4--> seccion a exterior
             var newSt = {};
             //var auxState = state;
-            if (action.payload.type == 0 || action.payload.type == 3) {
+            if (action.payload.type === 0 || action.payload.type === 3) {
                 newSt = Object.assign({}, state, {
                     [action.payload.newParent]: Object.assign({}, state[action.payload.newParent], {children: action.payload.newChildrenInOrder})
                 });
@@ -548,7 +573,7 @@ function navItemsById(state = {}, action = {}) {
                 });
 
                 return newSt;
-            } else if (action.payload.type == 1 || action.payload.type == 2 || action.payload.type == 4) {
+            } else if (action.payload.type === 1 || action.payload.type === 2 || action.payload.type === 4) {
                 var oldParent = state[action.payload.itemId].parent;
                 var oldParentChildren = state[oldParent].children;
                 oldParentChildren.splice(oldParentChildren.indexOf(action.payload.itemId), 1);
@@ -570,7 +595,7 @@ function navItemsById(state = {}, action = {}) {
                     auxLevel = newSt[currentElement].level + diff;
                     newSt = Object.assign({}, newSt, {
                         [currentElement]: Object.assign({}, newSt[currentElement], {level: auxLevel})
-                    })
+                    });
                 } while (elementsToVisit.length > 0);
 
                 action.payload.newIndId.forEach(elem => {
@@ -579,13 +604,12 @@ function navItemsById(state = {}, action = {}) {
                     });
                 });
                 return newSt;
-            } else {
-                return state
             }
+            return state;
         case CHANGE_SECTION_TITLE:
             return Object.assign({}, state, {
-                    [action.payload.id ]: Object.assign({},state[action.payload.id],{name: action.payload.title})
-                    });
+                [action.payload.id ]: Object.assign({}, state[action.payload.id], {name: action.payload.title})
+            });
 
         case ADD_BOX:
             if (action.payload.ids.parent && action.payload.ids.parent.indexOf(ID_PREFIX_PAGE) !== -1 || action.payload.ids.parent.indexOf(ID_PREFIX_SECTION) !== -1) {
@@ -595,11 +619,11 @@ function navItemsById(state = {}, action = {}) {
                     })
                 });
             }
-            return state
+            return state;
         case DELETE_BOX:
             if (action.payload.parent.indexOf(ID_PREFIX_PAGE) !== -1 || action.payload.parent.indexOf(ID_PREFIX_SECTION) !== -1) {
                 let currentBoxes = state[action.payload.parent].boxes;
-                var newBoxes = currentBoxes.filter(id => id != action.payload.id);
+                newBoxes = currentBoxes.filter(id => id !== action.payload.id);
                 if (action.payload.parent !== 0) {
                     return Object.assign({}, state, {
                         [action.payload.parent]: Object.assign({}, state[action.payload.parent], {
@@ -611,7 +635,7 @@ function navItemsById(state = {}, action = {}) {
             return state;
         case DUPLICATE_BOX:
             if (action.payload.parent.indexOf(ID_PREFIX_PAGE) !== -1 || action.payload.parent.indexOf(ID_PREFIX_SECTION) !== -1) {
-                let newBoxes = state[action.payload.parent].boxes;
+                newBoxes = state[action.payload.parent].boxes;
                 newBoxes.push(ID_PREFIX_BOX + action.payload.newId);
 
                 if (action.payload.parent !== 0) {
@@ -645,7 +669,7 @@ function navItemSelected(state = 0, action = {}) {
     }
 }
 
-function createSortableButtons(controls, width, height) {
+function createSortableButtons(controls, width) {
     if (!controls.main) {
         controls.main = {
             __name: "Main",
@@ -697,11 +721,11 @@ function createSortableButtons(controls, width, height) {
         value: 'relative',
         options: ['absolute', 'relative'],
         autoManaged: true
-    };    
+    };
 
 }
 
-function createFloatingBoxButtons(controls, width, height) {
+function createFloatingBoxButtons(controls, width) {
     if (!controls.main) {
         controls.main = {
             __name: "Main",
@@ -720,7 +744,7 @@ function createFloatingBoxButtons(controls, width, height) {
             buttons: {}
         };
     }
-     
+
     controls.main.accordions._sortable.buttons.width = {
         __name: 'Width (px)',
         type: 'number',
@@ -748,7 +772,7 @@ function createFloatingBoxButtons(controls, width, height) {
         checked: 'true',
         autoManaged: true
     };
-      
+
 
 }
 
@@ -782,6 +806,7 @@ function createAliasButton(controls, alias) {
 }
 
 function toolbarsById(state = {}, action = {}) {
+    var newState;
     switch (action.type) {
         case ADD_BOX:
             let toolbar = {
@@ -792,17 +817,17 @@ function toolbarsById(state = {}, action = {}) {
                 showTextEditor: false,
                 isCollapsed: false
             };
-            if (action.payload.type && action.payload.type == 'sortable') {
-                if (toolbar.config){
+            if (action.payload.type && action.payload.type === 'sortable') {
+                if (toolbar.config) {
                     toolbar.config.name = 'Contenedor';
                 }
             }
-            
+
             if (action.payload.ids.container !== 0) {
                 createSortableButtons(toolbar.controls);
-            } else if(action.payload.ids.id.indexOf(ID_PREFIX_SORTABLE_BOX) == -1) {
+            } else if (action.payload.ids.id.indexOf(ID_PREFIX_SORTABLE_BOX) === -1) {
                 createFloatingBoxButtons(toolbar.controls);
-                 
+
             }
 
             if (action.payload.ids.id.indexOf(ID_PREFIX_SORTABLE_BOX) === -1) {
@@ -815,15 +840,15 @@ function toolbarsById(state = {}, action = {}) {
                     type: "checkbox",
                     value: arb.defaultValue,
                     autoManaged: true
-                }
-                if (arb.location.length == 2) {
+                };
+                if (arb.location.length === 2) {
                     toolbar.controls[arb.location[0]].accordions[arb.location[1]].buttons.__aspectRatio = button;
                 } else {
                     toolbar.controls[arb.location[0]].accordions[arb.location[1]].accordions[arb.location[2]].buttons.__aspectRatio = button;
                 }
             }
 
-            var newState = Object.assign({}, state);
+            newState = Object.assign({}, state);
             newState[action.payload.ids.id] = toolbar;
             if (action.payload.ids.parent.indexOf(ID_PREFIX_PAGE) === -1 && action.payload.ids.parent.indexOf(ID_PREFIX_SECTION) === -1) {
                 let parentControls = state[action.payload.ids.parent].controls;
@@ -838,16 +863,16 @@ function toolbarsById(state = {}, action = {}) {
 
             return newState;
         case DELETE_BOX:
-            var newState = Object.assign({}, state);
+            newState = Object.assign({}, state);
             delete newState[action.payload.id];
             return newState;
 
         case DUPLICATE_BOX:
-            var newState = Object.assign({}, state);
+            newState = Object.assign({}, state);
             let replaced = Object.assign({}, state);
-            let newId = ID_PREFIX_BOX + action.payload.newId;
+            //let newId = ID_PREFIX_BOX + action.payload.newId;
             let newIds = action.payload.newIds;
-            let count = 0;
+            //let count = 0;
             Object.keys(newIds).map((box)=> {
                 replaced = Object.assign({}, Object.replaceAll(replaced, box, newIds[box]));
             });
@@ -855,7 +880,7 @@ function toolbarsById(state = {}, action = {}) {
             let defState = Object.assign({}, newState, replaced);
             return defState;
         case UPDATE_TOOLBAR:
-            var newState = Object.assign({}, state);
+            newState = Object.assign({}, state);
             let pl = action.payload;
             if (pl.accordions.length > 1) {
                 newState[pl.id].controls[pl.tab].accordions[pl.accordions[0]].accordions[pl.accordions[1]].buttons[pl.name].value = pl.value;
@@ -868,29 +893,29 @@ function toolbarsById(state = {}, action = {}) {
                 [action.payload.id]: Object.assign({}, state[action.payload.id], {isCollapsed: !(state[action.payload.id].isCollapsed)})
             });
         case RESIZE_BOX:
-            var newState = Object.assign({}, state);
+            newState = Object.assign({}, state);
             let height = action.payload.height;
-            let width = action.payload.width;
-            let heightAuto = height == 'auto';
+            //let width = action.payload.width;
+            let heightAuto = height === 'auto';
 
-            if (newState[action.payload.id] && newState[action.payload.id].controls){
+            if (newState[action.payload.id] && newState[action.payload.id].controls) {
                 if (newState[action.payload.id].controls.main && newState[action.payload.id].controls.main.accordions) {
-                    if (newState[action.payload.id].controls.main.accordions['_sortable']) {
-                        let buttons = newState[action.payload.id].controls.main.accordions['_sortable'].buttons
+                    if (newState[action.payload.id].controls.main.accordions._sortable) {
+                        let buttons = newState[action.payload.id].controls.main.accordions._sortable.buttons;
                         if (buttons.___heightAuto) {
-                            newState[action.payload.id].controls.main.accordions['_sortable'].buttons.___heightAuto.checked = heightAuto;
-                            newState[action.payload.id].controls.main.accordions['_sortable'].buttons.___heightAuto.value = heightAuto  ? 'checked' : 'unchecked';                          
-                        }   
+                            newState[action.payload.id].controls.main.accordions._sortable.buttons.___heightAuto.checked = heightAuto;
+                            newState[action.payload.id].controls.main.accordions._sortable.buttons.___heightAuto.value = heightAuto ? 'checked' : 'unchecked';
+                        }
                         if (buttons.height && buttons.width) {
-                            newState[action.payload.id].controls.main.accordions['_sortable'].buttons.height.value = height;
-                            newState[action.payload.id].controls.main.accordions['_sortable'].buttons.width.value = height;
-                        }   
+                            newState[action.payload.id].controls.main.accordions._sortable.buttons.height.value = height;
+                            newState[action.payload.id].controls.main.accordions._sortable.buttons.width.value = height;
+                        }
                     }
                 }
             }
-             
+
             return newState;
-       
+
         case UPDATE_BOX:
             let controls = action.payload.toolbar;
             for (let tabKey in controls) {
@@ -930,7 +955,7 @@ function toolbarsById(state = {}, action = {}) {
             } catch (e) {
             }
 
-            var newState = Object.assign({}, state);
+            newState = Object.assign({}, state);
             newState[action.payload.id].state = action.payload.state;
             newState[action.payload.id].controls = controls;
             return newState;
@@ -941,13 +966,13 @@ function toolbarsById(state = {}, action = {}) {
         case IMPORT_STATE:
             return action.payload.present.toolbarsById;
         case REMOVE_NAV_ITEM:
-            var newState = Object.assign({}, state);
+            newState = Object.assign({}, state);
             action.payload.boxes.map(box => {
-                delete newState[box]
+                delete newState[box];
             });
             return newState;
         case RESIZE_SORTABLE_CONTAINER:
-            var newState = Object.assign({}, state);
+            newState = Object.assign({}, state);
             if (newState[action.payload.parent].state) {
                 let sortableContainers = newState[action.payload.parent].state.__pluginContainerIds;
                 for (let key in sortableContainers) {
@@ -1025,16 +1050,17 @@ const GlobalState = undoable(combineReducers({
     isBusy: isBusy
 }), {
     filter: (action, currentState, previousState) => {
-        if (action.type === EXPAND_NAV_ITEM)
+        if (action.type === EXPAND_NAV_ITEM) {
             return false;
-        else if (action.type === TOGGLE_PAGE_MODAL)
+        } else if (action.type === TOGGLE_PAGE_MODAL) {
             return false;
-        else if (action.type === TOGGLE_TITLE_MODE)
+        } else if (action.type === TOGGLE_TITLE_MODE) {
             return false;
-        else if (action.type === CHANGE_DISPLAY_MODE)
+        } else if (action.type === CHANGE_DISPLAY_MODE) {
             return false;
-        else if (action.type === SET_BUSY)
+        } else if (action.type === SET_BUSY) {
             return false;
+        }
         return currentState !== previousState; // only add to history if state changed
     }
 });

@@ -14,6 +14,7 @@ export default class PluginConfigModal extends Component {
 
     render() {
         return (
+            /* jshint ignore:start */
             <Modal className="pageModal pluginconfig" backdrop={true} bsSize="large" show={this.state.show}>
                 <Modal.Header>
                     <Modal.Title>Plugin Configuration</Modal.Title>
@@ -21,11 +22,12 @@ export default class PluginConfigModal extends Component {
 
                 <Modal.Body>
                     <Row >
-                    <div ref={c => {
-                        if(c !== null){
-                            Dali.API.Private.answer(Dali.API.Private.events.openConfig, c);
-                        }
-                    }}></div>
+                        <div ref={c => {
+                            if(c !== null){
+                                Dali.API.Private.answer(Dali.API.Private.events.openConfig, c);
+                            }
+                        }}>
+                        </div>
                     </Row>
                 </Modal.Body>
 
@@ -40,10 +42,11 @@ export default class PluginConfigModal extends Component {
                 </Modal.Footer>
 
             </Modal>
+            /* jshint ignore:end */
         );
     }
 
-    componentDidMount(){
+    componentDidMount() {
         Dali.API.Private.listenEmission(Dali.API.Private.events.openConfig, (e) => {
             this.setState({show: true, pluginActive: e.detail.name, isUpdating: e.detail.isUpdating});
         });

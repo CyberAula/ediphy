@@ -2,31 +2,35 @@ import React, {Component} from 'react';
 import {Modal, Row, Col, Grid, Button, ButtonGroup} from 'react-bootstrap';
 import {BOX_TYPES, ID_PREFIX_SORTABLE_BOX} from '../../constants';
 
-export default class Visor extends Component{
+export default class Visor extends Component {
     shouldComponentUpdate(nextProps, nextState) {
         return this.props.visorVisible || nextProps.visorVisible;
     }
 
     render() {
-        if(this.props.state.navItemSelected === 0){
-            return <div></div>;
+        if (this.props.state.navItemSelected === 0) {
+            return (
+                /* jshint ignore:start */
+                <div></div>
+                /* jshint ignore:end */
+            );
         }
 
         let navItemSelected = this.props.state.navItemSelected || 0;
         let navItemsById = this.props.state.navItemsById;
         let navItem = navItemsById[navItemSelected];
 
-        let display = navItem.type == "slide"? "innercanvas sli ":"innercanvas doc";
+        let display = navItem.type === "slide" ? "innercanvas sli " : "innercanvas doc";
         let firstParent = navItem.parent || 0;
         let parentName = navItemsById[firstParent].name || 'Section 0';
         let patt = /([0-9]+((\.[0-9]+)+)?)/;  //Detecta número de sección. Ej. Section (2.3.4.2)
-        let sectionTitle = patt.exec(parentName)? patt.exec(parentName)[0] : '0';
+        let sectionTitle = patt.exec(parentName) ? patt.exec(parentName)[0] : '0';
         let today = new Date();
         let strDate = 'd-m-Y'
             .replace('d', today.getDate())
-            .replace('m', today.getMonth()+1)
+            .replace('m', today.getMonth() + 1)
             .replace('Y', today.getFullYear());
-        let boxes = navItemSelected!=-1? navItem.boxes : [];
+        let boxes = navItemSelected !== -1 ? navItem.boxes : [];
         let titles = [];
         if (navItemSelected !== 0) {
             titles.push(navItem.name);
@@ -39,6 +43,7 @@ export default class Visor extends Component{
         }
 
         return (
+            /* jshint ignore:start */
             <Modal className="visor modalVisorContainer"
                    show={this.props.visorVisible}
                    backdrop={true} bsSize="large"
@@ -46,7 +51,7 @@ export default class Visor extends Component{
                    onHide={e => {
                         this.props.onVisibilityToggled()
                         }}>
-                <Modal.Header closeButton >
+                <Modal.Header closeButton>
                     <Modal.Title><span id="previewTitle">Preview</span></Modal.Title>
                 </Modal.Header>
 
@@ -60,6 +65,7 @@ export default class Visor extends Component{
                     }} style={{width: "100%", height: "100%", border: 0}}></iframe>
                 </Modal.Body>
             </Modal>
-        )
+            /* jshint ignore:end */
+        );
     }
 }

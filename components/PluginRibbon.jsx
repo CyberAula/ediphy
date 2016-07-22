@@ -13,6 +13,7 @@ export default class PluginRibbon extends Component {
 
     render() {
         return (
+            /* jshint ignore:start */
             <Col id="ribbon"
                  md={12}
                  xs={12}
@@ -77,7 +78,9 @@ export default class PluginRibbon extends Component {
                         <i className="material-icons">save</i>
                     </button>
                 </div>
-            </Col>);
+            </Col>
+            /* jshint ignore:end */
+        );
     }
 
     componentDidMount() {

@@ -7,5 +7,4 @@ export const ID_PREFIX_SORTABLE_CONTAINER = "sc-";
 export const BOX_TYPES = {
     SORTABLE: 'sortable',
     NORMAL: 'normal'
-}
-
+};

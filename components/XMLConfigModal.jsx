@@ -4,6 +4,7 @@ import {Modal, Button, Row} from 'react-bootstrap';
 export default class XMLConfigModal extends Component {
     render() {
         return (
+            /* jshint ignore:start */
             <Modal className="pageModal pluginconfig" backdrop={true} bsSize="large" show={this.props.visible}>
                 <Modal.Header>
                     <Modal.Title>XML Configuration</Modal.Title>
@@ -45,25 +46,25 @@ export default class XMLConfigModal extends Component {
                         });
                     }}>Save changes</Button>
                 </Modal.Footer>
-
             </Modal>
+            /* jshint ignore:end */
         );
     }
 
     componentDidUpdate(prevProps, prevState) {
         if (this.props.visible && !prevProps.visible) {
-            this.refs.container.innerHTML = this.generateViewFromXML(this.props.toolbar.state["__xml"])
+            this.refs.container.innerHTML = this.generateViewFromXML(this.props.toolbar.state.__xml);
         }
     }
 
     componentDidMount() {
-        if (this.props.toolbar && this.props.toolbar.state["__xml"]) {
-            this.refs.container.innerHtml = this.generateViewFromXML(this.props.toolbar.state["__xml"])
+        if (this.props.toolbar && this.props.toolbar.state.__xml) {
+            this.refs.container.innerHtml = this.generateViewFromXML(this.props.toolbar.state.__xml);
         }
     }
 
     generateViewFromXML(xml) {
-
+        var i, j, n;
         //Esto es por si se quiere hacer diccionarios de palabras
         var scormWords = ['tries', 'notaCorteGlobal', 'scoreBase', 'recordScore'];
 
@@ -78,11 +79,11 @@ export default class XMLConfigModal extends Component {
             for (j = 0; j < x[i].attributes.length; j++) {
                 auxName = x[i].attributes[j].name;
                 auxValue = x[i].attributes[j].value;
-                if (auxName.match('col') || auxName == 'esquinas' || auxName == 'grosLine') {
+                if (auxName.match('col') || auxName === 'esquinas' || auxName === 'grosLine') {
                     stuffItems += colX3 + '<label for="' + auxName + '">' + auxName + ':</label> <input class="form-control" type="text" autofocus id="' + auxName + '" value= "' + auxValue + '">' + close;
                 } else if (scormWords.indexOf(auxName) >= 0) {
                     scorm += colX3 + '<label for="' + auxName + '">' + auxName + ':</label> <input class="form-control" type="text" autofocus id="' + auxName + '" value= "' + auxValue + '">' + close;
-                } else if (auxName == 'obj') {
+                } else if (auxName === 'obj') {
                     tipo += colX6 + '<label for="' + auxName + '">' + auxName + ':</label> <input class="form-control"  type="text" autofocus id="' + auxName + '" value= "' + auxValue + '">' + close;
                 } else {
                     moreStuff += colX3 + '<label for="' + auxName + '">' + auxName + ':</label> <input class="form-control"  type="text" autofocus id="' + auxName + '" value= "' + auxValue + '">' + close;
@@ -97,13 +98,13 @@ export default class XMLConfigModal extends Component {
             for (var a = 0; a < y[i].attributes.length; a++) {
                 auxName = y[i].attributes[a].name;
                 auxValue = y[i].attributes[a].value;
-                if (auxName == 'tipo') {
+                if (auxName === 'tipo') {
                     tipo += colX6 + '<label for="' + auxName + '">' + auxName + ':</label> <input class="form-control" type="text" autofocus id="' + auxName + '" value= "' + auxValue + '">' + close;
-                } else if (auxName == 'enunciado' || auxName == 'instrucciones' || auxName == 'img') {
+                } else if (auxName === 'enunciado' || auxName === 'instrucciones' || auxName === 'img') {
                     enunciado += colX12 + '<label  for="' + auxName + '">' + auxName + ':</label> <input class="form-control" type="text" autofocus id="' + auxName + '" value= "' + auxValue + '">' + close;
-                } else if (auxName == 'anchoDrop' || auxName == 'anchoDrag' || auxName == 'sidesSpace') {
+                } else if (auxName === 'anchoDrop' || auxName === 'anchoDrag' || auxName === 'sidesSpace') {
                     stuffItem += colX3 + '<label  for="' + auxName + '">' + auxName + ':</label> <input class="form-control" type="text" autofocus id="' + auxName + '" value= "' + auxValue + '">' + close;
-                } else if (auxName == 'sol') {
+                } else if (auxName === 'sol') {
                     solArr = auxValue.split(',');
                     enunciado += colX12 + '<label  for="' + auxName + '">' + auxName + ':</label> <input class="form-control"  type="text" autofocus id="' + auxName + '" value= "' + auxValue + '">' + close;
                 } else {
@@ -118,15 +119,15 @@ export default class XMLConfigModal extends Component {
                 if (y[i].childNodes[n].tagName) {
                     auxName = y[i].childNodes[n].tagName;
                     auxValue = y[i].childNodes[n].textContent;
-                    if (auxName == 'DRAG') {
+                    if (auxName === 'DRAG') {
                         preguntasArray.push(auxValue);
                         preguntas += colX12 + '<label for="' + auxName + '">' + auxName + ':</label> <input class="form-control" type="text" autofocus id="' + auxName + '-' + numQuest + '" value =" ' + auxValue + '">' + '<p>Solución:' + solArr.shift() + '</p>' + close;
                         numQuest++;
-                    } else if (auxName == 'DROP') {
+                    } else if (auxName === 'DROP') {
                         respuestasArray.push(auxValue);
                         respuestas += colX12 + '<label for="' + auxName + '">' + auxName + ':</label> <input class="form-control"  type="text" autofocus id="' + auxName + '-' + numAns + '" value= "' + auxValue + '">' + close;
                         numAns++;
-                    } else if (auxName.match('FEED') || auxName == 'NOTRIED' || auxName == 'JUSTIFICACION') {
+                    } else if (auxName.match('FEED') || auxName === 'NOTRIED' || auxName === 'JUSTIFICACION') {
                         feedBack += colX12 + '<label  for="' + auxName + '">' + auxName + ':</label> <input class="form-control"  type="text" autofocus id="' + auxName + '" value= "' + auxValue + '">' + close;
                     } else {
                         moreStuff += colX3 + '<label  for="' + auxName + '">' + auxName + ':</label> <input class="form-control"  type="text" autofocus id="' + auxName + '" value="' + auxValue + '">' + close;
@@ -149,10 +150,11 @@ export default class XMLConfigModal extends Component {
     }
 
     generateXMLFromView(state) {
-        var auxXml = state['__xml'];
+        var auxXml = state.__xml;
         var inputs = this.refs.container.getElementsByTagName('input');
         var x = auxXml.getElementsByTagName('ITEMS');
         var y = auxXml.getElementsByTagName('ITEM');
+        var i;
 
         var auxVisitado = '';
         var numVisitado = 0;
@@ -163,7 +165,7 @@ export default class XMLConfigModal extends Component {
 
             nameValue = inputs[i].id;
 
-            if (auxVisitado == nameValue) {
+            if (auxVisitado === nameValue) {
                 numVisitado++;
                 nameValue = nameValue + '-' + numVisitado;
             } else {

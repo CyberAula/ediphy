@@ -2,23 +2,22 @@ import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import {Col, Row, Input, Button, OverlayTrigger, Popover, Dropdown, Tooltip, MenuItem} from 'react-bootstrap';
 
-
 export default class DaliNavBar extends Component {
 
     openPlugin(categoria) {
-        this.props.setcat(categoria)
+        this.props.setcat(categoria);
     }
- 
 
     render() {
-        let disablePlugins = (this.props.navItemsIds.length === 0  || this.props.navItemSelected == 0) ? true : false
-        let modalTitle = ""
-        let modalShow = false
+        let disablePlugins = (this.props.navItemsIds.length === 0 || this.props.navItemSelected === 0);
+        let modalTitle = "";
+        let modalShow = false;
         return (
+            /* jshint ignore:start */
             <Col id="iconBar">
                 <img src="images/icon.png"/>
-                <div className="navBarSpace" >
-                  <i className="material-icons">mode_edit</i>   
+                <div className="navBarSpace">
+                    <i className="material-icons">mode_edit</i>
                   <span className="tituloCurso" contentEditable suppressContentEditableWarning id="mainTitle"
                         onKeyDown={(e) => {
                             if (e.keyCode == 13) { // Enter Key
@@ -34,7 +33,7 @@ export default class DaliNavBar extends Component {
                         onBlur={(e) => {
                             e.target.scrollLeft = 0;
                             this.props.changeTitle(e.target.innerHTML);
-                        }}  
+                        }}
                         onFocus={(e) =>  {
                             var range = document.createRange();
                             range.selectNodeContents(e.target);
@@ -45,12 +44,13 @@ export default class DaliNavBar extends Component {
                             }
                          }>
                    {this.props.title}</span>
-                 </div>
- 
+                </div>
+
                 <button
                     className={ this.props.hideTab == 'show' && this.props.categoria == 'text' ? 'navButtonPlug active':'navButtonPlug' }
                     title='Text' disabled={false /*disablePlugins*/}
-                    onClick={() => {this.openPlugin('text')}}><i className="material-icons">format_color_text</i><br/> <span
+                    onClick={() => {this.openPlugin('text')}}><i
+                    className="material-icons">format_color_text</i><br/> <span
                     className="hideonresize">Texto</span></button>
                 <button
                     className={ this.props.hideTab == 'show' && this.props.categoria == 'image' ? 'navButtonPlug active':'navButtonPlug' }
@@ -73,50 +73,51 @@ export default class DaliNavBar extends Component {
                     onClick={() => {this.openPlugin('exercises') }}><i className="material-icons">school</i><br/> <span
                     className="hideonresize">Ejercicios</span></button>
 
-               
 
-                <Dropdown  id="dropdown-menu" style={{float:'right'}}>
+                <Dropdown id="dropdown-menu" style={{float:'right'}}>
                     <Dropdown.Toggle noCaret className="navButton">
                         <i className="material-icons">more_vert</i><br/>
                         <span className="hideonresize" style={{fontSize: '12px'}}>Menu</span>
                     </Dropdown.Toggle>
-                    <Dropdown.Menu  id="topMenu" className="pageMenu  super-colors topMenu">
+                    <Dropdown.Menu id="topMenu" className="pageMenu  super-colors topMenu">
                         <MenuItem disabled={this.props.undoDisabled} eventKey="1">
-                            <button className="dropdownButton" title="Export HTML ZIP" disabled={this.props.undoDisabled}
-                            onClick={() => this.props.export() }><i className="material-icons">file_download</i> Exportar a HTML
+                            <button className="dropdownButton" title="Export HTML ZIP"
+                                    disabled={this.props.undoDisabled}
+                                    onClick={() => this.props.export() }><i className="material-icons">file_download</i>
+                                Exportar a HTML
                             </button>
                         </MenuItem>
                         <MenuItem disabled={this.props.undoDisabled} eventKey="2">
                             <button className="dropdownButton" title="Scorm" disabled={this.props.undoDisabled}
-                                    onClick={() => this.props.scorm() }><i className="material-icons">class</i> Exportar a Scorm
+                                    onClick={() => this.props.scorm() }><i className="material-icons">class</i> Exportar
+                                a Scorm
                             </button>
                         </MenuItem>
-                        <MenuItem divider />
-                        <MenuItem eventKey="3"  >
-                            <button  className="dropdownButton"
-                                     onClick={(e) => {
+                        <MenuItem divider/>
+                        <MenuItem eventKey="3">
+                            <button className="dropdownButton"
+                                    onClick={(e) => {
                                         this.props.serverModalOpen()
                                         this.props.opens()
                                }}>
-                               <i className="material-icons">folder_open</i> Abrir
+                                <i className="material-icons">folder_open</i> Abrir
                             </button>
                         </MenuItem>
                     </Dropdown.Menu>
                 </Dropdown>
 
-                <button className="navButton" 
-                        style={{float:'right', marginRight: '30px'}} 
-                        title="Preview" 
+                <button className="navButton"
+                        style={{float:'right', marginRight: '30px'}}
+                        title="Preview"
                         disabled={this.props.undoDisabled}
                         onClick={() =>this.props.visor()}><i className="material-icons">visibility</i>
                     <br/>
                     <span className="hideonresize" style={{fontSize: '12px'}}>Preview</span>
                 </button>
-            </Col>);
+            </Col>
+            /* jshint ignore:end */
+        );
     }
-
-
- 
 }
 
 
