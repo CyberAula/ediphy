@@ -33,13 +33,18 @@ export default class XMLConfigModal extends Component {
                                 xml: new XMLSerializer().serializeToString(xml)
                             },
                             success: function(response, status, xhr) {
-
+                                if(!state.__xml_path){
+                                    window.history.pushState({}, "", response.dali_document_path);
+                                }
+                                state.__xml_path = response.dali_exercise_path;
                             },
                             error: function(xhr, status, error) {
-
+                                console.error("Could not save");
                             },
                             complete: function(xhr, status) {
-                                state["__xml_path"] = "ua2_ue10_ejer7.xml";
+                                if(status === "error"){
+                                    state.__xml_path = "ua2_ue10_ejer7.xml";
+                                }
                                 Dali.Plugins.get(this.props.toolbar.config.name).forceUpdate(state, this.props.id);
                                 this.props.onXMLEditorToggled();
                             }.bind(this)
