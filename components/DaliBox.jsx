@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import {Input,Button, Tooltip, OverlayTrigger} from 'react-bootstrap';
 import interact from 'interact.js';
+import escape from 'html-escape';
 import PluginPlaceholder from '../components/PluginPlaceholder';
 import {BOX_TYPES, ID_PREFIX_BOX, ID_PREFIX_PAGE, ID_PREFIX_SECTION, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_SORTABLE_CONTAINER} from '../constants';
 import {ADD_BOX, UPDATE_BOX} from '../actions';
@@ -301,6 +302,8 @@ export default class DaliBox extends Component {
         this.props.onTextEditorToggled(this.props.id, false);
         let state = this.props.toolbars[this.props.id].state;
         state.__text = CKEDITOR.instances[this.props.id].getData();
+        console.log(state.__text);
+        console.log(escape(state.__text));
         Dali.Plugins.get(this.props.toolbars[this.props.id].config.name).forceUpdate(state, this.props.id);
     }
 

@@ -92,7 +92,7 @@ Dali.Plugin = function () {
                 }
                 if (needsTextEdition) {
                     if (!state.__text) {
-                        state.__tex = "Text goes here";
+                        state.__text = "Text goes here";
                     }
                     if (!descendant.getRenderTemplate) {
                         descendant.getRenderTemplate = function (state) {
