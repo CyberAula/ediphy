@@ -99,7 +99,7 @@
             <!-RENDER CHILDREN->
             <%function renderChildren(id, markup, key){
                  if(typeof markup === "string"){%>
-                    <%= markup %>
+                    <%= decodeURI(markup) %>
                 <%   return;
                 }
                 var component;
@@ -136,8 +136,7 @@
                         <% }
                         break;
                     case 'text':%>
-                        
-                        <%= markup.text%>
+                        <%= decodeURI(markup.text)%>
                         <% break;
                     case 'root': %>
                         <div style="width:100%; height:100%;">
