@@ -301,9 +301,7 @@ export default class DaliBox extends Component {
     blurTextarea() {
         this.props.onTextEditorToggled(this.props.id, false);
         let state = this.props.toolbars[this.props.id].state;
-        state.__text = CKEDITOR.instances[this.props.id].getData();
-        console.log(state.__text);
-        console.log(escape(state.__text));
+        state.__text = escape(CKEDITOR.instances[this.props.id].getData());
         Dali.Plugins.get(this.props.toolbars[this.props.id].config.name).forceUpdate(state, this.props.id);
     }
 
