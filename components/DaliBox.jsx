@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import {Input,Button, Tooltip, OverlayTrigger} from 'react-bootstrap';
 import interact from 'interact.js';
-import escape from 'html-escape';
 import PluginPlaceholder from '../components/PluginPlaceholder';
 import {BOX_TYPES, ID_PREFIX_BOX, ID_PREFIX_PAGE, ID_PREFIX_SECTION, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_SORTABLE_CONTAINER} from '../constants';
 import {ADD_BOX, UPDATE_BOX} from '../actions';
@@ -89,7 +88,7 @@ export default class DaliBox extends Component {
         let content = toolbar.state.__text ? (
             /* jshint ignore:start */
             <div className="boxStyle" style={style} {...attrs} ref={"content"}
-                 dangerouslySetInnerHTML={{__html: toolbar.state.__text}}></div>
+                 dangerouslySetInnerHTML={{__html: decodeURI(toolbar.state.__text)}}></div>
             /* jshint ignore:end */
         ) : (
             /* jshint ignore:start */
@@ -301,7 +300,7 @@ export default class DaliBox extends Component {
     blurTextarea() {
         this.props.onTextEditorToggled(this.props.id, false);
         let state = this.props.toolbars[this.props.id].state;
-        state.__text = escape(CKEDITOR.instances[this.props.id].getData());
+        state.__text = encodeURI(CKEDITOR.instances[this.props.id].getData());
         Dali.Plugins.get(this.props.toolbars[this.props.id].config.name).forceUpdate(state, this.props.id);
     }
 
