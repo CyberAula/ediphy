@@ -6,16 +6,16 @@ Dali.Visor.Plugin = function () {
         if (json.child) {
             for (var i = 0; i < json.child.length; i++) {
                 if (json.child[i].tag && json.child[i].tag === "plugin") {
-                    var height = state['__pluginContainerIds'][json.child[i].attr['plugin-data-key']].height;
+                    var height = state.__pluginContainerIds[json.child[i].attr['plugin-data-key']].height;
                     height = !isNaN(height) ? height + "px" : height;
                     json.child[i].attr["plugin-data-height"] = height;
                     if (!json.attr) {
                         json.attr = {
                             style: {height: height}
-                        }
+                        };
                     } else {
                         if (!json.attr.style) {
-                            json.attr.style = {height: height}
+                            json.attr.style = {height: height};
                         } else {
                             json.attr.style.height = height;
                         }
@@ -28,24 +28,24 @@ Dali.Visor.Plugin = function () {
                 parseJson(json.child[i], state, hasVisorTemplate);
             }
         }
-        if (json.attr && json.attr["className"]) {
-            json.attr["class"] = json.attr["className"];
-            delete json.attr["className"];
+        if (json.attr && json.attr.className) {
+            json.attr.class = json.attr.className;
+            delete json.attr.className;
         }
         if (json.tag && json.tag === "plugin") {
-            if (!state['__pluginContainerIds']) {
-                state['__pluginContainerIds'] = {};
+            if (!state.__pluginContainerIds) {
+                state.__pluginContainerIds = {};
             }
             var key = json.attr['plugin-data-key'];
             if (!key) {
                 console.error(json.tag + " has not defined plugin-data-key");
             } else {
-                if (state['__pluginContainerIds'][key]) {
-                    json.attr['plugin-data-id'] = state['__pluginContainerIds'][key].id;
+                if (state.__pluginContainerIds[key]) {
+                    json.attr['plugin-data-id'] = state.__pluginContainerIds[key].id;
                 }
             }
         }
-    }
+    };
 
     var plugin = {
         create: function (obj) {
@@ -137,7 +137,7 @@ Dali.Visor.Plugin = function () {
                extraFunctions[fnAlias].bind(element[0])();
             }
         }
-    }
+    };
 
     return plugin;
 };

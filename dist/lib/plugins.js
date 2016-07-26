@@ -26,10 +26,10 @@ Dali.Plugins = (function () {
                         }
                     });
                 },
-                complete: function(xhr, status){
-                    if(status === "success") {
+                complete: function (xhr, status) {
+                    if (status === "success") {
                         resolve(name);
-                    }else{
+                    } else {
                         resolve();
                     }
                 }
@@ -61,7 +61,7 @@ Dali.Plugins = (function () {
             plugins.map(function (id, index) {
                 promises.push(loadPluginFile(id));
                 promises[index].then(function (name) {
-                    if(name) {
+                    if (name) {
                         var plugin = new Dali.Plugin();
                         plugin.create(Dali.Plugins[name](plugin));
                         pluginInstancesList[name] = plugin;
@@ -70,7 +70,7 @@ Dali.Plugins = (function () {
             });
             return Promise.all(promises);
         }
-    }
+    };
 })();
 
 Dali.Visor.Plugins = (function () {
@@ -94,5 +94,5 @@ Dali.Visor.Plugins = (function () {
             basePlugin.init();
             pluginInstancesList[name] = basePlugin;
         }
-    }
+    };
 })();

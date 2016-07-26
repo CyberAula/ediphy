@@ -1,3 +1,7 @@
+//var JSZip = require('jszip');
+//var JSZipUtils = require('jszip-utils');
+//var FileSaver = require('file-saver');
+
 var DaliVisor = (function () {
     var getScripts = function (state, page) {
         var scripts = "";
@@ -12,8 +16,8 @@ var DaliVisor = (function () {
                     fnName !== "create" &&
                     fnName !== "init"
                 ) {
-                    scripts += (scripts.length === 0 ? "<script type='text/javascript'>" : "")
-                        + plugin[fnName].toString().replace("function", "function " + fnName)
+                    scripts += (scripts.length === 0 ? "<script type='text/javascript'>" : "") +
+                        plugin[fnName].toString().replace("function", "function " + fnName)
                             .replace(/\n/g, "").replace(/\s+/g, " ");
                 }
             }
@@ -25,7 +29,7 @@ var DaliVisor = (function () {
         }
 
         return scripts;
-    }
+    };
 
     var getPluginsInView = function (state, page) {
         let plugins = [];
@@ -67,7 +71,7 @@ var DaliVisor = (function () {
             boxes: state.boxes,
             toolbarsById: state.toolbarsById
         }));
-    }
+    };
 
     return {
         exports: function (state) {
@@ -127,5 +131,5 @@ var DaliVisor = (function () {
                 });
             });
         }
-    }
+    };
 })();

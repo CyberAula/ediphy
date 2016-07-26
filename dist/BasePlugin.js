@@ -9,7 +9,7 @@ Dali.Plugin = function () {
         if (warn) {
             console.warn(warn);
         }
-        return value
+        return value;
     };
 
     var assignPluginContainerIds = function (json) {
@@ -19,20 +19,20 @@ Dali.Plugin = function () {
             }
         }
         if (json.tag && json.tag === "plugin") {
-            if (!state['__pluginContainerIds']) {
-                state['__pluginContainerIds'] = {};
+            if (!state.__pluginContainerIds) {
+                state.__pluginContainerIds = {};
             }
             var key = json.attr['plugin-data-key'];
             if (!key) {
                 console.error(json.tag + " has not defined plugin-data-key");
             } else {
-                if (state['__pluginContainerIds'][key]) {
-                    json.attr['plugin-data-id'] = state['__pluginContainerIds'][key].id;
-                    json.attr['plugin-data-height'] = state['__pluginContainerIds'][key].height;
+                if (state.__pluginContainerIds[key]) {
+                    json.attr['plugin-data-id'] = state.__pluginContainerIds[key].id;
+                    json.attr['plugin-data-height'] = state.__pluginContainerIds[key].height;
                 }
             }
         }
-    }
+    };
 
     var plugin = {
         create: function (obj) {
@@ -76,10 +76,10 @@ Dali.Plugin = function () {
             needsXMLEdition = defaultFor(needsXMLEdition, false);
             icon = defaultFor(icon, 'fa-cogs', "Plugin icon not assigned");
 
-            if(aspectRatioButtonConfig){
+            if (aspectRatioButtonConfig) {
                 aspectRatioButtonConfig.name = defaultFor(aspectRatioButtonConfig.name, "Aspect Ratio");
                 aspectRatioButtonConfig.location = defaultFor(aspectRatioButtonConfig.location, ["other", "~extra"], "Aspect ratio button location not defined");
-                if(!Array.isArray(aspectRatioButtonConfig.location) || aspectRatioButtonConfig.location.length < 2 || aspectRatioButtonConfig.location.length > 3){
+                if (!Array.isArray(aspectRatioButtonConfig.location) || aspectRatioButtonConfig.location.length < 2 || aspectRatioButtonConfig.location.length > 3) {
                     console.error("Aspect ratio button location malformed");
                 }
                 aspectRatioButtonConfig.defaultValue = defaultFor(aspectRatioButtonConfig.defaultValue, "unchecked");
@@ -90,19 +90,19 @@ Dali.Plugin = function () {
                 if (descendant.getInitialState) {
                     state = descendant.getInitialState();
                 }
-                if(needsTextEdition){
-                    if(!state["__text"]){
-                        state["__text"] = "Text goes here";
+                if (needsTextEdition) {
+                    if (!state.__text) {
+                        state.__tex = "Text goes here";
                     }
-                    if(!descendant.getRenderTemplate){
-                        descendant.getRenderTemplate = function(state){
+                    if (!descendant.getRenderTemplate) {
+                        descendant.getRenderTemplate = function (state) {
                             return state.__text;
-                        }
+                        };
                     }
                 }
-                if(needsXMLEdition){
-                    if(!state["__xml"]){
-                        state["__xml"] = null;
+                if (needsXMLEdition) {
+                    if (!state.__xml) {
+                        state.__xml = null;
                     }
                 }
                 initialParams = initParams;
@@ -126,8 +126,9 @@ Dali.Plugin = function () {
         },
         getToolbar: function () {
             var toolbar;
-            if (descendant.getToolbar)
+            if (descendant.getToolbar) {
                 toolbar = descendant.getToolbar();
+            }
             toolbar = defaultFor(toolbar, {});
 
             for (var tabKey in toolbar) {
@@ -135,11 +136,12 @@ Dali.Plugin = function () {
                 var accordions = defaultFor(toolbar[tabKey].accordions, {}, "Property accordions in tab '" + tabKey + "' not found");
                 toolbar[tabKey].accordions = accordions;
                 for (var accordionKey in accordions) {
+                    var button;
                     accordions[accordionKey].__name = defaultFor(accordions[accordionKey].__name, accordionKey, "Property __name in accordion '" + accordionKey + "' not found");
                     var buttons = defaultFor(accordions[accordionKey].buttons, {}, "Property buttons in accordion '" + accordionKey + "' not found");
                     accordions[accordionKey].buttons = buttons;
                     for (var buttonKey in buttons) {
-                        var button = buttons[buttonKey];
+                        button = buttons[buttonKey];
                         button.__name = defaultFor(button.__name, buttonKey, "Property __name in button '" + buttonKey + "' not found");
                         button.autoManaged = defaultFor(button.autoManaged, true);
                         if (!button.callback && !button.autoManaged) {
@@ -185,7 +187,7 @@ Dali.Plugin = function () {
                 }.bind(this));
             }
         },
-        forceUpdate: function(oldState, sender){
+        forceUpdate: function (oldState, sender) {
             state = oldState;
             id = sender;
             this.render(true);
@@ -216,8 +218,8 @@ Dali.Plugin = function () {
                 );
             }
         },
-        afterRender: function(element, state){
-            if(descendant.afterRender){
+        afterRender: function (element, state) {
+            if (descendant.afterRender) {
                 descendant.afterRender(element, state);
             }
         },
@@ -238,7 +240,8 @@ Dali.Plugin = function () {
         setCompleteState: function (newState) {
             state = newState;
         },
-        registerExtraFunction: function() { }
+        registerExtraFunction: function () {
+        }
     };
 
     return plugin;

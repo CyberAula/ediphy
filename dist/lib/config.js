@@ -1,5 +1,5 @@
 Dali.Config = {
-    xml_path: "dali/documents/xml",
+    xml_path: "http://lamas.dit.upm.es:3000/dali_documents/add_xml",
     exercise_render_template_iframe_src: "./exercises/index.html",
     scorm_ejs: "/lib/scorm/scorm_nav.ejs",
     visor_ejs: "./lib/visor/index.ejs",

@@ -10,14 +10,22 @@ import GlobalState from './reducers';
 require('jquery-ui');
 require('jquery-ui-touch-punch');
 */
-require('jszip');
-require('jszip-utils');
-require('file-saver');
+
+/*
+require('./dist/lib/api');
+require('./dist/lib/config');
+require('./dist/BasePlugin');
+require('./dist/BasePluginVisor');
+require('./dist/lib/plugins');
+require('./dist/lib/scorm/scorm');
+require('./dist/lib/visor/visor');
+*/
 require('./dist/css/textStyles.css');
 require('./dist/css/cajascolor.css');
 require('./dist/css/jquery-animVert.css');
 require('./dist/css/ejercicios.css');
 require('./sass/style.scss');
+
 const finalCreateStore = compose(applyMiddleware(thunkMiddleware), DevTools.instrument())(createStore);
 
 let initialState = {

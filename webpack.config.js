@@ -101,6 +101,11 @@ module.exports = {
         //This options prohibits overwriting prototypes of native objects such as Array, Date and so on.
         freeze: true,
 
+        // This option can be used to specify a white list of global variables that are not formally defined in the source code.
+        globals: {
+            "Dali": true
+        },
+
         // This option requires the code to run in ECMAScript 5's strict mode.
         //strict: true,
 
@@ -117,7 +122,7 @@ module.exports = {
         browser: true,
         devel: true,
         jquery: true,
-        predef: ["Dali", "CKEDITOR"]
+        predef: ["html2json", "CKEDITOR", "EJS"]
     },
     plugins: [
         new webpack.HotModuleReplacementPlugin(),
