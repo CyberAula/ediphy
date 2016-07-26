@@ -10,7 +10,9 @@ import GlobalState from './reducers';
 require('jquery-ui');
 require('jquery-ui-touch-punch');
 */
-
+require('jszip');
+require('jszip-utils');
+require('file-saver');
 /*
 require('./dist/lib/api');
 require('./dist/lib/config');
