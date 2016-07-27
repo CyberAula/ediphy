@@ -16,7 +16,7 @@ Dali.Plugins["BasicText"] = function (base) {
                     accordions: {
                         style: {
                             __name: "Estilo caja",
-                            icon: 'style',
+                            icon: 'palette',
                             buttons: {
                                 padding: {
                                     __name: 'Padding',
@@ -24,9 +24,9 @@ Dali.Plugins["BasicText"] = function (base) {
                                     value: '15px',
                                     min: 0,
                                     max: 100,
-                                    units: 'px' 
+                                    units: 'px'
                                 },
-      
+
                                 borderWidth: {
                                     __name: 'Grosor de borde',
                                     type: 'number',
@@ -39,13 +39,13 @@ Dali.Plugins["BasicText"] = function (base) {
                                     __name: 'Estilo de borde',
                                     type: 'select',
                                     value: 'solid',
-                                    options: ['none', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset', 'initial', 'inherit'] 
-                                    
+                                    options: ['none', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset', 'initial', 'inherit']
+
                                 },
                                 borderColor: {
                                     __name: 'Color de borde',
                                     type: 'color',
-                                    value: '#000000' 
+                                    value: '#000000'
                                 },
                                 borderRadius: {
                                     __name: 'Radio',

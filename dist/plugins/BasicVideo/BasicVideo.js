@@ -25,7 +25,7 @@ Dali.Plugins["BasicVideo"] = function (base){
                                     autoManaged: false,
                                     value: 'http://video.webmfiles.org/big-buck-bunny_trailer.webm'
                                 },
-                       
+
                                 allowFullScreen: {
                                     __name: 'Allow FullScreen',
                                     type: 'checkbox',
@@ -44,7 +44,7 @@ Dali.Plugins["BasicVideo"] = function (base){
                         },
                         style: {
                             __name: "Estilo caja",
-                            icon: 'style',
+                            icon: 'palette',
                             buttons: {
                                 padding: {
                                     __name: 'Padding',
@@ -94,7 +94,7 @@ Dali.Plugins["BasicVideo"] = function (base){
                                     max: 1,
                                     step: 0.05
                                 }
-                                
+
                             }
                         },
                         '~extra': {

@@ -28,7 +28,7 @@ Dali.Plugins["Webpage"] = function (base){
                         },
                         style: {
                             __name: "Estilo caja",
-                            icon: 'style',
+                            icon: 'palette',
                             buttons: {
                                 padding: {
                                     __name: 'Padding',
@@ -78,7 +78,7 @@ Dali.Plugins["Webpage"] = function (base){
                                     max: 1,
                                     step: 0.05
                                 }
-                                
+
                             }
                         },
                         '~extra': {
