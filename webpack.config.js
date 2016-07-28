@@ -13,14 +13,14 @@ module.exports = {
             {
                 test: /\.(es6|jsx|js)$/,
                 exclude: /node_modules/,
-                loader: 'jshint-loader',
-            },
+                loader: 'jshint-loader'
+            }
         ],
         loaders: [
             {
                 test: /\.es6$/,
                 exclude: /node_modules/,
-                loader: 'babel-loader?presets[]=es2015',
+                loader: 'babel-loader?presets[]=es2015'
             },
             {
                 test: /\.jsx?$/,
@@ -46,7 +46,8 @@ module.exports = {
                 loader: 'url-loader?limit=10000' },
             {
                 test: /\.(ttf|eot)$/,
-                loader: 'file-loader' },/*
+                loader: 'file-loader'
+            },/*
             {
                 test: require.resolve('jquery'),
                 loader: 'expose?jQuery!expose?$!expose?window.jQuery'  //expose-loader, exposes as global variable
@@ -69,7 +70,7 @@ module.exports = {
         extensions: ['', '.js', '.jsx', '.es6']
     },
     output: {
-        path: __dirname + '/dist',
+        path: './dist',
         publicPath: '/', //This is used to generate URLs to e.g. images
         filename: 'bundle.js'
     },
@@ -126,6 +127,13 @@ module.exports = {
     },
     plugins: [
         new webpack.HotModuleReplacementPlugin(),
+        /*
+        new webpack.DefinePlugin({
+            'process.env': {
+                'NODE_ENV': JSON.stringify('production')
+            }
+        })
+        */
         /*new webpack.ProvidePlugin({
             '$': 'jquery',
             'jQuery': 'jquery',
