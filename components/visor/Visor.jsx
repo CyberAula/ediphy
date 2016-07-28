@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Modal, Row, Col, Grid, Button, ButtonGroup} from 'react-bootstrap';
 import {BOX_TYPES, ID_PREFIX_SORTABLE_BOX} from '../../constants';
+import Dali from './../../core/main';
 
 export default class Visor extends Component {
     shouldComponentUpdate(nextProps, nextState) {
@@ -59,7 +60,7 @@ export default class Visor extends Component {
                     <iframe ref={el => {
                         if(el !== null && this.props.visorVisible){
                             el.contentWindow.document.open();
-                            el.contentWindow.document.write(DaliVisor.exportPage(this.props.state));
+                            el.contentWindow.document.write(Dali.Visor.exportPage(this.props.state));
                             el.contentWindow.document.close();
                         }
                     }} style={{width: "100%", height: "100%", border: 0}}></iframe>

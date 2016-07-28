@@ -1,4 +1,6 @@
-var DaliScorm = {
+import Dali from './../main';
+
+export default {
     testXML: function (title, sections) {
         var doc = document.implementation.createDocument("", "", null);
 

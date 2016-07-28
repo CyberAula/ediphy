@@ -52,18 +52,6 @@ module.exports = {
                 test: require.resolve('jquery'),
                 loader: 'expose?jQuery!expose?$!expose?window.jQuery'  //expose-loader, exposes as global variable
             }*/
-            {
-                test: require.resolve('jszip'),
-                loader: 'expose?JSZip'
-            },
-            {
-                test: require.resolve('jszip-utils'),
-                loader: 'expose?JSZipUtils'
-            },
-            {
-                test: require.resolve('file-saver'),
-                loader: 'expose?FileSaver'
-            }
         ]
     },
     resolve: {
