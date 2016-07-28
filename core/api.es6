@@ -1,19 +1,19 @@
-var Dali = {};
-Dali.Visor = {};
-Dali.API = (function () {
+import Dali from './main';
+
+export function api() {
     return {
         addMenuButtons: function (json) {
-            Dali.API.Private.emit(Dali.API.Private.events.addMenuButtons, json);
+            Dali.API_Private.emit(Dali.API_Private.events.addMenuButtons, json);
         },
         openConfig: function (name, isUpdating) {
             var promise = new Promise(function (resolve, reject) {
-                Dali.API.Private.listenAnswer(Dali.API.Private.events.openConfig, resolve);
+                Dali.API_Private.listenAnswer(Dali.API_Private.events.openConfig, resolve);
             });
-            Dali.API.Private.emit(Dali.API.Private.events.openConfig, {name: name, isUpdating: isUpdating});
+            Dali.API_Private.emit(Dali.API_Private.events.openConfig, {name: name, isUpdating: isUpdating});
             return promise;
         },
         renderPlugin: function (html, toolbar, config, state, isUpdating, ids, initialParams) {
-            Dali.API.Private.emit(Dali.API.Private.events.render, {
+            Dali.API_Private.emit(Dali.API_Private.events.render, {
                 content: html,
                 toolbar: toolbar,
                 config: config,
@@ -24,9 +24,9 @@ Dali.API = (function () {
             });
         }
     };
-})();
+}
 
-Dali.API.Private = (function () {
+export function api_private() {
     var answerCallback;
     return {
         events: {
@@ -65,4 +65,4 @@ Dali.API.Private = (function () {
             resolve(customEvent.detail);
         }
     };
-})();
+}

@@ -7,6 +7,7 @@ import {Col} from 'react-bootstrap';
 import DaliTitle from '../components/DaliTitle';
 import interact from 'interact.js';
 import {BOX_TYPES, ID_PREFIX_SORTABLE_BOX} from '../constants';
+import Dali from './../core/main';
 
 export default class DaliCanvas extends Component {
     constructor(props) {

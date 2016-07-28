@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Modal, Button, Row} from 'react-bootstrap';
+import Dali from './../core/main';
 
 export default class PluginConfigModal extends Component {
 
@@ -24,7 +25,7 @@ export default class PluginConfigModal extends Component {
                     <Row >
                         <div ref={c => {
                             if(c !== null){
-                                Dali.API.Private.answer(Dali.API.Private.events.openConfig, c);
+                                Dali.API_Private.answer(Dali.API_Private.events.openConfig, c);
                             }
                         }}>
                         </div>
@@ -47,7 +48,7 @@ export default class PluginConfigModal extends Component {
     }
 
     componentDidMount() {
-        Dali.API.Private.listenEmission(Dali.API.Private.events.openConfig, (e) => {
+        Dali.API_Private.listenEmission(Dali.API_Private.events.openConfig, (e) => {
             this.setState({show: true, pluginActive: e.detail.name, isUpdating: e.detail.isUpdating});
         });
     }

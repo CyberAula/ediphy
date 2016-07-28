@@ -1,4 +1,6 @@
-Dali.Plugin = function () {
+import Dali from './main';
+
+export default function () {
     var descendant, state, id, initialParams;
 
     var defaultFor = function (arg, value, warn) {
@@ -52,7 +54,6 @@ Dali.Plugin = function () {
             });
         },
         init: function () {
-            Dali.API.addMenuButtons(this.getConfig());
             if (descendant.init) {
                 descendant.init();
             }
@@ -245,4 +246,4 @@ Dali.Plugin = function () {
     };
 
     return plugin;
-};
+}

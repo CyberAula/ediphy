@@ -13,6 +13,8 @@ require('jquery-ui-touch-punch');
 require('jszip');
 require('jszip-utils');
 require('file-saver');
+require('expose?Dali!./core/temp_hack');
+
 /*
 require('./dist/lib/api');
 require('./dist/lib/config');

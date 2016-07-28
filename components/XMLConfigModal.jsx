@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Modal, Button, Row} from 'react-bootstrap';
+import Dali from './../core/main';
 
 export default class XMLConfigModal extends Component {
     render() {

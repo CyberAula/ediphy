@@ -17,8 +17,7 @@ var DaliVisor = (function () {
                     fnName !== "init"
                 ) {
                     scripts += (scripts.length === 0 ? "<script type='text/javascript'>" : "") +
-                        plugin[fnName].toString().replace("function", "function " + fnName)
-                            .replace(/\n/g, "").replace(/\s+/g, " ");
+                        plugin[fnName].toString().replace(/\n/g, "").replace(/\s+/g, " ");
                 }
             }
         });

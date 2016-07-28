@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Modal, Button, Tabs, Tab, Col} from 'react-bootstrap';
 import interact from 'interact.js';
 import {ID_PREFIX_BOX, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_SORTABLE_CONTAINER, BOX_TYPES} from '../constants';
+import Dali from './../core/main';
 
 export default class PluginRibbon extends Component {
     constructor(props) {
@@ -84,8 +85,8 @@ export default class PluginRibbon extends Component {
     }
 
     componentDidMount() {
-        Dali.API.Private.listenEmission(Dali.API.Private.events.addMenuButton, e => {
-            this.setState({buttons: this.state.buttons.concat([e.detail])});
+        Dali.API_Private.listenEmission(Dali.API_Private.events.addMenuButtons, e => {
+            this.setState({buttons: this.state.buttons.concat(e.detail)});
         });
 
         interact(".rib")

@@ -1,4 +1,5 @@
 import fetch from 'isomorphic-fetch';
+import Dali from './core/main';
 
 export const ADD_BOX = 'ADD_BOX';
 export const SELECT_BOX = 'SELECT_BOX';

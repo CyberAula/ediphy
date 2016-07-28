@@ -4,6 +4,7 @@ import {Button} from 'react-bootstrap';
 import interact from 'interact.js';
 import DaliBox from '../components/DaliBox';
 import {ID_PREFIX_SORTABLE_CONTAINER} from '../constants';
+import Dali from './../core/main';
 
 export default class DaliBoxSortable extends Component {
     render() {

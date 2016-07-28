@@ -122,7 +122,7 @@ module.exports = {
         browser: true,
         devel: true,
         jquery: true,
-        predef: ["html2json", "CKEDITOR", "EJS"]
+        predef: ["html2json", "jsPlumb", "CKEDITOR", "EJS"]
     },
     plugins: [
         new webpack.HotModuleReplacementPlugin(),

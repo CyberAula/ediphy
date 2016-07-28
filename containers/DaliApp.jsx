@@ -18,6 +18,8 @@ import Visor from '../components/visor/Visor';
 import PluginRibbon from '../components/PluginRibbon';
 import DaliNavBar from '../components/DaliNavBar';
 import ServerFeedback from '../components/ServerFeedback';
+import Dali from './../core/main';
+
 class DaliApp extends Component {
     constructor(props) {
         super(props);
@@ -184,14 +186,8 @@ class DaliApp extends Component {
     }
 
     componentDidMount() {
-        Dali.Plugins.loadAllAsync().then(pluginsLoaded => {
-            pluginsLoaded.map((plugin) => {
-                if (plugin) {
-                    Dali.Plugins.get(plugin).init();
-                }
-            });
-        });
-        Dali.API.Private.listenEmission(Dali.API.Private.events.render, e => {
+        Dali.Plugins.loadAll();
+        Dali.API_Private.listenEmission(Dali.API_Private.events.render, e => {
             this.index = 0;
             let newPluginState = {};
             if (e.detail.isUpdating) {
@@ -220,7 +216,7 @@ class DaliApp extends Component {
                 this.addDefaultContainerPlugins(e.detail, e.detail.content);
             }
         });
-        Dali.API.Private.listenEmission(Dali.API.Private.events.getPluginsInView, e => {
+        Dali.API_Private.listenEmission(Dali.API_Private.events.getPluginsInView, e => {
             let plugins = {};
             let ids = [];
             let view = e.detail.view ? e.detail.view : this.props.navItemSelected;
@@ -249,7 +245,7 @@ class DaliApp extends Component {
                 }
             });
 
-            Dali.API.Private.answer(Dali.API.Private.events.getPluginsInView, plugins);
+            Dali.API_Private.answer(Dali.API_Private.events.getPluginsInView, plugins);
         });
         window.onkeyup = function (e) {
             var key = e.keyCode ? e.keyCode : e.which;

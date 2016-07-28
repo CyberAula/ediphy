@@ -5,6 +5,7 @@ import interact from 'interact.js';
 import PluginPlaceholder from '../components/PluginPlaceholder';
 import {BOX_TYPES, ID_PREFIX_BOX, ID_PREFIX_PAGE, ID_PREFIX_SECTION, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_SORTABLE_CONTAINER} from '../constants';
 import {ADD_BOX, UPDATE_BOX} from '../actions';
+import Dali from './../core/main';
 
 export default class DaliBox extends Component {
     constructor(props) {
