@@ -32,7 +32,7 @@
     overflow-y:auto;
 
 		.form-group{
-    	margin: 10px 0;
+    	margin: 5px 0;
     }
 		/* Input text */
 		.form-control {
@@ -55,12 +55,12 @@
     	display:inline-block;
     	background-color: white;
     	line-height: 5px;
-    	vertical-align: text-bottom;
+			margin-right: 10px;
     }
 
     label, .label{
     	margin:0 !important;
-    	padding: 0 !important;
+    	padding: 0 0 5px 0!important;
     	font-size: inherit;
     	font-weight: normal;
     }
@@ -144,7 +144,7 @@
 		border:0 !important;
 		background-color: $greyInsidePanels;
 		margin-bottom: -6px;
-		padding: 5px 25px;
+		padding: 15px 25px 20px 25px;
 	}
 
 	.panel-heading {
@@ -159,9 +159,9 @@
 		}
 	}
 
-	
-	
- 
+
+
+
 	.panel-group, .panel {
 	    margin-bottom: 0;
 	    border-radius: 0;
@@ -208,15 +208,16 @@
 
 
 	.pluginTitleInToolbar{
-		margin: 0 0 7px 36px;
+		margin: 0 0 10px 28px;
 		color: $naranjaadams;
+		font-weight: 500;
 	}
 
 }
 
  /*Toolbar title when collapsed*/
 .toolbarHide {
-	margin-top:30px;
+	margin-top:10px;
 	color: $grismedio;
 	&:hover{
 		color:white;
@@ -228,9 +229,14 @@
  }
 
 .rangeOutput{
-	color: $darkest;
-	float:right;
+	color: #ccc;
+	float: right;
 	margin-right: 12px;
+	position: relative;
+	top: 55px;
+	right: 3px;
+	font-size: 0.9em;
+
 }
 
 
@@ -245,7 +251,8 @@
 	input[type=range] {
 	  -webkit-appearance: none;
 	  width: 100%;
-	  margin: 5.7px 0;
+		padding: 0 10px 0 0
+	  //margin: 5.7px 0;
 	}
 	input[type=range]:focus {
 	  outline: none  !important;
@@ -360,5 +367,5 @@
 }
 
 .p_close {
-	color: blue;	
+	color: blue;
 }

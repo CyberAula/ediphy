@@ -50,7 +50,7 @@ Dali.Plugins["Youtube"] = function (base) {
                         },
                         style: {
                             __name: "Estilo caja",
-                            icon: 'style',
+                            icon: 'palette',
                             buttons: {
                                 padding: {
                                     __name: 'Padding',
@@ -100,7 +100,7 @@ Dali.Plugins["Youtube"] = function (base) {
                                     max: 1,
                                     step: 0.05
                                 }
-                                
+
                             }
                         },
                         '~extra': {
@@ -137,9 +137,9 @@ Dali.Plugins["Youtube"] = function (base) {
                 url: 'https://www.youtube.com/watch?v=S9M3c1_yl-E',
                 borderSize: '0px',
                 thumbnailVisibility: 'hidden',
-                borderStyle:'solid', 
-                borderRadius: '0%', 
-                borderColor: '#000000', 
+                borderStyle:'solid',
+                borderRadius: '0%',
+                borderColor: '#000000',
                 backgroundColor: '#ffffff',
                 padding: '0px',
                 opacity: 1
@@ -148,7 +148,7 @@ Dali.Plugins["Youtube"] = function (base) {
         ,
         getConfigTemplate: function (state) {
             return "<div> Url: <input type=\"text\" autofocus id=\"BasicImage_input\" value=\"" + state.url + "\"><br><button onclick=\"$dali$.showPreview()\">Show preview</button><iframe width=\"560\" height=\"315\"id=\"BasicImage_preview\" frameborder=\"0\" allowfullscreen src=\"" + this.parseURL(state.url) + "\" style=\"width: 180px; height: auto; visibility: " + state.thumbnailVisibility + ";\"></iframe></div>";
-        
+
         }
         ,
         getRenderTemplate: function (state) {
@@ -170,8 +170,8 @@ Dali.Plugins["Youtube"] = function (base) {
              vid.css('visibility', 'visible');
         },
         parseURL: function (url) {
-            if (url == ''){ 
-                return url; 
+            if (url == ''){
+                return url;
             }
             var patt1 = /youtube.com\/watch\?v=(.*)/;
             var patt2 = /youtube.com\/embed\/(.*)/;
