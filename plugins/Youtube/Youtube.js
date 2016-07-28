@@ -52,7 +52,7 @@ export function Youtube(base) {
                         },
                         style: {
                             __name: "Estilo caja",
-                            icon: 'style',
+                            icon: 'palette',
                             buttons: {
                                 padding: {
                                     __name: 'Padding',
