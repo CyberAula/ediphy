@@ -3,36 +3,29 @@ import ReactDOM from 'react-dom';
 import { createStore, compose, applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import {Provider} from 'react-redux';
+import sortable from 'jquery-ui/ui/widgets/sortable';
 import DaliApp from './containers/DaliApp';
 import DevTools from './containers/DevTools';
 import GlobalState from './reducers';
-/*
-require('jquery-ui');
-require('jquery-ui-touch-punch');
-*/
+
 require('expose?Dali!./core/temp_hack');
 
-/*
-require('./dist/lib/api');
-require('./dist/lib/config');
-require('./dist/BasePlugin');
-require('./dist/BasePluginVisor');
-require('./dist/lib/plugins');
-require('./dist/lib/scorm/scorm');
-require('./dist/lib/visor/visor');
-*/
+//Require CSS files
 require('./dist/css/textStyles.css');
 require('./dist/css/cajascolor.css');
 require('./dist/css/jquery-animVert.css');
 require('./dist/css/ejercicios.css');
 require('./sass/style.scss');
 
+// We make sure JQuery UI Sortable Widget is initialized
+new sortable();
+
 const finalCreateStore = compose(applyMiddleware(thunkMiddleware), DevTools.instrument())(createStore);
 
 let initialState = {
     present: {
-    	title: "Título Curso", 
-	    displayMode: "list", 
+    	title: "Título Curso",
+	    displayMode: "list",
 	    navItemsById: {
 	    	0: {id: 0, children: ["se-1467887497411"], boxes: [], level: 0, type: ''}, 
 	    	"se-1467887497411": { id: "se-1467887497411", name: "Section 1", isExpanded: true, parent: 0, children: [], boxes: ['bs-1467887497412'], level: 1, type: "section", position: 1, titlesReduced: "expanded"}
@@ -50,7 +43,6 @@ let initialState = {
 };
 let store = finalCreateStore(GlobalState, initialState);
 
-let root = document.getElementById('root');
 ReactDOM.render((
 	/* jshint ignore:start */
     <Provider store={store}>
@@ -59,4 +51,4 @@ ReactDOM.render((
         </div>
     </Provider>
 	/* jshint ignore:end */
-), root);
+), document.getElementById('root'));

@@ -264,6 +264,6 @@ export default class CarrouselList extends Component {
 
                 this.props.onNavItemReorded(this.props.navItemSelected, 0, 4, newIndexesAux, reorderedIndexesId);
             }
-        }).bind(this);
+        });
     }
 }

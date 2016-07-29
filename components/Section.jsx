@@ -328,6 +328,6 @@ export default class Section extends Component {
                     }
                 }
             }
-        }).bind(this);
+        });
     }
 }

@@ -47,11 +47,11 @@ module.exports = {
             {
                 test: /\.(ttf|eot)$/,
                 loader: 'file-loader'
-            },/*
+            },
             {
                 test: require.resolve('jquery'),
                 loader: 'expose?jQuery!expose?$!expose?window.jQuery'  //expose-loader, exposes as global variable
-            }*/
+            }
         ]
     },
     resolve: {
@@ -90,11 +90,6 @@ module.exports = {
         //This options prohibits overwriting prototypes of native objects such as Array, Date and so on.
         freeze: true,
 
-        // This option can be used to specify a white list of global variables that are not formally defined in the source code.
-        globals: {
-            "Dali": true
-        },
-
         // This option requires the code to run in ECMAScript 5's strict mode.
         //strict: true,
 
@@ -111,7 +106,7 @@ module.exports = {
         browser: true,
         devel: true,
         jquery: true,
-        predef: ["html2json", "jsPlumb", "CKEDITOR", "EJS"]
+        predef: ["Dali", "html2json", "jsPlumb", "CKEDITOR", "EJS"]
     },
     plugins: [
         new webpack.HotModuleReplacementPlugin(),
@@ -122,14 +117,10 @@ module.exports = {
             }
         })
         */
-        /*new webpack.ProvidePlugin({
+        new webpack.ProvidePlugin({
             '$': 'jquery',
             'jQuery': 'jquery',
             'window.jQuery': 'jquery'
-        })*/
-        /*new webpack.ProvidePlugin({
-            'JSZip': 'jszip',
-            'JSZipUtils': 'jszip-utils'
-        })*/
+        }) // Wraps module with variable and injects wherever it's needed
     ]
 };
