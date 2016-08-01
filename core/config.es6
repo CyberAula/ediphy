@@ -7,6 +7,7 @@ export default {
     visor_zip: "./lib/visor/dist.zip",
     export_url: "http://127.0.0.1:8081/saveConfig",
     import_url: "http://127.0.0.1:8081/getConfig",
+    search_vish_url: "http://vishub.org/apis/search/",
     pluginList: [
         'BasicImage',
         'BasicText',

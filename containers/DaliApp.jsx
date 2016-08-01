@@ -6,13 +6,16 @@ import {addNavItem, selectNavItem, expandNavItem, removeNavItem, reorderNavItem,
     addBox, changeTitle, selectBox, moveBox, resizeBox, updateBox, duplicateBox, deleteBox, reorderBox, dropBox, increaseBoxLevel,
     resizeSortableContainer, changeCols, changeRows, changeSortableProps, reorderBoxes,
     togglePageModal, toggleTextEditor, toggleTitleMode,
-    changeDisplayMode, exportStateAsync, importStateAsync, updateToolbar, collapseToolbar} from '../actions';
+    changeDisplayMode, updateToolbar, collapseToolbar,
+    exportStateAsync, importStateAsync,
+    fetchVishResourcesSuccess, fetchVishResourcesAsync} from '../actions';
 import {ID_PREFIX_BOX, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_SORTABLE_CONTAINER, BOX_TYPES} from '../constants';
 import DaliCanvas from '../components/DaliCanvas';
 import DaliCarousel from '../components/DaliCarousel';
 import PageModal from '../components/PageModal';
 import PluginConfigModal from '../components/PluginConfigModal';
 import XMLConfigModal from '../components/XMLConfigModal';
+import VishSearcher from '../components/VishSearcher';
 import PluginToolbar from '../components/PluginToolbar';
 import Visor from '../components/visor/Visor';
 import PluginRibbon from '../components/PluginRibbon';
@@ -29,6 +32,7 @@ class DaliApp extends Component {
             hideTab: 'show',
             visorVisible: false,
             xmlEditorVisible: false,
+            vishSearcherVisible: false,
             carouselShow: true,
             serverModal: false,
             lastAction: ""
@@ -37,14 +41,13 @@ class DaliApp extends Component {
 
     render() {
         const { dispatch, boxes, boxesIds, boxSelected, boxLevelSelected, navItemsIds, navItems, navItemSelected,
-            pageModalToggled, undoDisabled, redoDisabled, displayMode, isBusy, toolbars, title } = this.props;
+            pageModalToggled, undoDisabled, redoDisabled, displayMode, isBusy, toolbars, title, fetchVishResults } = this.props;
         let ribbonHeight = this.state.hideTab === 'hide' ? 0 : 47;
         return (
             /* jshint ignore:start */
             <Grid id="app" fluid={true} style={{height: '100%'}}>
                 <Row className="navBar">
-                    <DaliNavBar isBusy={isBusy}
-                                hideTab={this.state.hideTab}
+                    <DaliNavBar hideTab={this.state.hideTab}
                                 undoDisabled={undoDisabled}
                                 redoDisabled={redoDisabled}
                                 navItemsIds={navItemsIds}
@@ -138,7 +141,7 @@ class DaliApp extends Component {
                 </Row>
                 <ServerFeedback show={this.state.serverModal}
                                 title={"Server"}
-                                content={isBusy}
+                                isBusy={isBusy}
                                 hideModal={() => this.setState({serverModal: false })}/>
                 <PageModal visibility={pageModalToggled.value}
                            caller={pageModalToggled.caller}
@@ -157,7 +160,11 @@ class DaliApp extends Component {
                                 toolbar={toolbars[boxSelected]}
                                 visible={this.state.xmlEditorVisible}
                                 onXMLEditorToggled={() => this.setState({xmlEditorVisible: !this.state.xmlEditorVisible})}/>
-
+                <VishSearcher visible={this.state.vishSearcherVisible}
+                              isBusy={isBusy}
+                              fetchResults={fetchVishResults}
+                              onVishSearcherToggled={() => this.setState({vishSearcherVisible: !this.state.vishSearcherVisible})}
+                              onFetchVishResources={(query) => this.dispatchAndSetState(fetchVishResourcesAsync(query))} />
                 <PluginToolbar top={(60+ribbonHeight)+'px'}
                                toolbars={toolbars}
                                box={boxes[boxSelected]}
@@ -393,7 +400,8 @@ function mapStateToProps(state) {
         redoDisabled: state.future.length === 0,
         displayMode: state.present.displayMode,
         toolbars: state.present.toolbarsById,
-        isBusy: state.present.isBusy
+        isBusy: state.present.isBusy,
+        fetchVishResults: state.present.fetchVishResults
     };
 }
 

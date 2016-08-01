@@ -5,7 +5,7 @@ import {ADD_BOX, SELECT_BOX, MOVE_BOX, DUPLICATE_BOX, RESIZE_BOX, UPDATE_BOX, DE
     RESIZE_SORTABLE_CONTAINER, CHANGE_COLS, CHANGE_ROWS, CHANGE_SORTABLE_PROPS, REORDER_BOXES,
     ADD_NAV_ITEM, SELECT_NAV_ITEM, EXPAND_NAV_ITEM, REMOVE_NAV_ITEM, REORDER_NAV_ITEM, CHANGE_SECTION_TITLE,
     TOGGLE_PAGE_MODAL, TOGGLE_TEXT_EDITOR, TOGGLE_TITLE_MODE, CHANGE_TITLE,
-    CHANGE_DISPLAY_MODE, SET_BUSY, UPDATE_TOOLBAR, COLLAPSE_TOOLBAR, IMPORT_STATE
+    CHANGE_DISPLAY_MODE, SET_BUSY, UPDATE_TOOLBAR, COLLAPSE_TOOLBAR, IMPORT_STATE, FETCH_VISH_RESOURCES_SUCCESS
 } from './actions';
 import {ID_PREFIX_SECTION, ID_PREFIX_PAGE, ID_PREFIX_BOX, ID_PREFIX_SORTABLE_BOX} from './constants';
 
@@ -1027,9 +1027,18 @@ function changeDisplayMode(state = "", action = {}) {
 function isBusy(state = "", action = {}) {
     switch (action.type) {
         case SET_BUSY:
-            return action.payload.msg;
+            return action.payload;
         case IMPORT_STATE:
             return action.payload.present.isBusy;
+        default:
+            return state;
+    }
+}
+
+function fetchVishResults(state = {results: []}, action = {}){
+    switch (action.type){
+        case FETCH_VISH_RESOURCES_SUCCESS:
+            return action.payload.result;
         default:
             return state;
     }
@@ -1047,7 +1056,8 @@ const GlobalState = undoable(combineReducers({
     navItemsById: navItemsById, // {0: navItem0, 1: navItem1}
     displayMode: changeDisplayMode, //"list",
     toolbarsById: toolbarsById, // {0: toolbar0, 1: toolbar1}
-    isBusy: isBusy
+    isBusy: isBusy,
+    fetchVishResults: fetchVishResults
 }), {
     filter: (action, currentState, previousState) => {
         if (action.type === EXPAND_NAV_ITEM) {

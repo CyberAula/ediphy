@@ -13,7 +13,7 @@ export default class ServerFeedback extends Component {
                     <Modal.Title id="contained-modal-title-lg"> {this.props.title} </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    {this.props.content}
+                    {this.props.isBusy.msg}
                 </Modal.Body>
             </Modal>
             /* jshint ignore:end */

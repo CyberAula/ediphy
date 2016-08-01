@@ -36,6 +36,8 @@ export const COLLAPSE_TOOLBAR = 'COLLAPSE_TOOLBAR';
 export const IMPORT_STATE = 'IMPORT_STATE';
 export const CHANGE_TITLE = 'CHANGE_TITLE';
 
+export const FETCH_VISH_RESOURCES_SUCCESS = "FETCH_VISH_RESOURCES_SUCCESS";
+
 export function selectNavItem(id) {
     return {type: SELECT_NAV_ITEM, payload: {id}};
 }
@@ -155,6 +157,10 @@ export function collapseToolbar(id) {
     return {type: COLLAPSE_TOOLBAR, payload: {id}};
 }
 
+export function fetchVishResourcesSuccess(result) {
+    return {type: FETCH_VISH_RESOURCES_SUCCESS, payload: {result}};
+}
+
 //Async actions
 export function exportStateAsync(state) {
     return dispatch => {
@@ -204,6 +210,30 @@ export function importStateAsync() {
             })
             .then(result => {
                 dispatch(importState(JSON.parse(result)));
+                return true;
+            })
+            .then(() => {
+                dispatch(setBusy(false, "Success!"));
+            })
+            .catch(e => {
+                dispatch(setBusy(false, e.message));
+            });
+    };
+}
+
+export function fetchVishResourcesAsync(query) {
+    return dispatch => {
+        dispatch(setBusy(true, "Searching..."));
+
+        return fetch(query)
+            .then(response => {
+                if (response.status >= 400) {
+                    throw new Error("Error while searching");
+                }
+                return response.text();
+            })
+            .then(result => {
+                dispatch(fetchVishResourcesSuccess(JSON.parse(result)));
                 return true;
             })
             .then(() => {
