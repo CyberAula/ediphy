@@ -16,19 +16,21 @@ export default class Section extends Component {
             }}>
                 <div className={"navItemBlock " + classSelected}>
                     <span style={{marginLeft: 20*(this.props.navItems[this.props.id].level-1)}}>
-                    <button className="expandir" onClick={e => {
-                        this.props.onNavItemExpanded(navItem.id, !navItem.isExpanded);
-                        e.stopPropagation();
-                    }}><i onClick={e => {
-                        this.props.onNavItemExpanded(navItem.id, !navItem.isExpanded);
-                        e.stopPropagation();}}
-                          className={classSelected + '  material-icons'}>{navItem.isExpanded ? "arrow_drop_down" : "play_arrow"}</i>
-                    </button>
+                        <button className="expandir" onClick={e => {
+                            this.props.onNavItemExpanded(navItem.id, !navItem.isExpanded);
+                            e.stopPropagation();
+                        }}><i onClick={e => {
+                            this.props.onNavItemExpanded(navItem.id, !navItem.isExpanded);
+                            e.stopPropagation();}}
+                              className={classSelected + '  material-icons'}>{navItem.isExpanded ? "arrow_drop_down" : "play_arrow"}</i>
+                        </button>
 
-                    <span className={classSelected} style={{display: 'inline'}}><i
-                        className={classSelected + '  material-icons'}>folder</i>   <DaliIndexTitle id={this.props.id}
-                                                                                                    title={this.props.navItems[this.props.id].name}
-                                                                                                    onTitleChange={this.props.onTitleChange}/></span>
+                        <span className={classSelected} style={{display: 'inline'}}>
+                            <i className={classSelected + '  material-icons'}>folder</i>
+                            <DaliIndexTitle id={this.props.id}
+                                            title={this.props.navItems[this.props.id].name}
+                                            onTitleChange={this.props.onTitleChange}/>
+                        </span>
                     </span>
                 </div>
                 <div style={{display: (navItem.isExpanded ? 'block' : 'none') }}>
