@@ -10,27 +10,27 @@ export default class Section extends Component {
         let classSelected = this.props.navItemSelected === navItem.id ? 'selected' : 'notSelected';
         return (
             /* jshint ignore:start */
-            <div id={this.props.id} className="drag-handle" style={{paddingTop: 10}} onMouseDown={e => {
+            <div id={this.props.id} className="drag-handle" style={{paddingTop: 0}} onMouseDown={e => {
                 this.props.onNavItemSelected(navItem.id);
                 e.stopPropagation();
             }}>
                 <div className={"navItemBlock " + classSelected}>
                     <span style={{marginLeft: 20*(this.props.navItems[this.props.id].level-1)}}>
-                        <button className="expandir" onClick={e => {
-                            this.props.onNavItemExpanded(navItem.id, !navItem.isExpanded);
-                            e.stopPropagation();
-                        }}><i onClick={e => {
-                            this.props.onNavItemExpanded(navItem.id, !navItem.isExpanded);
-                            e.stopPropagation();}}
-                              className={classSelected + '  material-icons'}>{navItem.isExpanded ? "arrow_drop_down" : "play_arrow"}</i>
-                        </button>
 
-                        <span className={classSelected} style={{display: 'inline'}}>
-                            <i className={classSelected + '  material-icons'}>folder</i>
-                            <DaliIndexTitle id={this.props.id}
-                                            title={this.props.navItems[this.props.id].name}
-                                            onTitleChange={this.props.onTitleChange}/>
-                        </span>
+                    <button className="expandir" onClick={e => {
+                        this.props.onNavItemExpanded(navItem.id, !navItem.isExpanded);
+                        e.stopPropagation();
+                    }}><i onClick={e => {
+                        this.props.onNavItemExpanded(navItem.id, !navItem.isExpanded);
+                        e.stopPropagation();}}
+                          className={classSelected + '  material-icons'}>{navItem.isExpanded ? "keyboard_arrow_down" : "keyboard_arrow_right"}</i>
+                    </button>
+
+                    <span className={classSelected} style={{display: 'inline'}}><i
+                        className={classSelected + '  material-icons'}>folder</i>   <DaliIndexTitle id={this.props.id}
+                                                                                                    title={this.props.navItems[this.props.id].name}
+                                                                                                    onTitleChange={this.props.onTitleChange}/></span>
+
                     </span>
                 </div>
                 <div style={{display: (navItem.isExpanded ? 'block' : 'none') }}>
@@ -134,7 +134,7 @@ export default class Section extends Component {
                 const parent = this.props.navItems[selected].parent;
 
 
-                var oldChilds = this.props.navItems[this.props.id].children; //Saca los hijos del pasado del elemento seleccionado       
+                var oldChilds = this.props.navItems[this.props.id].children; //Saca los hijos del pasado del elemento seleccionado
                 var newChilds = reorderedIndexesId;
 
                 if (newChilds.indexOf(selected) >= 0 && oldChilds.indexOf(selected) >= 0) {

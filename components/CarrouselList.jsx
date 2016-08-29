@@ -45,7 +45,7 @@ export default class CarrouselList extends Component {
                             }
                         })}
                 </div>
-                <div style={{width: '100%', borderTop: '1px solid grey', marginTop: '0px'}}>
+                <div style={{width: '100%', borderTop: '1px solid grey', marginTop: '0px', padding: '5px'}}>
                     <Button className="carrouselButton" onClick={e => {
                                     let idnuevo = ID_PREFIX_SECTION + Date.now();
                                     this.props.onSectionAdded(idnuevo, "Section "+this.sections(), 0, [], 1, 'section', this.props.navItemsIds.length+1, 'expanded');
@@ -65,7 +65,7 @@ export default class CarrouselList extends Component {
                     <OverlayTrigger trigger={["click", "focus"]} placement="top" overlay={
                         <Popover id="popov" title="Eliminar página">
                             <i style={{color: 'yellow', fontSize: '13px'}} className="material-icons">warning</i> Esta acción borrará todo el contenido de la página.<br/>
-                                <Button className="popoverButton" 
+                                <Button className="popoverButton"
                                     disabled={this.props.navItemSelected === 0}
                                     style={{float: 'right'}}
                                     onClick={(e) => {
@@ -77,11 +77,11 @@ export default class CarrouselList extends Component {
                                         }>
                                     Aceptar
                                 </Button>
-                                <Button className="popoverButton" 
+                                <Button className="popoverButton"
                                     disabled={this.props.navItemSelected === 0}
                                     style={{float: 'right'}}  >
                                     Cancelar
-                                </Button>          
+                                </Button>
 
                          </Popover>}>
 
