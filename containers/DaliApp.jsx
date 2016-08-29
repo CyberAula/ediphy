@@ -52,7 +52,7 @@ class DaliApp extends Component {
                                 redoDisabled={redoDisabled}
                                 navItemsIds={navItemsIds}
                                 title={title}
-                                changeTitle={(title) => this.dispatchAndSetState(changeTitle(title))}
+                                changeTitle={(id, title) => {this.dispatchAndSetState(changeTitle(title))}}
                                 navItemSelected={navItemSelected}
                                 boxSelected={boxSelected}
                                 undo={() => {this.dispatchAndSetState(ActionCreators.undo())}}
