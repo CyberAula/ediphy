@@ -237,7 +237,7 @@ export function fetchVishResourcesAsync(query) {
                 return true;
             })
             .then(() => {
-                dispatch(setBusy(false, "Success!"));
+                dispatch(setBusy(false, "No results found"));
             })
             .catch(e => {
                 dispatch(setBusy(false, e.message));

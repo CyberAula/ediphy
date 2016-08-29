@@ -15,7 +15,7 @@ import DaliCarousel from '../components/DaliCarousel';
 import PageModal from '../components/PageModal';
 import PluginConfigModal from '../components/PluginConfigModal';
 import XMLConfigModal from '../components/XMLConfigModal';
-import VishSearcher from '../components/VishSearcher';
+import VishSearcher from '../components/VishSearcherModal';
 import PluginToolbar from '../components/PluginToolbar';
 import Visor from '../components/visor/Visor';
 import PluginRibbon from '../components/PluginRibbon';
@@ -160,16 +160,13 @@ class DaliApp extends Component {
                                 toolbar={toolbars[boxSelected]}
                                 visible={this.state.xmlEditorVisible}
                                 onXMLEditorToggled={() => this.setState({xmlEditorVisible: !this.state.xmlEditorVisible})}/>
-                <VishSearcher visible={this.state.vishSearcherVisible}
-                              isBusy={isBusy}
-                              fetchResults={fetchVishResults}
-                              onVishSearcherToggled={() => this.setState({vishSearcherVisible: !this.state.vishSearcherVisible})}
-                              onFetchVishResources={(query) => this.dispatchAndSetState(fetchVishResourcesAsync(query))} />
                 <PluginToolbar top={(60+ribbonHeight)+'px'}
                                toolbars={toolbars}
                                box={boxes[boxSelected]}
                                boxSelected={boxSelected}
                                carouselShow={boxSelected != -1}
+                               isBusy={isBusy}
+                               fetchResults={fetchVishResults}
                                onColsChanged={(id, parent, distribution) => this.dispatchAndSetState(changeCols(id, parent, distribution))}
                                onRowsChanged={(id, parent, column, distribution) => this.dispatchAndSetState(changeRows(id, parent, column, distribution))}
                                onBoxResized={(id, width, height) => this.dispatchAndSetState(resizeBox(id, width, height))}
@@ -182,6 +179,7 @@ class DaliApp extends Component {
                                onBoxDuplicated={(id, parent, container)=> this.dispatchAndSetState( duplicateBox( id, parent, container, this.getDescendants(boxes[id]), this.getDuplicatedBoxesIds(this.getDescendants(boxes[id]) ), Date.now()-1 ))}
                                onBoxDeleted={(id, parent, container)=> this.dispatchAndSetState(deleteBox(id, parent, container, this.getDescendants(boxes[id])))}
                                onXMLEditorToggled={() => this.setState({xmlEditorVisible: !this.state.xmlEditorVisible})}
+                               onFetchVishResources={(query) => this.dispatchAndSetState(fetchVishResourcesAsync(query))}
                 />
             </Grid>
             /* jshint ignore:end */

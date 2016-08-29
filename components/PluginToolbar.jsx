@@ -3,6 +3,7 @@ import {Tooltip, FormControl, OverlayTrigger, FormGroup, Radio, ControlLabel, Ch
 import ReactDOM from 'react-dom';
 import GridConfigurator from '../components/GridConfigurator.jsx';
 import Select from 'react-select';
+import VishSearcher from './VishSearcher';
 import Dali from './../core/main';
 
 export default class PluginToolbar extends Component {
@@ -403,7 +404,15 @@ export default class PluginToolbar extends Component {
                 }, radio));
             });
             return React.createElement(FormGroup, props, children);
-
+        } else if (button.type === "vish_searcher") {
+            return React.createElement(VishSearcher, {
+                key: ('key' + button.__name),
+                formControlProps: props,
+                isBusy: this.props.isBusy,
+                fetchResults: this.props.fetchResults,
+                onFetchVishResources: this.props.onFetchVishResources,
+                onChange: props.onChange
+            }, null);
         } else {
             let output = button.type === "range" ? "   " + button.value : null;
             return React.createElement(FormGroup, {key: ('key' + button.__name)}, [React.createElement(ControlLabel, {key: 'label_' + button.__name}, button.__name), React.createElement("span", {

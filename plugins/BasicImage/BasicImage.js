@@ -25,7 +25,7 @@ export function BasicImage(base) {
                             buttons: {
                                 url: {
                                     __name: 'URL',
-                                    type: 'text',
+                                    type: 'vish_searcher',
                                     autoManaged: false,
                                     value: 'http://nemanjakovacevic.net/wp-content/uploads/2013/07/placeholder.png'
                                 }

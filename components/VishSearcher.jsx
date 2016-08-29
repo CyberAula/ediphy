@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
-import {Modal, Tooltip, FormControl, Row, Col, OverlayTrigger, Form, FormGroup, Radio, ControlLabel, Checkbox,  Button, ButtonGroup, PanelGroup, Panel} from 'react-bootstrap';
+import {FormGroup, FormControl, Button} from 'react-bootstrap';
+import VishSearcherModal from './VishSearcherModal';
 import Dali from './../core/main';
 
 export default class VishSearcher extends Component {
@@ -8,120 +9,43 @@ export default class VishSearcher extends Component {
         super(props);
         this.index = 0;
         this.state = {
-            itemSelected: 0,
+            modalVisible: false,
             resourceUrl: ""
         };
     }
+    /*
+     onChange={e=> {
+     let value = e.target ? e.target.value : e.target;
+     this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, value);
+
+     if (!button.autoManaged) {
+     button.callback(state, buttonKey, value, id);
+     }
+     }}
+     */
 
     render() {
         return (
             /* jshint ignore:start */
-            <Modal className="pageModal" backdrop={true} bsSize="large" show={this.props.visible}>
-                <Modal.Header>
-                    <Modal.Title>Vish Searcher</Modal.Title>
-                </Modal.Header>
-
-                <Modal.Body>
-                    <Form horizontal>
-                        <FormGroup>
-                            <Col md={6}>
-                                <ControlLabel>Search terms</ControlLabel>
-                                <FormControl ref="query" type="text"/>
-                            </Col>
-                            <Col md={3}>
-                                <ControlLabel>Search by type</ControlLabel>
-                                <FormControl ref="type" componentClass="select">
-                                    <option value="Picture">Picture</option>
-                                    {/*
-                                     <option value="Resource">All</option>
-                                     <option value="Audio">Audio</option>
-                                     <option value="Embed">Embed</option>
-                                     <option value="Excursion">Excursion</option>
-                                     <option value="Swf">Flash Object</option>
-                                     <option value="Link">Link</option>
-                                     <option value="Officedoc">Office Document</option>
-                                     <option value="Scormfile">SCORM Package</option>
-                                     <option value="Video">Video</option>
-                                     <option value="Webapp">Web Application</option>
-                                     <option value="Workshop">Workshop</option>
-                                     <option value="Writing">Writing</option>
-                                     <option value="Zipfile">ZIP File</option>
-                                     */}
-                                </FormControl>
-                            </Col>
-                            <Col md={3}>
-                                <ControlLabel>Sort by</ControlLabel>
-                                <FormControl ref="sort_by" componentClass="select">
-                                    <option value="ranking">Ranking</option>
-                                    <option value="popularity">Popularity</option>
-                                    <option value="modification">Modification</option>
-                                    <option value="creation">Creation</option>
-                                    <option value="visits">Visits</option>
-                                    <option value="favorites">Likes</option>
-                                    <option value="quality">Quality</option>
-                                </FormControl>
-                            </Col>
-                        </FormGroup>
-                        <FormGroup>
-                            <Col md={1} mdOffset={10}>
-                                <Button onClick={(e) => {
-                                     let url = encodeURI(Dali.Config.search_vish_url +
-                                        "?q=" + ReactDOM.findDOMNode(this.refs.query).value +
-                                        "&type=" + ReactDOM.findDOMNode(this.refs.type).value +
-                                        "&sort_by=" + ReactDOM.findDOMNode(this.refs.sort_by).value
-                                     );
-
-                                     this.props.onFetchVishResources(url);
-                                }}>Search
-                                </Button>
-                            </Col>
-                        </FormGroup>
-                    </Form>
-                    <Form style={{minHeight: 250}}>
-                        {this.props.fetchResults.total_results ?
-                            (
-                                <FormGroup>
-                                    <ControlLabel>{"Total results: " + this.props.fetchResults.total_results}</ControlLabel>
-                                    <br />
-                                    {this.props.fetchResults.results.map((item, index) => {
-                                        let border = this.state.itemSelected === index ? "solid red 2px" : "solid transparent 2px";
-                                        return (
-                                            <img key={index}
-                                                 src={item.file_url}
-                                                 style={{
-                                                    width: 200,
-                                                    height: 200,
-                                                    border: border
-                                                 }}
-                                                 onClick={e => {
-                                                    this.setState({
-                                                        itemSelected: index,
-                                                        resourceUrl: item.file_url
-                                                    });
-                                                 }}
-                                            />
-                                        )
-                                    })}
-                                </FormGroup>
-                            ) :
-                            (
-                                <FormGroup>
-                                    <ControlLabel>{this.props.isBusy.msg}</ControlLabel>
-                                </FormGroup>
-                            )
-                        }
-                    </Form>
-                </Modal.Body>
-
-                <Modal.Footer>
-                    <Button onClick={e => {
-                        this.props.onVishSearcherToggled();
-                    }}>Cancel</Button>
-                    <Button bsStyle="primary" onClick={e => {
-                        this.props.onVishSearcherToggled(this.state.resourceUrl);
-                    }}>Save changes</Button>
-                </Modal.Footer>
-            </Modal>
+            <FormGroup>
+                <FormControl {...this.props.formControlProps} onChange={e => {
+                    this.props.formControlProps.onChange(e, this.state);
+                }} />
+                <br />
+                <Button onClick={() => {
+                    this.setState({modalVisible: true});
+                }}>Search in ViSH</Button>
+                <VishSearcherModal visible={this.state.modalVisible}
+                                   isBusy={this.props.isBusy}
+                                   fetchResults={this.props.fetchResults}
+                                   onVishSearcherToggled={(resourceUrl) => {
+                                        if(resourceUrl){
+                                            this.props.onChange({target: {value: resourceUrl}});
+                                        }
+                                        this.setState({modalVisible: !this.state.modalVisible});
+                                   }}
+                                   onFetchVishResources={this.props.onFetchVishResources}/>
+            </FormGroup>
             /* jshint ignore:end */
         );
     }
