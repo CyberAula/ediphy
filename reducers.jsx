@@ -14,6 +14,7 @@ function boxCreator(state = {}, action = {}) {
     switch (action.type) {
         case ADD_BOX:
             let position, width, height;
+            console.log(action.payload);
             let level = (state[action.payload.ids.parent]) ? state[action.payload.ids.parent].level + 1 : 0;
             switch (action.payload.type) {
                 case 'sortable':
@@ -27,7 +28,9 @@ function boxCreator(state = {}, action = {}) {
                         y: Math.floor(Math.random() * 200),
                         type: 'absolute'
                     };
-                    width = 200;
+                    if(action.payload.config.category !== "text") {
+                        width = 200;
+                    }
                     height = 'auto';
                     break;
             }
@@ -35,9 +38,10 @@ function boxCreator(state = {}, action = {}) {
                 position.x = 0;
                 position.y = 0;
                 position.type = 'relative';
-                width = '100%';
                 if (action.payload.ids.parent.indexOf(ID_PREFIX_SORTABLE_BOX) !== -1) {
-                    width = '25%';
+                    if(action.payload.config.category !== "text") {
+                        width = "25%";
+                    }
                 }
                 height = 'auto';
             }

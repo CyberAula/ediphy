@@ -18,13 +18,13 @@ export default class DaliShortcuts extends Component {
             return (
                 /* jshint ignore:start */
                 <div id="daliBoxIcons" className=""
-                     style={{display: (this.props.box  != -1 && this.props.box.type != "sortable" ) ? 'block' : 'none' }}>
-                    { (this.props.box.container != 0) ? (
+                     style={{display: (box != -1 && box.type != "sortable" ) ? 'block' : 'none' }}>
+                    { (box.container != 0) ? (
                         <OverlayTrigger placement="top"
                                         overlay={ <Tooltip id="ajustaradocumento"> Ajustar a documento </Tooltip>}>
                             <button className="daliTitleButton"
                                     onClick={(e) => {
-                                let newWidth = (box.width == '100%') ? '20%': '100%'
+                                let newWidth = (box.width == '100%') ? (toolbar.config.category !== 'text' ? '20%' : ''): '100%'
                                 this.props.onBoxResized(toolbar.id, newWidth, 'auto');
                                 e.stopPropagation(); }}>
                                 <i className="material-icons">code</i>
