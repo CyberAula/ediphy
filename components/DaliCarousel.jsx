@@ -26,14 +26,28 @@ export default class DaliCarousel extends Component {
         }
         return (
             /* jshint ignore:start */
-            <div style={{ width: this.props.carouselShow ? '16.66666%':'80px' }} id="colLeft">
+            <div style={{
+                width: this.props.carouselShow ? (this.props.carouselFull ? '100%' : '16.66666%') : '80px',
+                overflowX:  this.props.carouselFull ? 'hidden' : ''
+                }} id="colLeft">
                 <div className="wrapperCarousel">
                     <p style={{textAlign: this.props.carouselShow ? 'left' : 'center'}}
-                       onClick={() => {this.toggleWidth()}}
+                       onClick={() => {this.props.onToggleWidth()}}
                        className={this.props.carouselShow ? 'carouselListTitle toolbarSpread':'carouselListTitle toolbarHide'}>
-                        <i style={{fontSize: this.props.carouselShow ? "16px":"32px" }} className="material-icons">format_list_numbered
-
-                        </i> {!this.props.carouselShow ? <br/> : null} ÍNDICE
+                        <i style={{fontSize: this.props.carouselShow ? "16px":"32px" }} className="material-icons">format_list_numbered</i>
+                        {!this.props.carouselShow ? <br/> : null}
+                        ÍNDICE
+                        <i style={{
+                            fontSize: this.props.carouselShow ? "16px":"32px",
+                            position: this.props.carouselShow ? "absolute" : "initial",
+                            right: 0
+                            }}
+                           className="material-icons"
+                           onClick={e => {
+                                this.props.onToggleFull();
+                                e.stopPropagation();
+                           }}>{!this.props.carouselFull ? "fullscreen" : "fullscreen_exit"}
+                        </i>
                     </p>
                     <p className="courseTitleCarousel"> {this.props.title}</p>
                     <div id="indice"
@@ -44,7 +58,7 @@ export default class DaliCarousel extends Component {
                     </div>
                     <div className="pestanaCarousel"
                          id="pestcar"
-                         onClick={() => {this.toggleWidth() }}>
+                         onClick={() => {this.props.onToggleWidth() }}>
 
                     </div>
 
@@ -53,9 +67,4 @@ export default class DaliCarousel extends Component {
             /* jshint ignore:end */
         );
     }
-
-    toggleWidth() { // DaliCarousel slider
-        this.props.onToggleWidth();
-    }
-
 }

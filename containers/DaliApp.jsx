@@ -34,6 +34,7 @@ class DaliApp extends Component {
             xmlEditorVisible: false,
             vishSearcherVisible: false,
             carouselShow: true,
+            carouselFull: false,
             serverModal: false,
             lastAction: ""
         };
@@ -93,12 +94,24 @@ class DaliApp extends Component {
                                   onNavItemReorded={(itemId,newParent,type,newIndId,newChildrenInOrder) => this.dispatchAndSetState(reorderNavItem(itemId,newParent,type,newIndId,newChildrenInOrder))}
                                   onDisplayModeChanged={mode => this.dispatchAndSetState(changeDisplayMode(mode))}
                                   carouselShow={this.state.carouselShow}
+                                  carouselFull={this.state.carouselFull}
+                                  onToggleFull={() => {
+                                    if(this.state.carouselFull){
+                                        this.setState({carouselFull: false})
+                                    }else{
+                                        this.setState({carouselFull: true, carouselShow: true})
+                                    }
+                                  }}
                                   onToggleWidth={()=>{
-                                this.setState({carouselShow: !this.state.carouselShow})
+                                    if(this.state.carouselShow){
+                                        this.setState({carouselFull: false, carouselShow: false})
+                                    }else{
+                                        this.setState({carouselShow: true});
+                                    }
                               }}/>
 
                     <Col id="colRight" xs={12}
-                         style={{height: '100%', width: (this.state.carouselShow? '83.333333%':'calc(100% - 80px)')}}>
+                         style={{height: (this.state.carouselFull ? 0 : '100%'), width: (this.state.carouselShow? '83.333333%':'calc(100% - 80px)')}}>
                         <Row id="ribbonRow">
                             <PluginRibbon disabled={navItemsIds.length === 0}
                                           navItemSelected={navItemSelected}
