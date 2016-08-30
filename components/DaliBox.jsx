@@ -26,6 +26,7 @@ export default class DaliBox extends Component {
             position: 'absolute',
             resize: 'none',
             top: '0%',
+            color: 'black',
             visibility: (toolbar.showTextEditor ? 'visible' : 'hidden')
         };
         let attrs = {};
