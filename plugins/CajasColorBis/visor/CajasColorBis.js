@@ -45,16 +45,16 @@ export function CajasColorBis() {
 
             return template;
         },
-        showDiv: function (event, element) {
+        showDiv: function (event, element, parent) {
             var nBoxes = element.getAttribute("data-nboxes");
-            var idDiv = element.getAttribute("data-iddiv");
+            var idDiv = parseInt(element.getAttribute("data-iddiv"), 10);
             var idD = '';
             for (var i = 0; i < nBoxes; i++) {
                 idD = '#bloque' + i;
                 if (idDiv !== i) {
-                    $(idD).fadeOut("slow");
+                    $(idD, parent).fadeOut("slow");
                 } else {
-                    $(idD).fadeToggle("slow");
+                    $(idD, parent).fadeToggle("slow");
                 }
             }
         }
