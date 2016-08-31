@@ -10,11 +10,13 @@
 
 /*Título del componente*/
 .carouselListTitle{
-	// margin:5px 15px;
 	cursor:pointer;
-	* { @include animacion(all,0.3s);
-		padding: 5px 4px 0 10px;
-		//margin:5px;
+	color: $grisclaro;
+	* { @include animacion(all,0.2s);
+		padding: 5px;
+	}
+	&:hover{
+		color: white !important;
 	}
 }
 

@@ -1,7 +1,7 @@
 /* Colores para las cajas */
 
 	.verdeoscuro {background-color: #196500;}
-	.cyan {	background-color: #5A90B4;}	
+	.cyan {	background-color: #5A90B4;}
 	.granate {background-color: #760807;}
 	.naranja {background-color: #F88A1B;}
 	.rojo {background-color: #BA2E12;}
@@ -15,11 +15,11 @@
 	.marronvivo {background-color: #956939;}
 	.gris {background-color: #A9A9A9;}
 	.amarillo {background-color: #887E00;}
-	
-	
 
-	
-	
+
+
+
+
 	.capa_verdeoscuro {background-color: #CDE4D6; border: 1px solid #196500;}
 	.capa_cyan {background-color: #ECF2FA;border: 1px solid #5A90B4;}
 	.capa_granate {background-color: #FEECF4; border: 1px solid #760807;}
@@ -53,10 +53,13 @@
 	*margin-right: 20%;
 	*margin-bottom: 50px;
 	*margin-left: 20%;
-}	
+}
 
 
-.clear { clear:both;}
+.clear {
+	clear:both;
+	padding: 0 !important;
+}
 
 .tabla_colores {
 	display: table;
@@ -70,14 +73,14 @@
 
 .fila_colores {
   display: table-row;
-  width: auto; 
+  width: auto;
   *width: 100%;
   *float: left;
 }
 
 .fila_coloresEd {
   display: table-row;
-  width: auto; 
+  width: auto;
   *width: 100%;
 }
 
