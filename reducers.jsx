@@ -3,7 +3,7 @@ import undoable, {excludeAction} from 'redux-undo';
 import './utils';
 import {ADD_BOX, SELECT_BOX, MOVE_BOX, DUPLICATE_BOX, RESIZE_BOX, UPDATE_BOX, DELETE_BOX, REORDER_BOX, DROP_BOX, INCREASE_LEVEL,
     RESIZE_SORTABLE_CONTAINER, CHANGE_COLS, CHANGE_ROWS, CHANGE_SORTABLE_PROPS, REORDER_BOXES,
-    ADD_NAV_ITEM, SELECT_NAV_ITEM, EXPAND_NAV_ITEM, REMOVE_NAV_ITEM, REORDER_NAV_ITEM, CHANGE_SECTION_TITLE,
+    ADD_NAV_ITEM, SELECT_NAV_ITEM, EXPAND_NAV_ITEM, REMOVE_NAV_ITEM, REORDER_NAV_ITEM, CHANGE_SECTION_TITLE, CHANGE_UNIT_NUMBER,
     TOGGLE_PAGE_MODAL, TOGGLE_TEXT_EDITOR, TOGGLE_TITLE_MODE, CHANGE_TITLE,
     CHANGE_DISPLAY_MODE, SET_BUSY, UPDATE_TOOLBAR, COLLAPSE_TOOLBAR, IMPORT_STATE, FETCH_VISH_RESOURCES_SUCCESS
 } from './actions';
@@ -14,7 +14,6 @@ function boxCreator(state = {}, action = {}) {
     switch (action.type) {
         case ADD_BOX:
             let position, width, height;
-            console.log(action.payload);
             let level = (state[action.payload.ids.parent]) ? state[action.payload.ids.parent].level + 1 : 0;
             switch (action.payload.type) {
                 case 'sortable':
@@ -28,7 +27,7 @@ function boxCreator(state = {}, action = {}) {
                         y: Math.floor(Math.random() * 200),
                         type: 'absolute'
                     };
-                    if(action.payload.config.category !== "text") {
+                    if (action.payload.config.category !== "text") {
                         width = 200;
                     }
                     height = 'auto';
@@ -39,7 +38,7 @@ function boxCreator(state = {}, action = {}) {
                 position.y = 0;
                 position.type = 'relative';
                 if (action.payload.ids.parent.indexOf(ID_PREFIX_SORTABLE_BOX) !== -1) {
-                    if(action.payload.config.category !== "text") {
+                    if (action.payload.config.category !== "text") {
                         width = "25%";
                     }
                 }
@@ -452,6 +451,7 @@ function navItemCreator(state = {}, action = {}) {
                 level: action.payload.level,
                 type: action.payload.type,
                 position: action.payload.position,
+                unitNumber: (action.payload.parent === 0 ? state[action.payload.parent].children.length + 1 : state[action.payload.parent].unitNumber),
                 titlesReduced: action.payload.titlesReduced || 'expanded'
             };
         default:
@@ -536,6 +536,14 @@ function navItemsIds(state = [], action = {}) {
     }
 }
 
+function findNavItemsDescendants(state, parent){
+    let family = [parent];
+    state[parent].children.forEach(item => {
+        family = family.concat(findNavItemsDescendants(state, item));
+    });
+    return family;
+}
+
 function navItemsById(state = {}, action = {}) {
     var newState;
     var newBoxes;
@@ -544,7 +552,7 @@ function navItemsById(state = {}, action = {}) {
             return state;
         case ADD_NAV_ITEM:
             newState = Object.assign({}, state, {
-                [action.payload.id]: navItemCreator(state[action.payload.id], action),
+                [action.payload.id]: navItemCreator(state, action),
                 [action.payload.parent]: Object.assign({}, state[action.payload.parent], {children: [...state[action.payload.parent].children, action.payload.id]})
             });
             return recalculateNames(newState, newState[action.payload.id], 0);
@@ -575,8 +583,6 @@ function navItemsById(state = {}, action = {}) {
                         [elem]: Object.assign({}, newSt[elem], {position: action.payload.newIndId.indexOf(elem)})
                     });
                 });
-
-                return newSt;
             } else if (action.payload.type === 1 || action.payload.type === 2 || action.payload.type === 4) {
                 var oldParent = state[action.payload.itemId].parent;
                 var oldParentChildren = state[oldParent].children;
@@ -607,14 +613,26 @@ function navItemsById(state = {}, action = {}) {
                         [elem]: Object.assign({}, newSt[elem], {position: action.payload.newIndId.indexOf(elem)})
                     });
                 });
-                return newSt;
             }
-            return state;
+            let navsToChange = findNavItemsDescendants(state, action.payload.itemId);
+            if(action.payload.newParent !== 0){
+                let newUnitNumber = newSt[action.payload.newParent].unitNumber;
+                navsToChange.forEach(item => {
+                    newSt[item].unitNumber = newUnitNumber;
+                });
+            }
+            return newSt;
         case CHANGE_SECTION_TITLE:
             return Object.assign({}, state, {
-                [action.payload.id ]: Object.assign({}, state[action.payload.id], {name: action.payload.title})
+                [action.payload.id]: Object.assign({}, state[action.payload.id], {name: action.payload.title})
             });
-
+        case CHANGE_UNIT_NUMBER:
+            newState = Object.assign({}, state);
+            let itemsToChange = findNavItemsDescendants(state, action.payload.id);
+            itemsToChange.forEach(item => {
+                newState[item].unitNumber = action.payload.value;
+            });
+            return newState;
         case ADD_BOX:
             if (action.payload.ids.parent && action.payload.ids.parent.indexOf(ID_PREFIX_PAGE) !== -1 || action.payload.ids.parent.indexOf(ID_PREFIX_SECTION) !== -1) {
                 return Object.assign({}, state, {
@@ -1039,8 +1057,8 @@ function isBusy(state = "", action = {}) {
     }
 }
 
-function fetchVishResults(state = {results: []}, action = {}){
-    switch (action.type){
+function fetchVishResults(state = {results: []}, action = {}) {
+    switch (action.type) {
         case FETCH_VISH_RESOURCES_SUCCESS:
             return action.payload.result;
         default:

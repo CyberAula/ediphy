@@ -61,8 +61,9 @@ export default class DaliCanvas extends Component {
                                    onBoxSelected={this.props.onBoxSelected}
                                    courseTitle={this.props.title}
                                    isReduced={this.props.navItemSelected.titlesReduced}
-                                   navItemId={this.props.navItemSelected.id}
+                                   navItem={this.props.navItemSelected}
                                    titleModeToggled={this.props.titleModeToggled}
+                                   onUnitNumberChanged={this.props.onUnitNumberChanged}
                                    showButton={true}/>
                         <br/>
                         <DaliShortcuts
