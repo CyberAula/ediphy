@@ -20,6 +20,9 @@ CKEDITOR.editorConfig = function( config ) {
 	config.linkJavaScriptLinksAllowed = true;
 	config.linkShowAdvancedTab = false;
 	config.dialog_noConfirmCancel = true;
+	config.pasteFromWordRemoveFontStyles = false;
+	config.pasteFromWordRemoveStyles = false;
+    config.allowedContent = true;
 	config.stylesSet = [	
     	{ name: 'negrita', element: 'strong' },
     	{ name: 'cursiva', element: 'em' },
@@ -181,7 +184,7 @@ CKEDITOR.editorConfig = function( config ) {
 		'About,' + 
 		'Maximize,' + 
 		'ShowBlocks,' + 
-		'TextColor,' + 
+		'TextColor,' +
 		'BGColor,' + 
 		'Format,' + 
 		'Font,' + 
