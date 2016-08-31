@@ -24,13 +24,11 @@
 <%= scripts %>
 <%
     var padre = navs[navs[page].parent].name || 'Section 0';
-    var patt = /([0-9]+((\.[0-9]+)+)?)/;  //Detecta número de sección. Ej. Section (2.3.4.2)
-    var sectiontitle = patt.test(padre) ? patt.exec(padre)[0] : '0';
 %>
 
 <div style="visibility: visible; overflow: auto; display: <%=(navs[page].titlesReduced == 'hidden')?'none':'inherit' %>;" class="caja">
     <div class="cab" style="display: <%=(navs[page].titlesReduced == 'hidden')?'none':'inherit' %>;">
-        <div class="cabtabla_numero"><%=sectiontitle%></div>
+        <div class="cabtabla_numero"><%=navs[page].unitNumber%></div>
         <div class="tit_ud_cap">
             <h1><%=title%></h1>
             <h2><%=navs[page].name%></h2>
