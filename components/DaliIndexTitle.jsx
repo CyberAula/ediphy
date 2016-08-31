@@ -17,7 +17,7 @@ export default class DaliIndexTitle extends Component {
             /* jshint ignore:start */
             <span>
             {!this.state.editing ?
-                (<span className="actualSectionTitle">{this.props.title} </span>) :
+                (<span className="actualSectionTitle" style={{textDecoration: this.props.hidden ? "line-through" : "initial"}}>{this.props.title} </span>) :
                 (<FormControl
                     type="text"
                     ref="titleIndex"
@@ -43,6 +43,15 @@ export default class DaliIndexTitle extends Component {
                         {this.setState({editing: !this.state.editing})}
                     }/>)
             }
+                {this.props.id
+                    ?
+                    <i className="material-icons editIndexTitleIcon"
+                       onClick={e => {
+                            this.props.onNavItemToggled(this.props.id);
+                       }}>{this.props.hidden ? "visibility_off" : "visibility"}</i>
+                    :
+                    null
+                }
                 <i className="material-icons editIndexTitleIcon"
                    onMouseDown={e => {
                         e.preventDefault();

@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {ActionCreators} from 'redux-undo';
 import {Grid, Col, Row, Button, OverlayTrigger, Popover} from 'react-bootstrap';
-import {addNavItem, selectNavItem, expandNavItem, removeNavItem, reorderNavItem, changeSectionTitle, changeUnitNumber,
+import {addNavItem, selectNavItem, expandNavItem, removeNavItem, reorderNavItem, toggleNavItem, changeSectionTitle, changeUnitNumber,
     addBox, changeTitle, selectBox, moveBox, resizeBox, updateBox, duplicateBox, deleteBox, reorderBox, dropBox, increaseBoxLevel,
     resizeSortableContainer, changeCols, changeRows, changeSortableProps, reorderBoxes,
     togglePageModal, toggleTextEditor, toggleTitleMode,
@@ -92,6 +92,7 @@ class DaliApp extends Component {
                                     this.dispatchAndSetState(removeNavItem(ids, parent, boxes));
                                   }}
                                   onNavItemReorded={(itemId,newParent,type,newIndId,newChildrenInOrder) => this.dispatchAndSetState(reorderNavItem(itemId,newParent,type,newIndId,newChildrenInOrder))}
+                                  onNavItemToggled={ id => this.dispatchAndSetState(toggleNavItem(id)) }
                                   onDisplayModeChanged={mode => this.dispatchAndSetState(changeDisplayMode(mode))}
                                   carouselShow={this.state.carouselShow}
                                   carouselFull={this.state.carouselFull}

@@ -25,7 +25,8 @@ export default class CarrouselList extends Component {
                                                 onBoxAdded={this.props.onBoxAdded}
                                                 onNavItemSelected={this.props.onNavItemSelected}
                                                 onNavItemExpanded={this.props.onNavItemExpanded}
-                                                onNavItemReorded={this.props.onNavItemReorded}/>;
+                                                onNavItemReorded={this.props.onNavItemReorded}
+                                                onNavItemToggled={this.props.onNavItemToggled}/>;
                             } else if (id.indexOf(ID_PREFIX_PAGE) !== -1) {
                                 let classSelected = (this.props.navItemSelected === id) ? 'selected drag-handle' : 'notSelected drag-handle';
                                 return <h4 key={index}
@@ -37,8 +38,11 @@ export default class CarrouselList extends Component {
                                                }}>
                                         <span style={{marginLeft: 20*(this.props.navItems[id].level-1)}}>
                                             <i className="material-icons fileIcon">insert_drive_file</i>   <DaliIndexTitle
-                                            id={id} title={this.props.navItems[id].name}
-                                            onTitleChange={this.props.onTitleChange}/></span>
+                                            id={id}
+                                            title={this.props.navItems[id].name}
+                                            hidden={this.props.navItems[id].hidden}
+                                            onTitleChange={this.props.onTitleChange}
+                                            onNavItemToggled={this.props.onNavItemToggled}/></span>
                                 </h4>
 
 

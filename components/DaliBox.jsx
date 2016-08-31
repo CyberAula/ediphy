@@ -31,6 +31,7 @@ export default class DaliBox extends Component {
             padding: 15,
             width: '100%',
             border: 'dashed black 1px',
+            zIndex: 99999,
             visibility: (toolbar.showTextEditor ? 'visible' : 'hidden')
         };
         let attrs = {};

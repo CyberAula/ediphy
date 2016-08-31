@@ -3,7 +3,7 @@ import undoable, {excludeAction} from 'redux-undo';
 import './utils';
 import {ADD_BOX, SELECT_BOX, MOVE_BOX, DUPLICATE_BOX, RESIZE_BOX, UPDATE_BOX, DELETE_BOX, REORDER_BOX, DROP_BOX, INCREASE_LEVEL,
     RESIZE_SORTABLE_CONTAINER, CHANGE_COLS, CHANGE_ROWS, CHANGE_SORTABLE_PROPS, REORDER_BOXES,
-    ADD_NAV_ITEM, SELECT_NAV_ITEM, EXPAND_NAV_ITEM, REMOVE_NAV_ITEM, REORDER_NAV_ITEM, CHANGE_SECTION_TITLE, CHANGE_UNIT_NUMBER,
+    ADD_NAV_ITEM, SELECT_NAV_ITEM, EXPAND_NAV_ITEM, REMOVE_NAV_ITEM, REORDER_NAV_ITEM, TOGGLE_NAV_ITEM, CHANGE_SECTION_TITLE, CHANGE_UNIT_NUMBER,
     TOGGLE_PAGE_MODAL, TOGGLE_TEXT_EDITOR, TOGGLE_TITLE_MODE, CHANGE_TITLE,
     CHANGE_DISPLAY_MODE, SET_BUSY, UPDATE_TOOLBAR, COLLAPSE_TOOLBAR, IMPORT_STATE, FETCH_VISH_RESOURCES_SUCCESS
 } from './actions';
@@ -452,6 +452,7 @@ function navItemCreator(state = {}, action = {}) {
                 type: action.payload.type,
                 position: action.payload.position,
                 unitNumber: (action.payload.parent === 0 ? state[action.payload.parent].children.length + 1 : state[action.payload.parent].unitNumber),
+                hidden: false,
                 titlesReduced: action.payload.titlesReduced || 'expanded'
             };
         default:
@@ -631,6 +632,17 @@ function navItemsById(state = {}, action = {}) {
             let itemsToChange = findNavItemsDescendants(state, action.payload.id);
             itemsToChange.forEach(item => {
                 newState[item].unitNumber = action.payload.value;
+            });
+            return newState;
+        case TOGGLE_NAV_ITEM:
+            if(state[state[action.payload.id].parent].hidden){
+                return state;
+            }
+            newState = Object.assign({}, state);
+            let itemsToHide = findNavItemsDescendants(state, action.payload.id);
+            newState[action.payload.id].hidden = !state[action.payload.id].hidden;
+            itemsToHide.forEach(item => {
+                newState[item].hidden = state[itemsToHide[0]].hidden;
             });
             return newState;
         case ADD_BOX:

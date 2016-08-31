@@ -29,7 +29,9 @@ export default class Section extends Component {
                     <span className={classSelected} style={{display: 'inline'}}><i
                         className={classSelected + '  material-icons'}>folder</i>   <DaliIndexTitle id={this.props.id}
                                                                                                     title={this.props.navItems[this.props.id].name}
-                                                                                                    onTitleChange={this.props.onTitleChange}/></span>
+                                                                                                    hidden={this.props.navItems[this.props.id].hidden}
+                                                                                                    onTitleChange={this.props.onTitleChange}
+                                                                                                    onNavItemToggled={this.props.onNavItemToggled}/></span>
 
                     </span>
                 </div>
@@ -50,7 +52,8 @@ export default class Section extends Component {
                                                     onTitleChange={this.props.onTitleChange}
                                                     onNavItemSelected={this.props.onNavItemSelected}
                                                     onNavItemExpanded={this.props.onNavItemExpanded}
-                                                    onNavItemReorded={this.props.onNavItemReorded}/>;
+                                                    onNavItemReorded={this.props.onNavItemReorded}
+                                                    onNavItemToggled={this.props.onNavItemToggled}/>;
                                 } else if (id.indexOf(ID_PREFIX_PAGE) !== -1) {
                                     let classSelected = this.props.navItemSelected === id ? 'selected dragS' : 'notSelected dragS';
                                     let color = this.props.navItemSelected === id ? '#f87060' : '#555';
@@ -60,8 +63,11 @@ export default class Section extends Component {
                                                  e.stopPropagation();}}>
                                                 <span style={{marginLeft: 20*(this.props.navItems[id].level-1)}}>
                                                     <i className="material-icons fileIcon">insert_drive_file</i>    <DaliIndexTitle
-                                                    id={id} title={this.props.navItems[id].name}
-                                                    onTitleChange={this.props.onTitleChange}/>
+                                                    id={id}
+                                                    title={this.props.navItems[id].name}
+                                                    hidden={this.props.navItems[id].hidden}
+                                                    onTitleChange={this.props.onTitleChange}
+                                                    onNavItemToggled={this.props.onNavItemToggled}/>
                                                 </span>
                                     </h4>;
                                 }

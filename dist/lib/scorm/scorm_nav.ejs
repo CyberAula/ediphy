@@ -34,7 +34,10 @@ function parseChildren(children){%>
      <div style="height: 426px;" id="baseMenu">
       <div style="display: block;" id="indiceCurso">
         <ul id="biglist" style="list-style-type: none;">
-         <% navs[0].children.map( function(nav){ 
+         <% navs[0].children.map( function(nav){
+         if(navs[nav].hidden){
+             return;
+         }
           var hasChildren = navs[nav].children && navs[nav].children.length > 0; %>
           <li   class="nivel<%=navs[nav].level%>">    
             <img src="./scorm/completed<%=hasChildren? "_dsp":""%>.png" class="imagenDot" hspace="5" border="0">
