@@ -27,6 +27,10 @@ export default class DaliBox extends Component {
             resize: 'none',
             top: '0%',
             color: 'black',
+            backgroundColor: 'white',
+            padding: 15,
+            width: '100%',
+            border: 'dashed black 1px',
             visibility: (toolbar.showTextEditor ? 'visible' : 'hidden')
         };
         let attrs = {};
@@ -377,7 +381,7 @@ export default class DaliBox extends Component {
                 this.blurTextarea();
             }.bind(this));
             if (toolbar.state.__text) {
-                editor.setData(toolbar.state.__text);
+                editor.setData(decodeURI(toolbar.state.__text));
             }
         }
 
