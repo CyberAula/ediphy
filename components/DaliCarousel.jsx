@@ -34,9 +34,9 @@ export default class DaliCarousel extends Component {
                     <p style={{textAlign: this.props.carouselShow ? 'left' : 'center'}}
                        onClick={() => {this.props.onToggleWidth()}}
                        className={this.props.carouselShow ? 'carouselListTitle toolbarSpread':'carouselListTitle toolbarHide'}>
-                        <i style={{fontSize: this.props.carouselShow ? "16px":"32px" }} className="material-icons">format_list_numbered</i>
+                        <i style={{fontSize: this.props.carouselShow ? "16px":"28px" }} className="material-icons">format_list_numbered</i>
                         {!this.props.carouselShow ? <br/> : null}
-                        ÍNDICE
+                        <div className="textIndex">ÍNDICE</div>
                         <i style={{
                             fontSize: this.props.carouselShow ? "16px":"32px",
                             position: this.props.carouselShow ? "absolute" : "initial",
@@ -46,8 +46,9 @@ export default class DaliCarousel extends Component {
                            onClick={e => {
                                 this.props.onToggleFull();
                                 e.stopPropagation();
-                           }}>{!this.props.carouselFull ? "fullscreen" : "fullscreen_exit"}
+                           }}>{!this.props.carouselFull ? "keyboard_arrow_right" : "keyboard_arrow_left"}
                         </i>
+                        <div className="clear"></div>
                     </p>
                     <p className="courseTitleCarousel"> {this.props.title}</p>
                     <div id="indice"

@@ -200,10 +200,14 @@
  /*Toolbar title when spread*/
 .toolbarSpread {
 	text-align: left;
-	font-weight: bold;
-	color: white;
+	//font-weight: bold;
+	//color: white;
 	.material-icons{
 		font-size: 16px;
+		float: left;
+	}
+	.textIndex{
+		float: left;
 	}
 
 
