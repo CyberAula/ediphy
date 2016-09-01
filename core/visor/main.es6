@@ -127,7 +127,7 @@ export default {
 
                     var nombre = navs[page].name.replace(/ /g, "_");
                     var path = "unidad" + navs[page].unitNumber + "/";
-                    sections.push(nombre);
+                    sections.push(path + nombre);
                     if(Object.keys(navs[page].extraFiles).length !== 0){
                         for(var boxKey in navs[page].extraFiles){
                             $.ajax({
