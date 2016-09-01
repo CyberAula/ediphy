@@ -10,7 +10,7 @@ function parseChildren(children){%>
      var hasChildren = navs[i].children && navs[i].children.length > 0; %>
      <li class="nivel<%=navs[i].level%>">    
       <img src="./scorm/completed<%=hasChildren? "_dsp":""%>.png" class="imagenDot" hspace="5" border="0">
-      <a title="<%=navs[i].name%>" href="#" id="temariol-fichero-327" rel="327" class=""><%=navs[i].name%></a>
+      <a title="<%="unidad" + navs[i].unitNumber + "/" + navs[i].name%>" href="#" id="temariol-fichero-327" rel="327" class=""><%=navs[i].name%></a>
       <%if (hasChildren){ 
         parseChildren(navs[i].children);
       }%>
@@ -41,7 +41,7 @@ function parseChildren(children){%>
           var hasChildren = navs[nav].children && navs[nav].children.length > 0; %>
           <li   class="nivel<%=navs[nav].level%>">    
             <img src="./scorm/completed<%=hasChildren? "_dsp":""%>.png" class="imagenDot" hspace="5" border="0">
-            <a href="#" title="<%=navs[nav].name%>" id="temariol-fichero-372" rel="372" class=""><%=navs[nav].name%></a>              
+            <a href="#" title="<%="unidad" + navs[nav].unitNumber + "/" + navs[nav].name%>" id="temariol-fichero-372" rel="372" class=""><%=navs[nav].name%></a>
             <%if (hasChildren){ 
               parseChildren(navs[nav].children) 
             }%> 

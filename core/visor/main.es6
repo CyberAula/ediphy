@@ -127,7 +127,7 @@ export default {
                     var inner = parseEJS(Dali.Config.visor_ejs, page, state);
                     var nombre = navs[page].name;
                     sections.push(nombre);
-                    zip.file(nombre + ".html", inner);
+                    zip.file("unidad" + navs[page].unitNumber + "/" + nombre + ".html", inner);
                 });
                 zip.file("index.html", Dali.Scorm.getIndex(navs));
                 zip.file("imsmanifest.xml", Dali.Scorm.testXML(state.title, sections));
