@@ -124,18 +124,18 @@ export default {
                     if(navs[page].hidden){
                         return;
                     }
-                    var inner = parseEJS(Dali.Config.visor_ejs, page, state);
-                    var nombre = navs[page].name;
+
+                    var nombre = navs[page].name.replace(/ /g, "_");
                     var path = "unidad" + navs[page].unitNumber + "/";
                     sections.push(nombre);
-                    zip.file(path + nombre + ".html", inner);
                     if(Object.keys(navs[page].extraFiles).length !== 0){
                         for(var boxKey in navs[page].extraFiles){
                             $.ajax({
                                 url: navs[page].extraFiles[boxKey],
                                 async: false,
-                                success: function (response) {
-                                    zip.file(path + nombre + "_ejer.xml", response);
+                                success: function (response, status, xhr) {
+                                    zip.file(path + nombre + "_ejer.xml", xhr.responseText);
+                                    state.toolbarsById[boxKey].state.__xml_path = path + nombre + "_ejer.xml";
                                 },
                                 error: function (xhr, status) {
                                     console.error("Error while downloading XML file");
@@ -143,6 +143,8 @@ export default {
                             });
                         }
                     }
+                    var inner = parseEJS(Dali.Config.visor_ejs, page, state);
+                    zip.file(path + nombre + ".html", inner);
                 });
                 zip.file("index.html", Dali.Scorm.getIndex(navs));
                 zip.file("imsmanifest.xml", Dali.Scorm.testXML(state.title, sections));
