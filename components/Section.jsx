@@ -10,10 +10,13 @@ export default class Section extends Component {
         let classSelected = this.props.navItemSelected === navItem.id ? 'selected' : 'notSelected';
         return (
             /* jshint ignore:start */
-            <div id={this.props.id} className="drag-handle" style={{paddingTop: 0}} onMouseDown={e => {
-                this.props.onNavItemSelected(navItem.id);
-                e.stopPropagation();
-            }}>
+            <div id={this.props.id}
+                 className="drag-handle"
+                 style={{paddingTop: 0}}
+                 onClick={e => {
+                    this.props.onNavItemSelected(navItem.id);
+                    e.stopPropagation();
+                 }}>
                 <div className={"navItemBlock " + classSelected}>
                     <span style={{marginLeft: 20*(this.props.navItems[this.props.id].level-1)}}>
 
@@ -57,10 +60,13 @@ export default class Section extends Component {
                                 } else if (id.indexOf(ID_PREFIX_PAGE) !== -1) {
                                     let classSelected = this.props.navItemSelected === id ? 'selected dragS' : 'notSelected dragS';
                                     let color = this.props.navItemSelected === id ? '#f87060' : '#555';
-                                    return <h4 key={index} id={id} className={'navItemBlock ' + classSelected}
-                                               onMouseDown={e => {
-                                                 this.props.onNavItemSelected(id);
-                                                 e.stopPropagation();}}>
+                                    return <h4 key={index}
+                                               id={id}
+                                               className={'navItemBlock ' + classSelected}
+                                               onClick={e => {
+                                                    this.props.onNavItemSelected(id);
+                                                    e.stopPropagation();
+                                                }}>
                                                 <span style={{marginLeft: 20*(this.props.navItems[id].level-1)}}>
                                                     <i className="material-icons fileIcon">insert_drive_file</i>    <DaliIndexTitle
                                                     id={id}

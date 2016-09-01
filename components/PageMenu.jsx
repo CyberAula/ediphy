@@ -8,7 +8,13 @@ export default class PageMenu extends Component {
         let proposedName = "Page " + this.calculateName();
         return (
             /* jshint ignore:start */
-            <Dropdown role="menuitem" dropup className="carouselDropup" id="carouselDropUp">
+            <Dropdown role="menuitem"
+                      dropup
+                      className="carouselDropup"
+                      id="carouselDropUp"
+                      style={{
+                        visibility: this.props.navItemSelected === 0 ? "hidden" : "visible"
+                      }}>
                 <Dropdown.Toggle noCaret rootClose className="carrouselButton">
                     <i className="material-icons">note_add</i>
                 </Dropdown.Toggle>
