@@ -2,7 +2,8 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {ActionCreators} from 'redux-undo';
 import {Grid, Col, Row, Button, OverlayTrigger, Popover} from 'react-bootstrap';
-import {addNavItem, selectNavItem, expandNavItem, removeNavItem, reorderNavItem, toggleNavItem, changeSectionTitle, changeUnitNumber,
+import {addNavItem, selectNavItem, expandNavItem, removeNavItem, reorderNavItem, toggleNavItem, updateNavItemExtraFiles,
+    changeSectionTitle, changeUnitNumber,
     addBox, changeTitle, selectBox, moveBox, resizeBox, updateBox, duplicateBox, deleteBox, reorderBox, dropBox, increaseBoxLevel,
     resizeSortableContainer, changeCols, changeRows, changeSortableProps, reorderBoxes,
     togglePageModal, toggleTextEditor, toggleTitleMode,
@@ -210,11 +211,17 @@ class DaliApp extends Component {
         Dali.API_Private.listenEmission(Dali.API_Private.events.render, e => {
             this.index = 0;
             let newPluginState = {};
+            let navItemSelected = this.props.navItems[this.props.navItemSelected];
             if (e.detail.isUpdating) {
                 this.parsePluginContainers(e.detail.content, newPluginState);
                 e.detail.state.__pluginContainerIds = newPluginState;
                 this.dispatchAndSetState(updateBox(e.detail.ids.id, e.detail.content, e.detail.toolbar, e.detail.state));
                 this.addDefaultContainerPlugins(e.detail, e.detail.content);
+                if(e.detail.state.__xml_path){
+                    if(!navItemSelected.extraFiles[e.detail.ids.id] || navItemSelected.extraFiles[e.detail.ids.id] !== e.detail.state.__xml_path){
+                        this.dispatchAndSetState(updateNavItemExtraFiles(this.props.navItemSelected, e.detail.ids.id, e.detail.state.__xml_path));
+                    }
+                }
             } else {
                 e.detail.ids.id = ID_PREFIX_BOX + Date.now();
                 this.parsePluginContainers(e.detail.content, newPluginState);
@@ -234,6 +241,11 @@ class DaliApp extends Component {
                     e.detail.state,
                     e.detail.initialParams));
                 this.addDefaultContainerPlugins(e.detail, e.detail.content);
+                if(e.detail.state.__xml_path){
+                    if(!navItemSelected.extraFiles[e.detail.ids.id] || navItemSelected.extraFiles[e.detail.ids.id] !== e.detail.state.__xml_path){
+                        this.dispatchAndSetState(updateNavItemExtraFiles(this.props.navItemSelected, e.detail.ids.id, e.detail.state.__xml_path));
+                    }
+                }
             }
         });
         Dali.API_Private.listenEmission(Dali.API_Private.events.getPluginsInView, e => {

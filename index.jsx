@@ -29,7 +29,7 @@ let initialState = {
 	    displayMode: "list",
 	    navItemsById: {
 	    	0: {id: 0, children: ["se-1467887497411"], boxes: [], level: 0, type: '', hidden: false},
-	    	"se-1467887497411": { id: "se-1467887497411", name: "Section 1", isExpanded: true, parent: 0, children: [], unitNumber: 1, hidden: false, boxes: ['bs-1467887497412'], level: 1, type: "section", position: 1, titlesReduced: "expanded"}
+	    	"se-1467887497411": { id: "se-1467887497411", name: "Section 1", isExpanded: true, parent: 0, children: [], unitNumber: 1, hidden: false, boxes: ['bs-1467887497412'], level: 1, type: "section", position: 1, extraFiles: {}, titlesReduced: "expanded"}
 	    },
 	    navItemsIds:['se-1467887497411'],
 	    navItemSelected: 'se-1467887497411',
