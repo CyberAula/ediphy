@@ -67,7 +67,7 @@ export default class Section extends Component {
                                                     this.props.onNavItemSelected(id);
                                                     e.stopPropagation();
                                                 }}>
-                                                <span style={{marginLeft: 20*(this.props.navItems[id].level-1)}}>
+                                                <span style={{marginLeft: 30*(this.props.navItems[id].level-1)}}>
                                                     <i className="material-icons fileIcon">insert_drive_file</i>    <DaliIndexTitle
                                                     id={id}
                                                     title={this.props.navItems[id].name}

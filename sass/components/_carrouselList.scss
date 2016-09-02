@@ -13,7 +13,7 @@
 	cursor:pointer;
 	color: $grisclaro;
 	* { @include animacion(all,0.2s);
-		padding: 5px;
+		padding: 4px;
 	}
 	&:hover{
 		color: white !important;
@@ -27,6 +27,7 @@
 	background-color: transparent !important;
 	border: none !important;
 	outline: none !important;
+	padding: 0;
 	&:hover, &:active, &:focus, &:selected {
 		-webkit-box-shadow: none !important;
 		box-shadow: none !important;
@@ -76,7 +77,12 @@
 /*Each NavItem*/
 .navItemBlock {
 	padding: 5px;
-
+	.editIndexTitleIcon {
+		padding: 5px;
+	}
+	.material-icons{
+		padding: 5px !important;
+	}
 }
 
 
@@ -90,16 +96,30 @@
 	width: 100%;
 	overflow-x: hidden;
 	.material-icons {
-		font-size: 18px;
-		vertical-align:text-bottom;
-		margin-bottom:0;
+		font-size: 1.1em;
+		vertical-align: middle;
+		margin: 0;
+		padding: 5px 10px;
+	}
+	.daliCarousel{
+		.editIndexTitleIcon{
+			font-size: 1.1em;
+			float: right;
+			padding: 5px;
+		}
+		.fileIcon{
+			padding: 5px 10px 5px 5px;
+		}
+		.carrouselButton{
+			.material-icons{
+				font-size: 1em;
+			}
+		}
 	}
 	.toolbarHide + .courseTitleCarousel{
 		display: none;
 		visibility: hidden;
-
 	}
-
 }
 /*Icon for files*/
 .fileIcon{
@@ -108,14 +128,14 @@
 
 /*Título curso*/
 .courseTitleCarousel{
-	margin-left: 30px;
+	margin: 5px 15px 15px;
 	color: $naranjaadams;
 	font-size: 14px;
 	//font-weight: bold;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-
+	max-width: 80%;
 }
 
 /*Spread tab*/
@@ -174,18 +194,15 @@
 }
 /******************Dropup*********************/
 .pageMenu {
-
-	min-width: 105px;
-	background-color: $darkest;
-
-	.dropdown-menu {
-		/*Divider inside dropup menu*/
-		.divider {
-			background-color:$grismedio;
-		}
-
-		border-radius: 0;
+	background-color: $grisoscuro !important;
+	border-radius: 0;
+	margin: 0;
+	padding: 0;
+	/*Divider inside dropup menu*/
+	.divider {
+		background-color:$grismedio;
 	}
+
 	/*Menu items*/
 	li {
 		padding-bottom: 0;
@@ -224,9 +241,9 @@
 #bottomMenu::after{
 	content:"";
 	border:8px solid transparent;
-	border-top-color: #222;
+	border-top-color: $grisoscuro;
 	position: absolute;
-	margin-top: 5px;
+	//margin-top: 5px;
 	left:5%;
 
 }

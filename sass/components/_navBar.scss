@@ -19,7 +19,7 @@
 		border-radius:0;
 		right:0;
 		left:auto;
-		.disabled .dropdownButton{ 
+		.disabled .dropdownButton{
 			color:#aaa;
 		}
 	}
@@ -51,7 +51,7 @@
 		-moz-box-shadow: none;
         box-shadow: none;
         color: $detailgreen;
-	}	
+	}
 	.material-icons{
 		vertical-align: middle;
 	}
@@ -75,12 +75,16 @@ button[disabled].navButton {
 .navBarSpace {
 	height: 100%;
 	padding-left: 20px;
-	display: inline-block; 
+	display: inline-block;
 	width:25%;
  	overflow:hidden;
-	font-size: 20px;
+	font-size: 1.2em;
 	vertical-align: middle;
-	line-height: 20px;
+	.editIndexTitleIcon {
+		font-size: 1em !important;
+		margin: 0;
+		padding: 3px 15px;
+	}
 }
 
 /*Editable course title*/
@@ -115,9 +119,9 @@ button[disabled].navButton {
 		vertical-align: middle;
 	}
 	&.active{
-		color:white !important; 
+		color:white !important;
 		background-color: $grismedio;
-		&:after  {	 
+		&:after  {
 			border-bottom: 8px solid $naranjaadams;
 		}
 	 }
@@ -138,7 +142,7 @@ button[disabled].navButton {
 		min-width: 55px;
 		width: auto;
 		padding:5px;
-	 	.active{ 
+	 	.active{
 	  		color:white !important;
 	  	}
 	}
@@ -152,21 +156,21 @@ button[disabled].navButton {
 		min-width: 15px;
 		width: auto;
 		padding:5px;
-	 	.active{ 
+	 	.active{
 	  		color:white !important;
 	  	}
 	}
 }
 /****************************************************/
- 
 
 
 
 
-/***********Menu desplegable*****************/ 
+
+/***********Menu desplegable*****************/
 
 .dropdownButton{
-	
+
 	display: inline-block;
 	text-align: left;
 	border: none;
@@ -188,7 +192,7 @@ button[disabled].navButton {
 		font-size: 15px;
 		vertical-align:text-bottom;
 	}
- 
+
 }
 
 
@@ -199,8 +203,8 @@ button[disabled].navButton {
 	position: absolute;
 	margin-top: -15px;
 	right:25px;
-	top:0%; 
- 
+	top:0%;
+
 }
 
  /******************************************/

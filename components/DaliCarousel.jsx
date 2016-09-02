@@ -32,7 +32,7 @@ export default class DaliCarousel extends Component {
                 overflowX:  this.props.carouselFull ? 'hidden' : ''
                 }} id="colLeft">
                 <div className="wrapperCarousel">
-                    <p style={{textAlign: this.props.carouselShow ? 'left' : 'center'}}
+                    <div style={{textAlign: this.props.carouselShow ? 'left' : 'center'}}
                        onClick={() => {this.props.onToggleWidth()}}
                        className={this.props.carouselShow ? 'carouselListTitle toolbarSpread':'carouselListTitle toolbarHide'}>
                         <i style={{fontSize: this.props.carouselShow ? "16px":"28px" }} className="material-icons">format_list_numbered</i>
@@ -50,7 +50,7 @@ export default class DaliCarousel extends Component {
                            }}>{!this.props.carouselFull ? "keyboard_arrow_right" : "keyboard_arrow_left"}
                         </i>
                         <div className="clear"></div>
-                    </p>
+                    </div>
                     <p className="courseTitleCarousel"> {this.props.title}</p>
                     <div id="indice"
                          className="daliCarousel"
