@@ -352,7 +352,7 @@ function boxesById(state = {}, action = {}) {
             }
             return state;
         case IMPORT_STATE:
-            return action.payload.present.boxesById;
+            return action.payload.present.boxesById || state;
         default:
             return state;
     }
@@ -406,7 +406,7 @@ function boxSelected(state = -1, action = {}) {
         case REMOVE_NAV_ITEM:
             return -1;
         case IMPORT_STATE:
-            return action.payload.present.boxSelected;
+            return action.payload.present.boxSelected || state;
         default:
             return state;
     }
@@ -433,7 +433,7 @@ function boxesIds(state = [], action = {}) {
                 return action.payload.boxes.indexOf(id) === -1;
             });
         case IMPORT_STATE:
-            return action.payload.present.boxes;
+            return action.payload.present.boxes || state;
         default:
             return state;
     }
@@ -533,7 +533,7 @@ function navItemsIds(state = [], action = {}) {
             }
             return state;
         case IMPORT_STATE:
-            return action.payload.present.navItemsIds;
+            return action.payload.present.navItemsIds || state;
         default:
             return state;
     }
@@ -692,7 +692,7 @@ function navItemsById(state = {}, action = {}) {
             }
             return state;
         case IMPORT_STATE:
-            return action.payload.present.navItemsById;
+            return action.payload.present.navItemsById || state;
         default:
             return state;
     }
@@ -707,7 +707,7 @@ function navItemSelected(state = 0, action = {}) {
         case REMOVE_NAV_ITEM:
             return 0;
         case IMPORT_STATE:
-            return action.payload.present.navItemSelected;
+            return action.payload.present.navItemSelected || state;
         default:
             return state;
     }
@@ -1008,7 +1008,7 @@ function toolbarsById(state = {}, action = {}) {
                 [action.payload.caller]: Object.assign({}, state[action.payload.caller], {showTextEditor: action.payload.value})
             });
         case IMPORT_STATE:
-            return action.payload.present.toolbarsById;
+            return action.payload.present.toolbarsById || state;
         case REMOVE_NAV_ITEM:
             newState = Object.assign({}, state);
             action.payload.boxes.map(box => {
@@ -1039,7 +1039,7 @@ function togglePageModal(state = {value: false, caller: 0}, action = {}) {
         case ADD_NAV_ITEM:
             return {value: false, caller: 0};
         case IMPORT_STATE:
-            return action.payload.present.pageModalToggled;
+            return action.payload.present.pageModalToggled || state;
         default:
             return state;
     }
@@ -1051,7 +1051,7 @@ function changeTitle(state = "", action = {}) {
         case CHANGE_TITLE:
             return action.payload;
         case IMPORT_STATE:
-            return action.payload.present.title;
+            return action.payload.present.title || state;
         default:
             return state;
     }
@@ -1062,7 +1062,7 @@ function changeDisplayMode(state = "", action = {}) {
         case CHANGE_DISPLAY_MODE:
             return action.payload.mode;
         case IMPORT_STATE:
-            return action.payload.present.displayMode;
+            return action.payload.present.displayMode || state;
         default:
             return state;
     }
@@ -1073,7 +1073,7 @@ function isBusy(state = "", action = {}) {
         case SET_BUSY:
             return action.payload;
         case IMPORT_STATE:
-            return action.payload.present.isBusy;
+            return action.payload.present.isBusy || state;
         default:
             return state;
     }
