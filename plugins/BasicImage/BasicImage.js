@@ -90,17 +90,6 @@ export function BasicImage(base) {
                                     step: 0.01
                                 }
                             }
-                        },
-                        '~extra': {
-                            __name: "Alias",
-                            icon: 'rate_review',
-                            buttons: {
-                                test: {
-                                    __name: 'Test',
-                                    type: 'text',
-                                    isAttribute: true
-                                }
-                            }
                         }
                     }
                 }
