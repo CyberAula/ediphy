@@ -65,7 +65,7 @@ export function BasicText(base) {
                             }
                         },
                         '~extra': {
-                            icon: 'link',
+                            icon: 'rate_review',
                             __name: "Alias",
                             buttons: {}
                         }
