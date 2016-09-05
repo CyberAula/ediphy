@@ -14,7 +14,7 @@ export function Webpage(base) {
                     accordions: {
                         basic: {
                             __name: "URL",
-                            icon: 'build',
+                            icon: 'link',
                             buttons: {
                                 url: {
                                     __name: '',
@@ -81,7 +81,7 @@ export function Webpage(base) {
                         },
                         '~extra': {
                             __name: "Alias",
-                            icon: 'link',
+                            icon: 'rate_review',
                             buttons: {
                                 test: {
                                     __name: 'Test',

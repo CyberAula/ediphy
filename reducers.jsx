@@ -825,7 +825,7 @@ function createAliasButton(controls, alias) {
     if (!controls.main) {
         controls.main = {
             __name: "Alias",
-            icon: 'link',
+            icon: 'rate_review',
             accordions: {
                 '~extra': {
                     __name: "Alias",
@@ -836,7 +836,7 @@ function createAliasButton(controls, alias) {
     } else if (!controls.main.accordions['~extra']) {
         controls.main.accordions['~extra'] = {
             __name: "Alias",
-            icon: 'link',
+            icon: 'rate_review',
             buttons: {}
         };
     }

@@ -19,7 +19,7 @@ export function BasicVideo(base) {
                     accordions: {
                         basic: {
                             __name: "Video",
-                            icon: 'build',
+                            icon: 'link',
                             buttons: {
                                 url: {
                                     __name: 'URL',
@@ -100,7 +100,7 @@ export function BasicVideo(base) {
                         },
                         '~extra': {
                             __name: "Alias",
-                            icon: 'link',
+                            icon: 'rate_review',
                             buttons: {
                                 test: {
                                     __name: 'Test',
