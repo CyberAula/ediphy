@@ -453,7 +453,7 @@ function navItemCreator(state = {}, action = {}) {
                 type: action.payload.type,
                 position: action.payload.position,
                 unitNumber: (action.payload.parent === 0 ? state[action.payload.parent].children.length + 1 : state[action.payload.parent].unitNumber),
-                hidden: false,
+                hidden: state[action.payload.parent].hidden,
                 extraFiles: {},
                 titlesReduced: action.payload.titlesReduced || 'expanded'
             };
