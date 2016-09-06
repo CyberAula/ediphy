@@ -32,9 +32,10 @@ export default class VishSearcher extends Component {
                     this.props.formControlProps.onChange(e, this.state);
                 }} />
                 <br />
-                <Button onClick={() => {
+                <Button className={'toolbarButton'}
+                  onClick={() => {
                     this.setState({modalVisible: true});
-                }}>Search in ViSH</Button>
+                }}>Buscar en ViSH</Button>
                 <VishSearcherModal visible={this.state.modalVisible}
                                    isBusy={this.props.isBusy}
                                    fetchResults={this.props.fetchResults}

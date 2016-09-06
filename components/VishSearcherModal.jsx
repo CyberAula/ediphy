@@ -18,18 +18,18 @@ export default class VishSearcherModal extends Component {
             /* jshint ignore:start */
             <Modal className="pageModal" backdrop={true} bsSize="large" show={this.props.visible}>
                 <Modal.Header>
-                    <Modal.Title>Vish Searcher</Modal.Title>
+                    <Modal.Title>BUSCADOR VISH</Modal.Title>
                 </Modal.Header>
 
                 <Modal.Body>
                     <Form horizontal>
                         <FormGroup>
-                            <Col md={6}>
-                                <ControlLabel>Search terms</ControlLabel>
+                            <Col md={4}>
+                                <ControlLabel>Términos de búsqueda</ControlLabel>
                                 <FormControl ref="query" type="text"/>
                             </Col>
                             <Col md={3}>
-                                <ControlLabel>Search by type</ControlLabel>
+                                <ControlLabel>Búsqueda por tipo</ControlLabel>
                                 <FormControl ref="type" componentClass="select">
                                     <option value="Picture">Picture</option>
                                     {/*
@@ -50,7 +50,7 @@ export default class VishSearcherModal extends Component {
                                 </FormControl>
                             </Col>
                             <Col md={3}>
-                                <ControlLabel>Sort by</ControlLabel>
+                                <ControlLabel>Ordenar por</ControlLabel>
                                 <FormControl ref="sort_by" componentClass="select">
                                     <option value="ranking">Ranking</option>
                                     <option value="popularity">Popularity</option>
@@ -61,9 +61,7 @@ export default class VishSearcherModal extends Component {
                                     <option value="quality">Quality</option>
                                 </FormControl>
                             </Col>
-                        </FormGroup>
-                        <FormGroup>
-                            <Col md={1} mdOffset={10}>
+                            <Col md={2} >
                                 <Button onClick={(e) => {
                                      let url = encodeURI(Dali.Config.search_vish_url +
                                         "?q=" + ReactDOM.findDOMNode(this.refs.query).value +
@@ -76,21 +74,22 @@ export default class VishSearcherModal extends Component {
                                 </Button>
                             </Col>
                         </FormGroup>
+
                     </Form>
                     <Form style={{minHeight: 250}}>
                         {this.props.fetchResults.total_results ?
                             (
                                 <FormGroup>
-                                    <ControlLabel>{"Total results: " + this.props.fetchResults.total_results}</ControlLabel>
+                                    <ControlLabel>{ this.props.fetchResults.total_results + " Resultados"}</ControlLabel>
                                     <br />
                                     {this.props.fetchResults.results.map((item, index) => {
-                                        let border = this.state.itemSelected === index ? "solid red 2px" : "solid transparent 2px";
+                                        let border = this.state.itemSelected === index ? "solid orange 3px" : "solid transparent 3px";
                                         return (
                                             <img key={index}
                                                  src={item.file_url}
                                                  style={{
-                                                    width: 200,
-                                                    height: 200,
+                                                    width: 160,
+                                                    height: 160,
                                                     border: border
                                                  }}
                                                  onClick={e => {

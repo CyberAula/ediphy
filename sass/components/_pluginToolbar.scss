@@ -75,12 +75,14 @@
     	background-color: #121212;
     	color: white;
     	border:0;
-    	margin: 5px;
-
-		/*Edit text button when CKEditor is active */
+    	//margin: 5px;
+			/*Edit text button when CKEditor is active */
     	&.textediting {
     		background-color: $naranjaadams;
     	}
+			&:hover{
+				background-color: $naranjaadams;
+			}
     }
 }
 

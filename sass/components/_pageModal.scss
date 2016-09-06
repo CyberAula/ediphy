@@ -1,26 +1,44 @@
 .pageModal{
-  	button{
+  button{
 		border-radius: 0;
 	}
 	.modal-body{
 		max-height:500px;
 		overflow-y: auto;
 		max-height: 70vh;
+    button{
+  		margin-top: 30px;
+  	}
+    .form-control{
+      border-radius: 0;
+    }
+    .control-label{
+      margin: 5px 0;
+      padding: 0;
+      font-size: 1em;
+      color: $grisoscuro;
+    }
 	}
    .modal-content{
-        min-height: 50px;
+      min-height: 50px;
     	border-radius: 0;
   	}
     .modal-header {
 	    border-radius:0;
-	    font-size: 18px;
-	    color: $naranjaadams;
+	    font-size: 1.1em;
+	    color: white;
+      background-color: $greyPanelHeadings;
+      .modal-title{
+        margin: 0;
+        padding: 2px;
+      }
   	}
   	.modal-footer{
+      border: none;
   		button{
-  			background-color: #9A9A9A;
+  			background-color: $greyPanelHeadings;
   			color: white !important;
-  			border:none;
+  			border: none;
   			&:hover{
   				background-color: $naranjaadams !important;
   			}
@@ -32,7 +50,7 @@
 	.form-control {
 		border-radius: 0;
  		box-shadow: none;
-		-webkit-box-shadow: none; 
+		-webkit-box-shadow: none;
 		&:focus{
 			border-color: $naranjaadams;
 		}
