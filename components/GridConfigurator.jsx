@@ -8,14 +8,15 @@ export default class GridConfigurator extends Component {
     }
 
     render() {
-        let advancedColumns = (
+        let alignment =  this.props.container.style ? (this.props.container.style.textAlign ? this.props.container.style.textAlign : 'center') : 'center';  
+         let advancedColumns = (
             /* jshint ignore:start */
             <FormGroup>
-                <ControlLabel>Column distribution</ControlLabel>
+                <ControlLabel>Distribución de columnas</ControlLabel>
                 <FormControl type="text"
                              key="grid"
                              value={this.props.container.colDistribution.join(" ")}
-                             label="Column distribution"
+                             label="Distribución de columnas"
                              style={{width: '100%'}}
                              onChange={e => {
                             let dist = e.target.value.split(" ").map(function (i){
@@ -38,6 +39,8 @@ export default class GridConfigurator extends Component {
             /* jshint ignore:end */
         );
         let height = this.props.sortableProps.height;
+
+
         return (
             /* jshint ignore:start */
             <div style={{width: '100%'}}>
@@ -51,7 +54,7 @@ export default class GridConfigurator extends Component {
                                          key="height"
                                          value={height == 'auto' ? "checked" : "unchecked"}
                                          checked={height == 'auto'}
-                                         label="Height auto"
+                                         label="Altura automática"
                                          style={{width: '100%'}}
                                          onChange={e => {
                                   let current = height == 'auto'
@@ -60,7 +63,7 @@ export default class GridConfigurator extends Component {
                                }}/>
                         </InputGroup>
                     </OverlayTrigger>
-                    <ControlLabel>Height</ControlLabel>
+                    <ControlLabel>Altura</ControlLabel>
                     <InputGroup style={{width: '50%'}}>
                         <FormControl type={height == 'auto' ? 'text' : 'number'}
                                      key="height"
@@ -76,7 +79,7 @@ export default class GridConfigurator extends Component {
                     </InputGroup>
                 </FormGroup>
                 <div className="configurator">
-                    { this.props.container.cols.map((item, index) => {
+                    {this.props.container.cols.map((item, index) => {
                         return (<div className="gc_columns" key={index}
                                      style={{width: this.props.container.colDistribution[index]+'%'}}>
                             { item.map((it, index) => {
@@ -85,13 +88,28 @@ export default class GridConfigurator extends Component {
                         </div>);
                     })}
                 </div>
+                {React.createElement(FormGroup, {key: 'alignment'},
+                    React.createElement(ControlLabel, {key: 'alignmentlabel'}, 'Alineamiento'), <br key="space"/>,
+                        ['left', 'center', 'right']
+                            .map((option, index) => {
+                                return (React.createElement('button', 
+                                        {key: 'align_' + index,
+                                        value: option, 
+                                        className: (alignment === option ? 'ribShortcut selectedAlignment' : 'ribShortcut unselectedAlignment'), 
+                                        onClick: e => {this.props.onChangeSortableProps(this.props.id, this.props.parentId, 'textAlign', option)}
+                                        }, 
+                                        <i className="material-icons">{"format_align_"+option}</i>))
+                            })
+                    )
+                }
+
                 <FormGroup>
-                    <ControlLabel>Column number</ControlLabel>
+                    <ControlLabel>Nº columnas</ControlLabel>
                     <InputGroup style={{width: '50%'}}>
                         <FormControl type="number"
                                      key="grid"
                                      value={this.props.container.colDistribution.length}
-                                     label="Column number"
+                                     label="Nº columnas"
                                      style={{width: '100%'}}
                                      min={1}
                                      step={1}
@@ -104,7 +122,7 @@ export default class GridConfigurator extends Component {
                                   this.props.onColsChanged(this.props.id, this.props.parentId, dist);
                              }}/>
                         <OverlayTrigger trigger="click" rootClose placement="bottom"
-                                        overlay={<Popover id="advancedcols"  title="Advanced">{advancedColumns}</Popover>}>
+                                        overlay={<Popover id="advancedcols"  title="Avanzado">{advancedColumns}</Popover>}>
                             <InputGroup.Addon className="gc_addon"><i
                                 className="material-icons gridconficons ">settings</i></InputGroup.Addon>
                         </OverlayTrigger>
@@ -114,10 +132,10 @@ export default class GridConfigurator extends Component {
                 { this.props.container.cols.map((item, index) => {
                     let advancedRows = (
                         <FormGroup key={index}>
-                            <ControlLabel>{"Row distribution in col " + (index + 1)}</ControlLabel>
+                            <ControlLabel>{"Distribución de filas en col. " + (index + 1)}</ControlLabel>
                             <FormControl type="text"
                                          value={item.join(" ")}
-                                         label={"Row distribution in col " + (index + 1)}
+                                         label={"Distribución de filas en col. " + (index + 1)}
                                          min={1}
                                          step={1}
                                          style={{width: '100%'}}
@@ -136,11 +154,11 @@ export default class GridConfigurator extends Component {
                     );
                     return (
                         <FormGroup key={index+'_0'}>
-                            <ControlLabel>{"Row number in col " + (index + 1)}</ControlLabel>
+                            <ControlLabel>{"Nº filas en col. " + (index + 1)}</ControlLabel>
                             <InputGroup style={{width: '50%'}}>
                                 <FormControl type="number"
                                              value={item.length}
-                                             label={"Row number in col " + (index + 1)}
+                                             label={"Nº filas en col. " + (index + 1)}
                                              min={1}
                                              step={1}
                                              style={{width: '100%'}}
@@ -153,7 +171,7 @@ export default class GridConfigurator extends Component {
                                                 this.props.onRowsChanged(this.props.id, this.props.parentId, index, dist);
                                           }}/>
                                 <OverlayTrigger trigger="click" rootClose placement="bottom"
-                                                overlay={<Popover id="advancedrows" title="Advanced">{advancedRows}</Popover>}>
+                                                overlay={<Popover id="advancedrows" title="Avanzado">{advancedRows}</Popover>}>
                                     <InputGroup.Addon className="gc_addon"><i className="material-icons gridconficons ">settings</i></InputGroup.Addon>
                                 </OverlayTrigger>
                             </InputGroup>

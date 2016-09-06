@@ -21,25 +21,25 @@ export default class DaliBoxSortable extends Component {
                      className={(this.props.id === this.props.boxSelected && box.children.length > 0) ? ' selectedBox':' '}
                      style={{
                      position: 'relative',
-                   /* border: (this.props.id === this.props.boxSelected ? '1px dashed black' : '1px solid #999'),*/
+                    /* border: (this.props.id === this.props.boxSelected ? '1px dashed black' : '1px solid #999'),*/
                      boxSizing: 'border-box',
                 }}>
                     {box.children.map((idContainer, index)=> {
                         let container = box.sortableContainers[idContainer];
-
                         return (<div key={index}
                                      className="daliBoxSortableContainer"
                                      data-id={idContainer}
                                      id={idContainer}
                                      style={Object.assign({},{
-                                    width: '100%',
-                                    height: container.height == 'auto' ? container.height : container.height + 'px',
-                                    minHeight: '25px', 
-                                   /* overflow: 'hidden',*/
-                                   /* border: 0,
-                                    borderBottom: '5px solid rgba(255,121,32,0.5)',*/
-                                    boxSizing: 'border-box',
-                                    position: 'relative'},container.style)}>
+                                        width: '100%',
+                                        height: container.height == 'auto' ? container.height : container.height + 'px',
+                                        minHeight: '25px', 
+                                        textAlign: 'center',
+                                        /* overflow: 'hidden',*/
+                                        /* border: 0,
+                                        borderBottom: '5px solid rgba(255,121,32,0.5)',*/
+                                        boxSizing: 'border-box',
+                                        position: 'relative'},container.style)}>
                             <div style={{display: "table", width: "100%", height: "100%"}}>
                                 {container.colDistribution.map((col, i) => {
                                     if (container.cols[i]) {

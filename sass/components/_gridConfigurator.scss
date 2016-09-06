@@ -80,3 +80,15 @@
 	color: #aaa;
 	padding:0px;
 }
+
+
+/*Alignment*/
+.selectedAlignment{
+	color: $naranjaadams;
+	&:hover{color: #bbb;}
+}
+.unselectedAlignment{
+	color: grey;
+	&:hover{color: #bbb;}
+}
+
