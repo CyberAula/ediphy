@@ -73,7 +73,8 @@ function boxCreator(state = {}, action = {}) {
                                 borderColor: '#ffffff',
                                 borderWidth: '0px',
                                 borderStyle: 'solid',
-                                opacity: '1'
+                                opacity: '1',
+                                textAlign: 'center'
                             },
                             height: pluginContainers[key].height || 'auto',
                             colDistribution: [100],

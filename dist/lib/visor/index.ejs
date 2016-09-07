@@ -227,6 +227,7 @@
                           border: <%=style.borderWidth + " " + style.borderStyle +" " + style.borderColor%>;
                           padding: <%=style.padding%>;
                           opacity: <%=style.opacity%>;
+                          text-align: <%=style.textAlign ? style.textAlign : 'center'%>;
                           "> 
                         <%container.colDistribution.map(function(col, i){
                             if(container.cols[i]) { %>
