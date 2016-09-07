@@ -184,6 +184,7 @@ export default class DaliBox extends Component {
                     height: box.height,
                     maxWidth: '100%',
                     maxHeight: '100%',
+                    /*verticalAlign: box.verticalAlign ? box.verticalAlign : 'top' ,*/
                     /*border: ((box.container !== 0 && vis) ? (this.borderSize + "px dashed #555") : 0),*/
                     touchAction: 'none',
                     msTouchAction: 'none',

@@ -33,7 +33,7 @@ export default class DaliBoxSortable extends Component {
                                      style={Object.assign({},{
                                         width: '100%',
                                         height: container.height == 'auto' ? container.height : container.height + 'px',
-                                        minHeight: '25px', 
+                                        minHeight: '35px', 
                                         textAlign: 'center',
                                         /* overflow: 'hidden',*/
                                         /* border: 0,

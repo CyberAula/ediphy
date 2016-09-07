@@ -77,19 +77,8 @@ export default class GridConfigurator extends Component {
                                this.props.onSortableContainerResized(this.props.id, this.props.parentId, e.target.value);
                              }}/>
                     </InputGroup>
-                </FormGroup>
-                <div className="configurator">
-                    {this.props.container.cols.map((item, index) => {
-                        return (<div className="gc_columns" key={index}
-                                     style={{width: this.props.container.colDistribution[index]+'%'}}>
-                            { item.map((it, index) => {
-                                return <div className="gc_rows" key={index} style={{ height: it+'%'}}></div>
-                            })}
-                        </div>);
-                    })}
-                </div>
                 {React.createElement(FormGroup, {key: 'alignment'},
-                    React.createElement(ControlLabel, {key: 'alignmentlabel'}, 'Alineamiento'), <br key="space"/>,
+                    React.createElement(ControlLabel, {key: 'alignmentlabel'}, 'Alineacíón'), <br key="space"/>,
                         ['left', 'center', 'right']
                             .map((option, index) => {
                                 return (React.createElement('button', 
@@ -102,6 +91,18 @@ export default class GridConfigurator extends Component {
                             })
                     )
                 }
+                </FormGroup>
+                <div className="configurator">
+                    {this.props.container.cols.map((item, index) => {
+                        return (<div className="gc_columns" key={index}
+                                     style={{width: this.props.container.colDistribution[index]+'%'}}>
+                            { item.map((it, index) => {
+                                return <div className="gc_rows" key={index} style={{ height: it+'%'}}></div>
+                            })}
+                        </div>);
+                    })}
+                </div>
+                
 
                 <FormGroup>
                     <ControlLabel>Nº columnas</ControlLabel>
