@@ -63,7 +63,7 @@ var getDescendants = function (state, id) {
     return selected;
 };
 
-var parseEJS = function (path, page, state) {
+var parseEJS = function (path, page, state, fromScorm) {
     return (new EJS({url: path}).render({
         scripts: getScripts(state, page),
         title: state.title,
@@ -71,7 +71,8 @@ var parseEJS = function (path, page, state) {
         navs: state.navItemsById,
         boxesById: state.boxesById,
         boxes: state.boxes,
-        toolbarsById: state.toolbarsById
+        toolbarsById: state.toolbarsById,
+        fromScorm: fromScorm ? fromScorm: false
     }));
 };
 
@@ -109,7 +110,8 @@ export default {
             navs: state.navItemsById,
             boxesById: state.boxesById,
             boxes: state.boxes,
-            toolbarsById: state.toolbarsById
+            toolbarsById: state.toolbarsById,
+            fromScorm: false
         });
     },
     exportScorm: function (state) {
@@ -143,7 +145,7 @@ export default {
                             });
                         }
                     }
-                    var inner = parseEJS(Dali.Config.visor_ejs, page, state);
+                    var inner = parseEJS(Dali.Config.visor_ejs, page, state, true);
                     zip.file(path + nombre + ".html", inner);
                 });
                 zip.file("index.html", Dali.Scorm.getIndex(navs));

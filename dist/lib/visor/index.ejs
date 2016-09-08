@@ -5,12 +5,12 @@
     <title><%=title%></title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="../css/style.css">
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="/css/textStyles.css">
-    <link rel="stylesheet" href="/css/jquery-animVert.css">
-    <link rel="stylesheet" href="/css/cajascolor.css">
-    <link rel="stylesheet" href="/css/compiledsass.css">
+    <link rel="stylesheet" href="<%=fromScorm ? "../":"" %>css/textStyles.css">
+    <link rel="stylesheet" href="<%=fromScorm ? "../":"" %>css/jquery-animVert.css">
+    <link rel="stylesheet" href="<%=fromScorm ? "../":"" %>css/cajascolor.css">
+    <link rel="stylesheet" href="<%=fromScorm ? "../":"" %>css/compiledsass.css">
     <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js" integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
@@ -34,7 +34,7 @@
             <h2><%=navs[page].name%></h2>
         </div>
         <div class="cabtabla_lapiz">
-            <img src="/images/ico_alumno.gif" alt="Alumno"><div id="alumno"> Alumno</div>
+            <img src="<%=fromScorm ? "../":"" %>images/ico_alumno.gif" alt="Alumno"><div id="alumno"> Alumno</div>
         </div>
         <div class="clear"></div>
     </div>
