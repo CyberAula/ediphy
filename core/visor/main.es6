@@ -72,7 +72,7 @@ var parseEJS = function (path, page, state, fromScorm) {
         boxesById: state.boxesById,
         boxes: state.boxes,
         toolbarsById: state.toolbarsById,
-        fromScorm: fromScorm ? fromScorm: false
+        relativePath: fromScorm ? "../" : ""
     }));
 };
 
@@ -111,7 +111,7 @@ export default {
             boxesById: state.boxesById,
             boxes: state.boxes,
             toolbarsById: state.toolbarsById,
-            fromScorm: false
+            relativePath: "/",
         });
     },
     exportScorm: function (state) {
