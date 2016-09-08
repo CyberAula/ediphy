@@ -42,7 +42,8 @@ export default class CarrouselList extends Component {
                                                     e.stopPropagation();
                                                }}>
                                         <span style={{marginLeft: 20*(this.props.navItems[id].level-1)}}>
-                                            <i className="material-icons fileIcon">insert_drive_file</i>   <DaliIndexTitle
+                                            <i className="material-icons fileIcon">{this.props.navItems[id].type == 'slide' ? "slideshow" : "insert_drive_file"}</i>   
+                                        <DaliIndexTitle
                                             id={id}
                                             title={this.props.navItems[id].name}
                                             hidden={this.props.navItems[id].hidden}

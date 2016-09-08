@@ -13,11 +13,12 @@ export function CajasColorBis(base) {
                 main: {
                     __name: "Main",
                     accordions: {
-                        general: {
+                        b_general: {
                             __name: "General",
+                            icon: 'build',
                             buttons: {
                                 nBoxes: {
-                                    __name: "Number of boxes",
+                                    __name: "Número de cajas",
                                     type: 'number',
                                     value: 2,
                                     max: 8,
@@ -25,7 +26,7 @@ export function CajasColorBis(base) {
                                     autoManaged: false
                                 },
                                 rounded: {
-                                    __name: "Border redondeado",
+                                    __name: "Borde redondeado",
                                     type: 'checkbox',
                                     value: 'unchecked',
                                     units: '%',
@@ -64,7 +65,7 @@ export function CajasColorBis(base) {
              var buttonsSC = {};
              var objAux;
              */
-            toolBar.main.accordions.buttonStyle = {__name: "Estilo botones", buttons: {}};
+            toolBar.main.accordions.buttonStyle = {__name: "Estilo títulos",icon: 'palette', buttons: {}};
             for (var i = 0; i < base.getState().nBoxes; i++) {
                 toolBar.main.accordions.buttonStyle.buttons["box" + i] = {
                     __name: 'Caja ' + i,
