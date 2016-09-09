@@ -4,7 +4,7 @@ import {Input,Button, Tooltip, OverlayTrigger} from 'react-bootstrap';
 import interact from 'interact.js';
 import PluginPlaceholder from '../components/PluginPlaceholder';
 import {BOX_TYPES, ID_PREFIX_BOX, ID_PREFIX_PAGE, ID_PREFIX_SECTION, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_SORTABLE_CONTAINER} from '../constants';
-import {ADD_BOX, UPDATE_BOX} from '../actions';
+import {ADD_BOX, UPDATE_BOX, RESIZE_BOX} from '../actions';
 import Dali from './../core/main';
 
 export default class DaliBox extends Component {
@@ -366,7 +366,7 @@ export default class DaliBox extends Component {
         }
 
         let action = this.props.lastActionDispatched;
-        if ((action.type === ADD_BOX || action.type === UPDATE_BOX) &&
+        if ((action.type === ADD_BOX || action.type === UPDATE_BOX || action.type === RESIZE_BOX) &&
             ((action.payload.id || action.payload.ids.id) === this.props.id)) {
             Dali.Plugins.get(toolbar.config.name).afterRender(this.refs.content, toolbar.state);
         }
