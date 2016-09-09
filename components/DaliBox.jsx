@@ -368,7 +368,7 @@ export default class DaliBox extends Component {
         let action = this.props.lastActionDispatched;
         if ((action.type === ADD_BOX || action.type === UPDATE_BOX) &&
             ((action.payload.id || action.payload.ids.id) === this.props.id)) {
-            Dali.Plugins.get(toolbar.config.name).afterRender(this.refs.content, toolbar.state, this.props.id);
+            Dali.Plugins.get(toolbar.config.name).afterRender(this.refs.content, toolbar.state);
         }
     }
 

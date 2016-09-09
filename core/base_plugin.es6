@@ -47,6 +47,7 @@ export default function () {
                     id !== 'getSections' &&
                     id !== 'getInitialState' &&
                     id !== 'handleToolbar' &&
+                    id !== 'afterRender' &&
                     id !== 'getConfigTemplate' &&
                     id !== 'getRenderTemplate') {
                     plugin[id] = descendant[id];
@@ -219,9 +220,10 @@ export default function () {
                 );
             }
         },
-        afterRender: function (element, state) {
+        afterRender: function (element, oldState) {
+            state = oldState;
             if (descendant.afterRender) {
-                descendant.afterRender(element, state);
+                descendant.afterRender(element, oldState);
             }
         },
         update: function (oldState, name, value, sender) {
