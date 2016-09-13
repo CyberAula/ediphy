@@ -12,7 +12,7 @@ export default class DaliNavBar extends Component {
     }
 
     render() {
-        const { t } = this.props;
+
         let disablePlugins = (this.props.navItemsIds.length === 0 || this.props.navItemSelected === 0);
         let modalTitle = "";
         let modalShow = false;
@@ -69,17 +69,17 @@ export default class DaliNavBar extends Component {
                     className="hideonresize"> {i18n.t("Images")}</span></button>
                 <button
                     className={ this.props.hideTab == 'show' && this.props.categoria == 'multimedia' ? 'navButtonPlug active':'navButtonPlug' }
-                    title='Multimedia' disabled={false /*disablePlugins*/}
+                    title={i18n.t("Multimedia")} disabled={false /*disablePlugins*/}
                     onClick={() => {this.openPlugin('multimedia')}}><i className="material-icons">play_circle_filled</i><br/> <span
                     className="hideonresize">{i18n.t("Multimedia")}</span></button>
                 <button
                     className={ this.props.hideTab == 'show' && this.props.categoria == 'animations' ? ' navButtonPlug active':'navButtonPlug' }
-                    title='Animations' disabled={false /*disablePlugins*/}
+                    title={i18n.t("Animations")} disabled={false /*disablePlugins*/}
                     onClick={() => {this.openPlugin('animations')}}><i className="material-icons">toys</i><br/> <span
                     className="hideonresize">{i18n.t("Animations")}</span></button>
                 <button
                     className={ this.props.hideTab == 'show' && this.props.categoria == 'exercises' ? 'navButtonPlug active':'navButtonPlug' }
-                    title='Exercises' disabled={false /*disablePlugins*/}
+                    title={i18n.t("Exercises")} disabled={false /*disablePlugins*/}
                     onClick={() => {this.openPlugin('exercises') }}><i className="material-icons">school</i><br/> <span
                     className="hideonresize">{i18n.t("Exercises")}</span></button>
 
@@ -91,16 +91,16 @@ export default class DaliNavBar extends Component {
                     </Dropdown.Toggle>
                     <Dropdown.Menu id="topMenu" className="pageMenu  super-colors topMenu">
                         <MenuItem disabled={this.props.undoDisabled} eventKey="1">
-                            <button className="dropdownButton" title="Export HTML ZIP"
+                            <button className="dropdownButton" title={i18n.t('messages.export_to_HTML')}
                                     disabled={this.props.undoDisabled}
                                     onClick={() => this.props.export() }><i className="material-icons">file_download</i>
-                                Exportar a HTML
+				    {i18n.t('messages.export_to_HTML')}
                             </button>
                         </MenuItem>
                         <MenuItem disabled={this.props.undoDisabled} eventKey="2">
-                            <button className="dropdownButton" title="Scorm" disabled={this.props.undoDisabled}
-                                    onClick={() => this.props.scorm() }><i className="material-icons">class</i> Exportar
-                                a Scorm
+                            <button className="dropdownButton" title={i18n.t('messages.export_to_SCORM')} disabled={this.props.undoDisabled}
+                                    onClick={() => this.props.scorm() }><i className="material-icons">class</i>	    
+				    {i18n.t('messages.export_to_SCORM')}
                             </button>
                         </MenuItem>
                         <MenuItem divider/>
@@ -110,7 +110,8 @@ export default class DaliNavBar extends Component {
                                         this.props.serverModalOpen()
                                         this.props.opens()
                                }}>
-                                <i className="material-icons">folder_open</i> Abrir
+                                <i className="material-icons">folder_open</i>
+				 {i18n.t('Open')}
                             </button>
                         </MenuItem>
                     </Dropdown.Menu>
@@ -118,11 +119,11 @@ export default class DaliNavBar extends Component {
 
                 <button className="navButton"
                         style={{float:'right', marginRight: '30px'}}
-                        title="Preview"
+                        title={i18n.t('Preview')}
                         disabled={this.props.undoDisabled}
                         onClick={() =>this.props.visor()}><i className="material-icons">visibility</i>
                     <br/>
-                    <span className="hideonresize" style={{fontSize: '12px'}}>Preview</span>
+                    <span className="hideonresize" style={{fontSize: '12px'}}>{i18n.t('Preview')}</span>
                 </button>
             </Col>
             /* jshint ignore:end */

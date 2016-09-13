@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import { Button, FormControl, InputGroup, FormGroup, ControlLabel, OverlayTrigger, Popover, Tooltip} from 'react-bootstrap';
+import i18n from 'i18next';
 
 export default class GridConfigurator extends Component {
     constructor(props) {
@@ -12,11 +13,11 @@ export default class GridConfigurator extends Component {
          let advancedColumns = (
             /* jshint ignore:start */
             <FormGroup>
-                <ControlLabel>Distribución de columnas</ControlLabel>
+                <ControlLabel>{i18n.t('messages.columns_distribution')}</ControlLabel>
                 <FormControl type="text"
                              key="grid"
                              value={this.props.container.colDistribution.join(" ")}
-                             label="Distribución de columnas"
+                             label={i18n.t('messages.columns_distribution')}
                              style={{width: '100%'}}
                              onChange={e => {
                             let dist = e.target.value.split(" ").map(function (i){
@@ -44,7 +45,7 @@ export default class GridConfigurator extends Component {
         return (
             /* jshint ignore:start */
             <div style={{width: '100%'}}>
-                <h4 className="sortableToolbarTitle">Estructura</h4>
+                <h4 className="sortableToolbarTitle">{i18n.t('Structure')}</h4>
                 <FormGroup>
                     <OverlayTrigger rootClose trigger="click" placement="left"
                                     overlay={height != 'auto' ? tooltip: <Tooltip id="none" style={{display: 'none'}}/>}>

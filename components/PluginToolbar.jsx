@@ -5,6 +5,7 @@ import GridConfigurator from '../components/GridConfigurator.jsx';
 import Select from 'react-select';
 import VishSearcher from './VishSearcher';
 import Dali from './../core/main';
+import i18n from 'i18next';
 
 export default class PluginToolbar extends Component {
     constructor(props) {
@@ -127,13 +128,13 @@ export default class PluginToolbar extends Component {
                 <div className="pestana" onClick={() => {this.setState({open: !this.state.open})}}></div>
                 <div id="tools" style={{width:  this.state.open? '250px':'40px'}} className="toolbox">
                     <OverlayTrigger placement="left"
-                                    overlay={ <Tooltip className={this.state.open ? 'hidden':''} id="tooltip_props" >propiedades</Tooltip>}>
+                                    overlay={ <Tooltip className={this.state.open ? 'hidden':''} id="tooltip_props" >{i18n.t('Properties')}</Tooltip>}>
                         <div onClick={() => {this.setState({open: !this.state.open})}}
                              style={{display: this.props.carouselShow? 'block':'none'}}
                              className={this.state.open ? 'carouselListTitle toolbarSpread':'carouselListTitle toolbarHide'}>
 
                             <div className="toolbarTitle"><i className="material-icons">settings</i><span
-                                className="toolbarTitletxt">Propiedades</span></div>
+                                className="toolbarTitletxt">{i18n.t('Properties')}</span></div>
                             <div className="pluginTitleInToolbar"> {toolbar.config.name || ""}</div>
                         </div>
                     </OverlayTrigger>

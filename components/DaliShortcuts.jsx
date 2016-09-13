@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import {Input, Button, Tooltip, OverlayTrigger} from 'react-bootstrap';
 import interact from 'interact.js';
 import {BOX_TYPES, ID_PREFIX_BOX, ID_PREFIX_PAGE, ID_PREFIX_SECTION, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_SORTABLE_CONTAINER} from '../constants';
+import i18n from 'i18next';
 
 export default class DaliShortcuts extends Component {
     constructor(props) {
@@ -21,7 +22,7 @@ export default class DaliShortcuts extends Component {
                      style={{display: (box != -1 && box.type != "sortable" ) ? 'block' : 'none' }}>
                     { (box.container != 0) ? (
                         <OverlayTrigger placement="top"
-                                        overlay={ <Tooltip id="ajustaradocumento"> Ajustar a documento </Tooltip>}>
+                                        overlay={ <Tooltip id="ajustaradocumento">{ i18n.t('messages.adjust_to_document') } </Tooltip>}>
                             <button className="daliTitleButton"
                                     onClick={(e) => {
                                 let newWidth = (box.width == '100%') ? (toolbar.config.category !== 'text' ? '20%' : ''): '100%'
@@ -33,7 +34,7 @@ export default class DaliShortcuts extends Component {
                     ) : (<span></span> )
                     }
                     { (toolbar && toolbar.config && toolbar.config.needsTextEdition) ? (
-                        <OverlayTrigger placement="top" overlay={ <Tooltip id="editartexto" >Editar texto</Tooltip>}>
+                        <OverlayTrigger placement="top" overlay={ <Tooltip id="editartexto" >{ i18n.t('messages.edit_text') }</Tooltip>}>
                             <button className="daliTitleButton"
                                     onClick={(e) => {
                                  this.props.onTextEditorToggled(toolbar.id, !toolbar.showTextEditor, (toolbar.showTextEditor) ? CKEDITOR.instances[toolbar.id].getData() : null)
@@ -43,7 +44,7 @@ export default class DaliShortcuts extends Component {
                         </OverlayTrigger>
                     ) : (<span></span> )
                     }
-                    <OverlayTrigger placement="top" overlay={ <Tooltip id="borrarcaja" >Borrar plugin</Tooltip>}>
+                    <OverlayTrigger placement="top" overlay={ <Tooltip id="borrarcaja" >{ i18n.t('messages.erase_plugin') }</Tooltip>}>
                         <button className="daliTitleButton"
                                 onClick={(e) => {
                                 this.props.onBoxDeleted(this.props.box.id, this.props.box.parent, this.props.box.container);
