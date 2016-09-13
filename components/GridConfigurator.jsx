@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { Button, FormControl, InputGroup, FormGroup, ControlLabel, OverlayTrigger, Popover, Tooltip} from 'react-bootstrap';
-
+import RadioButtonFormGroup  from '../components/RadioButtonFormGroup';
 export default class GridConfigurator extends Component {
     constructor(props) {
         super(props);
@@ -9,7 +9,7 @@ export default class GridConfigurator extends Component {
 
     render() {
         let alignment =  this.props.container.style ? (this.props.container.style.textAlign ? this.props.container.style.textAlign : 'center') : 'center';  
-         let advancedColumns = (
+        let advancedColumns = (
             /* jshint ignore:start */
             <FormGroup>
                 <ControlLabel>Distribución de columnas</ControlLabel>
@@ -77,20 +77,14 @@ export default class GridConfigurator extends Component {
                                this.props.onSortableContainerResized(this.props.id, this.props.parentId, e.target.value);
                              }}/>
                     </InputGroup>
-                {React.createElement(FormGroup, {key: 'alignment'},
-                    React.createElement(ControlLabel, {key: 'alignmentlabel'}, 'Alineacíón'), <br key="space"/>,
-                        ['left', 'center', 'right']
-                            .map((option, index) => {
-                                return (React.createElement('button', 
-                                        {key: 'align_' + index,
-                                        value: option, 
-                                        className: (alignment === option ? 'ribShortcut selectedAlignment' : 'ribShortcut unselectedAlignment'), 
-                                        onClick: e => {this.props.onChangeSortableProps(this.props.id, this.props.parentId, 'textAlign', option)}
-                                        }, 
-                                        <i className="material-icons">{"format_align_"+option}</i>))
-                            })
-                    )
-                }
+                 
+                <RadioButtonFormGroup   key="alignment"
+                                        title='Alineación'
+                                        options={['left', 'center', 'right']}
+                                        selected={alignment}
+                                        click={(option) => {this.props.onChangeSortableProps(this.props.id, this.props.parentId, 'textAlign', option)}}
+                                        tooltips={['Alinear a la izquierda', 'Alinear al centro','Alinear a la derecha']}
+                                        icons={['format_align_left', 'format_align_center', 'format_align_right']} />
                 </FormGroup>
                 <div className="configurator">
                     {this.props.container.cols.map((item, index) => {

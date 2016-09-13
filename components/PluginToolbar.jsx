@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Tooltip, FormControl, OverlayTrigger, FormGroup, Radio, ControlLabel, Checkbox,  Button, ButtonGroup, PanelGroup, Accordion, Panel, Tabs, Tab} from 'react-bootstrap';
 import ReactDOM from 'react-dom';
 import GridConfigurator from '../components/GridConfigurator.jsx';
+import RadioButtonFormGroup from '../components/RadioButtonFormGroup.jsx';
 import Select from 'react-select';
 import VishSearcher from './VishSearcher';
 import Dali from './../core/main';
@@ -236,7 +237,23 @@ export default class PluginToolbar extends Component {
                     </div>
                     /* jshint ignore:end */
                 );
+
             }
+
+        }
+        
+        if (accordion.__name === 'Estructura' && this.props.box.container !== 0){
+            children.push(
+                /* jshint ignore:start */
+                <RadioButtonFormGroup   key="verticalalignment"  
+                                        title='Alineación vertical'
+                                        options={['top', 'middle', 'bottom']}
+                                        selected={this.props.box.verticalAlign ? this.props.box.verticalAlign : 'top'}
+                                        click={(option) => {this.props.onVerticallyAlignBox(this.props.boxSelected, option)}}
+                                        tooltips={['La parte superior del elemento se alinea con la parte superior del elemento más alto de la línea', 'El elemento se alinea al medio de la línea','La parte inferior del elemento se alinea con la parte superior del elemento más bajo de la línea']}
+                                        icons={['vertical_align_top', 'vertical_align_center', 'vertical_align_bottom']} /> 
+                /* jshint ignore:end */
+            );
         }
         return React.createElement(Panel, props, children);
     }

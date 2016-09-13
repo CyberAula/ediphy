@@ -199,6 +199,7 @@
                          left: <%=box.position.x%>px;
                          top: <%=box.position.y%>px;
                          pointer-events: all  !important;
+                         vertical-align: <%=box.verticalAlign ? box.verticalAlign : 'middle' %>;
                          width: <%=box.width %><%=(box.width  && isNaN(box.width ))? "" : "px" %>;
                          height: <%=box.height%><%=(box.height && isNaN(box.height))? "" : "px" %>;
                          cursor:  default ; "  >

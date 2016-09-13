@@ -183,15 +183,14 @@ export default class DaliBox extends Component {
                     width: box.width ,
                     height: box.height,
                     maxWidth: '100%',
-                    maxHeight: '100%',
-                    /*verticalAlign: box.verticalAlign ? box.verticalAlign : 'top' ,*/
+                    maxHeight: '100%', 
+                    verticalAlign: box.verticalAlign ? box.verticalAlign : 'middle' ,
                     /*border: ((box.container !== 0 && vis) ? (this.borderSize + "px dashed #555") : 0),*/
                     touchAction: 'none',
                     msTouchAction: 'none',
                     cursor: vis ? 'inherit': 'default' //esto evita que aparezcan los cursores de move y resize cuando la caja no está seleccionada
                 }}>
-
-                {border}
+                 {border}
                 {content}
                 {toolbar.state.__text ?
                     <div contentEditable={true} id={box.id} ref={"textarea"} className="textAreaStyle"

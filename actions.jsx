@@ -10,6 +10,7 @@ export const UPDATE_BOX = 'UPDATE_BOX';
 export const DELETE_BOX = 'DELETE_BOX';
 export const REORDER_BOX = 'REORDER_BOX';
 export const DROP_BOX = 'DROP_BOX';
+export const VERTICALLY_ALIGN_BOX = 'VERTICALLY_ALIGN_BOX';
 export const INCREASE_LEVEL = 'INCREASE_LEVEL';
 
 export const RESIZE_SORTABLE_CONTAINER = 'RESIZE_SORTABLE_CONTAINER';
@@ -111,6 +112,10 @@ export function reorderBox(ids, parent) {
 
 export function dropBox(id, row, col) {
     return {type: DROP_BOX, payload: {id, row, col}};
+}
+
+export function verticallyAlignBox(id, verticalAlign) {
+    return {type: VERTICALLY_ALIGN_BOX, payload: {id, verticalAlign}};
 }
 
 export function increaseBoxLevel() {
