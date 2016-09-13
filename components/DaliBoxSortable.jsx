@@ -5,6 +5,7 @@ import interact from 'interact.js';
 import DaliBox from '../components/DaliBox';
 import {ID_PREFIX_SORTABLE_CONTAINER} from '../constants';
 import Dali from './../core/main';
+import i18n from 'i18next';
 
 export default class DaliBoxSortable extends Component {
     render() {
@@ -94,7 +95,7 @@ export default class DaliBoxSortable extends Component {
                     })}
                 </div>
                 <div className="dragContentHere">
-                    Drag content here
+                    {i18n.t("messages.drag_content")}
                 </div>
             </div>
             /* jshint ignore:end */

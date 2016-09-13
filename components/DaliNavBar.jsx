@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import {Col, Row, Input, Button, OverlayTrigger, Popover, Dropdown, Tooltip, MenuItem} from 'react-bootstrap';
 import DaliIndexTitle from '../components/DaliIndexTitle';
+import i18n from 'i18next';
+
 
 export default class DaliNavBar extends Component {
 
@@ -10,6 +12,7 @@ export default class DaliNavBar extends Component {
     }
 
     render() {
+        const { t } = this.props;
         let disablePlugins = (this.props.navItemsIds.length === 0 || this.props.navItemSelected === 0);
         let modalTitle = "";
         let modalShow = false;
@@ -58,27 +61,27 @@ export default class DaliNavBar extends Component {
                     title='Text' disabled={false /*disablePlugins*/}
                     onClick={() => {this.openPlugin('text')}}><i
                     className="material-icons">format_color_text</i><br/> <span
-                    className="hideonresize">Texto</span></button>
+                    className="hideonresize">{i18n.t("Text")}</span></button>
                 <button
                     className={ this.props.hideTab == 'show' && this.props.categoria == 'image' ? 'navButtonPlug active':'navButtonPlug' }
                     title='Images' disabled={false /*disablePlugins*/}
                     onClick={() => { this.openPlugin('image')}}><i className="material-icons">image</i><br/><span
-                    className="hideonresize"> Imagen</span></button>
+                    className="hideonresize"> {i18n.t("Images")}</span></button>
                 <button
                     className={ this.props.hideTab == 'show' && this.props.categoria == 'multimedia' ? 'navButtonPlug active':'navButtonPlug' }
                     title='Multimedia' disabled={false /*disablePlugins*/}
                     onClick={() => {this.openPlugin('multimedia')}}><i className="material-icons">play_circle_filled</i><br/> <span
-                    className="hideonresize">Multimedia</span></button>
+                    className="hideonresize">{i18n.t("Multimedia")}</span></button>
                 <button
                     className={ this.props.hideTab == 'show' && this.props.categoria == 'animations' ? ' navButtonPlug active':'navButtonPlug' }
                     title='Animations' disabled={false /*disablePlugins*/}
                     onClick={() => {this.openPlugin('animations')}}><i className="material-icons">toys</i><br/> <span
-                    className="hideonresize">Animaciones</span></button>
+                    className="hideonresize">{i18n.t("Animations")}</span></button>
                 <button
                     className={ this.props.hideTab == 'show' && this.props.categoria == 'exercises' ? 'navButtonPlug active':'navButtonPlug' }
                     title='Exercises' disabled={false /*disablePlugins*/}
                     onClick={() => {this.openPlugin('exercises') }}><i className="material-icons">school</i><br/> <span
-                    className="hideonresize">Ejercicios</span></button>
+                    className="hideonresize">{i18n.t("Exercises")}</span></button>
 
 
                 <Dropdown id="dropdown-menu" style={{float:'right'}}>

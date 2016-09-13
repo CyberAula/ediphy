@@ -24,6 +24,7 @@ import DaliNavBar from '../components/DaliNavBar';
 import ServerFeedback from '../components/ServerFeedback';
 import Dali from './../core/main';
 
+
 class DaliApp extends Component {
     constructor(props) {
         super(props);

@@ -5,6 +5,7 @@ import Section from '../components/Section';
 import PageMenu from '../components/PageMenu';
 import DaliIndexTitle from '../components/DaliIndexTitle';
 
+
 export default class CarrouselList extends Component {
     render() {
         return (

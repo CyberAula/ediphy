@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { I18nextProvider } from 'react-i18next';
 import { createStore, compose, applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import sortable from 'jquery-ui/ui/widgets/sortable';
@@ -25,5 +24,7 @@ new sortable();
 const finalCreateStore = compose(applyMiddleware(thunkMiddleware), DevTools.instrument())(createStore);
 
 /* jshint ignore:start */
-ReactDOM.render((<I18nextProvider i18n={ i18n }><ReduxProvider finalCreateStore={finalCreateStore}/></I18nextProvider>), document.getElementById('root'));
+ReactDOM.render((<ReduxProvider finalCreateStore={finalCreateStore}/>), document.getElementById('root'));
 /* jshint ignore:end */
+
+console.log(i18n.t('salmon'));
