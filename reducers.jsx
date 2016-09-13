@@ -520,7 +520,7 @@ function navItemsIds(state = [], action = {}) {
     switch (action.type) {
         case ADD_NAV_ITEM:
             let nState = state.slice();
-            nState.splice(action.payload.position - 1, 0, action.payload.id);
+            nState.splice(action.payload.position-1 , 0, action.payload.id);    
             return nState;
         case REMOVE_NAV_ITEM:
             let newState = state.slice();
@@ -614,7 +614,7 @@ function navItemsById(state = {}, action = {}) {
 
                 action.payload.newIndId.forEach(elem => {
                     newSt = Object.assign({}, newSt, {
-                        [elem]: Object.assign({}, newSt[elem], {position: action.payload.newIndId.indexOf(elem)})
+                        [elem]: Object.assign({}, newSt[elem], {position: action.payload.newIndId.indexOf(elem)+1})
                     });
                 });
             }

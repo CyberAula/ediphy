@@ -14,7 +14,7 @@ require('expose?Dali!./core/temp_hack');
 require('./dist/css/textStyles.css');
 require('./dist/css/cajascolor.css');
 require('./dist/css/jquery-animVert.css');
-require('./dist/css/ejercicios.css');
+//require('./dist/css/ejercicios.css');
 require('./sass/style.scss');
 
 // We make sure JQuery UI Sortable Widget is initialized
