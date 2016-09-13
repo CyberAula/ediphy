@@ -12,7 +12,7 @@ i18n
     fallbackLng: 'en',
     attributes: ['t', 'i18n'],
     resources: translations,
-    debug: true
+    debug: false
   });
 
 

@@ -26,5 +26,3 @@ const finalCreateStore = compose(applyMiddleware(thunkMiddleware), DevTools.inst
 /* jshint ignore:start */
 ReactDOM.render((<ReduxProvider finalCreateStore={finalCreateStore}/>), document.getElementById('root'));
 /* jshint ignore:end */
-
-console.log(i18n.t('salmon'));

@@ -14,6 +14,16 @@ export function BasicImage(base) {
                 icon: 'image'
             };
         },
+        getLocales: function(){
+            return {
+                en : {
+                    "hola" : "hello"
+                },
+                es : {
+                    "hola": "hola"
+                }
+            };
+        },
         getToolbar: function () {
             return {
                 main: {
