@@ -25,5 +25,5 @@ new sortable();
 const finalCreateStore = compose(applyMiddleware(thunkMiddleware), DevTools.instrument())(createStore);
 
 /* jshint ignore:start */
-ReactDOM.render((<ReduxProvider finalCreateStore={finalCreateStore}/>), document.getElementById('root'));
+ReactDOM.render((<I18nextProvider i18n={ i18n }><ReduxProvider finalCreateStore={finalCreateStore}/></I18nextProvider>), document.getElementById('root'));
 /* jshint ignore:end */
