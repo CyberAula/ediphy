@@ -37,9 +37,22 @@
           node.attr = attrs.reduce(function(pre, attr) {
             var name = attr.name;
             var value = attr.value;
+            var prefixEvents = ["onComposition","onKey","onContext","onDouble","onDrag","onMouse","onTouch","onCan","onDuration","onLoaded","onRate","onTime","onVolume","onAnimation","onTransition"];
 
             if(name.startsWith("on")){
               name = "on" + name.charAt(2).toUpperCase() + name.substring(3);
+
+              for(var i = 0; i < prefixEvents.length; i++){
+                if(name === "onCanplaythrough"){
+                  name = "onCanPlayThrough";
+                }else{
+                  if(name.startsWith(prefixEvents[i])){
+                    name = prefixEvents[i] + name.charAt(prefixEvents[i].length).toUpperCase() + name.substring(prefixEvents[i].length+1);                
+                    break;
+                  }
+                }
+              }
+        
             }
             if(name === 'style'){
               var keyPattern = /[-\w]+:[\s]*/g;
