@@ -13,10 +13,15 @@ export default class Section extends Component {
             <div id={this.props.id}
                  className="drag-handle"
                  style={{paddingTop: 0}}
+                 onMouseDown={e => {
+                    this.props.onNavItemSelected(navItem.id);
+                    e.stopPropagation();
+                 }}
                  onClick={e => {
                     this.props.onNavItemSelected(navItem.id);
                     e.stopPropagation();
-                 }}>
+                 }}
+                 >
                 <div className={"navItemBlock " + classSelected}>
                     <span style={{marginLeft: 20*(this.props.navItems[this.props.id].level-1)}}>
 
@@ -26,6 +31,8 @@ export default class Section extends Component {
                     }}><i onClick={e => {
                         this.props.onNavItemExpanded(navItem.id, !navItem.isExpanded);
                         e.stopPropagation();}}
+
+
                           className={classSelected + '  material-icons'}>{navItem.isExpanded ? "keyboard_arrow_down" : "keyboard_arrow_right"}</i>
                     </button>
 
@@ -63,10 +70,14 @@ export default class Section extends Component {
                                     return <h4 key={index}
                                                id={id}
                                                className={'navItemBlock ' + classSelected}
-                                               onClick={e => {
+                                               onMouseDown={e => {
                                                     this.props.onNavItemSelected(id);
                                                     e.stopPropagation();
-                                                }}>
+                                                }}
+                                                 onClick={e => {
+                                                    this.props.onNavItemSelected(navItem.id);
+                                                    e.stopPropagation();
+                                                 }}>
                                                 <span style={{marginLeft: 30*(this.props.navItems[id].level-1)}}>
                                                     <i className="material-icons fileIcon">{this.props.navItems[id].type == 'slide' ? "slideshow" : "insert_drive_file"}</i>    
                                                 <DaliIndexTitle
