@@ -49,7 +49,8 @@ export default function () {
                     id !== 'handleToolbar' &&
                     id !== 'afterRender' &&
                     id !== 'getConfigTemplate' &&
-                    id !== 'getRenderTemplate') {
+                    id !== 'getRenderTemplate' &&
+                    id !== 'getLocales') {
                     plugin[id] = descendant[id];
                 }
             });
@@ -57,6 +58,15 @@ export default function () {
         init: function () {
             if (descendant.init) {
                 descendant.init();
+            }
+        },
+        getLocales: function(){
+            var languages;
+            if(descendant.getLocales){
+                languages = descendant.getLocales();
+                for (var language in languages) {
+                    
+                }
             }
         },
         getConfig: function () {

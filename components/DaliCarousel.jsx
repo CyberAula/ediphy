@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import {Button,Col} from 'react-bootstrap';
 import CarrouselList from '../components/CarrouselList';
+import i18n from 'i18next';
 
 export default class DaliCarousel extends Component {
 
@@ -37,7 +38,7 @@ export default class DaliCarousel extends Component {
                        className={this.props.carouselShow ? 'carouselListTitle toolbarSpread':'carouselListTitle toolbarHide'}>
                         <i style={{fontSize: this.props.carouselShow ? "16px":"28px" }} className="material-icons">format_list_numbered</i>
                         {!this.props.carouselShow ? <br/> : null}
-                        <div className="textIndex">ÍNDICE</div>
+                        <div className="textIndex">{i18n.t('INDEX')}</div>
                         <i style={{
                             fontSize: this.props.carouselShow ? "16px":"32px",
                             position: this.props.carouselShow ? "absolute" : "initial",

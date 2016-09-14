@@ -32,6 +32,7 @@ export default function () {
                     Dali.Plugins[id] = require('./../plugins/' + id + '/' + id)[id](plugin);
                     plugin.create(Dali.Plugins[id]);
                     plugin.init();
+                    plugin.getLocales();
                     pluginInstancesList[id] = plugin;
                     pluginConfigs.push(plugin.getConfig());
 

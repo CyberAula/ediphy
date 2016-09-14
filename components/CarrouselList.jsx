@@ -5,6 +5,7 @@ import Section from '../components/Section';
 import PageMenu from '../components/PageMenu';
 import DaliIndexTitle from '../components/DaliIndexTitle';
 
+
 export default class CarrouselList extends Component {
     render() {
         return (
@@ -37,10 +38,15 @@ export default class CarrouselList extends Component {
                                 return <h4 key={index}
                                            id={id}
                                            className={'navItemBlock ' +classSelected}
-                                           onClick={e => {
+                                           onMouseDown={e => {
                                                     this.props.onNavItemSelected(id);
                                                     e.stopPropagation();
-                                               }}>
+                                               }}
+                                            onClick={e => {
+                                                this.props.onNavItemSelected(navItem.id);
+                                                e.stopPropagation();
+                                             }}
+                                               >
                                         <span style={{marginLeft: 20*(this.props.navItems[id].level-1)}}>
                                             <i className="material-icons fileIcon">{this.props.navItems[id].type == 'slide' ? "slideshow" : "insert_drive_file"}</i>   
                                         <DaliIndexTitle
@@ -124,21 +130,16 @@ export default class CarrouselList extends Component {
     }
 
     calculateNewPosition() {
-        var navItem = this.props.navItems[this.props.navItemSelected];
-        var nextPosition;
 
-        if (this.props.navItems[this.props.navItemSelected].type === "section") {
-            if (this.props.navItems[navItem.id].children.length > 0) {
-                nextPosition = this.props.navItems[this.props.navItems[navItem.id].children[this.props.navItems[navItem.id].children.length - 1]].position;
-            } else {
-                nextPosition = navItem.position;
+        if(this.props.navItems[this.props.navItemSelected].type === "section"){
+            for(var i = this.props.navItemsIds.indexOf(this.props.navItemSelected)+1; i < this.props.navItemsIds.length; i++ ){
+                if( this.props.navItems[this.props.navItemsIds[i]].level <= this.props.navItems[this.props.navItemSelected].level){
+                    return i+1;
+                }
             }
-        } else {
-            nextPosition = navItem.children.length;
         }
-        nextPosition++;
-
-        return nextPosition;
+        
+        return this.props.navItemsIds.length+1;
     }
 
     findChildren(ids) {
@@ -207,7 +208,6 @@ export default class CarrouselList extends Component {
             },
             start: (event, ui) => {
                 $("#" + this.props.navItemSelected).css("opacity", "0.5");
-                // console.log($(".selected").css("background-color"));
             },
             stop: (event, ui) => {
                 //$(".selected").css("background-color", "rgba(84, 84, 84 , 1)");

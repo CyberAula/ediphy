@@ -61,7 +61,7 @@ export default function () {
                     id !== 'getInitialState' &&
                     id !== 'handleToolbar' &&
                     id !== 'getConfigTemplate' &&
-                    id !== 'getRenderTemplate') {
+                    id !== 'getRenderTemplate' ) {
                     plugin[id] = descendant[id];
                 }
             });
