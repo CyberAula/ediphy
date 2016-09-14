@@ -11,5 +11,6 @@ export default {
     API_Private: api_private(),
     Plugins: Plugins(),
     Visor: Visor,
-    Scorm: Scorm
+    Scorm: Scorm,
+    i18n: i18n
 };

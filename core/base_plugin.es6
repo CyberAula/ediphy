@@ -61,12 +61,13 @@ export default function () {
             }
         },
         getLocales: function(){
-            var languages;
+            var languages,current_language;
             if(descendant.getLocales){
                 languages = descendant.getLocales();
-                for (var language in languages) {
-                    
-                }
+                current_language = Dali.i18n.language;
+                languages = defaultFor(languages,{});
+
+                Dali.i18n.addResourceBundle(current_language, 'translation', languages[current_language], true, false);
             }
         },
         getConfig: function () {
@@ -104,7 +105,7 @@ export default function () {
                 }
                 if (needsTextEdition) {
                     if (!state.__text) {
-                        state.__text = "Text goes here";
+                        state.__text = Dali.i18n.t("text_here");
                     }
                     if (!descendant.getRenderTemplate) {
                         descendant.getRenderTemplate = function (state) {

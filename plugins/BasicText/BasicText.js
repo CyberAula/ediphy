@@ -9,13 +9,43 @@ export function BasicText(base) {
                 icon: 'format_color_text'
             };
         },
+         getLocales: function(){
+            return {
+                en : {
+                    "BasicText" : {
+                        "background_color" : "Background color",
+                        "border_color" : "Border color",
+                        "border_size" : "Border Size",
+                        "border_style" : "Border Style",
+                        "box_style" : "Box style",
+                        "opacity" : "Opacity",
+                        "padding" : "Padding",
+                        "radius" : "Radius",
+                        "source" : "Source",
+                    }
+                },
+                es : {
+                      "BasicText" : {
+                        "background_color" : "Color de fondo",
+                        "border_color" : "Color de borde",
+                        "border_size" : "Grosor de borde",
+                        "border_style" : "Estilo de borde",
+                        "box_style" : "Estilo caja",
+                        "opacity" : "Opacidad",
+                        "padding" : "Padding",
+                        "radius" : "Radio",
+                        "source" : "Origen",
+                    }
+                }
+            };
+        },
         getToolbar: function () {
             return {
                 main: {
                     __name: "Main",
                     accordions: {
                         style: {
-                            __name: "Estilo caja",
+                            __name: Dali.i18n.t('BasicText.source'),
                             icon: 'palette',
                             buttons: {
                                 padding: {
@@ -27,7 +57,7 @@ export function BasicText(base) {
                                     units: 'px'
                                 },
                                 borderWidth: {
-                                    __name: 'Grosor de borde',
+                                    __name: Dali.i18n.t('BasicText.border_size'),
                                     type: 'number',
                                     value: '0px',
                                     min: 0,
@@ -35,18 +65,18 @@ export function BasicText(base) {
                                     units: 'px'
                                 },
                                 borderStyle: {
-                                    __name: 'Estilo de borde',
+                                    __name: Dali.i18n.t('BasicText.border_style'),
                                     type: 'select',
                                     value: 'solid',
                                     options: ['none', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset', 'initial', 'inherit']
                                 },
                                 borderColor: {
-                                    __name: 'Color de borde',
+                                    __name: Dali.i18n.t('BasicText.border_color'),
                                     type: 'color',
                                     value: '#000000'
                                 },
                                 borderRadius: {
-                                    __name: 'Radio',
+                                    __name: Dali.i18n.t('BasicText.radius'),
                                     type: 'number',
                                     value: '0%',
                                     min: '0',
@@ -55,7 +85,7 @@ export function BasicText(base) {
                                     units: '%'
                                 },
                                 opacity: {
-                                    __name: 'Opacidad',
+                                    __name: Dali.i18n.t('BasicText.opacity'),
                                     type: 'range',
                                     value: 1,
                                     min: 0,

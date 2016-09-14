@@ -4,7 +4,7 @@ import {ID_PREFIX_SECTION, ID_PREFIX_PAGE, ID_PREFIX_SORTABLE_BOX, BOX_TYPES} fr
 import Section from '../components/Section';
 import PageMenu from '../components/PageMenu';
 import DaliIndexTitle from '../components/DaliIndexTitle';
-
+import i18n from 'i18next';
 
 export default class CarrouselList extends Component {
     render() {
@@ -48,7 +48,7 @@ export default class CarrouselList extends Component {
                                              }}
                                                >
                                         <span style={{marginLeft: 20*(this.props.navItems[id].level-1)}}>
-                                            <i className="material-icons fileIcon">{this.props.navItems[id].type == 'slide' ? "slideshow" : "insert_drive_file"}</i>   
+                                            <i className="material-icons fileIcon">{this.props.navItems[id].type == 'slide' ? "slideshow" : "insert_drive_file"}</i>
                                         <DaliIndexTitle
                                             id={id}
                                             title={this.props.navItems[id].name}
@@ -97,8 +97,8 @@ export default class CarrouselList extends Component {
                               onPageAdded={this.props.onSectionAdded}/>
 
                     <OverlayTrigger trigger={["click", "focus"]} placement="top" overlay={
-                        <Popover id="popov" title="Eliminar página">
-                            <i style={{color: 'yellow', fontSize: '13px'}} className="material-icons">warning</i> Esta acción borrará todo el contenido de la página.<br/>
+                        <Popover id="popov" title={i18n.t("delete_page")}>
+                            <i style={{color: 'yellow', fontSize: '13px'}} className="material-icons">warning</i> {i18n.t("messages.delete_page")}<br/>
                                 <Button className="popoverButton"
                                     disabled={this.props.navItemSelected === 0}
                                     style={{float: 'right'}}
@@ -109,12 +109,12 @@ export default class CarrouselList extends Component {
                                                 this.props.onNavItemRemoved(ids, this.props.navItems[this.props.navItemSelected].parent, boxes );
                                             }
                                         }>
-                                    Aceptar
+                                    {i18n.t("Accept")}
                                 </Button>
                                 <Button className="popoverButton"
                                     disabled={this.props.navItemSelected === 0}
                                     style={{float: 'right'}}  >
-                                    Cancelar
+                                    {i18n.t("Cancel")}
                                 </Button>
                          </Popover>}>
                         <Button className="carrouselButton"
@@ -138,7 +138,7 @@ export default class CarrouselList extends Component {
                 }
             }
         }
-        
+
         return this.props.navItemsIds.length+1;
     }
 

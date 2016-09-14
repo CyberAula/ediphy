@@ -8,17 +8,39 @@ export function CajasColorBis(base) {
                 icon: 'view_column'
             };
         },
+        getLocales: function(){
+            return {
+                en : {
+                    "CajasColorBis" : {
+                        "Box" : "Box ",
+                        "cajascolor_type" : "Cajascolor Type",
+                        "general" : "General",
+                        "number_of_boxes" : "Number of Boxes",
+                        "rounded_border" : "Rouded border",
+                    }
+                },
+                es : {
+                      "CajasColorBis" : {
+                        "Box" : "Caja ",
+                        "cajascolor_type" : "Tipo de cajas color",
+                        "general" : "General",
+                        "number_of_boxes" : "Número de cajas",
+                        "rounded_border" : "Borde redondeado",
+                    }
+                }
+            };
+        },
         getToolbar: function () {
             var toolBar = {
                 main: {
                     __name: "Main",
                     accordions: {
                         b_general: {
-                            __name: "General",
+                            __name: Dali.i18n.t('CajasColorBis.general'),
                             icon: 'build',
                             buttons: {
                                 nBoxes: {
-                                    __name: "Número de cajas",
+                                    __name: Dali.i18n.t('CajasColorBis.number_of_boxes'),
                                     type: 'number',
                                     value: 2,
                                     max: 8,
@@ -26,7 +48,7 @@ export function CajasColorBis(base) {
                                     autoManaged: false
                                 },
                                 rounded: {
-                                    __name: "Borde redondeado",
+                                    __name: Dali.i18n.t('CajasColorBis.rounded_border'),
                                     type: 'checkbox',
                                     value: 'unchecked',
                                     units: '%',
@@ -49,7 +71,7 @@ export function CajasColorBis(base) {
                                  autoManaged: false
                                  },*/
                                 radios: {
-                                    __name: 'Tipo de cajas color',
+                                    __name: Dali.i18n.t('CajasColorBis.cajascolor_type'),
                                     type: 'radio',
                                     value: 'HorizontalNoImagen',
                                     options: ['HorizontalNoImagen', 'HorizontalSiImagen', 'VerticalNoImagen', 'VerticalSiImagen'],
@@ -68,7 +90,7 @@ export function CajasColorBis(base) {
             toolBar.main.accordions.buttonStyle = {__name: "Estilo títulos",icon: 'palette', buttons: {}};
             for (var i = 0; i < base.getState().nBoxes; i++) {
                 toolBar.main.accordions.buttonStyle.buttons["box" + i] = {
-                    __name: 'Caja ' + i,
+                    __name: Dali.i18n.t('CajasColorBis.Box') + i,
                     type: 'select',
                     value: this.defaultColors[i],
                     options: ['verdeoscuro', 'cyan', 'granate', 'naranja', 'rojo', 'azul', 'marron', 'rojizo', 'azulpuro', 'azulverdoso', 'violeta', 'marronvivo', 'gris', 'amarillo'],

@@ -7,13 +7,45 @@ export function Webpage(base) {
                 icon: 'public'
             };
         },
+        getLocales: function(){
+            return {
+                en : {
+                    "Webpage" : {
+                        "background_color" : "Background color",
+                        "border_color" : "Border color",
+                        "border_size" : "Border Size",
+                        "border_style" : "Border Style",
+                        "box_style" : "Box style",
+                        "opacity" : "Opacity",
+                        "padding" : "Padding",
+                        "radius" : "Radius",
+                        "source" : "Source",
+                        "URL" : "URL",
+                    }
+                },
+                es : {
+                      "Webpage" : {
+                        "background_color" : "Color de fondo",
+                        "border_color" : "Color de borde",
+                        "border_size" : "Grosor de borde",
+                        "border_style" : "Estilo de borde",
+                        "box_style" : "Estilo caja",
+                        "opacity" : "Opacidad",
+                        "padding" : "Padding",
+                        "radius" : "Radio",
+                        "source" : "Origen",
+                        "URL" : "URL",
+                    }
+                }
+            };
+        },
         getToolbar: function () {
             return {
                 main: {
                     __name: "Main",
                     accordions: {
                         basic: {
-                            __name: "URL",
+                            __name: Dali.i18n.t('Webpage.URL'),
                             icon: 'link',
                             buttons: {
                                 url: {
@@ -25,7 +57,7 @@ export function Webpage(base) {
                             }
                         },
                         style: {
-                            __name: "Estilo caja",
+                            __name: Dali.i18n.t('Webpage.box_style'),
                             icon: 'palette',
                             buttons: {
                                 padding: {
@@ -38,7 +70,7 @@ export function Webpage(base) {
                                     autoManaged: false
                                 },
                                 borderSize: {
-                                    __name: 'Grosor de borde',
+                                    __name: Dali.i18n.t('Webpage.border_size'),
                                     type: 'number',
                                     value: 0,
                                     min: 0,
@@ -47,20 +79,20 @@ export function Webpage(base) {
                                     autoManaged: false
                                 },
                                 borderStyle: {
-                                    __name: 'Estilo de borde',
+                                    __name: Dali.i18n.t('Webpage.border_style'),
                                     type: 'select',
                                     value: 'solid',
                                     options: ['none', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset', 'initial', 'inherit'],
                                     autoManaged: false
                                 },
                                 borderColor: {
-                                    __name: 'Color de borde',
+                                    __name: Dali.i18n.t('Webpage.border_color'),
                                     type: 'color',
                                     value: '#000000',
                                     autoManaged: false
                                 },
                                 borderRadius: {
-                                    __name: 'Radio',
+                                    __name: Dali.i18n.t('Webpage.radius'),
                                     type: 'number',
                                     value: '0',
                                     min: '0',
@@ -69,7 +101,7 @@ export function Webpage(base) {
                                     autoManaged: false
                                 },
                                 opacity: {
-                                    __name: 'Opacidad',
+                                    __name: Dali.i18n.t('Webpage.opacity'),
                                     type: 'range',
                                     value: 1,
                                     min: 0,

@@ -9,7 +9,7 @@ import {ADD_BOX, SELECT_BOX, MOVE_BOX, DUPLICATE_BOX, RESIZE_BOX, UPDATE_BOX, DE
     CHANGE_DISPLAY_MODE, SET_BUSY, UPDATE_TOOLBAR, COLLAPSE_TOOLBAR, IMPORT_STATE, FETCH_VISH_RESOURCES_SUCCESS
 } from './actions';
 import {ID_PREFIX_SECTION, ID_PREFIX_PAGE, ID_PREFIX_BOX, ID_PREFIX_SORTABLE_BOX} from './constants';
-
+import i18n from 'i18next';
 
 function boxCreator(state = {}, action = {}) {
     switch (action.type) {
@@ -520,7 +520,7 @@ function navItemsIds(state = [], action = {}) {
     switch (action.type) {
         case ADD_NAV_ITEM:
             let nState = state.slice();
-            nState.splice(action.payload.position-1 , 0, action.payload.id);    
+            nState.splice(action.payload.position-1 , 0, action.payload.id);
             return nState;
         case REMOVE_NAV_ITEM:
             let newState = state.slice();
@@ -720,7 +720,7 @@ function createSortableButtons(controls, width) {
             __name: "Main",
             accordions: {
                 _sortable: {
-                    __name: "Estructura",
+                    __name: i18n.t('Structure'),
                     icon: 'border_all',
                     buttons: {}
                 }
@@ -728,13 +728,13 @@ function createSortableButtons(controls, width) {
         };
     } else if (!controls.main.accordions._sortable) {
         controls.main.accordions._sortable = {
-            __name: "Estructura",
+            __name: i18n.t('Structure'),
             icon: 'border_all',
             buttons: {}
         };
     }
     controls.main.accordions._sortable.buttons.width = {
-        __name: 'Width (%)',
+        __name: i18n.t('Width_percentage'),
         type: 'number',
         value: width || 100,
         min: 0,
@@ -744,7 +744,7 @@ function createSortableButtons(controls, width) {
         autoManaged: true
     };
     controls.main.accordions._sortable.buttons.height = {
-        __name: 'Height (%)',
+        __name: i18n.t('Height_percentage'),
         type: 'number',
         value: 'auto',
         min: 0,
@@ -754,14 +754,14 @@ function createSortableButtons(controls, width) {
         autoManaged: true
     };
     controls.main.accordions._sortable.buttons.___heightAuto = {
-        __name: 'Height Auto',
+        __name: i18n.t('Height_auto'),
         type: 'checkbox',
         value: 'checked',
         checked: 'true',
         autoManaged: true
     };
     controls.main.accordions._sortable.buttons.___position = {
-        __name: 'Position',
+        __name: i18n.t('Position'),
         type: 'radio',
         value: 'relative',
         options: ['absolute', 'relative'],
@@ -776,7 +776,7 @@ function createFloatingBoxButtons(controls, width) {
             __name: "Main",
             accordions: {
                 _sortable: {
-                    __name: "Estructura",
+                    __name: i18n.t('Structure'),
                     icon: 'border_all',
                     buttons: {}
                 }
@@ -784,14 +784,14 @@ function createFloatingBoxButtons(controls, width) {
         };
     } else if (!controls.main.accordions._sortable) {
         controls.main.accordions._sortable = {
-            __name: "Estructura",
+            __name: i18n.t('Structure'),
             icon: 'border_all',
             buttons: {}
         };
     }
 
     controls.main.accordions._sortable.buttons.width = {
-        __name: 'Width (px)',
+        __name: i18n.t('Width_pixels'),
         type: 'number',
         value: width || 100,
         min: 0,
@@ -801,7 +801,7 @@ function createFloatingBoxButtons(controls, width) {
         autoManaged: true
     };
     controls.main.accordions._sortable.buttons.height = {
-        __name: 'Height (px)',
+        __name: i18n.t('Height_pixels'),
         type: 'number',
         value: 'auto',
         min: 0,
@@ -811,7 +811,7 @@ function createFloatingBoxButtons(controls, width) {
         autoManaged: true
     };
     controls.main.accordions._sortable.buttons.___heightAuto = {
-        __name: 'Height Auto',
+        __name: i18n.t('Height_auto'),
         type: 'checkbox',
         value: 'checked',
         checked: 'true',

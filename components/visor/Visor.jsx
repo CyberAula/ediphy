@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Modal, Row, Col, Grid, Button, ButtonGroup} from 'react-bootstrap';
 import {BOX_TYPES, ID_PREFIX_SORTABLE_BOX} from '../../constants';
 import Dali from './../../core/main';
+import i18n from 'i18next';
 
 export default class Visor extends Component {
     shouldComponentUpdate(nextProps, nextState) {
@@ -53,7 +54,7 @@ export default class Visor extends Component {
                         this.props.onVisibilityToggled()
                         }}>
                 <Modal.Header closeButton>
-                    <Modal.Title><span id="previewTitle">Preview</span></Modal.Title>
+                    <Modal.Title><span id="previewTitle">{i18n.t('Preview')}</span></Modal.Title>
                 </Modal.Header>
 
                 <Modal.Body style={{position: 'absolute', top: '56px', padding: 0, bottom: 0, width: '100%'}}>

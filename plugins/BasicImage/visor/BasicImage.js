@@ -17,7 +17,7 @@ export function BasicImage(base) {
         },
         imageClick: function (e) {
             console.log(e);
-            alert("Miau");
+            alert("Click sobre Imagen");
         }
     };
 }
