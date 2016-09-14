@@ -327,7 +327,6 @@ class DaliApp extends Component {
     }
 
     parsePluginContainers(obj, state) {
-
         if (obj.child) {
             for (let i = 0; i < obj.child.length; i++) {
                 if (obj.child[i].tag && obj.child[i].tag === "plugin") {
@@ -367,8 +366,6 @@ class DaliApp extends Component {
             if (obj.attr) {
                 if (!obj.attr['plugin-data-id']) {
                     obj.attr['plugin-data-id'] = ID_PREFIX_SORTABLE_CONTAINER + Date.now() + this.index++;
-                } else {
-
                 }
                 if (!obj.attr['plugin-data-height']) {
                     obj.attr['plugin-data-height'] = obj.attr['plugin-data-initialHeight'] || (obj.attr.hasOwnProperty('plugin-data-resizable') ? "auto" : "100px");
@@ -376,6 +373,7 @@ class DaliApp extends Component {
                 if (obj.attr['plugin-data-key'] && !state[obj.attr['plugin-data-key']]) {
                     state[obj.attr['plugin-data-key']] = {
                         id: obj.attr['plugin-data-id'],
+                        name: obj.attr['plugin-data-display-name'] || obj.attr['plugin-data-key'],
                         height: obj.attr['plugin-data-height']
                     };
                 }

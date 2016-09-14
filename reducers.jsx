@@ -78,6 +78,7 @@ function boxCreator(state = {}, action = {}) {
                                 textAlign: 'center'
                             },
                             height: pluginContainers[key].height || 'auto',
+                            key: key,
                             colDistribution: [100],
                             cols: [
                                 [100]
@@ -270,6 +271,7 @@ function boxesById(state = {}, action = {}) {
                                 borderStyle: 'solid',
                                 opacity: '1'
                             },
+                            key: containerKey,
                             height: container.height,
                             colDistribution: [100],
                             cols: [

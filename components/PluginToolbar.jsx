@@ -164,7 +164,7 @@ export default class PluginToolbar extends Component {
                                                                collapsible
                                                                onEnter={(panel) => {panel.parentNode.classList.add("extendedPanel")}}
                                                                onExited={(panel) => {panel.parentNode.classList.remove("extendedPanel")}}
-                                                               header={<span><i className="toolbarIcons material-icons">web_asset</i>{'Bloque '+ (index + 1)}</span>}>
+                                                               header={<span><i className="toolbarIcons material-icons">web_asset</i>{this.props.toolbars[this.props.box.id].state.__pluginContainerIds[container.key].name}</span>}>
                                                             <GridConfigurator id={id}
                                                                               parentId={this.props.box.id}
                                                                               container={container}

@@ -30,6 +30,7 @@ export default function () {
             } else {
                 if (state.__pluginContainerIds[key]) {
                     json.attr['plugin-data-id'] = state.__pluginContainerIds[key].id;
+                    json.attr['plugin-data-display-name'] = state.__pluginContainerIds[key].name;
                     json.attr['plugin-data-height'] = state.__pluginContainerIds[key].height;
                 }
             }
