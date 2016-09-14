@@ -136,7 +136,7 @@ export default class PluginToolbar extends Component {
 
                             <div className="toolbarTitle"><i className="material-icons">settings</i><span
                                 className="toolbarTitletxt">{i18n.t('Properties')}</span></div>
-                            <div className="pluginTitleInToolbar"> {toolbar.config.name || ""}</div>
+                            <div className="pluginTitleInToolbar"> {toolbar.config.displayName || toolbar.config.name || ""}</div>
                         </div>
                     </OverlayTrigger>
                     <div id="insidetools" style={{display: this.state.open? 'block':'none'}}>
@@ -164,7 +164,7 @@ export default class PluginToolbar extends Component {
                                                                collapsible
                                                                onEnter={(panel) => {panel.parentNode.classList.add("extendedPanel")}}
                                                                onExited={(panel) => {panel.parentNode.classList.remove("extendedPanel")}}
-                                                               header={<span><i className="toolbarIcons material-icons">web_asset</i>{this.props.toolbars[this.props.box.id].state.__pluginContainerIds[container.key].name}</span>}>
+                                                               header={<span><i className="toolbarIcons material-icons">web_asset</i>{(this.props.toolbars[this.props.box.id].state && this.props.toolbars[this.props.box.id].state.__pluginContainerIds && this.props.toolbars[this.props.box.id].state.__pluginContainerIds[container.key].name) ? this.props.toolbars[this.props.box.id].state.__pluginContainerIds[container.key].name : ('Bloque '+ (index + 1))}</span>}>
                                                             <GridConfigurator id={id}
                                                                               parentId={this.props.box.id}
                                                                               container={container}
