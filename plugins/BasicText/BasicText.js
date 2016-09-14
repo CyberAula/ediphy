@@ -3,6 +3,7 @@ export function BasicText(base) {
         getConfig: function () {
             return {
                 name: 'BasicText',
+                displayName: Dali.i18n.t('BasicText.PluginName'),
                 category: 'text',
                 needsConfigModal: false,
                 needsTextEdition: true,
@@ -20,6 +21,7 @@ export function BasicText(base) {
                         "box_style" : "Box style",
                         "opacity" : "Opacity",
                         "padding" : "Padding",
+                        "PluginName" : "BasicText",
                         "radius" : "Radius",
                         "source" : "Source",
                     }
@@ -33,6 +35,7 @@ export function BasicText(base) {
                         "box_style" : "Estilo caja",
                         "opacity" : "Opacidad",
                         "padding" : "Padding",
+                        "PluginName" : "Texto Básico",
                         "radius" : "Radio",
                         "source" : "Origen",
                     }

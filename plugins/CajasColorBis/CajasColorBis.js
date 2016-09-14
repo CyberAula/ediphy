@@ -4,6 +4,7 @@ export function CajasColorBis(base) {
         getConfig: function () {
             return {
                 name: 'CajasColorBis',
+                displayName: Dali.i18n.t('CajasColorBis.PluginName'),
                 category: 'animations',
                 icon: 'view_column'
             };
@@ -16,6 +17,7 @@ export function CajasColorBis(base) {
                         "cajascolor_type" : "Cajascolor Type",
                         "general" : "General",
                         "number_of_boxes" : "Number of Boxes",
+                        "PluginName" : "Color Boxes",
                         "rounded_border" : "Rouded border",
                     }
                 },
@@ -25,6 +27,7 @@ export function CajasColorBis(base) {
                         "cajascolor_type" : "Tipo de cajas color",
                         "general" : "General",
                         "number_of_boxes" : "Número de cajas",
+                        "PluginName" : "Cajas Color",
                         "rounded_border" : "Borde redondeado",
                     }
                 }

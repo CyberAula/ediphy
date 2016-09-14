@@ -3,6 +3,7 @@ export function Youtube(base) {
         getConfig: function () {
             return {
                 name: 'Youtube',
+                displayName: Dali.i18n.t('Youtube.PluginName'),
                 category: 'multimedia',
                 aspectRatioButtonConfig: {
                     name: "Aspect Ratio",
@@ -27,6 +28,7 @@ export function Youtube(base) {
                         "box_style" : "Box style",
                         "opacity" : "Opacity",
                         "padding" : "Padding",
+                        "PluginName" : "Youtube",
                         "radius" : "Radius",
                         "source" : "Source",
                     }
@@ -44,6 +46,7 @@ export function Youtube(base) {
                         "box_style" : "Estilo caja",
                         "opacity" : "Opacidad",
                         "padding" : "Padding",
+                        "PluginName" : "Youtube",
                         "radius" : "Radio",
                         "source" : "Origen",
                     }

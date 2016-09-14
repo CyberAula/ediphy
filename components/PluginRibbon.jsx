@@ -18,9 +18,9 @@ export default class PluginRibbon extends Component {
             <Col id="ribbon"
                  md={12}
                  xs={12}
-                 style={{ 
+                 style={{
                     height: this.props.ribbonHeight,
-                    overflowY:'hidden'  
+                    overflowY:'hidden'
                 }}>
                 <div id="insideribbon" className="row">
                     <div id="ribbonList">
@@ -34,7 +34,7 @@ export default class PluginRibbon extends Component {
                                             name={item.name}
                                             bsSize="large"
                                             draggable="false">
-                                        <i className="material-icons">{clase}</i> {this.state.buttons[index].name}
+                                        <i className="material-icons">{clase}</i> {this.state.buttons[index].displayName}
                                     </Button>
                                 </div>);
                             }
@@ -42,36 +42,36 @@ export default class PluginRibbon extends Component {
                     </div>
                 </div>
                 <div className="mainButtons">
-                    <button className="ribShortcut" 
-                            title="Undo" 
-                            disabled={this.props.undoDisabled} 
+                    <button className="ribShortcut"
+                            title="Undo"
+                            disabled={this.props.undoDisabled}
                             onClick={() => this.props.undo()}>
                         <i className="material-icons">undo</i>
                     </button>
-                    <button className="ribShortcut" 
-                            title="Redo" 
-                            disabled={this.props.redoDisabled} 
+                    <button className="ribShortcut"
+                            title="Redo"
+                            disabled={this.props.redoDisabled}
                             onClick={() => this.props.redo()}>
                         <i className="material-icons">redo</i>
                     </button>
-                    <button className="ribShortcut" 
-                            title="Copy" 
-                            disabled={this.props.boxSelected == -1 || this.props.boxSelected.id == -1 || this.props.boxSelected.id.indexOf(ID_PREFIX_SORTABLE_BOX) != -1} 
+                    <button className="ribShortcut"
+                            title="Copy"
+                            disabled={this.props.boxSelected == -1 || this.props.boxSelected.id == -1 || this.props.boxSelected.id.indexOf(ID_PREFIX_SORTABLE_BOX) != -1}
                             onClick={() => {
                                 this.props.onBoxDuplicated(this.props.boxSelected.id, this.props.boxSelected.parent, this.props.boxSelected.container);
                                 e.stopPropagation();
                             }}>
                         <i className="material-icons">content_copy</i>
                     </button>
-                    <button className="ribShortcut" 
-                            title="Paste" 
-                            disabled={this.props.boxSelected.id == -1} 
+                    <button className="ribShortcut"
+                            title="Paste"
+                            disabled={this.props.boxSelected.id == -1}
                             onClick={() => alert('Aún no hace nada')}>
                         <i className="material-icons">content_paste</i>
                     </button>
-                    <button className="ribShortcut" 
-                            title="Save" 
-                            disabled={this.props.undoDisabled } 
+                    <button className="ribShortcut"
+                            title="Save"
+                            disabled={this.props.undoDisabled }
                             onClick={() => {
                                 this.props.save();
                                 this.props.serverModalOpen();
@@ -114,7 +114,7 @@ export default class PluginRibbon extends Component {
                     // keep the dragged position in the data-x/data-y attributes
                         x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
                         y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
-                    
+
                     // translate the element
                     target.style.webkitTransform =
                         target.style.transform =
@@ -132,8 +132,8 @@ export default class PluginRibbon extends Component {
                     let parent = original.parentNode;
                     let dw = original.offsetWidth;
                     let clone = document.getElementById('clone');
-                    
-                    
+
+
                     var target = clone,
                         x = 0,
                         y = 0;

@@ -3,6 +3,7 @@ export function BasicVideo(base) {
         getConfig: function () {
             return {
                 name: 'BasicVideo',
+                displayName: Dali.i18n.t('BasicVideo.PluginName'),
                 category: 'multimedia',
                 aspectRatioButtonConfig: {
                     name: "Aspect Ratio",
@@ -27,6 +28,7 @@ export function BasicVideo(base) {
                         "box_style" : "Box style",
                         "opacity" : "Opacity",
                         "padding" : "Padding",
+                        "PluginName" : "Basic Video",
                         "radius" : "Radius",
                         "source" : "Source",
                     }
@@ -44,6 +46,7 @@ export function BasicVideo(base) {
                         "box_style" : "Estilo caja",
                         "opacity" : "Opacidad",
                         "padding" : "Padding",
+                        "PluginName" : "Video Básico",
                         "radius" : "Radio",
                         "source" : "Origen",
                     }

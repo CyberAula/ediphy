@@ -3,6 +3,7 @@ export function BasicImage(base) {
         getConfig: function () {
             return {
                 name: 'BasicImage',
+                displayName: Dali.i18n.t('BasicImage.PluginName'),
                 category: 'image',
                 needsConfigModal: false,
                 needsTextEdition: false,
@@ -25,6 +26,7 @@ export function BasicImage(base) {
                         "box_style" : "Box style",
                         "opacity" : "Opacity",
                         "padding" : "Padding",
+                        "PluginName" : "Basic Image",
                         "radius" : "Radius",
                         "source" : "Source",
                     }
@@ -32,6 +34,7 @@ export function BasicImage(base) {
                 es : {
                       "BasicImage" : {
                         "background_color" : "Color de fondo",
+                        "PluginName" : "Imagen Básica",
                         "border_color" : "Color de borde",
                         "border_size" : "Grosor de borde",
                         "border_style" : "Estilo de borde",
@@ -39,7 +42,7 @@ export function BasicImage(base) {
                         "opacity" : "Opacidad",
                         "padding" : "Padding",
                         "radius" : "Radio",
-                        "source" : "Origen",
+                        "source" : "Fuente",
                     }
                 }
             };

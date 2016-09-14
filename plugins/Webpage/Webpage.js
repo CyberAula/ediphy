@@ -3,6 +3,7 @@ export function Webpage(base) {
         getConfig: function () {
             return {
                 name: 'Webpage',
+                displayName: Dali.i18n.t('Webpage.PluginName'),
                 category: 'multimedia',
                 icon: 'public'
             };
@@ -18,6 +19,7 @@ export function Webpage(base) {
                         "box_style" : "Box style",
                         "opacity" : "Opacity",
                         "padding" : "Padding",
+                        "PluginName" : "Web Page",
                         "radius" : "Radius",
                         "source" : "Source",
                         "URL" : "URL",
@@ -32,6 +34,7 @@ export function Webpage(base) {
                         "box_style" : "Estilo caja",
                         "opacity" : "Opacidad",
                         "padding" : "Padding",
+                        "PluginName" : "Página Web",
                         "radius" : "Radio",
                         "source" : "Origen",
                         "URL" : "URL",

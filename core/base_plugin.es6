@@ -71,9 +71,10 @@ export default function () {
             }
         },
         getConfig: function () {
-            var name, category, callback, needsConfigModal, needsTextEdition, needsXMLEdition, icon, aspectRatioButtonConfig;
+            var name, displayName, category, callback, needsConfigModal, needsTextEdition, needsXMLEdition, icon, aspectRatioButtonConfig;
             if (descendant.getConfig) {
                 name = descendant.getConfig().name;
+                displayName = descendant.getConfig().displayName;
                 category = descendant.getConfig().category;
                 icon = descendant.getConfig().icon;
                 needsConfigModal = descendant.getConfig().needsConfigModal;
@@ -83,6 +84,7 @@ export default function () {
             }
 
             name = defaultFor(name, 'PluginName', "Plugin name not assigned");
+            displayName = defaultFor(displayName, 'Plugin', "Plugin displayName not assigned");
             category = defaultFor(category, 'text', "Plugin category not assigned");
             needsConfigModal = defaultFor(needsConfigModal, false);
             needsTextEdition = defaultFor(needsTextEdition, false);
@@ -128,6 +130,7 @@ export default function () {
 
             return {
                 name: name,
+                displayName: displayName,
                 category: category,
                 callback: callback,
                 needsConfigModal: needsConfigModal,
