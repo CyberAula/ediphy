@@ -61,7 +61,7 @@ export default class ReduxProvider extends Component {
                         id: "bs-1467887497412",
                         state: undefined,
                         controls: {},
-                        config: {name: "Contenedor"},
+                        config: {name: i18n.t('Container')},
                         showTextEditor: false,
                         isCollapsed: false
                     }

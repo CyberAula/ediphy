@@ -36,7 +36,7 @@ export default class GridConfigurator extends Component {
         let tooltip = (
             /* jshint ignore:start */
             <Tooltip id="tooltipHeight">
-                Sólo si fijas una altura podrán tener alturas relativas las cajas en su interior
+                {i18n.t('messages.height_auto_warning')}
             </Tooltip>
             /* jshint ignore:end */
         );
@@ -56,16 +56,16 @@ export default class GridConfigurator extends Component {
                                          key="height"
                                          value={height == 'auto' ? "checked" : "unchecked"}
                                          checked={height == 'auto'}
-                                         label="Altura automática"
+                                         label="auto"
                                          style={{width: '100%'}}
                                          onChange={e => {
-                                  let current = height == 'auto'
+                                  let current = height === 'auto'
                                   let newHeight = current ? parseFloat(document.getElementById(this.props.id).clientHeight) : 'auto';
                                   this.props.onSortableContainerResized(this.props.id, this.props.parentId, newHeight);
                                }}/>
                         </InputGroup>
                     </OverlayTrigger>
-                    <ControlLabel>Altura</ControlLabel>
+                    <ControlLabel>{i18n.t('Height')}</ControlLabel>
                     <InputGroup style={{width: '50%'}}>
                         <FormControl type={height == 'auto' ? 'text' : 'number'}
                                      key="height"
@@ -81,11 +81,11 @@ export default class GridConfigurator extends Component {
                     </InputGroup>
 
                 <RadioButtonFormGroup   key="alignment"
-                                        title='Alineación'
+                                        title={i18n.t('Alignment')}
                                         options={['left', 'center', 'right']}
                                         selected={alignment}
                                         click={(option) => {this.props.onChangeSortableProps(this.props.id, this.props.parentId, 'textAlign', option)}}
-                                        tooltips={['Alinear a la izquierda', 'Alinear al centro','Alinear a la derecha']}
+                                        tooltips={[i18n.t('messages.align_left'),i18n.t('messages.align_center'),i18n.t('messages.align_right')]}
                                         icons={['format_align_left', 'format_align_center', 'format_align_right']} />
                 </FormGroup>
                 <div className="configurator">
@@ -101,7 +101,7 @@ export default class GridConfigurator extends Component {
 
 
                 <FormGroup>
-                    <ControlLabel>Nº columnas</ControlLabel>
+                    <ControlLabel>{i18n.t('col_number')}</ControlLabel>
                     <InputGroup style={{width: '50%'}}>
                         <FormControl type="number"
                                      key="grid"
@@ -129,10 +129,10 @@ export default class GridConfigurator extends Component {
                 { this.props.container.cols.map((item, index) => {
                     let advancedRows = (
                         <FormGroup key={index}>
-                            <ControlLabel>{"Distribución de filas en col. " + (index + 1)}</ControlLabel>
+                            <ControlLabel>{i18n.t('col_dist') + (index + 1)}</ControlLabel>
                             <FormControl type="text"
                                          value={item.join(" ")}
-                                         label={"Distribución de filas en col. " + (index + 1)}
+                                         label={i18n.t('col_dist') + (index + 1)}
                                          min={1}
                                          step={1}
                                          style={{width: '100%'}}
@@ -151,11 +151,11 @@ export default class GridConfigurator extends Component {
                     );
                     return (
                         <FormGroup key={index+'_0'}>
-                            <ControlLabel>{"Nº filas en col. " + (index + 1)}</ControlLabel>
+                            <ControlLabel>{i18n.t('row_number') + (index + 1)}</ControlLabel>
                             <InputGroup style={{width: '50%'}}>
                                 <FormControl type="number"
                                              value={item.length}
-                                             label={"Nº filas en col. " + (index + 1)}
+                                             label={i18n.t('row_number') + (index + 1)}
                                              min={1}
                                              step={1}
                                              style={{width: '100%'}}
@@ -168,16 +168,16 @@ export default class GridConfigurator extends Component {
                                                 this.props.onRowsChanged(this.props.id, this.props.parentId, index, dist);
                                           }}/>
                                 <OverlayTrigger trigger="click" rootClose placement="bottom"
-                                                overlay={<Popover id="advancedrows" title="Avanzado">{advancedRows}</Popover>}>
+                                                overlay={<Popover id="advancedrows" title={i18n.t('Advanced')}>{advancedRows}</Popover>}>
                                     <InputGroup.Addon className="gc_addon"><i className="material-icons gridconficons ">settings</i></InputGroup.Addon>
                                 </OverlayTrigger>
                             </InputGroup>
                         </FormGroup> )
                 })
                 }
-                <h4 className="sortableToolbarTitle">Estilo</h4>
+                <h4 className="sortableToolbarTitle">{i18n.t('Style')}</h4>
                 <FormGroup>
-                    <ControlLabel>Padding (px)</ControlLabel>
+                    <ControlLabel>{i18n.t('styles.padding') +' (px)'}</ControlLabel>
                     <FormControl type="number"
                                  value={this.props.container.style ? parseFloat(this.props.container.style.padding) : 0}
                                  label={"Padding"}
@@ -189,7 +189,7 @@ export default class GridConfigurator extends Component {
                                 }}/>
                 </FormGroup>
                 <FormGroup>
-                    <ControlLabel>Color del borde</ControlLabel>
+                    <ControlLabel>{i18n.t('styles.border_color')}</ControlLabel>
                     <FormControl type="color"
                                  value={this.props.container.style ? this.props.container.style.borderColor : '#ffffff'}
                                  label={"Color del borde"}
@@ -199,7 +199,7 @@ export default class GridConfigurator extends Component {
                                 }}/>
                 </FormGroup>
                 <FormGroup>
-                    <ControlLabel>Grosor del borde</ControlLabel>
+                    <ControlLabel>{i18n.t('styles.border_size')}</ControlLabel>
                     <FormControl type="number"
                                  value={this.props.container.style ? parseFloat(this.props.container.style.borderWidth) : 0}
                                  label={"Grosor del borde"}
@@ -210,13 +210,13 @@ export default class GridConfigurator extends Component {
                                 }}/>
                 </FormGroup>
                 <FormGroup>
-                    <ControlLabel>Opacidad</ControlLabel>
+                    <ControlLabel>{i18n.t('styles.opacity')}</ControlLabel>
                     <span className='rangeOutput'>
                         {this.props.container.style ? this.props.container.style.opacity : 1 + '%'}
                     </span>
                     <FormControl type="range"
                                  value={this.props.container.style ? this.props.container.style.opacity : 1+'%'}
-                                 label={"Opacidad"}
+                                 label={"Op"}
                                  style={{width: '100%'}}
                                  min={0}
                                  step={0.05}
@@ -226,7 +226,7 @@ export default class GridConfigurator extends Component {
                                 }}/>
                 </FormGroup>
                 {React.createElement(FormGroup, {key: 'borderstyle'},
-                    [React.createElement(ControlLabel, {key: 'estiloborde'}, 'Estilo borde'),
+                    [React.createElement(ControlLabel, {key: 'estiloborde'}, i18n.t('styles.border_style')),
                         React.createElement(FormControl, {
                                 componentClass: 'select',
                                 value: this.props.container.style ? this.props.container.style.borderStyle : 'none',

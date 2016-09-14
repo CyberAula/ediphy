@@ -879,7 +879,7 @@ function toolbarsById(state = {}, action = {}) {
             };
             if (action.payload.type && action.payload.type === 'sortable') {
                 if (toolbar.config) {
-                    toolbar.config.name = 'Contenedor';
+                    toolbar.config.name = i18n.t('Container_');
                 }
             }
 

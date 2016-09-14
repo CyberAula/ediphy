@@ -141,15 +141,10 @@ export default class PluginToolbar extends Component {
                     </OverlayTrigger>
                     <div id="insidetools" style={{display: this.state.open? 'block':'none'}}>
                         <div className="toolbarTabs" id="controlledTabs">
-                            {/*<Tabs className="toolbarTabs" ref="tabs" activeKey={this.state.activeKey} animation={false}
-                             onSelect={(key) => this.handleSelect(key)} id="controlledTabs">*/}
                             {Object.keys(toolbar.controls).map((tabKey, index) => {
                                 let tab = toolbar.controls[tabKey];
                                 return (
                                     <div key={'key_'+index} className={"toolbarTab"}>
-                                        {/*<Tab key={index} className={"toolbarTab"} eventKey={index} title={tab.__name}>
-                                         <ButtonGroup style={{width: '100%'}}> {deletebutton} {duplicateButton} </ButtonGroup>
-                                         <br/><br/>*/}
                                         <PanelGroup >
                                             {Object.keys(tab.accordions).sort().map((accordionKey, index) => {
                                                 let accordion = tab.accordions[accordionKey];
@@ -164,7 +159,7 @@ export default class PluginToolbar extends Component {
                                                                collapsible
                                                                onEnter={(panel) => {panel.parentNode.classList.add("extendedPanel")}}
                                                                onExited={(panel) => {panel.parentNode.classList.remove("extendedPanel")}}
-                                                               header={<span><i className="toolbarIcons material-icons">web_asset</i>{(this.props.toolbars[this.props.box.id].state && this.props.toolbars[this.props.box.id].state.__pluginContainerIds && this.props.toolbars[this.props.box.id].state.__pluginContainerIds[container.key].name) ? this.props.toolbars[this.props.box.id].state.__pluginContainerIds[container.key].name : ('Bloque '+ (index + 1))}</span>}>
+                                                               header={<span><i className="toolbarIcons material-icons">web_asset</i>{(this.props.toolbars[this.props.box.id].state && this.props.toolbars[this.props.box.id].state.__pluginContainerIds && this.props.toolbars[this.props.box.id].state.__pluginContainerIds[container.key].name) ? this.props.toolbars[this.props.box.id].state.__pluginContainerIds[container.key].name : (i18n.t('Block') + ' '+ (index + 1))}</span>}>
                                                             <GridConfigurator id={id}
                                                                               parentId={this.props.box.id}
                                                                               container={container}
@@ -181,11 +176,9 @@ export default class PluginToolbar extends Component {
                                         {textButton}
                                         {xmlButton}
                                         {configButton}
-                                        {/* </Tab>*/}
                                     </div>
                                 );
                             })}
-                            {/*</Tabs>*/}
                         </div>
                     </div>
                 </div>
@@ -251,7 +244,7 @@ export default class PluginToolbar extends Component {
                                         options={['top', 'middle', 'bottom']}
                                         selected={this.props.box.verticalAlign ? this.props.box.verticalAlign : 'top'}
                                         click={(option) => {this.props.onVerticallyAlignBox(this.props.boxSelected, option)}}
-                                        tooltips={[i18n.t('align_top'),i18n.t('align_middle'),i18n.t('align_bottom')]}
+                                        tooltips={[i18n.t('messages.align_top'),i18n.t('messages.align_middle'),i18n.t('messages.align_bottom')]}
                                         icons={['vertical_align_top', 'vertical_align_center', 'vertical_align_bottom']} /> 
                 /* jshint ignore:end */
             );
