@@ -4,7 +4,7 @@ import './utils';
 import {ADD_BOX, SELECT_BOX, MOVE_BOX, DUPLICATE_BOX, RESIZE_BOX, UPDATE_BOX, DELETE_BOX, REORDER_BOX, DROP_BOX, INCREASE_LEVEL,
     RESIZE_SORTABLE_CONTAINER, CHANGE_COLS, CHANGE_ROWS, CHANGE_SORTABLE_PROPS, REORDER_BOXES,
     ADD_NAV_ITEM, SELECT_NAV_ITEM, EXPAND_NAV_ITEM, REMOVE_NAV_ITEM, REORDER_NAV_ITEM, TOGGLE_NAV_ITEM, UPDATE_NAV_ITEM_EXTRA_FILES,
-    CHANGE_SECTION_TITLE, CHANGE_UNIT_NUMBER,
+    CHANGE_SECTION_TITLE, CHANGE_UNIT_NUMBER, VERTICALLY_ALIGN_BOX,
     TOGGLE_PAGE_MODAL, TOGGLE_TEXT_EDITOR, TOGGLE_TITLE_MODE, CHANGE_TITLE,
     CHANGE_DISPLAY_MODE, SET_BUSY, UPDATE_TOOLBAR, COLLAPSE_TOOLBAR, IMPORT_STATE, FETCH_VISH_RESOURCES_SUCCESS
 } from './actions';
@@ -15,13 +15,14 @@ function boxCreator(state = {}, action = {}) {
     switch (action.type) {
         case ADD_BOX:
             let position, width, height;
+            let verticalAlign = 'middle';
             let level = (state[action.payload.ids.parent]) ? state[action.payload.ids.parent].level + 1 : 0;
             switch (action.payload.type) {
                 case 'sortable':
                     position = {x: 0, y: 0, type: 'relative'};
                     width = '100%';
                     level = -1;
-                    break;
+                     break;
                 default:
                     position = {
                         x: Math.floor(Math.random() * 200),
@@ -97,6 +98,7 @@ function boxCreator(state = {}, action = {}) {
                 position: position,
                 width: width,
                 height: height,
+                verticalAlign: verticalAlign,
                 content: action.payload.content,
                 text: null,
                 draggable: action.payload.draggable,
@@ -236,6 +238,12 @@ function boxesById(state = {}, action = {}) {
                 [action.payload.id]: Object.assign({}, state[action.payload.id], {
                     width: action.payload.width,
                     height: action.payload.height
+                })
+            });
+        case VERTICALLY_ALIGN_BOX:
+            return Object.assign({}, state, {
+                [action.payload.id]: Object.assign({}, state[action.payload.id], {
+                    verticalAlign: action.payload.verticalAlign
                 })
             });
         case RESIZE_SORTABLE_CONTAINER:
@@ -767,6 +775,7 @@ function createSortableButtons(controls, width) {
         options: ['absolute', 'relative'],
         autoManaged: true
     };
+    
 
 }
 
