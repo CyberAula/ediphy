@@ -62,14 +62,11 @@ export default function () {
             }
         },
         getLocales: function(){
-            var languages,current_language;
-            if(descendant.getLocales){
-                languages = descendant.getLocales();
-                current_language = Dali.i18n.language;
-                languages = defaultFor(languages,{});
-
-                Dali.i18n.addResourceBundle(current_language, 'translation', languages[current_language], true, false);
-            }
+            try {
+                let currentLanguage = Dali.i18n.language;
+                let texts = require('./../plugins/' + this.getConfig().name + "/locales/" + currentLanguage);
+                Dali.i18n.addResourceBundle(currentLanguage, 'translation', texts, true, false);
+            }catch(e){}
         },
         getConfig: function () {
             var name, displayName, category, callback, needsConfigModal, needsTextEdition, needsXMLEdition, icon, aspectRatioButtonConfig;

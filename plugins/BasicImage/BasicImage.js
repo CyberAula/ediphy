@@ -15,38 +15,6 @@ export function BasicImage(base) {
                 icon: 'image'
             };
         },
-        getLocales: function(){
-            return {
-                en : {
-                    "BasicImage" : {
-                        "background_color" : "Background color",
-                        "border_color" : "Border color",
-                        "border_size" : "Border Size",
-                        "border_style" : "Border Style",
-                        "box_style" : "Box style",
-                        "opacity" : "Opacity",
-                        "padding" : "Padding",
-                        "PluginName" : "Basic Image",
-                        "radius" : "Radius",
-                        "source" : "Source",
-                    }
-                },
-                es : {
-                      "BasicImage" : {
-                        "background_color" : "Color de fondo",
-                        "PluginName" : "Imagen Básica",
-                        "border_color" : "Color de borde",
-                        "border_size" : "Grosor de borde",
-                        "border_style" : "Estilo de borde",
-                        "box_style" : "Estilo caja",
-                        "opacity" : "Opacidad",
-                        "padding" : "Padding",
-                        "radius" : "Radio",
-                        "source" : "Fuente",
-                    }
-                }
-            };
-        },
         getToolbar: function () {
             return {
                 main: {

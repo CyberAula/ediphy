@@ -8,20 +8,6 @@ export function Container(base) {
                 icon: 'view_agenda'
             };
         },
-        getLocales: function(){
-            return {
-                en : {
-                    "Container" : {
-                        "PluginName" : "Container",
-                    }
-                },
-                es : {
-                      "Container" : {
-                        "PluginName" : "Contenedor",
-                    }
-                }
-            };
-        },
         getRenderTemplate: function (state) {
             return "<div><plugin plugin-data-key='Container'  /></div>";
         }

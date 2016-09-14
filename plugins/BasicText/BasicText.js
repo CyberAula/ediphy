@@ -10,38 +10,6 @@ export function BasicText(base) {
                 icon: 'format_color_text'
             };
         },
-         getLocales: function(){
-            return {
-                en : {
-                    "BasicText" : {
-                        "background_color" : "Background color",
-                        "border_color" : "Border color",
-                        "border_size" : "Border Size",
-                        "border_style" : "Border Style",
-                        "box_style" : "Box style",
-                        "opacity" : "Opacity",
-                        "padding" : "Padding",
-                        "PluginName" : "BasicText",
-                        "radius" : "Radius",
-                        "source" : "Source",
-                    }
-                },
-                es : {
-                      "BasicText" : {
-                        "background_color" : "Color de fondo",
-                        "border_color" : "Color de borde",
-                        "border_size" : "Grosor de borde",
-                        "border_style" : "Estilo de borde",
-                        "box_style" : "Estilo caja",
-                        "opacity" : "Opacidad",
-                        "padding" : "Padding",
-                        "PluginName" : "Texto Básico",
-                        "radius" : "Radio",
-                        "source" : "Origen",
-                    }
-                }
-            };
-        },
         getToolbar: function () {
             return {
                 main: {
