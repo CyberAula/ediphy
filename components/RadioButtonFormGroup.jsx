@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import { Button, FormControl, InputGroup, FormGroup, ControlLabel, Tooltip, OverlayTrigger} from 'react-bootstrap'; 
-
+import i18n from 'i18next';
 
 /*
 Radio Button that displays material icons instead of plain text options

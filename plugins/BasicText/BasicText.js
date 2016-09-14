@@ -16,7 +16,7 @@ export function BasicText(base) {
                     __name: "Main",
                     accordions: {
                         style: {
-                            __name: Dali.i18n.t('BasicText.source'),
+                            __name: Dali.i18n.t('BasicText.box_style'),
                             icon: 'palette',
                             buttons: {
                                 padding: {

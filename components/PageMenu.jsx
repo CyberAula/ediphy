@@ -3,9 +3,11 @@ import {Modal, Button, ButtonGroup, MenuItem, Dropdown} from 'react-bootstrap';
 import {ID_PREFIX_PAGE} from '../constants';
 import {ID_PREFIX_SORTABLE_BOX} from '../constants';
 import {BOX_TYPES} from '../constants';
+import i18n from 'i18next';
+
 export default class PageMenu extends Component {
     render() {
-        let proposedName = "Page " + this.calculateName();
+        let proposedName = i18n.t("page") + " " + this.calculateName();
         return (
             /* jshint ignore:start */
             <Dropdown role="menuitem"

@@ -243,15 +243,15 @@ export default class PluginToolbar extends Component {
 
         }
         
-        if (accordion.__name === 'Estructura' && this.props.box.container !== 0){
+        if (accordion.key === 'structure' && this.props.box.container !== 0){
             children.push(
                 /* jshint ignore:start */
                 <RadioButtonFormGroup   key="verticalalignment"  
-                                        title='Alineación vertical'
+                                        title={i18n.t('Vertical_align')}
                                         options={['top', 'middle', 'bottom']}
                                         selected={this.props.box.verticalAlign ? this.props.box.verticalAlign : 'top'}
                                         click={(option) => {this.props.onVerticallyAlignBox(this.props.boxSelected, option)}}
-                                        tooltips={['La parte superior del elemento se alinea con la parte superior del elemento más alto de la línea', 'El elemento se alinea al medio de la línea','La parte inferior del elemento se alinea con la parte superior del elemento más bajo de la línea']}
+                                        tooltips={[i18n.t('align_top'),i18n.t('align_middle'),i18n.t('align_bottom')]}
                                         icons={['vertical_align_top', 'vertical_align_center', 'vertical_align_bottom']} /> 
                 /* jshint ignore:end */
             );

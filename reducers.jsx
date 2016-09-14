@@ -489,7 +489,7 @@ function recalculateNames(state = {}, old = {}, resta = 0, numeroBorrados = 0) {
         }
     }
     // Rename pages
-    /*var pages = */
+    var pages = 
     Object.keys(state).filter(page => {
         if (state[page].type === 'slide' || state[page].type === 'document') {
             return page;
@@ -730,6 +730,7 @@ function createSortableButtons(controls, width) {
             __name: "Main",
             accordions: {
                 _sortable: {
+                    key: 'structure',
                     __name: i18n.t('Structure'),
                     icon: 'border_all',
                     buttons: {}
@@ -738,6 +739,7 @@ function createSortableButtons(controls, width) {
         };
     } else if (!controls.main.accordions._sortable) {
         controls.main.accordions._sortable = {
+            key: 'structure',
             __name: i18n.t('Structure'),
             icon: 'border_all',
             buttons: {}
@@ -787,6 +789,7 @@ function createFloatingBoxButtons(controls, width) {
             __name: "Main",
             accordions: {
                 _sortable: {
+                    key: 'structure',
                     __name: i18n.t('Structure'),
                     icon: 'border_all',
                     buttons: {}
@@ -795,6 +798,7 @@ function createFloatingBoxButtons(controls, width) {
         };
     } else if (!controls.main.accordions._sortable) {
         controls.main.accordions._sortable = {
+            key: 'structure',
             __name: i18n.t('Structure'),
             icon: 'border_all',
             buttons: {}
