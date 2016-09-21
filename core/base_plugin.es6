@@ -61,15 +61,16 @@ export default function () {
                 descendant.init();
             }
         },
-        getLocales: function(){
+        getLocales: function () {
             try {
                 let currentLanguage = Dali.i18n.language;
                 let texts = require('./../plugins/' + this.getConfig().name + "/locales/" + currentLanguage);
                 Dali.i18n.addResourceBundle(currentLanguage, 'translation', texts, true, false);
-            }catch(e){}
+            } catch (e) {
+            }
         },
         getConfig: function () {
-            var name, displayName, category, callback, needsConfigModal, needsTextEdition, needsXMLEdition, icon, aspectRatioButtonConfig;
+            var name, displayName, category, callback, needsConfigModal, needsTextEdition, extraTextConfig, needsXMLEdition, icon, aspectRatioButtonConfig;
             if (descendant.getConfig) {
                 name = descendant.getConfig().name;
                 displayName = descendant.getConfig().displayName;
@@ -77,6 +78,7 @@ export default function () {
                 icon = descendant.getConfig().icon;
                 needsConfigModal = descendant.getConfig().needsConfigModal;
                 needsTextEdition = descendant.getConfig().needsTextEdition;
+                extraTextConfig = descendant.getConfig().extraTextConfig;
                 needsXMLEdition = descendant.getConfig().needsXMLEdition;
                 aspectRatioButtonConfig = descendant.getConfig().aspectRatioButtonConfig;
             }
@@ -86,6 +88,7 @@ export default function () {
             category = defaultFor(category, 'text', "Plugin category not assigned");
             needsConfigModal = defaultFor(needsConfigModal, false);
             needsTextEdition = defaultFor(needsTextEdition, false);
+            //extraTextConfig = defaultFor(extraTextConfig, {});
             needsXMLEdition = defaultFor(needsXMLEdition, false);
             icon = defaultFor(icon, 'fa-cogs', "Plugin icon not assigned");
 
@@ -133,6 +136,7 @@ export default function () {
                 callback: callback,
                 needsConfigModal: needsConfigModal,
                 needsTextEdition: needsTextEdition,
+                extraTextConfig: extraTextConfig,
                 needsXMLEdition: needsXMLEdition,
                 aspectRatioButtonConfig: aspectRatioButtonConfig,
                 icon: icon
