@@ -75,7 +75,7 @@ export default class Section extends Component {
                                                     e.stopPropagation();
                                                 }}
                                                  onClick={e => {
-                                                    this.props.onNavItemSelected(navItem.id);
+                                                    this.props.onNavItemSelected(id);
                                                     e.stopPropagation();
                                                  }}>
                                                 <span style={{marginLeft: 30*(this.props.navItems[id].level-1)}}>
