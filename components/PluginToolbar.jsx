@@ -47,7 +47,7 @@ export default class PluginToolbar extends Component {
                 <Button key={'text'}
                         className={toolbar.showTextEditor ? 'toolbarButton textediting' : 'toolbarButton'}
                         onClick={() => {
-                            this.props.onTextEditorToggled(toolbar.id, !toolbar.showTextEditor, (toolbar.showTextEditor) ? CKEDITOR.instances[toolbar.id].getData() : null);
+                            this.props.onTextEditorToggled(toolbar.id, !toolbar.showTextEditor);
                         }}>
                     Edit text
                 </Button>

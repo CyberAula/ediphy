@@ -101,7 +101,6 @@ function boxCreator(state = {}, action = {}) {
                 height: height,
                 verticalAlign: verticalAlign,
                 content: action.payload.content,
-                text: null,
                 draggable: action.payload.draggable,
                 resizable: action.payload.resizable,
                 showTextEditor: false,
@@ -353,15 +352,6 @@ function boxesById(state = {}, action = {}) {
                     children: action.payload.ids
                 })
             });
-        case TOGGLE_TEXT_EDITOR:
-            if (action.payload.text) {
-                return Object.assign({}, state, {
-                    [action.payload.caller]: Object.assign({}, state[action.payload.caller], {
-                        text: action.payload.text
-                    })
-                });
-            }
-            return state;
         case IMPORT_STATE:
             return action.payload.present.boxesById || state;
         default:

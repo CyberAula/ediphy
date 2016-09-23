@@ -12,6 +12,7 @@ export default {
     pluginList: [
         'BasicImage',
         'BasicText',
+        'RichText',
         'BasicVideo',
         'Youtube',
         'Webpage',

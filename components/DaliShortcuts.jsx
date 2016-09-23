@@ -37,7 +37,7 @@ export default class DaliShortcuts extends Component {
                         <OverlayTrigger placement="top" overlay={ <Tooltip id="editartexto" >{ i18n.t('messages.edit_text') }</Tooltip>}>
                             <button className="daliTitleButton"
                                     onClick={(e) => {
-                                 this.props.onTextEditorToggled(toolbar.id, !toolbar.showTextEditor, (toolbar.showTextEditor) ? CKEDITOR.instances[toolbar.id].getData() : null)
+                                 this.props.onTextEditorToggled(toolbar.id, !toolbar.showTextEditor);
                                 e.stopPropagation(); }}>
                                 <i className="material-icons">mode_edit</i>
                             </button>

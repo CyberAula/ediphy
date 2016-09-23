@@ -30,6 +30,7 @@ export default class DaliBox extends Component {
             backgroundColor: 'white',
             padding: 15,
             width: '100%',
+            height: '100%',
             border: 'dashed black 1px',
             zIndex: 99999,
             visibility: (toolbar.showTextEditor ? 'visible' : 'hidden')
@@ -92,7 +93,7 @@ export default class DaliBox extends Component {
             }
         }
 
-        let content = toolbar.state.__text ? (
+        let content = toolbar.state.__text && !toolbar.config.extraTextConfig ? (
             /* jshint ignore:start */
             <div className="boxStyle" style={style} {...attrs} ref={"content"}
                  dangerouslySetInnerHTML={{__html: decodeURI(toolbar.state.__text)}}></div>
@@ -190,7 +191,7 @@ export default class DaliBox extends Component {
                     msTouchAction: 'none',
                     cursor: vis ? 'inherit': 'default' //esto evita que aparezcan los cursores de move y resize cuando la caja no está seleccionada
                 }}>
-                 {border}
+                {border}
                 {content}
                 {toolbar.state.__text ?
                     <div contentEditable={true} id={box.id} ref={"textarea"} className="textAreaStyle"
@@ -277,7 +278,7 @@ export default class DaliBox extends Component {
             case 'text':
                 component = "span";
                 props = {key: key};
-                children = [markup.text];
+                children = [decodeURI(markup.text)];
                 break;
             case 'root':
                 component = "div";
@@ -298,7 +299,7 @@ export default class DaliBox extends Component {
         if (markup.child) {
             children = [];
             markup.child.forEach((child, index) => {
-                children.push(this.renderChildren(child, index));
+                children.push(child.node === "text" ? child.text : this.renderChildren(child, index));
             });
         }
         return React.createElement(component, props, children);
@@ -306,9 +307,10 @@ export default class DaliBox extends Component {
 
     blurTextarea() {
         this.props.onTextEditorToggled(this.props.id, false);
-        let state = this.props.toolbars[this.props.id].state;
-        state.__text = encodeURI(CKEDITOR.instances[this.props.id].getData());
-        Dali.Plugins.get(this.props.toolbars[this.props.id].config.name).forceUpdate(state, this.props.id);
+        let toolbar = this.props.toolbars[this.props.id];
+        let data = CKEDITOR.instances[this.props.id].getData();
+        toolbar.state.__text = toolbar.config.extraTextConfig ? data : encodeURI(data);
+        Dali.Plugins.get(toolbar.config.name).forceUpdate(toolbar.state, this.props.id);
     }
 
     componentWillUpdate(nextProps, nextState) {
@@ -377,6 +379,9 @@ export default class DaliBox extends Component {
         let box = this.props.boxes[this.props.id];
         if (toolbar.config && toolbar.config.needsTextEdition) {
             CKEDITOR.disableAutoInline = true;
+            for (let key in toolbar.config.extraTextConfig) {
+                CKEDITOR.config[key] += toolbar.config.extraTextConfig[key] + ",";
+            }
             let editor = CKEDITOR.inline(this.refs.textarea);
             editor.on("blur", function (e) {
                 this.blurTextarea();
@@ -498,7 +503,6 @@ export default class DaliBox extends Component {
                         box.container !== 0 ? left : Math.max(parseInt(target.style.left), 0),
                         box.container !== 0 ? top : Math.max(parseInt(target.style.top), 0),
                         this.props.boxes[this.props.id].position.type
-
                     );
 
                     let releaseClick = document.elementFromPoint(event.clientX, event.clientY);
@@ -517,22 +521,22 @@ export default class DaliBox extends Component {
                         }
                         if (counter > 0 && release && release.indexOf('box-bo') !== -1) {
                             let partialID = release.split('box-');
-                            if (partialID && partialID.length > 0){
+                            if (partialID && partialID.length > 0) {
                                 let hoverID = partialID[1];
                                 let box = this.props.boxes[this.props.id];
                                 if (box && box.container !== 0) {
                                     let children = this.props.boxes[box.parent].sortableContainers[box.container].children;
                                     if (children.indexOf(hoverID) !== -1) {
-                                        let newOrder = Object.assign([],children);
+                                        let newOrder = Object.assign([], children);
                                         newOrder.splice(newOrder.indexOf(hoverID), 0, newOrder.splice(newOrder.indexOf(box.id), 1)[0]);
                                         this.props.onBoxesInsideSortableReorder(box.parent, box.container, newOrder);
                                     }
                                 }
                             }
-                           
-                        } 
+
+                        }
                     }
- 
+
                     target.setAttribute('data-x', 0);
                     target.setAttribute('data-y', 0);
                     event.stopPropagation();

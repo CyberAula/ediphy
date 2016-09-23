@@ -87,7 +87,7 @@ export function CajasColor(base) {
             var template = "<div style='width: 100%; height: 100%'>";
             var width = 100 / state.nBoxes;
             for (i = 0; i < state.nBoxes; i++) {
-                template += "<div onclick='$dali$.clicky()' style='background-color: " + state.colors[i] + "; height: 100%; width: " + width + "%; float: left'><plugin plugin-data-key='title" + i + "' plugin-data-default='BasicText' " + (i % 2 === 0 ? "plugin-data-resizable plugin-data-initialHeight='200px'" : "") + " /></div>";
+                template += "<div onclick='$dali$.clicky()' style='background-color: " + state.colors[i] + "; height: 100%; width: " + width + "%; float: left'><plugin plugin-data-key='title" + i + "' plugin-data-default='BasicText' " + (i % 2 === 0 ? "plugin-data-resizable plugin-data-initial-height='200px'" : "") + " /></div>";
             }
 
             template += "</div><div>";
