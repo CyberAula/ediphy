@@ -196,8 +196,8 @@
             }
             %><div class="wholebox"
                  style="position: <%=box.container !== 0 ? '' : 'absolute'%>;
-                         left: <%=box.position.x%>px;
-                         top: <%=box.position.y%>px;
+                         left: <%=box.position.x%>;
+                         top: <%=box.position.y%>;
                          pointer-events: all  !important;
                          vertical-align: <%=box.verticalAlign ? box.verticalAlign : 'middle' %>;
                          width: <%=box.width %><%=(box.width  && isNaN(box.width ))? "" : "px" %>;
