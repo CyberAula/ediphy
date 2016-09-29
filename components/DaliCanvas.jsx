@@ -137,6 +137,9 @@ export default class DaliCanvas extends Component {
         if (nextProps.boxSelected !== -1) {
             this.setState({showTitle: false});
         }
+        if (this.props.navItemSelected.id !== nextProps.navItemSelected.id) {
+            document.getElementById('maincontent').scrollTop=0;
+        }
     }
 
     componentDidMount() {
