@@ -175,7 +175,7 @@ export default class DaliBox extends Component {
                       else if(toolbar.config && toolbar.config.needsTextEdition && this.props.id == this.props.boxSelected){
                         this.props.onTextEditorToggled(this.props.id, true);
                         this.refs.textarea.focus();
-                    }  
+                    }
                  }}
                  style={{
                     position: box.position.type,
@@ -184,7 +184,7 @@ export default class DaliBox extends Component {
                     width: box.width ,
                     height: box.height,
                     maxWidth: '100%',
-                    maxHeight: '100%', 
+                    maxHeight: '100%',
                     verticalAlign: box.verticalAlign ? box.verticalAlign : 'middle' ,
                     /*border: ((box.container !== 0 && vis) ? (this.borderSize + "px dashed #555") : 0),*/
                     touchAction: 'none',
@@ -309,8 +309,10 @@ export default class DaliBox extends Component {
         this.props.onTextEditorToggled(this.props.id, false);
         let toolbar = this.props.toolbars[this.props.id];
         let data = CKEDITOR.instances[this.props.id].getData();
-        toolbar.state.__text = toolbar.config.extraTextConfig ? data : encodeURI(data);
-        Dali.Plugins.get(toolbar.config.name).forceUpdate(toolbar.state, this.props.id);
+        //toolbar.state.__text = toolbar.config.extraTextConfig ? data : encodeURI(data);
+        Dali.Plugins.get(toolbar.config.name).forceUpdate(Object.assign({}, toolbar.state, {
+            __text: toolbar.config.extraTextConfig ? data : encodeURI(data)
+        }), this.props.id);
     }
 
     componentWillUpdate(nextProps, nextState) {

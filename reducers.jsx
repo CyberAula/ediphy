@@ -254,7 +254,7 @@ function boxesById(state = {}, action = {}) {
             });
         case UPDATE_BOX:
             newState = Object.assign({}, state);
-            newState[action.payload.id].content = action.payload.content;
+            //newState[action.payload.id].content = action.payload.content;
             let sortableContainers = {};
             let children = [];
             if (action.payload.state.__pluginContainerIds) {
@@ -285,9 +285,17 @@ function boxesById(state = {}, action = {}) {
                 }
             }
 
-            newState[action.payload.id].children = children;
-            newState[action.payload.id].sortableContainers = sortableContainers;
-            return newState;
+            //newState[action.payload.id].children = children;
+            //newState[action.payload.id].sortableContainers = sortableContainers;
+            //return newState;
+
+            return Object.assign({}, state, {
+                [action.payload.id]: Object.assign({}, state[action.payload.id], {
+                    content: action.payload.content,
+                    children: children,
+                    sortableContainers: sortableContainers
+                })
+            });
         case REORDER_BOXES:
             return Object.assign({}, state, {
                 [action.payload.parent]: Object.assign({}, state[action.payload.parent], {
@@ -1005,10 +1013,17 @@ function toolbarsById(state = {}, action = {}) {
             } catch (e) {
             }
 
-            newState = Object.assign({}, state);
-            newState[action.payload.id].state = action.payload.state;
-            newState[action.payload.id].controls = controls;
-            return newState;
+            //newState = Object.assign({}, state);
+            //newState[action.payload.id].state = action.payload.state;
+            //newState[action.payload.id].controls = controls;
+            //return newState;
+
+            return Object.assign({}, state, {
+                [action.payload.id]: Object.assign({}, state[action.payload.id], {
+                    state: action.payload.state,
+                    controls: controls
+                })
+            });
         case TOGGLE_TEXT_EDITOR:
             return Object.assign({}, state, {
                 [action.payload.caller]: Object.assign({}, state[action.payload.caller], {showTextEditor: action.payload.value})
