@@ -285,10 +285,6 @@ function boxesById(state = {}, action = {}) {
                 }
             }
 
-            //newState[action.payload.id].children = children;
-            //newState[action.payload.id].sortableContainers = sortableContainers;
-            //return newState;
-
             return Object.assign({}, state, {
                 [action.payload.id]: Object.assign({}, state[action.payload.id], {
                     content: action.payload.content,

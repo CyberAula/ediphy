@@ -312,12 +312,13 @@ export default class DaliBox extends Component {
         //toolbar.state.__text = toolbar.config.extraTextConfig ? data : encodeURI(data);
         Dali.Plugins.get(toolbar.config.name).forceUpdate(Object.assign({}, toolbar.state, {
             __text: toolbar.config.extraTextConfig ? data : encodeURI(data)
-        }), this.props.id);
+        }),  this.props.id);
     }
 
     componentWillUpdate(nextProps, nextState) {
         if ((this.props.boxSelected === this.props.id) && (nextProps.boxSelected !== this.props.id) && this.props.toolbars[this.props.id].showTextEditor) {
             CKEDITOR.instances[this.props.id].focusManager.blur(true);
+            this.blurTextarea();
         }
     }
 
@@ -385,9 +386,6 @@ export default class DaliBox extends Component {
                 CKEDITOR.config[key] += toolbar.config.extraTextConfig[key] + ",";
             }
             let editor = CKEDITOR.inline(this.refs.textarea);
-            editor.on("blur", function (e) {
-                this.blurTextarea();
-            }.bind(this));
             if (toolbar.state.__text) {
                 editor.setData(decodeURI(toolbar.state.__text));
             }
@@ -648,6 +646,9 @@ export default class DaliBox extends Component {
     componentWillUnmount() {
         interact(ReactDOM.findDOMNode(this)).unset();
         if (CKEDITOR.instances[this.props.id]) {
+            if(CKEDITOR.instances[this.props.id].focusManager.hasFocus){
+                this.blurTextarea();
+            }
             CKEDITOR.instances[this.props.id].destroy();
         }
     }
