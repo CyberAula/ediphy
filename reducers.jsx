@@ -479,7 +479,7 @@ function recalculateNames(state = {}, old = {}, resta = 0, numeroBorrados = 0) {
         }
     }
     // Rename pages
-    var pages = 
+    var pages =
     Object.keys(state).filter(page => {
         if (state[page].type === 'slide' || state[page].type === 'document') {
             return page;
@@ -769,7 +769,7 @@ function createSortableButtons(controls, width) {
         options: ['absolute', 'relative'],
         autoManaged: true
     };
-    
+
 
 }
 
@@ -1110,17 +1110,19 @@ const GlobalState = undoable(combineReducers({
     fetchVishResults: fetchVishResults
 }), {
     filter: (action, currentState, previousState) => {
-        if (action.type === EXPAND_NAV_ITEM) {
-            return false;
-        } else if (action.type === TOGGLE_PAGE_MODAL) {
-            return false;
-        } else if (action.type === TOGGLE_TITLE_MODE) {
-            return false;
-        } else if (action.type === CHANGE_DISPLAY_MODE) {
-            return false;
-        } else if (action.type === SET_BUSY) {
-            return false;
+        console.log(action.type);
+        console.log(action);
+        switch(action.type){
+            case CHANGE_DISPLAY_MODE:
+            case EXPAND_NAV_ITEM:
+            case SELECT_BOX:
+            case SET_BUSY:
+            case TOGGLE_PAGE_MODAL:
+            case TOGGLE_TEXT_EDITOR:
+            case TOGGLE_TITLE_MODE:
+                return false;
         }
+
         return currentState !== previousState; // only add to history if state changed
     }
 });

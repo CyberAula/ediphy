@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
+import DevTools from './DevTools';
 import GlobalState from '../reducers';
 import DaliApp from './DaliApp';
 import i18n from 'i18next';
+import { createStore, compose, applyMiddleware } from 'redux';
+import thunkMiddleware from 'redux-thunk';
 
 
 export default class ReduxProvider extends Component {
@@ -68,14 +71,17 @@ export default class ReduxProvider extends Component {
                 }
             }
         };
+
+        this.store = this.configureStore();
     }
 
     render() {
         return (
             /* jshint ignore:start */
-            <Provider store={this.configureStore()}>
+            <Provider store={this.store}>
                 <div style={{height: '100%'}}>
-                    <DaliApp id="app" store={this.configureStore()}/>
+                    <DaliApp id="app" store={this.store}/>
+                    <DevTools/>
                 </div>
             </Provider>
             /* jshint ignore:end */
@@ -83,7 +89,7 @@ export default class ReduxProvider extends Component {
     }
 
     configureStore() {
-        const store = this.props.finalCreateStore(GlobalState, this.initialState);
+        const store = createStore(GlobalState, this.initialState, compose(applyMiddleware(thunkMiddleware), DevTools.instrument()));
 
         if (module.hot) {
             // Enable Webpack hot module replacement for reducers
