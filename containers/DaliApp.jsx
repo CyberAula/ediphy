@@ -22,6 +22,7 @@ import Visor from '../components/visor/Visor';
 import PluginRibbon from '../components/PluginRibbon';
 import DaliNavBar from '../components/DaliNavBar';
 import ServerFeedback from '../components/ServerFeedback';
+import RichMarksModal from '../components/rich_plugins/RichMarksModal.jsx';
 import Dali from './../core/main';
 
 
@@ -35,6 +36,7 @@ class DaliApp extends Component {
             visorVisible: false,
             xmlEditorVisible: false,
             vishSearcherVisible: false,
+            richMarksVisible: false,
             carouselShow: true,
             carouselFull: false,
             serverModal: false,
@@ -178,6 +180,19 @@ class DaliApp extends Component {
                                 toolbar={toolbars[boxSelected]}
                                 visible={this.state.xmlEditorVisible}
                                 onXMLEditorToggled={() => this.setState({xmlEditorVisible: !this.state.xmlEditorVisible})}/>
+                <RichMarksModal boxSelected={boxSelected}
+                                navItems={navItems}
+                                navItemsIds={navItemsIds}
+                                visible={this.state.richMarksVisible}
+                                onRichMarkAdded={(mark) => {
+                                    let toolbar = toolbars[boxSelected];
+                                    Dali.Plugins.get(toolbar.config.name).forceUpdate(Object.assign({}, toolbar.state, {
+                                        __marks: Object.assign({}, toolbar.state.__marks, {
+                                            [mark.id]: mark
+                                        })
+                                    }), boxSelected);
+                                }}
+                                onRichMarksModalToggled={() => this.setState({richMarksVisible: !this.state.richMarksVisible})}/>
                 <PluginToolbar top={(60+ribbonHeight)+'px'}
                                toolbars={toolbars}
                                box={boxes[boxSelected]}
@@ -198,6 +213,7 @@ class DaliApp extends Component {
                                onBoxDuplicated={(id, parent, container)=> this.dispatchAndSetState( duplicateBox( id, parent, container, this.getDescendants(boxes[id]), this.getDuplicatedBoxesIds(this.getDescendants(boxes[id]) ), Date.now()-1 ))}
                                onBoxDeleted={(id, parent, container)=> this.dispatchAndSetState(deleteBox(id, parent, container, this.getDescendants(boxes[id])))}
                                onXMLEditorToggled={() => this.setState({xmlEditorVisible: !this.state.xmlEditorVisible})}
+                               onRichMarksModalToggled={() => this.setState({richMarksVisible: !this.state.richMarksVisible})}
                                onFetchVishResources={(query) => this.dispatchAndSetState(fetchVishResourcesAsync(query))}
                 />
             </Grid>
@@ -220,8 +236,8 @@ class DaliApp extends Component {
                 e.detail.state.__pluginContainerIds = newPluginState;
                 this.dispatchAndSetState(updateBox(e.detail.ids.id, e.detail.content, e.detail.toolbar, e.detail.state));
                 this.addDefaultContainerPlugins(e.detail, e.detail.content);
-                if(e.detail.state.__xml_path){
-                    if(!navItemSelected.extraFiles[e.detail.ids.id] || navItemSelected.extraFiles[e.detail.ids.id] !== e.detail.state.__xml_path){
+                if (e.detail.state.__xml_path) {
+                    if (!navItemSelected.extraFiles[e.detail.ids.id] || navItemSelected.extraFiles[e.detail.ids.id] !== e.detail.state.__xml_path) {
                         this.dispatchAndSetState(updateNavItemExtraFiles(this.props.navItemSelected, e.detail.ids.id, e.detail.state.__xml_path));
                     }
                 }
@@ -244,8 +260,8 @@ class DaliApp extends Component {
                     e.detail.state,
                     e.detail.initialParams));
                 this.addDefaultContainerPlugins(e.detail, e.detail.content);
-                if(e.detail.state.__xml_path){
-                    if(!navItemSelected.extraFiles[e.detail.ids.id] || navItemSelected.extraFiles[e.detail.ids.id] !== e.detail.state.__xml_path){
+                if (e.detail.state.__xml_path) {
+                    if (!navItemSelected.extraFiles[e.detail.ids.id] || navItemSelected.extraFiles[e.detail.ids.id] !== e.detail.state.__xml_path) {
                         this.dispatchAndSetState(updateNavItemExtraFiles(this.props.navItemSelected, e.detail.ids.id, e.detail.state.__xml_path));
                     }
                 }

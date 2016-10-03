@@ -70,12 +70,14 @@ export default function () {
             }
         },
         getConfig: function () {
-            var name, displayName, category, callback, needsConfigModal, needsTextEdition, extraTextConfig, needsXMLEdition, icon, aspectRatioButtonConfig;
+            var name, displayName, category, callback, needsConfigModal, needsTextEdition, extraTextConfig,
+                needsXMLEdition, icon, aspectRatioButtonConfig, isRich;
             if (descendant.getConfig) {
                 name = descendant.getConfig().name;
                 displayName = descendant.getConfig().displayName;
                 category = descendant.getConfig().category;
                 icon = descendant.getConfig().icon;
+                isRich = descendant.getConfig().isRich;
                 needsConfigModal = descendant.getConfig().needsConfigModal;
                 needsTextEdition = descendant.getConfig().needsTextEdition;
                 extraTextConfig = descendant.getConfig().extraTextConfig;
@@ -86,11 +88,11 @@ export default function () {
             name = defaultFor(name, 'PluginName', "Plugin name not assigned");
             displayName = defaultFor(displayName, 'Plugin', "Plugin displayName not assigned");
             category = defaultFor(category, 'text', "Plugin category not assigned");
+            icon = defaultFor(icon, 'fa-cogs', "Plugin icon not assigned");
+            isRich = defaultFor(isRich, false);
             needsConfigModal = defaultFor(needsConfigModal, false);
             needsTextEdition = defaultFor(needsTextEdition, false);
-            //extraTextConfig = defaultFor(extraTextConfig, {});
             needsXMLEdition = defaultFor(needsXMLEdition, false);
-            icon = defaultFor(icon, 'fa-cogs', "Plugin icon not assigned");
 
             if (aspectRatioButtonConfig) {
                 aspectRatioButtonConfig.name = defaultFor(aspectRatioButtonConfig.name, "Aspect Ratio");
@@ -121,6 +123,11 @@ export default function () {
                         state.__xml = null;
                     }
                 }
+                if(isRich){
+                    if(!state.__marks){
+                        state.__marks = {};
+                    }
+                }
                 initialParams = initParams;
                 if (needsConfigModal) {
                     this.openConfigModal(false, state);
@@ -139,7 +146,8 @@ export default function () {
                 extraTextConfig: extraTextConfig,
                 needsXMLEdition: needsXMLEdition,
                 aspectRatioButtonConfig: aspectRatioButtonConfig,
-                icon: icon
+                icon: icon,
+                isRich
             };
         },
         getToolbar: function () {

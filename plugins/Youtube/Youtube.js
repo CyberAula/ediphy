@@ -7,7 +7,7 @@ export function Youtube(base) {
                 category: 'multimedia',
                 aspectRatioButtonConfig: {
                     name: "Aspect Ratio",
-                    location: ["main", "_sortable"],
+                    location: ["main", "__sortable"],
                     defaultValue: "checked"
                 },
                 icon: 'slideshow'

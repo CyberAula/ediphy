@@ -22,7 +22,7 @@ function boxCreator(state = {}, action = {}) {
                     position = {x: 0, y: 0, type: 'relative'};
                     width = '100%';
                     level = -1;
-                     break;
+                    break;
                 default:
                     position = {
                         x: Math.floor(Math.random() * 200),
@@ -479,14 +479,14 @@ function recalculateNames(state = {}, old = {}, resta = 0, numeroBorrados = 0) {
         }
     }
     // Rename pages
-    var pages = 
-    Object.keys(state).filter(page => {
-        if (state[page].type === 'slide' || state[page].type === 'document') {
-            return page;
-        }
-    }).sort(function (a, b) {
-        return state[a].position - state[b].position;
-    });
+    var pages =
+        Object.keys(state).filter(page => {
+            if (state[page].type === 'slide' || state[page].type === 'document') {
+                return page;
+            }
+        }).sort(function (a, b) {
+            return state[a].position - state[b].position;
+        });
 
     //pages.forEach((page, index) => {
     // items[page].name = 'Page ' + (index + 1);
@@ -520,7 +520,7 @@ function navItemsIds(state = [], action = {}) {
     switch (action.type) {
         case ADD_NAV_ITEM:
             let nState = state.slice();
-            nState.splice(action.payload.position-1 , 0, action.payload.id);
+            nState.splice(action.payload.position - 1, 0, action.payload.id);
             return nState;
         case REMOVE_NAV_ITEM:
             let newState = state.slice();
@@ -540,7 +540,7 @@ function navItemsIds(state = [], action = {}) {
     }
 }
 
-function findNavItemsDescendants(state, parent){
+function findNavItemsDescendants(state, parent) {
     let family = [parent];
     state[parent].children.forEach(item => {
         family = family.concat(findNavItemsDescendants(state, item));
@@ -614,12 +614,12 @@ function navItemsById(state = {}, action = {}) {
 
                 action.payload.newIndId.forEach(elem => {
                     newSt = Object.assign({}, newSt, {
-                        [elem]: Object.assign({}, newSt[elem], {position: action.payload.newIndId.indexOf(elem)+1})
+                        [elem]: Object.assign({}, newSt[elem], {position: action.payload.newIndId.indexOf(elem) + 1})
                     });
                 });
             }
             let navsToChange = findNavItemsDescendants(state, action.payload.itemId);
-            if(action.payload.newParent !== 0){
+            if (action.payload.newParent !== 0) {
                 let newUnitNumber = newSt[action.payload.newParent].unitNumber;
                 navsToChange.forEach(item => {
                     newSt[item].unitNumber = newUnitNumber;
@@ -646,7 +646,7 @@ function navItemsById(state = {}, action = {}) {
             });
             return newState;
         case TOGGLE_NAV_ITEM:
-            if(state[state[action.payload.id].parent].hidden){
+            if (state[state[action.payload.id].parent].hidden) {
                 return state;
             }
             newState = Object.assign({}, state);
@@ -714,12 +714,50 @@ function navItemSelected(state = 0, action = {}) {
     }
 }
 
+function createRichAccordions(controls) {
+    if (!controls.main) {
+        controls.main = {
+            __name: "Main",
+            accordions: {
+                __marks_list: {
+                    key: 'marks_list',
+                    __name: 'Marks List',
+                    icon: 'border_all',
+                    buttons: {}
+                },
+                __content_list: {
+                    key: 'content_list',
+                    __name: 'Content List',
+                    icon: 'border_all',
+                    buttons: {}
+                }
+            }
+        };
+    }
+    if (!controls.main.accordions.__marks_list) {
+        controls.main.accordions.__marks_list = {
+            key: 'marks_list',
+            __name: 'Marks List',
+            icon: 'border_all',
+            buttons: {}
+        };
+    }
+    if (!controls.main.accordions.__content_list) {
+        controls.main.accordions.__content_list = {
+            key: 'content_list',
+            __name: 'Content List',
+            icon: 'border_all',
+            buttons: {}
+        };
+    }
+}
+
 function createSortableButtons(controls, width) {
     if (!controls.main) {
         controls.main = {
             __name: "Main",
             accordions: {
-                _sortable: {
+                __sortable: {
                     key: 'structure',
                     __name: i18n.t('Structure'),
                     icon: 'border_all',
@@ -727,15 +765,15 @@ function createSortableButtons(controls, width) {
                 }
             }
         };
-    } else if (!controls.main.accordions._sortable) {
-        controls.main.accordions._sortable = {
+    } else if (!controls.main.accordions.__sortable) {
+        controls.main.accordions.__sortable = {
             key: 'structure',
             __name: i18n.t('Structure'),
             icon: 'border_all',
             buttons: {}
         };
     }
-    controls.main.accordions._sortable.buttons.width = {
+    controls.main.accordions.__sortable.buttons.width = {
         __name: i18n.t('Width_percentage'),
         type: 'number',
         value: width || 100,
@@ -745,7 +783,7 @@ function createSortableButtons(controls, width) {
         units: '%',
         autoManaged: true
     };
-    controls.main.accordions._sortable.buttons.height = {
+    controls.main.accordions.__sortable.buttons.height = {
         __name: i18n.t('Height_percentage'),
         type: 'number',
         value: 'auto',
@@ -755,22 +793,20 @@ function createSortableButtons(controls, width) {
         units: '%',
         autoManaged: true
     };
-    controls.main.accordions._sortable.buttons.___heightAuto = {
+    controls.main.accordions.__sortable.buttons.___heightAuto = {
         __name: i18n.t('Height_auto'),
         type: 'checkbox',
         value: 'checked',
         checked: 'true',
         autoManaged: true
     };
-    controls.main.accordions._sortable.buttons.___position = {
+    controls.main.accordions.__sortable.buttons.___position = {
         __name: i18n.t('Position'),
         type: 'radio',
         value: 'relative',
         options: ['absolute', 'relative'],
         autoManaged: true
     };
-    
-
 }
 
 function createFloatingBoxButtons(controls, width) {
@@ -778,7 +814,7 @@ function createFloatingBoxButtons(controls, width) {
         controls.main = {
             __name: "Main",
             accordions: {
-                _sortable: {
+                __sortable: {
                     key: 'structure',
                     __name: i18n.t('Structure'),
                     icon: 'border_all',
@@ -786,8 +822,8 @@ function createFloatingBoxButtons(controls, width) {
                 }
             }
         };
-    } else if (!controls.main.accordions._sortable) {
-        controls.main.accordions._sortable = {
+    } else if (!controls.main.accordions.__sortable) {
+        controls.main.accordions.__sortable = {
             key: 'structure',
             __name: i18n.t('Structure'),
             icon: 'border_all',
@@ -795,7 +831,7 @@ function createFloatingBoxButtons(controls, width) {
         };
     }
 
-    controls.main.accordions._sortable.buttons.width = {
+    controls.main.accordions.__sortable.buttons.width = {
         __name: i18n.t('Width_pixels'),
         type: 'number',
         value: width || 100,
@@ -805,7 +841,7 @@ function createFloatingBoxButtons(controls, width) {
         units: 'px',
         autoManaged: true
     };
-    controls.main.accordions._sortable.buttons.height = {
+    controls.main.accordions.__sortable.buttons.height = {
         __name: i18n.t('Height_pixels'),
         type: 'number',
         value: 'auto',
@@ -815,15 +851,13 @@ function createFloatingBoxButtons(controls, width) {
         units: 'px',
         autoManaged: true
     };
-    controls.main.accordions._sortable.buttons.___heightAuto = {
+    controls.main.accordions.__sortable.buttons.___heightAuto = {
         __name: i18n.t('Height_auto'),
         type: 'checkbox',
         value: 'checked',
         checked: 'true',
         autoManaged: true
     };
-
-
 }
 
 
@@ -877,7 +911,6 @@ function toolbarsById(state = {}, action = {}) {
                 createSortableButtons(toolbar.controls);
             } else if (action.payload.ids.id.indexOf(ID_PREFIX_SORTABLE_BOX) === -1) {
                 createFloatingBoxButtons(toolbar.controls);
-
             }
 
             if (action.payload.ids.id.indexOf(ID_PREFIX_SORTABLE_BOX) === -1) {
@@ -896,6 +929,10 @@ function toolbarsById(state = {}, action = {}) {
                 } else {
                     toolbar.controls[arb.location[0]].accordions[arb.location[1]].accordions[arb.location[2]].buttons.__aspectRatio = button;
                 }
+            }
+
+            if (toolbar.config && toolbar.config.isRich) {
+                createRichAccordions(toolbar.controls);
             }
 
             newState = Object.assign({}, state);
@@ -950,15 +987,15 @@ function toolbarsById(state = {}, action = {}) {
 
             if (newState[action.payload.id] && newState[action.payload.id].controls) {
                 if (newState[action.payload.id].controls.main && newState[action.payload.id].controls.main.accordions) {
-                    if (newState[action.payload.id].controls.main.accordions._sortable) {
-                        let buttons = newState[action.payload.id].controls.main.accordions._sortable.buttons;
+                    if (newState[action.payload.id].controls.main.accordions.__sortable) {
+                        let buttons = newState[action.payload.id].controls.main.accordions.__sortable.buttons;
                         if (buttons.___heightAuto) {
-                            newState[action.payload.id].controls.main.accordions._sortable.buttons.___heightAuto.checked = heightAuto;
-                            newState[action.payload.id].controls.main.accordions._sortable.buttons.___heightAuto.value = heightAuto ? 'checked' : 'unchecked';
+                            newState[action.payload.id].controls.main.accordions.__sortable.buttons.___heightAuto.checked = heightAuto;
+                            newState[action.payload.id].controls.main.accordions.__sortable.buttons.___heightAuto.value = heightAuto ? 'checked' : 'unchecked';
                         }
                         if (buttons.height && buttons.width) {
-                            newState[action.payload.id].controls.main.accordions._sortable.buttons.height.value = height;
-                            newState[action.payload.id].controls.main.accordions._sortable.buttons.width.value = height;
+                            newState[action.payload.id].controls.main.accordions.__sortable.buttons.height.value = height;
+                            newState[action.payload.id].controls.main.accordions.__sortable.buttons.width.value = height;
                         }
                     }
                 }
@@ -995,14 +1032,18 @@ function toolbarsById(state = {}, action = {}) {
             try {
                 createSortableButtons(
                     controls,
-                    state[action.payload.id].controls.main.accordions._sortable.buttons.width.value,
-                    state[action.payload.id].controls.main.accordions._sortable.buttons.height.value
+                    state[action.payload.id].controls.main.accordions.__sortable.buttons.width.value,
+                    state[action.payload.id].controls.main.accordions.__sortable.buttons.height.value
                 );
                 createAliasButton(
                     controls,
                     state[action.payload.id].controls.other.accordions['~extra'].buttons.alias.value
                 );
             } catch (e) {
+            }
+
+            if (state[action.payload.id].config && state[action.payload.id].config.isRich) {
+                createRichAccordions(controls);
             }
 
             newState = Object.assign({}, state);

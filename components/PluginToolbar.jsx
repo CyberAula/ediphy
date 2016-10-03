@@ -5,6 +5,7 @@ import GridConfigurator from '../components/GridConfigurator.jsx';
 import RadioButtonFormGroup from '../components/RadioButtonFormGroup.jsx';
 import Select from 'react-select';
 import VishSearcher from './VishSearcher';
+import MarkList from './rich_plugins/MarkList.jsx';
 import Dali from './../core/main';
 import i18n from 'i18next';
 
@@ -136,7 +137,8 @@ export default class PluginToolbar extends Component {
 
                             <div className="toolbarTitle"><i className="material-icons">settings</i><span
                                 className="toolbarTitletxt">{i18n.t('Properties')}</span></div>
-                            <div className="pluginTitleInToolbar"> {toolbar.config.displayName || toolbar.config.name || ""}</div>
+                            <div
+                                className="pluginTitleInToolbar"> {toolbar.config.displayName || toolbar.config.name || ""}</div>
                         </div>
                     </OverlayTrigger>
                     <div id="insidetools" style={{display: this.state.open? 'block':'none'}}>
@@ -235,17 +237,27 @@ export default class PluginToolbar extends Component {
             }
 
         }
-        
-        if (accordion.key === 'structure' && this.props.box.container !== 0){
+
+        if (accordion.key === 'structure' && this.props.box.container !== 0) {
             children.push(
                 /* jshint ignore:start */
-                <RadioButtonFormGroup   key="verticalalignment"  
-                                        title={i18n.t('Vertical_align')}
-                                        options={['top', 'middle', 'bottom']}
-                                        selected={this.props.box.verticalAlign ? this.props.box.verticalAlign : 'top'}
-                                        click={(option) => {this.props.onVerticallyAlignBox(this.props.boxSelected, option)}}
-                                        tooltips={[i18n.t('messages.align_top'),i18n.t('messages.align_middle'),i18n.t('messages.align_bottom')]}
-                                        icons={['vertical_align_top', 'vertical_align_center', 'vertical_align_bottom']} /> 
+                <RadioButtonFormGroup key="verticalalignment"
+                                      title={i18n.t('Vertical_align')}
+                                      options={['top', 'middle', 'bottom']}
+                                      selected={this.props.box.verticalAlign ? this.props.box.verticalAlign : 'top'}
+                                      click={(option) => {this.props.onVerticallyAlignBox(this.props.boxSelected, option)}}
+                                      tooltips={[i18n.t('messages.align_top'),i18n.t('messages.align_middle'),i18n.t('messages.align_bottom')]}
+                                      icons={['vertical_align_top', 'vertical_align_center', 'vertical_align_bottom']}/>
+                /* jshint ignore:end */
+            );
+        }
+
+        if (accordion.key === 'marks_list') {
+            children.push(
+                /* jshint ignore:start */
+                <MarkList key="marks_list"
+                          state={state}
+                          onRichMarksModalToggled={this.props.onRichMarksModalToggled}/>
                 /* jshint ignore:end */
             );
         }
