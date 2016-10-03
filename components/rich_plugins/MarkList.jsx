@@ -15,6 +15,22 @@ export default class MarkList extends Component {
                 </Button>
                 {
                     Object.keys(this.props.state.__marks).map(id => {
+                        let mark = this.props.state.__marks[id];
+                        return (
+                            <div key={id}>
+                                {mark.title}
+                                <i className="material-icons"
+                                   onClick={() => {
+                                        this.props.onRichMarkEditPressed(mark);
+                                        this.props.onRichMarksModalToggled();
+                                   }}>edit</i>
+                                <i className="material-icons"
+                                   onClick={() => {
+                                        this.props.onRichMarkDeleted(id);
+                                   }}>delete</i>
+                            </div>
+                        );
+
                         return this.props.state.__marks[id].title;
                     })
                 }

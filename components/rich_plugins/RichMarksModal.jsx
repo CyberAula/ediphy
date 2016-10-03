@@ -14,6 +14,18 @@ export default class RichMarksModal extends Component {
         };
     }
 
+    componentWillReceiveProps(nextProps){
+        let current = nextProps.currentRichMark;
+        if(current){
+            this.setState({
+                connectMode: current.connectMode || "new",
+                displayMode: current.displayMode || "navigate",
+                newSelected: (current.connectMode === "new" ? current.connection : "slide"),
+                existingSelected: (current.connectMode === "existing" && nextProps.navItems[current.connection] ? nextProps.navItems[current.connection].name : "")
+            });
+        }
+    }
+
     render() {
         let navItemsNames = [];
         this.props.navItemsIds.map(id => {
@@ -25,18 +37,21 @@ export default class RichMarksModal extends Component {
             }
             navItemsNames.push({name: this.props.navItems[id].name, id: id});
         });
+        let current = this.props.currentRichMark;
         return (
             /* jshint ignore:start */
             <Modal className="pageModal" backdrop={true} bsSize="large" show={this.props.visible}>
                 <Modal.Header>
-                    <Modal.Title>Add mark to rich plugin</Modal.Title>
+                    <Modal.Title>{current ? "Edit rich mark" : "Add mark to rich plugin"}</Modal.Title>
                 </Modal.Header>
 
                 <Modal.Body>
                     <Row>
                         <FormGroup>
                             <ControlLabel>Title</ControlLabel>
-                            <FormControl ref="title" type="text"/>
+                            <FormControl ref="title"
+                                         type="text"
+                                         defaultValue={current ? current.title : ""}/>
                         </FormGroup>
                         <FormGroup>
                             <ControlLabel>Connect mode</ControlLabel>
@@ -61,7 +76,7 @@ export default class RichMarksModal extends Component {
                         </FormGroup>
                         <FormGroup style={{display: this.state.connectMode === "new" ? "initial" : "none"}}>
                             <FormControl componentClass="select"
-                                         defaultValue="slide"
+                                         defaultValue={this.state.newSelected}
                                          onChange={e => {
                                             this.setState({newSelected: e.nativeEvent.target.value});
                                          }}>
@@ -73,36 +88,41 @@ export default class RichMarksModal extends Component {
                             <Typeahead options={navItemsNames}
                                        placeholder="Search view by name"
                                        labelKey="name"
+                                       defaultSelected={[this.state.existingSelected]}
                                        onChange={items => {
-                                           this.setState({existingSelected: items[0].id})
+                                           this.setState({existingSelected: items.length !== 0 ? items[0].id : ""});
                                        }}/>
                         </FormGroup>
                         <FormGroup style={{display: this.state.connectMode === "external" ? "initial" : "none"}}>
                             <FormControl ref="externalSelected"
                                          type="text"
+                                         defaultValue={current && this.state.connectMode === "external" ? current.connection : ""}
                                          placeholder="URL"/>
                         </FormGroup>
                         <FormGroup>
                             <ControlLabel>Display mode</ControlLabel>
                             <Radio name="display_mode"
-                                   defaultChecked
+                                   checked={this.state.displayMode === "navigate"}
                                    onChange={e => {
                                         this.setState({displayMode: "navigate"});
                                    }}>Navigate to content</Radio>
                             <Radio name="display_mode"
+                                   checked={this.state.displayMode === "popup"}
                                    onChange={e => {
                                         this.setState({displayMode: "popup"});
                                    }}>Show as popup</Radio>
                             <Radio name="display_mode"
+                                   checked={this.state.displayMode === "new_tab"}
                                    disabled={this.state.connectMode !== "external"}
                                    onChange={e => {
-                                        this.setState({displayMode: "external"});
+                                        this.setState({displayMode: "new_tab"});
                                    }}>Open in new tab</Radio>
                         </FormGroup>
                         <FormGroup>
                             <ControlLabel>Value</ControlLabel>
                             <FormControl ref="value"
-                                         type="text"/>
+                                         type="text"
+                                         defaultValue={current ? current.value : ""} />
                         </FormGroup>
                     </Row>
                 </Modal.Body>
@@ -128,7 +148,7 @@ export default class RichMarksModal extends Component {
                         }
                         let displayMode = this.state.displayMode;
                         let value = ReactDOM.findDOMNode(this.refs.value).value;
-                        this.props.onRichMarkAdded({id: Date.now(), title, connectMode, connection, displayMode, value});
+                        this.props.onRichMarkUpdated({id: (current ? current.id : Date.now()), title, connectMode, connection, displayMode, value});
                         this.props.onRichMarksModalToggled();
                     }}>Save changes</Button>
                 </Modal.Footer>

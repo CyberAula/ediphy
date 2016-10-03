@@ -37,6 +37,7 @@ class DaliApp extends Component {
             xmlEditorVisible: false,
             vishSearcherVisible: false,
             richMarksVisible: false,
+            currentRichMark: null,
             carouselShow: true,
             carouselFull: false,
             serverModal: false,
@@ -184,7 +185,8 @@ class DaliApp extends Component {
                                 navItems={navItems}
                                 navItemsIds={navItemsIds}
                                 visible={this.state.richMarksVisible}
-                                onRichMarkAdded={(mark) => {
+                                currentRichMark={this.state.currentRichMark}
+                                onRichMarkUpdated={(mark) => {
                                     let toolbar = toolbars[boxSelected];
                                     Dali.Plugins.get(toolbar.config.name).forceUpdate(Object.assign({}, toolbar.state, {
                                         __marks: Object.assign({}, toolbar.state.__marks, {
@@ -192,7 +194,12 @@ class DaliApp extends Component {
                                         })
                                     }), boxSelected);
                                 }}
-                                onRichMarksModalToggled={() => this.setState({richMarksVisible: !this.state.richMarksVisible})}/>
+                                onRichMarksModalToggled={() => {
+                                    this.setState({richMarksVisible: !this.state.richMarksVisible});
+                                    if(this.state.richMarksVisible){
+                                        this.setState({currentRichMark: null});
+                                    }
+                                }}/>
                 <PluginToolbar top={(60+ribbonHeight)+'px'}
                                toolbars={toolbars}
                                box={boxes[boxSelected]}
@@ -213,12 +220,35 @@ class DaliApp extends Component {
                                onBoxDuplicated={(id, parent, container)=> this.dispatchAndSetState( duplicateBox( id, parent, container, this.getDescendants(boxes[id]), this.getDuplicatedBoxesIds(this.getDescendants(boxes[id]) ), Date.now()-1 ))}
                                onBoxDeleted={(id, parent, container)=> this.dispatchAndSetState(deleteBox(id, parent, container, this.getDescendants(boxes[id])))}
                                onXMLEditorToggled={() => this.setState({xmlEditorVisible: !this.state.xmlEditorVisible})}
-                               onRichMarksModalToggled={() => this.setState({richMarksVisible: !this.state.richMarksVisible})}
+                               onRichMarksModalToggled={() => {
+                                    this.setState({richMarksVisible: !this.state.richMarksVisible});
+                                    if(this.state.richMarksVisible){
+                                        this.setState({currentRichMark: null});
+                                    }
+                               }}
+                               onRichMarkEditPressed={(mark) => {
+                                    this.setState({currentRichMark: mark});
+                               }}
+                               onRichMarkDeleted={id => {
+                                    let toolbar = toolbars[boxSelected];
+                                    Dali.Plugins.get(toolbar.config.name).forceUpdate(Object.assign({}, toolbar.state, {
+                                        __marks: this.removeByKey(toolbar.state.__marks, id)
+                                    }), boxSelected);
+                               }}
                                onFetchVishResources={(query) => this.dispatchAndSetState(fetchVishResourcesAsync(query))}
                 />
             </Grid>
             /* jshint ignore:end */
         );
+    }
+
+    removeByKey(myObj, deleteKey) {
+        return Object.keys(myObj)
+            .filter(key => key !== deleteKey)
+            .reduce((result, current) => {
+                result[current] = myObj[current];
+                return result;
+            }, {});
     }
 
     dispatchAndSetState(actionCreator) {
