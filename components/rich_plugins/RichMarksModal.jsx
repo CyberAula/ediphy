@@ -23,7 +23,7 @@ export default class RichMarksModal extends Component {
             if (this.props.navItems[id].hidden) {
                 return;
             }
-            navItemsNames.push(this.props.navItems[id].name);
+            navItemsNames.push({name: this.props.navItems[id].name, id: id});
         });
         return (
             /* jshint ignore:start */
@@ -63,8 +63,7 @@ export default class RichMarksModal extends Component {
                             <FormControl componentClass="select"
                                          defaultValue="slide"
                                          onChange={e => {
-                                            console.log(e.nativeEvent.target.value);
-                                            this.setState({newSelected: ""});
+                                            this.setState({newSelected: e.nativeEvent.target.value});
                                          }}>
                                 <option value="document">New document</option>
                                 <option value="slide">New slide</option>
@@ -73,8 +72,9 @@ export default class RichMarksModal extends Component {
                         <FormGroup style={{display: this.state.connectMode === "existing" ? "initial" : "none"}}>
                             <Typeahead options={navItemsNames}
                                        placeholder="Search view by name"
-                                       onInputChange={text => {
-                                            this.setState({existingSelected: text});
+                                       labelKey="name"
+                                       onChange={items => {
+                                           this.setState({existingSelected: items[0].id})
                                        }}/>
                         </FormGroup>
                         <FormGroup style={{display: this.state.connectMode === "external" ? "initial" : "none"}}>
