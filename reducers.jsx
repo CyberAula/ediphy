@@ -10,6 +10,7 @@ import {ADD_BOX, SELECT_BOX, MOVE_BOX, DUPLICATE_BOX, RESIZE_BOX, UPDATE_BOX, DE
 } from './actions';
 import {ID_PREFIX_SECTION, ID_PREFIX_PAGE, ID_PREFIX_BOX, ID_PREFIX_SORTABLE_BOX} from './constants';
 import i18n from 'i18next';
+import update from 'react-addons-update';
 
 function boxCreator(state = {}, action = {}) {
     switch (action.type) {
@@ -143,10 +144,10 @@ function sortableContainerCreator(state = {}, action = {}) {
                 })
             });
         case DELETE_BOX:
-            //TODO: Check if there is somehow possible to do this properly
+
             return Object.assign({}, state, {
                 [action.payload.container]: Object.assign({}, state[action.payload.container], {
-                    children: Object.assign({},state[action.payload.container]).children.slice()//.filter(id => id !== action.payload.id)
+                    children: Object.assign({},state[action.payload.container]).children.slice().filter(id => id !== action.payload.id)
                 })
             });
         case CHANGE_COLS:
@@ -327,24 +328,32 @@ function boxesById(state = {}, action = {}) {
                 })
             });
         case DELETE_BOX:
-            newState = Object.assign({}, state, {
-                [action.payload.id]: {}
-            });
-
             
-            /*delete newState[action.payload.id];
+
+            /*newState = Object.assign({}, state, {
+                [action.payload.id]: {}
+            });delete newState[action.payload.id];
             if (action.payload.children) {
                 action.payload.children.forEach(id => {
                     delete newState[id];
                 });
             }*/
+            let id_action = action.payload.id;
+
+            newState = update(state, {
+                id_action: {$set: undefined} 
+            });
+            
 
             if (state[action.payload.id].container) {
                 let parent = state[action.payload.id].parent;
                 let container = state[action.payload.id].container;
                 newState[parent].sortableContainers = Object.assign({}, sortableContainerCreator(newState[parent].sortableContainers, action));
+                //newState = update(newState, {parent: {sortableContainers: {children: {$apply: function(x){
+                //    return x.filter(id => id !== action.payload.id);
+                //}}}}});
                 if (!newState[parent].sortableContainers[container]) {
-                    newState[parent].children = Object.assign({}, newState[parent].children.filter(id => id !== container));
+                    //newState[parent].children = Object.assign({}, newState[parent].children.filter(id => id !== container));
                 }
             }
 

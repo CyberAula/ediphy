@@ -1,3 +1,5 @@
+import React from 'react-addons-update';
+
 /**
  * Replaces all occurences of needle (interpreted as a regular expression with replacement and returns the new object.
  *
