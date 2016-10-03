@@ -5,7 +5,8 @@ import GridConfigurator from '../components/GridConfigurator.jsx';
 import RadioButtonFormGroup from '../components/RadioButtonFormGroup.jsx';
 import Select from 'react-select';
 import VishSearcher from './VishSearcher';
-import MarkList from './rich_plugins/MarkList.jsx';
+import MarksList from './rich_plugins/MarksList.jsx';
+import ContentList from './rich_plugins/ContentList.jsx';
 import Dali from './../core/main';
 import i18n from 'i18next';
 
@@ -255,11 +256,23 @@ export default class PluginToolbar extends Component {
         if (accordion.key === 'marks_list') {
             children.push(
                 /* jshint ignore:start */
-                <MarkList key="marks_list"
-                          state={state}
-                          onRichMarksModalToggled={this.props.onRichMarksModalToggled}
-                          onRichMarkEditPressed={this.props.onRichMarkEditPressed}
-                          onRichMarkDeleted={this.props.onRichMarkDeleted}/>
+                <MarksList key="marks_list"
+                           state={state}
+                           onRichMarksModalToggled={this.props.onRichMarksModalToggled}
+                           onRichMarkEditPressed={this.props.onRichMarkEditPressed}
+                           onRichMarkDeleted={this.props.onRichMarkDeleted}/>
+                /* jshint ignore:end */
+            );
+        }
+
+        if (accordion.key === 'content_list') {
+            children.push(
+                /* jshint ignore:start */
+                <ContentList key="content_list"
+                             state={state}
+                             navItems={this.props.navItems}
+                             onNavItemSelected={this.props.onNavItemSelected}
+                             onRichMarkDeleted={this.props.onRichMarkDeleted}/>
                 /* jshint ignore:end */
             );
         }

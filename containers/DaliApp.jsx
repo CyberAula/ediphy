@@ -204,9 +204,11 @@ class DaliApp extends Component {
                                toolbars={toolbars}
                                box={boxes[boxSelected]}
                                boxSelected={boxSelected}
+                               navItems={navItems}
                                carouselShow={boxSelected != -1}
                                isBusy={isBusy}
                                fetchResults={fetchVishResults}
+                               onNavItemSelected={id => this.dispatchAndSetState(selectNavItem(id))}
                                onColsChanged={(id, parent, distribution) => this.dispatchAndSetState(changeCols(id, parent, distribution))}
                                onRowsChanged={(id, parent, column, distribution) => this.dispatchAndSetState(changeRows(id, parent, column, distribution))}
                                onBoxResized={(id, width, height) => this.dispatchAndSetState(resizeBox(id, width, height))}

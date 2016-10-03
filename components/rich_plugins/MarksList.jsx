@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import {Button} from 'react-bootstrap';
 
-export default class MarkList extends Component {
+export default class MarksList extends Component {
     render() {
         return (
             /* jshint ignore: start */
@@ -30,8 +30,6 @@ export default class MarkList extends Component {
                                    }}>delete</i>
                             </div>
                         );
-
-                        return this.props.state.__marks[id].title;
                     })
                 }
             </div>

@@ -147,7 +147,7 @@ export default function () {
                 needsXMLEdition: needsXMLEdition,
                 aspectRatioButtonConfig: aspectRatioButtonConfig,
                 icon: icon,
-                isRich
+                isRich: isRich
             };
         },
         getToolbar: function () {
