@@ -143,10 +143,10 @@ function sortableContainerCreator(state = {}, action = {}) {
                 })
             });
         case DELETE_BOX:
-            let newChildren = state[action.payload.container].children.filter(id => id !== action.payload.id);
+            //TODO: Check if there is somehow possible to do this properly
             return Object.assign({}, state, {
                 [action.payload.container]: Object.assign({}, state[action.payload.container], {
-                    children: newChildren
+                    children: Object.assign({},state[action.payload.container]).children.slice()//.filter(id => id !== action.payload.id)
                 })
             });
         case CHANGE_COLS:
@@ -327,22 +327,27 @@ function boxesById(state = {}, action = {}) {
                 })
             });
         case DELETE_BOX:
-            newState = Object.assign({}, state);
-            delete newState[action.payload.id];
+            newState = Object.assign({}, state, {
+                [action.payload.id]: {}
+            });
+
+            
+            /*delete newState[action.payload.id];
             if (action.payload.children) {
                 action.payload.children.forEach(id => {
                     delete newState[id];
                 });
-            }
+            }*/
 
             if (state[action.payload.id].container) {
                 let parent = state[action.payload.id].parent;
                 let container = state[action.payload.id].container;
-                newState[parent].sortableContainers = sortableContainerCreator(newState[parent].sortableContainers, action);
+                newState[parent].sortableContainers = Object.assign({}, sortableContainerCreator(newState[parent].sortableContainers, action));
                 if (!newState[parent].sortableContainers[container]) {
-                    newState[parent].children = newState[parent].children.filter(id => id !== container);
+                    newState[parent].children = Object.assign({}, newState[parent].children.filter(id => id !== container));
                 }
             }
+
             return newState;
         case REMOVE_NAV_ITEM:
             newState = Object.assign({}, state);
@@ -917,9 +922,9 @@ function toolbarsById(state = {}, action = {}) {
 
             return newState;
         case DELETE_BOX:
-            newState = Object.assign({}, state);
-            delete newState[action.payload.id];
-            return newState;
+            return Object.assign({}, state, {
+                [action.payload.id]: {}
+            });
 
         case DUPLICATE_BOX:
             newState = Object.assign({}, state);
