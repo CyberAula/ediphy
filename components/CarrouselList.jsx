@@ -43,7 +43,7 @@ export default class CarrouselList extends Component {
                                                     e.stopPropagation();
                                                }}
                                             onClick={e => {
-                                                this.props.onNavItemSelected(navItem.id);
+                                                this.props.onNavItemSelected(id);
                                                 e.stopPropagation();
                                              }}
                                                >
