@@ -17,6 +17,8 @@ export const RESIZE_SORTABLE_CONTAINER = 'RESIZE_SORTABLE_CONTAINER';
 export const CHANGE_SORTABLE_PROPS = 'CHANGE_SORTABLE_PROPS';
 export const CHANGE_COLS = 'CHANGE_COLS';
 export const CHANGE_ROWS = 'CHANGE_ROWS';
+
+//this is to move a box that has absolute position inside a container
 export const REORDER_BOXES = 'REORDER_BOXES';
 
 export const ADD_NAV_ITEM = 'ADD_NAV_ITEM';
@@ -35,6 +37,7 @@ export const TOGGLE_TITLE_MODE = 'TOGGLE_TITLE_MODE';
 export const CHANGE_DISPLAY_MODE = 'CHANGE_DISPLAY_MODE';
 export const SET_BUSY = 'SET_BUSY';
 export const UPDATE_TOOLBAR = 'UPDATE_TOOLBAR';
+//remove this action
 export const COLLAPSE_TOOLBAR = 'COLLAPSE_TOOLBAR';
 
 export const IMPORT_STATE = 'IMPORT_STATE';

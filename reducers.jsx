@@ -1,6 +1,6 @@
 import {combineReducers} from 'redux';
 import undoable, {excludeAction} from 'redux-undo';
-import './utils';
+import Utils from './utils';
 import {ADD_BOX, SELECT_BOX, MOVE_BOX, DUPLICATE_BOX, RESIZE_BOX, UPDATE_BOX, DELETE_BOX, REORDER_BOX, DROP_BOX, INCREASE_LEVEL,
     RESIZE_SORTABLE_CONTAINER, CHANGE_COLS, CHANGE_ROWS, CHANGE_SORTABLE_PROPS, REORDER_BOXES,
     ADD_NAV_ITEM, SELECT_NAV_ITEM, EXPAND_NAV_ITEM, REMOVE_NAV_ITEM, REORDER_NAV_ITEM, TOGGLE_NAV_ITEM, UPDATE_NAV_ITEM_EXTRA_FILES,
@@ -144,11 +144,12 @@ function sortableContainerCreator(state = {}, action = {}) {
                 })
             });
         case DELETE_BOX:
+            let newChildren = state[action.payload.container].children.filter(id => id !== action.payload.id);
+            let a = Utils.cloneObjectWithoutKey(state[action.payload.container], "children");
+            a.children = newChildren;
 
             return Object.assign({}, state, {
-                [action.payload.container]: Object.assign({}, state[action.payload.container], {
-                    children: Object.assign({},state[action.payload.container]).children.slice().filter(id => id !== action.payload.id)
-                })
+                [action.payload.container]: a
             });
         case CHANGE_COLS:
             let cols = state[action.payload.id].cols;
@@ -328,33 +329,23 @@ function boxesById(state = {}, action = {}) {
                 })
             });
         case DELETE_BOX:
-            
+            //IN CASE SOMETHING EXPLODES LOOK AT THIS
+            newState = JSON.parse(JSON.stringify(state));
 
-            /*newState = Object.assign({}, state, {
-                [action.payload.id]: {}
-            });delete newState[action.payload.id];
+            delete newState[action.payload.id];
             if (action.payload.children) {
                 action.payload.children.forEach(id => {
                     delete newState[id];
                 });
-            }*/
-            let id_action = action.payload.id;
+            }
 
-            newState = update(state, {
-                id_action: {$set: undefined} 
-            });
-            
-
-            if (state[action.payload.id].container) {
-                let parent = state[action.payload.id].parent;
-                let container = state[action.payload.id].container;
-                newState[parent].sortableContainers = Object.assign({}, sortableContainerCreator(newState[parent].sortableContainers, action));
-                //newState = update(newState, {parent: {sortableContainers: {children: {$apply: function(x){
-                //    return x.filter(id => id !== action.payload.id);
-                //}}}}});
-                if (!newState[parent].sortableContainers[container]) {
-                    //newState[parent].children = Object.assign({}, newState[parent].children.filter(id => id !== container));
+            if (action.payload.container !== 0) {
+                newState[action.payload.parent].sortableContainers = sortableContainerCreator(newState[action.payload.parent].sortableContainers, action);
+                /*
+                if (!newState[action.payload.parent].sortableContainers[action.payload.container]) {
+                    newState[action.payload.parent].children = newState[action.payload.parent].children.filter(id => id !== action.payload.container);
                 }
+                */
             }
 
             return newState;
@@ -931,10 +922,7 @@ function toolbarsById(state = {}, action = {}) {
 
             return newState;
         case DELETE_BOX:
-            return Object.assign({}, state, {
-                [action.payload.id]: {}
-            });
-
+            return Utils.cloneObjectWithoutKey(state,action.payload.id);
         case DUPLICATE_BOX:
             newState = Object.assign({}, state);
             let replaced = Object.assign({}, state);
@@ -1140,11 +1128,15 @@ const GlobalState = undoable(combineReducers({
         switch(action.type){
             case CHANGE_DISPLAY_MODE:
             case EXPAND_NAV_ITEM:
+            case IMPORT_STATE:
+            case INCREASE_LEVEL:
             case SELECT_BOX:
+            case SELECT_NAV_ITEM:
             case SET_BUSY:
             case TOGGLE_PAGE_MODAL:
             case TOGGLE_TEXT_EDITOR:
             case TOGGLE_TITLE_MODE:
+            case UPDATE_NAV_ITEM_EXTRA_FILES:
                 return false;
         }
 

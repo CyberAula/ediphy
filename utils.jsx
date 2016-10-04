@@ -1,5 +1,12 @@
-import React from 'react-addons-update';
-
+export default {
+    cloneObjectWithoutKey: function (myObj, deleteKey) {
+        return Object.keys(myObj).filter(key => key !== deleteKey)
+                                 .reduce((result, current) => {
+                                        result[current] = myObj[current];
+                                        return result;
+                                 }, {});
+    }
+};
 /**
  * Replaces all occurences of needle (interpreted as a regular expression with replacement and returns the new object.
  *
@@ -50,4 +57,3 @@ Object.replaceAll = function (entity, needle, replacement, affectsKeys, affectsV
 };
 
 
- 
