@@ -39,8 +39,7 @@ export default class DaliCanvas extends Component {
         }
 
         let overlayHeight = actualHeight ? actualHeight : '100%';
-
-        return (
+         return (
             /* jshint ignore:start */
             <Col id="canvas" md={12} xs={12} style={{height:"100%", padding:0}}>
                 <div className="outter canvaseditor"
@@ -81,6 +80,7 @@ export default class DaliCanvas extends Component {
                         position: "absolute",
                         top: 0,
                         opacity: 0.4,
+                        display:(this.props.boxLevelSelected > 0) ? "block" : "none",
                         visibility: (this.props.boxLevelSelected > 0) ? "visible" : "collapse"
                         }}>
                         </div>

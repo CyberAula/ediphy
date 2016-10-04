@@ -19,7 +19,7 @@ export default class DaliShortcuts extends Component {
             return (
                 /* jshint ignore:start */
                 <div id="daliBoxIcons" className=""
-                     style={{display: (box != -1 && box.type != "sortable" ) ? 'block' : 'none' }}>
+                     style={{display: (box != -1 && box.type != "sortable" ) ? 'block' : 'none' , position: 'absolute'}}>
                     { (box.container != 0) ? (
                         <OverlayTrigger placement="top"
                                         overlay={ <Tooltip id="ajustaradocumento">{ i18n.t('messages.adjust_to_document') } </Tooltip>}>
