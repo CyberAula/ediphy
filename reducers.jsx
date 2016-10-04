@@ -329,8 +329,7 @@ function boxesById(state = {}, action = {}) {
                 })
             });
         case DELETE_BOX:
-            //IN CASE SOMETHING EXPLODES LOOK AT THIS
-            newState = JSON.parse(JSON.stringify(state));
+            newState = Utils.deepClone(state);
 
             delete newState[action.payload.id];
             if (action.payload.children) {
@@ -648,8 +647,8 @@ function navItemsById(state = {}, action = {}) {
                 [action.payload.id]: Object.assign({}, state[action.payload.id], {name: action.payload.title})
             });
         case CHANGE_UNIT_NUMBER:
-            newState = Object.assign({}, state);
-            let itemsToChange = findNavItemsDescendants(state, action.payload.id);
+            newState = Utils.deepClone(state);
+            let itemsToChange = findNavItemsDescendants(newState, action.payload.id);
             itemsToChange.forEach(item => {
                 newState[item].unitNumber = action.payload.value;
             });
@@ -658,11 +657,12 @@ function navItemsById(state = {}, action = {}) {
             if(state[state[action.payload.id].parent].hidden){
                 return state;
             }
-            newState = Object.assign({}, state);
-            let itemsToHide = findNavItemsDescendants(state, action.payload.id);
-            newState[action.payload.id].hidden = !state[action.payload.id].hidden;
+            newState = Utils.deepClone(state);
+            let itemsToHide = findNavItemsDescendants(newState, action.payload.id);
+            let hidden = state[action.payload.id].hidden ? false : true;
+            newState[action.payload.id].hidden = hidden;
             itemsToHide.forEach(item => {
-                newState[item].hidden = state[itemsToHide[0]].hidden;
+                newState[item].hidden = hidden;
             });
             return newState;
         case ADD_BOX:
@@ -922,7 +922,16 @@ function toolbarsById(state = {}, action = {}) {
 
             return newState;
         case DELETE_BOX:
-            return Utils.cloneObjectWithoutKey(state,action.payload.id);
+            let newObject = Utils.deepClone(state);
+            delete newObject[action.payload.id];
+
+            if (action.payload.children) {
+                action.payload.children.forEach(id => {
+                    delete newObject[id];
+                });
+            }
+
+            return newObject;
         case DUPLICATE_BOX:
             newState = Object.assign({}, state);
             let replaced = Object.assign({}, state);

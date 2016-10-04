@@ -1,4 +1,7 @@
 export default {
+    deepClone: function(myObj){
+        return JSON.parse(JSON.stringify(myObj));
+    },
     cloneObjectWithoutKey: function (myObj, deleteKey) {
         return Object.keys(myObj).filter(key => key !== deleteKey)
                                  .reduce((result, current) => {
