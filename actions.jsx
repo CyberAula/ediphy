@@ -37,6 +37,7 @@ export const TOGGLE_TITLE_MODE = 'TOGGLE_TITLE_MODE';
 export const CHANGE_DISPLAY_MODE = 'CHANGE_DISPLAY_MODE';
 export const SET_BUSY = 'SET_BUSY';
 export const UPDATE_TOOLBAR = 'UPDATE_TOOLBAR';
+export const UPDATE_ON_CREATION_TOOLBAR = 'UPDATE_ON_CREATION_TOOLBAR';
 //remove this action
 export const COLLAPSE_TOOLBAR = 'COLLAPSE_TOOLBAR';
 
@@ -174,6 +175,10 @@ export function importState(state) {
 
 export function updateToolbar(id, tab, accordions, name, value) {
     return {type: UPDATE_TOOLBAR, payload: {id, tab, accordions, name, value}};
+}
+
+export function updateOnCreationToolbar(id, tab, accordions, name, value) {
+    return {type: UPDATE_ON_CREATION_TOOLBAR, payload: {id, tab, accordions, name, value}};
 }
 
 export function collapseToolbar(id) {
