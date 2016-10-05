@@ -74,22 +74,8 @@ export default class DaliShortcuts extends Component {
  
 }
 
-function recalculatePosition(id) {
-    /*let element = document.getElementById('box-' + id);
-    let bar = document.getElementById('daliBoxIcons');
-    if (element && bar) {
-        var rect = element.getBoundingClientRect();
-        var main = document.getElementById('maincontent');
-        var canvas = main.getBoundingClientRect();
-        bar.style.left = (rect.left - canvas.left) + 'px';
-        bar.style.top = (rect.top - canvas.top + main.scrollTop) + 'px';
-        bar.style.width = element.clientWidth + 'px';
-    }*/
-}
 
 function pos(id){
-    /*shouldShortcutsReposition
-shortcutsPositionChange={(bool)*/
     let element = document.getElementById('box-' + id);
     let bar = document.getElementById('daliBoxIcons');
     if (element && bar) {

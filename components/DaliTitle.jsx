@@ -47,14 +47,14 @@ export default class DaliTitle extends Component {
                                     e.stopPropagation(); }}>
                 <div id="daliTitleButtons" style={{height:'40px'}}>
 
-                    <button className={((!this.props.showButtons || currentstatus == 'hidden' )? 'daliTitleButton hidden ' : ' daliTitleButton ')  
+                    <button className={((!this.props.showButtons || currentstatus == 'hidden' )? 'daliTitleButton hidden ' : ' daliTitleButton ')
                                      + ((currentstatus == 'expanded') ? ' activeTitle' : ' ')}
                             onClick={(e) => {
                                 this.props.titleModeToggled(this.props.navItem.id, 'expanded' );
                                 e.stopPropagation(); }}>
                         <i className="material-icons">vertical_align_bottom</i>
                     </button>
-                    <button className={((!this.props.showButtons || currentstatus == 'hidden' )? ' daliTitleButton hidden ' : ' daliTitleButton ')  
+                    <button className={((!this.props.showButtons || currentstatus == 'hidden' )? ' daliTitleButton hidden ' : ' daliTitleButton ')
                                      + ((currentstatus == 'reduced') ? ' activeTitle ' : ' ')}
                             onClick={(e) => {
                                 this.props.titleModeToggled(this.props.navItem.id, 'reduced');
