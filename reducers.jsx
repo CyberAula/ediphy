@@ -1,15 +1,16 @@
 import {combineReducers} from 'redux';
 import undoable, {excludeAction} from 'redux-undo';
-import './utils';
+import Utils from './utils';
 import {ADD_BOX, SELECT_BOX, MOVE_BOX, DUPLICATE_BOX, RESIZE_BOX, UPDATE_BOX, DELETE_BOX, REORDER_BOX, DROP_BOX, INCREASE_LEVEL,
     RESIZE_SORTABLE_CONTAINER, CHANGE_COLS, CHANGE_ROWS, CHANGE_SORTABLE_PROPS, REORDER_BOXES,
     ADD_NAV_ITEM, SELECT_NAV_ITEM, EXPAND_NAV_ITEM, REMOVE_NAV_ITEM, REORDER_NAV_ITEM, TOGGLE_NAV_ITEM, UPDATE_NAV_ITEM_EXTRA_FILES,
     CHANGE_SECTION_TITLE, CHANGE_UNIT_NUMBER, VERTICALLY_ALIGN_BOX,
     TOGGLE_PAGE_MODAL, TOGGLE_TEXT_EDITOR, TOGGLE_TITLE_MODE, CHANGE_TITLE,
-    CHANGE_DISPLAY_MODE, SET_BUSY, UPDATE_TOOLBAR, COLLAPSE_TOOLBAR, IMPORT_STATE, FETCH_VISH_RESOURCES_SUCCESS
+    CHANGE_DISPLAY_MODE, SET_BUSY, UPDATE_INTERMEDIATE_TOOLBAR, UPDATE_TOOLBAR, COLLAPSE_TOOLBAR, IMPORT_STATE, FETCH_VISH_RESOURCES_SUCCESS
 } from './actions';
 import {ID_PREFIX_SECTION, ID_PREFIX_PAGE, ID_PREFIX_BOX, ID_PREFIX_SORTABLE_BOX} from './constants';
 import i18n from 'i18next';
+import update from 'react-addons-update';
 
 function boxCreator(state = {}, action = {}) {
     switch (action.type) {
@@ -144,10 +145,11 @@ function sortableContainerCreator(state = {}, action = {}) {
             });
         case DELETE_BOX:
             let newChildren = state[action.payload.container].children.filter(id => id !== action.payload.id);
+            let a = Utils.cloneObjectWithoutKey(state[action.payload.container], "children");
+            a.children = newChildren;
+
             return Object.assign({}, state, {
-                [action.payload.container]: Object.assign({}, state[action.payload.container], {
-                    children: newChildren
-                })
+                [action.payload.container]: a
             });
         case CHANGE_COLS:
             let cols = state[action.payload.id].cols;
@@ -254,7 +256,7 @@ function boxesById(state = {}, action = {}) {
             });
         case UPDATE_BOX:
             newState = Object.assign({}, state);
-            newState[action.payload.id].content = action.payload.content;
+            //newState[action.payload.id].content = action.payload.content;
             let sortableContainers = {};
             let children = [];
             if (action.payload.state.__pluginContainerIds) {
@@ -285,9 +287,13 @@ function boxesById(state = {}, action = {}) {
                 }
             }
 
-            newState[action.payload.id].children = children;
-            newState[action.payload.id].sortableContainers = sortableContainers;
-            return newState;
+            return Object.assign({}, state, {
+                [action.payload.id]: Object.assign({}, state[action.payload.id], {
+                    content: action.payload.content,
+                    children: children,
+                    sortableContainers: sortableContainers
+                })
+            });
         case REORDER_BOXES:
             return Object.assign({}, state, {
                 [action.payload.parent]: Object.assign({}, state[action.payload.parent], {
@@ -300,7 +306,7 @@ function boxesById(state = {}, action = {}) {
             });
 
         case CHANGE_SORTABLE_PROPS:
-            let changedState = Object.assign({}, state);
+            let changedState = Utils.deepClone(state);
             changedState[action.payload.parent].sortableContainers[action.payload.id].style[action.payload.prop] = action.payload.value;
             return changedState;
         case DROP_BOX:
@@ -323,7 +329,8 @@ function boxesById(state = {}, action = {}) {
                 })
             });
         case DELETE_BOX:
-            newState = Object.assign({}, state);
+            newState = Utils.deepClone(state);
+
             delete newState[action.payload.id];
             if (action.payload.children) {
                 action.payload.children.forEach(id => {
@@ -331,14 +338,15 @@ function boxesById(state = {}, action = {}) {
                 });
             }
 
-            if (state[action.payload.id].container) {
-                let parent = state[action.payload.id].parent;
-                let container = state[action.payload.id].container;
-                newState[parent].sortableContainers = sortableContainerCreator(newState[parent].sortableContainers, action);
-                if (!newState[parent].sortableContainers[container]) {
-                    newState[parent].children = newState[parent].children.filter(id => id !== container);
+            if (action.payload.container !== 0) {
+                newState[action.payload.parent].sortableContainers = sortableContainerCreator(newState[action.payload.parent].sortableContainers, action);
+                /*
+                if (!newState[action.payload.parent].sortableContainers[action.payload.container]) {
+                    newState[action.payload.parent].children = newState[action.payload.parent].children.filter(id => id !== action.payload.container);
                 }
+                */
             }
+
             return newState;
         case REMOVE_NAV_ITEM:
             newState = Object.assign({}, state);
@@ -479,7 +487,7 @@ function recalculateNames(state = {}, old = {}, resta = 0, numeroBorrados = 0) {
         }
     }
     // Rename pages
-    var pages = 
+    var pages =
     Object.keys(state).filter(page => {
         if (state[page].type === 'slide' || state[page].type === 'document') {
             return page;
@@ -575,27 +583,28 @@ function navItemsById(state = {}, action = {}) {
             let wrongNames = Object.assign({}, newState, {[action.payload.parent]: Object.assign({}, newState[action.payload.parent], {children: newChildren})});
             return recalculateNames(wrongNames, oldOne, 1, action.payload.ids.length);
         case REORDER_NAV_ITEM:
-            //   0--> exterior a exterior /   1--> exterior a seccion /   2--> seccionA a seccionB /   3--> seccion a seccion  /   4--> seccion a exterior
-            var newSt = {};
-            //var auxState = state;
+            //   0--> outside to outside /   1--> outside to section /   2--> sectionA to sectionB /   3--> section to section  /   4--> section to outside
+            var newSt = Utils.deepClone(state);
+
             if (action.payload.type === 0 || action.payload.type === 3) {
-                newSt = Object.assign({}, state, {
-                    [action.payload.newParent]: Object.assign({}, state[action.payload.newParent], {children: action.payload.newChildrenInOrder})
-                });
+
+                newSt[action.payload.newParent].children = action.payload.newChildrenInOrder;
+
                 action.payload.newIndId.forEach(elem => {
                     newSt = Object.assign({}, newSt, {
                         [elem]: Object.assign({}, newSt[elem], {position: action.payload.newIndId.indexOf(elem)})
                     });
                 });
+
             } else if (action.payload.type === 1 || action.payload.type === 2 || action.payload.type === 4) {
-                var oldParent = state[action.payload.itemId].parent;
-                var oldParentChildren = state[oldParent].children;
+
+                var oldParent = newSt[action.payload.itemId].parent;
+                var oldParentChildren = newSt[oldParent].children;
                 oldParentChildren.splice(oldParentChildren.indexOf(action.payload.itemId), 1);
-                newSt = Object.assign({}, state, {
-                    [action.payload.newParent]: Object.assign({}, state[action.payload.newParent], {children: action.payload.newChildrenInOrder}),
-                    [action.payload.itemId]: Object.assign({}, state[action.payload.itemId], {parent: action.payload.newParent}),
-                    [oldParent]: Object.assign({}, state[oldParent], {children: oldParentChildren})
-                });
+
+                newSt[action.payload.newParent].children = action.payload.newChildrenInOrder;
+                newSt[action.payload.itemId].parent = action.payload.newParent;
+                newSt[oldParent].children = oldParentChildren;
 
                 var elementsToVisit = [action.payload.itemId];
                 var diff = state[action.payload.newParent].level - state[action.payload.itemId].level + 1;
@@ -639,8 +648,8 @@ function navItemsById(state = {}, action = {}) {
                 [action.payload.id]: Object.assign({}, state[action.payload.id], {name: action.payload.title})
             });
         case CHANGE_UNIT_NUMBER:
-            newState = Object.assign({}, state);
-            let itemsToChange = findNavItemsDescendants(state, action.payload.id);
+            newState = Utils.deepClone(state);
+            let itemsToChange = findNavItemsDescendants(newState, action.payload.id);
             itemsToChange.forEach(item => {
                 newState[item].unitNumber = action.payload.value;
             });
@@ -649,11 +658,12 @@ function navItemsById(state = {}, action = {}) {
             if(state[state[action.payload.id].parent].hidden){
                 return state;
             }
-            newState = Object.assign({}, state);
-            let itemsToHide = findNavItemsDescendants(state, action.payload.id);
-            newState[action.payload.id].hidden = !state[action.payload.id].hidden;
+            newState = Utils.deepClone(state);
+            let itemsToHide = findNavItemsDescendants(newState, action.payload.id);
+            let hidden = state[action.payload.id].hidden ? false : true;
+            newState[action.payload.id].hidden = hidden;
             itemsToHide.forEach(item => {
-                newState[item].hidden = state[itemsToHide[0]].hidden;
+                newState[item].hidden = hidden;
             });
             return newState;
         case ADD_BOX:
@@ -769,7 +779,7 @@ function createSortableButtons(controls, width) {
         options: ['absolute', 'relative'],
         autoManaged: true
     };
-    
+
 
 }
 
@@ -913,10 +923,16 @@ function toolbarsById(state = {}, action = {}) {
 
             return newState;
         case DELETE_BOX:
-            newState = Object.assign({}, state);
-            delete newState[action.payload.id];
-            return newState;
+            let newObject = Utils.deepClone(state);
+            delete newObject[action.payload.id];
 
+            if (action.payload.children) {
+                action.payload.children.forEach(id => {
+                    delete newObject[id];
+                });
+            }
+
+            return newObject;
         case DUPLICATE_BOX:
             newState = Object.assign({}, state);
             let replaced = Object.assign({}, state);
@@ -936,6 +952,15 @@ function toolbarsById(state = {}, action = {}) {
                 newState[pl.id].controls[pl.tab].accordions[pl.accordions[0]].accordions[pl.accordions[1]].buttons[pl.name].value = pl.value;
             } else {
                 newState[pl.id].controls[pl.tab].accordions[pl.accordions[0]].buttons[pl.name].value = pl.value;
+            }
+            return newState;
+        case UPDATE_INTERMEDIATE_TOOLBAR:
+            newState = Object.assign({}, state);
+            let ple = action.payload;
+            if (ple.accordions.length > 1) {
+                newState[ple.id].controls[ple.tab].accordions[ple.accordions[0]].accordions[ple.accordions[1]].buttons[ple.name].value = ple.value;
+            } else {
+                newState[ple.id].controls[ple.tab].accordions[ple.accordions[0]].buttons[ple.name].value = ple.value;
             }
             return newState;
         case COLLAPSE_TOOLBAR:
@@ -1005,10 +1030,17 @@ function toolbarsById(state = {}, action = {}) {
             } catch (e) {
             }
 
-            newState = Object.assign({}, state);
-            newState[action.payload.id].state = action.payload.state;
-            newState[action.payload.id].controls = controls;
-            return newState;
+            //newState = Object.assign({}, state);
+            //newState[action.payload.id].state = action.payload.state;
+            //newState[action.payload.id].controls = controls;
+            //return newState;
+
+            return Object.assign({}, state, {
+                [action.payload.id]: Object.assign({}, state[action.payload.id], {
+                    state: action.payload.state,
+                    controls: controls
+                })
+            });
         case TOGGLE_TEXT_EDITOR:
             return Object.assign({}, state, {
                 [action.payload.caller]: Object.assign({}, state[action.payload.caller], {showTextEditor: action.payload.value})
@@ -1110,17 +1142,25 @@ const GlobalState = undoable(combineReducers({
     fetchVishResults: fetchVishResults
 }), {
     filter: (action, currentState, previousState) => {
-        if (action.type === EXPAND_NAV_ITEM) {
-            return false;
-        } else if (action.type === TOGGLE_PAGE_MODAL) {
-            return false;
-        } else if (action.type === TOGGLE_TITLE_MODE) {
-            return false;
-        } else if (action.type === CHANGE_DISPLAY_MODE) {
-            return false;
-        } else if (action.type === SET_BUSY) {
-            return false;
+        console.log(action.type);
+        console.log(action);
+        switch(action.type){
+            case CHANGE_DISPLAY_MODE:
+            case EXPAND_NAV_ITEM:
+            case IMPORT_STATE:
+            case INCREASE_LEVEL:
+            case SELECT_BOX:
+            case SELECT_NAV_ITEM:
+            case SET_BUSY:
+            case TOGGLE_PAGE_MODAL:
+            case TOGGLE_TEXT_EDITOR:
+            case TOGGLE_TITLE_MODE:
+            case REORDER_BOXES:
+            case UPDATE_INTERMEDIATE_TOOLBAR:
+            case UPDATE_NAV_ITEM_EXTRA_FILES:
+                return false;
         }
+
         return currentState !== previousState; // only add to history if state changed
     }
 });

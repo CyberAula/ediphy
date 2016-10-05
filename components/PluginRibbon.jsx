@@ -59,7 +59,7 @@ export default class PluginRibbon extends Component {
                             disabled={this.props.boxSelected == -1 || this.props.boxSelected.id == -1 || this.props.boxSelected.id.indexOf(ID_PREFIX_SORTABLE_BOX) != -1}
                             onClick={() => {
                                 this.props.onBoxDuplicated(this.props.boxSelected.id, this.props.boxSelected.parent, this.props.boxSelected.container);
-                                e.stopPropagation();
+                                this.stopPropagation();
                             }}>
                         <i className="material-icons">content_copy</i>
                     </button>

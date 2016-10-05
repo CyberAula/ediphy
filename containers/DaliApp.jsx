@@ -7,7 +7,7 @@ import {addNavItem, selectNavItem, expandNavItem, removeNavItem, reorderNavItem,
     addBox, changeTitle, selectBox, moveBox, resizeBox, updateBox, duplicateBox, deleteBox, reorderBox, dropBox, increaseBoxLevel,
     resizeSortableContainer, changeCols, changeRows, changeSortableProps, reorderBoxes, verticallyAlignBox,
     togglePageModal, toggleTextEditor, toggleTitleMode,
-    changeDisplayMode, updateToolbar, collapseToolbar,
+    changeDisplayMode, updateToolbar, updateIntermediateToolbar, collapseToolbar,
     exportStateAsync, importStateAsync,
     fetchVishResourcesSuccess, fetchVishResourcesAsync} from '../actions';
 import {ID_PREFIX_BOX, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_SORTABLE_CONTAINER, BOX_TYPES} from '../constants';
@@ -194,6 +194,7 @@ class DaliApp extends Component {
                                onSortableContainerResized={(id, parent, height) => this.dispatchAndSetState(resizeSortableContainer(id, parent, height))}
                                onChangeSortableProps={(id, parent, prop, value) => this.dispatchAndSetState(changeSortableProps(id, parent, prop, value))}
                                onToolbarUpdated={(id, tab, accordion, name, value) => this.dispatchAndSetState(updateToolbar(id, tab, accordion, name, value))}
+                               onToolbarIntermediateUpdated={(id, tab, accordion, name, value) => this.dispatchAndSetState(updateIntermediateToolbar(id, tab, accordion, name, value))}
                                onToolbarCollapsed={(id) => this.dispatchAndSetState(collapseToolbar(id))}
                                onBoxDuplicated={(id, parent, container)=> this.dispatchAndSetState( duplicateBox( id, parent, container, this.getDescendants(boxes[id]), this.getDuplicatedBoxesIds(this.getDescendants(boxes[id]) ), Date.now()-1 ))}
                                onBoxDeleted={(id, parent, container)=> this.dispatchAndSetState(deleteBox(id, parent, container, this.getDescendants(boxes[id])))}

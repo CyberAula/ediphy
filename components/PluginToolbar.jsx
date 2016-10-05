@@ -235,17 +235,17 @@ export default class PluginToolbar extends Component {
             }
 
         }
-        
+
         if (accordion.key === 'structure' && this.props.box.container !== 0){
             children.push(
                 /* jshint ignore:start */
-                <RadioButtonFormGroup   key="verticalalignment"  
+                <RadioButtonFormGroup   key="verticalalignment"
                                         title={i18n.t('Vertical_align')}
                                         options={['top', 'middle', 'bottom']}
                                         selected={this.props.box.verticalAlign ? this.props.box.verticalAlign : 'top'}
                                         click={(option) => {this.props.onVerticallyAlignBox(this.props.boxSelected, option)}}
                                         tooltips={[i18n.t('messages.align_top'),i18n.t('messages.align_middle'),i18n.t('messages.align_bottom')]}
-                                        icons={['vertical_align_top', 'vertical_align_center', 'vertical_align_bottom']} /> 
+                                        icons={['vertical_align_top', 'vertical_align_center', 'vertical_align_bottom']} />
                 /* jshint ignore:end */
             );
         }
@@ -290,12 +290,12 @@ export default class PluginToolbar extends Component {
                             newHeight = 'auto';
                         }
                         this.props.onBoxResized(id, value + units, this.props.box.height);
-                        this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, parseFloat(value));
+                        this.props.onToolbarIntermediateUpdated(id, tabKey, accordionKeys, buttonKey, parseFloat(value));
                     } else {
                         let newHeight = this.heightAuto ? 'auto' : (parseFloat(this.props.box.height) * parseFloat(value) / parseFloat(this.props.box.width));
                         this.props.onBoxResized(id, value + units, this.heightAuto ? newHeight : (newHeight + units));
-                        this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, parseFloat(value));
-                        this.props.onToolbarUpdated(id, tabKey, accordionKeys, 'height', newHeight);
+                        this.props.onToolbarIntermediateUpdated(id, tabKey, accordionKeys, buttonKey, parseFloat(value));
+                        this.props.onToolbarIntermediateUpdated(id, tabKey, accordionKeys, 'height', newHeight);
 
                     }
                 }
@@ -303,12 +303,12 @@ export default class PluginToolbar extends Component {
                     let units = (this.props.box.container === 0) ? 'px' : '%';
                     if (!this.aspectRatio) {
                         this.props.onBoxResized(id, this.props.box.width, value + units);
-                        this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, parseFloat(value));
+                        this.props.onToolbarIntermediateUpdated(id, tabKey, accordionKeys, buttonKey, parseFloat(value));
                     } else {
                         let newWidth = (parseFloat(this.props.box.width) * parseFloat(value) / parseFloat(this.props.box.height));
                         this.props.onBoxResized(id, newWidth + units, value + units);
-                        this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, parseFloat(value));
-                        this.props.onToolbarUpdated(id, tabKey, accordionKeys, 'width', newWidth);
+                        this.props.onToolbarIntermediateUpdated(id, tabKey, accordionKeys, buttonKey, parseFloat(value));
+                        this.props.onToolbarIntermediateUpdated(id, tabKey, accordionKeys, 'width', newWidth);
                     }
                 }
 
@@ -324,7 +324,7 @@ export default class PluginToolbar extends Component {
                 if (button.type === 'radio') {
                     value = button.options[value];
                     if (buttonKey === '___position') {
-                        this.props.onToolbarUpdated(id, tabKey, accordionKeys, '___position', value);
+                        this.props.onToolbarIntermediateUpdated(id, tabKey, accordionKeys, '___position', value);
                         this.props.onBoxMoved(id, 0, 0, value);
 
                     }
