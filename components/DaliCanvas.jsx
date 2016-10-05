@@ -50,12 +50,11 @@ export default class DaliCanvas extends Component {
                         this.props.onBoxSelected(-1);
                         this.setState({showTitle:false})
                        }}
-                         className={this.props.navItems[this.props.navItemSelected.id].type == 'slide' ? 'innercanvas sli':'innercanvas doc'}
+                         className={this.props.navItemSelected.type == 'slide' ? 'innercanvas sli':'innercanvas doc'}
                          style={{visibility: (this.props.showCanvas ? 'visible' : 'hidden')}}>
 
 
                         <DaliTitle titles={titles}
-                                   boxSelected={this.props.boxSelected}
                                    showButtons={this.state.showTitle}
                                    onShowTitle={()=>this.setState({showTitle:true})}
                                    onBoxSelected={this.props.onBoxSelected}

@@ -29,7 +29,6 @@ export const UPDATE_NAV_ITEM_EXTRA_FILES = 'UPDATE_NAV_ITEM_EXTRA_FILES';
 export const CHANGE_SECTION_TITLE = 'CHANGE_SECTION_TITLE';
 export const CHANGE_UNIT_NUMBER = 'CHANGE_UNIT_NUMBER';
 
-export const TOGGLE_PAGE_MODAL = 'TOGGLE_PAGE_MODAL';
 export const TOGGLE_TEXT_EDITOR = 'TOGGLE_TEXT_EDITOR';
 export const TOGGLE_TITLE_MODE = 'TOGGLE_TITLE_MODE';
 export const CHANGE_DISPLAY_MODE = 'CHANGE_DISPLAY_MODE';
@@ -139,10 +138,6 @@ export function changeRows(id, parent, column, distribution) {
 
 export function reorderBoxes(parent, container, order) {
     return {type: REORDER_BOXES, payload: {parent, container, order}};
-}
-
-export function togglePageModal(caller, value) {
-    return {type: TOGGLE_PAGE_MODAL, payload: {caller, value}};
 }
 
 export function toggleTextEditor(caller, value) {

@@ -5,7 +5,7 @@ import {ADD_BOX, SELECT_BOX, MOVE_BOX, DUPLICATE_BOX, RESIZE_BOX, UPDATE_BOX, DE
     RESIZE_SORTABLE_CONTAINER, CHANGE_COLS, CHANGE_ROWS, CHANGE_SORTABLE_PROPS, REORDER_BOXES,
     ADD_NAV_ITEM, SELECT_NAV_ITEM, EXPAND_NAV_ITEM, REMOVE_NAV_ITEM, REORDER_NAV_ITEM, TOGGLE_NAV_ITEM, UPDATE_NAV_ITEM_EXTRA_FILES,
     CHANGE_SECTION_TITLE, CHANGE_UNIT_NUMBER, VERTICALLY_ALIGN_BOX,
-    TOGGLE_PAGE_MODAL, TOGGLE_TEXT_EDITOR, TOGGLE_TITLE_MODE, CHANGE_TITLE,
+    TOGGLE_TEXT_EDITOR, TOGGLE_TITLE_MODE, CHANGE_TITLE,
     CHANGE_DISPLAY_MODE, SET_BUSY, UPDATE_TOOLBAR, COLLAPSE_TOOLBAR, IMPORT_STATE, FETCH_VISH_RESOURCES_SUCCESS
 } from './actions';
 import {ID_PREFIX_SECTION, ID_PREFIX_PAGE, ID_PREFIX_BOX, ID_PREFIX_SORTABLE_BOX} from './constants';
@@ -1079,20 +1079,6 @@ function toolbarsById(state = {}, action = {}) {
     }
 }
 
-function togglePageModal(state = {value: false, caller: 0}, action = {}) {
-    switch (action.type) {
-        case TOGGLE_PAGE_MODAL:
-            return action.payload;
-        case ADD_NAV_ITEM:
-            return {value: false, caller: 0};
-        case IMPORT_STATE:
-            return action.payload.present.pageModalToggled || state;
-        default:
-            return state;
-    }
-}
-
-
 function changeTitle(state = "", action = {}) {
     switch (action.type) {
         case CHANGE_TITLE:
@@ -1137,11 +1123,10 @@ function fetchVishResults(state = {results: []}, action = {}) {
 
 const GlobalState = undoable(combineReducers({
     title: changeTitle,
-    pageModalToggled: togglePageModal,
     boxesById: boxesById, //{0: box0, 1: box1}
     boxSelected: boxSelected, //0
     boxLevelSelected: boxLevelSelected, //0
-    boxes: boxesIds, //[0, 1]
+    boxesIds: boxesIds, //[0, 1]
     navItemsIds: navItemsIds, //[0, 1]
     navItemSelected: navItemSelected, // 0
     navItemsById: navItemsById, // {0: navItem0, 1: navItem1}
@@ -1152,8 +1137,6 @@ const GlobalState = undoable(combineReducers({
 }), {
     filter: (action, currentState, previousState) => {
         if (action.type === EXPAND_NAV_ITEM) {
-            return false;
-        } else if (action.type === TOGGLE_PAGE_MODAL) {
             return false;
         } else if (action.type === TOGGLE_TITLE_MODE) {
             return false;

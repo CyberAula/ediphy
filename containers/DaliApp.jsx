@@ -6,14 +6,13 @@ import {addNavItem, selectNavItem, expandNavItem, removeNavItem, reorderNavItem,
     changeSectionTitle, changeUnitNumber,
     addBox, changeTitle, selectBox, moveBox, resizeBox, updateBox, duplicateBox, deleteBox, reorderBox, dropBox, increaseBoxLevel,
     resizeSortableContainer, changeCols, changeRows, changeSortableProps, reorderBoxes, verticallyAlignBox,
-    togglePageModal, toggleTextEditor, toggleTitleMode,
+    toggleTextEditor, toggleTitleMode,
     changeDisplayMode, updateToolbar, collapseToolbar,
     exportStateAsync, importStateAsync,
     fetchVishResourcesSuccess, fetchVishResourcesAsync} from '../actions';
 import {ID_PREFIX_BOX, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_SORTABLE_CONTAINER, BOX_TYPES} from '../constants';
 import DaliCanvas from '../components/DaliCanvas';
 import DaliCarousel from '../components/DaliCarousel';
-import PageModal from '../components/PageModal';
 import PluginConfigModal from '../components/PluginConfigModal';
 import XMLConfigModal from '../components/XMLConfigModal';
 import VishSearcher from '../components/VishSearcherModal';
@@ -47,7 +46,7 @@ class DaliApp extends Component {
 
     render() {
         const { dispatch, boxes, boxesIds, boxSelected, boxLevelSelected, navItemsIds, navItems, navItemSelected,
-            pageModalToggled, undoDisabled, redoDisabled, displayMode, isBusy, toolbars, title, fetchVishResults } = this.props;
+            undoDisabled, redoDisabled, displayMode, isBusy, toolbars, title, fetchVishResults } = this.props;
         let ribbonHeight = this.state.hideTab === 'hide' ? 0 : 47;
         return (
             /* jshint ignore:start */
@@ -85,7 +84,6 @@ class DaliApp extends Component {
                                   navItemSelected={navItemSelected}
                                   displayMode={displayMode}
                                   onBoxAdded={(ids, type,  draggable, resizable, content, toolbar, config, state) => this.dispatchAndSetState(addBox(ids, type, draggable, resizable, content, toolbar, config, state))}
-                                  onPageAdded={(caller, value) => this.dispatchAndSetState(togglePageModal(caller, value))}
                                   onTitleChange={(id, title) => this.dispatchAndSetState(changeSectionTitle(id,title))}
                                   onSectionAdded={(id, name, parent, children, level, type, position, titlesReduced) => this.dispatchAndSetState(addNavItem(id, name, parent, children, level, type, position, titlesReduced))}
                                   onNavItemSelected={id => this.dispatchAndSetState(selectNavItem(id))}
@@ -120,17 +118,16 @@ class DaliApp extends Component {
                          style={{height: (this.state.carouselFull ? 0 : '100%'), width: (this.state.carouselShow? '83.333333%':'calc(100% - 80px)')}}>
                         <Row id="ribbonRow">
                             <PluginRibbon disabled={navItemSelected === 0}
-                                          navItemSelected={navItemSelected}
-                                          onBoxDuplicated={(id, parent, container)=> this.dispatchAndSetState( duplicateBox( id, parent, container, this.getDescendants(boxes[id]), this.getDuplicatedBoxesIds(this.getDescendants(boxes[id]) ), Date.now()-1 ))}
                                           boxSelected={(boxSelected && boxSelected != -1) ? boxes[boxSelected] : -1}
-                                          category={this.state.pluginTab}
-                                          hideTab={this.state.hideTab}
                                           undoDisabled={undoDisabled}
                                           redoDisabled={redoDisabled}
+                                          category={this.state.pluginTab}
+                                          hideTab={this.state.hideTab}
                                           undo={() => {this.dispatchAndSetState(ActionCreators.undo())}}
                                           redo={() => {this.dispatchAndSetState(ActionCreators.redo())}}
                                           save={() => {this.dispatchAndSetState(exportStateAsync({present: this.props.store.getState().present}))}}
                                           ribbonHeight={ribbonHeight+'px'}
+                                          onBoxDuplicated={(id, parent, container)=> this.dispatchAndSetState( duplicateBox( id, parent, container, this.getDescendants(boxes[id]), this.getDuplicatedBoxesIds(this.getDescendants(boxes[id]) ), Date.now()-1 ))}
                                           serverModalOpen={()=>{this.setState({serverModal: true })}}/>
                         </Row>
                         <Row id="canvasRow" style={{height: 'calc(100% - '+ribbonHeight+'px)'}}>
@@ -164,13 +161,6 @@ class DaliApp extends Component {
                                 title={"Server"}
                                 isBusy={isBusy}
                                 hideModal={() => this.setState({serverModal: false })}/>
-                <PageModal visibility={pageModalToggled.value}
-                           caller={pageModalToggled.caller}
-                           navItems={navItems}
-                           navItemsIds={navItemsIds}
-                           onBoxAdded={(ids, type,  draggable, resizable, content, toolbar, config, state) => this.dispatchAndSetState(addBox(ids, type, draggable, resizable, content, toolbar, config, state))}
-                           onVisibilityToggled={(caller, value) => this.dispatchAndSetState(togglePageModal(caller, value))}
-                           onPageAdded={(id, name, parent, children, level, type, position, titlesReduced) => this.dispatchAndSetState(addNavItem(id, name, parent, children, level, type, position, titlesReduced))}/>
                 <Visor id="visor"
                        title={title}
                        visorVisible={this.state.visorVisible}
@@ -463,13 +453,12 @@ function mapStateToProps(state) {
     return {
         title: state.present.title,
         boxes: state.present.boxesById,
-        boxesIds: state.present.boxes,
+        boxesIds: state.present.boxesIds,
         boxSelected: state.present.boxSelected,
         boxLevelSelected: state.present.boxLevelSelected,
         navItemsIds: state.present.navItemsIds,
         navItems: state.present.navItemsById,
         navItemSelected: state.present.navItemSelected,
-        pageModalToggled: state.present.pageModalToggled,
         undoDisabled: state.past.length === 0,
         redoDisabled: state.future.length === 0,
         displayMode: state.present.displayMode,

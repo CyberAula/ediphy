@@ -24,12 +24,12 @@ export default class PageMenu extends Component {
 
                     <MenuItem eventKey="1" onClick={e =>{
                            var idnuevo = ID_PREFIX_PAGE + Date.now();
-                           this.props.onPageAdded(idnuevo, proposedName, this.calculateParent().id , [], this.calculateParent().level + 1, 'document', this.calculateNewPosition(), 'expanded')
+                           this.props.onSectionAdded(idnuevo, proposedName, this.calculateParent().id , [], this.calculateParent().level + 1, 'document', this.calculateNewPosition(), 'expanded')
                            this.props.onBoxAdded({parent: idnuevo, container: 0, id: ID_PREFIX_SORTABLE_BOX + Date.now()}, BOX_TYPES.SORTABLE, false, false);
                           }}><i className="material-icons">view_day</i> Document</MenuItem>
 
                     <MenuItem eventKey="2" onClick={e => {
-                           this.props.onPageAdded(ID_PREFIX_PAGE + Date.now(), proposedName, this.calculateParent().id , [], this.calculateParent().level + 1,  'slide', this.calculatePosition(), 'hidden')
+                           this.props.onSectionAdded(ID_PREFIX_PAGE + Date.now(), proposedName, this.calculateParent().id , [], this.calculateParent().level + 1,  'slide', this.calculatePosition(), 'hidden')
                         }}>
                         <i className="material-icons">view_carousel</i> Slide</MenuItem>
                     <MenuItem eventKey="3" disabled><i className="material-icons">dashboard</i> Poster</MenuItem>
