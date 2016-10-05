@@ -106,6 +106,7 @@ export default class PluginPlaceholder extends Component {
                                                                  onBoxLevelIncreased={this.props.onBoxLevelIncreased}
                                                                  onBoxMoved={this.props.onBoxMoved}
                                                                  onBoxResized={this.props.onBoxResized}
+                                                                 onBoxesInsideSortableReorder={this.props.onBoxesInsideSortableReorder}s
                                                                  onSortableContainerResized={this.props.onSortableContainerResized}
                                                                  onBoxDeleted={this.props.onBoxDeleted}
                                                                  onBoxDropped={this.props.onBoxDropped}

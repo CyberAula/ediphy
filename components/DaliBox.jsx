@@ -269,6 +269,7 @@ export default class DaliBox extends Component {
                         onBoxDeleted: this.props.onBoxDeleted,
                         onBoxDropped: this.props.onBoxDropped,
                         onBoxModalToggled: this.props.onBoxModalToggled,
+                        onBoxesInsideSortableReorder: this.props.onBoxesInsideSortableReorder,
                         onTextEditorToggled: this.props.onTextEditorToggled
                     });
                 } else {
@@ -346,7 +347,6 @@ export default class DaliBox extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        this.recalculatePosition(this.props.boxSelected);
         let toolbar = this.props.toolbars[this.props.id];
         let node = ReactDOM.findDOMNode(this);
 
@@ -374,7 +374,6 @@ export default class DaliBox extends Component {
     }
 
     componentDidMount() {
-        this.recalculatePosition(this.props.boxSelected);
         let toolbar = this.props.toolbars[this.props.id];
         let box = this.props.boxes[this.props.id];
         if (toolbar.config && toolbar.config.needsTextEdition) {
@@ -650,19 +649,6 @@ export default class DaliBox extends Component {
         }
     }
 
-    recalculatePosition(id) {
-        let element = document.getElementById('box-' + id);
-        let bar = document.getElementById('daliBoxIcons');
-        if (element && bar) {
-            var rect = element.getBoundingClientRect();
-            var main = document.getElementById('maincontent');
-            var canvas = main.getBoundingClientRect();
-            bar.style.left = (rect.left - canvas.left) + 'px';
-            bar.style.top = (rect.top - canvas.top + main.scrollTop) + 'px';
-            bar.style.width = element.clientWidth + 'px';
-
-        }
-        return null;
-    }
+ 
 }
 

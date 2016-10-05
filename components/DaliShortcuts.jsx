@@ -8,7 +8,7 @@ import i18n from 'i18next';
 export default class DaliShortcuts extends Component {
     constructor(props) {
         super(props);
-        recalculatePosition();
+        //recalculatePosition();
 
     }
 
@@ -16,10 +16,12 @@ export default class DaliShortcuts extends Component {
         let box = this.props.box;
         let toolbar = this.props.toolbar;
         if (box) {
+            let style = pos(box.id);
             return (
                 /* jshint ignore:start */
                 <div id="daliBoxIcons" className=""
-                     style={{display: (box != -1 && box.type != "sortable" ) ? 'block' : 'none' , position: 'absolute'}}>
+                     style={{display: (box != -1 && box.type != "sortable" ) ? 'block' : 'none' , 
+                             position: 'absolute', left: style.left, top: style.top, width: style.width}}>
                     { (box.container != 0) ? (
                         <OverlayTrigger placement="top"
                                         overlay={ <Tooltip id="ajustaradocumento">{ i18n.t('messages.adjust_to_document') } </Tooltip>}>
@@ -65,21 +67,15 @@ export default class DaliShortcuts extends Component {
         }
     }
 
-    componentWillUpdate() {
-        if (this.props.box && this.props.box.id) {
-            recalculatePosition(this.props.box.id);
-        }
+ 
+    shouldComponentUpdate(nextProps, nextState) {
+          return true;
     }
-
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.box && nextProps.box.id) {
-            recalculatePosition(nextProps.box.id);
-        }
-    }
+ 
 }
 
 function recalculatePosition(id) {
-    let element = document.getElementById('box-' + id);
+    /*let element = document.getElementById('box-' + id);
     let bar = document.getElementById('daliBoxIcons');
     if (element && bar) {
         var rect = element.getBoundingClientRect();
@@ -88,5 +84,24 @@ function recalculatePosition(id) {
         bar.style.left = (rect.left - canvas.left) + 'px';
         bar.style.top = (rect.top - canvas.top + main.scrollTop) + 'px';
         bar.style.width = element.clientWidth + 'px';
+    }*/
+}
+
+function pos(id){
+    /*shouldShortcutsReposition
+shortcutsPositionChange={(bool)*/
+    let element = document.getElementById('box-' + id);
+    let bar = document.getElementById('daliBoxIcons');
+    if (element && bar) {
+        var rect = element.getBoundingClientRect();
+        var main = document.getElementById('maincontent');
+        var canvas = main.getBoundingClientRect();
+        let style = {};
+        style.left = (rect.left - canvas.left) + 'px';
+        style.top = (rect.top - canvas.top + main.scrollTop) + 'px';
+        style.width = element.clientWidth + 'px';
+        return style;
     }
+    return {left: 0, top: 0, width: 0 };
+
 }

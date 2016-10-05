@@ -13,7 +13,7 @@ export default class DaliCanvas extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            showTitle: false
+            showTitle: false 
         };
     }
 
