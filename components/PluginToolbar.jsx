@@ -8,6 +8,7 @@ import VishSearcher from './VishSearcher';
 import MarksList from './rich_plugins/MarksList.jsx';
 import ContentList from './rich_plugins/ContentList.jsx';
 import Dali from './../core/main';
+import {UPDATE_TOOLBAR} from '../actions';
 import i18n from 'i18next';
 
 export default class PluginToolbar extends Component {
@@ -371,12 +372,8 @@ export default class PluginToolbar extends Component {
                 this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, value);
 
                 if (!button.autoManaged) {
-                    button.callback(state, buttonKey, value, id);
+                    button.callback(state, buttonKey, value, id, UPDATE_TOOLBAR);
                 }
-
-                /*
-                 e.stopPropagation();
-                 */
             }
 
         };

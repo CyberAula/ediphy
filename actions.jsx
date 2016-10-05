@@ -19,6 +19,8 @@ export const CHANGE_COLS = 'CHANGE_COLS';
 export const CHANGE_ROWS = 'CHANGE_ROWS';
 export const REORDER_BOXES = 'REORDER_BOXES';
 
+export const ADD_CONTAINED_VIEW = 'ADD_CONTAINED_VIEW';
+
 export const ADD_NAV_ITEM = 'ADD_NAV_ITEM';
 export const SELECT_NAV_ITEM = 'SELECT_NAV_ITEM';
 export const EXPAND_NAV_ITEM = 'EXPAND_NAV_ITEM';
@@ -40,6 +42,12 @@ export const IMPORT_STATE = 'IMPORT_STATE';
 export const CHANGE_TITLE = 'CHANGE_TITLE';
 
 export const FETCH_VISH_RESOURCES_SUCCESS = "FETCH_VISH_RESOURCES_SUCCESS";
+
+// These are not real Redux actions but are use to specify plugin's render reason
+export const ADD_RICH_MARK = 'ADD_RICH_MARK';
+export const EDIT_RICH_MARK = 'EDIT_RICH_MARK';
+export const DELETE_RICH_MARK = 'DELETE_RICH_MARK';
+export const EDIT_PLUGIN_TEXT = 'EDIT_PLUGIN_TEXT';
 
 export function selectNavItem(id) {
     return {type: SELECT_NAV_ITEM, payload: {id}};
@@ -138,6 +146,10 @@ export function changeRows(id, parent, column, distribution) {
 
 export function reorderBoxes(parent, container, order) {
     return {type: REORDER_BOXES, payload: {parent, container, order}};
+}
+
+export function addContainedView(id, parent){
+    return {type: ADD_CONTAINED_VIEW, payload: {id, parent}};
 }
 
 export function toggleTextEditor(caller, value) {

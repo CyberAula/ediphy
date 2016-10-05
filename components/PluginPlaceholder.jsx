@@ -4,6 +4,7 @@ import {Button} from 'react-bootstrap';
 import interact from 'interact.js';
 import DaliBox from '../components/DaliBox';
 import {ID_PREFIX_PAGE, ID_PREFIX_SECTION, ID_PREFIX_SORTABLE_BOX} from '../constants';
+import {RESIZE_SORTABLE_CONTAINER, ADD_BOX} from '../actions';
 import Dali from './../core/main';
 
 export default class PluginPlaceholder extends Component {
@@ -75,7 +76,7 @@ export default class PluginPlaceholder extends Component {
                                                                         col: i,
                                                                         row: j
                                                                     };
-                                                                    Dali.Plugins.get(e.relatedTarget.getAttribute("name")).getConfig().callback(initialParams);
+                                                                    Dali.Plugins.get(e.relatedTarget.getAttribute("name")).getConfig().callback(initialParams, ADD_BOX);
                                                                 } else {
                                                                     let boxDragged = this.props.boxes[this.props.boxSelected];
                                                                     if(boxDragged && (boxDragged.col !== i || boxDragged.row !== j)){
@@ -179,7 +180,7 @@ export default class PluginPlaceholder extends Component {
                         parent: this.props.parentBox.id,
                         container: this.props.pluginContainer
                     };
-                    Dali.Plugins.get(event.relatedTarget.getAttribute("name")).getConfig().callback(initialParams);
+                    Dali.Plugins.get(event.relatedTarget.getAttribute("name")).getConfig().callback(initialParams, ADD_BOX);
 
                     //interact(ReactDOM.findDOMNode(this)).unset();
                 }.bind(this),
@@ -197,7 +198,7 @@ export default class PluginPlaceholder extends Component {
                 onend: (event) => {
                     this.props.onSortableContainerResized(this.props.pluginContainer, this.props.parentBox.id, parseInt(event.target.style.height));
                     let toolbar = this.props.toolbars[this.props.parentBox.id];
-                    Dali.Plugins.get(toolbar.config.name).forceUpdate(toolbar.state, this.props.parentBox.id);
+                    Dali.Plugins.get(toolbar.config.name).forceUpdate(toolbar.state, this.props.parentBox.id, RESIZE_SORTABLE_CONTAINER);
                 }
             });
     }

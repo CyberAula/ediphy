@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import {Modal, Button, Row, FormGroup, ControlLabel, FormControl, Radio} from 'react-bootstrap';
 import Typeahead from 'react-bootstrap-typeahead';
+import {ID_PREFIX_RICH_MARK, ID_PREFIX_CONTAINED_VIEW} from '../../constants';
 
 export default class RichMarksModal extends Component {
     constructor(props) {
@@ -14,9 +15,9 @@ export default class RichMarksModal extends Component {
         };
     }
 
-    componentWillReceiveProps(nextProps){
+    componentWillReceiveProps(nextProps) {
         let current = nextProps.currentRichMark;
-        if(current){
+        if (current) {
             this.setState({
                 connectMode: current.connectMode || "new",
                 displayMode: current.displayMode || "navigate",
@@ -122,7 +123,7 @@ export default class RichMarksModal extends Component {
                             <ControlLabel>Value</ControlLabel>
                             <FormControl ref="value"
                                          type="text"
-                                         defaultValue={current ? current.value : ""} />
+                                         defaultValue={current ? current.value : ""}/>
                         </FormGroup>
                     </Row>
                 </Modal.Body>
@@ -137,7 +138,13 @@ export default class RichMarksModal extends Component {
                         let connection;
                         switch (connectMode){
                             case "new":
-                                connection = this.state.newSelected;
+                                connection = {
+                                    id: ID_PREFIX_CONTAINED_VIEW + Date.now(),
+                                    parent: this.props.boxSelected,
+                                    boxes: [],
+                                    type: this.state.newSelected,
+                                    extraFiles: {}
+                                };
                                 break;
                             case "existing":
                                 connection = this.state.existingSelected;
@@ -148,7 +155,7 @@ export default class RichMarksModal extends Component {
                         }
                         let displayMode = this.state.displayMode;
                         let value = ReactDOM.findDOMNode(this.refs.value).value;
-                        this.props.onRichMarkUpdated({id: (current ? current.id : Date.now()), title, connectMode, connection, displayMode, value});
+                        this.props.onRichMarkUpdated({id: (current ? current.id : ID_PREFIX_RICH_MARK + Date.now()), title, connectMode, connection, displayMode, value});
                         this.props.onRichMarksModalToggled();
                     }}>Save changes</Button>
                 </Modal.Footer>

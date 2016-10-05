@@ -7,6 +7,7 @@ import {Col} from 'react-bootstrap';
 import DaliTitle from '../components/DaliTitle';
 import interact from 'interact.js';
 import {BOX_TYPES, ID_PREFIX_SORTABLE_BOX} from '../constants';
+import {ADD_BOX} from '../actions';
 import Dali from './../core/main';
 
 export default class DaliCanvas extends Component {
@@ -163,7 +164,7 @@ export default class DaliCanvas extends Component {
                     container: 0,
                     position: position
                 };
-                Dali.Plugins.get(event.relatedTarget.getAttribute("name")).getConfig().callback(initialParams);
+                Dali.Plugins.get(event.relatedTarget.getAttribute("name")).getConfig().callback(initialParams, ADD_BOX);
                 event.dragEvent.stopPropagation();
             }.bind(this),
             ondropdeactivate: function (event) {

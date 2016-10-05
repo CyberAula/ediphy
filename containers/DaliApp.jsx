@@ -9,9 +9,11 @@ import {addNavItem, selectNavItem, expandNavItem, removeNavItem, reorderNavItem,
     toggleTextEditor, toggleTitleMode,
     changeDisplayMode, updateToolbar, collapseToolbar,
     exportStateAsync, importStateAsync,
-    fetchVishResourcesSuccess, fetchVishResourcesAsync} from '../actions';
+    fetchVishResourcesSuccess, fetchVishResourcesAsync,
+    ADD_BOX, ADD_RICH_MARK, EDIT_RICH_MARK, DELETE_RICH_MARK} from '../actions';
 import {ID_PREFIX_BOX, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_SORTABLE_CONTAINER, BOX_TYPES} from '../constants';
 import DaliCanvas from '../components/DaliCanvas';
+import ContainedCanvas from '../components/rich_plugins/ContainedCanvas';
 import DaliCarousel from '../components/DaliCarousel';
 import PluginConfigModal from '../components/PluginConfigModal';
 import XMLConfigModal from '../components/XMLConfigModal';
@@ -154,6 +156,11 @@ class DaliApp extends Component {
                                         onTextEditorToggled={(caller, value) => this.dispatchAndSetState(toggleTextEditor(caller, value))}
                                         onBoxesInsideSortableReorder={(parent, container, order) => {this.dispatchAndSetState(reorderBoxes(parent, container, order))}}
                                         titleModeToggled={(id, value) => this.dispatchAndSetState(toggleTitleMode(id, value))}/>
+                            <ContainedCanvas navItemSelected={navItemSelected}
+                                             boxSelected={boxSelected}
+                                             boxes={boxes}
+                                             boxLevelSelected={boxLevelSelected}
+                                             toolbars={toolbars} />
                         </Row>
                     </Col>
                 </Row>
@@ -178,11 +185,13 @@ class DaliApp extends Component {
                                 currentRichMark={this.state.currentRichMark}
                                 onRichMarkUpdated={(mark) => {
                                     let toolbar = toolbars[boxSelected];
-                                    Dali.Plugins.get(toolbar.config.name).forceUpdate(Object.assign({}, toolbar.state, {
-                                        __marks: Object.assign({}, toolbar.state.__marks, {
-                                            [mark.id]: mark
-                                        })
-                                    }), boxSelected);
+                                    let state = JSON.parse(JSON.stringify(toolbar.state));
+                                    state.__marks[mark.id] = mark;
+                                    Dali.Plugins.get(toolbar.config.name).forceUpdate(
+                                        state,
+                                        boxSelected,
+                                        this.state.currentRichMark ? EDIT_RICH_MARK : ADD_RICH_MARK
+                                    );
                                 }}
                                 onRichMarksModalToggled={() => {
                                     this.setState({richMarksVisible: !this.state.richMarksVisible});
@@ -223,9 +232,12 @@ class DaliApp extends Component {
                                }}
                                onRichMarkDeleted={id => {
                                     let toolbar = toolbars[boxSelected];
-                                    Dali.Plugins.get(toolbar.config.name).forceUpdate(Object.assign({}, toolbar.state, {
-                                        __marks: this.removeByKey(toolbar.state.__marks, id)
-                                    }), boxSelected);
+                                    let state = JSON.parse(JSON.stringify(toolbar.state));
+                                    delete state.__marks[id];
+                                    Dali.Plugins.get(toolbar.config.name).forceUpdate(
+                                        state,
+                                        boxSelected,
+                                        DELETE_RICH_MARK);
                                }}
                                onFetchVishResources={(query) => this.dispatchAndSetState(fetchVishResourcesAsync(query))}
                 />
@@ -440,7 +452,7 @@ class DaliApp extends Component {
                         parent: eventDetails.ids.id,
                         container: obj.attr['plugin-data-id'],
                         isDefaultPlugin: true
-                    });
+                    }, ADD_BOX);
                 });
             }
         }

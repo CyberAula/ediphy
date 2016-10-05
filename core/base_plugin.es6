@@ -103,7 +103,7 @@ export default function () {
                 aspectRatioButtonConfig.defaultValue = defaultFor(aspectRatioButtonConfig.defaultValue, "unchecked");
             }
 
-            callback = function (initParams) {
+            callback = function (initParams, reason) {
                 state = {};
                 if (descendant.getInitialState) {
                     state = descendant.getInitialState();
@@ -132,7 +132,7 @@ export default function () {
                 if (needsConfigModal) {
                     this.openConfigModal(false, state);
                 } else {
-                    this.render(false);
+                    this.render(false, reason);
                 }
             }.bind(this);
 
@@ -213,12 +213,22 @@ export default function () {
                 }.bind(this));
             }
         },
-        forceUpdate: function (oldState, sender) {
+        forceUpdate: function (oldState, sender, reason) {
             state = oldState;
             id = sender;
-            this.render(true);
+            this.render(true, reason);
         },
-        render: function (isUpdating) {
+        render: function (isUpdating, reason) {
+            // Posible reasons:
+            // ADD_BOX,
+            // ADD_RICH_MARK,
+            // EDIT_RICH_MARK,
+            // DELETE_RICH_MARK,
+            // UPDATE_TOOLBAR,
+            // RESIZE_SORTABLE_CONTAINER,
+            // EDIT_PLUGIN_TEXT,
+            // UPDATE_NAV_ITEM_EXTRA_FILES
+
             if (!descendant.getRenderTemplate) {
                 console.error(this.getConfig().name + " has not defined getRenderTemplate method");
             } else {
@@ -240,7 +250,8 @@ export default function () {
                         row: initialParams.row,
                         col: initialParams.col,
                         isDefaultPlugin: defaultFor(initialParams.isDefaultPlugin, false)
-                    }
+                    },
+                    reason
                 );
             }
         },
@@ -250,13 +261,13 @@ export default function () {
                 descendant.afterRender(element, oldState);
             }
         },
-        update: function (oldState, name, value, sender) {
+        update: function (oldState, name, value, sender, reason) {
             state = oldState;
             id = sender;
             if (descendant.handleToolbar) {
                 descendant.handleToolbar(name, value);
             }
-            this.render(true);
+            this.render(true, reason);
         },
         setState: function (key, value) {
             state[key] = value;

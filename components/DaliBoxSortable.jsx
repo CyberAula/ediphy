@@ -4,6 +4,7 @@ import {Button} from 'react-bootstrap';
 import interact from 'interact.js';
 import DaliBox from '../components/DaliBox';
 import {ID_PREFIX_SORTABLE_CONTAINER} from '../constants';
+import {ADD_BOX} from '../actions';
 import Dali from './../core/main';
 import i18n from 'i18next';
 
@@ -162,7 +163,7 @@ export default class DaliBoxSortable extends Component {
                             row: render.j
                         };
 
-                        Dali.Plugins.get(event.relatedTarget.getAttribute("name")).getConfig().callback(initialParams);
+                        Dali.Plugins.get(event.relatedTarget.getAttribute("name")).getConfig().callback(initialParams, ADD_BOX);
                     } else {
                         let boxDragged = this.props.boxes[this.props.boxSelected];
                         if (boxDragged && (boxDragged.col !== render.i || boxDragged.row !== render.j)) {
@@ -184,7 +185,7 @@ export default class DaliBoxSortable extends Component {
                             container: ID_PREFIX_SORTABLE_CONTAINER + Date.now()
                         };
                     }
-                    Dali.Plugins.get(event.relatedTarget.getAttribute("name")).getConfig().callback(initialParams);
+                    Dali.Plugins.get(event.relatedTarget.getAttribute("name")).getConfig().callback(initialParams, ADD_BOX);
                     event.dragEvent.stopPropagation();
                 }
             }.bind(this),
