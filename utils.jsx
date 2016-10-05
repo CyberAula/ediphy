@@ -1,6 +1,5 @@
 export default {
     //This would be a good post to explore if not wanting to use JSON Stringify: http://stackoverflow.com/questions/728360/how-do-i-correctly-clone-a-javascript-object
-    
     deepClone: function(myObj){
         return JSON.parse(JSON.stringify(myObj));
     },

@@ -306,7 +306,7 @@ function boxesById(state = {}, action = {}) {
             });
 
         case CHANGE_SORTABLE_PROPS:
-            let changedState = Object.assign({}, state);
+            let changedState = Utils.deepClone(state);
             changedState[action.payload.parent].sortableContainers[action.payload.id].style[action.payload.prop] = action.payload.value;
             return changedState;
         case DROP_BOX:
@@ -583,27 +583,28 @@ function navItemsById(state = {}, action = {}) {
             let wrongNames = Object.assign({}, newState, {[action.payload.parent]: Object.assign({}, newState[action.payload.parent], {children: newChildren})});
             return recalculateNames(wrongNames, oldOne, 1, action.payload.ids.length);
         case REORDER_NAV_ITEM:
-            //   0--> exterior a exterior /   1--> exterior a seccion /   2--> seccionA a seccionB /   3--> seccion a seccion  /   4--> seccion a exterior
-            var newSt = {};
-            //var auxState = state;
+            //   0--> outside to outside /   1--> outside to section /   2--> sectionA to sectionB /   3--> section to section  /   4--> section to outside
+            var newSt = Utils.deepClone(state);
+
             if (action.payload.type === 0 || action.payload.type === 3) {
-                newSt = Object.assign({}, state, {
-                    [action.payload.newParent]: Object.assign({}, state[action.payload.newParent], {children: action.payload.newChildrenInOrder})
-                });
+
+                newSt[action.payload.newParent].children = action.payload.newChildrenInOrder;
+
                 action.payload.newIndId.forEach(elem => {
                     newSt = Object.assign({}, newSt, {
                         [elem]: Object.assign({}, newSt[elem], {position: action.payload.newIndId.indexOf(elem)})
                     });
                 });
+
             } else if (action.payload.type === 1 || action.payload.type === 2 || action.payload.type === 4) {
-                var oldParent = state[action.payload.itemId].parent;
-                var oldParentChildren = state[oldParent].children;
+
+                var oldParent = newSt[action.payload.itemId].parent;
+                var oldParentChildren = newSt[oldParent].children;
                 oldParentChildren.splice(oldParentChildren.indexOf(action.payload.itemId), 1);
-                newSt = Object.assign({}, state, {
-                    [action.payload.newParent]: Object.assign({}, state[action.payload.newParent], {children: action.payload.newChildrenInOrder}),
-                    [action.payload.itemId]: Object.assign({}, state[action.payload.itemId], {parent: action.payload.newParent}),
-                    [oldParent]: Object.assign({}, state[oldParent], {children: oldParentChildren})
-                });
+
+                newSt[action.payload.newParent].children = action.payload.newChildrenInOrder;
+                newSt[action.payload.itemId].parent = action.payload.newParent;
+                newSt[oldParent].children = oldParentChildren;
 
                 var elementsToVisit = [action.payload.itemId];
                 var diff = state[action.payload.newParent].level - state[action.payload.itemId].level + 1;
@@ -1145,6 +1146,7 @@ const GlobalState = undoable(combineReducers({
             case TOGGLE_PAGE_MODAL:
             case TOGGLE_TEXT_EDITOR:
             case TOGGLE_TITLE_MODE:
+            case REORDER_BOXES:
             case UPDATE_NAV_ITEM_EXTRA_FILES:
                 return false;
         }
