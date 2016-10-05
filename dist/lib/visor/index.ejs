@@ -39,8 +39,8 @@
         <div class="clear"></div>
     </div>
 
-    <div class="contenido canvasvisor" style="height:auto; pointer-events: all !important;">
-        <!--DALITITLE-->
+    <div class="contenido canvasvisor" style="height:auto; pointer-events: all !important;"></div>
+    <!--DALITITLE-->
         <%
         var alltitles = [];
         if (page !== 0) {
@@ -195,7 +195,7 @@
                 }
             }
             %><div class="wholebox"
-                 style="position: <%=box.container !== 0 ? '' : 'absolute'%>;
+                 style="position: <%=box.container !== 0  && box.position && box.position.type ?  box.position.type : 'absolute'%>;
                          left: <%=box.position.x%>;
                          top: <%=box.position.y%>;
                          pointer-events: all  !important;
@@ -295,7 +295,7 @@
                 daliBoxSortable(box.id)
         }})%>
     </div>
-</div>
+
 </div>
 </div>
 </div>

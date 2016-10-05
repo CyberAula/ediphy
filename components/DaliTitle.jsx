@@ -102,7 +102,8 @@ export default class DaliTitle extends Component {
                     </div>
                     <div className="contenido"
                          style={{backgroundColor: 'transparent',  display: currentstatus=='hidden'? 'none':'block'}}>
-                        {content}
+                        {content} 
+                        ffffffff
                     </div>
                 </div>
                 <br style={{clear:'both',  visibility: currentstatus=='hidden'? 'hidden':'inherit'}}/>

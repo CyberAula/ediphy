@@ -500,8 +500,8 @@ export default class DaliBox extends Component {
 
                     this.props.onBoxMoved(
                         this.props.id,
-                        box.container !== 0 ? left : Math.max(parseInt(target.style.left), 0),
-                        box.container !== 0 ? top : Math.max(parseInt(target.style.top), 0),
+                        box.container !== 0 ? left : Math.max(parseInt(target.style.left), 0)+'px',
+                        box.container !== 0 ? top : Math.max(parseInt(target.style.top), 0)+'px',
                         this.props.boxes[this.props.id].position.type
                     );
 
