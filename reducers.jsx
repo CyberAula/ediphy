@@ -6,7 +6,7 @@ import {ADD_BOX, SELECT_BOX, MOVE_BOX, DUPLICATE_BOX, RESIZE_BOX, UPDATE_BOX, DE
     ADD_NAV_ITEM, SELECT_NAV_ITEM, EXPAND_NAV_ITEM, REMOVE_NAV_ITEM, REORDER_NAV_ITEM, TOGGLE_NAV_ITEM, UPDATE_NAV_ITEM_EXTRA_FILES,
     CHANGE_SECTION_TITLE, CHANGE_UNIT_NUMBER, VERTICALLY_ALIGN_BOX,
     TOGGLE_PAGE_MODAL, TOGGLE_TEXT_EDITOR, TOGGLE_TITLE_MODE, CHANGE_TITLE,
-    CHANGE_DISPLAY_MODE, SET_BUSY, UPDATE_TOOLBAR, COLLAPSE_TOOLBAR, IMPORT_STATE, FETCH_VISH_RESOURCES_SUCCESS
+    CHANGE_DISPLAY_MODE, SET_BUSY, UPDATE_INTERMEDIATE_TOOLBAR, UPDATE_TOOLBAR, COLLAPSE_TOOLBAR, IMPORT_STATE, FETCH_VISH_RESOURCES_SUCCESS
 } from './actions';
 import {ID_PREFIX_SECTION, ID_PREFIX_PAGE, ID_PREFIX_BOX, ID_PREFIX_SORTABLE_BOX} from './constants';
 import i18n from 'i18next';
@@ -954,6 +954,15 @@ function toolbarsById(state = {}, action = {}) {
                 newState[pl.id].controls[pl.tab].accordions[pl.accordions[0]].buttons[pl.name].value = pl.value;
             }
             return newState;
+        case UPDATE_INTERMEDIATE_TOOLBAR:
+            newState = Object.assign({}, state);
+            let ple = action.payload;
+            if (ple.accordions.length > 1) {
+                newState[ple.id].controls[ple.tab].accordions[ple.accordions[0]].accordions[ple.accordions[1]].buttons[ple.name].value = ple.value;
+            } else {
+                newState[ple.id].controls[ple.tab].accordions[ple.accordions[0]].buttons[ple.name].value = ple.value;
+            }
+            return newState;
         case COLLAPSE_TOOLBAR:
             return Object.assign({}, state, {
                 [action.payload.id]: Object.assign({}, state[action.payload.id], {isCollapsed: !(state[action.payload.id].isCollapsed)})
@@ -1147,6 +1156,7 @@ const GlobalState = undoable(combineReducers({
             case TOGGLE_TEXT_EDITOR:
             case TOGGLE_TITLE_MODE:
             case REORDER_BOXES:
+            case UPDATE_INTERMEDIATE_TOOLBAR:
             case UPDATE_NAV_ITEM_EXTRA_FILES:
                 return false;
         }
