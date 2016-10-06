@@ -1,4 +1,4 @@
- 
+
 @import 'variables';
 @import 'general/mixins/mixins';
 @import 'general/tipography/tipo';
@@ -19,8 +19,8 @@
 @import 'general/elements/btn';
 @import 'general/elements/scrollbar';
 @import 'general/elements/thumbnails';
- 
- 
+@import 'cke_rewrite';
+
 
 @include selection {
     color: white;
@@ -39,7 +39,7 @@
 
 /*Left column with index*/
 #colLeft{
-    position: relative; 
+    position: relative;
     float: left;
     padding: 0;
     height: 100%;
@@ -71,8 +71,7 @@
     @include animacion(height, 0.3s);
 }
 
- 
+
 .hidden{
     visibility: hidden;
 }
-
