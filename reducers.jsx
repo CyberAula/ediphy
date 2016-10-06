@@ -10,7 +10,7 @@ import {ADD_BOX, SELECT_BOX, MOVE_BOX, DUPLICATE_BOX, RESIZE_BOX, UPDATE_BOX, DE
 } from './actions';
 import {ID_PREFIX_SECTION, ID_PREFIX_PAGE, ID_PREFIX_BOX, ID_PREFIX_SORTABLE_BOX} from './constants';
 import i18n from 'i18next';
-import update from 'react-addons-update';
+
 
 function boxCreator(state = {}, action = {}) {
     switch (action.type) {
