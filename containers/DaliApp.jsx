@@ -10,7 +10,8 @@ import {addNavItem, selectNavItem, expandNavItem, removeNavItem, reorderNavItem,
     changeDisplayMode, updateToolbar, collapseToolbar,
     exportStateAsync, importStateAsync,
     fetchVishResourcesSuccess, fetchVishResourcesAsync,
-    ADD_BOX, ADD_RICH_MARK, EDIT_RICH_MARK, DELETE_RICH_MARK} from '../actions';
+    selectContainedView,
+    ADD_BOX, ADD_RICH_MARK, addRichMark, EDIT_RICH_MARK, editRichMark, DELETE_RICH_MARK} from '../actions';
 import {ID_PREFIX_BOX, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_SORTABLE_CONTAINER, BOX_TYPES} from '../constants';
 import DaliCanvas from '../components/DaliCanvas';
 import ContainedCanvas from '../components/rich_plugins/ContainedCanvas';
@@ -48,6 +49,7 @@ class DaliApp extends Component {
 
     render() {
         const { dispatch, boxes, boxesIds, boxSelected, boxLevelSelected, navItemsIds, navItems, navItemSelected,
+            containedViewSelected,
             undoDisabled, redoDisabled, displayMode, isBusy, toolbars, title, fetchVishResults } = this.props;
         let ribbonHeight = this.state.hideTab === 'hide' ? 0 : 47;
         return (
@@ -157,10 +159,13 @@ class DaliApp extends Component {
                                         onBoxesInsideSortableReorder={(parent, container, order) => {this.dispatchAndSetState(reorderBoxes(parent, container, order))}}
                                         titleModeToggled={(id, value) => this.dispatchAndSetState(toggleTitleMode(id, value))}/>
                             <ContainedCanvas navItemSelected={navItemSelected}
+                                             containedViewSelected={containedViewSelected}
                                              boxSelected={boxSelected}
                                              boxes={boxes}
                                              boxLevelSelected={boxLevelSelected}
-                                             toolbars={toolbars} />
+                                             toolbars={toolbars}
+                                             onBoxSelected={id => this.dispatchAndSetState(selectBox(id))}
+                                             onContainedViewSelected={id => this.dispatchAndSetState(selectContainedView(id))}/>
                         </Row>
                     </Col>
                 </Row>
@@ -186,11 +191,14 @@ class DaliApp extends Component {
                                 onRichMarkUpdated={(mark) => {
                                     let toolbar = toolbars[boxSelected];
                                     let state = JSON.parse(JSON.stringify(toolbar.state));
-                                    state.__marks[mark.id] = mark;
+                                    state.__marks[mark.id] = JSON.parse(JSON.stringify(mark));
+                                    if(mark.connection.id){
+                                        state.__marks[mark.id].connection = mark.connection.id;
+                                    }
                                     Dali.Plugins.get(toolbar.config.name).forceUpdate(
                                         state,
                                         boxSelected,
-                                        this.state.currentRichMark ? EDIT_RICH_MARK : ADD_RICH_MARK
+                                        this.state.currentRichMark ? editRichMark(boxSelected, state) : addRichMark(boxSelected, mark, state)
                                     );
                                 }}
                                 onRichMarksModalToggled={() => {
@@ -208,6 +216,7 @@ class DaliApp extends Component {
                                isBusy={isBusy}
                                fetchResults={fetchVishResults}
                                onNavItemSelected={id => this.dispatchAndSetState(selectNavItem(id))}
+                               onContainedViewSelected={id => this.dispatchAndSetState(selectContainedView(id))}
                                onColsChanged={(id, parent, distribution) => this.dispatchAndSetState(changeCols(id, parent, distribution))}
                                onRowsChanged={(id, parent, column, distribution) => this.dispatchAndSetState(changeRows(id, parent, column, distribution))}
                                onBoxResized={(id, width, height) => this.dispatchAndSetState(resizeBox(id, width, height))}
@@ -268,7 +277,14 @@ class DaliApp extends Component {
             if (e.detail.isUpdating) {
                 this.parsePluginContainers(e.detail.content, newPluginState);
                 e.detail.state.__pluginContainerIds = newPluginState;
-                this.dispatchAndSetState(updateBox(e.detail.ids.id, e.detail.content, e.detail.toolbar, e.detail.state));
+                let reason = e.detail.reason;
+                if (reason.type === ADD_RICH_MARK) {
+                    this.dispatchAndSetState(reason);
+                } else if (reason.type === EDIT_RICH_MARK) {
+                    this.dispatchAndSetState(reason);
+                } else {
+                    this.dispatchAndSetState(updateBox(e.detail.ids.id, e.detail.content, e.detail.toolbar, e.detail.state));
+                }
                 this.addDefaultContainerPlugins(e.detail, e.detail.content);
                 if (e.detail.state.__xml_path) {
                     if (!navItemSelected.extraFiles[e.detail.ids.id] || navItemSelected.extraFiles[e.detail.ids.id] !== e.detail.state.__xml_path) {
@@ -471,6 +487,7 @@ function mapStateToProps(state) {
         navItemsIds: state.present.navItemsIds,
         navItems: state.present.navItemsById,
         navItemSelected: state.present.navItemSelected,
+        containedViewSelected: state.present.containedViewSelected,
         undoDisabled: state.past.length === 0,
         redoDisabled: state.future.length === 0,
         displayMode: state.present.displayMode,

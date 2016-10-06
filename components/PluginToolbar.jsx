@@ -271,7 +271,9 @@ export default class PluginToolbar extends Component {
                 /* jshint ignore:start */
                 <ContentList key="content_list"
                              state={state}
+                             box={this.props.box}
                              navItems={this.props.navItems}
+                             onContainedViewSelected={this.props.onContainedViewSelected}
                              onNavItemSelected={this.props.onNavItemSelected}
                              onRichMarkDeleted={this.props.onRichMarkDeleted}/>
                 /* jshint ignore:end */

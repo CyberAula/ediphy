@@ -22,29 +22,45 @@ export default class ContainedCanvas extends Component {
         /*) : ('30px 0px 30px 0px')*/
 
         /*
-        let maincontent = document.getElementById('maincontent');
-        let actualHeight;
-        if (maincontent) {
-            actualHeight = parseInt(maincontent.scrollHeight);
-            actualHeight = (parseInt(maincontent.clientHeight) < actualHeight) ? (actualHeight) + 'px' : '100%';
-        }
+         let maincontent = document.getElementById('maincontent');
+         let actualHeight;
+         if (maincontent) {
+         actualHeight = parseInt(maincontent.scrollHeight);
+         actualHeight = (parseInt(maincontent.clientHeight) < actualHeight) ? (actualHeight) + 'px' : '100%';
+         }
 
-        let overlayHeight = actualHeight ? actualHeight : '100%';
-        */
+         let overlayHeight = actualHeight ? actualHeight : '100%';
+         */
         let overlayHeight = '100%';
+        let containedView;
+        if(this.props.boxes[this.props.boxSelected] && this.props.boxes[this.props.boxSelected].containedViews) {
+            containedView = this.props.boxes[this.props.boxSelected].containedViews[this.props.containedViewSelected];
+        }
         return (
             /* jshint ignore:start */
-            <Col id="containedCanvas" md={12} xs={12} style={{height:"100%", padding: 0, position: 'absolute', display: 'none'}}>
+            <Col id="containedCanvas"
+                 md={12}
+                 xs={12}
+                 style={{
+                    height:"100%",
+                    padding: 0,
+                    position: 'absolute',
+                    display: this.props.containedViewSelected !== 0 ? 'initial' : 'none'
+                 }}>
                 <div className="outter canvaseditor"
                      style={{position: 'absolute', width: '100%', height:'100%', padding: (paddings)}}>
                     <div ref="maincontent"
                          onClick={e => {
                             this.props.onBoxSelected(-1);
+                            e.stopPropagation();
                          }}
-                         className={this.props.navItemSelected.type == 'slide' ? 'innercanvas sli':'innercanvas doc'}
-                         style={{visibility: (this.props.showCanvas ? 'visible' : 'visible')}}>
+                         className={containedView && containedView.type === 'slide' ? 'innercanvas sli':'innercanvas doc'}>
 
-                        <Button style={{margin: "10px 0px 0px 10px"}}>X</Button>
+                        <Button style={{margin: "10px 0px 0px 10px"}}
+                                onClick={e => {
+                                    this.props.onContainedViewSelected(0);
+                                    e.stopPropagation();
+                                }}>X</Button>
 
                         <DaliShortcuts
                             box={this.props.boxSelected == -1 ? -1 : this.props.boxes[this.props.boxSelected]}
@@ -64,48 +80,48 @@ export default class ContainedCanvas extends Component {
                             }}>
                         </div>
                         {/*
-                            {this.props.navItemSelected.boxes.map(id => {
-                                let box = this.props.boxes[id];
-                                if (box.type === BOX_TYPES.NORMAL)
-                                    return <DaliBox key={id}
-                                                    id={id}
-                                                    boxes={this.props.boxes}
-                                                    boxSelected={this.props.boxSelected}
-                                                    boxLevelSelected={this.props.boxLevelSelected}
-                                                    toolbars={this.props.toolbars}
-                                                    lastActionDispatched={this.props.lastActionDispatched}
-                                                    onBoxSelected={this.props.onBoxSelected}
-                                                    onBoxLevelIncreased={this.props.onBoxLevelIncreased}
-                                                    onBoxMoved={this.props.onBoxMoved}
-                                                    onBoxResized={this.props.onBoxResized}
-                                                    onSortableContainerResized={this.props.onSortableContainerResized}
-                                                    onBoxesInsideSortableReorder={this.props.onBoxesInsideSortableReorder}
-                                                    onBoxDropped={this.props.onBoxDropped}
-                                                    onVerticallyAlignBox={this.props.onVerticallyAlignBox}
-                                                    onBoxModalToggled={this.props.onBoxModalToggled}
-                                                    onTextEditorToggled={this.props.onTextEditorToggled}
-                                    />
-                                else if (box.type === BOX_TYPES.SORTABLE)
-                                    return <DaliBoxSortable key={id}
-                                                            id={id}
-                                                            boxes={this.props.boxes}
-                                                            boxSelected={this.props.boxSelected}
-                                                            boxLevelSelected={this.props.boxLevelSelected}
-                                                            toolbars={this.props.toolbars}
-                                                            lastActionDispatched={this.props.lastActionDispatched}
-                                                            onBoxSelected={this.props.onBoxSelected}
-                                                            onBoxLevelIncreased={this.props.onBoxLevelIncreased}
-                                                            onBoxMoved={this.props.onBoxMoved}
-                                                            onBoxResized={this.props.onBoxResized}
-                                                            onBoxesInsideSortableReorder={this.props.onBoxesInsideSortableReorder}
-                                                            onSortableContainerResized={this.props.onSortableContainerResized}
-                                                            onBoxReorder={this.props.onBoxReorder}
-                                                            onBoxDropped={this.props.onBoxDropped}
-                                                            onVerticallyAlignBox={this.props.onVerticallyAlignBox}
-                                                            onBoxModalToggled={this.props.onBoxModalToggled}
-                                                            onTextEditorToggled={this.props.onTextEditorToggled}/>
-                            })}
-                        */}
+                         {this.props.navItemSelected.boxes.map(id => {
+                         let box = this.props.boxes[id];
+                         if (box.type === BOX_TYPES.NORMAL)
+                         return <DaliBox key={id}
+                         id={id}
+                         boxes={this.props.boxes}
+                         boxSelected={this.props.boxSelected}
+                         boxLevelSelected={this.props.boxLevelSelected}
+                         toolbars={this.props.toolbars}
+                         lastActionDispatched={this.props.lastActionDispatched}
+                         onBoxSelected={this.props.onBoxSelected}
+                         onBoxLevelIncreased={this.props.onBoxLevelIncreased}
+                         onBoxMoved={this.props.onBoxMoved}
+                         onBoxResized={this.props.onBoxResized}
+                         onSortableContainerResized={this.props.onSortableContainerResized}
+                         onBoxesInsideSortableReorder={this.props.onBoxesInsideSortableReorder}
+                         onBoxDropped={this.props.onBoxDropped}
+                         onVerticallyAlignBox={this.props.onVerticallyAlignBox}
+                         onBoxModalToggled={this.props.onBoxModalToggled}
+                         onTextEditorToggled={this.props.onTextEditorToggled}
+                         />
+                         else if (box.type === BOX_TYPES.SORTABLE)
+                         return <DaliBoxSortable key={id}
+                         id={id}
+                         boxes={this.props.boxes}
+                         boxSelected={this.props.boxSelected}
+                         boxLevelSelected={this.props.boxLevelSelected}
+                         toolbars={this.props.toolbars}
+                         lastActionDispatched={this.props.lastActionDispatched}
+                         onBoxSelected={this.props.onBoxSelected}
+                         onBoxLevelIncreased={this.props.onBoxLevelIncreased}
+                         onBoxMoved={this.props.onBoxMoved}
+                         onBoxResized={this.props.onBoxResized}
+                         onBoxesInsideSortableReorder={this.props.onBoxesInsideSortableReorder}
+                         onSortableContainerResized={this.props.onSortableContainerResized}
+                         onBoxReorder={this.props.onBoxReorder}
+                         onBoxDropped={this.props.onBoxDropped}
+                         onVerticallyAlignBox={this.props.onVerticallyAlignBox}
+                         onBoxModalToggled={this.props.onBoxModalToggled}
+                         onTextEditorToggled={this.props.onTextEditorToggled}/>
+                         })}
+                         */}
                     </div>
                 </div>
             </Col>

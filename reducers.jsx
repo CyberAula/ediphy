@@ -2,6 +2,7 @@ import {combineReducers} from 'redux';
 import undoable, {excludeAction} from 'redux-undo';
 import './utils';
 import {ADD_BOX, SELECT_BOX, MOVE_BOX, DUPLICATE_BOX, RESIZE_BOX, UPDATE_BOX, DELETE_BOX, REORDER_BOX, DROP_BOX, INCREASE_LEVEL,
+    ADD_RICH_MARK, EDIT_RICH_MARK, SELECT_CONTAINED_VIEW,
     RESIZE_SORTABLE_CONTAINER, CHANGE_COLS, CHANGE_ROWS, CHANGE_SORTABLE_PROPS, REORDER_BOXES,
     ADD_NAV_ITEM, SELECT_NAV_ITEM, EXPAND_NAV_ITEM, REMOVE_NAV_ITEM, REORDER_NAV_ITEM, TOGGLE_NAV_ITEM, UPDATE_NAV_ITEM_EXTRA_FILES,
     CHANGE_SECTION_TITLE, CHANGE_UNIT_NUMBER, VERTICALLY_ALIGN_BOX,
@@ -62,6 +63,7 @@ function boxCreator(state = {}, action = {}) {
 
             let children = [];
             let sortableContainers = {};
+            let containedViews = {};
             if (action.payload.state) {
                 let pluginContainers = action.payload.state.__pluginContainerIds;
                 if (pluginContainers) {
@@ -106,7 +108,8 @@ function boxCreator(state = {}, action = {}) {
                 showTextEditor: false,
                 fragment: {},
                 children: children,
-                sortableContainers: sortableContainers
+                sortableContainers: sortableContainers,
+                containedViews: containedViews
             };
         default:
             return state;
@@ -288,6 +291,17 @@ function boxesById(state = {}, action = {}) {
             newState[action.payload.id].children = children;
             newState[action.payload.id].sortableContainers = sortableContainers;
             return newState;
+        case ADD_RICH_MARK:
+            if(action.payload.mark.connection.id){
+                return Object.assign({}, state, {
+                    [action.payload.parent]: Object.assign({}, state[action.payload.parent], {
+                        containedViews: Object.assign({}, state[action.payload.parent].containedViews, {
+                            [action.payload.mark.connection.id]: action.payload.mark.connection
+                        })
+                    })
+                });
+            }
+            return state;
         case REORDER_BOXES:
             return Object.assign({}, state, {
                 [action.payload.parent]: Object.assign({}, state[action.payload.parent], {
@@ -399,6 +413,8 @@ function boxSelected(state = -1, action = {}) {
             if (action.payload.parent.indexOf(ID_PREFIX_BOX) !== -1) {
                 return action.payload.parent;
             }
+            return -1;
+        case SELECT_CONTAINED_VIEW:
             return -1;
         case ADD_NAV_ITEM:
             return -1;
@@ -714,6 +730,23 @@ function navItemSelected(state = 0, action = {}) {
     }
 }
 
+function containedViewSelected(state = 0, action = {}) {
+    switch (action.type) {
+        case SELECT_NAV_ITEM:
+            return state;
+        case SELECT_CONTAINED_VIEW:
+            return action.payload.id;
+        case ADD_NAV_ITEM:
+            return state;
+        case REMOVE_NAV_ITEM:
+            return 0;
+        case IMPORT_STATE:
+            return action.payload.present.containedViewSelected || state;
+        default:
+            return state;
+    }
+}
+
 function createRichAccordions(controls) {
     if (!controls.main) {
         controls.main = {
@@ -1002,7 +1035,18 @@ function toolbarsById(state = {}, action = {}) {
             }
 
             return newState;
-
+        case ADD_RICH_MARK:
+            return Object.assign({}, state, {
+                [action.payload.parent]: Object.assign({}, state[action.payload.parent], {
+                    state: action.payload.state
+                })
+            });
+        case EDIT_RICH_MARK:
+            return Object.assign({}, state, {
+                [action.payload.parent]: Object.assign({}, state[action.payload.parent], {
+                    state: action.payload.state
+                })
+            });
         case UPDATE_BOX:
             let controls = action.payload.toolbar;
             for (let tabKey in controls) {
@@ -1129,6 +1173,7 @@ const GlobalState = undoable(combineReducers({
     boxesIds: boxesIds, //[0, 1]
     navItemsIds: navItemsIds, //[0, 1]
     navItemSelected: navItemSelected, // 0
+    containedViewSelected: containedViewSelected, //0
     navItemsById: navItemsById, // {0: navItem0, 1: navItem1}
     displayMode: changeDisplayMode, //"list",
     toolbarsById: toolbarsById, // {0: toolbar0, 1: toolbar1}

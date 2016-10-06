@@ -19,8 +19,6 @@ export const CHANGE_COLS = 'CHANGE_COLS';
 export const CHANGE_ROWS = 'CHANGE_ROWS';
 export const REORDER_BOXES = 'REORDER_BOXES';
 
-export const ADD_CONTAINED_VIEW = 'ADD_CONTAINED_VIEW';
-
 export const ADD_NAV_ITEM = 'ADD_NAV_ITEM';
 export const SELECT_NAV_ITEM = 'SELECT_NAV_ITEM';
 export const EXPAND_NAV_ITEM = 'EXPAND_NAV_ITEM';
@@ -46,6 +44,7 @@ export const FETCH_VISH_RESOURCES_SUCCESS = "FETCH_VISH_RESOURCES_SUCCESS";
 // These are not real Redux actions but are use to specify plugin's render reason
 export const ADD_RICH_MARK = 'ADD_RICH_MARK';
 export const EDIT_RICH_MARK = 'EDIT_RICH_MARK';
+export const SELECT_CONTAINED_VIEW = 'SELECT_CONTAINED_VIEW';
 export const DELETE_RICH_MARK = 'DELETE_RICH_MARK';
 export const EDIT_PLUGIN_TEXT = 'EDIT_PLUGIN_TEXT';
 
@@ -148,8 +147,16 @@ export function reorderBoxes(parent, container, order) {
     return {type: REORDER_BOXES, payload: {parent, container, order}};
 }
 
-export function addContainedView(id, parent){
-    return {type: ADD_CONTAINED_VIEW, payload: {id, parent}};
+export function addRichMark(parent, mark, state){
+    return {type: ADD_RICH_MARK, payload: {parent, mark, state}};
+}
+
+export function editRichMark(parent, state){
+    return {type: EDIT_RICH_MARK, payload: {parent, state}};
+}
+
+export function selectContainedView(id){
+    return {type: SELECT_CONTAINED_VIEW, payload: {id}};
 }
 
 export function toggleTextEditor(caller, value) {

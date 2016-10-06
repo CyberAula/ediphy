@@ -78,12 +78,20 @@ export default class RichMarksModal extends Component {
                         <FormGroup style={{display: this.state.connectMode === "new" ? "initial" : "none"}}>
                             <FormControl componentClass="select"
                                          defaultValue={this.state.newSelected}
+                                         style={{
+                                            display: this.state.newSelected === "slide" || this.state.newSelected === "document" ? "initial" : "none"
+                                         }}
                                          onChange={e => {
                                             this.setState({newSelected: e.nativeEvent.target.value});
                                          }}>
                                 <option value="document">New document</option>
                                 <option value="slide">New slide</option>
                             </FormControl>
+                            <span style={{
+                                display: this.state.newSelected === "slide" || this.state.newSelected === "document" ? "none" : "initial"
+                                }}>
+                                Connected to {this.state.newSelected}
+                            </span>
                         </FormGroup>
                         <FormGroup style={{display: this.state.connectMode === "existing" ? "initial" : "none"}}>
                             <Typeahead options={navItemsNames}
@@ -138,13 +146,15 @@ export default class RichMarksModal extends Component {
                         let connection;
                         switch (connectMode){
                             case "new":
-                                connection = {
-                                    id: ID_PREFIX_CONTAINED_VIEW + Date.now(),
-                                    parent: this.props.boxSelected,
-                                    boxes: [],
-                                    type: this.state.newSelected,
-                                    extraFiles: {}
-                                };
+                                connection = current ?
+                                    current.connection :
+                                    {
+                                        id: ID_PREFIX_CONTAINED_VIEW + Date.now(),
+                                        parent: this.props.boxSelected,
+                                        boxes: [],
+                                        type: this.state.newSelected,
+                                        extraFiles: {}
+                                    };
                                 break;
                             case "existing":
                                 connection = this.state.existingSelected;
