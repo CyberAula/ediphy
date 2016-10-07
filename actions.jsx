@@ -1,5 +1,6 @@
 import fetch from 'isomorphic-fetch';
 import Dali from './core/main';
+import i18n from 'i18next';
 
 export const ADD_BOX = 'ADD_BOX';
 export const SELECT_BOX = 'SELECT_BOX';
@@ -195,7 +196,7 @@ export function exportStateAsync(state) {
 
         // First dispatch: the app state is updated to inform
         // that the API call is starting.
-        dispatch(setBusy(true, "Exporting..."));
+        dispatch(setBusy(true, i18n.t("error.exporting")));
 
         // The function called by the thunk middleware can return a value,
         // that is passed on as the return value of the dispatch method.
@@ -212,12 +213,12 @@ export function exportStateAsync(state) {
         })
             .then(response => {
                 if (response.status >= 400) {
-                    throw new Error("Error while exporting");
+                    throw new Error(i18n.t("error.exporting"));
                 }
                 return true;
             })
             .then(() => {
-                dispatch(setBusy(false, "Success!"));
+                dispatch(setBusy(false, i18n.t("success_transaction")));
             })
             .catch(e => {
                 dispatch(setBusy(false, e.message));
@@ -227,12 +228,12 @@ export function exportStateAsync(state) {
 
 export function importStateAsync() {
     return dispatch => {
-        dispatch(setBusy(true, "Importing..."));
+        dispatch(setBusy(true, i18n.t("Importing")));
 
         return fetch(Dali.Config.import_url)
             .then(response => {
                 if (response.status >= 400) {
-                    throw new Error("Error while importing");
+                    throw new Error(i18n.t("error.importing"));
                 }
                 return response.text();
             })
@@ -241,7 +242,7 @@ export function importStateAsync() {
                 return true;
             })
             .then(() => {
-                dispatch(setBusy(false, "Success!"));
+                dispatch(setBusy(false, i18n.t("success_transaction")));
             })
             .catch(e => {
                 dispatch(setBusy(false, e.message));
@@ -251,12 +252,12 @@ export function importStateAsync() {
 
 export function fetchVishResourcesAsync(query) {
     return dispatch => {
-        dispatch(setBusy(true, "Searching..."));
+        dispatch(setBusy(true, i18n.t("Searching")));
 
         return fetch(query)
             .then(response => {
                 if (response.status >= 400) {
-                    throw new Error("Error while searching");
+                    throw new Error(i18n.t("error.searching"));
                 }
                 return response.text();
             })
@@ -265,7 +266,7 @@ export function fetchVishResourcesAsync(query) {
                 return true;
             })
             .then(() => {
-                dispatch(setBusy(false, "No results found"));
+                dispatch(setBusy(false, i18n.t("no_results")));
             })
             .catch(e => {
                 dispatch(setBusy(false, e.message));
