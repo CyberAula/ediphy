@@ -315,7 +315,7 @@ class DaliApp extends Component {
                     },
                     BOX_TYPES.NORMAL,
                     true,
-                    (e.detail.ids.container === 0),
+                    (!(e.detail.ids.container.length && e.detail.ids.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1)),
                     e.detail.content,
                     e.detail.toolbar,
                     e.detail.config,

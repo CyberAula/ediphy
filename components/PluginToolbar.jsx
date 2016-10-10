@@ -9,6 +9,7 @@ import MarksList from './rich_plugins/MarksList.jsx';
 import ContentList from './rich_plugins/ContentList.jsx';
 import Dali from './../core/main';
 import {UPDATE_TOOLBAR} from '../actions';
+import {ID_PREFIX_SORTABLE_CONTAINER} from '../constants';
 import i18n from 'i18next';
 
 export default class PluginToolbar extends Component {
@@ -240,7 +241,7 @@ export default class PluginToolbar extends Component {
 
         }
 
-        if (accordion.key === 'structure' && this.props.box.container !== 0) {
+        if (accordion.key === 'structure' && this.props.box.container.length && this.props.box.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1) {
             children.push(
                 /* jshint ignore:start */
                 <RadioButtonFormGroup key="verticalalignment"
@@ -306,14 +307,14 @@ export default class PluginToolbar extends Component {
             onChange: e => {
                 let value = e.target ? e.target.value : e.target;
                 if (buttonKey === '___heightAuto') {
-                    let units = (this.props.box.container === 0) ? 'px' : '%';
+                    let units = (!(this.props.box.container.length && this.props.box.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1)) ? 'px' : '%';
                     this.heightAuto = !this.heightAuto;
                     this.props.onToolbarUpdated(id, tabKey, accordionKeys, 'height', this.heightAuto ? 'auto' : (100 + units));
                     this.props.onBoxResized(id, this.props.box.width, this.heightAuto ? 'auto' : ('100' + units));
 
                 }
                 if (buttonKey === 'width') {
-                    let units = (this.props.box.container === 0) ? 'px' : '%';
+                    let units = (!(this.props.box.container.length && this.props.box.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1)) ? 'px' : '%';
                     if (!this.aspectRatio) {
                         let newHeight = parseFloat(value);
                         if (this.heightAuto) {
@@ -330,7 +331,7 @@ export default class PluginToolbar extends Component {
                     }
                 }
                 if (buttonKey === 'height') {
-                    let units = (this.props.box.container === 0) ? 'px' : '%';
+                    let units = (!(this.props.box.container.length && this.props.box.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1)) ? 'px' : '%';
                     if (!this.aspectRatio) {
                         this.props.onBoxResized(id, this.props.box.width, value + units);
                         this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, parseFloat(value));

@@ -93,6 +93,7 @@ export default class DaliCanvas extends Component {
                                                 boxes={this.props.boxes}
                                                 boxSelected={this.props.boxSelected}
                                                 boxLevelSelected={this.props.boxLevelSelected}
+                                                containedViewSelected={this.props.containedViewSelected}
                                                 toolbars={this.props.toolbars}
                                                 lastActionDispatched={this.props.lastActionDispatched}
                                                 onBoxSelected={this.props.onBoxSelected}
@@ -112,6 +113,7 @@ export default class DaliCanvas extends Component {
                                                         boxes={this.props.boxes}
                                                         boxSelected={this.props.boxSelected}
                                                         boxLevelSelected={this.props.boxLevelSelected}
+                                                        containedViewSelected={this.props.containedViewSelected}
                                                         toolbars={this.props.toolbars}
                                                         lastActionDispatched={this.props.lastActionDispatched}
                                                         onBoxSelected={this.props.onBoxSelected}

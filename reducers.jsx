@@ -17,7 +17,10 @@ function boxCreator(state = {}, action = {}) {
         case ADD_BOX:
             let position, width, height;
             let verticalAlign = 'middle';
-            let level = (state[action.payload.ids.parent]) ? state[action.payload.ids.parent].level + 1 : 0;
+            let level = (state[action.payload.ids.parent] &&
+                        !(action.payload.ids.container.length && action.payload.ids.container.indexOf(ID_PREFIX_CONTAINED_VIEW) !== -1)) ?
+                            state[action.payload.ids.parent].level + 1 :
+                            0;
             switch (action.payload.type) {
                 case 'sortable':
                     position = {x: 0, y: 0, type: 'relative'};
@@ -37,7 +40,7 @@ function boxCreator(state = {}, action = {}) {
                     break;
             }
             console.log(action.payload);
-            if (action.payload.ids.container !== 0 && action.payload.ids.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1) {
+            if (action.payload.ids.container.length && action.payload.ids.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1) {
                 position.x = 0;
                 position.y = 0;
                 position.type = 'relative';
@@ -193,7 +196,7 @@ function boxesById(state = {}, action = {}) {
     switch (action.type) {
         case ADD_BOX:
             let box = boxCreator(state, action);
-            if (action.payload.ids.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1) {
+            if (action.payload.ids.container.length && action.payload.ids.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1) {
                 return Object.assign({}, state, {
                     [action.payload.ids.id]: box,
                     [action.payload.ids.parent]: Object.assign({}, state[action.payload.ids.parent], {
@@ -756,7 +759,7 @@ function containedViews(state = {}, action = {}){
             }
             return state;
         case ADD_BOX:
-            if (action.payload.ids.container.indexOf(ID_PREFIX_CONTAINED_VIEW) !== -1) {
+            if (action.payload.ids.container.length && action.payload.ids.container.indexOf(ID_PREFIX_CONTAINED_VIEW) !== -1) {
                 return Object.assign({}, state, {
                     [action.payload.ids.container]: Object.assign({}, state[action.payload.ids.container], {
                         boxes: [...state[action.payload.ids.container].boxes, action.payload.ids.id]
@@ -964,7 +967,7 @@ function toolbarsById(state = {}, action = {}) {
                 }
             }
 
-            if (action.payload.ids.container !== 0) {
+            if (action.payload.ids.container.length && action.payload.ids.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1) {
                 createSortableButtons(toolbar.controls);
             } else if (action.payload.ids.id.indexOf(ID_PREFIX_SORTABLE_BOX) === -1) {
                 createFloatingBoxButtons(toolbar.controls);
