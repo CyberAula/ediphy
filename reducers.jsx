@@ -9,7 +9,7 @@ import {ADD_BOX, SELECT_BOX, MOVE_BOX, DUPLICATE_BOX, RESIZE_BOX, UPDATE_BOX, DE
     TOGGLE_TEXT_EDITOR, TOGGLE_TITLE_MODE, CHANGE_TITLE,
     CHANGE_DISPLAY_MODE, SET_BUSY, UPDATE_TOOLBAR, COLLAPSE_TOOLBAR, IMPORT_STATE, FETCH_VISH_RESOURCES_SUCCESS
 } from './actions';
-import {ID_PREFIX_SECTION, ID_PREFIX_PAGE, ID_PREFIX_BOX, ID_PREFIX_SORTABLE_BOX} from './constants';
+import {ID_PREFIX_SECTION, ID_PREFIX_PAGE, ID_PREFIX_BOX, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_CONTAINED_VIEW, ID_PREFIX_SORTABLE_CONTAINER} from './constants';
 import i18n from 'i18next';
 
 function boxCreator(state = {}, action = {}) {
@@ -36,7 +36,8 @@ function boxCreator(state = {}, action = {}) {
                     height = 'auto';
                     break;
             }
-            if (action.payload.ids.container !== 0) {
+            console.log(action.payload);
+            if (action.payload.ids.container !== 0 && action.payload.ids.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1) {
                 position.x = 0;
                 position.y = 0;
                 position.type = 'relative';
@@ -63,7 +64,7 @@ function boxCreator(state = {}, action = {}) {
 
             let children = [];
             let sortableContainers = {};
-            let containedViews = {};
+            let containedViews = [];
             if (action.payload.state) {
                 let pluginContainers = action.payload.state.__pluginContainerIds;
                 if (pluginContainers) {
@@ -192,7 +193,7 @@ function boxesById(state = {}, action = {}) {
     switch (action.type) {
         case ADD_BOX:
             let box = boxCreator(state, action);
-            if (action.payload.ids.parent.indexOf(ID_PREFIX_SORTABLE_BOX) !== -1 || action.payload.ids.container !== 0) {
+            if (action.payload.ids.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1) {
                 return Object.assign({}, state, {
                     [action.payload.ids.id]: box,
                     [action.payload.ids.parent]: Object.assign({}, state[action.payload.ids.parent], {
@@ -295,9 +296,7 @@ function boxesById(state = {}, action = {}) {
             if(action.payload.mark.connection.id){
                 return Object.assign({}, state, {
                     [action.payload.parent]: Object.assign({}, state[action.payload.parent], {
-                        containedViews: Object.assign({}, state[action.payload.parent].containedViews, {
-                            [action.payload.mark.connection.id]: action.payload.mark.connection
-                        })
+                        containedViews: [...state[action.payload.parent].containedViews, action.payload.mark.connection.id]
                     })
                 });
             }
@@ -747,6 +746,31 @@ function containedViewSelected(state = 0, action = {}) {
     }
 }
 
+function containedViews(state = {}, action = {}){
+    switch (action.type){
+        case ADD_RICH_MARK:
+            if(action.payload.mark.connection.id){
+                return Object.assign({}, state, {
+                    [action.payload.mark.connection.id]: action.payload.mark.connection
+                });
+            }
+            return state;
+        case ADD_BOX:
+            if (action.payload.ids.container.indexOf(ID_PREFIX_CONTAINED_VIEW) !== -1) {
+                return Object.assign({}, state, {
+                    [action.payload.ids.container]: Object.assign({}, state[action.payload.ids.container], {
+                        boxes: [...state[action.payload.ids.container].boxes, action.payload.ids.id]
+                    })
+                });
+            }
+            return state;
+        case IMPORT_STATE:
+            return action.payload.present.containedViewsById || state;
+        default:
+            return state;
+    }
+}
+
 function createRichAccordions(controls) {
     if (!controls.main) {
         controls.main = {
@@ -1173,8 +1197,9 @@ const GlobalState = undoable(combineReducers({
     boxesIds: boxesIds, //[0, 1]
     navItemsIds: navItemsIds, //[0, 1]
     navItemSelected: navItemSelected, // 0
-    containedViewSelected: containedViewSelected, //0
     navItemsById: navItemsById, // {0: navItem0, 1: navItem1}
+    containedViewsById: containedViews, // {0: containedView0, 1: containedView1}
+    containedViewSelected: containedViewSelected, //0
     displayMode: changeDisplayMode, //"list",
     toolbarsById: toolbarsById, // {0: toolbar0, 1: toolbar1}
     isBusy: isBusy,

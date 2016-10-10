@@ -32,13 +32,12 @@ export default class ContentList extends Component {
                     })
                 }
                 {
-                    Object.keys(this.props.box.containedViews).map(id => {
+                    this.props.box.containedViews.map(id => {
                         if(alreadyShown.indexOf(id) === -1){
-                            let view = this.props.box.containedViews[id];
                             return (
                                 <div key={id}
                                      onClick={() => {
-                                        this.props.onContainedViewSelected(mark.connection);
+                                        this.props.onContainedViewSelected(id);
                                      }}>
                                     UNASSIGNED&nbsp;->&nbsp;{id}
                                 </div>

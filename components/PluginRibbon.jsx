@@ -166,4 +166,5 @@ function changeOverflow(bool) {
     document.getElementById('ribbonList').style.overflowY = bool ? 'visible' : 'hidden';
     document.getElementById('ribbonRow').style.overflowY = bool ? 'visible' : 'hidden';
     document.getElementById('canvas').style.zIndex = bool ? '-1' : '0';
+    document.getElementById('containedCanvas').style.zIndex = bool ? '-1' : '0';
 }

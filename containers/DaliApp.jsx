@@ -49,7 +49,7 @@ class DaliApp extends Component {
 
     render() {
         const { dispatch, boxes, boxesIds, boxSelected, boxLevelSelected, navItemsIds, navItems, navItemSelected,
-            containedViewSelected,
+            containedViews, containedViewSelected,
             undoDisabled, redoDisabled, displayMode, isBusy, toolbars, title, fetchVishResults } = this.props;
         let ribbonHeight = this.state.hideTab === 'hide' ? 0 : 47;
         return (
@@ -141,6 +141,7 @@ class DaliApp extends Component {
                                         boxLevelSelected={boxLevelSelected}
                                         navItems={navItems}
                                         navItemSelected={navItems[navItemSelected]}
+                                        containedViewSelected={containedViewSelected}
                                         showCanvas={(navItemSelected !== 0)}
                                         toolbars={toolbars}
                                         title={title}
@@ -158,14 +159,25 @@ class DaliApp extends Component {
                                         onTextEditorToggled={(caller, value) => this.dispatchAndSetState(toggleTextEditor(caller, value))}
                                         onBoxesInsideSortableReorder={(parent, container, order) => {this.dispatchAndSetState(reorderBoxes(parent, container, order))}}
                                         titleModeToggled={(id, value) => this.dispatchAndSetState(toggleTitleMode(id, value))}/>
-                            <ContainedCanvas navItemSelected={navItemSelected}
-                                             containedViewSelected={containedViewSelected}
+                            <ContainedCanvas boxes={boxes}
                                              boxSelected={boxSelected}
-                                             boxes={boxes}
                                              boxLevelSelected={boxLevelSelected}
+                                             containedViews={containedViews}
+                                             containedViewSelected={containedViewSelected}
                                              toolbars={toolbars}
-                                             onBoxSelected={id => this.dispatchAndSetState(selectBox(id))}
-                                             onContainedViewSelected={id => this.dispatchAndSetState(selectContainedView(id))}/>
+                                             lastActionDispatched={this.state.lastAction}
+                                             onContainedViewSelected={id => this.dispatchAndSetState(selectContainedView(id))}
+                                             onBoxSelected={(id) => this.dispatchAndSetState(selectBox(id))}
+                                             onBoxLevelIncreased={() => this.dispatchAndSetState(increaseBoxLevel())}
+                                             onBoxMoved={(id, x, y, position) => this.dispatchAndSetState(moveBox(id, x, y, position))}
+                                             onBoxResized={(id, width, height) => this.dispatchAndSetState(resizeBox(id, width, height))}
+                                             onSortableContainerResized={(id, parent, height) => this.dispatchAndSetState(resizeSortableContainer(id, parent, height))}
+                                             onBoxReorder={(ids, parent) => this.dispatchAndSetState(reorderBox(ids, parent))}
+                                             onBoxDropped={(id, row, col) => this.dispatchAndSetState(dropBox(id, row, col))}
+                                             onBoxDeleted={(id, parent, container)=> this.dispatchAndSetState(deleteBox(id, parent, container, this.getDescendants(boxes[id])))}
+                                             onVerticallyAlignBox={(id, verticalAlign)=>this.dispatchAndSetState(verticallyAlignBox(id, verticalAlign))}
+                                             onTextEditorToggled={(caller, value) => this.dispatchAndSetState(toggleTextEditor(caller, value))}
+                                             onBoxesInsideSortableReorder={(parent, container, order) => {this.dispatchAndSetState(reorderBoxes(parent, container, order))}} />
                         </Row>
                     </Col>
                 </Row>
@@ -487,6 +499,7 @@ function mapStateToProps(state) {
         navItemsIds: state.present.navItemsIds,
         navItems: state.present.navItemsById,
         navItemSelected: state.present.navItemSelected,
+        containedViews: state.present.containedViewsById,
         containedViewSelected: state.present.containedViewSelected,
         undoDisabled: state.past.length === 0,
         redoDisabled: state.future.length === 0,
