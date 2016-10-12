@@ -39,6 +39,7 @@ export default class Section extends Component {
                     <span className={classSelected} style={{display: 'inline'}}><i
                         className={classSelected + '  material-icons'}>folder</i>   <DaliIndexTitle id={this.props.id}
                                                                                                     title={this.props.navItems[this.props.id].name}
+                                                                                                    index={this.props.navItems[this.props.navItems[this.props.id].parent].children.indexOf(this.props.id)+1+'.'}
                                                                                                     hidden={this.props.navItems[this.props.id].hidden}
                                                                                                     onTitleChange={this.props.onTitleChange}
                                                                                                     onNavItemToggled={this.props.onNavItemToggled}/></span>
@@ -82,6 +83,7 @@ export default class Section extends Component {
                                                     <i className="material-icons fileIcon">{this.props.navItems[id].type == 'slide' ? "slideshow" : "insert_drive_file"}</i>    
                                                 <DaliIndexTitle
                                                     id={id}
+                                                    index={this.props.navItems[this.props.navItems[id].parent].children.indexOf(id)+1+'.'}
                                                     title={this.props.navItems[id].name}
                                                     hidden={this.props.navItems[id].hidden}
                                                     onTitleChange={this.props.onTitleChange}
