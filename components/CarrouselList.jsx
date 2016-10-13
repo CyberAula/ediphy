@@ -69,7 +69,7 @@ export default class CarrouselList extends Component {
                                 let idnuevo = ID_PREFIX_SECTION + Date.now();
                                 this.props.onSectionAdded(
                                     idnuevo,
-                                    i18n.t("section") + " " + this.sections(),
+                                    i18n.t("section"),
                                     this.props.navItemSelected,
                                     [],
                                     this.props.navItems[this.props.navItemSelected].level + 1,
