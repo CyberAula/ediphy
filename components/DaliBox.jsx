@@ -437,8 +437,6 @@ export default class DaliBox extends Component {
                         clone.style.width = originalRect.width + "px";
                         clone.style.border = /* this.borderSize +*/ "1px dashed #555";
                         original.style.opacity = 0;
-
-
                     }
                 },
                 onmove: (event) => {

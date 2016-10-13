@@ -17,7 +17,7 @@ export default class DaliShortcuts extends Component {
         if (box !== -1) {
             return (
                 /* jshint ignore:start */
-                <div id={this.props.containedViewSelected === 0 ? "daliBoxIcons" : "contained_daliBoxIcons"} className=""
+                <div id={this.props.isContained ? "contained_daliBoxIcons" : "daliBoxIcons"} className=""
                      style={{display: (box != -1 && box.type != "sortable" ) ? 'block' : 'none' }}>
                     { (box.container.length && box.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1) ? (
                         <OverlayTrigger placement="top"
