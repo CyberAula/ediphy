@@ -3,10 +3,12 @@ import {Modal, Button, ButtonGroup} from 'react-bootstrap';
 import {ID_PREFIX_PAGE} from '../constants';
 import {ID_PREFIX_SORTABLE_BOX} from '../constants';
 import {BOX_TYPES} from '../constants';
+import i18n from 'i18next';
+
 export default class PageModal extends Component {
     render() {
         let navItem = this.props.navItems[this.props.caller];
-        let proposedName = "Page " + this.calculateName();
+        let proposedName = i18n.t("page");
         return (
             /* jshint ignore:start */
             <Modal show={this.props.visibility} backdrop={true} bsSize="large"

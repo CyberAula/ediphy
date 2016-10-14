@@ -53,6 +53,7 @@ var es = {
 		"row_number" : "Nº filas en col. ",
 		"Searching" : "Buscando...",
         "section" : "Sección",
+        "slide" : "Diapositiva",
         "success_transaction" : "La operación se ha realizado correctamente",
 		"Structure" : "Estructura",
 		"Style" : "Estilo",

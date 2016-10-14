@@ -11,7 +11,9 @@ export default class DaliTitle extends Component {
         if (currentstatus === 'reduced') {
             let titles = this.props.titles;
             console.log(titles);
+            console.log(this.props.navItem);
             console.log(this.props.navItems);
+
             let actualTitle = titles[titles.length - 1];
             unidad = titles[0];
             content = React.createElement("div", {},
@@ -24,7 +26,7 @@ export default class DaliTitle extends Component {
                         })
                     )
                 ),
-                React.createElement("h4", {style: {margin: 0}}, actualTitle)
+                React.createElement("h4", {style: {margin: 0}}, (this.props.navItem.level !== 1 ? this.props.navItems[this.props.navItem.parent].children.indexOf(this.props.id) : "") + actualTitle)
             );
 
         } else if (currentstatus === 'expanded') {
