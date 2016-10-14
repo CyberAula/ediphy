@@ -1,3 +1,16 @@
+export default {
+    //This would be a good post to explore if we don't want to use JSON Stringify: http://stackoverflow.com/questions/728360/how-do-i-correctly-clone-a-javascript-object
+    deepClone: function(myObj){
+        return JSON.parse(JSON.stringify(myObj));
+    },
+    cloneObjectWithoutKey: function (myObj, deleteKey) {
+        return Object.keys(myObj).filter(key => key !== deleteKey)
+                                 .reduce((result, current) => {
+                                        result[current] = myObj[current];
+                                        return result;
+                                 }, {});
+    }
+};
 /**
  * Replaces all occurences of needle (interpreted as a regular expression with replacement and returns the new object.
  *
@@ -48,4 +61,3 @@ Object.replaceAll = function (entity, needle, replacement, affectsKeys, affectsV
 };
 
 
- 

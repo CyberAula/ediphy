@@ -14,7 +14,7 @@ export default class DaliCanvas extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            showTitle: false
+            showTitle: false 
         };
     }
 
@@ -40,8 +40,7 @@ export default class DaliCanvas extends Component {
         }
 
         let overlayHeight = actualHeight ? actualHeight : '100%';
-
-        return (
+         return (
             /* jshint ignore:start */
             <Col id="canvas" md={12} xs={12} style={{height:"100%", padding:0, display: this.props.containedViewSelected !== 0 ? 'none' : 'initial'}}>
                 <div className="outter canvaseditor"
@@ -75,17 +74,16 @@ export default class DaliCanvas extends Component {
                             onBoxDeleted={this.props.onBoxDeleted}
                             toolbar={this.props.toolbars[this.props.boxSelected]}/>
 
-
                         <div style={{
-                        width: "100%",  
-                        background: "black",
-                        height: overlayHeight,
-                        position: "absolute",
-                        top: 0,
-                        opacity: 0.4,
-                        visibility: (this.props.boxLevelSelected > 0) ? "visible" : "collapse"
-                        }}>
-                        </div>
+                                width: "100%",
+                                background: "black",
+                                height: overlayHeight,
+                                position: "absolute",
+                                top: 0,
+                                opacity: 0.4,
+                                display:(this.props.boxLevelSelected > 0) ? "block" : "none",
+                                visibility: (this.props.boxLevelSelected > 0) ? "visible" : "collapse"
+                            }}></div>
 
                         {this.props.navItemSelected.boxes.map(id => {
                             let box = this.props.boxes[id];
@@ -141,6 +139,9 @@ export default class DaliCanvas extends Component {
         if (nextProps.boxSelected !== -1) {
             this.setState({showTitle: false});
         }
+        if (this.props.navItemSelected.id !== nextProps.navItemSelected.id) {
+            document.getElementById('maincontent').scrollTop=0;
+        }
     }
 
     componentDidMount() {
@@ -159,8 +160,8 @@ export default class DaliCanvas extends Component {
             },
             ondrop: function (event) {
                 let position = {
-                    x: event.dragEvent.clientX - event.target.getBoundingClientRect().left - document.getElementById('maincontent').offsetLeft,
-                    y: event.dragEvent.clientY - event.target.getBoundingClientRect().top + document.getElementById('maincontent').scrollTop,
+                    x: (event.dragEvent.clientX - event.target.getBoundingClientRect().left - document.getElementById('maincontent').offsetLeft)+'px',
+                    y: (event.dragEvent.clientY - event.target.getBoundingClientRect().top + document.getElementById('maincontent').scrollTop)+'px',
                     type: 'absolute'
                 };
                 let initialParams = {

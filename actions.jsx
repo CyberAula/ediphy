@@ -1,5 +1,6 @@
 import fetch from 'isomorphic-fetch';
 import Dali from './core/main';
+import i18n from 'i18next';
 
 export const ADD_BOX = 'ADD_BOX';
 export const SELECT_BOX = 'SELECT_BOX';
@@ -17,6 +18,8 @@ export const RESIZE_SORTABLE_CONTAINER = 'RESIZE_SORTABLE_CONTAINER';
 export const CHANGE_SORTABLE_PROPS = 'CHANGE_SORTABLE_PROPS';
 export const CHANGE_COLS = 'CHANGE_COLS';
 export const CHANGE_ROWS = 'CHANGE_ROWS';
+
+//this is to move a box that has absolute position inside a container
 export const REORDER_BOXES = 'REORDER_BOXES';
 
 export const ADD_NAV_ITEM = 'ADD_NAV_ITEM';
@@ -34,6 +37,8 @@ export const TOGGLE_TITLE_MODE = 'TOGGLE_TITLE_MODE';
 export const CHANGE_DISPLAY_MODE = 'CHANGE_DISPLAY_MODE';
 export const SET_BUSY = 'SET_BUSY';
 export const UPDATE_TOOLBAR = 'UPDATE_TOOLBAR';
+export const UPDATE_INTERMEDIATE_TOOLBAR = 'UPDATE_INTERMEDIATE_TOOLBAR';
+//remove this action
 export const COLLAPSE_TOOLBAR = 'COLLAPSE_TOOLBAR';
 
 export const IMPORT_STATE = 'IMPORT_STATE';
@@ -187,6 +192,10 @@ export function updateToolbar(id, tab, accordions, name, value) {
     return {type: UPDATE_TOOLBAR, payload: {id, tab, accordions, name, value}};
 }
 
+export function updateIntermediateToolbar(id, tab, accordions, name, value) {
+    return {type: UPDATE_INTERMEDIATE_TOOLBAR, payload: {id, tab, accordions, name, value}};
+}
+
 export function collapseToolbar(id) {
     return {type: COLLAPSE_TOOLBAR, payload: {id}};
 }
@@ -201,7 +210,7 @@ export function exportStateAsync(state) {
 
         // First dispatch: the app state is updated to inform
         // that the API call is starting.
-        dispatch(setBusy(true, "Exporting..."));
+        dispatch(setBusy(true, i18n.t("error.exporting")));
 
         // The function called by the thunk middleware can return a value,
         // that is passed on as the return value of the dispatch method.
@@ -218,12 +227,12 @@ export function exportStateAsync(state) {
         })
             .then(response => {
                 if (response.status >= 400) {
-                    throw new Error("Error while exporting");
+                    throw new Error(i18n.t("error.exporting"));
                 }
                 return true;
             })
             .then(() => {
-                dispatch(setBusy(false, "Success!"));
+                dispatch(setBusy(false, i18n.t("success_transaction")));
             })
             .catch(e => {
                 dispatch(setBusy(false, e.message));
@@ -233,12 +242,12 @@ export function exportStateAsync(state) {
 
 export function importStateAsync() {
     return dispatch => {
-        dispatch(setBusy(true, "Importing..."));
+        dispatch(setBusy(true, i18n.t("Importing")));
 
         return fetch(Dali.Config.import_url)
             .then(response => {
                 if (response.status >= 400) {
-                    throw new Error("Error while importing");
+                    throw new Error(i18n.t("error.importing"));
                 }
                 return response.text();
             })
@@ -247,7 +256,7 @@ export function importStateAsync() {
                 return true;
             })
             .then(() => {
-                dispatch(setBusy(false, "Success!"));
+                dispatch(setBusy(false, i18n.t("success_transaction")));
             })
             .catch(e => {
                 dispatch(setBusy(false, e.message));
@@ -257,12 +266,12 @@ export function importStateAsync() {
 
 export function fetchVishResourcesAsync(query) {
     return dispatch => {
-        dispatch(setBusy(true, "Searching..."));
+        dispatch(setBusy(true, i18n.t("Searching")));
 
         return fetch(query)
             .then(response => {
                 if (response.status >= 400) {
-                    throw new Error("Error while searching");
+                    throw new Error(i18n.t("error.searching"));
                 }
                 return response.text();
             })
@@ -271,7 +280,7 @@ export function fetchVishResourcesAsync(query) {
                 return true;
             })
             .then(() => {
-                dispatch(setBusy(false, "No results found"));
+                dispatch(setBusy(false, i18n.t("no_results")));
             })
             .catch(e => {
                 dispatch(setBusy(false, e.message));

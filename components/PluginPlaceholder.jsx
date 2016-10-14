@@ -108,10 +108,12 @@ export default class PluginPlaceholder extends Component {
                                                                  onBoxLevelIncreased={this.props.onBoxLevelIncreased}
                                                                  onBoxMoved={this.props.onBoxMoved}
                                                                  onBoxResized={this.props.onBoxResized}
+                                                                 onBoxesInsideSortableReorder={this.props.onBoxesInsideSortableReorder}
                                                                  onSortableContainerResized={this.props.onSortableContainerResized}
                                                                  onBoxDeleted={this.props.onBoxDeleted}
                                                                  onBoxDropped={this.props.onBoxDropped}
                                                                  onBoxModalToggled={this.props.onBoxModalToggled}
+                                                                 onVerticallyAlignBox={this.props.onVerticallyAlignBox}
                                                                  onTextEditorToggled={this.props.onTextEditorToggled}/>);
                                             }
                                         })}

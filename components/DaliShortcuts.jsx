@@ -8,17 +8,18 @@ import i18n from 'i18next';
 export default class DaliShortcuts extends Component {
     constructor(props) {
         super(props);
-        this.recalculatePosition();
     }
 
     render() {
         let box = this.props.box;
         let toolbar = this.props.toolbar;
         if (box !== -1) {
+            let style = this.pos(box.id);
             return (
                 /* jshint ignore:start */
                 <div id={this.props.isContained ? "contained_daliBoxIcons" : "daliBoxIcons"} className=""
-                     style={{display: (box != -1 && box.type != "sortable" ) ? 'block' : 'none' }}>
+                     style={{display: (box.type != "sortable" ) ? 'block' : 'none',
+                     position: 'absolute', left: style.left, top: style.top, width: style.width}}>
                     { (box.container.length && box.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1) ? (
                         <OverlayTrigger placement="top"
                                         overlay={ <Tooltip id="ajustaradocumento">{ i18n.t('messages.adjust_to_document') } </Tooltip>}>
@@ -66,28 +67,21 @@ export default class DaliShortcuts extends Component {
         }
     }
 
-    componentWillUpdate() {
-        if (this.props.box && this.props.box.id) {
-            this.recalculatePosition(this.props.box.id);
-        }
-    }
 
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.box && nextProps.box.id) {
-            this.recalculatePosition(nextProps.box.id);
-        }
-    }
-
-    recalculatePosition(id) {
+    pos(id) {
         let element = document.getElementById('box-' + id);
         let bar = this.props.containedViewSelected === 0 ? document.getElementById('daliBoxIcons') : document.getElementById('contained_daliBoxIcons');
         if (element && bar) {
             var rect = element.getBoundingClientRect();
             var main = this.props.containedViewSelected === 0 ? document.getElementById('maincontent') : document.getElementById('contained_maincontent');
             var canvas = main.getBoundingClientRect();
-            bar.style.left = (rect.left - canvas.left) + 'px';
-            bar.style.top = (rect.top - canvas.top + main.scrollTop) + 'px';
-            bar.style.width = element.clientWidth + 'px';
+            let style = {};
+            style.left = (rect.left - canvas.left) + 'px';
+            style.top = (rect.top - canvas.top + main.scrollTop) + 'px';
+            style.width = element.clientWidth + 'px';
+            return style;
         }
+        return {left: 0, top: 0, width: 0};
     }
+
 }
