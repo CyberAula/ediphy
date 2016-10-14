@@ -10,6 +10,8 @@ export default class DaliTitle extends Component {
 
         if (currentstatus === 'reduced') {
             let titles = this.props.titles;
+            console.log(titles);
+            console.log(this.props.navItems);
             let actualTitle = titles[titles.length - 1];
             unidad = titles[0];
             content = React.createElement("div", {},

@@ -38,9 +38,9 @@ export default class Section extends Component {
 
                     <span className={classSelected} style={{display: 'inline'}}><i
                         className={classSelected + '  material-icons'}>folder</i>   <DaliIndexTitle id={this.props.id}
-                                                                                                    title={this.props.navItems[this.props.id].name}
-                                                                                                    index={this.props.navItems[this.props.navItems[this.props.id].parent].children.indexOf(this.props.id)+1+'.'}
-                                                                                                    hidden={this.props.navItems[this.props.id].hidden}
+                                                                                                    title={navItem.name}
+                                                                                                    index={ navItem.level === 1 ? navItem.unitNumber + ". " : this.props.navItems[navItem.parent].children.indexOf(this.props.id)+1+'. '}
+                                                                                                    hidden={navItem.hidden}
                                                                                                     onTitleChange={this.props.onTitleChange}
                                                                                                     onNavItemToggled={this.props.onNavItemToggled}/></span>
 
