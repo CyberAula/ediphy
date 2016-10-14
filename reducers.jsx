@@ -1247,7 +1247,6 @@ const GlobalState = undoable(combineReducers({
             case SELECT_BOX:
             case SELECT_NAV_ITEM:
             case SET_BUSY:
-            case TOGGLE_PAGE_MODAL:
             case TOGGLE_TEXT_EDITOR:
             case TOGGLE_TITLE_MODE:
             case REORDER_BOXES:
