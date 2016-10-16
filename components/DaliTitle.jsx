@@ -3,44 +3,42 @@ import {Breadcrumb, BreadcrumbItem, Button} from 'react-bootstrap';
 
 export default class DaliTitle extends Component {
 
-    getActualIndex(size, level){
-        
+    /*
+    * This method is used to calculate actual position for title indexes
+    * It is used the array of titles, the actual position in the iteration, and the level stored in nav properties
+    */
+    getActualIndex(size = 1, level = 0){
+        // Default values are stored in this variables
         let actual_parent = this.props.navItems[this.props.navItem.parent];
         let actual_level = this.props.navItem;
+        //Equal size to the index of level
         size = size - 1;
 
-        if (size === undefined || level === undefined){
-            return "";
-        } else if(size === level){
 
+        if (size === undefined || level === undefined){
+        //This happens when you are in a root element
+            return "";
+
+        } else if(size === level){
+            //This happens when you are in the first level
             let actual_index = (actual_parent.children.indexOf(actual_level.id));
             if (actual_index !== -1){
                 return (actual_index + 1) + ". ";
             }
-
         } else {
-
+            //This happens when you have several sections in the array
+            //You iterate inversely in the array until you get to the level stored in nav properties
             let actual_index;
-            console.log("Level " + actual_level.level);
+            let interating_level = level + 1;
 
-            console.log("size" + size);
-            console.log("level" + level);
-
-            for(let n = level; n > 1; n--){
+            for(let n = actual_level.level; interating_level < n ; n--){
                 actual_level = actual_parent;
                 actual_parent = this.props.navItems[actual_level.parent];
             }
 
-            console.log("final_parent");
-            console.log(actual_parent);
-            console.log("final_level");
-            console.log(actual_level);
-            console.log("final_index");
-            console.log(actual_parent.children.indexOf(actual_level.id) + 1);
-                
             let final_level = actual_parent.children.indexOf(actual_level.id) + 1;
             if(actual_parent !== undefined && actual_parent.children !== undefined){
-                return final_level;
+                return final_level + ". ";
             } else {
                 return "";
             }
@@ -70,7 +68,7 @@ export default class DaliTitle extends Component {
                         })
                     )
                 ),
-                React.createElement("h4", {style: {margin: 0}}, actualIndex + actualTitle)
+                React.createElement("h4", {style: {margin: 0}},  this.getActualIndex() + actualTitle)
             );
 
         } else if (currentstatus === 'expanded') {
