@@ -64,7 +64,7 @@ export default class Visor extends Component {
                             el.contentWindow.document.write(Dali.Visor.exportPage(this.props.state));
                             el.contentWindow.document.close();
                         }
-                    }} style={{width: "100%", height: "100%", border: 0}}></iframe>
+                    }} style={{width: "100%", height: "100%", border: 0}} allowFullScreen frameBorder="0" ></iframe>
                 </Modal.Body>
             </Modal>
             /* jshint ignore:end */

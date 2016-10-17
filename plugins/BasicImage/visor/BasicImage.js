@@ -6,12 +6,7 @@ export function BasicImage(base) {
         getRenderTemplate: function (state) {
             return "<div style=\"width: 100%; height: 100%\">" +
                 "<img style=\"width: 100%; " +
-                "height: 100%; " +
-                "padding: " + state.padding + "; " +
-                "border-radius: " + state.borderRadius + "; " +
-                "background-color: " + state.backgroundColor + "; " +
-                "opacity: " + state.opacity + "; " +
-                "border: " + state.borderSize + " " + state.borderStyle + " " + state.borderColor + ";\" " +
+                "height: 100%;\"" +
                 "src=\"" + state.url + "\" onclick='$dali$.imageClick()'/>" +
                 "</div>";
         },
