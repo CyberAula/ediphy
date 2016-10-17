@@ -86,14 +86,7 @@ export function Webpage(base) {
         },
         getInitialState: function () {
             return {
-                url: 'http://www.adams.es/',
-                borderSize: '0px',
-                thumbnailVisibility: 'hidden',
-                padding: '0px',
-                borderStyle: 'none',
-                borderColor: '#ffffff',
-                borderRadius: '0%',
-                opacity: 1
+                url: 'http://www.adams.es/'
             };
         },
         getRenderTemplate: function (state) {

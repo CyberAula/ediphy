@@ -124,15 +124,7 @@ export function Youtube(base) {
         },
         getInitialState: function () {
             return {
-                url: 'https://www.youtube.com/watch?v=S9M3c1_yl-E',
-                borderSize: '0px',
-                thumbnailVisibility: 'hidden',
-                borderStyle: 'solid',
-                borderRadius: '0%',
-                borderColor: '#000000',
-                backgroundColor: '#ffffff',
-                padding: '0px',
-                opacity: 1
+                url: 'https://www.youtube.com/watch?v=S9M3c1_yl-E'
             };
         },
         getRenderTemplate: function (state) {

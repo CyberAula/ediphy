@@ -107,15 +107,7 @@ export function BasicVideo(base) {
         // Posibilidad: http://modernizr.com/
         getInitialState: function () {
             return {
-                url: 'http://video.webmfiles.org/big-buck-bunny_trailer.webm',
-                aspectRatio: 'unchecked',
-                borderSize: '0px',
-                borderStyle: 'solid',
-                borderRadius: '0%',
-                padding: '0px',
-                borderColor: '#000000',
-                opacity: 1,
-                thumbnailVisibility: 'hidden'
+                url: 'http://video.webmfiles.org/big-buck-bunny_trailer.webm'
             };
         },
         getRenderTemplate: function (state) {
