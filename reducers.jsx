@@ -39,7 +39,6 @@ function boxCreator(state = {}, action = {}) {
                     height = 'auto';
                     break;
             }
-            console.log(action.payload);
             if (action.payload.ids.container.length && action.payload.ids.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1) {
                 position.x = 0;
                 position.y = 0;

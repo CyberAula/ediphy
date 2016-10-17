@@ -16,7 +16,6 @@ export function BasicImage(base) {
                 "</div>";
         },
         imageClick: function (e) {
-            console.log(e);
             alert("Click sobre Imagen");
         }
     };

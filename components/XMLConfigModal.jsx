@@ -152,10 +152,6 @@ export default class XMLConfigModal extends Component {
 
     }
 
-    changeValue(namekey) {
-        console.log(namekey);
-    }
-
     generateXMLFromView(state) {
         var auxXml = state.__xml;
         var inputs = this.refs.container.getElementsByTagName('input');
