@@ -17,7 +17,7 @@ export default class DaliIndexTitle extends Component {
             /* jshint ignore:start */
             <span>
             {!this.state.editing ?
-                (<span className="actualSectionTitle" style={{textDecoration: this.props.hidden ? "line-through" : "initial"}}>{this.props.index}{this.props.title}</span>) :
+                (<span className="actualSectionTitle" style={{textDecoration: this.props.hidden ? "line-through" : "initial"}}>{this.props.index} {this.props.title}</span>) :
                 (<FormControl
                     type="text"
                     ref="titleIndex"
