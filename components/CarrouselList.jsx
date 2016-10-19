@@ -97,7 +97,7 @@ export default class CarrouselList extends Component {
                               onBoxAdded={this.props.onBoxAdded}
                               onPageAdded={this.props.onSectionAdded}/>
 
-                    <OverlayTrigger trigger={["click", "focus"]} placement="top" overlay={
+                    <OverlayTrigger trigger={["focus"]} placement="top" overlay={
                         <Popover id="popov" title={i18n.t("delete_page")}>
                             <i style={{color: 'yellow', fontSize: '13px'}} className="material-icons">warning</i> {i18n.t("messages.delete_page")}<br/>
                                 <Button className="popoverButton"
