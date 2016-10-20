@@ -54,6 +54,7 @@ var en = {
 		"row_number" : "Number of rows in col ",
         "Searching" : "Searching...",
 		"section" : "Section",
+		"slide" : "Slide",
         "success_transaction" : "The operation has been successful",
 		"Structure" : "Structure",
 		"Style" : "Style",

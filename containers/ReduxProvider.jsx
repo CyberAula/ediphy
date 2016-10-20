@@ -20,7 +20,7 @@ export default class ReduxProvider extends Component {
                     0: {id: 0, children: ["se-1467887497411"], boxes: [], level: 0, type: '', hidden: false},
                     "se-1467887497411": {
                         id: "se-1467887497411",
-                        name: i18n.t('section') + " 1",
+                        name: i18n.t('section'),
                         isExpanded: true,
                         parent: 0,
                         children: [],

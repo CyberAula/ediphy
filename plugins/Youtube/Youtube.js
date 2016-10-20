@@ -27,28 +27,7 @@ export function Youtube(base) {
                                     type: 'text',
                                     autoManaged: false,
                                     value: 'https://www.youtube.com/watch?v=S9M3c1_yl-E'
-                                },
-                                /*aspectRatio: {
-                                 __name: 'Aspect Ratio',
-                                 type: 'checkbox',
-                                 value: 'unchecked',
-                                 checked: 'false',
-                                 autoManaged: false
-                                 },
-                                 allowFullScreen: {
-                                 __name: 'Allow FullScreen',
-                                 type: 'checkbox',
-                                 value: 'unchecked',
-                                 checked: 'false',
-                                 autoManaged: false
-                                 },
-                                 controls: {
-                                 __name: 'Show Controls',
-                                 type: 'checkbox',
-                                 value: 'unchecked',
-                                 checked: 'false',
-                                 autoManaged: false
-                                 },*/
+                                }
                             }
                         },
                         style: {
@@ -61,30 +40,26 @@ export function Youtube(base) {
                                     value: 0,
                                     min: 0,
                                     units: 'px',
-                                    max: 100,
-                                    autoManaged: false
+                                    max: 100
                                 },
-                                borderSize: {
+                                borderWidth: {
                                     __name: Dali.i18n.t('Youtube.border_size'),
                                     type: 'number',
                                     value: 0,
                                     min: 0,
                                     units: 'px',
-                                    max: 10,
-                                    autoManaged: false
+                                    max: 10
                                 },
                                 borderStyle: {
                                     __name: Dali.i18n.t('Youtube.border_style'),
                                     type: 'select',
                                     value: 'solid',
-                                    options: ['none', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset', 'initial', 'inherit'],
-                                    autoManaged: false
+                                    options: ['none', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset', 'initial', 'inherit']
                                 },
                                 borderColor: {
                                     __name: Dali.i18n.t('Youtube.border_color'),
                                     type: 'color',
-                                    value: '#000000',
-                                    autoManaged: false
+                                    value: '#000000'
                                 },
                                 borderRadius: {
                                     __name: Dali.i18n.t('Youtube.radius'),
@@ -92,8 +67,7 @@ export function Youtube(base) {
                                     units: '%',
                                     value: '0',
                                     min: '0',
-                                    max: '50',
-                                    autoManaged: false
+                                    max: '50'
                                 },
                                 opacity: {
                                     __name: Dali.i18n.t('Youtube.opacity'),
@@ -110,33 +84,13 @@ export function Youtube(base) {
                 }
             };
         },
-        getSections: function () {
-            return [
-                {
-                    tab: 'Main',
-                    accordion: ['Basic', 'Box']
-                },
-                {
-                    tab: 'Other',
-                    accordion: ['Extra']
-                }
-            ];
-        },
         getInitialState: function () {
             return {
-                url: 'https://www.youtube.com/watch?v=S9M3c1_yl-E',
-                borderSize: '0px',
-                thumbnailVisibility: 'hidden',
-                borderStyle: 'solid',
-                borderRadius: '0%',
-                borderColor: '#000000',
-                backgroundColor: '#ffffff',
-                padding: '0px',
-                opacity: 1
+                url: 'https://www.youtube.com/embed/oR-6N1Dc_zc'
             };
         },
         getRenderTemplate: function (state) {
-            return "<iframe width=\"560\" height=\"315\" controls frameBorder=\"0\" allowFullScreen style=\"width: 100%; height: 100%;  padding:" + state.padding + "; border-radius:" + state.borderRadius + "; opacity: " + state.opacity + "; border:" + state.borderSize + " " + state.borderStyle + " " + state.borderColor + "; z-index:0;\" src=\"" + this.parseURL(state.url) + "\"></iframe>";
+            return "<iframe style=\"width: 100%; height: 100%; z-index:0;\" src=\"" + this.parseURL(state.url) + "\" frameborder=\"0\" allowfullscreen ></iframe>";
         },
         handleToolbar: function (name, value) {
             if (name === 'url') {

@@ -42,36 +42,31 @@ export function BasicImage(base) {
                                     value: 0,
                                     min: 0,
                                     units: 'px',
-                                    max: 100,
-                                    autoManaged: false
+                                    max: 100
                                 },
                                 backgroundColor: {
                                     __name: Dali.i18n.t('BasicImage.background_color'),
                                     type: 'color',
-                                    value: '#ffffff',
-                                    autoManaged: false
+                                    value: '#ffffff'
                                 },
-                                borderSize: {
-                                    __name: Dali.i18n.t('BasicImage.box_style'),
+                                borderWidth: {
+                                    __name: Dali.i18n.t('BasicImage.border_size'),
                                     type: 'number',
                                     value: 0,
                                     min: 0,
                                     units: 'px',
-                                    max: 10,
-                                    autoManaged: false
+                                    max: 10
                                 },
                                 borderStyle: {
-                                    __name: Dali.i18n.t('BasicImage.box_style'),
+                                    __name: Dali.i18n.t('BasicImage.border_style'),
                                     type: 'select',
                                     value: 'solid',
-                                    options: ['none', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset', 'initial', 'inherit'],
-                                    autoManaged: false
+                                    options: ['none', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset', 'initial', 'inherit']
                                 },
                                 borderColor: {
                                     __name: Dali.i18n.t('BasicImage.border_color'),
                                     type: 'color',
-                                    value: '#000000',
-                                    autoManaged: false
+                                    value: '#000000'
                                 },
                                 borderRadius: {
                                     __name:  Dali.i18n.t('BasicImage.radius'),
@@ -79,8 +74,7 @@ export function BasicImage(base) {
                                     value: '0',
                                     min: '0',
                                     max: '50',
-                                    units: '%',
-                                    autoManaged: false
+                                    units: '%'
                                 },
                                 opacity: {
                                     __name: Dali.i18n.t('BasicImage.opacity'),
@@ -98,33 +92,17 @@ export function BasicImage(base) {
         },
         getInitialState: function () {
             return {
-                url: 'http://nemanjakovacevic.net/wp-content/uploads/2013/07/placeholder.png',
-                aspectRatio: 'unchecked',
-                borderSize: 0,
-                borderStyle: 'solid',
-                borderRadius: '0%',
-                borderColor: '#000000',
-                backgroundColor: '#ffffff',
-                padding: '0px',
-                thumbnailVisibility: 'hidden'
+                url: 'http://nemanjakovacevic.net/wp-content/uploads/2013/07/placeholder.png'
             };
         },
-        getConfigTemplate: function (state) {
-            return "<div> Url: <input type=\"text\" autofocus id=\"BasicImage_input\" value=\"" + state.url + "\"><br><button onclick=\"$dali$.showPreview()\">Show preview</button><img id=\"BasicImage_preview\" src=\"" + state.url + "\" style=\"width: 100px; height: 100px; visibility: " + state.thumbnailVisibility + ";\" onclick=\"$dali$.imageClick()\" /></div>";
-        },
         getRenderTemplate: function (state) {
-            return "<div style=\"width: 100%; margin: 0px; height: 100%\"><img onclick=\"$dali$.showPreview()\" style=\"width: 100%; height: 100%; padding: " + state.padding + " ; background-color: " + state.backgroundColor + "; border-radius: " + state.borderRadius + "; border: " + state.borderSize + " " + state.borderStyle + " " + state.borderColor + ";\" src=\"" + state.url + "\"/></div>";
+            return "<div style=\"width: 100%; margin: 0px; height: 100%\"><img onclick=\"$dali$.showPreview()\" style=\"width: 100%; height: 100%;\" src=\"" + state.url + "\"/></div>";
         },
         handleToolbar: function (name, value) {
-            if (name === 'aspectRatio') {
-                base.setState(name, base.getState().aspectRatio === 'checked' ? 'unchecked' : 'checked');
-            }
-            else {
-                base.setState(name, value);
-            }
+            base.setState(name, value);
         },
         imageClick: function () {
-            alert("Miaua!");
+            //alert("Miaua!");
         }
     };
 }

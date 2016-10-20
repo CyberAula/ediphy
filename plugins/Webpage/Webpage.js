@@ -21,7 +21,7 @@ export function Webpage(base) {
                                     __name: '',
                                     type: 'text',
                                     autoManaged: false,
-                                    value: 'http://www.adams.es/'
+                                    value: base.getState().url
                                 }
                             }
                         },
@@ -35,30 +35,26 @@ export function Webpage(base) {
                                     value: 0,
                                     min: 0,
                                     units: 'px',
-                                    max: 100,
-                                    autoManaged: false
+                                    max: 100
                                 },
-                                borderSize: {
+                                borderWidth: {
                                     __name: Dali.i18n.t('Webpage.border_size'),
                                     type: 'number',
                                     value: 0,
                                     min: 0,
                                     max: 10,
-                                    units: 'px',
-                                    autoManaged: false
+                                    units: 'px'
                                 },
                                 borderStyle: {
                                     __name: Dali.i18n.t('Webpage.border_style'),
                                     type: 'select',
                                     value: 'solid',
-                                    options: ['none', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset', 'initial', 'inherit'],
-                                    autoManaged: false
+                                    options: ['none', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset', 'initial', 'inherit']
                                 },
                                 borderColor: {
                                     __name: Dali.i18n.t('Webpage.border_color'),
                                     type: 'color',
-                                    value: '#000000',
-                                    autoManaged: false
+                                    value: '#000000'
                                 },
                                 borderRadius: {
                                     __name: Dali.i18n.t('Webpage.radius'),
@@ -66,8 +62,7 @@ export function Webpage(base) {
                                     value: '0',
                                     min: '0',
                                     max: '50',
-                                    units: '%',
-                                    autoManaged: false
+                                    units: '%'
                                 },
                                 opacity: {
                                     __name: Dali.i18n.t('Webpage.opacity'),
@@ -86,18 +81,11 @@ export function Webpage(base) {
         },
         getInitialState: function () {
             return {
-                url: 'http://www.adams.es/',
-                borderSize: '0px',
-                thumbnailVisibility: 'hidden',
-                padding: '0px',
-                borderStyle: 'none',
-                borderColor: '#ffffff',
-                borderRadius: '0%',
-                opacity: 1
+                url: 'http://apps.thecodepost.org/trex/trex.html'
             };
         },
         getRenderTemplate: function (state) {
-            return "<iframe width=\"560\" height=\"315\" style=\"width: 100%; height: 100%; padding: " + state.padding + "; border-radius: " + state.borderRadius + "; border: " + state.borderSize + " " + state.borderStyle + " " + state.borderColor + "; opacity: " + state.opacity + "; z-index:0;\" src=\"" + state.url + "\"></iframe>";
+            return "<iframe style=\"width: 100%; height: 100%; z-index:0;\" src=\"" + state.url + "\"></iframe>";
         },
         handleToolbar: function (name, value) {
             base.setState(name, value);

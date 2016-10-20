@@ -2,6 +2,7 @@ module.exports = {
     "BasicVideo": {
         "Allow_fullscreen": "Allow fullscreen",
         "Show_controls": "Show Controls",
+        "Autoplay": "Autoplay",
         "URL": "URL",
         "Video": "Video",
         "background_color": "Background color",
