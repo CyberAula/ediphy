@@ -1025,15 +1025,10 @@ function toolbarsById(state = {}, action = {}) {
                 );
                 createAliasButton(
                     controls,
-                    state[action.payload.id].controls.other.accordions['~extra'].buttons.alias.value
+                    state[action.payload.id].controls.main.accordions['~extra'].buttons.alias.value
                 );
             } catch (e) {
             }
-
-            //newState = Object.assign({}, state);
-            //newState[action.payload.id].state = action.payload.state;
-            //newState[action.payload.id].controls = controls;
-            //return newState;
 
             return Object.assign({}, state, {
                 [action.payload.id]: Object.assign({}, state[action.payload.id], {
