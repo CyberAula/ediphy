@@ -150,7 +150,7 @@ function sortableContainerCreator(state = {}, action = {}) {
             });
         case DELETE_BOX:
             let newChildren = state[action.payload.container].children.filter(id => id !== action.payload.id);
-            let a = Utils.cloneObjectWithoutKey(state[action.payload.container], "children");
+            let a = Utils.deepClone(state[action.payload.container]);
             a.children = newChildren;
 
             return Object.assign({}, state, {
@@ -352,13 +352,8 @@ function boxesById(state = {}, action = {}) {
                 });
             }
 
-            if (action.payload.container !== 0) {
+            if (action.payload.container.length && action.payload.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1) {
                 newState[action.payload.parent].sortableContainers = sortableContainerCreator(newState[action.payload.parent].sortableContainers, action);
-                /*
-                 if (!newState[action.payload.parent].sortableContainers[action.payload.container]) {
-                 newState[action.payload.parent].children = newState[action.payload.parent].children.filter(id => id !== action.payload.container);
-                 }
-                 */
             }
 
             return newState;
@@ -418,6 +413,9 @@ function boxSelected(state = -1, action = {}) {
         case DUPLICATE_BOX:
             return ID_PREFIX_BOX + action.payload.newId;
         case DELETE_BOX:
+            if(action.payload.container.length && action.payload.container.indexOf(ID_PREFIX_CONTAINED_VIEW) !== -1){
+                return -1;
+            }
             if (action.payload.parent.indexOf(ID_PREFIX_BOX) !== -1) {
                 return action.payload.parent;
             }
@@ -743,11 +741,11 @@ function navItemSelected(state = 0, action = {}) {
 function containedViewSelected(state = 0, action = {}) {
     switch (action.type) {
         case SELECT_NAV_ITEM:
-            return state;
+            return 0;
         case SELECT_CONTAINED_VIEW:
             return action.payload.id;
         case ADD_NAV_ITEM:
-            return state;
+            return 0;
         case REMOVE_NAV_ITEM:
             return 0;
         case IMPORT_STATE:
@@ -773,6 +771,29 @@ function containedViews(state = {}, action = {}) {
                         boxes: [...state[action.payload.ids.container].boxes, action.payload.ids.id]
                     })
                 });
+            }
+            return state;
+        case DELETE_BOX:
+            let newState = Utils.deepClone(state);
+
+            if (action.payload.childrenViews) {
+                action.payload.childrenViews.map(view => {
+                    delete newState[view];
+                });
+            }
+
+            if (action.payload.container.length && action.payload.container.indexOf(ID_PREFIX_CONTAINED_VIEW) !== -1) {
+                newState[action.payload.container].boxes = newState[action.payload.container].boxes.filter(id => action.payload.id !== id);
+            }
+
+            return newState;
+        case REMOVE_NAV_ITEM:
+            if (action.payload.containedViews) {
+                let newState = Utils.deepClone(state);
+                action.payload.containedViews.map(view => {
+                    delete newState[view];
+                });
+                return newState;
             }
             return state;
         case IMPORT_STATE:

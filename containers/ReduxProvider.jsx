@@ -56,7 +56,8 @@ export default class ReduxProvider extends Component {
                         showTextEditor: false,
                         fragment: {},
                         children: [],
-                        sortableContainers: {}
+                        sortableContainers: {},
+                        containedViews: []
                     }
                 },
                 toolbarsById: {

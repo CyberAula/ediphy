@@ -102,13 +102,7 @@ export default class CarrouselList extends Component {
                                 <Button className="popoverButton"
                                     disabled={this.props.navItemSelected === 0}
                                     style={{float: 'right'}}
-                                    onClick={(e) => {
-                                                let ids = [this.props.navItemSelected];
-                                                let found = this.findChildren(ids);
-                                                let boxes = this.findBoxes(found);
-                                                this.props.onNavItemRemoved(ids, this.props.navItems[this.props.navItemSelected].parent, boxes );
-                                            }
-                                        }>
+                                    onClick={(e) => this.props.onNavItemRemoved()}>
                                     {i18n.t("Accept")}
                                 </Button>
                                 <Button className="popoverButton"
@@ -130,7 +124,6 @@ export default class CarrouselList extends Component {
     }
 
     calculateNewPosition() {
-
         if(this.props.navItems[this.props.navItemSelected].type === "section"){
             for(var i = this.props.navItemsIds.indexOf(this.props.navItemSelected)+1; i < this.props.navItemsIds.length; i++ ){
                 if( this.props.navItems[this.props.navItemsIds[i]].level <= this.props.navItems[this.props.navItemSelected].level){
@@ -142,20 +135,6 @@ export default class CarrouselList extends Component {
         return this.props.navItemsIds.length+1;
     }
 
-    findChildren(ids) {
-        //We want to get all the items whose level is higher than the selected starting after it
-        let level = this.props.navItems[ids[0]].level;
-        let startingIndex = this.props.navItemsIds.indexOf(ids[0]) + 1;
-        for (var i = startingIndex; i < this.props.navItemsIds.length; i++) {
-            if (this.props.navItems[this.props.navItemsIds[i]].level > level) {
-                ids.push(this.props.navItemsIds[i]);
-            } else {
-                break;
-            }
-        }
-        return ids;
-    }
-
     sections() {
         var current = 1;
         for (let i in this.props.navItemsIds) {
@@ -164,31 +143,6 @@ export default class CarrouselList extends Component {
             }
         }
         return current;
-    }
-
-    findBoxes(ids) {
-        let boxesIds = [];
-        ids.map(nav => {
-            let boxes = this.props.navItems[nav].boxes;
-            boxesIds = boxesIds.concat(boxes);
-            boxes.map(box => {
-                boxesIds = boxesIds.concat(this.getBoxDescendants(this.props.boxes[box]));
-            });
-        });
-        return boxesIds;
-    }
-
-    getBoxDescendants(box) {
-        let selected = [];
-        if (box.children) {
-            for (let i = 0; i < box.children.length; i++) {
-                for (let j = 0; j < box.sortableContainers[box.children[i]].children.length; j++) {
-                    selected.push(box.sortableContainers[box.children[i]].children[j]);
-                    selected = selected.concat(this.getBoxDescendants(this.props.boxes[box.sortableContainers[box.children[i]].children[j]]));
-                }
-            }
-        }
-        return selected;
     }
 
     componentDidMount() {

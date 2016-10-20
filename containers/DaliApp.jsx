@@ -72,13 +72,7 @@ class DaliApp extends Component {
                                 categoria={this.state.pluginTab}
                                 opens={() => {this.dispatchAndSetState(importStateAsync())}}
                                 serverModalOpen={()=>{this.setState({serverModal: true })}}
-                                setcat={(categoria) => {
-                                 /* if(this.state.pluginTab == categoria && this.state.hideTab == 'show'){
-                                      this.setState({ hideTab:'hide'})
-                                  } else {*/
-                                      this.setState({ pluginTab: categoria, hideTab:'show' });
-                                 /* }*/
-                              }}/>
+                                setcat={(categoria) => {this.setState({ pluginTab: categoria, hideTab:'show' })}}/>
                 </Row>
                 <Row style={{height: 'calc(100% - 60px)'}}>
                     <DaliCarousel boxes={boxes}
@@ -92,11 +86,18 @@ class DaliApp extends Component {
                                   onSectionAdded={(id, name, parent, children, level, type, position, titlesReduced) => this.dispatchAndSetState(addNavItem(id, name, parent, children, level, type, position, titlesReduced))}
                                   onNavItemSelected={id => this.dispatchAndSetState(selectNavItem(id))}
                                   onNavItemExpanded={(id, value) => this.dispatchAndSetState(expandNavItem(id, value))}
-                                  onNavItemRemoved={(ids, parent, boxes) => {
-                                    // if(navItemsIds.length == ids.length){
-                                    //  this.setState({hideTab: 'hide'})
-                                    // }
-                                    this.dispatchAndSetState(removeNavItem(ids, parent, boxes));
+                                  onNavItemRemoved={() => {
+                                    let viewRemoving = [navItemSelected].concat(this.getDescendantViews(navItems[navItemSelected]));
+                                    let boxesRemoving = [];
+                                    let containedRemoving = [];
+                                    viewRemoving.map(id => {
+                                        navItems[id].boxes.map(boxId => {
+                                            boxesRemoving.push(boxId);
+                                            boxesRemoving = boxesRemoving.concat(this.getDescendantBoxes(boxes[boxId]));
+                                            containedRemoving = containedRemoving.concat(this.getDescendantContainedViews(boxes[boxId]));
+                                        })
+                                    });
+                                    this.dispatchAndSetState(removeNavItem(viewRemoving, navItems[navItemSelected].parent, boxesRemoving, containedRemoving))
                                   }}
                                   onNavItemReorded={(itemId,newParent,type,newIndId,newChildrenInOrder) => this.dispatchAndSetState(reorderNavItem(itemId,newParent,type,newIndId,newChildrenInOrder))}
                                   onNavItemToggled={ id => this.dispatchAndSetState(toggleNavItem(id)) }
@@ -131,7 +132,7 @@ class DaliApp extends Component {
                                           redo={() => {this.dispatchAndSetState(ActionCreators.redo())}}
                                           save={() => {this.dispatchAndSetState(exportStateAsync({present: this.props.store.getState().present}))}}
                                           ribbonHeight={ribbonHeight+'px'}
-                                          onBoxDuplicated={(id, parent, container)=> this.dispatchAndSetState( duplicateBox( id, parent, container, this.getDescendants(boxes[id]), this.getDuplicatedBoxesIds(this.getDescendants(boxes[id]) ), Date.now()-1 ))}
+                                          onBoxDuplicated={(id, parent, container)=> this.dispatchAndSetState( duplicateBox( id, parent, container, this.getDescendantBoxes(boxes[id]), this.getDuplicatedBoxesIds(this.getDescendantBoxes(boxes[id]) ), Date.now()-1 ))}
                                           serverModalOpen={()=>{this.setState({serverModal: true })}}/>
                         </Row>
                         <Row id="canvasRow" style={{height: 'calc(100% - '+ribbonHeight+'px)'}}>
@@ -153,7 +154,7 @@ class DaliApp extends Component {
                                         onSortableContainerResized={(id, parent, height) => this.dispatchAndSetState(resizeSortableContainer(id, parent, height))}
                                         onBoxReorder={(ids, parent) => this.dispatchAndSetState(reorderBox(ids, parent))}
                                         onBoxDropped={(id, row, col) => this.dispatchAndSetState(dropBox(id, row, col))}
-                                        onBoxDeleted={(id, parent, container)=> this.dispatchAndSetState(deleteBox(id, parent, container, this.getDescendants(boxes[id])))}
+                                        onBoxDeleted={(id, parent, container)=> this.dispatchAndSetState(deleteBox(id, parent, container, this.getDescendantBoxes(boxes[id]), this.getDescendantContainedViews(boxes[id])))}
                                         onVerticallyAlignBox={(id, verticalAlign)=>this.dispatchAndSetState(verticallyAlignBox(id, verticalAlign))}
                                         onUnitNumberChanged={(id, value) => this.dispatchAndSetState(changeUnitNumber(id, value))}
                                         onTextEditorToggled={(caller, value) => this.dispatchAndSetState(toggleTextEditor(caller, value))}
@@ -174,7 +175,7 @@ class DaliApp extends Component {
                                              onSortableContainerResized={(id, parent, height) => this.dispatchAndSetState(resizeSortableContainer(id, parent, height))}
                                              onBoxReorder={(ids, parent) => this.dispatchAndSetState(reorderBox(ids, parent))}
                                              onBoxDropped={(id, row, col) => this.dispatchAndSetState(dropBox(id, row, col))}
-                                             onBoxDeleted={(id, parent, container)=> this.dispatchAndSetState(deleteBox(id, parent, container, this.getDescendants(boxes[id])))}
+                                             onBoxDeleted={(id, parent, container)=> this.dispatchAndSetState(deleteBox(id, parent, container, this.getDescendantBoxes(boxes[id]), this.getDescendantContainedViews(boxes[id])))}
                                              onVerticallyAlignBox={(id, verticalAlign)=>this.dispatchAndSetState(verticallyAlignBox(id, verticalAlign))}
                                              onTextEditorToggled={(caller, value) => this.dispatchAndSetState(toggleTextEditor(caller, value))}
                                              onBoxesInsideSortableReorder={(parent, container, order) => {this.dispatchAndSetState(reorderBoxes(parent, container, order))}} />
@@ -240,8 +241,8 @@ class DaliApp extends Component {
                                onToolbarUpdated={(id, tab, accordion, name, value) => this.dispatchAndSetState(updateToolbar(id, tab, accordion, name, value))}
                                onToolbarIntermediateUpdated={(id, tab, accordion, name, value) => this.dispatchAndSetState(updateIntermediateToolbar(id, tab, accordion, name, value))}
                                onToolbarCollapsed={(id) => this.dispatchAndSetState(collapseToolbar(id))}
-                               onBoxDuplicated={(id, parent, container)=> this.dispatchAndSetState( duplicateBox( id, parent, container, this.getDescendants(boxes[id]), this.getDuplicatedBoxesIds(this.getDescendants(boxes[id]) ), Date.now()-1 ))}
-                               onBoxDeleted={(id, parent, container)=> this.dispatchAndSetState(deleteBox(id, parent, container, this.getDescendants(boxes[id])))}
+                               onBoxDuplicated={(id, parent, container)=> this.dispatchAndSetState( duplicateBox( id, parent, container, this.getDescendantBoxes(boxes[id]), this.getDuplicatedBoxesIds(this.getDescendantBoxes(boxes[id]) ), Date.now()-1 ))}
+                               onBoxDeleted={(id, parent, container)=> this.dispatchAndSetState(deleteBox(id, parent, container, this.getDescendantBoxes(boxes[id]), this.getDescendantContainedViews(boxes[id])))}
                                onXMLEditorToggled={() => this.setState({xmlEditorVisible: !this.state.xmlEditorVisible})}
                                onRichMarksModalToggled={() => {
                                     this.setState({richMarksVisible: !this.state.richMarksVisible});
@@ -266,15 +267,6 @@ class DaliApp extends Component {
             </Grid>
             /* jshint ignore:end */
         );
-    }
-
-    removeByKey(myObj, deleteKey) {
-        return Object.keys(myObj)
-            .filter(key => key !== deleteKey)
-            .reduce((result, current) => {
-                result[current] = myObj[current];
-                return result;
-            }, {});
     }
 
     dispatchAndSetState(actionCreator) {
@@ -337,7 +329,7 @@ class DaliApp extends Component {
 
             this.props.navItems[view].boxes.map(id => {
                 ids.push(id);
-                ids = ids.concat(this.getDescendants(this.props.boxes[id]));
+                ids = ids.concat(this.getDescendantBoxes(this.props.boxes[id]));
             });
 
             ids.map(id => {
@@ -376,7 +368,7 @@ class DaliApp extends Component {
                         let box = this.props.boxes[this.props.boxSelected];
                         let toolbar = this.props.toolbars[this.props.boxSelected];
                         if (!toolbar.showTextEditor) {
-                            this.dispatchAndSetState(deleteBox(box.id, box.parent, box.container, this.getDescendants(box)));
+                            this.dispatchAndSetState(deleteBox(box.id, box.parent, box.container, this.getDescendantBoxes(box), this.getDescendantContainedViews(box)));
                         }
                     }
                 }
@@ -384,15 +376,56 @@ class DaliApp extends Component {
         }.bind(this);
     }
 
-    getDescendants(box) {
+    getDescendantViews(view){
+        let selected = [];
+
+        for(let i = 0; i < view.children.length; i++){
+            let vw = view.children[i];
+            selected.push(vw);
+            selected = selected.concat(this.getDescendantViews(this.props.navItems[vw]));
+        }
+
+        return selected;
+    }
+
+    getDescendantBoxes(box) {
         let selected = [];
 
         for (let i = 0; i < box.children.length; i++) {
             for (let j = 0; j < box.sortableContainers[box.children[i]].children.length; j++) {
-                selected.push(box.sortableContainers[box.children[i]].children[j]);
-                selected = selected.concat(this.getDescendants(this.props.boxes[box.sortableContainers[box.children[i]].children[j]]));
+                let bx = box.sortableContainers[box.children[i]].children[j];
+                selected.push(bx);
+                selected = selected.concat(this.getDescendantBoxes(this.props.boxes[bx]));
             }
         }
+        for(let i = 0; i < box.containedViews.length; i++){
+            let cv = box.containedViews[i];
+            for(let j = 0; j < this.props.containedViews[cv].boxes.length; j++){
+                let bx = this.props.containedViews[cv].boxes[j];
+                selected.push(bx);
+                selected = selected.concat(this.getDescendantBoxes(this.props.boxes[bx]));
+            }
+        }
+        return selected;
+    }
+
+    getDescendantContainedViews(box) {
+        let selected = [];
+
+        for (let i = 0; i < box.children.length; i++) {
+            for (let j = 0; j < box.sortableContainers[box.children[i]].children.length; j++) {
+                let bx = box.sortableContainers[box.children[i]].children[j];
+                selected = selected.concat(this.getDescendantContainedViews(this.props.boxes[bx]));
+            }
+        }
+        for(let i = 0; i < box.containedViews.length; i++){
+            let cv = box.containedViews[i];
+            selected.push(cv);
+            for(let j = 0; j < this.props.containedViews[cv].boxes.length; j++){
+                selected = selected.concat(this.getDescendantContainedViews(this.props.boxes[this.props.containedViews[cv].boxes[j]]));
+            }
+        }
+
         return selected;
     }
 
