@@ -25,20 +25,17 @@ export function BasicVideo(base) {
                                 url: {
                                     __name: Dali.i18n.t('BasicVideo.URL'),
                                     type: 'text',
-                                    autoManaged: false,
                                     value: base.getState().url
                                 },
                                 controls: {
                                     __name: Dali.i18n.t('BasicVideo.Show_controls'),
                                     type: 'checkbox',
-                                    value: base.getState().controls,
-                                    autoManaged: false
+                                    value: base.getState().controls
                                 },
                                 autoplay: {
                                     __name: Dali.i18n.t('BasicVideo.Autoplay'),
                                     type: 'checkbox',
-                                    value: base.getState().autoplay,
-                                    autoManaged: false
+                                    value: base.getState().autoplay
                                 }
                             }
                         },
@@ -106,7 +103,7 @@ export function BasicVideo(base) {
             };
         },
         getRenderTemplate: function (state) {
-            return "<video onclick=\"$dali$.click()\"" + ((state.controls === "checked") ? " controls " : "") + ((state.autoplay === "checked") ? " autoplay " : "") + " style=\"width: 100%; height: 100%; pointer-events: 'none'; z-index:0;\" src=\"" + state.url + "\"></video>";
+            return "<video " + ((state.controls === "checked") ? " controls " : "") + ((state.autoplay === "checked") ? " autoplay " : "") + " style=\"width: 100%; height: 100%; pointer-events: 'none'; z-index:0;\" src=\"" + state.url + "\"></video>";
         },
         handleToolbar: function (name, value) {
             base.setState(name, value);

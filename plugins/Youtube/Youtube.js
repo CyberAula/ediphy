@@ -25,7 +25,6 @@ export function Youtube(base) {
                                 url: {
                                     __name: Dali.i18n.t('Youtube.URL'),
                                     type: 'text',
-                                    autoManaged: false,
                                     value: 'https://www.youtube.com/watch?v=S9M3c1_yl-E'
                                 }
                             }
