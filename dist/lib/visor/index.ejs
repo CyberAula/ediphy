@@ -21,7 +21,14 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 <div class="outter" style="padding-top:0px;">
 <div id="maincontent" class="slide <%=navs[page].type == 'slide' ? 'sli':'doc'%>" style="visibility: visible;" >
-<%= scripts %>
+<script type="text/javascript">
+    function __getPlugin(element){
+        if(element.className.indexOf('wholebox') !== -1){
+            return element;
+        }
+        return __getPlugin(element.parentElement);
+    }
+</script>
 <%
     var padre = navs[navs[page].parent].name || 'Section 0';
 %>
@@ -85,7 +92,6 @@
         <%}%>
 
         <div class="boxes" style="position:relative;">
-
             <!--Camel Case -->
             <%function camel(s) {
                 if(s=='onClick'){
@@ -194,7 +200,7 @@
                     }
                 }
             }
-            %><div class="wholebox"
+            %><div class="wholebox" id="<%= box.id %>"
                  style="position: <%=box.container !== 0  && box.position && box.position.type ?  box.position.type : 'absolute'%>;
                          left: <%=box.position.x%>;
                          top: <%=box.position.y%>;
@@ -301,5 +307,7 @@
 </div>
 </div>
 </div>
+<script src="<%=relativePath%>../../visor-bundle.js"></script>
+<script>Dali.State = <%= JSON.stringify(state) %></script>
 </body>
 </html>

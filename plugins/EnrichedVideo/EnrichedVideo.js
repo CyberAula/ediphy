@@ -108,9 +108,6 @@ export function EnrichedVideo(base) {
         },
         handleToolbar: function (name, value) {
             base.setState(name, value);
-        },
-        markSelector: function(value){
-            return "mark";
         }
     };
 }

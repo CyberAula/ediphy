@@ -57,7 +57,6 @@ export default function () {
                 if (id !== 'init' &&
                     id !== 'getConfig' &&
                     id !== 'getToolbar' &&
-                    id !== 'getSections' &&
                     id !== 'getInitialState' &&
                     id !== 'handleToolbar' &&
                     id !== 'getConfigTemplate' &&
@@ -106,7 +105,7 @@ export default function () {
                 } else {
                     template = template.replace(match[0], match[0].replace(match[1], "event, this, __getPlugin(this)"));
                 }
-                template = template.replace(/[$]dali[$][.]/, "");
+                template = template.replace(/[$]dali[$][.]/, "Dali.Visor.Plugins." + name + ".");
             });
 
             if (template.indexOf("pointer-events") !== -1) {
@@ -137,6 +136,16 @@ export default function () {
             var element = $.find("[data-alias='" + alias + "']");
             if (element && extraFunctions && extraFunctions[fnAlias]) {
                 extraFunctions[fnAlias].bind(element[0])();
+            }
+        },
+        triggerMark: function(parent, selector){
+            if(!parent.id){
+                console.error("Invalid argument -> need parent with correct id @ triggerMark");
+                return;
+            }
+            let selected = selector(window.Dali.State.toolbarsById[parent.id].state.__marks);
+            if(selected){
+                console.log(selected);
             }
         }
     };
