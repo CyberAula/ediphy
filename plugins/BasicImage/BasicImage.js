@@ -101,7 +101,7 @@ export function BasicImage(base) {
             base.setState(name, value);
         },
         imageClick: function () {
-            //alert("Miaua!");
+            /*alert("Miaua!");*/
         }
     };
 }
