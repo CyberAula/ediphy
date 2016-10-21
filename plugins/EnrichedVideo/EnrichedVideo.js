@@ -52,7 +52,7 @@ export function EnrichedVideo(base) {
                                     units: 'px',
                                     max: 100
                                 },
-                                borderSize: {
+                                borderWidth: {
                                     __name: Dali.i18n.t('EnrichedVideo.border_size'),
                                     type: 'number',
                                     value: 0,
@@ -108,6 +108,9 @@ export function EnrichedVideo(base) {
         },
         handleToolbar: function (name, value) {
             base.setState(name, value);
+        },
+        markSelector: function(value){
+            return "mark";
         }
     };
 }

@@ -2,6 +2,7 @@ module.exports = {
     "EnrichedVideo": {
         "Allow_fullscreen": "Permitir pantalla completa",
         "Show_controls": "Mostrar controles",
+        "Autoplay": "Reproducción automática",
         "URL": "URL",
         "Video": "Vídeo",
         "background_color": "Color de fondo",
