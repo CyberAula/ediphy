@@ -58,11 +58,6 @@ export function CajasColor(base) {
                                 }
                             },
                             order: ["number", "allEqual", "color", "radios"]
-                        },
-                        '~extra': {
-                            __name: "Extra",
-                            icon: 'link',
-                            buttons: {}
                         }
                     }
                 }

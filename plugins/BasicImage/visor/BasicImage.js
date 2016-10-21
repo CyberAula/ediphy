@@ -13,6 +13,14 @@ export function BasicImage(base) {
         imageClick: function (e) {
             //console.log(e);
             //alert("Click sobre Imagen");
+            /*a
+
+
+            sdfsdaa
+
+
+            */
+            console.log("Animals");
         }
     };
 }

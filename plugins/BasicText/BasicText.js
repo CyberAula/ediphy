@@ -64,11 +64,6 @@ export function BasicText(base) {
                                     step: 0.01
                                 }
                             }
-                        },
-                        '~extra': {
-                            icon: 'rate_review',
-                            __name: "Alias",
-                            buttons: {}
                         }
                     }
                 }

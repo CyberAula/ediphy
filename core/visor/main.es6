@@ -19,7 +19,7 @@ var getScripts = function (state, page) {
                 fnName !== "init"
             ) {
                 scripts += (scripts.length === 0 ? "<script type='text/javascript'>" : "") +
-                    plugin[fnName].toString().replace(/\n/g, "").replace(/\s+/g, " ");
+                    plugin[fnName].toString().replace(/\/\*[\s\S]*?\*\/|([^:]|^)\/\/.*$/gm,"").replace(/\n/g, "").replace(/\s+/g, " ");
             }
         }
     });
