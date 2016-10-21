@@ -13,6 +13,7 @@ var getScripts = function (state, page) {
             if (fnName !== "callExtraFunction" &&
                 fnName !== "registerExtraFunction" &&
                 fnName !== "getExtraFunctions" &&
+                fnName !== "markSelector" &&
                 fnName !== "export" &&
                 fnName !== "render" &&
                 fnName !== "create" &&
@@ -66,6 +67,7 @@ var getDescendants = function (state, id) {
 var parseEJS = function (path, page, state, fromScorm) {
     return (new EJS({url: path}).render({
         scripts: getScripts(state, page),
+        state: state,
         title: state.title,
         page: page,
         navs: state.navItemsById,
@@ -106,6 +108,7 @@ export default {
         return new EJS({url: Dali.Config.visor_ejs}).render({
             title: state.title,
             scripts: getScripts(state, state.navItemSelected),
+            state: state,
             page: state.navItemSelected,
             navs: state.navItemsById,
             boxesById: state.boxesById,
