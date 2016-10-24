@@ -5,67 +5,9 @@ import FileSaver from 'file-saver';
 import Dali from './../main';
 import Plugins from './plugins';
 
-var getScripts = function (state, page) {
-    var scripts = "";
-    getPluginsInView(state, page).map(function (name) {
-        var plugin = Dali.Visor.Plugins.get(name);
-        for (var fnName in plugin) {
-            if (fnName !== "callExtraFunction" &&
-                fnName !== "registerExtraFunction" &&
-                fnName !== "getExtraFunctions" &&
-                fnName !== "export" &&
-                fnName !== "render" &&
-                fnName !== "create" &&
-                fnName !== "init"
-            ) {
-                scripts += (scripts.length === 0 ? "<script type='text/javascript'>" : "") +
-                    plugin[fnName].toString().replace(/\/\*[\s\S]*?\*\/|([^:]|^)\/\/.*$/gm,"").replace(/\n/g, "").replace(/\s+/g, " ");
-            }
-        }
-    });
-
-    if (scripts.length !== 0) {
-        scripts += " function __getPlugin(element){if(element.className.indexOf('wholebox') !== -1) return element; return __getPlugin(element.parentElement);}";
-        scripts += "</script>";
-    }
-
-    return scripts;
-};
-
-var getPluginsInView = function (state, page) {
-    let plugins = [];
-    let ids = [];
-    state.navItemsById[page].boxes.map(function (id) {
-        ids.push(id);
-        ids = ids.concat(getDescendants(state, id));
-    });
-
-    ids.map(function (id) {
-        let toolbar = state.toolbarsById[id];
-        if (plugins.indexOf(toolbar.config.name) === -1) {
-            plugins.push(toolbar.config.name);
-        }
-    });
-
-    return plugins;
-};
-
-var getDescendants = function (state, id) {
-    var selected = [];
-    var box = state.boxesById[id];
-    for (var i = 0; i < box.children.length; i++) {
-        var container = box.sortableContainers[box.children[i]];
-        for (var j = 0; j < container.children.length; j++) {
-            selected.push(container.children[j]);
-            selected = selected.concat(getDescendants(state, container.children[j]));
-        }
-    }
-    return selected;
-};
-
 var parseEJS = function (path, page, state, fromScorm) {
     return (new EJS({url: path}).render({
-        scripts: getScripts(state, page),
+        state: state,
         title: state.title,
         page: page,
         navs: state.navItemsById,
@@ -105,7 +47,7 @@ export default {
     exportPage: function (state) {
         return new EJS({url: Dali.Config.visor_ejs}).render({
             title: state.title,
-            scripts: getScripts(state, state.navItemSelected),
+            state: state,
             page: state.navItemSelected,
             navs: state.navItemsById,
             boxesById: state.boxesById,

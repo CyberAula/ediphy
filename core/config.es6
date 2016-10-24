@@ -14,6 +14,7 @@ export default {
         'BasicText',
         'RichText',
         'BasicVideo',
+        'EnrichedVideo',
         'Youtube',
         'Webpage',
         'CajasColorBis',

@@ -58,7 +58,6 @@ export default class Section extends Component {
                                                     navItems={this.props.navItems}
                                                     navItemSelected={this.props.navItemSelected}
                                                     onBoxAdded={this.props.onBoxAdded}
-                                                    onPageAdded={this.props.onPageAdded}
                                                     onSectionAdded={this.props.onSectionAdded}
                                                     onTitleChange={this.props.onTitleChange}
                                                     onNavItemSelected={this.props.onNavItemSelected}

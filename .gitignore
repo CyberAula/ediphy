@@ -1,7 +1,7 @@
 node_modules
 .idea
-dist/bundle.js.map
-dist/bundle.js
+dist/*bundle.js.map
+dist/*bundle.js
 *.log
 webpack.config.js~
 *.orig

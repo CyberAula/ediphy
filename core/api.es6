@@ -12,7 +12,10 @@ export function api() {
             Dali.API_Private.emit(Dali.API_Private.events.openConfig, {name: name, isUpdating: isUpdating});
             return promise;
         },
-        renderPlugin: function (html, toolbar, config, state, isUpdating, ids, initialParams) {
+        renderPlugin: function (html, toolbar, config, state, isUpdating, ids, initialParams, reason) {
+            if(!reason){
+                console.warn("No reason given");
+            }
             Dali.API_Private.emit(Dali.API_Private.events.render, {
                 content: html,
                 toolbar: toolbar,
@@ -20,7 +23,8 @@ export function api() {
                 state: state,
                 isUpdating: isUpdating,
                 ids: ids,
-                initialParams: initialParams
+                initialParams: initialParams,
+                reason: reason
             });
         }
     };

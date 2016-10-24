@@ -68,7 +68,6 @@ export default class Thumbnail extends Component {
             let boxes = this.props.navItems[nav].boxes
             boxesids = boxesids.concat(boxes);
             boxes.map(box=> {
-                console.log(box);
                 if (box[1] == 's') {
                     let children = this.props.boxes[box]['children']
                     children.map(child=> {

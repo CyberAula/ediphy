@@ -5,7 +5,11 @@ import GridConfigurator from '../components/GridConfigurator.jsx';
 import RadioButtonFormGroup from '../components/RadioButtonFormGroup.jsx';
 import Select from 'react-select';
 import VishSearcher from './VishSearcher';
+import MarksList from './rich_plugins/MarksList.jsx';
+import ContentList from './rich_plugins/ContentList.jsx';
 import Dali from './../core/main';
+import {UPDATE_TOOLBAR} from '../actions';
+import {ID_PREFIX_SORTABLE_CONTAINER} from '../constants';
 import i18n from 'i18next';
 
 export default class PluginToolbar extends Component {
@@ -136,7 +140,8 @@ export default class PluginToolbar extends Component {
 
                             <div className="toolbarTitle"><i className="material-icons">settings</i><span
                                 className="toolbarTitletxt">{i18n.t('Properties')}</span></div>
-                            <div className="pluginTitleInToolbar"> {toolbar.config.displayName || toolbar.config.name || ""}</div>
+                            <div
+                                className="pluginTitleInToolbar"> {toolbar.config.displayName || toolbar.config.name || ""}</div>
                         </div>
                     </OverlayTrigger>
                     <div id="insidetools" style={{display: this.state.open? 'block':'none'}}>
@@ -236,16 +241,42 @@ export default class PluginToolbar extends Component {
 
         }
 
-        if (accordion.key === 'structure' && this.props.box.container !== 0){
+        if (accordion.key === 'structure' && this.props.box.container.length && this.props.box.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1) {
             children.push(
                 /* jshint ignore:start */
-                <RadioButtonFormGroup   key="verticalalignment"
-                                        title={i18n.t('Vertical_align')}
-                                        options={['top', 'middle', 'bottom']}
-                                        selected={this.props.box.verticalAlign ? this.props.box.verticalAlign : 'top'}
-                                        click={(option) => {this.props.onVerticallyAlignBox(this.props.boxSelected, option)}}
-                                        tooltips={[i18n.t('messages.align_top'),i18n.t('messages.align_middle'),i18n.t('messages.align_bottom')]}
-                                        icons={['vertical_align_top', 'vertical_align_center', 'vertical_align_bottom']} />
+                <RadioButtonFormGroup key="verticalalignment"
+                                      title={i18n.t('Vertical_align')}
+                                      options={['top', 'middle', 'bottom']}
+                                      selected={this.props.box.verticalAlign ? this.props.box.verticalAlign : 'top'}
+                                      click={(option) => {this.props.onVerticallyAlignBox(this.props.boxSelected, option)}}
+                                      tooltips={[i18n.t('messages.align_top'),i18n.t('messages.align_middle'),i18n.t('messages.align_bottom')]}
+                                      icons={['vertical_align_top', 'vertical_align_center', 'vertical_align_bottom']}/>
+                /* jshint ignore:end */
+            );
+        }
+
+        if (accordion.key === 'marks_list') {
+            children.push(
+                /* jshint ignore:start */
+                <MarksList key="marks_list"
+                           state={state}
+                           onRichMarksModalToggled={this.props.onRichMarksModalToggled}
+                           onRichMarkEditPressed={this.props.onRichMarkEditPressed}
+                           onRichMarkDeleted={this.props.onRichMarkDeleted}/>
+                /* jshint ignore:end */
+            );
+        }
+
+        if (accordion.key === 'content_list') {
+            children.push(
+                /* jshint ignore:start */
+                <ContentList key="content_list"
+                             state={state}
+                             box={this.props.box}
+                             navItems={this.props.navItems}
+                             onContainedViewSelected={this.props.onContainedViewSelected}
+                             onNavItemSelected={this.props.onNavItemSelected}
+                             onRichMarkDeleted={this.props.onRichMarkDeleted}/>
                 /* jshint ignore:end */
             );
         }
@@ -276,14 +307,14 @@ export default class PluginToolbar extends Component {
             onChange: e => {
                 let value = e.target ? e.target.value : e.target;
                 if (buttonKey === '___heightAuto') {
-                    let units = (this.props.box.container === 0) ? 'px' : '%';
+                    let units = (!(this.props.box.container.length && this.props.box.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1)) ? 'px' : '%';
                     this.heightAuto = !this.heightAuto;
                     this.props.onToolbarUpdated(id, tabKey, accordionKeys, 'height', this.heightAuto ? 'auto' : (100 + units));
                     this.props.onBoxResized(id, this.props.box.width, this.heightAuto ? 'auto' : ('100' + units));
 
                 }
                 if (buttonKey === 'width') {
-                    let units = (this.props.box.container === 0) ? 'px' : '%';
+                    let units = (!(this.props.box.container.length && this.props.box.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1)) ? 'px' : '%';
                     if (!this.aspectRatio) {
                         let newHeight = parseFloat(value);
                         if (this.heightAuto) {
@@ -300,7 +331,7 @@ export default class PluginToolbar extends Component {
                     }
                 }
                 if (buttonKey === 'height') {
-                    let units = (this.props.box.container === 0) ? 'px' : '%';
+                    let units = (!(this.props.box.container.length && this.props.box.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1)) ? 'px' : '%';
                     if (!this.aspectRatio) {
                         this.props.onBoxResized(id, this.props.box.width, value + units);
                         this.props.onToolbarIntermediateUpdated(id, tabKey, accordionKeys, buttonKey, parseFloat(value));
@@ -344,12 +375,8 @@ export default class PluginToolbar extends Component {
                 this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, value);
 
                 if (!button.autoManaged) {
-                    button.callback(state, buttonKey, value, id);
+                    button.callback(state, buttonKey, value, id, UPDATE_TOOLBAR);
                 }
-
-                /*
-                 e.stopPropagation();
-                 */
             }
 
         };

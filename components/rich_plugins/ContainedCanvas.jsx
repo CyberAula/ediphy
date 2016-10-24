@@ -1,16 +1,15 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
-import DaliBox from '../components/DaliBox';
-import DaliBoxSortable from '../components/DaliBoxSortable';
-import DaliShortcuts from '../components/DaliShortcuts';
-import {Col} from 'react-bootstrap';
-import DaliTitle from '../components/DaliTitle';
+import DaliBox from '../DaliBox';
+import DaliBoxSortable from '../DaliBoxSortable';
+import DaliShortcuts from '../DaliShortcuts';
+import {Col, Button} from 'react-bootstrap';
 import interact from 'interact.js';
-import {BOX_TYPES, ID_PREFIX_SORTABLE_BOX} from '../constants';
-import {ADD_BOX} from '../actions';
-import Dali from './../core/main';
+import {ADD_BOX} from '../../actions';
+import {BOX_TYPES, ID_PREFIX_SORTABLE_BOX} from '../../constants';
+import Dali from '../../core/main';
 
-export default class DaliCanvas extends Component {
+export default class ContainedCanvas extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -19,76 +18,71 @@ export default class DaliCanvas extends Component {
     }
 
     render() {
-        let titles = [];
-        if (this.props.navItemSelected.id !== 0) {
-            titles.push(this.props.navItemSelected.name);
-            let parent = this.props.navItemSelected.parent;
-            while (parent !== 0) {
-                titles.push(this.props.navItems[parent].name);
-                parent = this.props.navItems[parent].parent;
-            }
-            titles.reverse();
+        let containedView = this.props.containedViews[this.props.containedViewSelected];
+        if (!containedView) {
+            containedView = {boxes: []};
         }
+
         let paddings = /*(this.props.navItemSelected.type!= "slide") ? (*/'5px 5px 5px 5px';
         /*) : ('30px 0px 30px 0px')*/
 
-        let maincontent = document.getElementById('maincontent');
-        let actualHeight;
-        if (maincontent) {
-            actualHeight = parseInt(maincontent.scrollHeight);
-            actualHeight = (parseInt(maincontent.clientHeight) < actualHeight) ? (actualHeight) + 'px' : '100%';
-        }
+        /*
+         let maincontent = document.getElementById('maincontent');
+         let actualHeight;
+         if (maincontent) {
+         actualHeight = parseInt(maincontent.scrollHeight);
+         actualHeight = (parseInt(maincontent.clientHeight) < actualHeight) ? (actualHeight) + 'px' : '100%';
+         }
 
-        let overlayHeight = actualHeight ? actualHeight : '100%';
-         return (
+         let overlayHeight = actualHeight ? actualHeight : '100%';
+         */
+        let overlayHeight = '100%';
+
+        return (
             /* jshint ignore:start */
-            <Col id="canvas" md={12} xs={12} style={{height:"100%", padding:0, display: this.props.containedViewSelected !== 0 ? 'none' : 'initial'}}>
+            <Col id="containedCanvas"
+                 md={12}
+                 xs={12}
+                 style={{
+                    height:"100%",
+                    padding: 0,
+                    display: this.props.containedViewSelected !== 0 ? 'initial' : 'none'
+                 }}>
                 <div className="outter canvaseditor"
                      style={{position: 'absolute', width: '100%', height:'100%', padding: (paddings)}}>
-                    <div id="maincontent"
+                    <div id="contained_maincontent"
                          onClick={e => {
-                        this.props.onBoxSelected(-1);
-                        this.setState({showTitle:false})
-                       }}
-                         className={this.props.navItemSelected.type == 'slide' ? 'innercanvas sli':'innercanvas doc'}
-                         style={{visibility: (this.props.showCanvas ? 'visible' : 'hidden')}}>
+                            this.props.onBoxSelected(-1);
+                            e.stopPropagation();
+                         }}
+                         className={containedView.type === 'slide' ? 'innercanvas sli':'innercanvas doc'}>
 
-
-                        <DaliTitle titles={titles}
-                                   showButtons={this.state.showTitle}
-                                   onShowTitle={()=>this.setState({showTitle:true})}
-                                   onBoxSelected={this.props.onBoxSelected}
-                                   courseTitle={this.props.title}
-                                   isReduced={this.props.navItemSelected.titlesReduced}
-                                   navItem={this.props.navItemSelected}
-                                   navItems={this.props.navItems}
-                                   titleModeToggled={this.props.titleModeToggled}
-                                   onUnitNumberChanged={this.props.onUnitNumberChanged}
-                                   showButton={true}/>
-                        <br/>
+                        <Button style={{margin: "10px 0px 0px 10px"}}
+                                onClick={e => {
+                                    this.props.onContainedViewSelected(0);
+                                    e.stopPropagation();
+                                }}>X</Button>
 
                         <DaliShortcuts
                             box={this.props.boxSelected == -1 ? -1 : this.props.boxes[this.props.boxSelected]}
                             containedViewSelected={this.props.containedViewSelected}
-                            isContained={false}
+                            isContained={true}
                             onTextEditorToggled={this.props.onTextEditorToggled}
                             onBoxResized={this.props.onBoxResized}
                             onBoxDeleted={this.props.onBoxDeleted}
                             toolbar={this.props.toolbars[this.props.boxSelected]}/>
 
                         <div style={{
-                                width: "100%",
-                                background: "black",
-                                height: overlayHeight,
-                                position: "absolute",
-                                top: 0,
-                                opacity: 0.4,
-                                display:(this.props.boxLevelSelected > 0) ? "block" : "none",
-                                visibility: (this.props.boxLevelSelected > 0) ? "visible" : "collapse"
-                            }}></div>
-
-
-                        {this.props.navItemSelected.boxes.map(id => {
+                            width: "100%",
+                            background: "black",
+                            height: overlayHeight,
+                            position: "absolute",
+                            top: 0,
+                            opacity: 0.4,
+                            visibility: (this.props.boxLevelSelected > 0) ? "visible" : "collapse"
+                            }}>
+                        </div>
+                        {containedView.boxes.map(id => {
                             let box = this.props.boxes[id];
                             if (box.type === BOX_TYPES.NORMAL)
                                 return <DaliBox key={id}
@@ -142,13 +136,9 @@ export default class DaliCanvas extends Component {
         if (nextProps.boxSelected !== -1) {
             this.setState({showTitle: false});
         }
-        if (this.props.navItemSelected.id !== nextProps.navItemSelected.id) {
-            document.getElementById('maincontent').scrollTop=0;
-        }
     }
 
     componentDidMount() {
-
         interact(ReactDOM.findDOMNode(this)).dropzone({
             accept: '.rib',
             overlap: 'pointer',
@@ -163,13 +153,13 @@ export default class DaliCanvas extends Component {
             },
             ondrop: function (event) {
                 let position = {
-                    x: (event.dragEvent.clientX - event.target.getBoundingClientRect().left - document.getElementById('maincontent').offsetLeft)+'px',
-                    y: (event.dragEvent.clientY - event.target.getBoundingClientRect().top + document.getElementById('maincontent').scrollTop)+'px',
+                    x: event.dragEvent.clientX - event.target.getBoundingClientRect().left - document.getElementById('contained_maincontent').offsetLeft,
+                    y: event.dragEvent.clientY - event.target.getBoundingClientRect().top + document.getElementById('contained_maincontent').scrollTop,
                     type: 'absolute'
                 };
                 let initialParams = {
-                    parent: this.props.navItemSelected.id,
-                    container: 0,
+                    parent: this.props.containedViews[this.props.containedViewSelected].parent,
+                    container: this.props.containedViewSelected,
                     position: position
                 };
                 Dali.Plugins.get(event.relatedTarget.getAttribute("name")).getConfig().callback(initialParams, ADD_BOX);

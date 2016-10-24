@@ -6,14 +6,16 @@ import {addNavItem, selectNavItem, expandNavItem, removeNavItem, reorderNavItem,
     changeSectionTitle, changeUnitNumber,
     addBox, changeTitle, selectBox, moveBox, resizeBox, updateBox, duplicateBox, deleteBox, reorderBox, dropBox, increaseBoxLevel,
     resizeSortableContainer, changeCols, changeRows, changeSortableProps, reorderBoxes, verticallyAlignBox,
-    togglePageModal, toggleTextEditor, toggleTitleMode,
+    toggleTextEditor, toggleTitleMode,
     changeDisplayMode, updateToolbar, updateIntermediateToolbar, collapseToolbar,
     exportStateAsync, importStateAsync,
-    fetchVishResourcesSuccess, fetchVishResourcesAsync} from '../actions';
+    fetchVishResourcesSuccess, fetchVishResourcesAsync,
+    selectContainedView,
+    ADD_BOX, ADD_RICH_MARK, addRichMark, EDIT_RICH_MARK, editRichMark, DELETE_RICH_MARK} from '../actions';
 import {ID_PREFIX_BOX, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_SORTABLE_CONTAINER, BOX_TYPES} from '../constants';
 import DaliCanvas from '../components/DaliCanvas';
+import ContainedCanvas from '../components/rich_plugins/ContainedCanvas';
 import DaliCarousel from '../components/DaliCarousel';
-import PageModal from '../components/PageModal';
 import PluginConfigModal from '../components/PluginConfigModal';
 import XMLConfigModal from '../components/XMLConfigModal';
 import VishSearcher from '../components/VishSearcherModal';
@@ -22,6 +24,7 @@ import Visor from '../components/visor/Visor';
 import PluginRibbon from '../components/PluginRibbon';
 import DaliNavBar from '../components/DaliNavBar';
 import ServerFeedback from '../components/ServerFeedback';
+import RichMarksModal from '../components/rich_plugins/RichMarksModal.jsx';
 import Dali from './../core/main';
 
 
@@ -35,6 +38,8 @@ class DaliApp extends Component {
             visorVisible: false,
             xmlEditorVisible: false,
             vishSearcherVisible: false,
+            richMarksVisible: false,
+            currentRichMark: null,
             carouselShow: true,
             carouselFull: false,
             serverModal: false,
@@ -44,7 +49,8 @@ class DaliApp extends Component {
 
     render() {
         const { dispatch, boxes, boxesIds, boxSelected, boxLevelSelected, navItemsIds, navItems, navItemSelected,
-            pageModalToggled, undoDisabled, redoDisabled, displayMode, isBusy, toolbars, title, fetchVishResults } = this.props;
+            containedViews, containedViewSelected,
+            undoDisabled, redoDisabled, displayMode, isBusy, toolbars, title, fetchVishResults } = this.props;
         let ribbonHeight = this.state.hideTab === 'hide' ? 0 : 47;
         return (
             /* jshint ignore:start */
@@ -66,13 +72,7 @@ class DaliApp extends Component {
                                 categoria={this.state.pluginTab}
                                 opens={() => {this.dispatchAndSetState(importStateAsync())}}
                                 serverModalOpen={()=>{this.setState({serverModal: true })}}
-                                setcat={(categoria) => {
-                                 /* if(this.state.pluginTab == categoria && this.state.hideTab == 'show'){
-                                      this.setState({ hideTab:'hide'})
-                                  } else {*/
-                                      this.setState({ pluginTab: categoria, hideTab:'show' });
-                                 /* }*/
-                              }}/>
+                                setcat={(categoria) => {this.setState({ pluginTab: categoria, hideTab:'show' })}}/>
                 </Row>
                 <Row style={{height: 'calc(100% - 60px)'}}>
                     <DaliCarousel boxes={boxes}
@@ -82,16 +82,22 @@ class DaliApp extends Component {
                                   navItemSelected={navItemSelected}
                                   displayMode={displayMode}
                                   onBoxAdded={(ids, type,  draggable, resizable, content, toolbar, config, state) => this.dispatchAndSetState(addBox(ids, type, draggable, resizable, content, toolbar, config, state))}
-                                  onPageAdded={(caller, value) => this.dispatchAndSetState(togglePageModal(caller, value))}
                                   onTitleChange={(id, title) => this.dispatchAndSetState(changeSectionTitle(id,title))}
                                   onSectionAdded={(id, name, parent, children, level, type, position, titlesReduced) => this.dispatchAndSetState(addNavItem(id, name, parent, children, level, type, position, titlesReduced))}
                                   onNavItemSelected={id => this.dispatchAndSetState(selectNavItem(id))}
                                   onNavItemExpanded={(id, value) => this.dispatchAndSetState(expandNavItem(id, value))}
-                                  onNavItemRemoved={(ids, parent, boxes) => {
-                                    // if(navItemsIds.length == ids.length){
-                                    //  this.setState({hideTab: 'hide'})
-                                    // }
-                                    this.dispatchAndSetState(removeNavItem(ids, parent, boxes));
+                                  onNavItemRemoved={() => {
+                                    let viewRemoving = [navItemSelected].concat(this.getDescendantViews(navItems[navItemSelected]));
+                                    let boxesRemoving = [];
+                                    let containedRemoving = [];
+                                    viewRemoving.map(id => {
+                                        navItems[id].boxes.map(boxId => {
+                                            boxesRemoving.push(boxId);
+                                            boxesRemoving = boxesRemoving.concat(this.getDescendantBoxes(boxes[boxId]));
+                                            containedRemoving = containedRemoving.concat(this.getDescendantContainedViews(boxes[boxId]));
+                                        })
+                                    });
+                                    this.dispatchAndSetState(removeNavItem(viewRemoving, navItems[navItemSelected].parent, boxesRemoving, containedRemoving))
                                   }}
                                   onNavItemReorded={(itemId,newParent,type,newIndId,newChildrenInOrder) => this.dispatchAndSetState(reorderNavItem(itemId,newParent,type,newIndId,newChildrenInOrder))}
                                   onNavItemToggled={ id => this.dispatchAndSetState(toggleNavItem(id)) }
@@ -117,17 +123,16 @@ class DaliApp extends Component {
                          style={{height: (this.state.carouselFull ? 0 : '100%'), width: (this.state.carouselShow? '83.333333%':'calc(100% - 80px)')}}>
                         <Row id="ribbonRow">
                             <PluginRibbon disabled={navItemSelected === 0}
-                                          navItemSelected={navItemSelected}
-                                          onBoxDuplicated={(id, parent, container)=> this.dispatchAndSetState( duplicateBox( id, parent, container, this.getDescendants(boxes[id]), this.getDuplicatedBoxesIds(this.getDescendants(boxes[id]) ), Date.now()-1 ))}
                                           boxSelected={(boxSelected && boxSelected != -1) ? boxes[boxSelected] : -1}
-                                          category={this.state.pluginTab}
-                                          hideTab={this.state.hideTab}
                                           undoDisabled={undoDisabled}
                                           redoDisabled={redoDisabled}
+                                          category={this.state.pluginTab}
+                                          hideTab={this.state.hideTab}
                                           undo={() => {this.dispatchAndSetState(ActionCreators.undo())}}
                                           redo={() => {this.dispatchAndSetState(ActionCreators.redo())}}
                                           save={() => {this.dispatchAndSetState(exportStateAsync({present: this.props.store.getState().present}))}}
                                           ribbonHeight={ribbonHeight+'px'}
+                                          onBoxDuplicated={(id, parent, container)=> this.dispatchAndSetState( duplicateBox( id, parent, container, this.getDescendantBoxes(boxes[id]), this.getDuplicatedBoxesIds(this.getDescendantBoxes(boxes[id]) ), Date.now()-1 ))}
                                           serverModalOpen={()=>{this.setState({serverModal: true })}}/>
                         </Row>
                         <Row id="canvasRow" style={{height: 'calc(100% - '+ribbonHeight+'px)'}}>
@@ -137,6 +142,7 @@ class DaliApp extends Component {
                                         boxLevelSelected={boxLevelSelected}
                                         navItems={navItems}
                                         navItemSelected={navItems[navItemSelected]}
+                                        containedViewSelected={containedViewSelected}
                                         showCanvas={(navItemSelected !== 0)}
                                         toolbars={toolbars}
                                         title={title}
@@ -148,12 +154,31 @@ class DaliApp extends Component {
                                         onSortableContainerResized={(id, parent, height) => this.dispatchAndSetState(resizeSortableContainer(id, parent, height))}
                                         onBoxReorder={(ids, parent) => this.dispatchAndSetState(reorderBox(ids, parent))}
                                         onBoxDropped={(id, row, col) => this.dispatchAndSetState(dropBox(id, row, col))}
-                                        onBoxDeleted={(id, parent, container)=> this.dispatchAndSetState(deleteBox(id, parent, container, this.getDescendants(boxes[id])))}
+                                        onBoxDeleted={(id, parent, container)=> this.dispatchAndSetState(deleteBox(id, parent, container, this.getDescendantBoxes(boxes[id]), this.getDescendantContainedViews(boxes[id])))}
                                         onVerticallyAlignBox={(id, verticalAlign)=>this.dispatchAndSetState(verticallyAlignBox(id, verticalAlign))}
                                         onUnitNumberChanged={(id, value) => this.dispatchAndSetState(changeUnitNumber(id, value))}
                                         onTextEditorToggled={(caller, value) => this.dispatchAndSetState(toggleTextEditor(caller, value))}
                                         onBoxesInsideSortableReorder={(parent, container, order) => {this.dispatchAndSetState(reorderBoxes(parent, container, order))}}
                                         titleModeToggled={(id, value) => this.dispatchAndSetState(toggleTitleMode(id, value))}/>
+                            <ContainedCanvas boxes={boxes}
+                                             boxSelected={boxSelected}
+                                             boxLevelSelected={boxLevelSelected}
+                                             containedViews={containedViews}
+                                             containedViewSelected={containedViewSelected}
+                                             toolbars={toolbars}
+                                             lastActionDispatched={this.state.lastAction}
+                                             onContainedViewSelected={id => this.dispatchAndSetState(selectContainedView(id))}
+                                             onBoxSelected={(id) => this.dispatchAndSetState(selectBox(id))}
+                                             onBoxLevelIncreased={() => this.dispatchAndSetState(increaseBoxLevel())}
+                                             onBoxMoved={(id, x, y, position) => this.dispatchAndSetState(moveBox(id, x, y, position))}
+                                             onBoxResized={(id, width, height) => this.dispatchAndSetState(resizeBox(id, width, height))}
+                                             onSortableContainerResized={(id, parent, height) => this.dispatchAndSetState(resizeSortableContainer(id, parent, height))}
+                                             onBoxReorder={(ids, parent) => this.dispatchAndSetState(reorderBox(ids, parent))}
+                                             onBoxDropped={(id, row, col) => this.dispatchAndSetState(dropBox(id, row, col))}
+                                             onBoxDeleted={(id, parent, container)=> this.dispatchAndSetState(deleteBox(id, parent, container, this.getDescendantBoxes(boxes[id]), this.getDescendantContainedViews(boxes[id])))}
+                                             onVerticallyAlignBox={(id, verticalAlign)=>this.dispatchAndSetState(verticallyAlignBox(id, verticalAlign))}
+                                             onTextEditorToggled={(caller, value) => this.dispatchAndSetState(toggleTextEditor(caller, value))}
+                                             onBoxesInsideSortableReorder={(parent, container, order) => {this.dispatchAndSetState(reorderBoxes(parent, container, order))}} />
                         </Row>
                     </Col>
                 </Row>
@@ -161,13 +186,6 @@ class DaliApp extends Component {
                                 title={"Server"}
                                 isBusy={isBusy}
                                 hideModal={() => this.setState({serverModal: false })}/>
-                <PageModal visibility={pageModalToggled.value}
-                           caller={pageModalToggled.caller}
-                           navItems={navItems}
-                           navItemsIds={navItemsIds}
-                           onBoxAdded={(ids, type,  draggable, resizable, content, toolbar, config, state) => this.dispatchAndSetState(addBox(ids, type, draggable, resizable, content, toolbar, config, state))}
-                           onVisibilityToggled={(caller, value) => this.dispatchAndSetState(togglePageModal(caller, value))}
-                           onPageAdded={(id, name, parent, children, level, type, position, titlesReduced) => this.dispatchAndSetState(addNavItem(id, name, parent, children, level, type, position, titlesReduced))}/>
                 <Visor id="visor"
                        title={title}
                        visorVisible={this.state.visorVisible}
@@ -178,13 +196,40 @@ class DaliApp extends Component {
                                 toolbar={toolbars[boxSelected]}
                                 visible={this.state.xmlEditorVisible}
                                 onXMLEditorToggled={() => this.setState({xmlEditorVisible: !this.state.xmlEditorVisible})}/>
+                <RichMarksModal boxSelected={boxSelected}
+                                navItems={navItems}
+                                navItemsIds={navItemsIds}
+                                visible={this.state.richMarksVisible}
+                                currentRichMark={this.state.currentRichMark}
+                                onRichMarkUpdated={(mark) => {
+                                    let toolbar = toolbars[boxSelected];
+                                    let state = JSON.parse(JSON.stringify(toolbar.state));
+                                    state.__marks[mark.id] = JSON.parse(JSON.stringify(mark));
+                                    if(mark.connection.id){
+                                        state.__marks[mark.id].connection = mark.connection.id;
+                                    }
+                                    Dali.Plugins.get(toolbar.config.name).forceUpdate(
+                                        state,
+                                        boxSelected,
+                                        this.state.currentRichMark ? editRichMark(boxSelected, state) : addRichMark(boxSelected, mark, state)
+                                    );
+                                }}
+                                onRichMarksModalToggled={() => {
+                                    this.setState({richMarksVisible: !this.state.richMarksVisible});
+                                    if(this.state.richMarksVisible){
+                                        this.setState({currentRichMark: null});
+                                    }
+                                }}/>
                 <PluginToolbar top={(60+ribbonHeight)+'px'}
                                toolbars={toolbars}
                                box={boxes[boxSelected]}
                                boxSelected={boxSelected}
+                               navItems={navItems}
                                carouselShow={boxSelected != -1}
                                isBusy={isBusy}
                                fetchResults={fetchVishResults}
+                               onNavItemSelected={id => this.dispatchAndSetState(selectNavItem(id))}
+                               onContainedViewSelected={id => this.dispatchAndSetState(selectContainedView(id))}
                                onColsChanged={(id, parent, distribution) => this.dispatchAndSetState(changeCols(id, parent, distribution))}
                                onRowsChanged={(id, parent, column, distribution) => this.dispatchAndSetState(changeRows(id, parent, column, distribution))}
                                onBoxResized={(id, width, height) => this.dispatchAndSetState(resizeBox(id, width, height))}
@@ -196,9 +241,27 @@ class DaliApp extends Component {
                                onToolbarUpdated={(id, tab, accordion, name, value) => this.dispatchAndSetState(updateToolbar(id, tab, accordion, name, value))}
                                onToolbarIntermediateUpdated={(id, tab, accordion, name, value) => this.dispatchAndSetState(updateIntermediateToolbar(id, tab, accordion, name, value))}
                                onToolbarCollapsed={(id) => this.dispatchAndSetState(collapseToolbar(id))}
-                               onBoxDuplicated={(id, parent, container)=> this.dispatchAndSetState( duplicateBox( id, parent, container, this.getDescendants(boxes[id]), this.getDuplicatedBoxesIds(this.getDescendants(boxes[id]) ), Date.now()-1 ))}
-                               onBoxDeleted={(id, parent, container)=> this.dispatchAndSetState(deleteBox(id, parent, container, this.getDescendants(boxes[id])))}
+                               onBoxDuplicated={(id, parent, container)=> this.dispatchAndSetState( duplicateBox( id, parent, container, this.getDescendantBoxes(boxes[id]), this.getDuplicatedBoxesIds(this.getDescendantBoxes(boxes[id]) ), Date.now()-1 ))}
+                               onBoxDeleted={(id, parent, container)=> this.dispatchAndSetState(deleteBox(id, parent, container, this.getDescendantBoxes(boxes[id]), this.getDescendantContainedViews(boxes[id])))}
                                onXMLEditorToggled={() => this.setState({xmlEditorVisible: !this.state.xmlEditorVisible})}
+                               onRichMarksModalToggled={() => {
+                                    this.setState({richMarksVisible: !this.state.richMarksVisible});
+                                    if(this.state.richMarksVisible){
+                                        this.setState({currentRichMark: null});
+                                    }
+                               }}
+                               onRichMarkEditPressed={(mark) => {
+                                    this.setState({currentRichMark: mark});
+                               }}
+                               onRichMarkDeleted={id => {
+                                    let toolbar = toolbars[boxSelected];
+                                    let state = JSON.parse(JSON.stringify(toolbar.state));
+                                    delete state.__marks[id];
+                                    Dali.Plugins.get(toolbar.config.name).forceUpdate(
+                                        state,
+                                        boxSelected,
+                                        DELETE_RICH_MARK);
+                               }}
                                onFetchVishResources={(query) => this.dispatchAndSetState(fetchVishResourcesAsync(query))}
                 />
             </Grid>
@@ -219,10 +282,17 @@ class DaliApp extends Component {
             if (e.detail.isUpdating) {
                 this.parsePluginContainers(e.detail.content, newPluginState);
                 e.detail.state.__pluginContainerIds = newPluginState;
-                this.dispatchAndSetState(updateBox(e.detail.ids.id, e.detail.content, e.detail.toolbar, e.detail.state));
+                let reason = e.detail.reason;
+                if (reason.type === ADD_RICH_MARK) {
+                    this.dispatchAndSetState(reason);
+                } else if (reason.type === EDIT_RICH_MARK) {
+                    this.dispatchAndSetState(reason);
+                } else {
+                    this.dispatchAndSetState(updateBox(e.detail.ids.id, e.detail.content, e.detail.toolbar, e.detail.state));
+                }
                 this.addDefaultContainerPlugins(e.detail, e.detail.content);
-                if(e.detail.state.__xml_path){
-                    if(!navItemSelected.extraFiles[e.detail.ids.id] || navItemSelected.extraFiles[e.detail.ids.id] !== e.detail.state.__xml_path){
+                if (e.detail.state.__xml_path) {
+                    if (!navItemSelected.extraFiles[e.detail.ids.id] || navItemSelected.extraFiles[e.detail.ids.id] !== e.detail.state.__xml_path) {
                         this.dispatchAndSetState(updateNavItemExtraFiles(this.props.navItemSelected, e.detail.ids.id, e.detail.state.__xml_path));
                     }
                 }
@@ -238,15 +308,15 @@ class DaliApp extends Component {
                     },
                     BOX_TYPES.NORMAL,
                     true,
-                    (e.detail.ids.container === 0),
+                    (!(e.detail.ids.container.length && e.detail.ids.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1)),
                     e.detail.content,
                     e.detail.toolbar,
                     e.detail.config,
                     e.detail.state,
                     e.detail.initialParams));
                 this.addDefaultContainerPlugins(e.detail, e.detail.content);
-                if(e.detail.state.__xml_path){
-                    if(!navItemSelected.extraFiles[e.detail.ids.id] || navItemSelected.extraFiles[e.detail.ids.id] !== e.detail.state.__xml_path){
+                if (e.detail.state.__xml_path) {
+                    if (!navItemSelected.extraFiles[e.detail.ids.id] || navItemSelected.extraFiles[e.detail.ids.id] !== e.detail.state.__xml_path) {
                         this.dispatchAndSetState(updateNavItemExtraFiles(this.props.navItemSelected, e.detail.ids.id, e.detail.state.__xml_path));
                     }
                 }
@@ -259,13 +329,12 @@ class DaliApp extends Component {
 
             this.props.navItems[view].boxes.map(id => {
                 ids.push(id);
-                ids = ids.concat(this.getDescendants(this.props.boxes[id]));
+                ids = ids.concat(this.getDescendantBoxes(this.props.boxes[id]));
             });
 
             ids.map(id => {
                 let toolbar = this.props.toolbars[id];
                 if (e.detail.getAliasedPugins) {
-                  console.log(e.detail.getAliasedPugins);
                     if (id.indexOf(ID_PREFIX_SORTABLE_BOX) === -1) {
                         let button = toolbar.controls.other.accordions['~extra'].buttons.alias;
                         if (button.value.length !== 0) {
@@ -299,7 +368,7 @@ class DaliApp extends Component {
                         let box = this.props.boxes[this.props.boxSelected];
                         let toolbar = this.props.toolbars[this.props.boxSelected];
                         if (!toolbar.showTextEditor) {
-                            this.dispatchAndSetState(deleteBox(box.id, box.parent, box.container, this.getDescendants(box)));
+                            this.dispatchAndSetState(deleteBox(box.id, box.parent, box.container, this.getDescendantBoxes(box), this.getDescendantContainedViews(box)));
                         }
                     }
                 }
@@ -307,15 +376,56 @@ class DaliApp extends Component {
         }.bind(this);
     }
 
-    getDescendants(box) {
+    getDescendantViews(view){
+        let selected = [];
+
+        for(let i = 0; i < view.children.length; i++){
+            let vw = view.children[i];
+            selected.push(vw);
+            selected = selected.concat(this.getDescendantViews(this.props.navItems[vw]));
+        }
+
+        return selected;
+    }
+
+    getDescendantBoxes(box) {
         let selected = [];
 
         for (let i = 0; i < box.children.length; i++) {
             for (let j = 0; j < box.sortableContainers[box.children[i]].children.length; j++) {
-                selected.push(box.sortableContainers[box.children[i]].children[j]);
-                selected = selected.concat(this.getDescendants(this.props.boxes[box.sortableContainers[box.children[i]].children[j]]));
+                let bx = box.sortableContainers[box.children[i]].children[j];
+                selected.push(bx);
+                selected = selected.concat(this.getDescendantBoxes(this.props.boxes[bx]));
             }
         }
+        for(let i = 0; i < box.containedViews.length; i++){
+            let cv = box.containedViews[i];
+            for(let j = 0; j < this.props.containedViews[cv].boxes.length; j++){
+                let bx = this.props.containedViews[cv].boxes[j];
+                selected.push(bx);
+                selected = selected.concat(this.getDescendantBoxes(this.props.boxes[bx]));
+            }
+        }
+        return selected;
+    }
+
+    getDescendantContainedViews(box) {
+        let selected = [];
+
+        for (let i = 0; i < box.children.length; i++) {
+            for (let j = 0; j < box.sortableContainers[box.children[i]].children.length; j++) {
+                let bx = box.sortableContainers[box.children[i]].children[j];
+                selected = selected.concat(this.getDescendantContainedViews(this.props.boxes[bx]));
+            }
+        }
+        for(let i = 0; i < box.containedViews.length; i++){
+            let cv = box.containedViews[i];
+            selected.push(cv);
+            for(let j = 0; j < this.props.containedViews[cv].boxes.length; j++){
+                selected = selected.concat(this.getDescendantContainedViews(this.props.boxes[this.props.containedViews[cv].boxes[j]]));
+            }
+        }
+
         return selected;
     }
 
@@ -404,7 +514,7 @@ class DaliApp extends Component {
                         parent: eventDetails.ids.id,
                         container: obj.attr['plugin-data-id'],
                         isDefaultPlugin: true
-                    });
+                    }, ADD_BOX);
                 });
             }
         }
@@ -417,13 +527,14 @@ function mapStateToProps(state) {
     return {
         title: state.present.title,
         boxes: state.present.boxesById,
-        boxesIds: state.present.boxes,
+        boxesIds: state.present.boxesIds,
         boxSelected: state.present.boxSelected,
         boxLevelSelected: state.present.boxLevelSelected,
         navItemsIds: state.present.navItemsIds,
         navItems: state.present.navItemsById,
         navItemSelected: state.present.navItemSelected,
-        pageModalToggled: state.present.pageModalToggled,
+        containedViews: state.present.containedViewsById,
+        containedViewSelected: state.present.containedViewSelected,
         undoDisabled: state.past.length === 0,
         redoDisabled: state.future.length === 0,
         displayMode: state.present.displayMode,

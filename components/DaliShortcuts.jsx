@@ -8,21 +8,19 @@ import i18n from 'i18next';
 export default class DaliShortcuts extends Component {
     constructor(props) {
         super(props);
-        //recalculatePosition();
-
     }
 
     render() {
         let box = this.props.box;
         let toolbar = this.props.toolbar;
-        if (box) {
-            let style = pos(box.id);
+        if (box !== -1) {
+            let style = this.pos(box.id);
             return (
                 /* jshint ignore:start */
-                <div id="daliBoxIcons" className=""
-                     style={{display: (box != -1 && box.type != "sortable" ) ? 'block' : 'none' , 
-                             position: 'absolute', left: style.left, top: style.top, width: style.width}}>
-                    { (box.container != 0) ? (
+                <div id={this.props.isContained ? "contained_daliBoxIcons" : "daliBoxIcons"} className=""
+                     style={{display: (box.type != "sortable" ) ? 'block' : 'none',
+                     position: 'absolute', left: style.left, top: style.top, width: style.width}}>
+                    { (box.container.length && box.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1) ? (
                         <OverlayTrigger placement="top"
                                         overlay={ <Tooltip id="ajustaradocumento">{ i18n.t('messages.adjust_to_document') } </Tooltip>}>
                             <button className="daliTitleButton"
@@ -36,7 +34,8 @@ export default class DaliShortcuts extends Component {
                     ) : (<span></span> )
                     }
                     { (toolbar && toolbar.config && toolbar.config.needsTextEdition) ? (
-                        <OverlayTrigger placement="top" overlay={ <Tooltip id="editartexto" >{ i18n.t('messages.edit_text') }</Tooltip>}>
+                        <OverlayTrigger placement="top"
+                                        overlay={ <Tooltip id="editartexto" >{ i18n.t('messages.edit_text') }</Tooltip>}>
                             <button className="daliTitleButton"
                                     onClick={(e) => {
                                  this.props.onTextEditorToggled(toolbar.id, !toolbar.showTextEditor);
@@ -46,7 +45,8 @@ export default class DaliShortcuts extends Component {
                         </OverlayTrigger>
                     ) : (<span></span> )
                     }
-                    <OverlayTrigger placement="top" overlay={ <Tooltip id="borrarcaja" >{ i18n.t('messages.erase_plugin') }</Tooltip>}>
+                    <OverlayTrigger placement="top"
+                                    overlay={ <Tooltip id="borrarcaja" >{ i18n.t('messages.erase_plugin') }</Tooltip>}>
                         <button className="daliTitleButton"
                                 onClick={(e) => {
                                 this.props.onBoxDeleted(this.props.box.id, this.props.box.parent, this.props.box.container);
@@ -67,27 +67,21 @@ export default class DaliShortcuts extends Component {
         }
     }
 
- 
-    shouldComponentUpdate(nextProps, nextState) {
-          return true;
-    }
- 
-}
 
-
-function pos(id){
-    let element = document.getElementById('box-' + id);
-    let bar = document.getElementById('daliBoxIcons');
-    if (element && bar) {
-        var rect = element.getBoundingClientRect();
-        var main = document.getElementById('maincontent');
-        var canvas = main.getBoundingClientRect();
-        let style = {};
-        style.left = (rect.left - canvas.left) + 'px';
-        style.top = (rect.top - canvas.top + main.scrollTop) + 'px';
-        style.width = element.clientWidth + 'px';
-        return style;
+    pos(id) {
+        let element = document.getElementById('box-' + id);
+        let bar = this.props.containedViewSelected === 0 ? document.getElementById('daliBoxIcons') : document.getElementById('contained_daliBoxIcons');
+        if (element && bar) {
+            var rect = element.getBoundingClientRect();
+            var main = this.props.containedViewSelected === 0 ? document.getElementById('maincontent') : document.getElementById('contained_maincontent');
+            var canvas = main.getBoundingClientRect();
+            let style = {};
+            style.left = (rect.left - canvas.left) + 'px';
+            style.top = (rect.top - canvas.top + main.scrollTop) + 'px';
+            style.width = element.clientWidth + 'px';
+            return style;
+        }
+        return {left: 0, top: 0, width: 0};
     }
-    return {left: 0, top: 0, width: 0 };
 
 }

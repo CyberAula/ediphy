@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Modal, Button, Row} from 'react-bootstrap';
 import Dali from './../core/main';
+import {UPDATE_NAV_ITEM_EXTRA_FILES} from '../actions';
 
 export default class XMLConfigModal extends Component {
     render() {
@@ -46,7 +47,7 @@ export default class XMLConfigModal extends Component {
                                 if(status === "error"){
                                     state.__xml_path = "ua2_ue10_ejer7.xml";
                                 }
-                                Dali.Plugins.get(this.props.toolbar.config.name).forceUpdate(state, this.props.id);
+                                Dali.Plugins.get(this.props.toolbar.config.name).forceUpdate(state, this.props.id, UPDATE_NAV_ITEM_EXTRA_FILES);
                                 this.props.onXMLEditorToggled();
                             }.bind(this)
                         });
@@ -149,10 +150,6 @@ export default class XMLConfigModal extends Component {
 
         return auxTemplate;
 
-    }
-
-    changeValue(namekey) {
-        console.log(namekey);
     }
 
     generateXMLFromView(state) {

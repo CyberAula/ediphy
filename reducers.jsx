@@ -2,13 +2,14 @@ import {combineReducers} from 'redux';
 import undoable, {excludeAction} from 'redux-undo';
 import Utils from './utils';
 import {ADD_BOX, SELECT_BOX, MOVE_BOX, DUPLICATE_BOX, RESIZE_BOX, UPDATE_BOX, DELETE_BOX, REORDER_BOX, DROP_BOX, INCREASE_LEVEL,
+    ADD_RICH_MARK, EDIT_RICH_MARK, SELECT_CONTAINED_VIEW,
     RESIZE_SORTABLE_CONTAINER, CHANGE_COLS, CHANGE_ROWS, CHANGE_SORTABLE_PROPS, REORDER_BOXES,
     ADD_NAV_ITEM, SELECT_NAV_ITEM, EXPAND_NAV_ITEM, REMOVE_NAV_ITEM, REORDER_NAV_ITEM, TOGGLE_NAV_ITEM, UPDATE_NAV_ITEM_EXTRA_FILES,
     CHANGE_SECTION_TITLE, CHANGE_UNIT_NUMBER, VERTICALLY_ALIGN_BOX,
-    TOGGLE_PAGE_MODAL, TOGGLE_TEXT_EDITOR, TOGGLE_TITLE_MODE, CHANGE_TITLE,
+    TOGGLE_TEXT_EDITOR, TOGGLE_TITLE_MODE, CHANGE_TITLE,
     CHANGE_DISPLAY_MODE, SET_BUSY, UPDATE_INTERMEDIATE_TOOLBAR, UPDATE_TOOLBAR, COLLAPSE_TOOLBAR, IMPORT_STATE, FETCH_VISH_RESOURCES_SUCCESS
 } from './actions';
-import {ID_PREFIX_SECTION, ID_PREFIX_PAGE, ID_PREFIX_BOX, ID_PREFIX_SORTABLE_BOX} from './constants';
+import {ID_PREFIX_SECTION, ID_PREFIX_PAGE, ID_PREFIX_BOX, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_CONTAINED_VIEW, ID_PREFIX_SORTABLE_CONTAINER} from './constants';
 import i18n from 'i18next';
 
 
@@ -17,13 +18,15 @@ function boxCreator(state = {}, action = {}) {
         case ADD_BOX:
             let position, width, height;
             let verticalAlign = 'middle';
-            let level = (state[action.payload.ids.parent]) ? state[action.payload.ids.parent].level + 1 : 0;
+            let level = (state[action.payload.ids.parent] && !(action.payload.ids.container.length && action.payload.ids.container.indexOf(ID_PREFIX_CONTAINED_VIEW) !== -1)) ?
+            state[action.payload.ids.parent].level + 1 :
+                0;
             switch (action.payload.type) {
                 case 'sortable':
                     position = {x: 0, y: 0, type: 'relative'};
                     width = '100%';
                     level = -1;
-                     break;
+                    break;
                 default:
                     position = {
                         x: Math.floor(Math.random() * 200),
@@ -36,7 +39,7 @@ function boxCreator(state = {}, action = {}) {
                     height = 'auto';
                     break;
             }
-            if (action.payload.ids.container !== 0) {
+            if (action.payload.ids.container.length && action.payload.ids.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1) {
                 position.x = 0;
                 position.y = 0;
                 position.type = 'relative';
@@ -63,6 +66,7 @@ function boxCreator(state = {}, action = {}) {
 
             let children = [];
             let sortableContainers = {};
+            let containedViews = [];
             if (action.payload.state) {
                 let pluginContainers = action.payload.state.__pluginContainerIds;
                 if (pluginContainers) {
@@ -107,7 +111,8 @@ function boxCreator(state = {}, action = {}) {
                 showTextEditor: false,
                 fragment: {},
                 children: children,
-                sortableContainers: sortableContainers
+                sortableContainers: sortableContainers,
+                containedViews: containedViews
             };
         default:
             return state;
@@ -145,7 +150,7 @@ function sortableContainerCreator(state = {}, action = {}) {
             });
         case DELETE_BOX:
             let newChildren = state[action.payload.container].children.filter(id => id !== action.payload.id);
-            let a = Utils.cloneObjectWithoutKey(state[action.payload.container], "children");
+            let a = Utils.deepClone(state[action.payload.container]);
             a.children = newChildren;
 
             return Object.assign({}, state, {
@@ -191,7 +196,7 @@ function boxesById(state = {}, action = {}) {
     switch (action.type) {
         case ADD_BOX:
             let box = boxCreator(state, action);
-            if (action.payload.ids.parent.indexOf(ID_PREFIX_SORTABLE_BOX) !== -1 || action.payload.ids.container !== 0) {
+            if (action.payload.ids.container.length && action.payload.ids.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1) {
                 return Object.assign({}, state, {
                     [action.payload.ids.id]: box,
                     [action.payload.ids.parent]: Object.assign({}, state[action.payload.ids.parent], {
@@ -294,6 +299,15 @@ function boxesById(state = {}, action = {}) {
                     sortableContainers: sortableContainers
                 })
             });
+        case ADD_RICH_MARK:
+            if (action.payload.mark.connection.id) {
+                return Object.assign({}, state, {
+                    [action.payload.parent]: Object.assign({}, state[action.payload.parent], {
+                        containedViews: [...state[action.payload.parent].containedViews, action.payload.mark.connection.id]
+                    })
+                });
+            }
+            return state;
         case REORDER_BOXES:
             return Object.assign({}, state, {
                 [action.payload.parent]: Object.assign({}, state[action.payload.parent], {
@@ -338,13 +352,8 @@ function boxesById(state = {}, action = {}) {
                 });
             }
 
-            if (action.payload.container !== 0) {
+            if (action.payload.container.length && action.payload.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1) {
                 newState[action.payload.parent].sortableContainers = sortableContainerCreator(newState[action.payload.parent].sortableContainers, action);
-                /*
-                if (!newState[action.payload.parent].sortableContainers[action.payload.container]) {
-                    newState[action.payload.parent].children = newState[action.payload.parent].children.filter(id => id !== action.payload.container);
-                }
-                */
             }
 
             return newState;
@@ -404,9 +413,14 @@ function boxSelected(state = -1, action = {}) {
         case DUPLICATE_BOX:
             return ID_PREFIX_BOX + action.payload.newId;
         case DELETE_BOX:
+            if(action.payload.container.length && action.payload.container.indexOf(ID_PREFIX_CONTAINED_VIEW) !== -1){
+                return -1;
+            }
             if (action.payload.parent.indexOf(ID_PREFIX_BOX) !== -1) {
                 return action.payload.parent;
             }
+            return -1;
+        case SELECT_CONTAINED_VIEW:
             return -1;
         case ADD_NAV_ITEM:
             return -1;
@@ -488,13 +502,13 @@ function recalculateNames(state = {}, old = {}, resta = 0, numeroBorrados = 0) {
     }
     // Rename pages
     var pages =
-    Object.keys(state).filter(page => {
-        if (state[page].type === 'slide' || state[page].type === 'document') {
-            return page;
-        }
-    }).sort(function (a, b) {
-        return state[a].position - state[b].position;
-    });
+        Object.keys(state).filter(page => {
+            if (state[page].type === 'slide' || state[page].type === 'document') {
+                return page;
+            }
+        }).sort(function (a, b) {
+            return state[a].position - state[b].position;
+        });
 
     //pages.forEach((page, index) => {
     // items[page].name = 'Page ' + (index + 1);
@@ -528,7 +542,7 @@ function navItemsIds(state = [], action = {}) {
     switch (action.type) {
         case ADD_NAV_ITEM:
             let nState = state.slice();
-            nState.splice(action.payload.position-1 , 0, action.payload.id);
+            nState.splice(action.payload.position - 1, 0, action.payload.id);
             return nState;
         case REMOVE_NAV_ITEM:
             let newState = state.slice();
@@ -548,7 +562,7 @@ function navItemsIds(state = [], action = {}) {
     }
 }
 
-function findNavItemsDescendants(state, parent){
+function findNavItemsDescendants(state, parent) {
     let family = [parent];
     state[parent].children.forEach(item => {
         family = family.concat(findNavItemsDescendants(state, item));
@@ -623,12 +637,12 @@ function navItemsById(state = {}, action = {}) {
 
                 action.payload.newIndId.forEach(elem => {
                     newSt = Object.assign({}, newSt, {
-                        [elem]: Object.assign({}, newSt[elem], {position: action.payload.newIndId.indexOf(elem)+1})
+                        [elem]: Object.assign({}, newSt[elem], {position: action.payload.newIndId.indexOf(elem) + 1})
                     });
                 });
             }
             let navsToChange = findNavItemsDescendants(state, action.payload.itemId);
-            if(action.payload.newParent !== 0){
+            if (action.payload.newParent !== 0) {
                 let newUnitNumber = newSt[action.payload.newParent].unitNumber;
                 navsToChange.forEach(item => {
                     newSt[item].unitNumber = newUnitNumber;
@@ -655,7 +669,7 @@ function navItemsById(state = {}, action = {}) {
             });
             return newState;
         case TOGGLE_NAV_ITEM:
-            if(state[state[action.payload.id].parent].hidden){
+            if (state[state[action.payload.id].parent].hidden) {
                 return state;
             }
             newState = Utils.deepClone(state);
@@ -724,12 +738,115 @@ function navItemSelected(state = 0, action = {}) {
     }
 }
 
+function containedViewSelected(state = 0, action = {}) {
+    switch (action.type) {
+        case SELECT_NAV_ITEM:
+            return 0;
+        case SELECT_CONTAINED_VIEW:
+            return action.payload.id;
+        case ADD_NAV_ITEM:
+            return 0;
+        case REMOVE_NAV_ITEM:
+            return 0;
+        case IMPORT_STATE:
+            return action.payload.present.containedViewSelected || state;
+        default:
+            return state;
+    }
+}
+
+function containedViews(state = {}, action = {}) {
+    switch (action.type) {
+        case ADD_RICH_MARK:
+            if (action.payload.mark.connection.id) {
+                return Object.assign({}, state, {
+                    [action.payload.mark.connection.id]: action.payload.mark.connection
+                });
+            }
+            return state;
+        case ADD_BOX:
+            if (action.payload.ids.container.length && action.payload.ids.container.indexOf(ID_PREFIX_CONTAINED_VIEW) !== -1) {
+                return Object.assign({}, state, {
+                    [action.payload.ids.container]: Object.assign({}, state[action.payload.ids.container], {
+                        boxes: [...state[action.payload.ids.container].boxes, action.payload.ids.id]
+                    })
+                });
+            }
+            return state;
+        case DELETE_BOX:
+            let newState = Utils.deepClone(state);
+
+            if (action.payload.childrenViews) {
+                action.payload.childrenViews.map(view => {
+                    delete newState[view];
+                });
+            }
+
+            if (action.payload.container.length && action.payload.container.indexOf(ID_PREFIX_CONTAINED_VIEW) !== -1) {
+                newState[action.payload.container].boxes = newState[action.payload.container].boxes.filter(id => action.payload.id !== id);
+            }
+
+            return newState;
+        case REMOVE_NAV_ITEM:
+            if (action.payload.containedViews) {
+                let newState = Utils.deepClone(state);
+                action.payload.containedViews.map(view => {
+                    delete newState[view];
+                });
+                return newState;
+            }
+            return state;
+        case IMPORT_STATE:
+            return action.payload.present.containedViewsById || state;
+        default:
+            return state;
+    }
+}
+
+function createRichAccordions(controls) {
+    if (!controls.main) {
+        controls.main = {
+            __name: "Main",
+            accordions: {
+                __marks_list: {
+                    key: 'marks_list',
+                    __name: 'Marks List',
+                    icon: 'border_all',
+                    buttons: {}
+                },
+                __content_list: {
+                    key: 'content_list',
+                    __name: 'Content List',
+                    icon: 'border_all',
+                    buttons: {}
+                }
+            }
+        };
+    }
+    if (!controls.main.accordions.__marks_list) {
+        controls.main.accordions.__marks_list = {
+            key: 'marks_list',
+            __name: 'Marks List',
+            icon: 'border_all',
+            buttons: {}
+        };
+    }
+    if (!controls.main.accordions.__content_list) {
+        controls.main.accordions.__content_list = {
+            key: 'content_list',
+            __name: 'Content List',
+            icon: 'border_all',
+            buttons: {}
+        };
+    }
+}
+
 function createSortableButtons(controls, width) {
     if (!controls.main) {
         controls.main = {
             __name: "Main",
             accordions: {
-                _sortable: {
+                __sortable: {
                     key: 'structure',
                     __name: i18n.t('Structure'),
                     icon: 'border_all',
@@ -737,15 +854,15 @@ function createSortableButtons(controls, width) {
                 }
             }
         };
-    } else if (!controls.main.accordions._sortable) {
-        controls.main.accordions._sortable = {
+    } else if (!controls.main.accordions.__sortable) {
+        controls.main.accordions.__sortable = {
             key: 'structure',
             __name: i18n.t('Structure'),
             icon: 'border_all',
             buttons: {}
         };
     }
-    controls.main.accordions._sortable.buttons.width = {
+    controls.main.accordions.__sortable.buttons.width = {
         __name: i18n.t('Width_percentage'),
         type: 'number',
         value: width || 100,
@@ -755,7 +872,7 @@ function createSortableButtons(controls, width) {
         units: '%',
         autoManaged: true
     };
-    controls.main.accordions._sortable.buttons.height = {
+    controls.main.accordions.__sortable.buttons.height = {
         __name: i18n.t('Height_percentage'),
         type: 'number',
         value: 'auto',
@@ -765,22 +882,20 @@ function createSortableButtons(controls, width) {
         units: '%',
         autoManaged: true
     };
-    controls.main.accordions._sortable.buttons.___heightAuto = {
+    controls.main.accordions.__sortable.buttons.___heightAuto = {
         __name: i18n.t('Height_auto'),
         type: 'checkbox',
         value: 'checked',
         checked: 'true',
         autoManaged: true
     };
-    controls.main.accordions._sortable.buttons.___position = {
+    controls.main.accordions.__sortable.buttons.___position = {
         __name: i18n.t('Position'),
         type: 'radio',
         value: 'relative',
         options: ['absolute', 'relative'],
         autoManaged: true
     };
-
-
 }
 
 function createFloatingBoxButtons(controls, width) {
@@ -788,7 +903,7 @@ function createFloatingBoxButtons(controls, width) {
         controls.main = {
             __name: "Main",
             accordions: {
-                _sortable: {
+                __sortable: {
                     key: 'structure',
                     __name: i18n.t('Structure'),
                     icon: 'border_all',
@@ -796,8 +911,8 @@ function createFloatingBoxButtons(controls, width) {
                 }
             }
         };
-    } else if (!controls.main.accordions._sortable) {
-        controls.main.accordions._sortable = {
+    } else if (!controls.main.accordions.__sortable) {
+        controls.main.accordions.__sortable = {
             key: 'structure',
             __name: i18n.t('Structure'),
             icon: 'border_all',
@@ -805,7 +920,7 @@ function createFloatingBoxButtons(controls, width) {
         };
     }
 
-    controls.main.accordions._sortable.buttons.width = {
+    controls.main.accordions.__sortable.buttons.width = {
         __name: i18n.t('Width_pixels'),
         type: 'number',
         value: width || 100,
@@ -815,7 +930,7 @@ function createFloatingBoxButtons(controls, width) {
         units: 'px',
         autoManaged: true
     };
-    controls.main.accordions._sortable.buttons.height = {
+    controls.main.accordions.__sortable.buttons.height = {
         __name: i18n.t('Height_pixels'),
         type: 'number',
         value: 'auto',
@@ -825,15 +940,13 @@ function createFloatingBoxButtons(controls, width) {
         units: 'px',
         autoManaged: true
     };
-    controls.main.accordions._sortable.buttons.___heightAuto = {
+    controls.main.accordions.__sortable.buttons.___heightAuto = {
         __name: i18n.t('Height_auto'),
         type: 'checkbox',
         value: 'checked',
         checked: 'true',
         autoManaged: true
     };
-
-
 }
 
 
@@ -883,11 +996,10 @@ function toolbarsById(state = {}, action = {}) {
                 }
             }
 
-            if (action.payload.ids.container !== 0) {
+            if (action.payload.ids.container.length && action.payload.ids.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1) {
                 createSortableButtons(toolbar.controls);
             } else if (action.payload.ids.id.indexOf(ID_PREFIX_SORTABLE_BOX) === -1) {
                 createFloatingBoxButtons(toolbar.controls);
-
             }
 
             if (action.payload.ids.id.indexOf(ID_PREFIX_SORTABLE_BOX) === -1) {
@@ -906,6 +1018,10 @@ function toolbarsById(state = {}, action = {}) {
                 } else {
                     toolbar.controls[arb.location[0]].accordions[arb.location[1]].accordions[arb.location[2]].buttons.__aspectRatio = button;
                 }
+            }
+
+            if (toolbar.config && toolbar.config.isRich) {
+                createRichAccordions(toolbar.controls);
             }
 
             newState = Object.assign({}, state);
@@ -975,22 +1091,33 @@ function toolbarsById(state = {}, action = {}) {
 
             if (newState[action.payload.id] && newState[action.payload.id].controls) {
                 if (newState[action.payload.id].controls.main && newState[action.payload.id].controls.main.accordions) {
-                    if (newState[action.payload.id].controls.main.accordions._sortable) {
-                        let buttons = newState[action.payload.id].controls.main.accordions._sortable.buttons;
+                    if (newState[action.payload.id].controls.main.accordions.__sortable) {
+                        let buttons = newState[action.payload.id].controls.main.accordions.__sortable.buttons;
                         if (buttons.___heightAuto) {
-                            newState[action.payload.id].controls.main.accordions._sortable.buttons.___heightAuto.checked = heightAuto;
-                            newState[action.payload.id].controls.main.accordions._sortable.buttons.___heightAuto.value = heightAuto ? 'checked' : 'unchecked';
+                            newState[action.payload.id].controls.main.accordions.__sortable.buttons.___heightAuto.checked = heightAuto;
+                            newState[action.payload.id].controls.main.accordions.__sortable.buttons.___heightAuto.value = heightAuto ? 'checked' : 'unchecked';
                         }
                         if (buttons.height && buttons.width) {
-                            newState[action.payload.id].controls.main.accordions._sortable.buttons.height.value = height;
-                            newState[action.payload.id].controls.main.accordions._sortable.buttons.width.value = height;
+                            newState[action.payload.id].controls.main.accordions.__sortable.buttons.height.value = height;
+                            newState[action.payload.id].controls.main.accordions.__sortable.buttons.width.value = height;
                         }
                     }
                 }
             }
 
             return newState;
-
+        case ADD_RICH_MARK:
+            return Object.assign({}, state, {
+                [action.payload.parent]: Object.assign({}, state[action.payload.parent], {
+                    state: action.payload.state
+                })
+            });
+        case EDIT_RICH_MARK:
+            return Object.assign({}, state, {
+                [action.payload.parent]: Object.assign({}, state[action.payload.parent], {
+                    state: action.payload.state
+                })
+            });
         case UPDATE_BOX:
             let controls = action.payload.toolbar;
             for (let tabKey in controls) {
@@ -1020,14 +1147,18 @@ function toolbarsById(state = {}, action = {}) {
             try {
                 createSortableButtons(
                     controls,
-                    state[action.payload.id].controls.main.accordions._sortable.buttons.width.value,
-                    state[action.payload.id].controls.main.accordions._sortable.buttons.height.value
+                    state[action.payload.id].controls.main.accordions.__sortable.buttons.width.value,
+                    state[action.payload.id].controls.main.accordions.__sortable.buttons.height.value
                 );
                 createAliasButton(
                     controls,
                     state[action.payload.id].controls.main.accordions['~extra'].buttons.alias.value
                 );
             } catch (e) {
+            }
+
+            if (state[action.payload.id].config && state[action.payload.id].config.isRich) {
+                createRichAccordions(controls);
             }
 
             return Object.assign({}, state, {
@@ -1064,20 +1195,6 @@ function toolbarsById(state = {}, action = {}) {
             return state;
     }
 }
-
-function togglePageModal(state = {value: false, caller: 0}, action = {}) {
-    switch (action.type) {
-        case TOGGLE_PAGE_MODAL:
-            return action.payload;
-        case ADD_NAV_ITEM:
-            return {value: false, caller: 0};
-        case IMPORT_STATE:
-            return action.payload.present.pageModalToggled || state;
-        default:
-            return state;
-    }
-}
-
 
 function changeTitle(state = "", action = {}) {
     switch (action.type) {
@@ -1123,21 +1240,24 @@ function fetchVishResults(state = {results: []}, action = {}) {
 
 const GlobalState = undoable(combineReducers({
     title: changeTitle,
-    pageModalToggled: togglePageModal,
     boxesById: boxesById, //{0: box0, 1: box1}
     boxSelected: boxSelected, //0
     boxLevelSelected: boxLevelSelected, //0
-    boxes: boxesIds, //[0, 1]
+    boxesIds: boxesIds, //[0, 1]
     navItemsIds: navItemsIds, //[0, 1]
     navItemSelected: navItemSelected, // 0
     navItemsById: navItemsById, // {0: navItem0, 1: navItem1}
+    containedViewsById: containedViews, // {0: containedView0, 1: containedView1}
+    containedViewSelected: containedViewSelected, //0
     displayMode: changeDisplayMode, //"list",
     toolbarsById: toolbarsById, // {0: toolbar0, 1: toolbar1}
     isBusy: isBusy,
     fetchVishResults: fetchVishResults
 }), {
     filter: (action, currentState, previousState) => {
-        switch(action.type){
+
+        switch (action.type) {
+
             case CHANGE_DISPLAY_MODE:
             case EXPAND_NAV_ITEM:
             case IMPORT_STATE:
@@ -1145,7 +1265,6 @@ const GlobalState = undoable(combineReducers({
             case SELECT_BOX:
             case SELECT_NAV_ITEM:
             case SET_BUSY:
-            case TOGGLE_PAGE_MODAL:
             case TOGGLE_TEXT_EDITOR:
             case TOGGLE_TITLE_MODE:
             case REORDER_BOXES:

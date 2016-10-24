@@ -1,18 +1,17 @@
-export function BasicImage(base) {
+export function EnrichedVideo(base) {
     return {
         getConfig: function () {
             return {
-                name: 'BasicImage',
-                displayName: Dali.i18n.t('BasicImage.PluginName'),
-                category: 'image',
-                needsConfigModal: false,
-                needsTextEdition: false,
+                name: 'EnrichedVideo',
+                displayName: Dali.i18n.t('EnrichedVideo.PluginName'),
+                category: 'multimedia',
                 aspectRatioButtonConfig: {
                     name: "Aspect Ratio",
                     location: ["main", "__sortable"],
                     defaultValue: "checked"
                 },
-                icon: 'image'
+                isRich: true,
+                icon: 'play_arrow'
             };
         },
         getToolbar: function () {
@@ -21,54 +20,59 @@ export function BasicImage(base) {
                     __name: "Main",
                     accordions: {
                         basic: {
-                            __name: Dali.i18n.t('BasicImage.source'),
+                            __name: Dali.i18n.t('EnrichedVideo.Video'),
                             icon: 'link',
                             buttons: {
                                 url: {
-                                    __name: 'URL',
-                                    type: 'vish_searcher',
-                                    value: 'http://nemanjakovacevic.net/wp-content/uploads/2013/07/placeholder.png'
+                                    __name: Dali.i18n.t('EnrichedVideo.URL'),
+                                    type: 'text',
+                                    value: base.getState().url
+                                },
+                                controls: {
+                                    __name: Dali.i18n.t('EnrichedVideo.Show_controls'),
+                                    type: 'checkbox',
+                                    value: base.getState().controls
+                                },
+                                autoplay: {
+                                    __name: Dali.i18n.t('EnrichedVideo.Autoplay'),
+                                    type: 'checkbox',
+                                    value: base.getState().autoplay
                                 }
                             }
                         },
                         style: {
-                            __name: Dali.i18n.t('BasicImage.box_style'),
+                            __name: Dali.i18n.t('EnrichedVideo.box_style'),
                             icon: 'palette',
                             buttons: {
                                 padding: {
-                                    __name: Dali.i18n.t('BasicImage.padding'),
+                                    __name: Dali.i18n.t('EnrichedVideo.padding'),
                                     type: 'number',
                                     value: 0,
                                     min: 0,
                                     units: 'px',
                                     max: 100
                                 },
-                                backgroundColor: {
-                                    __name: Dali.i18n.t('BasicImage.background_color'),
-                                    type: 'color',
-                                    value: '#ffffff'
-                                },
                                 borderWidth: {
-                                    __name: Dali.i18n.t('BasicImage.border_size'),
+                                    __name: Dali.i18n.t('EnrichedVideo.border_size'),
                                     type: 'number',
                                     value: 0,
                                     min: 0,
-                                    units: 'px',
-                                    max: 10
+                                    max: 10,
+                                    units: 'px'
                                 },
                                 borderStyle: {
-                                    __name: Dali.i18n.t('BasicImage.border_style'),
+                                    __name: Dali.i18n.t('EnrichedVideo.border_style'),
                                     type: 'select',
                                     value: 'solid',
-                                    options: ['none', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset', 'initial', 'inherit']
+                                    options: ['none', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset', 'initial', 'inherit'],
                                 },
                                 borderColor: {
-                                    __name: Dali.i18n.t('BasicImage.border_color'),
+                                    __name: Dali.i18n.t('EnrichedVideo.border_color'),
                                     type: 'color',
                                     value: '#000000'
                                 },
                                 borderRadius: {
-                                    __name:  Dali.i18n.t('BasicImage.radius'),
+                                    __name: Dali.i18n.t('EnrichedVideo.radius'),
                                     type: 'number',
                                     value: '0',
                                     min: '0',
@@ -76,32 +80,34 @@ export function BasicImage(base) {
                                     units: '%'
                                 },
                                 opacity: {
-                                    __name: Dali.i18n.t('BasicImage.opacity'),
+                                    __name: Dali.i18n.t('EnrichedVideo.opacity'),
                                     type: 'range',
                                     value: 1,
                                     min: 0,
                                     max: 1,
-                                    step: 0.01
+                                    step: 0.05
                                 }
+
                             }
                         }
                     }
                 }
             };
         },
+        // TEST URL http://video.webmfiles.org/big-buck-bunny_trailer.webm
+        // Posibilidad: http://modernizr.com/
         getInitialState: function () {
             return {
-                url: 'http://nemanjakovacevic.net/wp-content/uploads/2013/07/placeholder.png'
+                url: 'http://video.webmfiles.org/big-buck-bunny_trailer.webm',
+                controls: "checked",
+                autoplay: "unchecked"
             };
         },
         getRenderTemplate: function (state) {
-            return "<div style=\"width: 100%; margin: 0px; height: 100%\"><img onclick=\"$dali$.showPreview()\" style=\"width: 100%; height: 100%;\" src=\"" + state.url + "\"/></div>";
+            return "<video " + ((state.controls === "checked") ? " controls " : "") + ((state.autoplay === "checked") ? " autoplay " : "") + " style=\"width: 100%; height: 100%; pointer-events: 'none'; z-index:0;\" src=\"" + state.url + "\"></video>";
         },
         handleToolbar: function (name, value) {
             base.setState(name, value);
-        },
-        imageClick: function () {
-            /*alert("Miaua!");*/
         }
     };
 }

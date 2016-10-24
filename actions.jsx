@@ -32,7 +32,6 @@ export const UPDATE_NAV_ITEM_EXTRA_FILES = 'UPDATE_NAV_ITEM_EXTRA_FILES';
 export const CHANGE_SECTION_TITLE = 'CHANGE_SECTION_TITLE';
 export const CHANGE_UNIT_NUMBER = 'CHANGE_UNIT_NUMBER';
 
-export const TOGGLE_PAGE_MODAL = 'TOGGLE_PAGE_MODAL';
 export const TOGGLE_TEXT_EDITOR = 'TOGGLE_TEXT_EDITOR';
 export const TOGGLE_TITLE_MODE = 'TOGGLE_TITLE_MODE';
 export const CHANGE_DISPLAY_MODE = 'CHANGE_DISPLAY_MODE';
@@ -47,6 +46,13 @@ export const CHANGE_TITLE = 'CHANGE_TITLE';
 
 export const FETCH_VISH_RESOURCES_SUCCESS = "FETCH_VISH_RESOURCES_SUCCESS";
 
+// These are not real Redux actions but are use to specify plugin's render reason
+export const ADD_RICH_MARK = 'ADD_RICH_MARK';
+export const EDIT_RICH_MARK = 'EDIT_RICH_MARK';
+export const SELECT_CONTAINED_VIEW = 'SELECT_CONTAINED_VIEW';
+export const DELETE_RICH_MARK = 'DELETE_RICH_MARK';
+export const EDIT_PLUGIN_TEXT = 'EDIT_PLUGIN_TEXT';
+
 export function selectNavItem(id) {
     return {type: SELECT_NAV_ITEM, payload: {id}};
 }
@@ -59,8 +65,8 @@ export function expandNavItem(id, value) {
     return {type: EXPAND_NAV_ITEM, payload: {id, value}};
 }
 
-export function removeNavItem(ids, parent, boxes) {
-    return {type: REMOVE_NAV_ITEM, payload: {ids, parent, boxes}};
+export function removeNavItem(ids, parent, boxes, containedViews) {
+    return {type: REMOVE_NAV_ITEM, payload: {ids, parent, boxes, containedViews}};
 }
 
 export function reorderNavItem(itemId, newParent, type, newIndId, newChildrenInOrder) {
@@ -107,8 +113,8 @@ export function updateBox(id, content, toolbar, state) {
     return {type: UPDATE_BOX, payload: {id, content, toolbar, state}};
 }
 
-export function deleteBox(id, parent, container, children) {
-    return {type: DELETE_BOX, payload: {id, parent, container, children}};
+export function deleteBox(id, parent, container, children, childrenViews) {
+    return {type: DELETE_BOX, payload: {id, parent, container, children, childrenViews}};
 }
 
 export function reorderBox(ids, parent) {
@@ -146,8 +152,16 @@ export function reorderBoxes(parent, container, order) {
     return {type: REORDER_BOXES, payload: {parent, container, order}};
 }
 
-export function togglePageModal(caller, value) {
-    return {type: TOGGLE_PAGE_MODAL, payload: {caller, value}};
+export function addRichMark(parent, mark, state){
+    return {type: ADD_RICH_MARK, payload: {parent, mark, state}};
+}
+
+export function editRichMark(parent, state){
+    return {type: EDIT_RICH_MARK, payload: {parent, state}};
+}
+
+export function selectContainedView(id){
+    return {type: SELECT_CONTAINED_VIEW, payload: {id}};
 }
 
 export function toggleTextEditor(caller, value) {

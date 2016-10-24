@@ -70,12 +70,14 @@ export default function () {
             }
         },
         getConfig: function () {
-            var name, displayName, category, callback, needsConfigModal, needsTextEdition, extraTextConfig, needsXMLEdition, icon, aspectRatioButtonConfig;
+            var name, displayName, category, callback, needsConfigModal, needsTextEdition, extraTextConfig,
+                needsXMLEdition, icon, aspectRatioButtonConfig, isRich;
             if (descendant.getConfig) {
                 name = descendant.getConfig().name;
                 displayName = descendant.getConfig().displayName;
                 category = descendant.getConfig().category;
                 icon = descendant.getConfig().icon;
+                isRich = descendant.getConfig().isRich;
                 needsConfigModal = descendant.getConfig().needsConfigModal;
                 needsTextEdition = descendant.getConfig().needsTextEdition;
                 extraTextConfig = descendant.getConfig().extraTextConfig;
@@ -86,11 +88,11 @@ export default function () {
             name = defaultFor(name, 'PluginName', "Plugin name not assigned");
             displayName = defaultFor(displayName, 'Plugin', "Plugin displayName not assigned");
             category = defaultFor(category, 'text', "Plugin category not assigned");
+            icon = defaultFor(icon, 'fa-cogs', "Plugin icon not assigned");
+            isRich = defaultFor(isRich, false);
             needsConfigModal = defaultFor(needsConfigModal, false);
             needsTextEdition = defaultFor(needsTextEdition, false);
-            //extraTextConfig = defaultFor(extraTextConfig, {});
             needsXMLEdition = defaultFor(needsXMLEdition, false);
-            icon = defaultFor(icon, 'fa-cogs', "Plugin icon not assigned");
 
             if (aspectRatioButtonConfig) {
                 aspectRatioButtonConfig.name = defaultFor(aspectRatioButtonConfig.name, "Aspect Ratio");
@@ -101,7 +103,7 @@ export default function () {
                 aspectRatioButtonConfig.defaultValue = defaultFor(aspectRatioButtonConfig.defaultValue, "unchecked");
             }
 
-            callback = function (initParams) {
+            callback = function (initParams, reason) {
                 state = {};
                 if (descendant.getInitialState) {
                     state = descendant.getInitialState();
@@ -121,11 +123,16 @@ export default function () {
                         state.__xml = null;
                     }
                 }
+                if(isRich){
+                    if(!state.__marks){
+                        state.__marks = {};
+                    }
+                }
                 initialParams = initParams;
                 if (needsConfigModal) {
                     this.openConfigModal(false, state);
                 } else {
-                    this.render(false);
+                    this.render(false, reason);
                 }
             }.bind(this);
 
@@ -139,7 +146,8 @@ export default function () {
                 extraTextConfig: extraTextConfig,
                 needsXMLEdition: needsXMLEdition,
                 aspectRatioButtonConfig: aspectRatioButtonConfig,
-                icon: icon
+                icon: icon,
+                isRich: isRich
             };
         },
         getToolbar: function () {
@@ -205,12 +213,22 @@ export default function () {
                 }.bind(this));
             }
         },
-        forceUpdate: function (oldState, sender) {
+        forceUpdate: function (oldState, sender, reason) {
             state = oldState;
             id = sender;
-            this.render(true);
+            this.render(true, reason);
         },
-        render: function (isUpdating) {
+        render: function (isUpdating, reason) {
+            // Posible reasons:
+            // ADD_BOX,
+            // ADD_RICH_MARK,
+            // EDIT_RICH_MARK,
+            // DELETE_RICH_MARK,
+            // UPDATE_TOOLBAR,
+            // RESIZE_SORTABLE_CONTAINER,
+            // EDIT_PLUGIN_TEXT,
+            // UPDATE_NAV_ITEM_EXTRA_FILES
+
             if (!descendant.getRenderTemplate) {
                 console.error(this.getConfig().name + " has not defined getRenderTemplate method");
             } else {
@@ -232,7 +250,8 @@ export default function () {
                         row: initialParams.row,
                         col: initialParams.col,
                         isDefaultPlugin: defaultFor(initialParams.isDefaultPlugin, false)
-                    }
+                    },
+                    reason
                 );
             }
         },
@@ -242,13 +261,13 @@ export default function () {
                 descendant.afterRender(element, oldState);
             }
         },
-        update: function (oldState, name, value, sender) {
+        update: function (oldState, name, value, sender, reason) {
             state = oldState;
             id = sender;
             if (descendant.handleToolbar) {
                 descendant.handleToolbar(name, value);
             }
-            this.render(true);
+            this.render(true, reason);
         },
         setState: function (key, value) {
             state[key] = value;

@@ -2,12 +2,15 @@ var webpack = require('webpack');
 
 module.exports = {
     devtool: 'source-map',
-    entry: [
-        'webpack-dev-server/client?http://localhost:8080', // WebpackDevServer host and port
-        'webpack/hot/only-dev-server', // "only" prevents reload on syntax errors
-        'bootstrap-loader', //Loads Twitter Bootstrap
-        './index.jsx' // Appʼs entry point
-    ],
+    entry: {
+        app: [
+            'webpack-dev-server/client?http://localhost:8080', // WebpackDevServer host and port
+            'webpack/hot/only-dev-server', // "only" prevents reload on syntax errors
+            'bootstrap-loader', //Loads Twitter Bootstrap
+            './index.jsx' // Appʼs entry point
+            ],
+        visor: './core/visor_entrypoint.es6'
+    },
     module: {
         preLoaders: [
             {
@@ -60,7 +63,7 @@ module.exports = {
     output: {
         path: './dist',
         publicPath: '/', //This is used to generate URLs to e.g. images
-        filename: 'bundle.js'
+        filename: '[name]-bundle.js'
     },
     devServer: {
         contentBase: './dist',

@@ -20,7 +20,6 @@ export function Webpage(base) {
                                 url: {
                                     __name: '',
                                     type: 'text',
-                                    autoManaged: false,
                                     value: base.getState().url
                                 }
                             }
