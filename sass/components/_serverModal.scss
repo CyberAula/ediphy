@@ -1,0 +1,25 @@
+/*Server modal*/
+#serverModal {
+	top:40%;
+	color: #222;
+
+	.modal-content {
+		border-radius: 0;
+		border:0;
+		color:#ddd;
+		background-color: $greyNavItemSelected;
+	}
+	.modal-dialog {
+		width:350px;
+	}
+ 
+	.modal-footer {
+		border-top:0;
+	}
+	.modal-header {
+
+		padding: 10px;
+		border-bottom: 1px solid #333;
+	}
+
+}

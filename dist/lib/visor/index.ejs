@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en" style="height: 100%">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <title><%=title%></title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
+</head>
+<body style="margin: 0px; height: 100%">
+<div style="height:100%;" id="editor truevisor">
+<div style="height:100%;" id="root" style="height: 100%">
+<div class="outter" style="padding-top:0px;">
+<div id="maincontent" class="slide <%=navs[page].type == 'slide' ? 'sli':'doc'%>" style="visibility: visible;" >
+
+<script type="text/javascript">
+    function __getPlugin(element){
+        if(element.className.indexOf('wholebox') !== -1){
+            return element;
+        }
+        return __getPlugin(element.parentElement);
+    }
+</script>
+
+
+<%  var place = page;
+    var parent = navs[page].parent
+    while (parent !== 0) {
+        place = parent;
+        parent = navs[parent].parent;
+    }
+%>
+<div style="visibility: visible; overflow: auto; display: <%=(navs[page].titlesReduced == 'hidden')?'none':'inherit' %>;" class="caja">
+    <div class="cab" style="display: <%=(navs[page].titlesReduced == 'hidden')?'none':'inherit' %>;">
+        <div class="cabtabla_numero"><%=navs[page].unitNumber%></div>
+        <div class="tit_ud_cap">
+            <h1><%=title%></h1>
+            <h2><%=navs[place].name%></h2>
+        </div>
+        <div class="cabtabla_lapiz">
+        </div>
+        <div class="clear"></div>
+    </div>
+
+    <div class="contenido canvasvisor" style="height:auto; pointer-events: all !important;"></div>
+    <!--DALITITLE-->
+        <%
+        var alltitles = [];
+        if (page !== 0) {
+            var place = page;
+            var parent = navs[page].parent;
+            while (parent !== 0) {
+                alltitles.push(navs[navs[place].parent].children.indexOf(navs[place].id)+ 1 +"." +  navs[place].name);
+                place = parent;
+                parent = navs[parent].parent;
+            }
+            alltitles.push(navs[place].unitNumber +"." +  navs[place].name);
+            alltitles.reverse();
+        }
+        if(navs[page].titlesReduced =='reduced') {
+            var titles = alltitles;
+            var actualTitle = titles.pop();
+            unidad=titles[0];
+        %>
+        <div>
+            <h3>
+                <ol class="breadcrumb" style="margin:0; background-color:inherit;">
+                    <%titles.map(function(item, index){
+                    if(index != 0){%>
+                    <li><a href="#"><%=item%></a></li>
+                    <%}}) %>
+                </ol>
+            </h3>
+            <h4 style="margin: 0"><%=actualTitle%></h4>
+        </div>
+        <%}else if(navs[page].titlesReduced=='expanded') {
+            var titlesComponents = "";
+            alltitles.map(function(text, index){
+                if (index == 0) {
+                    unidad=text;
+                } else {
+                    let nivel = index+2;
+                    if (nivel > 6){
+                        nivel = 6;
+                    }
+                    titlesComponents += "<h" + (nivel) + " style=\"margin-top: 16px\">" + text + "</h" + (nivel) + ">";
+                }
+            }); %>
+        <%=titlesComponents%>
+        <%}%>
+
+        <div class="boxes" style="position:relative;">
+            <!--Camel Case -->
+            <%function camel(s) {
+                if(s=='onClick'){
+                    return 'onclick';
+                }
+                return s.split(/(?=[A-Z])/).join('-').toLowerCase();
+            }%>
+
+            <!-RENDER CHILDREN->
+            <%function renderChildren(id, markup, key){
+                 if(typeof markup === "string"){
+                    var decoded = markup;
+                    try{
+                        decoded = decodeURI(markup);
+                    }catch (ex){} %>
+                    <%= decoded %>
+                <%   return;
+                }
+                var component;
+                var props = {};
+                var children;
+                switch (markup.node) {
+                    case 'element':
+                        if(markup.attr){
+                            props = markup.attr;
+                        }
+                        props.key = key;
+                        if(markup.tag === 'plugin'){
+                            pluginplaceholder(props, markup.attr["plugin-data-id"], id)
+                        }else{
+                            component = markup.tag;
+                            var attributes = "";
+                            for (prop in props){
+                                var value = props[prop]
+                                if (prop == "style"){
+                                    value = "";
+                                    for (style in props[prop]){
+                                        value += camel(style) + ": " + props[prop][style] + "; ";
+                                    }
+                                }
+                                attributes += camel(prop) + "=\"" + value + "\" ";
+                            } %>
+                            <%="<" + component + " " %><%=attributes%><%=">"%>
+                            <% if(markup.child) {
+                                markup.child.forEach(function (child, index) {
+                                    renderChildren(id, child, index);
+                                });
+                            }%>
+                            </<%=component%>>
+                        <% }
+                        break;
+                    case 'text':%>
+                        <%= decodeURI(markup.text)%>
+                        <% break;
+                    case 'root': %>
+                        <div style="width:100%; height:100%;">
+                        <%if (markup.child) {
+                            markup.child.forEach(function(child, index){
+                                renderChildren(id, child, index);
+                            });
+                        } %>
+                        </div>
+                        <% break;
+                }
+            };%>
+
+        <!-VISORDALIBOX->
+        <%function daliBox(id) {
+            var borderSize = 2;
+            var cornerSize = 15;
+            var box = boxesById[id];
+            var toolbar =  toolbarsById[id];
+            var style = "width: 100%; height: 100%; position: relative; word-wrap: break-word;";
+            var attrs = " "
+            for (var tabKey in toolbar.controls) {
+                for (var accordionKey in toolbar.controls[tabKey].accordions) {
+                    for (var buttonKey in toolbar.controls[tabKey].accordions[accordionKey].buttons) {
+                        var button = toolbar.controls[tabKey].accordions[accordionKey].buttons[buttonKey];
+                        if (button.autoManaged) {
+                            buttonKey = buttonKey.split(/(?=[A-Z])/).join('-').toLowerCase();
+                            if (!button.isAttribute) {
+                                if (buttonKey !== 'width' && buttonKey !== 'height') {
+                                    style += buttonKey + ":" + button.value + "; ";
+                                }
+                            } else {
+                                attrs += 'data-' + buttonKey + "=" + button.value;
+                            }
+                        }
+                    }
+                    if (toolbar.controls[tabKey].accordions[accordionKey].accordions) {
+                        for (var accordionKey2 in toolbar.controls[tabKey].accordions[accordionKey].accordions) {
+                            for (buttonKey in toolbar.controls[tabKey].accordions[accordionKey].accordions[accordionKey2].buttons) {
+                                button = toolbar.controls[tabKey].accordions[accordionKey].accordions[accordionKey2].buttons[buttonKey];
+                                if (button.autoManaged) {
+                                    buttonKey = buttonKey.split(/(?=[A-Z])/).join('-').toLowerCase();
+                                    if (!button.isAttribute) {
+                                        if (buttonKey !== 'width' && buttonKey !== 'height') {
+                                            style += buttonKey + ":" + button.value + "; ";
+                                        }
+                                    } else {
+                                        attrs += 'data-' + buttonKey + "=" + button.value;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            %><div class="wholebox" id="<%= box.id %>"
+                 style="position: <%=box.container !== 0  && box.position && box.position.type ?  box.position.type : 'absolute'%>;
+                         left: <%=box.position.x%>;
+                         top: <%=box.position.y%>;
+                         pointer-events: all  !important;
+                         vertical-align: <%=box.verticalAlign ? box.verticalAlign : 'middle' %>;
+                         width: <%=box.width %><%=(box.width  && isNaN(box.width ))? "" : "px" %>;
+                         height: <%=box.height%><%=(box.height && isNaN(box.height))? "" : "px" %>;
+                         cursor:  default ; "  >
+                 <div class="insidewb" style="<%= style%>"  <%= attrs%> >
+                    <%renderChildren(id, Dali.Visor.Plugins.get(toolbar.config.name).export(toolbar.state, toolbar.config.name, box.children.length !== 0), 0)%>
+                </div>
+            </div><%}%>
+
+
+        <!-- VISORDALIBOXSORTABLE-->
+        <%function daliBoxSortable(id){
+            var box = boxesById[id]; %>
+            <div>
+                <div ref="sortableContainer"  style="position: relative;" >
+                <%box.children.map(function(idContainer, index){
+                    var container = box.sortableContainers[idContainer];
+                    var style = container.style;
+                     %>
+                    <div class="daliBoxSortableContainer"
+                         data-id="idContainer"
+                         style="display: table;
+                          width: 100%;
+                          height: <%=container.height == 'auto' ? container.height : container.height + 'px'%>;
+                          box-sizing: border-box;
+                          position: relative;
+                          border: <%=style.borderWidth + " " + style.borderStyle +" " + style.borderColor%>;
+                          padding: <%=style.padding%>;
+                          opacity: <%=style.opacity%>;
+                          text-align: <%=style.textAlign ? style.textAlign : 'center'%>;
+                          ">
+                        <%container.colDistribution.map(function(col, i){
+                            if(container.cols[i]) { %>
+                                <div style="width: <%=col%>%; height: 100%; display:table-cell; ">
+                                <%container.cols[i].map(function(row, j){ %>
+                                    <div style="width: 100%; height: <%=row%>%; position: relative;"  >
+                                    <%container.children.map(function(idBox, index){
+                                        if(boxesById[idBox].col === i && boxesById[idBox].row === j) {
+                                            daliBox(idBox);
+                                        }
+                                    })%>
+                                    </div>
+                                <%})%>
+                                </div>
+                        <%}})%>
+                    </div>
+                <%})%>
+                </div>
+            </div>
+        <%}%>
+
+        <!--PLUGIN PLACEHOLDER -->
+        <%function pluginplaceholder(props, pluginContainer, parentBox) {
+            var container = boxesById[parentBox].sortableContainers[pluginContainer];
+             %>
+
+
+            <%if(container){%>
+                <div style="display: table; width:100%; height:100%;position: relative;
+                          border: <%=container.style.borderWidth + " " + container.style.borderStyle +" " + container.style.borderColor%>;
+                          padding: <%=container.style.padding%>;
+                          opacity: <%=container.style.opacity%>;
+                          text-align: <%=container.style.textAlign ? container.style.textAlign : 'center'%>;
+                " class="<%= pluginContainer%>" >
+            <%
+                container.colDistribution.map(function(col, i){
+                    if(container.cols[i]){%>
+                        <div style="width: <%=col%>%; height: 100%; float: left;">
+                        <%container.cols[i].map(function(row, j){ %>
+                            <div style="width: 100%; height: <%=row %>%; position: relative;">
+                            <%container.children.map(function(idBox, index){
+                                if(boxesById[idBox].col === i && boxesById[idBox].row === j) {
+                                    daliBox(idBox )
+                                }
+                            })%>
+                            </div>
+                        <%})%>
+                        </div>
+                    </div>
+                <%}})
+            }else{%>
+                <div style=" width: 100%; height: 100%; position: relative;" class="<%= pluginContainer%>" >
+                    <div style="width: 100%; height: 100%;"></div>
+                </div>
+            <%}%>
+
+        <%}%>
+
+        <%navs[page].boxes.map(function(id){
+            var box = boxesById[id];
+            if(box.type === 'normal'){
+                daliBox(box.id);
+            }else if(box.type === 'sortable') {
+                daliBoxSortable(box.id)
+        }})%>
+    </div>
+
+</div>
+</div>
+</div>
+</div>
+</div>
+<script src="<%=relativePath%>../../visor-bundle.js"></script>
+<script>Dali.State = <%= JSON.stringify(state) %></script>
+</body>
+</html>

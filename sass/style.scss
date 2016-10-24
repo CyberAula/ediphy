@@ -1,0 +1,77 @@
+
+@import 'variables';
+@import 'general/mixins/mixins';
+@import 'general/tipography/tipo';
+@import 'components/canvas';
+@import 'components/carrouselList';
+@import 'components/navBar';
+@import 'components/serverModal';
+@import 'components/pluginRibbon';
+@import 'components/pluginToolbar';
+@import 'components/gridConfigurator';
+@import 'components/visor';
+@import 'components/colorPicker';
+@import 'components/daliTitle';
+@import 'components/daliIndexTitle';
+@import 'components/daliBox';
+@import 'components/pageModal';
+@import 'events/draganddrop';
+@import 'general/elements/btn';
+@import 'general/elements/scrollbar';
+@import 'general/elements/thumbnails';
+@import 'cke_rewrite';
+
+
+@include selection {
+    color: white;
+    background: $brand_green;
+}
+
+#app{
+	margin:0;
+}
+
+/*Transition for hiding toolbars and navbars*/
+#colLeft, #colRight, #ribbon, #insideribbon, #tools, #indice{
+	@include animacion(width, 0.3s);
+    min-height: 0;
+}
+
+/*Left column with index*/
+#colLeft{
+    position: relative;
+    float: left;
+    padding: 0;
+    height: 100%;
+    z-index:1;
+}
+/*Right column with ribbon and canvas */
+#colRight{
+    overflow:hidden;
+
+    /*Canvas row and ribbon row*/
+    #canvasRow, #ribbonRow{
+        @include animacion(height, 0.3s);
+        >div{
+            @include animacion(height, 0.3s);
+        }
+    }
+
+    #canvas, #maincontent, #canvasRow {
+        z-index:0 ;
+    }
+
+
+}
+
+
+
+.full{
+	width:100% !important;
+    @include animacion(height, 0.3s);
+}
+
+
+.hidden{
+    visibility: hidden;
+}

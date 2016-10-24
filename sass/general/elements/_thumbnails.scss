@@ -1,0 +1,11 @@
+.thumb{
+	font-size:16px;
+	color: $brand_green;
+	text-align:center;
+	vertical-align:middle;
+	height:100%;
+	margin:auto;
+	&:hover{
+		cursor:pointer;
+	};
+}

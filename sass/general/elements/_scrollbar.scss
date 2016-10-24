@@ -1,0 +1,28 @@
+::-webkit-scrollbar {
+    width: 12px;
+    height: 9px;
+}
+#ribbon *::-webkit-scrollbar-track {
+    background-color: #eaeaea;
+    border-left: 1px solid #ccc;
+    border-top: none;
+}
+#ribbon *::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+}
+#ribbon *::-webkit-scrollbar-thumb:hover {
+    background-color: #aaa;
+}
+
+::-webkit-scrollbar-track {
+    background-color: $darkest;
+    border-left: 1px solid #333;
+    border-top: 1px solid #333;
+
+}
+::-webkit-scrollbar-thumb {
+    background-color:  #444;
+}
+::-webkit-scrollbar-thumb:hover {
+    background-color:  #888;
+}

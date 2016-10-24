@@ -1,0 +1,9 @@
+node_modules
+.idea
+dist/*bundle.js
+*.log
+webpack.config.js~
+*.orig
+.sass-cache
+dali_server/config.json
+*.map
