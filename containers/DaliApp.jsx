@@ -83,7 +83,7 @@ class DaliApp extends Component {
                                   displayMode={displayMode}
                                   onBoxAdded={(ids, type,  draggable, resizable, content, toolbar, config, state) => this.dispatchAndSetState(addBox(ids, type, draggable, resizable, content, toolbar, config, state))}
                                   onTitleChange={(id, title) => this.dispatchAndSetState(changeSectionTitle(id,title))}
-                                  onSectionAdded={(id, name, parent, children, level, type, position, titlesReduced) => this.dispatchAndSetState(addNavItem(id, name, parent, children, level, type, position, titlesReduced))}
+                                  onNavItemAdded={(id, name, parent, children, level, type, position, titlesReduced) => this.dispatchAndSetState(addNavItem(id, name, parent, children, level, type, position, titlesReduced))}
                                   onNavItemSelected={id => this.dispatchAndSetState(selectNavItem(id))}
                                   onNavItemExpanded={(id, value) => this.dispatchAndSetState(expandNavItem(id, value))}
                                   onNavItemRemoved={() => {
