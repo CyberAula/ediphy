@@ -180,4 +180,8 @@ CKEDITOR.editorConfig = function (config) {
         'tabletools,' +
         'toolbar,' +
         'undo';
+<<<<<<< HEAD
 };
+=======
+};
+>>>>>>> 77b23db0deb66033b07ac39df5b27c30dd26b0eb

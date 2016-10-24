@@ -25,7 +25,7 @@ export function Youtube(base) {
                                 url: {
                                     __name: Dali.i18n.t('Youtube.URL'),
                                     type: 'text',
-                                    value: 'https://www.youtube.com/watch?v=S9M3c1_yl-E'
+                                    value: base.getState().url
                                 }
                             }
                         },
@@ -85,7 +85,7 @@ export function Youtube(base) {
         },
         getInitialState: function () {
             return {
-                url: 'https://www.youtube.com/embed/oR-6N1Dc_zc'
+                url: 'https://www.youtube.com/watch?v=3zUvnRg3zao'
             };
         },
         getRenderTemplate: function (state) {

@@ -15,16 +15,16 @@
 	&:hover{
 		color: white !important;
 	}
-} 
+}
 
-.nav-pills > li  > a { 
+.nav-pills > li  > a {
 	border-color:$verdeadams;
 	color: $verdeadams;
 	 &:hover , &:active, &:focus{
 	 	background-color: $grisclaro;
 	 }
 }
-.nav-pills > li.active  > a { 
+.nav-pills > li.active  > a {
 	color:white;
 	background-color: 	$verdeadams;
 	&:hover , &:active, &:focus {
@@ -32,11 +32,9 @@
 	 }
 }
 
-
 .trashbutton{
 	background-color:transparent;
 	right: 0;
 	position:absolute;
 	border: 0;
-
 }

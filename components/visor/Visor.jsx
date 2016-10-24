@@ -17,34 +17,6 @@ export default class Visor extends Component {
                 /* jshint ignore:end */
             );
         }
-
-        /*
-        let navItemSelected = this.props.state.navItemSelected || 0;
-        let navItemsById = this.props.state.navItemsById;
-        let navItem = navItemsById[navItemSelected];
-
-        let display = navItem.type === "slide" ? "innercanvas sli " : "innercanvas doc";
-        let firstParent = navItem.parent || 0;
-        //let parentName = navItemsById[firstParent].name || 'Section 0';
-        let patt = /([0-9]+((\.[0-9]+)+)?)/;  //Detecta número de sección. Ej. Section (2.3.4.2)
-        // sectionTitle = patt.exec(parentName) ? patt.exec(parentName)[0] : '0';
-        let today = new Date();
-        let strDate = 'd-m-Y'
-            .replace('d', today.getDate())
-            .replace('m', today.getMonth() + 1)
-            .replace('Y', today.getFullYear());
-        let boxes = navItemSelected !== -1 ? navItem.boxes : [];
-        let titles = [];
-        if (navItemSelected !== 0) {
-            titles.push(navItem.name);
-            let parent = navItem.parent;
-            while (parent !== 0) {
-                titles.push(navItem.name);
-                parent = navItemsById[parent].parent;
-            }
-            titles.reverse();
-        }*/
-
         return (
             /* jshint ignore:start */
             <Modal className="visor modalVisorContainer"
