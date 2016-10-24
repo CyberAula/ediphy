@@ -17,7 +17,7 @@ export default class DaliCarousel extends Component {
                                               navItemSelected={this.props.navItemSelected}
                                               onBoxAdded={this.props.onBoxAdded}
                                               onTitleChange={this.props.onTitleChange}
-                                              onSectionAdded={this.props.onSectionAdded}
+                                              onNavItemAdded={this.props.onNavItemAdded}
                                               onNavItemSelected={this.props.onNavItemSelected}
                                               onNavItemExpanded={this.props.onNavItemExpanded}
                                               onNavItemRemoved={this.props.onNavItemRemoved}

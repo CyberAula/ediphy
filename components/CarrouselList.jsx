@@ -26,7 +26,7 @@ export default class CarrouselList extends Component {
                                                 navItems={this.props.navItems}
                                                 navItemSelected={this.props.navItemSelected}
                                                 onTitleChange={this.props.onTitleChange}
-                                                onSectionAdded={this.props.onSectionAdded}
+                                                onNavItemAdded={this.props.onNavItemAdded}
                                                 onBoxAdded={this.props.onBoxAdded}
                                                 onNavItemSelected={this.props.onNavItemSelected}
                                                 onNavItemExpanded={this.props.onNavItemExpanded}
@@ -66,7 +66,7 @@ export default class CarrouselList extends Component {
                             disabled={this.props.navItems[this.props.navItemSelected].type !== "section" && this.props.navItemSelected !== 0}
                             onClick={e => {
                                 let idnuevo = ID_PREFIX_SECTION + Date.now();
-                                this.props.onSectionAdded(
+                                this.props.onNavItemAdded(
                                     idnuevo,
                                     i18n.t("section"),
                                     this.props.navItemSelected,
@@ -94,7 +94,7 @@ export default class CarrouselList extends Component {
                               navItemSelected={this.props.navItemSelected}
                               navItemsIds={this.props.navItemsIds}
                               onBoxAdded={this.props.onBoxAdded}
-                              onSectionAdded={this.props.onSectionAdded}/>
+                              onNavItemAdded={this.props.onNavItemAdded}/>
 
                     <OverlayTrigger trigger={["focus"]} placement="top" overlay={
                         <Popover id="popov" title={i18n.t("delete_page")}>

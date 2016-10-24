@@ -58,7 +58,7 @@ export default class Section extends Component {
                                                     navItems={this.props.navItems}
                                                     navItemSelected={this.props.navItemSelected}
                                                     onBoxAdded={this.props.onBoxAdded}
-                                                    onSectionAdded={this.props.onSectionAdded}
+                                                    onNavItemAdded={this.props.onNavItemAdded}
                                                     onTitleChange={this.props.onTitleChange}
                                                     onNavItemSelected={this.props.onNavItemSelected}
                                                     onNavItemExpanded={this.props.onNavItemExpanded}
@@ -79,7 +79,7 @@ export default class Section extends Component {
                                                     e.stopPropagation();
                                                  }}>
                                                 <span style={{marginLeft: 30*(this.props.navItems[id].level-1)}}>
-                                                    <i className="material-icons fileIcon">{this.props.navItems[id].type == 'slide' ? "slideshow" : "insert_drive_file"}</i>    
+                                                    <i className="material-icons fileIcon">{this.props.navItems[id].type == 'slide' ? "slideshow" : "insert_drive_file"}</i>
                                                 <DaliIndexTitle
                                                     id={id}
                                                     index={this.props.navItems[this.props.navItems[id].parent].children.indexOf(id)+1+'.'}
