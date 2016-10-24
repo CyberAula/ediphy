@@ -13,7 +13,7 @@ export default class DaliCanvas extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            showTitle: false 
+            showTitle: false
         };
     }
 
@@ -66,11 +66,11 @@ export default class DaliCanvas extends Component {
                                    onUnitNumberChanged={this.props.onUnitNumberChanged}
                                    showButton={true}/>
                         <br/>
-                    
+
 
 
                         <div style={{
-                        width: "100%",  
+                        width: "100%",
                         background: "black",
                         height: overlayHeight,
                         position: "absolute",

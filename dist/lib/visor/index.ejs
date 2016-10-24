@@ -22,16 +22,20 @@
 <div class="outter" style="padding-top:0px;">
 <div id="maincontent" class="slide <%=navs[page].type == 'slide' ? 'sli':'doc'%>" style="visibility: visible;" >
 <%= scripts %>
-<%
-    var padre = navs[navs[page].parent].name || 'Section 0';
-%>
 
+<%  var place = page;
+    var parent = navs[page].parent
+    while (parent !== 0) {
+        place = parent;
+        parent = navs[parent].parent;
+    }
+%>
 <div style="visibility: visible; overflow: auto; display: <%=(navs[page].titlesReduced == 'hidden')?'none':'inherit' %>;" class="caja">
     <div class="cab" style="display: <%=(navs[page].titlesReduced == 'hidden')?'none':'inherit' %>;">
         <div class="cabtabla_numero"><%=navs[page].unitNumber%></div>
         <div class="tit_ud_cap">
             <h1><%=title%></h1>
-            <h2><%=navs[page].name%></h2>
+            <h2><%=navs[place].name%></h2>
         </div>
         <div class="cabtabla_lapiz">
             <img src="<%=relativePath%>images/ico_alumno.gif" alt="Alumno"><div id="alumno"> Alumno</div>
@@ -44,12 +48,14 @@
         <%
         var alltitles = [];
         if (page !== 0) {
-            alltitles.push(navs[page].name);
+            var place = page;
             var parent = navs[page].parent;
             while (parent !== 0) {
-                alltitles.push(navs[navs[page].parent].name);
+                alltitles.push(navs[navs[place].parent].children.indexOf(navs[place].id)+ 1 +"." +  navs[place].name);
+                place = parent;
                 parent = navs[parent].parent;
             }
+            alltitles.push(navs[place].unitNumber +"." +  navs[place].name);
             alltitles.reverse();
         }
         if(navs[page].titlesReduced =='reduced') {
@@ -207,7 +213,7 @@
                     <%renderChildren(id, Dali.Visor.Plugins.get(toolbar.config.name).export(toolbar.state, toolbar.config.name, box.children.length !== 0), 0)%>
                 </div>
             </div><%}%>
-        
+
 
         <!-- VISORDALIBOXSORTABLE-->
         <%function daliBoxSortable(id){
@@ -222,14 +228,14 @@
                          data-id="idContainer"
                          style="display: table;
                           width: 100%;
-                          height: <%=container.height == 'auto' ? container.height : container.height + 'px'%>; 
+                          height: <%=container.height == 'auto' ? container.height : container.height + 'px'%>;
                           box-sizing: border-box;
                           position: relative;
                           border: <%=style.borderWidth + " " + style.borderStyle +" " + style.borderColor%>;
                           padding: <%=style.padding%>;
                           opacity: <%=style.opacity%>;
                           text-align: <%=style.textAlign ? style.textAlign : 'center'%>;
-                          "> 
+                          ">
                         <%container.colDistribution.map(function(col, i){
                             if(container.cols[i]) { %>
                                 <div style="width: <%=col%>%; height: 100%; display:table-cell; ">
@@ -254,10 +260,10 @@
         <%function pluginplaceholder(props, pluginContainer, parentBox) {
             var container = boxesById[parentBox].sortableContainers[pluginContainer];
              %>
-            
-            
+
+
             <%if(container){%>
-                <div style="display: table; width:100%; height:100%;position: relative; 
+                <div style="display: table; width:100%; height:100%;position: relative;
                           border: <%=container.style.borderWidth + " " + container.style.borderStyle +" " + container.style.borderColor%>;
                           padding: <%=container.style.padding%>;
                           opacity: <%=container.style.opacity%>;
@@ -284,7 +290,7 @@
                     <div style="width: 100%; height: 100%;"></div>
                 </div>
             <%}%>
-           
+
         <%}%>
 
         <%navs[page].boxes.map(function(id){

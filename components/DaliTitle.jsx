@@ -54,7 +54,7 @@ export default class DaliTitle extends Component {
 
         if (currentstatus === 'reduced') {
             let titles = this.props.titles;
-            
+
             let actualTitle = titles[titles.length - 1];
             unidad = titles[0];
             content = React.createElement("div", {},
@@ -149,7 +149,7 @@ export default class DaliTitle extends Component {
                     </div>
                     <div className="contenido"
                          style={{backgroundColor: 'transparent',  display: currentstatus=='hidden'? 'none':'block'}}>
-                        {content} 
+                        {content}
                     </div>
                 </div>
                 <br style={{clear:'both',  visibility: currentstatus=='hidden'? 'hidden':'inherit'}}/>
