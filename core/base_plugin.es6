@@ -71,13 +71,14 @@ export default function () {
         },
         getConfig: function () {
             var name, displayName, category, callback, needsConfigModal, needsTextEdition, extraTextConfig,
-                needsXMLEdition, icon, aspectRatioButtonConfig, isRich;
+                needsXMLEdition, icon, aspectRatioButtonConfig, isRich, flavor;
             if (descendant.getConfig) {
                 name = descendant.getConfig().name;
                 displayName = descendant.getConfig().displayName;
                 category = descendant.getConfig().category;
                 icon = descendant.getConfig().icon;
                 isRich = descendant.getConfig().isRich;
+                flavor = descendant.getConfig().flavor;
                 needsConfigModal = descendant.getConfig().needsConfigModal;
                 needsTextEdition = descendant.getConfig().needsTextEdition;
                 extraTextConfig = descendant.getConfig().extraTextConfig;
@@ -90,6 +91,7 @@ export default function () {
             category = defaultFor(category, 'text', "Plugin category not assigned");
             icon = defaultFor(icon, 'fa-cogs', "Plugin icon not assigned");
             isRich = defaultFor(isRich, false);
+            flavor = defaultFor(flavor, 'plain');
             needsConfigModal = defaultFor(needsConfigModal, false);
             needsTextEdition = defaultFor(needsTextEdition, false);
             needsXMLEdition = defaultFor(needsXMLEdition, false);
@@ -147,7 +149,8 @@ export default function () {
                 needsXMLEdition: needsXMLEdition,
                 aspectRatioButtonConfig: aspectRatioButtonConfig,
                 icon: icon,
-                isRich: isRich
+                isRich: isRich,
+                flavor: flavor
             };
         },
         getToolbar: function () {
@@ -232,10 +235,13 @@ export default function () {
             if (!descendant.getRenderTemplate) {
                 console.error(this.getConfig().name + " has not defined getRenderTemplate method");
             } else {
-                var jsonTemplate = html2json(descendant.getRenderTemplate(state));
-                assignPluginContainerIds(jsonTemplate);
+                var template = descendant.getRenderTemplate(state);
+                if(this.getConfig().flavor !== "react") {
+                    template = html2json(template);
+                    assignPluginContainerIds(template);
+                }
                 Dali.API.renderPlugin(
-                    jsonTemplate,
+                    template,
                     this.getToolbar(),
                     this.getConfig(),
                     state,
@@ -274,9 +280,6 @@ export default function () {
         },
         getState: function () {
             return state;
-        },
-        setCompleteState: function (newState) {
-            state = newState;
         },
         registerExtraFunction: function () {
         }

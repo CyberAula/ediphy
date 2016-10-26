@@ -280,8 +280,10 @@ class DaliApp extends Component {
             let newPluginState = {};
             let navItemSelected = this.props.navItems[this.props.navItemSelected];
             if (e.detail.isUpdating) {
-                this.parsePluginContainers(e.detail.content, newPluginState);
-                e.detail.state.__pluginContainerIds = newPluginState;
+                if(e.detail.config.flavor !== "react") {
+                    this.parsePluginContainers(e.detail.content, newPluginState);
+                    e.detail.state.__pluginContainerIds = newPluginState;
+                }
                 let reason = e.detail.reason;
                 if (reason.type === ADD_RICH_MARK) {
                     this.dispatchAndSetState(reason);
@@ -290,7 +292,9 @@ class DaliApp extends Component {
                 } else {
                     this.dispatchAndSetState(updateBox(e.detail.ids.id, e.detail.content, e.detail.toolbar, e.detail.state));
                 }
-                this.addDefaultContainerPlugins(e.detail, e.detail.content);
+                if(e.detail.config.flavor !== "react") {
+                    this.addDefaultContainerPlugins(e.detail, e.detail.content);
+                }
                 if (e.detail.state.__xml_path) {
                     if (!navItemSelected.extraFiles[e.detail.ids.id] || navItemSelected.extraFiles[e.detail.ids.id] !== e.detail.state.__xml_path) {
                         this.dispatchAndSetState(updateNavItemExtraFiles(this.props.navItemSelected, e.detail.ids.id, e.detail.state.__xml_path));
@@ -298,8 +302,10 @@ class DaliApp extends Component {
                 }
             } else {
                 e.detail.ids.id = ID_PREFIX_BOX + Date.now();
-                this.parsePluginContainers(e.detail.content, newPluginState);
-                e.detail.state.__pluginContainerIds = newPluginState;
+                if(e.detail.config.flavor !== "react") {
+                    this.parsePluginContainers(e.detail.content, newPluginState);
+                    e.detail.state.__pluginContainerIds = newPluginState;
+                }
                 this.dispatchAndSetState(addBox(
                     {
                         parent: e.detail.ids.parent,
@@ -314,7 +320,9 @@ class DaliApp extends Component {
                     e.detail.config,
                     e.detail.state,
                     e.detail.initialParams));
-                this.addDefaultContainerPlugins(e.detail, e.detail.content);
+                if(e.detail.config.flavor !== "react") {
+                    this.addDefaultContainerPlugins(e.detail, e.detail.content);
+                }
                 if (e.detail.state.__xml_path) {
                     if (!navItemSelected.extraFiles[e.detail.ids.id] || navItemSelected.extraFiles[e.detail.ids.id] !== e.detail.state.__xml_path) {
                         this.dispatchAndSetState(updateNavItemExtraFiles(this.props.navItemSelected, e.detail.ids.id, e.detail.state.__xml_path));

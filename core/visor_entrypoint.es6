@@ -3,6 +3,7 @@ import Visor from './visor/main';
 import Scorm from './scorm/main';
 import Config from './config';
 
+window.ReactDOM = require('react-dom');
 window.Dali = {
     API: api(),
     API_Private: api_private(),

@@ -5,6 +5,7 @@
     <title><%=title%></title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href='https://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
+    <script src="<%=relativePath%>../../visor-bundle.js"></script>
 </head>
 <body style="margin: 0px; height: 100%">
 <div style="height:100%;" id="editor truevisor">
@@ -19,6 +20,9 @@
         }
         return __getPlugin(element.parentElement);
     }
+</script>
+<script>
+    Dali.State = <%= JSON.stringify(state) %>
 </script>
 
 
@@ -207,7 +211,13 @@
                          height: <%=box.height%><%=(box.height && isNaN(box.height))? "" : "px" %>;
                          cursor:  default ; "  >
                  <div class="insidewb" style="<%= style%>"  <%= attrs%> >
-                    <%renderChildren(id, Dali.Visor.Plugins.get(toolbar.config.name).export(toolbar.state, toolbar.config.name, box.children.length !== 0), 0)%>
+                    <% if(toolbar.config.flavor === "react") {%>
+                        <script type="text/javascript">
+                            ReactDOM.render(Dali.Visor.Plugins['<%=toolbar.config.name%>'].getRenderTemplate(<%=JSON.stringify(toolbar.state)%>), document.getElementById("<%= box.id%>"))
+                        </script>
+                     <%} else {
+                         renderChildren(id, Dali.Visor.Plugins.get(toolbar.config.name).export(toolbar.state, toolbar.config.name, box.children.length !== 0), 0)
+                     }%>
                 </div>
             </div><%}%>
 
@@ -304,7 +314,5 @@
 </div>
 </div>
 </div>
-<script src="<%=relativePath%>../../visor-bundle.js"></script>
-<script>Dali.State = <%= JSON.stringify(state) %></script>
 </body>
 </html>
