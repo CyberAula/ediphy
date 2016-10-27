@@ -1120,29 +1120,6 @@ function toolbarsById(state = {}, action = {}) {
             });
         case UPDATE_BOX:
             let controls = action.payload.toolbar;
-            for (let tabKey in controls) {
-                let accordions = controls[tabKey].accordions;
-                for (let accordionKey in accordions) {
-                    let buttons = accordions[accordionKey].buttons;
-                    for (let buttonKey in buttons) {
-                        if (state[action.payload.id].controls[tabKey].accordions[accordionKey].buttons[buttonKey]) {
-                            buttons[buttonKey].value = state[action.payload.id].controls[tabKey].accordions[accordionKey].buttons[buttonKey].value;
-                        }
-                    }
-                    if (accordions[accordionKey].accordions) {
-                        accordions = accordions[accordionKey].accordions;
-                        for (let accordionKey2 in accordions) {
-
-                            buttons = accordions[accordionKey2].buttons;
-                            for (let buttonKey in buttons) {
-                                if (state[action.payload.id].controls[tabKey].accordions[accordionKey].accordions[accordionKey2].buttons[buttonKey]) {
-                                    buttons[buttonKey].value = state[action.payload.id].controls[tabKey].accordions[accordionKey].accordions[accordionKey2].buttons[buttonKey].value;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
 
             try {
                 createSortableButtons(

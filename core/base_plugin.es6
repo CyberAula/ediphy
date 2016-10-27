@@ -73,17 +73,18 @@ export default function () {
             var name, displayName, category, callback, needsConfigModal, needsTextEdition, extraTextConfig,
                 needsXMLEdition, icon, aspectRatioButtonConfig, isRich, flavor;
             if (descendant.getConfig) {
-                name = descendant.getConfig().name;
-                displayName = descendant.getConfig().displayName;
-                category = descendant.getConfig().category;
-                icon = descendant.getConfig().icon;
-                isRich = descendant.getConfig().isRich;
-                flavor = descendant.getConfig().flavor;
-                needsConfigModal = descendant.getConfig().needsConfigModal;
-                needsTextEdition = descendant.getConfig().needsTextEdition;
-                extraTextConfig = descendant.getConfig().extraTextConfig;
-                needsXMLEdition = descendant.getConfig().needsXMLEdition;
-                aspectRatioButtonConfig = descendant.getConfig().aspectRatioButtonConfig;
+                let cfg = descendant.getConfig();
+                name = cfg.name;
+                displayName = cfg.displayName;
+                category = cfg.category;
+                icon = cfg.icon;
+                isRich = cfg.isRich;
+                flavor = cfg.flavor;
+                needsConfigModal = cfg.needsConfigModal;
+                needsTextEdition = cfg.needsTextEdition;
+                extraTextConfig = cfg.extraTextConfig;
+                needsXMLEdition = cfg.needsXMLEdition;
+                aspectRatioButtonConfig = cfg.aspectRatioButtonConfig;
             }
 
             name = defaultFor(name, 'PluginName', "Plugin name not assigned");
@@ -132,9 +133,9 @@ export default function () {
                 }
                 initialParams = initParams;
                 if (needsConfigModal) {
-                    this.openConfigModal(false, state);
+                    this.openConfigModal(reason, state);
                 } else {
-                    this.render(false, reason);
+                    this.render(reason);
                 }
             }.bind(this);
 
@@ -202,7 +203,7 @@ export default function () {
             }
             return toolbar;
         },
-        openConfigModal: function (isUpdating, oldState, sender) {
+        openConfigModal: function (reason, oldState, sender) {
             state = oldState;
             id = sender;
 
@@ -211,7 +212,7 @@ export default function () {
                     console.error(this.getConfig().name + " has not defined getConfigTemplate method");
                 }
             } else {
-                Dali.API.openConfig(this.getConfig().name, isUpdating).then(function (div) {
+                Dali.API.openConfig(this.getConfig().name, reason).then(function (div) {
                     div.innerHTML = descendant.getConfigTemplate(oldState).replace(/[$]dali[$]/g, "Dali.Plugins.get('" + this.getConfig().name + "')");
                 }.bind(this));
             }
@@ -219,15 +220,16 @@ export default function () {
         forceUpdate: function (oldState, sender, reason) {
             state = oldState;
             id = sender;
-            this.render(true, reason);
+            this.render(reason);
         },
-        render: function (isUpdating, reason) {
+        render: function (reason) {
             // Posible reasons:
             // ADD_BOX,
             // ADD_RICH_MARK,
             // EDIT_RICH_MARK,
             // DELETE_RICH_MARK,
             // UPDATE_TOOLBAR,
+            // UPDATE_BOX,
             // RESIZE_SORTABLE_CONTAINER,
             // EDIT_PLUGIN_TEXT,
             // UPDATE_NAV_ITEM_EXTRA_FILES
@@ -245,7 +247,6 @@ export default function () {
                     this.getToolbar(),
                     this.getConfig(),
                     state,
-                    isUpdating,
                     {
                         id: id,
                         parent: initialParams.parent,
@@ -273,7 +274,7 @@ export default function () {
             if (descendant.handleToolbar) {
                 descendant.handleToolbar(name, value);
             }
-            this.render(true, reason);
+            this.render(reason);
         },
         setState: function (key, value) {
             state[key] = value;
