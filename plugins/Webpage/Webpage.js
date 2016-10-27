@@ -20,7 +20,8 @@ export function Webpage(base) {
                                 url: {
                                     __name: '',
                                     type: 'text',
-                                    value: base.getState().url
+                                    value: base.getState().url,
+                                    autoManaged: false
                                 }
                             }
                         },

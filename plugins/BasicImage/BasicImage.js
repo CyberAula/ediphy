@@ -27,7 +27,8 @@ export function BasicImage(base) {
                                 url: {
                                     __name: 'URL',
                                     type: 'vish_searcher',
-                                    value: 'http://nemanjakovacevic.net/wp-content/uploads/2013/07/placeholder.png'
+                                    value: 'http://nemanjakovacevic.net/wp-content/uploads/2013/07/placeholder.png',
+                                    autoManaged: false
                                 }
                             }
                         },

@@ -25,17 +25,20 @@ export function BasicVideo(base) {
                                 url: {
                                     __name: Dali.i18n.t('BasicVideo.URL'),
                                     type: 'text',
-                                    value: base.getState().url
+                                    value: base.getState().url,
+                                    autoManaged: false
                                 },
                                 controls: {
                                     __name: Dali.i18n.t('BasicVideo.Show_controls'),
                                     type: 'checkbox',
-                                    value: base.getState().controls
+                                    value: base.getState().controls,
+                                    autoManaged: false
                                 },
                                 autoplay: {
                                     __name: Dali.i18n.t('BasicVideo.Autoplay'),
                                     type: 'checkbox',
-                                    value: base.getState().autoplay
+                                    value: base.getState().autoplay,
+                                    autoManaged: false
                                 }
                             }
                         },
