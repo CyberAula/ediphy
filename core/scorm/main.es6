@@ -42,11 +42,12 @@ export default {
         item_org.setAttribute("identifier", "item1");
         item_org.setAttribute("identifierref", "resource1");
 
-        var title_item = doc.createElement("item");
-        title_item_txt = doc.createTextNode("Default Title");
-        title_item.appendChild(title_item_txt); //TODO: Include title identifier
+        //var title_item = doc.createElement("item");
+        //title_item_txt = doc.createTextNode("Default Title");
+        //title_item.setAttribute("identifier", "title");
+        //title_item.appendChild(title_item_txt); //TODO: Include title identifier
 
-        item_org.appendChild(title_item);
+        //item_org.appendChild(title_item);
 
         organization.appendChild(title_org);
         organization.appendChild(item_org);
