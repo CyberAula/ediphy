@@ -69,8 +69,8 @@ export default {
                         return;
                     }
 
-                    var nombre = navs[page].name.replace(/ /g, "_");
-                    var path = "unidad" + navs[page].unitNumber + "/";
+                    var nombre = navs[page].id.replace(/\-/g,"\_");
+                    var path = "unit" + navs[page].unitNumber + "/";
                     //sections.push(path + nombre);
                     if(Object.keys(navs[page].extraFiles).length !== 0){
                         for(var boxKey in navs[page].extraFiles){

@@ -38,14 +38,19 @@ export default {
         title_org.appendChild(title_item_txt);
         organization.appendChild(title_org);
 
-        //Create Organization Item Tree
+        // Create Organization Item Tree
         var root_elements = sections[0].children;
+        // Resource XLM elements array
         var resource_elements = [];
+        
+        //        ORGANIZATION_ITEMS
         for (let n = 0; n < root_elements.length; n ++ ){
             let root_section = root_elements[n];
             let children_elements = [];
             
             let root_element = doc.createElement("item");
+            root_element.setAttribute("identifier", this.santinize_id(sections[root_section].id) + "_item");
+            root_element.setAttribute("identifierref", this.santinize_id(sections[root_section].id) + "_resource");
             let root_element_title = doc.createElement("title");
             let root_element_text = doc.createTextNode(sections[root_section].unitNumber +". "+ sections[root_section].name);
             root_element_title.appendChild(root_element_text);
@@ -53,10 +58,17 @@ export default {
             
             let sections_copy = JSON.parse(JSON.stringify(sections));
             children_elements = sections_copy[root_section].children;
+            
+            //Added root element for resource iteration
+            resource_elements.push({
+                path: "unit"+ sections[root_section].unitNumber + "/" + this.santinize_id(sections[root_section].id)+".html",
+                id: this.santinize_id(sections[root_section].id) + "_resource"
+            });
+
             //Unit children Tree
             while (children_elements.length !== 0){
                 let actual_child = children_elements.shift();
-                let branch = this.createXMLOrganizationBranch(actual_child, actual_child, sections_copy, doc);
+                let branch = this.xmlOrganizationBranch(actual_child, actual_child, sections_copy, doc, resource_elements);
                 root_element.appendChild(branch);
         }
             //end children Tree
@@ -66,23 +78,25 @@ export default {
 
         organizations.appendChild(organization);
 
-        ///   RESOURCES
+        ///   RESOURCE ITEMS
         var resources = doc.createElement("resources");
-            for (var i = 0; i < sections.length; i++) {
-            //TODO: Iterate over html elements and add this pieze of code
+            for (var i = 0; i < resource_elements.length; i++) {
             var resource = doc.createElement("resource");
-            resource.setAttribute("identifier", "resource" + (i + 1));
+            resource.setAttribute("identifier", resource_elements[i].id);
             resource.setAttribute("type", "webcontent");
             resource.setAttribute("adlcp:scormtype", "sco");
-            resource.setAttribute("href", sections[i] + ".html");
+            resource.setAttribute("href", resource_elements[i].path);
 
             var file = doc.createElement("file");
-            file.setAttribute("href", sections[i] + ".html");
+            file.setAttribute("href", resource_elements[i].path);
             resource.appendChild(file);
 
             resources.appendChild(resource);
             // End of pieze of code to iterate
         }
+
+        // Common DATA
+        
 
         /// APPEND DATA
         manifest.appendChild(metadata);
@@ -97,11 +111,11 @@ export default {
     getIndex: function (navs) {
         return (new EJS({url: Dali.Config.scorm_ejs}).render({navs: navs}));
     },
-    createXMLOrganizationBranch: function(root_child, actual_child, sections, doc){
+    xmlOrganizationBranch: function(root_child, actual_child, sections, doc, resource_elements){
         let branch_elements = [];
         if(sections[actual_child].children.length !== 0){
             for (let n = 0; n < sections[actual_child].children.length; n++){
-                branch_elements.push(this.createXMLOrganizationBranch(root_child, sections[actual_child].children[0], sections, doc));
+                branch_elements.push(this.xmlOrganizationBranch(root_child, sections[actual_child].children[0], sections, doc,resource_elements));
             }
         }
         let actual_section;
@@ -110,13 +124,19 @@ export default {
         }else {
             actual_section = actual_child;
         }
+
         let element = doc.createElement("item");
         element.setAttribute("identifier", this.santinize_id(sections[actual_section].id) + "_item");
         element.setAttribute("identifierref", this.santinize_id(sections[actual_section].id) + "_resource");
         let element_title = doc.createElement("title");
         let element_text = doc.createTextNode(sections[actual_section].name);
         element_title.appendChild(element_text);
-
+        
+        resource_elements.push({
+                path: "unit"+ sections[actual_section].unitNumber + "/" + this.santinize_id(sections[actual_section].id)+".html",
+                id: this.santinize_id(sections[actual_section].id) + "_resource"
+            });
+        
         if(branch_elements.length !== 0){
             for(let n = 0; n < branch_elements.length; n++){
                 element.appendChild(branch_elements[n]);
