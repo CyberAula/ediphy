@@ -63,7 +63,7 @@ export default {
             }
             JSZip.loadAsync(data).then(function (zip) {
                 var navs = state.navItemsById;
-                var sections = [];
+                //var sections = [];
                 state.navItemsIds.map(function (page) {
                     if(navs[page].hidden){
                         return;
@@ -71,7 +71,7 @@ export default {
 
                     var nombre = navs[page].name.replace(/ /g, "_");
                     var path = "unidad" + navs[page].unitNumber + "/";
-                    sections.push(path + nombre);
+                    //sections.push(path + nombre);
                     if(Object.keys(navs[page].extraFiles).length !== 0){
                         for(var boxKey in navs[page].extraFiles){
                             $.ajax({
@@ -91,7 +91,7 @@ export default {
                     zip.file(path + nombre + ".html", inner);
                 });
                 zip.file("index.html", Dali.Scorm.getIndex(navs));
-                zip.file("imsmanifest.xml", Dali.Scorm.testXML(state.title, sections));
+                zip.file("imsmanifest.xml", Dali.Scorm.createimsManifest(state.title, navs));
 
                 return zip;
             }).then(function (zip) {

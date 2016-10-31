@@ -1,7 +1,7 @@
 import Dali from './../main';
 
 export default {
-    testXML: function (title, sections) {
+    createimsManifest: function (title, sections) {
         var doc = document.implementation.createDocument("", "", null);
 
         ///     ROOT MANIFEST
@@ -26,38 +26,49 @@ export default {
         metadata.appendChild(schemaVersion);
 
 
-        ///       ORGANIZATION
+        ///       ORGANIZATION (USED DEFAULT)
         var organizations = doc.createElement("organizations");
         organizations.setAttribute("default", "defaultOrganization");
-
         var organization = doc.createElement("organization");
         organization.setAttribute("identifier", "defaultOrganization");
 
-
+        //        ORGANIZATION _TITLE
         var title_org = doc.createElement("title");
         var title_item_txt = doc.createTextNode(title);
-        title_org.appendChild(title_item_txt);  //TODO: Include Title
-
-        var item_org = doc.createElement("item");
-        item_org.setAttribute("identifier", "item1");
-        item_org.setAttribute("identifierref", "resource1");
-
-        //var title_item = doc.createElement("item");
-        //title_item_txt = doc.createTextNode("Default Title");
-        //title_item.setAttribute("identifier", "title");
-        //title_item.appendChild(title_item_txt); //TODO: Include title identifier
-
-        //item_org.appendChild(title_item);
-
+        title_org.appendChild(title_item_txt);
         organization.appendChild(title_org);
-        organization.appendChild(item_org);
+
+        //Create Organization Item Tree
+        var root_elements = sections[0].children;
+        var resource_elements = [];
+        for (let n = 0; n < root_elements.length; n ++ ){
+            let root_section = root_elements[n];
+            let children_elements = [];
+            
+            let root_element = doc.createElement("item");
+            let root_element_title = doc.createElement("title");
+            let root_element_text = doc.createTextNode(sections[root_section].unitNumber +". "+ sections[root_section].name);
+            root_element_title.appendChild(root_element_text);
+            root_element.appendChild(root_element_title);
+            
+            let sections_copy = JSON.parse(JSON.stringify(sections));
+            children_elements = sections_copy[root_section].children;
+            //Unit children Tree
+            while (children_elements.length !== 0){
+                let actual_child = children_elements.shift();
+                let branch = this.createXMLOrganizationBranch(actual_child, actual_child, sections_copy, doc);
+                root_element.appendChild(branch);
+        }
+            //end children Tree
+            organization.appendChild(root_element);
+        }
+        //end of Organization Item Tree
 
         organizations.appendChild(organization);
 
-
         ///   RESOURCES
         var resources = doc.createElement("resources");
-        for (var i = 0; i < sections.length; i++) {
+            for (var i = 0; i < sections.length; i++) {
             //TODO: Iterate over html elements and add this pieze of code
             var resource = doc.createElement("resource");
             resource.setAttribute("identifier", "resource" + (i + 1));
@@ -80,10 +91,97 @@ export default {
 
         doc.appendChild(manifest);
 
-        return (new XMLSerializer().serializeToString(doc));
+        return (this.beautifyXML(new XMLSerializer().serializeToString(doc)));
     },
 
     getIndex: function (navs) {
         return (new EJS({url: Dali.Config.scorm_ejs}).render({navs: navs}));
+    },
+    createXMLOrganizationBranch: function(root_child, actual_child, sections, doc){
+        let branch_elements = [];
+        if(sections[actual_child].children.length !== 0){
+            for (let n = 0; n < sections[actual_child].children.length; n++){
+                branch_elements.push(this.createXMLOrganizationBranch(root_child, sections[actual_child].children[0], sections, doc));
+            }
+        }
+        let actual_section;
+        if (root_child !== actual_child){
+            actual_section = sections[sections[actual_child].parent].children.shift();
+        }else {
+            actual_section = actual_child;
+        }
+        let element = doc.createElement("item");
+        element.setAttribute("identifier", this.santinize_id(sections[actual_section].id) + "_item");
+        element.setAttribute("identifierref", this.santinize_id(sections[actual_section].id) + "_resource");
+        let element_title = doc.createElement("title");
+        let element_text = doc.createTextNode(sections[actual_section].name);
+        element_title.appendChild(element_text);
+
+        if(branch_elements.length !== 0){
+            for(let n = 0; n < branch_elements.length; n++){
+                element.appendChild(branch_elements[n]);
+            }
+        }
+        
+        element.appendChild(element_title);
+        
+        return element;
+    },
+    beautifyXML:  function (xml) {
+        var reg = /(>)\s*(<)(\/*)/g; // updated Mar 30, 2015
+        var wsexp = / *(.*) +\n/g;
+        var contexp = /(<.+>)(.+\n)/g;
+        xml = xml.replace(reg, '$1\n$2$3').replace(wsexp, '$1\n').replace(contexp, '$1\n$2');
+        var pad = 0;
+        var formatted = '';
+        var lines = xml.split('\n');
+        var indent = 0;
+        var lastType = 'other';
+        // 4 types of tags - single, closing, opening, other (text, doctype, comment) - 4*4 = 16 transitions 
+        var transitions = {
+            'single->single': 0,
+            'single->closing': -1,
+            'single->opening': 0,
+            'single->other': 0,
+            'closing->single': 0,
+            'closing->closing': -1,
+            'closing->opening': 0,
+            'closing->other': 0,
+            'opening->single': 1,
+            'opening->closing': 0,
+            'opening->opening': 1,
+            'opening->other': 1,
+            'other->single': 0,
+            'other->closing': -1,
+            'other->opening': 0,
+            'other->other': 0
+        };
+
+        for (var i = 0; i < lines.length; i++) {
+            var ln = lines[i];
+            var single = Boolean(ln.match(/<.+\/>/)); // is this line a single tag? ex. <br />
+            var closing = Boolean(ln.match(/<\/.+>/)); // is this a closing tag? ex. </a>
+            var opening = Boolean(ln.match(/<[^!].*>/)); // is this even a tag (that's not <!something>)
+            var type = single ? 'single' : closing ? 'closing' : opening ? 'opening' : 'other';
+            var fromTo = lastType + '->' + type;
+            lastType = type;
+            var padding = '';
+
+            indent += transitions[fromTo];
+            for (var j = 0; j < indent; j++) {
+                padding += '\t';
+            }
+            if (fromTo === 'opening->closing') {
+                formatted = formatted.substr(0, formatted.length - 1) + ln + '\n'; // substr removes line break (\n) from prev loop
+            }
+            else { 
+                formatted += padding + ln + '\n';
+            }
+    }
+
+        return formatted;
+    },
+    santinize_id: function(str){
+        return str.replace(/\-/g,"\_");
     }
 };
