@@ -4,6 +4,7 @@ import FileSaver from 'file-saver';
 
 import Dali from './../main';
 import Plugins from './plugins';
+import {ID_PREFIX_SECTION} from '../../constants';
 
 var parseEJS = function (path, page, state, fromScorm) {
     return (new EJS({url: path}).render({
@@ -66,6 +67,9 @@ export default {
                 //var sections = [];
                 state.navItemsIds.map(function (page) {
                     if(navs[page].hidden){
+                        return;
+                    }
+                    if ( !Dali.Config.sections_have_content && page.indexOf(ID_PREFIX_SECTION !== -1)){
                         return;
                     }
 

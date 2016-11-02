@@ -1,4 +1,5 @@
 import Dali from './../main';
+import {ID_PREFIX_SECTION} from '../../constants';
 
 export default {
     createimsManifest: function (title, sections) {
@@ -42,27 +43,30 @@ export default {
         var root_elements = sections[0].children;
         // Resource XLM elements array
         var resource_elements = [];
-        
+
         //        ORGANIZATION_ITEMS
         for (let n = 0; n < root_elements.length; n ++ ){
             let root_section = root_elements[n];
             let children_elements = [];
-            
+
             let root_element = doc.createElement("item");
             root_element.setAttribute("identifier", this.santinize_id(sections[root_section].id) + "_item");
-            root_element.setAttribute("identifierref", this.santinize_id(sections[root_section].id) + "_resource");
+            if (!Dali.Config.sections_have_content && sections[root_section].id.indexOf(ID_PREFIX_SECTION !== -1)){
+                 root_element.setAttribute("identifierref", this.santinize_id(sections[root_section].id) + "_resource");
+            }
+
             let root_element_title = doc.createElement("title");
             let root_element_text = doc.createTextNode(sections[root_section].unitNumber +". "+ sections[root_section].name);
             root_element_title.appendChild(root_element_text);
             root_element.appendChild(root_element_title);
-            
+
             let sections_copy = JSON.parse(JSON.stringify(sections));
             children_elements = sections_copy[root_section].children;
-            
+
             //Added root element for resource iteration
             resource_elements.push({
                 path: "unit"+ sections[root_section].unitNumber + "/" + this.santinize_id(sections[root_section].id)+".html",
-                id: this.santinize_id(sections[root_section].id) + "_resource"
+                id: sections[root_section].id
             });
 
             //Unit children Tree
@@ -81,8 +85,11 @@ export default {
         ///   RESOURCE ITEMS
         var resources = doc.createElement("resources");
             for (var i = 0; i < resource_elements.length; i++) {
+            if ( !Dali.Config.sections_have_content && resource_elements[i].id.indexOf(ID_PREFIX_SECTION !== -1)){
+                continue;
+            }
             var resource = doc.createElement("resource");
-            resource.setAttribute("identifier", resource_elements[i].id);
+            resource.setAttribute("identifier", this.santinize_id(resource_elements[i].id) + "_resource");
             resource.setAttribute("type", "webcontent");
             resource.setAttribute("adlcp:scormtype", "sco");
             resource.setAttribute("href", resource_elements[i].path);
@@ -96,7 +103,7 @@ export default {
         }
 
         // Common DATA
-        
+
 
         /// APPEND DATA
         manifest.appendChild(metadata);
@@ -131,20 +138,20 @@ export default {
         let element_title = doc.createElement("title");
         let element_text = doc.createTextNode(sections[actual_section].name);
         element_title.appendChild(element_text);
-        
+
         resource_elements.push({
                 path: "unit"+ sections[actual_section].unitNumber + "/" + this.santinize_id(sections[actual_section].id)+".html",
                 id: this.santinize_id(sections[actual_section].id) + "_resource"
             });
-        
+
         if(branch_elements.length !== 0){
             for(let n = 0; n < branch_elements.length; n++){
                 element.appendChild(branch_elements[n]);
             }
         }
-        
+
         element.appendChild(element_title);
-        
+
         return element;
     },
     beautifyXML:  function (xml) {
@@ -157,7 +164,7 @@ export default {
         var lines = xml.split('\n');
         var indent = 0;
         var lastType = 'other';
-        // 4 types of tags - single, closing, opening, other (text, doctype, comment) - 4*4 = 16 transitions 
+        // 4 types of tags - single, closing, opening, other (text, doctype, comment) - 4*4 = 16 transitions
         var transitions = {
             'single->single': 0,
             'single->closing': -1,
@@ -194,7 +201,7 @@ export default {
             if (fromTo === 'opening->closing') {
                 formatted = formatted.substr(0, formatted.length - 1) + ln + '\n'; // substr removes line break (\n) from prev loop
             }
-            else { 
+            else {
                 formatted += padding + ln + '\n';
             }
     }
