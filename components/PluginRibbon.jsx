@@ -69,15 +69,6 @@ export default class PluginRibbon extends Component {
                             onClick={() => alert('Aún no hace nada')}>
                         <i className="material-icons">content_paste</i>
                     </button>
-                    <button className="ribShortcut"
-                            title="Save"
-                            disabled={this.props.undoDisabled }
-                            onClick={() => {
-                                this.props.save();
-                                this.props.serverModalOpen();
-                            }}>
-                        <i className="material-icons">save</i>
-                    </button>
                 </div>
             </Col>
             /* jshint ignore:end */

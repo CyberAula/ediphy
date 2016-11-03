@@ -53,6 +53,7 @@ var es = {
 		"Preview" : "Previsualizar",
 		"Properties" : "Propiedades",
 		"row_number" : "Nº filas en col. ",
+		"Save": "Guardar",
 		"Searching" : "Buscando...",
         "section" : "Sección",
         "slide" : "Diapositiva",
