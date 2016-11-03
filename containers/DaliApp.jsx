@@ -11,7 +11,7 @@ import {addNavItem, selectNavItem, expandNavItem, removeNavItem, reorderNavItem,
     exportStateAsync, importStateAsync,
     fetchVishResourcesSuccess, fetchVishResourcesAsync,
     selectContainedView,
-    ADD_BOX, ADD_RICH_MARK, addRichMark, EDIT_RICH_MARK, editRichMark, DELETE_RICH_MARK} from '../actions';
+    ADD_BOX, ADD_RICH_MARK, addRichMark, EDIT_RICH_MARK, editRichMark, DELETE_RICH_MARK, UPDATE_BOX, UPDATE_TOOLBAR} from '../actions';
 import {ID_PREFIX_BOX, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_SORTABLE_CONTAINER, BOX_TYPES} from '../constants';
 import DaliCanvas from '../components/DaliCanvas';
 import ContainedCanvas from '../components/rich_plugins/ContainedCanvas';
@@ -95,7 +95,7 @@ class DaliApp extends Component {
                                             boxesRemoving.push(boxId);
                                             boxesRemoving = boxesRemoving.concat(this.getDescendantBoxes(boxes[boxId]));
                                             containedRemoving = containedRemoving.concat(this.getDescendantContainedViews(boxes[boxId]));
-                                        })
+                                        });
                                     });
                                     this.dispatchAndSetState(removeNavItem(viewRemoving, navItems[navItemSelected].parent, boxesRemoving, containedRemoving))
                                   }}
@@ -178,7 +178,7 @@ class DaliApp extends Component {
                                              onBoxDeleted={(id, parent, container)=> this.dispatchAndSetState(deleteBox(id, parent, container, this.getDescendantBoxes(boxes[id]), this.getDescendantContainedViews(boxes[id])))}
                                              onVerticallyAlignBox={(id, verticalAlign)=>this.dispatchAndSetState(verticallyAlignBox(id, verticalAlign))}
                                              onTextEditorToggled={(caller, value) => this.dispatchAndSetState(toggleTextEditor(caller, value))}
-                                             onBoxesInsideSortableReorder={(parent, container, order) => {this.dispatchAndSetState(reorderBoxes(parent, container, order))}} />
+                                             onBoxesInsideSortableReorder={(parent, container, order) => {this.dispatchAndSetState(reorderBoxes(parent, container, order))}}/>
                         </Row>
                     </Col>
                 </Row>
@@ -211,7 +211,7 @@ class DaliApp extends Component {
                                     Dali.Plugins.get(toolbar.config.name).forceUpdate(
                                         state,
                                         boxSelected,
-                                        this.state.currentRichMark ? editRichMark(boxSelected, state) : addRichMark(boxSelected, mark, state)
+                                        this.state.currentRichMark ? EDIT_RICH_MARK : addRichMark(boxSelected, mark, state)
                                     );
                                 }}
                                 onRichMarksModalToggled={() => {
@@ -279,54 +279,62 @@ class DaliApp extends Component {
             this.index = 0;
             let newPluginState = {};
             let navItemSelected = this.props.navItems[this.props.navItemSelected];
-            if (e.detail.isUpdating) {
-                if(e.detail.config.flavor !== "react") {
-                    this.parsePluginContainers(e.detail.content, newPluginState);
-                    e.detail.state.__pluginContainerIds = newPluginState;
-                }
-                let reason = e.detail.reason;
-                if (reason.type === ADD_RICH_MARK) {
-                    this.dispatchAndSetState(reason);
-                } else if (reason.type === EDIT_RICH_MARK) {
-                    this.dispatchAndSetState(reason);
-                } else {
-                    this.dispatchAndSetState(updateBox(e.detail.ids.id, e.detail.content, e.detail.toolbar, e.detail.state));
-                }
-                if(e.detail.config.flavor !== "react") {
-                    this.addDefaultContainerPlugins(e.detail, e.detail.content);
-                }
-                if (e.detail.state.__xml_path) {
-                    if (!navItemSelected.extraFiles[e.detail.ids.id] || navItemSelected.extraFiles[e.detail.ids.id] !== e.detail.state.__xml_path) {
-                        this.dispatchAndSetState(updateNavItemExtraFiles(this.props.navItemSelected, e.detail.ids.id, e.detail.state.__xml_path));
-                    }
-                }
-            } else {
-                e.detail.ids.id = ID_PREFIX_BOX + Date.now();
-                if(e.detail.config.flavor !== "react") {
-                    this.parsePluginContainers(e.detail.content, newPluginState);
-                    e.detail.state.__pluginContainerIds = newPluginState;
-                }
-                this.dispatchAndSetState(addBox(
-                    {
-                        parent: e.detail.ids.parent,
-                        id: e.detail.ids.id,
-                        container: e.detail.ids.container
-                    },
-                    BOX_TYPES.NORMAL,
-                    true,
-                    (!(e.detail.ids.container.length && e.detail.ids.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1)),
-                    e.detail.content,
-                    e.detail.toolbar,
-                    e.detail.config,
-                    e.detail.state,
-                    e.detail.initialParams));
-                if(e.detail.config.flavor !== "react") {
-                    this.addDefaultContainerPlugins(e.detail, e.detail.content);
-                }
-                if (e.detail.state.__xml_path) {
-                    if (!navItemSelected.extraFiles[e.detail.ids.id] || navItemSelected.extraFiles[e.detail.ids.id] !== e.detail.state.__xml_path) {
-                        this.dispatchAndSetState(updateNavItemExtraFiles(this.props.navItemSelected, e.detail.ids.id, e.detail.state.__xml_path));
-                    }
+
+            if (e.detail.config.flavor !== "react") {
+                this.parsePluginContainers(e.detail.content, newPluginState);
+                e.detail.state.__pluginContainerIds = newPluginState;
+            }
+
+            let reason = e.detail.reason;
+            if(reason.type){
+                reason = reason.type;
+            }
+            switch (reason) {
+                case ADD_RICH_MARK:
+                    this.dispatchAndSetState(e.detail.reason); //The action was created previously
+                    break;
+                case EDIT_RICH_MARK:
+                    this.dispatchAndSetState(editRichMark(e.detail.ids.id, e.detail.state));
+                    break;
+                case ADD_BOX:
+                    e.detail.ids.id = ID_PREFIX_BOX + Date.now();
+
+                    this.dispatchAndSetState(addBox(
+                        {
+                            parent: e.detail.ids.parent,
+                            id: e.detail.ids.id,
+                            container: e.detail.ids.container
+                        },
+                        BOX_TYPES.NORMAL,
+                        true,
+                        (!(e.detail.ids.container.length && e.detail.ids.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1)),
+                        e.detail.content,
+                        e.detail.toolbar,
+                        e.detail.config,
+                        e.detail.state,
+                        e.detail.initialParams
+                    ));
+                    break;
+                case DELETE_RICH_MARK:
+                case UPDATE_BOX:
+                case UPDATE_TOOLBAR:
+                    this.dispatchAndSetState(updateBox(
+                        e.detail.ids.id,
+                        e.detail.content,
+                        e.detail.toolbar,
+                        e.detail.state
+                    ));
+                    break;
+                default:
+                    console.error("I don't know how to manage this");
+            }
+
+            if (e.detail.config.flavor !== "react") {
+                this.addDefaultContainerPlugins(e.detail, e.detail.content);
+            }
+            if (e.detail.state.__xml_path) {
+                if (!navItemSelected.extraFiles[e.detail.ids.id] || navItemSelected.extraFiles[e.detail.ids.id] !== e.detail.state.__xml_path) {
+                    this.dispatchAndSetState(updateNavItemExtraFiles(this.props.navItemSelected, e.detail.ids.id, e.detail.state.__xml_path));
                 }
             }
         });
@@ -384,10 +392,10 @@ class DaliApp extends Component {
         }.bind(this);
     }
 
-    getDescendantViews(view){
+    getDescendantViews(view) {
         let selected = [];
 
-        for(let i = 0; i < view.children.length; i++){
+        for (let i = 0; i < view.children.length; i++) {
             let vw = view.children[i];
             selected.push(vw);
             selected = selected.concat(this.getDescendantViews(this.props.navItems[vw]));
@@ -406,9 +414,9 @@ class DaliApp extends Component {
                 selected = selected.concat(this.getDescendantBoxes(this.props.boxes[bx]));
             }
         }
-        for(let i = 0; i < box.containedViews.length; i++){
+        for (let i = 0; i < box.containedViews.length; i++) {
             let cv = box.containedViews[i];
-            for(let j = 0; j < this.props.containedViews[cv].boxes.length; j++){
+            for (let j = 0; j < this.props.containedViews[cv].boxes.length; j++) {
                 let bx = this.props.containedViews[cv].boxes[j];
                 selected.push(bx);
                 selected = selected.concat(this.getDescendantBoxes(this.props.boxes[bx]));
@@ -426,10 +434,10 @@ class DaliApp extends Component {
                 selected = selected.concat(this.getDescendantContainedViews(this.props.boxes[bx]));
             }
         }
-        for(let i = 0; i < box.containedViews.length; i++){
+        for (let i = 0; i < box.containedViews.length; i++) {
             let cv = box.containedViews[i];
             selected.push(cv);
-            for(let j = 0; j < this.props.containedViews[cv].boxes.length; j++){
+            for (let j = 0; j < this.props.containedViews[cv].boxes.length; j++) {
                 selected = selected.concat(this.getDescendantContainedViews(this.props.boxes[this.props.containedViews[cv].boxes[j]]));
             }
         }

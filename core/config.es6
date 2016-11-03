@@ -18,7 +18,8 @@ export default {
         'Youtube',
         'Webpage',
         'CajasColorBis',
-        'Container'
+        'Container',
+        'Chart'
     ],
     availableLanguages:[
         'en',

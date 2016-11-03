@@ -26,17 +26,20 @@ export function EnrichedVideo(base) {
                                 url: {
                                     __name: Dali.i18n.t('EnrichedVideo.URL'),
                                     type: 'text',
-                                    value: base.getState().url
+                                    value: base.getState().url,
+                                    autoManaged: false
                                 },
                                 controls: {
                                     __name: Dali.i18n.t('EnrichedVideo.Show_controls'),
                                     type: 'checkbox',
-                                    value: base.getState().controls
+                                    value: base.getState().controls,
+                                    autoManaged: false
                                 },
                                 autoplay: {
                                     __name: Dali.i18n.t('EnrichedVideo.Autoplay'),
                                     type: 'checkbox',
-                                    value: base.getState().autoplay
+                                    value: base.getState().autoplay,
+                                    autoManaged: false
                                 }
                             }
                         },
