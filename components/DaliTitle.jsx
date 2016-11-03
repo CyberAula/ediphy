@@ -15,7 +15,7 @@ export default class DaliTitle extends Component {
         size = size - 1;
 
 
-        if (size === undefined || level === undefined){
+        if (size === undefined || level === undefined || this.props.titles.length === 0){
         //This happens when you are in a root element
             return "";
 
@@ -46,6 +46,7 @@ export default class DaliTitle extends Component {
     }
 
     render() {
+
         let content;
         let unidad = "";
         let currentstatus = this.props.isReduced;
