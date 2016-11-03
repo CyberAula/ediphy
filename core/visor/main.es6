@@ -6,6 +6,8 @@ import Dali from './../main';
 import Plugins from './plugins';
 import {ID_PREFIX_SECTION} from './../../constants';
 
+var ID_PREFIX_SECTION = "se-";
+
 var parseEJS = function (path, page, state, fromScorm) {
     return (new EJS({url: path}).render({
         state: state,
@@ -50,7 +52,7 @@ export default {
     },
     exportPage: function (state) {
         return new EJS({url: Dali.Config.visor_ejs}).render({
-            title: state.title,
+            title: state.navItemSelected.name,
             state: state,
             page: state.navItemSelected,
             navs: state.navItemsById,
@@ -61,24 +63,26 @@ export default {
         });
     },
     exportScorm: function (state) {
+        var zip_title;
         JSZipUtils.getBinaryContent(Dali.Config.scorm_zip, function (err, data) {
             if (err) {
                 throw err; // or handle err
             }
             JSZip.loadAsync(data).then(function (zip) {
                 var navs = state.navItemsById;
-                var sections = [];
+                //var sections = [];
                 state.navItemsIds.map(function (page) {
                     if(navs[page].hidden){
                         return;
                     }
-                    if(page.indexOf(ID_PREFIX_SECTION) !== -1){
+
+                    if ( !Dali.Config.sections_have_content && (page.indexOf(ID_PREFIX_SECTION) !== -1)){
                         return;
                     }
 
-                    var nombre = navs[page].name.replace(/ /g, "_");
-                    var path = "unidad" + navs[page].unitNumber + "/";
-                    sections.push(path + nombre);
+                    var nombre = navs[page].id.replace(/\-/g,"\_");
+                    var path = "unit" + navs[page].unitNumber + "/";
+                    //sections.push(path + nombre);
                     if(Object.keys(navs[page].extraFiles).length !== 0){
                         for(var boxKey in navs[page].extraFiles){
                             $.ajax({
@@ -98,13 +102,14 @@ export default {
                     zip.file(path + nombre + ".html", inner);
                 });
                 zip.file("index.html", Dali.Scorm.getIndex(navs));
-                zip.file("imsmanifest.xml", Dali.Scorm.testXML(state.title, sections));
+                zip.file("imsmanifest.xml", Dali.Scorm.createimsManifest(state.title, navs));
+                zip_title = state.title;
 
                 return zip;
             }).then(function (zip) {
                 return zip.generateAsync({type: "blob"});
             }).then(function (blob) {
-                FileSaver.saveAs(blob, "dalivisor.zip");
+                FileSaver.saveAs(blob, zip_title.toLowerCase().replace(/\s/g,'') + Math.round(+new Date()/1000) +".zip");
             });
         });
     }
