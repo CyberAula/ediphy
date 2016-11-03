@@ -1130,10 +1130,10 @@ function toolbarsById(state = {}, action = {}) {
                         }
                     }
                     if (accordions[accordionKey].accordions) {
-                        accordions = accordions[accordionKey].accordions;
-                        for (let accordionKey2 in accordions) {
+                        var accordions2 = accordions[accordionKey].accordions;
+                        for (let accordionKey2 in accordions2) {
 
-                            buttons = accordions[accordionKey2].buttons;
+                            buttons = accordions2[accordionKey2].buttons;
                             for (let buttonKey in buttons) {
                                 if (state[action.payload.id].controls[tabKey].accordions[accordionKey].accordions[accordionKey2].buttons[buttonKey]) {
                                     buttons[buttonKey].value = state[action.payload.id].controls[tabKey].accordions[accordionKey].accordions[accordionKey2].buttons[buttonKey].value;
