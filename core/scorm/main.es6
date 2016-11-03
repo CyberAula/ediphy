@@ -1,5 +1,5 @@
 import Dali from './../main';
-import {ID_PREFIX_SECTION} from '../../constants';
+var ID_PREFIX_SECTION = "se-";
 
 export default {
     createimsManifest: function (title, sections) {
@@ -50,8 +50,9 @@ export default {
             let children_elements = [];
 
             let root_element = doc.createElement("item");
-            root_element.setAttribute("identifier", this.santinize_id(sections[root_section].id) + "_item");
-            if (!Dali.Config.sections_have_content && sections[root_section].id.indexOf(ID_PREFIX_SECTION !== -1)){
+
+            root_element.setAttribute("identifier", this.santinize_id(root_section) + "_item");
+            if (Dali.Config.sections_have_content || root_section.indexOf(ID_PREFIX_SECTION) === -1){
                  root_element.setAttribute("identifierref", this.santinize_id(sections[root_section].id) + "_resource");
             }
 
@@ -85,7 +86,7 @@ export default {
         ///   RESOURCE ITEMS
         var resources = doc.createElement("resources");
             for (var i = 0; i < resource_elements.length; i++) {
-            if ( !Dali.Config.sections_have_content && resource_elements[i].id.indexOf(ID_PREFIX_SECTION !== -1)){
+            if ( !Dali.Config.sections_have_content && (resource_elements[i].id.indexOf(ID_PREFIX_SECTION) !== -1)){
                 continue;
             }
             var resource = doc.createElement("resource");
@@ -121,27 +122,50 @@ export default {
     xmlOrganizationBranch: function(root_child, actual_child, sections, doc, resource_elements){
         let branch_elements = [];
         if(sections[actual_child].children.length !== 0){
-            for (let n = 0; n < sections[actual_child].children.length; n++){
-                branch_elements.push(this.xmlOrganizationBranch(root_child, sections[actual_child].children[0], sections, doc,resource_elements));
+            while(sections[actual_child].children.length > 0){
+                let iteration_child = sections[actual_child].children.shift();
+                if(iteration_child.indexOf(ID_PREFIX_SECTION) !== -1){
+                    branch_elements.push(this.xmlOrganizationBranch(root_child,iteration_child, sections, doc,resource_elements));
+                } else{
+
+                    let actual_section =  iteration_child;
+
+                    let element = doc.createElement("item");
+                    element.setAttribute("identifier", this.santinize_id(sections[actual_section].id) + "_item");
+                    element.setAttribute("identifierref", this.santinize_id(sections[actual_section].id) + "_resource");
+                    let element_title = doc.createElement("title");
+                    let element_text = doc.createTextNode(sections[actual_section].name);
+                    element_title.appendChild(element_text);
+                    element.appendChild(element_title);
+                    
+                    resource_elements.push({
+                            path: "unit"+ sections[actual_section].unitNumber + "/" + this.santinize_id(sections[actual_section].id)+".html",
+                            id: sections[actual_section].id
+                        });
+                    
+
+                    branch_elements.push(element);
+
+                }
             }
         }
-        let actual_section;
-        if (root_child !== actual_child){
-            actual_section = sections[sections[actual_child].parent].children.shift();
-        }else {
-            actual_section = actual_child;
-        }
 
+        let actual_section = actual_child;
+        
         let element = doc.createElement("item");
         element.setAttribute("identifier", this.santinize_id(sections[actual_section].id) + "_item");
-        element.setAttribute("identifierref", this.santinize_id(sections[actual_section].id) + "_resource");
+        if ( Dali.Config.sections_have_content || (sections[actual_section].id.indexOf(ID_PREFIX_SECTION) === -1)){
+            element.setAttribute("identifierref", this.santinize_id(sections[actual_section].id) + "_resource");
+        }
         let element_title = doc.createElement("title");
         let element_text = doc.createTextNode(sections[actual_section].name);
         element_title.appendChild(element_text);
 
+        element.appendChild(element_title);
+
         resource_elements.push({
                 path: "unit"+ sections[actual_section].unitNumber + "/" + this.santinize_id(sections[actual_section].id)+".html",
-                id: this.santinize_id(sections[actual_section].id) + "_resource"
+                id: sections[actual_section].id
             });
 
         if(branch_elements.length !== 0){
@@ -149,8 +173,6 @@ export default {
                 element.appendChild(branch_elements[n]);
             }
         }
-
-        element.appendChild(element_title);
 
         return element;
     },
