@@ -53,8 +53,7 @@
     </div>
 
     <div class="contenido canvasvisor" style="height:auto; pointer-events: all !important;"></div>
-    <!--DALITITLE-->
-        <%
+         <%
         var alltitles = [];
         if (page !== 0) {
             var place = page;
@@ -98,8 +97,8 @@
             }); %>
         <%=titlesComponents%>
         <%}%>
-
-        <div class="boxes" style="position:relative;">
+        <br/>
+        <div class="boxes" style="position:relative; float: left; display:block; width:100%;">
             <!--Camel Case -->
             <%function camel(s) {
                 if(s=='onClick'){
@@ -208,7 +207,7 @@
                     }
                 }
             }
-            %><div class="wholebox" id="<%= box.id %>"
+            %><div class="wholebox <%=box.height == 'auto' ? 'automaticallySizedBox':'' %>" id="<%= box.id %>"
                  style="position: <%=box.container !== 0  && box.position && box.position.type ?  box.position.type : 'absolute'%>;
                          left: <%=box.position.x%>;
                          top: <%=box.position.y%>;
@@ -226,7 +225,7 @@
         <!-- VISORDALIBOXSORTABLE-->
         <%function daliBoxSortable(id){
             var box = boxesById[id]; %>
-            <div>
+            <div style="position:absolute; width:100%;">
                 <div ref="sortableContainer"  style="position: relative;" >
                 <%box.children.map(function(idContainer, index){
                     var container = box.sortableContainers[idContainer];
@@ -234,7 +233,7 @@
                      %>
                     <div class="daliBoxSortableContainer"
                          data-id="idContainer"
-                         style="display: table;
+                         style="display: block;
                           width: 100%;
                           height: <%=container.height == 'auto' ? container.height : container.height + 'px'%>;
                           box-sizing: border-box;
@@ -244,20 +243,22 @@
                           opacity: <%=style.opacity%>;
                           text-align: <%=style.textAlign ? style.textAlign : 'center'%>;
                           ">
-                        <%container.colDistribution.map(function(col, i){
-                            if(container.cols[i]) { %>
-                                <div style="width: <%=col%>%; height: 100%; display:table-cell; ">
-                                <%container.cols[i].map(function(row, j){ %>
-                                    <div style="width: 100%; height: <%=row%>%; position: relative;"  >
-                                    <%container.children.map(function(idBox, index){
-                                        if(boxesById[idBox].col === i && boxesById[idBox].row === j) {
-                                            daliBox(idBox);
-                                        }
-                                    })%>
+                        <div style="display: table; width: 100%; height: 100%;">
+                            <%container.colDistribution.map(function(col, i){
+                                if(container.cols[i]) { %>
+                                    <div style="width: <%=col%>%; height: 100%; display:table-cell; ">
+                                    <%container.cols[i].map(function(row, j){ %>
+                                        <div style="width: 100%; height: <%=row%>%; position: relative;"  >
+                                        <%container.children.map(function(idBox, index){
+                                            if(boxesById[idBox].col === i && boxesById[idBox].row === j) {
+                                                daliBox(idBox);
+                                            }
+                                        })%>
+                                        </div>
+                                    <%})%>
                                     </div>
-                                <%})%>
-                                </div>
-                        <%}})%>
+                            <%}})%>
+                        </div>
                     </div>
                 <%})%>
                 </div>

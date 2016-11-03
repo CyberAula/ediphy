@@ -21,6 +21,7 @@ var es = {
         },
 		"Height" : "Altura",
 		"Height_auto" : "Alto Automático",
+		"Height_auto_message" : "Sólo funcionará si el contenedor tiene una altura fijada",
 		"Height_percentage" : "Alto (%)",
 		"Height_pixels" : "Alto (px)",
 		"Images" : "Imágenes",

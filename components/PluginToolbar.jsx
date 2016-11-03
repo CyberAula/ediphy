@@ -302,13 +302,15 @@ export default class PluginToolbar extends Component {
             max: button.max,
             step: button.step,
             disabled: false,
+            title: button.title ? button.title : '',
             className: button.class,
             style: {width: '100%'},
             onChange: e => {
                 let value = e.target ? e.target.value : e.target;
                 if (buttonKey === '___heightAuto') {
                     let units = (!(this.props.box.container.length && this.props.box.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1)) ? 'px' : '%';
-                    this.heightAuto = !this.heightAuto;
+                    this.heightAuto = this.props.box.height !== 'auto';
+                    
                     this.props.onToolbarUpdated(id, tabKey, accordionKeys, 'height', this.heightAuto ? 'auto' : (100 + units));
                     this.props.onBoxResized(id, this.props.box.width, this.heightAuto ? 'auto' : ('100' + units));
 
@@ -374,7 +376,7 @@ export default class PluginToolbar extends Component {
                 }
                 this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, value);
 
-                if (!button.autoManaged) {
+                if (!button.autoManaged ) {
                     button.callback(state, buttonKey, value, id, UPDATE_TOOLBAR);
                 }
             }

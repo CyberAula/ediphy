@@ -887,6 +887,7 @@ function createSortableButtons(controls, width) {
         type: 'checkbox',
         value: 'checked',
         checked: 'true',
+        title: i18n.t('Height_auto_message'),
         autoManaged: true
     };
     controls.main.accordions.__sortable.buttons.___position = {
@@ -1086,7 +1087,7 @@ function toolbarsById(state = {}, action = {}) {
         case RESIZE_BOX:
             newState = Object.assign({}, state);
             let height = action.payload.height;
-            //let width = action.payload.width;
+            let width = action.payload.width;
             let heightAuto = height === 'auto';
 
             if (newState[action.payload.id] && newState[action.payload.id].controls) {
@@ -1099,7 +1100,7 @@ function toolbarsById(state = {}, action = {}) {
                         }
                         if (buttons.height && buttons.width) {
                             newState[action.payload.id].controls.main.accordions.__sortable.buttons.height.value = height;
-                            newState[action.payload.id].controls.main.accordions.__sortable.buttons.width.value = height;
+                            newState[action.payload.id].controls.main.accordions.__sortable.buttons.width.value = width;
                         }
                     }
                 }

@@ -17,7 +17,7 @@ export default class PageMenu extends Component {
                       style={{
                         visibility: this.props.navItemSelected === 0 ? "hidden" : "visible"
                       }}>
-                <Dropdown.Toggle noCaret rootClose className="carrouselButton">
+                <Dropdown.Toggle noCaret   className="carrouselButton">
                     <i className="material-icons">note_add</i>
                 </Dropdown.Toggle>
                 <Dropdown.Menu className="pageMenu" id="bottomMenu" onSelect={() => null}>

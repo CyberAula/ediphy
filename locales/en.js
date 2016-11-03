@@ -21,6 +21,7 @@ var en = {
         "Exporting": "Exporting...",
 		"Height" : "Height",
 		"Height_auto" : "Height Auto",
+		"Height_auto_message" : "This will not work unless the container has a height other than auto",
 		"Height_percentage" : "Height (%)",
 		"Height_pixels" : "Height (px)",
 		"Images" : "Images",

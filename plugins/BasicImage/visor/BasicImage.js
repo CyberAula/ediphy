@@ -5,8 +5,8 @@ export function BasicImage(base) {
         },
         getRenderTemplate: function (state) {
             return "<div style=\"width: 100%; height: 100%\">" +
-                "<img style=\"width: 100%; " +
-                "height: 100%;\"" +
+                "<img  class=\"basicImageClass\" " + "style=\"width: 100%; " +
+                "height: 100%; left:0px; top:0px;\"" +
                 "src=\"" + state.url + "\" onclick='$dali$.imageClick()'/>" +
                 "</div>";
         },

@@ -504,7 +504,8 @@ class DaliApp extends Component {
             }
         }
         if (obj.tag && obj.tag === "plugin" && obj.attr['plugin-data-default']) {
-            if (this.props.boxes[eventDetails.ids.id].sortableContainers[obj.attr['plugin-data-id']].children.length === 0) {
+            let plug_children = this.props.boxes[eventDetails.ids.id].sortableContainers[obj.attr['plugin-data-id']];
+            if (plug_children && plug_children.children && plug_children.children.length === 0) {
                 obj.attr['plugin-data-default'].split(" ").map(name => {
                     if (!Dali.Plugins.get(name)) {
                         console.error("Plugin " + name + " does not exist");
