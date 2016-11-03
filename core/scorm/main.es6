@@ -1,5 +1,5 @@
 import Dali from './../main';
-var ID_PREFIX_SECTION = "se-";
+import {ID_PREFIX_SECTION} from './../../constants';
 
 export default {
     createimsManifest: function (title, sections) {
