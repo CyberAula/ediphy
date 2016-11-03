@@ -40,7 +40,10 @@ export default class DaliIndexTitle extends Component {
                         {this.setState({currentValue: e.target.value})}
                     }
                     onBlur={e => /*Change to non-edition mode*/
-                        {this.setState({editing: !this.state.editing})}
+                        {
+                            this.setState({editing: !this.state.editing});
+                            this.props.onTitleChange(this.props.id, this.state.currentValue);
+                        }
                     }/>)
             }
                 {this.props.id
