@@ -6,8 +6,6 @@ import Dali from './../main';
 import Plugins from './plugins';
 import {ID_PREFIX_SECTION} from './../../constants';
 
-var ID_PREFIX_SECTION = "se-";
-
 var parseEJS = function (path, page, state, fromScorm) {
     return (new EJS({url: path}).render({
         state: state,
