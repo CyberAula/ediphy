@@ -54,6 +54,7 @@ var en = {
 		"Preview" : "Preview",
 		"Properties" : "Properties",
 		"row_number" : "Number of rows in col ",
+		"Save": "Save",
         "Searching" : "Searching...",
 		"section" : "Section",
 		"slide" : "Slide",
