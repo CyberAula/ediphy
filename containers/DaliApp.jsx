@@ -334,9 +334,9 @@ class DaliApp extends Component {
 
             ids.map(id => {
                 let toolbar = this.props.toolbars[id];
-                if (e.detail.getAliasedPugins) {
+                if (e.detail.getAliasedPlugins) {
                     if (id.indexOf(ID_PREFIX_SORTABLE_BOX) === -1) {
-                        let button = toolbar.controls.other.accordions['~extra'].buttons.alias;
+                        let button = toolbar.controls.main.accordions['~extra'].buttons.alias;
                         if (button.value.length !== 0) {
                             if (!plugins[toolbar.config.name]) {
                                 plugins[toolbar.config.name] = [];
