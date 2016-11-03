@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import {Col, Row, Input, Button, OverlayTrigger, Popover, Dropdown, Tooltip, MenuItem} from 'react-bootstrap';
 import DaliIndexTitle from '../components/DaliIndexTitle';
+import {ID_PREFIX_SECTION} from '../constants';
 import i18n from 'i18next';
 
 
@@ -120,7 +121,7 @@ export default class DaliNavBar extends Component {
                 <button className="navButton"
                         style={{float:'right', marginRight: '30px'}}
                         title={i18n.t('Preview')}
-                        disabled={this.props.undoDisabled}
+                        disabled={this.props.undoDisabled || (this.props.navItemSelected && this.props.navItemSelected.indexOf(ID_PREFIX_SECTION) !== -1)}
                         onClick={() =>this.props.visor()}><i className="material-icons">visibility</i>
                     <br/>
                     <span className="hideonresize" style={{fontSize: '12px'}}>{i18n.t('Preview')}</span>
