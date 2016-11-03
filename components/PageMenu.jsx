@@ -13,10 +13,7 @@ export default class PageMenu extends Component {
             <Dropdown role="menuitem"
                       dropup
                       className="carouselDropup"
-                      id="carouselDropUp"
-                      style={{
-                        visibility: this.props.navItemSelected === 0 ? "hidden" : "visible"
-                      }}>
+                      id="carouselDropUp" >
                 <Dropdown.Toggle noCaret   className="carrouselButton">
                     <i className="material-icons">note_add</i>
                 </Dropdown.Toggle>
@@ -42,6 +39,9 @@ export default class PageMenu extends Component {
     }
 
     calculateParent() {
+        if(this.props.navItemSelected === 0){
+            return this.props.navItems[0];
+        }
         var navItem;
         if (this.props.navItems[this.props.navItemSelected].type === "section") {
             navItem = this.props.navItems[this.props.navItemSelected];

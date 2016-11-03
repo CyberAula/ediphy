@@ -12,7 +12,7 @@ import {addNavItem, selectNavItem, expandNavItem, removeNavItem, reorderNavItem,
     fetchVishResourcesSuccess, fetchVishResourcesAsync,
     selectContainedView,
     ADD_BOX, ADD_RICH_MARK, addRichMark, EDIT_RICH_MARK, editRichMark, DELETE_RICH_MARK} from '../actions';
-import {ID_PREFIX_BOX, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_SORTABLE_CONTAINER, BOX_TYPES} from '../constants';
+import {ID_PREFIX_BOX, ID_PREFIX_SECTION, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_SORTABLE_CONTAINER, BOX_TYPES} from '../constants';
 import DaliCanvas from '../components/DaliCanvas';
 import ContainedCanvas from '../components/rich_plugins/ContainedCanvas';
 import DaliCarousel from '../components/DaliCarousel';
@@ -69,6 +69,7 @@ class DaliApp extends Component {
                                 visor={() =>{this.setState({visorVisible: true })}}
                                 export={() => {Dali.Visor.exports(this.props.store.getState().present)}}
                                 scorm={() => {Dali.Visor.exportScorm(this.props.store.getState().present)}}
+                                save={() => {this.dispatchAndSetState(exportStateAsync({present: this.props.store.getState().present}))}}
                                 categoria={this.state.pluginTab}
                                 opens={() => {this.dispatchAndSetState(importStateAsync())}}
                                 serverModalOpen={()=>{this.setState({serverModal: true })}}
@@ -122,7 +123,7 @@ class DaliApp extends Component {
                     <Col id="colRight" xs={12}
                          style={{height: (this.state.carouselFull ? 0 : '100%'), width: (this.state.carouselShow? '83.333333%':'calc(100% - 80px)')}}>
                         <Row id="ribbonRow">
-                            <PluginRibbon disabled={navItemSelected === 0}
+                            <PluginRibbon disabled={navItemSelected === 0 || (navItemSelected && navItemSelected.indexOf(ID_PREFIX_SECTION) !== -1)}
                                           boxSelected={(boxSelected && boxSelected != -1) ? boxes[boxSelected] : -1}
                                           undoDisabled={undoDisabled}
                                           redoDisabled={redoDisabled}
@@ -130,10 +131,8 @@ class DaliApp extends Component {
                                           hideTab={this.state.hideTab}
                                           undo={() => {this.dispatchAndSetState(ActionCreators.undo())}}
                                           redo={() => {this.dispatchAndSetState(ActionCreators.redo())}}
-                                          save={() => {this.dispatchAndSetState(exportStateAsync({present: this.props.store.getState().present}))}}
                                           ribbonHeight={ribbonHeight+'px'}
-                                          onBoxDuplicated={(id, parent, container)=> this.dispatchAndSetState( duplicateBox( id, parent, container, this.getDescendantBoxes(boxes[id]), this.getDuplicatedBoxesIds(this.getDescendantBoxes(boxes[id]) ), Date.now()-1 ))}
-                                          serverModalOpen={()=>{this.setState({serverModal: true })}}/>
+                                          onBoxDuplicated={(id, parent, container)=> this.dispatchAndSetState( duplicateBox( id, parent, container, this.getDescendantBoxes(boxes[id]), this.getDuplicatedBoxesIds(this.getDescendantBoxes(boxes[id]) ), Date.now()-1 ))}/>
                         </Row>
                         <Row id="canvasRow" style={{height: 'calc(100% - '+ribbonHeight+'px)'}}>
                             <DaliCanvas boxes={boxes}
@@ -334,9 +333,9 @@ class DaliApp extends Component {
 
             ids.map(id => {
                 let toolbar = this.props.toolbars[id];
-                if (e.detail.getAliasedPugins) {
+                if (e.detail.getAliasedPlugins) {
                     if (id.indexOf(ID_PREFIX_SORTABLE_BOX) === -1) {
-                        let button = toolbar.controls.other.accordions['~extra'].buttons.alias;
+                        let button = toolbar.controls.main.accordions['~extra'].buttons.alias;
                         if (button.value.length !== 0) {
                             if (!plugins[toolbar.config.name]) {
                                 plugins[toolbar.config.name] = [];

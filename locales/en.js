@@ -11,6 +11,7 @@ var en = {
 		"col_number" : "Number of columns",
 		"course_title" : "Course Title",
 		"delete_page" : "Delete Page",
+		"delete_section" : "Delete Section",
         "error":{
             "exporting": "There was an error when exporting",
             "generic" : "There was an error",
@@ -37,6 +38,7 @@ var en = {
 			"align_top" : "The top of the element is aligned with the top of the tallest element on the line",
 			"columns_distribution": "Columns distribution",
 			"delete_page" : "This action will erase all the content in this page.",
+			"delete_section" : "This action will erase all the content in this section and it's children.",
 			"drag_content" : "Drag content here",
 			"edit_text" : "Edit text",
 			"erase_plugin" : "Erase plugin",
@@ -53,6 +55,7 @@ var en = {
 		"Preview" : "Preview",
 		"Properties" : "Properties",
 		"row_number" : "Number of rows in col ",
+		"Save": "Save",
         "Searching" : "Searching...",
 		"section" : "Section",
 		"slide" : "Slide",

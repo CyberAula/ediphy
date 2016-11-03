@@ -97,8 +97,8 @@ export default class CarrouselList extends Component {
                               onNavItemAdded={this.props.onNavItemAdded}/>
 
                     <OverlayTrigger trigger={["focus"]} placement="top" overlay={
-                        <Popover id="popov" title={i18n.t("delete_page")}>
-                            <i style={{color: 'yellow', fontSize: '13px'}} className="material-icons">warning</i> {i18n.t("messages.delete_page")}<br/>
+                        <Popover id="popov" title={this.props.navItemSelected && this.props.navItemSelected.indexOf(ID_PREFIX_SECTION) !== -1 ? i18n.t("delete_section") : i18n.t("delete_page")}>
+                            <i style={{color: 'yellow', fontSize: '13px'}} className="material-icons">warning</i> {this.props.navItemSelected && this.props.navItemSelected.indexOf(ID_PREFIX_SECTION) !== -1 ? i18n.t("messages.delete_section") : i18n.t("messages.delete_page")}<br/>
                                 <Button className="popoverButton"
                                     disabled={this.props.navItemSelected === 0}
                                     style={{float: 'right'}}
