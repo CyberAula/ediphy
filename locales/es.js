@@ -11,6 +11,7 @@ var es = {
 		"col_number" : "Nº columnas",
 		"course_title" : "Título Curso",
 		"delete_page" : "Eliminar página",
+		"delete_section" : "Eliminar sección",
 		"Exercises" : "Ejercicios",
         "Exporting": "Se está exportando...",
         "error":{
@@ -36,6 +37,7 @@ var es = {
 			"align_top" : "La parte superior del elemento se alinea con la parte superior del elemento más alto de la línea",
 			"columns_distribution": "Distribución de columnas",
 			"delete_page" : "Esta acción borrará todo el contenido de la página.",
+			"delete_section" : "Esta acción borrará todo el contenido de la sección y de sus descendientes.",
 			"drag_content" : "Arrastra aquí tu contenido",
 			"edit_text" : "Editar texto",
 			"erase_plugin" : "Borrar plugin",
