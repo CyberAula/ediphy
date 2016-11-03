@@ -4,6 +4,7 @@ import FileSaver from 'file-saver';
 
 import Dali from './../main';
 import Plugins from './plugins';
+import {ID_PREFIX_SECTION} from './../../constants';
 
 var ID_PREFIX_SECTION = "se-";
 
@@ -32,6 +33,9 @@ export default {
 
                 state.navItemsIds.map(function (page) {
                     if(navs[page].hidden){
+                        return;
+                    }
+                    if(page.indexOf(ID_PREFIX_SECTION) !== -1){
                         return;
                     }
                     var inner = parseEJS(Dali.Config.visor_ejs, page, state);
@@ -71,6 +75,7 @@ export default {
                     if(navs[page].hidden){
                         return;
                     }
+
                     if ( !Dali.Config.sections_have_content && (page.indexOf(ID_PREFIX_SECTION) !== -1)){
                         return;
                     }
