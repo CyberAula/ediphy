@@ -85,7 +85,7 @@ export function Webpage(base) {
             };
         },
         getRenderTemplate: function (state) {
-            return "<iframe style=\"width: 100%; height: 100%; z-index:0;\" src=\"" + state.url + "\"></iframe>";
+            return "<iframe  class=\"basicImageClass\"  style=\"width: 100%; height: 100%; z-index:0;\" src=\"" + state.url + "\"></iframe>";
         },
         handleToolbar: function (name, value) {
             base.setState(name, value);

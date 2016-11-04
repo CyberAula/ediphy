@@ -106,7 +106,7 @@ export function BasicVideo(base) {
             };
         },
         getRenderTemplate: function (state) {
-            return "<video " + ((state.controls === "checked") ? " controls " : "") + ((state.autoplay === "checked") ? " autoplay " : "") + " style=\"width: 100%; height: 100%; pointer-events: 'none'; z-index:0;\" src=\"" + state.url + "\"></video>";
+            return "<video " + ((state.controls === "checked") ? " controls " : "") + ((state.autoplay === "checked") ? " autoplay " : "") + " style=\"width: 100%; height: 100%; pointer-events: 'none'; z-index:0;\" src=\"" + state.url + "\"   class=\"basicImageClass\"  ></video>";
         },
         handleToolbar: function (name, value) {
             base.setState(name, value);

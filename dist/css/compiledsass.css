@@ -1487,6 +1487,7 @@ ul li a {
   vertical-align: top; }
 
 .basicImageClass{
+  top:0; left: 0;
   position: absolute;
 }
 
