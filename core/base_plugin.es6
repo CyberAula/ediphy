@@ -129,6 +129,9 @@ export default function () {
                     }
                 }
                 initialParams = initParams;
+                if(descendant.getConfig().initialWidth){
+                    initialParams.width = descendant.getConfig().initialWidth;
+                }
                 if (needsConfigModal) {
                     this.openConfigModal(false, state);
                 } else {
@@ -249,6 +252,7 @@ export default function () {
                         position: initialParams.position,
                         row: initialParams.row,
                         col: initialParams.col,
+                        width: initialParams.width,
                         isDefaultPlugin: defaultFor(initialParams.isDefaultPlugin, false)
                     },
                     reason

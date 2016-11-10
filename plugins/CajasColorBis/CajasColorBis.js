@@ -6,7 +6,8 @@ export function CajasColorBis(base) {
                 name: 'CajasColorBis',
                 displayName: Dali.i18n.t('CajasColorBis.PluginName'),
                 category: 'animations',
-                icon: 'view_column'
+                icon: 'view_column',
+                initialWidth: '371px'
             };
         },
         getToolbar: function () {

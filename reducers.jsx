@@ -62,6 +62,9 @@ function boxCreator(state = {}, action = {}) {
                 if (action.payload.initialParams.row) {
                     row = action.payload.initialParams.row;
                 }
+                if (action.payload.initialParams.width) {
+                    width = action.payload.initialParams.width;
+                }
             }
 
             let children = [];
