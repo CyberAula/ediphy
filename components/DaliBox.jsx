@@ -98,6 +98,12 @@ export default class DaliBox extends Component {
             <div className="boxStyle" style={style} {...attrs} ref={"content"}
                  dangerouslySetInnerHTML={{__html: decodeURI(toolbar.state.__text)}}></div>
             /* jshint ignore:end */
+        ) : toolbar.config.flavor === "react" ? (
+            /* jshint ignore:start */
+            <div className="boxStyle" style={style} {...attrs} ref={"content"}>
+                {box.content}
+            </div>
+            /* jshint ignore:end */
         ) : (
             /* jshint ignore:start */
             <div className="boxStyle" style={style} {...attrs} ref={"content"}>

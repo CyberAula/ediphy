@@ -5,14 +5,14 @@ export function api() {
         addMenuButtons: function (json) {
             Dali.API_Private.emit(Dali.API_Private.events.addMenuButtons, json);
         },
-        openConfig: function (name, isUpdating) {
-            var promise = new Promise(function (resolve, reject) {
+        openConfig: function (name, reason) {
+            var promise = new Promise(function (resolve) {
                 Dali.API_Private.listenAnswer(Dali.API_Private.events.openConfig, resolve);
             });
-            Dali.API_Private.emit(Dali.API_Private.events.openConfig, {name: name, isUpdating: isUpdating});
+            Dali.API_Private.emit(Dali.API_Private.events.openConfig, {name: name, reason: reason});
             return promise;
         },
-        renderPlugin: function (html, toolbar, config, state, isUpdating, ids, initialParams, reason) {
+        renderPlugin: function (html, toolbar, config, state, ids, initialParams, reason) {
             if(!reason){
                 console.warn("No reason given");
             }
@@ -21,7 +21,6 @@ export function api() {
                 toolbar: toolbar,
                 config: config,
                 state: state,
-                isUpdating: isUpdating,
                 ids: ids,
                 initialParams: initialParams,
                 reason: reason

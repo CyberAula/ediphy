@@ -8,7 +8,7 @@ import VishSearcher from './VishSearcher';
 import MarksList from './rich_plugins/MarksList.jsx';
 import ContentList from './rich_plugins/ContentList.jsx';
 import Dali from './../core/main';
-import {UPDATE_TOOLBAR} from '../actions';
+import {UPDATE_TOOLBAR, UPDATE_BOX} from '../actions';
 import {ID_PREFIX_SORTABLE_CONTAINER} from '../constants';
 import i18n from 'i18next';
 
@@ -79,7 +79,7 @@ export default class PluginToolbar extends Component {
                 <Button key={'config'}
                         className='toolbarButton'
                         onClick={() => {
-                            Dali.Plugins.get(toolbar.config.name).openConfigModal(true, toolbar.state, toolbar.id);
+                            Dali.Plugins.get(toolbar.config.name).openConfigModal(UPDATE_BOX, toolbar.state, toolbar.id);
                         }}>
                     Open config
                 </Button>
@@ -374,7 +374,7 @@ export default class PluginToolbar extends Component {
                 if (button.type === 'colorPicker') {
                     value = e.value;
                 }
-                this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, value);
+                //this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, value);
 
                 if (!button.autoManaged ) {
                     button.callback(state, buttonKey, value, id, UPDATE_TOOLBAR);

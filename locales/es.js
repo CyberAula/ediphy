@@ -4,6 +4,7 @@ var es = {
 		"Animations" : "Animaciones",
 		"Alignment" : "Alineación",
 		"Advanced" : "Avanzado",
+		"Aspect_ratio": "Relación de aspecto",
 		"Block" : "Bloque",
 		"Cancel" : "Cancelar",
 		"Container_" : "Contenedor",

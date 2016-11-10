@@ -6,7 +6,6 @@ export function Youtube(base) {
                 displayName: Dali.i18n.t('Youtube.PluginName'),
                 category: 'multimedia',
                 aspectRatioButtonConfig: {
-                    name: "Aspect Ratio",
                     location: ["main", "__sortable"],
                     defaultValue: "checked"
                 },
