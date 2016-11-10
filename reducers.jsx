@@ -956,20 +956,20 @@ function createAliasButton(controls, alias) {
             __name: "Alias",
             icon: 'rate_review',
             accordions: {
-                '~extra': {
+                __extra: {
                     __name: "Alias",
                     buttons: {}
                 }
             }
         };
-    } else if (!controls.main.accordions['~extra']) {
-        controls.main.accordions['~extra'] = {
+    } else if (!controls.main.accordions.__extra) {
+        controls.main.accordions.__extra = {
             __name: "Alias",
             icon: 'rate_review',
             buttons: {}
         };
     }
-    controls.main.accordions['~extra'].buttons.alias = {
+    controls.main.accordions.__extra.buttons.alias = {
         __name: 'Alias',
         type: 'text',
         value: alias || "",
@@ -1129,7 +1129,7 @@ function toolbarsById(state = {}, action = {}) {
                 );
                 createAliasButton(
                     controls,
-                    state[action.payload.id].controls.main.accordions['~extra'].buttons.alias.value
+                    state[action.payload.id].controls.main.accordions.__extra.buttons.alias.value
                 );
             } catch (e) {
             }

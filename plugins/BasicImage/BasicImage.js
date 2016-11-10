@@ -8,7 +8,6 @@ export function BasicImage(base) {
                 needsConfigModal: false,
                 needsTextEdition: false,
                 aspectRatioButtonConfig: {
-                    name: "Aspect Ratio",
                     location: ["main", "__sortable"],
                     defaultValue: "checked"
                 },
@@ -27,7 +26,7 @@ export function BasicImage(base) {
                                 url: {
                                     __name: 'URL',
                                     type: 'vish_searcher',
-                                    value: 'http://nemanjakovacevic.net/wp-content/uploads/2013/07/placeholder.png',
+                                    value: base.getState().url,
                                     autoManaged: false
                                 }
                             }

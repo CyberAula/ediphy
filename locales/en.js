@@ -4,6 +4,7 @@ var en = {
 		"Animations" : "Animations",
 		"Alignment" : "Alignment",
 		"Advanced" : "Advanced",
+        "Aspect_ratio": "Aspect ratio",
 		"Block" : "Block",
 		"Cancel" : "Cancel",
 		"Container_" : "Container",
