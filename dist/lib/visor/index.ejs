@@ -30,6 +30,9 @@
         return __getPlugin(element.parentElement);
     }
 </script>
+<script>
+    Dali.State = <%= JSON.stringify(state) %>
+</script>
 
 
 <%  var place = page;
@@ -217,7 +220,13 @@
                          height: <%=box.height%><%=(box.height && isNaN(box.height))? "" : "px" %>;
                          cursor:  default ; "  >
                  <div class="insidewb" style="<%= style%>"  <%= attrs%> >
-                    <%renderChildren(id, Dali.Visor.Plugins.get(toolbar.config.name).export(toolbar.state, toolbar.config.name, box.children.length !== 0), 0)%>
+                    <% if(toolbar.config.flavor === "react") {%>
+                        <script type="text/javascript">
+                            ReactDOM.render(Dali.Visor.Plugins['<%=toolbar.config.name%>'].getRenderTemplate(<%=JSON.stringify(toolbar.state)%>), document.getElementById("<%= box.id%>"))
+                        </script>
+                     <%} else {
+                         renderChildren(id, Dali.Visor.Plugins.get(toolbar.config.name).export(toolbar.state, toolbar.config.name, box.children.length !== 0), 0)
+                     }%>
                 </div>
             </div><%}%>
 
