@@ -1234,7 +1234,6 @@ const GlobalState = undoable(combineReducers({
     filter: (action, currentState, previousState) => {
 
         switch (action.type) {
-
             case CHANGE_DISPLAY_MODE:
             case EXPAND_NAV_ITEM:
             case IMPORT_STATE:
@@ -1248,6 +1247,10 @@ const GlobalState = undoable(combineReducers({
             case UPDATE_INTERMEDIATE_TOOLBAR:
             case UPDATE_NAV_ITEM_EXTRA_FILES:
                 return false;
+        }
+
+        if(action.type === ADD_BOX && action.payload.initialParams && action.payload.initialParams.isDefaultPlugin){
+            return false;
         }
 
         return currentState !== previousState; // only add to history if state changed
