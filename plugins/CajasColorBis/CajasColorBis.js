@@ -22,7 +22,7 @@ export function CajasColorBis(base) {
                                 nBoxes: {
                                     __name: Dali.i18n.t('CajasColorBis.number_of_boxes'),
                                     type: 'number',
-                                    value: this.getInitialState().nBoxes,
+                                    value: base.getState().nBoxes,
                                     max: 8,
                                     min: 1,
                                     autoManaged: false
@@ -30,7 +30,7 @@ export function CajasColorBis(base) {
                                 rounded: {
                                     __name: Dali.i18n.t('CajasColorBis.rounded_border'),
                                     type: 'checkbox',
-                                    value: this.getInitialState().rounded,
+                                    value: base.getState().rounded,
                                     units: '%',
                                     autoManaged: false
                                 },
@@ -89,7 +89,7 @@ export function CajasColorBis(base) {
             };
         },
         getRenderTemplate: function (state) {
-            var template = "<div class='cajascolor' plugin-data-initialWidth='500px' style='width: 100%; height: 100%'>";
+            var template = "<div class='cajascolor' style='width: 100%; height: 100%'>";
             var disp = 'block';
             var i;
 
