@@ -8,8 +8,42 @@ export function Container(base) {
                 icon: 'view_agenda'
             };
         },
+        getToolbar: function () {
+            return {
+                main: {
+                    __name: "Main",
+                    accordions: {
+                        _general: {
+                            __name: "General",
+                            icon: 'web',
+                            buttons: {
+                                boxes: {
+                                    __name: "Número de cajas",
+                                    type: 'number',
+                                    value: base.getState().boxes,
+                                    min: 1,
+                                    autoManaged: false
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+        },
+        getInitialState: function(){
+            return {boxes: 2};
+        },
         getRenderTemplate: function (state) {
-            return "<div><plugin plugin-data-key='Container'  /></div>";
+            let template = "<div>";
+            for (let i = 0; i < state.boxes; i++) {
+                template += "<div><plugin plugin-data-key='" + i + "' plugin-data-default='BasicImage' /></div>";
+            }
+            template += "</div>";
+
+            return template;
+        },
+        handleToolbar: function(name, value){
+            base.setState(name, value);
         }
     };
 }

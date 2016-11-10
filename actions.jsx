@@ -46,10 +46,12 @@ export const CHANGE_TITLE = 'CHANGE_TITLE';
 
 export const FETCH_VISH_RESOURCES_SUCCESS = "FETCH_VISH_RESOURCES_SUCCESS";
 
-// These are not real Redux actions but are use to specify plugin's render reason
+
 export const ADD_RICH_MARK = 'ADD_RICH_MARK';
 export const EDIT_RICH_MARK = 'EDIT_RICH_MARK';
 export const SELECT_CONTAINED_VIEW = 'SELECT_CONTAINED_VIEW';
+
+// These are not real Redux actions but are use to specify plugin's render reason
 export const DELETE_RICH_MARK = 'DELETE_RICH_MARK';
 export const EDIT_PLUGIN_TEXT = 'EDIT_PLUGIN_TEXT';
 

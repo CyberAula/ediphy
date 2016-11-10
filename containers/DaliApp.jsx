@@ -270,7 +270,8 @@ class DaliApp extends Component {
     }
 
     dispatchAndSetState(actionCreator) {
-        this.setState({lastAction: this.props.dispatch(actionCreator)});
+        let lastAction = this.props.dispatch(actionCreator);
+        this.setState({lastAction: lastAction});
     }
 
     componentDidMount() {
@@ -520,7 +521,9 @@ class DaliApp extends Component {
             }
         }
         if (obj.tag && obj.tag === "plugin" && obj.attr['plugin-data-default']) {
-            if (this.props.boxes[eventDetails.ids.id].sortableContainers[obj.attr['plugin-data-id']].children.length === 0) {
+            let boxes = this.props.store.getState().present.boxesById;
+            let plug_children = boxes[eventDetails.ids.id].sortableContainers[obj.attr['plugin-data-id']];
+            if (plug_children && plug_children.children && plug_children.children.length === 0) {
                 obj.attr['plugin-data-default'].split(" ").map(name => {
                     if (!Dali.Plugins.get(name)) {
                         console.error("Plugin " + name + " does not exist");
