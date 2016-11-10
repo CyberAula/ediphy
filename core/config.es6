@@ -17,7 +17,9 @@ export default {
         'EnrichedVideo',
         'Youtube',
         'Webpage',
-        'Container'
+        'CajasColorBis',
+        'Container',
+        'Chart'
     ],
     availableLanguages:[
         'en',

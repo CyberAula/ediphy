@@ -1,4 +1,5 @@
 import Dali from './main';
+import ReactDOM from 'react-dom';
 
 export default function () {
     var descendant, state, id, initialParams;
@@ -43,15 +44,15 @@ export default function () {
 
             Object.keys(descendant).map(function (id) {
                 if (id !== 'init' &&
-                    id !== 'getConfig' &&
-                    id !== 'getToolbar' &&
-                    id !== 'getSections' &&
-                    id !== 'getInitialState' &&
-                    id !== 'handleToolbar' &&
-                    id !== 'afterRender' &&
-                    id !== 'getConfigTemplate' &&
-                    id !== 'getRenderTemplate' &&
-                    id !== 'getLocales') {
+                id !== 'getConfig' &&
+                id !== 'getToolbar' &&
+                id !== 'getSections' &&
+                id !== 'getInitialState' &&
+                id !== 'handleToolbar' &&
+                id !== 'afterRender' &&
+                id !== 'getConfigTemplate' &&
+                id !== 'getRenderTemplate' &&
+                id !== 'getLocales') {
                     plugin[id] = descendant[id];
                 }
             });
@@ -71,7 +72,7 @@ export default function () {
         },
         getConfig: function () {
             var name, displayName, category, callback, needsConfigModal, needsTextEdition, extraTextConfig,
-                needsXMLEdition, icon, aspectRatioButtonConfig, isRich, flavor;
+            needsXMLEdition, icon, aspectRatioButtonConfig, isRich, flavor;
             if (descendant.getConfig) {
                 let cfg = descendant.getConfig();
                 name = cfg.name;
@@ -212,8 +213,12 @@ export default function () {
                     console.error(this.getConfig().name + " has not defined getConfigTemplate method");
                 }
             } else {
-                Dali.API.openConfig(this.getConfig().name, reason).then(function (div) {
-                    div.innerHTML = descendant.getConfigTemplate(oldState).replace(/[$]dali[$]/g, "Dali.Plugins.get('" + this.getConfig().name + "')");
+                Dali.API.openConfig(this.getConfig().name).then(function (div) {
+                    if(this.getConfig().flavor !== 'react'){
+                        div.innerHTML = descendant.getConfigTemplate(oldState).replace(/[$]dali[$]/g, "Dali.Plugins.get('" + this.getConfig().name + "')");
+                    } else {
+                        ReactDOM.render(descendant.getConfigTemplate(oldState), div);
+                    }
                 }.bind(this));
             }
         },
