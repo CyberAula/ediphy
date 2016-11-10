@@ -17,7 +17,6 @@ export default {
         'EnrichedVideo',
         'Youtube',
         'Webpage',
-        'CajasColorBis',
         'Container',
         'Chart'
     ],
