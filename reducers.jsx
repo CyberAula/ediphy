@@ -1253,8 +1253,12 @@ const GlobalState = undoable(combineReducers({
                 return false;
         }
 
-        if(action.type === ADD_BOX && action.payload.initialParams && action.payload.initialParams.isDefaultPlugin){
-            return false;
+        if(action.type === ADD_BOX){
+            if(action.payload.initialParams && action.payload.initialParams.isDefaultPlugin) {
+                return false;
+            }else if (action.payload.ids.id.indexOf(ID_PREFIX_SORTABLE_BOX) !== -1){
+                return false;
+            }
         }
 
         return currentState !== previousState; // only add to history if state changed
