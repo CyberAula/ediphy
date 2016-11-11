@@ -12,7 +12,7 @@ ZipBundlePlugin.prototype.apply = function(compiler){
         if (err) throw err;
         var jszip = new JSZip();
         jszip.loadAsync(data).then(function (zip) {
-            fs.readFile("dist/visor-bundle.js", function(err, data) {
+            fs.readFile("dist/js/visor-bundle.js", function(err, data) {
               zip.remove("js/visor-bundle.js");
             zip.file("js/visor-bundle.js", data);
             zip.generateNodeStream({type:'nodebuffer',streamFiles:true})
@@ -34,7 +34,7 @@ ZipBundlePlugin.prototype.apply = function(compiler){
       if (err) throw err;
       var jszip = new JSZip();
       jszip.loadAsync(data).then(function (zip) {
-          fs.readFile("dist/visor-bundle.js", function(err, data) {
+          fs.readFile("dist/js/visor-bundle.js", function(err, data) {
             zip.remove("js/visor-bundle.js");
           zip.file("js/visor-bundle.js", data);
           zip.generateNodeStream({type:'nodebuffer',streamFiles:true})
