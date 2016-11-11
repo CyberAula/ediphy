@@ -1,4 +1,5 @@
 var webpack = require('webpack');
+var ZipBundlePlugin = require('./webpack_plugins/bundle_zip_plugin.js');
 
 module.exports = {
     devtool: 'source-map',
@@ -117,6 +118,7 @@ module.exports = {
             '$': 'jquery',
             'jQuery': 'jquery',
             'window.jQuery': 'jquery'
-        }) // Wraps module with variable and injects wherever it's needed
+        }), // Wraps module with variable and injects wherever it's needed
+        new ZipBundlePlugin()
     ]
 };
