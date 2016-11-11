@@ -8,7 +8,7 @@ app.use(bodyParser.json({limit: '10mb'}));
 app.use(bodyParser.urlencoded({ extended: true }));
 
 var whitelist = [
-    'http://localhost:8080',
+    'http://localhost:8080'
 ];
 var corsOptions = {
     origin: function(origin, callback){
@@ -37,6 +37,15 @@ app.post('/saveConfig', function (req, res) {
 		else
 			res.end("Success");
    });
+})
+
+app.post('/upload', function (req, res) {
+    var data = req.body;
+    console.log(data);
+
+    setTimeout(function(){
+        res.end("Success");
+    }, 3000);
 })
 
 var server = app.listen(8081, function () {

@@ -46,7 +46,6 @@ export const CHANGE_TITLE = 'CHANGE_TITLE';
 
 export const FETCH_VISH_RESOURCES_SUCCESS = "FETCH_VISH_RESOURCES_SUCCESS";
 
-
 export const ADD_RICH_MARK = 'ADD_RICH_MARK';
 export const EDIT_RICH_MARK = 'EDIT_RICH_MARK';
 export const SELECT_CONTAINED_VIEW = 'SELECT_CONTAINED_VIEW';
@@ -283,6 +282,32 @@ export function fetchVishResourcesAsync(query) {
             })
             .then(() => {
                 dispatch(setBusy(false, i18n.t("no_results")));
+            })
+            .catch(e => {
+                dispatch(setBusy(false, e.message));
+            });
+    };
+}
+
+export function uploadVishResourceAsync(query) {
+    return dispatch => {
+        dispatch(setBusy(true, i18n.t("Uploading")));
+
+        return fetch(Dali.Config.upload_vish_url, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: query
+        }).then(response => {
+                if (response.status >= 400) {
+                    throw new Error(i18n.t("error.generic"));
+                }
+                return response.text();
+            })
+            .then((result) => {
+                dispatch(setBusy(false, result));
             })
             .catch(e => {
                 dispatch(setBusy(false, e.message));

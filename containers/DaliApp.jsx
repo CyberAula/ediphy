@@ -9,7 +9,7 @@ import {addNavItem, selectNavItem, expandNavItem, removeNavItem, reorderNavItem,
     toggleTextEditor, toggleTitleMode,
     changeDisplayMode, updateToolbar, updateIntermediateToolbar, collapseToolbar,
     exportStateAsync, importStateAsync,
-    fetchVishResourcesSuccess, fetchVishResourcesAsync,
+    fetchVishResourcesSuccess, fetchVishResourcesAsync, uploadVishResourceAsync,
     selectContainedView,
     ADD_BOX, ADD_RICH_MARK, addRichMark, EDIT_RICH_MARK, editRichMark, EDIT_PLUGIN_TEXT, DELETE_RICH_MARK, UPDATE_BOX, UPDATE_TOOLBAR} from '../actions';
 import {ID_PREFIX_BOX, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_SORTABLE_CONTAINER, BOX_TYPES} from '../constants';
@@ -18,7 +18,6 @@ import ContainedCanvas from '../components/rich_plugins/ContainedCanvas';
 import DaliCarousel from '../components/DaliCarousel';
 import PluginConfigModal from '../components/PluginConfigModal';
 import XMLConfigModal from '../components/XMLConfigModal';
-import VishSearcher from '../components/VishSearcherModal';
 import PluginToolbar from '../components/PluginToolbar';
 import Visor from '../components/visor/Visor';
 import PluginRibbon from '../components/PluginRibbon';
@@ -37,7 +36,6 @@ class DaliApp extends Component {
             hideTab: 'show',
             visorVisible: false,
             xmlEditorVisible: false,
-            vishSearcherVisible: false,
             richMarksVisible: false,
             currentRichMark: null,
             carouselShow: true,
@@ -262,6 +260,7 @@ class DaliApp extends Component {
                                         boxSelected,
                                         DELETE_RICH_MARK);
                                }}
+                               onUploadVishResource={(query) => this.dispatchAndSetState(uploadVishResourceAsync(query))}
                                onFetchVishResources={(query) => this.dispatchAndSetState(fetchVishResourcesAsync(query))}
                 />
             </Grid>

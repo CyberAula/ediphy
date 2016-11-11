@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import GridConfigurator from '../components/GridConfigurator.jsx';
 import RadioButtonFormGroup from '../components/RadioButtonFormGroup.jsx';
 import Select from 'react-select';
-import VishSearcher from './VishSearcher';
+import VishProvider from './vish_provider/VishProvider';
 import MarksList from './rich_plugins/MarksList.jsx';
 import ContentList from './rich_plugins/ContentList.jsx';
 import Dali from './../core/main';
@@ -442,13 +442,14 @@ export default class PluginToolbar extends Component {
                 }, radio));
             });
             return React.createElement(FormGroup, props, children);
-        } else if (button.type === "vish_searcher") {
-            return React.createElement(VishSearcher, {
+        } else if (button.type === "vish_provider") {
+            return React.createElement(VishProvider, {
                 key: ('key' + button.__name),
                 formControlProps: props,
                 isBusy: this.props.isBusy,
                 fetchResults: this.props.fetchResults,
                 onFetchVishResources: this.props.onFetchVishResources,
+                onUploadVishResource: this.props.onUploadVishResource,
                 onChange: props.onChange
             }, null);
         } else {
