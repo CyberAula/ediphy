@@ -3,7 +3,15 @@ import Visor from './visor/main';
 import Scorm from './scorm/main';
 import Config from './config';
 
+require('../dist/css/textStyles.css');
+require('../dist/css/cajascolor.css');
+require('../dist/css/jquery-animVert.css');
+require('../dist/css/ejercicios.css');
+require('../sass/style.scss');
+
 window.ReactDOM = require('react-dom');
+
+
 window.Dali = {
     API: api(),
     API_Private: api_private(),
