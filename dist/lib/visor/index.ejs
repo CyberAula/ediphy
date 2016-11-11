@@ -3,21 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title><%=title%></title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-    <link rel="stylesheet" href="<%=relativePath%>css/style.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="<%=relativePath%>css/textStyles.css">
-    <link rel="stylesheet" href="<%=relativePath%>css/jquery-animVert.css">
-    <link rel="stylesheet" href="<%=relativePath%>css/cajascolor.css">
-    <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js" integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E=" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
+    <link href='https://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
+    <script src="<%=relativePath%>js/visor-bundle.js"></script>
 </head>
 <body style="margin: 0px; height: 100%">
 <div style="height:100%;" id="editor truevisor">
 <div style="height:100%;" id="root" style="height: 100%">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 <div class="outter" style="padding-top:0px;">
 <div id="maincontent" class="slide <%=navs[page].type == 'slide' ? 'sli':'doc'%>" style="visibility: visible;" >
 
@@ -29,9 +22,7 @@
         return __getPlugin(element.parentElement);
     }
 </script>
-<script>
-    Dali.State = <%= JSON.stringify(state) %>
-</script>
+<script>Dali.State = <%= JSON.stringify(state) %></script>
 
 
 <%  var place = page;
@@ -324,7 +315,5 @@
 </div>
 </div>
 </div>
-<script src="<%=relativePath%>js/visor-bundle.js"></script>
-<script>Dali.State = <%= JSON.stringify(state) %></script>
 </body>
 </html>
