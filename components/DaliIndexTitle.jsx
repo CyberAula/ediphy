@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {FormGroup, ControlLabel, FormControl} from 'react-bootstrap';
 import ReactDOM from 'react-dom';
-
+import Dali from './../core/main';
 
 export default class DaliIndexTitle extends Component {
     constructor(props) {
@@ -17,7 +17,9 @@ export default class DaliIndexTitle extends Component {
             /* jshint ignore:start */
             <span>
             {!this.state.editing ?
-                (<span className="actualSectionTitle" style={{textDecoration: this.props.hidden ? "line-through" : "initial"}}>{this.props.index} {this.props.title}</span>) :
+                (<span className="actualSectionTitle" style={{textDecoration: this.props.hidden ? "line-through" : "initial"}}>
+                    {Dali.Config.show_numbers_before_navitems ? this.props.index : ""} {this.props.title}
+                </span>) :
                 (<FormControl
                     type="text"
                     ref="titleIndex"
