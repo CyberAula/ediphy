@@ -37,8 +37,8 @@ export default class PluginConfigModal extends Component {
                         this.setState({show: false, reason: null});
                     }}>Cancel</Button>
                     <Button bsStyle="primary" onClick={e => {
-                        Dali.Plugins.get(this.state.pluginActive).render(reason);
-                        this.setState({show: false, reason: reason});
+                        Dali.Plugins.get(this.state.pluginActive).render(this.state.reason);
+                        this.setState({show: false, reason: null});
                     }}>Save changes</Button>
                 </Modal.Footer>
 

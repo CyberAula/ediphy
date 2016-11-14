@@ -125,6 +125,7 @@ export default function () {
                 if (needsXMLEdition) {
                     if (!state.__xml) {
                         state.__xml = null;
+                        state.__size = null;
                     }
                 }
                 if(isRich){
@@ -216,7 +217,7 @@ export default function () {
                     console.error(this.getConfig().name + " has not defined getConfigTemplate method");
                 }
             } else {
-                Dali.API.openConfig(this.getConfig().name).then(function (div) {
+                Dali.API.openConfig(this.getConfig().name, reason).then(function (div) {
                     if(this.getConfig().flavor !== 'react'){
                         div.innerHTML = descendant.getConfigTemplate(oldState).replace(/[$]dali[$]/g, "Dali.Plugins.get('" + this.getConfig().name + "')");
                     } else {
