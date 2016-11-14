@@ -211,7 +211,7 @@ export function exportStateAsync(state) {
 
         // First dispatch: the app state is updated to inform
         // that the API call is starting.
-        dispatch(setBusy(true, i18n.t("error.exporting")));
+        dispatch(setBusy(true, i18n.t("Exporting")));
 
         // The function called by the thunk middleware can return a value,
         // that is passed on as the return value of the dispatch method.
