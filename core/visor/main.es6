@@ -15,7 +15,8 @@ var parseEJS = function (path, page, state, fromScorm) {
         boxesById: state.boxesById,
         boxes: state.boxes,
         toolbarsById: state.toolbarsById,
-        relativePath: fromScorm ? "../" : ""
+        relativePath: fromScorm ? "../" : "",
+        fromScorm: fromScorm
     }));
 };
 
@@ -89,6 +90,7 @@ export default {
                                 success: function (response, status, xhr) {
                                     zip.file(path + nombre + "_ejer.xml", xhr.responseText);
                                     state.toolbarsById[boxKey].state.__xml_path = path + nombre + "_ejer.xml";
+                                     state.toolbarsById[boxKey].state.isScorm = true;
                                 },
                                 error: function (xhr, status) {
                                     console.error("Error while downloading XML file");
