@@ -7,6 +7,8 @@ import {BOX_TYPES, ID_PREFIX_BOX, ID_PREFIX_PAGE, ID_PREFIX_SECTION, ID_PREFIX_S
 import {ADD_BOX, UPDATE_BOX, RESIZE_BOX, EDIT_PLUGIN_TEXT} from '../../../actions';
 import Dali from './../../../core/main';
 
+require('./_daliBox.scss');
+
 export default class DaliBox extends Component {
     constructor(props) {
         super(props);

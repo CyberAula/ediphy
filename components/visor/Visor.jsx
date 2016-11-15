@@ -4,6 +4,8 @@ import {BOX_TYPES, ID_PREFIX_SORTABLE_BOX} from '../../constants';
 import Dali from './../../core/main';
 import i18n from 'i18next';
 
+require('./_visor.scss');
+
 export default class Visor extends Component {
     shouldComponentUpdate(nextProps, nextState) {
         return this.props.visorVisible || nextProps.visorVisible;

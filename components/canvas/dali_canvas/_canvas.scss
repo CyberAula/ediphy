@@ -1,12 +1,10 @@
-
+@import "../../../sass/general/_variables.scss";
 
 .outter{
 	background-color: $fondo;
 	height: 100%;
-	padding-top: 39px;
-
+	padding-top: 40px;
 }
-
 
 .innercanvas {
 	height: 100%;

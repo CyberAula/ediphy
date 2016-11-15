@@ -4,6 +4,8 @@ import interact from 'interact.js';
 import {ID_PREFIX_BOX, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_SORTABLE_CONTAINER, BOX_TYPES} from '../../../constants';
 import Dali from './../../../core/main';
 
+require('./_pluginRibbon.scss');
+
 export default class PluginRibbon extends Component {
     constructor(props) {
         super(props);

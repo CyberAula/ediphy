@@ -3,6 +3,8 @@ import { Button, FormControl, InputGroup, FormGroup, ControlLabel, OverlayTrigge
 import i18n from 'i18next';
 import RadioButtonFormGroup  from '../radio_button_form_group/RadioButtonFormGroup';
 
+require('./_gridConfigurator.scss');
+
 export default class GridConfigurator extends Component {
     constructor(props) {
         super(props);

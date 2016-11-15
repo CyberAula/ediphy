@@ -4,6 +4,7 @@ import {Col, Row, Input, Button, OverlayTrigger, Popover, Dropdown, Tooltip, Men
 import DaliIndexTitle from '../../carrousel/dali_index_title/DaliIndexTitle';
 import i18n from 'i18next';
 
+require('./_navBar.scss');
 
 export default class DaliNavBar extends Component {
 

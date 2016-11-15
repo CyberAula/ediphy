@@ -1,24 +1,31 @@
-@import 'variables';
+@import "general/_variables.scss";
+@import "general/_cke_rewrite.scss";
+
 @import 'general/mixins/mixins';
+
 @import 'general/tipography/tipo';
-@import 'components/canvas';
-@import 'components/carrouselList';
-@import 'components/navBar';
-@import 'components/serverModal';
-@import 'components/pluginRibbon';
-@import 'components/pluginToolbar';
-@import 'components/gridConfigurator';
-@import 'components/visor';
-@import 'components/colorPicker';
-@import 'components/daliTitle';
-@import 'components/daliIndexTitle';
-@import 'components/daliBox';
-@import 'components/pageModal';
-@import 'events/draganddrop';
+
 @import 'general/elements/btn';
 @import 'general/elements/scrollbar';
-@import 'general/elements/thumbnails';
-@import 'cke_rewrite';
+
+// Todos estos estilos se encuentran en su respectiva carpeta de components.
+    //@import 'components/canvas';
+    //@import 'components/carrouselList';
+    //@import 'components/navBar';
+    //@import 'components/pluginRibbon';
+    //@import 'components/pluginToolbar';
+    //@import 'components/gridConfigurator';
+    //@import 'components/visor';
+    //@import 'components/daliTitle';
+    //@import 'components/daliIndexTitle';
+    //@import 'components/daliBox';
+    //@import 'general/elements/thumbnails';
+    
+@import 'components/serverModal';
+@import 'components/colorPicker';
+@import 'components/pageModal';
+
+@import 'events/draganddrop';
 
 @include selection {
     color: white;
@@ -26,12 +33,12 @@
 }
 
 #app{
-	margin:0;
+    margin:0;
 }
 
 /*Transition for hiding toolbars and navbars*/
 #colLeft, #colRight, #ribbon, #insideribbon, #tools, #indice{
-	@include animacion(width, 0.3s);
+    @include animacion(width, 0.4s);
     min-height: 0;
 }
 
@@ -49,9 +56,9 @@
 
     /*Canvas row and ribbon row*/
     #canvasRow, #ribbonRow{
-        @include animacion(height, 0.3s);
+        @include animacion(height, 0.4s);
         >div{
-            @include animacion(height, 0.3s);
+            @include animacion(height, 0.4s);
         }
     }
 
@@ -61,8 +68,8 @@
 }
 
 .full{
-	width:100% !important;
-    @include animacion(height, 0.3s);
+    width:100% !important;
+    @include animacion(height, 0.4s);
 }
 
 .hidden{

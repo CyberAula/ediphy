@@ -12,6 +12,8 @@ import {UPDATE_TOOLBAR, UPDATE_BOX} from '../../../actions';
 import {ID_PREFIX_SORTABLE_CONTAINER} from '../../../constants';
 import i18n from 'i18next';
 
+require('./_pluginToolbar.scss');
+
 export default class PluginToolbar extends Component {
     constructor(props) {
         super(props);

@@ -6,6 +6,8 @@ import PageMenu from './../page_menu/PageMenu';
 import DaliIndexTitle from './../dali_index_title/DaliIndexTitle';
 import i18n from 'i18next';
 
+require('./_carrouselList.scss');
+
 export default class CarrouselList extends Component {
     render() {
         return (

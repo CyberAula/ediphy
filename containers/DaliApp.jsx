@@ -23,7 +23,7 @@ import Visor from '../components/visor/Visor';
 import PluginRibbon from '../components/nav_bar/plugin_ribbon/PluginRibbon';
 import DaliNavBar from '../components/nav_bar/dali_nav_bar/DaliNavBar';
 import ServerFeedback from '../components/server_feedback/ServerFeedback';
-import RichMarksModal from '../components/rich_plugins/rich_marks_modal/RichMarksModal.jsx';
+import RichMarksModal from '../components/rich_plugins/rich_marks_modal/RichMarksModal';
 import Dali from './../core/main';
 
 

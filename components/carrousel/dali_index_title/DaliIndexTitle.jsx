@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {FormGroup, ControlLabel, FormControl} from 'react-bootstrap';
 import ReactDOM from 'react-dom';
 
+require('./_daliIndexTitle.scss');
 
 export default class DaliIndexTitle extends Component {
     constructor(props) {

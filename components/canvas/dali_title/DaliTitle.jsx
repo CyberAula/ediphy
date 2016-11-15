@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import {Breadcrumb, BreadcrumbItem, Button} from 'react-bootstrap';
 
+require('./_daliTitle.scss');
+
 export default class DaliTitle extends Component {
 
     /*

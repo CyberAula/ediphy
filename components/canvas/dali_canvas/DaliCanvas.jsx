@@ -10,6 +10,8 @@ import {BOX_TYPES, ID_PREFIX_SORTABLE_BOX} from '../../../constants';
 import {ADD_BOX} from '../../../actions';
 import Dali from './../../../core/main';
 
+require('./_canvas.scss');
+
 export default class DaliCanvas extends Component {
     constructor(props) {
         super(props);
