@@ -321,12 +321,12 @@ export default class PluginToolbar extends Component {
                             newHeight = 'auto';
                         }
                         this.props.onBoxResized(id, value + units, this.props.box.height);
-                        this.props.onToolbarIntermediateUpdated(id, tabKey, accordionKeys, buttonKey, parseFloat(value));
+                        this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, parseFloat(value));
                     } else {
                         let newHeight = this.heightAuto ? 'auto' : (parseFloat(this.props.box.height) * parseFloat(value) / parseFloat(this.props.box.width));
                         this.props.onBoxResized(id, value + units, this.heightAuto ? newHeight : (newHeight + units));
-                        this.props.onToolbarIntermediateUpdated(id, tabKey, accordionKeys, buttonKey, parseFloat(value));
-                        this.props.onToolbarIntermediateUpdated(id, tabKey, accordionKeys, 'height', newHeight);
+                        this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, parseFloat(value));
+                        this.props.onToolbarUpdated(id, tabKey, accordionKeys, 'height', newHeight);
 
                     }
                 }
@@ -334,12 +334,12 @@ export default class PluginToolbar extends Component {
                     let units = (!(this.props.box.container.length && this.props.box.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1)) ? 'px' : '%';
                     if (!this.aspectRatio) {
                         this.props.onBoxResized(id, this.props.box.width, value + units);
-                        this.props.onToolbarIntermediateUpdated(id, tabKey, accordionKeys, buttonKey, parseFloat(value));
+                        this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, parseFloat(value));
                     } else {
                         let newWidth = (parseFloat(this.props.box.width) * parseFloat(value) / parseFloat(this.props.box.height));
                         this.props.onBoxResized(id, newWidth + units, value + units);
-                        this.props.onToolbarIntermediateUpdated(id, tabKey, accordionKeys, buttonKey, parseFloat(value));
-                        this.props.onToolbarIntermediateUpdated(id, tabKey, accordionKeys, 'width', newWidth);
+                        this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, parseFloat(value));
+                        this.props.onToolbarUpdated(id, tabKey, accordionKeys, 'width', newWidth);
                     }
                 }
 
@@ -355,7 +355,7 @@ export default class PluginToolbar extends Component {
                 if (button.type === 'radio') {
                     value = button.options[value];
                     if (buttonKey === '___position') {
-                        this.props.onToolbarIntermediateUpdated(id, tabKey, accordionKeys, '___position', value);
+                        this.props.onToolbarUpdated(id, tabKey, accordionKeys, '___position', value);
                         this.props.onBoxMoved(id, 0, 0, value);
 
                     }
@@ -372,9 +372,10 @@ export default class PluginToolbar extends Component {
                 if (button.type === 'colorPicker') {
                     value = e.value;
                 }
-                //this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, value);
+                this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, value);
 
                 if (!button.autoManaged) {
+                    console.log(button);
                     button.callback(state, buttonKey, value, id, UPDATE_TOOLBAR);
                 }
             }

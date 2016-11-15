@@ -7,7 +7,7 @@ import {ADD_BOX, SELECT_BOX, MOVE_BOX, DUPLICATE_BOX, RESIZE_BOX, UPDATE_BOX, DE
     ADD_NAV_ITEM, SELECT_NAV_ITEM, EXPAND_NAV_ITEM, REMOVE_NAV_ITEM, REORDER_NAV_ITEM, TOGGLE_NAV_ITEM, UPDATE_NAV_ITEM_EXTRA_FILES,
     CHANGE_SECTION_TITLE, CHANGE_UNIT_NUMBER, VERTICALLY_ALIGN_BOX,
     TOGGLE_TEXT_EDITOR, TOGGLE_TITLE_MODE, CHANGE_TITLE,
-    CHANGE_DISPLAY_MODE, SET_BUSY, UPDATE_INTERMEDIATE_TOOLBAR, UPDATE_TOOLBAR, COLLAPSE_TOOLBAR, IMPORT_STATE, FETCH_VISH_RESOURCES_SUCCESS
+    CHANGE_DISPLAY_MODE, SET_BUSY, UPDATE_TOOLBAR, COLLAPSE_TOOLBAR, IMPORT_STATE, FETCH_VISH_RESOURCES_SUCCESS
 } from './actions';
 import {ID_PREFIX_SECTION, ID_PREFIX_PAGE, ID_PREFIX_BOX, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_CONTAINED_VIEW, ID_PREFIX_SORTABLE_CONTAINER} from './constants';
 import i18n from 'i18next';
@@ -27,8 +27,8 @@ function boxCreator(state = {}, action = {}) {
                 level = -1;
             }else{
                 position = {
-                    x: Math.floor(Math.random() * 200),
-                    y: Math.floor(Math.random() * 200),
+                    x: 0,
+                    y: 0,
                     type: 'absolute'
                 };
                 if (action.payload.config.category !== "text") {
@@ -58,6 +58,9 @@ function boxCreator(state = {}, action = {}) {
                 }
                 if (action.payload.initialParams.row) {
                     row = action.payload.initialParams.row;
+                }
+                if (action.payload.initialParams.width) {
+                    width = action.payload.initialParams.width;
                 }
             }
 
@@ -146,11 +149,11 @@ function sortableContainerCreator(state = {}, action = {}) {
             });
         case DELETE_BOX:
             let newChildren = state[action.payload.container].children.filter(id => id !== action.payload.id);
-            let a = Utils.deepClone(state[action.payload.container]);
-            a.children = newChildren;
+            let container = Utils.deepClone(state[action.payload.container]);
+            container.children = newChildren;
 
             return Object.assign({}, state, {
-                [action.payload.container]: a
+                [action.payload.container]: container
             });
         case CHANGE_COLS:
             let cols = state[action.payload.id].cols;
@@ -188,6 +191,7 @@ function sortableContainerCreator(state = {}, action = {}) {
 }
 
 function boxesById(state = {}, action = {}) {
+    console.log(action);
     var newState;
     switch (action.type) {
         case ADD_BOX:
@@ -852,7 +856,7 @@ function createRichAccordions(controls) {
     }
 }
 
-function createSortableButtons(controls, width) {
+function createSortableButtons(controls) {
     if (!controls.main) {
         controls.main = {
             __name: "Main",
@@ -876,7 +880,7 @@ function createSortableButtons(controls, width) {
     controls.main.accordions.__sortable.buttons.width = {
         __name: i18n.t('Width_percentage'),
         type: 'number',
-        value: width || 100,
+        value: 100,
         min: 0,
         max: 100,
         step: 5,
@@ -909,7 +913,7 @@ function createSortableButtons(controls, width) {
     };
 }
 
-function createFloatingBoxButtons(controls, width) {
+function createFloatingBoxButtons(controls) {
     if (!controls.main) {
         controls.main = {
             __name: "Main",
@@ -934,7 +938,7 @@ function createFloatingBoxButtons(controls, width) {
     controls.main.accordions.__sortable.buttons.width = {
         __name: i18n.t('Width_pixels'),
         type: 'number',
-        value: width || 100,
+        value: 100,
         min: 0,
         max: 100,
         step: 5,
@@ -961,7 +965,7 @@ function createFloatingBoxButtons(controls, width) {
 }
 
 
-function createAliasButton(controls, alias) {
+function createAliasButton(controls) {
     if (!controls.main) {
         controls.main = {
             __name: "Alias",
@@ -983,7 +987,7 @@ function createAliasButton(controls, alias) {
     controls.main.accordions.__extra.buttons.alias = {
         __name: 'Alias',
         type: 'text',
-        value: alias || "",
+        value: "",
         autoManaged: true,
         isAttribute: true
     };
@@ -1070,15 +1074,6 @@ function toolbarsById(state = {}, action = {}) {
                 newState[pl.id].controls[pl.tab].accordions[pl.accordions[0]].accordions[pl.accordions[1]].buttons[pl.name].value = pl.value;
             } else {
                 newState[pl.id].controls[pl.tab].accordions[pl.accordions[0]].buttons[pl.name].value = pl.value;
-            }
-            return newState;
-        case UPDATE_INTERMEDIATE_TOOLBAR:
-            newState = Object.assign({}, state);
-            let ple = action.payload;
-            if (ple.accordions.length > 1) {
-                newState[ple.id].controls[ple.tab].accordions[ple.accordions[0]].accordions[ple.accordions[1]].buttons[ple.name].value = ple.value;
-            } else {
-                newState[ple.id].controls[ple.tab].accordions[ple.accordions[0]].buttons[ple.name].value = ple.value;
             }
             return newState;
         case COLLAPSE_TOOLBAR:
@@ -1246,7 +1241,6 @@ const GlobalState = undoable(combineReducers({
             case TOGGLE_TEXT_EDITOR:
             case TOGGLE_TITLE_MODE:
             case REORDER_BOXES:
-            case UPDATE_INTERMEDIATE_TOOLBAR:
             case UPDATE_NAV_ITEM_EXTRA_FILES:
                 return false;
         }
