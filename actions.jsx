@@ -90,8 +90,8 @@ export function changeUnitNumber(id, value) {
     return {type: CHANGE_UNIT_NUMBER, payload: {id, value}};
 }
 
-export function addBox(ids, type, draggable, resizable, content, toolbar, config, state, initialParams) {
-    return {type: ADD_BOX, payload: {ids, type, draggable, resizable, content, toolbar, config, state, initialParams}};
+export function addBox(ids, draggable, resizable, content, toolbar, config, state, initialParams) {
+    return {type: ADD_BOX, payload: {ids, draggable, resizable, content, toolbar, config, state, initialParams}};
 }
 
 export function selectBox(id) {

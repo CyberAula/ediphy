@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Button} from 'react-bootstrap';
-import {ID_PREFIX_SECTION, ID_PREFIX_PAGE, ID_PREFIX_SORTABLE_BOX, BOX_TYPES} from '../constants';
+import {ID_PREFIX_SECTION, ID_PREFIX_PAGE, ID_PREFIX_SORTABLE_BOX} from '../constants';
 import DaliIndexTitle from '../components/DaliIndexTitle';
 
 export default class Section extends Component {

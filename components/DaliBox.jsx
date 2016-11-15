@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import {Input,Button, Tooltip, OverlayTrigger} from 'react-bootstrap';
 import interact from 'interact.js';
 import PluginPlaceholder from '../components/PluginPlaceholder';
-import {BOX_TYPES, ID_PREFIX_BOX, ID_PREFIX_PAGE, ID_PREFIX_SECTION, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_SORTABLE_CONTAINER, ID_PREFIX_CONTAINED_VIEW} from '../constants';
+import {ID_PREFIX_BOX, ID_PREFIX_PAGE, ID_PREFIX_SECTION, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_SORTABLE_CONTAINER, ID_PREFIX_CONTAINED_VIEW} from '../constants';
 import {ADD_BOX, UPDATE_BOX, RESIZE_BOX, EDIT_PLUGIN_TEXT} from '../actions';
 import Dali from './../core/main';
 

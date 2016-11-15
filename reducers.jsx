@@ -21,23 +21,20 @@ function boxCreator(state = {}, action = {}) {
             let level = (state[action.payload.ids.parent] && !(action.payload.ids.container.length && action.payload.ids.container.indexOf(ID_PREFIX_CONTAINED_VIEW) !== -1)) ?
             state[action.payload.ids.parent].level + 1 :
                 0;
-            switch (action.payload.type) {
-                case 'sortable':
-                    position = {x: 0, y: 0, type: 'relative'};
-                    width = '100%';
-                    level = -1;
-                    break;
-                default:
-                    position = {
-                        x: Math.floor(Math.random() * 200),
-                        y: Math.floor(Math.random() * 200),
-                        type: 'absolute'
-                    };
-                    if (action.payload.config.category !== "text") {
-                        width = 200;
-                    }
-                    height = 'auto';
-                    break;
+            if(action.payload.ids.id.indexOf(ID_PREFIX_SORTABLE_BOX) !== -1) {
+                position = {x: 0, y: 0, type: 'relative'};
+                width = '100%';
+                level = -1;
+            }else{
+                position = {
+                    x: Math.floor(Math.random() * 200),
+                    y: Math.floor(Math.random() * 200),
+                    type: 'absolute'
+                };
+                if (action.payload.config.category !== "text") {
+                    width = 200;
+                }
+                height = 'auto';
             }
             if (action.payload.ids.container.length && action.payload.ids.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1) {
                 position.x = 0;
@@ -97,7 +94,6 @@ function boxCreator(state = {}, action = {}) {
                 id: action.payload.ids.id,
                 parent: action.payload.ids.parent,
                 container: action.payload.ids.container,
-                type: action.payload.type,
                 level: level,
                 col: col,
                 row: row,
@@ -803,6 +799,21 @@ function containedViews(state = {}, action = {}) {
     }
 }
 
+function createAspectRatioButton(controls, config){
+    let arb = config.aspectRatioButtonConfig;
+    let button = {
+        __name: arb.name,
+        type: "checkbox",
+        value: arb.defaultValue,
+        autoManaged: true
+    };
+    if (arb.location.length === 2) {
+        controls[arb.location[0]].accordions[arb.location[1]].buttons.__aspectRatio = button;
+    } else {
+        controls[arb.location[0]].accordions[arb.location[1]].accordions[arb.location[2]].buttons.__aspectRatio = button;
+    }
+}
+
 function createRichAccordions(controls) {
     if (!controls.main) {
         controls.main = {
@@ -990,34 +1001,25 @@ function toolbarsById(state = {}, action = {}) {
                 showTextEditor: false,
                 isCollapsed: false
             };
-            if (action.payload.type && action.payload.type === 'sortable') {
+            if (action.payload.ids.id.indexOf(ID_PREFIX_SORTABLE_BOX) !== -1) {
                 if (toolbar.config) {
                     toolbar.config.name = i18n.t('Container_');
                 }
             }
-
+            // If contained in sortableContainer
             if (action.payload.ids.container.length && action.payload.ids.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1) {
                 createSortableButtons(toolbar.controls);
+            // If not contained (AKA floating box)
             } else if (action.payload.ids.id.indexOf(ID_PREFIX_SORTABLE_BOX) === -1) {
                 createFloatingBoxButtons(toolbar.controls);
             }
 
+            // If not a DaliBoxSortable
             if (action.payload.ids.id.indexOf(ID_PREFIX_SORTABLE_BOX) === -1) {
                 createAliasButton(toolbar.controls);
             }
             if (toolbar.config && toolbar.config.aspectRatioButtonConfig) {
-                let arb = toolbar.config.aspectRatioButtonConfig;
-                let button = {
-                    __name: arb.name,
-                    type: "checkbox",
-                    value: arb.defaultValue,
-                    autoManaged: true
-                };
-                if (arb.location.length === 2) {
-                    toolbar.controls[arb.location[0]].accordions[arb.location[1]].buttons.__aspectRatio = button;
-                } else {
-                    toolbar.controls[arb.location[0]].accordions[arb.location[1]].accordions[arb.location[2]].buttons.__aspectRatio = button;
-                }
+                createAspectRatioButton(toolbar.controls, toolbar.config);
             }
 
             if (toolbar.config && toolbar.config.isRich) {

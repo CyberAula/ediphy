@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import {Input, Button, Tooltip, OverlayTrigger} from 'react-bootstrap';
 import interact from 'interact.js';
-import {BOX_TYPES, ID_PREFIX_BOX, ID_PREFIX_PAGE, ID_PREFIX_SECTION, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_SORTABLE_CONTAINER} from '../constants';
+import {ID_PREFIX_BOX, ID_PREFIX_PAGE, ID_PREFIX_SECTION, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_SORTABLE_CONTAINER} from '../constants';
 import i18n from 'i18next';
 
 export default class DaliShortcuts extends Component {
@@ -18,7 +18,7 @@ export default class DaliShortcuts extends Component {
             return (
                 /* jshint ignore:start */
                 <div id={this.props.isContained ? "contained_daliBoxIcons" : "daliBoxIcons"} className=""
-                     style={{display: (box.type != "sortable" ) ? 'block' : 'none',
+                     style={{display: (box.id.indexOf(ID_PREFIX_SORTABLE_BOX) === -1) ? 'block' : 'none',
                      position: 'absolute', left: style.left, top: style.top, width: style.width}}>
                     { (box.container.length && box.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1) ? (
                         <OverlayTrigger placement="top"

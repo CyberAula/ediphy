@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Button, ButtonGroup, Col, OverlayTrigger, Popover} from 'react-bootstrap';
-import {ID_PREFIX_SECTION, ID_PREFIX_PAGE, ID_PREFIX_SORTABLE_BOX, BOX_TYPES} from '../constants';
+import {ID_PREFIX_SECTION, ID_PREFIX_PAGE, ID_PREFIX_SORTABLE_BOX} from '../constants';
 import Section from '../components/Section';
 import PageMenu from '../components/PageMenu';
 import DaliIndexTitle from '../components/DaliIndexTitle';
@@ -80,7 +80,6 @@ export default class CarrouselList extends Component {
                                     parent: idnuevo,
                                     container: 0,
                                     id: ID_PREFIX_SORTABLE_BOX + Date.now()},
-                                    BOX_TYPES.SORTABLE,
                                     false,
                                     false
                                 );

@@ -12,7 +12,7 @@ import {addNavItem, selectNavItem, expandNavItem, removeNavItem, reorderNavItem,
     fetchVishResourcesSuccess, fetchVishResourcesAsync, uploadVishResourceAsync,
     selectContainedView,
     ADD_BOX, ADD_RICH_MARK, addRichMark, EDIT_RICH_MARK, editRichMark, EDIT_PLUGIN_TEXT, DELETE_RICH_MARK, UPDATE_BOX, UPDATE_TOOLBAR} from '../actions';
-import {ID_PREFIX_BOX, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_SORTABLE_CONTAINER, BOX_TYPES} from '../constants';
+import {ID_PREFIX_BOX, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_SORTABLE_CONTAINER} from '../constants';
 import DaliCanvas from '../components/DaliCanvas';
 import ContainedCanvas from '../components/rich_plugins/ContainedCanvas';
 import DaliCarousel from '../components/DaliCarousel';
@@ -79,7 +79,7 @@ class DaliApp extends Component {
                                   navItems={navItems}
                                   navItemSelected={navItemSelected}
                                   displayMode={displayMode}
-                                  onBoxAdded={(ids, type,  draggable, resizable, content, toolbar, config, state) => this.dispatchAndSetState(addBox(ids, type, draggable, resizable, content, toolbar, config, state))}
+                                  onBoxAdded={(ids, draggable, resizable, content, toolbar, config, state) => this.dispatchAndSetState(addBox(ids, draggable, resizable, content, toolbar, config, state))}
                                   onTitleChange={(id, title) => this.dispatchAndSetState(changeSectionTitle(id,title))}
                                   onNavItemAdded={(id, name, parent, children, level, type, position, titlesReduced) => this.dispatchAndSetState(addNavItem(id, name, parent, children, level, type, position, titlesReduced))}
                                   onNavItemSelected={id => this.dispatchAndSetState(selectNavItem(id))}
@@ -305,7 +305,6 @@ class DaliApp extends Component {
                             id: e.detail.ids.id,
                             container: e.detail.ids.container
                         },
-                        BOX_TYPES.NORMAL,
                         true,
                         (!(e.detail.ids.container.length && e.detail.ids.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1)),
                         e.detail.content,

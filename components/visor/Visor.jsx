@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {Modal, Row, Col, Grid, Button, ButtonGroup} from 'react-bootstrap';
-import {BOX_TYPES, ID_PREFIX_SORTABLE_BOX} from '../../constants';
 import Dali from './../../core/main';
 import i18n from 'i18next';
 
