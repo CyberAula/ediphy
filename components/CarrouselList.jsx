@@ -5,6 +5,7 @@ import Section from '../components/Section';
 import PageMenu from '../components/PageMenu';
 import DaliIndexTitle from '../components/DaliIndexTitle';
 import i18n from 'i18next';
+import Dali from './../core/main';
 
 export default class CarrouselList extends Component {
     render() {
@@ -76,14 +77,16 @@ export default class CarrouselList extends Component {
                                     this.calculateNewPosition(),
                                     'expanded'
                                 );
-                                this.props.onBoxAdded({
-                                    parent: idnuevo,
-                                    container: 0,
-                                    id: ID_PREFIX_SORTABLE_BOX + Date.now()},
-                                    BOX_TYPES.SORTABLE,
-                                    false,
-                                    false
-                                );
+                                if(Dali.Config.sections_have_content){
+                                    this.props.onBoxAdded({
+                                        parent: idnuevo,
+                                        container: 0,
+                                        id: ID_PREFIX_SORTABLE_BOX + Date.now()},
+                                        BOX_TYPES.SORTABLE,
+                                        false,
+                                        false
+                                    );
+                                }
                                 e.stopPropagation();
                             }}>
                         <i className="material-icons">create_new_folder</i>
