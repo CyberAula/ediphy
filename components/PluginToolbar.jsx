@@ -8,7 +8,7 @@ import VishSearcher from './VishSearcher';
 import MarksList from './rich_plugins/MarksList.jsx';
 import ContentList from './rich_plugins/ContentList.jsx';
 import Dali from './../core/main';
-import {UPDATE_TOOLBAR} from '../actions';
+import {UPDATE_TOOLBAR, UPDATE_BOX} from '../actions';
 import {ID_PREFIX_SORTABLE_CONTAINER} from '../constants';
 import i18n from 'i18next';
 
@@ -79,7 +79,7 @@ export default class PluginToolbar extends Component {
                 <Button key={'config'}
                         className='toolbarButton'
                         onClick={() => {
-                            Dali.Plugins.get(toolbar.config.name).openConfigModal(true, toolbar.state, toolbar.id);
+                            Dali.Plugins.get(toolbar.config.name).openConfigModal(UPDATE_BOX, toolbar.state, toolbar.id);
                         }}>
                     Open config
                 </Button>
@@ -302,13 +302,15 @@ export default class PluginToolbar extends Component {
             max: button.max,
             step: button.step,
             disabled: false,
+            title: button.title ? button.title : '',
             className: button.class,
             style: {width: '100%'},
             onChange: e => {
                 let value = e.target ? e.target.value : e.target;
                 if (buttonKey === '___heightAuto') {
                     let units = (!(this.props.box.container.length && this.props.box.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1)) ? 'px' : '%';
-                    this.heightAuto = !this.heightAuto;
+                    this.heightAuto = this.props.box.height !== 'auto';
+                    
                     this.props.onToolbarUpdated(id, tabKey, accordionKeys, 'height', this.heightAuto ? 'auto' : (100 + units));
                     this.props.onBoxResized(id, this.props.box.width, this.heightAuto ? 'auto' : ('100' + units));
 
@@ -383,9 +385,9 @@ export default class PluginToolbar extends Component {
                 if (button.type === 'colorPicker') {
                     value = e.value;
                 }
-                this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, value);
+                //this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, value);
 
-                if (!button.autoManaged) {
+                if (!button.autoManaged ) {
                     button.callback(state, buttonKey, value, id, UPDATE_TOOLBAR);
                 }
             }

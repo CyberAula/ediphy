@@ -1,4 +1,5 @@
 import Dali from './main';
+import ReactDOM from 'react-dom';
 
 export default function () {
     var descendant, state, id, initialParams;
@@ -43,15 +44,15 @@ export default function () {
 
             Object.keys(descendant).map(function (id) {
                 if (id !== 'init' &&
-                    id !== 'getConfig' &&
-                    id !== 'getToolbar' &&
-                    id !== 'getSections' &&
-                    id !== 'getInitialState' &&
-                    id !== 'handleToolbar' &&
-                    id !== 'afterRender' &&
-                    id !== 'getConfigTemplate' &&
-                    id !== 'getRenderTemplate' &&
-                    id !== 'getLocales') {
+                id !== 'getConfig' &&
+                id !== 'getToolbar' &&
+                id !== 'getSections' &&
+                id !== 'getInitialState' &&
+                id !== 'handleToolbar' &&
+                id !== 'afterRender' &&
+                id !== 'getConfigTemplate' &&
+                id !== 'getRenderTemplate' &&
+                id !== 'getLocales') {
                     plugin[id] = descendant[id];
                 }
             });
@@ -71,18 +72,20 @@ export default function () {
         },
         getConfig: function () {
             var name, displayName, category, callback, needsConfigModal, needsTextEdition, extraTextConfig,
-                needsXMLEdition, icon, aspectRatioButtonConfig, isRich;
+            needsXMLEdition, icon, aspectRatioButtonConfig, isRich, flavor;
             if (descendant.getConfig) {
-                name = descendant.getConfig().name;
-                displayName = descendant.getConfig().displayName;
-                category = descendant.getConfig().category;
-                icon = descendant.getConfig().icon;
-                isRich = descendant.getConfig().isRich;
-                needsConfigModal = descendant.getConfig().needsConfigModal;
-                needsTextEdition = descendant.getConfig().needsTextEdition;
-                extraTextConfig = descendant.getConfig().extraTextConfig;
-                needsXMLEdition = descendant.getConfig().needsXMLEdition;
-                aspectRatioButtonConfig = descendant.getConfig().aspectRatioButtonConfig;
+                let cfg = descendant.getConfig();
+                name = cfg.name;
+                displayName = cfg.displayName;
+                category = cfg.category;
+                icon = cfg.icon;
+                isRich = cfg.isRich;
+                flavor = cfg.flavor;
+                needsConfigModal = cfg.needsConfigModal;
+                needsTextEdition = cfg.needsTextEdition;
+                extraTextConfig = cfg.extraTextConfig;
+                needsXMLEdition = cfg.needsXMLEdition;
+                aspectRatioButtonConfig = cfg.aspectRatioButtonConfig;
             }
 
             name = defaultFor(name, 'PluginName', "Plugin name not assigned");
@@ -90,13 +93,14 @@ export default function () {
             category = defaultFor(category, 'text', "Plugin category not assigned");
             icon = defaultFor(icon, 'fa-cogs', "Plugin icon not assigned");
             isRich = defaultFor(isRich, false);
+            flavor = defaultFor(flavor, 'plain');
             needsConfigModal = defaultFor(needsConfigModal, false);
             needsTextEdition = defaultFor(needsTextEdition, false);
             needsXMLEdition = defaultFor(needsXMLEdition, false);
 
             if (aspectRatioButtonConfig) {
-                aspectRatioButtonConfig.name = defaultFor(aspectRatioButtonConfig.name, "Aspect Ratio");
-                aspectRatioButtonConfig.location = defaultFor(aspectRatioButtonConfig.location, ["other", "~extra"], "Aspect ratio button location not defined");
+                aspectRatioButtonConfig.name = Dali.i18n.t("Aspect_ratio");
+                aspectRatioButtonConfig.location = defaultFor(aspectRatioButtonConfig.location, ["main", "__extra"], "Aspect ratio button location not defined");
                 if (!Array.isArray(aspectRatioButtonConfig.location) || aspectRatioButtonConfig.location.length < 2 || aspectRatioButtonConfig.location.length > 3) {
                     console.error("Aspect ratio button location malformed");
                 }
@@ -121,6 +125,7 @@ export default function () {
                 if (needsXMLEdition) {
                     if (!state.__xml) {
                         state.__xml = null;
+                        state.__size = null;
                     }
                 }
                 if(isRich){
@@ -129,10 +134,13 @@ export default function () {
                     }
                 }
                 initialParams = initParams;
+                if(descendant.getConfig().initialWidth){
+                    initialParams.width = descendant.getConfig().initialWidth;
+                }
                 if (needsConfigModal) {
-                    this.openConfigModal(false, state);
+                    this.openConfigModal(reason, state);
                 } else {
-                    this.render(false, reason);
+                    this.render(reason);
                 }
             }.bind(this);
 
@@ -147,7 +155,8 @@ export default function () {
                 needsXMLEdition: needsXMLEdition,
                 aspectRatioButtonConfig: aspectRatioButtonConfig,
                 icon: icon,
-                isRich: isRich
+                isRich: isRich,
+                flavor: flavor
             };
         },
         getToolbar: function () {
@@ -199,7 +208,7 @@ export default function () {
             }
             return toolbar;
         },
-        openConfigModal: function (isUpdating, oldState, sender) {
+        openConfigModal: function (reason, oldState, sender) {
             state = oldState;
             id = sender;
 
@@ -208,23 +217,28 @@ export default function () {
                     console.error(this.getConfig().name + " has not defined getConfigTemplate method");
                 }
             } else {
-                Dali.API.openConfig(this.getConfig().name, isUpdating).then(function (div) {
-                    div.innerHTML = descendant.getConfigTemplate(oldState).replace(/[$]dali[$]/g, "Dali.Plugins.get('" + this.getConfig().name + "')");
+                Dali.API.openConfig(this.getConfig().name, reason).then(function (div) {
+                    if(this.getConfig().flavor !== 'react'){
+                        div.innerHTML = descendant.getConfigTemplate(oldState).replace(/[$]dali[$]/g, "Dali.Plugins.get('" + this.getConfig().name + "')");
+                    } else {
+                        ReactDOM.render(descendant.getConfigTemplate(oldState), div);
+                    }
                 }.bind(this));
             }
         },
         forceUpdate: function (oldState, sender, reason) {
             state = oldState;
             id = sender;
-            this.render(true, reason);
+            this.render(reason);
         },
-        render: function (isUpdating, reason) {
+        render: function (reason) {
             // Posible reasons:
             // ADD_BOX,
             // ADD_RICH_MARK,
             // EDIT_RICH_MARK,
             // DELETE_RICH_MARK,
             // UPDATE_TOOLBAR,
+            // UPDATE_BOX,
             // RESIZE_SORTABLE_CONTAINER,
             // EDIT_PLUGIN_TEXT,
             // UPDATE_NAV_ITEM_EXTRA_FILES
@@ -232,14 +246,16 @@ export default function () {
             if (!descendant.getRenderTemplate) {
                 console.error(this.getConfig().name + " has not defined getRenderTemplate method");
             } else {
-                var jsonTemplate = html2json(descendant.getRenderTemplate(state));
-                assignPluginContainerIds(jsonTemplate);
+                var template = descendant.getRenderTemplate(state);
+                if(this.getConfig().flavor !== "react") {
+                    template = html2json(template);
+                    assignPluginContainerIds(template);
+                }
                 Dali.API.renderPlugin(
-                    jsonTemplate,
+                    template,
                     this.getToolbar(),
                     this.getConfig(),
                     state,
-                    isUpdating,
                     {
                         id: id,
                         parent: initialParams.parent,
@@ -249,6 +265,7 @@ export default function () {
                         position: initialParams.position,
                         row: initialParams.row,
                         col: initialParams.col,
+                        width: initialParams.width,
                         isDefaultPlugin: defaultFor(initialParams.isDefaultPlugin, false)
                     },
                     reason
@@ -267,16 +284,13 @@ export default function () {
             if (descendant.handleToolbar) {
                 descendant.handleToolbar(name, value);
             }
-            this.render(true, reason);
+            this.render(reason);
         },
         setState: function (key, value) {
             state[key] = value;
         },
         getState: function () {
             return state;
-        },
-        setCompleteState: function (newState) {
-            state = newState;
         },
         registerExtraFunction: function () {
         }

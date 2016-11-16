@@ -1,15 +1,16 @@
 var webpack = require('webpack');
+var ZipBundlePlugin = require('./webpack_plugins/bundle_zip_plugin.js');
 
 module.exports = {
     devtool: 'source-map',
     entry: {
-        app: [
+        'app': [
             'webpack-dev-server/client?http://localhost:8080', // WebpackDevServer host and port
             'webpack/hot/only-dev-server', // "only" prevents reload on syntax errors
             'bootstrap-loader', //Loads Twitter Bootstrap
             './index.jsx' // Appʼs entry point
             ],
-        visor: './core/visor_entrypoint.es6'
+        'js/visor': './core/visor_entrypoint.es6',
     },
     module: {
         preLoaders: [
@@ -117,6 +118,7 @@ module.exports = {
             '$': 'jquery',
             'jQuery': 'jquery',
             'window.jQuery': 'jquery'
-        }) // Wraps module with variable and injects wherever it's needed
+        }), // Wraps module with variable and injects wherever it's needed
+        new ZipBundlePlugin()
     ]
 };

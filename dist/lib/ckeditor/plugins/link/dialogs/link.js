@@ -512,7 +512,7 @@
 						type: 'select',
 						id: 'linkTargetType',
 						label: commonLang.target,
-						'default': 'notSet',
+						'default': '_blank',
 						style: 'width : 100%;',
 						'items': [
 							[ commonLang.notSet, 'notSet' ],
@@ -894,6 +894,7 @@
                 Dali.Plugins.getPluginsInCurrentView(true).then(function(elements){
                     var functions = {};
                     Object.keys(elements).forEach(function(pluginName){
+						console.log(pluginName);
                         functions[pluginName] = Dali.Visor.Plugins.get(pluginName).getExtraFunctions();
                     });
                     pluginOptions = Object.keys(elements);

@@ -64,7 +64,7 @@
                 var defaultSelect = this.getContentElement('tab-basic', 'plugin-data-default');
                 defaultSelect.add('', '');
                 Dali.Config.pluginList.map(function (item) {
-                    defaultSelect.add(Dali.Plugins.get(item).getConfig().displayName, item);
+                    defaultSelect.add(Dali.Plugins.get(item) ? Dali.Plugins.get(item).getConfig().displayName : item, item);
                 });
             },
             onShow: function () {

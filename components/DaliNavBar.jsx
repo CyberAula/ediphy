@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import {Col, Row, Input, Button, OverlayTrigger, Popover, Dropdown, Tooltip, MenuItem} from 'react-bootstrap';
 import DaliIndexTitle from '../components/DaliIndexTitle';
+import {ID_PREFIX_SECTION} from '../constants';
 import i18n from 'i18next';
 
 
@@ -117,14 +118,26 @@ export default class DaliNavBar extends Component {
                     </Dropdown.Menu>
                 </Dropdown>
 
-                <button className="navButton"
-                        style={{float:'right', marginRight: '30px'}}
-                        title={i18n.t('Preview')}
-                        disabled={this.props.undoDisabled}
-                        onClick={() =>this.props.visor()}><i className="material-icons">visibility</i>
-                    <br/>
-                    <span className="hideonresize" style={{fontSize: '12px'}}>{i18n.t('Preview')}</span>
-                </button>
+                <div style={{float:'right', marginRight: '30px'}}>
+                    <button className="navButton"
+                            title={i18n.t('Save')}
+                            disabled={this.props.undoDisabled }
+                            onClick={() => {
+                                    this.props.save();
+                                    this.props.serverModalOpen();
+                                }}>
+                        <i className="material-icons">save</i>
+                        <br/>
+                        <span className="hideonresize" style={{fontSize: '12px'}}>{i18n.t('Save')}</span>
+                    </button>
+                    <button className="navButton"
+                            title={i18n.t('Preview')}
+                            disabled={this.props.undoDisabled || (this.props.navItemSelected && this.props.navItemSelected.indexOf(ID_PREFIX_SECTION) !== -1)}
+                            onClick={() =>this.props.visor()}><i className="material-icons">visibility</i>
+                        <br/>
+                        <span className="hideonresize" style={{fontSize: '12px'}}>{i18n.t('Preview')}</span>
+                    </button>
+                </div>
             </Col>
             /* jshint ignore:end */
         );

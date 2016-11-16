@@ -98,6 +98,12 @@ export default class DaliBox extends Component {
             <div className="boxStyle" style={style} {...attrs} ref={"content"}
                  dangerouslySetInnerHTML={{__html: decodeURI(toolbar.state.__text)}}></div>
             /* jshint ignore:end */
+        ) : toolbar.config.flavor === "react" ? (
+            /* jshint ignore:start */
+            <div className="boxStyle" style={style} {...attrs} ref={"content"}>
+                {box.content}
+            </div>
+            /* jshint ignore:end */
         ) : (
             /* jshint ignore:start */
             <div className="boxStyle" style={style} {...attrs} ref={"content"}>
@@ -138,6 +144,9 @@ export default class DaliBox extends Component {
         }
         if (this.props.id === this.props.boxSelected) {
             classes += " selectedBox";
+        }
+        if (box.height === 'auto') {
+            classes += " automaticallySizedBox";
         }
 
         let showOverlay;
@@ -326,7 +335,10 @@ export default class DaliBox extends Component {
 
     checkAspectRatio() {
         let toolbar = this.props.toolbars[this.props.id];
-
+        let box = this.props.boxes[this.props.id];
+        if (box && box.height && box.height === 'auto') {
+            return true;
+        }
         if (toolbar.config.aspectRatioButtonConfig) {
             let arb = toolbar.config.aspectRatioButtonConfig;
             if (arb.location.length === 2) {
@@ -340,7 +352,7 @@ export default class DaliBox extends Component {
             } else {
                 let comp = toolbar.controls[arb.location[0]].accordions[arb.location[1]].accordions[arb.location[2]].buttons.__aspectRatio;
                 if (comp) {
-                    return comp.value === "checked";
+                    return (comp.value === "checked");
                 } else {
                     return false;
                 }
@@ -628,10 +640,9 @@ export default class DaliBox extends Component {
                     let target = event.target;
                     let width = Math.min(Math.floor(parseInt(target.style.width) / target.parentElement.offsetWidth * 100), 100) + '%';
                     let height = Math.min(Math.floor(parseInt(target.style.height) / target.parentElement.offsetHeight * 100), 100) + '%';
-                    this.props.onBoxResized(
-                        this.props.id,
-                        box.container.length && box.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1 ? width : parseInt(target.style.width),
-                        box.container.length && box.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1 ? height : parseInt(target.style.height));
+                    let newWidth = box.container.length && box.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1 ? width : parseInt(target.style.width);
+                    let newHeight = box.container.length && box.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1 ? height : parseInt(target.style.height);
+                    this.props.onBoxResized(this.props.id, newWidth, this.props.boxes[this.props.id].height === 'auto' ? 'auto' : newHeight);
                     this.props.onBoxMoved(this.props.id, target.style.left, target.style.top, this.props.boxes[this.props.id].position.type);
                     event.stopPropagation();
                     let bar = this.props.containedViewSelected === 0 ? document.getElementById('daliBoxIcons') : document.getElementById('contained_daliBoxIcons');

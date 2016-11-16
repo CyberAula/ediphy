@@ -102,3 +102,12 @@
         pointer-events: none !important;
     }
 }
+
+.basicImageClass{
+	position: absolute;
+	top:0; left: 0;
+}
+
+.automaticallySizedBox .basicImageClass{
+	position: relative;
+}

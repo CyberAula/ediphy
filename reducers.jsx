@@ -62,6 +62,9 @@ function boxCreator(state = {}, action = {}) {
                 if (action.payload.initialParams.row) {
                     row = action.payload.initialParams.row;
                 }
+                if (action.payload.initialParams.width) {
+                    width = action.payload.initialParams.width;
+                }
             }
 
             let children = [];
@@ -887,6 +890,7 @@ function createSortableButtons(controls, width) {
         type: 'checkbox',
         value: 'checked',
         checked: 'true',
+        title: i18n.t('Height_auto_message'),
         autoManaged: true
     };
     controls.main.accordions.__sortable.buttons.___position = {
@@ -956,20 +960,20 @@ function createAliasButton(controls, alias) {
             __name: "Alias",
             icon: 'rate_review',
             accordions: {
-                '~extra': {
+                __extra: {
                     __name: "Alias",
                     buttons: {}
                 }
             }
         };
-    } else if (!controls.main.accordions['~extra']) {
-        controls.main.accordions['~extra'] = {
+    } else if (!controls.main.accordions.__extra) {
+        controls.main.accordions.__extra = {
             __name: "Alias",
             icon: 'rate_review',
             buttons: {}
         };
     }
-    controls.main.accordions['~extra'].buttons.alias = {
+    controls.main.accordions.__extra.buttons.alias = {
         __name: 'Alias',
         type: 'text',
         value: alias || "",
@@ -1086,7 +1090,7 @@ function toolbarsById(state = {}, action = {}) {
         case RESIZE_BOX:
             newState = Object.assign({}, state);
             let height = action.payload.height;
-            //let width = action.payload.width;
+            let width = action.payload.width;
             let heightAuto = height === 'auto';
 
             if (newState[action.payload.id] && newState[action.payload.id].controls) {
@@ -1099,7 +1103,7 @@ function toolbarsById(state = {}, action = {}) {
                         }
                         if (buttons.height && buttons.width) {
                             newState[action.payload.id].controls.main.accordions.__sortable.buttons.height.value = height;
-                            newState[action.payload.id].controls.main.accordions.__sortable.buttons.width.value = height;
+                            newState[action.payload.id].controls.main.accordions.__sortable.buttons.width.value = width;
                         }
                     }
                 }
@@ -1120,29 +1124,6 @@ function toolbarsById(state = {}, action = {}) {
             });
         case UPDATE_BOX:
             let controls = action.payload.toolbar;
-            for (let tabKey in controls) {
-                let accordions = controls[tabKey].accordions;
-                for (let accordionKey in accordions) {
-                    let buttons = accordions[accordionKey].buttons;
-                    for (let buttonKey in buttons) {
-                        if (state[action.payload.id].controls[tabKey].accordions[accordionKey].buttons[buttonKey]) {
-                            buttons[buttonKey].value = state[action.payload.id].controls[tabKey].accordions[accordionKey].buttons[buttonKey].value;
-                        }
-                    }
-                    if (accordions[accordionKey].accordions) {
-                        accordions = accordions[accordionKey].accordions;
-                        for (let accordionKey2 in accordions) {
-
-                            buttons = accordions[accordionKey2].buttons;
-                            for (let buttonKey in buttons) {
-                                if (state[action.payload.id].controls[tabKey].accordions[accordionKey].accordions[accordionKey2].buttons[buttonKey]) {
-                                    buttons[buttonKey].value = state[action.payload.id].controls[tabKey].accordions[accordionKey].accordions[accordionKey2].buttons[buttonKey].value;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
 
             try {
                 createSortableButtons(
@@ -1152,7 +1133,7 @@ function toolbarsById(state = {}, action = {}) {
                 );
                 createAliasButton(
                     controls,
-                    state[action.payload.id].controls.main.accordions['~extra'].buttons.alias.value
+                    state[action.payload.id].controls.main.accordions.__extra.buttons.alias.value
                 );
             } catch (e) {
             }
@@ -1257,7 +1238,6 @@ const GlobalState = undoable(combineReducers({
     filter: (action, currentState, previousState) => {
 
         switch (action.type) {
-
             case CHANGE_DISPLAY_MODE:
             case EXPAND_NAV_ITEM:
             case IMPORT_STATE:
@@ -1271,6 +1251,14 @@ const GlobalState = undoable(combineReducers({
             case UPDATE_INTERMEDIATE_TOOLBAR:
             case UPDATE_NAV_ITEM_EXTRA_FILES:
                 return false;
+        }
+
+        if(action.type === ADD_BOX){
+            if(action.payload.initialParams && action.payload.initialParams.isDefaultPlugin) {
+                return false;
+            }else if (action.payload.ids.id.indexOf(ID_PREFIX_SORTABLE_BOX) !== -1){
+                return false;
+            }
         }
 
         return currentState !== previousState; // only add to history if state changed

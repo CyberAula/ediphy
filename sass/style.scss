@@ -1,4 +1,3 @@
-
 @import 'variables';
 @import 'general/mixins/mixins';
 @import 'general/tipography/tipo';
@@ -21,7 +20,6 @@
 @import 'general/elements/thumbnails';
 @import 'cke_rewrite';
 
-
 @include selection {
     color: white;
     background: $verdeadams;
@@ -31,6 +29,9 @@
 	margin:0;
 }
 
+.asdfasdf{
+	width:100%;
+}
 /*Transition for hiding toolbars and navbars*/
 #colLeft, #colRight, #ribbon, #insideribbon, #tools, #indice{
 	@include animacion(width, 0.3s);
@@ -60,17 +61,12 @@
     #canvas, #maincontent, #canvasRow {
         z-index:0 ;
     }
-
-
 }
-
-
 
 .full{
 	width:100% !important;
     @include animacion(height, 0.3s);
 }
-
 
 .hidden{
     visibility: hidden;
