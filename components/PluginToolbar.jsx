@@ -344,11 +344,22 @@ export default class PluginToolbar extends Component {
                 }
 
                 if (button.type === 'number') {
-                    value = parseFloat(value) || 0;
+
+                    if( (parseFloat(value) || 0) < button.min ){
+                        value = button.min;
+
+                    } else if((parseFloat(value) || 0) > button.max ){
+                        value = button.max;
+
+                    } else {
+                        value = parseFloat(value) || 0;
+                    }
+
                     if (button.units) {
                         value = value + button.units;
                     }
                 }
+                
                 if (button.type === 'checkbox') {
                     value = ( value === 'checked') ? 'unchecked' : 'checked';
                 }
