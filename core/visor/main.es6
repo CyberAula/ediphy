@@ -7,7 +7,7 @@ import Plugins from './plugins';
 import {ID_PREFIX_SECTION} from './../../constants';
 
 var parseEJS = function (path, page, state, fromScorm) {
-    if (Object.keys(page.extraFiles).length !== 0){
+    if (Object.keys(state.navItemsById[page].extraFiles).length !== 0){
         return (new EJS({url: path + "_exercise.ejs"}).render({
             state: state
         }));
