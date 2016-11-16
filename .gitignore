@@ -5,6 +5,7 @@ dist/*bundle.js
 webpack.config.js~
 *.orig
 .sass-cache
+style.scss~
 dali_server/config.json
 dist/src/*
 dist/js/*

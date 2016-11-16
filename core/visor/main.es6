@@ -7,7 +7,12 @@ import Plugins from './plugins';
 import {ID_PREFIX_SECTION} from './../../constants';
 
 var parseEJS = function (path, page, state, fromScorm) {
-    return (new EJS({url: path}).render({
+    if (Object.keys(page.extraFiles).length !== 0){
+        return (new EJS({url: path + "_exercise.ejs"}).render({
+            state: state
+        }));
+    }
+    return (new EJS({url: path + ".ejs"}).render({
         state: state,
         title: state.title,
         page: page,
@@ -15,8 +20,7 @@ var parseEJS = function (path, page, state, fromScorm) {
         boxesById: state.boxesById,
         boxes: state.boxes,
         toolbarsById: state.toolbarsById,
-        relativePath: fromScorm ? "../" : "",
-        fromScorm: fromScorm
+        relativePath: fromScorm ? "../" : ""
     }));
 };
 
@@ -50,8 +54,13 @@ export default {
         });
     },
     exportPage: function (state) {
-        return new EJS({url: Dali.Config.visor_ejs}).render({
-            title: state.navItemSelected.name,
+        if (Object.keys(state.navItemsById[state.navItemSelected].extraFiles).length !== 0){
+            return (new EJS({url: Dali.Config.visor_ejs + "_exercise.ejs"}).render({
+                state: state
+            }));
+        }
+        return new EJS({url: Dali.Config.visor_ejs + ".ejs"}).render({
+            title: state.navItemsById[state.navItemSelected].name,
             state: state,
             page: state.navItemSelected,
             navs: state.navItemsById,
