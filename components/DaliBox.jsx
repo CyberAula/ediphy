@@ -330,7 +330,7 @@ export default class DaliBox extends Component {
         }
     }
 
-    checkAspectRatio() {
+    checkAspectRatioValue() {
         let toolbar = this.props.toolbars[this.props.id];
 
         if (toolbar.config.aspectRatioButtonConfig) {
@@ -358,22 +358,25 @@ export default class DaliBox extends Component {
 
     componentDidUpdate(prevProps, prevState) {
         let toolbar = this.props.toolbars[this.props.id];
+        let box = this.props.boxes[this.props.id];
         let node = ReactDOM.findDOMNode(this);
 
         if (toolbar.showTextEditor) {
             this.refs.textarea.focus();
 
         }
-        if (prevProps.toolbars[this.props.id] && (toolbar.showTextEditor !== prevProps.toolbars[this.props.id].showTextEditor) && this.props.boxes[this.props.id].draggable) {
-            interact(node).draggable(!toolbar.showTextEditor);
+        if (prevProps.toolbars[this.props.id] && (toolbar.showTextEditor !== prevProps.toolbars[this.props.id].showTextEditor) && box.draggable) {
+            interact(node).draggable({enabled: !toolbar.showTextEditor});
         }
 
-        interact(node).resizable({preserveAspectRatio: this.checkAspectRatio()});
+        if(box.resizable) {
+            interact(node).resizable({preserveAspectRatio: this.checkAspectRatioValue()});
+        }
 
-        if (this.props.boxes[this.props.id].level > this.props.boxLevelSelected) {
+        if (box.level > this.props.boxLevelSelected) {
             interact(node).draggable({enabled: false});
         } else {
-            interact(node).draggable({enabled: (this.draggable)});
+            interact(node).draggable({enabled: box.draggable});
         }
 
         let action = this.props.lastActionDispatched;
@@ -398,7 +401,6 @@ export default class DaliBox extends Component {
         }
 
         Dali.Plugins.get(toolbar.config.name).afterRender(this.refs.content, toolbar.state);
-
         let dragRestrictionSelector = (box.container.length && box.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1) ? ".daliBoxSortableContainer, .drg" + box.container : "parent";
         interact(ReactDOM.findDOMNode(this))
             .draggable({
@@ -434,13 +436,10 @@ export default class DaliBox extends Component {
                         clone.style.position = 'absolute';
                         parent.appendChild(clone);
                         // translate the element
-                        clone.style.webkitTransform =
-                            clone.style.transform =
-                                'translate(' + (x) + 'px, ' + (y) + 'px)';
-
+                        clone.style.webkitTransform = clone.style.transform = 'translate(' + (x) + 'px, ' + (y) + 'px)';
                         clone.style.height = originalRect.height + "px";
                         clone.style.width = originalRect.width + "px";
-                        clone.style.border = /* this.borderSize +*/ "1px dashed #555";
+                        clone.style.border = "1px dashed #555";
                         original.style.opacity = 0;
                     }
                 },
@@ -473,7 +472,6 @@ export default class DaliBox extends Component {
                             original.setAttribute('data-x', x);
                             original.setAttribute('data-y', y);
                         }
-
                     }
                 },
                 onend: (event) => {
@@ -551,12 +549,11 @@ export default class DaliBox extends Component {
             })
             .ignoreFrom('input, textarea, .textAreaStyle,  a')
             .resizable({
-                preserveAspectRatio: this.checkAspectRatio(),
+                preserveAspectRatio: this.checkAspectRatioValue(),
                 enabled: (box.resizable),
                 restrict: {
                     restriction: "parent",
-                    //endOnly: true,
-                    elementRect: {top: 1, left: 1, bottom: 1, right: 1}
+                    elementRect: {top: 0, left: 0, bottom: 1, right: 1}
                 },
                 edges: {left: true, right: true, bottom: true, top: true},
                 onstart: (event) => {
