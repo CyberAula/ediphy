@@ -58,11 +58,6 @@ export default class DaliCarousel extends Component {
                          style={{height: '100%'}}>
                         {this.props.carouselShow ? carrouselContent : <br/>}
                     </div>
-                    <div className="pestanaCarousel"
-                         id="pestcar"
-                         onClick={() => {this.props.onToggleWidth() }}>
-
-                    </div>
 
                 </div>
             </div>

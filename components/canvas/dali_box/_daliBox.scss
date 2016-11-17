@@ -37,7 +37,6 @@
 
 /*Box editing shortcuts*/
 #daliBoxIcons {
-
     position:absolute;
     text-align: center;
     height:40px;
@@ -55,7 +54,6 @@
 }
 
 #contained_daliBoxIcons {
-
     position:absolute;
     text-align: center;
     height:40px;
@@ -67,7 +65,6 @@
         background-color: #bababa !important;
         &:hover {
             background-color: $brand_orange !important;
-
         }
     }
 }

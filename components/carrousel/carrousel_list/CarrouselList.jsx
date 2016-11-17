@@ -58,12 +58,10 @@ export default class CarrouselList extends Component {
                                             onTitleChange={this.props.onTitleChange}
                                             onNavItemToggled={this.props.onNavItemToggled}/></span>
                                 </h4>
-
-
                             }
                         })}
                 </div>
-                <div style={{width: '100%', borderTop: '1px solid grey', marginTop: '0px', padding: '0px'}}>
+                <div style={{width: 'calc(100% / 6)', marginTop: '0px', padding: '0px', position: 'fixed', bottom: '4px'}}>
                     <Button className="carrouselButton"
                             disabled={this.props.navItems[this.props.navItemSelected].type !== "section" && this.props.navItemSelected !== 0}
                             onClick={e => {

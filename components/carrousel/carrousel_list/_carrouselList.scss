@@ -9,9 +9,7 @@
     height: calc(100% - 75px);
     margin: 4px 0px 0px 0px;
     color: $fondo;
-    // padding: 5px;
 }
-
 
 /*Título del componente*/
 .carouselListTitle{
@@ -85,7 +83,8 @@
         padding: 5px;
     }
     .material-icons{
-        padding: 5px !important;
+        padding: 4px !important;
+        cursor: pointer;
     }
 }
 
@@ -142,30 +141,11 @@
     max-width: 80%;
 }
 
-/*Spread tab*/
-.pestanaCarousel{
-    cursor:pointer;
-    width: 0;
-    height: 0;
-    border-width: 10px;
-    border-style: solid;
-    text-align: center;
-    z-index: 999;
-    display: inline-block;
-    position: absolute;
-    top: 60px;
-    left: 100%;
-    border-color: transparent;
-    border-left-color: $darkest;
-    color: #133329;
-}
-
 /*Collapsed Carrousel*/
 .indiceoculto{
     left:0;
     top:0;
     position:absolute;
-
 }
 
 /*Hide Sections when collapsed*/
@@ -227,11 +207,10 @@
                 text-decoration: none;
                 background-color: #444;
                 color:white;
-
             }
         }
     }
-    
+
     /*Disabled menu items*/
     li.disabled {
         a {
@@ -260,7 +239,6 @@
     width: 100%;
     .dropdown-menu > li > a {
         padding:  0px;
-
     }
 }
 

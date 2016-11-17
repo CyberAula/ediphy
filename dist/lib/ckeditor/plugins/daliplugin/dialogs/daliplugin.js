@@ -87,6 +87,8 @@
                 plugin.setStyle('height', '28px');
                 plugin.setStyle('display', 'block');
                 plugin.setStyle('border', '1px solid black');
+                plugin.setStyle('margin-bottom', '8px');
+                plugin(before).setStyle('content', 'Read this');
 
                 var div = editor.document.createElement('div');
                 plugin.appendTo(div);
