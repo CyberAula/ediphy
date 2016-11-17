@@ -13,6 +13,7 @@
     "watch-sass": "node-sass -w sass/style.scss -o dist/css/compiledsass.css"
   },
   "devDependencies": {
+    "async": "^2.1.2",
     "babel-core": "^6.10.4",
     "babel-loader": "^6.2.4",
     "babel-preset-es2015": "^6.9.0",
@@ -23,6 +24,7 @@
     "file-loader": "^0.9.0",
     "jshint": "^2.9.2",
     "jshint-loader": "^0.8.3",
+    "node-dir": "^0.1.16",
     "node-sass": "^3.8.0",
     "react-hot-loader": "^1.3.0",
     "redux-devtools": "^3.0.0",
