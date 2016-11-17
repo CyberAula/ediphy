@@ -144,7 +144,7 @@ ZipBundlePlugin.prototype.apply = function(compiler){
           var path = "./dist/lib/scorm/manifest_files/";
           fs.stat(path, function(err, stats) {
             if(err){
-              console.log("/dist/exercises/ does not exist!");
+              console.log("/dist/manifest_files/ does not exist!");
               callback(null, "manifest_files");
             }else{
               dir.files(path, function(err, filelist) {
@@ -157,19 +157,6 @@ ZipBundlePlugin.prototype.apply = function(compiler){
                   });
               });
             }
-          });
-        },        
-        function(callback){
-            var path = "./dist/visor-bundle.js";
-            fs.stat(path, function(err, stats) {
-            if(err){
-              console.log("js/visor-bundle.js does not exist!");
-              callback(null, "bundle");
-            }else{
-              visor_zip.file("js/visor-bundle.js",fs.readFile(path));
-              scorm_zip.file("js/visor-bundle.js",fs.readFile(path));
-              callback(null, "bundle");
-            } 
           });
         },
         //Write visor
