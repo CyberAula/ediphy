@@ -9,6 +9,8 @@ style.scss~
 dali_server/config.json
 dist/src/*
 dist/js/*
+dist/lib/scorm/scorm.zip
+dist/lib/visor/dist.zip
 dist/plugins
 dist/exercises/*
 dist/css/default.css
