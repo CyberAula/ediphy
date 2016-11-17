@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
-import {Input, Button, Tooltip, OverlayTrigger} from 'react-bootstrap';
-import interact from 'interact.js';
+import {Button, Tooltip, OverlayTrigger} from 'react-bootstrap';
 import {ID_PREFIX_BOX, ID_PREFIX_PAGE, ID_PREFIX_SECTION, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_SORTABLE_CONTAINER} from '../constants';
 import i18n from 'i18next';
 
@@ -12,7 +11,7 @@ export default class DaliShortcuts extends Component {
             left: 0,
             top: 0,
             width: 0
-        }
+        };
     }
 
     render() {
@@ -31,7 +30,7 @@ export default class DaliShortcuts extends Component {
                     position: 'absolute',
                     left: this.state.left,
                     top: this.state.top,
-                    width: this.state.width
+                    width: this.state.width !== 0 ? this.state.width : "auto"
                  }}>
                 <div ref="innerContainer" style={{display: "inline-block"}}>
                     {
@@ -116,7 +115,7 @@ export default class DaliShortcuts extends Component {
                     var elementRect = element.getBoundingClientRect();
                     width = boxRect.width < elementRect.width ? elementRect.width : boxRect.width;
                 } else {
-                    width = boxRect.width;
+                    //width = boxRect.width;
                 }
             }
             this.setState({left: left, top: top, width: width});
