@@ -84,7 +84,7 @@ export default class GridConfigurator extends Component {
                                         title={i18n.t('Alignment')}
                                         options={['left', 'center', 'right']}
                                         selected={alignment}
-                                        click={(option) => {this.props.onChangeSortableProps(this.props.id, this.props.parentId, 'textAlign', option)}}
+                                        click={(option) => {this.props.onSortablePropsChanged(this.props.id, this.props.parentId, 'textAlign', option)}}
                                         tooltips={[i18n.t('messages.align_left'),i18n.t('messages.align_center'),i18n.t('messages.align_right')]}
                                         icons={['format_align_left', 'format_align_center', 'format_align_right']} />
                 </FormGroup>
@@ -185,7 +185,7 @@ export default class GridConfigurator extends Component {
                                  max={100}
                                  style={{width: '100%'}}
                                  onChange={e => {
-                                    this.props.onChangeSortableProps(this.props.id, this.props.parentId, 'padding', e.target.value + 'px');
+                                    this.props.onSortablePropsChanged(this.props.id, this.props.parentId, 'padding', e.target.value + 'px');
                                 }}/>
                 </FormGroup>
                 <FormGroup>
@@ -195,7 +195,7 @@ export default class GridConfigurator extends Component {
                                  label={"Color del borde"}
                                  style={{width: '100%'}}
                                  onChange={e => {
-                                    this.props.onChangeSortableProps(this.props.id, this.props.parentId, 'borderColor', e.target.value);
+                                    this.props.onSortablePropsChanged(this.props.id, this.props.parentId, 'borderColor', e.target.value);
                                 }}/>
                 </FormGroup>
                 <FormGroup>
@@ -206,7 +206,7 @@ export default class GridConfigurator extends Component {
                                  min={0}
                                  style={{width: '100%'}}
                                  onChange={e => {
-                                    this.props.onChangeSortableProps(this.props.id, this.props.parentId, 'borderWidth', e.target.value + 'px');
+                                    this.props.onSortablePropsChanged(this.props.id, this.props.parentId, 'borderWidth', e.target.value + 'px');
                                 }}/>
                 </FormGroup>
                 <FormGroup>
@@ -222,7 +222,7 @@ export default class GridConfigurator extends Component {
                                  step={0.05}
                                  max={1}
                                  onChange={e => {
-                                    this.props.onChangeSortableProps(this.props.id, this.props.parentId, 'opacity', e.target.value );
+                                    this.props.onSortablePropsChanged(this.props.id, this.props.parentId, 'opacity', e.target.value );
                                 }}/>
                 </FormGroup>
                 {React.createElement(FormGroup, {key: 'borderstyle'},
@@ -232,7 +232,7 @@ export default class GridConfigurator extends Component {
                                 value: this.props.container.style ? this.props.container.style.borderStyle : 'none',
                                 key: 'sel',
                                 onChange: e => {
-                                    this.props.onChangeSortableProps(this.props.id, this.props.parentId, 'borderStyle', e.target.value)
+                                    this.props.onSortablePropsChanged(this.props.id, this.props.parentId, 'borderStyle', e.target.value)
                                 }
                             },
                             ['none', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset', 'initial', 'inherit']

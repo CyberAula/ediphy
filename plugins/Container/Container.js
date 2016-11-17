@@ -31,12 +31,12 @@ export function Container(base) {
             };
         },
         getInitialState: function(){
-            return {boxes: 2};
+            return {boxes: 1};
         },
         getRenderTemplate: function (state) {
             let template = "<div>";
             for (let i = 0; i < state.boxes; i++) {
-                template += "<div><plugin plugin-data-key='" + i + "' plugin-data-default='BasicImage' /></div>";
+                template += "<div><plugin plugin-data-key='" + i + "' /></div>";
             }
             template += "</div>";
 
