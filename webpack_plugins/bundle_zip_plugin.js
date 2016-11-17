@@ -171,16 +171,25 @@ ZipBundlePlugin.prototype.apply = function(compiler){
               callback(null, "bundle");
             } 
           });
-        }
-        ],function(err,results){
+        },
+        //Write visor
+        function(callback){
            visor_zip.generateAsync({type:"nodebuffer"}).then(function (content) {
               fs.writeFile("./dist/lib/visor/dist.zip", content, function(err){});
               console.log("Ended dist.zip bundle");
+              callback();
+          
           });
+        },
+        //Write scorm
+        function(callback){
            scorm_zip.generateAsync({type:"nodebuffer"}).then(function (content) {
               fs.writeFile("./dist/lib/scorm/scorm.zip", content, function(err){});
               console.log("Ended scorm.zip bundle");
+              callback();
           });
+        }],function(err,results){
+          callback();
         }
       );
 
