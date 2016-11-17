@@ -15,7 +15,7 @@ export default class DaliBoxSortable extends Component {
             /* jshint ignore:start */
             <div className="daliBoxSortable" onClick={e => {
                 if(box.children.length != 0) {
-                    this.props.onBoxSelected(this.props.id, 0);
+                    this.props.onBoxSelected(this.props.id);
                 }
                 e.stopPropagation();
             }}>
@@ -23,8 +23,7 @@ export default class DaliBoxSortable extends Component {
                      className={(this.props.id === this.props.boxSelected && box.children.length > 0) ? ' selectedBox':' '}
                      style={{
                      position: 'relative',
-                    /* border: (this.props.id === this.props.boxSelected ? '1px dashed black' : '1px solid #999'),*/
-                     boxSizing: 'border-box',
+                     boxSizing: 'border-box'
                 }}>
                     {box.children.map((idContainer, index)=> {
                         let container = box.sortableContainers[idContainer];
@@ -38,9 +37,6 @@ export default class DaliBoxSortable extends Component {
                                         minHeight: '35px', 
                                         textAlign: 'center',
                                         lineHeight: '100%',
-                                        /* overflow: 'hidden',*/
-                                        /* border: 0,
-                                        borderBottom: '5px solid rgba(255,121,32,0.5)',*/
                                         boxSizing: 'border-box',
                                         position: 'relative'},container.style)}>
                             <div style={{display: "table", width: "100%", height: "100%"}}>
@@ -108,7 +104,10 @@ export default class DaliBoxSortable extends Component {
                         </div>);
                     })}
                 </div>
-                <div className="dragContentHere">
+                <div className="dragContentHere" onClick={e => {
+                    this.props.onBoxSelected(-1);
+                    e.stopPropagation();
+                }}>
                     {i18n.t("messages.drag_content")}
                 </div>
             </div>

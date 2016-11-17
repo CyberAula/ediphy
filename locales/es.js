@@ -48,7 +48,7 @@ var es = {
         "no_results" : "Sin resultados",
 		"Open" : "Abrir",
 		"page" : "Página",
-		"Position" : "Posición",
+		"Position" : "Posicionamiento",
 		"Preview" : "Previsualizar",
 		"Properties" : "Propiedades",
 		"row_number" : "Nº filas en col. ",
@@ -68,6 +68,8 @@ var es = {
 			"box_style": "Estilo caja",
 			"opacity": "Opacidad",
 			"padding": "Padding",
+			"absolute": "Absoluto",
+			"relative": "Relativo"
 		},
 		"Text" : "Texto",
 		"text_here" : "Introduzca aquí su texto",

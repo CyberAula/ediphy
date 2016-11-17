@@ -49,7 +49,7 @@ var en = {
         "no_results" : "No results",
 		"Open" : "Open",
 		"page" : "Page",
-		"Position" : "Position",
+		"Position" : "Positioning",
 		"Preview" : "Preview",
 		"Properties" : "Properties",
 		"row_number" : "Number of rows in col ",
@@ -68,6 +68,8 @@ var en = {
 	        "box_style": "Box style",
 	        "opacity": "Opacity",
 	        "padding": "Padding",
+			"absolute": "Absolute",
+			"relative": "Relative"
 		},
 		"Text" : "Text",
 		"text_here" : "Text goes here",
