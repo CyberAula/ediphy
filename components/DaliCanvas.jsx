@@ -69,7 +69,7 @@ export default class DaliCanvas extends Component {
                         <br/>
 
                         <DaliShortcuts
-                            box={this.props.boxSelected == -1 ? -1 : this.props.boxes[this.props.boxSelected]}
+                            box={this.props.boxes[this.props.boxSelected]}
                             containedViewSelected={this.props.containedViewSelected}
                             isContained={false}
                             onTextEditorToggled={this.props.onTextEditorToggled}

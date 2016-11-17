@@ -689,20 +689,5 @@ export default class DaliBox extends Component {
             CKEDITOR.instances[this.props.id].destroy();
         }
     }
-
-    recalculatePosition(id) {
-        let element = document.getElementById('box-' + id);
-        let bar = this.props.containedViewSelected === 0 ? document.getElementById('daliBoxIcons') : document.getElementById('contained_daliBoxIcons');
-        if (element && bar) {
-            var rect = element.getBoundingClientRect();
-            var main = this.props.containedViewSelected === 0 ? document.getElementById('maincontent') : document.getElementById('contained_maincontent');
-            var canvas = main.getBoundingClientRect();
-            bar.style.left = (rect.left - canvas.left) + 'px';
-            bar.style.top = (rect.top - canvas.top + main.scrollTop) + 'px';
-            bar.style.width = element.clientWidth + 'px';
-
-        }
-        return null;
-    }
 }
 

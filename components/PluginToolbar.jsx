@@ -374,7 +374,6 @@ export default class PluginToolbar extends Component {
                 this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, value);
 
                 if (!button.autoManaged) {
-                    console.log(button);
                     button.callback(state, buttonKey, value, id, UPDATE_TOOLBAR);
                 }
             }

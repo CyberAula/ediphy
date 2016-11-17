@@ -64,7 +64,7 @@ export default class ContainedCanvas extends Component {
                                 }}>X</Button>
 
                         <DaliShortcuts
-                            box={this.props.boxSelected == -1 ? -1 : this.props.boxes[this.props.boxSelected]}
+                            box={this.props.boxes[this.props.boxSelected]}
                             containedViewSelected={this.props.containedViewSelected}
                             isContained={true}
                             onTextEditorToggled={this.props.onTextEditorToggled}
