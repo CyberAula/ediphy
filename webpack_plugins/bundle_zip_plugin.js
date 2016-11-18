@@ -72,7 +72,7 @@ ZipBundlePlugin.prototype.apply = function(compiler){
               dir.files(path, function(err, filelist) {
                   if (err) throw err;
                   async.each(filelist, function(elem,call){
-                     if(process.argv.indexOf('-p') !== -1 && elem.indexOf(".js") !== -1){
+                     if(process.argv.indexOf('-p') !== -1 && elem.indexOf(".js") !== -1 && !(elem.indexOf("parseXML.js") !== -1 || elem.indexOf("jsLoader.js") !== -1)){
                       visor_zip.file(purgeRoot(elem), UglifyJS.minify("./" +elem).code);
                       scorm_zip.file(purgeRoot(elem), UglifyJS.minify("./" +elem).code);
                     } else {
