@@ -2,6 +2,7 @@ var fs = require("fs");
 var JSZip = require("jszip");
 var async = require("async");
 var dir = require('node-dir');
+var UglifyJS = require('uglify-js');
 
 var visor_zip = new JSZip();
 var scorm_zip = new JSZip();
@@ -71,8 +72,13 @@ ZipBundlePlugin.prototype.apply = function(compiler){
               dir.files(path, function(err, filelist) {
                   if (err) throw err;
                   async.each(filelist, function(elem,call){
-                    visor_zip.file(purgeRoot(elem), fs.readFileSync("./" +elem));
-                    scorm_zip.file(purgeRoot(elem), fs.readFileSync("./" + elem));
+                     if(process.argv.indexOf('-p') !== -1 && elem.indexOf(".js") !== -1){
+                      visor_zip.file(purgeRoot(elem), UglifyJS.minify("./" +elem).code);
+                      scorm_zip.file(purgeRoot(elem), UglifyJS.minify("./" +elem).code);
+                    } else {
+                      visor_zip.file(purgeRoot(elem), fs.readFileSync("./" +elem));
+                      scorm_zip.file(purgeRoot(elem), fs.readFileSync("./" +elem));
+                    }
                     call();
                   }, function(err,results){
                     callback(null, "src");
