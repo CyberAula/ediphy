@@ -40,8 +40,7 @@ export default class DaliCarousel extends Component {
                         <div className="textIndex">{i18n.t('INDEX')}</div>
                         <i style={{
                             fontSize: this.props.carouselShow ? "16px":"32px",
-                            position: this.props.carouselShow ? "absolute" : "initial",
-                            right: 0
+                            float: "right"
                             }}
                            className="material-icons"
                            onClick={e => {
