@@ -17,7 +17,6 @@
     color: $grisclaro;
     * { @include animacion(all,0.2s);
         padding: 4px;
-        padding-right: 14px;
     }
     &:hover{
         color: white !important;
