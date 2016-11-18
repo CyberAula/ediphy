@@ -90,6 +90,7 @@ ZipBundlePlugin.prototype.apply = function(compiler){
             }else{
               dir.files(path, function(err, filelist) {
                   if (err) throw err;
+                  filelist.splice(filelist.indexOf("dist/js/visor-bundle.js.map"),1);
                   async.each(filelist, function(elem,call){
                     visor_zip.file(purgeRoot(elem), fs.readFileSync("./" +elem));
                     scorm_zip.file(purgeRoot(elem), fs.readFileSync("./" + elem));
