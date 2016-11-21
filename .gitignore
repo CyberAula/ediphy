@@ -11,6 +11,7 @@ dist/src/*
 dist/js/*
 dist/lib/scorm/scorm.zip
 dist/lib/visor/dist.zip
+dist/lib/visor/index_exercise.ejs
 dist/plugins
 dist/exercises/*
 dist/css/default.css
