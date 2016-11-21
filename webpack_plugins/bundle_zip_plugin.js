@@ -26,7 +26,7 @@ ZipBundlePlugin.prototype.apply = function(compiler){
           var path = "./dist/css/";
           fs.stat(path, function(err, stats) {
             if(err){
-              console.log("/dist/css/ does not exist!");
+              console.error("/dist/css/ does not exist!");
               callback(null, "css");
             }else{
               dir.files(path, function(err, filelist) {
@@ -46,7 +46,7 @@ ZipBundlePlugin.prototype.apply = function(compiler){
           var path = "./dist/images/";
           fs.stat(path, function(err, stats) {
             if(err){
-              console.log("/dist/images/ does not exist!");
+              console.error("/dist/images/ does not exist!");
               callback(null, "images");
             }else{
               dir.files(path, function(err, filelist) {
@@ -66,7 +66,7 @@ ZipBundlePlugin.prototype.apply = function(compiler){
           var path = "./dist/src/";
           fs.stat(path, function(err, stats) {
             if(err){
-              console.log("/dist/src/ does not exist!");
+              console.error("/dist/src/ does not exist!");
               callback(null, "src");
             }else{
               dir.files(path, function(err, filelist) {
@@ -91,7 +91,7 @@ ZipBundlePlugin.prototype.apply = function(compiler){
             var path = "./dist/js/";
             fs.stat(path, function(err, stats) {
             if(err){
-              console.log("/dist/js/ does not exist!");
+              console.error("/dist/js/ does not exist!");
               callback(null, "js");
             }else{
               dir.files(path, function(err, filelist) {
@@ -112,7 +112,7 @@ ZipBundlePlugin.prototype.apply = function(compiler){
           var path = "./dist/exercises/";
           fs.stat(path, function(err, stats) {
             if(err){
-              console.log("/dist/exercises/ does not exist!");
+              console.error("/dist/exercises/ does not exist!");
               callback(null, "exercises");
             }else{
               dir.files(path, function(err, filelist) {
@@ -132,7 +132,7 @@ ZipBundlePlugin.prototype.apply = function(compiler){
           var path = "./dist/lib/scorm/scorm/";
           fs.stat(path, function(err, stats) {
             if(err){
-              console.log("./dist/lib/scorm/scorm/ does not exist!");
+              console.error("./dist/lib/scorm/scorm/ does not exist!");
               callback(null, "scorm");
             }else{
               dir.files(path, function(err, filelist) {
@@ -151,7 +151,7 @@ ZipBundlePlugin.prototype.apply = function(compiler){
           var path = "./dist/lib/scorm/manifest_files/";
           fs.stat(path, function(err, stats) {
             if(err){
-              console.log("/dist/manifest_files/ does not exist!");
+              console.error("/dist/manifest_files/ does not exist!");
               callback(null, "manifest_files");
             }else{
               dir.files(path, function(err, filelist) {
