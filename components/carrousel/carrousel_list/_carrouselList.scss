@@ -59,15 +59,16 @@
 }
 
 /*NavItem Selected*/
+.selected, .notSelected{
+    font-size: 12px;
+}
 .selected{
-    font-size:13px;
     color: white;
     background-color: $greyNavItemSelected;
 }
 
 /*NavItem NOT Selected*/
 .notSelected{
-    font-size:13px;
     color: $grismedio;
     &:hover {
         cursor:pointer;
@@ -77,9 +78,9 @@
 
 /*Each NavItem*/
 .navItemBlock {
-    padding: 5px;
+    padding: 8px 4px;
     .editIndexTitleIcon {
-        padding: 5px;
+        padding: 4px;
     }
     .material-icons{
         padding: 4px !important;
@@ -90,24 +91,23 @@
 /*Wrapper for the whole component including tab*/
 .wrapperCarousel{
     background-color: $darkest;
-    margin:0;
-    padding: 12px 0px 5px 0px;
+    padding: 12px 0px 4px 0px;
     width: 100%;
     min-width: 212px;
     height: 100%;
     overflow-x: hidden;
     overflow-y: hidden;
     .material-icons {
-        font-size: 1.1em;
+        font-size: 1em;
         vertical-align: middle;
         margin: 0;
-        padding: 5px 10px;
+        padding: 4px 8px;
     }
     .daliCarousel{
         .editIndexTitleIcon{
-            font-size: 1.1em;
+            font-size: 1.2em;
             float: right;
-            padding: 5px;
+            padding: 4px;
         }
         .fileIcon{
             padding: 5px 10px 5px 5px;
@@ -143,9 +143,9 @@
 
 /*Collapsed Carrousel*/
 .indiceoculto{
+    position:absolute;
     left:0;
     top:0;
-    position:absolute;
 }
 
 /*Hide Sections when collapsed*/
@@ -230,9 +230,7 @@
     border:8px solid transparent;
     border-top-color: $grisoscuro;
     position: absolute;
-    //margin-top: 5px;
     left:5%;
-
 }
 
 #carouselDropUp{
