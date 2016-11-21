@@ -558,9 +558,7 @@ export default class DaliBox extends Component {
                         }
                     }
 
-                    // Reset translation attributes and unhide DaliShortcuts
-                    target.setAttribute('data-x', 0);
-                    target.setAttribute('data-y', 0);
+                    // Unhide DaliShortcuts
 
                     let bar = this.props.containedViewSelected === 0 ?
                         document.getElementById('daliBoxIcons') :
@@ -600,52 +598,24 @@ export default class DaliBox extends Component {
                     if (this.props.boxSelected !== this.props.id) {
                         return;
                     }
-                    /*BOX-RESIZE*/
-                    // TODO: learn how this works
+
                     let target = event.target;
-                    if (this.props.boxes[this.props.id].position.type !== 'relative') {
-                        if (event.edges.bottom) { //Abajo
-                            target.style.top = (parseInt(target.style.top) || 0);
-                        }
-                        if (event.edges.left) { //Izquierda
-                            if (box.container.length && box.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1) {
-                                let delta = event.dx * 100 / target.parentElement.offsetWidth;
-                                target.style.left = ( parseFloat(target.style.left) || 0) + delta + '%';
-                            } else {
-                                target.style.left = (parseInt(target.style.left) || 0) + event.dx + 'px';
-                            }
-                        }
-                        if (event.edges.right) { //Derecha
-                            target.style.left = (parseInt(target.style.left) || 0) + (box.container.length && box.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1 ? '%' : 'px');
-                        }
-                        if (event.edges.top) { //Arriba
-                            if (box.container.length && box.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1) {
-                                let delta = event.dy * 100 / target.parentElement.offsetHeight;
-                                target.style.top = ( parseFloat(target.style.top) || 0) + delta + '%';
-                            } else {
-                                target.style.top = (parseInt(target.style.top) || 0) + (event.dy + box.container.length && box.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1 ? '%' : 'px');
-                            }
-                        }
-                    }
+                    let x = (parseFloat(target.getAttribute('data-x')) || 0);
+                    let y = (parseFloat(target.getAttribute('data-y')) || 0);
+
+                    // update the element's style
                     target.style.width = event.rect.width + 'px';
                     target.style.height = event.rect.height + 'px';
 
-                    /*
-                     if(event.restrict){
-                     if (event.edges.top && event.restrict.dy < 0) {
-                     target.style.height = parseInt(target.style.height) + event.restrict.dy + 'px';
-                     }
-                     if (event.edges.bottom && event.restrict.dy > 0) {
-                     target.style.height = parseInt(target.style.height) - event.restrict.dy + 'px';
-                     }
-                     if(event.edges.left && event.restrict.dx < 0){
-                     target.style.width = parseInt(target.style.width) + event.restrict.dx + 'px';
-                     }
-                     if(event.edges.right && event.restrict.dx > 0){
-                     target.style.width = parseInt(target.style.width) - event.restrict.dx + 'px';
-                     }
-                     }
-                     */
+                    // translate when resizing from top or left edges
+                    x += event.deltaRect.left;
+                    y += event.deltaRect.top;
+
+                    target.style.webkitTransform = target.style.transform =
+                        'translate(' + x + 'px,' + y + 'px)';
+
+                    target.setAttribute('data-x', x);
+                    target.setAttribute('data-y', y);
 
                     // Update size in textbox
                     let span = document.getElementById('sizing');
