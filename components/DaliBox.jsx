@@ -158,8 +158,12 @@ export default class DaliBox extends Component {
             /* jshint ignore:start */
             <div className={classes} id={'box-'+this.props.id}
                  onClick={e => {
+                    if(this.props.boxSelected === this.props.id){
+                        e.stopPropagation();
+                        return;
+                    }
                     if(this.props.boxSelected !== -1 && box.level === 0 && !this.sameLastParent(box, this.props.boxes[this.props.boxSelected])){
-                         this.props.onBoxSelected(this.props.id);
+                        this.props.onBoxSelected(this.props.id);
                     } else if(this.props.boxLevelSelected === box.level){
                         if(this.props.boxLevelSelected > 0){
                             this.props.onBoxSelected(this.props.id);
@@ -171,8 +175,8 @@ export default class DaliBox extends Component {
                         box.parent.indexOf(ID_PREFIX_SECTION) !== -1 ||
                         (box.container.length && box.container.indexOf(ID_PREFIX_CONTAINED_VIEW) !== -1) ||
                         box.parent.indexOf(ID_PREFIX_SORTABLE_BOX) !== -1){
-                        e.stopPropagation();
                     }
+                    e.stopPropagation();
                  }}
                  onDoubleClick={(e)=> {
                      if(this.props.boxLevelSelected === box.level && box.children.length !== 0){
@@ -320,7 +324,7 @@ export default class DaliBox extends Component {
         let data = CKEDITOR.instances[this.props.id].getData();
         Dali.Plugins.get(toolbar.config.name).forceUpdate(Object.assign({}, toolbar.state, {
             __text: toolbar.config.extraTextConfig ? data : encodeURI(data)
-        }),  this.props.id, EDIT_PLUGIN_TEXT);
+        }), this.props.id, EDIT_PLUGIN_TEXT);
     }
 
     componentWillUpdate(nextProps, nextState) {
@@ -369,7 +373,7 @@ export default class DaliBox extends Component {
             interact(node).draggable({enabled: !toolbar.showTextEditor});
         }
 
-        if(box.resizable) {
+        if (box.resizable) {
             interact(node).resizable({preserveAspectRatio: this.checkAspectRatioValue()});
         }
 
@@ -465,7 +469,7 @@ export default class DaliBox extends Component {
                             target.style.left = (parseInt(target.style.left) || 0) + event.dx + 'px';
                             target.style.top = (parseInt(target.style.top) || 0) + event.dy + 'px';
                             target.style.zIndex = '9999';
-                        // Else, drag the clone and update values in attributes in both elements
+                            // Else, drag the clone and update values in attributes in both elements
                         } else {
                             let target = document.getElementById('clone');
                             let original = document.getElementById('box-' + this.props.id);
@@ -501,7 +505,7 @@ export default class DaliBox extends Component {
                     let left = Math.max(Math.min(Math.floor(parseInt(actualLeft) / target.parentElement.offsetWidth * 100), 100), 0) + '%';
                     let top = Math.max(Math.min(Math.floor(parseInt(actualTop) / target.parentElement.offsetHeight * 100), 100), 0) + '%';
                     target.style.left = box.container.length && box.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1 ? left : target.style.left;
-                    target.style.top = box.container.length && box.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1? top : target.style.top;
+                    target.style.top = box.container.length && box.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1 ? top : target.style.top;
                     target.style.zIndex = 'initial';
 
                     // Delete clone and unhide original
@@ -683,7 +687,7 @@ export default class DaliBox extends Component {
     componentWillUnmount() {
         interact(ReactDOM.findDOMNode(this)).unset();
         if (CKEDITOR.instances[this.props.id]) {
-            if(CKEDITOR.instances[this.props.id].focusManager.hasFocus){
+            if (CKEDITOR.instances[this.props.id].focusManager.hasFocus) {
                 this.blurTextarea();
             }
             CKEDITOR.instances[this.props.id].destroy();
