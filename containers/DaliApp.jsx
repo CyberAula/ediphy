@@ -118,7 +118,8 @@ class DaliApp extends Component {
                               }}/>
 
                     <Col id="colRight" xs={12}
-                         style={{height: (this.state.carouselFull ? 0 : '100%'), width: (this.state.carouselShow? '83.333333%':'calc(100% - 80px)')}}>
+                         style={{height: (this.state.carouselFull ? 0 : '100%'),
+                             width: (this.state.carouselShow? 'calc(100% - 212px)':'calc(100% - 80px)')}}>
                         <Row id="ribbonRow">
                             <PluginRibbon disabled={navItemSelected === 0}
                                           boxSelected={(boxSelected && boxSelected != -1) ? boxes[boxSelected] : -1}

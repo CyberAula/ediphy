@@ -28,7 +28,7 @@ module.exports = {
             {
                 test: /\.jsx?$/,
                 exclude: /node_modules/,
-                loader: 'react-hot-loader!babel-loader?presets[]=es2015,presets[]=react',
+                loader: 'react-hot-loader/webpack!babel-loader?presets[]=es2015,presets[]=react',
             },
             {
                 test: /\.css$/,
