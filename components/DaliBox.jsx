@@ -635,9 +635,10 @@ export default class DaliBox extends Component {
                         this.props.id,
                         box.container.length && box.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1 ? width : parseInt(target.style.width),
                         box.container.length && box.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1 ? height : parseInt(target.style.height));
-
-                    // Should only move if resize was upwards/leftwards
-                    this.props.onBoxMoved(this.props.id, target.style.left, target.style.top, this.props.boxes[this.props.id].position.type);
+                    
+                    if(box.position.x !== target.style.left || box.position.y !== target.style.top) {
+                        this.props.onBoxMoved(this.props.id, target.style.left, target.style.top, this.props.boxes[this.props.id].position.type);
+                    }
 
                     // Unhide DaliShorcuts and remove size textbox
                     let bar = this.props.containedViewSelected === 0 ?
