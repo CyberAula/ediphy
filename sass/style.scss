@@ -23,11 +23,11 @@
     margin:0;
 }
 
-/*Transition for hiding toolbars and navbars*/
+/*Transition for hiding toolbars and navbars
 #colLeft, #colRight, #ribbon, #insideribbon, #tools, #indice{
-    @include animacion(width, 0.4s);
+    @include animacion(width, 0.3s);
     min-height: 0;
-}
+}*/
 
 /*Left column with index*/
 #colLeft{
@@ -43,9 +43,9 @@
 
     /*Canvas row and ribbon row*/
     #canvasRow, #ribbonRow{
-        @include animacion(height, 0.4s);
+        @include animacion(height, 0.3s);
         >div{
-            @include animacion(height, 0.4s);
+            @include animacion(height, 0.3s);
         }
     }
 
@@ -56,7 +56,7 @@
 
 .full{
     width:100% !important;
-    @include animacion(height, 0.4s);
+    @include animacion(height, 0.3s);
 }
 
 .hidden{
