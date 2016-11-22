@@ -49,7 +49,7 @@ export default class VishUploaderModal extends Component {
     }
 
     componentWillReceiveProps(nextProps){
-        if(!nextProps.isBusy.value && this.props.isBusy.value){
+        if(!nextProps.isBusy.value && this.props.isBusy.value && this.props.visible){
             this.props.onVishUploaderToggled(nextProps.isBusy.msg);
         }
     }
