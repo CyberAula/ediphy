@@ -46,7 +46,7 @@ export default class DaliCanvas extends Component {
             /* jshint ignore:start */
             <Col id="canvas" md={12} xs={12} style={{height:"100%", padding:0, display: this.props.containedViewSelected !== 0 ? 'none' : 'initial'}}>
                 <div className="outter canvaseditor"
-                     style={{width: '100%', height:'100%', padding: (paddings)}}>
+                     style={{position: 'absolute', width: '100%', height:'100%', padding: (paddings)}}>
                     <div id="maincontent"
                          onClick={e => {
                         this.props.onBoxSelected(-1);

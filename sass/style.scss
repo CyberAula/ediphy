@@ -7,7 +7,7 @@
 
 @import 'general/elements/btn';
 @import 'general/elements/scrollbar';
-
+    
 @import 'components/serverModal';
 @import 'components/colorPicker';
 @import 'components/pageModal';
@@ -31,13 +31,15 @@
 
 /*Left column with index*/
 #colLeft{
+    position: relative;
     float: left;
     padding: 0;
     height: 100%;
+    z-index:1;
 }
 /*Right column with ribbon and canvas */
 #colRight{
-    float: left;
+    overflow:hidden;
 
     /*Canvas row and ribbon row*/
     #canvasRow, #ribbonRow{
@@ -45,6 +47,10 @@
         >div{
             @include animacion(height, 0.4s);
         }
+    }
+
+    #canvas, #maincontent, #canvasRow {
+        z-index:0 ;
     }
 }
 

@@ -36,8 +36,8 @@ export default class Section extends Component {
                           className={classSelected + '  material-icons'}>{navItem.isExpanded ? "keyboard_arrow_down" : "keyboard_arrow_right"}</i>
                     </button>
 
-                    <span className={classSelected} style={{display: 'inline'}}>
-                        <DaliIndexTitle id={this.props.id}
+                    <span className={classSelected} style={{display: 'inline'}}><i
+                        className={classSelected + '  material-icons'}>folder</i>   <DaliIndexTitle id={this.props.id}
                                                                                                     title={navItem.name}
                                                                                                     index={ navItem.level === 1 ? navItem.unitNumber + ". " : this.props.navItems[navItem.parent].children.indexOf(this.props.id)+1+'. '}
                                                                                                     hidden={navItem.hidden}
