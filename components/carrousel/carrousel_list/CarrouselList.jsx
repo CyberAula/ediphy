@@ -61,13 +61,7 @@ export default class CarrouselList extends Component {
                             }
                         })}
                 </div>
-                
-                <div style={{width: '212px',
-                    marginTop: '0px',
-                    padding: '0px',
-                    position: 'fixed',
-                    bottom: '4px'}}>
-                    
+                <div style={{width: 'calc(100% / 6)', marginTop: '0px', padding: '0px', position: 'fixed', bottom: '4px'}}>
                     <Button className="carrouselButton"
                             disabled={this.props.navItems[this.props.navItemSelected].type !== "section" && this.props.navItemSelected !== 0}
                             onClick={e => {
