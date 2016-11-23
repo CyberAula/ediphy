@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import GridConfigurator from '../components/GridConfigurator.jsx';
 import RadioButtonFormGroup from '../components/RadioButtonFormGroup.jsx';
 import Select from 'react-select';
-import VishSearcher from './VishSearcher';
+import VishProvider from './vish_provider/VishProvider';
 import MarksList from './rich_plugins/MarksList.jsx';
 import ContentList from './rich_plugins/ContentList.jsx';
 import Dali from './../core/main';
@@ -171,7 +171,7 @@ export default class PluginToolbar extends Component {
                                                                               onColsChanged={this.props.onColsChanged}
                                                                               onRowsChanged={this.props.onRowsChanged}
                                                                               sortableProps={this.props.box.sortableContainers[id]}
-                                                                              onChangeSortableProps={this.props.onChangeSortableProps}
+                                                                              onSortablePropsChanged={this.props.onSortablePropsChanged}
                                                                               onSortableContainerResized={this.props.onSortableContainerResized}/>
                                                         </Panel>)
                                                 }
@@ -236,23 +236,7 @@ export default class PluginToolbar extends Component {
                     </div>
                     /* jshint ignore:end */
                 );
-
             }
-
-        }
-
-        if (accordion.key === 'structure' && this.props.box.container.length && this.props.box.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1) {
-            children.push(
-                /* jshint ignore:start */
-                <RadioButtonFormGroup key="verticalalignment"
-                                      title={i18n.t('Vertical_align')}
-                                      options={['top', 'middle', 'bottom']}
-                                      selected={this.props.box.verticalAlign ? this.props.box.verticalAlign : 'top'}
-                                      click={(option) => {this.props.onVerticallyAlignBox(this.props.boxSelected, option)}}
-                                      tooltips={[i18n.t('messages.align_top'),i18n.t('messages.align_middle'),i18n.t('messages.align_bottom')]}
-                                      icons={['vertical_align_top', 'vertical_align_center', 'vertical_align_bottom']}/>
-                /* jshint ignore:end */
-            );
         }
 
         if (accordion.key === 'marks_list') {
@@ -288,8 +272,21 @@ export default class PluginToolbar extends Component {
         if (buttonKey === '__aspectRatio') {
             this.aspectRatio = (button.value === "checked");
         }
-        if (buttonKey === '___heightAuto') {
+        if (buttonKey === '__heightAuto') {
             this.heightAuto = (button.value === "checked");
+        }
+        if(buttonKey === '__verticalAlign'){
+            return (
+                /* jshint ignore:start */
+                <RadioButtonFormGroup key="verticalalignment"
+                                      title={button.__name}
+                                      options={button.options}
+                                      selected={button.value}
+                                      click={(option) => {this.props.onVerticallyAlignBox(this.props.boxSelected, option)}}
+                                      tooltips={button.tooltips}
+                                      icons={button.icons}/>
+                /* jshint ignore:end */
+            );
         }
         let children;
         let id = this.props.box.id;
@@ -307,7 +304,7 @@ export default class PluginToolbar extends Component {
             style: {width: '100%'},
             onChange: e => {
                 let value = e.target ? e.target.value : e.target;
-                if (buttonKey === '___heightAuto') {
+                if (buttonKey === '__heightAuto') {
                     let units = (!(this.props.box.container.length && this.props.box.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1)) ? 'px' : '%';
                     this.heightAuto = this.props.box.height !== 'auto';
                     
@@ -323,12 +320,12 @@ export default class PluginToolbar extends Component {
                             newHeight = 'auto';
                         }
                         this.props.onBoxResized(id, value + units, this.props.box.height);
-                        this.props.onToolbarIntermediateUpdated(id, tabKey, accordionKeys, buttonKey, parseFloat(value));
+                        this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, parseFloat(value));
                     } else {
                         let newHeight = this.heightAuto ? 'auto' : (parseFloat(this.props.box.height) * parseFloat(value) / parseFloat(this.props.box.width));
                         this.props.onBoxResized(id, value + units, this.heightAuto ? newHeight : (newHeight + units));
-                        this.props.onToolbarIntermediateUpdated(id, tabKey, accordionKeys, buttonKey, parseFloat(value));
-                        this.props.onToolbarIntermediateUpdated(id, tabKey, accordionKeys, 'height', newHeight);
+                        this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, parseFloat(value));
+                        this.props.onToolbarUpdated(id, tabKey, accordionKeys, 'height', newHeight);
 
                     }
                 }
@@ -336,12 +333,12 @@ export default class PluginToolbar extends Component {
                     let units = (!(this.props.box.container.length && this.props.box.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1)) ? 'px' : '%';
                     if (!this.aspectRatio) {
                         this.props.onBoxResized(id, this.props.box.width, value + units);
-                        this.props.onToolbarIntermediateUpdated(id, tabKey, accordionKeys, buttonKey, parseFloat(value));
+                        this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, parseFloat(value));
                     } else {
                         let newWidth = (parseFloat(this.props.box.width) * parseFloat(value) / parseFloat(this.props.box.height));
                         this.props.onBoxResized(id, newWidth + units, value + units);
-                        this.props.onToolbarIntermediateUpdated(id, tabKey, accordionKeys, buttonKey, parseFloat(value));
-                        this.props.onToolbarIntermediateUpdated(id, tabKey, accordionKeys, 'width', newWidth);
+                        this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, parseFloat(value));
+                        this.props.onToolbarUpdated(id, tabKey, accordionKeys, 'width', newWidth);
                     }
                 }
 
@@ -367,10 +364,9 @@ export default class PluginToolbar extends Component {
                 }
                 if (button.type === 'radio') {
                     value = button.options[value];
-                    if (buttonKey === '___position') {
-                        this.props.onToolbarIntermediateUpdated(id, tabKey, accordionKeys, '___position', value);
+                    if (buttonKey === '__position') {
+                        this.props.onToolbarUpdated(id, tabKey, accordionKeys, '__position', value);
                         this.props.onBoxMoved(id, 0, 0, value);
-
                     }
                 }
 
@@ -385,7 +381,7 @@ export default class PluginToolbar extends Component {
                 if (button.type === 'colorPicker') {
                     value = e.value;
                 }
-                //this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, value);
+                this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, value);
 
                 if (!button.autoManaged ) {
                     button.callback(state, buttonKey, value, id, UPDATE_TOOLBAR);
@@ -455,13 +451,14 @@ export default class PluginToolbar extends Component {
                 }, radio));
             });
             return React.createElement(FormGroup, props, children);
-        } else if (button.type === "vish_searcher") {
-            return React.createElement(VishSearcher, {
+        } else if (button.type === "vish_provider") {
+            return React.createElement(VishProvider, {
                 key: ('key' + button.__name),
                 formControlProps: props,
                 isBusy: this.props.isBusy,
                 fetchResults: this.props.fetchResults,
                 onFetchVishResources: this.props.onFetchVishResources,
+                onUploadVishResource: this.props.onUploadVishResource,
                 onChange: props.onChange
             }, null);
         } else {

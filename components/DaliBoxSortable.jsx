@@ -15,7 +15,7 @@ export default class DaliBoxSortable extends Component {
             /* jshint ignore:start */
             <div className="daliBoxSortable" onClick={e => {
                 if(box.children.length != 0) {
-                    this.props.onBoxSelected(this.props.id, 0);
+                    this.props.onBoxSelected(this.props.id);
                 }
                 e.stopPropagation();
             }}>
@@ -23,8 +23,7 @@ export default class DaliBoxSortable extends Component {
                      className={(this.props.id === this.props.boxSelected && box.children.length > 0) ? ' selectedBox':' '}
                      style={{
                      position: 'relative',
-                    /* border: (this.props.id === this.props.boxSelected ? '1px dashed black' : '1px solid #999'),*/
-                     boxSizing: 'border-box',
+                     boxSizing: 'border-box'
                 }}>
                     {box.children.map((idContainer, index)=> {
                         let container = box.sortableContainers[idContainer];
@@ -32,72 +31,94 @@ export default class DaliBoxSortable extends Component {
                                      className="daliBoxSortableContainer"
                                      data-id={idContainer}
                                      id={idContainer}
-                                     style={Object.assign({},{
-                                        width: '100%',
-                                        height: container.height == 'auto' ? container.height : container.height + 'px',
-                                        minHeight: '35px', 
-                                        textAlign: 'center',
-                                        lineHeight: '100%',
-                                        /* overflow: 'hidden',*/
-                                        /* border: 0,
-                                        borderBottom: '5px solid rgba(255,121,32,0.5)',*/
-                                        boxSizing: 'border-box',
-                                        position: 'relative'},container.style)}>
+                                     ref={idContainer}
+                                     style={
+                                        Object.assign({},{
+                                            width: '100%',
+                                            height: container.height == 'auto' ? container.height : container.height + 'px',
+                                            minHeight: '35px',
+                                            textAlign: 'center',
+                                            lineHeight: '100%',
+                                            boxSizing: 'border-box',
+                                            position: 'relative'
+                                        },container.style)
+                                     }>
                             <div style={{display: "table", width: "100%", height: "100%"}}>
                                 {container.colDistribution.map((col, i) => {
                                     if (container.cols[i]) {
-                                        return (
-                                            <div key={i}
-                                                 style={{width: col + "%", height: '100%', display: "table-cell", verticalAlign: "top"}}>
-                                                {container.cols[i].map((row, j) => {
-                                                    return (<div key={j}
-                                                                 style={{width: "100%", height: row + "%", position: 'relative'}}
-                                                                 ref={e => {
+                                        return (<div key={i}
+                                                     style={{width: col + "%", height: '100%', display: "table-cell", verticalAlign: "top"}}>
+                                            {container.cols[i].map((row, j) => {
+                                                return (<div key={j}
+                                                             style={{width: "100%", height: row + "%", position: 'relative'}}
+                                                             ref={e => {
                                                                     if(e !== null){
-                                                                        let selector = ".rib, .dnd" + idContainer;
-                                                                        this.dropZone(ReactDOM.findDOMNode(e), "render", selector, {idContainer:idContainer, i:i, j:j});
+                                                                        this.configureDropZone(
+                                                                            ReactDOM.findDOMNode(e),
+                                                                            "cell",
+                                                                            ".rib, .dnd" + idContainer,
+                                                                            {
+                                                                                idContainer: idContainer,
+                                                                                i: i,
+                                                                                j: j
+                                                                            }
+                                                                        );
                                                                     }
                                                               }}>
-                                                        {container.children.map((idBox, index) => {
-                                                            if (this.props.boxes[idBox].col === i && this.props.boxes[idBox].row === j) {
-                                                                return (<DaliBox id={idBox}
-                                                                                 key={index}
-                                                                                 boxes={this.props.boxes}
-                                                                                 boxSelected={this.props.boxSelected}
-                                                                                 boxLevelSelected={this.props.boxLevelSelected}
-                                                                                 containedViewSelected={this.props.containedViewSelected}
-                                                                                 toolbars={this.props.toolbars}
-                                                                                 lastActionDispatched={this.props.lastActionDispatched}
-                                                                                 onBoxSelected={this.props.onBoxSelected}
-                                                                                 onBoxLevelIncreased={this.props.onBoxLevelIncreased}
-                                                                                 onBoxMoved={this.props.onBoxMoved}
-                                                                                 onBoxResized={this.props.onBoxResized}
-                                                                                 onBoxDropped={this.props.onBoxDropped}
-                                                                                 onVerticallyAlignBox={this.props.onVerticallyAlignBox}
-                                                                                 onBoxModalToggled={this.props.onBoxModalToggled}
-                                                                                 onBoxesInsideSortableReorder={this.props.onBoxesInsideSortableReorder}                                                                                 onSortableContainerResized={this.props.onSortableContainerResized}
-                                                                                 onTextEditorToggled={this.props.onTextEditorToggled}/>);
+                                                    {container.children.map((idBox, index) => {
+                                                        if (this.props.boxes[idBox].col === i && this.props.boxes[idBox].row === j) {
+                                                            return (<DaliBox id={idBox}
+                                                                             key={index}
+                                                                             boxes={this.props.boxes}
+                                                                             boxSelected={this.props.boxSelected}
+                                                                             boxLevelSelected={this.props.boxLevelSelected}
+                                                                             containedViewSelected={this.props.containedViewSelected}
+                                                                             toolbars={this.props.toolbars}
+                                                                             lastActionDispatched={this.props.lastActionDispatched}
+                                                                             onBoxSelected={this.props.onBoxSelected}
+                                                                             onBoxLevelIncreased={this.props.onBoxLevelIncreased}
+                                                                             onBoxMoved={this.props.onBoxMoved}
+                                                                             onBoxResized={this.props.onBoxResized}
+                                                                             onBoxDropped={this.props.onBoxDropped}
+                                                                             onVerticallyAlignBox={this.props.onVerticallyAlignBox}
+                                                                             onBoxModalToggled={this.props.onBoxModalToggled}
+                                                                             onBoxesInsideSortableReorder={this.props.onBoxesInsideSortableReorder}
+                                                                             onSortableContainerResized={this.props.onSortableContainerResized}
+                                                                             onTextEditorToggled={this.props.onTextEditorToggled}/>);
 
-                                                            } else if (index == container.children.length - 1) {
-                                                                return (<span><br /><br /></span> )
-                                                            }
-                                                        })
+                                                        } else if (index == container.children.length - 1) {
+                                                            return (<span><br /><br /></span>);
                                                         }
-
-                                                    </div>);
-                                                })}
-                                            </div>);
+                                                    })}
+                                                    {container.children.length === 0 ? (<span><br/><br/></span>) : ""}
+                                                </div>);
+                                            })}
+                                        </div>);
                                     }
                                 })}
                             </div>
-                            <i style={{verticalAlign: 'middle', 
-                                        position: 'absolute', bottom: '0px', left: '0px',
-                                       /*display: 'inline-block', position: container.height == 'auto' ? 'relative' : 'absolute', marginTop: container.height == 'auto' ? '0px' : '-24px'*/
-                                   }} className="material-icons drag-handle">swap_vert</i>
+                            <div style={{
+                                    position: 'absolute',
+                                    bottom: '0px',
+                                    width: '100%',
+                                    height: 5,
+                                    backgroundColor: 'lightgray',
+                                    cursor: this.props.boxSelected === this.props.id ? 's-resize' : 'initial'
+                               }}></div>
+                            <i style={{
+                                    verticalAlign: 'middle',
+                                    position: 'absolute',
+                                    bottom: '0px',
+                                    left: '0px'
+                               }}
+                               className="material-icons drag-handle">swap_vert</i>
                         </div>);
                     })}
                 </div>
-                <div className="dragContentHere">
+                <div className="dragContentHere" onClick={e => {
+                    this.props.onBoxSelected(-1);
+                    e.stopPropagation();
+                }}>
                     {i18n.t("messages.drag_content")}
                 </div>
             </div>
@@ -105,22 +126,20 @@ export default class DaliBoxSortable extends Component {
         );
     }
 
+    componentDidUpdate(prevProps, prevState) {
+        this.props.boxes[this.props.id].children.map(id => {
+            this.configureResizable(this.refs[id]);
+        });
+    }
+
     componentDidMount() {
-        this.dropZone(".daliBoxSortableContainer", "first", ".rib", 0);
-        interact(".daliBoxSortableContainer").resizable({
-            edges: {left: false, right: false, bottom: true, top: false},
-            onstart: (event) => {
-                this.props.onSortableContainerResized(event.target.getAttribute("data-id"), this.props.id, parseInt(event.target.style.height));
-            },
-            onmove: (event) => {
-                event.target.style.height = event.rect.height + 'px';
-            },
-            onend: (event) => {
-                this.props.onSortableContainerResized(event.target.getAttribute("data-id"), this.props.id, parseInt(event.target.style.height));
-            }
+        this.configureDropZone(ReactDOM.findDOMNode(this), "newContainer", ".rib");
+        this.configureDropZone(".daliBoxSortableContainer", "existingContainer", ".rib");
+
+        this.props.boxes[this.props.id].children.map(id => {
+            this.configureResizable(this.refs[id]);
         });
 
-        this.dropZone(ReactDOM.findDOMNode(this), "second", ".rib", 0);
         let list = jQuery(this.refs.sortableContainer);
         list.sortable({
             handle: '.drag-handle',
@@ -138,60 +157,73 @@ export default class DaliBoxSortable extends Component {
         });
     }
 
+    configureResizable(item) {
+        interact(item).resizable({
+            enabled: this.props.id === this.props.boxSelected,
+            edges: {left: false, right: false, bottom: true, top: false},
+            onmove: (event) => {
+                event.target.style.height = event.rect.height + 'px';
+            },
+            onend: (event) => {
+                this.props.onSortableContainerResized(event.target.getAttribute("data-id"), this.props.id, parseInt(event.target.style.height));
+            }
+        });
+    }
 
-    dropZone(argument, container, accept, render) {
-        interact(argument).dropzone({
-            accept: accept,
+    configureDropZone(node, dropArea, selector, extraParams) {
+        interact(node).dropzone({
+            accept: selector,
             overlap: 'pointer',
-            ondropactivate: function (event) {
-                event.target.classList.add('drop-active');
+            ondropactivate: function (e) {
+                e.target.classList.add('drop-active');
             },
-            ondragenter: function (event) {
-                event.target.classList.add("drop-target");
+            ondragenter: function (e) {
+                e.target.classList.add("drop-target");
             },
-            ondragleave: function (event) {
-                event.target.classList.remove("drop-target");
+            ondragleave: function (e) {
+                e.target.classList.remove("drop-target");
             },
-            ondrop: function (event) {
-                //addBox
-                if (container === 'render') {
-                    if (event.relatedTarget.className.indexOf("rib") !== -1) {
+            ondrop: function (e) {
+                if (dropArea === 'cell') {
+                    // If element dragged is coming from PluginRibbon, create a new DaliBox
+                    if (e.relatedTarget.className.indexOf("rib") !== -1) {
                         let initialParams = {
                             parent: this.props.id,
-                            container: render.idContainer,
-                            col: render.i,
-                            row: render.j
+                            container: extraParams.idContainer,
+                            col: extraParams.i,
+                            row: extraParams.j
                         };
-
-                        Dali.Plugins.get(event.relatedTarget.getAttribute("name")).getConfig().callback(initialParams, ADD_BOX);
+                        Dali.Plugins.get(e.relatedTarget.getAttribute("name")).getConfig().callback(initialParams, ADD_BOX);
                     } else {
                         let boxDragged = this.props.boxes[this.props.boxSelected];
-                        if (boxDragged && (boxDragged.col !== render.i || boxDragged.row !== render.j)) {
-                            this.props.onBoxDropped(this.props.boxSelected, render.j, render.i);
+                        // If box being dragged is dropped in a different column or row, change it's value
+                        if (boxDragged && (boxDragged.col !== extraParams.i || boxDragged.row !== extraParams.j)) {
+                            this.props.onBoxDropped(this.props.boxSelected, extraParams.j, extraParams.i);
                         }
+
                         let clone = document.getElementById('clone');
                         clone.parentElement.removeChild(clone);
                     }
                 } else {
                     let initialParams = {};
-                    if (container === 'first') {
+                    if (dropArea === 'existingContainer') {
                         initialParams = {
                             parent: this.props.id,
-                            container: event.target.getAttribute("data-id")
+                            container: e.target.getAttribute("data-id")
                         };
-                    } else if (container === 'second') {
+                    } else if (dropArea === 'newContainer') {
                         initialParams = {
                             parent: this.props.id,
                             container: ID_PREFIX_SORTABLE_CONTAINER + Date.now()
                         };
                     }
-                    Dali.Plugins.get(event.relatedTarget.getAttribute("name")).getConfig().callback(initialParams, ADD_BOX);
-                    event.dragEvent.stopPropagation();
+                    Dali.Plugins.get(e.relatedTarget.getAttribute("name")).getConfig().callback(initialParams, ADD_BOX);
+                    e.dragEvent.stopPropagation();
                 }
             }.bind(this),
-            ondropdeactivate: function (event) {
-                event.target.classList.remove('drop-active');
-                event.target.classList.remove("drop-target");
+            ondropdeactivate: function (e) {
+                e.target.classList.remove('drop-active');
+                e.target.classList.remove("drop-target");
             }
         });
     }

@@ -55,6 +55,7 @@
     "react-bootstrap": "^0.30.3",
     "react-bootstrap-typeahead": "^0.9.4",
     "react-dom": "^15.2.0",
+    "react-dropzone": "^3.7.3",
     "react-redux": "^4.4.5",
     "react-select": "^1.0.0-beta13",
     "redux": "^3.5.2",

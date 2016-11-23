@@ -6,7 +6,7 @@ import DaliShortcuts from '../DaliShortcuts';
 import {Col, Button} from 'react-bootstrap';
 import interact from 'interact.js';
 import {ADD_BOX} from '../../actions';
-import {BOX_TYPES, ID_PREFIX_SORTABLE_BOX} from '../../constants';
+import {ID_PREFIX_SORTABLE_BOX} from '../../constants';
 import Dali from '../../core/main';
 
 export default class ContainedCanvas extends Component {
@@ -64,7 +64,7 @@ export default class ContainedCanvas extends Component {
                                 }}>X</Button>
 
                         <DaliShortcuts
-                            box={this.props.boxSelected == -1 ? -1 : this.props.boxes[this.props.boxSelected]}
+                            box={this.props.boxes[this.props.boxSelected]}
                             containedViewSelected={this.props.containedViewSelected}
                             isContained={true}
                             onTextEditorToggled={this.props.onTextEditorToggled}
@@ -84,7 +84,7 @@ export default class ContainedCanvas extends Component {
                         </div>
                         {containedView.boxes.map(id => {
                             let box = this.props.boxes[id];
-                            if (box.type === BOX_TYPES.NORMAL)
+                            if (box.id.indexOf(ID_PREFIX_SORTABLE_BOX) === -1) {
                                 return <DaliBox key={id}
                                                 id={id}
                                                 boxes={this.props.boxes}
@@ -104,7 +104,7 @@ export default class ContainedCanvas extends Component {
                                                 onBoxModalToggled={this.props.onBoxModalToggled}
                                                 onTextEditorToggled={this.props.onTextEditorToggled}
                                 />
-                            else if (box.type === BOX_TYPES.SORTABLE)
+                            } else {
                                 return <DaliBoxSortable key={id}
                                                         id={id}
                                                         boxes={this.props.boxes}
@@ -124,6 +124,7 @@ export default class ContainedCanvas extends Component {
                                                         onVerticallyAlignBox={this.props.onVerticallyAlignBox}
                                                         onBoxModalToggled={this.props.onBoxModalToggled}
                                                         onTextEditorToggled={this.props.onTextEditorToggled}/>
+                            }
                         })}
                     </div>
                 </div>

@@ -303,9 +303,9 @@
 
         <%navs[page].boxes.map(function(id){
             var box = boxesById[id];
-            if(box.type === 'normal'){
+            if(box.id.indexOf("bs-") === -1){
                 daliBox(box.id);
-            }else if(box.type === 'sortable') {
+            }else{
                 daliBoxSortable(box.id)
         }})%>
     </div>

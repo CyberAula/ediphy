@@ -6,7 +6,7 @@ import DaliShortcuts from '../components/DaliShortcuts';
 import {Col} from 'react-bootstrap';
 import DaliTitle from '../components/DaliTitle';
 import interact from 'interact.js';
-import {BOX_TYPES, ID_PREFIX_SORTABLE_BOX} from '../constants';
+import {ID_PREFIX_SORTABLE_BOX} from '../constants';
 import {ADD_BOX} from '../actions';
 import Dali from './../core/main';
 
@@ -40,9 +40,10 @@ export default class DaliCanvas extends Component {
         }
 
         let overlayHeight = actualHeight ? actualHeight : '100%';
-         return (
+        return (
             /* jshint ignore:start */
-            <Col id="canvas" md={12} xs={12} style={{height:"100%", padding:0, display: this.props.containedViewSelected !== 0 ? 'none' : 'initial'}}>
+            <Col id="canvas" md={12} xs={12}
+                 style={{height:"100%", padding:0, display: this.props.containedViewSelected !== 0 ? 'none' : 'initial'}}>
                 <div className="outter canvaseditor"
                      style={{position: 'absolute', width: '100%', height:'100%', padding: (paddings)}}>
                     <div id="maincontent"
@@ -68,7 +69,7 @@ export default class DaliCanvas extends Component {
                         <br/>
 
                         <DaliShortcuts
-                            box={this.props.boxSelected == -1 ? -1 : this.props.boxes[this.props.boxSelected]}
+                            box={this.props.boxes[this.props.boxSelected]}
                             containedViewSelected={this.props.containedViewSelected}
                             isContained={false}
                             onTextEditorToggled={this.props.onTextEditorToggled}
@@ -90,7 +91,7 @@ export default class DaliCanvas extends Component {
 
                         {this.props.navItemSelected.boxes.map(id => {
                             let box = this.props.boxes[id];
-                            if (box.type === BOX_TYPES.NORMAL)
+                            if (box.id.indexOf(ID_PREFIX_SORTABLE_BOX) === -1) {
                                 return <DaliBox key={id}
                                                 id={id}
                                                 boxes={this.props.boxes}
@@ -110,7 +111,7 @@ export default class DaliCanvas extends Component {
                                                 onBoxModalToggled={this.props.onBoxModalToggled}
                                                 onTextEditorToggled={this.props.onTextEditorToggled}
                                 />
-                            else if (box.type === BOX_TYPES.SORTABLE)
+                            } else {
                                 return <DaliBoxSortable key={id}
                                                         id={id}
                                                         boxes={this.props.boxes}
@@ -130,6 +131,7 @@ export default class DaliCanvas extends Component {
                                                         onVerticallyAlignBox={this.props.onVerticallyAlignBox}
                                                         onBoxModalToggled={this.props.onBoxModalToggled}
                                                         onTextEditorToggled={this.props.onTextEditorToggled}/>
+                            }
                         })}
                     </div>
                 </div>
@@ -143,7 +145,7 @@ export default class DaliCanvas extends Component {
             this.setState({showTitle: false});
         }
         if (this.props.navItemSelected.id !== nextProps.navItemSelected.id) {
-            document.getElementById('maincontent').scrollTop=0;
+            document.getElementById('maincontent').scrollTop = 0;
         }
     }
 
@@ -163,8 +165,8 @@ export default class DaliCanvas extends Component {
             },
             ondrop: function (event) {
                 let position = {
-                    x: (event.dragEvent.clientX - event.target.getBoundingClientRect().left - document.getElementById('maincontent').offsetLeft)+'px',
-                    y: (event.dragEvent.clientY - event.target.getBoundingClientRect().top + document.getElementById('maincontent').scrollTop)+'px',
+                    x: (event.dragEvent.clientX - event.target.getBoundingClientRect().left - document.getElementById('maincontent').offsetLeft) + 'px',
+                    y: (event.dragEvent.clientY - event.target.getBoundingClientRect().top + document.getElementById('maincontent').scrollTop) + 'px',
                     type: 'absolute'
                 };
                 let initialParams = {

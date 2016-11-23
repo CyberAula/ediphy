@@ -7,7 +7,7 @@ import {ADD_BOX, SELECT_BOX, MOVE_BOX, DUPLICATE_BOX, RESIZE_BOX, UPDATE_BOX, DE
     ADD_NAV_ITEM, SELECT_NAV_ITEM, EXPAND_NAV_ITEM, REMOVE_NAV_ITEM, REORDER_NAV_ITEM, TOGGLE_NAV_ITEM, UPDATE_NAV_ITEM_EXTRA_FILES,
     CHANGE_SECTION_TITLE, CHANGE_UNIT_NUMBER, VERTICALLY_ALIGN_BOX,
     TOGGLE_TEXT_EDITOR, TOGGLE_TITLE_MODE, CHANGE_TITLE,
-    CHANGE_DISPLAY_MODE, SET_BUSY, UPDATE_INTERMEDIATE_TOOLBAR, UPDATE_TOOLBAR, COLLAPSE_TOOLBAR, IMPORT_STATE, FETCH_VISH_RESOURCES_SUCCESS
+    CHANGE_DISPLAY_MODE, SET_BUSY, UPDATE_TOOLBAR, COLLAPSE_TOOLBAR, IMPORT_STATE, FETCH_VISH_RESOURCES_SUCCESS
 } from './actions';
 import {ID_PREFIX_SECTION, ID_PREFIX_PAGE, ID_PREFIX_BOX, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_CONTAINED_VIEW, ID_PREFIX_SORTABLE_CONTAINER} from './constants';
 import i18n from 'i18next';
@@ -17,27 +17,23 @@ function boxCreator(state = {}, action = {}) {
     switch (action.type) {
         case ADD_BOX:
             let position, width, height;
-            let verticalAlign = 'middle';
             let level = (state[action.payload.ids.parent] && !(action.payload.ids.container.length && action.payload.ids.container.indexOf(ID_PREFIX_CONTAINED_VIEW) !== -1)) ?
             state[action.payload.ids.parent].level + 1 :
                 0;
-            switch (action.payload.type) {
-                case 'sortable':
-                    position = {x: 0, y: 0, type: 'relative'};
-                    width = '100%';
-                    level = -1;
-                    break;
-                default:
-                    position = {
-                        x: Math.floor(Math.random() * 200),
-                        y: Math.floor(Math.random() * 200),
-                        type: 'absolute'
-                    };
-                    if (action.payload.config.category !== "text") {
-                        width = 200;
-                    }
-                    height = 'auto';
-                    break;
+            if(action.payload.ids.id.indexOf(ID_PREFIX_SORTABLE_BOX) !== -1) {
+                position = {x: 0, y: 0, type: 'relative'};
+                width = '100%';
+                level = -1;
+            }else{
+                position = {
+                    x: 0,
+                    y: 0,
+                    type: 'absolute'
+                };
+                if (action.payload.config.category !== "text") {
+                    width = 200;
+                }
+                height = 'auto';
             }
             if (action.payload.ids.container.length && action.payload.ids.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1) {
                 position.x = 0;
@@ -100,14 +96,12 @@ function boxCreator(state = {}, action = {}) {
                 id: action.payload.ids.id,
                 parent: action.payload.ids.parent,
                 container: action.payload.ids.container,
-                type: action.payload.type,
                 level: level,
                 col: col,
                 row: row,
                 position: position,
                 width: width,
                 height: height,
-                verticalAlign: verticalAlign,
                 content: action.payload.content,
                 draggable: action.payload.draggable,
                 resizable: action.payload.resizable,
@@ -153,11 +147,11 @@ function sortableContainerCreator(state = {}, action = {}) {
             });
         case DELETE_BOX:
             let newChildren = state[action.payload.container].children.filter(id => id !== action.payload.id);
-            let a = Utils.deepClone(state[action.payload.container]);
-            a.children = newChildren;
+            let container = Utils.deepClone(state[action.payload.container]);
+            container.children = newChildren;
 
             return Object.assign({}, state, {
-                [action.payload.container]: a
+                [action.payload.container]: container
             });
         case CHANGE_COLS:
             let cols = state[action.payload.id].cols;
@@ -195,6 +189,7 @@ function sortableContainerCreator(state = {}, action = {}) {
 }
 
 function boxesById(state = {}, action = {}) {
+    console.log(action);
     var newState;
     switch (action.type) {
         case ADD_BOX:
@@ -248,12 +243,6 @@ function boxesById(state = {}, action = {}) {
                 [action.payload.id]: Object.assign({}, state[action.payload.id], {
                     width: action.payload.width,
                     height: action.payload.height
-                })
-            });
-        case VERTICALLY_ALIGN_BOX:
-            return Object.assign({}, state, {
-                [action.payload.id]: Object.assign({}, state[action.payload.id], {
-                    verticalAlign: action.payload.verticalAlign
                 })
             });
         case RESIZE_SORTABLE_CONTAINER:
@@ -806,6 +795,21 @@ function containedViews(state = {}, action = {}) {
     }
 }
 
+function createAspectRatioButton(controls, config){
+    let arb = config.aspectRatioButtonConfig;
+    let button = {
+        __name: arb.name,
+        type: "checkbox",
+        value: arb.defaultValue,
+        autoManaged: true
+    };
+    if (arb.location.length === 2) {
+        controls[arb.location[0]].accordions[arb.location[1]].buttons.__aspectRatio = button;
+    } else {
+        controls[arb.location[0]].accordions[arb.location[1]].accordions[arb.location[2]].buttons.__aspectRatio = button;
+    }
+}
+
 function createRichAccordions(controls) {
     if (!controls.main) {
         controls.main = {
@@ -844,7 +848,7 @@ function createRichAccordions(controls) {
     }
 }
 
-function createSortableButtons(controls, width) {
+function createSortableButtons(controls) {
     if (!controls.main) {
         controls.main = {
             __name: "Main",
@@ -868,7 +872,7 @@ function createSortableButtons(controls, width) {
     controls.main.accordions.__sortable.buttons.width = {
         __name: i18n.t('Width_percentage'),
         type: 'number',
-        value: width || 100,
+        value: 100,
         min: 0,
         max: 100,
         step: 5,
@@ -885,7 +889,7 @@ function createSortableButtons(controls, width) {
         units: '%',
         autoManaged: true
     };
-    controls.main.accordions.__sortable.buttons.___heightAuto = {
+    controls.main.accordions.__sortable.buttons.__heightAuto = {
         __name: i18n.t('Height_auto'),
         type: 'checkbox',
         value: 'checked',
@@ -893,16 +897,25 @@ function createSortableButtons(controls, width) {
         title: i18n.t('Height_auto_message'),
         autoManaged: true
     };
-    controls.main.accordions.__sortable.buttons.___position = {
+    controls.main.accordions.__sortable.buttons.__position = {
         __name: i18n.t('Position'),
         type: 'radio',
         value: 'relative',
         options: ['absolute', 'relative'],
         autoManaged: true
     };
+    controls.main.accordions.__sortable.buttons.__verticalAlign = {
+        __name: i18n.t('Vertical_align'),
+        type: 'fancy_radio',
+        value: 'middle',
+        options: ['top', 'middle', 'bottom'],
+        tooltips: [i18n.t('messages.align_top'),i18n.t('messages.align_middle'),i18n.t('messages.align_bottom')],
+        icons: ['vertical_align_top', 'vertical_align_center', 'vertical_align_bottom'],
+        autoManaged: true
+    };
 }
 
-function createFloatingBoxButtons(controls, width) {
+function createFloatingBoxButtons(controls) {
     if (!controls.main) {
         controls.main = {
             __name: "Main",
@@ -927,7 +940,7 @@ function createFloatingBoxButtons(controls, width) {
     controls.main.accordions.__sortable.buttons.width = {
         __name: i18n.t('Width_pixels'),
         type: 'number',
-        value: width || 100,
+        value: 100,
         min: 0,
         max: 100,
         step: 5,
@@ -944,7 +957,7 @@ function createFloatingBoxButtons(controls, width) {
         units: 'px',
         autoManaged: true
     };
-    controls.main.accordions.__sortable.buttons.___heightAuto = {
+    controls.main.accordions.__sortable.buttons.__heightAuto = {
         __name: i18n.t('Height_auto'),
         type: 'checkbox',
         value: 'checked',
@@ -954,7 +967,7 @@ function createFloatingBoxButtons(controls, width) {
 }
 
 
-function createAliasButton(controls, alias) {
+function createAliasButton(controls) {
     if (!controls.main) {
         controls.main = {
             __name: "Alias",
@@ -976,7 +989,7 @@ function createAliasButton(controls, alias) {
     controls.main.accordions.__extra.buttons.alias = {
         __name: 'Alias',
         type: 'text',
-        value: alias || "",
+        value: "",
         autoManaged: true,
         isAttribute: true
     };
@@ -994,34 +1007,25 @@ function toolbarsById(state = {}, action = {}) {
                 showTextEditor: false,
                 isCollapsed: false
             };
-            if (action.payload.type && action.payload.type === 'sortable') {
+            if (action.payload.ids.id.indexOf(ID_PREFIX_SORTABLE_BOX) !== -1) {
                 if (toolbar.config) {
                     toolbar.config.name = i18n.t('Container_');
                 }
             }
-
+            // If contained in sortableContainer
             if (action.payload.ids.container.length && action.payload.ids.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1) {
                 createSortableButtons(toolbar.controls);
+            // If not contained (AKA floating box)
             } else if (action.payload.ids.id.indexOf(ID_PREFIX_SORTABLE_BOX) === -1) {
                 createFloatingBoxButtons(toolbar.controls);
             }
 
+            // If not a DaliBoxSortable
             if (action.payload.ids.id.indexOf(ID_PREFIX_SORTABLE_BOX) === -1) {
                 createAliasButton(toolbar.controls);
             }
             if (toolbar.config && toolbar.config.aspectRatioButtonConfig) {
-                let arb = toolbar.config.aspectRatioButtonConfig;
-                let button = {
-                    __name: arb.name,
-                    type: "checkbox",
-                    value: arb.defaultValue,
-                    autoManaged: true
-                };
-                if (arb.location.length === 2) {
-                    toolbar.controls[arb.location[0]].accordions[arb.location[1]].buttons.__aspectRatio = button;
-                } else {
-                    toolbar.controls[arb.location[0]].accordions[arb.location[1]].accordions[arb.location[2]].buttons.__aspectRatio = button;
-                }
+                createAspectRatioButton(toolbar.controls, toolbar.config);
             }
 
             if (toolbar.config && toolbar.config.isRich) {
@@ -1074,19 +1078,14 @@ function toolbarsById(state = {}, action = {}) {
                 newState[pl.id].controls[pl.tab].accordions[pl.accordions[0]].buttons[pl.name].value = pl.value;
             }
             return newState;
-        case UPDATE_INTERMEDIATE_TOOLBAR:
-            newState = Object.assign({}, state);
-            let ple = action.payload;
-            if (ple.accordions.length > 1) {
-                newState[ple.id].controls[ple.tab].accordions[ple.accordions[0]].accordions[ple.accordions[1]].buttons[ple.name].value = ple.value;
-            } else {
-                newState[ple.id].controls[ple.tab].accordions[ple.accordions[0]].buttons[ple.name].value = ple.value;
-            }
-            return newState;
         case COLLAPSE_TOOLBAR:
             return Object.assign({}, state, {
                 [action.payload.id]: Object.assign({}, state[action.payload.id], {isCollapsed: !(state[action.payload.id].isCollapsed)})
             });
+        case VERTICALLY_ALIGN_BOX:
+            newState = Utils.deepClone(state);
+            newState[action.payload.id].controls.main.accordions.__sortable.buttons.__verticalAlign.value = action.payload.verticalAlign;
+            return newState;
         case RESIZE_BOX:
             newState = Object.assign({}, state);
             let height = action.payload.height;
@@ -1097,9 +1096,9 @@ function toolbarsById(state = {}, action = {}) {
                 if (newState[action.payload.id].controls.main && newState[action.payload.id].controls.main.accordions) {
                     if (newState[action.payload.id].controls.main.accordions.__sortable) {
                         let buttons = newState[action.payload.id].controls.main.accordions.__sortable.buttons;
-                        if (buttons.___heightAuto) {
-                            newState[action.payload.id].controls.main.accordions.__sortable.buttons.___heightAuto.checked = heightAuto;
-                            newState[action.payload.id].controls.main.accordions.__sortable.buttons.___heightAuto.value = heightAuto ? 'checked' : 'unchecked';
+                        if (buttons.__heightAuto) {
+                            newState[action.payload.id].controls.main.accordions.__sortable.buttons.__heightAuto.checked = heightAuto;
+                            newState[action.payload.id].controls.main.accordions.__sortable.buttons.__heightAuto.value = heightAuto ? 'checked' : 'unchecked';
                         }
                         if (buttons.height && buttons.width) {
                             newState[action.payload.id].controls.main.accordions.__sortable.buttons.height.value = height;
@@ -1248,7 +1247,6 @@ const GlobalState = undoable(combineReducers({
             case TOGGLE_TEXT_EDITOR:
             case TOGGLE_TITLE_MODE:
             case REORDER_BOXES:
-            case UPDATE_INTERMEDIATE_TOOLBAR:
             case UPDATE_NAV_ITEM_EXTRA_FILES:
                 return false;
         }

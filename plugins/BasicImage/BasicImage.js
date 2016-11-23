@@ -25,7 +25,7 @@ export function BasicImage(base) {
                             buttons: {
                                 url: {
                                     __name: 'URL',
-                                    type: 'vish_searcher',
+                                    type: 'vish_provider',
                                     value: base.getState().url,
                                     autoManaged: false
                                 }

@@ -7,18 +7,17 @@ import {addNavItem, selectNavItem, expandNavItem, removeNavItem, reorderNavItem,
     addBox, changeTitle, selectBox, moveBox, resizeBox, updateBox, duplicateBox, deleteBox, reorderBox, dropBox, increaseBoxLevel,
     resizeSortableContainer, changeCols, changeRows, changeSortableProps, reorderBoxes, verticallyAlignBox,
     toggleTextEditor, toggleTitleMode,
-    changeDisplayMode, updateToolbar, updateIntermediateToolbar, collapseToolbar,
+    changeDisplayMode, updateToolbar, collapseToolbar,
     exportStateAsync, importStateAsync,
-    fetchVishResourcesSuccess, fetchVishResourcesAsync,
+    fetchVishResourcesSuccess, fetchVishResourcesAsync, uploadVishResourceAsync,
     selectContainedView,
     ADD_BOX, ADD_RICH_MARK, addRichMark, EDIT_RICH_MARK, editRichMark, EDIT_PLUGIN_TEXT, DELETE_RICH_MARK, UPDATE_BOX, UPDATE_TOOLBAR} from '../actions';
-import {ID_PREFIX_BOX, ID_PREFIX_SECTION, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_SORTABLE_CONTAINER, BOX_TYPES} from '../constants';
+import {ID_PREFIX_BOX, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_SORTABLE_CONTAINER, ID_PREFIX_SECTION} from '../constants';
 import DaliCanvas from '../components/DaliCanvas';
 import ContainedCanvas from '../components/rich_plugins/ContainedCanvas';
 import DaliCarousel from '../components/DaliCarousel';
 import PluginConfigModal from '../components/PluginConfigModal';
 import XMLConfigModal from '../components/XMLConfigModal';
-import VishSearcher from '../components/VishSearcherModal';
 import PluginToolbar from '../components/PluginToolbar';
 import Visor from '../components/visor/Visor';
 import PluginRibbon from '../components/PluginRibbon';
@@ -37,7 +36,6 @@ class DaliApp extends Component {
             hideTab: 'show',
             visorVisible: false,
             xmlEditorVisible: false,
-            vishSearcherVisible: false,
             richMarksVisible: false,
             currentRichMark: null,
             carouselShow: true,
@@ -82,7 +80,7 @@ class DaliApp extends Component {
                                   navItems={navItems}
                                   navItemSelected={navItemSelected}
                                   displayMode={displayMode}
-                                  onBoxAdded={(ids, type,  draggable, resizable, content, toolbar, config, state) => this.dispatchAndSetState(addBox(ids, type, draggable, resizable, content, toolbar, config, state))}
+                                  onBoxAdded={(ids, draggable, resizable, content, toolbar, config, state) => this.dispatchAndSetState(addBox(ids, draggable, resizable, content, toolbar, config, state))}
                                   onTitleChange={(id, title) => this.dispatchAndSetState(changeSectionTitle(id,title))}
                                   onNavItemAdded={(id, name, parent, children, level, type, position, titlesReduced) => this.dispatchAndSetState(addNavItem(id, name, parent, children, level, type, position, titlesReduced))}
                                   onNavItemSelected={id => this.dispatchAndSetState(selectNavItem(id))}
@@ -236,9 +234,8 @@ class DaliApp extends Component {
                                onVerticallyAlignBox={(id, verticalAlign) => this.dispatchAndSetState(verticallyAlignBox(id, verticalAlign))}
                                onTextEditorToggled={(caller, value) => this.dispatchAndSetState(toggleTextEditor(caller, value))}
                                onSortableContainerResized={(id, parent, height) => this.dispatchAndSetState(resizeSortableContainer(id, parent, height))}
-                               onChangeSortableProps={(id, parent, prop, value) => this.dispatchAndSetState(changeSortableProps(id, parent, prop, value))}
+                               onSortablePropsChanged={(id, parent, prop, value) => this.dispatchAndSetState(changeSortableProps(id, parent, prop, value))}
                                onToolbarUpdated={(id, tab, accordion, name, value) => this.dispatchAndSetState(updateToolbar(id, tab, accordion, name, value))}
-                               onToolbarIntermediateUpdated={(id, tab, accordion, name, value) => this.dispatchAndSetState(updateIntermediateToolbar(id, tab, accordion, name, value))}
                                onToolbarCollapsed={(id) => this.dispatchAndSetState(collapseToolbar(id))}
                                onBoxDuplicated={(id, parent, container)=> this.dispatchAndSetState( duplicateBox( id, parent, container, this.getDescendantBoxes(boxes[id]), this.getDuplicatedBoxesIds(this.getDescendantBoxes(boxes[id]) ), Date.now()-1 ))}
                                onBoxDeleted={(id, parent, container)=> this.dispatchAndSetState(deleteBox(id, parent, container, this.getDescendantBoxes(boxes[id]), this.getDescendantContainedViews(boxes[id])))}
@@ -261,6 +258,7 @@ class DaliApp extends Component {
                                         boxSelected,
                                         DELETE_RICH_MARK);
                                }}
+                               onUploadVishResource={(query) => this.dispatchAndSetState(uploadVishResourceAsync(query))}
                                onFetchVishResources={(query) => this.dispatchAndSetState(fetchVishResourcesAsync(query))}
                 />
             </Grid>
@@ -305,7 +303,6 @@ class DaliApp extends Component {
                             id: e.detail.ids.id,
                             container: e.detail.ids.container
                         },
-                        BOX_TYPES.NORMAL,
                         true,
                         (!(e.detail.ids.container.length && e.detail.ids.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1)),
                         e.detail.content,

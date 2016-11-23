@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Button, ButtonGroup, Col, OverlayTrigger, Popover} from 'react-bootstrap';
-import {ID_PREFIX_SECTION, ID_PREFIX_PAGE, ID_PREFIX_SORTABLE_BOX, BOX_TYPES} from '../constants';
+import {ID_PREFIX_SECTION, ID_PREFIX_PAGE, ID_PREFIX_SORTABLE_BOX} from '../constants';
 import Section from '../components/Section';
 import PageMenu from '../components/PageMenu';
 import DaliIndexTitle from '../components/DaliIndexTitle';
