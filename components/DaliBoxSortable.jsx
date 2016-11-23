@@ -31,6 +31,7 @@ export default class DaliBoxSortable extends Component {
                                      className="daliBoxSortableContainer"
                                      data-id={idContainer}
                                      id={idContainer}
+                                     ref={idContainer}
                                      style={
                                         Object.assign({},{
                                             width: '100%',
@@ -47,10 +48,10 @@ export default class DaliBoxSortable extends Component {
                                     if (container.cols[i]) {
                                         return (<div key={i}
                                                      style={{width: col + "%", height: '100%', display: "table-cell", verticalAlign: "top"}}>
-                                                {container.cols[i].map((row, j) => {
-                                                    return (<div key={j}
-                                                                 style={{width: "100%", height: row + "%", position: 'relative'}}
-                                                                 ref={e => {
+                                            {container.cols[i].map((row, j) => {
+                                                return (<div key={j}
+                                                             style={{width: "100%", height: row + "%", position: 'relative'}}
+                                                             ref={e => {
                                                                     if(e !== null){
                                                                         this.configureDropZone(
                                                                             ReactDOM.findDOMNode(e),
@@ -64,34 +65,35 @@ export default class DaliBoxSortable extends Component {
                                                                         );
                                                                     }
                                                               }}>
-                                                        {container.children.map((idBox, index) => {
-                                                            if (this.props.boxes[idBox].col === i && this.props.boxes[idBox].row === j) {
-                                                                return (<DaliBox id={idBox}
-                                                                                 key={index}
-                                                                                 boxes={this.props.boxes}
-                                                                                 boxSelected={this.props.boxSelected}
-                                                                                 boxLevelSelected={this.props.boxLevelSelected}
-                                                                                 containedViewSelected={this.props.containedViewSelected}
-                                                                                 toolbars={this.props.toolbars}
-                                                                                 lastActionDispatched={this.props.lastActionDispatched}
-                                                                                 onBoxSelected={this.props.onBoxSelected}
-                                                                                 onBoxLevelIncreased={this.props.onBoxLevelIncreased}
-                                                                                 onBoxMoved={this.props.onBoxMoved}
-                                                                                 onBoxResized={this.props.onBoxResized}
-                                                                                 onBoxDropped={this.props.onBoxDropped}
-                                                                                 onVerticallyAlignBox={this.props.onVerticallyAlignBox}
-                                                                                 onBoxModalToggled={this.props.onBoxModalToggled}
-                                                                                 onBoxesInsideSortableReorder={this.props.onBoxesInsideSortableReorder}                                                                                 onSortableContainerResized={this.props.onSortableContainerResized}
-                                                                                 onTextEditorToggled={this.props.onTextEditorToggled}/>);
+                                                    {container.children.map((idBox, index) => {
+                                                        if (this.props.boxes[idBox].col === i && this.props.boxes[idBox].row === j) {
+                                                            return (<DaliBox id={idBox}
+                                                                             key={index}
+                                                                             boxes={this.props.boxes}
+                                                                             boxSelected={this.props.boxSelected}
+                                                                             boxLevelSelected={this.props.boxLevelSelected}
+                                                                             containedViewSelected={this.props.containedViewSelected}
+                                                                             toolbars={this.props.toolbars}
+                                                                             lastActionDispatched={this.props.lastActionDispatched}
+                                                                             onBoxSelected={this.props.onBoxSelected}
+                                                                             onBoxLevelIncreased={this.props.onBoxLevelIncreased}
+                                                                             onBoxMoved={this.props.onBoxMoved}
+                                                                             onBoxResized={this.props.onBoxResized}
+                                                                             onBoxDropped={this.props.onBoxDropped}
+                                                                             onVerticallyAlignBox={this.props.onVerticallyAlignBox}
+                                                                             onBoxModalToggled={this.props.onBoxModalToggled}
+                                                                             onBoxesInsideSortableReorder={this.props.onBoxesInsideSortableReorder}
+                                                                             onSortableContainerResized={this.props.onSortableContainerResized}
+                                                                             onTextEditorToggled={this.props.onTextEditorToggled}/>);
 
-                                                            } else if (index == container.children.length - 1) {
-                                                                return (<span><br /><br /></span>);
-                                                            }
-                                                        })}
-                                                        {container.children.length === 0 ? (<span><br/><br/></span>) : ""}
-                                                    </div>);
-                                                })}
-                                            </div>);
+                                                        } else if (index == container.children.length - 1) {
+                                                            return (<span><br /><br /></span>);
+                                                        }
+                                                    })}
+                                                    {container.children.length === 0 ? (<span><br/><br/></span>) : ""}
+                                                </div>);
+                                            })}
+                                        </div>);
                                     }
                                 })}
                             </div>
@@ -101,7 +103,7 @@ export default class DaliBoxSortable extends Component {
                                     width: '100%',
                                     height: 5,
                                     backgroundColor: 'lightgray',
-                                    cursor: 's-resize'
+                                    cursor: this.props.boxSelected === this.props.id ? 's-resize' : 'initial'
                                }}></div>
                             <i style={{
                                     verticalAlign: 'middle',
@@ -124,18 +126,18 @@ export default class DaliBoxSortable extends Component {
         );
     }
 
+    componentDidUpdate(prevProps, prevState) {
+        this.props.boxes[this.props.id].children.map(id => {
+            this.configureResizable(this.refs[id]);
+        });
+    }
+
     componentDidMount() {
         this.configureDropZone(ReactDOM.findDOMNode(this), "newContainer", ".rib");
         this.configureDropZone(".daliBoxSortableContainer", "existingContainer", ".rib");
 
-        interact(".daliBoxSortableContainer").resizable({
-            edges: {left: false, right: false, bottom: true, top: false},
-            onmove: (event) => {
-                event.target.style.height = event.rect.height + 'px';
-            },
-            onend: (event) => {
-                this.props.onSortableContainerResized(event.target.getAttribute("data-id"), this.props.id, parseInt(event.target.style.height));
-            }
+        this.props.boxes[this.props.id].children.map(id => {
+            this.configureResizable(this.refs[id]);
         });
 
         let list = jQuery(this.refs.sortableContainer);
@@ -151,6 +153,19 @@ export default class DaliBoxSortable extends Component {
                     this.props.onBoxReorder(indexes, this.props.id);
                 }
                 list.sortable('cancel');
+            }
+        });
+    }
+
+    configureResizable(item) {
+        interact(item).resizable({
+            enabled: this.props.id === this.props.boxSelected,
+            edges: {left: false, right: false, bottom: true, top: false},
+            onmove: (event) => {
+                event.target.style.height = event.rect.height + 'px';
+            },
+            onend: (event) => {
+                this.props.onSortableContainerResized(event.target.getAttribute("data-id"), this.props.id, parseInt(event.target.style.height));
             }
         });
     }

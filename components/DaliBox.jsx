@@ -189,14 +189,13 @@ export default class DaliBox extends Component {
                  }}
                  style={{
                     position: box.position.type,
-                    left: box.position.x,
-                    top: box.position.y,
+                    left: box.position.x ? box.position.x : "",
+                    top: box.position.y ? box.position.y : "",
                     width: box.width ,
                     height: box.height,
-                    maxWidth: '100%',
-                    maxHeight: '100%',
-                    verticalAlign: box.verticalAlign ? box.verticalAlign : 'middle' ,
-                    /*border: ((box.container !== 0 && vis) ? (this.borderSize + "px dashed #555") : 0),*/
+                    verticalAlign: toolbar.controls.main.accordions.__sortable.buttons.__verticalAlign.value ?
+                        toolbar.controls.main.accordions.__sortable.buttons.__verticalAlign.value :
+                        'middle' ,
                     touchAction: 'none',
                     msTouchAction: 'none',
                     cursor: vis ? 'inherit': 'default' //esto evita que aparezcan los cursores de move y resize cuando la caja no está seleccionada
@@ -635,9 +634,10 @@ export default class DaliBox extends Component {
                         this.props.id,
                         box.container.length && box.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1 ? width : parseInt(target.style.width),
                         box.container.length && box.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1 ? height : parseInt(target.style.height));
-
-                    // Should only move if resize was upwards/leftwards
-                    this.props.onBoxMoved(this.props.id, target.style.left, target.style.top, this.props.boxes[this.props.id].position.type);
+                    
+                    if(box.position.x !== target.style.left || box.position.y !== target.style.top) {
+                        this.props.onBoxMoved(this.props.id, target.style.left, target.style.top, this.props.boxes[this.props.id].position.type);
+                    }
 
                     // Unhide DaliShorcuts and remove size textbox
                     let bar = this.props.containedViewSelected === 0 ?
