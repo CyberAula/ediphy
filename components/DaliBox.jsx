@@ -123,7 +123,7 @@ export default class DaliBox extends Component {
                     boxSizing: 'content-box'
                 }}>
                 </div>
-                <div>
+                <div style={{display: box.resizable ? 'initial' : 'none'}}>
                     <div className="helpersResizable"
                          style={{ left:  -cornerSize/2, top: -cornerSize/2, width: cornerSize, height: cornerSize, cursor: (!(box.container.length && box.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1) ? 'nw-resize' : 'move')}}></div>
                     <div className="helpersResizable"
@@ -634,7 +634,7 @@ export default class DaliBox extends Component {
                         this.props.id,
                         box.container.length && box.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1 ? width : parseInt(target.style.width),
                         box.container.length && box.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1 ? height : parseInt(target.style.height));
-                    
+
                     if(box.position.x !== target.style.left || box.position.y !== target.style.top) {
                         this.props.onBoxMoved(this.props.id, target.style.left, target.style.top, this.props.boxes[this.props.id].position.type);
                     }
