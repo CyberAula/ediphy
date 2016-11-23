@@ -50,7 +50,7 @@ var es = {
 		"Multimedia" : "Multimedia",
     "no_results" : "Sin resultados",
 		"Open" : "Abrir",
-		"Open_Catalog": "ver imágenes subidas",
+		"Open_Catalog": "Ver imágenes subidas",
 		"page" : "Página",
 		"Position" : "Posicionamiento",
 		"Preview" : "Previsualizar",

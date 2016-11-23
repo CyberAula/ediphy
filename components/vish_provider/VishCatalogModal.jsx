@@ -13,7 +13,7 @@ export default class VishCatalogModal extends Component {
             /* jshint ignore:start */
             <Modal className="pageModal" backdrop={true} bsSize="large" show={this.props.visible}>
                 <Modal.Header>
-                    <Modal.Title>BUSCADOR VISH</Modal.Title>
+                    <Modal.Title>IMÁGENES SUBIDAS</Modal.Title>
                 </Modal.Header>
 
                 <Modal.Body>
