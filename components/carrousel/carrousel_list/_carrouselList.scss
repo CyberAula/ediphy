@@ -80,7 +80,7 @@
 
 /*Each NavItem*/
 .navItemBlock {
-    padding: 4px;
+    padding: 8px 4px;
     .editIndexTitleIcon {
         padding: 4px;
         cursor: pointer;
@@ -133,7 +133,7 @@
 
 /*Título curso*/
 .courseTitleCarousel{
-    margin: -4px 15px 15px;
+    margin: -4px 0 12px;
     color: $brand_orange;
     font-size: 14px;
     //font-weight: bold;
