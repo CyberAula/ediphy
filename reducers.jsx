@@ -17,7 +17,6 @@ function boxCreator(state = {}, action = {}) {
     switch (action.type) {
         case ADD_BOX:
             let position, width, height;
-            let verticalAlign = 'middle';
             let level = (state[action.payload.ids.parent] && !(action.payload.ids.container.length && action.payload.ids.container.indexOf(ID_PREFIX_CONTAINED_VIEW) !== -1)) ?
             state[action.payload.ids.parent].level + 1 :
                 0;
@@ -103,7 +102,6 @@ function boxCreator(state = {}, action = {}) {
                 position: position,
                 width: width,
                 height: height,
-                verticalAlign: verticalAlign,
                 content: action.payload.content,
                 draggable: action.payload.draggable,
                 resizable: action.payload.resizable,
@@ -245,12 +243,6 @@ function boxesById(state = {}, action = {}) {
                 [action.payload.id]: Object.assign({}, state[action.payload.id], {
                     width: action.payload.width,
                     height: action.payload.height
-                })
-            });
-        case VERTICALLY_ALIGN_BOX:
-            return Object.assign({}, state, {
-                [action.payload.id]: Object.assign({}, state[action.payload.id], {
-                    verticalAlign: action.payload.verticalAlign
                 })
             });
         case RESIZE_SORTABLE_CONTAINER:
@@ -897,18 +889,27 @@ function createSortableButtons(controls) {
         units: '%',
         autoManaged: true
     };
-    controls.main.accordions.__sortable.buttons.___heightAuto = {
+    controls.main.accordions.__sortable.buttons.__heightAuto = {
         __name: i18n.t('Height_auto'),
         type: 'checkbox',
         value: 'checked',
         checked: 'true',
         autoManaged: true
     };
-    controls.main.accordions.__sortable.buttons.___position = {
+    controls.main.accordions.__sortable.buttons.__position = {
         __name: i18n.t('Position'),
         type: 'radio',
         value: 'relative',
         options: ['absolute', 'relative'],
+        autoManaged: true
+    };
+    controls.main.accordions.__sortable.buttons.__verticalAlign = {
+        __name: i18n.t('Vertical_align'),
+        type: 'fancy_radio',
+        value: 'middle',
+        options: ['top', 'middle', 'bottom'],
+        tooltips: [i18n.t('messages.align_top'),i18n.t('messages.align_middle'),i18n.t('messages.align_bottom')],
+        icons: ['vertical_align_top', 'vertical_align_center', 'vertical_align_bottom'],
         autoManaged: true
     };
 }
@@ -955,7 +956,7 @@ function createFloatingBoxButtons(controls) {
         units: 'px',
         autoManaged: true
     };
-    controls.main.accordions.__sortable.buttons.___heightAuto = {
+    controls.main.accordions.__sortable.buttons.__heightAuto = {
         __name: i18n.t('Height_auto'),
         type: 'checkbox',
         value: 'checked',
@@ -1080,6 +1081,10 @@ function toolbarsById(state = {}, action = {}) {
             return Object.assign({}, state, {
                 [action.payload.id]: Object.assign({}, state[action.payload.id], {isCollapsed: !(state[action.payload.id].isCollapsed)})
             });
+        case VERTICALLY_ALIGN_BOX:
+            newState = Utils.deepClone(state);
+            newState[action.payload.id].controls.main.accordions.__sortable.buttons.__verticalAlign.value = action.payload.verticalAlign;
+            return newState;
         case RESIZE_BOX:
             newState = Object.assign({}, state);
             let height = action.payload.height;
@@ -1090,9 +1095,9 @@ function toolbarsById(state = {}, action = {}) {
                 if (newState[action.payload.id].controls.main && newState[action.payload.id].controls.main.accordions) {
                     if (newState[action.payload.id].controls.main.accordions.__sortable) {
                         let buttons = newState[action.payload.id].controls.main.accordions.__sortable.buttons;
-                        if (buttons.___heightAuto) {
-                            newState[action.payload.id].controls.main.accordions.__sortable.buttons.___heightAuto.checked = heightAuto;
-                            newState[action.payload.id].controls.main.accordions.__sortable.buttons.___heightAuto.value = heightAuto ? 'checked' : 'unchecked';
+                        if (buttons.__heightAuto) {
+                            newState[action.payload.id].controls.main.accordions.__sortable.buttons.__heightAuto.checked = heightAuto;
+                            newState[action.payload.id].controls.main.accordions.__sortable.buttons.__heightAuto.value = heightAuto ? 'checked' : 'unchecked';
                         }
                         if (buttons.height && buttons.width) {
                             newState[action.payload.id].controls.main.accordions.__sortable.buttons.height.value = height;

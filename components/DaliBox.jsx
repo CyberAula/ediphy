@@ -189,14 +189,13 @@ export default class DaliBox extends Component {
                  }}
                  style={{
                     position: box.position.type,
-                    left: box.position.x,
-                    top: box.position.y,
+                    left: box.position.x ? box.position.x : "",
+                    top: box.position.y ? box.position.y : "",
                     width: box.width ,
                     height: box.height,
-                    maxWidth: '100%',
-                    maxHeight: '100%',
-                    verticalAlign: box.verticalAlign ? box.verticalAlign : 'middle' ,
-                    /*border: ((box.container !== 0 && vis) ? (this.borderSize + "px dashed #555") : 0),*/
+                    verticalAlign: toolbar.controls.main.accordions.__sortable.buttons.__verticalAlign.value ?
+                        toolbar.controls.main.accordions.__sortable.buttons.__verticalAlign.value :
+                        'middle' ,
                     touchAction: 'none',
                     msTouchAction: 'none',
                     cursor: vis ? 'inherit': 'default' //esto evita que aparezcan los cursores de move y resize cuando la caja no está seleccionada
