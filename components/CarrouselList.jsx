@@ -7,6 +7,8 @@ import DaliIndexTitle from '../components/DaliIndexTitle';
 import i18n from 'i18next';
 import Dali from './../core/main';
 
+//TODO: revisit completely
+
 export default class CarrouselList extends Component {
     render() {
         return (
@@ -92,12 +94,17 @@ export default class CarrouselList extends Component {
                         <i className="material-icons">create_new_folder</i>
                     </Button>
 
-                    <PageMenu caller={0}
-                              navItems={this.props.navItems}
-                              navItemSelected={this.props.navItemSelected}
-                              navItemsIds={this.props.navItemsIds}
-                              onBoxAdded={this.props.onBoxAdded}
-                              onNavItemAdded={this.props.onNavItemAdded}/>
+                    <Button className="carrouselButton"
+                            onClick={e =>{
+                               var idnuevo = ID_PREFIX_PAGE + Date.now();
+                               this.props.onNavItemAdded(idnuevo,  i18n.t("page"), this.calculateParent().id , [], this.calculateParent().level + 1, 'document', this.calculateNewPosition2(), 'expanded')
+                               this.props.onBoxAdded({parent: idnuevo, container: 0, id: ID_PREFIX_SORTABLE_BOX + Date.now()}, false, false);
+                            }}><i className="material-icons">insert_drive_file</i></Button>
+
+                    <Button className="carrouselButton"
+                            onClick={e => {
+                                this.props.onNavItemAdded(ID_PREFIX_PAGE + Date.now(),  i18n.t("slide"), this.calculateParent().id , [], this.calculateParent().level + 1,  'slide', this.calculatePosition(), 'hidden')
+                            }}><i className="material-icons">slideshow</i></Button>
 
                     <OverlayTrigger trigger={["focus"]} placement="top" overlay={
                         <Popover id="popov" title={this.props.navItemSelected && this.props.navItemSelected.indexOf(ID_PREFIX_SECTION) !== -1 ? i18n.t("delete_section") : i18n.t("delete_page")}>
@@ -146,6 +153,72 @@ export default class CarrouselList extends Component {
             }
         }
         return current;
+    }
+
+    calculateParent() {
+        if(this.props.navItemSelected === 0){
+            return this.props.navItems[0];
+        }
+        var navItem;
+        if (this.props.navItems[this.props.navItemSelected].type === "section") {
+            navItem = this.props.navItems[this.props.navItemSelected];
+        } else {
+            navItem = this.props.navItems[this.props.navItems[this.props.navItemSelected].parent];
+        }
+        return navItem;
+    }
+
+    calculateNewPosition2() {
+        var navItem, nextPosition;
+        if (this.props.navItems[this.props.navItemSelected].type === "section") {
+            navItem = this.props.navItems[this.props.navItemSelected];
+            if (this.props.navItems[navItem.id].children.length > 0) {
+                nextPosition = this.props.navItems[this.props.navItems[navItem.id].children[this.props.navItems[navItem.id].children.length - 1]].position;
+            } else {
+                nextPosition = navItem.position;
+            }
+        } else {
+            navItem = this.props.navItems[this.props.navItems[this.props.navItemSelected].parent];
+            nextPosition = this.props.navItems[this.props.navItemSelected].position;
+        }
+        nextPosition++;
+
+        return nextPosition;
+    }
+
+    calculatePosition() {
+        if (this.props.caller === 0) {
+            return this.props.navItemsIds.length;
+        }
+
+        let navItem = this.props.navItems[this.props.caller];
+        var cuenta = 0;
+        var exit = 0;
+        this.props.navItemsIds.map(i=> {
+
+            if (exit === 0 && this.props.navItems[i].position > navItem.position/* && prev > navItem.level*/) {
+                if (this.props.navItems[i].level > navItem.level) {
+                    cuenta++;
+                    return;
+                }
+                else {
+                    exit = 1;
+                    return;
+                }
+            }
+        });
+        return navItem.position + cuenta + 1;
+    }
+
+    calculateName() {
+        let siblings = this.props.navItemsIds;
+        var num = 1;
+        for (let i in siblings) {
+            if (siblings[i].indexOf(ID_PREFIX_PAGE) !== -1) {
+                num++;
+            }
+        }
+        return num;
     }
 
     componentDidMount() {
