@@ -49,6 +49,8 @@ export const ADD_RICH_MARK = 'ADD_RICH_MARK';
 export const EDIT_RICH_MARK = 'EDIT_RICH_MARK';
 export const SELECT_CONTAINED_VIEW = 'SELECT_CONTAINED_VIEW';
 
+export const UPLOAD_IMAGE = 'UPLOAD_IMAGE';
+
 // These are not real Redux actions but are use to specify plugin's render reason
 export const DELETE_RICH_MARK = 'DELETE_RICH_MARK';
 export const EDIT_PLUGIN_TEXT = 'EDIT_PLUGIN_TEXT';
@@ -200,6 +202,10 @@ export function fetchVishResourcesSuccess(result) {
     return {type: FETCH_VISH_RESOURCES_SUCCESS, payload: {result}};
 }
 
+export function uploadImage(url){
+    return {type: UPLOAD_IMAGE, payload: {url}};
+}
+
 //Async actions
 export function exportStateAsync(state) {
     return dispatch => {
@@ -303,6 +309,7 @@ export function uploadVishResourceAsync(query) {
             })
             .then((result) => {
                 dispatch(setBusy(false, result));
+                dispatch(uploadImage(result));
             })
             .catch(e => {
                 dispatch(setBusy(false, e.message));

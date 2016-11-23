@@ -50,6 +50,7 @@ var en = {
 		"Multimedia" : "Multimedia",
     "no_results" : "No results",
 		"Open" : "Open",
+    "Open_Catalog": "View uploaded images",
 		"page" : "Page",
 		"Position" : "Positioning",
 		"Preview" : "Preview",
