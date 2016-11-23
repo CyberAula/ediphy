@@ -67,13 +67,13 @@ var VishDropzone = React.createClass({
 
     onDrop: function (acceptedFile, rejectedFile) {
 
-        if (acceptedFile.length == 1) {
+        if (acceptedFile.length === 1) {
             console.log(acceptedFile[0]);
             this.setState({file : acceptedFile[0]});
         }
     },
     toggleHover: function(){
-        this.setState({hover: !this.state.hover})
+        this.setState({hover: !this.state.hover});
     },
     mouseOver: function () {
         this.setState({hover: true});
@@ -98,16 +98,17 @@ var VishDropzone = React.createClass({
         }
 
         return (
+            /* jshint ignore:start */
             <Dropzone onDrop={this.onDrop} multiple={false} style={dropStyle}>
                 {(file) ?
-                    (<div style={{ verticalAlign : "middle", textAlign : "center", display: "table-cell"}}>{file.name}</div>)
-                    :
+                    (<div style={{ verticalAlign : "middle", textAlign : "center", display: "table-cell"}}>{file.name}</div>) :
                     (<div style={{ verticalAlign : "middle", textAlign : "center", display: "table-cell"}}>
                     <div><Glyphicon glyph="hdd" /></div>
-                    <span><strong>Choose a file</strong> or drag it here</span>.
+                    <span><strong>Choose a file</strong> or drag it here</span>
                     </div>)
                 }
             </Dropzone>
+            /* jshint ignore:end */
         );
     }
 });
