@@ -29,6 +29,7 @@ export default class DaliCarousel extends Component {
             /* jshint ignore:start */
             <div style={{
                 minWidth: this.props.carouselShow ? (this.props.carouselFull ? '100%' : '212px') : '80px',
+                maxWidth: this.props.carouselFull ? '100%' : '212px',
                 overflowX:  this.props.carouselFull ? 'hidden' : ''
                 }} id="colLeft">
                 <div className="wrapperCarousel">
