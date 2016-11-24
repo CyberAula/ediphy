@@ -305,12 +305,30 @@ export default class PluginToolbar extends Component {
             title: button.title ? button.title : '',
             className: button.class,
             style: {width: '100%'},
+            onBlur: e => {
+                let value = e.target ? e.target.value : e.target;
+
+                if (button.type === 'number') {
+                    if (value === "") {
+                        if(button.min){
+                            value = button.min;
+                        } else {
+                            value = 0;
+                        }
+                    }
+
+                }
+
+                if (!button.autoManaged ) {
+                    button.callback(state, buttonKey, value, id, UPDATE_TOOLBAR);
+                }
+            },
             onChange: e => {
                 let value = e.target ? e.target.value : e.target;
                 if (buttonKey === '___heightAuto') {
                     let units = (!(this.props.box.container.length && this.props.box.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1)) ? 'px' : '%';
                     this.heightAuto = this.props.box.height !== 'auto';
-                    
+
                     this.props.onToolbarUpdated(id, tabKey, accordionKeys, 'height', this.heightAuto ? 'auto' : (100 + units));
                     this.props.onBoxResized(id, this.props.box.width, this.heightAuto ? 'auto' : ('100' + units));
 
@@ -347,21 +365,25 @@ export default class PluginToolbar extends Component {
 
                 if (button.type === 'number') {
 
-                    if( (parseFloat(value) || 0) < button.min ){
+                    if (value === "") {
+                        value = "";
+
+                    } else if( button.min && (parseFloat(value) || 0) < button.min ){
                         value = button.min;
 
-                    } else if((parseFloat(value) || 0) > button.max ){
+                    } else if( button.max && (parseFloat(value) || 0) > button.max ){
                         value = button.max;
 
                     } else {
                         value = parseFloat(value) || 0;
                     }
+                    
 
                     if (button.units) {
                         value = value + button.units;
                     }
                 }
-                
+
                 if (button.type === 'checkbox') {
                     value = ( value === 'checked') ? 'unchecked' : 'checked';
                 }
