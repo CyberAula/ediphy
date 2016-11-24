@@ -6,6 +6,11 @@ import Dali from './../main';
 import Plugins from './plugins';
 import {ID_PREFIX_SECTION} from './../../constants';
 
+var getDistinctName = function(name, namesUsed){
+    namesUsed[name] = namesUsed[name] + 1;
+    return name + namesUsed[name];
+};
+
 var parseEJS = function (path, page, state, fromScorm) {
     if (Object.keys(state.navItemsById[page].extraFiles).length !== 0){
         return (new EJS({url: path + "_exercise.ejs"}).render({
@@ -27,6 +32,7 @@ var parseEJS = function (path, page, state, fromScorm) {
 export default {
     Plugins: Plugins(),
     exports: function (state) {
+        var nav_names_used = {};
         JSZipUtils.getBinaryContent(Dali.Config.visor_zip, function (err, data) {
             if (err) {
                 throw err; // or handle err
@@ -41,9 +47,17 @@ export default {
                     if(page.indexOf(ID_PREFIX_SECTION) !== -1){
                         return;
                     }
+                    var name = navs[page].name;
+                    
+                    if( nav_names_used[name] === undefined ){
+                        nav_names_used[name] = 0;
+                    } else {
+                        name = getDistinctName(name, nav_names_used);
+                    }
+                    
+
                     var inner = parseEJS(Dali.Config.visor_ejs, page, state);
-                    var nombre = navs[page].name;
-                    zip.file(nombre + ".html", inner);
+                    zip.file(name + ".html", inner);
                 });
                 return zip;
             }).then(function (zip) {

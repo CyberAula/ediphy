@@ -7,7 +7,3 @@ export const ID_PREFIX_SORTABLE_CONTAINER = "sc-";
 export const ID_PREFIX_CONTAINED_VIEW = "cv-";
 export const ID_PREFIX_RICH_MARK = "rm-";
 
-export const BOX_TYPES = {
-    SORTABLE: 'sortable',
-    NORMAL: 'normal'
-};

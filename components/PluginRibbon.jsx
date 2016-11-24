@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Modal, Button, Tabs, Tab, Col} from 'react-bootstrap';
 import interact from 'interact.js';
-import {ID_PREFIX_BOX, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_SORTABLE_CONTAINER, BOX_TYPES} from '../constants';
+import {ID_PREFIX_BOX, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_SORTABLE_CONTAINER} from '../constants';
 import Dali from './../core/main';
 
 export default class PluginRibbon extends Component {

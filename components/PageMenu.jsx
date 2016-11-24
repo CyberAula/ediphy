@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {Modal, Button, ButtonGroup, MenuItem, Dropdown} from 'react-bootstrap';
 import {ID_PREFIX_PAGE} from '../constants';
 import {ID_PREFIX_SORTABLE_BOX} from '../constants';
-import {BOX_TYPES} from '../constants';
 import i18n from 'i18next';
 
 export default class PageMenu extends Component {
@@ -22,7 +21,7 @@ export default class PageMenu extends Component {
                     <MenuItem eventKey="1" onClick={e =>{
                            var idnuevo = ID_PREFIX_PAGE + Date.now();
                            this.props.onNavItemAdded(idnuevo,  i18n.t("page"), this.calculateParent().id , [], this.calculateParent().level + 1, 'document', this.calculateNewPosition(), 'expanded')
-                           this.props.onBoxAdded({parent: idnuevo, container: 0, id: ID_PREFIX_SORTABLE_BOX + Date.now()}, BOX_TYPES.SORTABLE, false, false);
+                           this.props.onBoxAdded({parent: idnuevo, container: 0, id: ID_PREFIX_SORTABLE_BOX + Date.now()}, false, false);
                           }}><i className="material-icons">view_day</i> Document</MenuItem>
 
                     <MenuItem eventKey="2" onClick={e => {

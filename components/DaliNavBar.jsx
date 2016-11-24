@@ -100,12 +100,21 @@ export default class DaliNavBar extends Component {
                         </MenuItem>
                         <MenuItem disabled={this.props.undoDisabled} eventKey="2">
                             <button className="dropdownButton" title={i18n.t('messages.export_to_SCORM')} disabled={this.props.undoDisabled}
-                                    onClick={() => this.props.scorm() }><i className="material-icons">class</i>	    
+                                    onClick={() => this.props.scorm() }><i className="material-icons">class</i>
 				    {i18n.t('messages.export_to_SCORM')}
                             </button>
                         </MenuItem>
                         <MenuItem divider/>
                         <MenuItem eventKey="3">
+                            <button className="dropdownButton" title={i18n.t('Open_Catalog')}
+                                    onClick={() => {
+                                        this.props.onVishCatalogToggled();
+                                    }}><i className="material-icons">grid_on</i>
+                    {i18n.t('Open_Catalog')}
+                            </button>
+                        </MenuItem>
+                        <MenuItem divider/>
+                        <MenuItem eventKey="4">
                             <button className="dropdownButton"
                                     onClick={(e) => {
                                         this.props.serverModalOpen()
