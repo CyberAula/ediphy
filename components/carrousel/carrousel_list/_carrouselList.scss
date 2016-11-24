@@ -6,11 +6,10 @@
 /* Índice */
 .carList{
     overflow-y: auto;
-    height: calc(100% - 75px);
-    margin: 4px 0px 0px 0px;
+    height: calc(100% - 56px);
+    margin-top: 4px;
     color: $fondo;
 }
-
 
 /*Título del componente*/
 .carouselListTitle{
@@ -192,7 +191,6 @@
 /*Buttons that act upon navItems*/
 .carrouselButton{
     border:0;
-    border-radius: 0;
     padding:2px;
     font-size: 20px;
     color:$grismedio;
@@ -212,7 +210,6 @@
 
 .pageMenu {
     background-color: $grisoscuro !important;
-    border-radius: 0;
     margin: 0;
     padding: 0;
 
@@ -293,19 +290,16 @@
     padding: 2px 5px !important;
     width:auto !important;
     height:auto !important;
-    border-radius: 0;
 }
 
 #popov {
     width:200px;
-    border-radius: 0;
     color: $grismedio;
 
     background-color: $darkest;
     .popover-title{
         color: $brand_orange;
         border-color: #333;
-        border-radius: 0;
         background-color: transparent;
     }
 }
