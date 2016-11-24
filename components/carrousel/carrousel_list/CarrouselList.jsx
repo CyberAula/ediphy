@@ -63,8 +63,11 @@ export default class CarrouselList extends Component {
                             }
                         })}
                 </div>
-                <div style={{width: '100%', borderTop: '1px solid #555'}}></div>
-                <div style={{width: '212px', marginTop: '0px', padding: '0px'}}>
+                
+        <div className="bottomLine"></div>
+        
+            <div className="bottomGroup">
+                <div>
                     <Button className="carrouselButton"
                             disabled={this.props.navItems[this.props.navItemSelected].type !== "section" && this.props.navItemSelected !== 0}
                             onClick={e => {
@@ -122,6 +125,7 @@ export default class CarrouselList extends Component {
                     </OverlayTrigger>
                 </div>
             </div>
+        </div>
             /* jshint ignore:end */
         );
     }

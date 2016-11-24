@@ -9,7 +9,6 @@
     height: calc(100% - 75px);
     margin: 4px 0px 0px 0px;
     color: $fondo;
-    // padding: 5px;
 }
 
 
@@ -127,6 +126,21 @@
     }
 }
 
+/*bottomLine*/
+.bottomLine{
+    width: 100%;
+    border-top: 1px solid #555;
+}
+/*bottomGroup*/
+.bottomGroup{
+    width: 212px;
+    position: fixed;
+    bottom: 0;
+    .material-icons {
+        padding: 12px;
+    }
+}
+
 /*Icon for files*/
 .fileIcon{
     padding: 0 6px;
@@ -137,7 +151,6 @@
     margin: -4px 0 12px;
     color: $brand_orange;
     font-size: 14px;
-    //font-weight: bold;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -164,10 +177,9 @@
 
 /*Collapsed Carrousel*/
 .indiceoculto{
+    position:absolute;
     left:0;
     top:0;
-    position:absolute;
-
 }
 
 /*Hide Sections when collapsed*/
@@ -183,35 +195,38 @@
 /*Buttons that act upon navItems*/
 .carrouselButton{
     border:0;
-    padding:1px;
+    border-radius: 0;
+    padding:2px;
     font-size: 20px;
     color:$grismedio;
     background-color: transparent !important;;
-    min-width: 20%;
-    border-radius: 0;
     float:none;
     &:hover, &:active{
-        -webkit-box-shadow: none !important;
         box-shadow: none !important;
         -moz-box-shadow: none !important;
+        -webkit-box-shadow: none !important;
         outline:none;
         color: white !important;
         background-color: transparent !important;
     }
 }
 
-/******************Dropup*********************/
+/*Dropup*/
+
 .pageMenu {
     background-color: $grisoscuro !important;
     border-radius: 0;
     margin: 0;
     padding: 0;
+
     /*Divider inside dropup menu*/
+
     .divider {
         background-color:$grismedio;
     }
 
     /*Menu items*/
+
     li {
         padding-bottom: 0;
         a {
@@ -233,8 +248,9 @@
             }
         }
     }
-    
+
     /*Disabled menu items*/
+
     li.disabled {
         a {
             color: #555;
@@ -243,11 +259,13 @@
 }
 
 /*Inside DropUp*/
+
 #bottomMenu{
     background-color: #222;
 }
 
 /*DropUp Tooltip*/
+
 #bottomMenu::after{
     content:"";
     border:8px solid transparent;
@@ -270,7 +288,8 @@
     min-width: 20% !important;
 }
 
-/********* Delete popover******************/
+/*Delete popover*/
+
 .popoverButton {
     @extend .daliTitleButton;
     //margin-top: 10px !important;
