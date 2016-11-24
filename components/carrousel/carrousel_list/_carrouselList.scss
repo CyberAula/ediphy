@@ -143,8 +143,9 @@
 
 /*Título curso*/
 .courseTitleCarousel{
-    margin: -4px 0 12px;
-    padding-left: 8px;
+    position: relative;
+    left: 12px;
+    bottom: 4px;
     color: $brand_orange;
     font-size: 14px;
     overflow: hidden;
