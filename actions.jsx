@@ -15,6 +15,7 @@ export const VERTICALLY_ALIGN_BOX = 'VERTICALLY_ALIGN_BOX';
 export const INCREASE_LEVEL = 'INCREASE_LEVEL';
 
 export const RESIZE_SORTABLE_CONTAINER = 'RESIZE_SORTABLE_CONTAINER';
+export const DELETE_SORTABLE_CONTAINER = 'DELETE_SORTABLE_CONTAINER';
 export const CHANGE_SORTABLE_PROPS = 'CHANGE_SORTABLE_PROPS';
 export const CHANGE_COLS = 'CHANGE_COLS';
 export const CHANGE_ROWS = 'CHANGE_ROWS';
@@ -137,6 +138,10 @@ export function resizeSortableContainer(id, parent, height) {
     return {type: RESIZE_SORTABLE_CONTAINER, payload: {id, parent, height}};
 }
 
+export function deleteSortableContainer(id, parent, children, childrenViews) {
+    return {type: DELETE_SORTABLE_CONTAINER, payload: {id, parent, children, childrenViews}};
+}
+
 export function changeSortableProps(id, parent, prop, value) {
     return {type: CHANGE_SORTABLE_PROPS, payload: {id, parent, prop, value}};
 }
@@ -152,15 +157,15 @@ export function reorderBoxes(parent, container, order) {
     return {type: REORDER_BOXES, payload: {parent, container, order}};
 }
 
-export function addRichMark(parent, mark, state){
+export function addRichMark(parent, mark, state) {
     return {type: ADD_RICH_MARK, payload: {parent, mark, state}};
 }
 
-export function editRichMark(parent, state){
+export function editRichMark(parent, state) {
     return {type: EDIT_RICH_MARK, payload: {parent, state}};
 }
 
-export function selectContainedView(id){
+export function selectContainedView(id) {
     return {type: SELECT_CONTAINED_VIEW, payload: {id}};
 }
 

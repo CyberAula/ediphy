@@ -40,6 +40,7 @@ var en = {
 			"drag_content" : "Drag content here",
 			"edit_text" : "Edit text",
 			"erase_plugin" : "Erase plugin",
+			"erase_container": "Erase container",
  			"export_to_HTML" : "Export to HTML",
  			"export_to_SCORM" : "Export to SCORM",
  			"height_auto_warning" : "The boxes inside can only have a relative height if you fix the container height"

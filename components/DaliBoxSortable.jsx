@@ -36,7 +36,7 @@ export default class DaliBoxSortable extends Component {
                                         Object.assign({},{
                                             width: '100%',
                                             height: container.height == 'auto' ? container.height : container.height + 'px',
-                                            minHeight: '35px',
+                                            minHeight: '70px',
                                             textAlign: 'center',
                                             lineHeight: '100%',
                                             boxSizing: 'border-box',
@@ -90,7 +90,16 @@ export default class DaliBoxSortable extends Component {
                                                             return (<span><br /><br /></span>);
                                                         }
                                                     })}
-                                                    {container.children.length === 0 ? (<span><br/><br/></span>) : ""}
+                                                    {
+                                                        container.children.length === 0 ? (
+                                                            <Button style={{position: 'absolute', top: 0, left: 0}}
+                                                                    onClick={e => {
+                                                                        this.props.onSortableContainerDeleted(container, box.id);
+                                                                        e.stopPropagation();
+                                                                    }}>X</Button>
+                                                        ) :
+                                                            ""
+                                                    }
                                                 </div>);
                                             })}
                                         </div>);
