@@ -292,27 +292,46 @@ export function fetchVishResourcesAsync(query) {
 
 export function uploadVishResourceAsync(query) {
     return dispatch => {
-        dispatch(setBusy(true, i18n.t("Uploading")));
 
-        return fetch(Dali.Config.upload_vish_url, {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: query
-        }).then(response => {
-                if (response.status >= 400) {
-                    throw new Error(i18n.t("error.generic"));
+        if (query.title !== null && query.title.length > 0) {
+            if (query.file !== null){
+                if (query.file.name.match(/\.(jpeg|jpg|gif|png)$/) !== null) {
+
+                    dispatch(setBusy(true, i18n.t("Uploading")));
+                        form.append("title", query.title);
+                        form.append("description", query.description);   
+                        form.append("file", query.file);
+
+
+                    return fetch(Dali.Config.upload_vish_url, {
+                        method: 'POST',
+                        credentials: 'same-origin',
+                        body: form
+                    }).then(response => {
+                            if (response.status >= 400) {
+                                throw new Error(i18n.t("error.generic"));
+                            }
+                            return response.text();
+                        })
+                        .then((result) => {
+                            dispatch(setBusy(false, result));
+                            dispatch(uploadImage(result));
+                        })
+                        .catch(e => {
+                            alert(i18n.t("error.generic"));
+                            dispatch(setBusy(false, 'http://nemanjakovacevic.net/wp-content/uploads/2013/07/placeholder.png'));
+                        });
+                
+                } else {
+                    alert( i18n.t("error.file_extension_invalid"));
                 }
-                return response.text();
-            })
-            .then((result) => {
-                dispatch(setBusy(false, result));
-                dispatch(uploadImage(result));
-            })
-            .catch(e => {
-                dispatch(setBusy(false, e.message));
-            });
+            } else {
+                alert(i18n.t("error.file_not_selected"));
+            }
+        }else {
+
+            alert( i18n.t("error.file_title_not_defined"));
+            return false;
+        }
     };
 }
