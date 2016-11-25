@@ -94,7 +94,7 @@ export default class DaliBoxSortable extends Component {
                                                         container.children.length === 0 ? (
                                                             <Button style={{position: 'absolute', top: 0, left: 0}}
                                                                     onClick={e => {
-                                                                        this.props.onSortableContainerDeleted(container, box.id);
+                                                                        this.props.onSortableContainerDeleted(idContainer, box.id);
                                                                         e.stopPropagation();
                                                                     }}>X</Button>
                                                         ) :
