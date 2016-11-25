@@ -154,6 +154,14 @@ export default class DaliBox extends Component {
         } else {
             showOverlay = "hidden";
         }
+        let verticalAlign = "initial";
+        if (box.container && box.container.indexOf(ID_PREFIX_SORTABLE_BOX) !== -1) {
+            if (toolbar.controls.main.accordions.__sortable.buttons.__verticalAlign.value) {
+                verticalAlign = toolbar.controls.main.accordions.__sortable.buttons.__verticalAlign.value;
+            } else {
+                verticalAlign = 'middle';
+            }
+        }
         return (
             /* jshint ignore:start */
             <div className={classes} id={'box-'+this.props.id}
@@ -193,9 +201,7 @@ export default class DaliBox extends Component {
                     top: box.position.y ? box.position.y : "",
                     width: box.width ,
                     height: box.height,
-                    verticalAlign: toolbar.controls.main.accordions.__sortable.buttons.__verticalAlign.value ?
-                        toolbar.controls.main.accordions.__sortable.buttons.__verticalAlign.value :
-                        'middle' ,
+                    verticalAlign: verticalAlign,
                     touchAction: 'none',
                     msTouchAction: 'none',
                     cursor: vis ? 'inherit': 'default' //esto evita que aparezcan los cursores de move y resize cuando la caja no está seleccionada
@@ -635,7 +641,7 @@ export default class DaliBox extends Component {
                         box.container.length && box.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1 ? width : parseInt(target.style.width),
                         box.container.length && box.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1 ? height : parseInt(target.style.height));
 
-                    if(box.position.x !== target.style.left || box.position.y !== target.style.top) {
+                    if (box.position.x !== target.style.left || box.position.y !== target.style.top) {
                         this.props.onBoxMoved(this.props.id, target.style.left, target.style.top, this.props.boxes[this.props.id].position.type);
                     }
 
