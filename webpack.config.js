@@ -1,4 +1,5 @@
 var webpack = require('webpack');
+//var dependenciesLoaderPlugin = require('./webpack_plugins/dependencies_loader_plugin.js');
 
 module.exports = {
     devtool: 'source-map',
@@ -51,14 +52,24 @@ module.exports = {
                 test: /\.(ttf|eot)$/,
                 loader: 'file-loader'
             },
+            {   
+                test: /\.json$/, 
+                loader: "json-loader" 
+            },
             {
                 test: require.resolve('jquery'),
                 loader: 'expose?jQuery!expose?$!expose?window.jQuery'  //expose-loader, exposes as global variable
+            },{
+                test: /package\.json$/,
+                include: "/plugins/",
+                loader: './dependencies_loader_plugin'
             }
+
         ]
     },
     resolve: {
-        extensions: ['', '.js', '.jsx', '.es6']
+        extensions: ['', '.js', '.jsx', '.es6'],
+        descriptionFiles: ["/plugins/BasicVideo/package.json"]
     },
     output: {
         path: './dist',

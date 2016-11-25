@@ -1,0 +1,21 @@
+#!/usr/bin/env node
+
+var shelljs = require('shelljs');
+var fs = require('fs');
+var PJV = require('package-json-validator').PJV;
+
+  fs.readdir("./plugins", (err,files) => {
+  	files.forEach(file => {
+    	if(fs.lstatSync("./plugins/" + file).isDirectory()){
+    		if(fs.existsSync("./plugins/"+ file +"/package.json")){
+    			console.log("Installing " + file);
+          var validation = PJV.validate(fs.readFileSync("./plugins/"+ file +"/package.json", 'utf8'),"npm");
+    			if (validation.valid){
+    				shelljs.exec("npm install ./plugins/"+ file).stdout;
+    			} else {
+    				console.log(validation.errors);
+    			}
+    		}
+ 		}
+  	});
+  });

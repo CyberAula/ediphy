@@ -105,6 +105,7 @@ export function BasicVideo(base) {
             };
         },
         getRenderTemplate: function (state) {
+            //console.log(happyNumber(2));
             return "<video " + ((state.controls === "checked") ? " controls " : "") + ((state.autoplay === "checked") ? " autoplay " : "") + " style=\"width: 100%; height: 100%; pointer-events: 'none'; z-index:0;\" src=\"" + state.url + "\"></video>";
         },
         handleToolbar: function (name, value) {

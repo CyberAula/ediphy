@@ -9,6 +9,7 @@ import i18n from './i18n';
 require('es6-promise').polyfill();
 require('expose?Dali!./core/temp_hack');
 
+
 require('./sass/style.scss');
 
 // We make sure JQuery UI Sortable Widget is initialized

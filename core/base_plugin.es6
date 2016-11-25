@@ -38,6 +38,7 @@ export default function () {
         }
     };
 
+
     var plugin = {
         create: function (obj) {
             descendant = obj;

@@ -2,6 +2,20 @@ export default {
     //This would be a good post to explore if we don't want to use JSON Stringify: http://stackoverflow.com/questions/728360/how-do-i-correctly-clone-a-javascript-object
     deepClone: function(myObj){
         return JSON.parse(JSON.stringify(myObj));
+    },
+
+    toCamelCase: function(str){
+         // Lower cases the string
+        return str.toLowerCase()
+        // Replaces any - or _ characters with a space 
+        .replace( /[-_]+/g, ' ')
+        // Removes any non alphanumeric characters 
+        .replace( /[^\w\s]/g, '')
+        // Uppercases the first character in each group immediately following a space 
+        // (delimited by spaces) 
+        .replace( / (.)/g, function($1) { return $1.toUpperCase(); })
+        // Removes spaces 
+        .replace( / /g, '' );
     }
 };
 /**

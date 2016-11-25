@@ -1,0 +1,8 @@
+{
+  "name": "BasicVideo",
+  "version": "1.0.0",
+  "description" : "",
+  "dependencies": {
+    "happy-number": "^0.0.1"
+  }
+}
