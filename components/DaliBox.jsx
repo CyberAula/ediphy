@@ -529,7 +529,7 @@ export default class DaliBox extends Component {
                         this.props.boxes[this.props.id].position.type
                     );
 
-                    // Stuff to reorder boxes when position is absolute
+                    // Stuff to reorder boxes when position is relative
                     // TODO: learn how it works
                     let releaseClick = document.elementFromPoint(event.clientX, event.clientY);
                     if (releaseClick) {
