@@ -113,20 +113,18 @@
 
 /*Pestaña (old)*/
 .pestana{
-    cursor: pointer;
-    width: 0;
-    height: 0;
-    border-width: 10px;
+    border-width: 8px;
     border-style: solid;
     text-align: center;
-    z-index: 999;
     display: inline-block;
     position: absolute;
-    top:$pestanaHeight;
-    right:100%;
+    top: 24px;
+    right: 100%;
     border-color: transparent;
     border-right-color: $darkest;
     color: #133329;
+    z-index: 1000;
+    cursor: pointer;
 }
 
 
