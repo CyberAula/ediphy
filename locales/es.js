@@ -43,6 +43,7 @@ var es = {
 			"drag_content" : "Arrastra aquí tu contenido",
 			"edit_text" : "Editar texto",
 			"erase_plugin" : "Borrar plugin",
+			"erase_container": "Borrar contenedor",
  			"export_to_HTML" : "Exportar a HTML",
  			"export_to_SCORM" : "Exportar a SCORM",
  			"height_auto_warning" : "Sólo si fijas una altura podrán tener alturas relativas las cajas en su interior"

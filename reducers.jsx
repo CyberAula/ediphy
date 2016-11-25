@@ -3,7 +3,7 @@ import undoable, {excludeAction} from 'redux-undo';
 import Utils from './utils';
 import {ADD_BOX, SELECT_BOX, MOVE_BOX, DUPLICATE_BOX, RESIZE_BOX, UPDATE_BOX, DELETE_BOX, REORDER_BOX, DROP_BOX, INCREASE_LEVEL,
     ADD_RICH_MARK, EDIT_RICH_MARK, SELECT_CONTAINED_VIEW,
-    RESIZE_SORTABLE_CONTAINER, CHANGE_COLS, CHANGE_ROWS, CHANGE_SORTABLE_PROPS, REORDER_BOXES,
+    RESIZE_SORTABLE_CONTAINER, DELETE_SORTABLE_CONTAINER, CHANGE_COLS, CHANGE_ROWS, CHANGE_SORTABLE_PROPS, REORDER_BOXES,
     ADD_NAV_ITEM, SELECT_NAV_ITEM, EXPAND_NAV_ITEM, REMOVE_NAV_ITEM, REORDER_NAV_ITEM, TOGGLE_NAV_ITEM, UPDATE_NAV_ITEM_EXTRA_FILES,
     CHANGE_SECTION_TITLE, CHANGE_UNIT_NUMBER, VERTICALLY_ALIGN_BOX,
     TOGGLE_TEXT_EDITOR, TOGGLE_TITLE_MODE, CHANGE_TITLE,
@@ -145,6 +145,10 @@ function sortableContainerCreator(state = {}, action = {}) {
                     height: action.payload.height
                 })
             });
+        case DELETE_SORTABLE_CONTAINER:
+            let newState = Utils.deepClone(state);
+            delete newState[action.payload.id];
+            return newState;
         case DELETE_BOX:
             let newChildren = state[action.payload.container].children.filter(id => id !== action.payload.id);
             let container = Utils.deepClone(state[action.payload.container]);
@@ -349,6 +353,17 @@ function boxesById(state = {}, action = {}) {
             }
 
             return newState;
+        case DELETE_SORTABLE_CONTAINER:
+            newState = Utils.deepClone(state);
+
+            if (action.payload.children) {
+                action.payload.children.forEach(id => {
+                    delete newState[id];
+                });
+            }
+            newState[action.payload.parent].children = newState[action.payload.parent].children.filter(id => id !== action.payload.id);
+            newState[action.payload.parent].sortableContainers = sortableContainerCreator(newState[action.payload.parent].sortableContainers, action);
+            return newState;
         case REMOVE_NAV_ITEM:
             newState = Object.assign({}, state);
             action.payload.boxes.map(box => {
@@ -382,8 +397,6 @@ function boxLevelSelected(state = 0, action = {}) {
                 return -1;
             }
             return state;
-        case DELETE_BOX:
-            return state;
         case SELECT_NAV_ITEM:
             return 0;
         case REMOVE_NAV_ITEM:
@@ -411,6 +424,8 @@ function boxSelected(state = -1, action = {}) {
             if (action.payload.parent.indexOf(ID_PREFIX_BOX) !== -1) {
                 return action.payload.parent;
             }
+            return -1;
+        case DELETE_SORTABLE_CONTAINER:
             return -1;
         case SELECT_CONTAINED_VIEW:
             return -1;
@@ -443,6 +458,8 @@ function boxesIds(state = [], action = {}) {
             return state.filter(id => {
                 return id !== action.payload.id && (action.payload.children ? action.payload.children.indexOf(id) === -1 : true);
             });
+        case DELETE_SORTABLE_CONTAINER:
+            return state.filter(id => action.payload.children.indexOf(id) === -1);
         case REMOVE_NAV_ITEM:
             return state.filter(id => {
                 return action.payload.boxes.indexOf(id) === -1;
@@ -779,6 +796,15 @@ function containedViews(state = {}, action = {}) {
             }
 
             return newState;
+        case DELETE_SORTABLE_CONTAINER:
+            newState = Utils.deepClone(state);
+
+            if (action.payload.childrenViews) {
+                action.payload.childrenViews.map(view => {
+                    delete newState[view];
+                });
+            }
+            return newState;
         case REMOVE_NAV_ITEM:
             if (action.payload.containedViews) {
                 let newState = Utils.deepClone(state);
@@ -1057,6 +1083,15 @@ function toolbarsById(state = {}, action = {}) {
             }
 
             return newObject;
+        case DELETE_SORTABLE_CONTAINER:
+            newState = Utils.deepClone(state);
+            if (action.payload.children) {
+                action.payload.children.forEach(id => {
+                    delete newState[id];
+                });
+            }
+
+            return newState;
         case DUPLICATE_BOX:
             newState = Object.assign({}, state);
             let replaced = Object.assign({}, state);
