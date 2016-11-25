@@ -87,7 +87,7 @@ export default class DaliBoxSortable extends Component {
                                                                              onTextEditorToggled={this.props.onTextEditorToggled}/>);
 
                                                         } else if (index == container.children.length - 1) {
-                                                            return (<span><br /><br /></span>);
+                                                            return (<span key={index}><br /><br /></span>);
                                                         }
                                                     })}
                                                     {
