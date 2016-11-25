@@ -301,12 +301,12 @@ export function uploadVishResourceAsync(query) {
         if (query.title !== null && query.title.length > 0) {
             if (query.file !== null){
                 if (query.file.name.match(/\.(jpeg|jpg|gif|png)$/) !== null) {
-
                     dispatch(setBusy(true, i18n.t("Uploading")));
-                        form.append("title", query.title);
-                        form.append("description", query.description);   
-                        form.append("file", query.file);
 
+                    var form = new FormData();
+                    form.append("title", query.title);
+                    form.append("description", query.description);
+                    form.append("file", query.file);
 
                     return fetch(Dali.Config.upload_vish_url, {
                         method: 'POST',

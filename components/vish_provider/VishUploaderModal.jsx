@@ -46,7 +46,6 @@ export default class VishUploaderModal extends Component {
                                         file: this.refs.dropZone.state.file
                                     }
                                 );
-                                }}
                             }}>
                         Upload
                     </Button>
