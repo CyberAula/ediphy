@@ -32,11 +32,12 @@
 .asdfasdf{
 	width:100%;
 }
-/*Transition for hiding toolbars and navbars*/
+
+/*Transition for hiding toolbars and navbars
 #colLeft, #colRight, #ribbon, #insideribbon, #tools, #indice{
 	@include animacion(width, 0.3s);
     min-height: 0;
-}
+}*/
 
 /*Left column with index*/
 #colLeft{

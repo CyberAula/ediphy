@@ -77,15 +77,11 @@
 }
 /*Each NavItem*/
 .navItemBlock {
-    padding: 5px;
-    .editIndexTitleIcon {
-        padding: 5px;
-    }
-    .material-icons{
-        padding: 5px !important;
+    padding: 4px;
+    .editIndexTitleIcon, .material-icons{
+        padding: 4px;
     }
 }
-
 
 /*Wrapper for the whole component including tab*/
 .wrapperCarousel{
@@ -97,19 +93,19 @@
     width: 100%;
     overflow-x: hidden;
     .material-icons {
-        font-size: 1.1em;
+        font-size: 1em;
         vertical-align: middle;
         margin: 0;
-        padding: 5px 10px;
+        padding: 4px 8px;
     }
     .daliCarousel{
         .editIndexTitleIcon{
-            font-size: 1.1em;
+            font-size: 1em;
             float: right;
-            padding: 5px;
+            padding: 4px;
         }
         .fileIcon{
-            padding: 5px 10px 5px 5px;
+            padding: 4px 8px 4px 4px;
         }
         .carrouselButton{
             .material-icons{
