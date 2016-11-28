@@ -3,10 +3,10 @@ import ReactDOM from 'react-dom';
 import {Input,Button, Tooltip, OverlayTrigger} from 'react-bootstrap';
 import interact from 'interact.js';
 import PluginPlaceholder from '../components/PluginPlaceholder';
-import {ID_PREFIX_BOX, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_SORTABLE_CONTAINER, ID_PREFIX_CONTAINED_VIEW} from '../constants';
+import {ID_PREFIX_BOX, ID_PREFIX_SORTABLE_CONTAINER, ID_PREFIX_CONTAINED_VIEW} from '../constants';
 import {ADD_BOX, UPDATE_BOX, RESIZE_BOX, EDIT_PLUGIN_TEXT} from '../actions';
 import Dali from './../core/main';
-import {isView} from './../utils';
+import {isBox, isSortableBox, isView} from './../utils';
 
 export default class DaliBox extends Component {
     constructor(props) {
@@ -156,7 +156,7 @@ export default class DaliBox extends Component {
             showOverlay = "hidden";
         }
         let verticalAlign = "initial";
-        if (box.container && box.container.indexOf(ID_PREFIX_SORTABLE_BOX) !== -1) {
+        if (isSortableBox(box.container)) {
             if (toolbar.controls.main.accordions.__sortable.buttons.__verticalAlign.value) {
                 verticalAlign = toolbar.controls.main.accordions.__sortable.buttons.__verticalAlign.value;
             } else {
@@ -214,7 +214,7 @@ export default class DaliBox extends Component {
     }
 
     sameLastParent(clickedBox, currentBox) {
-        if (currentBox.parent.indexOf(ID_PREFIX_BOX) === -1) {
+        if (!isBox(currentBox.parent)) {
             return currentBox === clickedBox;
         } else {
             return this.sameLastParent(clickedBox, this.props.boxes[currentBox.parent]);
@@ -233,7 +233,7 @@ export default class DaliBox extends Component {
             return false;
         }
 
-        if (parentId.indexOf(ID_PREFIX_SORTABLE_BOX) === -1) {
+        if (!isSortableBox(parentId)) {
             let parentContainers = this.props.boxes[parentId].children;
             if (parentContainers.length !== 0) {
                 for (let i = 0; i < parentContainers.length; i++) {

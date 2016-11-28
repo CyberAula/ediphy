@@ -1,4 +1,4 @@
-import {ID_PREFIX_PAGE, ID_PREFIX_SECTION} from './constants';
+import {ID_PREFIX_BOX, ID_PREFIX_PAGE, ID_PREFIX_SECTION, ID_PREFIX_SORTABLE_BOX} from './constants';
 
 export default {
     //This would be a good post to explore if we don't want to use JSON Stringify: http://stackoverflow.com/questions/728360/how-do-i-correctly-clone-a-javascript-object
@@ -8,15 +8,23 @@ export default {
 };
 
 export function isView(id){
-    return id && (id.indexOf(ID_PREFIX_PAGE) !== -1 || id.indexOf(ID_PREFIX_SECTION) !== -1);
+    return id.length && (id.indexOf(ID_PREFIX_PAGE) !== -1 || id.indexOf(ID_PREFIX_SECTION) !== -1);
 }
 
 export function isPage(id){
-    return id && id.indexOf(ID_PREFIX_PAGE) !== -1;
+    return id.length && id.indexOf(ID_PREFIX_PAGE) !== -1;
 }
 
 export function isSection(id){
-    return id && id.indexOf(ID_PREFIX_SECTION) !== -1;
+    return id.length && id.indexOf(ID_PREFIX_SECTION) !== -1;
+}
+
+export function isBox(id){
+    return id.length && id.indexOf(ID_PREFIX_BOX) !== -1;
+}
+
+export function isSortableBox(id){
+    return id.length && id.indexOf(ID_PREFIX_SORTABLE_BOX) !== -1;
 }
 
 export function changeProps(object, keys, values){

@@ -6,8 +6,8 @@ import DaliShortcuts from '../DaliShortcuts';
 import {Col, Button} from 'react-bootstrap';
 import interact from 'interact.js';
 import {ADD_BOX} from '../../actions';
-import {ID_PREFIX_SORTABLE_BOX} from '../../constants';
 import Dali from '../../core/main';
+import {isSortableBox} from './../../utils';
 
 export default class ContainedCanvas extends Component {
     constructor(props) {
@@ -85,7 +85,7 @@ export default class ContainedCanvas extends Component {
                         </div>
                         {containedView.boxes.map(id => {
                             let box = this.props.boxes[id];
-                            if (box.id.indexOf(ID_PREFIX_SORTABLE_BOX) === -1) {
+                            if (!isSortableBox(box.id)) {
                                 return <DaliBox key={id}
                                                 id={id}
                                                 boxes={this.props.boxes}

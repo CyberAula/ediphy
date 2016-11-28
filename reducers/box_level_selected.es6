@@ -1,5 +1,5 @@
 import {ADD_BOX, INCREASE_LEVEL, SELECT_BOX, SELECT_NAV_ITEM, REMOVE_NAV_ITEM} from './../actions';
-import {ID_PREFIX_SORTABLE_BOX} from './../constants';
+import {isSortableBox} from './../utils';
 
 export default function (state = 0, action = {}) {
     switch (action.type) {
@@ -13,7 +13,7 @@ export default function (state = 0, action = {}) {
             if (action.payload.id === -1) {
                 return 0;
             }
-            if (action.payload.id.indexOf(ID_PREFIX_SORTABLE_BOX) !== -1) {
+            if (isSortableBox(action.payload.id)) {
                 return -1;
             }
             return state;

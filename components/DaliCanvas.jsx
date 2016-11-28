@@ -6,9 +6,9 @@ import DaliShortcuts from '../components/DaliShortcuts';
 import {Col} from 'react-bootstrap';
 import DaliTitle from '../components/DaliTitle';
 import interact from 'interact.js';
-import {ID_PREFIX_SORTABLE_BOX} from '../constants';
 import {ADD_BOX} from '../actions';
 import Dali from './../core/main';
+import {isSortableBox} from './../utils';
 
 export default class DaliCanvas extends Component {
     constructor(props) {
@@ -92,7 +92,7 @@ export default class DaliCanvas extends Component {
 
                         {this.props.navItemSelected.boxes.map(id => {
                             let box = this.props.boxes[id];
-                            if (box.id.indexOf(ID_PREFIX_SORTABLE_BOX) === -1) {
+                            if (!isSortableBox(box.id)) {
                                 return <DaliBox key={id}
                                                 id={id}
                                                 boxes={this.props.boxes}

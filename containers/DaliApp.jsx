@@ -12,7 +12,7 @@ import {addNavItem, selectNavItem, expandNavItem, removeNavItem, reorderNavItem,
     fetchVishResourcesSuccess, fetchVishResourcesAsync, uploadVishResourceAsync,
     selectContainedView,
     ADD_BOX, ADD_RICH_MARK, addRichMark, EDIT_RICH_MARK, editRichMark, EDIT_PLUGIN_TEXT, DELETE_RICH_MARK, UPDATE_BOX, UPDATE_TOOLBAR} from '../actions';
-import {ID_PREFIX_BOX, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_SORTABLE_CONTAINER} from '../constants';
+import {ID_PREFIX_BOX, ID_PREFIX_SORTABLE_CONTAINER} from '../constants';
 import DaliCanvas from '../components/DaliCanvas';
 import ContainedCanvas from '../components/rich_plugins/ContainedCanvas';
 import DaliCarousel from '../components/DaliCarousel';
@@ -25,6 +25,7 @@ import DaliNavBar from '../components/DaliNavBar';
 import ServerFeedback from '../components/ServerFeedback';
 import RichMarksModal from '../components/rich_plugins/RichMarksModal.jsx';
 import Dali from './../core/main';
+import {isSortableBox} from './../utils';
 
 
 class DaliApp extends Component {
@@ -353,7 +354,7 @@ class DaliApp extends Component {
             ids.map(id => {
                 let toolbar = this.props.toolbars[id];
                 if (e.detail.getAliasedPugins) {
-                    if (id.indexOf(ID_PREFIX_SORTABLE_BOX) === -1) {
+                    if (!isSortableBox(id)) {
                         let button = toolbar.controls.other.accordions.__extra.buttons.alias;
                         if (button.value.length !== 0) {
                             if (!plugins[toolbar.config.name]) {
@@ -381,7 +382,7 @@ class DaliApp extends Component {
             }
             else if (key === 46) {
                 let focus = document.activeElement.className;
-                if (this.props.boxSelected !== -1 && this.props.boxSelected.indexOf(ID_PREFIX_SORTABLE_BOX) === -1) {
+                if (this.props.boxSelected !== -1 && !isSortableBox(this.props.boxSelected)) {
                     if (focus.indexOf('form-control') === -1 && focus.indexOf('tituloCurso') === -1 && focus.indexOf('cke_editable') === -1) {
                         let box = this.props.boxes[this.props.boxSelected];
                         let toolbar = this.props.toolbars[this.props.boxSelected];

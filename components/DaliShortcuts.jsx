@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import {Button, Tooltip, OverlayTrigger} from 'react-bootstrap';
-import {ID_PREFIX_BOX, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_SORTABLE_CONTAINER} from '../constants';
+import {ID_PREFIX_SORTABLE_CONTAINER} from '../constants';
 import i18n from 'i18next';
+import {isSortableBox} from './../utils';
 
 export default class DaliShortcuts extends Component {
     constructor(props) {
@@ -26,7 +27,7 @@ export default class DaliShortcuts extends Component {
                  className=""
                  ref="container"
                  style={{
-                    display: (box.id.indexOf(ID_PREFIX_SORTABLE_BOX) === -1) ? 'block' : 'none',
+                    display: isSortableBox(box.id) ? 'none' : 'block',
                     position: 'absolute',
                     left: this.state.left,
                     top: this.state.top,
@@ -88,26 +89,24 @@ export default class DaliShortcuts extends Component {
                             <i className="material-icons">delete</i>
                         </button>
                     </OverlayTrigger>
-                    {
-                        (box.parent.length && box.parent.indexOf(ID_PREFIX_SORTABLE_BOX) !== -1) ? (
-                            <OverlayTrigger placement="top"
-                                            overlay={
-                                        <Tooltip id="borrarcontenedor">
-                                            {i18n.t('messages.erase_container')}
-                                        </Tooltip>
-                                    }>
-                                <button className="daliTitleButton"
-                                        onClick={(e) => {
-                                    this.props.onSortableContainerDeleted(box.container, box.parent);
-                                    e.stopPropagation();
-                                }}>
-                                    <i className="material-icons">delete_forever</i>
-                                </button>
-                            </OverlayTrigger>
-                        ) : (
-                            <span></span>
-                        )
-                    }
+                    {isSortableBox(box.parent) ? (
+                        <OverlayTrigger placement="top"
+                                        overlay={
+                                    <Tooltip id="borrarcontenedor">
+                                        {i18n.t('messages.erase_container')}
+                                    </Tooltip>
+                                }>
+                            <button className="daliTitleButton"
+                                    onClick={(e) => {
+                                this.props.onSortableContainerDeleted(box.container, box.parent);
+                                e.stopPropagation();
+                            }}>
+                                <i className="material-icons">delete_forever</i>
+                            </button>
+                        </OverlayTrigger>
+                    ) : (
+                        <span></span>
+                    )}
                 </div>
             </div>
             /* jshint ignore:end */

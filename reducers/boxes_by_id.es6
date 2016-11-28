@@ -2,7 +2,8 @@ import Utils, {changeProp, changeProps, deleteProp, deleteProps} from './../util
 import {ADD_BOX, MOVE_BOX, DUPLICATE_BOX, RESIZE_BOX, UPDATE_BOX, DELETE_BOX, REORDER_BOX, DROP_BOX, ADD_RICH_MARK,
     RESIZE_SORTABLE_CONTAINER, DELETE_SORTABLE_CONTAINER, CHANGE_COLS, CHANGE_ROWS, CHANGE_SORTABLE_PROPS, REORDER_BOXES,
     REMOVE_NAV_ITEM, IMPORT_STATE} from './../actions';
-import {ID_PREFIX_BOX, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_CONTAINED_VIEW, ID_PREFIX_SORTABLE_CONTAINER} from './../constants';
+import {ID_PREFIX_BOX, ID_PREFIX_CONTAINED_VIEW, ID_PREFIX_SORTABLE_CONTAINER} from './../constants';
+import {isSortableBox} from './../utils';
 
 function boxCreator(state, action) {
     let position, width, height;
@@ -11,7 +12,7 @@ function boxCreator(state, action) {
         level = state[action.payload.ids.parent].level + 1;
     }
 
-    if (action.payload.ids.id.indexOf(ID_PREFIX_SORTABLE_BOX) !== -1) {
+    if (isSortableBox(action.payload.ids.id)) {
         position = {x: 0, y: 0, type: 'relative'};
         width = '100%';
         level = -1;
@@ -30,7 +31,7 @@ function boxCreator(state, action) {
         position.x = 0;
         position.y = 0;
         position.type = 'relative';
-        if (action.payload.ids.parent.indexOf(ID_PREFIX_SORTABLE_BOX) !== -1) {
+        if (isSortableBox(action.payload.ids.parent)) {
             if (action.payload.config.category !== "text") {
                 width = "25%";
             }

@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import {Button} from 'react-bootstrap';
 import interact from 'interact.js';
 import DaliBox from '../components/DaliBox';
-import {ID_PREFIX_SORTABLE_BOX} from '../constants';
 import {RESIZE_SORTABLE_CONTAINER, ADD_BOX} from '../actions';
 import Dali from './../core/main';
 

@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
 import {Modal, Button, Tabs, Tab, Col} from 'react-bootstrap';
 import interact from 'interact.js';
-import {ID_PREFIX_BOX, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_SORTABLE_CONTAINER} from '../constants';
+import {ID_PREFIX_SORTABLE_BOX, ID_PREFIX_SORTABLE_CONTAINER} from '../constants';
 import Dali from './../core/main';
+import {isSortableBox} from './../utils';
 
 export default class PluginRibbon extends Component {
     constructor(props) {
@@ -56,7 +57,7 @@ export default class PluginRibbon extends Component {
                     </button>
                     <button className="ribShortcut"
                             title="Copy"
-                            disabled={!this.props.boxSelected || (this.props.boxSelected && this.props.boxSelected.id.indexOf(ID_PREFIX_SORTABLE_BOX) !== -1)}
+                            disabled={!this.props.boxSelected || (this.props.boxSelected && isSortableBox(this.props.boxSelected.id))}
                             onClick={() => {
                                 this.props.onBoxDuplicated(this.props.boxSelected.id, this.props.boxSelected.parent, this.props.boxSelected.container);
                                 this.stopPropagation();

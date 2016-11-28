@@ -1,16 +1,17 @@
 import {ADD_BOX, ADD_NAV_ITEM, DELETE_BOX, DELETE_SORTABLE_CONTAINER, DUPLICATE_BOX, REMOVE_NAV_ITEM, SELECT_BOX,
     SELECT_CONTAINED_VIEW, SELECT_NAV_ITEM, IMPORT_STATE} from './../actions';
-import {ID_PREFIX_SORTABLE_BOX, ID_PREFIX_CONTAINED_VIEW, ID_PREFIX_BOX} from './../constants';
+import {ID_PREFIX_CONTAINED_VIEW, ID_PREFIX_BOX} from './../constants';
+import {isBox, isSortableBox} from './../utils';
 
 export default function (state = -1, action = {}) {
     switch (action.type) {
         case ADD_BOX:
             // When we create a new document, new DaliBoxSortable is created aswell; we don't want it to be selected
-            if (action.payload.ids.id.indexOf(ID_PREFIX_SORTABLE_BOX) !== -1) {
+            if (isSortableBox(action.payload.ids.id)) {
                 return -1;
             }
             // When we create a new box with default plugins, we don't want them to be selected
-            if(action.payload.initialParams && action.payload.initialParams.isDefaultPlugin) {
+            if (action.payload.initialParams && action.payload.initialParams.isDefaultPlugin) {
                 return state;
             }
             // Just normal situation
@@ -23,7 +24,7 @@ export default function (state = -1, action = {}) {
                 return -1;
             }
             // When we delete a box inside another one, we want it's parent to be selected
-            if (action.payload.parent.indexOf(ID_PREFIX_BOX) !== -1) {
+            if (isBox(action.payload.parent)) {
                 return action.payload.parent;
             }
             return -1;
