@@ -13,7 +13,7 @@ export default class CarrouselList extends Component {
     render() {
         return (
             /* jshint ignore:start */
-            <div style={{height: 'calc(100% - 25px)'}}>
+            <div style={{height: '100%'}}>
                 <div ref="sortableList"
                      className="carList connectedSortables"
                      onClick={e => {
@@ -64,7 +64,10 @@ export default class CarrouselList extends Component {
                             }
                         })}
                 </div>
-                <div style={{width: '100%', borderTop: '1px solid grey', marginTop: '0px', padding: '0px'}}>
+                
+                <div style={{width: '100%', borderTop: '1px solid #555'}}></div>
+                    
+                <div style={{width: '212px', marginTop: '0px', padding: '0px', position:'fixed', bottom: '4px'}}>
                     <Button className="carrouselButton"
                             disabled={this.props.navItems[this.props.navItemSelected].type !== "section" && this.props.navItemSelected !== 0}
                             onClick={e => {
