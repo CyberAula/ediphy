@@ -1,9 +1,15 @@
+import {ID_PREFIX_PAGE, ID_PREFIX_SECTION} from './constants';
+
 export default {
     //This would be a good post to explore if we don't want to use JSON Stringify: http://stackoverflow.com/questions/728360/how-do-i-correctly-clone-a-javascript-object
     deepClone: function(myObj){
         return JSON.parse(JSON.stringify(myObj));
     }
 };
+
+export function isView(id){
+    return id && (id.indexOf(ID_PREFIX_PAGE) !== -1 || id.indexOf(ID_PREFIX_SECTION) !== -1);
+}
 
 export function changeProps(object, keys, values){
     if (Array.isArray(keys) && Array.isArray(values) && keys.length === values.length) {

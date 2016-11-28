@@ -1,5 +1,5 @@
 import {combineReducers} from 'redux';
-import undoable, {excludeAction} from 'redux-undo';
+import undoable from 'redux-undo';
 import Utils from './../utils';
 import {ADD_BOX, SELECT_BOX, MOVE_BOX, DUPLICATE_BOX, RESIZE_BOX, UPDATE_BOX, DELETE_BOX, REORDER_BOX, DROP_BOX, INCREASE_LEVEL,
     ADD_RICH_MARK, EDIT_RICH_MARK, SELECT_CONTAINED_VIEW,
@@ -12,65 +12,9 @@ import {ADD_BOX, SELECT_BOX, MOVE_BOX, DUPLICATE_BOX, RESIZE_BOX, UPDATE_BOX, DE
 import {ID_PREFIX_SECTION, ID_PREFIX_PAGE, ID_PREFIX_BOX, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_CONTAINED_VIEW, ID_PREFIX_SORTABLE_CONTAINER} from './../constants';
 import i18n from 'i18next';
 import boxesById from './boxes_by_id';
-
-function boxLevelSelected(state = 0, action = {}) {
-    switch (action.type) {
-        case ADD_BOX:
-            return 0;
-        case INCREASE_LEVEL:
-            return state + 1;
-        case SELECT_BOX:
-            if (action.payload.id === -1) {
-                return 0;
-            }
-            if (action.payload.id.indexOf(ID_PREFIX_SORTABLE_BOX) !== -1) {
-                return -1;
-            }
-            return state;
-        case SELECT_NAV_ITEM:
-            return 0;
-        case REMOVE_NAV_ITEM:
-            return 0;
-        default:
-            return state;
-    }
-}
-
-function boxSelected(state = -1, action = {}) {
-    switch (action.type) {
-        case ADD_BOX:
-            if (action.payload.ids.id.indexOf(ID_PREFIX_SORTABLE_BOX) !== -1) {
-                return -1;
-            }
-            return (action.payload.initialParams && action.payload.initialParams.isDefaultPlugin) ? state : action.payload.ids.id;
-        case SELECT_BOX:
-            return action.payload.id;
-        case DUPLICATE_BOX:
-            return ID_PREFIX_BOX + action.payload.newId;
-        case DELETE_BOX:
-            if(action.payload.container.length && action.payload.container.indexOf(ID_PREFIX_CONTAINED_VIEW) !== -1){
-                return -1;
-            }
-            if (action.payload.parent.indexOf(ID_PREFIX_BOX) !== -1) {
-                return action.payload.parent;
-            }
-            return -1;
-        case DELETE_SORTABLE_CONTAINER:
-            return -1;
-        case SELECT_CONTAINED_VIEW:
-            return -1;
-        case ADD_NAV_ITEM:
-            return -1;
-        case SELECT_NAV_ITEM:
-            return -1;
-        case REMOVE_NAV_ITEM:
-            return -1;
-        case IMPORT_STATE:
-            return action.payload.present.boxSelected || state;
-        default:
-            return state;
-    }
-}
+import boxLevelSelected from './box_level_selected';
+import boxSelected from './box_selected';
+import navItemsById from './nav_items_by_id';
 
 function boxesIds(state = [], action = {}) {
     switch (action.type) {
@@ -101,82 +45,6 @@ function boxesIds(state = [], action = {}) {
     }
 }
 
-function navItemCreator(state = {}, action = {}) {
-    switch (action.type) {
-        case ADD_NAV_ITEM:
-            return {
-                id: action.payload.id,
-                name: action.payload.name,
-                isExpanded: true,
-                parent: action.payload.parent,
-                children: action.payload.children,
-                boxes: [],
-                level: action.payload.level,
-                type: action.payload.type,
-                position: action.payload.position,
-                unitNumber: (action.payload.parent === 0 ? state[action.payload.parent].children.length + 1 : state[action.payload.parent].unitNumber),
-                hidden: state[action.payload.parent].hidden,
-                extraFiles: {},
-                titlesReduced: action.payload.titlesReduced || 'expanded'
-            };
-        default:
-            return state;
-    }
-}
-//TODO Repasar por qué sobra tanto código
-function recalculateNames(state = {}, old = {}, resta = 0, numeroBorrados = 0) {
-    var items = state;
-    //var sectionNum = 1;
-    //Recalculate positions
-    for (let i in items) {
-        if (resta === 1) {
-            if (items[i].position >= old.position) {
-                items[i].position -= numeroBorrados;
-            }
-        } else {
-            if (items[i].position > old.position || (items[i].position === old.position && items[i].level < old.level)) {
-                items[i].position++;
-            }
-        }
-    }
-    // Rename pages
-    var pages =
-        Object.keys(state).filter(page => {
-            if (state[page].type === 'slide' || state[page].type === 'document') {
-                return page;
-            }
-        }).sort(function (a, b) {
-            return state[a].position - state[b].position;
-        });
-
-    //pages.forEach((page, index) => {
-    // items[page].name = 'Page ' + (index + 1);
-    //});
-
-    // Rename sections
-    //var mainindex = 1;
-    //var secondindex = 1;
-
-    var sections = Object.keys(state).filter(sec => {
-        if (state[sec].type === 'section') {
-            return sec;
-        }
-    }).sort(function (a, b) {
-        return state[a].position - state[b].position;
-    });
-
-    sections.forEach((section) => {
-        if (items[section].level === 1) {
-            // items[section].name = 'Section ' + (mainindex++);
-        } else {
-            var sub = items[items[section].parent].children.filter(s => s[0] === 's').indexOf(section) + 1;
-            //items[section].name = items[items[section].parent].name + '.' + sub;
-        }
-    });
-
-    return items;
-}
-
 function navItemsIds(state = [], action = {}) {
     switch (action.type) {
         case ADD_NAV_ITEM:
@@ -196,167 +64,6 @@ function navItemsIds(state = [], action = {}) {
             return state;
         case IMPORT_STATE:
             return action.payload.present.navItemsIds || state;
-        default:
-            return state;
-    }
-}
-
-function findNavItemsDescendants(state, parent) {
-    let family = [parent];
-    state[parent].children.forEach(item => {
-        family = family.concat(findNavItemsDescendants(state, item));
-    });
-    return family;
-}
-
-function navItemsById(state = {}, action = {}) {
-    var newState;
-    var newBoxes;
-    switch (action.type) {
-        case SELECT_NAV_ITEM:
-            return state;
-        case ADD_NAV_ITEM:
-            newState = Object.assign({}, state, {
-                [action.payload.id]: navItemCreator(state, action),
-                [action.payload.parent]: Object.assign({}, state[action.payload.parent], {children: [...state[action.payload.parent].children, action.payload.id]})
-            });
-            return recalculateNames(newState, newState[action.payload.id], 0);
-        case EXPAND_NAV_ITEM:
-            return Object.assign({}, state, {[action.payload.id]: Object.assign({}, state[action.payload.id], {isExpanded: action.payload.value})});
-        case TOGGLE_TITLE_MODE:
-            return Object.assign({}, state, {[action.payload.id]: Object.assign({}, state[action.payload.id], {titlesReduced: action.payload.value})});
-        case REMOVE_NAV_ITEM:
-            let oldOne = Object.assign({}, state[action.payload.ids[0]]);
-            newState = Object.assign({}, state);
-            action.payload.ids.map(id => {
-                delete newState[id];
-            });
-            let newChildren = newState[action.payload.parent].children.slice();
-            newChildren.splice(newChildren.indexOf(action.payload.ids[0]), 1);
-            let wrongNames = Object.assign({}, newState, {[action.payload.parent]: Object.assign({}, newState[action.payload.parent], {children: newChildren})});
-            return recalculateNames(wrongNames, oldOne, 1, action.payload.ids.length);
-        case REORDER_NAV_ITEM:
-            //   0--> outside to outside /   1--> outside to section /   2--> sectionA to sectionB /   3--> section to section  /   4--> section to outside
-            var newSt = Utils.deepClone(state);
-
-            if (action.payload.type === 0 || action.payload.type === 3) {
-
-                newSt[action.payload.newParent].children = action.payload.newChildrenInOrder;
-
-                action.payload.newIndId.forEach(elem => {
-                    newSt = Object.assign({}, newSt, {
-                        [elem]: Object.assign({}, newSt[elem], {position: action.payload.newIndId.indexOf(elem)})
-                    });
-                });
-
-            } else if (action.payload.type === 1 || action.payload.type === 2 || action.payload.type === 4) {
-
-                var oldParent = newSt[action.payload.itemId].parent;
-                var oldParentChildren = newSt[oldParent].children;
-                oldParentChildren.splice(oldParentChildren.indexOf(action.payload.itemId), 1);
-
-                newSt[action.payload.newParent].children = action.payload.newChildrenInOrder;
-                newSt[action.payload.itemId].parent = action.payload.newParent;
-                newSt[oldParent].children = oldParentChildren;
-
-                var elementsToVisit = [action.payload.itemId];
-                var diff = state[action.payload.newParent].level - state[action.payload.itemId].level + 1;
-                var currentElement;
-                var auxLevel;
-                do {
-                    currentElement = elementsToVisit.pop();
-                    if (newSt[currentElement].children.length > 0) {
-                        elementsToVisit = elementsToVisit.concat(newSt[currentElement].children);
-                    }
-                    auxLevel = newSt[currentElement].level + diff;
-                    newSt = Object.assign({}, newSt, {
-                        [currentElement]: Object.assign({}, newSt[currentElement], {level: auxLevel})
-                    });
-                } while (elementsToVisit.length > 0);
-
-                action.payload.newIndId.forEach(elem => {
-                    newSt = Object.assign({}, newSt, {
-                        [elem]: Object.assign({}, newSt[elem], {position: action.payload.newIndId.indexOf(elem) + 1})
-                    });
-                });
-            }
-            let navsToChange = findNavItemsDescendants(state, action.payload.itemId);
-            if (action.payload.newParent !== 0) {
-                let newUnitNumber = newSt[action.payload.newParent].unitNumber;
-                navsToChange.forEach(item => {
-                    newSt[item].unitNumber = newUnitNumber;
-                });
-            }
-            return newSt;
-        case UPDATE_NAV_ITEM_EXTRA_FILES:
-            return Object.assign({}, state, {
-                [action.payload.id]: Object.assign({}, state[action.payload.id], {
-                    extraFiles: Object.assign({}, state[action.payload.id].extraFiles, {
-                        [action.payload.box]: action.payload.xml_path
-                    })
-                })
-            });
-        case CHANGE_SECTION_TITLE:
-            return Object.assign({}, state, {
-                [action.payload.id]: Object.assign({}, state[action.payload.id], {name: action.payload.title})
-            });
-        case CHANGE_UNIT_NUMBER:
-            newState = Utils.deepClone(state);
-            let itemsToChange = findNavItemsDescendants(newState, action.payload.id);
-            itemsToChange.forEach(item => {
-                newState[item].unitNumber = action.payload.value;
-            });
-            return newState;
-        case TOGGLE_NAV_ITEM:
-            if (state[state[action.payload.id].parent].hidden) {
-                return state;
-            }
-            newState = Utils.deepClone(state);
-            let itemsToHide = findNavItemsDescendants(newState, action.payload.id);
-            let hidden = state[action.payload.id].hidden ? false : true;
-            newState[action.payload.id].hidden = hidden;
-            itemsToHide.forEach(item => {
-                newState[item].hidden = hidden;
-            });
-            return newState;
-        case ADD_BOX:
-            if (action.payload.ids.parent && action.payload.ids.parent.indexOf(ID_PREFIX_PAGE) !== -1 || action.payload.ids.parent.indexOf(ID_PREFIX_SECTION) !== -1) {
-                return Object.assign({}, state, {
-                    [action.payload.ids.parent]: Object.assign({}, state[action.payload.ids.parent], {
-                        boxes: [...state[action.payload.ids.parent].boxes, action.payload.ids.id]
-                    })
-                });
-            }
-            return state;
-        case DELETE_BOX:
-            if (action.payload.parent.indexOf(ID_PREFIX_PAGE) !== -1 || action.payload.parent.indexOf(ID_PREFIX_SECTION) !== -1) {
-                let currentBoxes = state[action.payload.parent].boxes;
-                newBoxes = currentBoxes.filter(id => id !== action.payload.id);
-                if (action.payload.parent !== 0) {
-                    return Object.assign({}, state, {
-                        [action.payload.parent]: Object.assign({}, state[action.payload.parent], {
-                            boxes: newBoxes
-                        })
-                    });
-                }
-            }
-            return state;
-        case DUPLICATE_BOX:
-            if (action.payload.parent.indexOf(ID_PREFIX_PAGE) !== -1 || action.payload.parent.indexOf(ID_PREFIX_SECTION) !== -1) {
-                newBoxes = state[action.payload.parent].boxes;
-                newBoxes.push(ID_PREFIX_BOX + action.payload.newId);
-
-                if (action.payload.parent !== 0) {
-                    return Object.assign({}, state, {
-                        [action.payload.parent]: Object.assign({}, state[action.payload.parent], {
-                            boxes: newBoxes
-                        })
-                    });
-                }
-            }
-            return state;
-        case IMPORT_STATE:
-            return action.payload.present.navItemsById || state;
         default:
             return state;
     }
@@ -451,7 +158,7 @@ function containedViews(state = {}, action = {}) {
     }
 }
 
-function createAspectRatioButton(controls, config){
+function createAspectRatioButton(controls, config) {
     let arb = config.aspectRatioButtonConfig;
     let button = {
         __name: arb.name,
@@ -564,7 +271,7 @@ function createSortableButtons(controls) {
         type: 'fancy_radio',
         value: 'middle',
         options: ['top', 'middle', 'bottom'],
-        tooltips: [i18n.t('messages.align_top'),i18n.t('messages.align_middle'),i18n.t('messages.align_bottom')],
+        tooltips: [i18n.t('messages.align_top'), i18n.t('messages.align_middle'), i18n.t('messages.align_bottom')],
         icons: ['vertical_align_top', 'vertical_align_center', 'vertical_align_bottom'],
         autoManaged: true
     };
@@ -670,7 +377,7 @@ function toolbarsById(state = {}, action = {}) {
             // If contained in sortableContainer
             if (action.payload.ids.container.length && action.payload.ids.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1) {
                 createSortableButtons(toolbar.controls);
-            // If not contained (AKA floating box)
+                // If not contained (AKA floating box)
             } else if (action.payload.ids.id.indexOf(ID_PREFIX_SORTABLE_BOX) === -1) {
                 createFloatingBoxButtons(toolbar.controls);
             }
@@ -915,7 +622,7 @@ const GlobalState = undoable(combineReducers({
                 return false;
         }
 
-        if(action.type === ADD_BOX && action.payload.initialParams && action.payload.initialParams.isDefaultPlugin){
+        if (action.type === ADD_BOX && action.payload.initialParams && action.payload.initialParams.isDefaultPlugin) {
             return false;
         }
 
