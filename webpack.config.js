@@ -1,5 +1,5 @@
 var webpack = require('webpack');
-//var dependenciesLoaderPlugin = require('./webpack_plugins/dependencies_loader_plugin.js');
+var path = require("path");
 
 module.exports = {
     devtool: 'source-map',
@@ -18,7 +18,7 @@ module.exports = {
                 test: /\.(es6|jsx|js)$/,
                 exclude: /node_modules/,
                 loader: 'jshint-loader'
-            }
+            },
         ],
         loaders: [
             {
@@ -52,24 +52,28 @@ module.exports = {
                 test: /\.(ttf|eot)$/,
                 loader: 'file-loader'
             },
-            {   
-                test: /\.json$/, 
-                loader: "json-loader" 
+            {
+                test: /\.json$/,
+                exclude: /node_modules/,
+                loader: 'json-loader'
             },
+           /* {
+                test: /package\.json$/,
+                include: path.join(__dirname, "plugins/"),
+                loader: path.join(__dirname, "/webpack_plugins/dependencies_loader_plugin.js")
+            },*/
             {
                 test: require.resolve('jquery'),
                 loader: 'expose?jQuery!expose?$!expose?window.jQuery'  //expose-loader, exposes as global variable
-            },{
-                test: /package\.json$/,
-                include: "/plugins/",
-                loader: './dependencies_loader_plugin'
+            },
+            {
+                test: require.resolve('happy-number'),
+                loader: 'expose?happyNumber!happy-number'  //expose-loader, exposes as global variable
             }
-
         ]
     },
     resolve: {
-        extensions: ['', '.js', '.jsx', '.es6'],
-        descriptionFiles: ["/plugins/BasicVideo/package.json"]
+        extensions: ['', '.js', '.jsx', '.es6']
     },
     output: {
         path: './dist',
@@ -123,6 +127,7 @@ module.exports = {
         predef: ["Dali", "html2json", "CKEDITOR", "EJS"]
     },
     plugins: [
+        new webpack.ContextReplacementPlugin(/package\.json$/, "./plugins/"),
         new webpack.HotModuleReplacementPlugin(),
         new webpack.ProvidePlugin({
             '$': 'jquery',
