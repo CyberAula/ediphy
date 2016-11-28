@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import {Button} from 'react-bootstrap';
-import {ID_PREFIX_SECTION, ID_PREFIX_PAGE, ID_PREFIX_SORTABLE_BOX} from '../constants';
+import {ID_PREFIX_PAGE, ID_PREFIX_SECTION, ID_PREFIX_SORTABLE_BOX} from '../constants';
 import DaliIndexTitle from '../components/DaliIndexTitle';
+import {isPage, isSection} from './../utils';
 
 export default class Section extends Component {
     render() {
@@ -51,7 +52,7 @@ export default class Section extends Component {
                          className="sectionList connectedSortables">
                         {
                             navItem.children.map((id, index) => {
-                                if (id.indexOf(ID_PREFIX_SECTION) !== -1) {
+                                if (isSection(id)) {
                                     return <Section id={id}
                                                     key={index}
                                                     navItemsIds={this.props.navItemsIds}
@@ -64,7 +65,7 @@ export default class Section extends Component {
                                                     onNavItemExpanded={this.props.onNavItemExpanded}
                                                     onNavItemReorded={this.props.onNavItemReorded}
                                                     onNavItemToggled={this.props.onNavItemToggled}/>;
-                                } else if (id.indexOf(ID_PREFIX_PAGE) !== -1) {
+                                } else if (isPage(id)) {
                                     let classSelected = this.props.navItemSelected === id ? 'selected dragS' : 'notSelected dragS';
                                     let color = this.props.navItemSelected === id ? '#f87060' : '#555';
                                     return <h4 key={index}
@@ -122,7 +123,7 @@ export default class Section extends Component {
         let siblings = navItem.children;
         var sections = 1;
         for (let i in siblings) {
-            if (siblings[i].indexOf(ID_PREFIX_SECTION) !== -1) {
+            if (isSection(siblings[i])) {
                 sections++;
             }
         }

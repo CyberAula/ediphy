@@ -3,6 +3,7 @@ import {Modal, Button, ButtonGroup, MenuItem, Dropdown} from 'react-bootstrap';
 import {ID_PREFIX_PAGE} from '../constants';
 import {ID_PREFIX_SORTABLE_BOX} from '../constants';
 import i18n from 'i18next';
+import {isPage} from './../utils';
 
 export default class PageMenu extends Component {
     render() {
@@ -96,7 +97,7 @@ export default class PageMenu extends Component {
         let siblings = this.props.navItemsIds;
         var num = 1;
         for (let i in siblings) {
-            if (siblings[i].indexOf(ID_PREFIX_PAGE) !== -1) {
+            if (isPage(siblings[i])) {
                 num++;
             }
         }

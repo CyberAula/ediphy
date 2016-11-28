@@ -1,7 +1,7 @@
 import {ADD_BOX, ADD_NAV_ITEM, CHANGE_SECTION_TITLE, CHANGE_UNIT_NUMBER, DELETE_BOX, DUPLICATE_BOX, EXPAND_NAV_ITEM,
     REORDER_NAV_ITEM, REMOVE_NAV_ITEM, TOGGLE_NAV_ITEM, TOGGLE_TITLE_MODE, UPDATE_NAV_ITEM_EXTRA_FILES,
     IMPORT_STATE} from './../actions';
-import {ID_PREFIX_PAGE, ID_PREFIX_BOX, ID_PREFIX_SECTION} from './../constants';
+import {ID_PREFIX_BOX} from './../constants';
 import Utils, {changeProp, changeProps, deleteProp, deleteProps, isView} from './../utils';
 
 function navItemCreator(state = {}, action = {}) {
@@ -16,7 +16,7 @@ function navItemCreator(state = {}, action = {}) {
         type: action.payload.type,
         position: action.payload.position,
         unitNumber: (action.payload.parent === 0 ?
-            state[action.payload.parent].children.length + 1 :
+        state[action.payload.parent].children.length + 1 :
             state[action.payload.parent].unitNumber),
         hidden: state[action.payload.parent].hidden,
         extraFiles: {},
@@ -144,7 +144,7 @@ export default function (state = {}, action = {}) {
             }
             return state;
         case DUPLICATE_BOX:
-            if (action.payload.parent.indexOf(ID_PREFIX_PAGE) !== -1 || action.payload.parent.indexOf(ID_PREFIX_SECTION) !== -1) {
+            if (isView(action.payload.parent)) {
                 let newBoxes = state[action.payload.parent].boxes;
                 newBoxes.push(ID_PREFIX_BOX + action.payload.newId);
 
@@ -225,7 +225,10 @@ export default function (state = {}, action = {}) {
             let itemsToggled = [];
             itemsToToggle.forEach(item => {
                 //This is "cheaty"; we're replacing the original action
-                itemsToggled.push(singleNavItemReducer(state[item], {type: TOGGLE_NAV_ITEM, payload: {value: (state[action.payload.id].hidden ? false : true)}}));
+                itemsToggled.push(singleNavItemReducer(state[item], {
+                    type: TOGGLE_NAV_ITEM,
+                    payload: {value: (state[action.payload.id].hidden ? false : true)}
+                }));
             });
             return changeProps(state, itemsToToggle, itemsToggled);
         case TOGGLE_TITLE_MODE:

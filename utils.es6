@@ -11,6 +11,14 @@ export function isView(id){
     return id && (id.indexOf(ID_PREFIX_PAGE) !== -1 || id.indexOf(ID_PREFIX_SECTION) !== -1);
 }
 
+export function isPage(id){
+    return id && id.indexOf(ID_PREFIX_PAGE) !== -1;
+}
+
+export function isSection(id){
+    return id && id.indexOf(ID_PREFIX_SECTION) !== -1;
+}
+
 export function changeProps(object, keys, values){
     if (Array.isArray(keys) && Array.isArray(values) && keys.length === values.length) {
         /* jshint ignore:start */

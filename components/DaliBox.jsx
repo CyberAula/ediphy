@@ -3,9 +3,10 @@ import ReactDOM from 'react-dom';
 import {Input,Button, Tooltip, OverlayTrigger} from 'react-bootstrap';
 import interact from 'interact.js';
 import PluginPlaceholder from '../components/PluginPlaceholder';
-import {ID_PREFIX_BOX, ID_PREFIX_PAGE, ID_PREFIX_SECTION, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_SORTABLE_CONTAINER, ID_PREFIX_CONTAINED_VIEW} from '../constants';
+import {ID_PREFIX_BOX, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_SORTABLE_CONTAINER, ID_PREFIX_CONTAINED_VIEW} from '../constants';
 import {ADD_BOX, UPDATE_BOX, RESIZE_BOX, EDIT_PLUGIN_TEXT} from '../actions';
 import Dali from './../core/main';
+import {isView} from './../utils';
 
 export default class DaliBox extends Component {
     constructor(props) {
@@ -179,11 +180,6 @@ export default class DaliBox extends Component {
                             this.props.onBoxSelected(this.props.id);
                         }
                     }
-                    if(box.parent.indexOf(ID_PREFIX_PAGE) !== -1 ||
-                        box.parent.indexOf(ID_PREFIX_SECTION) !== -1 ||
-                        (box.container.length && box.container.indexOf(ID_PREFIX_CONTAINED_VIEW) !== -1) ||
-                        box.parent.indexOf(ID_PREFIX_SORTABLE_BOX) !== -1){
-                    }
                     e.stopPropagation();
                  }}
                  onDoubleClick={(e)=> {
@@ -233,7 +229,7 @@ export default class DaliBox extends Component {
         if (parentId === searchingId) {
             return true;
         }
-        if (parentId.indexOf(ID_PREFIX_PAGE) !== -1 || parentId.indexOf(ID_PREFIX_SECTION) !== -1) {
+        if (isView(parentId)) {
             return false;
         }
 

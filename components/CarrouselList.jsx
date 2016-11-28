@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
 import {Button, ButtonGroup, Col, OverlayTrigger, Popover} from 'react-bootstrap';
-import {ID_PREFIX_SECTION, ID_PREFIX_PAGE, ID_PREFIX_SORTABLE_BOX} from '../constants';
+import {ID_PREFIX_PAGE, ID_PREFIX_SECTION, ID_PREFIX_SORTABLE_BOX} from '../constants';
 import Section from '../components/Section';
 import PageMenu from '../components/PageMenu';
 import DaliIndexTitle from '../components/DaliIndexTitle';
+import {isPage, isSection} from './../utils';
 import i18n from 'i18next';
 
 export default class CarrouselList extends Component {
@@ -19,7 +20,7 @@ export default class CarrouselList extends Component {
                      }}>
                     {
                         this.props.navItems[0].children.map((id, index) => {
-                            if (id.indexOf(ID_PREFIX_SECTION) !== -1) {
+                            if (isSection(id)) {
                                 return <Section id={id}
                                                 key={index}
                                                 navItemsIds={this.props.navItemsIds}
@@ -32,7 +33,7 @@ export default class CarrouselList extends Component {
                                                 onNavItemExpanded={this.props.onNavItemExpanded}
                                                 onNavItemReorded={this.props.onNavItemReorded}
                                                 onNavItemToggled={this.props.onNavItemToggled}/>;
-                            } else if (id.indexOf(ID_PREFIX_PAGE) !== -1) {
+                            } else if (isPage(id)) {
                                 let classSelected = (this.props.navItemSelected === id) ? 'selected drag-handle' : 'notSelected drag-handle';
                                 return <h4 key={index}
                                            id={id}
@@ -137,7 +138,7 @@ export default class CarrouselList extends Component {
     sections() {
         var current = 1;
         for (let i in this.props.navItemsIds) {
-            if (this.props.navItemsIds[i].indexOf(ID_PREFIX_SECTION) !== -1) {
+            if (isSection(this.props.navItemsIds[i])) {
                 current++;
             }
         }
