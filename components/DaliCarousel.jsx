@@ -29,7 +29,8 @@ export default class DaliCarousel extends Component {
         return (
             /* jshint ignore:start */
             <div style={{
-                width: this.props.carouselShow ? (this.props.carouselFull ? '100%' : '16.66666%') : '80px',
+                minWidth: this.props.carouselShow ? (this.props.carouselFull ? '100%' : '212px') : '80px',
+                maxWidth: this.props.carouselFull ? '100%' : '212px',
                 overflowX:  this.props.carouselFull ? 'hidden' : ''
                 }} id="colLeft">
                 <div className="wrapperCarousel">
@@ -51,18 +52,16 @@ export default class DaliCarousel extends Component {
                            }}>{!this.props.carouselFull ? "keyboard_arrow_right" : "keyboard_arrow_left"}
                         </i>
                         <div className="clear"></div>
-                    </div>
-                    <p className="courseTitleCarousel"> {this.props.title}</p>
+                    </div> 
+                        <p className="courseTitleCarousel"> {this.props.title}</p>
                     <div id="indice"
                          className="daliCarousel"
                          key="indice"
                          style={{height: '100%'}}>
                         {this.props.carouselShow ? carrouselContent : <br/>}
                     </div>
-
                 </div>
             </div>
-            /* jshint ignore:end */
         );
     }
 }
