@@ -24,10 +24,10 @@ function navItemCreator(state = {}, action = {}) {
     };
 }
 
-function findNavItemsDescendants(state, element) {
+function findDescendantNavItems(state, element) {
     let family = [element];
     state[element].children.forEach(child => {
-        family = family.concat(findNavItemsDescendants(state, child));
+        family = family.concat(findDescendantNavItems(state, child));
     });
     return family;
 }
@@ -163,7 +163,7 @@ export default function (state = {}, action = {}) {
         case CHANGE_SECTION_TITLE:
             return changeProp(state, action.payload.id, singleNavItemReducer(state[action.payload.id], action));
         case CHANGE_UNIT_NUMBER:
-            let itemsToChange = findNavItemsDescendants(state, action.payload.id);
+            let itemsToChange = findDescendantNavItems(state, action.payload.id);
             let newValues = [];
             itemsToChange.forEach(item => {
                 newValues.push(singleNavItemReducer(state[item], action));
@@ -215,7 +215,7 @@ export default function (state = {}, action = {}) {
 
             // Some properties are inherited from parent (level, hidden, unitNumber, etc.)
             // We should update item's children with new inherited value
-            let descendantsToUpdate = findNavItemsDescendants(itemsReordered, action.payload.id);
+            let descendantsToUpdate = findDescendantNavItems(itemsReordered, action.payload.id);
             // We remove the first element (the item we moved)
             descendantsToUpdate.shift();
             let newDescendants = [];
@@ -239,7 +239,7 @@ export default function (state = {}, action = {}) {
             if (state[state[action.payload.id].parent].hidden) {
                 return state;
             }
-            let itemsToToggle = findNavItemsDescendants(state, action.payload.id);
+            let itemsToToggle = findDescendantNavItems(state, action.payload.id);
             let itemsToggled = [];
             itemsToToggle.forEach(item => {
                 //This is "cheaty"; we're replacing the original action

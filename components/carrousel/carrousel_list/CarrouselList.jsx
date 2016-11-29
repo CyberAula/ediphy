@@ -149,6 +149,33 @@ export default class CarrouselList extends Component {
         return current;
     }
 
+    findDescendantNavItems(state, element) {
+        let family = [element];
+        state[element].children.forEach(child => {
+            family = family.concat(this.findDescendantNavItems(state, child));
+        });
+        return family;
+    }
+
+    calculateNewIdOrder(oldArray, newChildren, itemMoved) {
+        let itemsToChange = this.findDescendantNavItems(this.props.navItems, itemMoved);
+        let oldArrayFiltered = oldArray.filter(id => itemsToChange.indexOf(id) === -1);
+
+        // This is the index where we split the array to add the items we're moving
+        // We calculate the position of the next child item after itemMoved
+        let splitIndex = oldArrayFiltered.indexOf(newChildren[newChildren.indexOf(itemMoved) + 1]);
+        let newArray;
+        // This means that itemMoved went to last position
+        if (splitIndex === -1) {
+            newArray = oldArrayFiltered.concat(itemsToChange);
+        } else {
+            newArray = oldArrayFiltered.slice(0, splitIndex);
+            newArray = newArray.concat(itemsToChange);
+            newArray = newArray.concat(oldArrayFiltered.slice(splitIndex));
+        }
+        return newArray;
+    }
+
     componentDidMount() {
         let list = jQuery(this.refs.sortableList);
         let props = this.props;
@@ -166,97 +193,47 @@ export default class CarrouselList extends Component {
                 $("#" + this.props.navItemSelected).css("opacity", "0.5");
             },
             stop: (event, ui) => {
+                // This is called when:
+                // - An item is dragged out from CarrouselList to a child
+                // - An item that is already a children of CarouselList is dragged into another position at the same level
+
                 console.log("stop carousel");
                 $("#" + this.props.navItemSelected).css("opacity", "1");
-                const reorderedIndexesId = list.sortable('toArray', {attribute: 'id'});
 
-                const select = this.props.navItemSelected;
-                const navItems = this.props.navItems;
-                const old = navItems[0].children;
+                let newChildren = list.sortable('toArray', {attribute: 'id'});
+                if (newChildren.indexOf(this.props.navItemSelected) !== -1) {
 
-                if ($('.carList').css("border-left") === "3px solid rgb(244, 121, 32)" && (reorderedIndexesId.length !== old.length)) {
-                    reorderedIndexesId.push(select);
-                }
-                $(event.target).css("border-left", "none");
-
-                if (reorderedIndexesId.indexOf(select) >= 0) {
+                    // This is necessary in order to avoid that JQuery touches the DOM
+                    // It has to be BEFORE action is dispatched and React tries to repaint
                     list.sortable('cancel');
 
-                    var newIndexesAux = [];
-                    var newChildrenInOrder = reorderedIndexesId;
-                    var selectedAndChilds = [select];
-
-                    const previos = this.props.navItemsIds;
-
-                    for (var i = previos.indexOf(select) + 1; i < previos.length; i++) {
-                        if (navItems[previos[i]].level <= navItems[select].level) {
-                            break;
-                        } else {
-                            selectedAndChilds.push(previos[i]);
-                        }
-                    }
-
-                    var part1 = previos.slice(0, previos.indexOf(select));
-                    var part2 = previos.slice(previos.indexOf(select) + selectedAndChilds.length);
-                    var concatA = part1.concat(part2);
-
-                    if (newChildrenInOrder.indexOf(select) >= newChildrenInOrder.length - 1) { //es el ultimo de los nuevos hijos
-                        newIndexesAux = concatA.concat(selectedAndChilds);
-                    } else {//si no es el ultimo nuevo hijo
-                        var part1b = concatA.slice(0, concatA.indexOf(newChildrenInOrder[newChildrenInOrder.indexOf(select) + 1]));
-                        var part2b = concatA.slice(concatA.indexOf(newChildrenInOrder[newChildrenInOrder.indexOf(select) + 1]));
-                        newIndexesAux = part1b.concat(selectedAndChilds, part2b);
-                    }
-
-                    this.props.onNavItemReordered(this.props.navItemSelected, 0, 0, newIndexesAux, reorderedIndexesId);
-                } else {
-
+                    this.props.onNavItemReordered(
+                        this.props.navItemSelected, // id
+                        0, // newParent
+                        0, // oldParent
+                        this.calculateNewIdOrder(this.props.navItemsIds, newChildren, this.props.navItemSelected),
+                        newChildren
+                    );
                 }
             },
             receive: (event, ui) => {
+                // This is called when an item is dragged in from a child to CarrouselList
                 console.log("receive carousel");
-                const reorderedIndexesId = list.sortable('toArray', {attribute: 'id'});
-                const parent = this.props.navItems[this.props.navItemSelected].parent;
-                const navItems = this.props.navItems;
-                const navItemsIds = this.props.navItemsIds;
-                const select = this.props.navItemSelected;
-                var auxInd = "0";
 
+                let newChildren = list.sortable('toArray', {attribute: 'id'});
+                let oldParent = this.props.navItems[this.props.navItemSelected].parent;
+
+                // This is necessary in order to avoid that JQuery touches the DOM
+                // It has to be BEFORE action is dispatched and React tries to repaint
                 $(ui.sender).sortable('cancel');
 
-                if (navItems[0].children.length === reorderedIndexesId.length) {
-                    reorderedIndexesId.push(this.props.navItemSelected);
-                }
-
-                auxInd = reorderedIndexesId.indexOf(this.props.navItemSelected);
-
-                var newIndexesAux = [];
-                var newChildrenInOrder = reorderedIndexesId;
-                var selectedAndChilds = [select];
-
-                const previos = this.props.navItemsIds;
-
-                for (var i = previos.indexOf(select) + 1; i < previos.length; i++) {
-                    if (navItems[previos[i]].level <= navItems[select].level) {
-                        break;
-                    } else {
-                        selectedAndChilds.push(previos[i]);
-                    }
-                }
-
-                var part1 = previos.slice(0, previos.indexOf(select));
-                var part2 = previos.slice(previos.indexOf(select) + selectedAndChilds.length);
-                var concatA = part1.concat(part2);
-
-                if (newChildrenInOrder.indexOf(select) >= newChildrenInOrder.length - 1) { //es el ultimo de los nuevos hijos
-                    newIndexesAux = concatA.concat(selectedAndChilds);
-                } else {//si no es el ultimo nuevo hijo
-                    var part1b = concatA.slice(0, concatA.indexOf(newChildrenInOrder[newChildrenInOrder.indexOf(select) + 1]));
-                    var part2b = concatA.slice(concatA.indexOf(newChildrenInOrder[newChildrenInOrder.indexOf(select) + 1]));
-                    newIndexesAux = part1b.concat(selectedAndChilds, part2b);
-                }
-
-                this.props.onNavItemReordered(this.props.navItemSelected, 0, parent, newIndexesAux, reorderedIndexesId);
+                this.props.onNavItemReordered(
+                    this.props.navItemSelected,
+                    0,
+                    oldParent,
+                    this.calculateNewIdOrder(this.props.navItemsIds, newChildren, this.props.navItemSelected),
+                    newChildren
+                );
             }
         });
     }
