@@ -18,7 +18,7 @@ module.exports = {
                 test: /\.(es6|jsx|js)$/,
                 exclude: /node_modules/,
                 loader: 'jshint-loader'
-            },
+            }
         ],
         loaders: [
             {
@@ -53,22 +53,22 @@ module.exports = {
                 loader: 'file-loader'
             },
             {
-                test: /\.json$/,
-                exclude: /node_modules/,
-                loader: 'json-loader'
-            },
-           /* {
                 test: /package\.json$/,
                 include: path.join(__dirname, "plugins/"),
                 loader: path.join(__dirname, "/webpack_plugins/dependencies_loader_plugin.js")
-            },*/
+            },
+            /*{
+                test: /\.json$/,
+                loader: 'json-loader'
+            },
+            
+            {
+                test: require.resolve('happy-number'),
+                loader: 'expose?happyNumber'  //expose-loader, exposes as global variable
+            }, */
             {
                 test: require.resolve('jquery'),
                 loader: 'expose?jQuery!expose?$!expose?window.jQuery'  //expose-loader, exposes as global variable
-            },
-            {
-                test: require.resolve('happy-number'),
-                loader: 'expose?happyNumber!happy-number'  //expose-loader, exposes as global variable
             }
         ]
     },
@@ -132,7 +132,8 @@ module.exports = {
         new webpack.ProvidePlugin({
             '$': 'jquery',
             'jQuery': 'jquery',
-            'window.jQuery': 'jquery'
+            'window.jQuery': 'jquery',
+            'happyNumber' : "happy-number"
         }) // Wraps module with variable and injects wherever it's needed
     ]
 };

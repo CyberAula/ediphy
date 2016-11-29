@@ -1,32 +1,27 @@
 
 var toCamelCase = function(str) {
-  // Lower cases the string
   return str.toLowerCase()
-    // Replaces any - or _ characters with a space 
     .replace( /[-_]+/g, ' ')
-    // Removes any non alphanumeric characters 
     .replace( /[^\w\s]/g, '')
-    // Uppercases the first character in each group immediately following a space 
-    // (delimited by spaces) 
     .replace( / (.)/g, function($1) { return $1.toUpperCase(); })
-    // Removes spaces 
     .replace( / /g, '' );
 }
 
 var returning_string = function(dependencies_object){
+	console.log(webpack_provider);
 	var final_string = "";
 	Object.keys(dependencies_object).map(function(dependency){
 		var location = require.resolve(dependency);
-		var export_dependency = 'module.exports = global["'+toCamelCase(dependency)+'"] = require("!'+ location+'");';
+		var export_dependency = 'module.exports = global["'+toCamelCase(dependency)+'"] = require("-!'+ location+'");';
 		final_string += export_dependency;
-		console.log(export_dependency);
 	})
 	return final_string;
 };
 
 module.exports = function() {};
-module.exports.pitch = function(e, source){
-	console.log(require(e).dependencies);
+module.exports.pitch = function(e){
+	//console.log(require(e).dependencies);
+	//console.log(this);
 	if(this.cacheable) {this.cacheable();}
 	var dependencies = require(e).dependencies;
 	return returning_string(dependencies);
