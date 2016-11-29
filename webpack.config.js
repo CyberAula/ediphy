@@ -114,7 +114,7 @@ module.exports = {
         browser: true,
         devel: true,
         jquery: true,
-        predef: ["Dali", "html2json", "CKEDITOR", "EJS"]
+        predef: ["Dali", "html2json", "CKEDITOR", "EJS"].concat(dependency_loader.getJSHintExludeNames())
     },
     plugins: [
         new webpack.ContextReplacementPlugin(/package\.json$/, "./plugins/"),

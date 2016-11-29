@@ -1,5 +1,9 @@
 #!/usr/bin/env node
 
+/*
+* This module makes possible to install dependencies from plugins folder when they have a package.json in it
+*/
+
 var shelljs = require('shelljs');
 var fs = require('fs');
 var PJV = require('package-json-validator').PJV;

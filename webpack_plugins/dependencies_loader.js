@@ -11,6 +11,17 @@ var toCamelCase = function(str) {
 
 
 module.exports = {
+	getJSHintExludeNames: function(){
+		var files = glob.sync("plugins/*/package.json");
+		var final_array = [];
+		for(package in files){	
+			var json = require("../" + files[package]).dependencies;
+			Object.keys(json).map(function(e){
+				final_array.push(toCamelCase(e));
+			});
+		}
+		return final_array;
+	},
 	getExposeString: function(){
 		var files = glob.sync("plugins/*/package.json");
 		var final_array = [];
