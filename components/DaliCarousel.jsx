@@ -62,6 +62,7 @@ export default class DaliCarousel extends Component {
                     </div>
                 </div>
             </div>
+            /* jshint ignore:end */
         );
     }
 }
