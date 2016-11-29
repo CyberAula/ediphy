@@ -7,3 +7,4 @@ webpack.config.js~
 .sass-cache
 dali_server/config.json
 *.map
+nbproject
