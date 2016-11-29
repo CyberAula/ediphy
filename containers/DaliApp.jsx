@@ -13,17 +13,17 @@ import {addNavItem, selectNavItem, expandNavItem, removeNavItem, reorderNavItem,
     selectContainedView,
     ADD_BOX, ADD_RICH_MARK, addRichMark, EDIT_RICH_MARK, editRichMark, EDIT_PLUGIN_TEXT, DELETE_RICH_MARK, UPDATE_BOX, UPDATE_TOOLBAR} from '../actions';
 import {ID_PREFIX_BOX, ID_PREFIX_SORTABLE_CONTAINER} from '../constants';
-import DaliCanvas from '../components/DaliCanvas';
-import ContainedCanvas from '../components/rich_plugins/ContainedCanvas';
-import DaliCarousel from '../components/DaliCarousel';
-import PluginConfigModal from '../components/PluginConfigModal';
-import XMLConfigModal from '../components/XMLConfigModal';
-import PluginToolbar from '../components/PluginToolbar';
+import DaliCanvas from '../components/canvas/dali_canvas/DaliCanvas';
+import ContainedCanvas from '../components/rich_plugins/contained_canvas/ContainedCanvas';
+import DaliCarousel from '../components/carrousel/dali_carrousel/DaliCarousel';
+import PluginConfigModal from '../components/plugin_config_modal/PluginConfigModal';
+import XMLConfigModal from '../components/xml_config_modal/XMLConfigModal';
+import PluginToolbar from '../components/toolbar/plugin_toolbar/PluginToolbar';
 import Visor from '../components/visor/Visor';
-import PluginRibbon from '../components/PluginRibbon';
-import DaliNavBar from '../components/DaliNavBar';
-import ServerFeedback from '../components/ServerFeedback';
-import RichMarksModal from '../components/rich_plugins/RichMarksModal.jsx';
+import PluginRibbon from '../components/nav_bar/plugin_ribbon/PluginRibbon';
+import DaliNavBar from '../components/nav_bar/dali_nav_bar/DaliNavBar';
+import ServerFeedback from '../components/server_feedback/ServerFeedback';
+import RichMarksModal from '../components/rich_plugins/rich_marks_modal/RichMarksModal';
 import Dali from './../core/main';
 import {isSortableBox} from './../utils';
 
@@ -119,7 +119,8 @@ class DaliApp extends Component {
                               }}/>
 
                     <Col id="colRight" xs={12}
-                         style={{height: (this.state.carouselFull ? 0 : '100%'), width: (this.state.carouselShow? '83.333333%':'calc(100% - 80px)')}}>
+                         style={{height: (this.state.carouselFull ? 0 : '100%'),
+                             width: (this.state.carouselShow? 'calc(100% - 212px)':'calc(100% - 80px)')}}>
                         <Row id="ribbonRow">
                             <PluginRibbon disabled={navItemSelected === 0}
                                           boxSelected={boxes[boxSelected]}
