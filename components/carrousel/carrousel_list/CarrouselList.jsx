@@ -21,53 +21,49 @@ export default class CarrouselList extends Component {
                         this.props.onNavItemSelected(0);
                         e.stopPropagation();
                      }}>
-                    {
-                        this.props.navItems[0].children.map((id, index) => {
-                            if (isSection(id)) {
-                                return <Section id={id}
-                                                key={index}
-                                                navItemsIds={this.props.navItemsIds}
-                                                navItems={this.props.navItems}
-                                                navItemSelected={this.props.navItemSelected}
-                                                onTitleChange={this.props.onTitleChange}
-                                                onNavItemAdded={this.props.onNavItemAdded}
-                                                onBoxAdded={this.props.onBoxAdded}
-                                                onNavItemSelected={this.props.onNavItemSelected}
-                                                onNavItemExpanded={this.props.onNavItemExpanded}
-                                                onNavItemReordered={this.props.onNavItemReordered}
-                                                onNavItemToggled={this.props.onNavItemToggled}/>;
-                            } else if (isPage(id)) {
-                                let classSelected = (this.props.navItemSelected === id) ? 'selected drag-handle' : 'notSelected drag-handle';
-                                return <h4 key={index}
-                                           id={id}
-                                           className={'navItemBlock ' +classSelected}
-                                           onMouseDown={e => {
-                                                    this.props.onNavItemSelected(id);
-                                                    e.stopPropagation();
-                                               }}
-                                           onClick={e => {
-                                                this.props.onNavItemSelected(id);
-                                                e.stopPropagation();
-                                             }}
-                                >
-                                        <span style={{marginLeft: 20*(this.props.navItems[id].level-1)}}>
-                                            <i className="material-icons fileIcon">{this.props.navItems[id].type == 'slide' ? "slideshow" : "insert_drive_file"}</i>
-                                        <DaliIndexTitle
-                                            id={id}
-                                            title={this.props.navItems[id].name}
-                                            index={this.props.navItems[this.props.navItems[id].parent].children.indexOf(id)+1+'.'}
-                                            hidden={this.props.navItems[id].hidden}
+                    {this.props.navItems[0].children.map((id, index) => {
+                        if (isSection(id)) {
+                            return <Section id={id}
+                                            key={index}
+                                            navItemsIds={this.props.navItemsIds}
+                                            navItems={this.props.navItems}
+                                            navItemSelected={this.props.navItemSelected}
                                             onTitleChange={this.props.onTitleChange}
-                                            onNavItemToggled={this.props.onNavItemToggled}/></span>
-                                </h4>
-
-
-                            }
-                        })}
+                                            onNavItemAdded={this.props.onNavItemAdded}
+                                            onBoxAdded={this.props.onBoxAdded}
+                                            onNavItemSelected={this.props.onNavItemSelected}
+                                            onNavItemExpanded={this.props.onNavItemExpanded}
+                                            onNavItemReordered={this.props.onNavItemReordered}
+                                            onNavItemToggled={this.props.onNavItemToggled}/>
+                        } else if (isPage(id)) {
+                            let classSelected = (this.props.navItemSelected === id) ? 'selected' : 'notSelected';
+                            return <h4 key={index}
+                                       id={id}
+                                       className={'navItemBlock ' + classSelected}
+                                       onMouseDown={e => {
+                                            this.props.onNavItemSelected(id);
+                                            e.stopPropagation();
+                                       }}
+                                       onClick={e => {
+                                            this.props.onNavItemSelected(id);
+                                            e.stopPropagation();
+                                       }}>
+                                    <span style={{marginLeft: 20 * (this.props.navItems[id].level-1)}}>
+                                        <i className="material-icons fileIcon">
+                                            {this.props.navItems[id].type == 'slide' ? "slideshow" : "insert_drive_file"}
+                                        </i>
+                                    <DaliIndexTitle
+                                        id={id}
+                                        title={this.props.navItems[id].name}
+                                        index={this.props.navItems[this.props.navItems[id].parent].children.indexOf(id) + 1 + '.'}
+                                        hidden={this.props.navItems[id].hidden}
+                                        onTitleChange={this.props.onTitleChange}
+                                        onNavItemToggled={this.props.onNavItemToggled}/></span>
+                            </h4>
+                        }
+                    })}
                 </div>
-
                 <div className="bottomLine"></div>
-
                 <div className="bottomGroup">
                     <div>
                         <Button className="carrouselButton"
@@ -157,22 +153,20 @@ export default class CarrouselList extends Component {
         let list = jQuery(this.refs.sortableList);
         let props = this.props;
         list.sortable({
-            // handle: '.drag-handle' ,
-            tolerance: 'intersect',
             connectWith: '.connectedSortables',
-            placeholder: "sortable-placeholder",
-            //helper: "clone",
+            containment: '.carList',
+            scroll: true,
             over: (event, ui) => {
                 $(event.target).css("border-left", "3px solid #F47920");
             },
             out: (event, ui) => {
-                //$(event.target).css("border-left", "none");
+                $(event.target).css("border-left", "none");
             },
             start: (event, ui) => {
                 $("#" + this.props.navItemSelected).css("opacity", "0.5");
             },
             stop: (event, ui) => {
-                //$(".selected").css("background-color", "rgba(84, 84, 84 , 1)");
+                console.log("stop carousel");
                 $("#" + this.props.navItemSelected).css("opacity", "1");
                 const reorderedIndexesId = list.sortable('toArray', {attribute: 'id'});
 
@@ -220,7 +214,7 @@ export default class CarrouselList extends Component {
                 }
             },
             receive: (event, ui) => {
-                //$(".selected").css("background-color", "rgba(84, 84, 84 , 1)");
+                console.log("receive carousel");
                 const reorderedIndexesId = list.sortable('toArray', {attribute: 'id'});
                 const parent = this.props.navItems[this.props.navItemSelected].parent;
                 const navItems = this.props.navItems;

@@ -40,6 +40,13 @@
   }
 }
 
+.dragIntoHelper {
+  margin-left: 30px;
+  border: 3px solid $brand_orange;
+  min-height: 30px;
+  width: 100%;
+}
+
 /*Overriding bootstrap*/
 .daliCarousel {
 
