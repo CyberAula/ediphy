@@ -34,7 +34,7 @@ export default class CarrouselList extends Component {
                                                 onBoxAdded={this.props.onBoxAdded}
                                                 onNavItemSelected={this.props.onNavItemSelected}
                                                 onNavItemExpanded={this.props.onNavItemExpanded}
-                                                onNavItemReorded={this.props.onNavItemReorded}
+                                                onNavItemReordered={this.props.onNavItemReordered}
                                                 onNavItemToggled={this.props.onNavItemToggled}/>;
                             } else if (isPage(id)) {
                                 let classSelected = (this.props.navItemSelected === id) ? 'selected drag-handle' : 'notSelected drag-handle';
@@ -214,7 +214,7 @@ export default class CarrouselList extends Component {
                         newIndexesAux = part1b.concat(selectedAndChilds, part2b);
                     }
 
-                    this.props.onNavItemReorded(this.props.navItemSelected, 0, 0, newIndexesAux, reorderedIndexesId);
+                    this.props.onNavItemReordered(this.props.navItemSelected, 0, 0, newIndexesAux, reorderedIndexesId);
                 } else {
 
                 }
@@ -262,7 +262,7 @@ export default class CarrouselList extends Component {
                     newIndexesAux = part1b.concat(selectedAndChilds, part2b);
                 }
 
-                this.props.onNavItemReorded(this.props.navItemSelected, 0, parent, newIndexesAux, reorderedIndexesId);
+                this.props.onNavItemReordered(this.props.navItemSelected, 0, parent, newIndexesAux, reorderedIndexesId);
             }
         });
     }

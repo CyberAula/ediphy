@@ -22,7 +22,7 @@ export default class DaliCarousel extends Component {
                                               onNavItemExpanded={this.props.onNavItemExpanded}
                                               onNavItemRemoved={this.props.onNavItemRemoved}
                                               onNavItemToggled={this.props.onNavItemToggled}
-                                              onNavItemReorded={this.props.onNavItemReorded}/>;
+                                              onNavItemReordered={this.props.onNavItemReordered}/>;
             /* jshint ignore:end */
         }
         return (
