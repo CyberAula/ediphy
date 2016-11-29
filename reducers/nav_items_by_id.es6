@@ -95,6 +95,37 @@ function singleNavItemReducer(state = {}, action = {}) {
             return changeProp(state, "isExpanded", action.payload.value);
         case REMOVE_NAV_ITEM:
             return changeProp(state, "children", state.children.filter(id => id !== action.payload.ids[0]));
+        case REORDER_NAV_ITEM:
+            if (state.id === action.payload.id) {
+                // Action was replaced, payload is different
+                return changeProps(
+                    state,
+                    [
+                        "parent",
+                        "hidden",
+                        "level",
+                        "unitNumber"
+                    ], [
+                        action.payload.newParent.id,
+                        action.payload.newParent.hidden,
+                        action.payload.newParent.level + 1,
+                        // If navItem is going to be level 1, unitNumber should not change
+                        action.payload.newParent.level === 0 ?
+                            state.unitNumber :
+                            action.payload.newParent.unitNumber
+                    ]
+                );
+            }
+            // This order is important!!
+            // If checked the other way round, when newParent and oldParent are equal, item moved will be deleted from children
+            if (state.id === action.payload.newParent) {
+                return changeProp(state, "children", action.payload.childrenInOrder);
+            }
+            if (state.id === action.payload.oldParent) {
+                return changeProp(state, "children", state.children.filter(id => id !== action.payload.id));
+            }
+
+            return state;
         case TOGGLE_NAV_ITEM:
             return changeProp(state, "hidden", action.payload.value);
         case TOGGLE_TITLE_MODE:
@@ -160,58 +191,45 @@ export default function (state = {}, action = {}) {
         case EXPAND_NAV_ITEM:
             return changeProp(state, action.payload.id, singleNavItemReducer(state[action.payload.id], action));
         case REORDER_NAV_ITEM:
-            //   0--> outside to outside /   1--> outside to section /   2--> sectionA to sectionB /   3--> section to section  /   4--> section to outside
-            var newSt = Utils.deepClone(state);
+            let itemsReordered = changeProps(
+                state,
+                [
+                    action.payload.id,
+                    action.payload.oldParent,
+                    action.payload.newParent
 
-            if (action.payload.type === 0 || action.payload.type === 3) {
+                ], [
+                    // Cheaty sneaky, action is replaced
+                    singleNavItemReducer(state[action.payload.id], {
+                        type: REORDER_NAV_ITEM,
+                        payload: {
+                            id: action.payload.id,
+                            oldParent: action.payload.oldParent,
+                            newParent: state[action.payload.newParent]
+                        }
+                    }),
+                    singleNavItemReducer(state[action.payload.oldParent], action),
+                    singleNavItemReducer(state[action.payload.newParent], action)
+                ]
+            );
 
-                newSt[action.payload.newParent].children = action.payload.newChildrenInOrder;
-
-                action.payload.newIndId.forEach(elem => {
-                    newSt = Object.assign({}, newSt, {
-                        [elem]: Object.assign({}, newSt[elem], {position: action.payload.newIndId.indexOf(elem)})
-                    });
-                });
-
-            } else if (action.payload.type === 1 || action.payload.type === 2 || action.payload.type === 4) {
-
-                var oldParent = newSt[action.payload.itemId].parent;
-                var oldParentChildren = newSt[oldParent].children;
-                oldParentChildren.splice(oldParentChildren.indexOf(action.payload.itemId), 1);
-
-                newSt[action.payload.newParent].children = action.payload.newChildrenInOrder;
-                newSt[action.payload.itemId].parent = action.payload.newParent;
-                newSt[oldParent].children = oldParentChildren;
-
-                var elementsToVisit = [action.payload.itemId];
-                var diff = state[action.payload.newParent].level - state[action.payload.itemId].level + 1;
-                var currentElement;
-                var auxLevel;
-                do {
-                    currentElement = elementsToVisit.pop();
-                    if (newSt[currentElement].children.length > 0) {
-                        elementsToVisit = elementsToVisit.concat(newSt[currentElement].children);
+            // Some properties are inherited from parent (level, hidden, unitNumber, etc.)
+            // We should update item's children with new inherited value
+            let descendantsToUpdate = findNavItemsDescendants(itemsReordered, action.payload.id);
+            // We remove the first element (the item we moved)
+            descendantsToUpdate.shift();
+            let newDescendants = [];
+            descendantsToUpdate.forEach(item => {
+                // Cheaty sneaky, action is replaced here aswell
+                newDescendants.push(singleNavItemReducer(state[item], {
+                    type: REORDER_NAV_ITEM,
+                    payload: {
+                        id: item,
+                        newParent: itemsReordered[itemsReordered[item].parent]
                     }
-                    auxLevel = newSt[currentElement].level + diff;
-                    newSt = Object.assign({}, newSt, {
-                        [currentElement]: Object.assign({}, newSt[currentElement], {level: auxLevel})
-                    });
-                } while (elementsToVisit.length > 0);
-
-                action.payload.newIndId.forEach(elem => {
-                    newSt = Object.assign({}, newSt, {
-                        [elem]: Object.assign({}, newSt[elem], {position: action.payload.newIndId.indexOf(elem) + 1})
-                    });
-                });
-            }
-            let navsToChange = findNavItemsDescendants(state, action.payload.itemId);
-            if (action.payload.newParent !== 0) {
-                let newUnitNumber = newSt[action.payload.newParent].unitNumber;
-                navsToChange.forEach(item => {
-                    newSt[item].unitNumber = newUnitNumber;
-                });
-            }
-            return newSt;
+                }));
+            });
+            return changeProps(itemsReordered, descendantsToUpdate, newDescendants);
         case REMOVE_NAV_ITEM:
             let stateWithNavItemsDeleted = deleteProps(state, action.payload.ids);
             stateWithNavItemsDeleted = changeProp(stateWithNavItemsDeleted, action.payload.parent, singleNavItemReducer(state[action.payload.parent], action));

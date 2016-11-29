@@ -58,10 +58,7 @@ function navItemsIds(state = [], action = {}) {
             });
             return newState;
         case REORDER_NAV_ITEM:
-            if (action.payload.type < 5) {
-                return action.payload.newIndId;
-            }
-            return state;
+            return action.payload.idsInOrder;
         case IMPORT_STATE:
             return action.payload.present.navItemsIds || state;
         default:

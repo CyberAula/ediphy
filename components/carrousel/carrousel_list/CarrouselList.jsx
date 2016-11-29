@@ -262,7 +262,7 @@ export default class CarrouselList extends Component {
                     newIndexesAux = part1b.concat(selectedAndChilds, part2b);
                 }
 
-                this.props.onNavItemReorded(this.props.navItemSelected, 0, 4, newIndexesAux, reorderedIndexesId);
+                this.props.onNavItemReorded(this.props.navItemSelected, 0, parent, newIndexesAux, reorderedIndexesId);
             }
         });
     }

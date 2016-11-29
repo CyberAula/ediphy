@@ -70,8 +70,8 @@ export function removeNavItem(ids, parent, boxes, containedViews) {
     return {type: REMOVE_NAV_ITEM, payload: {ids, parent, boxes, containedViews}};
 }
 
-export function reorderNavItem(itemId, newParent, type, newIndId, newChildrenInOrder) {
-    return {type: REORDER_NAV_ITEM, payload: {itemId, newParent, type, newIndId, newChildrenInOrder}};
+export function reorderNavItem(id, newParent, oldParent, idsInOrder, childrenInOrder) {
+    return {type: REORDER_NAV_ITEM, payload: {id, newParent, oldParent, idsInOrder, childrenInOrder}};
 }
 
 export function toggleNavItem(id) {

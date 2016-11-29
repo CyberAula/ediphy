@@ -230,7 +230,7 @@ export default class Section extends Component {
 
                     var newIndexesIds = part1.concat(part1NC, selectedAndChildren, part2NC, part2);
 
-                    this.props.onNavItemReorded(this.props.navItemSelected, this.props.id, 3, newIndexesIds, newChilds);
+                    this.props.onNavItemReorded(this.props.navItemSelected, this.props.id, parent, newIndexesIds, newChilds);
                 }
             },
             receive: (event, ui) => {
@@ -293,7 +293,7 @@ export default class Section extends Component {
                             part2b = concatA.slice(concatA.indexOf(id) + 1);
                             newIndexesIds = part1b.concat(selectedAndChildren, part2b);
                         }
-                        this.props.onNavItemReorded(this.props.navItemSelected, this.props.id, 1, newIndexesIds, reorderedIndexesId);
+                        this.props.onNavItemReorded(this.props.navItemSelected, this.props.id, parent, newIndexesIds, reorderedIndexesId);
                     } else {
                         for (i = positionSelected + 1; i < previos.length; i++) {
                             if (this.props.navItems[previos[i]].level <= levelSelected) {
@@ -352,7 +352,7 @@ export default class Section extends Component {
                         }
 
                         newIndexesIds = part1.concat(part1NC, selectedAndChildren, part2NC, part2);
-                        this.props.onNavItemReorded(this.props.navItemSelected, this.props.id, 2, newIndexesIds, newChildrenInOrder);
+                        this.props.onNavItemReorded(this.props.navItemSelected, this.props.id, parent, newIndexesIds, newChildrenInOrder);
                     }
                 }
             }
