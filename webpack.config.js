@@ -1,5 +1,5 @@
 var webpack = require('webpack');
-var path = require("path");
+var dependency_loader = require('./webpack_plugins/dependencies_loader.js');
 
 module.exports = {
     devtool: 'source-map',
@@ -53,24 +53,14 @@ module.exports = {
                 loader: 'file-loader'
             },
             {
-                test: /package\.json$/,
-                include: path.join(__dirname, "plugins/"),
-                loader: path.join(__dirname, "/webpack_plugins/dependencies_loader_plugin.js")
-            },
-            /*{
                 test: /\.json$/,
                 loader: 'json-loader'
             },
-            
-            {
-                test: require.resolve('happy-number'),
-                loader: 'expose?happyNumber'  //expose-loader, exposes as global variable
-            }, */
             {
                 test: require.resolve('jquery'),
                 loader: 'expose?jQuery!expose?$!expose?window.jQuery'  //expose-loader, exposes as global variable
             }
-        ]
+        ].concat(dependency_loader.getExposeString())
     },
     resolve: {
         extensions: ['', '.js', '.jsx', '.es6']
@@ -129,11 +119,10 @@ module.exports = {
     plugins: [
         new webpack.ContextReplacementPlugin(/package\.json$/, "./plugins/"),
         new webpack.HotModuleReplacementPlugin(),
-        new webpack.ProvidePlugin({
+        new webpack.ProvidePlugin(Object.assign({
             '$': 'jquery',
             'jQuery': 'jquery',
-            'window.jQuery': 'jquery',
-            'happyNumber' : "happy-number"
-        }) // Wraps module with variable and injects wherever it's needed
+            'window.jQuery': 'jquery'
+        }, dependency_loader.getPluginProvider())) // Wraps module with variable and injects wherever it's needed
     ]
 };

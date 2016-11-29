@@ -1,3 +1,5 @@
+var glob = require("glob");
+
 
 var toCamelCase = function(str) {
   return str.toLowerCase()
@@ -5,26 +7,37 @@ var toCamelCase = function(str) {
     .replace( /[^\w\s]/g, '')
     .replace( / (.)/g, function($1) { return $1.toUpperCase(); })
     .replace( / /g, '' );
-}
-
-var returning_string = function(dependencies_object){
-	console.log(webpack_provider);
-	var final_string = "";
-	Object.keys(dependencies_object).map(function(dependency){
-		var location = require.resolve(dependency);
-		var export_dependency = 'module.exports = global["'+toCamelCase(dependency)+'"] = require("-!'+ location+'");';
-		final_string += export_dependency;
-	})
-	return final_string;
 };
 
-module.exports = function() {};
-module.exports.pitch = function(e){
-	//console.log(require(e).dependencies);
-	//console.log(this);
-	if(this.cacheable) {this.cacheable();}
-	var dependencies = require(e).dependencies;
-	return returning_string(dependencies);
+
+module.exports = {
+	getExposeString: function(){
+		var files = glob.sync("plugins/*/package.json");
+		var final_array = [];
+		for(package in files){
+			var final_string = "";		
+			var expose_string = "expose?"
+			var json = require("../" + files[package]).dependencies;
+			Object.keys(json).map(function(e){
+				final_array.push({
+					test: require.resolve(e),
+					loader: expose_string + toCamelCase(e)
+				});
+			});
+		}
+		return final_array;
+	},
+	getPluginProvider: function(){
+		var files = glob.sync("plugins/*/package.json");
+		var final_object = {};
+		for(package in files){
+			var json = require("../"+files[package]).dependencies;
+			Object.keys(json).map(function(e){
+				final_object[toCamelCase(e)] = e;
+			});
+		}
+		return final_object;
+	}
 };
 
 

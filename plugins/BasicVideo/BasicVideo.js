@@ -49,7 +49,7 @@ export function BasicVideo(base) {
                                     __name: Dali.i18n.t('BasicVideo.padding'),
                                     type: 'number',
                                     value: 0,
-                                    min: 0,
+                                    min: happyNumber(2),
                                     units: 'px',
                                     max: 100
                                 },
