@@ -23,36 +23,6 @@ export default class DaliNavBar extends Component {
             <Col id="iconBar">
                 <img src="images/icon.png"/>
                 <div className="navBarSpace">
-                    {/*
-                     <i className="material-icons">mode_edit</i>
-
-                     <span className="tituloCurso" contentEditable suppressContentEditableWarning id="mainTitle"
-                     onKeyDown={(e) => {
-                     if (e.keyCode == 13) { // Enter Key
-                     this.props.changeTitle(e.target.innerHTML)
-                     e.preventDefault();
-                     document.getElementById("mainTitle").blur();
-                     }
-                     if (e.keyCode == 27) { // Escape key
-                     document.getElementById("mainTitle").innerHTML = this.props.title;
-                     document.getElementById("mainTitle").blur();
-                     }
-                     }}
-                     onBlur={(e) => {
-                     e.target.scrollLeft = 0;
-                     this.props.changeTitle(e.target.innerHTML);
-                     }}
-                     onFocus={(e) =>  {
-                     var range = document.createRange();
-                     range.selectNodeContents(e.target);
-                     var sel = window.getSelection();
-                     sel.removeAllRanges();
-                     sel.addRange(range);
-                     document.activeElement.scrollLeft = document.activeElement.scrollLeftMax;
-                     }
-                     }>
-                     {this.props.title}</span>
-                     */}
                     <DaliIndexTitle className="tituloCurso"
                                     title={this.props.title}
                                     onTitleChange={this.props.changeTitle}/>

@@ -79,10 +79,10 @@
     //margin: 5px;
     /*Edit text button when CKEditor is active */
     &.textediting {
-      background-color: $brand_orange;
+      background-color: $naranjaadams;
     }
     &:hover {
-      background-color: $brand_orange;
+      background-color: $naranjaadams;
     }
   }
 }
@@ -100,7 +100,7 @@
       &:hover {
         border-color: transparent;
         background-color: transparent;
-        color: $brand_orange;
+        color: $naranjaadams;
       }
     }
 
@@ -130,7 +130,7 @@
   border-radius: 0;
 
   .toolbarTab {
-    color: $brand_orange;
+    color: $naranjaadams;
   }
   a {
     display: block;
@@ -152,7 +152,7 @@
     background-color: #121212;
     @include animacion(all, 0.2s);
     &:hover, &:active, &:focus {
-      border-left: 3px solid $brand_orange;
+      border-left: 3px solid $naranjaadams;
       border-radius: 0;
     }
   }
@@ -166,7 +166,7 @@
 }
 
 .extendedPanel .panel-heading {
-  border-left: 3px solid $brand_orange;
+  border-left: 3px solid $naranjaadams;
   border-radius: 0;
 }
 
@@ -193,8 +193,7 @@
 /*Toolbar title when spread*/
 .toolbarSpread {
   text-align: left;
-  //font-weight: bold;
-  //color: white;
+  padding: 0 4px;
   .material-icons {
     font-size: 16px;
     float: left;

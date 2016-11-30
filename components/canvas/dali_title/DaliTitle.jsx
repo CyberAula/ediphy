@@ -135,13 +135,13 @@ export default class DaliTitle extends Component {
                 <div className={this.props.showButtons ?  "caja selectedTitle selectedBox":"caja"}>
                     <div className="cab"
                          style={{backgroundColor: 'transparent',  visibility: currentstatus=='hidden'? 'hidden':'inherit'}}>
-                        <h1 className="cabtabla_numero"
-                            contentEditable={this.props.navItem.parent === 0}
-                            suppressContentEditableWarning
-                            onBlur={e => {
+                        <span className="cabtabla_numero"
+                              contentEditable={this.props.navItem.parent === 0}
+                              suppressContentEditableWarning
+                              onBlur={e => {
                                 this.props.onUnitNumberChanged(this.props.navItem.id, e.target.innerText);
                               }}
-                        >{this.props.navItem.unitNumber}</h1>
+                        >{this.props.navItem.unitNumber}</span>
                         <div className="tit_ud_cap">
                             <h1>{this.props.courseTitle}</h1>
                             <h2>{unidad}</h2>

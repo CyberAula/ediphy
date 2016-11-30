@@ -38,7 +38,7 @@
 .gc_rows {
   border: 2px solid white;
   width: 100%;
-  background-color: $brand_orange;
+  background-color: $naranjaadams;
 }
 
 #advancedrows, #advancedcols {
@@ -58,7 +58,7 @@
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
     box-shadow: none;
-    // border: 1px solid $brand_orange;
+    // border: 1px solid $naranjaadams;
     border-radius: 0;
     border: 0;
     background-color: $darkinput;
@@ -82,7 +82,7 @@
 
 /*Alignment*/
 .selectedAlignment {
-  color: $brand_orange;
+  color: $naranjaadams;
   &:hover {
     color: #bbb;
   }

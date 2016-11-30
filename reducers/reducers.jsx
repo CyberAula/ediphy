@@ -7,7 +7,7 @@ import {ADD_BOX, SELECT_BOX, MOVE_BOX, DUPLICATE_BOX, RESIZE_BOX, UPDATE_BOX, DE
     ADD_NAV_ITEM, SELECT_NAV_ITEM, EXPAND_NAV_ITEM, REMOVE_NAV_ITEM, REORDER_NAV_ITEM, TOGGLE_NAV_ITEM, UPDATE_NAV_ITEM_EXTRA_FILES,
     CHANGE_SECTION_TITLE, CHANGE_UNIT_NUMBER, VERTICALLY_ALIGN_BOX,
     TOGGLE_TEXT_EDITOR, TOGGLE_TITLE_MODE, CHANGE_TITLE,
-    CHANGE_DISPLAY_MODE, SET_BUSY, UPDATE_TOOLBAR, COLLAPSE_TOOLBAR, IMPORT_STATE, FETCH_VISH_RESOURCES_SUCCESS
+    CHANGE_DISPLAY_MODE, SET_BUSY, UPDATE_TOOLBAR, COLLAPSE_TOOLBAR, IMPORT_STATE, FETCH_VISH_RESOURCES_SUCCESS, UPLOAD_IMAGE
 } from './../actions';
 import {ID_PREFIX_SECTION, ID_PREFIX_PAGE, ID_PREFIX_BOX, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_CONTAINED_VIEW, ID_PREFIX_SORTABLE_CONTAINER} from './../constants';
 import i18n from 'i18next';
@@ -254,6 +254,7 @@ function createSortableButtons(controls) {
         type: 'checkbox',
         value: 'checked',
         checked: 'true',
+        title: i18n.t('Height_auto_message'),
         autoManaged: true
     };
     controls.main.accordions.__sortable.buttons.__position = {
@@ -374,7 +375,7 @@ function toolbarsById(state = {}, action = {}) {
             // If contained in sortableContainer
             if (action.payload.ids.container.length && action.payload.ids.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1) {
                 createSortableButtons(toolbar.controls);
-                // If not contained (AKA floating box)
+            // If not contained (AKA floating box)
             } else if (action.payload.ids.id.indexOf(ID_PREFIX_SORTABLE_BOX) === -1) {
                 createFloatingBoxButtons(toolbar.controls);
             }
@@ -457,7 +458,7 @@ function toolbarsById(state = {}, action = {}) {
         case RESIZE_BOX:
             newState = Object.assign({}, state);
             let height = action.payload.height;
-            //let width = action.payload.width;
+            let width = action.payload.width;
             let heightAuto = height === 'auto';
 
             if (newState[action.payload.id] && newState[action.payload.id].controls) {
@@ -470,7 +471,7 @@ function toolbarsById(state = {}, action = {}) {
                         }
                         if (buttons.height && buttons.width) {
                             newState[action.payload.id].controls.main.accordions.__sortable.buttons.height.value = height;
-                            newState[action.payload.id].controls.main.accordions.__sortable.buttons.width.value = height;
+                            newState[action.payload.id].controls.main.accordions.__sortable.buttons.width.value = width;
                         }
                     }
                 }
@@ -586,8 +587,18 @@ function fetchVishResults(state = {results: []}, action = {}) {
     }
 }
 
+function imagesUploaded(state = [], action = {}){
+    switch(action.type){
+        case UPLOAD_IMAGE:
+            return state.concat(action.payload.url);
+        default:
+            return state;
+    }
+}
+
 const GlobalState = undoable(combineReducers({
     title: changeTitle,
+    imagesUploaded: imagesUploaded, // [img0, img1]
     boxesById: boxesById, //{0: box0, 1: box1}
     boxSelected: boxSelected, //0
     boxLevelSelected: boxLevelSelected, //0
@@ -619,8 +630,12 @@ const GlobalState = undoable(combineReducers({
                 return false;
         }
 
-        if (action.type === ADD_BOX && action.payload.initialParams && action.payload.initialParams.isDefaultPlugin) {
-            return false;
+        if(action.type === ADD_BOX){
+            if(action.payload.initialParams && action.payload.initialParams.isDefaultPlugin) {
+                return false;
+            }else if (action.payload.ids.id.indexOf(ID_PREFIX_SORTABLE_BOX) !== -1){
+                return false;
+            }
         }
 
         return currentState !== previousState; // only add to history if state changed

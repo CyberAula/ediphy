@@ -32,7 +32,7 @@
 
 #ribbonList {
   white-space: nowrap !important;
-  margin-left: 15px;
+  margin-left: 16px;
   height: 100%;
 }
 
@@ -51,6 +51,7 @@
   position: relative;
   padding: 6px 15px;
   font-size: 14px !important;
+  border-radius: 0;
   height: 100%;
   background-color: transparent;
   border: none;

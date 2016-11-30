@@ -51,7 +51,6 @@
 .daliCarousel {
 
   h3, h4 {
-    margin: 0;
     &:hover {
       cursor: pointer;
     }
@@ -86,10 +85,9 @@
 
 /*Each NavItem*/
 .navItemBlock {
-  padding: 8px 2px;
+  padding: 8px;
   .editIndexTitleIcon {
     padding: 4px;
-    cursor: pointer;
   }
 }
 
@@ -97,7 +95,7 @@
 .wrapperCarousel {
   background-color: $darkest;
   margin: 0;
-  padding: 12px 0px 5px 0px;
+  padding: 12px 0px 4px 0px;
   width: 100%;
   height: 100%;
   overflow-y: hidden;
@@ -107,16 +105,15 @@
     vertical-align: middle;
     margin: 0;
     padding: 4px 8px;
-    z-index: 1000;
   }
   .daliCarousel {
     .editIndexTitleIcon {
       font-size: 1em;
       float: right;
-      padding: 5px;
+      padding: 4px;
     }
     .fileIcon {
-      padding: 5px 10px 5px 5px;
+      padding: 4px 8px 4px 4px;
     }
     .carrouselButton {
       .material-icons {
@@ -142,7 +139,7 @@
   position: fixed;
   bottom: 0;
   .material-icons {
-    padding: 12px;
+    padding: 8px;
   }
 }
 
@@ -152,34 +149,15 @@
 }
 
 /*Título curso*/
-.courseTitleCarousel {
-  position: relative;
-  left: 12px;
-  bottom: 4px;
-  color: $brand_orange;
-  font-size: 14px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  max-width: 80%;
-}
-
-/*Spread tab*/
-.pestanaCarousel {
-  cursor: pointer;
-  width: 0;
-  height: 0;
-  border-width: 10px;
-  border-style: solid;
-  text-align: center;
-  z-index: 999;
-  display: inline-block;
-  position: absolute;
-  top: 60px;
-  left: 100%;
-  border-color: transparent;
-  border-left-color: $darkest;
-  color: #133329;
+.courseTitleCarousel{
+    margin: -24px 0px 16px;
+    padding-left: 8px;
+    color: $naranjaadams;
+    font-size: 14px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 80%;
 }
 
 /*Collapsed Carrousel*/
@@ -205,6 +183,8 @@
   padding: 2px;
   font-size: 20px;
   color: $grismedio;
+  min-width: 20%;
+  border-radius: 0;
   background-color: transparent !important;;
   float: none;
   &:hover, &:active {
@@ -222,6 +202,7 @@
 .pageMenu {
   background-color: $grisoscuro !important;
   margin: 0;
+  border-radius: 0;
   padding: 0;
 
   /*Divider inside dropup menu*/
@@ -297,19 +278,21 @@
 
 .popoverButton {
   @extend .daliTitleButton;
-  //margin-top: 10px !important;
+  margin-top: 10px !important;
   padding: 2px 5px !important;
   width: auto !important;
   height: auto !important;
+  border-radius: 0;
 }
 
 #popov {
   width: 200px;
+  border-radius: 0;
   color: $grismedio;
 
   background-color: $darkest;
   .popover-title {
-    color: $brand_orange;
+    color: $naranjaadams;
     border-color: #333;
     background-color: transparent;
   }
