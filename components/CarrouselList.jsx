@@ -108,7 +108,7 @@ export default class CarrouselList extends Component {
                             onClick={e => {
                                 this.props.onNavItemAdded(ID_PREFIX_PAGE + Date.now(),  i18n.t("slide"), this.calculateParent().id , [], this.calculateParent().level + 1,  'slide', this.calculatePosition(), 'hidden')
                             }}><i className="material-icons">slideshow</i></Button>
-
+                            
                     <Button className="carrouselButton">
                     <i className="material-icons"
                        onClick={e => {
