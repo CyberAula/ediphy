@@ -1,4 +1,5 @@
 var webpack = require('webpack');
+var dependency_loader = require('./webpack_plugins/dependencies_loader.js');
 
 module.exports = {
     devtool: 'source-map',
@@ -56,10 +57,14 @@ module.exports = {
                 loader: 'file-loader'
             },
             {
+                test: /\.json$/,
+                loader: 'json-loader'
+            },
+            {
                 test: require.resolve('jquery'),
                 loader: 'expose?jQuery!expose?$!expose?window.jQuery'  //expose-loader, exposes as global variable
             }
-        ]
+        ].concat(dependency_loader.getExposeString())
     },
     resolve: {
         extensions: ['', '.js', '.jsx', '.es6']
@@ -113,14 +118,15 @@ module.exports = {
         browser: true,
         devel: true,
         jquery: true,
-        predef: ["Dali", "html2json", "CKEDITOR", "EJS"]
+        predef: ["Dali", "html2json", "CKEDITOR", "EJS"].concat(dependency_loader.getJSHintExludeNames())
     },
     plugins: [
+        new webpack.ContextReplacementPlugin(/package\.json$/, "./plugins/"),
         new webpack.HotModuleReplacementPlugin(),
-        new webpack.ProvidePlugin({
+        new webpack.ProvidePlugin(Object.assign({
             '$': 'jquery',
             'jQuery': 'jquery',
             'window.jQuery': 'jquery'
-        }) // Wraps module with variable and injects wherever it's needed
+        }, dependency_loader.getPluginProvider())) // Wraps module with variable and injects wherever it's needed
     ]
 };
