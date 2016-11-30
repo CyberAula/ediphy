@@ -3,6 +3,13 @@ import Visor from './visor/main';
 import Scorm from './scorm/main';
 import Config from './config';
 
+require('../sass/style.scss');
+
+// This requires dynamically all scss' kept in component's folders
+var scss_context = require.context('../components', true, /\.scss$/);
+scss_context.keys().map(scss_context);
+
+
 window.ReactDOM = require('react-dom');
 window.Dali = {
     API: api(),
