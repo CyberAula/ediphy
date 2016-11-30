@@ -26,7 +26,7 @@ import DaliNavBar from '../components/nav_bar/dali_nav_bar/DaliNavBar';
 import ServerFeedback from '../components/server_feedback/ServerFeedback';
 import RichMarksModal from '../components/rich_plugins/rich_marks_modal/RichMarksModal';
 import Dali from './../core/main';
-import {isSortableBox} from './../utils';
+import {isSortableBox, isSection} from './../utils';
 
 
 class DaliApp extends Component {
@@ -127,7 +127,7 @@ class DaliApp extends Component {
                          style={{height: (this.state.carouselFull ? 0 : '100%'),
                              width: (this.state.carouselShow? 'calc(100% - 212px)':'calc(100% - 80px)')}}>
                         <Row id="ribbonRow">
-                            <PluginRibbon disabled={navItemSelected === 0 || (!Dali.Config.sections_have_content && navItemSelected && navItemSelected.indexOf(ID_PREFIX_SECTION) !== -1)}
+                            <PluginRibbon disabled={navItemSelected === 0 || (!Dali.Config.sections_have_content && navItemSelected && isSection(navItemSelected))}
                                           boxSelected={boxes[boxSelected]}
                                           undoDisabled={undoDisabled}
                                           redoDisabled={redoDisabled}

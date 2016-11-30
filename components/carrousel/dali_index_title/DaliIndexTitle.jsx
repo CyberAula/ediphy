@@ -13,7 +13,7 @@ export default class DaliIndexTitle extends Component {
         };
     }
 
-    render() {
+     render() {
         return (
             /* jshint ignore:start */
             <span>
@@ -63,9 +63,12 @@ export default class DaliIndexTitle extends Component {
                         this.setState({ editing: !this.state.editing });
                         if (this.state.editing) { /*Save changes to Redux state*/
                             this.props.onTitleChange(this.props.id, this.state.currentValue);
+                        } else { /*Synchronize current component state with Redux state when entering edition mode*/
+                            this.setState({currentValue: this.props.title});
                         }
-                    }/>)
-            }
+                }}>
+                    {this.state.editing ? 'check' : 'edit'  /*ICON*/}
+                </i>
         </span>
             /* jshint ignore:end */
         );

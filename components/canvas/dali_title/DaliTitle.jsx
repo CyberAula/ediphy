@@ -141,7 +141,7 @@ export default class DaliTitle extends Component {
                             onBlur={e => {
                                 this.props.onUnitNumberChanged(this.props.navItem.id, e.target.innerText);
                               }}
-                        >{this.props.navItem.unitNumber}</span>
+                        >{this.props.navItem.unitNumber}</h1>
                         <div className="tit_ud_cap">
                             <h1>{this.props.courseTitle}</h1>
                             <h2>{unidad}</h2>

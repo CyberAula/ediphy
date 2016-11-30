@@ -130,8 +130,7 @@ module.exports = {
             '$': 'jquery',
             'jQuery': 'jquery',
             'window.jQuery': 'jquery'
-        }), // Wraps module with variable and injects wherever it's needed
-        new ZipBundlePlugin()
-        }, dependency_loader.getPluginProvider()) // Wraps module with variable and injects wherever it's needed
+        }, dependency_loader.getPluginProvider())), // Wraps module with variable and injects wherever it's needed
+        new ZipBundlePlugin() // Compile automatically zips
     ]
 };

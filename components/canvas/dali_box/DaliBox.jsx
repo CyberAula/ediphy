@@ -4,7 +4,7 @@ import {Input,Button, Tooltip, OverlayTrigger} from 'react-bootstrap';
 import interact from 'interact.js';
 import PluginPlaceholder from '../plugin_placeholder/PluginPlaceholder';
 import {ID_PREFIX_BOX, ID_PREFIX_SORTABLE_CONTAINER, ID_PREFIX_CONTAINED_VIEW} from '../../../constants';
-import {ADD_BOX, UPDATE_BOX, RESIZE_BOX, EDIT_PLUGIN_TEXT} from '../../../actions';
+import {ADD_BOX, UPDATE_BOX, RESIZE_BOX, IMPORT_STATE, EDIT_PLUGIN_TEXT} from '../../../actions';
 import Dali from './../../../core/main';
 import {isBox, isSortableBox, isView} from './../../../utils';
 
