@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import DevTools from './DevTools';
-import GlobalState from '../reducers';
+import GlobalState from '../reducers/reducers';
 import DaliApp from './DaliApp';
 import i18n from 'i18next';
 import { createStore, compose, applyMiddleware } from 'redux';
@@ -94,8 +94,8 @@ export default class ReduxProvider extends Component {
 
         if (module.hot) {
             // Enable Webpack hot module replacement for reducers
-            module.hot.accept('../reducers', () => {
-                const nextRootReducer = require('../reducers').default;
+            module.hot.accept('../reducers/reducers', () => {
+                const nextRootReducer = require('../reducers/reducers').default;
                 store.replaceReducer(nextRootReducer);
             });
         }

@@ -12,20 +12,21 @@ import {addNavItem, selectNavItem, expandNavItem, removeNavItem, reorderNavItem,
     fetchVishResourcesSuccess, fetchVishResourcesAsync, uploadVishResourceAsync,
     selectContainedView,
     ADD_BOX, ADD_RICH_MARK, addRichMark, EDIT_RICH_MARK, editRichMark, EDIT_PLUGIN_TEXT, DELETE_RICH_MARK, UPDATE_BOX, UPDATE_TOOLBAR} from '../actions';
-import {ID_PREFIX_BOX, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_SORTABLE_CONTAINER, ID_PREFIX_SECTION} from '../constants';
-import DaliCanvas from '../components/DaliCanvas';
-import ContainedCanvas from '../components/rich_plugins/ContainedCanvas';
-import DaliCarousel from '../components/DaliCarousel';
-import PluginConfigModal from '../components/PluginConfigModal';
-import XMLConfigModal from '../components/XMLConfigModal';
-import PluginToolbar from '../components/PluginToolbar';
+import {ID_PREFIX_BOX, ID_PREFIX_SORTABLE_CONTAINER} from '../constants';
+import DaliCanvas from '../components/canvas/dali_canvas/DaliCanvas';
+import ContainedCanvas from '../components/rich_plugins/contained_canvas/ContainedCanvas';
+import DaliCarousel from '../components/carrousel/dali_carrousel/DaliCarousel';
+import PluginConfigModal from '../components/plugin_config_modal/PluginConfigModal';
+import XMLConfigModal from '../components/xml_config_modal/XMLConfigModal';
+import PluginToolbar from '../components/toolbar/plugin_toolbar/PluginToolbar';
 import VishCatalogModal from '../components/vish_provider/VishCatalogModal';
 import Visor from '../components/visor/Visor';
-import PluginRibbon from '../components/PluginRibbon';
-import DaliNavBar from '../components/DaliNavBar';
-import ServerFeedback from '../components/ServerFeedback';
-import RichMarksModal from '../components/rich_plugins/RichMarksModal.jsx';
+import PluginRibbon from '../components/nav_bar/plugin_ribbon/PluginRibbon';
+import DaliNavBar from '../components/nav_bar/dali_nav_bar/DaliNavBar';
+import ServerFeedback from '../components/server_feedback/ServerFeedback';
+import RichMarksModal from '../components/rich_plugins/rich_marks_modal/RichMarksModal';
 import Dali from './../core/main';
+import {isSortableBox} from './../utils';
 
 
 class DaliApp extends Component {
@@ -101,7 +102,7 @@ class DaliApp extends Component {
                                     });
                                     this.dispatchAndSetState(removeNavItem(viewRemoving, navItems[navItemSelected].parent, boxesRemoving, containedRemoving))
                                   }}
-                                  onNavItemReorded={(itemId,newParent,type,newIndId,newChildrenInOrder) => this.dispatchAndSetState(reorderNavItem(itemId,newParent,type,newIndId,newChildrenInOrder))}
+                                  onNavItemReordered={(id, newParent, oldParent, idsInOrder, childrenInOrder) => this.dispatchAndSetState(reorderNavItem(id, newParent, oldParent, idsInOrder, childrenInOrder))}
                                   onNavItemToggled={ id => this.dispatchAndSetState(toggleNavItem(id)) }
                                   onDisplayModeChanged={mode => this.dispatchAndSetState(changeDisplayMode(mode))}
                                   carouselShow={this.state.carouselShow}
@@ -121,8 +122,10 @@ class DaliApp extends Component {
                                     }
                               }}/>
 
-                    <Col id="colRight" xs={12} style={{height: (this.state.carouselFull ? 0 : '100%'),
-                            width: (this.state.carouselShow? 'calc(100% - 212px)':'calc(100% - 80px)')}}>
+
+                    <Col id="colRight" xs={12}
+                         style={{height: (this.state.carouselFull ? 0 : '100%'),
+                             width: (this.state.carouselShow? 'calc(100% - 212px)':'calc(100% - 80px)')}}>
                         <Row id="ribbonRow">
                             <PluginRibbon disabled={navItemSelected === 0 || (!Dali.Config.sections_have_content && navItemSelected && navItemSelected.indexOf(ID_PREFIX_SECTION) !== -1)}
                                           boxSelected={boxes[boxSelected]}
@@ -293,7 +296,7 @@ class DaliApp extends Component {
             }
 
             let reason = e.detail.reason;
-            if(reason.type){
+            if (reason.type) {
                 reason = reason.type;
             }
             switch (reason) {
@@ -357,8 +360,8 @@ class DaliApp extends Component {
 
             ids.map(id => {
                 let toolbar = this.props.toolbars[id];
-                if (e.detail.getAliasedPlugins) {
-                    if (id.indexOf(ID_PREFIX_SORTABLE_BOX) === -1) {
+                if (e.detail.getAliasedPugins) {
+                    if (!isSortableBox(id)) {
                         let button = toolbar.controls.other.accordions.__extra.buttons.alias;
                         if (button.value.length !== 0) {
                             if (!plugins[toolbar.config.name]) {
@@ -386,7 +389,7 @@ class DaliApp extends Component {
             }
             else if (key === 46) {
                 let focus = document.activeElement.className;
-                if (this.props.boxSelected !== -1 && this.props.boxSelected.indexOf(ID_PREFIX_SORTABLE_BOX) === -1) {
+                if (this.props.boxSelected !== -1 && !isSortableBox(this.props.boxSelected)) {
                     if (focus.indexOf('form-control') === -1 && focus.indexOf('tituloCurso') === -1 && focus.indexOf('cke_editable') === -1) {
                         let box = this.props.boxes[this.props.boxSelected];
                         let toolbar = this.props.toolbars[this.props.boxSelected];
