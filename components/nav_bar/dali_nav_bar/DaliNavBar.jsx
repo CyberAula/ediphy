@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import {Col, Row, Input, Button, OverlayTrigger, Popover, Dropdown, Tooltip, MenuItem} from 'react-bootstrap';
 import DaliIndexTitle from '../../carrousel/dali_index_title/DaliIndexTitle';
 import i18n from 'i18next';
+import {isSection} from './../../../utils';
 
 require('./_navBar.scss');
 
@@ -142,7 +143,7 @@ export default class DaliNavBar extends Component {
                     </button>
                     <button className="navButton"
                             title={i18n.t('Preview')}
-                            disabled={this.props.undoDisabled || (this.props.navItemSelected && this.props.navItemSelected.indexOf(ID_PREFIX_SECTION) !== -1)}
+                            disabled={this.props.undoDisabled || (this.props.navItemSelected && isSection(this.props.navItemSelected))}
                             onClick={() =>this.props.visor()}><i className="material-icons">visibility</i>
                         <br/>
                         <span className="hideonresize" style={{fontSize: '12px'}}>{i18n.t('Preview')}</span>
