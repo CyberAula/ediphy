@@ -2,32 +2,32 @@ import {ID_PREFIX_BOX, ID_PREFIX_PAGE, ID_PREFIX_SECTION, ID_PREFIX_SORTABLE_BOX
 
 export default {
     //This would be a good post to explore if we don't want to use JSON Stringify: http://stackoverflow.com/questions/728360/how-do-i-correctly-clone-a-javascript-object
-    deepClone: function(myObj){
+    deepClone: function (myObj) {
         return JSON.parse(JSON.stringify(myObj));
     }
 };
 
-export function isView(id){
+export function isView(id) {
     return id.length && (id.indexOf(ID_PREFIX_PAGE) !== -1 || id.indexOf(ID_PREFIX_SECTION) !== -1);
 }
 
-export function isPage(id){
+export function isPage(id) {
     return id.length && id.indexOf(ID_PREFIX_PAGE) !== -1;
 }
 
-export function isSection(id){
+export function isSection(id) {
     return id.length && id.indexOf(ID_PREFIX_SECTION) !== -1;
 }
 
-export function isBox(id){
+export function isBox(id) {
     return id.length && id.indexOf(ID_PREFIX_BOX) !== -1;
 }
 
-export function isSortableBox(id){
+export function isSortableBox(id) {
     return id.length && id.indexOf(ID_PREFIX_SORTABLE_BOX) !== -1;
 }
 
-export function changeProps(object, keys, values){
+export function changeProps(object, keys, values) {
     if (Array.isArray(keys) && Array.isArray(values) && keys.length === values.length) {
         /* jshint ignore:start */
         let temp = {...object};
@@ -77,7 +77,7 @@ export function deleteProps(object, keys) {
     return;
 }
 
-export function deleteProp(object, key){
+export function deleteProp(object, key) {
     // This is based in object spread notation
     // https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment
     // split object into new ones using it's properties
@@ -89,6 +89,39 @@ export function deleteProp(object, key){
         ...rest
         } = object;
     return rest;
+}
+
+export function findDescendantNavItems(state, element) {
+    let family = [element];
+    state[element].children.forEach(child => {
+        family = family.concat(this.findDescendantNavItems(state, child));
+    });
+    return family;
+}
+
+export function calculateNewIdOrder(oldArray, newChildren, newParent, itemMoved, navItems) {
+    let itemsToChange = findDescendantNavItems(navItems, itemMoved);
+    let oldArrayFiltered = oldArray.filter(id => itemsToChange.indexOf(id) === -1);
+
+    // This is the index where we split the old array to add the items we're moving
+    let splitIndex;
+
+    if (newChildren.length === 1 && newChildren[0] === itemMoved) {
+        splitIndex = oldArrayFiltered.indexOf(newParent) + 1;
+    } else {
+        let indexInNewChildren = newChildren.indexOf(itemMoved);
+        if (indexInNewChildren === 0) {
+            splitIndex = oldArrayFiltered.indexOf(newParent) + 1;
+        } else {
+            splitIndex = oldArrayFiltered.indexOf(newChildren[indexInNewChildren - 1]) + 1;
+        }
+    }
+
+    let newArray = oldArrayFiltered.slice(0, splitIndex);
+    newArray = newArray.concat(itemsToChange);
+    newArray = newArray.concat(oldArrayFiltered.slice(splitIndex));
+
+    return newArray;
 }
 
 /**

@@ -5,7 +5,7 @@ import {ID_PREFIX_PAGE, ID_PREFIX_SECTION, ID_PREFIX_SORTABLE_BOX} from './../..
 import Section from './../section/Section';
 import PageMenu from './../page_menu/PageMenu';
 import DaliIndexTitle from './../dali_index_title/DaliIndexTitle';
-import {isPage, isSection} from './../../../utils';
+import {isPage, isSection, calculateNewIdOrder} from './../../../utils';
 import i18n from 'i18next';
 
 require('./_carrouselList.scss');
@@ -17,6 +17,7 @@ export default class CarrouselList extends Component {
             <div style={{height: 'calc(100% - 25px)'}}>
                 <div ref="sortableList"
                      className="carList connectedSortables"
+                     style={{paddingTop: 5}}
                      onClick={e => {
                         this.props.onNavItemSelected(0);
                         e.stopPropagation();
@@ -149,33 +150,6 @@ export default class CarrouselList extends Component {
         return current;
     }
 
-    findDescendantNavItems(state, element) {
-        let family = [element];
-        state[element].children.forEach(child => {
-            family = family.concat(this.findDescendantNavItems(state, child));
-        });
-        return family;
-    }
-
-    calculateNewIdOrder(oldArray, newChildren, itemMoved) {
-        let itemsToChange = this.findDescendantNavItems(this.props.navItems, itemMoved);
-        let oldArrayFiltered = oldArray.filter(id => itemsToChange.indexOf(id) === -1);
-
-        // This is the index where we split the array to add the items we're moving
-        // We calculate the position of the next child item after itemMoved
-        let splitIndex = oldArrayFiltered.indexOf(newChildren[newChildren.indexOf(itemMoved) + 1]);
-        let newArray;
-        // This means that itemMoved went to last position
-        if (splitIndex === -1) {
-            newArray = oldArrayFiltered.concat(itemsToChange);
-        } else {
-            newArray = oldArrayFiltered.slice(0, splitIndex);
-            newArray = newArray.concat(itemsToChange);
-            newArray = newArray.concat(oldArrayFiltered.slice(splitIndex));
-        }
-        return newArray;
-    }
-
     componentDidMount() {
         let list = jQuery(this.refs.sortableList);
         let props = this.props;
@@ -194,13 +168,11 @@ export default class CarrouselList extends Component {
             },
             stop: (event, ui) => {
                 // This is called when:
-                // - An item is dragged out from CarrouselList to a child
-                // - An item that is already a children of CarouselList is dragged into another position at the same level
-
-                console.log("stop carousel");
-                $("#" + this.props.navItemSelected).css("opacity", "1");
-
+                // - An item is dragged from this items's children to another item
+                // - A direct child changes it position at the same level
                 let newChildren = list.sortable('toArray', {attribute: 'id'});
+
+                // If item moved is still in this element's children (wasn't moved away) -> update
                 if (newChildren.indexOf(this.props.navItemSelected) !== -1) {
 
                     // This is necessary in order to avoid that JQuery touches the DOM
@@ -208,32 +180,35 @@ export default class CarrouselList extends Component {
                     list.sortable('cancel');
 
                     this.props.onNavItemReordered(
-                        this.props.navItemSelected, // id
-                        0, // newParent
-                        0, // oldParent
-                        this.calculateNewIdOrder(this.props.navItemsIds, newChildren, this.props.navItemSelected),
+                        this.props.navItemSelected, // item moved
+                        this.props.id, // new parent
+                        this.props.navItems[this.props.navItemSelected].parent, // old parent
+                        calculateNewIdOrder(this.props.navItemsIds, newChildren, 0, this.props.navItemSelected, this.props.navItems),
                         newChildren
                     );
                 }
+
+                // Restore opacity of moving item
+                $("#" + this.props.navItemSelected).css("opacity", "1");
             },
             receive: (event, ui) => {
-                // This is called when an item is dragged in from a child to CarrouselList
-                console.log("receive carousel");
-
+                // This is called when an item is dragged from another item's children to this element's children
                 let newChildren = list.sortable('toArray', {attribute: 'id'});
-                let oldParent = this.props.navItems[this.props.navItemSelected].parent;
 
                 // This is necessary in order to avoid that JQuery touches the DOM
                 // It has to be BEFORE action is dispatched and React tries to repaint
                 $(ui.sender).sortable('cancel');
 
                 this.props.onNavItemReordered(
-                    this.props.navItemSelected,
-                    0,
-                    oldParent,
-                    this.calculateNewIdOrder(this.props.navItemsIds, newChildren, this.props.navItemSelected),
+                    this.props.navItemSelected, // item moved
+                    this.props.id, // new parent
+                    this.props.navItems[this.props.navItemSelected].parent, // old parent
+                    calculateNewIdOrder(this.props.navItemsIds, newChildren, this.props.id, this.props.navItemSelected, this.props.navItems),
                     newChildren
                 );
+
+                // Restore opacity of moving item
+                $("#" + this.props.navItemSelected).css("opacity", "1");
             }
         });
     }
