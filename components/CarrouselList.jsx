@@ -10,7 +10,7 @@ import Dali from './../core/main';
 //TODO: revisit completely
 
 export default class CarrouselList extends Component {
-    render() {
+    render() { 
         return (
             /* jshint ignore:start */
             <div style={{height: '100%'}}>
@@ -109,6 +109,12 @@ export default class CarrouselList extends Component {
                                 this.props.onNavItemAdded(ID_PREFIX_PAGE + Date.now(),  i18n.t("slide"), this.calculateParent().id , [], this.calculateParent().level + 1,  'slide', this.calculatePosition(), 'hidden')
                             }}><i className="material-icons">slideshow</i></Button>
 
+                    <Button className="carrouselButton">
+                    <i className="material-icons"
+                       onClick={e => {
+                            this.props.onNavItemToggled(this.props.navItemSelected);                         
+                       }}>{this.props.navItems[this.props.navItemSelected].hidden ? "visibility_off" : "visibility"}</i></Button>
+                       
                     <OverlayTrigger trigger={["focus"]} placement="top" overlay={
                         <Popover id="popov" title={this.props.navItemSelected && this.props.navItemSelected.indexOf(ID_PREFIX_SECTION) !== -1 ? i18n.t("delete_section") : i18n.t("delete_page")}>
                             <i style={{color: 'yellow', fontSize: '13px'}} className="material-icons">warning</i> {this.props.navItemSelected && this.props.navItemSelected.indexOf(ID_PREFIX_SECTION) !== -1 ? i18n.t("messages.delete_section") : i18n.t("messages.delete_page")}<br/>

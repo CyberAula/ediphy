@@ -48,15 +48,6 @@ export default class DaliIndexTitle extends Component {
                         }
                     }/>)
             }
-                {this.props.id
-                    ?
-                    <i className="material-icons editIndexTitleIcon"
-                       onClick={e => {
-                            this.props.onNavItemToggled(this.props.id);
-                       }}>{this.props.hidden ? "visibility_off" : "visibility"}</i>
-                    :
-                    null
-                }
                 <i className="material-icons editIndexTitleIcon"
                    onMouseDown={e => {
                         e.preventDefault();
