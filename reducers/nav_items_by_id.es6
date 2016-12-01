@@ -20,7 +20,7 @@ function navItemCreator(state = {}, action = {}) {
             state[action.payload.parent].unitNumber),
         hidden: state[action.payload.parent].hidden,
         extraFiles: {},
-        titlesReduced: action.payload.titlesReduced || 'expanded'
+        titlesReduced: isSlide(action.payload.type) ? 'hidden' : 'expanded'
     };
 }
 

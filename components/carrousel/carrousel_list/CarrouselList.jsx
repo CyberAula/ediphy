@@ -78,8 +78,7 @@ export default class CarrouselList extends Component {
                                     [],
                                     this.props.navItems[this.props.navItemSelected].level + 1,
                                     'section',
-                                    this.calculateNewPosition(),
-                                    'expanded'
+                                    this.calculateNewPosition()
                                 );
                                 this.props.onBoxAdded({
                                     parent: idnuevo,
