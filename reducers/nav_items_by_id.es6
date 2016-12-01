@@ -2,7 +2,7 @@ import {ADD_BOX, ADD_NAV_ITEM, CHANGE_SECTION_TITLE, CHANGE_UNIT_NUMBER, DELETE_
     REORDER_NAV_ITEM, REMOVE_NAV_ITEM, TOGGLE_NAV_ITEM, TOGGLE_TITLE_MODE, UPDATE_NAV_ITEM_EXTRA_FILES,
     IMPORT_STATE} from './../actions';
 import {ID_PREFIX_BOX} from './../constants';
-import Utils, {changeProp, changeProps, deleteProp, deleteProps, isView} from './../utils';
+import Utils, {changeProp, changeProps, deleteProp, deleteProps, isView, isSlide, isDocument} from './../utils';
 
 function navItemCreator(state = {}, action = {}) {
     return {
@@ -51,7 +51,7 @@ function recalculateNames(state = {}, old = {}, difference = 0, nDeleted = 0) {
     // Rename pages
     var pages =
         Object.keys(state).filter(page => {
-            if (state[page].type === 'slide' || state[page].type === 'document') {
+            if (isSlide(state[page].type) || isDocument(state[page].type)) {
                 return page;
             }
         }).sort(function (a, b) {

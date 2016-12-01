@@ -1,4 +1,4 @@
-import {ID_PREFIX_BOX, ID_PREFIX_PAGE, ID_PREFIX_SECTION, ID_PREFIX_SORTABLE_BOX} from './constants';
+import {ID_PREFIX_BOX, ID_PREFIX_PAGE, ID_PREFIX_SECTION, ID_PREFIX_SORTABLE_BOX, PAGE_TYPES} from './constants';
 
 export default {
     //This would be a good post to explore if we don't want to use JSON Stringify: http://stackoverflow.com/questions/728360/how-do-i-correctly-clone-a-javascript-object
@@ -13,6 +13,14 @@ export function isView(id) {
 
 export function isPage(id) {
     return id.length && id.indexOf(ID_PREFIX_PAGE) !== -1;
+}
+
+export function isSlide(type) {
+    return type === PAGE_TYPES.SLIDE;
+}
+
+export function isDocument(type) {
+    return type === PAGE_TYPES.DOCUMENT;
 }
 
 export function isSection(id) {

@@ -5,7 +5,7 @@ import {ID_PREFIX_PAGE, ID_PREFIX_SECTION, ID_PREFIX_SORTABLE_BOX} from './../..
 import Section from './../section/Section';
 import PageMenu from './../page_menu/PageMenu';
 import DaliIndexTitle from './../dali_index_title/DaliIndexTitle';
-import {isPage, isSection, calculateNewIdOrder} from './../../../utils';
+import {isPage, isSection, isSlide, calculateNewIdOrder} from './../../../utils';
 import i18n from 'i18next';
 
 require('./_carrouselList.scss');
@@ -51,7 +51,7 @@ export default class CarrouselList extends Component {
                                        }}>
                                     <span style={{marginLeft: 20 * (this.props.navItems[id].level-1)}}>
                                         <i className="material-icons fileIcon">
-                                            {this.props.navItems[id].type == 'slide' ? "slideshow" : "insert_drive_file"}
+                                            {isSlide(this.props.navItems[id].type) ? "slideshow" : "insert_drive_file"}
                                         </i>
                                     <DaliIndexTitle
                                         id={id}
