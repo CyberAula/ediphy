@@ -102,7 +102,7 @@ export function deleteProp(object, key) {
 export function findDescendantNavItems(state, element) {
     let family = [element];
     state[element].children.forEach(child => {
-        family = family.concat(this.findDescendantNavItems(state, child));
+        family = family.concat(findDescendantNavItems(state, child));
     });
     return family;
 }
