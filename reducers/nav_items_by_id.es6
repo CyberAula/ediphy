@@ -10,7 +10,7 @@ function navItemCreator(state = {}, action = {}) {
         name: action.payload.name,
         isExpanded: true,
         parent: action.payload.parent,
-        children: action.payload.children,
+        children: [],
         boxes: [],
         level: action.payload.level,
         type: action.payload.type,

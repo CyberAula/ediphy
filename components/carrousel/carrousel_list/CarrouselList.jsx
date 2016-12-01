@@ -75,7 +75,6 @@ export default class CarrouselList extends Component {
                                     idnuevo,
                                     i18n.t("section"),
                                     this.props.navItemSelected,
-                                    [],
                                     this.props.navItems[this.props.navItemSelected].level + 1,
                                     'section',
                                     this.calculateNewPosition()
