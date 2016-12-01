@@ -1,5 +1,29 @@
-var glob = require("glob");
+/*
+ *		This plugin is in charge to get all dependencies from package.json inside plugins folder
+ *		and inject them into the global context.
+ *		Dependencies are obtained from: package.json -> dependencies and config.localDepdencies
+ *		Also: config aliases are permitted as name for the global dependencies
+ *
+ *		EXAMPLE OF A PLUGIN PACKAGE.JSON:
 
+ 		{
+			name: "plugin_name", 	//(mandatory field)
+			version : "1.0.0", 	//(mandatory field)
+			dependencies: {
+				"dependency_name_from_npm": "version",
+			},
+			config:{
+				localDependencies:{
+					"name": "path_to_library"
+				},
+				aliases: {
+					"name_of_dependency": "name_to_export"
+				}
+			}
+		}
+ * */
+
+var glob = require("glob");
 
 var toCamelCase = function(str) {
   return str.toLowerCase()
@@ -11,51 +35,86 @@ var toCamelCase = function(str) {
 
 
 module.exports = {
+	// Gets jsHint names to be asumed as already included
 	getJSHintExludeNames: function(){
 		var files = glob.sync("plugins/*/package.json");
 		var final_array = [];
-		for(package in files){	
-			var json = require("../" + files[package]).dependencies;
-			Object.keys(json).map(function(e){
-				final_array.push(toCamelCase(e));
+		for(package in files){
+			var json = require("../" + files[package]);
+			var dependencies = json.dependencies;
+			var config = json.config;
+			Object.keys(dependencies).map(function(e){
+				if(config && config.aliases && config.aliases[e]){
+					final_array.push(config.aliases[e]);
+				} else {
+					final_array.push(toCamelCase(e));
+				}
 			});
+
+			if(config && config.localDependencies){
+				var localDependencies = config.localDependencies;
+				Object.keys(localDependencies).map(function(e){
+					final_array.push(e);
+				});
+			}
 		}
 		return final_array;
 	},
+	// Gets elements needed to be added as loader to be exposed or imported
 	getExposeString: function(){
 		var files = glob.sync("plugins/*/package.json");
 		var final_array = [];
 		for(package in files){
-			var final_string = "";		
+			var final_string = "";
 			var expose_string = "expose?"
-			var json = require("../" + files[package]).dependencies;
-			Object.keys(json).map(function(e){
-				final_array.push({
-					test: require.resolve(e),
-					loader: expose_string + toCamelCase(e)
-				});
+			var json = require("../" + files[package]);
+			var dependencies = json.dependencies;
+			var config = json.config;
+			Object.keys(dependencies).map(function(e){
+				if(config && config.aliases && config.aliases[e]){
+					final_array.push({
+						test: require.resolve(e),
+						loader: expose_string + json.config.aliases[e]
+					});
+				} else {
+					final_array.push({
+						test: require.resolve(e),
+						loader: expose_string + toCamelCase(e)
+					});
+				}
 			});
+			if(config && config.localDependencies){
+				var localDependencies = config.localDependencies;
+				Object.keys(localDependencies).map(function(e){
+					final_array.push({
+			               test: localDependencies(e),
+			               loaders: [
+			                 'imports?this=>window',
+			                 'script'
+			               ] 
+					});
+				});
+			}
+
 		}
 		return final_array;
 	},
+	// Get names needed to add to plugin provider
 	getPluginProvider: function(){
 		var files = glob.sync("plugins/*/package.json");
 		var final_object = {};
 		for(package in files){
-			var json = require("../"+files[package]).dependencies;
-			Object.keys(json).map(function(e){
-				final_object[toCamelCase(e)] = e;
+			var json = require("../" + files[package]);
+			var dependencies = json.dependencies;
+			var config = json.config;
+			Object.keys(dependencies).map(function(e){
+				if(config && config.aliases && config.aliases[e]){
+					final_object[config.aliases[e]] = e;
+				} else {
+					final_object[toCamelCase(e)] = e;
+				}
 			});
 		}
 		return final_object;
 	}
 };
-
-
-/*
-module.exports = global["Dali"] = require("-!/home/berto/Repositorios/dali_editor/node_modules/babel-loader/index.js?presets[]=es2015!/home/berto/Repositorios/dali_editor/node_modules/jshint-loader/index.js!/home/berto/Repositorios/dali_editor/core/temp_hack.es6");
-module.exports = global["jQuery"] = require("-!/home/berto/Repositorios/dali_editor/node_modules/expose-loader/index.js?$!/home/berto/Repositorios/dali_editor/node_modules/expose-loader/index.js?window.jQuery!/home/berto/Repositorios/dali_editor/node_modules/jquery/dist/jquery.js");
-module.exports = global["$"] = require("-!/home/berto/Repositorios/dali_editor/node_modules/expose-loader/index.js?window.jQuery!/home/berto/Repositorios/dali_editor/node_modules/jquery/dist/jquery.js");
-if(!global["window"]) global["window"] = {};
-module.exports = global["window"]["jQuery"] = require("-!/home/berto/Repositorios/dali_editor/node_modules/jquery/dist/jquery.js");
-*/

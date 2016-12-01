@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 
 /*
-* This module makes possible to install dependencies from plugins folder when they have a package.json in it
+* 	This module makes possible to install dependencies from plugins folder 
+*	when they have a package.json inside any of the folders. 	
 */
 
 var shelljs = require('shelljs');
