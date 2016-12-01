@@ -28,8 +28,7 @@ export default class ReduxProvider extends Component {
                         hidden: false,
                         boxes: ['bs-1467887497412'],
                         level: 1,
-                        type: "section",
-                        position: 1,
+                        type: "",
                         extraFiles: {},
                         titlesReduced: "expanded"
                     }

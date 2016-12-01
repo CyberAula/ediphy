@@ -68,15 +68,15 @@ export default class CarrouselList extends Component {
                 <div className="bottomGroup">
                     <div>
                         <Button className="carrouselButton"
-                                disabled={this.props.navItems[this.props.navItemSelected].type !== "section" && this.props.navItemSelected !== 0}
+                                disabled={!isSection(this.props.navItemSelected) && this.props.navItemSelected !== 0}
                                 onClick={e => {
                                 let idnuevo = ID_PREFIX_SECTION + Date.now();
                                 this.props.onNavItemAdded(
                                     idnuevo,
                                     i18n.t("section"),
-                                    this.props.navItemSelected,
-                                    'section',
-                                    this.calculateNewPosition()
+                                    this.getParent().id,
+                                    "",
+                                    this.calculatePosition()
                                 );
                                 this.props.onBoxAdded({
                                     parent: idnuevo,
@@ -125,26 +125,14 @@ export default class CarrouselList extends Component {
         );
     }
 
-    calculateNewPosition() {
-        if (this.props.navItems[this.props.navItemSelected].type === "section") {
-            for (var i = this.props.navItemsIds.indexOf(this.props.navItemSelected) + 1; i < this.props.navItemsIds.length; i++) {
-                if (this.props.navItems[this.props.navItemsIds[i]].level <= this.props.navItems[this.props.navItemSelected].level) {
-                    return i + 1;
-                }
-            }
-        }
-
-        return this.props.navItemsIds.length + 1;
+    getParent(){
+        return this.props.navItems[this.props.navItemSelected];
     }
 
-    sections() {
-        var current = 1;
-        for (let i in this.props.navItemsIds) {
-            if (isSection(this.props.navItemsIds[i])) {
-                current++;
-            }
-        }
-        return current;
+    calculatePosition(){
+        let parent = this.getParent();
+        let index = this.props.navItemsIds.indexOf(parent.id);
+        return index + parent.children.length + 1;
     }
 
     componentDidMount() {

@@ -3,7 +3,7 @@ import {Modal, Button, ButtonGroup, MenuItem, Dropdown} from 'react-bootstrap';
 import {ID_PREFIX_PAGE} from '../../../constants';
 import {ID_PREFIX_SORTABLE_BOX, PAGE_TYPES} from '../../../constants';
 import i18n from 'i18next';
-import {isPage} from './../../../utils';
+import {isPage, isSection} from './../../../utils';
 
 export default class PageMenu extends Component {
     render() {
@@ -22,13 +22,32 @@ export default class PageMenu extends Component {
                 <Dropdown.Menu className="pageMenu" id="bottomMenu" onSelect={() => null}>
 
                     <MenuItem eventKey="1" onClick={e =>{
-                           var idnuevo = ID_PREFIX_PAGE + Date.now();
-                           this.props.onNavItemAdded(idnuevo,  i18n.t("page"), this.calculateParent().id, PAGE_TYPES.DOCUMENT, this.calculateNewPosition());
-                           this.props.onBoxAdded({parent: idnuevo, container: 0, id: ID_PREFIX_SORTABLE_BOX + Date.now()}, false, false);
+                           var newId = ID_PREFIX_PAGE + Date.now();
+                           this.props.onNavItemAdded(
+                                newId,
+                                i18n.t("page"),
+                                this.getParent().id,
+                                PAGE_TYPES.DOCUMENT,
+                                this.calculatePosition()
+                           );
+                           this.props.onBoxAdded(
+                                {
+                                    parent: newId,
+                                    container: 0,
+                                    id: ID_PREFIX_SORTABLE_BOX + Date.now()
+                                },
+                                false,
+                                false
+                           );
                           }}><i className="material-icons">view_day</i> Document</MenuItem>
-
                     <MenuItem eventKey="2" onClick={e => {
-                           this.props.onNavItemAdded(ID_PREFIX_PAGE + Date.now(),  i18n.t("slide"), this.calculateParent().id, PAGE_TYPES.SLIDE, this.calculatePosition());
+                           this.props.onNavItemAdded(
+                                ID_PREFIX_PAGE + Date.now(),
+                                i18n.t("slide"),
+                                this.getParent().id,
+                                PAGE_TYPES.SLIDE,
+                                this.calculatePosition()
+                           );
                         }}>
                         <i className="material-icons">view_carousel</i> Slide</MenuItem>
                     <MenuItem eventKey="3" disabled><i className="material-icons">dashboard</i> Poster</MenuItem>
@@ -40,55 +59,17 @@ export default class PageMenu extends Component {
         );
     }
 
-    calculateParent() {
-        var navItem;
-        if (this.props.navItems[this.props.navItemSelected].type === "section") {
-            navItem = this.props.navItems[this.props.navItemSelected];
-        } else {
-            navItem = this.props.navItems[this.props.navItems[this.props.navItemSelected].parent];
+    getParent() {
+        // If the selected navItem is not a section, it cannot have children -> we return it's parent
+        if (isSection(this.props.navItemSelected)) {
+            return this.props.navItems[this.props.navItemSelected];
         }
-        return navItem;
+        return this.props.navItems[this.props.navItems[this.props.navItemSelected].parent];
     }
 
-    calculateNewPosition() {
-        var navItem, nextPosition;
-        if (this.props.navItems[this.props.navItemSelected].type === "section") {
-            navItem = this.props.navItems[this.props.navItemSelected];
-            if (this.props.navItems[navItem.id].children.length > 0) {
-                nextPosition = this.props.navItems[this.props.navItems[navItem.id].children[this.props.navItems[navItem.id].children.length - 1]].position;
-            } else {
-                nextPosition = navItem.position;
-            }
-        } else {
-            navItem = this.props.navItems[this.props.navItems[this.props.navItemSelected].parent];
-            nextPosition = this.props.navItems[this.props.navItemSelected].position;
-        }
-        nextPosition++;
-
-        return nextPosition;
-    }
-
-    calculatePosition() {
-        if (this.props.caller === 0) {
-            return this.props.navItemsIds.length;
-        }
-
-        let navItem = this.props.navItems[this.props.caller];
-        var cuenta = 0;
-        var exit = 0;
-        this.props.navItemsIds.map(i=> {
-
-            if (exit === 0 && this.props.navItems[i].position > navItem.position/* && prev > navItem.level*/) {
-                if (this.props.navItems[i].level > navItem.level) {
-                    cuenta++;
-                    return;
-                }
-                else {
-                    exit = 1;
-                    return;
-                }
-            }
-        });
-        return navItem.position + cuenta + 1;
+    calculatePosition(){
+        let parent = this.getParent();
+        let index = this.props.navItemsIds.indexOf(parent.id);
+        return index + parent.children.length + 1;
     }
 }

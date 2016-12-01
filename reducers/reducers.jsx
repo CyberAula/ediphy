@@ -48,9 +48,9 @@ function boxesIds(state = [], action = {}) {
 function navItemsIds(state = [], action = {}) {
     switch (action.type) {
         case ADD_NAV_ITEM:
-            let nState = state.slice();
-            nState.splice(action.payload.position - 1, 0, action.payload.id);
-            return nState;
+            let temp = state.slice();
+            temp.splice(action.payload.position, 0, action.payload.id);
+            return temp;
         case REMOVE_NAV_ITEM:
             let newState = state.slice();
             action.payload.ids.forEach(id => {
