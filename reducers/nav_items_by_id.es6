@@ -12,7 +12,7 @@ function navItemCreator(state = {}, action = {}) {
         parent: action.payload.parent,
         children: [],
         boxes: [],
-        level: action.payload.level,
+        level: state[action.payload.parent].level + 1,
         type: action.payload.type,
         position: action.payload.position,
         unitNumber: (action.payload.parent === 0 ?
