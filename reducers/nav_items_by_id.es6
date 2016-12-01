@@ -103,7 +103,6 @@ export default function (state = {}, action = {}) {
                     singleNavItemReducer(state[action.payload.parent], action)
                 ]
             );
-            return recalculateNames(newState, newState[action.payload.id], 0);
         case CHANGE_SECTION_TITLE:
             return changeProp(state, action.payload.id, singleNavItemReducer(state[action.payload.id], action));
         case CHANGE_UNIT_NUMBER:
@@ -176,8 +175,7 @@ export default function (state = {}, action = {}) {
             return changeProps(itemsReordered, descendantsToUpdate, newDescendants);
         case REMOVE_NAV_ITEM:
             let stateWithNavItemsDeleted = deleteProps(state, action.payload.ids);
-            stateWithNavItemsDeleted = changeProp(stateWithNavItemsDeleted, action.payload.parent, singleNavItemReducer(state[action.payload.parent], action));
-            return recalculateNames(stateWithNavItemsDeleted, state[action.payload.ids[0]], 1, action.payload.ids.length);
+            return changeProp(stateWithNavItemsDeleted, action.payload.parent, singleNavItemReducer(state[action.payload.parent], action));
         case TOGGLE_NAV_ITEM:
             // If parent is already hidden, do nothing
             if (state[state[action.payload.id].parent].hidden) {
