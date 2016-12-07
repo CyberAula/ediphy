@@ -197,4 +197,8 @@ export default class CarrouselList extends Component {
             }
         });
     }
+
+    componentWillUnmount(){
+        jQuery(this.refs.sortableList).sortable("destroy");
+    }
 }

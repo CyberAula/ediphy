@@ -164,4 +164,9 @@ export default class Section extends Component {
             }
         });
     }
+
+    componentWillUnmount(){
+        console.log("unmounting " + this.props.id);
+        jQuery(this.refs.sortableList).sortable("destroy");
+    }
 }
