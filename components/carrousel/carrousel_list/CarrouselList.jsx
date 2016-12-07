@@ -129,10 +129,25 @@ export default class CarrouselList extends Component {
         return this.props.navItems[this.props.navItemSelected];
     }
 
-    calculatePosition(){
+    calculatePosition() {
         let parent = this.getParent();
-        let index = this.props.navItemsIds.indexOf(parent.id);
-        return index + parent.children.length + 1;
+        let ids = this.props.navItemsIds;
+        // If we are at top level, the new navItem it's always going to be in last position
+        if(parent.id === 0){
+            return ids.length;
+        }
+
+        // Starting after item's parent, if level is the same or lower -> we found the place we want
+        for(let i = ids.indexOf(parent.id) + 1; i < ids.length; i++){
+            if(ids[i]){
+                if(this.props.navItems[ids[i]].level <= parent.level){
+                    return i;
+                }
+            }
+        }
+
+        // If we arrive here it means we were adding a new child to the last navItem
+        return ids.length;
     }
 
     componentDidMount() {
