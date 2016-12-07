@@ -112,16 +112,21 @@ export function calculateNewIdOrder(oldArray, newChildren, newParent, itemMoved,
     let oldArrayFiltered = oldArray.filter(id => itemsToChange.indexOf(id) === -1);
 
     // This is the index where we split the old array to add the items we're moving
-    let splitIndex;
+    let splitIndex = oldArrayFiltered.length;
 
-    if (newChildren.length === 1 && newChildren[0] === itemMoved) {
-        splitIndex = oldArrayFiltered.indexOf(newParent) + 1;
+    let indexInNewChildren = newChildren.indexOf(itemMoved);
+    // If we didn't move to last position of new children, we split by the position of the following one
+    if (indexInNewChildren !== newChildren.length - 1) {
+        splitIndex = oldArrayFiltered.indexOf(newChildren[indexInNewChildren + 1]);
+
+    // We have to look for the next item that has a lower or equal level
+    // If none is found, it means we were dragging to last position, so default value for splitIndex is not changed
     } else {
-        let indexInNewChildren = newChildren.indexOf(itemMoved);
-        if (indexInNewChildren === 0) {
-            splitIndex = oldArrayFiltered.indexOf(newParent) + 1;
-        } else {
-            splitIndex = oldArrayFiltered.indexOf(newChildren[indexInNewChildren - 1]) + 1;
+        for(let i = oldArrayFiltered.indexOf(newParent) + 1; i < oldArrayFiltered.length; i++){
+            if(navItems[oldArrayFiltered[i]].level <= navItems[newParent].level){
+                splitIndex = i;
+                break;
+            }
         }
     }
 
