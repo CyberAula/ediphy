@@ -19,10 +19,10 @@ export default class CarrouselList extends Component {
                      className="carList connectedSortables"
                      style={{paddingTop: 5}}
                      onClick={e => {
-                        this.props.onNavItemSelected(0);
+                        this.props.onNavItemSelected(this.props.id);
                         e.stopPropagation();
                      }}>
-                    {this.props.navItems[0].children.map((id, index) => {
+                    {this.props.navItems[this.props.id].children.map((id, index) => {
                         if (isSection(id)) {
                             return <Section id={id}
                                             key={index}
@@ -90,8 +90,7 @@ export default class CarrouselList extends Component {
                             <i className="material-icons">create_new_folder</i>
                         </Button>
 
-                        <PageMenu caller={0}
-                                  navItems={this.props.navItems}
+                        <PageMenu navItems={this.props.navItems}
                                   navItemSelected={this.props.navItemSelected}
                                   navItemsIds={this.props.navItemsIds}
                                   onBoxAdded={this.props.onBoxAdded}
@@ -183,7 +182,7 @@ export default class CarrouselList extends Component {
                         this.props.navItemSelected, // item moved
                         this.props.id, // new parent
                         this.props.navItems[this.props.navItemSelected].parent, // old parent
-                        calculateNewIdOrder(this.props.navItemsIds, newChildren, 0, this.props.navItemSelected, this.props.navItems),
+                        calculateNewIdOrder(this.props.navItemsIds, newChildren, this.props.id, this.props.navItemSelected, this.props.navItems),
                         newChildren
                     );
                 }

@@ -122,6 +122,11 @@ export default class Section extends Component {
                 // This is called when:
                 // - An item is dragged from this items's children to another item
                 // - A direct child changes it position at the same level
+
+                // If this item was dragged to another item, its sortable instance has been destroyed already
+                if(!list.sortable('instance')){
+                    return;
+                }
                 const newChildren = list.sortable('toArray', {attribute: 'id'});
 
                 // If item moved is still in this element's children (wasn't moved away) -> update
