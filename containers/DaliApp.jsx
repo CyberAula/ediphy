@@ -4,7 +4,7 @@ import {ActionCreators} from 'redux-undo';
 import {Grid, Col, Row, Button, OverlayTrigger, Popover} from 'react-bootstrap';
 import {addNavItem, selectNavItem, expandNavItem, removeNavItem, reorderNavItem, toggleNavItem, updateNavItemExtraFiles,
     changeSectionTitle, changeUnitNumber,
-    addBox, changeTitle, selectBox, moveBox, resizeBox, updateBox, duplicateBox, deleteBox, reorderBox, dropBox, increaseBoxLevel,
+    addBox, changeTitle, selectBox, moveBox, resizeBox, updateBox, duplicateBox, deleteBox, reorderSortableContainer, dropBox, increaseBoxLevel,
     resizeSortableContainer, deleteSortableContainer, changeCols, changeRows, changeSortableProps, reorderBoxes, verticallyAlignBox,
     toggleTextEditor, toggleTitleMode,
     changeDisplayMode, updateToolbar, collapseToolbar,
@@ -153,7 +153,7 @@ class DaliApp extends Component {
                                         onBoxResized={(id, width, height) => this.dispatchAndSetState(resizeBox(id, width, height))}
                                         onSortableContainerResized={(id, parent, height) => this.dispatchAndSetState(resizeSortableContainer(id, parent, height))}
                                         onSortableContainerDeleted={(id, parent) => this.dispatchAndSetState(deleteSortableContainer(id, parent, this.getDescendantBoxesFromContainer(boxes[parent], id), this.getDescendantContainedViewsFromContainer(boxes[parent], id)))}
-                                        onBoxReorder={(ids, parent) => this.dispatchAndSetState(reorderBox(ids, parent))}
+                                        onSortableContainerReordered={(ids, parent) => this.dispatchAndSetState(reorderSortableContainer(ids, parent))}
                                         onBoxDropped={(id, row, col) => this.dispatchAndSetState(dropBox(id, row, col))}
                                         onBoxDeleted={(id, parent, container)=> this.dispatchAndSetState(deleteBox(id, parent, container, this.getDescendantBoxes(boxes[id]), this.getDescendantContainedViews(boxes[id])))}
                                         onVerticallyAlignBox={(id, verticalAlign)=>this.dispatchAndSetState(verticallyAlignBox(id, verticalAlign))}
@@ -175,7 +175,7 @@ class DaliApp extends Component {
                                              onBoxResized={(id, width, height) => this.dispatchAndSetState(resizeBox(id, width, height))}
                                              onSortableContainerResized={(id, parent, height) => this.dispatchAndSetState(resizeSortableContainer(id, parent, height))}
                                              onSortableContainerDeleted={(id, parent) => this.dispatchAndSetState(deleteSortableContainer(id, parent, this.getDescendantBoxesFromContainer(boxes[parent], id), this.getDescendantContainedViewsFromContainer(boxes[parent], id)))}
-                                             onBoxReorder={(ids, parent) => this.dispatchAndSetState(reorderBox(ids, parent))}
+                                             onSortableContainerReordered={(ids, parent) => this.dispatchAndSetState(reorderSortableContainer(ids, parent))}
                                              onBoxDropped={(id, row, col) => this.dispatchAndSetState(dropBox(id, row, col))}
                                              onBoxDeleted={(id, parent, container)=> this.dispatchAndSetState(deleteBox(id, parent, container, this.getDescendantBoxes(boxes[id]), this.getDescendantContainedViews(boxes[id])))}
                                              onVerticallyAlignBox={(id, verticalAlign)=>this.dispatchAndSetState(verticallyAlignBox(id, verticalAlign))}

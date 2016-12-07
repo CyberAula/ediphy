@@ -9,19 +9,18 @@ export const DUPLICATE_BOX = 'DUPLICATE_BOX';
 export const RESIZE_BOX = 'RESIZE_BOX';
 export const UPDATE_BOX = 'UPDATE_BOX';
 export const DELETE_BOX = 'DELETE_BOX';
-export const REORDER_BOX = 'REORDER_BOX';
 export const DROP_BOX = 'DROP_BOX';
 export const VERTICALLY_ALIGN_BOX = 'VERTICALLY_ALIGN_BOX';
 export const INCREASE_LEVEL = 'INCREASE_LEVEL';
+//this is to move a box that has relative position inside a container
+export const REORDER_BOXES = 'REORDER_BOXES';
 
 export const RESIZE_SORTABLE_CONTAINER = 'RESIZE_SORTABLE_CONTAINER';
 export const DELETE_SORTABLE_CONTAINER = 'DELETE_SORTABLE_CONTAINER';
+export const REORDER_SORTABLE_CONTAINER = 'REORDER_SORTABLE_CONTAINER';
 export const CHANGE_SORTABLE_PROPS = 'CHANGE_SORTABLE_PROPS';
 export const CHANGE_COLS = 'CHANGE_COLS';
 export const CHANGE_ROWS = 'CHANGE_ROWS';
-
-//this is to move a box that has absolute position inside a container
-export const REORDER_BOXES = 'REORDER_BOXES';
 
 export const ADD_NAV_ITEM = 'ADD_NAV_ITEM';
 export const SELECT_NAV_ITEM = 'SELECT_NAV_ITEM';
@@ -118,8 +117,8 @@ export function deleteBox(id, parent, container, children, childrenViews) {
     return {type: DELETE_BOX, payload: {id, parent, container, children, childrenViews}};
 }
 
-export function reorderBox(ids, parent) {
-    return {type: REORDER_BOX, payload: {ids, parent}};
+export function reorderSortableContainer(ids, parent) {
+    return {type: REORDER_SORTABLE_CONTAINER, payload: {ids, parent}};
 }
 
 export function dropBox(id, row, col) {
