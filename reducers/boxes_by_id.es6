@@ -1,5 +1,5 @@
 import Utils, {changeProp, changeProps, deleteProp, deleteProps} from './../utils';
-import {ADD_BOX, MOVE_BOX, DUPLICATE_BOX, RESIZE_BOX, UPDATE_BOX, DELETE_BOX, REORDER_BOX, DROP_BOX, ADD_RICH_MARK,
+import {ADD_BOX, MOVE_BOX, DUPLICATE_BOX, RESIZE_BOX, UPDATE_BOX, DELETE_BOX, REORDER_SORTABLE_CONTAINER, DROP_BOX, ADD_RICH_MARK,
     RESIZE_SORTABLE_CONTAINER, DELETE_SORTABLE_CONTAINER, CHANGE_COLS, CHANGE_ROWS, CHANGE_SORTABLE_PROPS, REORDER_BOXES,
     REMOVE_NAV_ITEM, IMPORT_STATE} from './../actions';
 import {ID_PREFIX_BOX, ID_PREFIX_CONTAINED_VIEW, ID_PREFIX_SORTABLE_CONTAINER} from './../constants';
@@ -164,7 +164,7 @@ function boxReducer(state = {}, action = {}) {
                     type: action.payload.position
                 }
             );
-        case REORDER_BOX:
+        case REORDER_SORTABLE_CONTAINER:
             return changeProp(state, "children", action.payload.ids);
         case REORDER_BOXES:
             return changeProp(state, "sortableContainers", sortableContainersReducer(state.sortableContainers, action));
@@ -373,7 +373,7 @@ export default function (state = {}, action = {}) {
             return changeProp(temp, action.payload.parent, boxReducer(state[action.payload.parent], action));
         case REMOVE_NAV_ITEM:
             return deleteProps(state, action.payload.boxes);
-        case REORDER_BOX:
+        case REORDER_SORTABLE_CONTAINER:
             return changeProp(state, action.payload.parent, boxReducer(state[action.payload.parent], action));
         case IMPORT_STATE:
             return action.payload.present.boxesById || state;

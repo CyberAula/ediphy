@@ -159,7 +159,7 @@ export default class DaliBoxSortable extends Component {
                     indexes.push(children[i].getAttribute("data-id"));
                 }
                 if (indexes.length !== 0) {
-                    this.props.onBoxReorder(indexes, this.props.id);
+                    this.props.onSortableContainerReordered(indexes, this.props.id);
                 }
                 list.sortable('cancel');
             }

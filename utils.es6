@@ -1,4 +1,4 @@
-import {ID_PREFIX_BOX, ID_PREFIX_PAGE, ID_PREFIX_SECTION, ID_PREFIX_SORTABLE_BOX} from './constants';
+import {ID_PREFIX_BOX, ID_PREFIX_PAGE, ID_PREFIX_SECTION, ID_PREFIX_SORTABLE_BOX, PAGE_TYPES} from './constants';
 
 export default {
     //This would be a good post to explore if we don't want to use JSON Stringify: http://stackoverflow.com/questions/728360/how-do-i-correctly-clone-a-javascript-object
@@ -13,6 +13,14 @@ export function isView(id) {
 
 export function isPage(id) {
     return id.length && id.indexOf(ID_PREFIX_PAGE) !== -1;
+}
+
+export function isSlide(type) {
+    return type === PAGE_TYPES.SLIDE;
+}
+
+export function isDocument(type) {
+    return type === PAGE_TYPES.DOCUMENT;
 }
 
 export function isSection(id) {
@@ -94,7 +102,7 @@ export function deleteProp(object, key) {
 export function findDescendantNavItems(state, element) {
     let family = [element];
     state[element].children.forEach(child => {
-        family = family.concat(this.findDescendantNavItems(state, child));
+        family = family.concat(findDescendantNavItems(state, child));
     });
     return family;
 }
@@ -104,16 +112,21 @@ export function calculateNewIdOrder(oldArray, newChildren, newParent, itemMoved,
     let oldArrayFiltered = oldArray.filter(id => itemsToChange.indexOf(id) === -1);
 
     // This is the index where we split the old array to add the items we're moving
-    let splitIndex;
+    let splitIndex = oldArrayFiltered.length;
 
-    if (newChildren.length === 1 && newChildren[0] === itemMoved) {
-        splitIndex = oldArrayFiltered.indexOf(newParent) + 1;
+    let indexInNewChildren = newChildren.indexOf(itemMoved);
+    // If we didn't move to last position of new children, we split by the position of the following one
+    if (indexInNewChildren !== newChildren.length - 1) {
+        splitIndex = oldArrayFiltered.indexOf(newChildren[indexInNewChildren + 1]);
+
+    // We have to look for the next item that has a lower or equal level
+    // If none is found, it means we were dragging to last position, so default value for splitIndex is not changed
     } else {
-        let indexInNewChildren = newChildren.indexOf(itemMoved);
-        if (indexInNewChildren === 0) {
-            splitIndex = oldArrayFiltered.indexOf(newParent) + 1;
-        } else {
-            splitIndex = oldArrayFiltered.indexOf(newChildren[indexInNewChildren - 1]) + 1;
+        for(let i = oldArrayFiltered.indexOf(newParent) + 1; i < oldArrayFiltered.length; i++){
+            if(navItems[oldArrayFiltered[i]].level <= navItems[newParent].level){
+                splitIndex = i;
+                break;
+            }
         }
     }
 

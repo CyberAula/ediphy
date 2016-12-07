@@ -8,7 +8,7 @@ import interact from 'interact.js';
 
 import {ADD_BOX} from '../../../actions';
 import Dali from '../../../core/main';
-import {isSortableBox} from './../../../utils';
+import {isSortableBox, isSlide} from './../../../utils';
 
 export default class ContainedCanvas extends Component {
     constructor(props) {
@@ -56,7 +56,7 @@ export default class ContainedCanvas extends Component {
                             this.props.onBoxSelected(-1);
                             e.stopPropagation();
                          }}
-                         className={containedView.type === 'slide' ? 'innercanvas sli':'innercanvas doc'}>
+                         className={isSlide(containedView.type) ? 'innercanvas sli':'innercanvas doc'}>
 
                         <Button style={{margin: "10px 0px 0px 10px"}}
                                 onClick={e => {
@@ -122,7 +122,7 @@ export default class ContainedCanvas extends Component {
                                                         onBoxesInsideSortableReorder={this.props.onBoxesInsideSortableReorder}
                                                         onSortableContainerResized={this.props.onSortableContainerResized}
                                                         onSortableContainerDeleted={this.props.onSortableContainerDeleted}
-                                                        onBoxReorder={this.props.onBoxReorder}
+                                                        onSortableContainerReordered={this.props.onSortableContainerReordered}
                                                         onBoxDropped={this.props.onBoxDropped}
                                                         onVerticallyAlignBox={this.props.onVerticallyAlignBox}
                                                         onBoxModalToggled={this.props.onBoxModalToggled}

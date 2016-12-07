@@ -1,7 +1,7 @@
 import {combineReducers} from 'redux';
 import undoable from 'redux-undo';
 import Utils from './../utils';
-import {ADD_BOX, SELECT_BOX, MOVE_BOX, DUPLICATE_BOX, RESIZE_BOX, UPDATE_BOX, DELETE_BOX, REORDER_BOX, DROP_BOX, INCREASE_LEVEL,
+import {ADD_BOX, SELECT_BOX, MOVE_BOX, DUPLICATE_BOX, RESIZE_BOX, UPDATE_BOX, DELETE_BOX, REORDER_SORTABLE_CONTAINER, DROP_BOX, INCREASE_LEVEL,
     ADD_RICH_MARK, EDIT_RICH_MARK, SELECT_CONTAINED_VIEW,
     RESIZE_SORTABLE_CONTAINER, DELETE_SORTABLE_CONTAINER, CHANGE_COLS, CHANGE_ROWS, CHANGE_SORTABLE_PROPS, REORDER_BOXES,
     ADD_NAV_ITEM, SELECT_NAV_ITEM, EXPAND_NAV_ITEM, REMOVE_NAV_ITEM, REORDER_NAV_ITEM, TOGGLE_NAV_ITEM, UPDATE_NAV_ITEM_EXTRA_FILES,
@@ -48,9 +48,9 @@ function boxesIds(state = [], action = {}) {
 function navItemsIds(state = [], action = {}) {
     switch (action.type) {
         case ADD_NAV_ITEM:
-            let nState = state.slice();
-            nState.splice(action.payload.position - 1, 0, action.payload.id);
-            return nState;
+            let temp = state.slice();
+            temp.splice(action.payload.position, 0, action.payload.id);
+            return temp;
         case REMOVE_NAV_ITEM:
             let newState = state.slice();
             action.payload.ids.forEach(id => {

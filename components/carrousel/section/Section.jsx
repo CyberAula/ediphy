@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Button} from 'react-bootstrap';
 import {ID_PREFIX_PAGE, ID_PREFIX_SECTION} from '../../../constants';
 import DaliIndexTitle from '../dali_index_title/DaliIndexTitle';
-import {isPage, isSection, calculateNewIdOrder} from './../../../utils';
+import {isPage, isSection, isSlide, calculateNewIdOrder} from './../../../utils';
 
 export default class Section extends Component {
     render() {
@@ -81,7 +81,7 @@ export default class Section extends Component {
                                     }}>
                                         <span style={{marginLeft: 25 * (this.props.navItems[id].level - 1)}}>
                                             <i className="material-icons fileIcon">
-                                                {this.props.navItems[id].type == 'slide' ? "slideshow" : "insert_drive_file"}
+                                                {isSlide(this.props.navItems[id].type) ? "slideshow" : "insert_drive_file"}
                                             </i>
                                             <DaliIndexTitle id={id}
                                                             index={this.props.navItems[this.props.navItems[id].parent].children.indexOf(id)+1+'.'}
@@ -122,6 +122,11 @@ export default class Section extends Component {
                 // This is called when:
                 // - An item is dragged from this items's children to another item
                 // - A direct child changes it position at the same level
+
+                // If this item was dragged to another item, its sortable instance has been destroyed already
+                if(!list.sortable('instance')){
+                    return;
+                }
                 const newChildren = list.sortable('toArray', {attribute: 'id'});
 
                 // If item moved is still in this element's children (wasn't moved away) -> update
@@ -163,5 +168,10 @@ export default class Section extends Component {
                 $("#" + this.props.navItemSelected).css("opacity", "1");
             }
         });
+    }
+
+    componentWillUnmount(){
+        console.log("unmounting " + this.props.id);
+        jQuery(this.refs.sortableList).sortable("destroy");
     }
 }

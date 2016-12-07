@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
 import {Button, ButtonGroup, Col, OverlayTrigger, Popover} from 'react-bootstrap';
 
-import {ID_PREFIX_PAGE, ID_PREFIX_SECTION, ID_PREFIX_SORTABLE_BOX} from './../../../constants';
+import {ID_PREFIX_PAGE, ID_PREFIX_SECTION, ID_PREFIX_SORTABLE_BOX, PAGE_TYPES} from './../../../constants';
 import Section from './../section/Section';
 import PageMenu from './../page_menu/PageMenu';
 import DaliIndexTitle from './../dali_index_title/DaliIndexTitle';
-import {isPage, isSection, calculateNewIdOrder} from './../../../utils';
+import {isPage, isSection, isSlide, calculateNewIdOrder} from './../../../utils';
 import i18n from 'i18next';
 import Dali from './../../../core/main';
 
@@ -20,10 +20,10 @@ export default class CarrouselList extends Component {
                      className="carList connectedSortables"
                      style={{paddingTop: 5}}
                      onClick={e => {
-                        this.props.onNavItemSelected(0);
+                        this.props.onNavItemSelected(this.props.id);
                         e.stopPropagation();
                      }}>
-                    {this.props.navItems[0].children.map((id, index) => {
+                    {this.props.navItems[this.props.id].children.map((id, index) => {
                         if (isSection(id)) {
                             return <Section id={id}
                                             key={index}
@@ -52,7 +52,7 @@ export default class CarrouselList extends Component {
                                        }}>
                                     <span style={{marginLeft: 20 * (this.props.navItems[id].level-1)}}>
                                         <i className="material-icons fileIcon">
-                                            {this.props.navItems[id].type == 'slide' ? "slideshow" : "insert_drive_file"}
+                                            {isSlide(this.props.navItems[id].type) ? "slideshow" : "insert_drive_file"}
                                         </i>
                                     <DaliIndexTitle
                                         id={id}
@@ -69,18 +69,15 @@ export default class CarrouselList extends Component {
                 <div className="bottomGroup">
                     <div>
                         <Button className="carrouselButton"
-                                disabled={this.props.navItems[this.props.navItemSelected].type !== "section" && this.props.navItemSelected !== 0}
+                                disabled={!isSection(this.props.navItemSelected) && this.props.navItemSelected !== 0}
                                 onClick={e => {
                                 let idnuevo = ID_PREFIX_SECTION + Date.now();
                                 this.props.onNavItemAdded(
                                     idnuevo,
                                     i18n.t("section"),
-                                    this.props.navItemSelected,
-                                    [],
-                                    this.props.navItems[this.props.navItemSelected].level + 1,
-                                    'section',
-                                    this.calculateNewPosition(),
-                                    'expanded'
+                                    this.getParent().id,
+                                    "",
+                                    this.calculatePosition()
                                 );
                                 if(Dali.Config.sections_have_content){
                                     this.props.onBoxAdded({
@@ -98,14 +95,30 @@ export default class CarrouselList extends Component {
 
                     <Button className="carrouselButton"
                             onClick={e =>{
-                               var idnuevo = ID_PREFIX_PAGE + Date.now();
-                               this.props.onNavItemAdded(idnuevo,  i18n.t("page"), this.calculateParent().id , [], this.calculateParent().level + 1, 'document', this.calculateNewPosition2(), 'expanded')
-                               this.props.onBoxAdded({parent: idnuevo, container: 0, id: ID_PREFIX_SORTABLE_BOX + Date.now()}, false, false);
+                               var newId = ID_PREFIX_PAGE + Date.now();
+                               this.props.onNavItemAdded(
+                                    newId,
+                                    i18n.t("page"),
+                                    this.getParent().id,
+                                    PAGE_TYPES.DOCUMENT,
+                                    this.calculatePosition()
+                                );
+                                this.props.onBoxAdded(
+                                    {parent: newId, container: 0, id: ID_PREFIX_SORTABLE_BOX + Date.now()},
+                                    false,
+                                    false
+                                );
                             }}><i className="material-icons">insert_drive_file</i></Button>
 
                     <Button className="carrouselButton"
                             onClick={e => {
-                                this.props.onNavItemAdded(ID_PREFIX_PAGE + Date.now(),  i18n.t("slide"), this.calculateParent().id , [], this.calculateParent().level + 1,  'slide', this.calculatePosition(), 'hidden')
+                                this.props.onNavItemAdded(
+                                    ID_PREFIX_PAGE + Date.now(),
+                                    i18n.t("slide"),
+                                    this.getParent().id,
+                                    PAGE_TYPES.SLIDE,
+                                    this.calculatePosition()
+                                );
                             }}><i className="material-icons">slideshow</i></Button>
 
                     <Button className="carrouselButton">
@@ -115,19 +128,24 @@ export default class CarrouselList extends Component {
                        }}>{this.props.navItems[this.props.navItemSelected].hidden ? "visibility_off" : "visibility"}</i></Button>
 
                     <OverlayTrigger trigger={["focus"]} placement="top" overlay={
-                        <Popover id="popov" title={this.props.navItemSelected && this.props.navItemSelected.indexOf(ID_PREFIX_SECTION) !== -1 ? i18n.t("delete_section") : i18n.t("delete_page")}>
-                            <i style={{color: 'yellow', fontSize: '13px'}} className="material-icons">warning</i> {this.props.navItemSelected && this.props.navItemSelected.indexOf(ID_PREFIX_SECTION) !== -1 ? i18n.t("messages.delete_section") : i18n.t("messages.delete_page")}<br/>
-                                <Button className="popoverButton"
+                        <Popover id="popov" title={isSection(this.props.navItemSelected) ? i18n.t("delete_section") : i18n.t("delete_page")}>
+                            <i style={{color: 'yellow', fontSize: '13px'}} className="material-icons">warning</i>
+                            {isSection(this.props.navItemSelected) ?
+                                i18n.t("messages.delete_section") :
+                                i18n.t("messages.delete_page")
+                            }
+                            <br/>
+                            <Button className="popoverButton"
                                     disabled={this.props.navItemSelected === 0}
                                     style={{float: 'right'}}
                                     onClick={(e) => this.props.onNavItemRemoved()}>
-                                    {i18n.t("Accept")}
-                                </Button>
-                                <Button className="popoverButton"
+                                {i18n.t("Accept")}
+                            </Button>
+                            <Button className="popoverButton"
                                     disabled={this.props.navItemSelected === 0}
                                     style={{float: 'right'}}  >
-                                    {i18n.t("Cancel")}
-                                </Button>
+                                {i18n.t("Cancel")}
+                            </Button>
                          </Popover>}>
                             <Button className="carrouselButton"
                                     disabled={this.props.navItemSelected === 0}
@@ -142,26 +160,33 @@ export default class CarrouselList extends Component {
         );
     }
 
-    calculateNewPosition() {
-        if (this.props.navItems[this.props.navItemSelected].type === "section") {
-            for (var i = this.props.navItemsIds.indexOf(this.props.navItemSelected) + 1; i < this.props.navItemsIds.length; i++) {
-                if (this.props.navItems[this.props.navItemsIds[i]].level <= this.props.navItems[this.props.navItemSelected].level) {
-                    return i + 1;
+    getParent() {
+        // If the selected navItem is not a section, it cannot have children -> we return it's parent
+        if (isSection(this.props.navItemSelected)) {
+            return this.props.navItems[this.props.navItemSelected];
+        }
+        return this.props.navItems[this.props.navItems[this.props.navItemSelected].parent];
+    }
+
+    calculatePosition() {
+        let parent = this.getParent();
+        let ids = this.props.navItemsIds;
+        // If we are at top level, the new navItem it's always going to be in last position
+        if(parent.id === 0){
+            return ids.length;
+        }
+
+        // Starting after item's parent, if level is the same or lower -> we found the place we want
+        for(let i = ids.indexOf(parent.id) + 1; i < ids.length; i++){
+            if(ids[i]){
+                if(this.props.navItems[ids[i]].level <= parent.level){
+                    return i;
                 }
             }
         }
 
-        return this.props.navItemsIds.length+1;
-    }
-
-    sections() {
-        var current = 1;
-        for (let i in this.props.navItemsIds) {
-            if (isSection(this.props.navItemsIds[i])) {
-                current++;
-            }
-        }
-        return current;
+        // If we arrive here it means we were adding a new child to the last navItem
+        return ids.length;
     }
 
 
@@ -190,61 +215,6 @@ export default class CarrouselList extends Component {
             newArray = newArray.concat(oldArrayFiltered.slice(splitIndex));
         }
         return newArray;
-    }
-
-    calculateParent() {
-        if(this.props.navItemSelected === 0){
-            return this.props.navItems[0];
-        }
-        var navItem;
-        if (this.props.navItems[this.props.navItemSelected].type === "section") {
-            navItem = this.props.navItems[this.props.navItemSelected];
-        } else {
-            navItem = this.props.navItems[this.props.navItems[this.props.navItemSelected].parent];
-        }
-        return navItem;
-    }
-
-    calculateNewPosition2() {
-        var navItem, nextPosition;
-        if (this.props.navItems[this.props.navItemSelected].type === "section") {
-            navItem = this.props.navItems[this.props.navItemSelected];
-            if (this.props.navItems[navItem.id].children.length > 0) {
-                nextPosition = this.props.navItems[this.props.navItems[navItem.id].children[this.props.navItems[navItem.id].children.length - 1]].position;
-            } else {
-                nextPosition = navItem.position;
-            }
-        } else {
-            navItem = this.props.navItems[this.props.navItems[this.props.navItemSelected].parent];
-            nextPosition = this.props.navItems[this.props.navItemSelected].position;
-        }
-        nextPosition++;
-
-        return nextPosition;
-    }
-
-    calculatePosition() {
-        if (this.props.caller === 0) {
-            return this.props.navItemsIds.length;
-        }
-
-        let navItem = this.props.navItems[this.props.caller];
-        var cuenta = 0;
-        var exit = 0;
-        this.props.navItemsIds.map(i=> {
-
-            if (exit === 0 && this.props.navItems[i].position > navItem.position/* && prev > navItem.level*/) {
-                if (this.props.navItems[i].level > navItem.level) {
-                    cuenta++;
-                    return;
-                }
-                else {
-                    exit = 1;
-                    return;
-                }
-            }
-        });
-        return navItem.position + cuenta + 1;
     }
 
     componentDidMount() {
@@ -280,7 +250,7 @@ export default class CarrouselList extends Component {
                         this.props.navItemSelected, // item moved
                         this.props.id, // new parent
                         this.props.navItems[this.props.navItemSelected].parent, // old parent
-                        calculateNewIdOrder(this.props.navItemsIds, newChildren, 0, this.props.navItemSelected, this.props.navItems),
+                        calculateNewIdOrder(this.props.navItemsIds, newChildren, this.props.id, this.props.navItemSelected, this.props.navItems),
                         newChildren
                     );
                 }
@@ -308,5 +278,9 @@ export default class CarrouselList extends Component {
                 $("#" + this.props.navItemSelected).css("opacity", "1");
             }
         });
+    }
+
+    componentWillUnmount(){
+        jQuery(this.refs.sortableList).sortable("destroy");
     }
 }

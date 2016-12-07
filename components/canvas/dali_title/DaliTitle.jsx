@@ -139,7 +139,7 @@ export default class DaliTitle extends Component {
                               contentEditable={this.props.navItem.parent === 0}
                               suppressContentEditableWarning
                               onBlur={e => {
-                                this.props.onUnitNumberChanged(this.props.navItem.id, e.target.innerText);
+                                this.props.onUnitNumberChanged(this.props.navItem.id, parseInt(e.target.innerText, 10));
                               }}
                         >{this.props.navItem.unitNumber}</span>
                         <div className="tit_ud_cap">

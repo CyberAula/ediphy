@@ -8,7 +8,7 @@ import DaliTitle from '../dali_title/DaliTitle';
 import interact from 'interact.js';
 import {ADD_BOX} from '../../../actions';
 import Dali from './../../../core/main';
-import {isSortableBox} from './../../../utils';
+import {isSortableBox, isSlide} from './../../../utils';
 
 require('./_canvas.scss');
 
@@ -53,7 +53,7 @@ export default class DaliCanvas extends Component {
                         this.props.onBoxSelected(-1);
                         this.setState({showTitle:false})
                        }}
-                         className={this.props.navItemSelected.type == 'slide' ? 'innercanvas sli':'innercanvas doc'}
+                         className={isSlide(this.props.navItemSelected.type) ? 'innercanvas sli':'innercanvas doc'}
                          style={{visibility: (this.props.showCanvas ? 'visible' : 'hidden')}}>
 
 
@@ -130,7 +130,7 @@ export default class DaliCanvas extends Component {
                                                         onBoxesInsideSortableReorder={this.props.onBoxesInsideSortableReorder}
                                                         onSortableContainerResized={this.props.onSortableContainerResized}
                                                         onSortableContainerDeleted={this.props.onSortableContainerDeleted}
-                                                        onBoxReorder={this.props.onBoxReorder}
+                                                        onSortableContainerReordered={this.props.onSortableContainerReordered}
                                                         onBoxDropped={this.props.onBoxDropped}
                                                         onVerticallyAlignBox={this.props.onVerticallyAlignBox}
                                                         onBoxModalToggled={this.props.onBoxModalToggled}

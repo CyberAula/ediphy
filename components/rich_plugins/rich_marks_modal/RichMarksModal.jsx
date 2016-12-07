@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import {Modal, Button, Row, FormGroup, ControlLabel, FormControl, Radio} from 'react-bootstrap';
 import Typeahead from 'react-bootstrap-typeahead';
-import {ID_PREFIX_RICH_MARK, ID_PREFIX_CONTAINED_VIEW} from '../../../constants';
+import {ID_PREFIX_RICH_MARK, ID_PREFIX_CONTAINED_VIEW, PAGE_TYPES} from '../../../constants';
 
 export default class RichMarksModal extends Component {
     constructor(props) {
@@ -10,7 +10,7 @@ export default class RichMarksModal extends Component {
         this.state = {
             connectMode: "new",
             displayMode: "navigate",
-            newSelected: "slide",
+            newSelected: PAGE_TYPES.SLIDE,
             existingSelected: ""
         };
     }
@@ -21,7 +21,7 @@ export default class RichMarksModal extends Component {
             this.setState({
                 connectMode: current.connectMode || "new",
                 displayMode: current.displayMode || "navigate",
-                newSelected: (current.connectMode === "new" ? current.connection : "slide"),
+                newSelected: (current.connectMode === "new" ? current.connection : PAGE_TYPES.SLIDE),
                 existingSelected: (current.connectMode === "existing" && nextProps.navItems[current.connection] ? nextProps.navItems[current.connection].name : "")
             });
         }
@@ -79,16 +79,16 @@ export default class RichMarksModal extends Component {
                             <FormControl componentClass="select"
                                          defaultValue={this.state.newSelected}
                                          style={{
-                                            display: this.state.newSelected === "slide" || this.state.newSelected === "document" ? "initial" : "none"
+                                            display: this.state.newSelected === PAGE_TYPES.SLIDE || this.state.newSelected === PAGE_TYPES.DOCUMENT ? "initial" : "none"
                                          }}
                                          onChange={e => {
                                             this.setState({newSelected: e.nativeEvent.target.value});
                                          }}>
-                                <option value="document">New document</option>
-                                <option value="slide">New slide</option>
+                                <option value={PAGE_TYPES.DOCUMENT}>New document</option>
+                                <option value={PAGE_TYPES.SLIDE}>New slide</option>
                             </FormControl>
                             <span style={{
-                                display: this.state.newSelected === "slide" || this.state.newSelected === "document" ? "none" : "initial"
+                                display: this.state.newSelected === PAGE_TYPES.SLIDE || this.state.newSelected === PAGE_TYPES.DOCUMENT ? "none" : "initial"
                                 }}>
                                 Connected to {this.state.newSelected}
                             </span>
