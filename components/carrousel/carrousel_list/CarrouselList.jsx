@@ -165,7 +165,7 @@ export default class CarrouselList extends Component {
         if (isSection(this.props.navItemSelected)) {
             return this.props.navItems[this.props.navItemSelected];
         }
-        return this.props.navItems[this.props.navItems[this.props.navItemSelected].parent];
+        return this.props.navItems[this.props.navItems[this.props.navItemSelected].parent] || this.props.navItems[0];
     }
 
     calculatePosition() {
