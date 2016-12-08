@@ -7,6 +7,7 @@ import i18n from './i18n';
 
 require('es6-promise').polyfill();
 require('expose?Dali!./core/temp_hack');
+require('./plugins/plugin_dependencies_loader').requireAll();
 
 //Require CSS files
 require('./dist/css/textStyles.css');

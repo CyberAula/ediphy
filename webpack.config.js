@@ -18,7 +18,7 @@ module.exports = {
         preLoaders: [
             {
                 test: /\.(es6|jsx|js)$/,
-                exclude: /node_modules/,
+                exclude: [/node_modules/, /jquery.jsPlumb-1.4.1-all-min.js/],
                 loader: 'jshint-loader'
             }
         ],

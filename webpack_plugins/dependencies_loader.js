@@ -86,18 +86,6 @@ module.exports = {
 					}
 				});
 			}
-			if(config && config.localDependencies){
-				var localDependencies = config.localDependencies;
-				Object.keys(localDependencies).map(function(e){
-					final_array.push({
-			               test: localDependencies[e],
-			               loaders: [
-			                 'imports?this=>window',
-			                 'script'
-			               ] 
-					});
-				});
-			}
 
 		}
 		return final_array;
