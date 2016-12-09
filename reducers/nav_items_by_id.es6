@@ -19,7 +19,7 @@ function navItemCreator(state = {}, action = {}) {
             state[action.payload.parent].unitNumber),
         hidden: state[action.payload.parent].hidden,
         extraFiles: {},
-        titlesReduced: isSlide(action.payload.type) ? 'hidden' : 'expanded'
+        titleMode: isSlide(action.payload.type) ? 'hidden' : 'expanded'
     };
 }
 
@@ -82,7 +82,7 @@ function singleNavItemReducer(state = {}, action = {}) {
         case TOGGLE_NAV_ITEM:
             return changeProp(state, "hidden", action.payload.value);
         case TOGGLE_TITLE_MODE:
-            return changeProp(state, "titlesReduced", action.payload.value);
+            return changeProp(state, "titleMode", action.payload.value);
         case UPDATE_NAV_ITEM_EXTRA_FILES:
             return changeProp(
                 state,

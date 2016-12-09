@@ -30,7 +30,7 @@ export default class ReduxProvider extends Component {
                         level: 1,
                         type: "",
                         extraFiles: {},
-                        titlesReduced: "expanded"
+                        titleMode: "expanded"
                     }
                 },
                 navItemsIds: ['se-1467887497411'],
