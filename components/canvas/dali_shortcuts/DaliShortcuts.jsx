@@ -89,24 +89,6 @@ export default class DaliShortcuts extends Component {
                             <i className="material-icons">delete</i>
                         </button>
                     </OverlayTrigger>
-                    {isSortableBox(box.parent) ? (
-                        <OverlayTrigger placement="top"
-                                        overlay={
-                                    <Tooltip id="borrarcontenedor">
-                                        {i18n.t('messages.erase_container')}
-                                    </Tooltip>
-                                }>
-                            <button className="daliTitleButton"
-                                    onClick={(e) => {
-                                this.props.onSortableContainerDeleted(box.container, box.parent);
-                                e.stopPropagation();
-                            }}>
-                                <i className="material-icons">delete_forever</i>
-                            </button>
-                        </OverlayTrigger>
-                    ) : (
-                        <span></span>
-                    )}
                 </div>
             </div>
             /* jshint ignore:end */

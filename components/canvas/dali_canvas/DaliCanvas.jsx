@@ -77,7 +77,6 @@ export default class DaliCanvas extends Component {
                             onTextEditorToggled={this.props.onTextEditorToggled}
                             onBoxResized={this.props.onBoxResized}
                             onBoxDeleted={this.props.onBoxDeleted}
-                            onSortableContainerDeleted={this.props.onSortableContainerDeleted}
                             toolbar={this.props.toolbars[this.props.boxSelected]}/>
 
                         <div style={{

@@ -90,16 +90,6 @@ export default class DaliBoxSortable extends Component {
                                                             return (<span key={index}><br /><br /></span>);
                                                         }
                                                     })}
-                                                    {
-                                                        container.children.length === 0 ? (
-                                                            <Button style={{position: 'absolute', top: 0, left: 0}}
-                                                                    onClick={e => {
-                                                                        this.props.onSortableContainerDeleted(idContainer, box.id);
-                                                                        e.stopPropagation();
-                                                                    }}>X</Button>
-                                                        ) :
-                                                            ""
-                                                    }
                                                 </div>);
                                             })}
                                         </div>);
@@ -114,13 +104,26 @@ export default class DaliBoxSortable extends Component {
                                     backgroundColor: 'lightgray',
                                     cursor: this.props.boxSelected === this.props.id ? 's-resize' : 'initial'
                                }}></div>
-                            <i style={{
+                            <div style={{
                                     verticalAlign: 'middle',
                                     position: 'absolute',
                                     bottom: '0px',
                                     left: '0px'
-                               }}
-                               className="material-icons drag-handle">swap_vert</i>
+                               }}>
+                                <i className="material-icons drag-handle" style={{verticalAlign: "middle"}}>swap_vert</i>
+                                <Button style={{
+                                            border: 0,
+                                            backgroundColor: "inherit",
+                                            padding: 0,
+                                            marginLeft: 8
+                                        }}
+                                        onClick={e => {
+                                            this.props.onSortableContainerDeleted(idContainer, box.id);
+                                            e.stopPropagation();
+                                        }}>
+                                    <i className="material-icons">delete</i>
+                                </Button>
+                                </div>
                         </div>);
                     })}
                 </div>
