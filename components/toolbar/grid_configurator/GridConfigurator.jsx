@@ -118,7 +118,7 @@ export default class GridConfigurator extends Component {
                                   for ( let i = 0; i < arr  ; i++ ){
                                     dist.push(Math.round(100/arr * 100) / 100);
                                   }
-                                  this.props.onColsChanged(this.props.id, this.props.parentId, dist);
+                                  this.props.onColsChanged(this.props.id, this.props.parentId, dist, this.props.container.children);
                              }}/>
                         <OverlayTrigger trigger="click" rootClose placement="bottom"
                                         overlay={<Popover id="advancedcols"  title="Avanzado">{advancedColumns}</Popover>}>
@@ -146,7 +146,7 @@ export default class GridConfigurator extends Component {
                                                     return 0;
                                                   }
                                               });
-                                               this.props.onRowsChanged(this.props.id, this.props.parentId, index, dist);
+                                               this.props.onRowsChanged(this.props.id, this.props.parentId, index, dist, this.props.container.children);
                                         }}/>
                         </FormGroup>
 
@@ -167,7 +167,7 @@ export default class GridConfigurator extends Component {
                                                 for ( let i = 0; i < arr  ; i++ ){
                                                   dist.push(Math.round(100/arr * 100) / 100);
                                                 }
-                                                this.props.onRowsChanged(this.props.id, this.props.parentId, index, dist);
+                                                this.props.onRowsChanged(this.props.id, this.props.parentId, index, dist, this.props.container.children);
                                           }}/>
                                 <OverlayTrigger trigger="click" rootClose placement="bottom"
                                                 overlay={<Popover id="advancedrows" title={i18n.t('Advanced')}>{advancedRows}</Popover>}>

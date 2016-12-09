@@ -144,12 +144,12 @@ export function deleteSortableContainer(id, parent, children, childrenViews) {
 export function changeSortableProps(id, parent, prop, value) {
     return {type: CHANGE_SORTABLE_PROPS, payload: {id, parent, prop, value}};
 }
-export function changeCols(id, parent, distribution) {
-    return {type: CHANGE_COLS, payload: {id, parent, distribution}};
+export function changeCols(id, parent, distribution, boxesAffected) {
+    return {type: CHANGE_COLS, payload: {id, parent, distribution, boxesAffected}};
 }
 
-export function changeRows(id, parent, column, distribution) {
-    return {type: CHANGE_ROWS, payload: {id, parent, column, distribution}};
+export function changeRows(id, parent, column, distribution, boxesAffected) {
+    return {type: CHANGE_ROWS, payload: {id, parent, column, distribution, boxesAffected}};
 }
 
 export function reorderBoxes(parent, container, order) {

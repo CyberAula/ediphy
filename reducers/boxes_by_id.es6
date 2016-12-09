@@ -127,11 +127,32 @@ function boxReducer(state = {}, action = {}) {
         case ADD_RICH_MARK:
             return changeProp(state, "containedViews", [...state.containedViews, action.payload.mark.connection.id]);
         case CHANGE_COLS:
-            return changeProp(state, "sortableContainers", sortableContainersReducer(state.sortableContainers, action));
+            if(action.payload.parent === state.id) {
+                return changeProp(state, "sortableContainers", sortableContainersReducer(state.sortableContainers, action));
+            }
+            return changeProps(
+                state,
+                [
+                    "col",
+                    "row"
+                ], [
+                    state.col >= action.payload.distribution.length ? action.payload.distribution.length - 1 : state.col,
+                    state.col >= action.payload.distribution.length ? 0 : state.row
+                ]
+            );
         case CHANGE_SORTABLE_PROPS:
             return changeProp(state, "sortableContainers", sortableContainersReducer(state.sortableContainers, action));
         case CHANGE_ROWS:
-            return changeProp(state, "sortableContainers", sortableContainersReducer(state.sortableContainers, action));
+            if(action.payload.parent === state.id) {
+                return changeProp(state, "sortableContainers", sortableContainersReducer(state.sortableContainers, action));
+            }
+            return changeProp(
+                state,
+                "row",
+                state.row >= action.payload.distribution.length ?
+                    action.payload.distribution.length - 1 :
+                    state.row
+            );
         case DELETE_BOX:
             return changeProp(state, "sortableContainers", sortableContainersReducer(state.sortableContainers, action));
         case DELETE_SORTABLE_CONTAINER:
@@ -221,15 +242,16 @@ function singleSortableContainerReducer(state = {}, action = {}) {
             return changeProp(state, "children", [...state.children, action.payload.ids.id]);
         case CHANGE_COLS:
             let cols = state.cols;
-            if (action.payload.distribution.length < cols.length) {
-                cols = cols.slice(0, cols.length - 1);
+            let distributionLength = action.payload.distribution.length;
+            if (distributionLength < cols.length) {
+                cols = cols.slice(0, distributionLength);
             }
             let reduced = action.payload.distribution.reduce(function (prev, curr) {
                 return prev + curr;
             });
             if (reduced > 99 || reduced <= 101) {
-                if (action.payload.distribution.length > cols.length) {
-                    let difference = action.payload.distribution.length - cols.length;
+                if (distributionLength > cols.length) {
+                    let difference = distributionLength - cols.length;
                     for (var i = 0; i < difference; i++) {
                         cols.push([100]);
                     }
@@ -356,9 +378,17 @@ export default function (state = {}, action = {}) {
         case DROP_BOX:
             return changeProp(state, action.payload.id, boxReducer(state[action.payload.id], action));
         case CHANGE_COLS:
-            return changeProp(state, action.payload.parent, boxReducer(state[action.payload.parent], action));
+            newState = changeProp(state, action.payload.parent, boxReducer(state[action.payload.parent], action));
+            action.payload.boxesAffected.forEach(id => {
+                newState = changeProp(newState, id, boxReducer(newState[id], action));
+            });
+            return newState;
         case CHANGE_ROWS:
-            return changeProp(state, action.payload.parent, boxReducer(state[action.payload.parent], action));
+            newState = changeProp(state, action.payload.parent, boxReducer(state[action.payload.parent], action));
+            action.payload.boxesAffected.forEach(id => {
+                newState = changeProp(newState, id, boxReducer(newState[id], action));
+            });
+            return newState;
         case DELETE_BOX:
             let children = action.payload.children ? action.payload.children : [];
             temp = deleteProps(state, children.concat(action.payload.id));
