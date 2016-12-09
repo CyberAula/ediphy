@@ -182,7 +182,6 @@ export default function (state = {}, action = {}) {
                 }));
             });
             return changeProps(itemsReordered, descendantsToUpdate, newDescendants);
-            return changeProps(itemsReordered, descendantsToUpdate, newDescendants);
         case DELETE_NAV_ITEM:
             let stateWithNavItemsDeleted = deleteProps(state, action.payload.ids);
             return changeProp(stateWithNavItemsDeleted, action.payload.parent, singleNavItemReducer(state[action.payload.parent], action));

@@ -105,6 +105,8 @@ export default class Section extends Component {
         list.sortable({
             connectWith: '.connectedSortables',
             containment: '.carList',
+            appendTo: '.carList',
+            helper: 'clone',
             scroll: true,
             over: (event, ui) => {
                 $(".carList").css("border-left", "none");
@@ -171,7 +173,6 @@ export default class Section extends Component {
     }
 
     componentWillUnmount(){
-        console.log("unmounting " + this.props.id);
         jQuery(this.refs.sortableList).sortable("destroy");
     }
 }

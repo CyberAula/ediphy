@@ -155,6 +155,8 @@ export default class CarrouselList extends Component {
         list.sortable({
             connectWith: '.connectedSortables',
             containment: '.carList',
+            appendTo: '.carList',
+            helper: 'clone',
             scroll: true,
             over: (event, ui) => {
                 $(event.target).css("border-left", "3px solid #F47920");
@@ -193,6 +195,11 @@ export default class CarrouselList extends Component {
             receive: (event, ui) => {
                 // This is called when an item is dragged from another item's children to this element's children
                 let newChildren = list.sortable('toArray', {attribute: 'id'});
+
+                // If action is done very quickly, jQuery may not notice the update and not detect that a new child was dragged
+                if(newChildren.indexOf(this.props.navItemSelected) === -1){
+                    newChildren.push(this.props.navItemSelected);
+                }
 
                 // This is necessary in order to avoid that JQuery touches the DOM
                 // It has to be BEFORE action is dispatched and React tries to repaint
