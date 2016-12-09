@@ -28,7 +28,16 @@ function singleNavItemReducer(state = {}, action = {}) {
         case ADD_BOX:
             return changeProp(state, "boxes", [...state.boxes, action.payload.ids.id]);
         case ADD_NAV_ITEM:
-            return changeProp(state, "children", [...state.children, action.payload.id]);
+            return changeProps(
+                state,
+                [
+                    "children",
+                    "isExpanded"
+                ], [
+                    [...state.children, action.payload.id],
+                    true
+                ]
+            );
         case CHANGE_SECTION_TITLE:
             return changeProp(state, "name", action.payload.title);
         case CHANGE_UNIT_NUMBER:
@@ -172,6 +181,7 @@ export default function (state = {}, action = {}) {
                     }
                 }));
             });
+            return changeProps(itemsReordered, descendantsToUpdate, newDescendants);
             return changeProps(itemsReordered, descendantsToUpdate, newDescendants);
         case REMOVE_NAV_ITEM:
             let stateWithNavItemsDeleted = deleteProps(state, action.payload.ids);
