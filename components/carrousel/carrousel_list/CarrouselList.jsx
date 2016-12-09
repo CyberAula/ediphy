@@ -29,7 +29,7 @@ export default class CarrouselList extends Component {
                                             navItemsIds={this.props.navItemsIds}
                                             navItems={this.props.navItems}
                                             navItemSelected={this.props.navItemSelected}
-                                            onTitleChange={this.props.onTitleChange}
+                                            onNavItemNameChanged={this.props.onNavItemNameChanged}
                                             onNavItemAdded={this.props.onNavItemAdded}
                                             onBoxAdded={this.props.onBoxAdded}
                                             onNavItemSelected={this.props.onNavItemSelected}
@@ -58,7 +58,7 @@ export default class CarrouselList extends Component {
                                         title={this.props.navItems[id].name}
                                         index={this.props.navItems[this.props.navItems[id].parent].children.indexOf(id) + 1 + '.'}
                                         hidden={this.props.navItems[id].hidden}
-                                        onTitleChange={this.props.onTitleChange}
+                                        onNameChanged={this.props.onNavItemNameChanged}
                                         onNavItemToggled={this.props.onNavItemToggled}/></span>
                             </h4>
                         }

@@ -40,7 +40,7 @@ export default class Section extends Component {
                                                 navItem.unitNumber + ". " :
                                                 this.props.navItems[navItem.parent].children.indexOf(this.props.id) + 1 + '. '}
                                             hidden={navItem.hidden}
-                                            onTitleChange={this.props.onTitleChange}
+                                            onNameChanged={this.props.onNavItemNameChanged}
                                             onNavItemToggled={this.props.onNavItemToggled}/>
                         </span>
                     </span>
@@ -60,7 +60,7 @@ export default class Section extends Component {
                                             navItemSelected={this.props.navItemSelected}
                                             onBoxAdded={this.props.onBoxAdded}
                                             onNavItemAdded={this.props.onNavItemAdded}
-                                            onTitleChange={this.props.onTitleChange}
+                                            onNavItemNameChanged={this.props.onNavItemNameChanged}
                                             onNavItemSelected={this.props.onNavItemSelected}
                                             onNavItemExpanded={this.props.onNavItemExpanded}
                                             onNavItemReordered={this.props.onNavItemReordered}
@@ -87,7 +87,7 @@ export default class Section extends Component {
                                                             index={this.props.navItems[this.props.navItems[id].parent].children.indexOf(id)+1+'.'}
                                                             title={this.props.navItems[id].name}
                                                             hidden={this.props.navItems[id].hidden}
-                                                            onTitleChange={this.props.onTitleChange}
+                                                            onNameChanged={this.props.onNavItemNameChanged}
                                                             onNavItemToggled={this.props.onNavItemToggled}/>
                                         </span>
                                 </h4>

@@ -29,7 +29,7 @@ export const REMOVE_NAV_ITEM = 'REMOVE_NAV_ITEM';
 export const REORDER_NAV_ITEM = 'REORDER_NAV_ITEM';
 export const TOGGLE_NAV_ITEM = 'TOGGLE_NAV_ITEM';
 export const UPDATE_NAV_ITEM_EXTRA_FILES = 'UPDATE_NAV_ITEM_EXTRA_FILES';
-export const CHANGE_SECTION_TITLE = 'CHANGE_SECTION_TITLE';
+export const CHANGE_NAV_ITEM_NAME = 'CHANGE_NAV_ITEM_NAME';
 export const CHANGE_UNIT_NUMBER = 'CHANGE_UNIT_NUMBER';
 
 export const TOGGLE_TEXT_EDITOR = 'TOGGLE_TEXT_EDITOR';
@@ -81,8 +81,8 @@ export function updateNavItemExtraFiles(id, box, xml_path) {
     return {type: UPDATE_NAV_ITEM_EXTRA_FILES, payload: {id, box, xml_path}};
 }
 
-export function changeSectionTitle(id, title) {
-    return {type: CHANGE_SECTION_TITLE, payload: {id, title}};
+export function changeNavItemName(id, title) {
+    return {type: CHANGE_NAV_ITEM_NAME, payload: {id, title}};
 }
 
 export function changeUnitNumber(id, value) {

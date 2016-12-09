@@ -1,4 +1,4 @@
-import {ADD_BOX, ADD_NAV_ITEM, CHANGE_SECTION_TITLE, CHANGE_UNIT_NUMBER, DELETE_BOX, DUPLICATE_BOX, EXPAND_NAV_ITEM,
+import {ADD_BOX, ADD_NAV_ITEM, CHANGE_NAV_ITEM_NAME, CHANGE_UNIT_NUMBER, DELETE_BOX, DUPLICATE_BOX, EXPAND_NAV_ITEM,
     REORDER_NAV_ITEM, REMOVE_NAV_ITEM, TOGGLE_NAV_ITEM, TOGGLE_TITLE_MODE, UPDATE_NAV_ITEM_EXTRA_FILES,
     IMPORT_STATE} from './../actions';
 import {ID_PREFIX_BOX} from './../constants';
@@ -38,7 +38,7 @@ function singleNavItemReducer(state = {}, action = {}) {
                     true
                 ]
             );
-        case CHANGE_SECTION_TITLE:
+        case CHANGE_NAV_ITEM_NAME:
             return changeProp(state, "name", action.payload.title);
         case CHANGE_UNIT_NUMBER:
             return changeProp(state, "unitNumber", action.payload.value);
@@ -112,7 +112,7 @@ export default function (state = {}, action = {}) {
                     singleNavItemReducer(state[action.payload.parent], action)
                 ]
             );
-        case CHANGE_SECTION_TITLE:
+        case CHANGE_NAV_ITEM_NAME:
             return changeProp(state, action.payload.id, singleNavItemReducer(state[action.payload.id], action));
         case CHANGE_UNIT_NUMBER:
             let itemsToChange = findDescendantNavItems(state, action.payload.id);

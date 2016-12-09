@@ -29,7 +29,7 @@ export default class DaliIndexTitle extends Component {
                     onKeyDown={e=>{
                         if (e.keyCode == 13) { // Enter Key
                             this.setState({ editing: !this.state.editing });
-                            this.props.onTitleChange(this.props.id, this.state.currentValue); 
+                            this.props.onNameChanged(this.props.id, this.state.currentValue);
                         }  
                         if (e.keyCode == 27) { // Escape key
                             this.setState({editing: !this.state.editing});                         
@@ -62,7 +62,7 @@ export default class DaliIndexTitle extends Component {
                    onClick={e => {
                         this.setState({ editing: !this.state.editing });
                         if (this.state.editing) { /*Save changes to Redux state*/
-                            this.props.onTitleChange(this.props.id, this.state.currentValue);
+                            this.props.onNameChanged(this.props.id, this.state.currentValue);
                         } else { /*Synchronize current component state with Redux state when entering edition mode*/
                             this.setState({currentValue: this.props.title});
                         }
