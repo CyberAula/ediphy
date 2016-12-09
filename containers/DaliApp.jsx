@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {ActionCreators} from 'redux-undo';
 import {Grid, Col, Row, Button, OverlayTrigger, Popover} from 'react-bootstrap';
-import {addNavItem, selectNavItem, expandNavItem, removeNavItem, reorderNavItem, toggleNavItem, updateNavItemExtraFiles,
+import {addNavItem, selectNavItem, expandNavItem, deleteNavItem, reorderNavItem, toggleNavItem, updateNavItemExtraFiles,
     changeNavItemName, changeUnitNumber,
     addBox, changeTitle, selectBox, moveBox, resizeBox, updateBox, duplicateBox, deleteBox, reorderSortableContainer, dropBox, increaseBoxLevel,
     resizeSortableContainer, deleteSortableContainer, changeCols, changeRows, changeSortableProps, reorderBoxes, verticallyAlignBox,
@@ -85,7 +85,7 @@ class DaliApp extends Component {
                                   onNavItemAdded={(id, name, parent, type, position) => this.dispatchAndSetState(addNavItem(id, name, parent, type, position))}
                                   onNavItemSelected={id => this.dispatchAndSetState(selectNavItem(id))}
                                   onNavItemExpanded={(id, value) => this.dispatchAndSetState(expandNavItem(id, value))}
-                                  onNavItemRemoved={() => {
+                                  onNavItemDeleted={() => {
                                     let viewRemoving = [navItemSelected].concat(this.getDescendantViews(navItems[navItemSelected]));
                                     let boxesRemoving = [];
                                     let containedRemoving = [];
@@ -96,7 +96,7 @@ class DaliApp extends Component {
                                             containedRemoving = containedRemoving.concat(this.getDescendantContainedViews(boxes[boxId]));
                                         });
                                     });
-                                    this.dispatchAndSetState(removeNavItem(viewRemoving, navItems[navItemSelected].parent, boxesRemoving, containedRemoving))
+                                    this.dispatchAndSetState(deleteNavItem(viewRemoving, navItems[navItemSelected].parent, boxesRemoving, containedRemoving))
                                   }}
                                   onNavItemReordered={(id, newParent, oldParent, idsInOrder, childrenInOrder) => this.dispatchAndSetState(reorderNavItem(id, newParent, oldParent, idsInOrder, childrenInOrder))}
                                   onNavItemToggled={ id => this.dispatchAndSetState(toggleNavItem(id)) }

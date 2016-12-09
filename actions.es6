@@ -25,7 +25,7 @@ export const CHANGE_ROWS = 'CHANGE_ROWS';
 export const ADD_NAV_ITEM = 'ADD_NAV_ITEM';
 export const SELECT_NAV_ITEM = 'SELECT_NAV_ITEM';
 export const EXPAND_NAV_ITEM = 'EXPAND_NAV_ITEM';
-export const REMOVE_NAV_ITEM = 'REMOVE_NAV_ITEM';
+export const DELETE_NAV_ITEM = 'DELETE_NAV_ITEM';
 export const REORDER_NAV_ITEM = 'REORDER_NAV_ITEM';
 export const TOGGLE_NAV_ITEM = 'TOGGLE_NAV_ITEM';
 export const UPDATE_NAV_ITEM_EXTRA_FILES = 'UPDATE_NAV_ITEM_EXTRA_FILES';
@@ -65,8 +65,8 @@ export function expandNavItem(id, value) {
     return {type: EXPAND_NAV_ITEM, payload: {id, value}};
 }
 
-export function removeNavItem(ids, parent, boxes, containedViews) {
-    return {type: REMOVE_NAV_ITEM, payload: {ids, parent, boxes, containedViews}};
+export function deleteNavItem(ids, parent, boxes, containedViews) {
+    return {type: DELETE_NAV_ITEM, payload: {ids, parent, boxes, containedViews}};
 }
 
 export function reorderNavItem(id, newParent, oldParent, idsInOrder, childrenInOrder) {

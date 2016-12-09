@@ -1,5 +1,5 @@
 import {ADD_BOX, ADD_NAV_ITEM, CHANGE_NAV_ITEM_NAME, CHANGE_UNIT_NUMBER, DELETE_BOX, DUPLICATE_BOX, EXPAND_NAV_ITEM,
-    REORDER_NAV_ITEM, REMOVE_NAV_ITEM, TOGGLE_NAV_ITEM, TOGGLE_TITLE_MODE, UPDATE_NAV_ITEM_EXTRA_FILES,
+    REORDER_NAV_ITEM, DELETE_NAV_ITEM, TOGGLE_NAV_ITEM, TOGGLE_TITLE_MODE, UPDATE_NAV_ITEM_EXTRA_FILES,
     IMPORT_STATE} from './../actions';
 import {ID_PREFIX_BOX} from './../constants';
 import Utils, {changeProp, changeProps, deleteProp, deleteProps, isView, isSlide, isDocument, findDescendantNavItems} from './../utils';
@@ -46,7 +46,7 @@ function singleNavItemReducer(state = {}, action = {}) {
             return changeProp(state, "boxes", state.boxes.filter(id => id !== action.payload.id));
         case EXPAND_NAV_ITEM:
             return changeProp(state, "isExpanded", action.payload.value);
-        case REMOVE_NAV_ITEM:
+        case DELETE_NAV_ITEM:
             return changeProp(state, "children", state.children.filter(id => id !== action.payload.ids[0]));
         case REORDER_NAV_ITEM:
             if (state.id === action.payload.id) {
@@ -183,7 +183,7 @@ export default function (state = {}, action = {}) {
             });
             return changeProps(itemsReordered, descendantsToUpdate, newDescendants);
             return changeProps(itemsReordered, descendantsToUpdate, newDescendants);
-        case REMOVE_NAV_ITEM:
+        case DELETE_NAV_ITEM:
             let stateWithNavItemsDeleted = deleteProps(state, action.payload.ids);
             return changeProp(stateWithNavItemsDeleted, action.payload.parent, singleNavItemReducer(state[action.payload.parent], action));
         case TOGGLE_NAV_ITEM:

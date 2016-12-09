@@ -4,7 +4,7 @@ import Utils from './../utils';
 import {ADD_BOX, SELECT_BOX, MOVE_BOX, DUPLICATE_BOX, RESIZE_BOX, UPDATE_BOX, DELETE_BOX, REORDER_SORTABLE_CONTAINER, DROP_BOX, INCREASE_LEVEL,
     ADD_RICH_MARK, EDIT_RICH_MARK, SELECT_CONTAINED_VIEW,
     RESIZE_SORTABLE_CONTAINER, DELETE_SORTABLE_CONTAINER, CHANGE_COLS, CHANGE_ROWS, CHANGE_SORTABLE_PROPS, REORDER_BOXES,
-    ADD_NAV_ITEM, SELECT_NAV_ITEM, EXPAND_NAV_ITEM, REMOVE_NAV_ITEM, REORDER_NAV_ITEM, TOGGLE_NAV_ITEM, UPDATE_NAV_ITEM_EXTRA_FILES,
+    ADD_NAV_ITEM, SELECT_NAV_ITEM, EXPAND_NAV_ITEM, DELETE_NAV_ITEM, REORDER_NAV_ITEM, TOGGLE_NAV_ITEM, UPDATE_NAV_ITEM_EXTRA_FILES,
     CHANGE_NAV_ITEM_NAME, CHANGE_UNIT_NUMBER, VERTICALLY_ALIGN_BOX,
     TOGGLE_TEXT_EDITOR, TOGGLE_TITLE_MODE, CHANGE_TITLE,
     CHANGE_DISPLAY_MODE, SET_BUSY, UPDATE_TOOLBAR, COLLAPSE_TOOLBAR, IMPORT_STATE, FETCH_VISH_RESOURCES_SUCCESS
@@ -34,7 +34,7 @@ function boxesIds(state = [], action = {}) {
             });
         case DELETE_SORTABLE_CONTAINER:
             return state.filter(id => action.payload.children.indexOf(id) === -1);
-        case REMOVE_NAV_ITEM:
+        case DELETE_NAV_ITEM:
             return state.filter(id => {
                 return action.payload.boxes.indexOf(id) === -1;
             });
@@ -51,7 +51,7 @@ function navItemsIds(state = [], action = {}) {
             let temp = state.slice();
             temp.splice(action.payload.position, 0, action.payload.id);
             return temp;
-        case REMOVE_NAV_ITEM:
+        case DELETE_NAV_ITEM:
             let newState = state.slice();
             action.payload.ids.forEach(id => {
                 newState.splice(newState.indexOf(id), 1);
@@ -72,7 +72,7 @@ function navItemSelected(state = 0, action = {}) {
             return action.payload.id;
         case ADD_NAV_ITEM:
             return action.payload.id;
-        case REMOVE_NAV_ITEM:
+        case DELETE_NAV_ITEM:
             return 0;
         case IMPORT_STATE:
             return action.payload.present.navItemSelected || state;
@@ -89,7 +89,7 @@ function containedViewSelected(state = 0, action = {}) {
             return action.payload.id;
         case ADD_NAV_ITEM:
             return 0;
-        case REMOVE_NAV_ITEM:
+        case DELETE_NAV_ITEM:
             return 0;
         case IMPORT_STATE:
             return action.payload.present.containedViewSelected || state;
@@ -139,7 +139,7 @@ function containedViews(state = {}, action = {}) {
                 });
             }
             return newState;
-        case REMOVE_NAV_ITEM:
+        case DELETE_NAV_ITEM:
             if (action.payload.containedViews) {
                 let newState = Utils.deepClone(state);
                 action.payload.containedViews.map(view => {
@@ -521,7 +521,7 @@ function toolbarsById(state = {}, action = {}) {
             });
         case IMPORT_STATE:
             return action.payload.present.toolbarsById || state;
-        case REMOVE_NAV_ITEM:
+        case DELETE_NAV_ITEM:
             newState = Object.assign({}, state);
             action.payload.boxes.map(box => {
                 delete newState[box];

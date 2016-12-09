@@ -102,7 +102,7 @@ export default class CarrouselList extends Component {
                                 <Button className="popoverButton"
                                     disabled={this.props.navItemSelected === 0}
                                     style={{float: 'right'}}
-                                    onClick={(e) => this.props.onNavItemRemoved()}>
+                                    onClick={(e) => this.props.onNavItemDeleted()}>
                                     {i18n.t("Accept")}
                                 </Button>
                                 <Button className="popoverButton"
