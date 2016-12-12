@@ -16,38 +16,8 @@ import boxLevelSelected from './box_level_selected';
 import boxSelected from './box_selected';
 import navItemsById from './nav_items_by_id';
 import navItemsIds from './nav_items_ids';
-
-function navItemSelected(state = 0, action = {}) {
-    switch (action.type) {
-        case SELECT_NAV_ITEM:
-            return action.payload.id;
-        case ADD_NAV_ITEM:
-            return action.payload.id;
-        case DELETE_NAV_ITEM:
-            return 0;
-        case IMPORT_STATE:
-            return action.payload.present.navItemSelected || state;
-        default:
-            return state;
-    }
-}
-
-function containedViewSelected(state = 0, action = {}) {
-    switch (action.type) {
-        case SELECT_NAV_ITEM:
-            return 0;
-        case SELECT_CONTAINED_VIEW:
-            return action.payload.id;
-        case ADD_NAV_ITEM:
-            return 0;
-        case DELETE_NAV_ITEM:
-            return 0;
-        case IMPORT_STATE:
-            return action.payload.present.containedViewSelected || state;
-        default:
-            return state;
-    }
-}
+import navItemSelected from './nav_item_selected';
+import containedViewSelected from './contained_view_selected';
 
 function containedViews(state = {}, action = {}) {
     switch (action.type) {
