@@ -7,7 +7,7 @@ import {addNavItem, selectNavItem, expandNavItem, deleteNavItem, reorderNavItem,
     addBox, changeTitle, selectBox, moveBox, resizeBox, updateBox, duplicateBox, deleteBox, reorderSortableContainer, dropBox, increaseBoxLevel,
     resizeSortableContainer, deleteSortableContainer, changeCols, changeRows, changeSortableProps, reorderBoxes, verticallyAlignBox,
     toggleTextEditor, toggleTitleMode,
-    changeDisplayMode, updateToolbar, collapseToolbar,
+    changeDisplayMode, updateToolbar,
     exportStateAsync, importStateAsync,
     fetchVishResourcesSuccess, fetchVishResourcesAsync, uploadVishResourceAsync,
     selectContainedView,
@@ -241,7 +241,6 @@ class DaliApp extends Component {
                                onSortableContainerDeleted={(id, parent) => this.dispatchAndSetState(deleteSortableContainer(id, parent, this.getDescendantBoxesFromContainer(boxes[parent], id), this.getDescendantContainedViewsFromContainer(boxes[parent], id)))}
                                onSortablePropsChanged={(id, parent, prop, value) => this.dispatchAndSetState(changeSortableProps(id, parent, prop, value))}
                                onToolbarUpdated={(id, tab, accordion, name, value) => this.dispatchAndSetState(updateToolbar(id, tab, accordion, name, value))}
-                               onToolbarCollapsed={(id) => this.dispatchAndSetState(collapseToolbar(id))}
                                onBoxDuplicated={(id, parent, container)=> this.dispatchAndSetState( duplicateBox( id, parent, container, this.getDescendantBoxes(boxes[id]), this.getDuplicatedBoxesIds(this.getDescendantBoxes(boxes[id]) ), Date.now()-1 ))}
                                onBoxDeleted={(id, parent, container)=> this.dispatchAndSetState(deleteBox(id, parent, container, this.getDescendantBoxes(boxes[id]), this.getDescendantContainedViews(boxes[id])))}
                                onXMLEditorToggled={() => this.setState({xmlEditorVisible: !this.state.xmlEditorVisible})}

@@ -61,11 +61,15 @@ export default class ReduxProvider extends Component {
                 toolbarsById: {
                     'bs-1467887497412': {
                         id: "bs-1467887497412",
-                        state: undefined,
-                        controls: {},
+                        state: {},
+                        controls: {
+                            main: {
+                                __name: "Main",
+                                accordions: {}
+                            }
+                        },
                         config: {name: i18n.t('Container')},
-                        showTextEditor: false,
-                        isCollapsed: false
+                        showTextEditor: false
                     }
                 }
             }

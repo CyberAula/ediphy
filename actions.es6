@@ -37,8 +37,6 @@ export const TOGGLE_TITLE_MODE = 'TOGGLE_TITLE_MODE';
 export const CHANGE_DISPLAY_MODE = 'CHANGE_DISPLAY_MODE';
 export const SET_BUSY = 'SET_BUSY';
 export const UPDATE_TOOLBAR = 'UPDATE_TOOLBAR';
-//remove this action
-export const COLLAPSE_TOOLBAR = 'COLLAPSE_TOOLBAR';
 
 export const IMPORT_STATE = 'IMPORT_STATE';
 export const CHANGE_TITLE = 'CHANGE_TITLE';
@@ -194,10 +192,6 @@ export function importState(state) {
 
 export function updateToolbar(id, tab, accordions, name, value) {
     return {type: UPDATE_TOOLBAR, payload: {id, tab, accordions, name, value}};
-}
-
-export function collapseToolbar(id) {
-    return {type: COLLAPSE_TOOLBAR, payload: {id}};
 }
 
 export function fetchVishResourcesSuccess(result) {
