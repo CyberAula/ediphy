@@ -1,14 +1,13 @@
-import Utils, {changeProp, changeProps, deleteProp, deleteProps} from './../utils';
+import Utils, {changeProp, changeProps, deleteProp, deleteProps, isSortableBox, isContainedView} from './../utils';
 import {ADD_BOX, MOVE_BOX, DUPLICATE_BOX, RESIZE_BOX, UPDATE_BOX, DELETE_BOX, REORDER_SORTABLE_CONTAINER, DROP_BOX, ADD_RICH_MARK,
     RESIZE_SORTABLE_CONTAINER, DELETE_SORTABLE_CONTAINER, CHANGE_COLS, CHANGE_ROWS, CHANGE_SORTABLE_PROPS, REORDER_BOXES,
     DELETE_NAV_ITEM, IMPORT_STATE} from './../actions';
-import {ID_PREFIX_BOX, ID_PREFIX_CONTAINED_VIEW, ID_PREFIX_SORTABLE_CONTAINER} from './../constants';
-import {isSortableBox} from './../utils';
+import {ID_PREFIX_BOX, ID_PREFIX_SORTABLE_CONTAINER} from './../constants';
 
 function boxCreator(state, action) {
     let position, width, height;
     let level = 0;
-    if (state[action.payload.ids.parent] && !(action.payload.ids.container.length && action.payload.ids.container.indexOf(ID_PREFIX_CONTAINED_VIEW) !== -1)) {
+    if (state[action.payload.ids.parent] && !isContainedView(action.payload.ids.container)) {
         level = state[action.payload.ids.parent].level + 1;
     }
 

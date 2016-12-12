@@ -9,7 +9,7 @@ import {ADD_BOX, SELECT_BOX, MOVE_BOX, DUPLICATE_BOX, RESIZE_BOX, UPDATE_BOX, DE
     TOGGLE_TEXT_EDITOR, TOGGLE_TITLE_MODE, CHANGE_TITLE,
     CHANGE_DISPLAY_MODE, SET_BUSY, UPDATE_TOOLBAR, COLLAPSE_TOOLBAR, IMPORT_STATE, FETCH_VISH_RESOURCES_SUCCESS
 } from './../actions';
-import {ID_PREFIX_SECTION, ID_PREFIX_PAGE, ID_PREFIX_BOX, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_CONTAINED_VIEW, ID_PREFIX_SORTABLE_CONTAINER} from './../constants';
+import {ID_PREFIX_SECTION, ID_PREFIX_PAGE, ID_PREFIX_BOX, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_SORTABLE_CONTAINER} from './../constants';
 import i18n from 'i18next';
 import boxesById from './boxes_by_id';
 import boxLevelSelected from './box_level_selected';
@@ -18,63 +18,7 @@ import navItemsById from './nav_items_by_id';
 import navItemsIds from './nav_items_ids';
 import navItemSelected from './nav_item_selected';
 import containedViewSelected from './contained_view_selected';
-
-function containedViews(state = {}, action = {}) {
-    switch (action.type) {
-        case ADD_RICH_MARK:
-            if (action.payload.mark.connection.id) {
-                return Object.assign({}, state, {
-                    [action.payload.mark.connection.id]: action.payload.mark.connection
-                });
-            }
-            return state;
-        case ADD_BOX:
-            if (action.payload.ids.container.length && action.payload.ids.container.indexOf(ID_PREFIX_CONTAINED_VIEW) !== -1) {
-                return Object.assign({}, state, {
-                    [action.payload.ids.container]: Object.assign({}, state[action.payload.ids.container], {
-                        boxes: [...state[action.payload.ids.container].boxes, action.payload.ids.id]
-                    })
-                });
-            }
-            return state;
-        case DELETE_BOX:
-            let newState = Utils.deepClone(state);
-
-            if (action.payload.childrenViews) {
-                action.payload.childrenViews.map(view => {
-                    delete newState[view];
-                });
-            }
-
-            if (action.payload.container.length && action.payload.container.indexOf(ID_PREFIX_CONTAINED_VIEW) !== -1) {
-                newState[action.payload.container].boxes = newState[action.payload.container].boxes.filter(id => action.payload.id !== id);
-            }
-
-            return newState;
-        case DELETE_SORTABLE_CONTAINER:
-            newState = Utils.deepClone(state);
-
-            if (action.payload.childrenViews) {
-                action.payload.childrenViews.map(view => {
-                    delete newState[view];
-                });
-            }
-            return newState;
-        case DELETE_NAV_ITEM:
-            if (action.payload.containedViews) {
-                let newState = Utils.deepClone(state);
-                action.payload.containedViews.map(view => {
-                    delete newState[view];
-                });
-                return newState;
-            }
-            return state;
-        case IMPORT_STATE:
-            return action.payload.present.containedViewsById || state;
-        default:
-            return state;
-    }
-}
+import containedViews from './contained_views';
 
 function createAspectRatioButton(controls, config) {
     let arb = config.aspectRatioButtonConfig;
