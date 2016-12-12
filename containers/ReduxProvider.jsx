@@ -35,7 +35,6 @@ export default class ReduxProvider extends Component {
                 },
                 navItemsIds: ['se-1467887497411'],
                 navItemSelected: 'se-1467887497411',
-                boxesIds: ['bs-1467887497412'],
                 boxesById: {
                     'bs-1467887497412': {
                         id: "bs-1467887497412",

@@ -137,7 +137,6 @@ class DaliApp extends Component {
                         </Row>
                         <Row id="canvasRow" style={{height: 'calc(100% - '+ribbonHeight+'px)'}}>
                             <DaliCanvas boxes={boxes}
-                                        boxesIds={boxesIds}
                                         boxSelected={boxSelected}
                                         boxLevelSelected={boxLevelSelected}
                                         navItems={navItems}
@@ -587,7 +586,6 @@ function mapStateToProps(state) {
     return {
         title: state.present.title,
         boxes: state.present.boxesById,
-        boxesIds: state.present.boxesIds,
         boxSelected: state.present.boxSelected,
         boxLevelSelected: state.present.boxLevelSelected,
         navItemsIds: state.present.navItemsIds,

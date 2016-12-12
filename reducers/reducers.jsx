@@ -16,35 +16,6 @@ import boxLevelSelected from './box_level_selected';
 import boxSelected from './box_selected';
 import navItemsById from './nav_items_by_id';
 
-function boxesIds(state = [], action = {}) {
-    switch (action.type) {
-        case ADD_BOX:
-            return [...state, action.payload.ids.id];
-        case DUPLICATE_BOX:
-            let firstJoin = state;
-            firstJoin.push(ID_PREFIX_BOX + action.payload.newId);
-            let newIds = action.payload.newIds;
-            Object.keys(newIds).map((box)=> {
-                firstJoin.push(ID_PREFIX_BOX + newIds[box]);
-            });
-            return firstJoin;
-        case DELETE_BOX:
-            return state.filter(id => {
-                return id !== action.payload.id && (action.payload.children ? action.payload.children.indexOf(id) === -1 : true);
-            });
-        case DELETE_SORTABLE_CONTAINER:
-            return state.filter(id => action.payload.children.indexOf(id) === -1);
-        case DELETE_NAV_ITEM:
-            return state.filter(id => {
-                return action.payload.boxes.indexOf(id) === -1;
-            });
-        case IMPORT_STATE:
-            return action.payload.present.boxes || state;
-        default:
-            return state;
-    }
-}
-
 function navItemsIds(state = [], action = {}) {
     switch (action.type) {
         case ADD_NAV_ITEM:
@@ -591,7 +562,6 @@ const GlobalState = undoable(combineReducers({
     boxesById: boxesById, //{0: box0, 1: box1}
     boxSelected: boxSelected, //0
     boxLevelSelected: boxLevelSelected, //0
-    boxesIds: boxesIds, //[0, 1]
     navItemsIds: navItemsIds, //[0, 1]
     navItemSelected: navItemSelected, // 0
     navItemsById: navItemsById, // {0: navItem0, 1: navItem1}
