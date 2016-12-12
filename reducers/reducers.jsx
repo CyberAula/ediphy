@@ -15,27 +15,7 @@ import boxesById from './boxes_by_id';
 import boxLevelSelected from './box_level_selected';
 import boxSelected from './box_selected';
 import navItemsById from './nav_items_by_id';
-
-function navItemsIds(state = [], action = {}) {
-    switch (action.type) {
-        case ADD_NAV_ITEM:
-            let temp = state.slice();
-            temp.splice(action.payload.position, 0, action.payload.id);
-            return temp;
-        case DELETE_NAV_ITEM:
-            let newState = state.slice();
-            action.payload.ids.forEach(id => {
-                newState.splice(newState.indexOf(id), 1);
-            });
-            return newState;
-        case REORDER_NAV_ITEM:
-            return action.payload.idsInOrder;
-        case IMPORT_STATE:
-            return action.payload.present.navItemsIds || state;
-        default:
-            return state;
-    }
-}
+import navItemsIds from './nav_items_ids';
 
 function navItemSelected(state = 0, action = {}) {
     switch (action.type) {
