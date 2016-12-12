@@ -8,7 +8,7 @@ export default {
 };
 
 export function isView(id) {
-    return id.length && (id.indexOf(ID_PREFIX_PAGE) !== -1 || id.indexOf(ID_PREFIX_SECTION) !== -1);
+    return isPage(id) || isSection(id);
 }
 
 export function isPage(id) {

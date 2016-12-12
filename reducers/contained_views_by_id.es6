@@ -1,5 +1,5 @@
 import {ADD_BOX, ADD_RICH_MARK, DELETE_BOX, DELETE_NAV_ITEM, DELETE_SORTABLE_CONTAINER, IMPORT_STATE} from './../actions';
-import Utils, {changeProp, deleteProps, isContainedView} from './../utils';
+import {changeProp, deleteProps, isContainedView} from './../utils';
 
 function singleContainedViewReducer(state = {}, action = {}) {
     switch (action.type) {
