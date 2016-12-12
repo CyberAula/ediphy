@@ -159,13 +159,10 @@ export default class CarrouselList extends Component {
             helper: 'clone',
             scroll: true,
             over: (event, ui) => {
-                $(event.target).css("border-left", "3px solid #F47920");
+                $(".carList").css("border-left", "3px solid #F47920");
             },
             out: (event, ui) => {
-                $(event.target).css("border-left", "none");
-            },
-            start: (event, ui) => {
-                $("#" + this.props.navItemSelected).css("opacity", "0.5");
+                $(".carList").css("border-left", "none");
             },
             stop: (event, ui) => {
                 // This is called when:
@@ -188,9 +185,6 @@ export default class CarrouselList extends Component {
                         newChildren
                     );
                 }
-
-                // Restore opacity of moving item
-                $("#" + this.props.navItemSelected).css("opacity", "1");
             },
             receive: (event, ui) => {
                 // This is called when an item is dragged from another item's children to this element's children
@@ -212,9 +206,6 @@ export default class CarrouselList extends Component {
                     calculateNewIdOrder(this.props.navItemsIds, newChildren, this.props.id, this.props.navItemSelected, this.props.navItems),
                     newChildren
                 );
-
-                // Restore opacity of moving item
-                $("#" + this.props.navItemSelected).css("opacity", "1");
             }
         });
     }
