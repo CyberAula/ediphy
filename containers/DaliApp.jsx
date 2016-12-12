@@ -25,7 +25,7 @@ import DaliNavBar from '../components/nav_bar/dali_nav_bar/DaliNavBar';
 import ServerFeedback from '../components/server_feedback/ServerFeedback';
 import RichMarksModal from '../components/rich_plugins/rich_marks_modal/RichMarksModal';
 import Dali from './../core/main';
-import {isSortableBox} from './../utils';
+import {isSortableBox, isSortableContainer} from './../utils';
 
 
 class DaliApp extends Component {
@@ -308,7 +308,7 @@ class DaliApp extends Component {
                             container: e.detail.ids.container
                         },
                         true,
-                        (!(e.detail.ids.container.length && e.detail.ids.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1)),
+                        !isSortableContainer(e.detail.ids.container),
                         e.detail.content,
                         e.detail.toolbar,
                         e.detail.config,

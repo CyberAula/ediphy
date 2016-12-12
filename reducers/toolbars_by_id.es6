@@ -1,8 +1,7 @@
 import {ADD_BOX, ADD_RICH_MARK, DELETE_BOX, DELETE_NAV_ITEM, DELETE_SORTABLE_CONTAINER, DUPLICATE_BOX,
     EDIT_RICH_MARK, RESIZE_BOX, RESIZE_SORTABLE_CONTAINER, TOGGLE_TEXT_EDITOR, UPDATE_BOX, UPDATE_TOOLBAR,
     VERTICALLY_ALIGN_BOX, IMPORT_STATE} from './../actions';
-import Utils, {changeProp, changeProps, deleteProps, isSortableBox} from './../utils';
-import {ID_PREFIX_SORTABLE_CONTAINER} from './../constants';
+import Utils, {changeProp, changeProps, deleteProps, isSortableBox, isSortableContainer} from './../utils';
 import i18n from 'i18next';
 
 function createAspectRatioButton(controls, config) {
@@ -19,7 +18,6 @@ function createAspectRatioButton(controls, config) {
         controls[arb.location[0]].accordions[arb.location[1]].accordions[arb.location[2]].buttons.__aspectRatio = button;
     }
 }
-
 function createRichAccordions(controls) {
     if (!controls.main) {
         controls.main = {
@@ -57,7 +55,6 @@ function createRichAccordions(controls) {
         };
     }
 }
-
 function createSortableButtons(controls) {
     if (!controls.main) {
         controls.main = {
@@ -123,7 +120,6 @@ function createSortableButtons(controls) {
         autoManaged: true
     };
 }
-
 function createFloatingBoxButtons(controls) {
     if (!controls.main) {
         controls.main = {
@@ -174,7 +170,6 @@ function createFloatingBoxButtons(controls) {
         autoManaged: true
     };
 }
-
 function createAliasButton(controls) {
     if (!controls.main) {
         controls.main = {
@@ -218,7 +213,7 @@ function toolbarCreator(state, action){
         toolbar.config.name = i18n.t('Container_');
     }
     // If contained in sortableContainer
-    if (action.payload.ids.container.length && action.payload.ids.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1) {
+    if (isSortableContainer(action.payload.ids.container)) {
         createSortableButtons(toolbar.controls);
     // If not contained (AKA floating box)
     } else if (!isSortableBox(action.payload.ids.id)) {

@@ -1,12 +1,11 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
-import {Input,Button, Tooltip, OverlayTrigger} from 'react-bootstrap';
+import {Button} from 'react-bootstrap';
 import interact from 'interact.js';
 import PluginPlaceholder from '../plugin_placeholder/PluginPlaceholder';
-import {ID_PREFIX_BOX, ID_PREFIX_SORTABLE_CONTAINER} from '../../../constants';
 import {ADD_BOX, UPDATE_BOX, RESIZE_BOX, EDIT_PLUGIN_TEXT} from '../../../actions';
 import Dali from './../../../core/main';
-import {isBox, isSortableBox, isView} from './../../../utils';
+import {isBox, isSortableBox, isView, isSortableContainer} from './../../../utils';
 
 require('./_daliBox.scss');
 
@@ -128,13 +127,13 @@ export default class DaliBox extends Component {
                 </div>
                 <div style={{display: box.resizable ? 'initial' : 'none'}}>
                     <div className="helpersResizable"
-                         style={{ left:  -cornerSize/2, top: -cornerSize/2, width: cornerSize, height: cornerSize, cursor: (!(box.container.length && box.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1) ? 'nw-resize' : 'move')}}></div>
+                         style={{ left:  -cornerSize/2, top: -cornerSize/2, width: cornerSize, height: cornerSize, cursor: (!isSortableContainer(box.container) ? 'nw-resize' : 'move')}}></div>
                     <div className="helpersResizable"
-                         style={{ right: -cornerSize/2, top: -cornerSize/2, width: cornerSize, height: cornerSize, cursor: (!(box.container.length && box.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1) ? 'ne-resize' : 'move')}}></div>
+                         style={{ right: -cornerSize/2, top: -cornerSize/2, width: cornerSize, height: cornerSize, cursor: (!isSortableContainer(box.container) ? 'ne-resize' : 'move')}}></div>
                     <div className="helpersResizable"
-                         style={{ left:  -cornerSize/2, bottom: -cornerSize/2, width: cornerSize, height: cornerSize, cursor: (!(box.container.length && box.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1) ? 'sw-resize' : 'move')}}></div>
+                         style={{ left:  -cornerSize/2, bottom: -cornerSize/2, width: cornerSize, height: cornerSize, cursor: (!isSortableContainer(box.container) ? 'sw-resize' : 'move')}}></div>
                     <div className="helpersResizable"
-                         style={{ right: -cornerSize/2, bottom: -cornerSize/2, width: cornerSize, height: cornerSize, cursor: (!(box.container.length && box.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1) ? 'se-resize' : 'move')}}></div>
+                         style={{ right: -cornerSize/2, bottom: -cornerSize/2, width: cornerSize, height: cornerSize, cursor: (!isSortableContainer(box.container) ? 'se-resize' : 'move')}}></div>
                 </div>
             </div>
             /* jshint ignore:end */
@@ -408,7 +407,7 @@ export default class DaliBox extends Component {
         }
 
         Dali.Plugins.get(toolbar.config.name).afterRender(this.refs.content, toolbar.state);
-        let dragRestrictionSelector = (box.container.length && box.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1) ? ".daliBoxSortableContainer, .drg" + box.container : "parent";
+        let dragRestrictionSelector = isSortableContainer(box.container) ? ".daliBoxSortableContainer, .drg" + box.container : "parent";
         interact(ReactDOM.findDOMNode(this))
             .draggable({
                 enabled: box.draggable,
@@ -419,7 +418,7 @@ export default class DaliBox extends Component {
                 autoScroll: true,
                 onstart: (event) => {
                     // If contained in smth different from ContainedCanvas (sortableContainer || PluginPlaceHolder), clone the node and hide the original
-                    if (box.container.length && box.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1) {
+                    if (isSortableContainer(box.container)) {
                         let original = event.target;
                         let parent = original;
                         //Find real parent to append clone
@@ -466,7 +465,7 @@ export default class DaliBox extends Component {
                     // Level has to be the same to drag a box, unless a sortableContainer is selected, then it should allow level 0 boxes
                     if ((box.level - this.props.boxLevelSelected) === 0 || (box.level === 0 && this.props.boxLevelSelected === -1)) {
                         // If box not in a sortableContainer or PluginPlaceHolder, just drag
-                        if (!(box.container.length && box.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1)) {
+                        if (!isSortableContainer(box.container)) {
                             let target = event.target;
 
                             target.style.left = (parseInt(target.style.left) || 0) + event.dx + 'px';
@@ -507,12 +506,12 @@ export default class DaliBox extends Component {
                     let actualTop = pos === 'relative' ? target.style.top : target.getAttribute('data-y');
                     let left = Math.max(Math.min(Math.floor(parseInt(actualLeft) / target.parentElement.offsetWidth * 100), 100), 0) + '%';
                     let top = Math.max(Math.min(Math.floor(parseInt(actualTop) / target.parentElement.offsetHeight * 100), 100), 0) + '%';
-                    target.style.left = box.container.length && box.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1 ? left : target.style.left;
-                    target.style.top = box.container.length && box.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1 ? top : target.style.top;
+                    target.style.left = isSortableContainer(box.container) ? left : target.style.left;
+                    target.style.top = isSortableContainer(box.container) ? top : target.style.top;
                     target.style.zIndex = 'initial';
 
                     // Delete clone and unhide original
-                    if (box.container.length && box.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1) {
+                    if (isSortableContainer(box.container)) {
                         let clone = document.getElementById('clone');
                         if (clone) {
                             clone.parentElement.removeChild(clone);
@@ -522,8 +521,8 @@ export default class DaliBox extends Component {
 
                     this.props.onBoxMoved(
                         this.props.id,
-                        box.container.length && box.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1 ? left : Math.max(parseInt(target.style.left), 0) + 'px',
-                        box.container.length && box.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1 ? top : Math.max(parseInt(target.style.top), 0) + 'px',
+                        isSortableContainer(box.container) ? left : Math.max(parseInt(target.style.left), 0) + 'px',
+                        isSortableContainer(box.container) ? top : Math.max(parseInt(target.style.top), 0) + 'px',
                         this.props.boxes[this.props.id].position.type
                     );
 
@@ -548,7 +547,7 @@ export default class DaliBox extends Component {
                             if (partialID && partialID.length > 0) {
                                 let hoverID = partialID[1];
                                 let box = this.props.boxes[this.props.id];
-                                if (box && box.container.length && box.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1) {
+                                if (box && isSortableContainer(box.container)) {
                                     let children = this.props.boxes[box.parent].sortableContainers[box.container].children;
                                     if (children.indexOf(hoverID) !== -1) {
                                         let newOrder = Object.assign([], children);
@@ -636,8 +635,8 @@ export default class DaliBox extends Component {
                     let height = Math.min(Math.floor(parseInt(target.style.height) / target.parentElement.offsetHeight * 100), 100) + '%';
                     this.props.onBoxResized(
                         this.props.id,
-                        box.container.length && box.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1 ? width : parseInt(target.style.width),
-                        box.container.length && box.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1 ? height : parseInt(target.style.height));
+                        isSortableContainer(box.container) ? width : parseInt(target.style.width),
+                        isSortableContainer(box.container) ? height : parseInt(target.style.height));
 
                     if (box.position.x !== target.style.left || box.position.y !== target.style.top) {
                         this.props.onBoxMoved(this.props.id, target.style.left, target.style.top, this.props.boxes[this.props.id].position.type);

@@ -1,8 +1,8 @@
-import Utils, {changeProp, changeProps, deleteProp, deleteProps, isSortableBox, isContainedView} from './../utils';
+import Utils, {changeProp, changeProps, deleteProp, deleteProps, isSortableBox, isContainedView, isSortableContainer} from './../utils';
 import {ADD_BOX, MOVE_BOX, DUPLICATE_BOX, RESIZE_BOX, UPDATE_BOX, DELETE_BOX, REORDER_SORTABLE_CONTAINER, DROP_BOX, ADD_RICH_MARK,
     RESIZE_SORTABLE_CONTAINER, DELETE_SORTABLE_CONTAINER, CHANGE_COLS, CHANGE_ROWS, CHANGE_SORTABLE_PROPS, REORDER_BOXES,
     DELETE_NAV_ITEM, IMPORT_STATE} from './../actions';
-import {ID_PREFIX_BOX, ID_PREFIX_SORTABLE_CONTAINER} from './../constants';
+import {ID_PREFIX_BOX} from './../constants';
 
 function boxCreator(state, action) {
     let position, width, height;
@@ -26,7 +26,7 @@ function boxCreator(state, action) {
         }
         height = 'auto';
     }
-    if (action.payload.ids.container.length && action.payload.ids.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1) {
+    if (isSortableContainer(action.payload.ids.container)) {
         position.x = 0;
         position.y = 0;
         position.type = 'relative';
@@ -126,7 +126,7 @@ function boxReducer(state = {}, action = {}) {
         case ADD_RICH_MARK:
             return changeProp(state, "containedViews", [...state.containedViews, action.payload.mark.connection.id]);
         case CHANGE_COLS:
-            if(action.payload.parent === state.id) {
+            if (action.payload.parent === state.id) {
                 return changeProp(state, "sortableContainers", sortableContainersReducer(state.sortableContainers, action));
             }
             return changeProps(
@@ -142,14 +142,14 @@ function boxReducer(state = {}, action = {}) {
         case CHANGE_SORTABLE_PROPS:
             return changeProp(state, "sortableContainers", sortableContainersReducer(state.sortableContainers, action));
         case CHANGE_ROWS:
-            if(action.payload.parent === state.id) {
+            if (action.payload.parent === state.id) {
                 return changeProp(state, "sortableContainers", sortableContainersReducer(state.sortableContainers, action));
             }
             return changeProp(
                 state,
                 "row",
                 state.row >= action.payload.distribution.length ?
-                    action.payload.distribution.length - 1 :
+                action.payload.distribution.length - 1 :
                     state.row
             );
         case DELETE_BOX:
@@ -322,7 +322,7 @@ export default function (state = {}, action = {}) {
     switch (action.type) {
         case ADD_BOX:
             // if box is contained in sortableContainer, add it aswell to its children
-            if (action.payload.ids.container.length && action.payload.ids.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1) {
+            if (isSortableContainer(action.payload.ids.container)) {
                 return changeProps(
                     state,
                     [
@@ -393,7 +393,7 @@ export default function (state = {}, action = {}) {
             temp = deleteProps(state, children.concat(action.payload.id));
 
             //If box is in sortableContainer, delete from its children aswell
-            if (action.payload.container.length && action.payload.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1) {
+            if (isSortableContainer(action.payload.container)) {
                 return changeProp(temp, action.payload.parent, boxReducer(state[action.payload.parent], action));
             }
             return temp;
