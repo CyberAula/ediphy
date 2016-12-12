@@ -145,10 +145,7 @@ export function CajasColorBis() {
 
         },
         showDiv: function (event, element, parent) {
-            console.log(arguments);
             var _div = element.getAttribute("data-iddiv");
-            console.log($( "div[id^='bloque']", parent));
-            console.log($('#'+_div, parent));
             $( "div[id^='bloque']", parent).slideUp( "fast", function() {});
             if($('#'+_div, parent).is(":visible")){
                 $('#'+_div, parent).slideUp( "slow", function() {});
