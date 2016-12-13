@@ -41,6 +41,11 @@ export default class DaliBox extends Component {
         let attrs = {};
         let classNames = "";
 
+        if(toolbar.config.needsTextEdition){
+            textareaStyle.textAlign = "left";
+            style.textAlign = "left";
+        }
+
         for (let tabKey in toolbar.controls) {
             for (let accordionKey in toolbar.controls[tabKey].accordions) {
                 let button;

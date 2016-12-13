@@ -7,6 +7,7 @@ export function BasicText(base) {
                 category: 'text',
                 needsConfigModal: false,
                 needsTextEdition: true,
+                initialWidth: '100%',
                 icon: 'format_color_text'
             };
         },

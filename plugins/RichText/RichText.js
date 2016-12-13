@@ -7,6 +7,7 @@ export function RichText(base) {
                 category: 'text',
                 needsConfigModal: false,
                 needsTextEdition: true,
+                initialWidth: '100%',
                 extraTextConfig: {
                     extraPlugins: "daliplugin"
                 },
