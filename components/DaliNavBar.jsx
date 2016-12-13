@@ -127,7 +127,23 @@ export default class DaliNavBar extends Component {
                     </Dropdown.Menu>
                 </Dropdown>
 
-                <div style={{float:'right', marginRight: '30px'}}>
+                <div className="navButtons">
+                    <button className="navButton"
+                            title="Undo"
+                            disabled={this.props.undoDisabled}
+                            onClick={() => this.props.undo()}>
+                        <i className="material-icons">undo</i>
+                        <br/>
+                        <span className="hideonresize">{i18n.t('Undone')}</span>
+                    </button>
+                    <button className="navButton"
+                            title="Redo"
+                            disabled={this.props.redoDisabled}
+                            onClick={() => this.props.redo()}>
+                        <i className="material-icons">redo</i>
+                        <br/>
+                        <span className="hideonresize">{i18n.t('Redone')}</span>
+                    </button>
                     <button className="navButton"
                             title={i18n.t('Save')}
                             disabled={this.props.undoDisabled }
@@ -137,14 +153,14 @@ export default class DaliNavBar extends Component {
                                 }}>
                         <i className="material-icons">save</i>
                         <br/>
-                        <span className="hideonresize" style={{fontSize: '12px'}}>{i18n.t('Save')}</span>
+                        <span className="hideonresize">{i18n.t('Save')}</span>
                     </button>
                     <button className="navButton"
                             title={i18n.t('Preview')}
                             disabled={this.props.undoDisabled || (this.props.navItemSelected && this.props.navItemSelected.indexOf(ID_PREFIX_SECTION) !== -1)}
                             onClick={() =>this.props.visor()}><i className="material-icons">visibility</i>
                         <br/>
-                        <span className="hideonresize" style={{fontSize: '12px'}}>{i18n.t('Preview')}</span>
+                        <span className="hideonresize">{i18n.t('Preview')}</span>
                     </button>
                 </div>
             </Col>

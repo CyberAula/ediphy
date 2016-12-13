@@ -54,6 +54,7 @@ export default class CarrouselList extends Component {
                                         <DaliIndexTitle
                                             id={id}
                                             title={this.props.navItems[id].name}
+                                            alt={this.props.navItems[id].name}
                                             index={this.props.navItems[this.props.navItems[id].parent].children.indexOf(id)+1+'.'}
                                             hidden={this.props.navItems[id].hidden}
                                             onTitleChange={this.props.onTitleChange}
