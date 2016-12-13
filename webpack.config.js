@@ -133,6 +133,6 @@ module.exports = {
             'window.jQuery': 'jquery'
         }, dependency_loader.getPluginProvider())), // Wraps module with variable and injects wherever it's needed
         new ZipBundlePlugin(), // Compile automatically zips
-        new LocalDependenciesPlugin()
+        //new LocalDependenciesPlugin()
     ]
 };

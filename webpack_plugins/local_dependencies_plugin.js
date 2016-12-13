@@ -7,7 +7,7 @@ function LocalDependenciesPlugin(){
 
 
 LocalDependenciesPlugin.prototype.apply = function(compiler){
-	compiler.plugin("compilation",function(compilation,callback){
+	compiler.plugin("after-emit",function(compilation,callback){
 		async.series([
 			function(callback){
 				glob("./plugins/*/package.json", function(err,files){
