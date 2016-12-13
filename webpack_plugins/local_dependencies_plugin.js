@@ -7,7 +7,7 @@ function LocalDependenciesPlugin(){
 
 
 LocalDependenciesPlugin.prototype.apply = function(compiler){
-	compiler.plugin("compile",function(compilation,callback){
+	compiler.plugin("compilation",function(compilation,callback){
 		async.series([
 			function(callback){
 				glob("./plugins/*/package.json", function(err,files){
@@ -22,7 +22,7 @@ LocalDependenciesPlugin.prototype.apply = function(compiler){
 					}
 					callback("dependencies", dependencies_array)
 				});
-			
+
 			},
 
 			],function(err, results){
@@ -36,7 +36,7 @@ LocalDependenciesPlugin.prototype.apply = function(compiler){
 					loader_string += "}};";
 					fs.writeFile("./plugins/plugin_dependencies_loader.js", loader_string);
 				});
-				
+
 		});
 	});
 };
