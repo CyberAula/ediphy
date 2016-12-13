@@ -358,9 +358,9 @@ class DaliApp extends Component {
 
             ids.map(id => {
                 let toolbar = this.props.toolbars[id];
-                if (e.detail.getAliasedPugins) {
+                if (e.detail.getAliasedPlugins) {
                     if (!isSortableBox(id)) {
-                        let button = toolbar.controls.other.accordions.__extra.buttons.alias;
+                        let button = toolbar.controls.main.accordions.__extra.buttons.alias;
                         if (button.value.length !== 0) {
                             if (!plugins[toolbar.config.name]) {
                                 plugins[toolbar.config.name] = [];
@@ -369,7 +369,7 @@ class DaliApp extends Component {
                         }
                     }
                 } else {
-                    if (!plugins[toolbar.config.name]) {
+                    if (plugins[toolbar.config.name]) {
                         plugins[toolbar.config.name] = true;
                     }
                 }

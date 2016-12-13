@@ -143,7 +143,7 @@ export default class PluginToolbar extends Component {
                             <div className="toolbarTitle"><i className="material-icons">settings</i><span
                                 className="toolbarTitletxt">{i18n.t('Properties')}</span></div>
                             <div
-                                className="pluginTitleInToolbar"> {toolbar.config.displayName || toolbar.config.name || ""}</div>
+                                className="pluginTitleInToolbar"> {toolbar.config.displayName || ""}</div>
                         </div>
                     </OverlayTrigger>
                     <div id="insidetools" style={{display: this.state.open? 'block':'none'}}>

@@ -32,8 +32,8 @@
         parent = navs[parent].parent;
     }
 %>
-<div style="visibility: visible; display: inherit;" class="caja">
-    <div class="cab" style="display: <%=(navs[page].titlesReduced == 'hidden')?'none':'inherit' %>;">
+<div style="visibility: visible; overflow: auto; display: <%=(navs[page].titleMode == 'hidden')?'none':'inherit' %>;" class="caja">
+    <div class="cab" style="display: <%=(navs[page].titleMode == 'hidden')?'none':'inherit' %>;">
         <div class="cabtabla_numero"><%=navs[page].unitNumber%></div>
         <div class="tit_ud_cap">
             <h1><%=title%></h1>
