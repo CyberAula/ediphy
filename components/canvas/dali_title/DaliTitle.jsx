@@ -66,12 +66,12 @@ export default class DaliTitle extends Component {
                         titles.map((item, index) => {
                             //console.log(titles);
                             if (index !== 0 && index !== titles.length - 1) {
-                                return React.createElement(BreadcrumbItem, {key: index}, this.getActualIndex(titles.length, index) + item);
+                                return React.createElement(BreadcrumbItem, {key: index}, /*this.getActualIndex(titles.length, index) + */item);
                             }
                         })
                     )
                 ),
-                React.createElement("h4", {style: {margin: 0}}, this.getActualIndex() + actualTitle)
+                React.createElement("h4", {style: {margin: 0}}, /*this.getActualIndex() + */actualTitle)
             );
 
         } else if (currentStatus === 'expanded') {
@@ -86,7 +86,7 @@ export default class DaliTitle extends Component {
                         return React.createElement("h" + nivel, {
                             key: index,
                             style: {marginTop: '16px'}
-                        }, this.getActualIndex(titles_length, index) + text);
+                        }, /*this.getActualIndex(titles_length, index) + */text);
                     }
                 })
             );
