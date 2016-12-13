@@ -1,11 +1,25 @@
 import React, {Component} from 'react';
+import {isPage, isSection} from './../../../utils';
 import {FormGroup, ControlLabel, FormControl} from 'react-bootstrap';
 import ReactDOM from 'react-dom';
 import Dali from './../../../core/main';
+import i18n from 'i18next';
+
 
 require('./_daliIndexTitle.scss');
 
 export default class DaliIndexTitle extends Component {
+
+    getDefaultValue(){
+        if (isPage(this.props.id)){
+            return i18n.t("page");
+        } else if(isSection(this.props.id)){
+            return i18n.t("section");
+        } else {
+            return "Blank";
+        }
+    }
+
     constructor(props) {
         super(props);
         this.state = {
@@ -41,7 +55,7 @@ export default class DaliIndexTitle extends Component {
                     onKeyDown={e=> {
                         if (e.keyCode == 13) { // Enter Key
                             this.setState({ editing: !this.state.editing });
-                            this.props.onNameChanged(this.props.id, this.state.currentValue);
+                            this.props.onNameChanged(this.props.id, (this.state.currentValue.length > 0) ? this.state.currentValue : this.getDefaultValue());
                         }
                         if (e.keyCode == 27) { // Escape key
                             this.setState({editing: !this.state.editing});
@@ -50,6 +64,7 @@ export default class DaliIndexTitle extends Component {
                     onFocus={e => {
                         /*Select all the content when enter edition mode*/
                         e.target.setSelectionRange(0, e.target.value.length);
+
                     }}
                     onChange={e => {
                         /*Save it on component state, not Redux*/
@@ -62,7 +77,35 @@ export default class DaliIndexTitle extends Component {
                     }} />
                 )
             }
+<<<<<<< HEAD
             </span>
+=======
+                {this.props.id
+                    ?
+                    <i className="material-icons editIndexTitleIcon"
+                       onClick={e => {
+                            this.props.onNavItemToggled(this.props.id);
+                            e.stopPropagation();
+                       }}>{this.props.hidden ? "visibility_off" : "visibility"}</i>
+                    :
+                    null
+                }
+                <i className="material-icons editIndexTitleIcon"
+                   onMouseDown={e => {
+                        e.preventDefault();
+                   }}
+                   onClick={e => {
+                        this.setState({ editing: !this.state.editing });
+                        if (this.state.editing) { /*Save changes to Redux state*/
+                            this.props.onNameChanged(this.props.id, (this.state.currentValue.length > 0) ? this.state.currentValue : this.getDefaultValue());
+                        } else { /*Synchronize current component state with Redux state when entering edition mode*/
+                            this.setState({currentValue: this.props.title});
+                        }
+                }}>
+                    {this.state.editing ? 'check' : 'edit'  /*ICON*/}
+                </i>
+        </span>
+>>>>>>> 93aea8af01e7552535b0a0b0404cd32ecfd29980
             /* jshint ignore:end */
         );
     }
