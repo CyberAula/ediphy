@@ -62,7 +62,7 @@ export default class DaliCanvas extends Component {
                                    onShowTitle={()=>this.setState({showTitle:true})}
                                    onBoxSelected={this.props.onBoxSelected}
                                    courseTitle={this.props.title}
-                                   isReduced={this.props.navItemSelected.titlesReduced}
+                                   titleMode={this.props.navItemSelected.titleMode}
                                    navItem={this.props.navItemSelected}
                                    navItems={this.props.navItems}
                                    titleModeToggled={this.props.titleModeToggled}
@@ -77,7 +77,6 @@ export default class DaliCanvas extends Component {
                             onTextEditorToggled={this.props.onTextEditorToggled}
                             onBoxResized={this.props.onBoxResized}
                             onBoxDeleted={this.props.onBoxDeleted}
-                            onSortableContainerDeleted={this.props.onSortableContainerDeleted}
                             toolbar={this.props.toolbars[this.props.boxSelected]}/>
 
                         <div style={{

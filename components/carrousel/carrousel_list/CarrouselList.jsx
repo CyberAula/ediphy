@@ -29,7 +29,7 @@ export default class CarrouselList extends Component {
                                             navItemsIds={this.props.navItemsIds}
                                             navItems={this.props.navItems}
                                             navItemSelected={this.props.navItemSelected}
-                                            onTitleChange={this.props.onTitleChange}
+                                            onNavItemNameChanged={this.props.onNavItemNameChanged}
                                             onNavItemAdded={this.props.onNavItemAdded}
                                             onBoxAdded={this.props.onBoxAdded}
                                             onNavItemSelected={this.props.onNavItemSelected}
@@ -58,7 +58,7 @@ export default class CarrouselList extends Component {
                                         title={this.props.navItems[id].name}
                                         index={this.props.navItems[this.props.navItems[id].parent].children.indexOf(id) + 1 + '.'}
                                         hidden={this.props.navItems[id].hidden}
-                                        onTitleChange={this.props.onTitleChange}
+                                        onNameChanged={this.props.onNavItemNameChanged}
                                         onNavItemToggled={this.props.onNavItemToggled}/></span>
                             </h4>
                         }
@@ -102,7 +102,7 @@ export default class CarrouselList extends Component {
                                 <Button className="popoverButton"
                                     disabled={this.props.navItemSelected === 0}
                                     style={{float: 'right'}}
-                                    onClick={(e) => this.props.onNavItemRemoved()}>
+                                    onClick={(e) => this.props.onNavItemDeleted()}>
                                     {i18n.t("Accept")}
                                 </Button>
                                 <Button className="popoverButton"
@@ -155,15 +155,14 @@ export default class CarrouselList extends Component {
         list.sortable({
             connectWith: '.connectedSortables',
             containment: '.carList',
+            appendTo: '.carList',
+            helper: 'clone',
             scroll: true,
             over: (event, ui) => {
-                $(event.target).css("border-left", "3px solid #F47920");
+                $(".carList").css("border-left", "3px solid #F47920");
             },
             out: (event, ui) => {
-                $(event.target).css("border-left", "none");
-            },
-            start: (event, ui) => {
-                $("#" + this.props.navItemSelected).css("opacity", "0.5");
+                $(".carList").css("border-left", "none");
             },
             stop: (event, ui) => {
                 // This is called when:
@@ -186,13 +185,15 @@ export default class CarrouselList extends Component {
                         newChildren
                     );
                 }
-
-                // Restore opacity of moving item
-                $("#" + this.props.navItemSelected).css("opacity", "1");
             },
             receive: (event, ui) => {
                 // This is called when an item is dragged from another item's children to this element's children
                 let newChildren = list.sortable('toArray', {attribute: 'id'});
+
+                // If action is done very quickly, jQuery may not notice the update and not detect that a new child was dragged
+                if(newChildren.indexOf(this.props.navItemSelected) === -1){
+                    newChildren.push(this.props.navItemSelected);
+                }
 
                 // This is necessary in order to avoid that JQuery touches the DOM
                 // It has to be BEFORE action is dispatched and React tries to repaint
@@ -205,9 +206,6 @@ export default class CarrouselList extends Component {
                     calculateNewIdOrder(this.props.navItemsIds, newChildren, this.props.id, this.props.navItemSelected, this.props.navItems),
                     newChildren
                 );
-
-                // Restore opacity of moving item
-                $("#" + this.props.navItemSelected).css("opacity", "1");
             }
         });
     }

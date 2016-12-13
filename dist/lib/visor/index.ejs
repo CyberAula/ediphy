@@ -33,8 +33,8 @@
         parent = navs[parent].parent;
     }
 %>
-<div style="visibility: visible; overflow: auto; display: <%=(navs[page].titlesReduced == 'hidden')?'none':'inherit' %>;" class="caja">
-    <div class="cab" style="display: <%=(navs[page].titlesReduced == 'hidden')?'none':'inherit' %>;">
+<div style="visibility: visible; overflow: auto; display: <%=(navs[page].titleMode == 'hidden')?'none':'inherit' %>;" class="caja">
+    <div class="cab" style="display: <%=(navs[page].titleMode == 'hidden')?'none':'inherit' %>;">
         <div class="cabtabla_numero"><%=navs[page].unitNumber%></div>
         <div class="tit_ud_cap">
             <h1><%=title%></h1>
@@ -60,7 +60,7 @@
             alltitles.push(navs[place].unitNumber +"." +  navs[place].name);
             alltitles.reverse();
         }
-        if(navs[page].titlesReduced =='reduced') {
+        if(navs[page].titleMode =='reduced') {
             var titles = alltitles;
             var actualTitle = titles.pop();
             unidad=titles[0];
@@ -76,7 +76,7 @@
             </h3>
             <h4 style="margin: 0"><%=actualTitle%></h4>
         </div>
-        <%}else if(navs[page].titlesReduced=='expanded') {
+        <%}else if(navs[page].titleMode=='expanded') {
             var titlesComponents = "";
             alltitles.map(function(text, index){
                 if (index == 0) {

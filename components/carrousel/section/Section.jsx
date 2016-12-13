@@ -40,7 +40,7 @@ export default class Section extends Component {
                                                 navItem.unitNumber + ". " :
                                                 this.props.navItems[navItem.parent].children.indexOf(this.props.id) + 1 + '. '}
                                             hidden={navItem.hidden}
-                                            onTitleChange={this.props.onTitleChange}
+                                            onNameChanged={this.props.onNavItemNameChanged}
                                             onNavItemToggled={this.props.onNavItemToggled}/>
                         </span>
                     </span>
@@ -60,7 +60,7 @@ export default class Section extends Component {
                                             navItemSelected={this.props.navItemSelected}
                                             onBoxAdded={this.props.onBoxAdded}
                                             onNavItemAdded={this.props.onNavItemAdded}
-                                            onTitleChange={this.props.onTitleChange}
+                                            onNavItemNameChanged={this.props.onNavItemNameChanged}
                                             onNavItemSelected={this.props.onNavItemSelected}
                                             onNavItemExpanded={this.props.onNavItemExpanded}
                                             onNavItemReordered={this.props.onNavItemReordered}
@@ -87,7 +87,7 @@ export default class Section extends Component {
                                                             index={this.props.navItems[this.props.navItems[id].parent].children.indexOf(id)+1+'.'}
                                                             title={this.props.navItems[id].name}
                                                             hidden={this.props.navItems[id].hidden}
-                                                            onTitleChange={this.props.onTitleChange}
+                                                            onNameChanged={this.props.onNavItemNameChanged}
                                                             onNavItemToggled={this.props.onNavItemToggled}/>
                                         </span>
                                 </h4>
@@ -105,6 +105,8 @@ export default class Section extends Component {
         list.sortable({
             connectWith: '.connectedSortables',
             containment: '.carList',
+            appendTo: '.carList',
+            helper: 'clone',
             scroll: true,
             over: (event, ui) => {
                 $(".carList").css("border-left", "none");
@@ -115,9 +117,6 @@ export default class Section extends Component {
                 $(".carList").css("border-left", "none");
                 $(".sectionList").removeClass("dragIntoHelper");
             },
-            start: (event, ui) => {
-                $("#" + this.props.navItemSelected).css("opacity", "0.5");
-            },
             stop: (event, ui) => {
                 // This is called when:
                 // - An item is dragged from this items's children to another item
@@ -127,7 +126,7 @@ export default class Section extends Component {
                 if(!list.sortable('instance')){
                     return;
                 }
-                const newChildren = list.sortable('toArray', {attribute: 'id'});
+                let newChildren = list.sortable('toArray', {attribute: 'id'});
 
                 // If item moved is still in this element's children (wasn't moved away) -> update
                 if (newChildren.indexOf(this.props.navItemSelected) !== -1) {
@@ -144,9 +143,6 @@ export default class Section extends Component {
                         newChildren
                     );
                 }
-
-                // Restore opacity of moving item
-                $("#" + this.props.navItemSelected).css("opacity", "1");
             },
             receive: (event, ui) => {
                 // This is called when an item is dragged from another item's children to this element's children
@@ -163,15 +159,11 @@ export default class Section extends Component {
                     calculateNewIdOrder(this.props.navItemsIds, newChildren, this.props.id, this.props.navItemSelected, this.props.navItems),
                     newChildren
                 );
-
-                // Restore opacity of moving item
-                $("#" + this.props.navItemSelected).css("opacity", "1");
             }
         });
     }
 
     componentWillUnmount(){
-        console.log("unmounting " + this.props.id);
         jQuery(this.refs.sortableList).sortable("destroy");
     }
 }

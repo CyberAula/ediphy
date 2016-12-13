@@ -26,7 +26,7 @@ export default class Thumbnail extends Component {
                                         let found = this.findChildren(ids);
                                         let boxes = this.findBoxes(found);
                             
-                                        this.props.onNavItemRemoved(ids, this.props.navItems[this.props.id].parent, boxes);
+                                        this.props.onNavItemDeleted(ids, this.props.navItems[this.props.id].parent, boxes);
                                         e.stopPropagation();
                                     }
                                 }><i className="fa fa-trash-o"></i></Button>

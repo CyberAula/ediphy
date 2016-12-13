@@ -2,12 +2,12 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {ActionCreators} from 'redux-undo';
 import {Grid, Col, Row, Button, OverlayTrigger, Popover} from 'react-bootstrap';
-import {addNavItem, selectNavItem, expandNavItem, removeNavItem, reorderNavItem, toggleNavItem, updateNavItemExtraFiles,
-    changeSectionTitle, changeUnitNumber,
+import {addNavItem, selectNavItem, expandNavItem, deleteNavItem, reorderNavItem, toggleNavItem, updateNavItemExtraFiles,
+    changeNavItemName, changeUnitNumber,
     addBox, changeTitle, selectBox, moveBox, resizeBox, updateBox, duplicateBox, deleteBox, reorderSortableContainer, dropBox, increaseBoxLevel,
     resizeSortableContainer, deleteSortableContainer, changeCols, changeRows, changeSortableProps, reorderBoxes, verticallyAlignBox,
     toggleTextEditor, toggleTitleMode,
-    changeDisplayMode, updateToolbar, collapseToolbar,
+    changeDisplayMode, updateToolbar,
     exportStateAsync, importStateAsync,
     fetchVishResourcesSuccess, fetchVishResourcesAsync, uploadVishResourceAsync,
     selectContainedView,
@@ -25,7 +25,7 @@ import DaliNavBar from '../components/nav_bar/dali_nav_bar/DaliNavBar';
 import ServerFeedback from '../components/server_feedback/ServerFeedback';
 import RichMarksModal from '../components/rich_plugins/rich_marks_modal/RichMarksModal';
 import Dali from './../core/main';
-import {isSortableBox} from './../utils';
+import {isSortableBox, isSortableContainer} from './../utils';
 
 
 class DaliApp extends Component {
@@ -60,7 +60,7 @@ class DaliApp extends Component {
                                 redoDisabled={redoDisabled}
                                 navItemsIds={navItemsIds}
                                 title={title}
-                                changeTitle={(id, title) => {this.dispatchAndSetState(changeTitle(title))}}
+                                onTitleChanged={(id, title) => {this.dispatchAndSetState(changeTitle(title))}}
                                 navItemSelected={navItemSelected}
                                 boxSelected={boxSelected}
                                 undo={() => {this.dispatchAndSetState(ActionCreators.undo())}}
@@ -81,11 +81,11 @@ class DaliApp extends Component {
                                   navItemSelected={navItemSelected}
                                   displayMode={displayMode}
                                   onBoxAdded={(ids, draggable, resizable, content, toolbar, config, state) => this.dispatchAndSetState(addBox(ids, draggable, resizable, content, toolbar, config, state))}
-                                  onTitleChange={(id, title) => this.dispatchAndSetState(changeSectionTitle(id,title))}
+                                  onNavItemNameChanged={(id, title) => this.dispatchAndSetState(changeNavItemName(id,title))}
                                   onNavItemAdded={(id, name, parent, type, position) => this.dispatchAndSetState(addNavItem(id, name, parent, type, position))}
                                   onNavItemSelected={id => this.dispatchAndSetState(selectNavItem(id))}
                                   onNavItemExpanded={(id, value) => this.dispatchAndSetState(expandNavItem(id, value))}
-                                  onNavItemRemoved={() => {
+                                  onNavItemDeleted={() => {
                                     let viewRemoving = [navItemSelected].concat(this.getDescendantViews(navItems[navItemSelected]));
                                     let boxesRemoving = [];
                                     let containedRemoving = [];
@@ -96,7 +96,7 @@ class DaliApp extends Component {
                                             containedRemoving = containedRemoving.concat(this.getDescendantContainedViews(boxes[boxId]));
                                         });
                                     });
-                                    this.dispatchAndSetState(removeNavItem(viewRemoving, navItems[navItemSelected].parent, boxesRemoving, containedRemoving))
+                                    this.dispatchAndSetState(deleteNavItem(viewRemoving, navItems[navItemSelected].parent, boxesRemoving, containedRemoving))
                                   }}
                                   onNavItemReordered={(id, newParent, oldParent, idsInOrder, childrenInOrder) => this.dispatchAndSetState(reorderNavItem(id, newParent, oldParent, idsInOrder, childrenInOrder))}
                                   onNavItemToggled={ id => this.dispatchAndSetState(toggleNavItem(id)) }
@@ -137,7 +137,6 @@ class DaliApp extends Component {
                         </Row>
                         <Row id="canvasRow" style={{height: 'calc(100% - '+ribbonHeight+'px)'}}>
                             <DaliCanvas boxes={boxes}
-                                        boxesIds={boxesIds}
                                         boxSelected={boxSelected}
                                         boxLevelSelected={boxLevelSelected}
                                         navItems={navItems}
@@ -232,8 +231,8 @@ class DaliApp extends Component {
                                fetchResults={fetchVishResults}
                                onNavItemSelected={id => this.dispatchAndSetState(selectNavItem(id))}
                                onContainedViewSelected={id => this.dispatchAndSetState(selectContainedView(id))}
-                               onColsChanged={(id, parent, distribution) => this.dispatchAndSetState(changeCols(id, parent, distribution))}
-                               onRowsChanged={(id, parent, column, distribution) => this.dispatchAndSetState(changeRows(id, parent, column, distribution))}
+                               onColsChanged={(id, parent, distribution, boxesAffected) => this.dispatchAndSetState(changeCols(id, parent, distribution, boxesAffected))}
+                               onRowsChanged={(id, parent, column, distribution, boxesAffected) => this.dispatchAndSetState(changeRows(id, parent, column, distribution, boxesAffected))}
                                onBoxResized={(id, width, height) => this.dispatchAndSetState(resizeBox(id, width, height))}
                                onBoxMoved={(id, x, y, position) => this.dispatchAndSetState(moveBox(id, x, y, position))}
                                onVerticallyAlignBox={(id, verticalAlign) => this.dispatchAndSetState(verticallyAlignBox(id, verticalAlign))}
@@ -242,7 +241,6 @@ class DaliApp extends Component {
                                onSortableContainerDeleted={(id, parent) => this.dispatchAndSetState(deleteSortableContainer(id, parent, this.getDescendantBoxesFromContainer(boxes[parent], id), this.getDescendantContainedViewsFromContainer(boxes[parent], id)))}
                                onSortablePropsChanged={(id, parent, prop, value) => this.dispatchAndSetState(changeSortableProps(id, parent, prop, value))}
                                onToolbarUpdated={(id, tab, accordion, name, value) => this.dispatchAndSetState(updateToolbar(id, tab, accordion, name, value))}
-                               onToolbarCollapsed={(id) => this.dispatchAndSetState(collapseToolbar(id))}
                                onBoxDuplicated={(id, parent, container)=> this.dispatchAndSetState( duplicateBox( id, parent, container, this.getDescendantBoxes(boxes[id]), this.getDuplicatedBoxesIds(this.getDescendantBoxes(boxes[id]) ), Date.now()-1 ))}
                                onBoxDeleted={(id, parent, container)=> this.dispatchAndSetState(deleteBox(id, parent, container, this.getDescendantBoxes(boxes[id]), this.getDescendantContainedViews(boxes[id])))}
                                onXMLEditorToggled={() => this.setState({xmlEditorVisible: !this.state.xmlEditorVisible})}
@@ -310,7 +308,7 @@ class DaliApp extends Component {
                             container: e.detail.ids.container
                         },
                         true,
-                        (!(e.detail.ids.container.length && e.detail.ids.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1)),
+                        !isSortableContainer(e.detail.ids.container),
                         e.detail.content,
                         e.detail.toolbar,
                         e.detail.config,
@@ -354,9 +352,9 @@ class DaliApp extends Component {
 
             ids.map(id => {
                 let toolbar = this.props.toolbars[id];
-                if (e.detail.getAliasedPugins) {
+                if (e.detail.getAliasedPlugins) {
                     if (!isSortableBox(id)) {
-                        let button = toolbar.controls.other.accordions.__extra.buttons.alias;
+                        let button = toolbar.controls.main.accordions.__extra.buttons.alias;
                         if (button.value.length !== 0) {
                             if (!plugins[toolbar.config.name]) {
                                 plugins[toolbar.config.name] = [];
@@ -365,7 +363,7 @@ class DaliApp extends Component {
                         }
                     }
                 } else {
-                    if (!plugins[toolbar.config.name]) {
+                    if (plugins[toolbar.config.name]) {
                         plugins[toolbar.config.name] = true;
                     }
                 }
@@ -587,7 +585,6 @@ function mapStateToProps(state) {
     return {
         title: state.present.title,
         boxes: state.present.boxesById,
-        boxesIds: state.present.boxesIds,
         boxSelected: state.present.boxSelected,
         boxLevelSelected: state.present.boxLevelSelected,
         navItemsIds: state.present.navItemsIds,

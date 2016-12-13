@@ -30,12 +30,11 @@ export default class ReduxProvider extends Component {
                         level: 1,
                         type: "",
                         extraFiles: {},
-                        titlesReduced: "expanded"
+                        titleMode: "expanded"
                     }
                 },
                 navItemsIds: ['se-1467887497411'],
                 navItemSelected: 'se-1467887497411',
-                boxesIds: ['bs-1467887497412'],
                 boxesById: {
                     'bs-1467887497412': {
                         id: "bs-1467887497412",
@@ -62,11 +61,15 @@ export default class ReduxProvider extends Component {
                 toolbarsById: {
                     'bs-1467887497412': {
                         id: "bs-1467887497412",
-                        state: undefined,
-                        controls: {},
-                        config: {name: i18n.t('Container')},
-                        showTextEditor: false,
-                        isCollapsed: false
+                        state: {},
+                        controls: {
+                            main: {
+                                __name: "Main",
+                                accordions: {}
+                            }
+                        },
+                        config: {displayName: i18n.t('Container_')},
+                        showTextEditor: false
                     }
                 }
             }

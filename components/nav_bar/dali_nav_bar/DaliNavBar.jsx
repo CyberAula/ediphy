@@ -54,7 +54,7 @@ export default class DaliNavBar extends Component {
                      */}
                     <DaliIndexTitle className="tituloCurso"
                                     title={this.props.title}
-                                    onTitleChange={this.props.changeTitle}/>
+                                    onNameChanged={this.props.onTitleChanged}/>
                 </div>
 
                 <button
