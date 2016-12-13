@@ -130,28 +130,30 @@ export default {
         if(sections[actual_child].children.length !== 0){
             while(sections[actual_child].children.length > 0){
                 let iteration_child = sections[actual_child].children.shift();
-                if(iteration_child.indexOf(ID_PREFIX_SECTION) !== -1){
-                    branch_elements.push(this.xmlOrganizationBranch(root_child,iteration_child, sections, doc,resource_elements));
+                if(iteration_child.indexOf(ID_PREFIX_SECTION) !== -1 ){
+                    if(!sections[iteration_child].hidden){
+                        branch_elements.push(this.xmlOrganizationBranch(root_child,iteration_child, sections, doc,resource_elements));
+                    }
                 } else{
+                    if(!sections[iteration_child].hidden){
+                        let actual_section =  iteration_child;
 
-                    let actual_section =  iteration_child;
+                        let element = doc.createElement("item");
+                        element.setAttribute("identifier", this.santinize_id(sections[actual_section].id) + "_item");
+                        element.setAttribute("identifierref", this.santinize_id(sections[actual_section].id) + "_resource");
+                        let element_title = doc.createElement("title");
+                        let element_text = doc.createTextNode(sections[actual_section].name);
+                        element_title.appendChild(element_text);
+                        element.appendChild(element_title);
 
-                    let element = doc.createElement("item");
-                    element.setAttribute("identifier", this.santinize_id(sections[actual_section].id) + "_item");
-                    element.setAttribute("identifierref", this.santinize_id(sections[actual_section].id) + "_resource");
-                    let element_title = doc.createElement("title");
-                    let element_text = doc.createTextNode(sections[actual_section].name);
-                    element_title.appendChild(element_text);
-                    element.appendChild(element_title);
-
-                    resource_elements.push({
+                        resource_elements.push({
                             path: "unit"+ sections[actual_section].unitNumber + "/" + this.santinize_id(sections[actual_section].id)+".html",
                             id: sections[actual_section].id
                         });
 
 
-                    branch_elements.push(element);
-
+                        branch_elements.push(element);
+                    }
                 }
             }
         }
