@@ -189,34 +189,6 @@ export default class CarrouselList extends Component {
         return ids.length;
     }
 
-
-    findDescendantNavItems(state, element) {
-        let family = [element];
-        state[element].children.forEach(child => {
-            family = family.concat(this.findDescendantNavItems(state, child));
-        });
-        return family;
-    }
-
-    calculateNewIdOrder(oldArray, newChildren, itemMoved) {
-        let itemsToChange = this.findDescendantNavItems(this.props.navItems, itemMoved);
-        let oldArrayFiltered = oldArray.filter(id => itemsToChange.indexOf(id) === -1);
-
-        // This is the index where we split the array to add the items we're moving
-        // We calculate the position of the next child item after itemMoved
-        let splitIndex = oldArrayFiltered.indexOf(newChildren[newChildren.indexOf(itemMoved) + 1]);
-        let newArray;
-        // This means that itemMoved went to last position
-        if (splitIndex === -1) {
-            newArray = oldArrayFiltered.concat(itemsToChange);
-        } else {
-            newArray = oldArrayFiltered.slice(0, splitIndex);
-            newArray = newArray.concat(itemsToChange);
-            newArray = newArray.concat(oldArrayFiltered.slice(splitIndex));
-        }
-        return newArray;
-    }
-
     componentDidMount() {
         let list = jQuery(this.refs.sortableList);
         let props = this.props;
