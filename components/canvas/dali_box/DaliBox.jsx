@@ -53,7 +53,7 @@ export default class DaliBox extends Component {
                     button = toolbar.controls[tabKey].accordions[accordionKey].buttons[buttonKey];
                     if (button.autoManaged) {
                         if (!button.isAttribute) {
-                            if(buttonKey === 'className'){
+                            if(buttonKey === 'className' && button.value){
                                 classNames += button.value;
                             }else if (buttonKey !== 'width' && buttonKey !== 'height') {
                                 style[buttonKey] = button.value;
@@ -77,7 +77,7 @@ export default class DaliBox extends Component {
                             button = toolbar.controls[tabKey].accordions[accordionKey].accordions[accordionKey2].buttons[buttonKey];
                             if (button.autoManaged) {
                                 if (!button.isAttribute) {
-                                    if(buttonKey === 'className'){
+                                    if(buttonKey === 'className' && button.value){
                                         classNames += button.value;
                                     }else if (buttonKey !== 'width' && buttonKey !== 'height') {
                                         style[buttonKey] = button.value;
