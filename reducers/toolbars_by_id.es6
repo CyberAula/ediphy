@@ -202,8 +202,10 @@ function toolbarCreator(state, action){
     let toolbar = {
         id: action.payload.ids.id,
         controls: action.payload.toolbar || {
-            __name: "Main",
-            accordions: {}
+            main: {
+                __name: "Main",
+                accordions: {}
+            }
         },
         config: action.payload.config || {},
         state: action.payload.state || {},
