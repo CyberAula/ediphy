@@ -27,16 +27,17 @@ export default class PluginRibbon extends Component {
                 <div id="insideribbon" className="row">
                     <div id="ribbonList">
                         {this.state.buttons.map((item, index) => {
-                            if (this.state.buttons[index].category === this.props.category || this.props.category == 'all') {
-                                var clase = "" + this.state.buttons[index].icon;
+                            let button = this.state.buttons[index];
+                            if (button.category === this.props.category || this.props.category == 'all') {
+                                var clase = "" + button.icon;
                                 return (<div key={index} className="buttonPlace">
-                                    <Button className="rib"
+                                    <Button className={"rib " + (button.allowFloatingBox ? "floatingDaliBox" : "")}
                                             disabled={this.props.disabled}
                                             key={index}
                                             name={item.name}
                                             bsSize="large"
                                             draggable="false">
-                                        <i className="material-icons">{clase}</i> {this.state.buttons[index].displayName}
+                                        <i className="material-icons">{clase}</i> {button.displayName}
                                     </Button>
                                 </div>);
                             }
