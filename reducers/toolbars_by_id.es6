@@ -212,7 +212,7 @@ function toolbarCreator(state, action){
         showTextEditor: false
     };
     if (isSortableBox(action.payload.ids.id)) {
-        toolbar.config.name = i18n.t('Container_');
+        toolbar.config.displayName = i18n.t('Container_');
     }
     // If contained in sortableContainer
     if (isSortableContainer(action.payload.ids.container)) {
