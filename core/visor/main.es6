@@ -48,13 +48,13 @@ export default {
                         return;
                     }
                     var name = navs[page].name;
-                    
+
                     if( nav_names_used[name] === undefined ){
                         nav_names_used[name] = 0;
                     } else {
                         name = getDistinctName(name, nav_names_used);
                     }
-                    
+
 
                     var inner = parseEJS(Dali.Config.visor_ejs, page, state);
                     zip.file(name + ".html", inner);
@@ -113,7 +113,7 @@ export default {
                                 success: function (response, status, xhr) {
                                     zip.file(path + nombre + "_ejer.xml", xhr.responseText);
                                     state.toolbarsById[boxKey].state.__xml_path = path + nombre + "_ejer.xml";
-                                     state.toolbarsById[boxKey].state.isScorm = true;
+                                    state.toolbarsById[boxKey].state.isScorm = true;
                                 },
                                 error: function (xhr, status) {
                                     console.error("Error while downloading XML file");

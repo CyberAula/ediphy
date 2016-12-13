@@ -47,37 +47,43 @@ export default {
         //        ORGANIZATION_ITEMS
         for (let n = 0; n < root_elements.length; n ++ ){
             let root_section = root_elements[n];
-            let children_elements = [];
 
-            let root_element = doc.createElement("item");
+            if(!sections[root_section].hidden){
+                let children_elements = [];
 
-            root_element.setAttribute("identifier", this.santinize_id(root_section) + "_item");
-            if (Dali.Config.sections_have_content || root_section.indexOf(ID_PREFIX_SECTION) === -1){
-                 root_element.setAttribute("identifierref", this.santinize_id(sections[root_section].id) + "_resource");
-            }
+                let root_element = doc.createElement("item");
 
-            let root_element_title = doc.createElement("title");
-            let root_element_text = doc.createTextNode(sections[root_section].unitNumber +". "+ sections[root_section].name);
-            root_element_title.appendChild(root_element_text);
-            root_element.appendChild(root_element_title);
 
-            let sections_copy = JSON.parse(JSON.stringify(sections));
-            children_elements = sections_copy[root_section].children;
+                root_element.setAttribute("identifier", this.santinize_id(root_section) + "_item");
+                if (Dali.Config.sections_have_content || root_section.indexOf(ID_PREFIX_SECTION) === -1){
+                     root_element.setAttribute("identifierref", this.santinize_id(sections[root_section].id) + "_resource");
+                }
 
-            //Added root element for resource iteration
-            resource_elements.push({
-                path: "unit"+ sections[root_section].unitNumber + "/" + this.santinize_id(sections[root_section].id)+".html",
-                id: sections[root_section].id
-            });
+                let root_element_title = doc.createElement("title");
+                let root_element_text = doc.createTextNode(sections[root_section].unitNumber +". "+ sections[root_section].name);
+                root_element_title.appendChild(root_element_text);
+                root_element.appendChild(root_element_title);
 
-            //Unit children Tree
-            while (children_elements.length !== 0){
-                let actual_child = children_elements.shift();
-                let branch = this.xmlOrganizationBranch(actual_child, actual_child, sections_copy, doc, resource_elements);
-                root_element.appendChild(branch);
-        }
+                let sections_copy = JSON.parse(JSON.stringify(sections));
+                children_elements = sections_copy[root_section].children;
+
+                //Added root element for resource iteration
+                resource_elements.push({
+                    path: "unit"+ sections[root_section].unitNumber + "/" + this.santinize_id(sections[root_section].id)+".html",
+                    id: sections[root_section].id
+                });
+
+                //Unit children Tree
+                while (children_elements.length !== 0){
+                    let actual_child = children_elements.shift();
+                    let branch = this.xmlOrganizationBranch(actual_child, actual_child, sections_copy, doc, resource_elements);
+                    root_element.appendChild(branch);
+                }
+
             //end children Tree
             organization.appendChild(root_element);
+            }
+
         }
         //end of Organization Item Tree
 
@@ -137,12 +143,12 @@ export default {
                     let element_text = doc.createTextNode(sections[actual_section].name);
                     element_title.appendChild(element_text);
                     element.appendChild(element_title);
-                    
+
                     resource_elements.push({
                             path: "unit"+ sections[actual_section].unitNumber + "/" + this.santinize_id(sections[actual_section].id)+".html",
                             id: sections[actual_section].id
                         });
-                    
+
 
                     branch_elements.push(element);
 
@@ -151,7 +157,7 @@ export default {
         }
 
         let actual_section = actual_child;
-        
+
         let element = doc.createElement("item");
         element.setAttribute("identifier", this.santinize_id(sections[actual_section].id) + "_item");
         if ( Dali.Config.sections_have_content || (sections[actual_section].id.indexOf(ID_PREFIX_SECTION) === -1)){
