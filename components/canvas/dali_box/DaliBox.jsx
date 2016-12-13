@@ -39,6 +39,7 @@ export default class DaliBox extends Component {
             visibility: (toolbar.showTextEditor ? 'visible' : 'hidden')
         };
         let attrs = {};
+        let classNames = "";
 
         for (let tabKey in toolbar.controls) {
             for (let accordionKey in toolbar.controls[tabKey].accordions) {
@@ -47,11 +48,10 @@ export default class DaliBox extends Component {
                     button = toolbar.controls[tabKey].accordions[accordionKey].buttons[buttonKey];
                     if (button.autoManaged) {
                         if (!button.isAttribute) {
-                            if (buttonKey !== 'width' && buttonKey !== 'height') {
+                            if(buttonKey === 'className'){
+                                classNames += button.value;
+                            }else if (buttonKey !== 'width' && buttonKey !== 'height') {
                                 style[buttonKey] = button.value;
-                                /*if (button.units) {
-                                 style[buttonKey] += button.units;
-                                 }*/
                             }
                         } else {
                             attrs['data-' + buttonKey] = button.value;
@@ -72,11 +72,10 @@ export default class DaliBox extends Component {
                             button = toolbar.controls[tabKey].accordions[accordionKey].accordions[accordionKey2].buttons[buttonKey];
                             if (button.autoManaged) {
                                 if (!button.isAttribute) {
-                                    if (buttonKey !== 'width' && buttonKey !== 'height') {
+                                    if(buttonKey === 'className'){
+                                        classNames += button.value;
+                                    }else if (buttonKey !== 'width' && buttonKey !== 'height') {
                                         style[buttonKey] = button.value;
-                                        /*if (button.units) {
-                                         style[buttonKey] += button.units;
-                                         }*/
                                     }
                                 } else {
                                     attrs['data-' + buttonKey] = button.value;
@@ -98,18 +97,18 @@ export default class DaliBox extends Component {
 
         let content = toolbar.state.__text && !toolbar.config.extraTextConfig ? (
             /* jshint ignore:start */
-            <div className="boxStyle" style={style} {...attrs} ref={"content"}
+            <div className="boxStyle" style={style} {...attrs} className={classNames} ref={"content"}
                  dangerouslySetInnerHTML={{__html: decodeURI(toolbar.state.__text)}}></div>
             /* jshint ignore:end */
         ) : toolbar.config.flavor === "react" ? (
             /* jshint ignore:start */
-            <div className="boxStyle" style={style} {...attrs} ref={"content"}>
+            <div className="boxStyle" style={style} {...attrs} className={classNames} ref={"content"}>
                 {box.content}
             </div>
             /* jshint ignore:end */
         ) : (
             /* jshint ignore:start */
-            <div className="boxStyle" style={style} {...attrs} ref={"content"}>
+            <div className="boxStyle" style={style} {...attrs} className={classNames} ref={"content"}>
                 {this.renderChildren(box.content)}
             </div>
             /* jshint ignore:end */
@@ -210,8 +209,13 @@ export default class DaliBox extends Component {
                 {border}
                 {content}
                 {toolbar.state.__text ?
-                    <div contentEditable={true} id={box.id} ref={"textarea"} className="textAreaStyle"
-                         style={textareaStyle}></div> : ""}
+                    <div id={box.id}
+                         ref={"textarea"}
+                         className={classNames + " textAreaStyle"}
+                         contentEditable={true}
+                         style={textareaStyle}></div> :
+                    null
+                }
                 <div className="showOverlay" style={{ visibility: showOverlay }}></div>
             </div>
             /* jshint ignore:end */
