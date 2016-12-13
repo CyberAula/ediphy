@@ -52,11 +52,10 @@ export default class DaliTitle extends Component {
 
         let content;
         let unidad = "";
-        let currentstatus = this.props.isReduced;
-        let hideButton = (this.props.titles.length <= 1 && !this.props.isReduced || this.props.titles.length === 0 && currentstatus);
+        let currentStatus = this.props.titleMode;
         let actualIndex = this.getActualIndex();
 
-        if (currentstatus === 'reduced') {
+        if (currentStatus === 'reduced') {
             let titles = this.props.titles;
 
             let actualTitle = titles[titles.length - 1];
@@ -75,7 +74,7 @@ export default class DaliTitle extends Component {
                 React.createElement("h4", {style: {margin: 0}}, this.getActualIndex() + actualTitle)
             );
 
-        } else if (currentstatus === 'expanded') {
+        } else if (currentStatus === 'expanded') {
             let titlesComponents = "";
             let titles_length = this.props.titles.length;
             content = React.createElement("div", {},
@@ -101,28 +100,28 @@ export default class DaliTitle extends Component {
                                     e.stopPropagation(); }}>
                 <div id="daliTitleButtons" style={{height:'40px'}}>
 
-                    <button className={((!this.props.showButtons || currentstatus == 'hidden' )? 'daliTitleButton hidden ' : ' daliTitleButton ')
-                                     + ((currentstatus == 'expanded') ? ' activeTitle' : ' ')}
+                    <button className={((!this.props.showButtons || currentStatus == 'hidden' )? 'daliTitleButton hidden ' : ' daliTitleButton ')
+                                     + ((currentStatus == 'expanded') ? ' activeTitle' : ' ')}
                             onClick={(e) => {
                                 this.props.titleModeToggled(this.props.navItem.id, 'expanded' );
                                 e.stopPropagation(); }}>
                         <i className="material-icons">vertical_align_bottom</i>
                     </button>
-                    <button className={((!this.props.showButtons || currentstatus == 'hidden' )? ' daliTitleButton hidden ' : ' daliTitleButton ')
-                                     + ((currentstatus == 'reduced') ? ' activeTitle ' : ' ')}
+                    <button className={((!this.props.showButtons || currentStatus == 'hidden' )? ' daliTitleButton hidden ' : ' daliTitleButton ')
+                                     + ((currentStatus == 'reduced') ? ' activeTitle ' : ' ')}
                             onClick={(e) => {
                                 this.props.titleModeToggled(this.props.navItem.id, 'reduced');
                                 e.stopPropagation();}}>
                         <i className="material-icons">keyboard_tab</i>
                     </button>
                     <button
-                        className={((!this.props.showButtons || currentstatus == 'hidden' )? 'daliTitleButton hidden activeTitle' : 'daliTitleButton ')}
+                        className={((!this.props.showButtons || currentStatus == 'hidden' )? 'daliTitleButton hidden activeTitle' : 'daliTitleButton ')}
                         onClick={(e) => {
                                 this.props.titleModeToggled(this.props.navItem.id, 'hidden');
                                 e.stopPropagation();}}>
                         <i className="material-icons">visibility_off</i>
                     </button>
-                    <button className={currentstatus == 'hidden' ? 'daliTitleButton  ' : 'daliTitleButton hidden'}
+                    <button className={currentStatus == 'hidden' ? 'daliTitleButton  ' : 'daliTitleButton hidden'}
                             onClick={(e) => {
                                 this.props.titleModeToggled(this.props.navItem.id, 'reduced');
                                 this.props.onShowTitle();
@@ -134,7 +133,7 @@ export default class DaliTitle extends Component {
                 </div>
                 <div className={this.props.showButtons ?  "caja selectedTitle selectedBox":"caja"}>
                     <div className="cab"
-                         style={{backgroundColor: 'transparent',  visibility: currentstatus=='hidden'? 'hidden':'inherit'}}>
+                         style={{backgroundColor: 'transparent',  visibility: currentStatus=='hidden'? 'hidden':'inherit'}}>
                         <span className="cabtabla_numero"
                               contentEditable={this.props.navItem.parent === 0}
                               suppressContentEditableWarning
@@ -148,18 +147,18 @@ export default class DaliTitle extends Component {
                         </div>
                         <div className="cabtabla_lapiz">
 
-                            <img style={{display: 'none', visibility: currentstatus=='hidden'? 'hidden':'inherit'}}
+                            <img style={{display: 'none', visibility: currentStatus=='hidden'? 'hidden':'inherit'}}
                                  src="images/ico_alumno.gif" alt="Alumno"/>
                             <div style={{display: 'none'}} id="alumno2"> Alumno</div>
                         </div>
                         <div style={{display: 'none'}} className="clear"></div>
                     </div>
                     <div className="contenido"
-                         style={{backgroundColor: 'transparent',  display: currentstatus=='hidden'? 'none':'block'}}>
+                         style={{backgroundColor: 'transparent',  display: currentStatus=='hidden'? 'none':'block'}}>
                         {content}
                     </div>
                 </div>
-                <br style={{clear:'both',  visibility: currentstatus=='hidden'? 'hidden':'inherit'}}/>
+                <br style={{clear:'both',  visibility: currentStatus=='hidden'? 'hidden':'inherit'}}/>
             </div>
             /* jshint ignore:end */
         );

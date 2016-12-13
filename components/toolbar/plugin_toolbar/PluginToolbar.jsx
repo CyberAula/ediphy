@@ -9,7 +9,7 @@ import MarksList from './../../rich_plugins/marks_list/MarksList.jsx';
 import ContentList from './../../rich_plugins/content_list/ContentList.jsx';
 import Dali from './../../../core/main';
 import {UPDATE_TOOLBAR, UPDATE_BOX} from '../../../actions';
-import {ID_PREFIX_SORTABLE_CONTAINER} from '../../../constants';
+import {isSortableContainer} from '../../../utils';
 import i18n from 'i18next';
 
 require('./_pluginToolbar.scss');
@@ -325,15 +325,14 @@ export default class PluginToolbar extends Component {
             onChange: e => {
                 let value = e.target ? e.target.value : e.target;
                 if (buttonKey === '__heightAuto') {
-                    let units = (!(this.props.box.container.length && this.props.box.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1)) ? 'px' : '%';
+                    let units = !isSortableContainer(this.props.box.container) ? 'px' : '%';
                     this.heightAuto = this.props.box.height !== 'auto';
-
                     this.props.onToolbarUpdated(id, tabKey, accordionKeys, 'height', this.heightAuto ? 'auto' : (100 + units));
                     this.props.onBoxResized(id, this.props.box.width, this.heightAuto ? 'auto' : ('100' + units));
 
                 }
                 if (buttonKey === 'width') {
-                    let units = (!(this.props.box.container.length && this.props.box.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1)) ? 'px' : '%';
+                    let units = !isSortableContainer(this.props.box.container) ? 'px' : '%';
                     if (!this.aspectRatio) {
                         let newHeight = parseFloat(value);
                         if (this.heightAuto) {
@@ -350,7 +349,7 @@ export default class PluginToolbar extends Component {
                     }
                 }
                 if (buttonKey === 'height') {
-                    let units = (!(this.props.box.container.length && this.props.box.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1)) ? 'px' : '%';
+                    let units = !isSortableContainer(this.props.box.container) ? 'px' : '%';
                     if (!this.aspectRatio) {
                         this.props.onBoxResized(id, this.props.box.width, value + units);
                         this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, parseFloat(value));

@@ -1,7 +1,7 @@
-import {ADD_BOX, ADD_NAV_ITEM, DELETE_BOX, DELETE_SORTABLE_CONTAINER, DUPLICATE_BOX, REMOVE_NAV_ITEM, SELECT_BOX,
+import {ADD_BOX, ADD_NAV_ITEM, DELETE_BOX, DELETE_SORTABLE_CONTAINER, DUPLICATE_BOX, DELETE_NAV_ITEM, SELECT_BOX,
     SELECT_CONTAINED_VIEW, SELECT_NAV_ITEM, IMPORT_STATE} from './../actions';
-import {ID_PREFIX_CONTAINED_VIEW, ID_PREFIX_BOX} from './../constants';
-import {isBox, isSortableBox} from './../utils';
+import {ID_PREFIX_BOX} from './../constants';
+import {isBox, isSortableBox, isContainedView} from './../utils';
 
 export default function (state = -1, action = {}) {
     switch (action.type) {
@@ -20,7 +20,7 @@ export default function (state = -1, action = {}) {
             return -1;
         case DELETE_BOX:
             // If box is in contained view, it has a box as a parent -> we need to check this and select none
-            if (action.payload.container.length && action.payload.container.indexOf(ID_PREFIX_CONTAINED_VIEW) !== -1) {
+            if (isContainedView(action.payload.container)) {
                 return -1;
             }
             // When we delete a box inside another one, we want it's parent to be selected
@@ -32,7 +32,7 @@ export default function (state = -1, action = {}) {
             return -1;
         case DUPLICATE_BOX:
             return ID_PREFIX_BOX + action.payload.newId;
-        case REMOVE_NAV_ITEM:
+        case DELETE_NAV_ITEM:
             return -1;
         case SELECT_BOX:
             return action.payload.id;

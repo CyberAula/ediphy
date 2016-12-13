@@ -18,11 +18,11 @@ export default class DaliCarousel extends Component {
                                               navItems={this.props.navItems}
                                               navItemSelected={this.props.navItemSelected}
                                               onBoxAdded={this.props.onBoxAdded}
-                                              onTitleChange={this.props.onTitleChange}
+                                              onNavItemNameChanged={this.props.onNavItemNameChanged}
                                               onNavItemAdded={this.props.onNavItemAdded}
                                               onNavItemSelected={this.props.onNavItemSelected}
                                               onNavItemExpanded={this.props.onNavItemExpanded}
-                                              onNavItemRemoved={this.props.onNavItemRemoved}
+                                              onNavItemDeleted={this.props.onNavItemDeleted}
                                               onNavItemToggled={this.props.onNavItemToggled}
                                               onNavItemReordered={this.props.onNavItemReordered}/>;
             /* jshint ignore:end */

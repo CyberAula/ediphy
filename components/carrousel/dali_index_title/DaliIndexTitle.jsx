@@ -41,7 +41,7 @@ export default class DaliIndexTitle extends Component {
                     onKeyDown={e=> {
                         if (e.keyCode == 13) { // Enter Key
                             this.setState({ editing: !this.state.editing });
-                            this.props.onTitleChange(this.props.id, this.state.currentValue);
+                            this.props.onNameChanged(this.props.id, this.state.currentValue);
                         }
                         if (e.keyCode == 27) { // Escape key
                             this.setState({editing: !this.state.editing});

@@ -25,11 +25,11 @@ export const CHANGE_ROWS = 'CHANGE_ROWS';
 export const ADD_NAV_ITEM = 'ADD_NAV_ITEM';
 export const SELECT_NAV_ITEM = 'SELECT_NAV_ITEM';
 export const EXPAND_NAV_ITEM = 'EXPAND_NAV_ITEM';
-export const REMOVE_NAV_ITEM = 'REMOVE_NAV_ITEM';
+export const DELETE_NAV_ITEM = 'DELETE_NAV_ITEM';
 export const REORDER_NAV_ITEM = 'REORDER_NAV_ITEM';
 export const TOGGLE_NAV_ITEM = 'TOGGLE_NAV_ITEM';
 export const UPDATE_NAV_ITEM_EXTRA_FILES = 'UPDATE_NAV_ITEM_EXTRA_FILES';
-export const CHANGE_SECTION_TITLE = 'CHANGE_SECTION_TITLE';
+export const CHANGE_NAV_ITEM_NAME = 'CHANGE_NAV_ITEM_NAME';
 export const CHANGE_UNIT_NUMBER = 'CHANGE_UNIT_NUMBER';
 
 export const TOGGLE_TEXT_EDITOR = 'TOGGLE_TEXT_EDITOR';
@@ -37,8 +37,6 @@ export const TOGGLE_TITLE_MODE = 'TOGGLE_TITLE_MODE';
 export const CHANGE_DISPLAY_MODE = 'CHANGE_DISPLAY_MODE';
 export const SET_BUSY = 'SET_BUSY';
 export const UPDATE_TOOLBAR = 'UPDATE_TOOLBAR';
-//remove this action
-export const COLLAPSE_TOOLBAR = 'COLLAPSE_TOOLBAR';
 
 export const IMPORT_STATE = 'IMPORT_STATE';
 export const CHANGE_TITLE = 'CHANGE_TITLE';
@@ -67,8 +65,8 @@ export function expandNavItem(id, value) {
     return {type: EXPAND_NAV_ITEM, payload: {id, value}};
 }
 
-export function removeNavItem(ids, parent, boxes, containedViews) {
-    return {type: REMOVE_NAV_ITEM, payload: {ids, parent, boxes, containedViews}};
+export function deleteNavItem(ids, parent, boxes, containedViews) {
+    return {type: DELETE_NAV_ITEM, payload: {ids, parent, boxes, containedViews}};
 }
 
 export function reorderNavItem(id, newParent, oldParent, idsInOrder, childrenInOrder) {
@@ -83,8 +81,8 @@ export function updateNavItemExtraFiles(id, box, xml_path) {
     return {type: UPDATE_NAV_ITEM_EXTRA_FILES, payload: {id, box, xml_path}};
 }
 
-export function changeSectionTitle(id, title) {
-    return {type: CHANGE_SECTION_TITLE, payload: {id, title}};
+export function changeNavItemName(id, title) {
+    return {type: CHANGE_NAV_ITEM_NAME, payload: {id, title}};
 }
 
 export function changeUnitNumber(id, value) {
@@ -146,12 +144,12 @@ export function deleteSortableContainer(id, parent, children, childrenViews) {
 export function changeSortableProps(id, parent, prop, value) {
     return {type: CHANGE_SORTABLE_PROPS, payload: {id, parent, prop, value}};
 }
-export function changeCols(id, parent, distribution) {
-    return {type: CHANGE_COLS, payload: {id, parent, distribution}};
+export function changeCols(id, parent, distribution, boxesAffected) {
+    return {type: CHANGE_COLS, payload: {id, parent, distribution, boxesAffected}};
 }
 
-export function changeRows(id, parent, column, distribution) {
-    return {type: CHANGE_ROWS, payload: {id, parent, column, distribution}};
+export function changeRows(id, parent, column, distribution, boxesAffected) {
+    return {type: CHANGE_ROWS, payload: {id, parent, column, distribution, boxesAffected}};
 }
 
 export function reorderBoxes(parent, container, order) {
@@ -196,10 +194,6 @@ export function importState(state) {
 
 export function updateToolbar(id, tab, accordions, name, value) {
     return {type: UPDATE_TOOLBAR, payload: {id, tab, accordions, name, value}};
-}
-
-export function collapseToolbar(id) {
-    return {type: COLLAPSE_TOOLBAR, payload: {id}};
 }
 
 export function fetchVishResourcesSuccess(result) {

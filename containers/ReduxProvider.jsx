@@ -30,12 +30,11 @@ export default class ReduxProvider extends Component {
                         level: 1,
                         type: "",
                         extraFiles: {},
-                        titlesReduced: "expanded"
+                        titleMode: "expanded"
                     }
                 },
                 navItemsIds: ['se-1467887497411'],
                 navItemSelected: 'se-1467887497411',
-                boxesIds: Dali.Config.sections_have_content ? ['bs-1467887497412'] : [],
                 boxesById: Dali.Config.sections_have_content ? {
                     'bs-1467887497412': {
                         id: "bs-1467887497412",
@@ -62,11 +61,15 @@ export default class ReduxProvider extends Component {
                 toolbarsById: Dali.Config.sections_have_content ? {
                     'bs-1467887497412': {
                         id: "bs-1467887497412",
-                        state: null,
-                        controls: {},
+                        state: {},
+                        controls: {
+                            main: {
+                                __name: "Main",
+                                accordions: {}
+                            }
+                        },
                         config: {name: i18n.t('Container')},
-                        showTextEditor: false,
-                        isCollapsed: false
+                        showTextEditor: false
                     }
                 } : {}
             }

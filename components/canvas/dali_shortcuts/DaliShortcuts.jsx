@@ -1,9 +1,8 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import {Button, Tooltip, OverlayTrigger} from 'react-bootstrap';
-import {ID_PREFIX_SORTABLE_CONTAINER} from '../../../constants';
 import i18n from 'i18next';
-import {isSortableBox} from './../../../utils';
+import {isSortableBox, isSortableContainer} from './../../../utils';
 
 export default class DaliShortcuts extends Component {
     constructor(props) {
@@ -35,7 +34,7 @@ export default class DaliShortcuts extends Component {
                  }}>
                 <div ref="innerContainer" style={{display: "inline-block"}}>
                     {
-                        (box.container.length && box.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1) ? (
+                        isSortableContainer(box.container) ? (
                             <OverlayTrigger placement="top"
                                             overlay={
                                             <Tooltip id="ajustaradocumento">
@@ -89,24 +88,6 @@ export default class DaliShortcuts extends Component {
                             <i className="material-icons">delete</i>
                         </button>
                     </OverlayTrigger>
-                    {isSortableBox(box.parent) ? (
-                        <OverlayTrigger placement="top"
-                                        overlay={
-                                    <Tooltip id="borrarcontenedor">
-                                        {i18n.t('messages.erase_container')}
-                                    </Tooltip>
-                                }>
-                            <button className="daliTitleButton"
-                                    onClick={(e) => {
-                                this.props.onSortableContainerDeleted(box.container, box.parent);
-                                e.stopPropagation();
-                            }}>
-                                <i className="material-icons">delete_forever</i>
-                            </button>
-                        </OverlayTrigger>
-                    ) : (
-                        <span></span>
-                    )}
                 </div>
             </div>
             /* jshint ignore:end */

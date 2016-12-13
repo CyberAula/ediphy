@@ -1,14 +1,13 @@
-import Utils, {changeProp, changeProps, deleteProp, deleteProps} from './../utils';
+import Utils, {changeProp, changeProps, deleteProp, deleteProps, isSortableBox, isContainedView, isSortableContainer} from './../utils';
 import {ADD_BOX, MOVE_BOX, DUPLICATE_BOX, RESIZE_BOX, UPDATE_BOX, DELETE_BOX, REORDER_SORTABLE_CONTAINER, DROP_BOX, ADD_RICH_MARK,
     RESIZE_SORTABLE_CONTAINER, DELETE_SORTABLE_CONTAINER, CHANGE_COLS, CHANGE_ROWS, CHANGE_SORTABLE_PROPS, REORDER_BOXES,
-    REMOVE_NAV_ITEM, IMPORT_STATE} from './../actions';
-import {ID_PREFIX_BOX, ID_PREFIX_CONTAINED_VIEW, ID_PREFIX_SORTABLE_CONTAINER} from './../constants';
-import {isSortableBox} from './../utils';
+    DELETE_NAV_ITEM, IMPORT_STATE} from './../actions';
+import {ID_PREFIX_BOX} from './../constants';
 
 function boxCreator(state, action) {
     let position, width, height;
     let level = 0;
-    if (state[action.payload.ids.parent] && !(action.payload.ids.container.length && action.payload.ids.container.indexOf(ID_PREFIX_CONTAINED_VIEW) !== -1)) {
+    if (state[action.payload.ids.parent] && !isContainedView(action.payload.ids.container)) {
         level = state[action.payload.ids.parent].level + 1;
     }
 
@@ -27,7 +26,7 @@ function boxCreator(state, action) {
         }
         height = 'auto';
     }
-    if (action.payload.ids.container.length && action.payload.ids.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1) {
+    if (isSortableContainer(action.payload.ids.container)) {
         position.x = 0;
         position.y = 0;
         position.type = 'relative';
@@ -127,11 +126,32 @@ function boxReducer(state = {}, action = {}) {
         case ADD_RICH_MARK:
             return changeProp(state, "containedViews", [...state.containedViews, action.payload.mark.connection.id]);
         case CHANGE_COLS:
-            return changeProp(state, "sortableContainers", sortableContainersReducer(state.sortableContainers, action));
+            if (action.payload.parent === state.id) {
+                return changeProp(state, "sortableContainers", sortableContainersReducer(state.sortableContainers, action));
+            }
+            return changeProps(
+                state,
+                [
+                    "col",
+                    "row"
+                ], [
+                    state.col >= action.payload.distribution.length ? action.payload.distribution.length - 1 : state.col,
+                    state.col >= action.payload.distribution.length ? 0 : state.row
+                ]
+            );
         case CHANGE_SORTABLE_PROPS:
             return changeProp(state, "sortableContainers", sortableContainersReducer(state.sortableContainers, action));
         case CHANGE_ROWS:
-            return changeProp(state, "sortableContainers", sortableContainersReducer(state.sortableContainers, action));
+            if (action.payload.parent === state.id) {
+                return changeProp(state, "sortableContainers", sortableContainersReducer(state.sortableContainers, action));
+            }
+            return changeProp(
+                state,
+                "row",
+                state.row >= action.payload.distribution.length ?
+                action.payload.distribution.length - 1 :
+                    state.row
+            );
         case DELETE_BOX:
             return changeProp(state, "sortableContainers", sortableContainersReducer(state.sortableContainers, action));
         case DELETE_SORTABLE_CONTAINER:
@@ -221,15 +241,16 @@ function singleSortableContainerReducer(state = {}, action = {}) {
             return changeProp(state, "children", [...state.children, action.payload.ids.id]);
         case CHANGE_COLS:
             let cols = state.cols;
-            if (action.payload.distribution.length < cols.length) {
-                cols = cols.slice(0, cols.length - 1);
+            let distributionLength = action.payload.distribution.length;
+            if (distributionLength < cols.length) {
+                cols = cols.slice(0, distributionLength);
             }
             let reduced = action.payload.distribution.reduce(function (prev, curr) {
                 return prev + curr;
             });
             if (reduced > 99 || reduced <= 101) {
-                if (action.payload.distribution.length > cols.length) {
-                    let difference = action.payload.distribution.length - cols.length;
+                if (distributionLength > cols.length) {
+                    let difference = distributionLength - cols.length;
                     for (var i = 0; i < difference; i++) {
                         cols.push([100]);
                     }
@@ -301,7 +322,7 @@ export default function (state = {}, action = {}) {
     switch (action.type) {
         case ADD_BOX:
             // if box is contained in sortableContainer, add it aswell to its children
-            if (action.payload.ids.container.length && action.payload.ids.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1) {
+            if (isSortableContainer(action.payload.ids.container)) {
                 return changeProps(
                     state,
                     [
@@ -356,22 +377,30 @@ export default function (state = {}, action = {}) {
         case DROP_BOX:
             return changeProp(state, action.payload.id, boxReducer(state[action.payload.id], action));
         case CHANGE_COLS:
-            return changeProp(state, action.payload.parent, boxReducer(state[action.payload.parent], action));
+            newState = changeProp(state, action.payload.parent, boxReducer(state[action.payload.parent], action));
+            action.payload.boxesAffected.forEach(id => {
+                newState = changeProp(newState, id, boxReducer(newState[id], action));
+            });
+            return newState;
         case CHANGE_ROWS:
-            return changeProp(state, action.payload.parent, boxReducer(state[action.payload.parent], action));
+            newState = changeProp(state, action.payload.parent, boxReducer(state[action.payload.parent], action));
+            action.payload.boxesAffected.forEach(id => {
+                newState = changeProp(newState, id, boxReducer(newState[id], action));
+            });
+            return newState;
         case DELETE_BOX:
             let children = action.payload.children ? action.payload.children : [];
             temp = deleteProps(state, children.concat(action.payload.id));
 
             //If box is in sortableContainer, delete from its children aswell
-            if (action.payload.container.length && action.payload.container.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1) {
+            if (isSortableContainer(action.payload.container)) {
                 return changeProp(temp, action.payload.parent, boxReducer(state[action.payload.parent], action));
             }
             return temp;
         case DELETE_SORTABLE_CONTAINER:
             temp = deleteProps(state, action.payload.children);
             return changeProp(temp, action.payload.parent, boxReducer(state[action.payload.parent], action));
-        case REMOVE_NAV_ITEM:
+        case DELETE_NAV_ITEM:
             return deleteProps(state, action.payload.boxes);
         case REORDER_SORTABLE_CONTAINER:
             return changeProp(state, action.payload.parent, boxReducer(state[action.payload.parent], action));

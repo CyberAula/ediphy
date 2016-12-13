@@ -2,7 +2,7 @@ import Dali from './main';
 import ReactDOM from 'react-dom';
 
 export default function () {
-    var descendant, state, id, initialParams;
+    var descendant, state, id, initialParams = {};
 
     var defaultFor = function (arg, value, warn) {
         if (typeof arg !== 'undefined') {

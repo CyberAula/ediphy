@@ -59,7 +59,7 @@
             alltitles.push(navs[place].unitNumber +"." +  navs[place].name);
             alltitles.reverse();
         }
-        if(navs[page].titlesReduced =='reduced') {
+        if(navs[page].titleMode =='reduced') {
             var titles = alltitles;
             var actualTitle = titles.pop();
             unidad=titles[0];
@@ -75,7 +75,7 @@
             </h3>
             <h4 style="margin: 0"><%=actualTitle%></h4>
         </div>
-        <%}else if(navs[page].titlesReduced=='expanded') {
+        <%}else if(navs[page].titleMode=='expanded') {
             var titlesComponents = "";
             alltitles.map(function(text, index){
                 if (index == 0) {
