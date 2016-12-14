@@ -97,7 +97,8 @@ function sortableContainerCreator(key = "", children = [], height = "auto") {
             borderWidth: '0px',
             borderStyle: 'solid',
             opacity: '1',
-            textAlign: 'center'
+            textAlign: 'center',
+            className: ''
         },
         height: height,
         key: key,
