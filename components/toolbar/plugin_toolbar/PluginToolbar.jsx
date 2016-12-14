@@ -20,7 +20,6 @@ export default class PluginToolbar extends Component {
         this.state = {
             open: false
         };
-        this.aspectRatio = false;
     }
 
     render() {
@@ -289,9 +288,6 @@ export default class PluginToolbar extends Component {
 
     renderButton(accordion, tabKey, accordionKeys, buttonKey, state, key) {
         let button = accordion.buttons[buttonKey];
-        if (buttonKey === '__aspectRatio') {
-            this.aspectRatio = (button.value === "checked");
-        }
         if (buttonKey === '__verticalAlign') {
             return (
                 /* jshint ignore:start */
@@ -345,7 +341,7 @@ export default class PluginToolbar extends Component {
                 if (buttonKey === 'width') {
                     let units = !isSortableContainer(this.props.box.container) ? 'px' : '%';
                     let heightAuto = accordion.buttons.__heightAuto.checked;
-                    if (!this.aspectRatio) {
+                    if (!accordion.buttons.__aspectRatio || !accordion.buttons.__aspectRatio.checked) {
                         let newHeight = heightAuto ? "auto" : parseFloat(value);
                         this.props.onBoxResized(id, value + units, this.props.box.height);
                         this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, parseFloat(value));
@@ -359,7 +355,7 @@ export default class PluginToolbar extends Component {
                 }
                 if (buttonKey === 'height') {
                     let units = !isSortableContainer(this.props.box.container) ? 'px' : '%';
-                    if (!this.aspectRatio) {
+                    if (!accordion.buttons.__aspectRatio || !accordion.buttons.__aspectRatio.checked) {
                         this.props.onBoxResized(id, this.props.box.width, value + units);
                         this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, parseFloat(value));
                     } else {
@@ -371,21 +367,15 @@ export default class PluginToolbar extends Component {
                 }
 
                 if (button.type === 'number') {
-
                     if (value === "") {
                         value = "";
-
                     } else if( button.min && (parseFloat(value) || 0) < button.min ){
                         value = button.min;
-
                     } else if( button.max && (parseFloat(value) || 0) > button.max ){
                         value = button.max;
-
                     } else {
                         value = parseFloat(value) || 0;
                     }
-
-
                     if (button.units) {
                         value = value + button.units;
                     }
