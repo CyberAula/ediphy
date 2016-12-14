@@ -100,7 +100,8 @@ export function CajasColorBis() {
                     'id' : 'bloque' + i,
                     'class' : 'bloque_colores capa_' + state['color' + i],
                     'style' : {
-                        'display' : 'none'
+                        "box-sizing": "border-box",
+                        display: "none  "
                     }
                 };
                 bloque.setAttributes(attrs);

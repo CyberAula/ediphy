@@ -172,7 +172,10 @@ export function CajasColorBis(base) {
                 let bloque = document.createElement('div');
                 attrs = {
                     'id' : 'bloque' + i,
-                    'class' : 'bloque_colores capa_' + state['color' + i]
+                    'class' : 'bloque_colores capa_' + state['color' + i],
+                    'style' : {
+                        boxSizing: "borderBox"
+                    }
                 };
                 bloque.setAttributes(attrs);
 
@@ -180,6 +183,7 @@ export function CajasColorBis(base) {
                 attrs = {
                     'plugin-data-key' : 'box' + i,
                     'plugin-data-display-name' : Dali.i18n.t('CajasColorBis.content_box_name') + (i + 1),
+                    'plugin-data-default' : 'BasicText',
                     'plugin-data-resizable' : true
                 };
                 plugin.setAttributes(attrs);
@@ -217,28 +221,21 @@ export function CajasColorBis(base) {
         handleToolbar: function (name, value) {
             var newColors;
 
-            console.log("hola");
-
             if (/color/.test(name)) {
-                console.log(value);
                 var idB = name.replace('color', '');
-                console.log(idB);
                 base.setState('color' + idB, value);
             } else if (name === 'nBoxes') {
                 var diff = value - base.getState().nBoxes;
 
-                console.log(diff);
                 if (diff > 0) {
 
                     for (let i = base.getState().nBoxes; i < value; i++) {
-                        console.log(i);
                         base.setState('color' + i, 'azul');
                     }
                 }
 
                 base.setState(name, value);
             } else if (name === 'rounded') {
-                console.log(value);
                 base.setState(name, value);
             } else if (name === 'image') {
                 base.setState('image', value);

@@ -84,16 +84,6 @@
   *width: 100%;
 }
 
-.celda3_colores {
-    display: table-cell;
-	text-align:center;
-	vertical-align: middle;
-	font-size:small;
-	padding:15px;
-	*float: left;
-	*height:100%;
-}
-
 .celda_colores {
     display: table-cell;
     width: 49%;
@@ -145,6 +135,19 @@
 	margin-top: 1%;
 	width: 100%;
 	margin-bottom: 1%;
+}
+
+
+.celda3_colores {
+    display: table-cell;
+	width: 32%;
+	*width: 26%;
+	text-align:center;
+	vertical-align: middle;
+	font-size:small;
+	padding:15px;
+	*float: left;
+	*height:100%;
 }
 
 .sep {
