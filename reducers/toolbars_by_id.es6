@@ -55,6 +55,33 @@ function createRichAccordions(controls) {
         };
     }
 }
+function createAliasButton(controls) {
+    if (!controls.main) {
+        controls.main = {
+            __name: "Alias",
+            icon: 'rate_review',
+            accordions: {
+                __extra: {
+                    __name: "Alias",
+                    buttons: {}
+                }
+            }
+        };
+    } else if (!controls.main.accordions.__extra) {
+        controls.main.accordions.__extra = {
+            __name: "Alias",
+            icon: 'rate_review',
+            buttons: {}
+        };
+    }
+    controls.main.accordions.__extra.buttons.alias = {
+        __name: 'Alias',
+        type: 'text',
+        value: "",
+        autoManaged: true,
+        isAttribute: true
+    };
+}
 function createSortableButtons(controls) {
     if (!controls.main) {
         controls.main = {
@@ -76,7 +103,7 @@ function createSortableButtons(controls) {
             buttons: {}
         };
     }
-    controls.main.accordions.__sortable.buttons.width = {
+    controls.main.accordions.__sortable.buttons.__width = {
         __name: i18n.t('Width_percentage'),
         type: 'number',
         value: 100,
@@ -86,7 +113,7 @@ function createSortableButtons(controls) {
         units: '%',
         autoManaged: true
     };
-    controls.main.accordions.__sortable.buttons.height = {
+    controls.main.accordions.__sortable.buttons.__height = {
         __name: i18n.t('Height_percentage'),
         type: 'number',
         value: 'auto',
@@ -142,7 +169,7 @@ function createFloatingBoxButtons(controls) {
         };
     }
 
-    controls.main.accordions.__sortable.buttons.width = {
+    controls.main.accordions.__sortable.buttons.__width = {
         __name: i18n.t('Width_pixels'),
         type: 'number',
         value: 100,
@@ -152,7 +179,7 @@ function createFloatingBoxButtons(controls) {
         units: 'px',
         autoManaged: true
     };
-    controls.main.accordions.__sortable.buttons.height = {
+    controls.main.accordions.__sortable.buttons.__height = {
         __name: i18n.t('Height_pixels'),
         type: 'number',
         value: 'auto',
@@ -166,35 +193,8 @@ function createFloatingBoxButtons(controls) {
         __name: i18n.t('Height_auto'),
         type: 'checkbox',
         value: 'checked',
-        checked: 'true',
+        checked: true,
         autoManaged: true
-    };
-}
-function createAliasButton(controls) {
-    if (!controls.main) {
-        controls.main = {
-            __name: "Alias",
-            icon: 'rate_review',
-            accordions: {
-                __extra: {
-                    __name: "Alias",
-                    buttons: {}
-                }
-            }
-        };
-    } else if (!controls.main.accordions.__extra) {
-        controls.main.accordions.__extra = {
-            __name: "Alias",
-            icon: 'rate_review',
-            buttons: {}
-        };
-    }
-    controls.main.accordions.__extra.buttons.alias = {
-        __name: 'Alias',
-        type: 'text',
-        value: "",
-        autoManaged: true,
-        isAttribute: true
     };
 }
 
@@ -255,9 +255,9 @@ function toolbarReducer(state, action){
                     newState.controls.main.accordions.__sortable.buttons.__heightAuto.checked = heightAuto;
                     newState.controls.main.accordions.__sortable.buttons.__heightAuto.value = heightAuto ? 'checked' : 'unchecked';
                 }
-                if (buttons.height && buttons.width) {
-                    newState.controls.main.accordions.__sortable.buttons.height.value = height;
-                    newState.controls.main.accordions.__sortable.buttons.width.value = height;
+                if (buttons.__height && buttons.__width) {
+                    newState.controls.main.accordions.__sortable.buttons.__height.value = height;
+                    newState.controls.main.accordions.__sortable.buttons.__width.value = height;
                 }
             }
 
@@ -280,8 +280,8 @@ function toolbarReducer(state, action){
             try {
                 createSortableButtons(
                     controls,
-                    state.controls.main.accordions.__sortable.buttons.width.value,
-                    state.controls.main.accordions.__sortable.buttons.height.value
+                    state.controls.main.accordions.__sortable.buttons.__width.value,
+                    state.controls.main.accordions.__sortable.buttons.__height.value
                 );
                 createAliasButton(
                     controls,

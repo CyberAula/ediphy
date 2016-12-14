@@ -241,8 +241,8 @@ export default class PluginToolbar extends Component {
         } else {
             let buttonKeys = Object.keys(accordion.buttons);
             for (let i = 0; i < buttonKeys.length; i++) {
-                let buttonWidth = (buttonKeys[i] === 'width' || buttonKeys[i] === 'height') ? '40%' : '100%';
-                let buttonMargin = (buttonKeys[i] === 'width' || buttonKeys[i] === 'height') ? '5%' : '0px';
+                let buttonWidth = (buttonKeys[i] === '__width' || buttonKeys[i] === '__height') ? '40%' : '100%';
+                let buttonMargin = (buttonKeys[i] === '__width' || buttonKeys[i] === '__height') ? '5%' : '0px';
                 children.push(
                     /* jshint ignore:start */
                     <div key={'div_' + i }
@@ -335,10 +335,10 @@ export default class PluginToolbar extends Component {
                 if (buttonKey === '__heightAuto') {
                     let units = !isSortableContainer(this.props.box.container) ? 'px' : '%';
                     let newValue = (e.target.checked ? "auto" : (100 + units));
-                    this.props.onToolbarUpdated(id, tabKey, accordionKeys, 'height', newValue);
+                    this.props.onToolbarUpdated(id, tabKey, accordionKeys, '__height', newValue);
                     this.props.onBoxResized(id, this.props.box.width, newValue);
                 }
-                if (buttonKey === 'width') {
+                if (buttonKey === '__width') {
                     let units = !isSortableContainer(this.props.box.container) ? 'px' : '%';
                     let heightAuto = accordion.buttons.__heightAuto.checked;
                     if (!accordion.buttons.__aspectRatio || !accordion.buttons.__aspectRatio.checked) {
@@ -349,20 +349,20 @@ export default class PluginToolbar extends Component {
                         let newHeight = heightAuto ? 'auto' : (parseFloat(this.props.box.height) * parseFloat(value) / parseFloat(this.props.box.width));
                         this.props.onBoxResized(id, value + units, heightAuto ? newHeight : (newHeight + units));
                         this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, parseFloat(value));
-                        this.props.onToolbarUpdated(id, tabKey, accordionKeys, 'height', newHeight);
+                        this.props.onToolbarUpdated(id, tabKey, accordionKeys, '__height', newHeight);
 
                     }
                 }
-                if (buttonKey === 'height') {
+                if (buttonKey === '__height') {
                     let units = !isSortableContainer(this.props.box.container) ? 'px' : '%';
                     if (!accordion.buttons.__aspectRatio || !accordion.buttons.__aspectRatio.checked) {
                         this.props.onBoxResized(id, this.props.box.width, value + units);
                         this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, parseFloat(value));
                     } else {
-                        let newWidth = (parseFloat(this.props.box.width) * parseFloat(value) / parseFloat(this.props.box.height));
+                        let newWidth = (parseFloat(this.props.box.width) * parseFloat(value) / parseFloat(this.props.box.__height));
                         this.props.onBoxResized(id, newWidth + units, value + units);
                         this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, parseFloat(value));
-                        this.props.onToolbarUpdated(id, tabKey, accordionKeys, 'width', newWidth);
+                        this.props.onToolbarUpdated(id, tabKey, accordionKeys, '__width', newWidth);
                     }
                 }
 
@@ -411,14 +411,14 @@ export default class PluginToolbar extends Component {
             }
 
         };
-        if (buttonKey === 'height') {
+        if (buttonKey === '__height') {
             let heightAuto = accordion.buttons.__heightAuto.value === "checked";
 
             props.value = heightAuto ? 'auto' : parseFloat(this.props.box.height);
             props.type = heightAuto ? 'text' : 'number';
             props.disabled = heightAuto;
         }
-        if (buttonKey === 'width') {
+        if (buttonKey === '__width') {
             props.value = parseFloat(this.props.box.width);
         }
         if (button.options && button.type === 'colorPicker') {

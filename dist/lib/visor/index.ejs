@@ -174,7 +174,7 @@
                         if (button.autoManaged) {
                             buttonKey = buttonKey.split(/(?=[A-Z])/).join('-').toLowerCase();
                             if (!button.isAttribute) {
-                                if (buttonKey !== 'width' && buttonKey !== 'height') {
+                                if (buttonKey !== '__width' && buttonKey !== '__height') {
                                     style += buttonKey + ":" + button.value + "; ";
                                 }
                             } else {
@@ -189,7 +189,7 @@
                                 if (button.autoManaged) {
                                     buttonKey = buttonKey.split(/(?=[A-Z])/).join('-').toLowerCase();
                                     if (!button.isAttribute) {
-                                        if (buttonKey !== 'width' && buttonKey !== 'height') {
+                                        if (buttonKey !== '__width' && buttonKey !== '__height') {
                                             style += buttonKey + ":" + button.value + "; ";
                                         }
                                     } else {
