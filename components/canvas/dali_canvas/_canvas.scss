@@ -1,0 +1,80 @@
+@import "../../../sass/general/_variables.scss";
+
+.outter {
+  background-color: $fondo;
+  height: 100%;
+  padding-top: 40px;
+}
+
+.innercanvas {
+  height: 100%;
+  background-color: white;
+
+}
+
+.outter > .sli {
+  padding-bottom: 1%;
+}
+
+.sli {
+  height: 100%;
+  background-color: white;
+  // margin: 0px 100px 0px 100px;
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+.doc {
+  height: 100%;
+  background-color: white;
+  margin: 0px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.buttonTitle {
+  border: 0;
+  background-color: #eee;
+  position: absolute;
+  top: 20px;
+  right: 75px;
+  padding: 6px 8px;
+  .material-icons {
+    margin: 0;
+    vertical-align: text-bottom;
+  }
+}
+
+.canvasHelper {
+
+  text-align: center;
+  vertical-align: center;
+  position: relative;
+  color: $naranjaadams;
+  width: 100%;
+  height: 100%;
+
+  .canvasMessage {
+    font-size: 22px;
+    position: absolute;
+    display: inline-block;
+    top: 100px;
+    left: 25%;
+    width: 50%;
+    height: 300px;
+    border: 5px dashed $naranjaadams;
+  }
+}
+
+#canvas {
+  position: relative;
+  width: calc(100% - 40px);
+}
+
+#maincontent {
+  position: relative;
+}
+
+.drag-handle {
+
+}

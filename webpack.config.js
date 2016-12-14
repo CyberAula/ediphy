@@ -1,5 +1,8 @@
 var webpack = require('webpack');
 var ZipBundlePlugin = require('./webpack_plugins/bundle_zip_plugin.js');
+var dependency_loader = require('./webpack_plugins/dependencies_loader.js');
+var LocalDependenciesPlugin = require('./webpack_plugins/local_dependencies_plugin.js');
+
 
 module.exports = {
     devtool: 'source-map',
@@ -16,7 +19,7 @@ module.exports = {
         preLoaders: [
             {
                 test: /\.(es6|jsx|js)$/,
-                exclude: /node_modules/,
+                exclude: [/node_modules/, /jquery.jsPlumb-1.4.1-all-min.js/],
                 loader: 'jshint-loader'
             }
         ],
@@ -24,12 +27,16 @@ module.exports = {
             {
                 test: /\.es6$/,
                 exclude: /node_modules/,
-                loader: 'babel-loader?presets[]=es2015'
+                loader: 'babel-loader',
+                query: {
+                    presets: ['es2015'],
+                    plugins: ['transform-object-rest-spread']
+                }
             },
             {
                 test: /\.jsx?$/,
                 exclude: /node_modules/,
-                loader: 'react-hot-loader/webpack!babel-loader?presets[]=es2015,presets[]=react',
+                loader: 'react-hot-loader/webpack!babel-loader?presets[]=es2015,presets[]=react'
             },
             {
                 test: /\.css$/,
@@ -53,10 +60,14 @@ module.exports = {
                 loader: 'file-loader'
             },
             {
+                test: /\.json$/,
+                loader: 'json-loader'
+            },
+            {
                 test: require.resolve('jquery'),
                 loader: 'expose?jQuery!expose?$!expose?window.jQuery'  //expose-loader, exposes as global variable
             }
-        ]
+        ].concat(dependency_loader.getExposeString())
     },
     resolve: {
         extensions: ['', '.js', '.jsx', '.es6']
@@ -110,15 +121,18 @@ module.exports = {
         browser: true,
         devel: true,
         jquery: true,
-        predef: ["Dali", "html2json", "jsPlumb", "CKEDITOR", "EJS"]
+        predef: ["Dali", "html2json", "CKEDITOR", "EJS"].concat(dependency_loader.getJSHintExludeNames())
+
     },
     plugins: [
+        new webpack.ContextReplacementPlugin(/package\.json$/, "./plugins/"),
         new webpack.HotModuleReplacementPlugin(),
-        new webpack.ProvidePlugin({
+        new webpack.ProvidePlugin(Object.assign({
             '$': 'jquery',
             'jQuery': 'jquery',
             'window.jQuery': 'jquery'
-        }), // Wraps module with variable and injects wherever it's needed
-        new ZipBundlePlugin()
+        }, dependency_loader.getPluginProvider())), // Wraps module with variable and injects wherever it's needed
+        new ZipBundlePlugin(), // Compile automatically zips
+        //new LocalDependenciesPlugin()
     ]
 };

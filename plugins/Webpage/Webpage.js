@@ -5,7 +5,8 @@ export function Webpage(base) {
                 name: 'Webpage',
                 displayName: Dali.i18n.t('Webpage.PluginName'),
                 category: 'multimedia',
-                icon: 'public'
+                icon: 'public',
+                initialWidth: '100%'
             };
         },
         getToolbar: function () {

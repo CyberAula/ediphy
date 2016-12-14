@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import DevTools from './DevTools';
-import GlobalState from '../reducers';
+import GlobalState from '../reducers/reducers';
 import DaliApp from './DaliApp';
 import i18n from 'i18next';
 import { createStore, compose, applyMiddleware } from 'redux';
@@ -28,15 +28,13 @@ export default class ReduxProvider extends Component {
                         hidden: false,
                         boxes: Dali.Config.sections_have_content ? ['bs-1467887497412'] : [],
                         level: 1,
-                        type: "section",
-                        position: 1,
+                        type: "",
                         extraFiles: {},
-                        titlesReduced: "expanded"
+                        titleMode: "expanded"
                     }
                 },
                 navItemsIds: ['se-1467887497411'],
                 navItemSelected: 'se-1467887497411',
-                boxesIds: Dali.Config.sections_have_content ? ['bs-1467887497412'] : [],
                 boxesById: Dali.Config.sections_have_content ? {
                     'bs-1467887497412': {
                         id: "bs-1467887497412",
@@ -63,11 +61,15 @@ export default class ReduxProvider extends Component {
                 toolbarsById: Dali.Config.sections_have_content ? {
                     'bs-1467887497412': {
                         id: "bs-1467887497412",
-                        state: null,
-                        controls: {},
-                        config: {name: i18n.t('Container')},
-                        showTextEditor: false,
-                        isCollapsed: false
+                        state: {},
+                        controls: {
+                            main: {
+                                __name: "Main",
+                                accordions: {}
+                            }
+                        },
+                        config: {displayName: i18n.t('Container_')},
+                        showTextEditor: false
                     }
                 } : {}
             }
@@ -94,8 +96,8 @@ export default class ReduxProvider extends Component {
 
         if (module.hot) {
             // Enable Webpack hot module replacement for reducers
-            module.hot.accept('../reducers', () => {
-                const nextRootReducer = require('../reducers').default;
+            module.hot.accept('../reducers/reducers', () => {
+                const nextRootReducer = require('../reducers/reducers').default;
                 store.replaceReducer(nextRootReducer);
             });
         }

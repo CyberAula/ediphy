@@ -1,0 +1,115 @@
+@import "../../../sass/general/_variables.scss";
+
+/*Ribbon column*/
+#ribbonRow {
+  overflow-x: auto;
+  overflow-y: hidden;
+  .btn-group.open .dropdown-toggle {
+    -webkit-box-shadow: none;
+    box-shadow: none;
+  }
+}
+
+/*Ribbon Column*/
+#ribbon {
+  background-color: $grismedio;
+  height: 60px;
+  padding: 0;
+  z-index: 0;
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+/************Plugin list***************/
+
+#insideribbon {
+  margin-top: 0px;
+  right: 0;
+  overflow-y: hidden;
+  height: 100%;
+  width: calc(100% - 200px);
+}
+
+#ribbonList {
+  white-space: nowrap !important;
+  margin-left: 16px;
+  height: 100%;
+}
+
+/***************************************/
+
+/*Plugin name placeholder for dnd*/
+.buttonPlace {
+  position: relative;
+  display: inline-block;
+  width: auto;
+  height: 100%;
+}
+
+/*Ribbon buttons*/
+.rib {
+  position: relative;
+  padding: 6px 15px;
+  font-size: 14px !important;
+  border-radius: 0;
+  height: 100%;
+  background-color: transparent;
+  border: none;
+  color: $darkest;
+  &:hover {
+    background-color: transparent !important;
+    color: white;
+    box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+    -moz-box-shadow: none !important;
+  }
+  .material-icons {
+    vertical-align: text-bottom;
+    font-size: 18px;
+  }
+}
+
+/*Plugin class while dragging*/
+.ribdrag {
+  color: $darkest;
+  &:hover {
+    color: $darkest !important;
+  }
+}
+
+/*****************Shortcut buttons*******************/
+/*Shortcut buttons container*/
+.mainButtons {
+  display: inline-block;
+  position: absolute;
+  height: 100%;
+  margin-top: 0px;
+  width: 210px;
+  right: 0px;
+  top: 0;
+  padding: 4px;
+  background-color: $grismedio;
+}
+
+/*Shortcut button*/
+.ribShortcut {
+  width: 34px;
+  height: 34px;
+  margin: 3px;
+  padding: 8px;
+  border: 0;
+  color: $verdeoscurogrisaceo;
+  background-color: $lightestgrey;
+  display: inline-block;
+  &:hover {
+    color: $detailgreen;
+  }
+  .material-icons {
+    font-size: 18px;
+  }
+}
+
+/*Disabled button*/
+button[disabled].ribShortcut {
+  color: #ccc;
+}

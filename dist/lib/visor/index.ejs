@@ -2,7 +2,7 @@
 <html lang="en" style="height: 100%">
 <head>
     <meta charset="UTF-8">
-    <title><%=title%></title>
+    <title><%= navs[page].name %></title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet" type="text/css">
     <link href='https://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
@@ -32,8 +32,8 @@
         parent = navs[parent].parent;
     }
 %>
-<div style="visibility: visible; overflow: auto; display: inherit;" class="caja">
-    <div class="cab" style="display: <%=(navs[page].titlesReduced == 'hidden')?'none':'inherit' %>;">
+<div style="visibility: visible; overflow: auto; display: <%=(navs[page].titleMode == 'hidden')?'none':'inherit' %>;" class="caja">
+    <div class="cab" style="display: <%=(navs[page].titleMode == 'hidden')?'none':'inherit' %>;">
         <div class="cabtabla_numero"><%=navs[page].unitNumber%></div>
         <div class="tit_ud_cap">
             <h1><%=title%></h1>
@@ -59,7 +59,7 @@
             alltitles.push(navs[place].unitNumber +"." +  navs[place].name);
             alltitles.reverse();
         }
-        if(navs[page].titlesReduced =='reduced') {
+        if(navs[page].titleMode =='reduced') {
             var titles = alltitles;
             var actualTitle = titles.pop();
             unidad=titles[0];
@@ -75,7 +75,7 @@
             </h3>
             <h4 style="margin: 0"><%=actualTitle%></h4>
         </div>
-        <%}else if(navs[page].titlesReduced=='expanded') {
+        <%}else if(navs[page].titleMode=='expanded') {
             var titlesComponents = "";
             alltitles.map(function(text, index){
                 if (index == 0) {
@@ -164,7 +164,7 @@
             var cornerSize = 15;
             var box = boxesById[id];
             var toolbar =  toolbarsById[id];
-            var style = "width: 100%; height: 100%; position: relative; word-wrap: break-word;";
+            var style = "height: 100%; position: relative; word-wrap: break-word;";
             var attrs = " "
             for (var tabKey in toolbar.controls) {
                 for (var accordionKey in toolbar.controls[tabKey].accordions) {

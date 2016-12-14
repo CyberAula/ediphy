@@ -2,7 +2,7 @@ import Dali from './main';
 import ReactDOM from 'react-dom';
 
 export default function () {
-    var descendant, state, id, initialParams;
+    var descendant, state, id, initialParams = {};
 
     var defaultFor = function (arg, value, warn) {
         if (typeof arg !== 'undefined') {
@@ -38,6 +38,7 @@ export default function () {
         }
     };
 
+
     var plugin = {
         create: function (obj) {
             descendant = obj;
@@ -72,7 +73,7 @@ export default function () {
         },
         getConfig: function () {
             var name, displayName, category, callback, needsConfigModal, needsTextEdition, extraTextConfig,
-            needsXMLEdition, icon, aspectRatioButtonConfig, isRich, flavor;
+            needsXMLEdition, icon, aspectRatioButtonConfig, isRich, flavor, allowFloatingBox;
             if (descendant.getConfig) {
                 let cfg = descendant.getConfig();
                 name = cfg.name;
@@ -85,6 +86,7 @@ export default function () {
                 needsTextEdition = cfg.needsTextEdition;
                 extraTextConfig = cfg.extraTextConfig;
                 needsXMLEdition = cfg.needsXMLEdition;
+                allowFloatingBox = cfg.allowFloatingBox;
                 aspectRatioButtonConfig = cfg.aspectRatioButtonConfig;
             }
 
@@ -94,6 +96,7 @@ export default function () {
             icon = defaultFor(icon, 'fa-cogs', "Plugin icon not assigned");
             isRich = defaultFor(isRich, false);
             flavor = defaultFor(flavor, 'plain');
+            allowFloatingBox = defaultFor(allowFloatingBox, true);
             needsConfigModal = defaultFor(needsConfigModal, false);
             needsTextEdition = defaultFor(needsTextEdition, false);
             needsXMLEdition = defaultFor(needsXMLEdition, false);
@@ -154,6 +157,7 @@ export default function () {
                 extraTextConfig: extraTextConfig,
                 needsXMLEdition: needsXMLEdition,
                 aspectRatioButtonConfig: aspectRatioButtonConfig,
+                allowFloatingBox: allowFloatingBox,
                 icon: icon,
                 isRich: isRich,
                 flavor: flavor

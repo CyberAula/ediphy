@@ -127,6 +127,7 @@
 	float: left;
 	width: 100%;
 	margin-bottom: 1%;
+	box-sizing: border-box;
 }
 .bloque_coloresEd {
 	padding-left: 2%;
