@@ -21,7 +21,6 @@ export default class PluginToolbar extends Component {
             open: false
         };
         this.aspectRatio = false;
-        this.heightAuto = true;
     }
 
     render() {
@@ -293,9 +292,6 @@ export default class PluginToolbar extends Component {
         if (buttonKey === '__aspectRatio') {
             this.aspectRatio = (button.value === "checked");
         }
-        if (buttonKey === '__heightAuto') {
-            this.heightAuto = (button.value === "checked");
-        }
         if (buttonKey === '__verticalAlign') {
             return (
                 /* jshint ignore:start */
@@ -324,7 +320,6 @@ export default class PluginToolbar extends Component {
             style: {width: '100%'},
             onBlur: e => {
                 let value = e.target ? e.target.value : e.target;
-
                 if (button.type === 'number') {
                     if (value === "") {
                         if(button.min){
@@ -333,20 +328,105 @@ export default class PluginToolbar extends Component {
                             value = 0;
                         }
                     }
-
                 }
 
                 if (!button.autoManaged ) {
                     button.callback(state, buttonKey, value, id, UPDATE_TOOLBAR);
                 }
             },
-            onChange: this.onChange
+            onChange: e => {
+                let value = e.target ? e.target.value : e.target;
+                if (buttonKey === '__heightAuto') {
+                    let units = !isSortableContainer(this.props.box.container) ? 'px' : '%';
+                    let newValue = (e.target.checked ? "auto" : (100 + units));
+                    this.props.onToolbarUpdated(id, tabKey, accordionKeys, 'height', newValue);
+                    this.props.onBoxResized(id, this.props.box.width, newValue);
+                }
+                if (buttonKey === 'width') {
+                    let units = !isSortableContainer(this.props.box.container) ? 'px' : '%';
+                    let heightAuto = accordion.buttons.__heightAuto.checked;
+                    if (!this.aspectRatio) {
+                        let newHeight = heightAuto ? "auto" : parseFloat(value);
+                        this.props.onBoxResized(id, value + units, this.props.box.height);
+                        this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, parseFloat(value));
+                    } else {
+                        let newHeight = heightAuto ? 'auto' : (parseFloat(this.props.box.height) * parseFloat(value) / parseFloat(this.props.box.width));
+                        this.props.onBoxResized(id, value + units, heightAuto ? newHeight : (newHeight + units));
+                        this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, parseFloat(value));
+                        this.props.onToolbarUpdated(id, tabKey, accordionKeys, 'height', newHeight);
+
+                    }
+                }
+                if (buttonKey === 'height') {
+                    let units = !isSortableContainer(this.props.box.container) ? 'px' : '%';
+                    if (!this.aspectRatio) {
+                        this.props.onBoxResized(id, this.props.box.width, value + units);
+                        this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, parseFloat(value));
+                    } else {
+                        let newWidth = (parseFloat(this.props.box.width) * parseFloat(value) / parseFloat(this.props.box.height));
+                        this.props.onBoxResized(id, newWidth + units, value + units);
+                        this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, parseFloat(value));
+                        this.props.onToolbarUpdated(id, tabKey, accordionKeys, 'width', newWidth);
+                    }
+                }
+
+                if (button.type === 'number') {
+
+                    if (value === "") {
+                        value = "";
+
+                    } else if( button.min && (parseFloat(value) || 0) < button.min ){
+                        value = button.min;
+
+                    } else if( button.max && (parseFloat(value) || 0) > button.max ){
+                        value = button.max;
+
+                    } else {
+                        value = parseFloat(value) || 0;
+                    }
+
+
+                    if (button.units) {
+                        value = value + button.units;
+                    }
+                }
+
+                if (button.type === 'checkbox') {
+                    value = ( value === 'checked') ? 'unchecked' : 'checked';
+                }
+                if (button.type === 'radio') {
+                    value = button.options[value];
+                    if (buttonKey === '__position') {
+                        this.props.onToolbarUpdated(id, tabKey, accordionKeys, '__position', value);
+                        this.props.onBoxMoved(id, 0, 0, value);
+                    }
+                }
+
+                if (button.type === 'select' && button.multiple === true) {
+                    value = button.value;
+                    let ind = button.value.indexOf(e);
+                    value = e;  //[...e.target.options].filter(o => o.selected).map(o => o.value);
+                }
+                /*                if (buttonKey == 'borderRadius'){
+                 value = value + '%';
+                 }*/
+                if (button.type === 'colorPicker') {
+                    value = e.value;
+                }
+                this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, value);
+
+                if (!button.autoManaged ) {
+                    button.callback(state, buttonKey, value, id, UPDATE_TOOLBAR);
+                }
+            }
 
         };
         if (buttonKey === 'height') {
-            props.value = this.heightAuto ? 'auto' : parseFloat(this.props.box.height);
-            props.disabled = this.heightAuto;
-            props.type = this.heightAuto ? 'text' : 'number';
+            let heightAuto = accordion.buttons.__heightAuto.value === "checked";
+
+            props.value = heightAuto ? 'auto' : parseFloat(this.props.box.height);
+            props.type = heightAuto ? 'text' : 'number';
+            props.disabled = heightAuto;
         }
         if (buttonKey === 'width') {
             props.value = parseFloat(this.props.box.width);
@@ -422,95 +502,6 @@ export default class PluginToolbar extends Component {
                 className: 'rangeOutput'
             }, output),
                 React.createElement(FormControl, props, null)]);
-        }
-    }
-
-    onChange(e){
-        let value = e.target ? e.target.value : e.target;
-        if (buttonKey === '__heightAuto') {
-            let units = !isSortableContainer(this.props.box.container) ? 'px' : '%';
-            this.heightAuto = this.props.box.height !== 'auto';
-            this.props.onToolbarUpdated(id, tabKey, accordionKeys, 'height', this.heightAuto ? 'auto' : (100 + units));
-            this.props.onBoxResized(id, this.props.box.width, this.heightAuto ? 'auto' : ('100' + units));
-
-        }
-        if (buttonKey === 'width') {
-            let units = !isSortableContainer(this.props.box.container) ? 'px' : '%';
-            if (!this.aspectRatio) {
-                let newHeight = parseFloat(value);
-                if (this.heightAuto) {
-                    newHeight = 'auto';
-                }
-                this.props.onBoxResized(id, value + units, this.props.box.height);
-                this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, parseFloat(value));
-            } else {
-                let newHeight = this.heightAuto ? 'auto' : (parseFloat(this.props.box.height) * parseFloat(value) / parseFloat(this.props.box.width));
-                this.props.onBoxResized(id, value + units, this.heightAuto ? newHeight : (newHeight + units));
-                this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, parseFloat(value));
-                this.props.onToolbarUpdated(id, tabKey, accordionKeys, 'height', newHeight);
-
-            }
-        }
-        if (buttonKey === 'height') {
-            let units = !isSortableContainer(this.props.box.container) ? 'px' : '%';
-            if (!this.aspectRatio) {
-                this.props.onBoxResized(id, this.props.box.width, value + units);
-                this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, parseFloat(value));
-            } else {
-                let newWidth = (parseFloat(this.props.box.width) * parseFloat(value) / parseFloat(this.props.box.height));
-                this.props.onBoxResized(id, newWidth + units, value + units);
-                this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, parseFloat(value));
-                this.props.onToolbarUpdated(id, tabKey, accordionKeys, 'width', newWidth);
-            }
-        }
-
-        if (button.type === 'number') {
-
-            if (value === "") {
-                value = "";
-
-            } else if( button.min && (parseFloat(value) || 0) < button.min ){
-                value = button.min;
-
-            } else if( button.max && (parseFloat(value) || 0) > button.max ){
-                value = button.max;
-
-            } else {
-                value = parseFloat(value) || 0;
-            }
-
-
-            if (button.units) {
-                value = value + button.units;
-            }
-        }
-
-        if (button.type === 'checkbox') {
-            value = ( value === 'checked') ? 'unchecked' : 'checked';
-        }
-        if (button.type === 'radio') {
-            value = button.options[value];
-            if (buttonKey === '__position') {
-                this.props.onToolbarUpdated(id, tabKey, accordionKeys, '__position', value);
-                this.props.onBoxMoved(id, 0, 0, value);
-            }
-        }
-
-        if (button.type === 'select' && button.multiple === true) {
-            value = button.value;
-            let ind = button.value.indexOf(e);
-            value = e;  //[...e.target.options].filter(o => o.selected).map(o => o.value);
-        }
-        /*                if (buttonKey == 'borderRadius'){
-         value = value + '%';
-         }*/
-        if (button.type === 'colorPicker') {
-            value = e.value;
-        }
-        this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, value);
-
-        if (!button.autoManaged ) {
-            button.callback(state, buttonKey, value, id, UPDATE_TOOLBAR);
         }
     }
 
