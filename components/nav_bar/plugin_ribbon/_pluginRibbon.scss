@@ -43,6 +43,7 @@
   position: relative;
   display: inline-block;
   width: auto;
+  z-index: 0;
   height: 100%;
 }
 
@@ -84,7 +85,7 @@
   position: absolute;
   height: 100%;
   margin-top: 0px;
-  width: 210px;
+  width: 128px;
   right: 0px;
   top: 0;
   padding: 4px;
@@ -93,9 +94,9 @@
 
 /*Shortcut button*/
 .ribShortcut {
-  width: 34px;
-  height: 34px;
-  margin: 3px;
+  width: 32px;
+  height: 32px;
+  margin: 4px;
   padding: 8px;
   border: 0;
   color: $verdeoscurogrisaceo;
@@ -105,7 +106,7 @@
     color: $detailgreen;
   }
   .material-icons {
-    font-size: 18px;
+    font-size: 16px;
   }
 }
 

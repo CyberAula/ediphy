@@ -45,18 +45,7 @@ export default class PluginRibbon extends Component {
                     </div>
                 </div>
                 <div className="mainButtons">
-                    <button className="ribShortcut"
-                            title="Undo"
-                            disabled={this.props.undoDisabled}
-                            onClick={() => this.props.undo()}>
-                        <i className="material-icons">undo</i>
-                    </button>
-                    <button className="ribShortcut"
-                            title="Redo"
-                            disabled={this.props.redoDisabled}
-                            onClick={() => this.props.redo()}>
-                        <i className="material-icons">redo</i>
-                    </button>
+
                     <button className="ribShortcut"
                             title="Copy"
                             disabled={!this.props.boxSelected || (this.props.boxSelected && isSortableBox(this.props.boxSelected.id))}
