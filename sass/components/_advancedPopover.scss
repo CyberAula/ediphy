@@ -1,0 +1,30 @@
+.advancedPopover {
+  background-color: $darkest;
+  color: white;
+  .popover-title {
+    background-color: $darkest;
+    color: $brand_orange;
+    border: 0;
+    border-radius: 0;
+  }
+  .control-label {
+    font-weight: lighter;
+  }
+  border-radius: 0;
+  .form-control {
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    // border: 1px solid $brand_orange;
+    border-radius: 0;
+    border: 0;
+    background-color: $darkinput;
+    &:active, &:focus {
+      border-color: orange;
+    }
+    color: black;
+  }
+  .arrow::after {
+    border-bottom-color: $darkest;
+  }
+}

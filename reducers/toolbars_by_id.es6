@@ -111,6 +111,7 @@ function createSortableButtons(controls) {
         max: 100,
         step: 5,
         units: '%',
+        auto: true,
         autoManaged: true
     };
     controls.main.accordions.__sortable.buttons.__height = {
@@ -127,7 +128,7 @@ function createSortableButtons(controls) {
         __name: i18n.t('Height_auto'),
         type: 'checkbox',
         value: 'checked',
-        checked: 'true',
+        checked: true,
         autoManaged: true
     };
     //This will be commented until it's working correctly

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Tooltip, FormControl, OverlayTrigger, FormGroup, Radio, ControlLabel, Checkbox,  Button, ButtonGroup, PanelGroup, Accordion, Panel, Tabs, Tab} from 'react-bootstrap';
+import {Tooltip, FormControl, OverlayTrigger, Popover, InputGroup, FormGroup, Radio, ControlLabel, Checkbox,  Button, ButtonGroup, PanelGroup, Accordion, Panel, Tabs, Tab} from 'react-bootstrap';
 import ReactDOM from 'react-dom';
 import GridConfigurator from '../grid_configurator/GridConfigurator.jsx';
 import RadioButtonFormGroup from '../radio_button_form_group/RadioButtonFormGroup.jsx';
@@ -241,7 +241,7 @@ export default class PluginToolbar extends Component {
         } else {
             let buttonKeys = Object.keys(accordion.buttons);
             for (let i = 0; i < buttonKeys.length; i++) {
-                let buttonWidth = (buttonKeys[i] === '__width' || buttonKeys[i] === '__height') ? '40%' : '100%';
+                let buttonWidth = (buttonKeys[i] === '__width' || buttonKeys[i] === '__height') ? '50%' : '100%';
                 let buttonMargin = (buttonKeys[i] === '__width' || buttonKeys[i] === '__height') ? '5%' : '0px';
                 children.push(
                     /* jshint ignore:start */
@@ -288,20 +288,7 @@ export default class PluginToolbar extends Component {
 
     renderButton(accordion, tabKey, accordionKeys, buttonKey, state, key) {
         let button = accordion.buttons[buttonKey];
-        if (buttonKey === '__verticalAlign') {
-            return (
-                /* jshint ignore:start */
-                <RadioButtonFormGroup key="verticalalignment"
-                                      title={button.__name}
-                                      options={button.options}
-                                      selected={button.value}
-                                      click={(option) => {this.props.onVerticallyAlignBox(this.props.boxSelected, option)}}
-                                      tooltips={button.tooltips}
-                                      icons={button.icons}/>
-                /* jshint ignore:end */
-            );
-        }
-        let children;
+        let children = null;
         let id = this.props.box.id;
         let props = {
             key: ('child_' + key),
@@ -335,6 +322,14 @@ export default class PluginToolbar extends Component {
                     return;
                 }
                 if (buttonKey === '__width') {
+                    switch (e.target.type){
+                        case "checkbox":
+                            break;
+                        case "select-one":
+                            break;
+                        default:
+                            break;
+                    }
                     let units = !isSortableContainer(this.props.box.container) ? 'px' : '%';
                     let heightAuto = accordion.buttons.__heightAuto.checked;
                     if (!accordion.buttons.__aspectRatio || !accordion.buttons.__aspectRatio.checked) {
@@ -366,7 +361,6 @@ export default class PluginToolbar extends Component {
                 if (button.type === 'number') {
                     //If there's any problem when parsing (NaN) -> take min value if defined; otherwise take 0
                     value = parseInt(value, 10) || button.min || 0;
-
                     if (button.max && value > button.max) {
                         value = button.max;
                     }
@@ -388,9 +382,7 @@ export default class PluginToolbar extends Component {
                     let ind = button.value.indexOf(e);
                     value = e;  //[...e.target.options].filter(o => o.selected).map(o => o.value);
                 }
-                /*                if (buttonKey == 'borderRadius'){
-                 value = value + '%';
-                 }*/
+
                 if (button.type === 'colorPicker') {
                     value = e.value;
                 }
@@ -403,6 +395,135 @@ export default class PluginToolbar extends Component {
 
         };
 
+        if (button.options) {
+            if (button.type === "colorPicker") {
+                props.options = button.options;
+                props.optionRenderer = this.renderOption;
+                props.valueRenderer = this.renderValue;
+                return React.createElement(
+                    FormGroup,
+                    {key: button.__name},
+                    [
+                        React.createElement(
+                            ControlLabel,
+                            {key: 'label_' + button.__name},
+                            button.__name),
+                        React.createElement(
+                            Select,
+                            props,
+                            null)
+                    ]
+                );
+            }
+
+            if (button.type === "select") {
+                if (!button.multiple) {
+                    button.options.map((option, index) => {
+                        if (!children) {
+                            children = [];
+                        }
+                        children.push(React.createElement('option', {key: 'child_' + index, value: option}, option));
+                    });
+                    props.componentClass = 'select';
+                    return React.createElement(
+                        FormGroup,
+                        {key: button.__name},
+                        [
+                            React.createElement(
+                                ControlLabel,
+                                {key: 'label_' + button.__name},
+                                button.__name),
+                            React.createElement(
+                                FormControl,
+                                props,
+                                children)
+                        ]
+                    );
+                }
+
+                props.multiple = 'multiple';
+                props.options = button.options;
+                props.multi = true;
+                props.simpleValue = true;
+                props.placeholder = "No has elegido ninguna opción";
+                return React.createElement(
+                    FormGroup,
+                    {key: button.__name},
+                    [
+                        React.createElement(
+                            ControlLabel,
+                            {key: 'label_' + button.__name},
+                            button.__name),
+                        React.createElement(
+                            Select,
+                            props,
+                            null)
+                    ]
+                );
+            }
+
+            if (button.type === 'radio') {
+                button.options.map((radio, index) => {
+                    if (!children) {
+                        children = [];
+                        children.push(React.createElement(ControlLabel, {key: 'child_' + index}, button.__name));
+                    }
+                    children.push(React.createElement(Radio, {
+                        key: index,
+                        name: button.__name,
+                        value: index,
+                        id: (button.__name + radio),
+                        onChange: props.onChange,
+                        checked: (button.value === button.options[index])
+                    }, radio));
+                });
+                return React.createElement(FormGroup, props, children);
+            }
+
+            if (button.type === 'fancy_radio') {
+                if (buttonKey === '__verticalAlign') {
+                    return React.createElement(RadioButtonFormGroup, {
+                        key: button.__name,
+                        title: button.__name,
+                        options: button.options,
+                        selected: button.value,
+                        click: (option) => {
+                            this.props.onVerticallyAlignBox(this.props.boxSelected, option);
+                        },
+                        tooltips: button.tooltips,
+                        icons: button.icons
+                    }, null);
+                }
+                return null;
+            }
+        }
+
+        if (button.type === 'checkbox') {
+            props.checked = button.value === 'checked';
+            return React.createElement(
+                FormGroup,
+                {key: (button.__name)},
+                React.createElement(
+                    Checkbox,
+                    props,
+                    button.__name)
+            );
+        }
+
+        if (button.type === "vish_provider") {
+            return React.createElement(VishProvider, {
+                key: button.__name,
+                formControlProps: props,
+                isBusy: this.props.isBusy,
+                fetchResults: this.props.fetchResults,
+                onFetchVishResources: this.props.onFetchVishResources,
+                onUploadVishResource: this.props.onUploadVishResource,
+                onChange: props.onChange
+            }, null);
+        }
+
+        // If it's none of previous types (number, text, color, range, ...)
+
         if (buttonKey === '__height') {
             let heightAuto = accordion.buttons.__heightAuto.value === "checked";
 
@@ -411,92 +532,74 @@ export default class PluginToolbar extends Component {
             props.disabled = heightAuto;
         }
         if (buttonKey === '__width') {
-            props.value = parseFloat(this.props.box.width, 10);
-        }
-        if (button.options && button.type === 'colorPicker') {
-            props.options = button.options;
-            props.optionRenderer = this.renderOption;
-            props.valueRenderer = this.renderValue;
-            return React.createElement(FormGroup, {key: button.__name}, [React.createElement(ControlLabel, {key: 'label_' + button.__name}, button.__name),
-                React.createElement(Select, props, null)]);
+            let advancedPanel = (
+                /* jshint ignore:start */
+                <FormGroup>
+                    <Checkbox label={i18n.t("Auto")}
+                              checked={button.auto}
+                              onChange={props.onChange}>
+                        {i18n.t("Auto")}
+                    </Checkbox>
+                    <ControlLabel>{i18n.t("Units")}</ControlLabel>
+                    <FormControl componentClass='select'
+                                 value={button.units}
+                                 onChange={props.onChange}>
+                        <option value="px">{i18n.t("Pixels")}</option>
+                        <option value="%">{i18n.t("Percentage")}</option>
+                    </FormControl>
+                </FormGroup>
+                /* jshint ignore:end */
+            );
 
-        }
-
-        if (button.options && button.type === 'select') {
-            if (!button.multiple) {
-                button.options.map((option, index) => {
-                    if (!children) {
-                        children = [];
-                    }
-                    children.push(React.createElement('option', {key: 'child_' + index, value: option}, option));
-                });
-                props.componentClass = 'select';
-
-                return React.createElement(FormGroup, {key: button.__name}, [React.createElement(ControlLabel, {key: 'label_' + button.__name}, button.__name),
-                    React.createElement(FormControl, props, children)]);
-
-            } else {
-                props.multiple = 'multiple';
-                props.options = button.options;
-                props.multi = true;
-                props.simpleValue = true;
-                props.placeholder = "No has elegido ninguna opción";
-                return React.createElement(FormGroup, {key: button.__name}, [React.createElement(ControlLabel, {key: 'label_' + button.__name}, button.__name),
-                    React.createElement(Select, props, null)]);
-            }
-
-
-        } else if (button.type === 'checkbox') {
-            props.checked = button.value === 'checked';
-            return React.createElement(FormGroup, {key: (button.__name)},
-                React.createElement(Checkbox, props, button.__name));
-
-        } else if (button.options && button.type === 'radio') {
-            button.options.map((radio, index) => {
-                if (!children) {
-                    children = [];
-                    children.push(React.createElement(ControlLabel, {key: 'child_' + index}, button.__name));
-                }
-                children.push(React.createElement(Radio, {
-                    key: index,
-                    name: button.__name,
-                    value: index,
-                    id: (button.__name + radio),
-                    onChange: props.onChange,
-                    checked: (button.value === button.options[index])
-                }, radio));
-            });
-            return React.createElement(FormGroup, props, children);
-        } else if (button.type === "vish_provider") {
-            return React.createElement(VishProvider, {
-                key: ('key' + button.__name),
-                formControlProps: props,
-                isBusy: this.props.isBusy,
-                fetchResults: this.props.fetchResults,
-                onFetchVishResources: this.props.onFetchVishResources,
-                onUploadVishResource: this.props.onUploadVishResource,
-                onChange: props.onChange
-            }, null);
-        } else {
-            return React.createElement(
-                FormGroup,
-                {key: ('key' + button.__name)},
-                [
-                    React.createElement(
-                        ControlLabel,
-                        {key: 'label_' + button.__name},
-                        button.__name),
-                    React.createElement(
-                        "span",
-                        {key: 'output_span' + button.__name, className: 'rangeOutput'},
-                        button.type === "range" ? "   " + button.value : null),
-                    React.createElement(
-                        FormControl,
-                        props,
-                        null)
-                ]
+            props.value = button.auto ? 'auto' : parseFloat(this.props.box.width, 10);
+            props.type = button.auto ? 'text' : 'number';
+            props.disabled = button.auto;
+            return (
+                /* jshint ignore:start */
+                <FormGroup key={button.__name}>
+                    <ControlLabel key={"label_" + button.__name}>
+                        {button.__name}
+                    </ControlLabel>
+                    <InputGroup>
+                        <FormControl {...props} />
+                        <OverlayTrigger trigger="click"
+                                        placement="bottom"
+                                        rootClose
+                                        overlay={
+                                    <Popover id="advancedpanel"
+                                             className="advancedPopover"
+                                             title={i18n.t('Advanced')}>
+                                         {advancedPanel}
+                                    </Popover>
+                                }>
+                            <InputGroup.Addon className="gc_addon">
+                                <i className="material-icons gridconficons">settings</i>
+                            </InputGroup.Addon>
+                        </OverlayTrigger>
+                    </InputGroup>
+                </FormGroup>
+                /* jshint ignore:end */
             );
         }
+
+        return React.createElement(
+            FormGroup,
+            {key: button.__name},
+            [
+                React.createElement(
+                    ControlLabel,
+                    {key: 'label_' + button.__name},
+                    button.__name),
+                React.createElement(
+                    "span",
+                    {key: 'output_span' + button.__name, className: 'rangeOutput'},
+                    button.type === "range" ? button.value : null),
+                React.createElement(
+                    FormControl,
+                    props,
+                    null)
+            ]
+        );
     }
 
     renderOption(option) {

@@ -121,7 +121,7 @@ export default class GridConfigurator extends Component {
                                   this.props.onColsChanged(this.props.id, this.props.parentId, dist, this.props.container.children);
                              }}/>
                         <OverlayTrigger trigger="click" rootClose placement="bottom"
-                                        overlay={<Popover id="advancedcols"  title="Avanzado">{advancedColumns}</Popover>}>
+                                        overlay={<Popover id="advancedcols" className="advancedPopover" title="Avanzado">{advancedColumns}</Popover>}>
                             <InputGroup.Addon className="gc_addon"><i
                                 className="material-icons gridconficons ">settings</i></InputGroup.Addon>
                         </OverlayTrigger>
@@ -170,7 +170,7 @@ export default class GridConfigurator extends Component {
                                                 this.props.onRowsChanged(this.props.id, this.props.parentId, index, dist, this.props.container.children);
                                           }}/>
                                 <OverlayTrigger trigger="click" rootClose placement="bottom"
-                                                overlay={<Popover id="advancedrows" title={i18n.t('Advanced')}>{advancedRows}</Popover>}>
+                                                overlay={<Popover id="advancedrows" className="advancedPopover" title={i18n.t('Advanced')}>{advancedRows}</Popover>}>
                                     <InputGroup.Addon className="gc_addon"><i className="material-icons gridconficons ">settings</i></InputGroup.Addon>
                                 </OverlayTrigger>
                             </InputGroup>
