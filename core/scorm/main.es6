@@ -60,7 +60,7 @@ export default {
                 }
 
                 let root_element_title = doc.createElement("title");
-                let root_element_text = doc.createTextNode(sections[root_section].unitNumber +". "+ sections[root_section].name);
+                let root_element_text = doc.createTextNode(sections[root_section].name);
                 root_element_title.appendChild(root_element_text);
                 root_element.appendChild(root_element_title);
 
