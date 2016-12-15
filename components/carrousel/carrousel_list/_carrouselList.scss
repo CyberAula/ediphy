@@ -16,12 +16,15 @@
 .carouselListTitle {
     cursor: pointer;
     color: $grisclaro;
-    * {
+    *{
         @include animacion(all, 0.2s);
         padding: 4px;
     }
     &:hover {
         color: white !important;
+    }
+    .material-icons{
+        padding: 4px 8px;
     }
 }
 
@@ -67,14 +70,14 @@
 
 /*NavItem Selected*/
 .selected {
-    font-size: 13px;
+    font-size: 12px;
     color: white;
     background-color: $greyNavItemSelected;
 }
 
 /*NavItem NOT Selected*/
 .notSelected {
-    font-size: 13px;
+    font-size: 12px;
     color: $grismedio;
     &:hover {
         cursor: pointer;
@@ -91,6 +94,9 @@
     span{
         display: flex;
         overflow-x: hidden;
+        i{
+            padding: 0 8px 4px 8px;
+        }
     }
 }
 
@@ -107,7 +113,6 @@
         font-size: 1em;
         vertical-align: middle;
         margin: 0;
-        padding: 0 8px 4px 10px;
     }
     .daliCarousel {
         .editIndexTitleIcon {
