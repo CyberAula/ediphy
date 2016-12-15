@@ -29,7 +29,7 @@ export default class PluginToolbar extends Component {
                 <div id="wrap"
                      className="wrapper hiddenWrapper"
                      style={{
-                        top: this.props.top,
+                        top: this.props.top
                      }}>
                     <div id="tools" className="toolbox">
                     </div>

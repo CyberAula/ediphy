@@ -130,6 +130,8 @@ function createSortableButtons(controls) {
         checked: 'true',
         autoManaged: true
     };
+    //This will be commented until it's working correctly
+    /*
     controls.main.accordions.__sortable.buttons.__position = {
         __name: i18n.t('Position'),
         type: 'radio',
@@ -137,6 +139,7 @@ function createSortableButtons(controls) {
         options: ['absolute', 'relative'],
         autoManaged: true
     };
+
     controls.main.accordions.__sortable.buttons.__verticalAlign = {
         __name: i18n.t('Vertical_align'),
         type: 'fancy_radio',
@@ -146,6 +149,7 @@ function createSortableButtons(controls) {
         icons: ['vertical_align_top', 'vertical_align_center', 'vertical_align_bottom'],
         autoManaged: true
     };
+    */
 }
 function createFloatingBoxButtons(controls) {
     if (!controls.main) {
@@ -217,7 +221,7 @@ function toolbarCreator(state, action){
     // If contained in sortableContainer
     if (isSortableContainer(action.payload.ids.container)) {
         createSortableButtons(toolbar.controls);
-    // If not contained (AKA floating box)
+    // If not contained and is not a sortableBox (AKA floating box)
     } else if (!isSortableBox(action.payload.ids.id)) {
         createFloatingBoxButtons(toolbar.controls);
     }
@@ -229,7 +233,6 @@ function toolbarCreator(state, action){
     if (toolbar.config && toolbar.config.aspectRatioButtonConfig) {
         createAspectRatioButton(toolbar.controls, toolbar.config);
     }
-
     if (toolbar.config && toolbar.config.isRich) {
         createRichAccordions(toolbar.controls);
     }
