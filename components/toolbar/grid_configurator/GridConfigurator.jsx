@@ -24,8 +24,8 @@ export default class GridConfigurator extends Component {
                              style={{width: '100%'}}
                              onChange={e => {
                             let dist = e.target.value.split(" ").map(function (i){
-                                if (i && !isNaN(parseFloat(i))) {
-                                    return parseFloat(i);
+                                if (i && !isNaN(parseFloat(i, 10))) {
+                                    return parseFloat(i, 10);
                                 } else {
                                   return 0;
                                 }
@@ -62,7 +62,7 @@ export default class GridConfigurator extends Component {
                                          style={{width: '100%'}}
                                          onChange={e => {
                                   let current = height === 'auto'
-                                  let newHeight = current ? parseFloat(document.getElementById(this.props.id).clientHeight) : 'auto';
+                                  let newHeight = current ? parseFloat(document.getElementById(this.props.id).clientHeight, 10) : 'auto';
                                   this.props.onSortableContainerResized(this.props.id, this.props.parentId, newHeight);
                                }}/>
                         </InputGroup>
@@ -72,7 +72,7 @@ export default class GridConfigurator extends Component {
                         <FormControl type={height == 'auto' ? 'text' : 'number'}
                                      key="height"
                                      disabled={height == 'auto'}
-                                     value={height == 'auto' ? 'auto' : parseFloat(height) /*parseFloat(document.getElementById(this.props.id).style.height)*/}
+                                     value={height == 'auto' ? 'auto' : parseFloat(height, 10) /*parseFloat(document.getElementById(this.props.id).style.height)*/}
                                      label="Block Height"
                                      style={{width: '100%'}}
                                      min={1}
@@ -140,8 +140,8 @@ export default class GridConfigurator extends Component {
                                          style={{width: '100%'}}
                                          onChange={e => {
                                               let dist = e.target.value.split(" ").map(function (i){
-                                                  if(i && !isNaN(parseFloat(i))){
-                                                    return parseFloat(i);
+                                                  if(i && !isNaN(parseFloat(i, 10))){
+                                                    return parseFloat(i, 10);
                                                   } else {
                                                     return 0;
                                                   }
@@ -181,7 +181,7 @@ export default class GridConfigurator extends Component {
                 <FormGroup>
                     <ControlLabel>{i18n.t('styles.padding') + ' (px)'}</ControlLabel>
                     <FormControl type="number"
-                                 value={this.props.container.style ? parseFloat(this.props.container.style.padding) : 0}
+                                 value={this.props.container.style ? parseFloat(this.props.container.style.padding, 10) : 0}
                                  label={"Padding"}
                                  min={0}
                                  max={100}
@@ -203,7 +203,7 @@ export default class GridConfigurator extends Component {
                 <FormGroup>
                     <ControlLabel>{i18n.t('styles.border_size')}</ControlLabel>
                     <FormControl type="number"
-                                 value={this.props.container.style ? parseFloat(this.props.container.style.borderWidth) : 0}
+                                 value={this.props.container.style ? parseFloat(this.props.container.style.borderWidth, 10) : 0}
                                  label={"Grosor del borde"}
                                  min={0}
                                  style={{width: '100%'}}

@@ -141,7 +141,7 @@ export default class PluginPlaceholder extends Component {
                     event.target.style.height = event.rect.height + 'px';
                 },
                 onend: (event) => {
-                    this.props.onSortableContainerResized(this.props.pluginContainer, this.props.parentBox.id, parseInt(event.target.style.height));
+                    this.props.onSortableContainerResized(this.props.pluginContainer, this.props.parentBox.id, parseInt(event.target.style.height, 10));
                     let toolbar = this.props.toolbars[this.props.parentBox.id];
                     Dali.Plugins.get(toolbar.config.name).forceUpdate(toolbar.state, this.props.parentBox.id, RESIZE_SORTABLE_CONTAINER);
                 }

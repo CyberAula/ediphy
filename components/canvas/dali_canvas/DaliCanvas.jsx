@@ -37,8 +37,8 @@ export default class DaliCanvas extends Component {
         let maincontent = document.getElementById('maincontent');
         let actualHeight;
         if (maincontent) {
-            actualHeight = parseInt(maincontent.scrollHeight);
-            actualHeight = (parseInt(maincontent.clientHeight) < actualHeight) ? (actualHeight) + 'px' : '100%';
+            actualHeight = parseInt(maincontent.scrollHeight, 10);
+            actualHeight = (parseInt(maincontent.clientHeight, 10) < actualHeight) ? (actualHeight) + 'px' : '100%';
         }
 
         let overlayHeight = actualHeight ? actualHeight : '100%';

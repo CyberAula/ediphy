@@ -306,7 +306,7 @@ export default class PluginToolbar extends Component {
         let props = {
             key: ('child_' + key),
             type: button.type,
-            value: button.type === 'number' ? parseFloat(button.value) : button.value,
+            value: button.type === 'number' ? parseFloat(button.value, 10) : button.value,
             label: button.__name,
             min: button.min,
             max: button.max,
@@ -342,13 +342,13 @@ export default class PluginToolbar extends Component {
                     let units = !isSortableContainer(this.props.box.container) ? 'px' : '%';
                     let heightAuto = accordion.buttons.__heightAuto.checked;
                     if (!accordion.buttons.__aspectRatio || !accordion.buttons.__aspectRatio.checked) {
-                        let newHeight = heightAuto ? "auto" : parseFloat(value);
+                        let newHeight = heightAuto ? "auto" : parseFloat(value, 10);
                         this.props.onBoxResized(id, value + units, this.props.box.height);
-                        this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, parseFloat(value));
+                        this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, parseFloat(value, 10));
                     } else {
-                        let newHeight = heightAuto ? 'auto' : (parseFloat(this.props.box.height) * parseFloat(value) / parseFloat(this.props.box.width));
+                        let newHeight = heightAuto ? 'auto' : (parseFloat(this.props.box.height, 10) * parseFloat(value, 10) / parseFloat(this.props.box.width, 10));
                         this.props.onBoxResized(id, value + units, heightAuto ? newHeight : (newHeight + units));
-                        this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, parseFloat(value));
+                        this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, parseFloat(value, 10));
                         this.props.onToolbarUpdated(id, tabKey, accordionKeys, '__height', newHeight);
 
                     }
@@ -357,11 +357,11 @@ export default class PluginToolbar extends Component {
                     let units = !isSortableContainer(this.props.box.container) ? 'px' : '%';
                     if (!accordion.buttons.__aspectRatio || !accordion.buttons.__aspectRatio.checked) {
                         this.props.onBoxResized(id, this.props.box.width, value + units);
-                        this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, parseFloat(value));
+                        this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, parseFloat(value, 10));
                     } else {
-                        let newWidth = (parseFloat(this.props.box.width) * parseFloat(value) / parseFloat(this.props.box.__height));
+                        let newWidth = (parseFloat(this.props.box.width, 10) * parseFloat(value, 10) / parseFloat(this.props.box.__height, 10));
                         this.props.onBoxResized(id, newWidth + units, value + units);
-                        this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, parseFloat(value));
+                        this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, parseFloat(value, 10));
                         this.props.onToolbarUpdated(id, tabKey, accordionKeys, '__width', newWidth);
                     }
                 }
@@ -369,12 +369,12 @@ export default class PluginToolbar extends Component {
                 if (button.type === 'number') {
                     if (value === "") {
                         value = "";
-                    } else if( button.min && (parseFloat(value) || 0) < button.min ){
+                    } else if( button.min && (parseFloat(value, 10) || 0) < button.min ){
                         value = button.min;
-                    } else if( button.max && (parseFloat(value) || 0) > button.max ){
+                    } else if( button.max && (parseFloat(value, 10) || 0) > button.max ){
                         value = button.max;
                     } else {
-                        value = parseFloat(value) || 0;
+                        value = parseFloat(value, 10) || 0;
                     }
                     if (button.units) {
                         value = value + button.units;
@@ -411,15 +411,16 @@ export default class PluginToolbar extends Component {
             }
 
         };
+
         if (buttonKey === '__height') {
             let heightAuto = accordion.buttons.__heightAuto.value === "checked";
 
-            props.value = heightAuto ? 'auto' : parseFloat(this.props.box.height);
+            props.value = heightAuto ? 'auto' : parseFloat(this.props.box.height, 10);
             props.type = heightAuto ? 'text' : 'number';
             props.disabled = heightAuto;
         }
         if (buttonKey === '__width') {
-            props.value = parseFloat(this.props.box.width);
+            props.value = parseFloat(this.props.box.width, 10);
         }
         if (button.options && button.type === 'colorPicker') {
             props.options = button.options;

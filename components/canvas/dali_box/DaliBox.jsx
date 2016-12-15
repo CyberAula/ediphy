@@ -468,15 +468,15 @@ export default class DaliBox extends Component {
                         if (!isSortableContainer(box.container)) {
                             let target = event.target;
 
-                            target.style.left = (parseInt(target.style.left) || 0) + event.dx + 'px';
-                            target.style.top = (parseInt(target.style.top) || 0) + event.dy + 'px';
+                            target.style.left = (parseInt(target.style.left, 10) || 0) + event.dx + 'px';
+                            target.style.top = (parseInt(target.style.top, 10) || 0) + event.dy + 'px';
                             target.style.zIndex = '9999';
                             // Else, drag the clone and update values in attributes in both elements
                         } else {
                             let target = document.getElementById('clone');
                             let original = document.getElementById('box-' + this.props.id);
-                            let x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx;
-                            let y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
+                            let x = (parseFloat(target.getAttribute('data-x'), 10) || 0) + event.dx;
+                            let y = (parseFloat(target.getAttribute('data-y'), 10) || 0) + event.dy;
 
                             target.style.webkitTransform =
                                 target.style.transform =
@@ -504,8 +504,8 @@ export default class DaliBox extends Component {
                     let pos = this.props.boxes[this.props.id].position.type;
                     let actualLeft = pos === 'relative' ? target.style.left : target.getAttribute('data-x');
                     let actualTop = pos === 'relative' ? target.style.top : target.getAttribute('data-y');
-                    let left = Math.max(Math.min(Math.floor(parseInt(actualLeft) / target.parentElement.offsetWidth * 100), 100), 0) + '%';
-                    let top = Math.max(Math.min(Math.floor(parseInt(actualTop) / target.parentElement.offsetHeight * 100), 100), 0) + '%';
+                    let left = Math.max(Math.min(Math.floor(parseInt(actualLeft, 10) / target.parentElement.offsetWidth * 100), 100), 0) + '%';
+                    let top = Math.max(Math.min(Math.floor(parseInt(actualTop, 10) / target.parentElement.offsetHeight * 100), 100), 0) + '%';
                     target.style.left = isSortableContainer(box.container) ? left : target.style.left;
                     target.style.top = isSortableContainer(box.container) ? top : target.style.top;
                     target.style.zIndex = 'initial';
@@ -521,8 +521,8 @@ export default class DaliBox extends Component {
 
                     this.props.onBoxMoved(
                         this.props.id,
-                        isSortableContainer(box.container) ? left : Math.max(parseInt(target.style.left), 0) + 'px',
-                        isSortableContainer(box.container) ? top : Math.max(parseInt(target.style.top), 0) + 'px',
+                        isSortableContainer(box.container) ? left : Math.max(parseInt(target.style.left, 10), 0) + 'px',
+                        isSortableContainer(box.container) ? top : Math.max(parseInt(target.style.top, 10), 0) + 'px',
                         this.props.boxes[this.props.id].position.type
                     );
 
@@ -602,8 +602,8 @@ export default class DaliBox extends Component {
                     }
 
                     let target = event.target;
-                    let x = (parseFloat(target.getAttribute('data-x')) || 0);
-                    let y = (parseFloat(target.getAttribute('data-y')) || 0);
+                    let x = (parseFloat(target.getAttribute('data-x'), 10) || 0);
+                    let y = (parseFloat(target.getAttribute('data-y'), 10) || 0);
 
                     // update the element's style
                     target.style.width = event.rect.width + 'px';
@@ -622,7 +622,7 @@ export default class DaliBox extends Component {
                     // Update size in textbox
                     let span = document.getElementById('sizing');
                     if (span) {
-                        span.innerHTML = parseInt(target.style.width) + " × " + parseInt(target.style.height);
+                        span.innerHTML = parseInt(target.style.width, 10) + " × " + parseInt(target.style.height, 10);
                     }
                 },
                 onend: (event) => {
@@ -631,12 +631,12 @@ export default class DaliBox extends Component {
                     }
                     // If contained in sortableContainer || PluginPlaceHolder, convert to %
                     let target = event.target;
-                    let width = Math.min(Math.floor(parseInt(target.style.width) / target.parentElement.offsetWidth * 100), 100) + '%';
-                    let height = Math.min(Math.floor(parseInt(target.style.height) / target.parentElement.offsetHeight * 100), 100) + '%';
+                    let width = Math.min(Math.floor(parseInt(target.style.width, 10) / target.parentElement.offsetWidth * 100), 100) + '%';
+                    let height = Math.min(Math.floor(parseInt(target.style.height, 10) / target.parentElement.offsetHeight * 100), 100) + '%';
                     this.props.onBoxResized(
                         this.props.id,
-                        isSortableContainer(box.container) ? width : parseInt(target.style.width),
-                        isSortableContainer(box.container) ? height : parseInt(target.style.height));
+                        isSortableContainer(box.container) ? width : parseInt(target.style.width, 10),
+                        isSortableContainer(box.container) ? height : parseInt(target.style.height, 10));
 
                     if (box.position.x !== target.style.left || box.position.y !== target.style.top) {
                         this.props.onBoxMoved(this.props.id, target.style.left, target.style.top, this.props.boxes[this.props.id].position.type);
