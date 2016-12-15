@@ -12,13 +12,12 @@ import Dali from './../../../core/main';
 require('./_carrouselList.scss');
 
 export default class CarrouselList extends Component {
-    render() {
+    render() {    
         return (
             /* jshint ignore:start */
             <div style={{height: 'calc(100% - 25px)'}}>
                 <div ref="sortableList"
                      className="carList connectedSortables"
-                     style={{paddingTop: 5}}
                      onClick={e => {
                         this.props.onNavItemSelected(this.props.id);
                         e.stopPropagation();
@@ -51,16 +50,16 @@ export default class CarrouselList extends Component {
                                              e.stopPropagation();
                                         }}>
                                         <span style={{marginLeft: 20 * (this.props.navItems[id].level-1)}}>
-                                            <i className="material-icons fileIcon">
-                                                {isSlide(this.props.navItems[id].type) ? "slideshow" : "insert_drive_file"}
-                                            </i>
-                                            <DaliIndexTitle
-                                                id={id}
-                                                title={this.props.navItems[id].name}
-                                                index={this.props.navItems[this.props.navItems[id].parent].children.indexOf(id) + 1 + '.'}
-                                                hidden={this.props.navItems[id].hidden}
-                                                onNameChanged={this.props.onNavItemNameChanged}
-                                                onNavItemToggled={this.props.onNavItemToggled}/>
+                                                <i className="material-icons fileIcon">
+                                                    {isSlide(this.props.navItems[id].type) ? "slideshow" : "insert_drive_file"}
+                                                </i>
+                                                <DaliIndexTitle
+                                                    id={id}
+                                                    title={this.props.navItems[id].name}
+                                                    index={this.props.navItems[this.props.navItems[id].parent].children.indexOf(id) + 1 + '.'}
+                                                    hidden={this.props.navItems[id].hidden}
+                                                    onNameChanged={this.props.onNavItemNameChanged}
+                                                    onNavItemToggled={this.props.onNavItemToggled}/>
                                         </span>
                                     </h4>
                             }
