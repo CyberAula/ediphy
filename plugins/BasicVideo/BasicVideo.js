@@ -50,7 +50,6 @@ export function BasicVideo(base) {
                                     type: 'number',
                                     value: 0,
                                     min: 0,
-                                    units: 'px',
                                     max: 100
                                 },
                                 borderWidth: {
@@ -58,8 +57,7 @@ export function BasicVideo(base) {
                                     type: 'number',
                                     value: 0,
                                     min: 0,
-                                    max: 10,
-                                    units: 'px'
+                                    max: 10
                                 },
                                 borderStyle: {
                                     __name: Dali.i18n.t('BasicVideo.border_style'),
@@ -75,10 +73,9 @@ export function BasicVideo(base) {
                                 borderRadius: {
                                     __name: Dali.i18n.t('BasicVideo.radius'),
                                     type: 'number',
-                                    value: '0',
-                                    min: '0',
-                                    max: '50',
-                                    units: '%'
+                                    value: 0,
+                                    min: 0,
+                                    max: 50
                                 },
                                 opacity: {
                                     __name: Dali.i18n.t('BasicVideo.opacity'),

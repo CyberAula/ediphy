@@ -48,9 +48,6 @@ export default class DaliBox extends Component {
                         if (!button.isAttribute) {
                             if (buttonKey !== '__width' && buttonKey !== '__height') {
                                 style[buttonKey] = button.value;
-                                /*if (button.units) {
-                                 style[buttonKey] += button.units;
-                                 }*/
                             }
                         } else {
                             attrs['data-' + buttonKey] = button.value;
@@ -73,9 +70,6 @@ export default class DaliBox extends Component {
                                 if (!button.isAttribute) {
                                     if (buttonKey !== '__width' && buttonKey !== '__height') {
                                         style[buttonKey] = button.value;
-                                        /*if (button.units) {
-                                         style[buttonKey] += button.units;
-                                         }*/
                                     }
                                 } else {
                                     attrs['data-' + buttonKey] = button.value;
@@ -166,7 +160,7 @@ export default class DaliBox extends Component {
         }
         return (
             /* jshint ignore:start */
-            <div className={classes} id={'box-'+this.props.id}
+            <div className={classes} id={'box-' + this.props.id}
                  onClick={e => {
                     if(this.props.boxSelected === this.props.id){
                         e.stopPropagation();

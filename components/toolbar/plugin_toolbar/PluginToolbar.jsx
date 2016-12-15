@@ -306,7 +306,7 @@ export default class PluginToolbar extends Component {
         let props = {
             key: ('child_' + key),
             type: button.type,
-            value: button.type === 'number' ? parseFloat(button.value, 10) : button.value,
+            value: button.value,
             label: button.__name,
             min: button.min,
             max: button.max,
@@ -315,28 +315,24 @@ export default class PluginToolbar extends Component {
             className: button.class,
             style: {width: '100%'},
             onBlur: e => {
-                let value = e.target ? e.target.value : e.target;
-                if (button.type === 'number') {
-                    if (value === "") {
-                        if(button.min){
-                            value = button.min;
-                        } else {
-                            value = 0;
-                        }
-                    }
+                let value = e.target.value;
+                if (button.type === 'number' && value === "") {
+                    value = button.min ? button.min : 0;
                 }
 
-                if (!button.autoManaged ) {
+                if (!button.autoManaged) {
                     button.callback(state, buttonKey, value, id, UPDATE_TOOLBAR);
                 }
             },
             onChange: e => {
-                let value = e.target ? e.target.value : e.target;
+                let value = e.target.value;
+
                 if (buttonKey === '__heightAuto') {
                     let units = !isSortableContainer(this.props.box.container) ? 'px' : '%';
                     let newValue = (e.target.checked ? "auto" : (100 + units));
                     this.props.onToolbarUpdated(id, tabKey, accordionKeys, '__height', newValue);
                     this.props.onBoxResized(id, this.props.box.width, newValue);
+                    return;
                 }
                 if (buttonKey === '__width') {
                     let units = !isSortableContainer(this.props.box.container) ? 'px' : '%';
@@ -350,8 +346,8 @@ export default class PluginToolbar extends Component {
                         this.props.onBoxResized(id, value + units, heightAuto ? newHeight : (newHeight + units));
                         this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, parseFloat(value, 10));
                         this.props.onToolbarUpdated(id, tabKey, accordionKeys, '__height', newHeight);
-
                     }
+                    return;
                 }
                 if (buttonKey === '__height') {
                     let units = !isSortableContainer(this.props.box.container) ? 'px' : '%';
@@ -364,20 +360,15 @@ export default class PluginToolbar extends Component {
                         this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, parseFloat(value, 10));
                         this.props.onToolbarUpdated(id, tabKey, accordionKeys, '__width', newWidth);
                     }
+                    return;
                 }
 
                 if (button.type === 'number') {
-                    if (value === "") {
-                        value = "";
-                    } else if( button.min && (parseFloat(value, 10) || 0) < button.min ){
-                        value = button.min;
-                    } else if( button.max && (parseFloat(value, 10) || 0) > button.max ){
+                    //If there's any problem when parsing (NaN) -> take min value if defined; otherwise take 0
+                    value = parseInt(value, 10) || button.min || 0;
+
+                    if (button.max && value > button.max) {
                         value = button.max;
-                    } else {
-                        value = parseFloat(value, 10) || 0;
-                    }
-                    if (button.units) {
-                        value = value + button.units;
                     }
                 }
 
@@ -405,7 +396,7 @@ export default class PluginToolbar extends Component {
                 }
                 this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, value);
 
-                if (!button.autoManaged ) {
+                if (!button.autoManaged) {
                     button.callback(state, buttonKey, value, id, UPDATE_TOOLBAR);
                 }
             }
@@ -487,12 +478,24 @@ export default class PluginToolbar extends Component {
                 onChange: props.onChange
             }, null);
         } else {
-            let output = button.type === "range" ? "   " + button.value : null;
-            return React.createElement(FormGroup, {key: ('key' + button.__name)}, [React.createElement(ControlLabel, {key: 'label_' + button.__name}, button.__name), React.createElement("span", {
-                key: 'output_span' + button.__name,
-                className: 'rangeOutput'
-            }, output),
-                React.createElement(FormControl, props, null)]);
+            return React.createElement(
+                FormGroup,
+                {key: ('key' + button.__name)},
+                [
+                    React.createElement(
+                        ControlLabel,
+                        {key: 'label_' + button.__name},
+                        button.__name),
+                    React.createElement(
+                        "span",
+                        {key: 'output_span' + button.__name, className: 'rangeOutput'},
+                        button.type === "range" ? "   " + button.value : null),
+                    React.createElement(
+                        FormControl,
+                        props,
+                        null)
+                ]
+            );
         }
     }
 

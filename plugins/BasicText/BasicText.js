@@ -22,18 +22,16 @@ export function BasicText(base) {
                                 padding: {
                                     __name: 'Padding',
                                     type: 'number',
-                                    value: '15px',
+                                    value: 15,
                                     min: 0,
-                                    max: 100,
-                                    units: 'px'
+                                    max: 100
                                 },
                                 borderWidth: {
                                     __name: Dali.i18n.t('BasicText.border_size'),
                                     type: 'number',
-                                    value: '0px',
+                                    value: 0,
                                     min: 0,
-                                    max: 10,
-                                    units: 'px'
+                                    max: 10
                                 },
                                 borderStyle: {
                                     __name: Dali.i18n.t('BasicText.border_style'),
@@ -49,11 +47,9 @@ export function BasicText(base) {
                                 borderRadius: {
                                     __name: Dali.i18n.t('BasicText.radius'),
                                     type: 'number',
-                                    value: '0%',
-                                    min: '0',
-                                    max: '50',
-                                    step: '5',
-                                    units: '%'
+                                    value: 0,
+                                    min: 0,
+                                    max: 50
                                 },
                                 opacity: {
                                     __name: Dali.i18n.t('BasicText.opacity'),

@@ -38,7 +38,6 @@ export function Youtube(base) {
                                     type: 'number',
                                     value: 0,
                                     min: 0,
-                                    units: 'px',
                                     max: 100
                                 },
                                 borderWidth: {
@@ -46,7 +45,6 @@ export function Youtube(base) {
                                     type: 'number',
                                     value: 0,
                                     min: 0,
-                                    units: 'px',
                                     max: 10
                                 },
                                 borderStyle: {
@@ -63,10 +61,9 @@ export function Youtube(base) {
                                 borderRadius: {
                                     __name: Dali.i18n.t('Youtube.radius'),
                                     type: 'number',
-                                    units: '%',
-                                    value: '0',
-                                    min: '0',
-                                    max: '50'
+                                    value: 0,
+                                    min: 0,
+                                    max: 50
                                 },
                                 opacity: {
                                     __name: Dali.i18n.t('Youtube.opacity'),
