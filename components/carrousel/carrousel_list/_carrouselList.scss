@@ -5,153 +5,161 @@
 
 /* Índice */
 .carList {
-  overflow-y: auto;
-  height: calc(100% - 56px);
-  margin-top: 4px;
-  color: $fondo;
+    overflow-y: auto;
+    height: calc(100% - 56px);
+    margin-top: 4px;
+    padding-top: 4px;
+    color: $fondo;
 }
 
 /*Título del componente*/
 .carouselListTitle {
-  cursor: pointer;
-  color: $grisclaro;
-  * {
-    @include animacion(all, 0.2s);
-    padding: 4px;
-  }
-  &:hover {
-    color: white !important;
-  }
+    cursor: pointer;
+    color: $grisclaro;
+    *{
+        @include animacion(all, 0.2s);
+        padding: 4px;
+    }
+    &:hover {
+        color: white !important;
+    }
+    .material-icons{
+        padding: 4px 8px;
+    }
 }
 
 /*Section*/
 .expandir {
-  width: 30px;
-  color: grey;
-  background-color: transparent !important;
-  border: none !important;
-  outline: none !important;
-  padding: 0;
-  &:hover, &:active, &:focus, &:selected {
-    -webkit-box-shadow: none !important;
-    box-shadow: none !important;
-    -moz-box-shadow: none !important;
-    outline: none;
-  }
+    color: grey;
+    background-color: transparent !important;
+    border: none !important;
+    outline: none !important;
+    &:hover, &:active, &:focus, &:selected {
+        -webkit-box-shadow: none !important;
+        box-shadow: none !important;
+        -moz-box-shadow: none !important;
+        outline: none;
+    }
 }
 
 .dragIntoHelper {
-  margin-left: 30px;
-  border: 3px solid $brand_orange;
-  min-height: 30px;
-  width: 100%;
+    margin-left: 28px;
+    border: 4px solid $brand_orange;
+    min-height: 28px;
+    width: 100%;
 }
 
 /*Overriding bootstrap*/
 .daliCarousel {
 
-  h3, h4 {
-    &:hover {
-      cursor: pointer;
+    h3, h4 {
+        &:hover {
+            cursor: pointer;
+        }
     }
-  }
-  .open > .dropdown-toggle.btn-default {
-    color: white !important;
-  }
+    .open > .dropdown-toggle.btn-default {
+        color: white !important;
+    }
 
-  .btn-default, .open > .dropdown-toggle.btn-default {
-    &:focus {
-      color: white !important;
+    .btn-default, .open > .dropdown-toggle.btn-default {
+        &:focus {
+            color: white !important;
+        }
     }
-  }
 }
 
 /*NavItem Selected*/
 .selected {
-  font-size: 13px;
-  color: white;
-  background-color: $greyNavItemSelected;
+    font-size: 12px;
+    color: white;
+    background-color: $greyNavItemSelected;
 }
 
 /*NavItem NOT Selected*/
 .notSelected {
-  font-size: 13px;
-  color: $grismedio;
-  &:hover {
-    cursor: pointer;
+    font-size: 12px;
+    color: $grismedio;
+    &:hover {
+        cursor: pointer;
 
-  }
+    }
 }
 
 /*Each NavItem*/
 .navItemBlock {
-  padding: 8px;
-  .editIndexTitleIcon {
-    padding: 4px;
-  }
+    padding: 8px 4px;
+    .editIndexTitleIcon {
+        padding: 4px;
+    }
+    span{
+        display: flex;
+        overflow-x: hidden;
+        i{
+            padding: 0 8px 4px 8px;
+        }
+    }
 }
 
 /*Wrapper for the whole component including tab*/
 .wrapperCarousel {
-  background-color: $darkest;
-  margin: 0;
-  padding: 12px 0px 4px 0px;
-  width: 100%;
-  height: 100%;
-  overflow-y: hidden;
-  overflow-x: hidden;
-  .material-icons {
-    font-size: 1em;
-    vertical-align: middle;
+    background-color: $darkest;
     margin: 0;
-    padding: 4px 8px;
-  }
-  .daliCarousel {
-    .editIndexTitleIcon {
-      font-size: 1em;
-      float: right;
-      padding: 4px;
-    }
-    .fileIcon {
-      padding: 4px 8px 4px 4px;
-    }
-    .carrouselButton {
-      .material-icons {
+    padding: 12px 0px 4px 0px;
+    width: 100%;
+    height: 100%;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    .material-icons {
         font-size: 1em;
-      }
+        vertical-align: middle;
+        margin: 0;
     }
-  }
-  .toolbarHide + .courseTitleCarousel {
-    display: none;
-    visibility: hidden;
-  }
+    .daliCarousel {
+        .editIndexTitleIcon {
+            font-size: 1em;
+            float: right;
+            padding: 4px;
+        }
+        .fileIcon {
+            padding: 4px 8px 4px 0;
+        }
+        .carrouselButton {
+            .material-icons {
+                font-size: 1em;
+            }
+        }
+    }
+    .toolbarHide + .courseTitleCarousel {
+        display: none;
+        visibility: hidden;
+    }
 }
 
 /*bottomLine*/
 .bottomLine {
-  width: 100%;
-  border-top: 1px solid #555;
+    width: 100%;
+    border-top: 1px solid #555;
 }
 
 /*bottomGroup*/
 .bottomGroup {
-  width: 212px;
-  position: fixed;
-  bottom: 0;
-  .material-icons {
-    padding: 8px;
-  }
+    width: 212px;
+    position: fixed;
+    bottom: 4px;
+    .material-icons {
+        padding: 8px;
+    }
 }
 
 /*Icon for files*/
 .fileIcon {
-  padding: 0 6px;
+    padding: 0 6px;
 }
 
 /*Título curso*/
 .courseTitleCarousel{
     margin: -24px 0px 16px;
-    padding-left: 8px;
+    padding-left: 12px;
     color: $naranjaadams;
     font-size: 14px;
     overflow: hidden;
@@ -162,142 +170,140 @@
 
 /*Collapsed Carrousel*/
 .indiceoculto {
-  position: absolute;
-  left: 0;
-  top: 0;
+    position: absolute;
+    left: 0;
+    top: 0;
 }
 
 /*Hide Sections when collapsed*/
 .carouseloculto {
-  width: 0;
+    width: 0;
 }
 
 /*Show Sections when collapsed*/
 .carouselshow {
-  width: 100%;
+    width: 100%;
 }
 
 /*Buttons that act upon navItems*/
 .carrouselButton {
-  border: 0;
-  padding: 2px;
-  font-size: 20px;
-  color: $grismedio;
-  min-width: 20%;
-  border-radius: 0;
-  background-color: transparent !important;;
-  float: none;
-  &:hover, &:active {
-    box-shadow: none !important;
-    -moz-box-shadow: none !important;
-    -webkit-box-shadow: none !important;
-    outline: none;
-    color: white !important;
-    background-color: transparent !important;
-  }
+    border: 0;
+    padding: 2px;
+    font-size: 20px;
+    color: $grismedio;
+    min-width: 20%;
+    border-radius: 0;
+    background-color: transparent !important;;
+    float: none;
+    &:hover, &:active {
+        box-shadow: none !important;
+        -moz-box-shadow: none !important;
+        -webkit-box-shadow: none !important;
+        outline: none;
+        color: white !important;
+        background-color: transparent !important;
+    }
 }
 
 /*Dropup*/
 
 .pageMenu {
-  background-color: $grisoscuro !important;
-  margin: 0;
-  border-radius: 0;
-  padding: 0;
+    background-color: $grisoscuro !important;
+    margin: 0;
+    border-radius: 0;
+    padding: 0;
 
-  /*Divider inside dropup menu*/
+    /*Divider inside dropup menu*/
 
-  .divider {
-    background-color: $grismedio;
-  }
-
-  /*Menu items*/
-
-  li {
-    padding-bottom: 0;
-    a {
-      padding: 5px;
-      color: $grismedio;
-      &:active {
-        color: white !important;
-        background-color: transparent;
-      }
-      &:focus {
-        color: white !important;
-        background-color: transparent;
-      }
-      &:hover {
-        text-decoration: none;
-        background-color: #444;
-        color: white;
-
-      }
+    .divider {
+        background-color: $grismedio;
     }
-  }
 
-  /*Disabled menu items*/
+    /*Menu items*/
 
-  li.disabled {
-    a {
-      color: #555;
+    li {
+        padding-bottom: 0;
+        a {
+            padding: 4px;
+            color: $grismedio;
+            &:active {
+                color: white !important;
+                background-color: transparent;
+            }
+            &:focus {
+                color: white !important;
+                background-color: transparent;
+            }
+            &:hover {
+                text-decoration: none;
+                background-color: #444;
+                color: white;
+
+            }
+        }
     }
-  }
+
+    /*Disabled menu items*/
+
+    li.disabled {
+        a {
+            color: #555;
+        }
+    }
 }
 
 /*Inside DropUp*/
 
 #bottomMenu {
-  background-color: #222;
+    background-color: #222;
 }
 
 /*DropUp Tooltip*/
 
 #bottomMenu::after {
-  content: "";
-  border: 8px solid transparent;
-  border-top-color: $grisoscuro;
-  position: absolute;
-  //margin-top: 5px;
-  left: 5%;
-
+    content: "";
+    border: 8px solid transparent;
+    border-top-color: $grisoscuro;
+    position: absolute;
+    left: 5%;
 }
 
 #carouselDropUp {
-  width: 100%;
-  .dropdown-menu > li > a {
-    padding: 0px;
+    width: 100%;
+    .dropdown-menu > li > a {
+        padding: 0px;
 
-  }
+    }
 }
 
 .carouselDropup {
-  min-width: 20% !important;
+    min-width: 20% !important;
 }
 
 /*Delete popover*/
 
 .popoverButton {
-  @extend .daliTitleButton;
-  margin-top: 10px !important;
-  padding: 2px 5px !important;
-  width: auto !important;
-  height: auto !important;
-  border-radius: 0;
+    @extend .daliTitleButton;
+    margin-top: 10px !important;
+    padding: 2px 4px !important;
+    width: auto !important;
+    height: auto !important;
+    border-radius: 0;
 }
 
 #popov {
-  width: 200px;
-  border-radius: 0;
-  color: $grismedio;
+    width: 200px;
+    border-radius: 0;
+    color: $grismedio;
 
-  background-color: $darkest;
-  .popover-title {
-    color: $naranjaadams;
-    border-color: #333;
-    background-color: transparent;
-  }
+    background-color: $darkest;
+    .popover-title {
+        color: $naranjaadams;
+        border-color: #333;
+        background-color: transparent;
+    }
 }
 
 #popov.top > .arrow::after {
-  border-top-color: $darkest;
+    border-top-color: $darkest;
 }

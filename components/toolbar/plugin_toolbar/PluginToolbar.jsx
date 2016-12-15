@@ -140,10 +140,11 @@ export default class PluginToolbar extends Component {
                              style={{display: this.props.carouselShow? 'block':'none'}}
                              className={this.state.open ? 'carouselListTitle toolbarSpread':'carouselListTitle toolbarHide'}>
 
-                            <div className="toolbarTitle"><i className="material-icons">settings</i><span
-                                className="toolbarTitletxt">{i18n.t('Properties')}</span></div>
-                            <div
-                                className="pluginTitleInToolbar"> {toolbar.config.displayName || ""}</div>
+                            <div className="toolbarTitle">
+                                <i className="material-icons">settings</i>
+                                    <span className="toolbarTitletxt">{i18n.t('Properties')}</span>
+                            </div>
+                            <div className="pluginTitleInToolbar"> {toolbar.config.displayName || ""}</div>
                         </div>
                     </OverlayTrigger>
                     <div id="insidetools" style={{display: this.state.open? 'block':'none'}}>

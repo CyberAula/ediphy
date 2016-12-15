@@ -16,16 +16,18 @@
 
 @include selection {
     color: white;
-    background: $verdeadams;
+    background: $brand_green;
 }
 
-#app{
-    margin:0;
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
 }
 
 /*Transition for hiding toolbars and navbars
 #colLeft, #colRight, #ribbon, #insideribbon, #tools, #indice{
-    @include animacion(width, 0.3s);
+    @include animacion(width, 0.4s);
     min-height: 0;
 }*/
 
@@ -33,7 +35,6 @@
 #colLeft{
     position: relative;
     float: left;
-    padding: 0;
     height: 100%;
     z-index:1;
 }
@@ -43,9 +44,9 @@
 
     /*Canvas row and ribbon row*/
     #canvasRow, #ribbonRow{
-        @include animacion(height, 0.3s);
+        @include animacion(height, 0.4s);
         >div{
-            @include animacion(height, 0.3s);
+            @include animacion(height, 0.4s);
         }
     }
 
@@ -56,9 +57,74 @@
 
 .full{
     width:100% !important;
-    @include animacion(height, 0.3s);
+    @include animacion(height, 0.4s);
 }
 
-.hidden{
+/*Width*/
+.width100{
+    width: 100%;
+}
+/*Heigth*/
+.height100{
+    height: 100%;
+}
+
+/*Displays*/
+.disp_in_block{
+    display: inline-block;
+}
+.disp_block{
+    display: block;
+}
+.disp_initial{
+    display: initial;
+}
+.disp_none{
+    display: none;
+}
+
+/*Visibility*/
+.vis_show{
+    visibility: visible;
+}
+.vis_hide{
     visibility: hidden;
+}
+
+/*Floats*/
+.float_left{
+    float: left;
+}
+.float_right{
+    float: right;
+}
+
+/*Cursor pointer*/
+button, i{
+    cursor: pointer;
+}
+
+/*Positions*/
+pos_relative{
+    position: relative;
+}
+pos_absolute{
+    position: absolute;
+}
+
+
+/*Clear*/
+.clear_both{
+    clear: both;
+}
+
+/*Overflow*/
+.over_hidden{
+    overflow: hidden;
+}
+.over_hidden-x{
+    overflow-x: hidden;
+}
+.over_hidden-y{
+    overflow-y: hidden;
 }
