@@ -8,6 +8,9 @@
 var shelljs = require('shelljs');
 var fs = require('fs');
 var PJV = require('package-json-validator').PJV;
+var glob = require("glob");
+var async = require("async");
+
 
   fs.readdir("./plugins", (err,files) => {
   	files.forEach(file => {
@@ -17,6 +20,37 @@ var PJV = require('package-json-validator').PJV;
           var validation = PJV.validate(fs.readFileSync("./plugins/"+ file +"/package.json", 'utf8'),"npm");
     			if (validation.valid){
     				shelljs.exec("npm install ./plugins/"+ file).stdout;
+
+            async.series([
+              function(call){
+                glob("./plugins/*/package.json", function(err,files){
+                  var dependencies_array = [];
+                  for(var f = 0; f < files.length; f++){
+                    var json = JSON.parse(fs.readFileSync(files[f], 'utf8'));
+                    if(json.config && json.config.localDependencies){
+                      Object.keys(json.config.localDependencies).forEach(function(e){
+                        dependencies_array.push(json.config.localDependencies[e]);
+                      });
+                    }
+                  }
+                  call("dependencies", dependencies_array)
+                });
+
+              },
+
+              ],function(err, results){
+                var loader_string = "module.exports = {requireAll: function(){";
+                async.each(results[0], function(file, call){
+                  var require_string = "require('!script-loader!./..";
+                  var require_close = "');";
+                  loader_string += require_string + file + require_close;
+                  call();
+                }, function(err){
+                  loader_string += "}};";
+                  fs.writeFile("./plugins/plugin_dependencies_loader.js", loader_string);
+                });
+            });
+
     			} else {
     				console.log(validation.errors);
     			}

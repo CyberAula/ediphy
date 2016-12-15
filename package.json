@@ -5,7 +5,7 @@
   "author": "",
   "license": "ISC",
   "scripts": {
-    "postinstall": "./plugin_install",
+    "postinstall": " node ./plugin_install",
     "start": "webpack-dev-server --progress",
     "bundle": "webpack && node bundle_script.js",
     "both": "npm run start-webpack & npm run watch-sass",

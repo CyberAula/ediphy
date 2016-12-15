@@ -1,7 +1,6 @@
 var webpack = require('webpack');
 var ZipBundlePlugin = require('./webpack_plugins/bundle_zip_plugin.js');
 var dependency_loader = require('./webpack_plugins/dependencies_loader.js');
-var LocalDependenciesPlugin = require('./webpack_plugins/local_dependencies_plugin.js');
 
 
 module.exports = {
@@ -132,7 +131,6 @@ module.exports = {
             'jQuery': 'jquery',
             'window.jQuery': 'jquery'
         }, dependency_loader.getPluginProvider())), // Wraps module with variable and injects wherever it's needed
-        new ZipBundlePlugin(), // Compile automatically zips
-        //new LocalDependenciesPlugin()
+        new ZipBundlePlugin() // Compile automatically zips
     ]
 };

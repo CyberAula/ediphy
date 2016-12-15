@@ -32,6 +32,7 @@ export default class DaliBoxSortable extends Component {
                                      data-id={idContainer}
                                      id={idContainer}
                                      ref={idContainer}
+                                     className={container.style.className}
                                      style={
                                         Object.assign({},{
                                             width: '100%',
