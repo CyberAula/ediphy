@@ -88,6 +88,10 @@
     .editIndexTitleIcon {
         padding: 4px;
     }
+    span{
+        display: flex;
+        overflow-x: hidden;
+    }
 }
 
 /*Wrapper for the whole component including tab*/
@@ -103,7 +107,7 @@
         font-size: 1em;
         vertical-align: middle;
         margin: 0;
-        padding: 4px 8px 4px 10px;
+        padding: 0 8px 4px 10px;
     }
     .daliCarousel {
         .editIndexTitleIcon {
@@ -215,7 +219,7 @@
     li {
         padding-bottom: 0;
         a {
-            padding: 5px;
+            padding: 4px;
             color: $grismedio;
             &:active {
                 color: white !important;
@@ -256,9 +260,7 @@
     border: 8px solid transparent;
     border-top-color: $grisoscuro;
     position: absolute;
-    //margin-top: 5px;
     left: 5%;
-
 }
 
 #carouselDropUp {
@@ -278,7 +280,7 @@
 .popoverButton {
     @extend .daliTitleButton;
     margin-top: 10px !important;
-    padding: 2px 5px !important;
+    padding: 2px 4px !important;
     width: auto !important;
     height: auto !important;
     border-radius: 0;

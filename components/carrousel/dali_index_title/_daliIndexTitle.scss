@@ -23,14 +23,14 @@
 }
 
 .editTitle {
-  width: 80%;
+  width: 75%;
   border-box: 0;
   -moz-border-box: 0;
   border-radius: 0;
   display: inline-block;
   border: 0;
-  padding: 8px;
-  font-size: 12px;
+  padding: 10px;
+  font-size: 13px;
   line-height: 1em;
   border: 0;
   box-shadow: none;
@@ -45,13 +45,11 @@
 /*Title on read mode*/
 .actualSectionTitle {
   overflow: hidden;
-  display: inline-block;
   text-overflow: ellipsis;
   white-space: nowrap;
   direction: ltr;
   width: auto !important;
-  max-width: 128px;
-  display: inline-block;
+  max-width: 64px;
   line-height: 1.2em;
   vertical-align: middle;
 }
