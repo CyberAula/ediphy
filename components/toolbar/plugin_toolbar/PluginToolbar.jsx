@@ -566,7 +566,7 @@ export default class PluginToolbar extends Component {
                 /* jshint ignore:start */
                 <FormGroup key={button.__name}>
                     <ControlLabel key={"label_" + button.__name}>
-                        {button.__name}
+                        {button.__name + (!button.auto ? " (" + button.units + ")" : "")}
                     </ControlLabel>
                     <InputGroup>
                         <FormControl {...props} />
