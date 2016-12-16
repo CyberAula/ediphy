@@ -294,6 +294,7 @@ export default class PluginToolbar extends Component {
             key: ('child_' + key),
             type: button.type,
             value: button.value,
+            checked: button.checked,
             label: button.__name,
             min: button.min,
             max: button.max,
@@ -314,15 +315,9 @@ export default class PluginToolbar extends Component {
             onChange: e => {
                 let value = e.target.value;
 
-                if (buttonKey === '__heightAuto') {
-                    let units = !isSortableContainer(this.props.box.container) ? 'px' : '%';
-                    let newValue = (e.target.checked ? "auto" : (100 + units));
-                    this.props.onToolbarUpdated(id, tabKey, accordionKeys, '__height', newValue);
-                    this.props.onBoxResized(id, this.props.box.width, newValue);
-                    return;
-                }
-                if (buttonKey === '__width') {
-                    let newButton = Object.assign({}, accordion.buttons.__width);
+                if (buttonKey === '__width' || buttonKey === '__height') {
+                    let newButton = Object.assign({}, (buttonKey === '__width' ? accordion.buttons.__width : accordion.buttons.__height));
+                    let otherButton = Object.assign({}, (buttonKey === '__height' ? accordion.buttons.__width : accordion.buttons.__height));
                     switch (e.target.type) {
                         case "checkbox":
                             newButton.auto = e.target.checked;
@@ -343,57 +338,43 @@ export default class PluginToolbar extends Component {
                             } else {
                                 value = parseInt(value, 10);
                             }
-                            let newValue;
+                            let val;
                             if (newButton.units === "%") {
-                                newValue = Math.min(Math.max(value, 0), 100);
-                                newButton.displayValue = newValue;
-                                newButton.value = newValue;
+                                val = Math.min(Math.max(value, 0), 100);
+                                newButton.displayValue = val;
+                                newButton.value = val;
                             } else if (newButton.units === "px") {
-                                newValue = Math.max(value, 0);
-                                newButton.displayValue = newValue;
-                                newButton.value = newValue;
+                                val = Math.max(value, 0);
+                                newButton.displayValue = val;
+                                newButton.value = val;
                             }
                             break;
                     }
-                    let units = !isSortableContainer(this.props.box.container) ? 'px' : '%';
-                    let heightAuto = accordion.buttons.__heightAuto.checked;
-                    if (!accordion.buttons.__aspectRatio || !accordion.buttons.__aspectRatio.checked) {
-                        this.props.onBoxResized(
-                            id,
-                            newButton.displayValue + (newButton.auto ? "" : newButton.units),
-                            this.props.box.height
-                        );
-                        this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, newButton);
-                    } else {
-                        let newHeight = heightAuto ? 'auto' : (parseFloat(this.props.box.height, 10) * parseFloat(value, 10) / parseFloat(this.props.box.width, 10));
-                        this.props.onBoxResized(id, value + units, heightAuto ? newHeight : (newHeight + units));
-                        this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, parseFloat(value, 10));
-                        this.props.onToolbarUpdated(id, tabKey, accordionKeys, '__height', newHeight);
-                        /*
-                        this.props.onBoxResized(
-                            id,
-                            newButton.value + newButton.units,
-                            parseFloat(this.props.box.height, 10) * newButton.value / button.value
-                        );
-                        this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, newButton);
-                        */
+                    if(accordion.buttons.__aspectRatio && accordion.buttons.__aspectRatio.checked){
+                        otherButton.value = otherButton.value * newButton.value / button.value;
+                        if(!otherButton.auto){
+                            otherButton.displayValue = otherButton.value;
+                        }
                     }
-                    return;
-                }
-                if (buttonKey === '__height') {
-                    let units = !isSortableContainer(this.props.box.container) ? 'px' : '%';
-                    if (!accordion.buttons.__aspectRatio || !accordion.buttons.__aspectRatio.checked) {
-                        this.props.onBoxResized(id, this.props.box.width, value + units);
-                        this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, parseFloat(value, 10));
-                    } else {
-                        let newWidth = (parseFloat(this.props.box.width, 10) * parseFloat(value, 10) / parseFloat(this.props.box.__height, 10));
-                        this.props.onBoxResized(id, newWidth + units, value + units);
-                        this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, parseFloat(value, 10));
-                        this.props.onToolbarUpdated(id, tabKey, accordionKeys, '__width', newWidth);
-                    }
-                    return;
-                }
 
+                    // If next values are going to be over 100%, prevent action
+                    if((newButton.units === "%" && newButton.value > 100) || (otherButton.units === "%" && otherButton.value > 100)){
+                        return;
+                    }
+
+                    let newValue = newButton.displayValue + (newButton.auto ? "" : newButton.units);
+                    let otherValue = otherButton.displayValue + (otherButton.auto ? "" : otherButton.units);
+                    if(buttonKey === "__width"){
+                        this.props.onBoxResized(id, newValue, otherValue);
+                        this.props.onToolbarUpdated(id, tabKey, accordionKeys, "__width", newButton);
+                        this.props.onToolbarUpdated(id, tabKey, accordionKeys, "__height", otherButton);
+                    }else{
+                        this.props.onBoxResized(id, otherValue, newValue);
+                        this.props.onToolbarUpdated(id, tabKey, accordionKeys, "__width", otherButton);
+                        this.props.onToolbarUpdated(id, tabKey, accordionKeys, "__height", newButton);
+                    }
+                    return;
+                }
                 if (button.type === 'number') {
                     //If there's any problem when parsing (NaN) -> take min value if defined; otherwise take 0
                     value = parseInt(value, 10) || button.min || 0;
@@ -403,7 +384,7 @@ export default class PluginToolbar extends Component {
                 }
 
                 if (button.type === 'checkbox') {
-                    value = ( value === 'checked') ? 'unchecked' : 'checked';
+                    value = e.target.checked;
                 }
                 if (button.type === 'radio') {
                     value = button.options[value];
@@ -535,7 +516,6 @@ export default class PluginToolbar extends Component {
         }
 
         if (button.type === 'checkbox') {
-            props.checked = button.value === 'checked';
             return React.createElement(
                 FormGroup,
                 {key: (button.__name)},
@@ -559,15 +539,7 @@ export default class PluginToolbar extends Component {
         }
 
         // If it's none of previous types (number, text, color, range, ...)
-
-        if (buttonKey === '__height') {
-            let heightAuto = accordion.buttons.__heightAuto.value === "checked";
-
-            props.value = heightAuto ? 'auto' : parseFloat(this.props.box.height, 10);
-            props.type = heightAuto ? 'text' : 'number';
-            props.disabled = heightAuto;
-        }
-        if (buttonKey === '__width') {
+        if (buttonKey === '__width' || buttonKey === '__height') {
             let advancedPanel = (
                 /* jshint ignore:start */
                 <FormGroup>
