@@ -14,7 +14,11 @@ var getDistinctName = function(name, namesUsed){
 var parseEJS = function (path, page, state, fromScorm) {
     if (Object.keys(state.navItemsById[page].extraFiles).length !== 0){
         return (new EJS({url: path + "_exercise.ejs"}).render({
-            state: state
+            title: state.title,
+            subtitle: state.navItemsById[state.navItemSelected].name,
+            state: state,
+            relativePath: "../",
+            daliDocumentsPath: "css/"
         }));
     }
     return (new EJS({url: path + ".ejs"}).render({
@@ -70,7 +74,11 @@ export default {
     exportPage: function (state) {
         if (Object.keys(state.navItemsById[state.navItemSelected].extraFiles).length !== 0){
             return (new EJS({url: Dali.Config.visor_ejs + "_exercise.ejs"}).render({
-                state: state
+                title: state.title,
+                subtitle: state.navItemsById[state.navItemSelected].name,
+                state: state,
+                relativePath: "../",
+                daliDocumentsPath: "css/"
             }));
         }
         return new EJS({url: Dali.Config.visor_ejs + ".ejs"}).render({
