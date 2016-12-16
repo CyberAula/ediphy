@@ -106,12 +106,10 @@ function createSortableButtons(controls) {
     controls.main.accordions.__sortable.buttons.__width = {
         __name: i18n.t('Width_percentage'),
         type: 'number',
+        displayValue: 100,
         value: 100,
-        min: 0,
-        max: 100,
-        step: 5,
         units: '%',
-        auto: true,
+        auto: false,
         autoManaged: true
     };
     controls.main.accordions.__sortable.buttons.__height = {
@@ -311,10 +309,18 @@ function toolbarReducer(state, action){
         case UPDATE_TOOLBAR:
             newState = Utils.deepClone(state);
             let pl = action.payload;
-            if (pl.accordions.length > 1) {
-                newState.controls[pl.tab].accordions[pl.accordions[0]].accordions[pl.accordions[1]].buttons[pl.name].value = pl.value;
-            } else {
-                newState.controls[pl.tab].accordions[pl.accordions[0]].buttons[pl.name].value = pl.value;
+            if(pl.value.__name){
+                if (pl.accordions.length > 1) {
+                    newState.controls[pl.tab].accordions[pl.accordions[0]].accordions[pl.accordions[1]].buttons[pl.name] = pl.value;
+                } else {
+                    newState.controls[pl.tab].accordions[pl.accordions[0]].buttons[pl.name] = pl.value;
+                }
+            }else {
+                if (pl.accordions.length > 1) {
+                    newState.controls[pl.tab].accordions[pl.accordions[0]].accordions[pl.accordions[1]].buttons[pl.name].value = pl.value;
+                } else {
+                    newState.controls[pl.tab].accordions[pl.accordions[0]].buttons[pl.name].value = pl.value;
+                }
             }
             return newState;
         case VERTICALLY_ALIGN_BOX:
