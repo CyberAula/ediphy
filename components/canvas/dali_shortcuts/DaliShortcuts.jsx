@@ -32,7 +32,7 @@ export default class DaliShortcuts extends Component {
                     top: this.state.top,
                     width: this.state.width !== 0 ? this.state.width : "auto"
                  }}>
-                <div ref="innerContainer" style={{display: "inline-block"}}>
+                <div ref="innerContainer" style={{display: "inline-block", minWidth: "150px" }}>
                     {
                         isSortableContainer(box.container) ? (
                             <OverlayTrigger placement="top"
