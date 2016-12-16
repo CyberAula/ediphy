@@ -8,7 +8,7 @@ export function EnrichedVideo(base) {
                 aspectRatioButtonConfig: {
                     name: "Aspect Ratio",
                     location: ["main", "__sortable"],
-                    defaultValue: "checked"
+                    defaultValue: true
                 },
                 isRich: true,
                 icon: 'play_arrow'
@@ -32,13 +32,13 @@ export function EnrichedVideo(base) {
                                 controls: {
                                     __name: Dali.i18n.t('EnrichedVideo.Show_controls'),
                                     type: 'checkbox',
-                                    value: base.getState().controls,
+                                    checked: base.getState().controls,
                                     autoManaged: false
                                 },
                                 autoplay: {
                                     __name: Dali.i18n.t('EnrichedVideo.Autoplay'),
                                     type: 'checkbox',
-                                    value: base.getState().autoplay,
+                                    checked: base.getState().autoplay,
                                     autoManaged: false
                                 }
                             }
@@ -99,12 +99,12 @@ export function EnrichedVideo(base) {
         getInitialState: function () {
             return {
                 url: 'http://video.webmfiles.org/big-buck-bunny_trailer.webm',
-                controls: "checked",
-                autoplay: "unchecked"
+                controls: true,
+                autoplay: false
             };
         },
         getRenderTemplate: function (state) {
-            return "<video " + ((state.controls === "checked") ? " controls " : "") + ((state.autoplay === "checked") ? " autoplay " : "") + " style=\"width: 100%; height: 100%; pointer-events: 'none'; z-index:0;\" src=\"" + state.url + "\"></video>";
+            return "<video " + (state.controls ? " controls " : "") + (state.autoplay ? " autoplay " : "") + " style=\"width: 100%; height: 100%; pointer-events: 'none'; z-index:0;\" src=\"" + state.url + "\"></video>";
         },
         handleToolbar: function (name, value) {
             base.setState(name, value);

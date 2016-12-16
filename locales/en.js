@@ -22,7 +22,6 @@ var en = {
         "Exercises": "Exercises",
         "Exporting": "Exporting...",
         "Height": "Height",
-        "Height_auto": "Height Auto",
         "Height_percentage": "Height (%)",
         "Height_pixels": "Height (px)",
         "Images": "Images",
@@ -81,6 +80,7 @@ var en = {
         "Uploading": "Uploading...",
         "Upload_to_ViSH": "Upload to ViSH",
         "Vertical_align": "Vertical Alignment",
+        "Width": "Width",
         "Width_percentage": "Width (%)",
         "Width_pixels": "Width (px)"
     }

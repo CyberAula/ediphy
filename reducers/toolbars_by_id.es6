@@ -9,7 +9,7 @@ function createAspectRatioButton(controls, config) {
     let button = {
         __name: arb.name,
         type: "checkbox",
-        value: arb.defaultValue,
+        checked: arb.defaultValue,
         autoManaged: true
     };
     if (arb.location.length === 2) {
@@ -104,29 +104,23 @@ function createSortableButtons(controls) {
         };
     }
     controls.main.accordions.__sortable.buttons.__width = {
-        __name: i18n.t('Width_percentage'),
+        __name: i18n.t('Width'),
         type: 'number',
         displayValue: 100,
         value: 100,
+        step: 5,
         units: '%',
         auto: false,
         autoManaged: true
     };
     controls.main.accordions.__sortable.buttons.__height = {
-        __name: i18n.t('Height_percentage'),
-        type: 'number',
-        value: 'auto',
-        min: 0,
-        max: 100,
+        __name: i18n.t('Height'),
+        type: 'text',
+        displayValue: 'auto',
+        value: 100,
         step: 5,
         units: '%',
-        autoManaged: true
-    };
-    controls.main.accordions.__sortable.buttons.__heightAuto = {
-        __name: i18n.t('Height_auto'),
-        type: 'checkbox',
-        value: 'checked',
-        checked: true,
+        auto: true,
         autoManaged: true
     };
     //This will be commented until it's working correctly
@@ -173,30 +167,23 @@ function createFloatingBoxButtons(controls) {
     }
 
     controls.main.accordions.__sortable.buttons.__width = {
-        __name: i18n.t('Width_pixels'),
+        __name: i18n.t('Width'),
         type: 'number',
-        value: 100,
-        min: 0,
-        max: 100,
+        displayValue: 200,
+        value: 200,
         step: 5,
         units: 'px',
+        auto: false,
         autoManaged: true
     };
     controls.main.accordions.__sortable.buttons.__height = {
-        __name: i18n.t('Height_pixels'),
-        type: 'number',
-        value: 'auto',
-        min: 0,
-        max: 100,
+        __name: i18n.t('Height'),
+        type: 'text',
+        displayValue: 'auto',
+        value: 100,
         step: 5,
         units: 'px',
-        autoManaged: true
-    };
-    controls.main.accordions.__sortable.buttons.__heightAuto = {
-        __name: i18n.t('Height_auto'),
-        type: 'checkbox',
-        value: 'checked',
-        checked: true,
+        auto: true,
         autoManaged: true
     };
 }
@@ -249,14 +236,9 @@ function toolbarReducer(state, action){
         case RESIZE_BOX:
             newState = Utils.deepClone(state);
             let height = action.payload.height;
-            let heightAuto = height === 'auto';
 
             if (newState.controls.main.accordions.__sortable) {
                 let buttons = newState.controls.main.accordions.__sortable.buttons;
-                if (buttons.__heightAuto) {
-                    newState.controls.main.accordions.__sortable.buttons.__heightAuto.checked = heightAuto;
-                    newState.controls.main.accordions.__sortable.buttons.__heightAuto.value = heightAuto ? 'checked' : 'unchecked';
-                }
                 if (buttons.__height && buttons.__width) {
                     newState.controls.main.accordions.__sortable.buttons.__height.value = height;
                     newState.controls.main.accordions.__sortable.buttons.__width.value = height;
@@ -317,9 +299,11 @@ function toolbarReducer(state, action){
                 }
             }else {
                 if (pl.accordions.length > 1) {
-                    newState.controls[pl.tab].accordions[pl.accordions[0]].accordions[pl.accordions[1]].buttons[pl.name].value = pl.value;
+                    newState.controls[pl.tab].accordions[pl.accordions[0]].accordions[pl.accordions[1]]
+                        .buttons[pl.name][typeof pl.value === "boolean" ? "checked" : "value"] = pl.value;
                 } else {
-                    newState.controls[pl.tab].accordions[pl.accordions[0]].buttons[pl.name].value = pl.value;
+                    newState.controls[pl.tab].accordions[pl.accordions[0]]
+                        .buttons[pl.name][typeof pl.value === "boolean" ? "checked" : "value"] = pl.value;
                 }
             }
             return newState;

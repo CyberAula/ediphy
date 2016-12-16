@@ -9,7 +9,7 @@ export function BasicImage(base) {
                 needsTextEdition: false,
                 aspectRatioButtonConfig: {
                     location: ["main", "__sortable"],
-                    defaultValue: "checked"
+                    defaultValue: true
                 },
                 icon: 'image'
             };

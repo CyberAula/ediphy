@@ -5,7 +5,7 @@ var es = {
         "Alignment": "Alineación",
         "Advanced": "Avanzado",
         "Aspect_ratio": "Relación de aspecto",
-        "Auto": "Automático",
+        "Auto": "Automática",
         "Block": "Bloque",
         "Cancel": "Cancelar",
         "Container_": "Contenedor",
@@ -22,7 +22,6 @@ var es = {
             "searching": "Ha ocurrido un error al buscar",
         },
         "Height": "Altura",
-        "Height_auto": "Alto Automático",
         "Height_percentage": "Alto (%)",
         "Height_pixels": "Alto (px)",
         "Images": "Imágenes",
@@ -81,6 +80,7 @@ var es = {
         "Uploading": "Subiendo...",
         "Upload_to_ViSH": "Subir a ViSH",
         "Vertical_align": "Alineación vertical",
+        "Width": "Anchura",
         "Width_percentage": "Ancho (%)",
         "Width_pixels": "Ancho (px)"
     }
