@@ -28,11 +28,10 @@ export default class DaliBoxSortable extends Component {
                     {box.children.map((idContainer, index)=> {
                         let container = box.sortableContainers[idContainer];
                         return (<div key={index}
-                                     className="daliBoxSortableContainer"
+                                     className={"daliBoxSortableContainer " + container.style.className}
                                      data-id={idContainer}
                                      id={idContainer}
                                      ref={idContainer}
-                                     className={container.style.className}
                                      style={
                                         Object.assign({},{
                                             width: '100%',
