@@ -1,6 +1,0 @@
-[submodule "plugins/RelacionaAll"]
-	path = plugins/RelacionaAll
-	url = https://github.com/sonsoleslp/pluginRelacionaAll
-[submodule "plugins/ListaNumerada"]
-	path = plugins/ListaNumerada
-	url = https://github.com/sonsoleslp/pluginListaNumerada
