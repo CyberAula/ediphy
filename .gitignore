@@ -10,6 +10,7 @@ style.scss~
 dali_server/config.json
 dist/src/*
 dist/js/*
+dist/images/*
 dist/lib/scorm/scorm.zip
 dist/lib/scorm/scorm_nav.ejs
 dist/lib/scorm/scorm/*
