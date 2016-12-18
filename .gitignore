@@ -11,6 +11,8 @@ dali_server/config.json
 dist/src/*
 dist/js/*
 dist/lib/scorm/scorm.zip
+dist/lib/scorm/scorm_nav.ejs
+dist/lib/scorm/scorm/*
 dist/lib/visor/dist.zip
 dist/lib/visor/index_exercise.ejs
 dist/plugins
