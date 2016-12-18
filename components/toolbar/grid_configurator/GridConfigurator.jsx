@@ -30,7 +30,7 @@ export default class GridConfigurator extends Component {
                                   return 0;
                                 }
                             });
-                            this.props.onColsChanged(this.props.id, this.props.parentId, dist);
+                            this.props.onColsChanged(this.props.id, this.props.parentId, dist, this.props.container.children);
                        }}/>
             </FormGroup>
             /* jshint ignore:end */
@@ -146,7 +146,7 @@ export default class GridConfigurator extends Component {
                                                     return 0;
                                                   }
                                               });
-                                               this.props.onRowsChanged(this.props.id, this.props.parentId, index, dist, this.props.container.children);
+                                        this.props.onRowsChanged(this.props.id, this.props.parentId, index, dist, this.props.container.children);
                                         }}/>
                         </FormGroup>
 
