@@ -19,7 +19,7 @@ export default {
         'BasicVideo',
         'Youtube',
         'Webpage',
-        'CajasColorBis',
+        'CajasColor',
         'Container',
         'ListaNumerada',
         'RelacionaAll'

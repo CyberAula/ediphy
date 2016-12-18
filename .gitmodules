@@ -1,0 +1,9 @@
+[submodule "plugins/ListaNumerada"]
+	path = plugins/ListaNumerada
+	url = https://github.com/ebarra/ListaNumerada
+[submodule "plugins/RelacionaAll"]
+	path = plugins/RelacionaAll
+	url = https://github.com/ebarra/RelacionaAll
+[submodule "plugins/CajasColor"]
+	path = plugins/CajasColor
+	url = https://github.com/ebarra/CajasColor
