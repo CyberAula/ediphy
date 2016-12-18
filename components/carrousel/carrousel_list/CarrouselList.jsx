@@ -40,7 +40,7 @@ export default class CarrouselList extends Component {
                             let classSelected = (this.props.navItemSelected === id) ? 'selected' : 'notSelected';
                             return  <h4 key={index}
                                         id={id}
-                                        className={'navItemBlock' + classSelected}
+                                        className={'navItemBlock ' + classSelected}
                                         onMouseDown={e => {
                                              this.props.onNavItemSelected(id);
                                              e.stopPropagation();
