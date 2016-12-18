@@ -21,6 +21,7 @@ var async = require("async");
     			if (validation.valid){
     				shelljs.exec("npm install ./plugins/"+ file).stdout;
 
+            /* GET JS LOCAL DEPENDENCIES AND CSS*/
             async.series([
               function(call){
                 glob("./plugins/*/package.json", function(err,files){

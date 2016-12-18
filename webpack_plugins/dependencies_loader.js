@@ -17,6 +17,9 @@
 				},
 				"aliases": {
 					"name_of_dependency": "name_to_export"
+				},
+				"css": {
+					"name" : "path to css"
 				}
 			}
 		}
