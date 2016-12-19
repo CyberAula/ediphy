@@ -68,7 +68,7 @@ export default class CarrouselList extends Component {
                 <div className="bottomLine"></div>
                 <div className="bottomGroup">
                     <OverlayTrigger placement="top" overlay={
-                        <Tooltip>{i18n.t('create new folder')}
+                        <Tooltip  id="newFolderTooltip">{i18n.t('create new folder')}
                         </Tooltip>}>
                             <Button className="carrouselButton"
                                     disabled={!isSection(this.props.navItemSelected) && this.props.navItemSelected !== 0}
@@ -96,7 +96,7 @@ export default class CarrouselList extends Component {
                     </OverlayTrigger>
                         
                     <OverlayTrigger placement="top" overlay={
-                        <Tooltip>{i18n.t('create new document')}
+                        <Tooltip id="newDocumentTooltip">{i18n.t('create new document')}
                         </Tooltip>}>
                             <Button className="carrouselButton"
                                     onClick={e =>{
@@ -117,7 +117,7 @@ export default class CarrouselList extends Component {
                     </OverlayTrigger>
                         
                     <OverlayTrigger placement="top" overlay={
-                        <Tooltip>{i18n.t('create new slide')}
+                        <Tooltip id="newSlideTooltip">{i18n.t('create new slide')}
                         </Tooltip>}>
                             <Button className="carrouselButton"
                                     onClick={e => {
@@ -133,7 +133,7 @@ export default class CarrouselList extends Component {
                     </OverlayTrigger>
 
                     <OverlayTrigger placement="top" overlay={
-                        <Tooltip>{i18n.t('display')}
+                        <Tooltip  id="hideNavItemTooltip">{i18n.t('display')}
                         </Tooltip>}>
                             <Button className="carrouselButton">
                                 <i className="material-icons"
@@ -164,7 +164,7 @@ export default class CarrouselList extends Component {
                             </Button>
                         </Popover>}>
                             <OverlayTrigger placement="top" overlay={
-                                <Tooltip>{i18n.t('delete')}
+                                <Tooltip id="deleteTooltip">{i18n.t('delete')}
                                 </Tooltip>}>
                                     <Button className="carrouselButton"
                                             disabled={this.props.navItemSelected === 0}
