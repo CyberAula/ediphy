@@ -37,7 +37,7 @@ var parseEJS = function (path, page, state, fromScorm) {
         boxesById: state.boxesById,
         boxes: state.boxes,
         toolbarsById: state.toolbarsById,
-        relativePath: fromScorm ? "../" : ""
+        relativePath: "../"
     }));
 };
 
@@ -69,7 +69,7 @@ export default {
 
 
                     var inner = parseEJS(Dali.Config.visor_ejs, page, state);
-                    zip.file(name + ".html", inner);
+                    zip.file("views/" + name + ".html", inner);
                 });
                 return zip;
             }).then(function (zip) {
