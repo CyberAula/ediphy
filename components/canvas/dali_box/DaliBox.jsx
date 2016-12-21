@@ -114,8 +114,7 @@ export default class DaliBox extends Component {
          </div>
          );
          */
-        let
-            content = toolbar.config.flavor === "react" ? (
+        let content = toolbar.config.flavor === "react" ? (
                 /* jshint ignore:start */
                 <div className="boxStyle" style={style} {...attrs} className={classNames} ref={"content"}>
                     {box.content}
@@ -128,8 +127,7 @@ export default class DaliBox extends Component {
                 </div>
                 /* jshint ignore:end */
             );
-        let
-            border = (
+        let border = (
                 /* jshint ignore:start */
                 <div style={{visibility: (vis ? 'visible' : 'hidden')}}>
                     <div style={{
@@ -156,19 +154,9 @@ export default class DaliBox extends Component {
             );
 
 
-        let
-            classes = "wholebox";
-
-        if (box
-
-                .container
-        ) {
-            classes
-                +=
-                " dnd"
-                +
-                box
-                    .container;
+        let classes = "wholebox";
+        if (box.container) {
+            classes += " dnd" + box.container;
         }
         if (this.props.id === this.props.boxSelected) {
             classes += " selectedBox";
@@ -346,9 +334,9 @@ export default class DaliBox extends Component {
         });
 
         if (markup.child) {
-            if (markup.child[0].node === "text") {
+            if (markup.child.length === 1 && markup.child[0].node === "text") {
                 props.dangerouslySetInnerHTML = {
-                    __html: decodeURI(this.props.toolbars[this.props.id].state.__text)
+                    __html: decodeURI(markup.child[0].text)
                 };
             } else {
                 children = [];

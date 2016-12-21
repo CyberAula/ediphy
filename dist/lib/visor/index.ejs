@@ -106,7 +106,9 @@
                     var decoded = markup;
                     try{
                         decoded = decodeURI(markup);
-                    }catch (ex){} %>
+                    }catch (ex){
+                        decoded = unescape(markup);
+                    } %>
                     <%= decoded %>
                 <%   return;
                 }
@@ -165,35 +167,39 @@
             var box = boxesById[id];
             var toolbar =  toolbarsById[id];
             var style = "height: 100%; position: relative; word-wrap: break-word;";
-            var attrs = " "
+            var attrs = "";
+            var classNames = "";
             for (var tabKey in toolbar.controls) {
                 for (var accordionKey in toolbar.controls[tabKey].accordions) {
                     for (var buttonKey in toolbar.controls[tabKey].accordions[accordionKey].buttons) {
                         var button = toolbar.controls[tabKey].accordions[accordionKey].buttons[buttonKey];
-                        if (button.autoManaged) {
-                            buttonKey = buttonKey.split(/(?=[A-Z])/).join('-').toLowerCase();
-                            if (!button.isAttribute) {
-                                if (buttonKey !== 'width' && buttonKey !== 'height') {
-                                    style += buttonKey + ":" + button.value + "; ";
+                        buttonKey = buttonKey.split(/(?=[A-Z])/).join('-').toLowerCase();
+                        if (!button.isAttribute) {
+                            if (button.autoManaged) {
+                                if (buttonKey === 'className' && button.value) {
+                                    classNames += button.value;
+                                } else if (buttonKey !== 'width' && buttonKey !== 'height') {
+                                    style[buttonKey] = button.value;
                                 }
-                            } else {
-                                attrs += 'data-' + buttonKey + "=" + button.value;
                             }
+                        } else {
+                            attrs += 'data-' + buttonKey + "=" + button.value;
                         }
                     }
                     if (toolbar.controls[tabKey].accordions[accordionKey].accordions) {
                         for (var accordionKey2 in toolbar.controls[tabKey].accordions[accordionKey].accordions) {
                             for (buttonKey in toolbar.controls[tabKey].accordions[accordionKey].accordions[accordionKey2].buttons) {
                                 button = toolbar.controls[tabKey].accordions[accordionKey].accordions[accordionKey2].buttons[buttonKey];
-                                if (button.autoManaged) {
-                                    buttonKey = buttonKey.split(/(?=[A-Z])/).join('-').toLowerCase();
-                                    if (!button.isAttribute) {
-                                        if (buttonKey !== 'width' && buttonKey !== 'height') {
-                                            style += buttonKey + ":" + button.value + "; ";
+                                if (!button.isAttribute) {
+                                    if (button.autoManaged) {
+                                        if (buttonKey === 'className' && button.value) {
+                                            classNames += button.value;
+                                        } else if (buttonKey !== 'width' && buttonKey !== 'height') {
+                                            style[buttonKey] = button.value;
                                         }
-                                    } else {
-                                        attrs += 'data-' + buttonKey + "=" + button.value;
                                     }
+                                } else {
+                                    attrs += 'data-' + buttonKey + "=" + button.value;
                                 }
                             }
                         }
@@ -209,7 +215,7 @@
                          width: <%=box.width %><%=(box.width  && isNaN(box.width ))? "" : "px" %>;
                          height: <%=box.height%><%=(box.height && isNaN(box.height))? "" : "px" %>;
                          cursor:  default ; "  >
-                 <div class="insidewb" style="<%= style%>"  <%= attrs%> >
+                 <div class="insidewb" style="<%= style%>" <%= attrs%> class="<%= classNames%>">
                     <% if(toolbar.config.flavor === "react") {%>
                         <script type="text/javascript">
                             ReactDOM.render(Dali.Visor.Plugins['<%=toolbar.config.name%>'].getRenderTemplate(<%=JSON.stringify(toolbar.state)%>), document.getElementById("<%= box.id%>"))
