@@ -189,13 +189,15 @@ function createAliasButton(controls) {
             buttons: {}
         };
     }
-    controls.main.accordions.__extra.buttons.alias = {
-        __name: 'Alias',
-        type: 'text',
-        value: "",
-        autoManaged: true,
-        isAttribute: true
-    };
+    if (!controls.main.accordions.__extra.buttons.alias) {
+        controls.main.accordions.__extra.buttons.alias = {
+            __name: 'Alias',
+            type: 'text',
+            value: "",
+            autoManaged: true,
+            isAttribute: true
+        };
+    }
 }
 
 function toolbarCreator(state, action){
