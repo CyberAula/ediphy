@@ -135,7 +135,7 @@ export default function () {
         callExtraFunction: function (alias, fnAlias) {
             var element = $.find("[data-alias='" + alias + "']");
             if (element && extraFunctions && extraFunctions[fnAlias]) {
-                extraFunctions[fnAlias].bind(element[0])();
+                extraFunctions[fnAlias](element[0]);
             }
         },
         triggerMark: function(parent, selector){
