@@ -15,20 +15,22 @@ var titleModifier = function(name){
     if(name.indexOf("\:") !== -1){
         name = name.split("\:")[0];
     }
-
     return name;
 };
 
 var parseEJS = function (path, page, state, fromScorm) {
     if (Object.keys(state.navItemsById[page].extraFiles).length !== 0){
+        let extraFileBox = Object.keys(state.navItemsById[state.navItemSelected].extraFiles)[0];
+        let extraFileContainer = state.toolbarsById[extraFileBox];
+
         return (new EJS({url: path + "_exercise.ejs"}).render({
             title: state.title,
             subtitle: titleModifier(state.navItemsById[state.navItemSelected].name),
             state: state,
             relativePath: "../",
             daliDocumentsPath: "css/",
-            ejerType: "relAll",
-            myXmlFile: ""
+            ejerType: extraFileContainer.state.ejerType, //  ejerType: "relAll",
+            myXmlFile: extraFileContainer.state.__xml_path//Has to be "exercises/ua2_ue10_ejer7.xml"
         }));
     }
     return (new EJS({url: path + ".ejs"}).render({
@@ -94,8 +96,8 @@ export default {
                 state: state,
                 relativePath: "../",
                 daliDocumentsPath: "css/",
-                ejerType: "relAll",
-                myXmlFile: ""                     //"new XMLSerializer().serializeToString(extraFileContainer.state.__xml)"
+                ejerType: extraFileContainer.state.ejerType, //relAll
+                myXmlFile: extraFileContainer.state.__xml_path //Has to be "exercises/ua2_ue10_ejer7.xml"
             }));
         }
         return new EJS({url: Dali.Config.visor_ejs + ".ejs"}).render({
