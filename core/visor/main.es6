@@ -26,7 +26,9 @@ var parseEJS = function (path, page, state, fromScorm) {
             subtitle: titleModifier(state.navItemsById[state.navItemSelected].name),
             state: state,
             relativePath: "../",
-            daliDocumentsPath: "css/"
+            daliDocumentsPath: "css/",
+            ejerType: "relAll",
+            myXmlFile: ""
         }));
     }
     return (new EJS({url: path + ".ejs"}).render({
@@ -80,13 +82,20 @@ export default {
         });
     },
     exportPage: function (state) {
+
+
         if (Object.keys(state.navItemsById[state.navItemSelected].extraFiles).length !== 0){
+            let extraFileBox = Object.keys(state.navItemsById[state.navItemSelected].extraFiles)[0];
+            let extraFileContainer = state.toolbarsById[extraFileBox];
+
             return (new EJS({url: Dali.Config.visor_ejs + "_exercise.ejs"}).render({
                 title: state.title,
                 subtitle: titleModifier(state.navItemsById[state.navItemSelected].name),
                 state: state,
                 relativePath: "../",
-                daliDocumentsPath: "css/"
+                daliDocumentsPath: "css/",
+                ejerType: "relAll",
+                myXmlFile: ""                     //"new XMLSerializer().serializeToString(extraFileContainer.state.__xml)"
             }));
         }
         return new EJS({url: Dali.Config.visor_ejs + ".ejs"}).render({
