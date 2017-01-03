@@ -131,12 +131,29 @@ export default function (state = {}, action = {}) {
             return changeProps(state, itemsToChange, newValues);
         case DELETE_BOX:
             if (isView(action.payload.parent) && action.payload.parent !== 0) {
+                if(findNavItemContainingBox(state,action.payload.parent).extraFiles.length !== 0){
+                    return changeProp(Object.assign({}, 
+                                    state, 
+                                    Object.assign(
+                                        {}, 
+                                        {
+                                            [findNavItemContainingBox(state, action.payload.parent).id]: 
+                                            Object.assign(
+                                                {}, 
+                                                findNavItemContainingBox(state, action.payload.parent), 
+                                                {extraFiles: {}
+                                                }
+                                            )
+                                        }
+                                    )
+                        ), 
+                    action.payload.parent, singleNavItemReducer(state[action.payload.parent], action));
+                }
+                
+
+
                 return changeProp(state, action.payload.parent, singleNavItemReducer(state[action.payload.parent], action));
             }
-            if(findNavItemContainingBox(state,action.payload.parent).extraFiles.length !== 0){
-                
-            }
-            let other_stuff = changeProp(findN(state,action.payload.parent), "extraFiles", {});
             
             return state;
         case DUPLICATE_BOX:
