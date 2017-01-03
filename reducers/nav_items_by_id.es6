@@ -130,10 +130,9 @@ export default function (state = {}, action = {}) {
             });
             return changeProps(state, itemsToChange, newValues);
         case DELETE_BOX:
-            if (isView(action.payload.parent) && action.payload.parent !== 0) {
-                if(findNavItemContainingBox(state,action.payload.parent).extraFiles.length !== 0){
-                    return changeProp(Object.assign({}, 
-                                    state, 
+            if (isView(action.payload.parent) && action.payload.parent !== 0) {     
+                /*if(findNavItemContainingBox(state,action.payload.parent).extraFiles.length !== 0){
+                    return changeProp(Object.assign({}, state, 
                                     Object.assign(
                                         {}, 
                                         {
@@ -148,11 +147,24 @@ export default function (state = {}, action = {}) {
                                     )
                         ), 
                     action.payload.parent, singleNavItemReducer(state[action.payload.parent], action));
-                }
-                
-
-
+                }*/                
                 return changeProp(state, action.payload.parent, singleNavItemReducer(state[action.payload.parent], action));
+            }
+            
+            if(findNavItemContainingBox(state,action.payload.parent).extraFiles.length !== 0){
+                    return Object.assign({}, state, 
+                                    Object.assign({}, 
+                                        {
+                                            [findNavItemContainingBox(state, action.payload.parent).id]: 
+                                            Object.assign(
+                                                {}, 
+                                                findNavItemContainingBox(state, action.payload.parent), 
+                                                {extraFiles: {}
+                                                }
+                                            )
+                                        }
+                                    )
+                        );
             }
             
             return state;
