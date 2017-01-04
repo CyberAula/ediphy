@@ -127,7 +127,7 @@ class DaliApp extends Component {
                          style={{height: (this.state.carouselFull ? 0 : '100%'),
                              width: (this.state.carouselShow? 'calc(100% - 212px)':'calc(100% - 80px)')}}>
                         <Row id="ribbonRow">
-                            <PluginRibbon disabled={navItemSelected === 0 || (!Dali.Config.sections_have_content && navItemSelected && isSection(navItemSelected))} //ADD condition navItemSelected There are extrafiles
+                            <PluginRibbon disabled={navItemSelected === 0 || (!Dali.Config.sections_have_content && navItemSelected && isSection(navItemSelected)) || this.hasExerciseBox(navItemSelected, navItems, this.state,boxes)} //ADD condition navItemSelected There are extrafiles
                                           boxSelected={boxes[boxSelected]}
                                           undoDisabled={undoDisabled}
                                           redoDisabled={redoDisabled}
@@ -558,7 +558,20 @@ class DaliApp extends Component {
             delete obj.attr.class;
         }
     }
-
+    
+    hasExerciseBox(navItemId, navItems, state, boxes){
+        console.log(state.pluginTab);
+        console.log(navItems[navItemId].boxes.length);
+       if(state.pluginTab === "exercises" && (navItems[navItemId].boxes.length > 1 || boxes[navItems[navItemId].boxes[0]].children.length !== 0)){
+           return true;
+       }
+       
+       if(Object.keys(navItems[navItemId].extraFiles).length !== 0 ){
+           return true;
+       }
+       return false;
+    }
+    
     addDefaultContainerPlugins(eventDetails, obj) {
         if (obj.child) {
             for (let i = 0; i < obj.child.length; i++) {
