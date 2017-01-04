@@ -1,5 +1,5 @@
 import {ADD_BOX, ADD_NAV_ITEM, CHANGE_NAV_ITEM_NAME, CHANGE_UNIT_NUMBER, DELETE_BOX, DUPLICATE_BOX, EXPAND_NAV_ITEM,
-    REORDER_NAV_ITEM, DELETE_NAV_ITEM, TOGGLE_NAV_ITEM, TOGGLE_TITLE_MODE, UPDATE_NAV_ITEM_EXTRA_FILES,
+    REORDER_NAV_ITEM, DELETE_NAV_ITEM, TOGGLE_NAV_ITEM, TOGGLE_TITLE_MODE, UPDATE_NAV_ITEM_EXTRA_FILES, DELETE_SORTABLE_CONTAINER,
     IMPORT_STATE} from './../actions';
 import {ID_PREFIX_BOX} from './../constants';
 import {changeProp, changeProps, deleteProp, deleteProps, isView, isSlide, isDocument, findNavItemContainingBox, findDescendantNavItems} from './../utils';
@@ -167,6 +167,23 @@ export default function (state = {}, action = {}) {
                         );
             }
             
+            return state;
+        case DELETE_SORTABLE_CONTAINER:
+            if(findNavItemContainingBox(state,action.payload.parent).extraFiles.length !== 0){
+                    return Object.assign({}, state, 
+                                    Object.assign({}, 
+                                        {
+                                            [findNavItemContainingBox(state, action.payload.parent).id]: 
+                                            Object.assign(
+                                                {}, 
+                                                findNavItemContainingBox(state, action.payload.parent), 
+                                                {extraFiles: {}
+                                                }
+                                            )
+                                        }
+                                    )
+                        );
+            }
             return state;
         case DUPLICATE_BOX:
             if (isView(action.payload.parent)) {

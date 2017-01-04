@@ -560,8 +560,6 @@ class DaliApp extends Component {
     }
     
     hasExerciseBox(navItemId, navItems, state, boxes){
-        console.log(state.pluginTab);
-        console.log(navItems[navItemId].boxes.length);
        if(state.pluginTab === "exercises" && (navItems[navItemId].boxes.length > 1 || boxes[navItems[navItemId].boxes[0]].children.length !== 0)){
            return true;
        }
