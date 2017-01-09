@@ -52,11 +52,11 @@
             var place = page;
             var parent = navs[page].parent;
             while (parent !== 0) {
-                alltitles.push(navs[navs[place].parent].children.indexOf(navs[place].id)+ 1 +"." +  navs[place].name);
+                alltitles.push(navs[place].name);
                 place = parent;
                 parent = navs[parent].parent;
             }
-            alltitles.push(navs[place].unitNumber +"." +  navs[place].name);
+            alltitles.push(navs[place].name);
             alltitles.reverse();
         }
         if(navs[page].titleMode =='reduced') {
