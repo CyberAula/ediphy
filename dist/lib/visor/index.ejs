@@ -45,7 +45,7 @@
         <div class="clear"></div>
     </div>
 
-    <div class="contenido canvasvisor" style="height:auto; pointer-events: all !important;"></div>
+    <div class="contenido canvasvisor" style="height:auto; position:relative; pointer-events: all !important;">
          <%
         var alltitles = [];
         if (page !== 0) {
@@ -91,7 +91,7 @@
         <%=titlesComponents%>
         <%}%>
         <br/>
-        <div class="boxes" style="position:relative; float: left; display:block; width:100%;">
+        <div class="boxes" style="float: left; display:block; width:100%;">
             <!--Camel Case -->
             <%function camel(s) {
                 if(s=='onClick'){
@@ -310,7 +310,7 @@
                 daliBoxSortable(box.id)
         }})%>
     </div>
-
+</div>
 </div>
 </div>
 </div>
