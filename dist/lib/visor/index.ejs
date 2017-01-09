@@ -206,9 +206,10 @@
                          top: <%=box.position.y%>;
                          pointer-events: all  !important;
                          vertical-align: <%=box.verticalAlign ? box.verticalAlign : 'middle' %>;
-                         width: <%=box.width %><%=(box.width  && isNaN(box.width ))? "" : "px" %>;
+                         width: <%=box.width %><%=(box.width  && isNaN(box.width))? "" : "px" %>;
                          height: <%=box.height%><%=(box.height && isNaN(box.height))? "" : "px" %>;
-                         cursor:  default ; "  >
+                         cursor:  default ; 
+                          <%= toolbar.config.needsTextEdition ? 'text-align: left;' : '' %> " >
                  <div class="insidewb" style="<%= style%>"  <%= attrs%> >
                     <% if(toolbar.config.flavor === "react") {%>
                         <script type="text/javascript">
@@ -240,7 +241,7 @@
                           border: <%=style.borderWidth + " " + style.borderStyle +" " + style.borderColor%>;
                           padding: <%=style.padding%>;
                           opacity: <%=style.opacity%>;
-                          text-align: <%=style.textAlign ? style.textAlign : 'center'%>;
+                          text-align: <%=style.textAlign ? style.textAlign : 'left'%>;
                           ">
                         <div style="display: table; width: 100%; height: 100%;">
                             <%container.colDistribution.map(function(col, i){
@@ -275,7 +276,7 @@
                           border: <%=container.style.borderWidth + " " + container.style.borderStyle +" " + container.style.borderColor%>;
                           padding: <%=container.style.padding%>;
                           opacity: <%=container.style.opacity%>;
-                          text-align: <%=container.style.textAlign ? container.style.textAlign : 'center'%>;
+                          text-align: <%=container.style.textAlign ? container.style.textAlign : 'left'%>;
                 " class="<%= pluginContainer%>" >
             <%
                 container.colDistribution.map(function(col, i){
