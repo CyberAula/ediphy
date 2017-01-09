@@ -101,7 +101,7 @@ export default {
             }));
         }
         return new EJS({url: Dali.Config.visor_ejs + ".ejs"}).render({
-            title: state.navItemsById[state.navItemSelected].name,
+            title: state.title,
             state: state,
             page: state.navItemSelected,
             navs: state.navItemsById,
