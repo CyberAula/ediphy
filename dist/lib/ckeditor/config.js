@@ -10,7 +10,6 @@ CKEDITOR.editorConfig = function (config) {
     config.basicEntities = false;
     config.entities_latin = false;
     config.entities_greek = false;
-    config.fillEmptyBlocks = false;
 
     config.toolbarGroups = [
         {name: 'document', groups: ['document', 'mode', 'doctools']},
