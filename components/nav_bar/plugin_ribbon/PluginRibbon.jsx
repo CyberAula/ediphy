@@ -36,8 +36,17 @@ export default class PluginRibbon extends Component {
                                             key={index}
                                             name={item.name}
                                             bsSize="large"
-                                            draggable="false">
-                                        <i className="material-icons">{clase}</i> {button.displayName}
+                                            draggable="false"
+                                            style={(button.iconFromUrl) ? {
+                                                padding: '8px 8px 8px 45px',
+                                                backgroundImage: 'url('+ clase +')',
+                                                backgroundSize: '32px',
+                                                backgroundPosition: '8px',
+                                                backgroundRepeat: 'no-repeat'
+                                            }:{
+
+                                            }}>
+                                        <i className="material-icons" style={(button.iconFromUrl)?{display:'none'}:{}}>{clase}</i> {button.displayName}
                                     </Button>
                                 </div>);
                             }
