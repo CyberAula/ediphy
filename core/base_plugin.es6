@@ -223,7 +223,10 @@ export default function () {
             } else {
                 Dali.API.openConfig(this.getConfig().name, reason).then(function (div) {
                     if(this.getConfig().flavor !== 'react'){
-                        div.innerHTML = descendant.getConfigTemplate(oldState).replace(/[$]dali[$]/g, "Dali.Plugins.get('" + this.getConfig().name + "')");
+                        let template = descendant.getConfigTemplate(oldState, div);
+                        if(template) {
+                            div.innerHTML = descendant.getConfigTemplate(oldState).replace(/[$]dali[$]/g, "Dali.Plugins.get('" + this.getConfig().name + "')");
+                        }
                     } else {
                         ReactDOM.render(descendant.getConfigTemplate(oldState), div);
                     }
