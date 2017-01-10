@@ -49,116 +49,76 @@ export default class DaliTitle extends Component {
     }
 
     render() {
-
-        let content;
-        let unidad = "";
+        let titles = this.props.titles;
         let currentStatus = this.props.titleMode;
-        let actualIndex = this.getActualIndex();
-
-        if (currentStatus === 'reduced') {
-            let titles = this.props.titles;
-
-            let actualTitle = titles[titles.length - 1];
-            unidad = titles[0];
-            content = React.createElement("div", {},
-                React.createElement("h3", {},
-                    React.createElement(Breadcrumb, {style: {margin: 0, backgroundColor: 'inherit'}},
-                        titles.map((item, index) => {
-                            //console.log(titles);
-                            if (index !== 0 && index !== titles.length - 1) {
-                                return React.createElement(BreadcrumbItem, {key: index}, /*this.getActualIndex(titles.length, index) + */item);
-                            }
-                        })
-                    )
-                ),
-                React.createElement("h4", {style: {margin: 0}}, /*this.getActualIndex() + */actualTitle)
-            );
-
-        } else if (currentStatus === 'expanded') {
-            let titlesComponents = "";
-            let titles_length = this.props.titles.length;
-            content = React.createElement("div", {},
-                this.props.titles.map((text, index) => {
-                    if (index === 0) {
-                        unidad = text;
-                    } else {
-                        let nivel = (index > 4 ) ? 6 : index + 2;
-                        return React.createElement("h" + nivel, {
-                            key: index,
-                            style: {marginTop: '16px'}
-                        }, /*this.getActualIndex(titles_length, index) + */text);
-                    }
-                })
-            );
-        }
+        let unidad = titles[0];
 
         return (
             /* jshint ignore:start */
-            <div className="title" onClick={(e) => {
-                                    this.props.onBoxSelected(-1);
-                                    this.props.onShowTitle();
+            
+                <div className="title" onClick={(e) => {
+                                        this.props.onBoxSelected(-1);
+                                        this.props.onShowTitle();
+                                        e.stopPropagation(); }}>
+                    <div style={{backgroundColor:'white'}}>
+                    <div id="daliTitleButtons" style={{height:'40px'}}>
+
+                        <button className={((!this.props.showButtons || currentStatus == 'hidden' )? 'daliTitleButton hidden ' : ' daliTitleButton ')
+                                        + ((currentStatus == 'expanded') ? ' activeTitle' : ' ')}
+                                onClick={(e) => {
+                                    this.props.titleModeToggled(this.props.navItem.id, 'expanded' );
                                     e.stopPropagation(); }}>
-                <div id="daliTitleButtons" style={{height:'40px'}}>
-
-                    <button className={((!this.props.showButtons || currentStatus == 'hidden' )? 'daliTitleButton hidden ' : ' daliTitleButton ')
-                                     + ((currentStatus == 'expanded') ? ' activeTitle' : ' ')}
+                            <i className="material-icons">vertical_align_bottom</i>
+                        </button>
+                        <button className={((!this.props.showButtons || currentStatus == 'hidden' )? ' daliTitleButton hidden ' : ' daliTitleButton ')
+                                        + ((currentStatus == 'reduced') ? ' activeTitle ' : '')}
+                                onClick={(e) => {
+                                    this.props.titleModeToggled(this.props.navItem.id, 'reduced');
+                                    e.stopPropagation();}}>
+                            <i className="material-icons">keyboard_tab</i>
+                        </button>
+                        <button
+                            className={((!this.props.showButtons || currentStatus == 'hidden' )? 'daliTitleButton hidden activeTitle' : 'daliTitleButton ')}
                             onClick={(e) => {
-                                this.props.titleModeToggled(this.props.navItem.id, 'expanded' );
-                                e.stopPropagation(); }}>
-                        <i className="material-icons">vertical_align_bottom</i>
-                    </button>
-                    <button className={((!this.props.showButtons || currentStatus == 'hidden' )? ' daliTitleButton hidden ' : ' daliTitleButton ')
-                                     + ((currentStatus == 'reduced') ? ' activeTitle ' : ' ')}
-                            onClick={(e) => {
-                                this.props.titleModeToggled(this.props.navItem.id, 'reduced');
-                                e.stopPropagation();}}>
-                        <i className="material-icons">keyboard_tab</i>
-                    </button>
-                    <button
-                        className={((!this.props.showButtons || currentStatus == 'hidden' )? 'daliTitleButton hidden activeTitle' : 'daliTitleButton ')}
-                        onClick={(e) => {
-                                this.props.titleModeToggled(this.props.navItem.id, 'hidden');
-                                e.stopPropagation();}}>
-                        <i className="material-icons">visibility_off</i>
-                    </button>
-                    <button className={currentStatus == 'hidden' ? 'daliTitleButton  ' : 'daliTitleButton hidden'}
-                            onClick={(e) => {
-                                this.props.titleModeToggled(this.props.navItem.id, 'reduced');
-                                this.props.onShowTitle();
-                                e.stopPropagation();}}>
-                        <i className="material-icons">visibility</i>
-                    </button>
+                                    this.props.titleModeToggled(this.props.navItem.id, 'hidden');
+                                    e.stopPropagation();}}>
+                            <i className="material-icons">visibility_off</i>
+                        </button>
+                        <button className={currentStatus == 'hidden' ? 'daliTitleButton  ' : 'daliTitleButton hidden'}
+                                onClick={(e) => {
+                                    this.props.titleModeToggled(this.props.navItem.id, 'reduced');
+                                    this.props.onShowTitle();
+                                    e.stopPropagation();}}>
+                            <i className="material-icons">visibility</i>
+                        </button>
 
 
-                </div>
-                <div className={this.props.showButtons ?  "caja selectedTitle selectedBox":"caja"}>
-                    <div className="cab"
-                         style={{backgroundColor: 'transparent',  visibility: currentStatus=='hidden'? 'hidden':'inherit'}}>
-                        <span className="cabtabla_numero"
-                              contentEditable={this.props.navItem.parent === 0}
-                              suppressContentEditableWarning
-                              onBlur={e => {
-                                this.props.onUnitNumberChanged(this.props.navItem.id, parseInt(e.target.innerText, 10));
-                              }}
-                        >{this.props.navItem.unitNumber}</span>
-                        <div className="tit_ud_cap">
-                            <h1>{this.props.courseTitle}</h1>
-                            <h2>{unidad}</h2>
-                        </div>
-                        <div className="cabtabla_lapiz">
-
-                            <img style={{display: 'none', visibility: currentStatus=='hidden'? 'hidden':'inherit'}}
-                                 src="images/ico_alumno.gif" alt="Alumno"/>
-                            <div style={{display: 'none'}} id="alumno2"> Alumno</div>
-                        </div>
-                        <div style={{display: 'none'}} className="clear"></div>
                     </div>
-                    <div className="contenido"
-                         style={{backgroundColor: 'transparent',  display: currentStatus=='hidden'? 'none':'block'}}>
-                        {content}
+                    <div className={this.props.showButtons ?  "caja selectedTitle selectedBox":"caja"}>
+                        <div className="cab"
+                            style={{backgroundColor: 'transparent',  visibility: 'inherit'}}>
+                            <span className="cabtabla_numero"
+                                contentEditable={this.props.navItem.parent === 0}
+                                suppressContentEditableWarning
+                                onBlur={e => {
+                                    this.props.onUnitNumberChanged(this.props.navItem.id, parseInt(e.target.innerText, 10));
+                                }}
+                            >{this.props.navItem.unitNumber}</span>
+                            <div className="tit_ud_cap">
+                                <h1>{this.props.courseTitle}</h1>
+                                <h2>{unidad}</h2>
+                            </div>
+                            <div className="cabtabla_lapiz">
+
+                                <img style={{display: 'none', visibility: 'inherit'}}
+                                    src="images/ico_alumno.gif" alt="Alumno"/>
+                                <div style={{display: 'none'}} id="alumno2"> Alumno</div>
+                            </div>
+                            <div style={{display: 'none'}} className="clear"></div>
+                        </div>
                     </div>
+                    <br style={{clear:'both',  visibility: 'inherit'}}/>
                 </div>
-                <br style={{clear:'both',  visibility: currentStatus=='hidden'? 'hidden':'inherit'}}/>
             </div>
             /* jshint ignore:end */
         );

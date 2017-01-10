@@ -29,7 +29,7 @@
   background-color: white;
   margin: 0px;
   overflow-x: hidden;
-  overflow-y: auto;
+  overflow-y: hidden;
 }
 
 .buttonTitle {
@@ -69,6 +69,7 @@
 #canvas {
   position: relative;
   width: calc(100% - 40px);
+  overflow-y: auto;
 }
 
 #maincontent {

@@ -5,6 +5,7 @@ import DaliBoxSortable from '../dali_box_sortable/DaliBoxSortable';
 import DaliShortcuts from '../dali_shortcuts/DaliShortcuts';
 import {Col} from 'react-bootstrap';
 import DaliTitle from '../dali_title/DaliTitle';
+import DaliHeader from '../dali_header/DaliHeader';
 import interact from 'interact.js';
 import {ADD_BOX} from '../../../actions';
 import Dali from './../../../core/main';
@@ -31,7 +32,7 @@ export default class DaliCanvas extends Component {
             }
             titles.reverse();
         }
-        let paddings = /*(this.props.navItemSelected.type!= "slide") ? (*/'8px 8px 8px 8px';
+        let paddings = /*(this.props.navItemSelected.type!= "slide") ? (*/'0px 8px 8px 8px';
         /*) : ('30px 0px 30px 0px')*/
 
         let maincontent = document.getElementById('maincontent');
@@ -66,8 +67,19 @@ export default class DaliCanvas extends Component {
                        }}
                          className={isSlide(this.props.navItemSelected.type) ? 'innercanvas sli':'innercanvas doc'}
                          style={{visibility: (this.props.showCanvas ? 'visible' : 'hidden')}}>
+                        <DaliHeader titles={titles}
+                            showButtons={this.state.showTitle}
+                            onShowTitle={()=>this.setState({showTitle:true})}
+                            onBoxSelected={this.props.onBoxSelected}
+                            courseTitle={this.props.title}
+                            titleMode={this.props.navItemSelected.titleMode}
+                            navItem={this.props.navItemSelected}
+                            navItems={this.props.navItems}
+                            titleModeToggled={this.props.titleModeToggled}
+                            onUnitNumberChanged={this.props.onUnitNumberChanged}
+                            showButton={true}/>
                         <br/>
-
+                        
                         <DaliShortcuts
                             box={this.props.boxes[this.props.boxSelected]}
                             containedViewSelected={this.props.containedViewSelected}
