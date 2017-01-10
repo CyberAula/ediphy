@@ -32,8 +32,8 @@
         parent = navs[parent].parent;
     }
 %>
-<div style="visibility: visible; overflow: auto; display: <%=(navs[page].titleMode == 'hidden')?'none':'inherit' %>;" class="caja">
-    <div class="cab" style="display: <%=(navs[page].titleMode == 'hidden')?'none':'inherit' %>;">
+<div style="visibility: visible; overflow: auto;" class="caja">
+    <div class="cab">
         <div class="cabtabla_numero"><%=navs[page].unitNumber%></div>
         <div class="tit_ud_cap">
             <h1><%=title%></h1>
@@ -64,12 +64,12 @@
             var actualTitle = titles.pop();
             unidad=titles[0];
         %>
-        <div>
+        <div style="display: <%=(navs[page].titleMode == 'hidden')?'none':'inherit' %>;">
             <h3>
                 <ol class="breadcrumb" style="margin:0; background-color:inherit;">
                     <%titles.map(function(item, index){
                     if(index != 0){%>
-                    <li><a href="#"><%=item%></a></li>
+                        <li class="breadcrumb-item"><a href="#"><%=item%></a></li>
                     <%}}) %>
                 </ol>
             </h3>
@@ -205,7 +205,6 @@
                          left: <%=box.position.x%>;
                          top: <%=box.position.y%>;
                          pointer-events: all  !important;
-                         vertical-align: <%=box.verticalAlign ? box.verticalAlign : 'middle' %>;
                          width: <%=box.width %><%=(box.width  && isNaN(box.width))? "" : "px" %>;
                          height: <%=box.height%><%=(box.height && isNaN(box.height))? "" : "px" %>;
                          cursor:  default ; 

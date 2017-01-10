@@ -85,7 +85,6 @@ export default {
     },
     exportPage: function (state) {
 
-
         if (Object.keys(state.navItemsById[state.navItemSelected].extraFiles).length !== 0){
             let extraFileBox = Object.keys(state.navItemsById[state.navItemSelected].extraFiles)[0];
             let extraFileContainer = state.toolbarsById[extraFileBox];
@@ -101,7 +100,7 @@ export default {
             }));
         }
         return new EJS({url: Dali.Config.visor_ejs + ".ejs"}).render({
-            title: state.navItemsById[state.navItemSelected].name,
+            title: state.title,
             state: state,
             page: state.navItemSelected,
             navs: state.navItemsById,
