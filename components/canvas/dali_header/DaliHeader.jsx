@@ -47,7 +47,7 @@ export default class DaliHeader extends Component {
             }
     }
     render(){
-
+        
         let content;
         let unidad = "";
         let currentStatus = this.props.titleMode;
@@ -58,24 +58,23 @@ export default class DaliHeader extends Component {
 
             let actualTitle = titles[titles.length - 1];
             unidad = titles[0];
-            content = React.createElement("div", {},
-                React.createElement("h3", {},
+            content = React.createElement("div", {className:"subheader"},
+                React.createElement("h3", {style: {marginTop: '16px'}},
                     React.createElement(Breadcrumb, {style: {margin: 0, backgroundColor: 'inherit'}},
                         titles.map((item, index) => {
-                            //console.log(titles);
                             if (index !== 0 && index !== titles.length - 1) {
                                 return React.createElement(BreadcrumbItem, {key: index}, /*this.getActualIndex(titles.length, index) + */item);
                             }
                         })
                     )
                 ),
-                React.createElement("h4", {style: {margin: 0}}, /*this.getActualIndex() + */actualTitle)
+                React.createElement("h4", {}, /*this.getActualIndex() + */actualTitle)
             );
 
         } else if (currentStatus === 'expanded') {
             let titlesComponents = "";
             let titles_length = this.props.titles.length;
-            content = React.createElement("div", {},
+            content = React.createElement("div", {className:"subheader"},
                 this.props.titles.map((text, index) => {
                     if (index === 0) {
                         unidad = text;
@@ -91,9 +90,13 @@ export default class DaliHeader extends Component {
         }
 
         return(
+        /* jshint ignore:start */
         <div className="contenido"
             style={{backgroundColor: 'transparent',  display: currentStatus=='hidden'? 'none':'block'}}>
             {content}
-        </div>);
+        </div>
+        /* jshint ignore:end */
+        );
+        
     }
-};
+}

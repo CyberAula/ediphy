@@ -60,7 +60,7 @@ export default class DaliTitle extends Component {
                                         this.props.onBoxSelected(-1);
                                         this.props.onShowTitle();
                                         e.stopPropagation(); }}>
-                    <div style={{backgroundColor:'white'}}>
+                    <div style={{backgroundColor:'white', display:(titles.length !== 0)? 'inherit' : 'none' }}>
                     <div id="daliTitleButtons" style={{height:'40px'}}>
 
                         <button className={((!this.props.showButtons || currentStatus == 'hidden' )? 'daliTitleButton hidden ' : ' daliTitleButton ')
@@ -109,7 +109,6 @@ export default class DaliTitle extends Component {
                                 <h2>{unidad}</h2>
                             </div>
                             <div className="cabtabla_lapiz">
-
                                 <img style={{display: 'none', visibility: 'inherit'}}
                                     src="images/ico_alumno.gif" alt="Alumno"/>
                                 <div style={{display: 'none'}} id="alumno2"> Alumno</div>
