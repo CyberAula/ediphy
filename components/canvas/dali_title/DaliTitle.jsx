@@ -60,7 +60,7 @@ export default class DaliTitle extends Component {
                                         this.props.onBoxSelected(-1);
                                         this.props.onShowTitle();
                                         e.stopPropagation(); }}>
-                    <div style={{backgroundColor:'white', display:(titles.length !== 0)? 'inherit' : 'none' }}>
+                    <div style={{backgroundColor:'white', display:(titles.length !== 0)? 'initial' : 'none' }}>
                     <div id="daliTitleButtons" style={{height:'40px'}}>
 
                         <button className={((!this.props.showButtons || currentStatus == 'hidden' )? 'daliTitleButton hidden ' : ' daliTitleButton ')

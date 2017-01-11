@@ -32,8 +32,6 @@ export default class DaliCanvas extends Component {
             }
             titles.reverse();
         }
-        let paddings = /*(this.props.navItemSelected.type!= "slide") ? (*/'0px 8px 8px 8px';
-        /*) : ('30px 0px 30px 0px')*/
 
         let maincontent = document.getElementById('maincontent');
         let actualHeight;
@@ -46,7 +44,8 @@ export default class DaliCanvas extends Component {
         return (
             /* jshint ignore:start */
             <Col id="canvas" md={12} xs={12}
-                 style={{height:"100%", padding:0, display: this.props.containedViewSelected !== 0 ? 'none' : 'initial'}}>
+                 style={{display: this.props.containedViewSelected !== 0 ? 'none' : 'initial'}}>
+                 <div className="scrollcontainer">
                  <DaliTitle titles={titles}
                         showButtons={this.state.showTitle}
                         onShowTitle={()=>this.setState({showTitle:true})}
@@ -58,8 +57,8 @@ export default class DaliCanvas extends Component {
                         titleModeToggled={this.props.titleModeToggled}
                         onUnitNumberChanged={this.props.onUnitNumberChanged}
                         showButton={true}/>
-                <div className="outter canvaseditor"
-                     style={{position: 'absolute', width: '100%', height:'100%', padding: (paddings)}}>
+                <div className="outter canvaseditor">
+                     
                     <div id="maincontent"
                          onClick={e => {
                         this.props.onBoxSelected(-1);
@@ -147,6 +146,7 @@ export default class DaliCanvas extends Component {
                             }
                         })}
                     </div>
+                </div>
                 </div>
             </Col>
             /* jshint ignore:end */
