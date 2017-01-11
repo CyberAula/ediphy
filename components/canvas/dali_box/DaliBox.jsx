@@ -108,18 +108,18 @@ export default class DaliBox extends Component {
 
         let content = toolbar.state.__text && !toolbar.config.extraTextConfig ? (
             /* jshint ignore:start */
-            <div className="boxStyle" style={style} {...attrs} className={classNames} ref={"content"}
+            <div style={style} {...attrs} className={"boxStyle " + classNames} ref={"content"}
                  dangerouslySetInnerHTML={{__html: decodeURI(toolbar.state.__text)}}></div>
             /* jshint ignore:end */
         ) : toolbar.config.flavor === "react" ? (
             /* jshint ignore:start */
-            <div className="boxStyle" style={style} {...attrs} className={classNames} ref={"content"}>
+            <div style={style} {...attrs} className={"boxStyle " + classNames} ref={"content"}>
                 {box.content}
             </div>
             /* jshint ignore:end */
         ) : (
             /* jshint ignore:start */
-            <div className="boxStyle" style={style} {...attrs} className={classNames} ref={"content"}>
+            <div style={style} {...attrs} className={"boxStyle " + classNames} ref={"content"}>
                 {this.renderChildren(box.content)}
             </div>
             /* jshint ignore:end */
