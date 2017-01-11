@@ -107,6 +107,15 @@ function createSortableButtons(controls, action) {
     let value = 100;
     let units = "%";
     let type = "number";
+
+    if (isSortableContainer(action.payload.ids.container) &&
+        isSortableBox(action.payload.ids.parent) &&
+        !action.payload.config.needsTextEdition) {
+
+        displayValue = 25;
+        value = 25;
+    }
+
     let initialWidth = action.payload.initialParams.width;
     if (initialWidth) {
         if (initialWidth === "auto") {
