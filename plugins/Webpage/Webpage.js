@@ -35,7 +35,6 @@ export function Webpage(base) {
                                     type: 'number',
                                     value: 0,
                                     min: 0,
-                                    units: 'px',
                                     max: 100
                                 },
                                 borderWidth: {
@@ -43,8 +42,7 @@ export function Webpage(base) {
                                     type: 'number',
                                     value: 0,
                                     min: 0,
-                                    max: 10,
-                                    units: 'px'
+                                    max: 10
                                 },
                                 borderStyle: {
                                     __name: Dali.i18n.t('Webpage.border_style'),
@@ -60,10 +58,9 @@ export function Webpage(base) {
                                 borderRadius: {
                                     __name: Dali.i18n.t('Webpage.radius'),
                                     type: 'number',
-                                    value: '0',
-                                    min: '0',
-                                    max: '50',
-                                    units: '%'
+                                    value: 0,
+                                    min: 0,
+                                    max: 50
                                 },
                                 opacity: {
                                     __name: Dali.i18n.t('Webpage.opacity'),

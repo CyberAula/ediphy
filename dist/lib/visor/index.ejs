@@ -164,8 +164,11 @@
             var cornerSize = 15;
             var box = boxesById[id];
             var toolbar =  toolbarsById[id];
-            var style = "height: 100%; position: relative; word-wrap: break-word;";
-            var attrs = " "
+            var style = "width: 100%; height: 100%; position: relative; word-wrap: break-word;";
+            var attrs = " ";
+            var width = "auto";
+            var height = "auto";
+
             for (var tabKey in toolbar.controls) {
                 for (var accordionKey in toolbar.controls[tabKey].accordions) {
                     for (var buttonKey in toolbar.controls[tabKey].accordions[accordionKey].buttons) {
@@ -173,7 +176,11 @@
                         if (button.autoManaged) {
                             buttonKey = buttonKey.split(/(?=[A-Z])/).join('-').toLowerCase();
                             if (!button.isAttribute) {
-                                if (buttonKey !== 'width' && buttonKey !== 'height') {
+                                if (buttonKey === '__width') {
+                                    width = button.displayValue + (button.type === "number" ? button.units : "");
+                                } else if (buttonKey === '__height') {
+                                    height = button.displayValue + (button.type === "number" ? button.units : "");
+                                } else {
                                     style += buttonKey + ":" + button.value + "; ";
                                 }
                             } else {
@@ -188,7 +195,7 @@
                                 if (button.autoManaged) {
                                     buttonKey = buttonKey.split(/(?=[A-Z])/).join('-').toLowerCase();
                                     if (!button.isAttribute) {
-                                        if (buttonKey !== 'width' && buttonKey !== 'height') {
+                                        if (buttonKey !== '__width' && buttonKey !== '__height') {
                                             style += buttonKey + ":" + button.value + "; ";
                                         }
                                     } else {
@@ -208,7 +215,11 @@
                          width: <%=box.width %><%=(box.width  && isNaN(box.width))? "" : "px" %>;
                          height: <%=box.height%><%=(box.height && isNaN(box.height))? "" : "px" %>;
                          cursor:  default ; 
-                          <%= toolbar.config.needsTextEdition ? 'text-align: left;' : '' %> " >
+                         vertical-align: <%=box.verticalAlign ? box.verticalAlign : 'middle' %>;
+                         width: <%=width %>;
+                         height: <%=height %>;
+                         cursor:  default ; "
+                         <%= toolbar.config.needsTextEdition ? 'text-align: left;' : '' %> " >
                  <div class="insidewb" style="<%= style%>"  <%= attrs%> >
                     <% if(toolbar.config.flavor === "react") {%>
                         <script type="text/javascript">

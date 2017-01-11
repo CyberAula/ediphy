@@ -186,6 +186,9 @@ export default function () {
                         button = buttons[buttonKey];
                         button.__name = defaultFor(button.__name, buttonKey, "Property __name in button '" + buttonKey + "' not found");
                         button.autoManaged = defaultFor(button.autoManaged, true);
+                        if(button.type === "radio" || button.type === "select"){
+                            button.options = defaultFor(button.options, []);
+                        }
                         if (!button.callback && !button.autoManaged) {
                             button.callback = this.update.bind(this);
                         }
@@ -205,6 +208,9 @@ export default function () {
                                 button = buttons[buttonKey];
                                 button.__name = defaultFor(button.__name, buttonKey, "Property __name in button '" + buttonKey + "' not found");
                                 button.autoManaged = defaultFor(button.autoManaged, true);
+                                if(button.type === "radio" || button.type === "select"){
+                                    button.options = defaultFor(button.options, []);
+                                }
                                 if (!button.callback && !button.autoManaged) {
                                     button.callback = this.update.bind(this);
                                 }

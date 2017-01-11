@@ -5,6 +5,7 @@ var es = {
         "Alignment": "Alineación",
         "Advanced": "Avanzado",
         "Aspect_ratio": "Relación de aspecto",
+        "Auto": "Automática",
         "Block": "Bloque",
         "Cancel": "Cancelar",
         "Container_": "Contenedor",
@@ -53,6 +54,8 @@ var es = {
         "Open": "Abrir",
         "Open_Catalog": "Ver imágenes subidas",
         "page": "Página",
+        "Pixels": "Píxeles",
+        "Percentage": "Porcentaje",
         "Position": "Posicionamiento",
         "Preview": "Previsualizar",
         "Properties": "Propiedades",
@@ -81,11 +84,13 @@ var es = {
         "Text": "Texto",
         "text_here": "Introduzca aquí su texto",
         "Undone": "Deshacer",
+        "Units": "Unidades",
         "Uploading": "Subiendo...",
         "Upload_to_ViSH": "Subir a ViSH",
         "Vertical_align": "Alineación vertical",
+        "Width": "Anchura",
         "Width_percentage": "Ancho (%)",
-        "Width_pixels": "Ancho (px)",
+        "Width_pixels": "Ancho (px)"
     }
 };
 

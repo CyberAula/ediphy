@@ -23,10 +23,9 @@ export function BasicText(base) {
                                 padding: {
                                     __name: Dali.i18n.t('BasicText.padding'),
                                     type: 'number',
-                                    value: '15px',
+                                    value: 15,
                                     min: 0,
-                                    max: 100,
-                                    units: 'px'
+                                    max: 100
                                 },
                                 className: {
                                     __name: Dali.i18n.t('BasicText.classname'),

@@ -9,7 +9,7 @@ export function BasicImage(base) {
                 needsTextEdition: false,
                 aspectRatioButtonConfig: {
                     location: ["main", "__sortable"],
-                    defaultValue: "checked"
+                    defaultValue: true
                 },
                 icon: 'image'
             };
@@ -40,7 +40,6 @@ export function BasicImage(base) {
                                     type: 'number',
                                     value: 0,
                                     min: 0,
-                                    units: 'px',
                                     max: 100
                                 },
                                 backgroundColor: {
@@ -53,12 +52,11 @@ export function BasicImage(base) {
                                     type: 'number',
                                     value: 0,
                                     min: 0,
-                                    units: 'px',
                                     max: 10
                                 },
                                 borderStyle: {
                                     __name: Dali.i18n.t('BasicImage.border_style'),
-                                    type: 'select',
+                                    type: 'radio',
                                     value: 'solid',
                                     options: ['none', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset', 'initial', 'inherit']
                                 },
@@ -70,10 +68,9 @@ export function BasicImage(base) {
                                 borderRadius: {
                                     __name:  Dali.i18n.t('BasicImage.radius'),
                                     type: 'number',
-                                    value: '0',
-                                    min: '0',
-                                    max: '50',
-                                    units: '%'
+                                    value: 0,
+                                    min: 0,
+                                    max: 50,
                                 },
                                 opacity: {
                                     __name: Dali.i18n.t('BasicImage.opacity'),
