@@ -82,7 +82,7 @@ function createAliasButton(controls) {
         isAttribute: true
     };
 }
-function createSortableButtons(controls) {
+function createSortableButtons(controls, action) {
     if (!controls.main) {
         controls.main = {
             __name: "Main",
@@ -103,14 +103,32 @@ function createSortableButtons(controls) {
             buttons: {}
         };
     }
+    let displayValue = 100;
+    let value = 100;
+    let units = "%";
+    let type = "number";
+    let initialWidth = action.payload.initialParams.width;
+    if (initialWidth) {
+        if (initialWidth === "auto") {
+            displayValue = "auto";
+            units = "%";
+            type = "text";
+        } else {
+            displayValue = parseInt(initialWidth, 10);
+            value = parseInt(initialWidth, 10);
+            if (initialWidth.indexOf("px") !== -1) {
+                units = "px";
+            }
+        }
+    }
     controls.main.accordions.__sortable.buttons.__width = {
         __name: i18n.t('Width'),
-        type: 'number',
-        displayValue: 100,
-        value: 100,
+        type: type,
+        displayValue: displayValue,
+        value: value,
         step: 5,
-        units: '%',
-        auto: false,
+        units: units,
+        auto: displayValue === "auto",
         autoManaged: true
     };
     controls.main.accordions.__sortable.buttons.__height = {
@@ -125,26 +143,26 @@ function createSortableButtons(controls) {
     };
     //This will be commented until it's working correctly
     /*
-    controls.main.accordions.__sortable.buttons.__position = {
-        __name: i18n.t('Position'),
-        type: 'radio',
-        value: 'relative',
-        options: ['absolute', 'relative'],
-        autoManaged: true
-    };
+     controls.main.accordions.__sortable.buttons.__position = {
+     __name: i18n.t('Position'),
+     type: 'radio',
+     value: 'relative',
+     options: ['absolute', 'relative'],
+     autoManaged: true
+     };
 
-    controls.main.accordions.__sortable.buttons.__verticalAlign = {
-        __name: i18n.t('Vertical_align'),
-        type: 'fancy_radio',
-        value: 'middle',
-        options: ['top', 'middle', 'bottom'],
-        tooltips: [i18n.t('messages.align_top'), i18n.t('messages.align_middle'), i18n.t('messages.align_bottom')],
-        icons: ['vertical_align_top', 'vertical_align_center', 'vertical_align_bottom'],
-        autoManaged: true
-    };
-    */
+     controls.main.accordions.__sortable.buttons.__verticalAlign = {
+     __name: i18n.t('Vertical_align'),
+     type: 'fancy_radio',
+     value: 'middle',
+     options: ['top', 'middle', 'bottom'],
+     tooltips: [i18n.t('messages.align_top'), i18n.t('messages.align_middle'), i18n.t('messages.align_bottom')],
+     icons: ['vertical_align_top', 'vertical_align_center', 'vertical_align_bottom'],
+     autoManaged: true
+     };
+     */
 }
-function createFloatingBoxButtons(controls) {
+function createFloatingBoxButtons(controls, action) {
     if (!controls.main) {
         controls.main = {
             __name: "Main",
@@ -188,7 +206,7 @@ function createFloatingBoxButtons(controls) {
     };
 }
 
-function toolbarCreator(state, action){
+function toolbarCreator(state, action) {
     let toolbar = {
         id: action.payload.ids.id,
         controls: action.payload.toolbar || {
@@ -206,10 +224,10 @@ function toolbarCreator(state, action){
     }
     // If contained in sortableContainer
     if (isSortableContainer(action.payload.ids.container)) {
-        createSortableButtons(toolbar.controls);
-    // If not contained and is not a sortableBox (AKA floating box)
+        createSortableButtons(toolbar.controls, action);
+        // If not contained and is not a sortableBox (AKA floating box)
     } else if (!isSortableBox(action.payload.ids.id)) {
-        createFloatingBoxButtons(toolbar.controls);
+        createFloatingBoxButtons(toolbar.controls, action);
     }
 
     // If not a DaliBoxSortable
@@ -226,22 +244,24 @@ function toolbarCreator(state, action){
     return toolbar;
 }
 
-function toolbarReducer(state, action){
+function toolbarReducer(state, action) {
     var newState;
-    switch (action.type){
+    switch (action.type) {
         case ADD_RICH_MARK:
             return changeProp(state, "state", action.payload.state);
         case EDIT_RICH_MARK:
             return changeProp(state, "state", action.payload.state);
         case RESIZE_BOX:
             newState = Utils.deepClone(state);
-            let height = action.payload.height;
-
             if (newState.controls.main.accordions.__sortable) {
                 let buttons = newState.controls.main.accordions.__sortable.buttons;
                 if (buttons.__height && buttons.__width) {
-                    newState.controls.main.accordions.__sortable.buttons.__height.value = height;
-                    newState.controls.main.accordions.__sortable.buttons.__width.value = height;
+                    if (action.payload.heightButton) {
+                        newState.controls.main.accordions.__sortable.buttons.__height = action.payload.heightButton;
+                    }
+                    if (action.payload.widthButton) {
+                        newState.controls.main.accordions.__sortable.buttons.__width = action.payload.widthButton;
+                    }
                 }
             }
 
@@ -291,13 +311,13 @@ function toolbarReducer(state, action){
         case UPDATE_TOOLBAR:
             newState = Utils.deepClone(state);
             let pl = action.payload;
-            if(pl.value.__name){
+            if (pl.value.__name) {
                 if (pl.accordions.length > 1) {
                     newState.controls[pl.tab].accordions[pl.accordions[0]].accordions[pl.accordions[1]].buttons[pl.name] = pl.value;
                 } else {
                     newState.controls[pl.tab].accordions[pl.accordions[0]].buttons[pl.name] = pl.value;
                 }
-            }else {
+            } else {
                 if (pl.accordions.length > 1) {
                     newState.controls[pl.tab].accordions[pl.accordions[0]].accordions[pl.accordions[1]]
                         .buttons[pl.name][typeof pl.value === "boolean" ? "checked" : "value"] = pl.value;

@@ -103,8 +103,8 @@ export function duplicateBox(id, parent, container, children, newIds, newId) {
     return {type: DUPLICATE_BOX, payload: {id, parent, container, children, newIds, newId}};
 }
 
-export function resizeBox(id, width, height) {
-    return {type: RESIZE_BOX, payload: {id, width, height}};
+export function resizeBox(id, widthButton, heightButton) {
+    return {type: RESIZE_BOX, payload: {id, widthButton, heightButton}};
 }
 
 export function updateBox(id, content, toolbar, state) {

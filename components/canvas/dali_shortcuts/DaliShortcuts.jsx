@@ -43,8 +43,24 @@ export default class DaliShortcuts extends Component {
                                         }>
                                 <button className="daliTitleButton"
                                         onClick={(e) => {
-                                        let newWidth = (box.width == '100%') ? (toolbar.config.category !== 'text' ? '20%' : ''): '100%';
-                                        this.props.onBoxResized(toolbar.id, newWidth, 'auto');
+                                            let widthButton = Object.assign({}, toolbar.controls.main.accordions.__sortable.buttons.__width);
+                                            if(widthButton.displayValue === 100 && widthButton.units === "%"){
+                                                if(toolbar.config.needsTextEdition){
+                                                    widthButton.displayValue = "auto";
+                                                    widthButton.type = "text";
+                                                }else{
+                                                    widthButton.value = 20;
+                                                    widthButton.displayValue = 20;
+                                                    widthButton.type = "number";
+                                                    widthButton.units = "%";
+                                                }
+                                            }else{
+                                                widthButton.value = 100;
+                                                widthButton.displayValue = 100;
+                                                widthButton.type = "number";
+                                                widthButton.units = "%";
+                                            }
+                                        this.props.onBoxResized(toolbar.id, widthButton);
                                         e.stopPropagation();
                                     }}>
                                     <i className="material-icons">code</i>

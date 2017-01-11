@@ -362,16 +362,10 @@ export default class PluginToolbar extends Component {
                         return;
                     }
 
-                    let newValue = newButton.displayValue + (newButton.auto ? "" : newButton.units);
-                    let otherValue = otherButton.displayValue + (otherButton.auto ? "" : otherButton.units);
                     if(buttonKey === "__width"){
-                        this.props.onBoxResized(id, newValue, otherValue);
-                        this.props.onToolbarUpdated(id, tabKey, accordionKeys, "__width", newButton);
-                        this.props.onToolbarUpdated(id, tabKey, accordionKeys, "__height", otherButton);
+                        this.props.onBoxResized(id, newButton, otherButton);
                     }else{
-                        this.props.onBoxResized(id, otherValue, newValue);
-                        this.props.onToolbarUpdated(id, tabKey, accordionKeys, "__width", otherButton);
-                        this.props.onToolbarUpdated(id, tabKey, accordionKeys, "__height", newButton);
+                        this.props.onBoxResized(id, otherButton, newButton);
                     }
                     return;
                 }
