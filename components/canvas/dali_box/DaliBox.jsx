@@ -175,7 +175,7 @@ export default class DaliBox extends Component {
             if (toolbar.controls.main.accordions.__sortable.buttons.__verticalAlign.value) {
                 verticalAlign = toolbar.controls.main.accordions.__sortable.buttons.__verticalAlign.value;
             } else {
-                verticalAlign = 'middle';
+                verticalAlign = 'top';
             }
         }
         return (
