@@ -56,7 +56,7 @@ function createRichAccordions(controls) {
     }
 }
 
-function createAliasButton(controls) {
+function createAliasButton(controls, state) {
     if (!controls.main) {
         controls.main = {
             __name: "Alias",
@@ -76,17 +76,21 @@ function createAliasButton(controls) {
         };
     }
     if (!controls.main.accordions.__extra.buttons.alias) {
-        controls.main.accordions.__extra.buttons.alias = {
-            __name: 'Alias',
-            type: 'text',
-            value: "",
-            autoManaged: true,
-            isAttribute: true
-        };
+        if(state === null){
+            controls.main.accordions.__extra.buttons.alias = {
+                __name: 'Alias',
+                type: 'text',
+                value: "",
+                autoManaged: true,
+                isAttribute: true
+            };
+        }else{
+            controls.main.accordions.__extra.buttons.alias = Object.assign({}, state.controls.main.accordions.__extra.buttons.alias);
+        }
     }
 }
 
-function createSortableButtons(controls, action) {
+function createSizeButtons(controls, state, action, floatingBox) {
     if (!controls.main) {
         controls.main = {
             __name: "Main",
@@ -107,32 +111,53 @@ function createSortableButtons(controls, action) {
             buttons: {}
         };
     }
-    let displayValue = 100;
-    let value = 100;
-    let units = "%";
-    let type = "number";
+    let displayValue;
+    let value;
+    let units;
+    let type;
 
-    if (isSortableContainer(action.payload.ids.container) &&
-        isSortableBox(action.payload.ids.parent) &&
-        !action.payload.config.needsTextEdition) {
-
-        displayValue = 25;
-        value = 25;
-    }
-
-    let initialWidth = action.payload.initialParams.width;
-    if (initialWidth) {
-        if (initialWidth === "auto") {
-            displayValue = "auto";
+    // It means we are creating a new one, initial params can come
+    if (state === null) {
+        if(floatingBox) {
+            displayValue = 200;
+            value = 200;
+            units = "px";
+        }else{
+            displayValue = 100;
+            value = 100;
             units = "%";
-            type = "text";
-        } else {
-            displayValue = parseInt(initialWidth, 10);
-            value = parseInt(initialWidth, 10);
-            if (initialWidth.indexOf("px") !== -1) {
-                units = "px";
+        }
+        type = "number";
+
+        if (isSortableContainer(action.payload.ids.container) &&
+            isSortableBox(action.payload.ids.parent) && !action.payload.config.needsTextEdition) {
+
+            displayValue = 25;
+            value = 25;
+        }
+
+        let initialWidth = action.payload.initialParams.width;
+        if (initialWidth) {
+            if (initialWidth === "auto") {
+                displayValue = "auto";
+                units = "%";
+                type = "text";
+            } else {
+                displayValue = parseInt(initialWidth, 10);
+                value = parseInt(initialWidth, 10);
+                if (initialWidth.indexOf("px") !== -1) {
+                    units = "px";
+                }else{
+                    units = "%";
+                }
             }
         }
+    } else {
+        let width = state.controls.main.accordions.__sortable.buttons.__width;
+        displayValue = width.displayValue;
+        value = width.value;
+        units = width.units;
+        type = width.type;
     }
     controls.main.accordions.__sortable.buttons.__width = {
         __name: i18n.t('Width'),
@@ -144,16 +169,31 @@ function createSortableButtons(controls, action) {
         auto: displayValue === "auto",
         autoManaged: true
     };
-    controls.main.accordions.__sortable.buttons.__height = {
-        __name: i18n.t('Height'),
-        type: 'text',
-        displayValue: 'auto',
-        value: 100,
-        step: 5,
-        units: '%',
-        auto: true,
-        autoManaged: true
-    };
+    if(state === null){
+        controls.main.accordions.__sortable.buttons.__height = {
+            __name: i18n.t('Height'),
+            type: 'text',
+            displayValue: 'auto',
+            value: 100,
+            step: 5,
+            units: floatingBox ? "px" : "%",
+            auto: true,
+            autoManaged: true
+        };
+    }else {
+        let height = state.controls.main.accordions.__sortable.buttons.__height;
+        controls.main.accordions.__sortable.buttons.__height = {
+            __name: i18n.t('Height'),
+            type: height.type,
+            displayValue: height.displayValue,
+            value: height.value,
+            step: 5,
+            units: height.units,
+            auto: height.displayValue === "auto",
+            autoManaged: true
+        };
+    }
+
     //This will be commented until it's working correctly
     /*
      controls.main.accordions.__sortable.buttons.__position = {
@@ -175,49 +215,6 @@ function createSortableButtons(controls, action) {
      };
      */
 }
-function createFloatingBoxButtons(controls, action) {
-    if (!controls.main) {
-        controls.main = {
-            __name: "Main",
-            accordions: {
-                __sortable: {
-                    key: 'structure',
-                    __name: i18n.t('Structure'),
-                    icon: 'border_all',
-                    buttons: {}
-                }
-            }
-        };
-    } else if (!controls.main.accordions.__sortable) {
-        controls.main.accordions.__sortable = {
-            key: 'structure',
-            __name: i18n.t('Structure'),
-            icon: 'border_all',
-            buttons: {}
-        };
-    }
-
-    controls.main.accordions.__sortable.buttons.__width = {
-        __name: i18n.t('Width'),
-        type: 'number',
-        displayValue: 200,
-        value: 200,
-        step: 5,
-        units: 'px',
-        auto: false,
-        autoManaged: true
-    };
-    controls.main.accordions.__sortable.buttons.__height = {
-        __name: i18n.t('Height'),
-        type: 'text',
-        displayValue: 'auto',
-        value: 100,
-        step: 5,
-        units: 'px',
-        auto: true,
-        autoManaged: true
-    };
-}
 
 function toolbarCreator(state, action) {
     let toolbar = {
@@ -235,17 +232,9 @@ function toolbarCreator(state, action) {
     if (isSortableBox(action.payload.ids.id)) {
         toolbar.config.displayName = i18n.t('Container_');
     }
-    // If contained in sortableContainer
-    if (isSortableContainer(action.payload.ids.container)) {
-        createSortableButtons(toolbar.controls, action);
-        // If not contained and is not a sortableBox (AKA floating box)
-    } else if (!isSortableBox(action.payload.ids.id)) {
-        createFloatingBoxButtons(toolbar.controls, action);
-    }
-
-    // If not a DaliBoxSortable
-    if (!isSortableBox(action.payload.ids.id)) {
-        createAliasButton(toolbar.controls);
+    if(!isSortableBox(action.payload.ids.id)) {
+        createSizeButtons(toolbar.controls, null, action, !isSortableContainer(action.payload.ids.container));
+        createAliasButton(toolbar.controls, null);
     }
     if (toolbar.config && toolbar.config.aspectRatioButtonConfig) {
         createAspectRatioButton(toolbar.controls, toolbar.config);
@@ -293,18 +282,9 @@ function toolbarReducer(state, action) {
             return changeProp(state, "showTextEditor", action.payload.value);
         case UPDATE_BOX:
             let controls = action.payload.toolbar;
-
-            try {
-                createSortableButtons(
-                    controls,
-                    state.controls.main.accordions.__sortable.buttons.__width.value,
-                    state.controls.main.accordions.__sortable.buttons.__height.value
-                );
-                createAliasButton(
-                    controls,
-                    state.controls.main.accordions.__extra.buttons.alias.value
-                );
-            } catch (e) {
+            if (!isSortableBox(action.payload.id)) {
+                createSizeButtons(controls, state, action);
+                createAliasButton(controls, state);
             }
 
             if (state.config && state.config.isRich) {
