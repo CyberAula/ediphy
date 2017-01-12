@@ -172,7 +172,7 @@ export function isAncestorOrSibling(searchingId, actualId, boxes) {
         }
     }
 
-    return isAncestorOrSibling(searchingId, parentId);
+    return isAncestorOrSibling(searchingId, parentId, boxes);
 }
 
 /**
