@@ -43,7 +43,7 @@ export default class DaliBox extends Component {
         let height;
         let classNames = "";
 
-        if(toolbar.config.needsTextEdition){
+        if (toolbar.config.needsTextEdition) {
             textareaStyle.textAlign = "left";
             style.textAlign = "left";
         }
@@ -53,9 +53,9 @@ export default class DaliBox extends Component {
                 let button;
                 for (let buttonKey in toolbar.controls[tabKey].accordions[accordionKey].buttons) {
                     button = toolbar.controls[tabKey].accordions[accordionKey].buttons[buttonKey];
-                    if (button.autoManaged) {
-                        if (!button.isAttribute) {
-                            if(buttonKey === 'className' && button.value){
+                    if (!button.isAttribute) {
+                        if (button.autoManaged) {
+                            if (buttonKey === 'className' && button.value) {
                                 classNames += button.value;
                             } else if (buttonKey === '__width') {
                                 width = button.displayValue + (button.type === "number" ? button.units : "");
@@ -64,9 +64,9 @@ export default class DaliBox extends Component {
                             } else {
                                 style[buttonKey] = button.value;
                             }
-                        } else {
-                            attrs['data-' + buttonKey] = button.value;
                         }
+                    } else {
+                        attrs['data-' + buttonKey] = button.value;
                     }
                     if (buttonKey === 'fontSize') {
                         textareaStyle.fontSize = button.value;
@@ -81,16 +81,16 @@ export default class DaliBox extends Component {
                     for (let accordionKey2 in toolbar.controls[tabKey].accordions[accordionKey].accordions) {
                         for (let buttonKey in toolbar.controls[tabKey].accordions[accordionKey].accordions[accordionKey2].buttons) {
                             button = toolbar.controls[tabKey].accordions[accordionKey].accordions[accordionKey2].buttons[buttonKey];
-                            if (button.autoManaged) {
-                                if (!button.isAttribute) {
-                                    if(buttonKey === 'className' && button.value){
+                            if (!button.isAttribute) {
+                                if (button.autoManaged) {
+                                    if (buttonKey === 'className' && button.value) {
                                         classNames += button.value;
                                     } else {
                                         style[buttonKey] = button.value;
                                     }
-                                } else {
-                                    attrs['data-' + buttonKey] = button.value;
                                 }
+                            } else {
+                                attrs['data-' + buttonKey] = button.value;
                             }
                             if (buttonKey === 'fontSize') {
                                 textareaStyle.fontSize = button.value;
@@ -106,28 +106,23 @@ export default class DaliBox extends Component {
             }
         }
 
-        let content = toolbar.state.__text && !toolbar.config.extraTextConfig ? (
+        let content = toolbar.config.flavor === "react" ? (
             /* jshint ignore:start */
-            <div style={style} {...attrs} className={"boxStyle " + classNames} ref={"content"}
-                 dangerouslySetInnerHTML={{__html: decodeURI(toolbar.state.__text)}}></div>
-            /* jshint ignore:end */
-        ) : toolbar.config.flavor === "react" ? (
-            /* jshint ignore:start */
-            <div style={style} {...attrs} className={"boxStyle " + classNames} ref={"content"}>
+            <div style={style} {...attrs} className={"boxStyle" + classNames} ref={"content"}>
                 {box.content}
             </div>
             /* jshint ignore:end */
         ) : (
             /* jshint ignore:start */
-            <div style={style} {...attrs} className={"boxStyle " + classNames} ref={"content"}>
+            <div style={style} {...attrs} className={"boxStyle" + classNames} ref={"content"}>
                 {this.renderChildren(box.content)}
             </div>
             /* jshint ignore:end */
         );
         let border = (
-            /* jshint ignore:start */
-            <div style={{visibility: (vis ? 'visible' : 'hidden')}}>
-                <div style={{
+                /* jshint ignore:start */
+                <div style={{visibility: (vis ? 'visible' : 'hidden')}}>
+                    <div style={{
                     position: 'absolute',
                     top: -(this.borderSize),
                     left: -(this.borderSize),
@@ -135,20 +130,20 @@ export default class DaliBox extends Component {
                     height: '100%',
                     boxSizing: 'content-box'
                 }}>
+                    </div>
+                    <div style={{display: box.resizable ? 'initial' : 'none'}}>
+                        <div className="helpersResizable"
+                             style={{ left:  -cornerSize/2, top: -cornerSize/2, width: cornerSize, height: cornerSize, cursor: (!isSortableContainer(box.container) ? 'nw-resize' : 'move')}}></div>
+                        <div className="helpersResizable"
+                             style={{ right: -cornerSize/2, top: -cornerSize/2, width: cornerSize, height: cornerSize, cursor: (!isSortableContainer(box.container) ? 'ne-resize' : 'move')}}></div>
+                        <div className="helpersResizable"
+                             style={{ left:  -cornerSize/2, bottom: -cornerSize/2, width: cornerSize, height: cornerSize, cursor: (!isSortableContainer(box.container) ? 'sw-resize' : 'move')}}></div>
+                        <div className="helpersResizable"
+                             style={{ right: -cornerSize/2, bottom: -cornerSize/2, width: cornerSize, height: cornerSize, cursor: (!isSortableContainer(box.container) ? 'se-resize' : 'move')}}></div>
+                    </div>
                 </div>
-                <div style={{display: box.resizable ? 'initial' : 'none'}}>
-                    <div className="helpersResizable"
-                         style={{ left:  -cornerSize/2, top: -cornerSize/2, width: cornerSize, height: cornerSize, cursor: (!isSortableContainer(box.container) ? 'nw-resize' : 'move')}}></div>
-                    <div className="helpersResizable"
-                         style={{ right: -cornerSize/2, top: -cornerSize/2, width: cornerSize, height: cornerSize, cursor: (!isSortableContainer(box.container) ? 'ne-resize' : 'move')}}></div>
-                    <div className="helpersResizable"
-                         style={{ left:  -cornerSize/2, bottom: -cornerSize/2, width: cornerSize, height: cornerSize, cursor: (!isSortableContainer(box.container) ? 'sw-resize' : 'move')}}></div>
-                    <div className="helpersResizable"
-                         style={{ right: -cornerSize/2, bottom: -cornerSize/2, width: cornerSize, height: cornerSize, cursor: (!isSortableContainer(box.container) ? 'se-resize' : 'move')}}></div>
-                </div>
-            </div>
-            /* jshint ignore:end */
-        );
+                /* jshint ignore:end */
+            );
 
 
         let classes = "wholebox";
@@ -273,7 +268,7 @@ export default class DaliBox extends Component {
     renderChildren(markup, key) {
         let component;
         let props = {};
-        let children;
+        let children = null;
         switch (markup.node) {
             case 'element':
                 if (markup.attr) {
@@ -331,10 +326,16 @@ export default class DaliBox extends Component {
         });
 
         if (markup.child) {
-            children = [];
-            markup.child.forEach((child, index) => {
-                children.push(child.node === "text" ? child.text : this.renderChildren(child, index));
-            });
+            if (markup.child.length === 1 && markup.child[0].node === "text") {
+                props.dangerouslySetInnerHTML = {
+                    __html: decodeURI(markup.child[0].text)
+                };
+            } else {
+                children = [];
+                markup.child.forEach((child, index) => {
+                    children.push(this.renderChildren(child, index));
+                });
+            }
         }
         return React.createElement(component, props, children);
     }

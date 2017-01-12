@@ -894,7 +894,6 @@
                 Dali.Plugins.getPluginsInCurrentView(true).then(function(elements){
                     var functions = {};
                     Object.keys(elements).forEach(function(pluginName){
-						console.log(pluginName);
                         functions[pluginName] = Dali.Visor.Plugins.get(pluginName).getExtraFunctions();
                     });
                     pluginOptions = Object.keys(elements);
