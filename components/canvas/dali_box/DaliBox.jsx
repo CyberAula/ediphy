@@ -471,6 +471,13 @@ export default class DaliBox extends Component {
                         clone.style.width = originalRect.width + "px";
                         clone.style.border = "1px dashed #555";
                         original.style.opacity = 0;
+                    } else {
+                        let target = event.target;
+
+                        //let topInPix = target.parentElement.offsetHeight * (parseFloat(target.style.top)/100);
+                        let leftInPix = target.parentElement.offsetWidth * (parseFloat(target.style.left)/100);
+                        //target.style.top = topInPix + "px";
+                        target.style.left = leftInPix + "px";
                     }
                 },
                 onmove: (event) => {
@@ -526,6 +533,8 @@ export default class DaliBox extends Component {
                     let pos = this.props.boxes[this.props.id].position.type;
                     let actualLeft = pos === 'relative' ? target.style.left : target.getAttribute('data-x');
                     let actualTop = pos === 'relative' ? target.style.top : target.getAttribute('data-y');
+                    let absoluteLeft = (parseInt(target.style.left) * 100)/ target.parentElement.offsetWidth + "%";
+                    //let absoluteTop = (parseInt(target.style.top) * 100)/ target.parentElement.offsetHeight + "%";
                     let left = Math.max(Math.min(Math.floor(parseInt(actualLeft, 10) / target.parentElement.offsetWidth * 100), 100), 0) + '%';
                     let top = Math.max(Math.min(Math.floor(parseInt(actualTop, 10) / target.parentElement.offsetHeight * 100), 100), 0) + '%';
                     target.style.left = isSortableContainer(box.container) ? left : target.style.left;
@@ -543,7 +552,7 @@ export default class DaliBox extends Component {
 
                     this.props.onBoxMoved(
                         this.props.id,
-                        isSortableContainer(box.container) ? left : Math.max(parseInt(target.style.left, 10), 0) + 'px',
+                        isSortableContainer(box.container) ? left : absoluteLeft,
                         isSortableContainer(box.container) ? top : Math.max(parseInt(target.style.top, 10), 0) + 'px',
                         this.props.boxes[this.props.id].position.type
                     );
