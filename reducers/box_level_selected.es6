@@ -16,7 +16,8 @@ export default function (state = 0, action = {}) {
             if (isSortableBox(action.payload.id)) {
                 return -1;
             }
-            return state;
+            //If level is -1 because a DaliBoxSortable was selected previously, we want to return 0, otherwise, return current
+            return Math.max(state, 0);
         case SELECT_NAV_ITEM:
             return 0;
         default:
