@@ -7,7 +7,7 @@ export function BasicVideo(base) {
                 category: 'multimedia',
                 aspectRatioButtonConfig: {
                     location: ["main", "__sortable"],
-                    defaultValue: "checked"
+                    defaultValue: true
                 },
                 icon: 'play_arrow'
             };
@@ -30,13 +30,13 @@ export function BasicVideo(base) {
                                 controls: {
                                     __name: Dali.i18n.t('BasicVideo.Show_controls'),
                                     type: 'checkbox',
-                                    value: base.getState().controls,
+                                    checked: base.getState().controls,
                                     autoManaged: false
                                 },
                                 autoplay: {
                                     __name: Dali.i18n.t('BasicVideo.Autoplay'),
                                     type: 'checkbox',
-                                    value: base.getState().autoplay,
+                                    checked: base.getState().autoplay,
                                     autoManaged: false
                                 }
                             }
@@ -50,7 +50,6 @@ export function BasicVideo(base) {
                                     type: 'number',
                                     value: 0,
                                     min: 0,
-                                    units: 'px',
                                     max: 100
                                 },
                                 borderWidth: {
@@ -58,8 +57,7 @@ export function BasicVideo(base) {
                                     type: 'number',
                                     value: 0,
                                     min: 0,
-                                    max: 10,
-                                    units: 'px'
+                                    max: 10
                                 },
                                 borderStyle: {
                                     __name: Dali.i18n.t('BasicVideo.border_style'),
@@ -75,10 +73,9 @@ export function BasicVideo(base) {
                                 borderRadius: {
                                     __name: Dali.i18n.t('BasicVideo.radius'),
                                     type: 'number',
-                                    value: '0',
-                                    min: '0',
-                                    max: '50',
-                                    units: '%'
+                                    value: 0,
+                                    min: 0,
+                                    max: 50
                                 },
                                 opacity: {
                                     __name: Dali.i18n.t('BasicVideo.opacity'),
@@ -100,12 +97,12 @@ export function BasicVideo(base) {
         getInitialState: function () {
             return {
                 url: 'http://video.webmfiles.org/big-buck-bunny_trailer.webm',
-                controls: "checked",
-                autoplay: "unchecked"
+                controls: true,
+                autoplay: false
             };
         },
         getRenderTemplate: function (state) {
-            return "<video " + ((state.controls === "checked") ? " controls " : "") + ((state.autoplay === "checked") ? " autoplay " : "") + " style=\"width: 100%; height: 100%; pointer-events: 'none'; z-index:0;\" src=\"" + state.url + "\"   class=\"basicImageClass\"  ></video>";
+            return "<video " + (state.controls ? " controls " : "") + (state.autoplay ? " autoplay " : "") + " style=\"width: 100%; height: 100%; pointer-events: 'none'; z-index:0;\" src=\"" + state.url + "\"  class=\"basicImageClass\" ></video>";
         },
         handleToolbar: function (name, value) {
             base.setState(name, value);

@@ -1,11 +1,11 @@
 import Utils, {changeProp, changeProps, deleteProp, deleteProps, isSortableBox, isContainedView, isSortableContainer} from './../utils';
-import {ADD_BOX, MOVE_BOX, DUPLICATE_BOX, RESIZE_BOX, UPDATE_BOX, DELETE_BOX, REORDER_SORTABLE_CONTAINER, DROP_BOX, ADD_RICH_MARK,
+import {ADD_BOX, MOVE_BOX, DUPLICATE_BOX, UPDATE_BOX, DELETE_BOX, REORDER_SORTABLE_CONTAINER, DROP_BOX, ADD_RICH_MARK,
     RESIZE_SORTABLE_CONTAINER, DELETE_SORTABLE_CONTAINER, CHANGE_COLS, CHANGE_ROWS, CHANGE_SORTABLE_PROPS, REORDER_BOXES,
     DELETE_NAV_ITEM, IMPORT_STATE} from './../actions';
 import {ID_PREFIX_BOX} from './../constants';
 
 function boxCreator(state, action) {
-    let position, width, height;
+    let position;
     let level = 0;
     if (state[action.payload.ids.parent] && !isContainedView(action.payload.ids.container)) {
         level = state[action.payload.ids.parent].level + 1;
@@ -13,7 +13,6 @@ function boxCreator(state, action) {
 
     if (isSortableBox(action.payload.ids.id)) {
         position = {x: 0, y: 0, type: 'relative'};
-        width = '100%';
         level = -1;
     } else {
         position = {
@@ -21,21 +20,13 @@ function boxCreator(state, action) {
             y: 0,
             type: 'absolute'
         };
-        if (action.payload.config.category !== "text") {
-            width = 200;
-        }
-        height = 'auto';
     }
     if (isSortableContainer(action.payload.ids.container)) {
-        position.x = 0;
-        position.y = 0;
-        position.type = 'relative';
-        if (isSortableBox(action.payload.ids.parent)) {
-            if (action.payload.config.category !== "text") {
-                width = "25%";
-            }
-        }
-        height = 'auto';
+        position = {
+            x: 0,
+            y: 0,
+            type: 'relative'
+        };
     }
     let col = 0;
     let row = 0;
@@ -50,7 +41,7 @@ function boxCreator(state, action) {
             row = action.payload.initialParams.row;
         }
         if (action.payload.initialParams.width) {
-            width = action.payload.initialParams.width;
+            //width = action.payload.initialParams.width;
         }
     }
 
@@ -75,8 +66,8 @@ function boxCreator(state, action) {
         col: col,
         row: row,
         position: position,
-        width: width,
-        height: height,
+        //width: width,
+        //height: height,
         content: action.payload.content,
         draggable: action.payload.draggable,
         resizable: action.payload.resizable,
@@ -189,17 +180,6 @@ function boxReducer(state = {}, action = {}) {
             return changeProp(state, "children", action.payload.ids);
         case REORDER_BOXES:
             return changeProp(state, "sortableContainers", sortableContainersReducer(state.sortableContainers, action));
-        case RESIZE_BOX:
-            return changeProps(
-                state,
-                [
-                    "width",
-                    "height"
-                ], [
-                    action.payload.width,
-                    action.payload.height
-                ]
-            );
         case RESIZE_SORTABLE_CONTAINER:
             return changeProp(state, "sortableContainers", sortableContainersReducer(state.sortableContainers, action));
         case UPDATE_BOX:
@@ -357,9 +337,6 @@ export default function (state = {}, action = {}) {
             return Object.assign({}, defState, {
                 [newId]: Object.assign({}, defState[newId], {position: {x: 0, y: 0, position: 'absolute'}})
             });
-
-        case RESIZE_BOX:
-            return changeProp(state, action.payload.id, boxReducer(state[action.payload.id], action));
         case RESIZE_SORTABLE_CONTAINER:
             return changeProp(state, action.payload.parent, boxReducer(state[action.payload.parent], action));
         case UPDATE_BOX:

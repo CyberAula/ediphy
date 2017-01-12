@@ -38,7 +38,7 @@ export default class DaliIndexTitle extends Component {
                         onDoubleClick={e => {
                             this.setState({ editing: !this.state.editing });
                             if (this.state.editing) { /*Save changes to Redux state*/
-                                this.props.onTitleChange(this.props.id, this.state.currentValue);
+                                this.props.onNameChanged(this.props.id, this.state.currentValue);
                             // Synchronize current component state with Redux state when entering edition mode
                             } else {
                                 this.setState({currentValue: this.props.title});
@@ -73,7 +73,7 @@ export default class DaliIndexTitle extends Component {
                     onBlur={e => {
                         /*Change to non-edition mode*/
                         this.setState({editing: !this.state.editing});
-                        this.props.onTitleChange(this.props.id, this.state.currentValue);
+                        this.props.onNameChanged(this.props.id, this.state.currentValue);
                     }} />
                 )
             }

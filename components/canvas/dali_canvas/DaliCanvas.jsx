@@ -5,6 +5,7 @@ import DaliBoxSortable from '../dali_box_sortable/DaliBoxSortable';
 import DaliShortcuts from '../dali_shortcuts/DaliShortcuts';
 import {Col} from 'react-bootstrap';
 import DaliTitle from '../dali_title/DaliTitle';
+import DaliHeader from '../dali_header/DaliHeader';
 import interact from 'interact.js';
 import {ADD_BOX} from '../../../actions';
 import Dali from './../../../core/main';
@@ -31,23 +32,33 @@ export default class DaliCanvas extends Component {
             }
             titles.reverse();
         }
-        let paddings = /*(this.props.navItemSelected.type!= "slide") ? (*/'8px 8px 8px 8px';
-        /*) : ('30px 0px 30px 0px')*/
 
         let maincontent = document.getElementById('maincontent');
         let actualHeight;
         if (maincontent) {
-            actualHeight = parseInt(maincontent.scrollHeight);
-            actualHeight = (parseInt(maincontent.clientHeight) < actualHeight) ? (actualHeight) + 'px' : '100%';
+            actualHeight = parseInt(maincontent.scrollHeight, 10);
+            actualHeight = (parseInt(maincontent.clientHeight, 10) < actualHeight) ? (actualHeight) + 'px' : '100%';
         }
 
         let overlayHeight = actualHeight ? actualHeight : '100%';
         return (
             /* jshint ignore:start */
             <Col id="canvas" md={12} xs={12}
-                 style={{height:"100%", padding:0, display: this.props.containedViewSelected !== 0 ? 'none' : 'initial'}}>
-                <div className="outter canvaseditor"
-                     style={{position: 'absolute', width: '100%', height:'100%', padding: (paddings)}}>
+                 style={{display: this.props.containedViewSelected !== 0 ? 'none' : 'initial'}}>
+                 <div className="scrollcontainer">
+                 <DaliTitle titles={titles}
+                        showButtons={this.state.showTitle}
+                        onShowTitle={()=>this.setState({showTitle:true})}
+                        onBoxSelected={this.props.onBoxSelected}
+                        courseTitle={this.props.title}
+                        titleMode={this.props.navItemSelected.titleMode}
+                        navItem={this.props.navItemSelected}
+                        navItems={this.props.navItems}
+                        titleModeToggled={this.props.titleModeToggled}
+                        onUnitNumberChanged={this.props.onUnitNumberChanged}
+                        showButton={true}/>
+                <div className="outter canvaseditor">
+                     
                     <div id="maincontent"
                          onClick={e => {
                         this.props.onBoxSelected(-1);
@@ -55,21 +66,19 @@ export default class DaliCanvas extends Component {
                        }}
                          className={isSlide(this.props.navItemSelected.type) ? 'innercanvas sli':'innercanvas doc'}
                          style={{visibility: (this.props.showCanvas ? 'visible' : 'hidden')}}>
-
-
-                        <DaliTitle titles={titles}
-                                   showButtons={this.state.showTitle}
-                                   onShowTitle={()=>this.setState({showTitle:true})}
-                                   onBoxSelected={this.props.onBoxSelected}
-                                   courseTitle={this.props.title}
-                                   titleMode={this.props.navItemSelected.titleMode}
-                                   navItem={this.props.navItemSelected}
-                                   navItems={this.props.navItems}
-                                   titleModeToggled={this.props.titleModeToggled}
-                                   onUnitNumberChanged={this.props.onUnitNumberChanged}
-                                   showButton={true}/>
+                        <DaliHeader titles={titles}
+                            showButtons={this.state.showTitle}
+                            onShowTitle={()=>this.setState({showTitle:true})}
+                            onBoxSelected={this.props.onBoxSelected}
+                            courseTitle={this.props.title}
+                            titleMode={this.props.navItemSelected.titleMode}
+                            navItem={this.props.navItemSelected}
+                            navItems={this.props.navItems}
+                            titleModeToggled={this.props.titleModeToggled}
+                            onUnitNumberChanged={this.props.onUnitNumberChanged}
+                            showButton={true}/>
                         <br/>
-
+                        
                         <DaliShortcuts
                             box={this.props.boxes[this.props.boxSelected]}
                             containedViewSelected={this.props.containedViewSelected}
@@ -138,6 +147,7 @@ export default class DaliCanvas extends Component {
                         })}
                     </div>
                 </div>
+                </div>
             </Col>
             /* jshint ignore:end */
         );
@@ -167,7 +177,7 @@ export default class DaliCanvas extends Component {
             },
             ondrop: function (event) {
                 let position = {
-                    x: (event.dragEvent.clientX - event.target.getBoundingClientRect().left - document.getElementById('maincontent').offsetLeft) + 'px',
+                    x: (event.dragEvent.clientX - event.target.getBoundingClientRect().left - document.getElementById('maincontent').offsetLeft)*100/event.target.parentElement.offsetWidth + "%",
                     y: (event.dragEvent.clientY - event.target.getBoundingClientRect().top + document.getElementById('maincontent').scrollTop) + 'px',
                     type: 'absolute'
                 };

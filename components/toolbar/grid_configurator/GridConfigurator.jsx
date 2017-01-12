@@ -24,8 +24,8 @@ export default class GridConfigurator extends Component {
                              style={{width: '100%'}}
                              onChange={e => {
                             let dist = e.target.value.split(" ").map(function (i){
-                                if (i && !isNaN(parseFloat(i))) {
-                                    return parseFloat(i);
+                                if (i && !isNaN(parseFloat(i, 10))) {
+                                    return parseFloat(i, 10);
                                 } else {
                                   return 0;
                                 }
@@ -62,7 +62,7 @@ export default class GridConfigurator extends Component {
                                          style={{width: '100%'}}
                                          onChange={e => {
                                   let current = height === 'auto'
-                                  let newHeight = current ? parseFloat(document.getElementById(this.props.id).clientHeight) : 'auto';
+                                  let newHeight = current ? parseFloat(document.getElementById(this.props.id).clientHeight, 10) : 'auto';
                                   this.props.onSortableContainerResized(this.props.id, this.props.parentId, newHeight);
                                }}/>
                         </InputGroup>
@@ -72,7 +72,7 @@ export default class GridConfigurator extends Component {
                         <FormControl type={height == 'auto' ? 'text' : 'number'}
                                      key="height"
                                      disabled={height == 'auto'}
-                                     value={height == 'auto' ? 'auto' : parseFloat(height) /*parseFloat(document.getElementById(this.props.id).style.height)*/}
+                                     value={height == 'auto' ? 'auto' : parseFloat(height, 10) /*parseFloat(document.getElementById(this.props.id).style.height)*/}
                                      label="Block Height"
                                      style={{width: '100%'}}
                                      min={1}
@@ -121,7 +121,7 @@ export default class GridConfigurator extends Component {
                                   this.props.onColsChanged(this.props.id, this.props.parentId, dist, this.props.container.children);
                              }}/>
                         <OverlayTrigger trigger="click" rootClose placement="bottom"
-                                        overlay={<Popover id="advancedcols"  title="Avanzado">{advancedColumns}</Popover>}>
+                                        overlay={<Popover id="advancedcols" className="advancedPopover" title="Avanzado">{advancedColumns}</Popover>}>
                             <InputGroup.Addon className="gc_addon"><i
                                 className="material-icons gridconficons ">settings</i></InputGroup.Addon>
                         </OverlayTrigger>
@@ -140,8 +140,8 @@ export default class GridConfigurator extends Component {
                                          style={{width: '100%'}}
                                          onChange={e => {
                                               let dist = e.target.value.split(" ").map(function (i){
-                                                  if(i && !isNaN(parseFloat(i))){
-                                                    return parseFloat(i);
+                                                  if(i && !isNaN(parseFloat(i, 10))){
+                                                    return parseFloat(i, 10);
                                                   } else {
                                                     return 0;
                                                   }
@@ -170,7 +170,7 @@ export default class GridConfigurator extends Component {
                                                 this.props.onRowsChanged(this.props.id, this.props.parentId, index, dist, this.props.container.children);
                                           }}/>
                                 <OverlayTrigger trigger="click" rootClose placement="bottom"
-                                                overlay={<Popover id="advancedrows" title={i18n.t('Advanced')}>{advancedRows}</Popover>}>
+                                                overlay={<Popover id="advancedrows" className="advancedPopover" title={i18n.t('Advanced')}>{advancedRows}</Popover>}>
                                     <InputGroup.Addon className="gc_addon"><i className="material-icons gridconficons ">settings</i></InputGroup.Addon>
                                 </OverlayTrigger>
                             </InputGroup>
@@ -189,7 +189,7 @@ export default class GridConfigurator extends Component {
                 <FormGroup>
                     <ControlLabel>{i18n.t('styles.padding') + ' (px)'}</ControlLabel>
                     <FormControl type="number"
-                                 value={this.props.container.style ? parseFloat(this.props.container.style.padding) : 0}
+                                 value={this.props.container.style ? parseFloat(this.props.container.style.padding, 10) : 0}
                                  label={"Padding"}
                                  min={0}
                                  max={100}
@@ -211,7 +211,7 @@ export default class GridConfigurator extends Component {
                 <FormGroup>
                     <ControlLabel>{i18n.t('styles.border_size')}</ControlLabel>
                     <FormControl type="number"
-                                 value={this.props.container.style ? parseFloat(this.props.container.style.borderWidth) : 0}
+                                 value={this.props.container.style ? parseFloat(this.props.container.style.borderWidth, 10) : 0}
                                  label={"Grosor del borde"}
                                  min={0}
                                  style={{width: '100%'}}

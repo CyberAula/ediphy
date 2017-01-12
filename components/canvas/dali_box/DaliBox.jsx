@@ -39,6 +39,8 @@ export default class DaliBox extends Component {
             visibility: (toolbar.showTextEditor ? 'visible' : 'hidden')
         };
         let attrs = {};
+        let width;
+        let height;
         let classNames = "";
 
         if (toolbar.config.needsTextEdition) {
@@ -55,7 +57,11 @@ export default class DaliBox extends Component {
                         if (button.autoManaged) {
                             if (buttonKey === 'className' && button.value) {
                                 classNames += button.value;
-                            } else if (buttonKey !== 'width' && buttonKey !== 'height') {
+                            } else if (buttonKey === '__width') {
+                                width = button.displayValue + (button.type === "number" ? button.units : "");
+                            } else if (buttonKey === '__height') {
+                                height = button.displayValue + (button.type === "number" ? button.units : "");
+                            } else {
                                 style[buttonKey] = button.value;
                             }
                         }
@@ -79,7 +85,7 @@ export default class DaliBox extends Component {
                                 if (button.autoManaged) {
                                     if (buttonKey === 'className' && button.value) {
                                         classNames += button.value;
-                                    } else if (buttonKey !== 'width' && buttonKey !== 'height') {
+                                    } else {
                                         style[buttonKey] = button.value;
                                     }
                                 }
@@ -100,33 +106,19 @@ export default class DaliBox extends Component {
             }
         }
 
-        /*
-         let content = toolbar.state.__text && !toolbar.config.extraTextConfig ? (
-         <div className="boxStyle" style={style} {...attrs} className={classNames} ref={"content"}
-         dangerouslySetInnerHTML={{__html: decodeURI(toolbar.state.__text)}}></div>
-         ) : toolbar.config.flavor === "react" ? (
-         <div className="boxStyle" style={style} {...attrs} className={classNames} ref={"content"}>
-         {box.content}
-         </div>
-         ) : (
-         <div className="boxStyle" style={style} {...attrs} className={classNames} ref={"content"}>
-         {this.renderChildren(box.content)}
-         </div>
-         );
-         */
         let content = toolbar.config.flavor === "react" ? (
-                /* jshint ignore:start */
-                <div className="boxStyle" style={style} {...attrs} className={classNames} ref={"content"}>
-                    {box.content}
-                </div>
-                /* jshint ignore:end */
-            ) : (
-                /* jshint ignore:start */
-                <div className="boxStyle" style={style} {...attrs} className={classNames} ref={"content"}>
-                    {this.renderChildren(box.content)}
-                </div>
-                /* jshint ignore:end */
-            );
+            /* jshint ignore:start */
+            <div style={style} {...attrs} className={"boxStyle" + classNames} ref={"content"}>
+                {box.content}
+            </div>
+            /* jshint ignore:end */
+        ) : (
+            /* jshint ignore:start */
+            <div style={style} {...attrs} className={"boxStyle" + classNames} ref={"content"}>
+                {this.renderChildren(box.content)}
+            </div>
+            /* jshint ignore:end */
+        );
         let border = (
                 /* jshint ignore:start */
                 <div style={{visibility: (vis ? 'visible' : 'hidden')}}>
@@ -178,12 +170,12 @@ export default class DaliBox extends Component {
             if (toolbar.controls.main.accordions.__sortable.buttons.__verticalAlign.value) {
                 verticalAlign = toolbar.controls.main.accordions.__sortable.buttons.__verticalAlign.value;
             } else {
-                verticalAlign = 'middle';
+                verticalAlign = 'top';
             }
         }
         return (
             /* jshint ignore:start */
-            <div className={classes} id={'box-'+this.props.id}
+            <div className={classes} id={'box-' + this.props.id}
                  onClick={e => {
                     if(this.props.boxSelected === this.props.id){
                         e.stopPropagation();
@@ -213,8 +205,8 @@ export default class DaliBox extends Component {
                     position: box.position.type,
                     left: box.position.x ? box.position.x : "",
                     top: box.position.y ? box.position.y : "",
-                    width: box.width ,
-                    height: box.height,
+                    width: width,
+                    height: height,
                     verticalAlign: verticalAlign,
                     touchAction: 'none',
                     msTouchAction: 'none',
@@ -375,7 +367,7 @@ export default class DaliBox extends Component {
             if (arb.location.length === 2) {
                 let comp = toolbar.controls[arb.location[0]].accordions[arb.location[1]].buttons.__aspectRatio;
                 if (comp) {
-                    return (comp.value === "checked");
+                    return comp.checked;
                 } else {
                     return false;
                 }
@@ -383,7 +375,7 @@ export default class DaliBox extends Component {
             } else {
                 let comp = toolbar.controls[arb.location[0]].accordions[arb.location[1]].accordions[arb.location[2]].buttons.__aspectRatio;
                 if (comp) {
-                    return (comp.value === "checked");
+                    return comp.checked;
                 } else {
                     return false;
                 }
@@ -480,6 +472,13 @@ export default class DaliBox extends Component {
                         clone.style.width = originalRect.width + "px";
                         clone.style.border = "1px dashed #555";
                         original.style.opacity = 0;
+                    } else {
+                        let target = event.target;
+
+                        //let topInPix = target.parentElement.offsetHeight * (parseFloat(target.style.top)/100);
+                        let leftInPix = target.parentElement.offsetWidth * (parseFloat(target.style.left)/100);
+                        //target.style.top = topInPix + "px";
+                        target.style.left = leftInPix + "px";
                     }
                 },
                 onmove: (event) => {
@@ -499,15 +498,15 @@ export default class DaliBox extends Component {
                         if (!isSortableContainer(box.container)) {
                             let target = event.target;
 
-                            target.style.left = (parseInt(target.style.left) || 0) + event.dx + 'px';
-                            target.style.top = (parseInt(target.style.top) || 0) + event.dy + 'px';
+                            target.style.left = (parseInt(target.style.left, 10) || 0) + event.dx + 'px';
+                            target.style.top = (parseInt(target.style.top, 10) || 0) + event.dy + 'px';
                             target.style.zIndex = '9999';
                             // Else, drag the clone and update values in attributes in both elements
                         } else {
                             let target = document.getElementById('clone');
                             let original = document.getElementById('box-' + this.props.id);
-                            let x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx;
-                            let y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
+                            let x = (parseFloat(target.getAttribute('data-x'), 10) || 0) + event.dx;
+                            let y = (parseFloat(target.getAttribute('data-y'), 10) || 0) + event.dy;
 
                             target.style.webkitTransform =
                                 target.style.transform =
@@ -535,8 +534,10 @@ export default class DaliBox extends Component {
                     let pos = this.props.boxes[this.props.id].position.type;
                     let actualLeft = pos === 'relative' ? target.style.left : target.getAttribute('data-x');
                     let actualTop = pos === 'relative' ? target.style.top : target.getAttribute('data-y');
-                    let left = Math.max(Math.min(Math.floor(parseInt(actualLeft) / target.parentElement.offsetWidth * 100), 100), 0) + '%';
-                    let top = Math.max(Math.min(Math.floor(parseInt(actualTop) / target.parentElement.offsetHeight * 100), 100), 0) + '%';
+                    let absoluteLeft = (parseInt(target.style.left) * 100)/ target.parentElement.offsetWidth + "%";
+                    //let absoluteTop = (parseInt(target.style.top) * 100)/ target.parentElement.offsetHeight + "%";
+                    let left = Math.max(Math.min(Math.floor(parseInt(actualLeft, 10) / target.parentElement.offsetWidth * 100), 100), 0) + '%';
+                    let top = Math.max(Math.min(Math.floor(parseInt(actualTop, 10) / target.parentElement.offsetHeight * 100), 100), 0) + '%';
                     target.style.left = isSortableContainer(box.container) ? left : target.style.left;
                     target.style.top = isSortableContainer(box.container) ? top : target.style.top;
                     target.style.zIndex = 'initial';
@@ -552,8 +553,8 @@ export default class DaliBox extends Component {
 
                     this.props.onBoxMoved(
                         this.props.id,
-                        isSortableContainer(box.container) ? left : Math.max(parseInt(target.style.left), 0) + 'px',
-                        isSortableContainer(box.container) ? top : Math.max(parseInt(target.style.top), 0) + 'px',
+                        isSortableContainer(box.container) ? left : absoluteLeft,
+                        isSortableContainer(box.container) ? top : Math.max(parseInt(target.style.top, 10), 0) + 'px',
                         this.props.boxes[this.props.id].position.type
                     );
 
@@ -633,8 +634,8 @@ export default class DaliBox extends Component {
                     }
 
                     let target = event.target;
-                    let x = (parseFloat(target.getAttribute('data-x')) || 0);
-                    let y = (parseFloat(target.getAttribute('data-y')) || 0);
+                    let x = (parseFloat(target.getAttribute('data-x'), 10) || 0);
+                    let y = (parseFloat(target.getAttribute('data-y'), 10) || 0);
 
                     // update the element's style
                     target.style.width = event.rect.width + 'px';
@@ -653,21 +654,46 @@ export default class DaliBox extends Component {
                     // Update size in textbox
                     let span = document.getElementById('sizing');
                     if (span) {
-                        span.innerHTML = parseInt(target.style.width) + " × " + parseInt(target.style.height);
+                        span.innerHTML = parseInt(target.style.width, 10) + " × " + parseInt(target.style.height, 10);
                     }
                 },
                 onend: (event) => {
                     if (this.props.boxSelected !== this.props.id) {
                         return;
                     }
-                    // If contained in sortableContainer || PluginPlaceHolder, convert to %
+                    // Calculate new button values
                     let target = event.target;
-                    let width = Math.min(Math.floor(parseInt(target.style.width) / target.parentElement.offsetWidth * 100), 100) + '%';
-                    let height = Math.min(Math.floor(parseInt(target.style.height) / target.parentElement.offsetHeight * 100), 100) + '%';
-                    this.props.onBoxResized(
-                        this.props.id,
-                        isSortableContainer(box.container) ? width : parseInt(target.style.width),
-                        isSortableContainer(box.container) ? height : parseInt(target.style.height));
+                    let widthButton = Object.assign({}, this.props.toolbars[this.props.id].controls.main.accordions.__sortable.buttons.__width);
+                    let heightButton = Object.assign({}, this.props.toolbars[this.props.id].controls.main.accordions.__sortable.buttons.__height);
+
+                    // Units can be either % or px
+                    if (widthButton.units === "%") {
+                        let newWidth = Math.min(Math.floor(parseInt(target.style.width, 10) / target.parentElement.offsetWidth * 100), 100);
+                        // Update display value if it's not "auto"
+                        if (widthButton.displayValue !== "auto") {
+                            widthButton.displayValue = newWidth;
+                        }
+                        widthButton.value = newWidth;
+                    } else {
+                        if (widthButton.displayValue !== "auto") {
+                            widthButton.displayValue = parseInt(target.style.width, 10);
+                        }
+                        widthButton.value = parseInt(target.style.width, 10);
+                    }
+
+                    if (heightButton.units === "%") {
+                        let newHeight = Math.min(Math.floor(parseInt(target.style.height, 10) / target.parentElement.offsetHeight * 100), 100);
+                        if (heightButton.displayValue !== "auto") {
+                            heightButton.displayValue = newHeight;
+                        }
+                        heightButton.value = newHeight;
+                    } else {
+                        if (heightButton.displayValue !== "auto") {
+                            heightButton.displayValue = parseInt(target.style.height, 10);
+                        }
+                        heightButton.value = parseInt(target.style.height, 10);
+                    }
+                    this.props.onBoxResized(this.props.id, widthButton, heightButton);
 
                     if (box.position.x !== target.style.left || box.position.y !== target.style.top) {
                         this.props.onBoxMoved(this.props.id, target.style.left, target.style.top, this.props.boxes[this.props.id].position.type);

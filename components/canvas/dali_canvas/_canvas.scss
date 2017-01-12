@@ -1,9 +1,14 @@
 @import "../../../sass/general/_variables.scss";
 
+.scrollcontainer{
+   width: 100%;
+   height: 100%;
+   display: table;
+}
+
 .outter {
-  background-color: $fondo;
-  height: 100%;
-  padding-top: 40px;
+  display: table-row;
+  width: 100%;
 }
 
 .innercanvas {
@@ -29,7 +34,7 @@
   background-color: white;
   margin: 0px;
   overflow-x: hidden;
-  overflow-y: auto;
+  overflow-y: hidden;
 }
 
 .buttonTitle {
@@ -46,7 +51,6 @@
 }
 
 .canvasHelper {
-
   text-align: center;
   vertical-align: center;
   position: relative;
@@ -67,8 +71,11 @@
 }
 
 #canvas {
-  position: relative;
+  height: 100%;
+  overflow-y: auto;
+  padding: 10px 8px 8px 8px;
   width: calc(100% - 40px);
+  background-color: #555;
 }
 
 #maincontent {

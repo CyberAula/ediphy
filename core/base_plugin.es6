@@ -73,13 +73,14 @@ export default function () {
         },
         getConfig: function () {
             var name, displayName, category, callback, needsConfigModal, needsTextEdition, extraTextConfig,
-            needsXMLEdition, icon, aspectRatioButtonConfig, isRich, flavor, allowFloatingBox;
+            needsXMLEdition, icon, iconFromUrl, aspectRatioButtonConfig, isRich, flavor, allowFloatingBox;
             if (descendant.getConfig) {
                 let cfg = descendant.getConfig();
                 name = cfg.name;
                 displayName = cfg.displayName;
                 category = cfg.category;
                 icon = cfg.icon;
+                iconFromUrl = cfg.iconFromUrl;
                 isRich = cfg.isRich;
                 flavor = cfg.flavor;
                 needsConfigModal = cfg.needsConfigModal;
@@ -94,6 +95,7 @@ export default function () {
             displayName = defaultFor(displayName, 'Plugin', "Plugin displayName not assigned");
             category = defaultFor(category, 'text', "Plugin category not assigned");
             icon = defaultFor(icon, 'fa-cogs', "Plugin icon not assigned");
+            iconFromUrl = defaultFor(iconFromUrl, false);
             isRich = defaultFor(isRich, false);
             flavor = defaultFor(flavor, 'plain');
             allowFloatingBox = defaultFor(allowFloatingBox, true);
@@ -159,6 +161,7 @@ export default function () {
                 aspectRatioButtonConfig: aspectRatioButtonConfig,
                 allowFloatingBox: allowFloatingBox,
                 icon: icon,
+                iconFromUrl: iconFromUrl,
                 isRich: isRich,
                 flavor: flavor
             };
@@ -183,6 +186,9 @@ export default function () {
                         button = buttons[buttonKey];
                         button.__name = defaultFor(button.__name, buttonKey, "Property __name in button '" + buttonKey + "' not found");
                         button.autoManaged = defaultFor(button.autoManaged, true);
+                        if(button.type === "radio" || button.type === "select"){
+                            button.options = defaultFor(button.options, []);
+                        }
                         if (!button.callback && !button.autoManaged) {
                             button.callback = this.update.bind(this);
                         }
@@ -202,6 +208,9 @@ export default function () {
                                 button = buttons[buttonKey];
                                 button.__name = defaultFor(button.__name, buttonKey, "Property __name in button '" + buttonKey + "' not found");
                                 button.autoManaged = defaultFor(button.autoManaged, true);
+                                if(button.type === "radio" || button.type === "select"){
+                                    button.options = defaultFor(button.options, []);
+                                }
                                 if (!button.callback && !button.autoManaged) {
                                     button.callback = this.update.bind(this);
                                 }
@@ -223,7 +232,10 @@ export default function () {
             } else {
                 Dali.API.openConfig(this.getConfig().name, reason).then(function (div) {
                     if(this.getConfig().flavor !== 'react'){
-                        div.innerHTML = descendant.getConfigTemplate(oldState).replace(/[$]dali[$]/g, "Dali.Plugins.get('" + this.getConfig().name + "')");
+                        let template = descendant.getConfigTemplate(oldState, div);
+                        if(template) {
+                            div.innerHTML = descendant.getConfigTemplate(oldState).replace(/[$]dali[$]/g, "Dali.Plugins.get('" + this.getConfig().name + "')");
+                        }
                     } else {
                         ReactDOM.render(descendant.getConfigTemplate(oldState), div);
                     }

@@ -11,7 +11,7 @@
 <body style="margin: 0px; height: 100%">
 <div style="height:100%;" id="editor truevisor">
 <div style="height:100%;" id="root" style="height: 100%">
-<div class="outter" style="padding-top:0px;">
+<div class="outter" style="padding-top:0px;display:block;height:100%">
 <div id="maincontent" class="slide <%=navs[page].type == 'slide' ? 'sli':'doc'%>" style="visibility: visible;" >
 
 <script type="text/javascript">
@@ -32,8 +32,8 @@
         parent = navs[parent].parent;
     }
 %>
-<div style="visibility: visible; overflow: auto; display: <%=(navs[page].titleMode == 'hidden')?'none':'inherit' %>;" class="caja">
-    <div class="cab" style="display: <%=(navs[page].titleMode == 'hidden')?'none':'inherit' %>;">
+<div style="visibility: visible; overflow: auto;" class="caja">
+    <div class="cab">
         <div class="cabtabla_numero"><%=navs[page].unitNumber%></div>
         <div class="tit_ud_cap">
             <h1><%=title%></h1>
@@ -45,18 +45,18 @@
         <div class="clear"></div>
     </div>
 
-    <div class="contenido canvasvisor" style="height:auto; pointer-events: all !important;"></div>
+    <div class="contenido canvasvisor" style="width:100%;height:auto; position:relative; pointer-events: all !important;">
          <%
         var alltitles = [];
         if (page !== 0) {
             var place = page;
             var parent = navs[page].parent;
             while (parent !== 0) {
-                alltitles.push(navs[navs[place].parent].children.indexOf(navs[place].id)+ 1 +"." +  navs[place].name);
+                alltitles.push(navs[place].name);
                 place = parent;
                 parent = navs[parent].parent;
             }
-            alltitles.push(navs[place].unitNumber +"." +  navs[place].name);
+            alltitles.push(navs[place].name);
             alltitles.reverse();
         }
         if(navs[page].titleMode =='reduced') {
@@ -64,12 +64,12 @@
             var actualTitle = titles.pop();
             unidad=titles[0];
         %>
-        <div>
+        <div style="display: <%=(navs[page].titleMode == 'hidden')?'none':'inherit' %>;">
             <h3>
                 <ol class="breadcrumb" style="margin:0; background-color:inherit;">
                     <%titles.map(function(item, index){
                     if(index != 0){%>
-                    <li><a href="#"><%=item%></a></li>
+                        <li class="breadcrumb-item"><a href="#"><%=item%></a></li>
                     <%}}) %>
                 </ol>
             </h3>
@@ -91,7 +91,7 @@
         <%=titlesComponents%>
         <%}%>
         <br/>
-        <div class="boxes" style="position:relative; float: left; display:block; width:100%;">
+        <div class="boxes" style="float: left; display:block; width:100%;">
             <!--Camel Case -->
             <%function camel(s) {
                 if(s=='onClick'){
@@ -166,9 +166,12 @@
             var cornerSize = 15;
             var box = boxesById[id];
             var toolbar =  toolbarsById[id];
-            var style = "height: 100%; position: relative; word-wrap: break-word;";
-            var attrs = "";
+            var style = "width: 100%; height: 100%; position: relative; word-wrap: break-word;";
+            var attrs = " ";
             var classNames = "";
+            var width = "auto";
+            var height = "auto";
+
             for (var tabKey in toolbar.controls) {
                 for (var accordionKey in toolbar.controls[tabKey].accordions) {
                     for (var buttonKey in toolbar.controls[tabKey].accordions[accordionKey].buttons) {
@@ -178,8 +181,12 @@
                             if (button.autoManaged) {
                                 if (buttonKey === 'className' && button.value) {
                                     classNames += button.value;
-                                } else if (buttonKey !== 'width' && buttonKey !== 'height') {
-                                    style[buttonKey] = button.value;
+                                } else if (buttonKey === '__width') {
+                                    width = button.displayValue + (button.type === "number" ? button.units : "");
+                                } else if (buttonKey === '__height') {
+                                    height = button.displayValue + (button.type === "number" ? button.units : "");
+                                } else {
+                                    style += buttonKey + ":" + button.value + "; ";
                                 }
                             }
                         } else {
@@ -195,7 +202,7 @@
                                         if (buttonKey === 'className' && button.value) {
                                             classNames += button.value;
                                         } else if (buttonKey !== 'width' && buttonKey !== 'height') {
-                                            style[buttonKey] = button.value;
+                                            style += buttonKey + ":" + button.value + "; ";
                                         }
                                     }
                                 } else {
@@ -208,14 +215,15 @@
             }
             %><div class="wholebox <%=box.height == 'auto' ? 'automaticallySizedBox':'' %>" id="<%= box.id %>"
                  style="position: <%=box.container !== 0  && box.position && box.position.type ?  box.position.type : 'absolute'%>;
-                         left: <%=box.position.x%>;
-                         top: <%=box.position.y%>;
+                         left: <%= parseFloat(box.position.x) + 2 + "%" %>;
+                         top: <%= box.position.y %>;
                          pointer-events: all  !important;
-                         vertical-align: <%=box.verticalAlign ? box.verticalAlign : 'middle' %>;
-                         width: <%=box.width %><%=(box.width  && isNaN(box.width ))? "" : "px" %>;
-                         height: <%=box.height%><%=(box.height && isNaN(box.height))? "" : "px" %>;
-                         cursor:  default ; "  >
-                 <div class="insidewb" style="<%= style%>" <%= attrs%> class="<%= classNames%>">
+                         vertical-align: <%=box.verticalAlign ? box.verticalAlign : '' %>;
+                         width: <%=width %>;
+                         height: <%=height %>;
+                         cursor:  default ;
+                         <%= toolbar.config.needsTextEdition ? 'text-align: left;' : '' %> " >
+                 <div class="insidewb" style="<%= style%>"  <%= attrs%> class="<%= classNames%>">
                     <% if(toolbar.config.flavor === "react") {%>
                         <script type="text/javascript">
                             ReactDOM.render(Dali.Visor.Plugins['<%=toolbar.config.name%>'].getRenderTemplate(<%=JSON.stringify(toolbar.state)%>), document.getElementById("<%= box.id%>"))
@@ -246,7 +254,7 @@
                           border: <%=style.borderWidth + " " + style.borderStyle +" " + style.borderColor%>;
                           padding: <%=style.padding%>;
                           opacity: <%=style.opacity%>;
-                          text-align: <%=style.textAlign ? style.textAlign : 'center'%>;
+                          text-align: <%=style.textAlign ? style.textAlign : 'left'%>;
                           ">
                         <div style="display: table; width: 100%; height: 100%;">
                             <%container.colDistribution.map(function(col, i){
@@ -281,7 +289,7 @@
                           border: <%=container.style.borderWidth + " " + container.style.borderStyle +" " + container.style.borderColor%>;
                           padding: <%=container.style.padding%>;
                           opacity: <%=container.style.opacity%>;
-                          text-align: <%=container.style.textAlign ? container.style.textAlign : 'center'%>;
+                          text-align: <%=container.style.textAlign ? container.style.textAlign : 'left'%>;
                 " class="<%= pluginContainer%>" >
             <%
                 container.colDistribution.map(function(col, i){
@@ -315,7 +323,7 @@
                 daliBoxSortable(box.id)
         }})%>
     </div>
-
+</div>
 </div>
 </div>
 </div>

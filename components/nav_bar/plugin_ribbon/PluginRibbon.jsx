@@ -36,8 +36,17 @@ export default class PluginRibbon extends Component {
                                             key={index}
                                             name={item.name}
                                             bsSize="large"
-                                            draggable="false">
-                                        <i className="material-icons">{clase}</i> {button.displayName}
+                                            draggable="false"
+                                            style={(button.iconFromUrl) ? {
+                                                padding: '8px 8px 8px 45px',
+                                                backgroundImage: 'url('+ clase +')',
+                                                backgroundSize: '32px',
+                                                backgroundPosition: '8px',
+                                                backgroundRepeat: 'no-repeat'
+                                            }:{
+
+                                            }}>
+                                        <i className="material-icons" style={(button.iconFromUrl)?{display:'none'}:{}}>{clase}</i> {button.displayName}
                                     </Button>
                                 </div>);
                             }
@@ -81,8 +90,8 @@ export default class PluginRibbon extends Component {
                     let parent = original.parentNode;
                     let dw = original.offsetWidth;
                     let clone = original.cloneNode(true),
-                        x = (parseFloat(original.getAttribute('data-x') - dw) || 0),
-                        y = (parseFloat(original.getAttribute('data-y')) || 0);
+                        x = (parseFloat(original.getAttribute('data-x') - dw, 10) || 0),
+                        y = (parseFloat(original.getAttribute('data-y'), 10) || 0);
                     clone.setAttribute("id", "clone");
                     clone.setAttribute('data-x', x);
                     clone.setAttribute('data-y', y);
@@ -95,8 +104,8 @@ export default class PluginRibbon extends Component {
                 onmove: (event) => {
                     let target = document.getElementById('clone'),
                     // keep the dragged position in the data-x/data-y attributes
-                        x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
-                        y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
+                        x = (parseFloat(target.getAttribute('data-x'), 10) || 0) + event.dx,
+                        y = (parseFloat(target.getAttribute('data-y'), 10) || 0) + event.dy;
 
                     // translate the element
                     target.style.webkitTransform =

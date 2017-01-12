@@ -45,7 +45,7 @@ export default class XMLConfigModal extends Component {
                             },
                             complete: function(xhr, status) {
                                 if(status === "error"){
-                                    state.__xml_path = "ua2_ue10_ejer7.xml";
+                                    state.__xml_path = Dali.Config.xml_fake_path;
                                 }
                                 Dali.Plugins.get(this.props.toolbar.config.name).forceUpdate(state, this.props.id, UPDATE_NAV_ITEM_EXTRA_FILES);
                                 this.props.onXMLEditorToggled();

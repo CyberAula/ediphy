@@ -177,7 +177,7 @@ export default class DaliBoxSortable extends Component {
                 event.target.style.height = event.rect.height + 'px';
             },
             onend: (event) => {
-                this.props.onSortableContainerResized(event.target.getAttribute("data-id"), this.props.id, parseInt(event.target.style.height));
+                this.props.onSortableContainerResized(event.target.getAttribute("data-id"), this.props.id, parseInt(event.target.style.height, 10));
             }
         });
     }

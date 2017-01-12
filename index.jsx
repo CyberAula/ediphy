@@ -11,7 +11,7 @@ require('./plugins/plugin_dependencies_loader').requireAll();
 
 //Require CSS files
 require('./dist/css/textStyles.css');
-//require('./dist/css/cajascolor.css');
+require('./dist/css/cajascolor.css');
 require('./dist/css/jquery-animVert.css');
 require('./dist/css/ejercicios.css');
 require('./sass/style.scss');
