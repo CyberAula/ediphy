@@ -5,7 +5,7 @@ import interact from 'interact.js';
 import PluginPlaceholder from '../plugin_placeholder/PluginPlaceholder';
 import {ADD_BOX, UPDATE_BOX, RESIZE_BOX, EDIT_PLUGIN_TEXT} from '../../../actions';
 import Dali from './../../../core/main';
-import {isBox, isSortableBox, isView, isSortableContainer} from './../../../utils';
+import {isBox, isSortableBox, isView, isSortableContainer, isAncestorOrSibling} from './../../../utils';
 
 require('./_daliBox.scss');
 
@@ -151,7 +151,9 @@ export default class DaliBox extends Component {
         if (this.props.boxLevelSelected > box.level && box.children.length === 0) {
             showOverlay = "initial";
         // If current level selected is the same but this box belongs to another "tree" of boxes, show overlay
-        } else if (this.props.boxLevelSelected === box.level && box.level !== 0 && !this.isAncestorOrSibling(this.props.boxSelected, this.props.id)) {
+        } else if (this.props.boxLevelSelected === box.level &&
+                   box.level !== 0 &&
+                   !isAncestorOrSibling(this.props.boxSelected, this.props.id, this.props.boxes)) {
             showOverlay = "initial";
         }
         let verticalAlign = "initial";
@@ -175,7 +177,7 @@ export default class DaliBox extends Component {
                     }
                     // Last parent has to be the same, otherwise all boxes with same level would be selectable
                     if(this.props.boxLevelSelected === box.level &&
-                       this.isAncestorOrSibling(this.props.boxSelected, this.props.id)){
+                       isAncestorOrSibling(this.props.boxSelected, this.props.id, this.props.boxes)){
                         if(e.nativeEvent.ctrlKey && box.children.length !== 0){
                             this.props.onBoxLevelIncreased();
                         }else{
@@ -210,39 +212,10 @@ export default class DaliBox extends Component {
                 {toolbar.state.__text ?
                     <div contentEditable={true} id={box.id} ref={"textarea"} className="textAreaStyle"
                          style={textareaStyle}></div> : ""}
-                <div className="showOverlay" style={{ display: showOverlay }}></div>
+                <div className="boxOverlay" style={{ display: showOverlay }}></div>
             </div>
             /* jshint ignore:end */
         );
-    }
-
-    isAncestorOrSibling(searchingId, actualId) {
-        if (searchingId === actualId) {
-            return true;
-        }
-        let parentId = this.props.boxes[actualId].parent;
-        if (parentId === searchingId) {
-            return true;
-        }
-        if (isView(parentId)) {
-            return false;
-        }
-
-        if (!isSortableBox(parentId)) {
-            let parentContainers = this.props.boxes[parentId].children;
-            if (parentContainers.length !== 0) {
-                for (let i = 0; i < parentContainers.length; i++) {
-                    let containerChildren = this.props.boxes[parentId].sortableContainers[parentContainers[i]].children;
-                    for (let j = 0; j < containerChildren.length; j++) {
-                        if (containerChildren[j] === searchingId) {
-                            return true;
-                        }
-                    }
-                }
-            }
-        }
-
-        return this.isAncestorOrSibling(searchingId, parentId);
     }
 
     renderChildren(markup, key) {

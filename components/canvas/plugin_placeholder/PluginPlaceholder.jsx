@@ -4,12 +4,19 @@ import {Button} from 'react-bootstrap';
 import interact from 'interact.js';
 import DaliBox from '../dali_box/DaliBox';
 import {RESIZE_SORTABLE_CONTAINER, ADD_BOX} from '../../../actions';
+import {isAncestorOrSibling} from './../../../utils';
 import Dali from './../../../core/main';
+
+require('./_pluginPlaceHolder.scss');
 
 export default class PluginPlaceholder extends Component {
     render() {
         let container = this.props.parentBox.sortableContainers[this.props.pluginContainer];
-
+        let className = "drg" + this.props.pluginContainer;
+        if(this.props.boxLevelSelected - this.props.parentBox.level === 1 &&
+           isAncestorOrSibling(this.props.parentBox.id, this.props.boxSelected, this.props.boxes)){
+            className += " childBoxSelected";
+        }
         return (
             /* jshint ignore:start */
             <div style={
@@ -25,16 +32,7 @@ export default class PluginPlaceholder extends Component {
                     }, container.style)
                 }
                  id={this.props.pluginContainer}
-                 className={"drg" + this.props.pluginContainer}>
-                <div style={{
-                    width: "100%",
-                    height: "100%",
-                    background: "black",
-                    top: 0,
-                    position: "absolute",
-                    opacity: 0.4,
-                    display: 'none'
-                }}></div>
+                 className={className}>
                 {container.colDistribution.map((col, i) => {
                     if (container.cols[i]) {
                         return (<div key={i}
