@@ -1,22 +1,44 @@
-.subheader{
-    margin-left: 1%;
+@import "../../../sass/general/_variables.scss";
+@import "../../nav_bar/plugin_ribbon/_pluginRibbon.scss";
+
+/*Each title mode button*/
+.daliTitleButton {
+  @extend .ribShortcut;
+  background-color: $grismedio !important;
+  color: white !important;
+  text-align: center;
+  &:hover {
+    background-color: $naranjaadams !important;
+  }
 }
 
-.breadcrumb {
-  padding: 8px 0px;
-  margin-bottom: 20px;
-  list-style: none;
-  background-color: #f5f5f5;
-  border-radius: 4px;
+/*Container for all buttons*/
+#daliTitleButtons {
+  text-align: center;
 }
-.breadcrumb > li {
-  display: inline-block;
+
+/*Current title mode*/
+.activeTitle {
+  background-color: $darkest !important;
+
 }
-.breadcrumb > li + li:before {
-  padding: 0 5px;
-  color: #ccc;
-  content: "/\00a0";
+
+/*Breadcrumb style*/
+.breadcrumb a {
+  color: $verdeadams;
 }
-.breadcrumb > .active {
-  color: #777;
+
+/*Added transparent margin to avoid small shift when title is selected*/
+.caja {
+  border: 1px solid transparent;
+}
+
+/*DaliTitle is on config mode*/
+.selectedTitle {
+  // border: 1px dashed grey;
+}
+
+.title {
+    display: table-caption;
+    background-color: white;
 }

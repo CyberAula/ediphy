@@ -46,7 +46,7 @@ export default class DaliCanvas extends Component {
             <Col id="canvas" md={12} xs={12}
                  style={{display: this.props.containedViewSelected !== 0 ? 'none' : 'initial'}}>
                  <div className="scrollcontainer">
-                 <DaliTitle titles={titles}
+                 <DaliHeader titles={titles}
                         showButtons={this.state.showTitle}
                         onShowTitle={()=>this.setState({showTitle:true})}
                         onBoxSelected={this.props.onBoxSelected}
@@ -66,7 +66,7 @@ export default class DaliCanvas extends Component {
                        }}
                          className={isSlide(this.props.navItemSelected.type) ? 'innercanvas sli':'innercanvas doc'}
                          style={{visibility: (this.props.showCanvas ? 'visible' : 'hidden')}}>
-                        <DaliHeader titles={titles}
+                        <DaliTitle titles={titles}
                             showButtons={this.state.showTitle}
                             onShowTitle={()=>this.setState({showTitle:true})}
                             onBoxSelected={this.props.onBoxSelected}
