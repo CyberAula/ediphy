@@ -146,13 +146,13 @@ export default class DaliBox extends Component {
             classes += " selectedBox";
         }
 
-        let showOverlay;
+        let showOverlay = "none";
+        // If current level selected is bigger than this box's and it has no children, show overlay
         if (this.props.boxLevelSelected > box.level && box.children.length === 0) {
-            showOverlay = "visible";
+            showOverlay = "initial";
+        // If current level selected is the same but this box belongs to another "tree" of boxes, show overlay
         } else if (this.props.boxLevelSelected === box.level && box.level !== 0 && !this.isAncestorOrSibling(this.props.boxSelected, this.props.id)) {
-            showOverlay = "visible";
-        } else {
-            showOverlay = "hidden";
+            showOverlay = "initial";
         }
         let verticalAlign = "initial";
         if (isSortableBox(box.container)) {
@@ -166,26 +166,30 @@ export default class DaliBox extends Component {
             /* jshint ignore:start */
             <div className={classes} id={'box-' + this.props.id}
                  onClick={e => {
-                    if(this.props.boxSelected === this.props.id){
+                    // If there's no box selected and current's level is 0 (otherwise, it would select a deeper box)
+                    // or -1 (only DaliBoxSortable can have level -1)
+                    if((this.props.boxSelected === -1 || this.props.boxLevelSelected === -1) && box.level === 0){
+                        this.props.onBoxSelected(this.props.id);
                         e.stopPropagation();
                         return;
                     }
-                    if(this.props.boxSelected !== -1 && box.level === 0 && !this.sameLastParent(box, this.props.boxes[this.props.boxSelected])){
-                        this.props.onBoxSelected(this.props.id);
-                    } else if(this.props.boxLevelSelected === box.level){
-                        if(this.props.boxLevelSelected > 0){
-                            this.props.onBoxSelected(this.props.id);
+                    // Last parent has to be the same, otherwise all boxes with same level would be selectable
+                    if(this.props.boxLevelSelected === box.level &&
+                       this.isAncestorOrSibling(this.props.boxSelected, this.props.id)){
+                        if(e.nativeEvent.ctrlKey && box.children.length !== 0){
+                            this.props.onBoxLevelIncreased();
                         }else{
-                            this.props.onBoxSelected(this.props.id);
+                            if(this.props.boxSelected !== this.props.id){
+                                this.props.onBoxSelected(this.props.id);
+                            }
                         }
                     }
-                    e.stopPropagation();
+                    if(box.level === 0){
+                        e.stopPropagation();
+                    }
                  }}
                  onDoubleClick={(e)=> {
-                     if(this.props.boxLevelSelected === box.level && box.children.length !== 0){
-                        this.props.onBoxLevelIncreased();
-                     }
-                      else if(toolbar.config && toolbar.config.needsTextEdition && this.props.id == this.props.boxSelected){
+                    if(toolbar.config && toolbar.config.needsTextEdition && this.props.id == this.props.boxSelected){
                         this.props.onTextEditorToggled(this.props.id, true);
                         this.refs.textarea.focus();
                     }
@@ -206,18 +210,10 @@ export default class DaliBox extends Component {
                 {toolbar.state.__text ?
                     <div contentEditable={true} id={box.id} ref={"textarea"} className="textAreaStyle"
                          style={textareaStyle}></div> : ""}
-                <div className="showOverlay" style={{ visibility: showOverlay }}></div>
+                <div className="showOverlay" style={{ display: showOverlay }}></div>
             </div>
             /* jshint ignore:end */
         );
-    }
-
-    sameLastParent(clickedBox, currentBox) {
-        if (!isBox(currentBox.parent)) {
-            return currentBox === clickedBox;
-        } else {
-            return this.sameLastParent(clickedBox, this.props.boxes[currentBox.parent]);
-        }
     }
 
     isAncestorOrSibling(searchingId, actualId) {
