@@ -22,7 +22,7 @@ export function BasicText(base) {
                                 padding: {
                                     __name: 'Padding',
                                     type: 'number',
-                                    value: 15,
+                                    value: 0,
                                     min: 0,
                                     max: 100
                                 },
