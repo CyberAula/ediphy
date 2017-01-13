@@ -266,7 +266,30 @@ function toolbarReducer(state, action) {
                     }
                 }
             }
-
+            
+            // Rebind callback functions because from not automanaged buttons
+             for (let tabKey in newState.controls) {
+                for (let accordionKey in newState.controls[tabKey].accordions) {
+                    let button;
+                    for (let buttonKey in newState.controls[tabKey].accordions[accordionKey].buttons) {
+                        button = newState.controls[tabKey].accordions[accordionKey].buttons[buttonKey];
+                        if (!button.autoManaged){
+                            button.callback = state.controls[tabKey].accordions[accordionKey].buttons[buttonKey].callback;
+                        }
+                    }
+                    if (newState.controls[tabKey].accordions[accordionKey].accordions) {
+                        for (let accordionKey2 in newState.controls[tabKey].accordions[accordionKey].accordions) {
+                            for (let buttonKey in newState.controls[tabKey].accordions[accordionKey].accordions[accordionKey2].buttons) {
+                                button = newState.controls[tabKey].accordions[accordionKey].accordions[accordionKey2].buttons[buttonKey];
+                                if (!button.autoManaged){
+                                    button.callback = state.controls[tabKey].accordions[accordionKey].buttons[buttonKey].callback;
+                                }
+                            }
+                        }
+                    }
+                }
+             }
+            
             return newState;
         case RESIZE_SORTABLE_CONTAINER:
             newState = Utils.deepClone(state);
@@ -277,6 +300,30 @@ function toolbarReducer(state, action) {
                     break;
                 }
             }
+            
+            // Rebind callback functions because from not automanaged buttons
+             for (let tabKey in newState.controls) {
+                for (let accordionKey in newState.controls[tabKey].accordions) {
+                    let button;
+                    for (let buttonKey in newState.controls[tabKey].accordions[accordionKey].buttons) {
+                        button = newState.controls[tabKey].accordions[accordionKey].buttons[buttonKey];
+                        if (!button.autoManaged){
+                            button.callback = state.controls[tabKey].accordions[accordionKey].buttons[buttonKey].callback;
+                        }
+                    }
+                    if (newState.controls[tabKey].accordions[accordionKey].accordions) {
+                        for (let accordionKey2 in newState.controls[tabKey].accordions[accordionKey].accordions) {
+                            for (let buttonKey in newState.controls[tabKey].accordions[accordionKey].accordions[accordionKey2].buttons) {
+                                button = newState.controls[tabKey].accordions[accordionKey].accordions[accordionKey2].buttons[buttonKey];
+                                if (!button.autoManaged){
+                                    button.callback = state.controls[tabKey].accordions[accordionKey].buttons[buttonKey].callback;
+                                }
+                            }
+                        }
+                    }
+                }
+             }
+            
             return newState;
         case TOGGLE_TEXT_EDITOR:
             return changeProp(state, "showTextEditor", action.payload.value);
@@ -319,10 +366,58 @@ function toolbarReducer(state, action) {
                         .buttons[pl.name][typeof pl.value === "boolean" ? "checked" : "value"] = pl.value;
                 }
             }
+            
+            // Rebind callback functions because from not automanaged buttons
+             for (let tabKey in newState.controls) {
+                for (let accordionKey in newState.controls[tabKey].accordions) {
+                    let button;
+                    for (let buttonKey in newState.controls[tabKey].accordions[accordionKey].buttons) {
+                        button = newState.controls[tabKey].accordions[accordionKey].buttons[buttonKey];
+                        if (!button.autoManaged){
+                            button.callback = state.controls[tabKey].accordions[accordionKey].buttons[buttonKey].callback;
+                        }
+                    }
+                    if (newState.controls[tabKey].accordions[accordionKey].accordions) {
+                        for (let accordionKey2 in newState.controls[tabKey].accordions[accordionKey].accordions) {
+                            for (let buttonKey in newState.controls[tabKey].accordions[accordionKey].accordions[accordionKey2].buttons) {
+                                button = newState.controls[tabKey].accordions[accordionKey].accordions[accordionKey2].buttons[buttonKey];
+                                if (!button.autoManaged){
+                                    button.callback = state.controls[tabKey].accordions[accordionKey].buttons[buttonKey].callback;
+                                }
+                            }
+                        }
+                    }
+                }
+             }
+
             return newState;
         case VERTICALLY_ALIGN_BOX:
             newState = Utils.deepClone(state);
             newState.controls.main.accordions.__sortable.buttons.__verticalAlign.value = action.payload.verticalAlign;
+            
+            // Rebind callback functions because from not automanaged buttons
+             for (let tabKey in newState.controls) {
+                for (let accordionKey in newState.controls[tabKey].accordions) {
+                    let button;
+                    for (let buttonKey in newState.controls[tabKey].accordions[accordionKey].buttons) {
+                        button = newState.controls[tabKey].accordions[accordionKey].buttons[buttonKey];
+                        if (!button.autoManaged){
+                            button.callback = state.controls[tabKey].accordions[accordionKey].buttons[buttonKey].callback;
+                        }
+                    }
+                    if (newState.controls[tabKey].accordions[accordionKey].accordions) {
+                        for (let accordionKey2 in newState.controls[tabKey].accordions[accordionKey].accordions) {
+                            for (let buttonKey in newState.controls[tabKey].accordions[accordionKey].accordions[accordionKey2].buttons) {
+                                button = newState.controls[tabKey].accordions[accordionKey].accordions[accordionKey2].buttons[buttonKey];
+                                if (!button.autoManaged){
+                                    button.callback = state.controls[tabKey].accordions[accordionKey].buttons[buttonKey].callback;
+                                }
+                            }
+                        }
+                    }
+                }
+             }
+             
             return newState;
         default:
             return state;
