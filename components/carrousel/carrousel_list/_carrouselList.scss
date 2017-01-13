@@ -7,8 +7,6 @@
 .carList {
     overflow-y: auto;
     height: calc(100% - 56px);
-    margin-top: 4px;
-    padding-top: 4px;
     color: $fondo;
     .material-icons{
         padding: 0 8px 4px 8px;
@@ -162,7 +160,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    max-width: 80%;
+    max-width: 50%;
 }
 
 /*Collapsed Carrousel*/
