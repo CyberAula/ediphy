@@ -156,6 +156,35 @@ export function calculateNewIdOrder(oldArray, newChildren, newParent, itemMoved,
     return newArray;
 }
 
+export function isAncestorOrSibling(searchingId, actualId, boxes) {
+    if (searchingId === actualId) {
+        return true;
+    }
+    let parentId = boxes[actualId].parent;
+    if (parentId === searchingId) {
+        return true;
+    }
+    if (isView(parentId)) {
+        return false;
+    }
+
+    if (!isSortableBox(parentId)) {
+        let parentContainers = boxes[parentId].children;
+        if (parentContainers.length !== 0) {
+            for (let i = 0; i < parentContainers.length; i++) {
+                let containerChildren = boxes[parentId].sortableContainers[parentContainers[i]].children;
+                for (let j = 0; j < containerChildren.length; j++) {
+                    if (containerChildren[j] === searchingId) {
+                        return true;
+                    }
+                }
+            }
+        }
+    }
+
+    return isAncestorOrSibling(searchingId, parentId, boxes);
+}
+
 /**
  * Replaces all occurences of needle (interpreted as a regular expression with replacement and returns the new object.
  *

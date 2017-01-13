@@ -151,7 +151,7 @@ export default function (state = {}, action = {}) {
                 return changeProp(state, action.payload.parent, singleNavItemReducer(state[action.payload.parent], action));
             }
             
-            if(findNavItemContainingBox(state,action.payload.parent).extraFiles.length !== 0){
+            if( typeof findNavItemContainingBox(state,action.payload.parent) !== 'undefined' && findNavItemContainingBox(state,action.payload.parent).extraFiles.length !== 0){
                     return Object.assign({}, state, 
                                     Object.assign({}, 
                                         {

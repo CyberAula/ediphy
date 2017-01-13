@@ -215,7 +215,7 @@
             }
             %><div class="wholebox <%=box.height == 'auto' ? 'automaticallySizedBox':'' %>" id="<%= box.id %>"
                  style="position: <%=box.container !== 0  && box.position && box.position.type ?  box.position.type : 'absolute'%>;
-                         left: <%= parseFloat(box.position.x) + 2 + "%" %>;
+                         left: <%= parseFloat(box.position.x) + 1 + "%" %>;
                          top: <%= box.position.y %>;
                          pointer-events: all  !important;
                          vertical-align: <%=box.verticalAlign ? box.verticalAlign : '' %>;
