@@ -167,7 +167,7 @@ export default class DaliBox extends Component {
                    !isAncestorOrSibling(this.props.boxSelected, this.props.id, this.props.boxes)) {
             showOverlay = "initial";
         }
-        let verticalAlign = "initial";
+        let verticalAlign = "top";
         if (isSortableBox(box.container)) {
             if (toolbar.controls.main.accordions.__sortable.buttons.__verticalAlign.value) {
                 verticalAlign = toolbar.controls.main.accordions.__sortable.buttons.__verticalAlign.value;
