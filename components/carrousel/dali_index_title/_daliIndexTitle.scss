@@ -44,10 +44,10 @@
 
 /*Title on read mode*/
 .actualSectionTitle {
+  overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  direction: ltr;
-  width: auto !important;
+  display: block;
   line-height: 1.2em;
   vertical-align: middle;
 }
