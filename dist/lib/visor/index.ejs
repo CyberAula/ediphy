@@ -185,6 +185,10 @@
                                     width = button.displayValue + (button.type === "number" ? button.units : "");
                                 } else if (buttonKey === '__height') {
                                     height = button.displayValue + (button.type === "number" ? button.units : "");
+                                } else if(buttonKey === 'padding'){
+                                    style += buttonKey + ":" + button.value + "px; ";
+                                } else if(buttonKey === 'border-width'){
+                                    style += buttonKey + ":" + button.value + "px; ";
                                 } else {
                                     style += buttonKey + ":" + button.value + "; ";
                                 }
@@ -203,6 +207,10 @@
                                             classNames += button.value;
                                         } else if (buttonKey !== 'width' && buttonKey !== 'height') {
                                             style += buttonKey + ":" + button.value + "; ";
+                                        } else if(buttonKey === 'padding'){
+                                            style += buttonKey + ":" + button.value + "px; ";
+                                        } else if(buttonKey === 'border-width'){
+                                            style += buttonKey + ":" + button.value + "px; ";
                                         }
                                     }
                                 } else {
@@ -223,7 +231,7 @@
                          height: <%=height %>;
                          cursor:  default ;
                          <%= toolbar.config.needsTextEdition ? 'text-align: left;' : '' %> " >
-                 <div class="insidewb" style="<%= style%>"  <%= attrs%> class="<%= classNames%>">
+                 <div class="insidewb" style="<%=style%>"  <%= attrs%> class="<%= classNames%>">
                     <% if(toolbar.config.flavor === "react") {%>
                         <script type="text/javascript">
                             ReactDOM.render(Dali.Visor.Plugins['<%=toolbar.config.name%>'].getRenderTemplate(<%=JSON.stringify(toolbar.state)%>), document.getElementById("<%= box.id%>"))
@@ -251,7 +259,9 @@
                           height: <%=container.height == 'auto' ? container.height : container.height + 'px'%>;
                           box-sizing: border-box;
                           position: relative;
-                          border: <%=style.borderWidth + " " + style.borderStyle +" " + style.borderColor%>;
+                          borderColor: <%=style.borderColor%>;
+                          borderStyle: <%=style.borderStyle%>;
+                          boderWidth: <%=style.borderWidth%>;                          
                           padding: <%=style.padding%>;
                           opacity: <%=style.opacity%>;
                           text-align: <%=style.textAlign ? style.textAlign : 'left'%>;
@@ -286,8 +296,10 @@
 
             <%if(container){%>
                 <div style="display: table; width:100%; height:100%;position: relative;
-                          border: <%=container.style.borderWidth + " " + container.style.borderStyle +" " + container.style.borderColor%>;
-                          padding: <%=container.style.padding%>;
+                          borderColor: <%=container.style.borderColor%>;
+                          borderStyle: <%=container.style.borderStyle%>;
+                          boderWidth: <%=container.style.borderWidth%>;
+                          padding: <%=container.style.padding%> ;
                           opacity: <%=container.style.opacity%>;
                           text-align: <%=container.style.textAlign ? container.style.textAlign : 'left'%>;
                 " class="<%= pluginContainer%>" >
