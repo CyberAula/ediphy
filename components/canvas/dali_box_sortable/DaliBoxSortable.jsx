@@ -8,6 +8,8 @@ import {ADD_BOX} from '../../../actions';
 import Dali from './../../../core/main';
 import i18n from 'i18next';
 
+require('./_daliBoxSortable.scss');
+
 export default class DaliBoxSortable extends Component {
     render() {
         let box = this.props.boxes[this.props.id];
@@ -96,34 +98,21 @@ export default class DaliBoxSortable extends Component {
                                     }
                                 })}
                             </div>
-                            <div style={{
-                                    position: 'absolute',
-                                    bottom: '0px',
-                                    width: '100%',
-                                    height: 5,
-                                    backgroundColor: 'lightgray',
-                                    cursor: this.props.boxSelected === this.props.id ? 's-resize' : 'initial'
-                               }}></div>
-                            <div style={{
-                                    verticalAlign: 'middle',
-                                    position: 'absolute',
-                                    bottom: '0px',
-                                    left: '0px'
-                               }}>
-                                <i className="material-icons drag-handle" style={{verticalAlign: "middle"}}>swap_vert</i>
-                                <Button style={{
-                                            border: 0,
-                                            backgroundColor: "inherit",
-                                            padding: 0,
-                                            marginLeft: 8
-                                        }}
-                                        onClick={e => {
+                            
+                            <div className="sortableMenu">
+                                <div className="iconsOverBar">
+                                    <i className="material-icons drag-handle">swap_vert</i>
+                                    <i className="material-icons delete-sortable"
+                                       onClick={e => {
                                             this.props.onSortableContainerDeleted(idContainer, box.id);
                                             e.stopPropagation();
-                                        }}>
-                                    <i className="material-icons">delete</i>
-                                </Button>
+                                       }}>delete</i>
                                 </div>
+
+                                <div className="dividerBar"
+                                     style={{cursor: this.props.boxSelected === this.props.id ? 's-resize' : 'initial'}}>
+                                </div>
+                            </div>
                         </div>);
                     })}
                 </div>
