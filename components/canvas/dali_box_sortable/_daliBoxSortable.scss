@@ -1,0 +1,17 @@
+@import "../../../sass/_variables.scss";
+
+.sortableMenu{
+    width: 100%;
+}
+
+.dividerBar{
+    width: 100%;
+    height: 4px;
+    background: $lightgrey;
+    position: absolute;
+    bottom: 0;
+}
+
+.iconsOverBar{
+    float:left;
+}
