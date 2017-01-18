@@ -119,9 +119,9 @@ function createSizeButtons(controls, state, action, floatingBox) {
     // It means we are creating a new one, initial params can come
     if (state === null) {
         if(floatingBox) {
-            displayValue = 200;
-            value = 200;
-            units = "px";
+            displayValue = 25;
+            value = 25;
+            units = "%";
         }else{
             displayValue = 100;
             value = 100;
