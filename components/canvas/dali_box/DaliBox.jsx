@@ -503,7 +503,9 @@ export default class DaliBox extends Component {
                     let pos = this.props.boxes[this.props.id].position.type;
                     let actualLeft = pos === 'relative' ? target.style.left : target.getAttribute('data-x');
                     let actualTop = pos === 'relative' ? target.style.top : target.getAttribute('data-y');
-                    let absoluteLeft = (parseInt(target.style.left) * 100)/ target.parentElement.offsetWidth + "%";
+                    let absoluteLeft = (((parseInt(target.style.left) * 100)/ target.parentElement.offsetWidth) > 100) ?                      
+                    (( target.parentElement.offsetWidth - (parseInt(target.style.width)))/ target.parentElement.offsetWidth) * 100 + "%":
+                    ((parseInt(target.style.left) * 100)/ target.parentElement.offsetWidth) + "%" ;
                     //let absoluteTop = (parseInt(target.style.top) * 100)/ target.parentElement.offsetHeight + "%";
                     let left = Math.max(Math.min(Math.floor(parseInt(actualLeft, 10) / target.parentElement.offsetWidth * 100), 100), 0) + '%';
                     let top = Math.max(Math.min(Math.floor(parseInt(actualTop, 10) / target.parentElement.offsetHeight * 100), 100), 0) + '%';
