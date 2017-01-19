@@ -61,11 +61,10 @@
     @include animacion(height, 0.4s);
 }
 
-/*Width*/
+/* 100 % */
 .width100{
     width: 100%;
 }
-/*Heigth*/
 .height100{
     height: 100%;
 }
@@ -79,6 +78,12 @@
 }
 .disp_initial{
     display: initial;
+}
+.disp_table{
+    display: table;
+}
+.disp_table_cell{
+    display: table-cell;
 }
 .disp_none{
     display: none;
@@ -106,13 +111,16 @@ button, i{
 }
 
 /*Positions*/
-pos_relative{
+.pos_relative{
     position: relative;
 }
-pos_absolute{
+.pos_absolute{
     position: absolute;
 }
-
+.top0{top: 0}
+.right0{right: 0}
+.bottom0{bottom: 0}
+.left0{left: 0}
 
 /*Clear*/
 .clear_both{
@@ -128,4 +136,15 @@ pos_absolute{
 }
 .over_hidden-y{
     overflow-y: hidden;
+}
+
+/*Vertical align*/
+.vert_al_top{
+    vertical-align: top;
+}
+.vert_al_cen{
+    vertical-align: center;
+}
+.vert_al_bot{
+    vertical-align: bottom;
 }
