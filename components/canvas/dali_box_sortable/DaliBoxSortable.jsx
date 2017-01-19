@@ -30,29 +30,25 @@ export default class DaliBoxSortable extends Component {
                     {box.children.map((idContainer, index)=> {
                         let container = box.sortableContainers[idContainer];
                         return (<div key={index}
-                                     className={"daliBoxSortableContainer " + container.style.className}
+                                     className={"daliBoxSortableContainer pos_relative " + container.style.className}
                                      data-id={idContainer}
                                      id={idContainer}
                                      ref={idContainer}
                                      style={
                                         Object.assign({},{
-                                            width: '100%',
                                             height: container.height == 'auto' ? container.height : container.height + 'px',
-                                            minHeight: '70px',
-                                            textAlign: 'center',
-                                            lineHeight: '100%',
-                                            boxSizing: 'border-box',
-                                            position: 'relative'
                                         },container.style)
                                      }>
-                            <div style={{display: "table", width: "100%", height: "100%"}}>
+                            <div className="disp_table width100 height100">
                                 {container.colDistribution.map((col, i) => {
                                     if (container.cols[i]) {
                                         return (<div key={i}
-                                                     style={{width: col + "%", height: '100%', display: "table-cell", verticalAlign: "top"}}>
+                                                     className="colDist-i height100 disp_table_cell vert_al_top"
+                                                     style={{width: col + "%"}}>
                                             {container.cols[i].map((row, j) => {
                                                 return (<div key={j}
-                                                             style={{width: "100%", height: row + "%", position: 'relative'}}
+                                                             className="colDist-j width100 pos_relative"
+                                                             style={{height: row + "%"}}
                                                              ref={e => {
                                                                     if(e !== null){
                                                                         this.configureDropZone(
@@ -89,7 +85,7 @@ export default class DaliBoxSortable extends Component {
                                                                              onTextEditorToggled={this.props.onTextEditorToggled}/>);
 
                                                         } else if (index == container.children.length - 1) {
-                                                            return (<span key={index}><br /><br /></span>);
+                                                            return (<span key={index}><br/><br/></span>);
                                                         }
                                                     })}
                                                 </div>);
@@ -99,8 +95,8 @@ export default class DaliBoxSortable extends Component {
                                 })}
                             </div>
                             
-                            <div className="sortableMenu">
-                                <div className="iconsOverBar">
+                            <div className="sortableMenu width100 over_hidden">
+                                <div className="iconsOverBar float_left pos_absolute bottom0">
                                     <i className="material-icons drag-handle">swap_vert</i>
                                     <i className="material-icons delete-sortable"
                                        onClick={e => {
@@ -109,19 +105,20 @@ export default class DaliBoxSortable extends Component {
                                        }}>delete</i>
                                 </div>
 
-                                <div className="dividerBar"
+                                <div className="dividerBar width100 pos_absolute bottom0"
                                      style={{cursor: this.props.boxSelected === this.props.id ? 's-resize' : 'initial'}}>
                                 </div>
                             </div>
                         </div>);
                     })}
                 </div>
-                <div className="dragContentHere" onClick={e => {
+                
+                <div className="dragContentHere"
+                     onClick={e => {
                     this.props.onBoxSelected(-1);
-                    e.stopPropagation();
-                }}>
-                    {i18n.t("messages.drag_content")}
+                    e.stopPropagation();}}>{i18n.t("messages.drag_content")}
                 </div>
+                
             </div>
             /* jshint ignore:end */
         );
