@@ -128,7 +128,6 @@
 .panelPluginToolbar {
     border: 0;
     border-radius: 0;
-
     .toolbarTab {
         color: $naranjaadams;
     }
@@ -137,15 +136,14 @@
         display: block;
         text-decoration: none;
         font-size: 0.9em;
+        cursor: pointer;
     }
-
     .panel-body {
         border: 0 !important;
         background-color: $greyInsidePanels;
         margin-bottom: -6px;
         padding: 16px 24px 20px 24px;
     }
-
     .panel-heading {
         padding: 0;
         border: 0;
@@ -158,13 +156,11 @@
             border-radius: 0;
         }
     }
-
     .panel-group, .panel {
         margin-bottom: 0;
         border-radius: 0;
         border: 0;
     }
-
 }
 
 .extendedPanel .panel-heading {
