@@ -19,13 +19,12 @@
     color: $grisclaro;
     *{
         @include animacion(all, 0.2s);
-        padding: 4px;
     }
     &:hover {
-        color: white !important;
+        color: #fff !important;
     }
     .material-icons{
-        padding: 4px 8px;
+        padding: 8px;
     }
 }
 
@@ -279,7 +278,7 @@
 
 .popoverButton {
     @extend .daliTitleButton;
-    margin-top: 10px !important;
+    margin-top: px !important;
     padding: 2px 4px !important;
     width: auto !important;
     height: auto !important;
