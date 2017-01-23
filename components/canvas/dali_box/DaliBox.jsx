@@ -379,6 +379,7 @@ export default class DaliBox extends Component {
 
         let action = this.props.lastActionDispatched;
         
+        //Fixes bug when reordering dalibox sortable CKEDITOR doesn't update otherwise
         if(action.type === REORDER_SORTABLE_CONTAINER && toolbar.config && toolbar.config.needsTextEdition){
             if (CKEDITOR.instances[this.props.id]) {
                 if (CKEDITOR.instances[this.props.id].focusManager.hasFocus) {
@@ -395,8 +396,6 @@ export default class DaliBox extends Component {
             if (toolbar.state.__text) {
                 editor.setData(decodeURI(toolbar.state.__text));
             }
-         
-
         }
 
         if ((action.type === ADD_BOX || action.type === UPDATE_BOX || action.type === RESIZE_BOX || action.type === IMPORT_STATE) &&
