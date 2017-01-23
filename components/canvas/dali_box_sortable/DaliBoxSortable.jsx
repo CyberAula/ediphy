@@ -106,7 +106,7 @@ export default class DaliBoxSortable extends Component {
                                 </div>
 
                                 <div className="dividerBar width100 pos_absolute bottom0"
-                                     style={{cursor: this.props.boxSelected === this.props.id ? 's-resize' : 'initial'}}>
+                                        style={{cursor: (this.props.boxSelected === this.props.id && container.height !== "auto")? 's-resize' : 'initial'}}>
                                 </div>
                             </div>
                         </div>);
@@ -157,7 +157,7 @@ export default class DaliBoxSortable extends Component {
 
     configureResizable(item) {
         interact(item).resizable({
-            enabled: this.props.id === this.props.boxSelected,
+            enabled: this.props.id === this.props.boxSelected && item.style.height !== "auto",
             edges: {left: false, right: false, bottom: true, top: false},
             onmove: (event) => {
                 event.target.style.height = event.rect.height + 'px';
