@@ -58,7 +58,9 @@ export default class DaliCanvas extends Component {
                         onUnitNumberChanged={this.props.onUnitNumberChanged}
                         showButton={true}/>
                 <div className="outter canvaseditor">
-                     
+                    <div id="airlayer" 
+                    className={isSlide(this.props.navItemSelected.type) ? 'slide_air' : 'doc_air'}
+                    style={{visibility: (this.props.showCanvas ? 'visible' : 'hidden') }}>
                     <div id="maincontent"
                          onClick={e => {
                         this.props.onBoxSelected(-1);
@@ -146,6 +148,7 @@ export default class DaliCanvas extends Component {
                             }
                         })}
                     </div>
+                </div>
                 </div>
                 </div>
             </Col>

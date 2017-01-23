@@ -82,6 +82,28 @@
   position: relative;
 }
 
+.doc_air{
+    z-index: 0;
+    visibility: visible;
+    height: 100%;
+    background-color: white;
+    margin: 0px;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    position: relative;
+    padding-left: 60px;
+    padding-right: 10px;
+    padding-top: 10px;
+    padding-bottom: 0px;
+}
+
+.slide_air{
+    height: 100%;
+    background-color: white;
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
 .drag-handle {
 
 }
