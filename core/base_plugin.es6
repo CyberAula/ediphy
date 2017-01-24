@@ -273,7 +273,7 @@ export default function () {
                     this.getConfig(),
                     state,
                     {
-                        id: id,
+                        id: initialParams.id || id,
                         parent: initialParams.parent,
                         container: initialParams.container
                     },
