@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import {Button} from 'react-bootstrap';
 import interact from 'interact.js';
 import PluginPlaceholder from '../plugin_placeholder/PluginPlaceholder';
-import {ADD_BOX, UPDATE_BOX, RESIZE_BOX, REORDER_SORTABLE_CONTAINER, EDIT_PLUGIN_TEXT, IMPORT_STATE} from '../../../actions';
+import {ADD_BOX, UPDATE_BOX, RESIZE_BOX, EDIT_PLUGIN_TEXT, IMPORT_STATE} from '../../../actions';
 import Dali from './../../../core/main';
 import {isBox, isSortableBox, isView, isSortableContainer, isAncestorOrSibling} from './../../../utils';
 
@@ -378,25 +378,6 @@ export default class DaliBox extends Component {
         }
 
         let action = this.props.lastActionDispatched;
-        
-        //Fixes bug when reordering dalibox sortable CKEDITOR doesn't update otherwise
-        if(action.type === REORDER_SORTABLE_CONTAINER && toolbar.config && toolbar.config.needsTextEdition){
-            if (CKEDITOR.instances[this.props.id]) {
-                if (CKEDITOR.instances[this.props.id].focusManager.hasFocus) {
-                    this.blurTextarea();
-                }
-                CKEDITOR.instances[this.props.id].destroy();
-            }
-            
-            CKEDITOR.disableAutoInline = true;
-            for (let key in toolbar.config.extraTextConfig) {
-                CKEDITOR.config[key] += toolbar.config.extraTextConfig[key] + ",";
-            }
-            let editor = CKEDITOR.inline(this.refs.textarea);
-            if (toolbar.state.__text) {
-                editor.setData(decodeURI(toolbar.state.__text));
-            }
-        }
 
         if ((action.type === ADD_BOX || action.type === UPDATE_BOX || action.type === RESIZE_BOX || action.type === IMPORT_STATE) &&
             ((action.payload.id || action.payload.ids.id) === this.props.id)) {

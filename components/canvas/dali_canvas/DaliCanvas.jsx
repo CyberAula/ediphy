@@ -7,7 +7,7 @@ import {Col} from 'react-bootstrap';
 import DaliTitle from '../dali_title/DaliTitle';
 import DaliHeader from '../dali_header/DaliHeader';
 import interact from 'interact.js';
-import {ADD_BOX} from '../../../actions';
+import {ADD_BOX,REORDER_SORTABLE_CONTAINER} from '../../../actions';
 import Dali from './../../../core/main';
 import {isSortableBox, isSlide} from './../../../utils';
 
@@ -164,7 +164,22 @@ export default class DaliCanvas extends Component {
             document.getElementById('maincontent').scrollTop = 0;
         }
     }
-
+    
+    componentDidUpdate(prevProps, prevState) {
+        //Fixes bug when reordering dalibox sortable CKEDITOR doesn't update otherwise
+        if(this.props.lastActionDispatched.type === REORDER_SORTABLE_CONTAINER){
+             for (let instance in CKEDITOR.instances) {
+                CKEDITOR.instances[instance].destroy();
+             }
+             CKEDITOR.inlineAll();
+             for (let editor in CKEDITOR.instances){
+                 if (this.props.toolbars[editor].state.__text) {
+                    CKEDITOR.instances[editor].setData(decodeURI(this.props.toolbars[editor].state.__text));
+                }
+             }
+        }
+    }
+    
     componentDidMount() {
         interact(ReactDOM.findDOMNode(this)).dropzone({
             accept: '.floatingDaliBox',
