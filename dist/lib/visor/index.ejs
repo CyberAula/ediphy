@@ -179,7 +179,7 @@
                         buttonKey = buttonKey.split(/(?=[A-Z])/).join('-').toLowerCase();
                         if (!button.isAttribute) {
                             if (button.autoManaged) {
-                                if (buttonKey === 'className' && button.value) {
+                                if (buttonKey === 'class-name' && button.value) {
                                     classNames += button.value;
                                 } else if (buttonKey === '__width') {
                                     width = button.displayValue + (button.type === "number" ? button.units : "");
@@ -203,7 +203,7 @@
                                 button = toolbar.controls[tabKey].accordions[accordionKey].accordions[accordionKey2].buttons[buttonKey];
                                 if (!button.isAttribute) {
                                     if (button.autoManaged) {
-                                        if (buttonKey === 'className' && button.value) {
+                                        if (buttonKey === 'class-name' && button.value) {
                                             classNames += button.value;
                                         } else if (buttonKey !== 'width' && buttonKey !== 'height') {
                                             style += buttonKey + ":" + button.value + "; ";
@@ -231,7 +231,7 @@
                          height: <%=height %>;
                          cursor:  default ;
                          <%= toolbar.config.needsTextEdition ? 'text-align: left;' : '' %> " >
-                 <div class="insidewb" style="<%=style%>"  <%= attrs%> class="<%= classNames%>">
+                 <div class="insidewb <%= classNames%>" style="<%=style%>"  <%= attrs %>>
                     <% if(toolbar.config.flavor === "react") {%>
                         <script type="text/javascript">
                             ReactDOM.render(Dali.Visor.Plugins['<%=toolbar.config.name%>'].getRenderTemplate(<%=JSON.stringify(toolbar.state)%>), document.getElementById("<%= box.id%>"))
