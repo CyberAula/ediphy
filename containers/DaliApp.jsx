@@ -570,10 +570,10 @@ class DaliApp extends Component {
        return false;
     }
     
-    addDefaultContainerPlugins(eventDetails, obj) {
+    addDefaultContainerPlugins(eventDetails, obj, count = 0) {
         if (obj.child) {
             for (let i = 0; i < obj.child.length; i++) {
-                this.addDefaultContainerPlugins(eventDetails, obj.child[i]);
+                this.addDefaultContainerPlugins(eventDetails, obj.child[i], count++ );
             }
         }
         if (obj.tag && obj.tag === "plugin" && obj.attr['plugin-data-default']) {
@@ -586,6 +586,7 @@ class DaliApp extends Component {
                         return;
                     }
                     Dali.Plugins.get(name).getConfig().callback({
+                        id: "bo-" + Date.now() + count,
                         parent: eventDetails.ids.id,
                         container: obj.attr['plugin-data-id'],
                         isDefaultPlugin: true
