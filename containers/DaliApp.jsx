@@ -305,7 +305,7 @@ class DaliApp extends Component {
                     this.dispatchAndSetState(editRichMark(e.detail.ids.id, e.detail.state));
                     break;
                 case ADD_BOX:
-                    e.detail.ids.id = ID_PREFIX_BOX + Date.now();
+                    e.detail.ids.id = ID_PREFIX_BOX + Date.now() + this.index++;
 
                     this.dispatchAndSetState(addBox(
                         {
@@ -570,10 +570,10 @@ class DaliApp extends Component {
        return false;
     }
     
-    addDefaultContainerPlugins(eventDetails, obj, count = 0) {
+    addDefaultContainerPlugins(eventDetails, obj) {
         if (obj.child) {
             for (let i = 0; i < obj.child.length; i++) {
-                this.addDefaultContainerPlugins(eventDetails, obj.child[i], count++ );
+                this.addDefaultContainerPlugins(eventDetails, obj.child[i]);
             }
         }
         if (obj.tag && obj.tag === "plugin" && obj.attr['plugin-data-default']) {
@@ -586,7 +586,6 @@ class DaliApp extends Component {
                         return;
                     }
                     Dali.Plugins.get(name).getConfig().callback({
-                        id: "bo-" + Date.now() + count,
                         parent: eventDetails.ids.id,
                         container: obj.attr['plugin-data-id'],
                         isDefaultPlugin: true
