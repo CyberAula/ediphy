@@ -64,12 +64,6 @@ export default class PluginRibbon extends Component {
                             }}>
                         <i className="material-icons">content_copy</i>
                     </button>
-                    <button className="ribShortcut"
-                            title="Paste"
-                            disabled={!this.props.boxSelected}
-                            onClick={() => alert('Aún no hace nada')}>
-                        <i className="material-icons">content_paste</i>
-                    </button>
                 </div>
             </Col>
             /* jshint ignore:end */
