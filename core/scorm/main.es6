@@ -77,7 +77,9 @@ export default {
                 while (children_elements.length !== 0){
                     let actual_child = children_elements.shift();
                     let branch = this.xmlOrganizationBranch(actual_child, actual_child, sections_copy, doc, resource_elements);
-                    root_element.appendChild(branch);
+                    if(typeof branch !== "undefined"){
+                        root_element.appendChild(branch);
+                    }
                 }
 
             //end children Tree
@@ -157,32 +159,32 @@ export default {
                 }
             }
         }
-
-        let actual_section = actual_child;
-
-        let element = doc.createElement("item");
-        element.setAttribute("identifier", this.santinize_id(sections[actual_section].id) + "_item");
-        if ( Dali.Config.sections_have_content || (sections[actual_section].id.indexOf(ID_PREFIX_SECTION) === -1)){
-            element.setAttribute("identifierref", this.santinize_id(sections[actual_section].id) + "_resource");
-        }
-        let element_title = doc.createElement("title");
-        let element_text = doc.createTextNode(sections[actual_section].name);
-        element_title.appendChild(element_text);
-
-        element.appendChild(element_title);
-
-        resource_elements.push({
-                path: "unit"+ sections[actual_section].unitNumber + "/" + this.santinize_id(sections[actual_section].id)+".html",
-                id: sections[actual_section].id
-            });
-
-        if(branch_elements.length !== 0){
-            for(let n = 0; n < branch_elements.length; n++){
-                element.appendChild(branch_elements[n]);
+        if(!sections[actual_child].hidden){
+            let actual_section = actual_child;
+            let element = doc.createElement("item");
+            element.setAttribute("identifier", this.santinize_id(sections[actual_section].id) + "_item");
+            if ( Dali.Config.sections_have_content || (sections[actual_section].id.indexOf(ID_PREFIX_SECTION) === -1)){
+                element.setAttribute("identifierref", this.santinize_id(sections[actual_section].id) + "_resource");
             }
-        }
+            let element_title = doc.createElement("title");
+            let element_text = doc.createTextNode(sections[actual_section].name);
+            element_title.appendChild(element_text);
 
-        return element;
+            element.appendChild(element_title);
+
+            resource_elements.push({
+                    path: "unit"+ sections[actual_section].unitNumber + "/" + this.santinize_id(sections[actual_section].id)+".html",
+                    id: sections[actual_section].id
+                });
+            
+            if(branch_elements.length !== 0){
+                for(let n = 0; n < branch_elements.length; n++){
+                    element.appendChild(branch_elements[n]);
+                }
+            }
+
+            return element;
+        }
     },
     beautifyXML:  function (xml) {
         var reg = /(>)\s*(<)(\/*)/g; // updated Mar 30, 2015
