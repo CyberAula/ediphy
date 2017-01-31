@@ -345,7 +345,7 @@ function toolbarReducer(state, action) {
                     "controls"
                 ], [
                     action.payload.state,
-                    controls
+                    state.controls
                 ]
             );
         case UPDATE_TOOLBAR:
