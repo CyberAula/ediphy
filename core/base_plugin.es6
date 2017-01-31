@@ -263,29 +263,31 @@ export default function () {
                 console.error(this.getConfig().name + " has not defined getRenderTemplate method");
             } else {
                 var template = descendant.getRenderTemplate(state);
-                if(this.getConfig().flavor !== "react") {
+                if(template !== null && this.getConfig().flavor !== "react") {
                     template = html2json(template);
                     assignPluginContainerIds(template);
                 }
-                Dali.API.renderPlugin(
-                    template,
-                    this.getToolbar(),
-                    this.getConfig(),
-                    state,
-                    {
-                        id: id,
-                        parent: initialParams.parent,
-                        container: initialParams.container
-                    },
-                    {
-                        position: initialParams.position,
-                        row: initialParams.row,
-                        col: initialParams.col,
-                        width: initialParams.width,
-                        isDefaultPlugin: defaultFor(initialParams.isDefaultPlugin, false)
-                    },
-                    reason
-                );
+                if (template !== null){
+                    Dali.API.renderPlugin(
+                        template,
+                        this.getToolbar(),
+                        this.getConfig(),
+                        state,
+                        {
+                            id: id,
+                            parent: initialParams.parent,
+                            container: initialParams.container
+                        },
+                        {
+                            position: initialParams.position,
+                            row: initialParams.row,
+                            col: initialParams.col,
+                            width: initialParams.width,
+                            isDefaultPlugin: defaultFor(initialParams.isDefaultPlugin, false)
+                        },
+                        reason
+                    );
+                }
             }
         },
         afterRender: function (element, oldState) {

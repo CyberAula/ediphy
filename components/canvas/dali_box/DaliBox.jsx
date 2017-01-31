@@ -179,8 +179,6 @@ export default class DaliBox extends Component {
             /* jshint ignore:start */
             <div className={classes} id={'box-' + this.props.id}
                  onClick={e => {
-                     console.log(e);
-                     console.log(this);
                     // If there's no box selected and current's level is 0 (otherwise, it would select a deeper box)
                     // or -1 (only DaliBoxSortable can have level -1)
                     if((this.props.boxSelected === -1 || this.props.boxLevelSelected === -1) && box.level === 0){
