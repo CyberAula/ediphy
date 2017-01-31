@@ -31,7 +31,7 @@ export default class DaliBox extends Component {
             top: '0%',
             color: 'black',
             backgroundColor: 'white',
-            padding: 15,
+            padding: 0,
             width: '100%',
             height: (toolbar.showTextEditor ? '' : '100%'),
             border: 'dashed black 1px',
@@ -508,7 +508,7 @@ export default class DaliBox extends Component {
                     let pos = this.props.boxes[this.props.id].position.type;
                     let actualLeft = pos === 'relative' ? target.style.left : target.getAttribute('data-x');
                     let actualTop = pos === 'relative' ? target.style.top : target.getAttribute('data-y');
-                    let absoluteLeft = (((parseInt(target.style.left) * 100)/ target.parentElement.offsetWidth) > 100) ?                      
+                    let absoluteLeft = (((parseInt(target.style.left) * 100)/ target.parentElement.offsetWidth) > 100) ?
                     (( target.parentElement.offsetWidth - (parseInt(target.style.width)))/ target.parentElement.offsetWidth) * 100 + "%":
                     ((parseInt(target.style.left) * 100)/ target.parentElement.offsetWidth) + "%" ;
                     let absoluteTop = target.getAttribute('data-y') + Math.max(parseInt(target.style.top, 10), 0) >0 ? target.getAttribute('data-y') + Math.max(parseInt(target.style.top, 10), 0) + 'px': "0px";
@@ -701,4 +701,3 @@ export default class DaliBox extends Component {
         }
     }
 }
-

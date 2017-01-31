@@ -119,7 +119,7 @@ export default function () {
                 }
                 if (needsTextEdition) {
                     if (!state.__text) {
-                        state.__text = "<p>" + Dali.i18n.t("text_here") +  "<p>";
+                        state.__text = "<p>" + Dali.i18n.t("text_here") +  "</p>";
                     }
                     if (!descendant.getRenderTemplate) {
                         descendant.getRenderTemplate = function (state) {
