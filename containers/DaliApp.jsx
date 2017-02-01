@@ -305,7 +305,7 @@ class DaliApp extends Component {
                     this.dispatchAndSetState(editRichMark(e.detail.ids.id, e.detail.state));
                     break;
                 case ADD_BOX:
-                    e.detail.ids.id = ID_PREFIX_BOX + Date.now() + this.index++;
+                    e.detail.ids.id = ID_PREFIX_BOX + Date.now() + this.index++ + new Date().getUTCMilliseconds();
 
                     this.dispatchAndSetState(addBox(
                         {
