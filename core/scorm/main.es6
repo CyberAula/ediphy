@@ -67,9 +67,15 @@ export default {
                 let sections_copy = JSON.parse(JSON.stringify(sections));
                 children_elements = sections_copy[root_section].children;
 
+                let unit;
+                if(typeof sections[root_section].unitNumber === "undefined"){
+                    unit = "blank";
+                } else {
+                    unit = sections[root_section].unitNumber;
+                }
                 //Added root element for resource iteration
                 resource_elements.push({
-                    path: "unit"+ sections[root_section].unitNumber + "/" + this.santinize_id(sections[root_section].id)+".html",
+                    path: "unit"+ unit + "/" + this.santinize_id(sections[root_section].id)+".html",
                     id: sections[root_section].id
                 });
 
@@ -148,8 +154,15 @@ export default {
                         element_title.appendChild(element_text);
                         element.appendChild(element_title);
 
+                        let unit;
+                        if(typeof sections[actual_section].unitNumber === "undefined"){
+                            unit = "blank";
+                        } else {
+                            unit = sections[actual_section].unitNumber;
+                        }
+
                         resource_elements.push({
-                            path: "unit"+ sections[actual_section].unitNumber + "/" + this.santinize_id(sections[actual_section].id)+".html",
+                            path: "unit"+ unit + "/" + this.santinize_id(sections[actual_section].id)+".html",
                             id: sections[actual_section].id
                         });
 
@@ -172,8 +185,15 @@ export default {
 
             element.appendChild(element_title);
 
+            let unit;
+            if(typeof sections[actual_section].unitNumber === "undefined"){
+                unit = "blank";
+            } else {
+                unit = sections[actual_section].unitNumber;
+            }
+
             resource_elements.push({
-                    path: "unit"+ sections[actual_section].unitNumber + "/" + this.santinize_id(sections[actual_section].id)+".html",
+                    path: "unit"+ unit + "/" + this.santinize_id(sections[actual_section].id)+".html",
                     id: sections[actual_section].id
                 });
             

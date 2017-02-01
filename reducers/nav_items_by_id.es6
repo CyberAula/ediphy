@@ -41,7 +41,13 @@ function singleNavItemReducer(state = {}, action = {}) {
         case CHANGE_NAV_ITEM_NAME:
             return changeProp(state, "name", action.payload.title);
         case CHANGE_UNIT_NUMBER:
-            return changeProp(state, "unitNumber", action.payload.value);
+            let finalValue;
+            if(isNaN(parseInt(action.payload.value))){
+                let finalValue = "";
+            } else {
+                finalValue = action.payload.value;
+            }
+            return changeProp(state, "unitNumber", finalValue);
         case DELETE_BOX:
             let stateWithoutBox = changeProp(state, "boxes", state.boxes.filter(id => id !== action.payload.id));
             if(stateWithoutBox.extraFiles[action.payload.id]){
