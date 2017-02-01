@@ -47,7 +47,7 @@ function singleNavItemReducer(state = {}, action = {}) {
             if(stateWithoutBox.extraFiles[action.payload.id]){
                 return changeProp(
                     stateWithoutBox,
-                    "extraFiles", 
+                    "extraFiles",
                     deleteProp(stateWithoutBox, action.payload.id)
                 );
             }
@@ -68,7 +68,7 @@ function singleNavItemReducer(state = {}, action = {}) {
                         "unitNumber"
                     ], [
                         action.payload.newParent.id,
-                        action.payload.newParent.hidden,
+                        state.hidden,
                         action.payload.newParent.level + 1,
                         // If navItem is going to be level 1, unitNumber should not change
                         action.payload.newParent.level === 0 ?
@@ -130,35 +130,35 @@ export default function (state = {}, action = {}) {
             });
             return changeProps(state, itemsToChange, newValues);
         case DELETE_BOX:
-            if (isView(action.payload.parent) && action.payload.parent !== 0) {     
+            if (isView(action.payload.parent) && action.payload.parent !== 0) {
                 /*if(findNavItemContainingBox(state,action.payload.parent).extraFiles.length !== 0){
-                    return changeProp(Object.assign({}, state, 
+                    return changeProp(Object.assign({}, state,
                                     Object.assign(
-                                        {}, 
+                                        {},
                                         {
-                                            [findNavItemContainingBox(state, action.payload.parent).id]: 
+                                            [findNavItemContainingBox(state, action.payload.parent).id]:
                                             Object.assign(
-                                                {}, 
-                                                findNavItemContainingBox(state, action.payload.parent), 
+                                                {},
+                                                findNavItemContainingBox(state, action.payload.parent),
                                                 {extraFiles: {}
                                                 }
                                             )
                                         }
                                     )
-                        ), 
+                        ),
                     action.payload.parent, singleNavItemReducer(state[action.payload.parent], action));
-                }*/                
+                }*/
                 return changeProp(state, action.payload.parent, singleNavItemReducer(state[action.payload.parent], action));
             }
-            
+
             if( typeof findNavItemContainingBox(state,action.payload.parent) !== 'undefined' && findNavItemContainingBox(state,action.payload.parent).extraFiles.length !== 0){
-                    return Object.assign({}, state, 
-                                    Object.assign({}, 
+                    return Object.assign({}, state,
+                                    Object.assign({},
                                         {
-                                            [findNavItemContainingBox(state, action.payload.parent).id]: 
+                                            [findNavItemContainingBox(state, action.payload.parent).id]:
                                             Object.assign(
-                                                {}, 
-                                                findNavItemContainingBox(state, action.payload.parent), 
+                                                {},
+                                                findNavItemContainingBox(state, action.payload.parent),
                                                 {extraFiles: {}
                                                 }
                                             )
@@ -166,17 +166,17 @@ export default function (state = {}, action = {}) {
                                     )
                         );
             }
-            
+
             return state;
         case DELETE_SORTABLE_CONTAINER:
             if(findNavItemContainingBox(state,action.payload.parent).extraFiles.length !== 0){
-                    return Object.assign({}, state, 
-                                    Object.assign({}, 
+                    return Object.assign({}, state,
+                                    Object.assign({},
                                         {
-                                            [findNavItemContainingBox(state, action.payload.parent).id]: 
+                                            [findNavItemContainingBox(state, action.payload.parent).id]:
                                             Object.assign(
-                                                {}, 
-                                                findNavItemContainingBox(state, action.payload.parent), 
+                                                {},
+                                                findNavItemContainingBox(state, action.payload.parent),
                                                 {extraFiles: {}
                                                 }
                                             )
