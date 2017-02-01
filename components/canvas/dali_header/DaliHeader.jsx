@@ -101,11 +101,7 @@ export default class DaliHeader extends Component {
                                 contentEditable={this.props.navItem.parent === 0}
                                 suppressContentEditableWarning
                                 onBlur={e => {
-                                    if(!isNan(e.target.innerText)){
                                         this.props.onUnitNumberChanged(this.props.navItem.id, parseInt(e.target.innerText, 10));
-                                    } else {
-                                        this.props.onUnitNumberChanged(this.props.navItem.id, "&nbsp;");
-                                    }
                                 }}
                             >{this.props.navItem.unitNumber}</span>
                             <div className="tit_ud_cap">

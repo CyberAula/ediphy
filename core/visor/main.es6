@@ -129,7 +129,14 @@ export default {
                     }
 
                     var nombre = navs[page].id.replace(/\-/g,"\_");
-                    var path = "unit" + navs[page].unitNumber + "/";
+                    var unit;
+                    if(typeof navs[page].unitNumber === "undefined"){
+                        unit = "blank";
+                    } else {
+                        unit = navs[page].unitNumber;
+                    }
+                    var path = "unit" + unit + "/";
+                    
                     //sections.push(path + nombre);
                     if(Object.keys(navs[page].extraFiles).length !== 0){
                         for(var boxKey in navs[page].extraFiles){
