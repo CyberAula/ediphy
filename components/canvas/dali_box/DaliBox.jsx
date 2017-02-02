@@ -5,6 +5,7 @@ import interact from 'interact.js';
 import PluginPlaceholder from '../plugin_placeholder/PluginPlaceholder';
 import {ADD_BOX, UPDATE_BOX, RESIZE_BOX, EDIT_PLUGIN_TEXT, IMPORT_STATE} from '../../../actions';
 import Dali from './../../../core/main';
+import i18n from 'i18next';
 import {isBox, isSortableBox, isView, isSortableContainer, isAncestorOrSibling} from './../../../utils';
 
 require('./_daliBox.scss');
@@ -317,6 +318,10 @@ export default class DaliBox extends Component {
         this.props.onTextEditorToggled(this.props.id, false);
         let toolbar = this.props.toolbars[this.props.id];
         let data = CKEDITOR.instances[this.props.id].getData();
+        if(data.length === 0){
+            data = i18n.t("text_here");
+            CKEDITOR.instances[this.props.id].setData(i18n.t("text_here"));
+        }
         Dali.Plugins.get(toolbar.config.name).forceUpdate(Object.assign({}, toolbar.state, {
             __text: toolbar.config.extraTextConfig ? data : encodeURI(data)
         }), this.props.id, EDIT_PLUGIN_TEXT);
