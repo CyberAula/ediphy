@@ -1,7 +1,7 @@
 import {combineReducers} from 'redux';
 import undoable from 'redux-undo';
 import {ADD_BOX, SELECT_BOX, INCREASE_LEVEL, SELECT_NAV_ITEM, EXPAND_NAV_ITEM, UPDATE_NAV_ITEM_EXTRA_FILES, TOGGLE_TEXT_EDITOR,
-    TOGGLE_TITLE_MODE, CHANGE_TITLE, CHANGE_DISPLAY_MODE, SET_BUSY, IMPORT_STATE, FETCH_VISH_RESOURCES_SUCCESS, UPLOAD_IMAGE} from './../actions';
+    TOGGLE_TITLE_MODE, CHANGE_TITLE, CHANGE_DISPLAY_MODE, SET_BUSY, IMPORT_STATE, FETCH_VISH_RESOURCES_SUCCESS, UPDATE_BOX, UPLOAD_IMAGE} from './../actions';
 import {isSortableBox} from './../utils';
 import boxesById from './boxes_by_id';
 import boxLevelSelected from './box_level_selected';
