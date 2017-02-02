@@ -305,7 +305,7 @@ class DaliApp extends Component {
                     this.dispatchAndSetState(editRichMark(e.detail.ids.id, e.detail.state));
                     break;
                 case ADD_BOX:
-                    e.detail.ids.id = ID_PREFIX_BOX + Date.now() + this.index++ + new Date().getUTCMilliseconds();
+                    e.detail.ids.id = e.detail.ids.id || ID_PREFIX_BOX + Date.now() + this.index++ + new Date().getUTCMilliseconds();
 
                     this.dispatchAndSetState(addBox(
                         {
@@ -539,7 +539,7 @@ class DaliApp extends Component {
         if (obj.tag && obj.tag === "plugin") {
             if (obj.attr) {
                 if (!obj.attr['plugin-data-id']) {
-                    obj.attr['plugin-data-id'] = ID_PREFIX_SORTABLE_CONTAINER + Date.now() + this.index++;
+                    obj.attr['plugin-data-id'] = ID_PREFIX_SORTABLE_CONTAINER + Date.now() + this.index++ + new Date().getUTCMilliseconds();
                 }
                 if (!obj.attr['plugin-data-height']) {
                     obj.attr['plugin-data-height'] = obj.attr['plugin-data-initial-height'] || (obj.attr.hasOwnProperty('plugin-data-resizable') ? "auto" : "auto");
