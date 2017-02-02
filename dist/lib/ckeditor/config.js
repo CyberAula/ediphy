@@ -181,5 +181,9 @@ CKEDITOR.editorConfig = function (config) {
         'tabletools,' +
         'toolbar,' +
         'undo';
+
+config.keystrokes = [
+    [CKEDITOR.CTRL + 90, 'doNothing']
+    ];
  };
  
