@@ -392,6 +392,18 @@ export default class DaliBox extends Component {
             CKEDITOR.instances[this.props.id].setData(decodeURI(this.props.toolbars[this.props.id].state.__text));
         }
 
+        if (action.type ==="DELETE_BOX" && this.props.toolbars[this.props.id].config.needsTextEdition){
+             for (let instance in CKEDITOR.instances) {
+                CKEDITOR.instances[instance].destroy();
+             }
+             CKEDITOR.inlineAll();
+             for (let editor in CKEDITOR.instances){
+                 if (this.props.toolbars[editor].state.__text) {
+                    CKEDITOR.instances[editor].setData(decodeURI(this.props.toolbars[editor].state.__text));
+                }
+             }
+        }
+
         if ((action.type === ADD_BOX || action.type === UPDATE_BOX || action.type === RESIZE_BOX || action.type === IMPORT_STATE) &&
             ((action.payload.id || action.payload.ids.id) === this.props.id)) {
             Dali.Plugins.get(toolbar.config.name).afterRender(this.refs.content, toolbar.state);

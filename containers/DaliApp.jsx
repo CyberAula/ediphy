@@ -33,6 +33,7 @@ class DaliApp extends Component {
     constructor(props) {
         super(props);
         this.index = 0;
+        this.severalBoxes = 0;
         this.state = {
             pluginTab: 'text',
             hideTab: 'show',
@@ -305,8 +306,11 @@ class DaliApp extends Component {
                     this.dispatchAndSetState(editRichMark(e.detail.ids.id, e.detail.state));
                     break;
                 case ADD_BOX:
-                    e.detail.ids.id = e.detail.ids.id || ID_PREFIX_BOX + Date.now() + this.index++ + new Date().getUTCMilliseconds();
-
+                if(this.severalBoxes === 0 ){
+                    this.severalBoxes = Date.now() + this.index++;
+                }
+                e.detail.ids.id = (this.severalBoxes !== 0) ? ID_PREFIX_BOX + this.severalBoxes++ : ID_PREFIX_BOX + Date.now() + this.index++ ;
+                
                     this.dispatchAndSetState(addBox(
                         {
                             parent: e.detail.ids.parent,
