@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import {Breadcrumb, BreadcrumbItem, Button} from 'react-bootstrap';
+import {Tooltip, OverlayTrigger,Breadcrumb, BreadcrumbItem, Button} from 'react-bootstrap';
+import i18n from 'i18next';
 
 require('./_daliHeader.scss');
 
@@ -55,42 +56,59 @@ export default class DaliHeader extends Component {
 
         return (
             /* jshint ignore:start */
-            
+
                 <div className="title" onClick={(e) => {
                                         this.props.onBoxSelected(-1);
                                         this.props.onShowTitle();
                                         e.stopPropagation(); }}>
                     <div style={{backgroundColor:'white', display:(titles.length !== 0)? 'initial' : 'none' }}>
                     <div id="daliTitleButtons" style={{height:'40px'}}>
+                        <OverlayTrigger placement="bottom" overlay={
+                            <Tooltip id="verticTooltip">{i18n.t('vertical')}
+                            </Tooltip>}>
+                            <button className={((!this.props.showButtons || currentStatus == 'hidden' )? 'daliTitleButton hidden ' : ' daliTitleButton ')
+                                            + ((currentStatus == 'expanded') ? ' activeTitle' : ' ')}
+                                    onClick={(e) => {
+                                        this.props.titleModeToggled(this.props.navItem.id, 'expanded' );
+                                        e.stopPropagation(); }}>
+                                <i className="material-icons">vertical_align_bottom</i>
+                            </button>
+                        </OverlayTrigger>
+                        <OverlayTrigger placement="bottom" overlay={
+                            <Tooltip id="horizTooltip">{i18n.t('horizontal')}
+                            </Tooltip>}>
+                            <button className={((!this.props.showButtons || currentStatus == 'hidden' )? ' daliTitleButton hidden ' : ' daliTitleButton ')
+                                            + ((currentStatus == 'reduced') ? ' activeTitle ' : '')}
+                                    onClick={(e) => {
+                                        this.props.titleModeToggled(this.props.navItem.id, 'reduced');
+                                        e.stopPropagation();}}>
+                                <i className="material-icons">keyboard_tab</i>
+                            </button>
+                        </OverlayTrigger>
 
-                        <button className={((!this.props.showButtons || currentStatus == 'hidden' )? 'daliTitleButton hidden ' : ' daliTitleButton ')
-                                        + ((currentStatus == 'expanded') ? ' activeTitle' : ' ')}
+                        <OverlayTrigger placement="bottom" overlay={
+                            <Tooltip id="hideTooltip">{i18n.t('hide')}
+                            </Tooltip>}>
+                            <button
+                                className={((!this.props.showButtons || currentStatus == 'hidden' )? 'daliTitleButton hidden activeTitle' : 'daliTitleButton ')}
                                 onClick={(e) => {
-                                    this.props.titleModeToggled(this.props.navItem.id, 'expanded' );
-                                    e.stopPropagation(); }}>
-                            <i className="material-icons">vertical_align_bottom</i>
-                        </button>
-                        <button className={((!this.props.showButtons || currentStatus == 'hidden' )? ' daliTitleButton hidden ' : ' daliTitleButton ')
-                                        + ((currentStatus == 'reduced') ? ' activeTitle ' : '')}
-                                onClick={(e) => {
-                                    this.props.titleModeToggled(this.props.navItem.id, 'reduced');
-                                    e.stopPropagation();}}>
-                            <i className="material-icons">keyboard_tab</i>
-                        </button>
-                        <button
-                            className={((!this.props.showButtons || currentStatus == 'hidden' )? 'daliTitleButton hidden activeTitle' : 'daliTitleButton ')}
-                            onClick={(e) => {
-                                    this.props.titleModeToggled(this.props.navItem.id, 'hidden');
-                                    e.stopPropagation();}}>
-                            <i className="material-icons">visibility_off</i>
-                        </button>
-                        <button className={currentStatus == 'hidden' ? 'daliTitleButton  ' : 'daliTitleButton hidden'}
-                                onClick={(e) => {
-                                    this.props.titleModeToggled(this.props.navItem.id, 'reduced');
-                                    this.props.onShowTitle();
-                                    e.stopPropagation();}}>
-                            <i className="material-icons">visibility</i>
-                        </button>
+                                        this.props.titleModeToggled(this.props.navItem.id, 'hidden');
+                                        e.stopPropagation();}}>
+                                <i className="material-icons">visibility_off</i>
+                            </button>
+                        </OverlayTrigger>
+
+                        <OverlayTrigger placement="bottom" overlay={
+                            <Tooltip id="showTooltip">{i18n.t('show')}
+                            </Tooltip>}>
+                            <button className={currentStatus == 'hidden' ? 'daliTitleButton  ' : 'daliTitleButton hidden'}
+                                    onClick={(e) => {
+                                        this.props.titleModeToggled(this.props.navItem.id, 'reduced');
+                                        this.props.onShowTitle();
+                                        e.stopPropagation();}}>
+                                <i className="material-icons">visibility</i>
+                            </button>
+                        </OverlayTrigger>
 
 
                     </div>
