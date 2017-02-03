@@ -87,7 +87,7 @@ export default class DaliHeader extends Component {
                         </OverlayTrigger>
 
                         <OverlayTrigger placement="bottom" overlay={
-                            <Tooltip id="hideTooltip">{i18n.t('subtitle_hide')}
+                            <Tooltip id="hide2Tooltip">{i18n.t('subtitle_hide')}
                             </Tooltip>}>
                             <button
                                 className={((!this.props.showButtons || currentStatus == 'hidden' || currentStatus == 'subtitle_hidden' )? 'daliTitleButton hidden activeTitle' : 'daliTitleButton ')}
@@ -99,7 +99,7 @@ export default class DaliHeader extends Component {
                         </OverlayTrigger>
 
                         <OverlayTrigger placement="bottom" overlay={
-                            <Tooltip id="showTooltip">{i18n.t('show_subtitle')}
+                            <Tooltip id="show2Tooltip">{i18n.t('show_subtitle')}
                             </Tooltip>}>
                             <button className={ currentStatus == 'subtitle_hidden' ? 'daliTitleButton  ' : 'daliTitleButton hidden'}
                                     onClick={(e) => {
@@ -109,12 +109,12 @@ export default class DaliHeader extends Component {
                                 <i className="material-icons">visibility</i>
                             </button>
                         </OverlayTrigger>
-                        
+
                         <OverlayTrigger placement="bottom" overlay={
                             <Tooltip id="hideTooltip">{i18n.t('hide')}
                             </Tooltip>}>
                             <button
-                                className={((!this.props.showButtons || currentStatus == 'hidden' )? 'daliTitleButton hidden activeTitle' : 'daliTitleButton ')}
+                                className={((!this.props.showButtons || currentStatus == 'hidden' )? 'daliTitleButton margin-left hidden activeTitle' : 'daliTitleButton margin-left')}
                                 onClick={(e) => {
                                         this.props.titleModeToggled(this.props.navItem.id, 'hidden');
                                         e.stopPropagation();}}>
