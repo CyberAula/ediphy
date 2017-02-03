@@ -66,7 +66,7 @@ export default class DaliHeader extends Component {
                         <OverlayTrigger placement="bottom" overlay={
                             <Tooltip id="verticTooltip">{i18n.t('vertical')}
                             </Tooltip>}>
-                            <button className={((!this.props.showButtons || currentStatus == 'hidden' )? 'daliTitleButton hidden ' : ' daliTitleButton ')
+                            <button className={((!this.props.showButtons || currentStatus == 'hidden' || currentStatus == 'subtitle_hidden' )? 'daliTitleButton hidden ' : ' daliTitleButton ')
                                             + ((currentStatus == 'expanded') ? ' activeTitle' : ' ')}
                                     onClick={(e) => {
                                         this.props.titleModeToggled(this.props.navItem.id, 'expanded' );
@@ -77,7 +77,7 @@ export default class DaliHeader extends Component {
                         <OverlayTrigger placement="bottom" overlay={
                             <Tooltip id="horizTooltip">{i18n.t('horizontal')}
                             </Tooltip>}>
-                            <button className={((!this.props.showButtons || currentStatus == 'hidden' )? ' daliTitleButton hidden ' : ' daliTitleButton ')
+                            <button className={((!this.props.showButtons || currentStatus == 'hidden' || currentStatus == 'subtitle_hidden' )? ' daliTitleButton hidden ' : ' daliTitleButton ')
                                             + ((currentStatus == 'reduced') ? ' activeTitle ' : '')}
                                     onClick={(e) => {
                                         this.props.titleModeToggled(this.props.navItem.id, 'reduced');
@@ -86,6 +86,30 @@ export default class DaliHeader extends Component {
                             </button>
                         </OverlayTrigger>
 
+                        <OverlayTrigger placement="bottom" overlay={
+                            <Tooltip id="hideTooltip">{i18n.t('subtitle_hide')}
+                            </Tooltip>}>
+                            <button
+                                className={((!this.props.showButtons || currentStatus == 'hidden' || currentStatus == 'subtitle_hidden' )? 'daliTitleButton hidden activeTitle' : 'daliTitleButton ')}
+                                onClick={(e) => {
+                                        this.props.titleModeToggled(this.props.navItem.id, 'subtitle_hidden');
+                                        e.stopPropagation();}}>
+                                <i className="material-icons">visibility_off</i>
+                            </button>
+                        </OverlayTrigger>
+
+                        <OverlayTrigger placement="bottom" overlay={
+                            <Tooltip id="showTooltip">{i18n.t('show_subtitle')}
+                            </Tooltip>}>
+                            <button className={ currentStatus == 'subtitle_hidden' ? 'daliTitleButton  ' : 'daliTitleButton hidden'}
+                                    onClick={(e) => {
+                                        this.props.titleModeToggled(this.props.navItem.id, 'reduced');
+                                        this.props.onShowTitle();
+                                        e.stopPropagation();}}>
+                                <i className="material-icons">visibility</i>
+                            </button>
+                        </OverlayTrigger>
+                        
                         <OverlayTrigger placement="bottom" overlay={
                             <Tooltip id="hideTooltip">{i18n.t('hide')}
                             </Tooltip>}>
@@ -101,7 +125,7 @@ export default class DaliHeader extends Component {
                         <OverlayTrigger placement="bottom" overlay={
                             <Tooltip id="showTooltip">{i18n.t('show')}
                             </Tooltip>}>
-                            <button className={currentStatus == 'hidden' ? 'daliTitleButton  ' : 'daliTitleButton hidden'}
+                            <button className={currentStatus == 'hidden'  ? 'daliTitleButton  ' : 'daliTitleButton hidden'}
                                     onClick={(e) => {
                                         this.props.titleModeToggled(this.props.navItem.id, 'reduced');
                                         this.props.onShowTitle();
@@ -110,11 +134,10 @@ export default class DaliHeader extends Component {
                             </button>
                         </OverlayTrigger>
 
-
                     </div>
                     <div className={this.props.showButtons ?  "caja selectedTitle selectedBox":"caja"}>
                         <div className="cab"
-                            style={{backgroundColor: 'transparent',  visibility: 'inherit'}}>
+                            style={{backgroundColor: 'transparent',  visibility:(currentStatus == 'hidden') ? 'hidden' : 'inherit'}}>
                             <span className="cabtabla_numero"
                                 contentEditable={this.props.navItem.parent === 0}
                                 suppressContentEditableWarning
