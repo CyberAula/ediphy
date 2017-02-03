@@ -33,7 +33,7 @@
     }
 %>
 <div style="visibility: visible; overflow: auto;" class="caja">
-    <div class="cab">
+    <div class="cab" style="visibility:<%=(navs[page].titleMode == 'hidden') ? "hidden" : "visible" %>;">
         <div class="cabtabla_numero"><%=navs[page].unitNumber%></div>
         <div class="tit_ud_cap">
             <h1><%=title%></h1>
@@ -64,7 +64,7 @@
             var actualTitle = titles.pop();
             unidad=titles[0];
         %>
-        <div style="display: <%=(navs[page].titleMode == 'hidden')?'none':'inherit' %>;">
+        <div style="display: <%=(navs[page].titleMode == 'hidden' || navs[page].titleMode == 'subtitle_hidden')?'none':'inherit' %>;">
             <h3>
                 <ol class="breadcrumb" style="margin:0; background-color:inherit;">
                     <%titles.map(function(item, index){
@@ -312,7 +312,7 @@
                     if(container.cols[i]){%>
                         <div style="width: <%=col%>%; height: 100%; float: left;">
                         <%container.cols[i].map(function(row, j){ %>
-                            <div style="width: 100%; height: <%=row %>%; position: relative;">
+                            <div style="width: 100%; height: <%= row %>%; position: relative;">
                             <%container.children.map(function(idBox, index){
                                 if(boxesById[idBox].col === i && boxesById[idBox].row === j) {
                                     daliBox(idBox )
