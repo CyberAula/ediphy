@@ -188,7 +188,7 @@ class DaliApp extends Component {
                     </Col>
                 </Row>
                 <ServerFeedback show={this.state.serverModal}
-                                title={"Server"}
+                                title={"Guardar cambios"}
                                 isBusy={isBusy}
                                 hideModal={() => this.setState({serverModal: false })}/>
                 <Visor id="visor"
