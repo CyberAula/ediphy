@@ -54,16 +54,6 @@ export default class PluginRibbon extends Component {
                     </div>
                 </div>
                 <div className="mainButtons">
-
-                    <button className="ribShortcut"
-                            title="Copy"
-                            disabled={!this.props.boxSelected || (this.props.boxSelected && isSortableBox(this.props.boxSelected.id))}
-                            onClick={() => {
-                                this.props.onBoxDuplicated(this.props.boxSelected.id, this.props.boxSelected.parent, this.props.boxSelected.container);
-                                this.stopPropagation();
-                            }}>
-                        <i className="material-icons">content_copy</i>
-                    </button>
                 </div>
             </Col>
             /* jshint ignore:end */
