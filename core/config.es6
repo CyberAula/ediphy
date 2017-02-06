@@ -20,7 +20,6 @@ export default {
         'Youtube',
         'Webpage',
         'CajasColor',
-        'Container',
         'ListaNumerada',
         'RelacionaAll'
     ],
