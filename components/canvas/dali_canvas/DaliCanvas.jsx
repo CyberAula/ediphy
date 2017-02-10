@@ -43,8 +43,17 @@ export default class DaliCanvas extends Component {
         let overlayHeight = actualHeight ? actualHeight : '100%';
         return (
             /* jshint ignore:start */
+
             <Col id="canvas" md={12} xs={12}
                  style={{display: this.props.containedViewSelected !== 0 ? 'none' : 'initial'}}>
+                 <DaliShortcuts
+                     box={this.props.boxes[this.props.boxSelected]}
+                     containedViewSelected={this.props.containedViewSelected}
+                     isContained={false}
+                     onTextEditorToggled={this.props.onTextEditorToggled}
+                     onBoxResized={this.props.onBoxResized}
+                     onBoxDeleted={this.props.onBoxDeleted}
+                     toolbar={this.props.toolbars[this.props.boxSelected]}/>
                  <div className="scrollcontainer">
                  <DaliHeader titles={titles}
                         showButtons={this.state.showTitle}
@@ -58,9 +67,10 @@ export default class DaliCanvas extends Component {
                         onUnitNumberChanged={this.props.onUnitNumberChanged}
                         showButton={true}/>
                 <div className="outter canvaseditor">
-                    <div id="airlayer" 
+                    <div id="airlayer"
                     className={isSlide(this.props.navItemSelected.type) ? 'slide_air' : 'doc_air'}
                     style={{visibility: (this.props.showCanvas ? 'visible' : 'hidden') }}>
+
                     <div id="maincontent"
                          onClick={e => {
                         this.props.onBoxSelected(-1);
@@ -68,6 +78,7 @@ export default class DaliCanvas extends Component {
                        }}
                          className={isSlide(this.props.navItemSelected.type) ? 'innercanvas sli':'innercanvas doc'}
                          style={{visibility: (this.props.showCanvas ? 'visible' : 'hidden')}}>
+
                         <DaliTitle titles={titles}
                             showButtons={this.state.showTitle}
                             onShowTitle={()=>this.setState({showTitle:true})}
@@ -80,15 +91,8 @@ export default class DaliCanvas extends Component {
                             onUnitNumberChanged={this.props.onUnitNumberChanged}
                             showButton={true}/>
                         <br/>
-                        
-                        <DaliShortcuts
-                            box={this.props.boxes[this.props.boxSelected]}
-                            containedViewSelected={this.props.containedViewSelected}
-                            isContained={false}
-                            onTextEditorToggled={this.props.onTextEditorToggled}
-                            onBoxResized={this.props.onBoxResized}
-                            onBoxDeleted={this.props.onBoxDeleted}
-                            toolbar={this.props.toolbars[this.props.boxSelected]}/>
+
+
 
                         <div style={{
                                 width: "100%",
@@ -164,7 +168,7 @@ export default class DaliCanvas extends Component {
             document.getElementById('maincontent').scrollTop = 0;
         }
     }
-    
+
     componentDidUpdate(prevProps, prevState) {
         //Fixes bug when reordering dalibox sortable CKEDITOR doesn't update otherwise
         if(this.props.lastActionDispatched.type === REORDER_SORTABLE_CONTAINER){
@@ -179,7 +183,7 @@ export default class DaliCanvas extends Component {
              }
         }
     }
-    
+
     componentDidMount() {
         interact(ReactDOM.findDOMNode(this)).dropzone({
             accept: '.floatingDaliBox',
