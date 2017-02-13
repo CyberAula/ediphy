@@ -9,9 +9,16 @@
 
 .dividerBar{
     background: $lightgrey;
-    height: 5px;
+    height: 3px;
 }
 
+.btnOverBar{
+  color: $lightgrey;
+  padding: 5px;
+  &:hover{
+    color: $greyInsidePanels;
+  }
+}
 .dragContentHere{
     color: $lightgrey;
     text-align: center;

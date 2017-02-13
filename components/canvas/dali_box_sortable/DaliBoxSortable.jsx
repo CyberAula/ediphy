@@ -94,11 +94,11 @@ export default class DaliBoxSortable extends Component {
                                     }
                                 })}
                             </div>
-                            
+
                             <div className="sortableMenu width100 over_hidden">
                                 <div className="iconsOverBar float_left pos_absolute bottom0">
-                                    <i className="material-icons drag-handle">swap_vert</i>
-                                    <i className="material-icons delete-sortable"
+                                    <i className="material-icons drag-handle btnOverBar">swap_vert</i>
+                                    <i className="material-icons delete-sortable btnOverBar"
                                        onClick={e => {
                                             this.props.onSortableContainerDeleted(idContainer, box.id);
                                             e.stopPropagation();
@@ -112,13 +112,13 @@ export default class DaliBoxSortable extends Component {
                         </div>);
                     })}
                 </div>
-                
+
                 <div className="dragContentHere"
                      onClick={e => {
                     this.props.onBoxSelected(-1);
                     e.stopPropagation();}}>{i18n.t("messages.drag_content")}
                 </div>
-                
+
             </div>
             /* jshint ignore:end */
         );
