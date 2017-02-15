@@ -131,7 +131,7 @@ export default class DaliShortcuts extends Component {
                     var elementRect = element.getBoundingClientRect();
                     width = boxRect.width < elementRect.width ? elementRect.width : boxRect.width;
                 } else {
-                    //width = boxRect.width;
+                    width = box.getBoundingClientRect().width;
                 }
 
             }
