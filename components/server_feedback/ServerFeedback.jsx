@@ -1,14 +1,19 @@
 import React, {Component} from 'react';
 import {Modal, Button, ButtonGroup} from 'react-bootstrap';
+import i18n from 'i18next';
 
 export default class ServerFeedback extends Component {
     render() {
         const isSaving = this.props.isBusy.value;
         let alert = null;
-        if(isSaving){
-            alert = '<i className="material-icons success">check</i>';
+        if(isSaving || this.props.isBusy.msg === i18n.t("success_transaction")){
+            /* jshint ignore:start */
+            alert = <i className="material-icons success">check</i>;
+            /* jshint ignore:end */        
         } else {
-            alert = '<i className="material-icons error">close</i>';
+            /* jshint ignore:start */
+            alert = <i className="material-icons error">close</i>;
+            /* jshint ignore:end */
         }
         return (
             /* jshint ignore:start */
