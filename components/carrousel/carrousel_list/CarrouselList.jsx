@@ -12,7 +12,7 @@ import Dali from './../../../core/main';
 require('./_carrouselList.scss');
 
 export default class CarrouselList extends Component {
-    render() {    
+    render() {
         return (
             /* jshint ignore:start */
             <div style={{height: 'calc(100% - 25px)'}}>
@@ -74,13 +74,13 @@ export default class CarrouselList extends Component {
                                     disabled={!isSection(this.props.navItemSelected) && this.props.navItemSelected !== 0}
                                     onClick={e => {
                                     let idnuevo = ID_PREFIX_SECTION + Date.now();
-                                    this.props.onNavItemAdded(
-                                        idnuevo,
-                                        i18n.t("section"),
-                                        this.getParent().id,
-                                        "",
-                                        this.calculatePosition()
-                                    );
+                                      this.props.onNavItemAdded(
+                                          idnuevo,
+                                          i18n.t("section"),
+                                          this.getParent().id,
+                                          "",
+                                          this.calculatePosition()
+                                      );
                                     if(Dali.Config.sections_have_content){
                                         this.props.onBoxAdded({
                                             parent: idnuevo,
@@ -94,7 +94,7 @@ export default class CarrouselList extends Component {
                                 }}><i className="material-icons">create_new_folder</i>
                             </Button>
                     </OverlayTrigger>
-                        
+
                     <OverlayTrigger placement="top" overlay={
                         <Tooltip id="newDocumentTooltip">{i18n.t('create new document')}
                         </Tooltip>}>
@@ -115,7 +115,7 @@ export default class CarrouselList extends Component {
                                         );
                                     }}><i className="material-icons">insert_drive_file</i></Button>
                     </OverlayTrigger>
-                        
+
                     <OverlayTrigger placement="top" overlay={
                         <Tooltip id="newSlideTooltip">{i18n.t('create new slide')}
                         </Tooltip>}>

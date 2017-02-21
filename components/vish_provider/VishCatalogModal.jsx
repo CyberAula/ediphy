@@ -19,7 +19,7 @@ export default class VishCatalogModal extends Component {
                 <Modal.Body>
                     <Form style={{minHeight: 250}}>
                         <FormGroup>
-                            {(this.props.images) ? this.props.images.map((item, index) => {
+                            {(this.props.state) ? this.props.images.map((item, index) => {
                                 return (
                                     <img key={index}
                                          src={item}
@@ -29,7 +29,7 @@ export default class VishCatalogModal extends Component {
                                             border: "solid transparent 3px"
                                          }} />
                                 );
-                            }) : ""}
+                            }) : <div className="alert alert-info">No has subido ninguna imagen a este proyecto</div>}
                         </FormGroup>
                     </Form>
                 </Modal.Body>
