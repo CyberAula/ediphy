@@ -18,7 +18,6 @@ export default class Visor extends Component {
                 /* jshint ignore:end */
             );
         }
-
         return (
             /* jshint ignore:start */
             <Modal className="visor modalVisorContainer"

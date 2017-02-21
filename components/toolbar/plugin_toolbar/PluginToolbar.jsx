@@ -300,6 +300,7 @@ export default class PluginToolbar extends Component {
             max: button.max,
             step: button.step,
             disabled: false,
+            title: button.title ? button.title : '',
             className: button.class,
             style: {width: '100%'},
             onBlur: e => {
@@ -313,8 +314,12 @@ export default class PluginToolbar extends Component {
                 }
             },
             onChange: e => {
-                let value = e.target.value;
-
+                let value;
+                if(typeof e.target !== 'undefined'){
+                    value = e.target.value;
+                } else {
+                    value = e.value;
+                }
                 if (buttonKey === '__width' || buttonKey === '__height') {
                     let newButton = Object.assign({}, (buttonKey === '__width' ? accordion.buttons.__width : accordion.buttons.__height));
                     let otherButton = Object.assign({}, (buttonKey === '__height' ? accordion.buttons.__width : accordion.buttons.__height));
@@ -399,7 +404,7 @@ export default class PluginToolbar extends Component {
                 }
                 this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, value);
 
-                if (!button.autoManaged) {
+                if (!button.autoManaged ) {
                     button.callback(state, buttonKey, value, id, UPDATE_TOOLBAR);
                 }
             }

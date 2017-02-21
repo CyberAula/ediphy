@@ -9,8 +9,8 @@ require('../sass/style.scss');
 var scss_context = require.context('../components', true, /\.scss$/);
 scss_context.keys().map(scss_context);
 
-
 window.ReactDOM = require('react-dom');
+
 window.Dali = {
     API: api(),
     API_Private: api_private(),

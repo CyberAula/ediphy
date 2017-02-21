@@ -116,6 +116,16 @@ export function findDescendantNavItems(state, element) {
     return family;
 }
 
+export function findNavItemContainingBox(state, element) {
+    let containerNav;
+    Object.keys(state).forEach(child => {
+        if(state[child].boxes.indexOf(element) !== -1){
+            containerNav = state[child];
+        }
+    });
+    return containerNav;
+}
+
 export function calculateNewIdOrder(oldArray, newChildren, newParent, itemMoved, navItems) {
     let itemsToChange = findDescendantNavItems(navItems, itemMoved);
     let oldArrayFiltered = oldArray.filter(id => itemsToChange.indexOf(id) === -1);

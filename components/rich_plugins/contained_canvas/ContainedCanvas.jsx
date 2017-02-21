@@ -143,7 +143,7 @@ export default class ContainedCanvas extends Component {
 
     componentDidMount() {
         interact(ReactDOM.findDOMNode(this)).dropzone({
-            accept: '.rib',
+            accept: '.floatingDaliBox',
             overlap: 'pointer',
             ondropactivate: function (event) {
                 event.target.classList.add('drop-active');

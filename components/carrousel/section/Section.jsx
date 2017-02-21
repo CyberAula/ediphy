@@ -79,7 +79,7 @@ export default class Section extends Component {
                                         this.props.onNavItemSelected(id);
                                         e.stopPropagation();
                                     }}>
-                                        <span style={{marginLeft: 25 * (this.props.navItems[id].level - 1)}}>
+                                        <span style={{marginLeft: 20 * (this.props.navItems[id].level - 1)}}>
                                             <i className="material-icons fileIcon">
                                                 {isSlide(this.props.navItems[id].type) ? "slideshow" : "insert_drive_file"}
                                             </i>

@@ -12,6 +12,7 @@ export default class DaliCarousel extends Component {
         if (this.props.displayMode === "list") {
             /* jshint ignore:start */
             carrouselContent = <CarrouselList id={0}
+
                                               boxes={this.props.boxes}
                                               navItemsIds={this.props.navItemsIds}
                                               navItems={this.props.navItems}
@@ -53,14 +54,13 @@ export default class DaliCarousel extends Component {
                         </i>
                         <div className="clear"></div>
                     </div>
-                    <p className="courseTitleCarousel"> {this.props.title}</p>
+                        <p className="courseTitleCarousel"> {this.props.title}</p>
                     <div id="indice"
                          className="daliCarousel"
                          key="indice"
                          style={{height: '100%'}}>
                         {this.props.carouselShow ? carrouselContent : <br/>}
                     </div>
-
                 </div>
             </div>
             /* jshint ignore:end */

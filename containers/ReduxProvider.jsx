@@ -6,7 +6,7 @@ import DaliApp from './DaliApp';
 import i18n from 'i18next';
 import { createStore, compose, applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
-
+import Dali from './../core/main';
 
 export default class ReduxProvider extends Component {
     constructor(props) {
@@ -26,7 +26,7 @@ export default class ReduxProvider extends Component {
                         children: [],
                         unitNumber: 1,
                         hidden: false,
-                        boxes: ['bs-1467887497412'],
+                        boxes: Dali.Config.sections_have_content ? ['bs-1467887497412'] : [],
                         level: 1,
                         type: "",
                         extraFiles: {},
@@ -35,19 +35,19 @@ export default class ReduxProvider extends Component {
                 },
                 navItemsIds: ['se-1467887497411'],
                 navItemSelected: 'se-1467887497411',
-                boxesById: {
+                boxesById: Dali.Config.sections_have_content ? {
                     'bs-1467887497412': {
                         id: "bs-1467887497412",
                         parent: "se-1467887497411",
                         container: 0,
-                        content: undefined,
+                        content: null,
                         type: "sortable",
                         level: -1,
                         col: 0,
                         row: 0,
                         position: {x: 0, y: 0},
                         width: "100%",
-                        height: undefined,
+                        height: null,
                         text: null,
                         draggable: false,
                         resizable: false,
@@ -57,8 +57,8 @@ export default class ReduxProvider extends Component {
                         sortableContainers: {},
                         containedViews: []
                     }
-                },
-                toolbarsById: {
+                } : {},
+                toolbarsById: Dali.Config.sections_have_content ? {
                     'bs-1467887497412': {
                         id: "bs-1467887497412",
                         state: {},
@@ -71,7 +71,7 @@ export default class ReduxProvider extends Component {
                         config: {displayName: i18n.t('Container_')},
                         showTextEditor: false
                     }
-                }
+                } : {}
             }
         };
 
@@ -84,6 +84,7 @@ export default class ReduxProvider extends Component {
             <Provider store={this.store}>
                 <div style={{height: '100%'}}>
                     <DaliApp id="app" store={this.store}/>
+                    {/*<DevTools/>*/}
                 </div>
             </Provider>
             /* jshint ignore:end */

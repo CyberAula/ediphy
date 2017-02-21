@@ -2,12 +2,11 @@
 #serverModal {
 	top:40%;
 	color: #222;
-
 	.modal-content {
 		border-radius: 0;
 		border:0;
-		color:#ddd;
-		background-color: $greyNavItemSelected;
+		color:$grisadams;
+		background-color: white;
 	}
 	.modal-dialog {
 		width:350px;
@@ -16,10 +15,26 @@
 	.modal-footer {
 		border-top:0;
 	}
-	.modal-header {
-
+	.modal-header {		
 		padding: 10px;
-		border-bottom: 1px solid #333;
+		background-color:$greyPanelHeadings;
+		color: white; 
+		.close {
+			color: white;
+			text-shadow: none;
+		}
+	}
+	.modal-body{
+		display: flex;
+		.msg_text{
+			padding: 3px 10px;
+		}
+		.success{
+			color:#8dbc46;
+		}
+		.error{
+			color:#b30000;
+		}
 	}
 
 }

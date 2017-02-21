@@ -19,19 +19,21 @@ import DaliCarousel from '../components/carrousel/dali_carrousel/DaliCarousel';
 import PluginConfigModal from '../components/plugin_config_modal/PluginConfigModal';
 import XMLConfigModal from '../components/xml_config_modal/XMLConfigModal';
 import PluginToolbar from '../components/toolbar/plugin_toolbar/PluginToolbar';
+import VishCatalogModal from '../components/vish_provider/VishCatalogModal';
 import Visor from '../components/visor/Visor';
 import PluginRibbon from '../components/nav_bar/plugin_ribbon/PluginRibbon';
 import DaliNavBar from '../components/nav_bar/dali_nav_bar/DaliNavBar';
 import ServerFeedback from '../components/server_feedback/ServerFeedback';
 import RichMarksModal from '../components/rich_plugins/rich_marks_modal/RichMarksModal';
 import Dali from './../core/main';
-import {isSortableBox, isSortableContainer} from './../utils';
+import {isSortableBox, isSection, isSortableContainer} from './../utils';
 
 
 class DaliApp extends Component {
     constructor(props) {
         super(props);
         this.index = 0;
+        this.severalBoxes = 0;
         this.state = {
             pluginTab: 'text',
             hideTab: 'show',
@@ -42,13 +44,14 @@ class DaliApp extends Component {
             carouselShow: true,
             carouselFull: false,
             serverModal: false,
+            catalogModal: false,
             lastAction: ""
         };
     }
 
     render() {
         const { dispatch, boxes, boxesIds, boxSelected, boxLevelSelected, navItemsIds, navItems, navItemSelected,
-            containedViews, containedViewSelected,
+            containedViews, containedViewSelected, imagesUploaded,
             undoDisabled, redoDisabled, displayMode, isBusy, toolbars, title, fetchVishResults } = this.props;
         let ribbonHeight = this.state.hideTab === 'hide' ? 0 : 47;
         return (
@@ -68,9 +71,11 @@ class DaliApp extends Component {
                                 visor={() =>{this.setState({visorVisible: true })}}
                                 export={() => {Dali.Visor.exports(this.props.store.getState().present)}}
                                 scorm={() => {Dali.Visor.exportScorm(this.props.store.getState().present)}}
+                                save={() => {this.dispatchAndSetState(exportStateAsync({present: this.props.store.getState().present}))}}
                                 categoria={this.state.pluginTab}
                                 opens={() => {this.dispatchAndSetState(importStateAsync())}}
                                 serverModalOpen={()=>{this.setState({serverModal: true })}}
+                                onVishCatalogToggled={() => this.setState({catalogModal: true})}
                                 setcat={(categoria) => {this.setState({ pluginTab: categoria, hideTab:'show' })}}/>
                 </Row>
                 <Row style={{height: 'calc(100% - 60px)'}}>
@@ -118,11 +123,12 @@ class DaliApp extends Component {
                                     }
                               }}/>
 
+
                     <Col id="colRight" xs={12}
                          style={{height: (this.state.carouselFull ? 0 : '100%'),
                              width: (this.state.carouselShow? 'calc(100% - 212px)':'calc(100% - 80px)')}}>
                         <Row id="ribbonRow">
-                            <PluginRibbon disabled={navItemSelected === 0}
+                            <PluginRibbon disabled={navItemSelected === 0 || (!Dali.Config.sections_have_content && navItemSelected && isSection(navItemSelected)) || this.hasExerciseBox(navItemSelected, navItems, this.state,boxes)} //ADD condition navItemSelected There are extrafiles
                                           boxSelected={boxes[boxSelected]}
                                           undoDisabled={undoDisabled}
                                           redoDisabled={redoDisabled}
@@ -130,10 +136,8 @@ class DaliApp extends Component {
                                           hideTab={this.state.hideTab}
                                           undo={() => {this.dispatchAndSetState(ActionCreators.undo())}}
                                           redo={() => {this.dispatchAndSetState(ActionCreators.redo())}}
-                                          save={() => {this.dispatchAndSetState(exportStateAsync({present: this.props.store.getState().present}))}}
                                           ribbonHeight={ribbonHeight+'px'}
-                                          onBoxDuplicated={(id, parent, container)=> this.dispatchAndSetState( duplicateBox( id, parent, container, this.getDescendantBoxes(boxes[id]), this.getDuplicatedBoxesIds(this.getDescendantBoxes(boxes[id]) ), Date.now()-1 ))}
-                                          serverModalOpen={()=>{this.setState({serverModal: true })}}/>
+                                          onBoxDuplicated={(id, parent, container)=> this.dispatchAndSetState( duplicateBox( id, parent, container, this.getDescendantBoxes(boxes[id]), this.getDuplicatedBoxesIds(this.getDescendantBoxes(boxes[id]) ), Date.now()-1 ))}/>
                         </Row>
                         <Row id="canvasRow" style={{height: 'calc(100% - '+ribbonHeight+'px)'}}>
                             <DaliCanvas boxes={boxes}
@@ -184,7 +188,7 @@ class DaliApp extends Component {
                     </Col>
                 </Row>
                 <ServerFeedback show={this.state.serverModal}
-                                title={"Server"}
+                                title={"Guardar cambios"}
                                 isBusy={isBusy}
                                 hideModal={() => this.setState({serverModal: false })}/>
                 <Visor id="visor"
@@ -197,6 +201,9 @@ class DaliApp extends Component {
                                 toolbar={toolbars[boxSelected]}
                                 visible={this.state.xmlEditorVisible}
                                 onXMLEditorToggled={() => this.setState({xmlEditorVisible: !this.state.xmlEditorVisible})}/>
+                <VishCatalogModal images={imagesUploaded}
+                                  visible={this.state.catalogModal}
+                                  onVishCatalogToggled={() => this.setState({catalogModal: !this.state.catalogModal})}/>
                 <RichMarksModal boxSelected={boxSelected}
                                 navItems={navItems}
                                 navItemsIds={navItemsIds}
@@ -299,8 +306,11 @@ class DaliApp extends Component {
                     this.dispatchAndSetState(editRichMark(e.detail.ids.id, e.detail.state));
                     break;
                 case ADD_BOX:
-                    e.detail.ids.id = ID_PREFIX_BOX + Date.now();
-
+                if(this.severalBoxes === 0 ){
+                    this.severalBoxes = Date.now() + this.index++;
+                }
+                e.detail.ids.id = (this.severalBoxes !== 0) ? ID_PREFIX_BOX + this.severalBoxes++ : ID_PREFIX_BOX + Date.now() + this.index++ ;
+                
                     this.dispatchAndSetState(addBox(
                         {
                             parent: e.detail.ids.parent,
@@ -533,7 +543,7 @@ class DaliApp extends Component {
         if (obj.tag && obj.tag === "plugin") {
             if (obj.attr) {
                 if (!obj.attr['plugin-data-id']) {
-                    obj.attr['plugin-data-id'] = ID_PREFIX_SORTABLE_CONTAINER + Date.now() + this.index++;
+                    obj.attr['plugin-data-id'] = ID_PREFIX_SORTABLE_CONTAINER + Date.now() + this.index++ + new Date().getUTCMilliseconds();
                 }
                 if (!obj.attr['plugin-data-height']) {
                     obj.attr['plugin-data-height'] = obj.attr['plugin-data-initial-height'] || (obj.attr.hasOwnProperty('plugin-data-resizable') ? "auto" : "auto");
@@ -552,7 +562,18 @@ class DaliApp extends Component {
             delete obj.attr.class;
         }
     }
-
+    
+    hasExerciseBox(navItemId, navItems, state, boxes){
+       if(state.pluginTab === "exercises" && (navItems[navItemId].boxes.length > 1 || boxes[navItems[navItemId].boxes[0]].children.length !== 0)){
+           return true;
+       }
+       
+       if(Object.keys(navItems[navItemId].extraFiles).length !== 0 ){
+           return true;
+       }
+       return false;
+    }
+    
     addDefaultContainerPlugins(eventDetails, obj) {
         if (obj.child) {
             for (let i = 0; i < obj.child.length; i++) {
@@ -584,6 +605,7 @@ class DaliApp extends Component {
 function mapStateToProps(state) {
     return {
         title: state.present.title,
+        imagesUploaded: state.present.imagesUploaded,
         boxes: state.present.boxesById,
         boxSelected: state.present.boxSelected,
         boxLevelSelected: state.present.boxLevelSelected,

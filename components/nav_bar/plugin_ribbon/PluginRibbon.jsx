@@ -27,16 +27,26 @@ export default class PluginRibbon extends Component {
                 <div id="insideribbon" className="row">
                     <div id="ribbonList">
                         {this.state.buttons.map((item, index) => {
-                            if (this.state.buttons[index].category === this.props.category || this.props.category == 'all') {
-                                var clase = "" + this.state.buttons[index].icon;
+                            let button = this.state.buttons[index];
+                            if (button.category === this.props.category || this.props.category == 'all') {
+                                var clase = "" + button.icon;
                                 return (<div key={index} className="buttonPlace">
-                                    <Button className="rib"
+                                    <Button className={"rib " + (button.allowFloatingBox ? "floatingDaliBox" : "")}
                                             disabled={this.props.disabled}
                                             key={index}
                                             name={item.name}
                                             bsSize="large"
-                                            draggable="false">
-                                        <i className="material-icons">{clase}</i> {this.state.buttons[index].displayName}
+                                            draggable="false"
+                                            style={(button.iconFromUrl) ? {
+                                                padding: '8px 8px 8px 45px',
+                                                backgroundImage: 'url('+ clase +')',
+                                                backgroundSize: '32px',
+                                                backgroundPosition: '8px',
+                                                backgroundRepeat: 'no-repeat'
+                                            }:{
+
+                                            }}>
+                                        <i className="material-icons" style={(button.iconFromUrl)?{display:'none'}:{}}>{clase}</i> {button.displayName}
                                     </Button>
                                 </div>);
                             }
@@ -44,42 +54,6 @@ export default class PluginRibbon extends Component {
                     </div>
                 </div>
                 <div className="mainButtons">
-                    <button className="ribShortcut"
-                            title="Undo"
-                            disabled={this.props.undoDisabled}
-                            onClick={() => this.props.undo()}>
-                        <i className="material-icons">undo</i>
-                    </button>
-                    <button className="ribShortcut"
-                            title="Redo"
-                            disabled={this.props.redoDisabled}
-                            onClick={() => this.props.redo()}>
-                        <i className="material-icons">redo</i>
-                    </button>
-                    <button className="ribShortcut"
-                            title="Copy"
-                            disabled={!this.props.boxSelected || (this.props.boxSelected && isSortableBox(this.props.boxSelected.id))}
-                            onClick={() => {
-                                this.props.onBoxDuplicated(this.props.boxSelected.id, this.props.boxSelected.parent, this.props.boxSelected.container);
-                                this.stopPropagation();
-                            }}>
-                        <i className="material-icons">content_copy</i>
-                    </button>
-                    <button className="ribShortcut"
-                            title="Paste"
-                            disabled={!this.props.boxSelected}
-                            onClick={() => alert('Aún no hace nada')}>
-                        <i className="material-icons">content_paste</i>
-                    </button>
-                    <button className="ribShortcut"
-                            title="Save"
-                            disabled={this.props.undoDisabled }
-                            onClick={() => {
-                                this.props.save();
-                                this.props.serverModalOpen();
-                            }}>
-                        <i className="material-icons">save</i>
-                    </button>
                 </div>
             </Col>
             /* jshint ignore:end */

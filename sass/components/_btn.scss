@@ -1,17 +1,16 @@
 .btn-primary{
-    border-color:$brand_green;
-    background-color:$brand_green;
+    border-color:$verdeadams;
+    background-color:$verdeadams;
     color:white;
     &:hover , &:active, &:focus {
-        border-color:$brand_green !important;
+        border-color: $verdeadams !important;
         background-color: white !important;
-        color: $brand_green !important;
+        color: $verdeadams !important;
     }
 }
-
 .btn[disabled].btn-primary{
-    border-color:$brand_green;
-    background-color:$brand_green !important;
+    border-color:$verdeadams;
+    background-color:$verdeadams !important;
     color: white !important;
     &:hover{
         color: white !important;
@@ -19,23 +18,23 @@
 }
 
 .nav-pills > li  > a {
-    border-color:$brand_green;
-    color: $brand_green;
-    &:hover , &:active, &:focus{
+    border-color:$verdeadams;
+    color: $verdeadams;
+     &:hover , &:active, &:focus{
         background-color: $grisclaro;
-    }
+     }
 }
 .nav-pills > li.active  > a {
     color:white;
-    background-color: 	$brand_green;
+    background-color:   $verdeadams;
     &:hover , &:active, &:focus {
-        background-color: $brand_green;
-    }
+        background-color: $verdeadams;
+     }
 }
 
 .trashbutton{
     background-color:transparent;
-    position:absolute;
     right: 0;
+    position:absolute;
     border: 0;
 }

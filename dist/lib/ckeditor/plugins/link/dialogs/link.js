@@ -512,7 +512,7 @@
 						type: 'select',
 						id: 'linkTargetType',
 						label: commonLang.target,
-						'default': 'notSet',
+						'default': '_blank',
 						style: 'width : 100%;',
 						'items': [
 							[ commonLang.notSet, 'notSet' ],

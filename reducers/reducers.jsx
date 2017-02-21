@@ -1,8 +1,8 @@
 import {combineReducers} from 'redux';
 import undoable from 'redux-undo';
 import {ADD_BOX, SELECT_BOX, INCREASE_LEVEL, SELECT_NAV_ITEM, EXPAND_NAV_ITEM, UPDATE_NAV_ITEM_EXTRA_FILES, TOGGLE_TEXT_EDITOR,
-    TOGGLE_TITLE_MODE, CHANGE_TITLE, CHANGE_DISPLAY_MODE, SET_BUSY, IMPORT_STATE, FETCH_VISH_RESOURCES_SUCCESS} from './../actions';
-
+    TOGGLE_TITLE_MODE, CHANGE_TITLE, CHANGE_DISPLAY_MODE, SET_BUSY, IMPORT_STATE, FETCH_VISH_RESOURCES_SUCCESS, UPDATE_BOX, UPLOAD_IMAGE} from './../actions';
+import {isSortableBox} from './../utils';
 import boxesById from './boxes_by_id';
 import boxLevelSelected from './box_level_selected';
 import boxSelected from './box_selected';
@@ -55,8 +55,18 @@ function fetchVishResults(state = {results: []}, action = {}) {
     }
 }
 
+function imagesUploaded(state = [], action = {}){
+    switch(action.type){
+        case UPLOAD_IMAGE:
+            return state.concat(action.payload.url);
+        default:
+            return state;
+    }
+}
+
 const GlobalState = undoable(combineReducers({
     title: changeTitle,
+    imagesUploaded: imagesUploaded, // [img0, img1]
     boxesById: boxesById, //{0: box0, 1: box1}
     boxSelected: boxSelected, //0
     boxLevelSelected: boxLevelSelected, //0
@@ -86,8 +96,12 @@ const GlobalState = undoable(combineReducers({
                 return false;
         }
 
-        if (action.type === ADD_BOX && action.payload.initialParams && action.payload.initialParams.isDefaultPlugin) {
-            return false;
+        if(action.type === ADD_BOX){
+            if(action.payload.initialParams && action.payload.initialParams.isDefaultPlugin) {
+                return false;
+            }else if (isSortableBox(action.payload.ids.id)){
+                return false;
+            }
         }
 
         return currentState !== previousState; // only add to history if state changed

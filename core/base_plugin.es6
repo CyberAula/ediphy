@@ -73,19 +73,21 @@ export default function () {
         },
         getConfig: function () {
             var name, displayName, category, callback, needsConfigModal, needsTextEdition, extraTextConfig,
-            needsXMLEdition, icon, aspectRatioButtonConfig, isRich, flavor;
+            needsXMLEdition, icon, iconFromUrl, aspectRatioButtonConfig, isRich, flavor, allowFloatingBox;
             if (descendant.getConfig) {
                 let cfg = descendant.getConfig();
                 name = cfg.name;
                 displayName = cfg.displayName;
                 category = cfg.category;
                 icon = cfg.icon;
+                iconFromUrl = cfg.iconFromUrl;
                 isRich = cfg.isRich;
                 flavor = cfg.flavor;
                 needsConfigModal = cfg.needsConfigModal;
                 needsTextEdition = cfg.needsTextEdition;
                 extraTextConfig = cfg.extraTextConfig;
                 needsXMLEdition = cfg.needsXMLEdition;
+                allowFloatingBox = cfg.allowFloatingBox;
                 aspectRatioButtonConfig = cfg.aspectRatioButtonConfig;
             }
 
@@ -93,8 +95,10 @@ export default function () {
             displayName = defaultFor(displayName, 'Plugin', "Plugin displayName not assigned");
             category = defaultFor(category, 'text', "Plugin category not assigned");
             icon = defaultFor(icon, 'fa-cogs', "Plugin icon not assigned");
+            iconFromUrl = defaultFor(iconFromUrl, false);
             isRich = defaultFor(isRich, false);
             flavor = defaultFor(flavor, 'plain');
+            allowFloatingBox = defaultFor(allowFloatingBox, true);
             needsConfigModal = defaultFor(needsConfigModal, false);
             needsTextEdition = defaultFor(needsTextEdition, false);
             needsXMLEdition = defaultFor(needsXMLEdition, false);
@@ -115,7 +119,7 @@ export default function () {
                 }
                 if (needsTextEdition) {
                     if (!state.__text) {
-                        state.__text = Dali.i18n.t("text_here");
+                        state.__text = "<p>" + Dali.i18n.t("text_here") +  "</p>";
                     }
                     if (!descendant.getRenderTemplate) {
                         descendant.getRenderTemplate = function (state) {
@@ -126,6 +130,7 @@ export default function () {
                 if (needsXMLEdition) {
                     if (!state.__xml) {
                         state.__xml = null;
+                        state.__size = null;
                     }
                 }
                 if(isRich){
@@ -134,6 +139,9 @@ export default function () {
                     }
                 }
                 initialParams = initParams;
+                if(descendant.getConfig().initialWidth){
+                    initialParams.width = descendant.getConfig().initialWidth;
+                }
                 if (needsConfigModal) {
                     this.openConfigModal(reason, state);
                 } else {
@@ -151,7 +159,9 @@ export default function () {
                 extraTextConfig: extraTextConfig,
                 needsXMLEdition: needsXMLEdition,
                 aspectRatioButtonConfig: aspectRatioButtonConfig,
+                allowFloatingBox: allowFloatingBox,
                 icon: icon,
+                iconFromUrl: iconFromUrl,
                 isRich: isRich,
                 flavor: flavor
             };
@@ -220,9 +230,12 @@ export default function () {
                     console.error(this.getConfig().name + " has not defined getConfigTemplate method");
                 }
             } else {
-                Dali.API.openConfig(this.getConfig().name).then(function (div) {
+                Dali.API.openConfig(this.getConfig().name, reason).then(function (div) {
                     if(this.getConfig().flavor !== 'react'){
-                        div.innerHTML = descendant.getConfigTemplate(oldState).replace(/[$]dali[$]/g, "Dali.Plugins.get('" + this.getConfig().name + "')");
+                        let template = descendant.getConfigTemplate(oldState, div);
+                        if(template) {
+                            div.innerHTML = descendant.getConfigTemplate(oldState).replace(/[$]dali[$]/g, "Dali.Plugins.get('" + this.getConfig().name + "')");
+                        }
                     } else {
                         ReactDOM.render(descendant.getConfigTemplate(oldState), div);
                     }
@@ -250,28 +263,31 @@ export default function () {
                 console.error(this.getConfig().name + " has not defined getRenderTemplate method");
             } else {
                 var template = descendant.getRenderTemplate(state);
-                if(this.getConfig().flavor !== "react") {
+                if(template !== null && this.getConfig().flavor !== "react") {
                     template = html2json(template);
                     assignPluginContainerIds(template);
                 }
-                Dali.API.renderPlugin(
-                    template,
-                    this.getToolbar(),
-                    this.getConfig(),
-                    state,
-                    {
-                        id: id,
-                        parent: initialParams.parent,
-                        container: initialParams.container
-                    },
-                    {
-                        position: initialParams.position,
-                        row: initialParams.row,
-                        col: initialParams.col,
-                        isDefaultPlugin: defaultFor(initialParams.isDefaultPlugin, false)
-                    },
-                    reason
-                );
+                if (template !== null){
+                    Dali.API.renderPlugin(
+                        template,
+                        this.getToolbar(),
+                        this.getConfig(),
+                        state,
+                        {
+                            id: id,
+                            parent: initialParams.parent,
+                            container: initialParams.container
+                        },
+                        {
+                            position: initialParams.position,
+                            row: initialParams.row,
+                            col: initialParams.col,
+                            width: initialParams.width,
+                            isDefaultPlugin: defaultFor(initialParams.isDefaultPlugin, false)
+                        },
+                        reason
+                    );
+                }
             }
         },
         afterRender: function (element, oldState) {

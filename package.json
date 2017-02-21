@@ -1,5 +1,5 @@
 {
-  "name": "dali_editor",
+  "name": "todo-redux",
   "version": "1.0.0",
   "main": "index.js",
   "author": "",
@@ -7,11 +7,13 @@
   "scripts": {
     "postinstall": "node ./plugin_install",
     "start": "webpack-dev-server --progress",
+    "bundle": "webpack && node bundle_script.js",
     "both": "npm run start-webpack & npm run watch-sass",
     "start-webpack": "webpack-dev-server --progress",
     "watch-sass": "node-sass -w sass/style.scss -o dist/css/compiledsass.css"
   },
   "devDependencies": {
+    "async": "^2.1.2",
     "babel-core": "^6.18.2",
     "babel-loader": "^6.2.8",
     "babel-plugin-transform-object-rest-spread": "^6.19.0",
@@ -25,8 +27,9 @@
     "imports-loader": "^0.6.5",
     "jshint": "^2.9.4",
     "jshint-loader": "^0.8.3",
-    "json-loader": "^0.5.4",
+    "node-dir": "^0.1.16",
     "node-sass": "^3.13.0",
+    "json-loader": "^0.5.4",
     "package-json-validator": "^0.6.1",
     "react-hot-loader": "^3.0.0-beta.6",
     "redux-devtools": "^3.3.1",
@@ -37,6 +40,7 @@
     "script-loader": "^0.7.0",
     "shelljs": "^0.7.0",
     "style-loader": "^0.13.1",
+    "uglify-js": "^2.7.4",
     "url-loader": "^0.5.7",
     "webpack": "^1.13.3",
     "webpack-dev-server": "^1.16.2"

@@ -1,0 +1,28 @@
+@import "../../../sass/_variables.scss";
+.daliBoxSortableContainer{
+    min-height: 70px;
+    text-align: center;
+    line-height: 100%;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.dividerBar{
+    background: $lightgrey;
+    height: 3px;
+}
+
+.btnOverBar{
+  color: $lightgrey;
+  padding: 5px;
+  &:hover{
+    color: $greyInsidePanels;
+  }
+}
+.dragContentHere{
+    color: $lightgrey;
+    text-align: center;
+    min-height: 12px;
+    padding: 16px;
+    font-size: 20px;
+}

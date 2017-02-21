@@ -30,7 +30,7 @@ export default class GridConfigurator extends Component {
                                   return 0;
                                 }
                             });
-                            this.props.onColsChanged(this.props.id, this.props.parentId, dist);
+                            this.props.onColsChanged(this.props.id, this.props.parentId, dist, this.props.container.children);
                        }}/>
             </FormGroup>
             /* jshint ignore:end */
@@ -146,7 +146,7 @@ export default class GridConfigurator extends Component {
                                                     return 0;
                                                   }
                                               });
-                                               this.props.onRowsChanged(this.props.id, this.props.parentId, index, dist, this.props.container.children);
+                                        this.props.onRowsChanged(this.props.id, this.props.parentId, index, dist, this.props.container.children);
                                         }}/>
                         </FormGroup>
 
@@ -178,6 +178,14 @@ export default class GridConfigurator extends Component {
                 })
                 }
                 <h4 className="sortableToolbarTitle">{i18n.t('Style')}</h4>
+                <FormGroup>
+                    <ControlLabel>{"ClassName"}</ControlLabel>
+                    <FormControl type="text"
+                                 value={this.props.container.style.className}
+                                 onChange={e => {
+                                    this.props.onSortablePropsChanged(this.props.id, this.props.parentId, 'className', e.target.value || "");
+                                }}/>
+                </FormGroup>
                 <FormGroup>
                     <ControlLabel>{i18n.t('styles.padding') + ' (px)'}</ControlLabel>
                     <FormControl type="number"

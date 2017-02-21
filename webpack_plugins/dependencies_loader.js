@@ -17,10 +17,14 @@
 				},
 				"aliases": {
 					"name_of_dependency": "name_to_export"
+				},
+				"css": {
+					"name" : "path to css"
 				}
 			}
 		}
  * */
+
 
 var glob = require("glob");
 
@@ -83,18 +87,6 @@ module.exports = {
 							loader: expose_string + toCamelCase(e)
 						});
 					}
-				});
-			}
-			if(config && config.localDependencies){
-				var localDependencies = config.localDependencies;
-				Object.keys(localDependencies).map(function(e){
-					final_array.push({
-			               test: localDependencies[e],
-			               loaders: [
-			                 'imports?this=>window',
-			                 'script'
-			               ] 
-					});
 				});
 			}
 

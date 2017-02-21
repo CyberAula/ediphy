@@ -7,6 +7,7 @@ export function RichText(base) {
                 category: 'text',
                 needsConfigModal: false,
                 needsTextEdition: true,
+                initialWidth: '100%',
                 extraTextConfig: {
                     extraPlugins: "daliplugin"
                 },
@@ -25,7 +26,7 @@ export function RichText(base) {
                                 padding: {
                                     __name: 'Padding',
                                     type: 'number',
-                                    value: 15,
+                                    value: 0,
                                     min: 0,
                                     max: 100
                                 },

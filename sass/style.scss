@@ -7,7 +7,7 @@
 
 @import 'general/elements/btn';
 @import 'general/elements/scrollbar';
-    
+
 @import 'components/serverModal';
 @import 'components/colorPicker';
 @import 'components/pageModal';
@@ -20,13 +20,15 @@
     background: $brand_green;
 }
 
-#app{
-    margin:0;
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
 }
 
 /*Transition for hiding toolbars and navbars
 #colLeft, #colRight, #ribbon, #insideribbon, #tools, #indice{
-    @include animacion(width, 0.3s);
+    @include animacion(width, 0.4s);
     min-height: 0;
 }*/
 
@@ -34,7 +36,6 @@
 #colLeft{
     position: relative;
     float: left;
-    padding: 0;
     height: 100%;
     z-index:1;
 }
@@ -44,9 +45,9 @@
 
     /*Canvas row and ribbon row*/
     #canvasRow, #ribbonRow{
-        @include animacion(height, 0.3s);
+        @include animacion(height, 0.4s);
         >div{
-            @include animacion(height, 0.3s);
+            @include animacion(height, 0.4s);
         }
     }
 
@@ -57,9 +58,93 @@
 
 .full{
     width:100% !important;
-    @include animacion(height, 0.3s);
+    @include animacion(height, 0.4s);
 }
 
-.hidden{
+/* 100 % */
+.width100{
+    width: 100%;
+}
+.height100{
+    height: 100%;
+}
+
+/*Displays*/
+.disp_in_block{
+    display: inline-block;
+}
+.disp_block{
+    display: block;
+}
+.disp_initial{
+    display: initial;
+}
+.disp_table{
+    display: table;
+}
+.disp_table_cell{
+    display: table-cell;
+}
+.disp_none{
+    display: none;
+}
+
+/*Visibility*/
+.vis_show{
+    visibility: visible;
+}
+.vis_hide{
     visibility: hidden;
+}
+
+/*Floats*/
+.float_left{
+    float: left;
+}
+.float_right{
+    float: right;
+}
+
+/*Cursor pointer*/
+button, i{
+    cursor: pointer;
+}
+
+/*Positions*/
+.pos_relative{
+    position: relative;
+}
+.pos_absolute{
+    position: absolute;
+}
+.top0{top: 0}
+.right0{right: 0}
+.bottom0{bottom: 0}
+.left0{left: 0}
+
+/*Clear*/
+.clear_both{
+    clear: both;
+}
+
+/*Overflow*/
+.over_hidden{
+    overflow: hidden;
+}
+.over_hidden-x{
+    overflow-x: hidden;
+}
+.over_hidden-y{
+    overflow-y: hidden;
+}
+
+/*Vertical align*/
+.vert_al_top{
+    vertical-align: top;
+}
+.vert_al_cen{
+    vertical-align: center;
+}
+.vert_al_bot{
+    vertical-align: bottom;
 }

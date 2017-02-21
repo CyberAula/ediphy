@@ -47,6 +47,8 @@ export const ADD_RICH_MARK = 'ADD_RICH_MARK';
 export const EDIT_RICH_MARK = 'EDIT_RICH_MARK';
 export const SELECT_CONTAINED_VIEW = 'SELECT_CONTAINED_VIEW';
 
+export const UPLOAD_IMAGE = 'UPLOAD_IMAGE';
+
 // These are not real Redux actions but are use to specify plugin's render reason
 export const DELETE_RICH_MARK = 'DELETE_RICH_MARK';
 export const EDIT_PLUGIN_TEXT = 'EDIT_PLUGIN_TEXT';
@@ -198,6 +200,10 @@ export function fetchVishResourcesSuccess(result) {
     return {type: FETCH_VISH_RESOURCES_SUCCESS, payload: {result}};
 }
 
+export function uploadImage(url){
+    return {type: UPLOAD_IMAGE, payload: {url}};
+}
+
 //Async actions
 export function exportStateAsync(state) {
     return dispatch => {
@@ -284,26 +290,46 @@ export function fetchVishResourcesAsync(query) {
 
 export function uploadVishResourceAsync(query) {
     return dispatch => {
-        dispatch(setBusy(true, i18n.t("Uploading")));
 
-        return fetch(Dali.Config.upload_vish_url, {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: query
-        }).then(response => {
-                if (response.status >= 400) {
-                    throw new Error(i18n.t("error.generic"));
+        if (query.title !== null && query.title.length > 0) {
+            if (query.file !== null){
+                if (query.file.name.match(/\.(jpeg|jpg|gif|png)$/) !== null) {
+                    dispatch(setBusy(true, i18n.t("Uploading")));
+
+                    var form = new FormData();
+                    form.append("title", query.title);
+                    form.append("description", query.description);
+                    form.append("file", query.file);
+
+                    return fetch(Dali.Config.upload_vish_url, {
+                        method: 'POST',
+                        credentials: 'same-origin',
+                        body: form
+                    }).then(response => {
+                            if (response.status >= 400) {
+                                throw new Error(i18n.t("error.generic"));
+                            }
+                            return response.text();
+                        })
+                        .then((result) => {
+                            dispatch(setBusy(false, result));
+                            dispatch(uploadImage(result));
+                        })
+                        .catch(e => {
+                            alert(i18n.t("error.generic"));
+                            dispatch(setBusy(false, 'http://nemanjakovacevic.net/wp-content/uploads/2013/07/placeholder.png'));
+                        });
+                
+                } else {
+                    alert( i18n.t("error.file_extension_invalid"));
                 }
-                return response.text();
-            })
-            .then((result) => {
-                dispatch(setBusy(false, result));
-            })
-            .catch(e => {
-                dispatch(setBusy(false, e.message));
-            });
+            } else {
+                alert(i18n.t("error.file_not_selected"));
+            }
+        }else {
+
+            alert( i18n.t("error.file_title_not_defined"));
+            return false;
+        }
     };
 }

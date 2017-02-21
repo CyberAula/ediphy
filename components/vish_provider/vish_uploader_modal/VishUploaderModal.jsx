@@ -39,7 +39,13 @@ export default class VishUploaderModal extends Component {
                     <Button bsStyle="primary"
                             disabled={this.props.isBusy.value}
                             onClick={e => {
-                                this.props.onUploadVishResource("");
+                                this.props.onUploadVishResource(
+                                    {
+                                        title: ReactDOM.findDOMNode(this.refs.title).value,
+                                        description: ReactDOM.findDOMNode(this.refs.desc).value,
+                                        file: this.refs.dropZone.state.file
+                                    }
+                                );
                             }}>
                         Upload
                     </Button>
