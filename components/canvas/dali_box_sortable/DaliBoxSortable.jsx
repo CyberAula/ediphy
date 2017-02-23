@@ -105,9 +105,7 @@ export default class DaliBoxSortable extends Component {
                                        }}>delete</i>
                                 </div>
 
-                                <div className="dividerBar width100 pos_absolute bottom0"
-                                        style={{cursor: (this.props.boxSelected === this.props.id && container.height !== "auto")? 's-resize' : 'initial'}}>
-                                </div>
+                                
                             </div>
                         </div>);
                     })}
