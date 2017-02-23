@@ -23,6 +23,9 @@
     color: $lightgrey;
     text-align: center;
     min-height: 12px;
-    padding: 16px;
+    padding: 20px;
     font-size: 20px;
+    border: 2px dashed $lightgrey;
+    border-radius: 1px;
+    margin: 10px; 
 }

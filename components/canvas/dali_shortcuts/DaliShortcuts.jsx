@@ -124,9 +124,9 @@ export default class DaliShortcuts extends Component {
                     document.getElementById('contained_maincontent');
                 var canvasRect = canvas.getBoundingClientRect();
 
-                left = (boxRect.left - canvasRect.left + 60); //sum padding
+                left = (boxRect.left - canvasRect.left + 35); //sum padding
                 top = (boxRect.top - canvasRect.top + canvas.scrollTop + 120); //sum header + padding
-                
+
                 if (element) {
                     var elementRect = element.getBoundingClientRect();
                     width = boxRect.width < elementRect.width ? elementRect.width : boxRect.width;

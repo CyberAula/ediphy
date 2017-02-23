@@ -1,5 +1,12 @@
+@import "./../../../sass/general/_variables.scss";
+
 .subheader{
-    margin-left: 0%;
+  h3{
+  color: $naranjaadams;
+  font-size: 1.2em;
+  padding: 10px;
+  margin: 0;
+  }
 }
 
 .breadcrumb {

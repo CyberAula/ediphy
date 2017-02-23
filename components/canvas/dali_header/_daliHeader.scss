@@ -41,4 +41,22 @@
 .title {
     display: table-caption;
     background-color: white;
+    padding: 0 20px;
+    .cab {
+      display: flex;
+      font-size: 2em;
+      .cabtabla_numero{
+        padding: 0 10px;
+        line-height: 1.1em;
+      }
+      h1{
+        margin: 0;
+        font-size: 1em;
+      }
+      h2{
+        margin: 0;
+        font-size: 0.7em;
+        color: $grismedio;
+      }
+    }
 }
