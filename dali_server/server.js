@@ -44,7 +44,7 @@ app.post('/upload', function (req, res) {
     console.log(data);
 
     setTimeout(function(){
-        res.end("Success");
+        res.end("https://upload.wikimedia.org/wikipedia/commons/6/66/Polar_Bear_-_Alaska_(cropped).jpg");
     }, 3000);
 })
 

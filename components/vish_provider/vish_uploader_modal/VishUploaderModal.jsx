@@ -21,10 +21,10 @@ export default class VishUploaderModal extends Component {
                         </FormGroup>
                         <FormGroup>
                             <ControlLabel>Description</ControlLabel>
-                            <FormControl componentClass="textarea" style={{resize: 'none'}}/>
+                            <FormControl ref="desc" componentClass="textarea" style={{resize: 'none'}}/>
                         </FormGroup>
                         <FormGroup>
-                            <VishDropzone />
+                            <VishDropzone ref="dropZone" />
                         </FormGroup>
                         <FormGroup>
                             <ControlLabel>{this.props.isBusy.value ? this.props.isBusy.msg : ""}</ControlLabel>

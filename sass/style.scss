@@ -107,7 +107,7 @@
 
 /*Cursor pointer*/
 button, i{
-    cursor: pointer;
+    //cursor: pointer;
 }
 
 /*Positions*/
@@ -147,4 +147,14 @@ button, i{
 }
 .vert_al_bot{
     vertical-align: bottom;
+}
+
+/* alert */
+.alert{
+  border-radius: 0;
+}
+.alert-info{
+  background-color: $grisclaro;
+  border-color: $grismedio;
+  color: $grisoscuro;
 }
