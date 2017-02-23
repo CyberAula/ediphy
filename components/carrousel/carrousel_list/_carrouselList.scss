@@ -6,7 +6,7 @@
 /* Índice */
 .carList {
     overflow-y: auto;
-    height: calc(100% - 56px);
+    height: calc(100% - 50px);
     color: $fondo;
     .material-icons{
         padding: 0 8px 4px 8px;
@@ -140,7 +140,7 @@
 .bottomGroup {
     width: 212px;
     position: fixed;
-    bottom: 4px;
+    bottom: 0;
     .material-icons {
         padding: 8px;
     }
@@ -153,8 +153,8 @@
 
 /*Título curso*/
 .courseTitleCarousel{
-    margin: -24px 0px 14px;
-    padding-left: 16px;
+    margin: 8px 0;
+    padding-left: 10px;
     color: $naranjaadams;
     font-size: 14px;
     overflow: hidden;

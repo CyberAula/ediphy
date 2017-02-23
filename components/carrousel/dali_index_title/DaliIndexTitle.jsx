@@ -33,7 +33,7 @@ export default class DaliIndexTitle extends Component {
             /* jshint ignore:start */
             <span>
             {!this.state.editing ?
-                (<span className="actualSectionTitle"
+                (<div className="actualSectionTitle"
                         style={{textDecoration: this.props.hidden ? "line-through" : "initial"}}
                         onDoubleClick={e => {
                             this.setState({ editing: !this.state.editing });
@@ -45,7 +45,7 @@ export default class DaliIndexTitle extends Component {
                             }
                      }}>
                     {Dali.Config.show_numbers_before_navitems ? this.props.index : ""} {this.props.title}
-                </span>) :
+                </div>) :
                 (<FormControl
                     type="text"
                     ref="titleIndex"

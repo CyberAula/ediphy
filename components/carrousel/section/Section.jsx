@@ -47,7 +47,7 @@ export default class Section extends Component {
                 </div>
                 <div ref="sortableList"
                      style={{
-                        paddingTop: 5,
+                        paddingTop: 0,
                         display: (navItem.isExpanded ? 'block' : 'none')
                      }}
                      className="sectionList connectedSortables">
@@ -68,7 +68,7 @@ export default class Section extends Component {
                         } else if (isPage(id)) {
                             let classSelected = this.props.navItemSelected === id ? 'selected dragS' : 'notSelected dragS';
                             return (
-                                <h4 key={index}
+                                <div key={index}
                                     id={id}
                                     className={'navItemBlock ' + classSelected}
                                     onMouseDown={e => {
@@ -90,7 +90,7 @@ export default class Section extends Component {
                                                             onNameChanged={this.props.onNavItemNameChanged}
                                                             onNavItemToggled={this.props.onNavItemToggled}/>
                                         </span>
-                                </h4>
+                                </div>
                             );
                         }
                     })}
