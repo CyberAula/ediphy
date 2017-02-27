@@ -1,11 +1,19 @@
 @import "./../../../sass/general/_variables.scss";
 
 .subheader{
+  h3, h4, h5, h6{
+    color: $naranjaadams;
+    padding: 10px;
+    margin: 0;
+  }
   h3{
-  color: $naranjaadams;
-  font-size: 1.2em;
-  padding: 10px;
-  margin: 0;
+    font-size: 1.2em;
+  }
+  h4{
+    font-size: 1.1em;
+  }
+  h5{
+  font-size: 1em;
   }
 }
 

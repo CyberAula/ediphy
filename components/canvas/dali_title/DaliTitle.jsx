@@ -47,7 +47,7 @@ export default class DaliTitle extends Component {
             }
     }
     render(){
-        
+
         let content;
         let unidad = "";
         let currentStatus = this.props.titleMode;
@@ -59,7 +59,7 @@ export default class DaliTitle extends Component {
             let actualTitle = titles[titles.length - 1];
             unidad = titles[0];
             content = React.createElement("div", {className:"subheader"},
-                React.createElement("h3", {style: {marginTop: '16px'}},
+                React.createElement("h3", {style: {marginTop: '0px'}},
                     React.createElement(Breadcrumb, {style: {margin: 0, backgroundColor: 'inherit'}},
                         titles.map((item, index) => {
                             if (index !== 0 && index !== titles.length - 1) {
@@ -82,7 +82,7 @@ export default class DaliTitle extends Component {
                         let nivel = (index > 4 ) ? 6 : index + 2;
                         return React.createElement("h" + nivel, {
                             key: index,
-                            style: {marginTop: '16px'}
+                            style: {marginTop: '0px'}
                         }, /*this.getActualIndex(titles_length, index) + */text);
                     }
                 })
@@ -97,6 +97,6 @@ export default class DaliTitle extends Component {
         </div>
         /* jshint ignore:end */
         );
-        
+
     }
 }

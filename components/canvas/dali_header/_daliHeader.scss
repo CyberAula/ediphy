@@ -30,7 +30,7 @@
 
 /*Added transparent margin to avoid small shift when title is selected*/
 .caja {
-  border: 1px solid transparent;
+  //border: 1px solid transparent;
 }
 
 /*DaliTitle is on config mode*/
@@ -39,7 +39,7 @@
 }
 
 .title {
-    display: table-caption;
+    display: block;
     background-color: white;
     padding: 0 20px;
     .cab {

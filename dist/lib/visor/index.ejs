@@ -11,8 +11,8 @@
 <body style="margin: 0px; height: 100%">
 <div style="height:100%;" id="editor truevisor">
 <div style="height:100%;" id="root" style="height: 100%">
-<div class="outter" style="padding-top:0px;display:block;height:100%">
-<div id="maincontent" class="slide <%=navs[page].type == 'slide' ? 'sli':'doc'%>" style="visibility: visible;" >
+<div class="outter" style="padding-top:20px;display:block;height:100%">
+<div id="maincontent" class="title slide <%=navs[page].type == 'slide' ? 'sli':'doc'%>" style="overflow-y:auto;visibility: visible;" >
 
 <script type="text/javascript">
     function __getPlugin(element){
@@ -32,20 +32,21 @@
         parent = navs[parent].parent;
     }
 %>
-<div style="visibility: visible; overflow: auto;" class="caja">
+<div style="visibility: visible;" class="caja">
     <div class="cab" style="visibility:<%=(navs[page].titleMode == 'hidden') ? "hidden" : "visible" %>;">
         <div class="cabtabla_numero"><%=navs[page].unitNumber%></div>
         <div class="tit_ud_cap">
             <h1><%=title%></h1>
             <h2><%=navs[place].name%></h2>
         </div>
-        <div class="cabtabla_lapiz">
+        <!--<div class="cabtabla_lapiz">
             <img src="<%=relativePath%>images/ico_alumno.gif" alt="Alumno"><div id="alumno"> Alumno</div>
         </div>
-        <div class="clear"></div>
+        <div class="clear"></div>-->
     </div>
-    <div style="margin-top:10px;padding-left:60px;padding-right:10px;">
+    <div class="contenido_visor" style="">
     <div class="contenido canvasvisor" style="width:100%;height:auto; position:relative; pointer-events: all !important; padding-left:0;padding-right:0;">
+      <div class="subheader" style="display: <%=(navs[page].titleMode == 'hidden' || navs[page].titleMode == 'subtitle_hidden')?'none':'inherit' %>;">
          <%
         var alltitles = [];
         if (page !== 0) {
@@ -64,7 +65,7 @@
             var actualTitle = titles.pop();
             unidad=titles[0];
         %>
-        <div style="display: <%=(navs[page].titleMode == 'hidden' || navs[page].titleMode == 'subtitle_hidden')?'none':'inherit' %>;">
+
             <h3>
                 <ol class="breadcrumb" style="margin:0; background-color:inherit;">
                     <%titles.map(function(item, index){
@@ -74,7 +75,7 @@
                 </ol>
             </h3>
             <h4 style="margin: 0"><%=actualTitle%></h4>
-        </div>
+
         <%}else if(navs[page].titleMode=='expanded') {
             var titlesComponents = "";
             alltitles.map(function(text, index){
@@ -85,11 +86,12 @@
                     if (nivel > 6){
                         nivel = 6;
                     }
-                    titlesComponents += "<h" + (nivel) + " style=\"margin-top: 16px\">" + text + "</h" + (nivel) + ">";
+                    titlesComponents += "<h" + (nivel) + " style=\"margin-top: 0px\">" + text + "</h" + (nivel) + ">";
                 }
             }); %>
         <%=titlesComponents%>
         <%}%>
+        </div>
         <br/>
         <div class="boxes" style="float: left; display:block; width:100%;">
             <!--Camel Case -->
@@ -265,7 +267,7 @@
                           position: relative;
                           border-color: <%=style.borderColor%>;
                           border-style: <%=style.borderStyle%>;
-                          border-width: <%=style.borderWidth%>;                          
+                          border-width: <%=style.borderWidth%>;
                           padding: <%=style.padding%>;
                           opacity: <%=style.opacity%>;
                           text-align: <%=style.textAlign ? style.textAlign : 'left'%>;

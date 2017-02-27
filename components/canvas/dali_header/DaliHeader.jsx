@@ -149,11 +149,11 @@ export default class DaliHeader extends Component {
                                 <h1>{this.props.courseTitle}</h1>
                                 <h2>{unidad}</h2>
                             </div>
-                            <div className="cabtabla_lapiz">
+                             {/* <div className="cabtabla_lapiz">
                                 <img style={{display: 'none', visibility: 'inherit'}}
                                     src="images/ico_alumno.gif" alt="Alumno"/>
                                 <div style={{display: 'none'}} id="alumno2"> Alumno</div>
-                            </div>
+                            </div>*/}
                             <div style={{display: 'none'}} className="clear"></div>
                         </div>
                     </div>
