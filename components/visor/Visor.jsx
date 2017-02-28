@@ -3,8 +3,6 @@ import {Modal, Row, Col, Grid, Button, ButtonGroup} from 'react-bootstrap';
 import Dali from './../../core/main';
 import i18n from 'i18next';
 
-require('./_visor.scss');
-
 export default class Visor extends Component {
     shouldComponentUpdate(nextProps, nextState) {
         return this.props.visorVisible || nextProps.visorVisible;
