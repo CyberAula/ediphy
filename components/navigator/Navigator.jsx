@@ -6,7 +6,15 @@ import Dali from './../../../core/main';
 export default class Navigator extends Component {
 
     render(){
-
+        return(
+            <Modal>
+                <ModalHeader>
+                </ModalHeader>
+                <Modal>
+                    <DaliCanvasNavigation/>
+                </Modal>
+            </Modal>
+        )
     }
 
 }
