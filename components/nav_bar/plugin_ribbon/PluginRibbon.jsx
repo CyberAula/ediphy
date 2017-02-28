@@ -67,7 +67,12 @@ export default class PluginRibbon extends Component {
 
         interact(".rib")
             .draggable({
-                autoScroll: false,
+                autoScroll: {
+                  container: document.getElementById('canvas'),
+                  margin: 0,
+                  distance: 15,
+                  interval: 5
+                },
                 onstart: function (event) {
                     changeOverflow(true);
                     let original = event.target;

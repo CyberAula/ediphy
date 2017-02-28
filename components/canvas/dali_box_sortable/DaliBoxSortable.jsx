@@ -105,7 +105,7 @@ export default class DaliBoxSortable extends Component {
                                        }}>delete</i>
                                 </div>
 
-                                
+
                             </div>
                         </div>);
                     })}
