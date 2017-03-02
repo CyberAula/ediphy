@@ -151,18 +151,6 @@
     padding: 0 8px 4px 8px;
 }
 
-/*Título curso*/
-.courseTitleCarousel{
-    margin: 8px 0;
-    padding-left: 10px;
-    color: $naranjaadams;
-    font-size: 14px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    max-width: 50%;
-}
-
 /*Collapsed Carrousel*/
 .indiceoculto {
     position: absolute;
@@ -233,7 +221,6 @@
                 text-decoration: none;
                 background-color: #444;
                 color: white;
-
             }
         }
     }

@@ -54,7 +54,6 @@ export default class DaliCarousel extends Component {
                         </i>
                         <div className="clear"></div>
                     </div>
-                        <p className="courseTitleCarousel"> {this.props.title}</p>
                     <div id="indice"
                          className="daliCarousel"
                          key="indice"
