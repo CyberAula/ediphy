@@ -19,6 +19,7 @@ import DaliCarousel from '../components/carrousel/dali_carrousel/DaliCarousel';
 import PluginConfigModal from '../components/plugin_config_modal/PluginConfigModal';
 import XMLConfigModal from '../components/xml_config_modal/XMLConfigModal';
 import PluginToolbar from '../components/toolbar/plugin_toolbar/PluginToolbar';
+import Visor from '../components/visor/EditorVisor';
 import VishCatalogModal from '../components/vish_provider/VishCatalogModal';
 import PluginRibbon from '../components/nav_bar/plugin_ribbon/PluginRibbon';
 import DaliNavBar from '../components/nav_bar/dali_nav_bar/DaliNavBar';
