@@ -68,7 +68,13 @@ class DaliApp extends Component {
                                 boxSelected={boxSelected}
                                 undo={() => {this.dispatchAndSetState(ActionCreators.undo())}}
                                 redo={() => {this.dispatchAndSetState(ActionCreators.redo())}}
-                                visor={() =>{this.setState({visorVisible: true })}}
+                                visor={() =>{
+                                    let w = window.open("http://localhost:8080/index_visor.html","_blank");
+
+                                    let s = document.createElement("script");
+                                    s.innerText = "var State = " + JSON.stringify(this.props.store.getState().present);
+                                    w.doument.body.appendChild(s);
+                                }}
                                 export={() => {Dali.Visor.exports(this.props.store.getState().present)}}
                                 scorm={() => {Dali.Visor.exportScorm(this.props.store.getState().present)}}
                                 save={() => {this.dispatchAndSetState(exportStateAsync({present: this.props.store.getState().present}))}}

@@ -12,7 +12,7 @@ module.exports = {
             'bootstrap-loader', //Loads Twitter Bootstrap
             './index.jsx' // Appʼs entry point
             ],
-        'js/visor': './core/visor_entrypoint.es6',
+        'js/visor': './components/visor/DaliVisor.jsx',
     },
     module: {
         preLoaders: [

@@ -18,6 +18,11 @@ window.Dali = {
     Scorm: Scorm
 };
 
+if (window.State){
+    window.Dali.State = window.State;
+    window.State = undefined;
+}
+
 Config.pluginList.map(id => {
     try {
         window.Dali.Visor.Plugins.add(id);
