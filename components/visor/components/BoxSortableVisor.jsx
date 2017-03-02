@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import DaliBoxVisor from './DaliBoxVisor';
+import BoxVisor from './BoxVisor';
 
-export default class DaliBoxSortable extends Component {
+export default class BoxSortableVisor extends Component {
     render() {
         let box = this.props.boxes[this.props.id];
         return (

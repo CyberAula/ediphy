@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
-import DaliBox from '../dali_box/DaliBox';
+import BoxVisor from './BoxVisor';
+import {isBox, isSortableBox, isView, isSortableContainer, isAncestorOrSibling} from './../../../utils';
 
-export default class PluginPlaceholder extends Component {
+
+export default class PluginPlaceholderVisor extends Component {
     render() {
         let container = this.props.parentBox.sortableContainers[this.props.pluginContainer];
         let className = "drg" + this.props.pluginContainer;
@@ -46,7 +48,7 @@ export default class PluginPlaceholder extends Component {
                                                 }}>
                                     {container.children.map((idBox, index) => {
                                         if (this.props.boxes[idBox].col === i && this.props.boxes[idBox].row === j) {
-                                            return (<DaliBox id={idBox}
+                                            return (<EditorBoxVisor id={idBox}
                                                              key={index}
                                                              boxes={this.props.boxes}
                                                              boxSelected={this.props.boxSelected}
@@ -80,61 +82,4 @@ export default class PluginPlaceholder extends Component {
         );
     }
 
-
-    configureDropZone(node, selector, extraParams) {
-        interact(node).dropzone({
-            accept: selector,
-            overlap: 'pointer',
-            ondropactivate: function (e) {
-                e.target.classList.add('drop-active');
-            },
-            ondragenter: function (e) {
-                e.target.classList.add("drop-target");
-            },
-            ondragleave: function (e) {
-                e.target.classList.remove("drop-target");
-            },
-            ondrop: function (e) {
-                // If element dragged is coming from PluginRibbon, create a new DaliBox
-                if (e.relatedTarget.className.indexOf("rib") !== -1) {
-                    let initialParams = {
-                        parent: this.props.parentBox.id,
-                        container: this.props.pluginContainer,
-                        col: extraParams.i,
-                        row: extraParams.j
-                    };
-                    Dali.Plugins.get(e.relatedTarget.getAttribute("name")).getConfig().callback(initialParams, ADD_BOX);
-                } else {
-                    let boxDragged = this.props.boxes[this.props.boxSelected];
-                    // If box being dragged is dropped in a different column or row, change it's value
-                    if (boxDragged && (boxDragged.col !== extraParams.i || boxDragged.row !== extraParams.j)) {
-                        this.props.onBoxDropped(this.props.boxSelected, extraParams.j, extraParams.i);
-
-                        let clone = document.getElementById('clone');
-                        clone.parentElement.removeChild(clone);
-                    }
-                }
-            }.bind(this),
-            ondropdeactivate: function (e) {
-                e.target.classList.remove('drop-active');
-                e.target.classList.remove("drop-target");
-            }
-        });
-    }
-
-    componentDidMount() {
-        interact(ReactDOM.findDOMNode(this))
-            .resizable({
-                enabled: this.props.resizable,
-                edges: {left: false, right: false, bottom: true, top: false},
-                onmove: (event) => {
-                    event.target.style.height = event.rect.height + 'px';
-                },
-                onend: (event) => {
-                    this.props.onSortableContainerResized(this.props.pluginContainer, this.props.parentBox.id, parseInt(event.target.style.height, 10));
-                    let toolbar = this.props.toolbars[this.props.parentBox.id];
-                    Dali.Plugins.get(toolbar.config.name).forceUpdate(toolbar.state, this.props.parentBox.id, RESIZE_SORTABLE_CONTAINER);
-                }
-            });
-    }
 }

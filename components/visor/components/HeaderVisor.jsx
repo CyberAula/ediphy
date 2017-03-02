@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Tooltip, OverlayTrigger,Breadcrumb, BreadcrumbItem, Button} from 'react-bootstrap';
 import i18n from 'i18next';
 
-export default class DaliHeaderVisor extends Component {
+export default class HeaderVisor extends Component {
 
     /*
      * This method is used to calculate actual position for title indexes

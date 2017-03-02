@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Breadcrumb, BreadcrumbItem, Button} from 'react-bootstrap';
 
-export default class DaliTitleVisor extends Component {
+export default class TitleVisor extends Component {
         /*
         * This method is used to calculate actual position for title indexes
         * It is used the array of titles, the actual position in the iteration, and the level stored in nav properties

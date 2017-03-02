@@ -1,13 +1,13 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
-import DaliBoxorVisor from './DaliBoxVisor';
-import DaliBoxSortableVis from '../dali_box_sortable/DaliBoxSortable';
+import BoxVisor from './BoxVisor';
+import BoxSortableVisor from './BoxSortableVisor';
 import {Col} from 'react-bootstrap';
-import DaliTitle from '../dali_title/DaliTitle';
-import DaliHeader from '../dali_header/DaliHeader';
+import TitleVisor from './TitleVisor';
+import HeaderVisor from './HeaderVisor';
 import {isSortableBox, isSlide} from './../../../utils';
 
-export default class DaliCanvas extends Component {
+export default class CanvasVisor extends Component {
 
     render() {
         let titles = [];
@@ -61,7 +61,7 @@ export default class DaliCanvas extends Component {
                             courseTitle={this.props.title}
                             titleMode={this.props.navItemSelected.titleMode}
                             navItem={this.props.navItemSelected}
-                            navItems={this.props.navItems}}/>
+                            navItems={this.props.navItems}/>
                         <br/>
 
 
@@ -116,52 +116,5 @@ export default class DaliCanvas extends Component {
         }
     }
 
-    componentDidUpdate(prevProps, prevState) {
-        //Fixes bug when reordering dalibox sortable CKEDITOR doesn't update otherwise
-        if(this.props.lastActionDispatched.type === REORDER_SORTABLE_CONTAINER){
-             for (let instance in CKEDITOR.instances) {
-                CKEDITOR.instances[instance].destroy();
-             }
-             CKEDITOR.inlineAll();
-             for (let editor in CKEDITOR.instances){
-                 if (this.props.toolbars[editor].state.__text) {
-                    CKEDITOR.instances[editor].setData(decodeURI(this.props.toolbars[editor].state.__text));
-                }
-             }
-        }
-    }
 
-    componentDidMount() {
-        interact(ReactDOM.findDOMNode(this)).dropzone({
-            accept: '.floatingDaliBox',
-            overlap: 'pointer',
-            ondropactivate: function (event) {
-                event.target.classList.add('drop-active');
-            },
-            ondragenter: function (event) {
-                event.target.classList.add("drop-target");
-            },
-            ondragleave: function (event) {
-                event.target.classList.remove("drop-target");
-            },
-            ondrop: function (event) {
-                let position = {
-                    x: (event.dragEvent.clientX - event.target.getBoundingClientRect().left - document.getElementById('maincontent').offsetLeft)*100/event.target.parentElement.offsetWidth + "%",
-                    y: (event.dragEvent.clientY - event.target.getBoundingClientRect().top + document.getElementById('maincontent').scrollTop) + 'px',
-                    type: 'absolute'
-                };
-                let initialParams = {
-                    parent: this.props.navItemSelected.id,
-                    container: 0,
-                    position: position
-                };
-                Dali.Plugins.get(event.relatedTarget.getAttribute("name")).getConfig().callback(initialParams, ADD_BOX);
-                event.dragEvent.stopPropagation();
-            }.bind(this),
-            ondropdeactivate: function (event) {
-                event.target.classList.remove('drop-active');
-                event.target.classList.remove("drop-target");
-            }
-        });
-    }
 }
