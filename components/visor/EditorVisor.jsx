@@ -7,7 +7,7 @@ require('es6-promise').polyfill();
 require('./../../sass/style.scss');
 require('./../../core/visor_entrypoint');
 
-export default class Visor extends Component {
+export default class EditorVisor extends Component {
     render() {
 
         let boxes = Dali.State.boxesById;
@@ -37,6 +37,6 @@ export default class Visor extends Component {
 }
 
 /* jshint ignore:start */
-ReactDOM.render((<Visor />), document.getElementById('root'));
+ReactDOM.render((<EditorVisor />), document.getElementById('root'));
 /* jshint ignore:end */
 

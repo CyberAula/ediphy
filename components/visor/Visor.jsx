@@ -1,42 +1,45 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 
-import CanvasVisor from './components/CanvasVisor';
-
-require('es6-promise').polyfill();
-require('./../../sass/style.scss');
-require('./../../core/visor_entrypoint');
 
 export default class Visor extends Component {
-    render() {
+   shouldComponentUpdate(nextProps, nextState) {
+        return this.props.visorVisible || nextProps.visorVisible;
+    }
 
-        let boxes = Dali.State.boxesById;
-        let boxSelected = Dali.State.boxSelected;
-        let navItems = Dali.State.navItemsById;
-        let navItemSelected = Dali.State.navItemSelected;
-        let containedViews = Dali.State.containedViewsById;
-        let containedViewSelected = Dali.State.containedViewSelected;
-        let toolbars = Dali.State.toolbarsById;
-        let title = Dali.State.title;
+    render() {
+        if (this.props.state.navItemSelected === 0) {
+            return (
+                /* jshint ignore:start */
+                <div></div>
+                /* jshint ignore:end */
+            );
+        }
 
         return (
             /* jshint ignore:start */
-            <CanvasVisor boxes={boxes}
-                             boxSelected={boxSelected}
-                             navItemSelected={navItems[navItemSelected]}
-                             navItems={navItems}
-                             containedViews={containedViews}
-                             containedViewSelected={containedViewSelected}
-                             toolbars={toolbars}
-                             title={title}
-                             showCanvas={(navItemSelected !== 0)}
-            />
+            <Modal className="visor modalVisorContainer"
+                   show={this.props.visorVisible}
+                   backdrop={true} bsSize="large"
+                   aria-labelledby="contained-modal-title-lg"
+                   onHide={e => {
+                        this.props.onVisibilityToggled()
+                        }}>
+                <Modal.Header closeButton>
+                    <Modal.Title><span id="previewTitle">{i18n.t('Preview')}</span></Modal.Title>
+                </Modal.Header>
+
+                <Modal.Body style={{position: 'absolute', top: '56px', padding: 0, bottom: 0, width: '100%'}}>
+                    <iframe ref={el => {
+                        if(el !== null && this.props.visorVisible){
+                            el.contentWindow.document.open();
+                            el.contentWindow.document.write(Dali.Visor.exportPage(this.props.state));
+                            el.contentWindow.document.close();
+                        }
+                    }} style={{width: "100%", height: "100%", border: 0}} allowFullScreen frameBorder="0" ></iframe>
+                </Modal.Body>
+            </Modal>
             /* jshint ignore:end */
         );
     }
 }
-
-/* jshint ignore:start */
-ReactDOM.render((<Visor />), document.getElementById('root'));
-/* jshint ignore:end */
-
