@@ -105,7 +105,7 @@ export default class DaliBoxSortable extends Component {
                                        }}>delete</i>
                                 </div>
 
-                                
+
                             </div>
                         </div>);
                     })}
@@ -157,6 +157,12 @@ export default class DaliBoxSortable extends Component {
         interact(item).resizable({
             enabled: this.props.id === this.props.boxSelected && item.style.height !== "auto",
             edges: {left: false, right: false, bottom: true, top: false},
+            autoScroll: {
+              container: document.getElementById('canvas'),
+              margin: 50,
+              distance: 0,
+              interval: 0
+            },
             onmove: (event) => {
                 event.target.style.height = event.rect.height + 'px';
             },

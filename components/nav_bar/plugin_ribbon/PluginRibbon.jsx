@@ -64,10 +64,16 @@ export default class PluginRibbon extends Component {
         Dali.API_Private.listenEmission(Dali.API_Private.events.addMenuButtons, e => {
             this.setState({buttons: this.state.buttons.concat(e.detail)});
         });
-
+        interact.dynamicDrop(true);
         interact(".rib")
             .draggable({
-                autoScroll: false,
+                inertia: true,
+                autoScroll: {
+                  container: document.getElementById('canvas'),
+                  margin: 50,
+                  distance: 0,
+                  interval: 0
+                },
                 onstart: function (event) {
                     changeOverflow(true);
                     let original = event.target;
@@ -84,10 +90,12 @@ export default class PluginRibbon extends Component {
                     clone.style.webkitTransform =
                         clone.style.transform =
                             'translate(' + (x) + 'px, ' + (y) + 'px)';
+                    clone.style.position = 'absolute';
                 },
                 onmove: (event) => {
                     let target = document.getElementById('clone'),
                     // keep the dragged position in the data-x/data-y attributes
+
                         x = (parseFloat(target.getAttribute('data-x'), 10) || 0) + event.dx,
                         y = (parseFloat(target.getAttribute('data-y'), 10) || 0) + event.dy;
 
@@ -96,11 +104,14 @@ export default class PluginRibbon extends Component {
                         target.style.transform =
                             'translate(' + (x) + 'px, ' + (y) + 'px)';
                     target.style.zIndex = '9999';
+
                     target.classList.add('ribdrag');
 
                     // update the position attributes
                     target.setAttribute('data-x', x);
                     target.setAttribute('data-y', y);
+
+                    //console.log(y);
                 },
                 onend: (event) => {
                     changeOverflow(false);

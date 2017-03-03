@@ -9,3 +9,5 @@ webpack.config.js~
 dali_server/config.json
 *.map
 nbproject
+dist/lib/scorm/scorm.zip
+dist/lib/visor/dist.zip
