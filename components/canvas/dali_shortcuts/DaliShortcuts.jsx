@@ -33,6 +33,8 @@ export default class DaliShortcuts extends Component {
                     width: this.state.width !== 0 ? this.state.width : "auto"
                  }}>
                 <div ref="innerContainer" style={{display: "inline-block", minWidth: "150px" }}>
+                    <span className="namePlugin">{toolbar.config.displayName || ""}</span>
+
                     {
                         isSortableContainer(box.container) ? (
                             <OverlayTrigger placement="top"
@@ -124,7 +126,7 @@ export default class DaliShortcuts extends Component {
                     document.getElementById('contained_maincontent');
                 var canvasRect = canvas.getBoundingClientRect();
 
-                left = (boxRect.left - canvasRect.left + 35); //sum padding
+                left = (boxRect.left - canvasRect.left + 28); //sum padding
                 top = (boxRect.top - canvasRect.top + canvas.scrollTop + 120); //sum header + padding
 
                 if (element) {

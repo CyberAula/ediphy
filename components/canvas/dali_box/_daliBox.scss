@@ -1,5 +1,5 @@
 @import "../../../sass/general/_variables.scss";
-
+@import "../../../sass/general/mixins/_mixins.scss";
 /*Resize box squares*/
 .helpersResizable {
     border: 1px solid #777;
@@ -38,17 +38,26 @@
 
 /*Box editing shortcuts*/
 #daliBoxIcons {
+  @include box-shadow(1px, -1px, 4px, #ccc, $inset: false);
     position: absolute;
     text-align: center;
-    height: 40px;
+    height: 45px;
     z-index: 999;
-    width: 100%;
-    margin-top: -40px;
+    width: auto;
+    margin-top: -45px;
+    background: #f5f5f5;
+    border-radius: 5px 5px 0 0;
+    padding: 3px;
+    .namePlugin{
+      color: $grismedio;
+      padding: 6px;
+      float: left;
+      margin: 4px 3px;
+    }
     .daliTitleButton {
         background-color: #bababa !important;
         &:hover {
             background-color: $naranjaadams !important;
-
         }
     }
 }
@@ -97,7 +106,7 @@
 }
 
 .basicImageClass, .basicVideoClass{
-  box-shadow: 1px 1px 9px #ddd;
+  @include box-shadow(1px, 1px, 9px, #ccc, $inset: false);
 }
 .automaticallySizedBox .basicImageClass{
     position: relative;

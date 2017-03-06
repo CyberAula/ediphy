@@ -22,7 +22,7 @@ export function BasicText(base) {
                                 padding: {
                                     __name: Dali.i18n.t('BasicText.padding'),
                                     type: 'number',
-                                    value: 0,
+                                    value: 10,
                                     min: 0,
                                     max: 100
                                 },
