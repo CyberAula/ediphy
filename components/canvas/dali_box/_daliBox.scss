@@ -41,13 +41,12 @@
   @include box-shadow(1px, -1px, 4px, #ccc, $inset: false);
     position: absolute;
     text-align: center;
-    height: 45px;
+    height: 40px;
     z-index: 999;
     width: auto;
-    margin-top: -45px;
+    margin-top: -40px;
     background: #f5f5f5;
-    border-radius: 5px 5px 0 0;
-    padding: 3px;
+    border-radius: 2px 2px 0 0;
     .namePlugin{
       color: $grismedio;
       padding: 6px;

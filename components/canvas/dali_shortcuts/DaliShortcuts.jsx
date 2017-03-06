@@ -16,10 +16,12 @@ export default class DaliShortcuts extends Component {
 
     render() {
         let box = this.props.box;
-        if (!box) {
+        let toolbar = this.props.toolbar;
+        if (!box && !toolbar) {
+            console.log("sale sin actualizar");
             return null;
         }
-        let toolbar = this.props.toolbar;
+        console.log("actualiza " + this.state.left);
         return (
             /* jshint ignore:start */
             <div id={this.props.isContained ? "contained_daliBoxIcons" : "daliBoxIcons"}
@@ -29,8 +31,8 @@ export default class DaliShortcuts extends Component {
                     display: isSortableBox(box.id) ? 'none' : 'block',
                     position: 'absolute',
                     left: this.state.left,
-                    top: this.state.top,
-                    width: this.state.width !== 0 ? this.state.width : "auto"
+                    top: this.state.top
+                    //width: this.state.width !== 0 ? this.state.width : "auto"
                  }}>
                 <div ref="innerContainer" style={{display: "inline-block", minWidth: "150px" }}>
                     <span className="namePlugin">{toolbar.config.displayName || ""}</span>
