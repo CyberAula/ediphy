@@ -121,16 +121,6 @@ export default class BoxVisor extends Component {
                     boxSizing: 'content-box'
                 }}>
                     </div>
-                    <div style={{display: box.resizable ? 'initial' : 'none'}}>
-                        <div className="helpersResizable"
-                             style={{ left:  -cornerSize/2, top: -cornerSize/2, width: cornerSize, height: cornerSize, cursor: (!isSortableContainer(box.container) ? 'nw-resize' : 'move')}}></div>
-                        <div className="helpersResizable"
-                             style={{ right: -cornerSize/2, top: -cornerSize/2, width: cornerSize, height: cornerSize, cursor: (!isSortableContainer(box.container) ? 'ne-resize' : 'move')}}></div>
-                        <div className="helpersResizable"
-                             style={{ left:  -cornerSize/2, bottom: -cornerSize/2, width: cornerSize, height: cornerSize, cursor: (!isSortableContainer(box.container) ? 'sw-resize' : 'move')}}></div>
-                        <div className="helpersResizable"
-                             style={{ right: -cornerSize/2, bottom: -cornerSize/2, width: cornerSize, height: cornerSize, cursor: (!isSortableContainer(box.container) ? 'se-resize' : 'move')}}></div>
-                    </div>
                 </div>
                 /* jshint ignore:end */
             );
@@ -166,47 +156,13 @@ export default class BoxVisor extends Component {
         return (
             /* jshint ignore:start */
             <div className={classes} id={'box-' + this.props.id}
-                 onClick={e => {
-                    // If there's no box selected and current's level is 0 (otherwise, it would select a deeper box)
-                    // or -1 (only DaliBoxSortable can have level -1)
-                    if((this.props.boxSelected === -1 || this.props.boxLevelSelected === -1) && box.level === 0){
-                        e.stopPropagation();
-                        return;
-                    }
-                    // Last parent has to be the same, otherwise all boxes with same level would be selectable
-                    if(this.props.boxLevelSelected === box.level &&
-                       isAncestorOrSibling(this.props.boxSelected, this.props.id, this.props.boxes)){
-                        if(e.nativeEvent.ctrlKey && box.children.length !== 0){
-                            this.props.onBoxLevelIncreased();
-                        }else{
-                            if(this.props.boxSelected !== this.props.id){
-
-                            }
-                        }
-                    }
-                    if(this.props.boxSelected !== -1 && this.props.boxLevelSelected === 0){
-                        e.stopPropagation();
-                    }
-                    if(box.level === 0){
-                        e.stopPropagation();
-                    }
-                 }}
-                 onDoubleClick={(e)=> {
-                    if(toolbar.config && toolbar.config.needsTextEdition && this.props.id == this.props.boxSelected){
-                        this.props.onTextEditorToggled(this.props.id, true);
-                        this.refs.textarea.focus();
-                    }
-                 }}
                  style={{
                     position: box.position.type,
                     left: box.position.x ? box.position.x : "",
                     top: box.position.y ? box.position.y : "",
                     width: width,
                     height: height,
-                    verticalAlign: verticalAlign,
-                    touchAction: 'none',
-                    msTouchAction: 'none',
-                    cursor: vis ? 'inherit': 'default' //esto evita que aparezcan los cursores de move y resize cuando la caja no está seleccionada
+                    verticalAlign: verticalAlign
                 }}>
                 {border}
                 {content}
@@ -218,7 +174,6 @@ export default class BoxVisor extends Component {
                          style={textareaStyle}></div> :
                     null
                 }
-                <div className="boxOverlay" style={{ display: showOverlay }}></div>
             </div>
             /* jshint ignore:end */
         );
