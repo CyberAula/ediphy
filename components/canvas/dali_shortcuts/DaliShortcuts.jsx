@@ -30,7 +30,7 @@ export default class DaliShortcuts extends Component {
                  style={{
                     display: isSortableBox(box.id) ? 'none' : 'block',
                     position: 'absolute',
-                    left: this.state.left,
+                    left: this.state.left + 5,
                     top: this.state.top
                     //width: this.state.width !== 0 ? this.state.width : "auto"
                  }}>
