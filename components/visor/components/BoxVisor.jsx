@@ -140,9 +140,7 @@ export default class BoxVisor extends Component {
         if (box.container) {
             classes += " dnd" + box.container;
         }
-        if (this.props.id === this.props.boxSelected) {
-            classes += " selectedBox";
-        }
+
         if (box.height === 'auto') {
             classes += " automaticallySizedBox";
         }
@@ -172,7 +170,6 @@ export default class BoxVisor extends Component {
                     // If there's no box selected and current's level is 0 (otherwise, it would select a deeper box)
                     // or -1 (only DaliBoxSortable can have level -1)
                     if((this.props.boxSelected === -1 || this.props.boxLevelSelected === -1) && box.level === 0){
-                        this.props.onBoxSelected(this.props.id);
                         e.stopPropagation();
                         return;
                     }
@@ -183,12 +180,11 @@ export default class BoxVisor extends Component {
                             this.props.onBoxLevelIncreased();
                         }else{
                             if(this.props.boxSelected !== this.props.id){
-                                this.props.onBoxSelected(this.props.id);
+
                             }
                         }
                     }
                     if(this.props.boxSelected !== -1 && this.props.boxLevelSelected === 0){
-                        this.props.onBoxSelected(this.props.id);
                         e.stopPropagation();
                     }
                     if(box.level === 0){
@@ -250,7 +246,6 @@ export default class BoxVisor extends Component {
                         boxLevelSelected: this.props.boxLevelSelected,
                         toolbars: this.props.toolbars,
                         lastActionDispatched: this.props.lastActionDispatched,
-                        onBoxSelected: this.props.onBoxSelected,
                         onBoxLevelIncreased: this.props.onBoxLevelIncreased,
                         containedViewSelected: this.props.containedViewSelected,
                         onBoxMoved: this.props.onBoxMoved,

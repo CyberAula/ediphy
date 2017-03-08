@@ -56,7 +56,6 @@ export default class HeaderVisor extends Component {
             /* jshint ignore:start */
 
                 <div className="title" onClick={(e) => {
-                                        this.props.onBoxSelected(-1);
                                         this.props.onShowTitle();
                                         e.stopPropagation(); }}>
                     <div style={{backgroundColor:'white', display:(titles.length !== 0)? 'initial' : 'none' }}>

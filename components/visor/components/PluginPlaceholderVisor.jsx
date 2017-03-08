@@ -56,7 +56,6 @@ export default class PluginPlaceholderVisor extends Component {
                                                              containedViewSelected={this.props.containedViewSelected}
                                                              toolbars={this.props.toolbars}
                                                              lastActionDispatched={this.props.lastActionDispatched}
-                                                             onBoxSelected={this.props.onBoxSelected}
                                                              onBoxLevelIncreased={this.props.onBoxLevelIncreased}
                                                              onBoxMoved={this.props.onBoxMoved}
                                                              onBoxResized={this.props.onBoxResized}
