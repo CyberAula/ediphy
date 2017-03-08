@@ -24,23 +24,13 @@ var parseEJS = function (path, page, state, fromScorm) {
         let extraFileContainer = state.toolbarsById[extraFileBox];
 
         return (new EJS({url: path + "_exercise.ejs"}).render({
-            title: state.title,
-            subtitle: titleModifier(state.navItemsById[state.navItemSelected].name),
             state: state,
             relativePath: "../",
             daliDocumentsPath: "css/",
-            ejerType: extraFileContainer.state.ejerType, //  ejerType: "relAll",
-            myXmlFile: extraFileContainer.state.__xml_path//Has to be "exercises/ua2_ue10_ejer7.xml"
         }));
     }
     return (new EJS({url: path + ".ejs"}).render({
         state: state,
-        title: state.title,
-        page: page,
-        navs: state.navItemsById,
-        boxesById: state.boxesById,
-        boxes: state.boxes,
-        toolbarsById: state.toolbarsById,
         relativePath: "../"
     }));
 };
@@ -90,23 +80,13 @@ export default {
             let extraFileContainer = state.toolbarsById[extraFileBox];
 
             return (new EJS({url: Dali.Config.visor_ejs + "_exercise.ejs"}).render({
-                title: state.title,
-                subtitle: titleModifier(state.navItemsById[state.navItemSelected].name),
                 state: state,
                 relativePath: "../",
                 daliDocumentsPath: "css/",
-                ejerType: extraFileContainer.state.ejerType, //relAll
-                myXmlFile: extraFileContainer.state.__xml_path //Has to be "exercises/ua2_ue10_ejer7.xml"
             }));
         }
         return new EJS({url: Dali.Config.visor_ejs + ".ejs"}).render({
-            title: state.title,
             state: state,
-            page: state.navItemSelected,
-            navs: state.navItemsById,
-            boxesById: state.boxesById,
-            boxes: state.boxes,
-            toolbarsById: state.toolbarsById,
             relativePath: "/",
         });
     },

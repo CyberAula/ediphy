@@ -2,13 +2,16 @@
 <html lang="en" style="height: 100%">
 <head>
     <meta charset="UTF-8">
-    <title><%= navs[page].name %></title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet" type="text/css">
     <link href='https://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
+    <script>
+        var State = <%= JSON.stringify(state) %>
+    </script>
 </head>
 <body style="margin: 0px; height: 100%">
-<div style="height:100%;" id="root" style="height: 100%">
+<div style="height:100%;background-color:white" id="root">
 <script src="<%=relativePath%>js/visor-bundle.js"></script>
-</body>
+
+</body> 
 </html>

@@ -10,6 +10,10 @@ require('./../../core/visor_entrypoint');
 export default class Visor extends Component {
     render() {
 
+        if(window.State){
+            Dali.State = window.State;
+        }
+
         let boxes = Dali.State.boxesById;
         let boxSelected = Dali.State.boxSelected;
         let navItems = Dali.State.navItemsById;

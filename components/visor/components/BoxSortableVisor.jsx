@@ -30,7 +30,7 @@ export default class BoxSortableVisor extends Component {
                                                              style={{height: row + "%"}}>
                                                     {container.children.map((idBox, index) => {
                                                         if (this.props.boxes[idBox].col === i && this.props.boxes[idBox].row === j) {
-                                                            return (<DaliBox id={idBox}
+                                                            return (<BoxVisor id={idBox}
                                                                              key={index}
                                                                              boxes={this.props.boxes}
                                                                              boxSelected={this.props.boxSelected}

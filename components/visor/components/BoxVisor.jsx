@@ -227,5 +227,79 @@ export default class BoxVisor extends Component {
             /* jshint ignore:end */
         );
     }
-    
+
+    renderChildren(markup, key) {
+        let component;
+        let props = {};
+        let children = null;
+        switch (markup.node) {
+            case 'element':
+                if (markup.attr) {
+                    props = markup.attr;
+                }
+                props.key = key;
+                if (markup.tag === 'plugin') {
+                    component = PluginPlaceholderVisor;
+                    let resizable = markup.attr.hasOwnProperty("plugin-data-resizable");
+                    props = Object.assign({}, props, {
+                        pluginContainer: markup.attr["plugin-data-id"],
+                        resizable: resizable,
+                        parentBox: this.props.boxes[this.props.id],
+                        boxes: this.props.boxes,
+                        boxSelected: this.props.boxSelected,
+                        boxLevelSelected: this.props.boxLevelSelected,
+                        toolbars: this.props.toolbars,
+                        lastActionDispatched: this.props.lastActionDispatched,
+                        onBoxSelected: this.props.onBoxSelected,
+                        onBoxLevelIncreased: this.props.onBoxLevelIncreased,
+                        containedViewSelected: this.props.containedViewSelected,
+                        onBoxMoved: this.props.onBoxMoved,
+                        onBoxResized: this.props.onBoxResized,
+                        onSortableContainerResized: this.props.onSortableContainerResized,
+                        onBoxDeleted: this.props.onBoxDeleted,
+                        onBoxDropped: this.props.onBoxDropped,
+                        onVerticallyAlignBox: this.props.onVerticallyAlignBox,
+                        onBoxModalToggled: this.props.onBoxModalToggled,
+                        onBoxesInsideSortableReorder: this.props.onBoxesInsideSortableReorder,
+                        onTextEditorToggled: this.props.onTextEditorToggled
+                    });
+                } else {
+                    component = markup.tag;
+                }
+                break;
+            case 'text':
+                component = "span";
+                props = {key: key};
+                children = [decodeURI(markup.text)];
+                break;
+            case 'root':
+                component = "div";
+                props = {style: {width: '100%', height: '100%'}};
+                break;
+        }
+
+        Object.keys(props).forEach(prop => {
+            if (prop.startsWith("on")) {
+                let value = props[prop];
+                if (typeof value === "string") {
+                    props[prop] = function () {
+                    };
+                }
+            }
+        });
+
+        if (markup.child) {
+            if (markup.child.length === 1 && markup.child[0].node === "text") {
+                props.dangerouslySetInnerHTML = {
+                    __html: decodeURI(markup.child[0].text)
+                };
+            } else {
+                children = [];
+                markup.child.forEach((child, index) => {
+                    children.push(this.renderChildren(child, index));
+                });
+            }
+        }
+        return React.createElement(component, props, children);
+    }
 }

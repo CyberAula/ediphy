@@ -33,9 +33,9 @@ export default class CanvasVisor extends Component {
             /* jshint ignore:start */
 
             <Col id="canvas" md={12} xs={12}
-                 style={{display: this.props.containedViewSelected !== 0 ? 'none' : 'initial'}}>
+                 style={{display: this.props.containedViewSelected !== 0 ? 'none' : 'initial',backgroundColor: 'white'}}>
                  <div className="scrollcontainer">
-                 <DaliHeader titles={titles}
+                 <HeaderVisor titles={titles}
                         onShowTitle={()=>this.setState({showTitle:true})}
                         courseTitle={this.props.title}
                         titleMode={this.props.navItemSelected.titleMode}
@@ -57,7 +57,7 @@ export default class CanvasVisor extends Component {
                          className={isSlide(this.props.navItemSelected.type) ? 'innercanvas sli':'innercanvas doc'}
                          style={{visibility: (this.props.showCanvas ? 'visible' : 'hidden')}}>
 
-                        <DaliTitle titles={titles}
+                        <TitleVisor titles={titles}
                             courseTitle={this.props.title}
                             titleMode={this.props.navItemSelected.titleMode}
                             navItem={this.props.navItemSelected}
@@ -81,7 +81,7 @@ export default class CanvasVisor extends Component {
                         {this.props.navItemSelected.boxes.map(id => {
                             let box = this.props.boxes[id];
                             if (!isSortableBox(box.id)) {
-                                return <DaliBoxVisor key={id}
+                                return <BoxVisor key={id}
                                                 id={id}
                                                 boxes={this.props.boxes}
                                                 boxSelected={this.props.boxSelected}
@@ -89,7 +89,7 @@ export default class CanvasVisor extends Component {
                                                 containedViewSelected={this.props.containedViewSelected}
                                                 toolbars={this.props.toolbars}/>
                             } else {
-                                return <DaliBoxSortableVisor key={id}
+                                return <BoxSortableVisor key={id}
                                                         id={id}
                                                         boxes={this.props.boxes}
                                                         boxSelected={this.props.boxSelected}
