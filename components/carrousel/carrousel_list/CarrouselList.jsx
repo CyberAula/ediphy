@@ -71,26 +71,28 @@ export default class CarrouselList extends Component {
                         <Tooltip  id="newFolderTooltip">{i18n.t('create new folder')}
                         </Tooltip>}>
                             <Button className="carrouselButton"
-                                    disabled={!isSection(this.props.navItemSelected) && this.props.navItemSelected !== 0}
+                                    disabled={(!isSection(this.props.navItemSelected) && this.props.navItemSelected !== 0) || this.props.navItems[this.props.navItemSelected].level >= 10}
                                     onClick={e => {
-                                    let idnuevo = ID_PREFIX_SECTION + Date.now();
-                                      this.props.onNavItemAdded(
-                                          idnuevo,
-                                          i18n.t("section"),
-                                          this.getParent().id,
-                                          "",
-                                          this.calculatePosition()
-                                      );
-                                    if(Dali.Config.sections_have_content){
-                                        this.props.onBoxAdded({
-                                            parent: idnuevo,
-                                            container: 0,
-                                            id: ID_PREFIX_SORTABLE_BOX + Date.now()},
-                                            false,
-                                            false
+
+                                      let idnuevo = ID_PREFIX_SECTION + Date.now();
+                                        this.props.onNavItemAdded(
+                                            idnuevo,
+                                            i18n.t("section"),
+                                            this.getParent().id,
+                                            "",
+                                            this.calculatePosition()
                                         );
-                                    }
-                                    e.stopPropagation();
+                                      if(Dali.Config.sections_have_content){
+                                          this.props.onBoxAdded({
+                                              parent: idnuevo,
+                                              container: 0,
+                                              id: ID_PREFIX_SORTABLE_BOX + Date.now()},
+                                              false,
+                                              false
+                                          );
+                                      }
+                                      e.stopPropagation();
+
                                 }}><i className="material-icons">create_new_folder</i>
                             </Button>
                     </OverlayTrigger>
