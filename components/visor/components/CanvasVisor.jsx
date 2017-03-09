@@ -44,7 +44,7 @@ export default class CanvasVisor extends Component {
                         titleModeToggled={this.props.titleModeToggled}
                         onUnitNumberChanged={this.props.onUnitNumberChanged}
                         showButton={true}/>
-                <div className="outter canvaseditor">
+                <div className="outter canvasvisor">
                     <div id="airlayer"
                     className={isSlide(this.props.navItemSelected.type) ? 'slide_air' : 'doc_air'}
                     style={{visibility: (this.props.showCanvas ? 'visible' : 'hidden') }}>
