@@ -18,7 +18,6 @@ export default class DaliShortcuts extends Component {
     render() {
         let box = this.props.box;
         let toolbar = this.props.toolbar;
-        console.log("render");
         if (!box && !toolbar) {
             return null;
         }
@@ -120,7 +119,6 @@ export default class DaliShortcuts extends Component {
     componentDidUpdate(nextProps) {
       if (nextProps !== this.props){
         if (nextProps.box) {
-            console.log("cambia props");
             let box = document.getElementById('box-' + this.props.box.id);
             let element = ReactDOM.findDOMNode(this.refs.innerContainer);
             let left = 0;
