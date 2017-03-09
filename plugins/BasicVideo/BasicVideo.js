@@ -27,12 +27,6 @@ export function BasicVideo(base) {
                                     value: base.getState().url,
                                     autoManaged: false
                                 },
-                                poster: {
-                                    __name: Dali.i18n.t('BasicVideo.URL'),
-                                    type: 'text',
-                                    value: base.getState().poster,
-                                    autoManaged: false
-                                },
                                 controls: {
                                     __name: Dali.i18n.t('BasicVideo.Show_controls'),
                                     type: 'checkbox',
