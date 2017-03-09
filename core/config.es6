@@ -21,7 +21,8 @@ export default {
         'Webpage',
         'CajasColor',
         'ListaNumerada',
-        'RelacionaAll'
+        'RelacionaAll',
+        'GraficaD3'
     ],
     availableLanguages:[
         'en',
