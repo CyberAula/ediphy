@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import {Button, Tooltip, OverlayTrigger} from 'react-bootstrap';
 import i18n from 'i18next';
 import {isSortableBox, isSortableContainer} from './../../../utils';
+import interact from 'interact.js';
 
 export default class DaliShortcuts extends Component {
     constructor(props) {
@@ -17,11 +18,11 @@ export default class DaliShortcuts extends Component {
     render() {
         let box = this.props.box;
         let toolbar = this.props.toolbar;
+        console.log("render");
         if (!box && !toolbar) {
-            console.log("sale sin actualizar");
             return null;
         }
-        console.log("actualiza " + this.state.left);
+
         return (
             /* jshint ignore:start */
             <div id={this.props.isContained ? "contained_daliBoxIcons" : "daliBoxIcons"}
@@ -64,6 +65,7 @@ export default class DaliShortcuts extends Component {
                                                 widthButton.type = "number";
                                                 widthButton.units = "%";
                                             }
+
                                         this.props.onBoxResized(toolbar.id, widthButton);
                                         e.stopPropagation();
                                     }}>
@@ -114,9 +116,12 @@ export default class DaliShortcuts extends Component {
         );
     }
 
-    componentWillReceiveProps(nextProps) {
+
+    componentDidUpdate(nextProps) {
+      if (nextProps !== this.props){
         if (nextProps.box) {
-            let box = document.getElementById('box-' + nextProps.box.id);
+            console.log("cambia props");
+            let box = document.getElementById('box-' + this.props.box.id);
             let element = ReactDOM.findDOMNode(this.refs.innerContainer);
             let left = 0;
             let top = 0;
@@ -140,6 +145,9 @@ export default class DaliShortcuts extends Component {
 
             }
             this.setState({left: left, top: top, width: width});
+
         }
+      }
     }
+
 }
