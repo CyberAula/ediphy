@@ -18,6 +18,7 @@ export default class DaliShortcuts extends Component {
     render() {
         let box = this.props.box;
         let toolbar = this.props.toolbar;
+
         if (!box && !toolbar) {
             return null;
         }
@@ -30,7 +31,7 @@ export default class DaliShortcuts extends Component {
                  style={{
                     display: isSortableBox(box.id) ? 'none' : 'block',
                     position: 'absolute',
-                    left: this.state.left + 5,
+                    left: this.state.left ,
                     top: this.state.top
                     //width: this.state.width !== 0 ? this.state.width : "auto"
                  }}>
@@ -127,12 +128,12 @@ export default class DaliShortcuts extends Component {
             if (box) {
                 var boxRect = box.getBoundingClientRect();
                 var canvas = this.props.containedViewSelected === 0 ?
-                    document.getElementById('maincontent') :
+                    document.getElementById('canvas') :
                     document.getElementById('contained_maincontent');
                 var canvasRect = canvas.getBoundingClientRect();
 
-                left = (boxRect.left - canvasRect.left + 28); //sum padding
-                top = (boxRect.top - canvasRect.top + canvas.scrollTop + 120); //sum header + padding
+                left = (boxRect.left - canvasRect.left);
+                top = (boxRect.top - canvasRect.top + canvas.scrollTop);
 
                 if (element) {
                     var elementRect = element.getBoundingClientRect();
