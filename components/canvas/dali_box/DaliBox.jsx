@@ -32,10 +32,10 @@ export default class DaliBox extends Component {
             top: '0%',
             color: 'black',
             backgroundColor: 'white',
-            padding: 0,
+            padding: 10,
             width: '100%',
             height: (toolbar.showTextEditor ? '' : '100%'),
-            border: 'dashed black 1px',
+            //border: 'dashed black 1px',
             zIndex: 99999,
             visibility: (toolbar.showTextEditor ? 'visible' : 'hidden')
         };

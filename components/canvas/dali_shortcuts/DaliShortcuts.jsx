@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import {Button, Tooltip, OverlayTrigger} from 'react-bootstrap';
 import i18n from 'i18next';
 import {isSortableBox, isSortableContainer} from './../../../utils';
-import interact from 'interact.js';
+
 
 export default class DaliShortcuts extends Component {
     constructor(props) {
