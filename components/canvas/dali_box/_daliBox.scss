@@ -95,10 +95,10 @@
         pointer-events: none !important;
     }
 }
-.basicImageClass{
 
+.basicImageClass, .basicVideoClass{
+  box-shadow: 1px 1px 9px #ddd;
 }
-
 .automaticallySizedBox .basicImageClass{
     position: relative;
 }
