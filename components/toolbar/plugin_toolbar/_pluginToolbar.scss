@@ -190,15 +190,15 @@
 
 /*Toolbar title when spread*/
 .toolbarSpread {
-    text-align: left;
-    padding: 0 4px;
+    display: inline-block;
+    padding: 2px;
     .material-icons {
         font-size: 20px;
         float: left;
     }
     .textIndex {
         float: left;
-        padding-top: 8px;
+        padding-top: 7px;
     }
     .pluginTitleInToolbar {
         margin: -8px 6px 8px;

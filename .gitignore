@@ -2,8 +2,6 @@ node_modules
 nbproject
 .idea
 dist/*bundle.js
-dist/lib/scorm/scorm.zip
-dist/lib/visor/dist.zip
 *.log
 webpack.config.js~
 *.orig
@@ -11,3 +9,5 @@ webpack.config.js~
 dali_server/config.json
 *.map
 nbproject
+dist/lib/scorm/scorm.zip
+dist/lib/visor/dist.zip
