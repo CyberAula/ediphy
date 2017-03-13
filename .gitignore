@@ -2,6 +2,8 @@ node_modules
 nbproject
 .idea
 dist/*bundle.js
+dist/lib/scorm/scorm.zip
+dist/lib/visor/dist.zip
 *.log
 webpack.config.js~
 *.orig

@@ -31,7 +31,7 @@ export default class DaliShortcuts extends Component {
                  style={{
                     display: isSortableBox(box.id) ? 'none' : 'block',
                     position: 'absolute',
-                    left: this.state.left ,
+                    left: this.state.left + 10,
                     top: this.state.top
                     //width: this.state.width !== 0 ? this.state.width : "auto"
                  }}>
@@ -118,35 +118,38 @@ export default class DaliShortcuts extends Component {
 
 
     componentDidUpdate(nextProps) {
+
       if (nextProps !== this.props){
-        if (nextProps.box) {
+        if (nextProps.box && this.props.box) {
+
             let box = document.getElementById('box-' + this.props.box.id);
             let element = ReactDOM.findDOMNode(this.refs.innerContainer);
             let left = 0;
             let top = 0;
             let width = 0;
             if (box) {
-                var boxRect = box.getBoundingClientRect();
-                var canvas = this.props.containedViewSelected === 0 ?
-                    document.getElementById('canvas') :
-                    document.getElementById('contained_maincontent');
-                var canvasRect = canvas.getBoundingClientRect();
+              var boxRect = box.getBoundingClientRect();
+              var canvas = this.props.containedViewSelected === 0 ?
+                  document.getElementById('canvas') :
+                  document.getElementById('contained_maincontent');
+              var canvasRect = canvas.getBoundingClientRect();
 
-                left = (boxRect.left - canvasRect.left);
-                top = (boxRect.top - canvasRect.top + canvas.scrollTop);
+              left = (boxRect.left - canvasRect.left);
+              top = (boxRect.top - canvasRect.top + canvas.scrollTop);
 
-                if (element) {
-                    var elementRect = element.getBoundingClientRect();
-                    width = boxRect.width < elementRect.width ? elementRect.width : boxRect.width;
-                } else {
-                    width = box.getBoundingClientRect().width;
-                }
-
+              if (element) {
+                  var elementRect = element.getBoundingClientRect();
+                  width = boxRect.width < elementRect.width ? elementRect.width : boxRect.width;
+              } else {
+                  width = box.getBoundingClientRect().width;
+              }
             }
             this.setState({left: left, top: top, width: width});
-
         }
+
+
       }
+
     }
 
 }
