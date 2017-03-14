@@ -4,6 +4,7 @@ import {Button, Tooltip, OverlayTrigger} from 'react-bootstrap';
 import i18n from 'i18next';
 import {isSortableBox, isSortableContainer} from './../../../utils';
 
+
 export default class DaliShortcuts extends Component {
     constructor(props) {
         super(props);
@@ -16,10 +17,12 @@ export default class DaliShortcuts extends Component {
 
     render() {
         let box = this.props.box;
-        if (!box) {
+        let toolbar = this.props.toolbar;
+
+        if (!box && !toolbar) {
             return null;
         }
-        let toolbar = this.props.toolbar;
+
         return (
             /* jshint ignore:start */
             <div id={this.props.isContained ? "contained_daliBoxIcons" : "daliBoxIcons"}
@@ -28,11 +31,13 @@ export default class DaliShortcuts extends Component {
                  style={{
                     display: isSortableBox(box.id) ? 'none' : 'block',
                     position: 'absolute',
-                    left: this.state.left,
-                    top: this.state.top,
-                    width: this.state.width !== 0 ? this.state.width : "auto"
+                    left: this.state.left + 10,
+                    top: this.state.top
+                    //width: this.state.width !== 0 ? this.state.width : "auto"
                  }}>
                 <div ref="innerContainer" style={{display: "inline-block", minWidth: "150px" }}>
+                    <span className="namePlugin">{toolbar.config.displayName || ""}</span>
+
                     {
                         isSortableContainer(box.container) ? (
                             <OverlayTrigger placement="top"
@@ -60,6 +65,7 @@ export default class DaliShortcuts extends Component {
                                                 widthButton.type = "number";
                                                 widthButton.units = "%";
                                             }
+
                                         this.props.onBoxResized(toolbar.id, widthButton);
                                         e.stopPropagation();
                                     }}>
@@ -110,32 +116,40 @@ export default class DaliShortcuts extends Component {
         );
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.box) {
-            let box = document.getElementById('box-' + nextProps.box.id);
+
+    componentDidUpdate(nextProps) {
+
+      if (nextProps !== this.props){
+        if (nextProps.box && this.props.box) {
+
+            let box = document.getElementById('box-' + this.props.box.id);
             let element = ReactDOM.findDOMNode(this.refs.innerContainer);
             let left = 0;
             let top = 0;
             let width = 0;
             if (box) {
-                var boxRect = box.getBoundingClientRect();
-                var canvas = this.props.containedViewSelected === 0 ?
-                    document.getElementById('maincontent') :
-                    document.getElementById('contained_maincontent');
-                var canvasRect = canvas.getBoundingClientRect();
+              var boxRect = box.getBoundingClientRect();
+              var canvas = this.props.containedViewSelected === 0 ?
+                  document.getElementById('canvas') :
+                  document.getElementById('contained_maincontent');
+              var canvasRect = canvas.getBoundingClientRect();
 
-                left = (boxRect.left - canvasRect.left + 35); //sum padding
-                top = (boxRect.top - canvasRect.top + canvas.scrollTop + 120); //sum header + padding
+              left = (boxRect.left - canvasRect.left);
+              top = (boxRect.top - canvasRect.top + canvas.scrollTop);
 
-                if (element) {
-                    var elementRect = element.getBoundingClientRect();
-                    width = boxRect.width < elementRect.width ? elementRect.width : boxRect.width;
-                } else {
-                    width = box.getBoundingClientRect().width;
-                }
-
+              if (element) {
+                  var elementRect = element.getBoundingClientRect();
+                  width = boxRect.width < elementRect.width ? elementRect.width : boxRect.width;
+              } else {
+                  width = box.getBoundingClientRect().width;
+              }
             }
             this.setState({left: left, top: top, width: width});
         }
+
+
+      }
+
     }
+
 }

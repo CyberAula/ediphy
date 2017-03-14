@@ -1,11 +1,23 @@
 @mixin animacion($prop: all, $duracion: 0.3s) {
     transition: $prop $duracion ease-in;
     -webkit-transition: $prop $duracion ease-in;
-    -moz-transition: $prop $duracion ease-in; 	
-    -o-transition: $prop $duracion ease-in; 	
+    -moz-transition: $prop $duracion ease-in;
+    -o-transition: $prop $duracion ease-in;
 }
 
 @mixin selection {
     ::-moz-selection { @content; }
     ::selection { @content; }
+}
+
+@mixin box-shadow($top, $left, $blur, $color, $inset: false) {
+  @if $inset {
+    -webkit-box-shadow:inset $top $left $blur $color;
+    -moz-box-shadow:inset $top $left $blur $color;
+    box-shadow:inset $top $left $blur $color;
+  } @else {
+    -webkit-box-shadow: $top $left $blur $color;
+    -moz-box-shadow: $top $left $blur $color;
+    box-shadow: $top $left $blur $color;
+  }
 }
