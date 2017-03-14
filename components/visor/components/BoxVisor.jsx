@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import ReactDOM from 'react-dom';
 import PluginPlaceholderVisor from './PluginPlaceholderVisor';
 import {isBox, isSortableBox, isView, isSortableContainer, isAncestorOrSibling} from './../../../utils';
 
@@ -99,7 +100,7 @@ export default class BoxVisor extends Component {
         let content = toolbar.config.flavor === "react" ? (
             /* jshint ignore:start */
             <div style={style} {...attrs} className={"boxStyle " + classNames} ref={"content"}>
-                {box.content}
+                {Dali.Visor.Plugins[toolbar.config.name].getRenderTemplate(box.content.props.state)}
             </div>
             /* jshint ignore:end */
         ) : (
