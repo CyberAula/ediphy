@@ -127,7 +127,7 @@ export default class BoxVisor extends Component {
             );
 
 
-        let classes = "wholebox";
+        let classes = "wholeboxvisor";
         if (box.container) {
             classes += " dnd" + box.container;
         }

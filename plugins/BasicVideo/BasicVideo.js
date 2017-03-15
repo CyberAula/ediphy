@@ -102,7 +102,8 @@ export function BasicVideo(base) {
             };
         },
         getRenderTemplate: function (state) {
-            return "<video " + (state.controls ? " controls " : "") + (state.autoplay ? " autoplay " : "") + " style=\"width: 100%; height: 100%; pointer-events: 'none'; z-index:0;\" src=\"" + state.url + "\"  class=\"basicVideoClass\"></video>";
+            console.log(state);
+            return "<video " + (state.controls && state.controls !== "on" ? "controls='true' " : "") + (state.autoplay ? " autoplay " : "") + " style=\"width: 100%; height: 100%; z-index:0;\" src=\"" + state.url + "\"  class=\"basicVideoClass\"></video>";
         },
         handleToolbar: function (name, value) {
             base.setState(name, value);

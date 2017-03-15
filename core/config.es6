@@ -22,7 +22,8 @@ export default {
         'CajasColor',
         'ListaNumerada',
         'RelacionaAll',
-        'GraficaD3'
+        'GraficaD3',
+        'EnrichedVideo'
     ],
     availableLanguages:[
         'en',
