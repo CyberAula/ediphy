@@ -3,6 +3,7 @@ import {Modal, Button, Tabs, Tab, Col} from 'react-bootstrap';
 import interact from 'interact.js';
 import Dali from './../../../core/main';
 import {isSortableBox} from './../../../utils';
+import ReactDOM from 'react-dom';
 
 require('./_pluginRibbon.scss');
 
@@ -23,7 +24,7 @@ export default class PluginRibbon extends Component {
                  style={{
                     height: this.props.ribbonHeight,
                     overflowY:'hidden'
-                }}>
+                }} ref="holder">
                 <div id="insideribbon" className="row">
                     <div id="ribbonList">
                         {this.state.buttons.map((item, index) => {
@@ -59,11 +60,26 @@ export default class PluginRibbon extends Component {
             /* jshint ignore:end */
         );
     }
-
+    handleScroll(e) {
+        var element = document.getElementById("canvas");
+        if (e.deltaY > 0){ //scroll-down
+          element.scrollTop = element.scrollTop + 20;
+        }else{ //scroll-up
+          element.scrollTop = element.scrollTop - 20;
+        }
+    }
+    componentWillUnmount() {
+          const holder = ReactDOM.findDOMNode(this.refs.holder);
+          holder.removeEventListener('mousewheel', this.handleScroll);
+    }
     componentDidMount() {
         Dali.API_Private.listenEmission(Dali.API_Private.events.addMenuButtons, e => {
             this.setState({buttons: this.state.buttons.concat(e.detail)});
         });
+
+        const holder = ReactDOM.findDOMNode(this.refs.holder);
+        holder.addEventListener('mousewheel', this.handleScroll);
+
         interact.dynamicDrop(true);
         interact(".rib")
             .draggable({
@@ -139,6 +155,7 @@ export default class PluginRibbon extends Component {
                     event.stopPropagation();
                 }
             });
+
     }
 }
 
