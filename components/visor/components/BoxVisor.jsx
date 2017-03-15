@@ -9,15 +9,12 @@ export default class BoxVisor extends Component {
         this.borderSize = 2;
     }
 
-
     render() {
         let cornerSize = 15;
         let box = this.props.boxes[this.props.id];
         let toolbar = this.props.toolbars[this.props.id];
         let vis = this.props.boxSelected === this.props.id;
-        let style = {
-            visibility: (toolbar.showTextEditor ? 'hidden' : 'visible')
-        };
+        let style = {};
 
         let textareaStyle = {
             position: 'absolute',
@@ -25,10 +22,10 @@ export default class BoxVisor extends Component {
             top: '0%',
             color: 'black',
             backgroundColor: 'white',
-            padding: 10,
+            padding: 0,
             width: '100%',
             height: (toolbar.showTextEditor ? '' : '100%'),
-            //border: 'dashed black 1px',
+            border: 'dashed black 1px',
             zIndex: 99999,
             visibility: (toolbar.showTextEditor ? 'visible' : 'hidden')
         };
@@ -113,13 +110,28 @@ export default class BoxVisor extends Component {
             </div>
             /* jshint ignore:end */
         );
+        let border = (
+                /* jshint ignore:start */
+                <div style={{visibility: (vis ? 'visible' : 'hidden')}}>
+                    <div style={{
+                    position: 'absolute',
+                    top: -(this.borderSize),
+                    left: -(this.borderSize),
+                    width: '100%',
+                    height: '100%',
+                    boxSizing: 'content-box'
+                }}>
+                    </div>
+                </div>
+                /* jshint ignore:end */
+            );
 
 
         let classes = "wholebox";
         if (box.container) {
             classes += " dnd" + box.container;
         }
-        
+
         if (box.height === 'auto') {
             classes += " automaticallySizedBox";
         }
@@ -145,50 +157,15 @@ export default class BoxVisor extends Component {
         return (
             /* jshint ignore:start */
             <div className={classes} id={'box-' + this.props.id}
-                 onClick={e => {
-                    // If there's no box selected and current's level is 0 (otherwise, it would select a deeper box)
-                    // or -1 (only DaliBoxSortable can have level -1)
-                    if((this.props.boxSelected === -1 || this.props.boxLevelSelected === -1) && box.level === 0){
-                        this.props.onBoxSelected(this.props.id);
-                        e.stopPropagation();
-                        return;
-                    }
-                    // Last parent has to be the same, otherwise all boxes with same level would be selectable
-                    if(this.props.boxLevelSelected === box.level &&
-                       isAncestorOrSibling(this.props.boxSelected, this.props.id, this.props.boxes)){
-                        if(e.nativeEvent.ctrlKey && box.children.length !== 0){
-                            this.props.onBoxLevelIncreased();
-                        }else{
-                            if(this.props.boxSelected !== this.props.id){
-                                this.props.onBoxSelected(this.props.id);
-                            }
-                        }
-                    }
-                    if(this.props.boxSelected !== -1 && this.props.boxLevelSelected === 0){
-                        this.props.onBoxSelected(this.props.id);
-                        e.stopPropagation();
-                    }
-                    if(box.level === 0){
-                        e.stopPropagation();
-                    }
-                 }}
-                 onDoubleClick={(e)=> {
-                    if(toolbar.config && toolbar.config.needsTextEdition && this.props.id == this.props.boxSelected){
-                        this.props.onTextEditorToggled(this.props.id, true);
-                        this.refs.textarea.focus();
-                    }
-                 }}
                  style={{
                     position: box.position.type,
                     left: box.position.x ? box.position.x : "",
                     top: box.position.y ? box.position.y : "",
                     width: width,
                     height: height,
-                    verticalAlign: verticalAlign,
-                    touchAction: 'none',
-                    msTouchAction: 'none',
-                    cursor: vis ? 'inherit': 'default' //esto evita que aparezcan los cursores de move y resize cuando la caja no está seleccionada
+                    verticalAlign: verticalAlign
                 }}>
+                {border}
                 {content}
                 {toolbar.state.__text ?
                     <div id={box.id}
@@ -198,13 +175,12 @@ export default class BoxVisor extends Component {
                          style={textareaStyle}></div> :
                     null
                 }
-                <div className="boxOverlay" style={{ display: showOverlay }}></div>
             </div>
             /* jshint ignore:end */
         );
     }
 
-       renderChildren(markup, key) {
+     renderChildren(markup, key) {
         let component;
         let props = {};
         let children = null;
@@ -215,7 +191,7 @@ export default class BoxVisor extends Component {
                 }
                 props.key = key;
                 if (markup.tag === 'plugin') {
-                    component = PluginPlaceholder;
+                    component = PluginPlaceholderVisor;
                     let resizable = markup.attr.hasOwnProperty("plugin-data-resizable");
                     props = Object.assign({}, props, {
                         pluginContainer: markup.attr["plugin-data-id"],

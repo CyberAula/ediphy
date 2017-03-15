@@ -34,21 +34,10 @@ export default class PluginPlaceholderVisor extends Component {
                             {container.cols[i].map((row, j) => {
                                 return (<div key={j}
                                              style={{width: "100%", height: row + "%", position: 'relative'}}
-                                             ref={e => {
-                                                    if(e !== null){
-                                                        this.configureDropZone(
-                                                            ReactDOM.findDOMNode(e),
-                                                            ".rib, .dnd" + this.props.pluginContainer,
-                                                            {
-                                                                i: i,
-                                                                j: j
-                                                            }
-                                                        );
-                                                    }
-                                                }}>
+                                             >
                                     {container.children.map((idBox, index) => {
                                         if (this.props.boxes[idBox].col === i && this.props.boxes[idBox].row === j) {
-                                            return (<EditorBoxVisor id={idBox}
+                                            return (<BoxVisor id={idBox}
                                                              key={index}
                                                              boxes={this.props.boxes}
                                                              boxSelected={this.props.boxSelected}
