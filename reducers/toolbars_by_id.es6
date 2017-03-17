@@ -1,4 +1,4 @@
-import {ADD_BOX, ADD_RICH_MARK, DELETE_BOX, DELETE_NAV_ITEM, DELETE_SORTABLE_CONTAINER, DUPLICATE_BOX,
+import {ADD_BOX, ADD_RICH_MARK, DELETE_BOX, ADD_NAV_ITEM, DELETE_NAV_ITEM, DELETE_SORTABLE_CONTAINER, DUPLICATE_BOX,
     EDIT_RICH_MARK, RESIZE_BOX, RESIZE_SORTABLE_CONTAINER, TOGGLE_TEXT_EDITOR, UPDATE_BOX, UPDATE_TOOLBAR,
     VERTICALLY_ALIGN_BOX, IMPORT_STATE} from './../actions';
 import Utils, {changeProp, changeProps, deleteProps, isSortableBox, isSortableContainer} from './../utils';
@@ -245,6 +245,35 @@ function toolbarCreator(state, action) {
 
     return toolbar;
 }
+function toolbarSectionCreator(state, action) {
+    let toolbar = {
+        id: action.payload.id,
+        controls: action.payload.toolbar || {
+            main: {
+                __name: "Main",
+                accordions: { //define accordions for section
+                  basic: {
+                      __name: Dali.i18n.t('BasicVideo.Video'),
+                      icon: 'link',
+                      buttons: {
+                          url: {
+                              __name: Dali.i18n.t('BasicVideo.URL'),
+                              type: 'text',
+                              value: "url",
+                              autoManaged: false
+                          }
+
+                      }
+                  }
+                }
+            }
+        },
+        config: action.payload.config || {},
+        state: action.payload.state || {}
+    };
+
+    return toolbar;
+}
 
 function toolbarReducer(state, action) {
     var newState;
@@ -266,7 +295,7 @@ function toolbarReducer(state, action) {
                     }
                 }
             }
-            
+
             // Rebind callback functions because from not automanaged buttons
              for (let tabKey in newState.controls) {
                 for (let accordionKey in newState.controls[tabKey].accordions) {
@@ -289,7 +318,7 @@ function toolbarReducer(state, action) {
                     }
                 }
              }
-            
+
             return newState;
         case RESIZE_SORTABLE_CONTAINER:
             newState = Utils.deepClone(state);
@@ -300,7 +329,7 @@ function toolbarReducer(state, action) {
                     break;
                 }
             }
-            
+
             // Rebind callback functions because from not automanaged buttons
              for (let tabKey in newState.controls) {
                 for (let accordionKey in newState.controls[tabKey].accordions) {
@@ -323,7 +352,7 @@ function toolbarReducer(state, action) {
                     }
                 }
              }
-            
+
             return newState;
         case TOGGLE_TEXT_EDITOR:
             return changeProp(state, "showTextEditor", action.payload.value);
@@ -366,7 +395,7 @@ function toolbarReducer(state, action) {
                         .buttons[pl.name][typeof pl.value === "boolean" ? "checked" : "value"] = pl.value;
                 }
             }
-            
+
             // Rebind callback functions because from not automanaged buttons
              for (let tabKey in newState.controls) {
                 for (let accordionKey in newState.controls[tabKey].accordions) {
@@ -394,7 +423,7 @@ function toolbarReducer(state, action) {
         case VERTICALLY_ALIGN_BOX:
             newState = Utils.deepClone(state);
             newState.controls.main.accordions.__sortable.buttons.__verticalAlign.value = action.payload.verticalAlign;
-            
+
             // Rebind callback functions because from not automanaged buttons
              for (let tabKey in newState.controls) {
                 for (let accordionKey in newState.controls[tabKey].accordions) {
@@ -417,7 +446,7 @@ function toolbarReducer(state, action) {
                     }
                 }
              }
-             
+
             return newState;
         default:
             return state;
@@ -433,8 +462,11 @@ export default function (state = {}, action = {}) {
         case DELETE_BOX:
             let children = action.payload.children ? action.payload.children : [];
             return deleteProps(state, children.concat(action.payload.id));
+        case ADD_NAV_ITEM:
+            return changeProp(state, action.payload.id, toolbarSectionCreator(state, action));
         case DELETE_NAV_ITEM:
-            return deleteProps(state, action.payload.boxes);
+            let boxes = action.payload.boxes ? action.payload.boxes : [];
+            return deleteProps(state, boxes.concat(action.payload.id));
         case DELETE_SORTABLE_CONTAINER:
             return deleteProps(state, action.payload.children);
         case DUPLICATE_BOX:

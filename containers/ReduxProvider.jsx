@@ -70,6 +70,17 @@ export default class ReduxProvider extends Component {
                         },
                         config: {displayName: i18n.t('Container_')},
                         showTextEditor: false
+                    },
+                    'se-1467887497411': {
+                        id: "se-1467887497411",
+                        state: {},
+                        controls: {
+                            main: {
+                                __name: "Main",
+                                accordions: {}
+                            }
+                        },
+                        config: {displayName: i18n.t('Container_')}
                     }
                 } : {}
             }

@@ -9,7 +9,7 @@ import MarksList from './../../rich_plugins/marks_list/MarksList.jsx';
 import ContentList from './../../rich_plugins/content_list/ContentList.jsx';
 import Dali from './../../../core/main';
 import {UPDATE_TOOLBAR, UPDATE_BOX} from '../../../actions';
-import {isSortableContainer} from '../../../utils';
+import {isSortableContainer, isSection} from '../../../utils';
 import i18n from 'i18next';
 
 require('./_pluginToolbar.scss');
@@ -23,6 +23,7 @@ export default class PluginToolbar extends Component {
     }
 
     render() {
+        //if (this.props.boxSelected === -1 && !isSection(this.props.navItemSelected)) {
         if (this.props.boxSelected === -1) {
             return (
                 /* jshint ignore:start */
@@ -37,8 +38,15 @@ export default class PluginToolbar extends Component {
                 /* jshint ignore:end */
             );
         }
+        //if (isSection(this.props.navItemSelected)){
+          //let toolbar = this.props.toolbars[this.props.navItemSelected];
+          //console.log('creada toolbar navitem');
+        //}else{
+          let toolbar = this.props.toolbars[this.props.box.id];
+          console.log('creada toolbar plugin');
+        //}
 
-        let toolbar = this.props.toolbars[this.props.box.id];
+
 
         // We define the extra buttons we need depending on plugin's configuration
         let textButton;

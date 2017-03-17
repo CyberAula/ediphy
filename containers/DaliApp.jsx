@@ -232,6 +232,7 @@ class DaliApp extends Component {
                                toolbars={toolbars}
                                box={boxes[boxSelected]}
                                boxSelected={boxSelected}
+                               navItemSelected={navItemSelected}
                                navItems={navItems}
                                carouselShow={boxSelected != -1}
                                isBusy={isBusy}
@@ -310,7 +311,7 @@ class DaliApp extends Component {
                     this.severalBoxes = Date.now() + this.index++;
                 }
                 e.detail.ids.id = (this.severalBoxes !== 0) ? ID_PREFIX_BOX + this.severalBoxes++ : ID_PREFIX_BOX + Date.now() + this.index++ ;
-                
+
                     this.dispatchAndSetState(addBox(
                         {
                             parent: e.detail.ids.parent,
@@ -562,18 +563,18 @@ class DaliApp extends Component {
             delete obj.attr.class;
         }
     }
-    
+
     hasExerciseBox(navItemId, navItems, state, boxes){
        if(state.pluginTab === "exercises" && (navItems[navItemId].boxes.length > 1 || boxes[navItems[navItemId].boxes[0]].children.length !== 0)){
            return true;
        }
-       
+
        if(Object.keys(navItems[navItemId].extraFiles).length !== 0 ){
            return true;
        }
        return false;
     }
-    
+
     addDefaultContainerPlugins(eventDetails, obj) {
         if (obj.child) {
             for (let i = 0; i < obj.child.length; i++) {
