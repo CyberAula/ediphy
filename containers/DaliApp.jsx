@@ -234,7 +234,7 @@ class DaliApp extends Component {
                                boxSelected={boxSelected}
                                navItemSelected={navItemSelected}
                                navItems={navItems}
-                               carouselShow={boxSelected != -1}
+                               carouselShow={this.state.carouselShow}
                                isBusy={isBusy}
                                fetchResults={fetchVishResults}
                                onNavItemSelected={id => this.dispatchAndSetState(selectNavItem(id))}

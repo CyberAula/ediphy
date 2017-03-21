@@ -23,8 +23,7 @@ export default class PluginToolbar extends Component {
     }
 
     render() {
-        //if (this.props.boxSelected === -1 && !isSection(this.props.navItemSelected)) {
-        if (this.props.boxSelected === -1) {
+        if (this.props.navItems[this.props.navItemSelected].type === "") {
             return (
                 /* jshint ignore:start */
                 <div id="wrap"
@@ -38,16 +37,56 @@ export default class PluginToolbar extends Component {
                 /* jshint ignore:end */
             );
         }
-        //if (isSection(this.props.navItemSelected)){
-          //let toolbar = this.props.toolbars[this.props.navItemSelected];
-          //console.log('creada toolbar navitem');
-        //}else{
-          let toolbar = this.props.toolbars[this.props.box.id];
-          console.log('creada toolbar plugin');
-        //}
-
-
-
+        //when no plugin selected, but new navitem created
+        if (this.props.boxSelected === -1 && this.props.navItems[this.props.navItemSelected].type !== "") {
+          let toolbar = this.props.toolbars[this.props.navItemSelected];
+          return (
+              /* jshint ignore:start */
+              <div id="wrap"
+                   className="wrapper"
+                   style={{
+                     right: '0px',
+                      top: this.props.top
+                   }}>
+                   <div className="pestana"
+                        onClick={() => {
+                           this.setState({open: !this.state.open});
+                        }}>
+                   </div>
+                  <div id="tools"
+                       style={{
+                          width: this.state.open ? '250px' : '40px'
+                       }}
+                       className="toolbox">
+                       <OverlayTrigger placement="left"
+                                       overlay={
+                                           <Tooltip className={this.state.open ? 'hidden':''}
+                                                    id="tooltip_props">
+                                               {i18n.t('Properties')}
+                                           </Tooltip>
+                                       }>
+                           <div onClick={() => {
+                                   this.setState({open: !this.state.open});
+                                }}
+                                style={{display: this.props.carouselShow ? 'block' : 'none'}}
+                                className={this.state.open ? 'carouselListTitle toolbarSpread' : 'carouselListTitle toolbarHide'}>
+                               <div className="toolbarTitle">
+                                   <i className="material-icons">settings</i>
+                                   <span className="toolbarTitletxt">
+                                       {i18n.t('Properties')}
+                                   </span>
+                               </div>
+                               <div className="pluginTitleInToolbar">
+                                   {toolbar.config.displayName || ""}
+                               </div>
+                           </div>
+                       </OverlayTrigger>
+                  </div>
+              </div>
+              /* jshint ignore:end */
+          );
+        }
+        let toolbar = this.props.toolbars[this.props.box.id];
         // We define the extra buttons we need depending on plugin's configuration
         let textButton;
         if (toolbar.config.needsTextEdition) {
@@ -91,7 +130,6 @@ export default class PluginToolbar extends Component {
                 /* jshint ignore:end */
             );
         }
-
         let duplicateButton;
         if (this.props.box.id[1] !== 's') {
             duplicateButton = (
@@ -107,6 +145,7 @@ export default class PluginToolbar extends Component {
                 /* jshint ignore:end */
             );
         }
+
 
         return (
             /* jshint ignore:start */

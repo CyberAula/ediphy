@@ -80,7 +80,7 @@ export default class ReduxProvider extends Component {
                                 accordions: {}
                             }
                         },
-                        config: {displayName: i18n.t('Container_')}
+                        config: {displayName: "prueba"}
                     }
                 } : {}
             }

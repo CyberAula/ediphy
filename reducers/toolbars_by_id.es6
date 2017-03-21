@@ -271,7 +271,19 @@ function toolbarSectionCreator(state, action) {
         config: action.payload.config || {},
         state: action.payload.state || {}
     };
-
+    //if (isSortableBox(action.payload.id)) {
+    //toolbar.config.displayName = "prueba";
+    //}
+    if(!isSortableBox(action.payload.id)) {
+        //createSizeButtons(toolbar.controls, null, action, !isSortableContainer(action.payload.id.container));
+        createAliasButton(toolbar.controls, null);
+    }
+    if (toolbar.config && toolbar.config.aspectRatioButtonConfig) {
+        createAspectRatioButton(toolbar.controls, toolbar.config);
+    }
+    if (toolbar.config && toolbar.config.isRich) {
+        createRichAccordions(toolbar.controls);
+    }
     return toolbar;
 }
 
