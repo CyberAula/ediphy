@@ -81,6 +81,8 @@ class DaliApp extends Component {
                 <Row style={{height: 'calc(100% - 60px)'}}>
                     <DaliCarousel boxes={boxes}
                                   title={title}
+                                  containedViews={containedViews}
+                                  containedViewSelected={containedViewSelected}
                                   navItemsIds={navItemsIds}
                                   navItems={navItems}
                                   navItemSelected={navItemSelected}

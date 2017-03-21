@@ -11,8 +11,12 @@ import Dali from './../../../core/main';
 
 require('./_carrouselList.scss');
 
+let containedViewsIncluded = Object.keys(this.props.containedViews).length > 0;
+
 export default class CarrouselList extends Component {
+    
     render() {
+
         return (
             /* jshint ignore:start */
             <div style={{height: 'calc(100% - 25px)'}}>
@@ -64,6 +68,14 @@ export default class CarrouselList extends Component {
                                     </h4>
                             }
                         })}
+                </div>
+                <div className="Line" style={{ width: "100%", borderTop:"3px solid #5F5", display: containedViewsIncluded ? 'block' : 'none'}}></div>
+                <div className="containedViewsList" style={{height:'auto', display: containedViewsIncluded ? 'block' : 'none'}}>
+                    {
+                        Object.keys(this.props.containedViews).map((id)=>{
+                            return (<div>{id}</div>)
+                        })
+                    }
                 </div>
                 <div className="bottomLine"></div>
                 <div className="bottomGroup">

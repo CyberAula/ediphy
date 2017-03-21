@@ -12,7 +12,7 @@ export default class DaliCarousel extends Component {
         if (this.props.displayMode === "list") {
             /* jshint ignore:start */
             carrouselContent = <CarrouselList id={0}
-
+                                              containedViews={this.props.containedViews}
                                               boxes={this.props.boxes}
                                               navItemsIds={this.props.navItemsIds}
                                               navItems={this.props.navItems}

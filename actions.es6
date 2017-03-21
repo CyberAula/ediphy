@@ -45,6 +45,8 @@ export const FETCH_VISH_RESOURCES_SUCCESS = "FETCH_VISH_RESOURCES_SUCCESS";
 
 export const ADD_RICH_MARK = 'ADD_RICH_MARK';
 export const EDIT_RICH_MARK = 'EDIT_RICH_MARK';
+
+export const ADD_CONTAINED_VIEW = 'ADD_CONTAINED_VIEW';
 export const SELECT_CONTAINED_VIEW = 'SELECT_CONTAINED_VIEW';
 
 export const UPLOAD_IMAGE = 'UPLOAD_IMAGE';
@@ -55,6 +57,10 @@ export const EDIT_PLUGIN_TEXT = 'EDIT_PLUGIN_TEXT';
 
 export function selectNavItem(id) {
     return {type: SELECT_NAV_ITEM, payload: {id}};
+}
+
+export function addContainedView(id, name, container){
+    return {type: ADD_CONTAINED_VIEW, payload: {id, name, container}};
 }
 
 export function addNavItem(id, name, parent, type, position) {
