@@ -37,7 +37,7 @@ export default class PluginToolbar extends Component {
                 /* jshint ignore:end */
             );
         }
-        //when no plugin selected, but new navitem created
+        //when no plugin selected, but new navitem
         if (this.props.boxSelected === -1 && this.props.navItems[this.props.navItemSelected].type !== "") {
           let toolbar = this.props.toolbars[this.props.navItemSelected];
           return (
@@ -81,6 +81,28 @@ export default class PluginToolbar extends Component {
                                </div>
                            </div>
                        </OverlayTrigger>
+                       <div id="insidetools" style={{display: this.state.open ? 'block' : 'none'}}>
+                         <div className="toolbarTabs">
+                           {Object.keys(toolbar.controls).map((tabKey, index) => {
+                               let tab = toolbar.controls[tabKey];
+                               return (
+                                 <div key={'key_'+index} className="toolbarTab">
+                                   <PanelGroup>
+                                     {Object.keys(tab.accordions).sort().map((accordionKey, index) => {
+                                         return this.renderAccordion(
+                                             tab.accordions[accordionKey],
+                                             tabKey,
+                                             [accordionKey],
+                                             toolbar.state,
+                                             index
+                                         );
+                                     })}
+                                   </PanelGroup>
+                                 </div>
+                               );
+                            })}
+                         </div>
+                       </div>
                   </div>
               </div>
               /* jshint ignore:end */
@@ -336,7 +358,13 @@ export default class PluginToolbar extends Component {
     renderButton(accordion, tabKey, accordionKeys, buttonKey, state, key) {
         let button = accordion.buttons[buttonKey];
         let children = null;
-        let id = this.props.box.id;
+        let id;
+        if(this.props.boxSelected === -1){
+          id = this.props.navItemSelected;
+        }else{
+          id = this.props.box.id;  
+        }
+
         let props = {
             key: ('child_' + key),
             type: button.type,

@@ -253,13 +253,13 @@ function toolbarSectionCreator(state, action) {
                 __name: "Main",
                 accordions: { //define accordions for section
                   basic: {
-                      __name: Dali.i18n.t('BasicVideo.Video'),
-                      icon: 'link',
+                      __name: "Cabecera_prueba",
+                      icon: 'format_color_text',
                       buttons: {
                           url: {
-                              __name: Dali.i18n.t('BasicVideo.URL'),
+                              __name: "Título",
                               type: 'text',
-                              value: "url",
+                              value: "Título curso",
                               autoManaged: false
                           }
 
@@ -272,7 +272,7 @@ function toolbarSectionCreator(state, action) {
         state: action.payload.state || {}
     };
     //if (isSortableBox(action.payload.id)) {
-    //toolbar.config.displayName = "prueba";
+    toolbar.config.displayName = "Documento_prueba";
     //}
     if(!isSortableBox(action.payload.id)) {
         //createSizeButtons(toolbar.controls, null, action, !isSortableContainer(action.payload.id.container));
