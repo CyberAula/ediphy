@@ -11,15 +11,14 @@ import Dali from './../../../core/main';
 
 require('./_carrouselList.scss');
 
-let containedViewsIncluded = Object.keys(this.props.containedViews).length > 0;
-
 export default class CarrouselList extends Component {
     
     render() {
-
+        let containedViewsIncluded = Object.keys(this.props.containedViews).length > 0;
         return (
             /* jshint ignore:start */
-            <div style={{height: 'calc(100% - 25px)'}}>
+            <div style={{height: containedViewsIncluded ? 
+                                 'calc(100% - 200px)' : 'calc(100% - 25px)'}}>
                 <div ref="sortableList"
                      className="carList connectedSortables"
                      onClick={e => {
@@ -69,11 +68,14 @@ export default class CarrouselList extends Component {
                             }
                         })}
                 </div>
-                <div className="Line" style={{ width: "100%", borderTop:"3px solid #5F5", display: containedViewsIncluded ? 'block' : 'none'}}></div>
-                <div className="containedViewsList" style={{height:'auto', display: containedViewsIncluded ? 'block' : 'none'}}>
+                <div className="Line" style={{ width: "100%", backgroundColor: '#ccc', height: '10px', cursor: 'pointer', display: containedViewsIncluded ? 'block' : 'none'}}>
+                    <i className="material-icons" style={{textAlign:'center', width: '100%', marginTop: '-12px'}}>arrow_drop_up</i>
+                </div>
+                <div className="containedViewsList" style={{ height: '155px', 
+                                                             display: containedViewsIncluded ? 'block' : 'none', overflowY: 'auto'}}>
                     {
-                        Object.keys(this.props.containedViews).map((id)=>{
-                            return (<div>{id}</div>)
+                        Object.keys(this.props.containedViews).map((id, key)=>{
+                            return (<div style={{width: "100%", height: "20px", marginTop: "10px", marginLeft: "20px", color: "#9A9A9A"}}>{id}</div>)
                         })
                     }
                 </div>
