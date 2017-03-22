@@ -9,7 +9,7 @@ import MarksList from './../../rich_plugins/marks_list/MarksList.jsx';
 import ContentList from './../../rich_plugins/content_list/ContentList.jsx';
 import Dali from './../../../core/main';
 import {UPDATE_TOOLBAR, UPDATE_BOX} from '../../../actions';
-import {isSortableContainer, isSection} from '../../../utils';
+import {isSortableContainer, isCanvasElement} from '../../../utils';
 import i18n from 'i18next';
 
 require('./_pluginToolbar.scss');
@@ -23,7 +23,7 @@ export default class PluginToolbar extends Component {
     }
 
     render() {
-        if (this.props.navItems[this.props.navItemSelected].type === "") {
+        if (!isCanvasElement(this.props.navItemSelected, Dali.Config.sections_have_content)) {
             return (
                 /* jshint ignore:start */
                 <div id="wrap"
@@ -38,7 +38,7 @@ export default class PluginToolbar extends Component {
             );
         }
         //when no plugin selected, but new navitem
-        if (this.props.boxSelected === -1 && this.props.navItems[this.props.navItemSelected].type !== "") {
+        if (this.props.boxSelected === -1 && isCanvasElement(this.props.navItemSelected, Dali.Config.sections_have_content)) {
           let toolbar = this.props.toolbars[this.props.navItemSelected];
           return (
               /* jshint ignore:start */

@@ -18,6 +18,7 @@ function createAspectRatioButton(controls, config) {
         controls[arb.location[0]].accordions[arb.location[1]].accordions[arb.location[2]].buttons.__aspectRatio = button;
     }
 }
+
 function createRichAccordions(controls) {
     if (!controls.main) {
         controls.main = {
@@ -245,6 +246,7 @@ function toolbarCreator(state, action) {
 
     return toolbar;
 }
+
 function toolbarSectionCreator(state, action) {
     let toolbar = {
         id: action.payload.id,
@@ -271,19 +273,11 @@ function toolbarSectionCreator(state, action) {
         config: action.payload.config || {},
         state: action.payload.state || {}
     };
-    //if (isSortableBox(action.payload.id)) {
+
     toolbar.config.displayName = "Documento_prueba";
-    //}
-    if(!isSortableBox(action.payload.id)) {
-        //createSizeButtons(toolbar.controls, null, action, !isSortableContainer(action.payload.id.container));
-        createAliasButton(toolbar.controls, null);
-    }
-    if (toolbar.config && toolbar.config.aspectRatioButtonConfig) {
-        createAspectRatioButton(toolbar.controls, toolbar.config);
-    }
-    if (toolbar.config && toolbar.config.isRich) {
-        createRichAccordions(toolbar.controls);
-    }
+
+    createAliasButton(toolbar.controls, null);
+
     return toolbar;
 }
 

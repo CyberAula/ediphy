@@ -28,6 +28,10 @@ export function isSection(id) {
     return id.length && id.indexOf(ID_PREFIX_SECTION) !== -1;
 }
 
+export function isCanvasElement(id, config){
+    return isPage(id) || (isSection(id) && config);
+}
+
 export function isBox(id) {
     return id.length && id.indexOf(ID_PREFIX_BOX) !== -1;
 }
