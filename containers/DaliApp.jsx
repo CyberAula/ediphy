@@ -7,7 +7,7 @@ import {addNavItem, selectNavItem, expandNavItem, deleteNavItem, reorderNavItem,
     addBox, changeTitle, selectBox, moveBox, resizeBox, updateBox, duplicateBox, deleteBox, reorderSortableContainer, dropBox, increaseBoxLevel,
     resizeSortableContainer, deleteSortableContainer, changeCols, changeRows, changeSortableProps, reorderBoxes, verticallyAlignBox,
     toggleTextEditor, toggleTitleMode,
-    changeDisplayMode, updateToolbar,
+    changeDisplayMode, expandContainedViewList, updateToolbar,
     exportStateAsync, importStateAsync,
     fetchVishResourcesSuccess, fetchVishResourcesAsync, uploadVishResourceAsync,
     selectContainedView,
@@ -40,6 +40,7 @@ class DaliApp extends Component {
             visorVisible: false,
             xmlEditorVisible: false,
             richMarksVisible: false,
+            containedViewsVisible: false,
             currentRichMark: null,
             carouselShow: true,
             carouselFull: false,
@@ -52,7 +53,7 @@ class DaliApp extends Component {
     render() {
         const { dispatch, boxes, boxesIds, boxSelected, boxLevelSelected, navItemsIds, navItems, navItemSelected,
             containedViews, containedViewSelected, imagesUploaded,
-            undoDisabled, redoDisabled, displayMode, isBusy, toolbars, title, fetchVishResults } = this.props;
+            undoDisabled, redoDisabled, displayMode, containedList, isBusy, toolbars, title, fetchVishResults } = this.props;
         let ribbonHeight = this.state.hideTab === 'hide' ? 0 : 47;
         return (
             /* jshint ignore:start */
@@ -108,6 +109,10 @@ class DaliApp extends Component {
                                   onNavItemReordered={(id, newParent, oldParent, idsInOrder, childrenInOrder) => this.dispatchAndSetState(reorderNavItem(id, newParent, oldParent, idsInOrder, childrenInOrder))}
                                   onNavItemToggled={ id => this.dispatchAndSetState(toggleNavItem(id)) }
                                   onDisplayModeChanged={mode => this.dispatchAndSetState(changeDisplayMode(mode))}
+                                  containedViewsVisible={this.state.containedViewsVisible}
+                                  onContainedViewsExpand={()=>{
+                                      this.setState({containedViewsVisible: !this.state.containedViewsVisible});
+                                  }}
                                   carouselShow={this.state.carouselShow}
                                   carouselFull={this.state.carouselFull}
                                   onToggleFull={() => {

@@ -15,10 +15,14 @@ export default class CarrouselList extends Component {
     
     render() {
         let containedViewsIncluded = Object.keys(this.props.containedViews).length > 0;
+        
         return (
             /* jshint ignore:start */
-            <div style={{height: containedViewsIncluded ? 
-                                 'calc(100% - 200px)' : 'calc(100% - 25px)'}}>
+            <div style={{height: !containedViewsIncluded ? 
+                                 'calc(100% - 25px)' :  
+                                 this.props.containedViewsVisible ? //REFACTOR
+                                 'calc(100% - 185px)' : 
+                                 'calc(100% - 30px)' }}>
                 <div ref="sortableList"
                      className="carList connectedSortables"
                      onClick={e => {
@@ -68,11 +72,17 @@ export default class CarrouselList extends Component {
                             }
                         })}
                 </div>
-                <div className="Line" style={{ width: "100%", backgroundColor: '#ccc', height: '10px', cursor: 'pointer', display: containedViewsIncluded ? 'block' : 'none'}}>
-                    <i className="material-icons" style={{textAlign:'center', width: '100%', marginTop: '-12px'}}>arrow_drop_up</i>
+                <div className="Line" style={{ width: "100%", backgroundColor: '#ccc', height: '10px', cursor: 'pointer', display: containedViewsIncluded ? 'block' : 'none'}} onClick={
+                    e => {
+                        this.props.onContainedViewsExpand();
+                        e.stopPropagation();
+                    }}>
+                    {!this.props.containedViewsVisible ? 
+                    (<i className="material-icons" style={{textAlign:'center', width: '100%', marginTop: '-12px'}}>arrow_drop_up</i>) : 
+                    (<i className="material-icons" style={{textAlign:'center', width: '100%', marginTop: '-12px'}}>arrow_drop_down</i>)}
                 </div>
                 <div className="containedViewsList" style={{ height: '155px', 
-                                                             display: containedViewsIncluded ? 'block' : 'none', overflowY: 'auto'}}>
+                                                             display: (this.props.containedViewsVisible && containedViewsIncluded) ? 'block' : 'none', overflowY: 'auto', overflowX: 'hidden'}}>
                     {
                         Object.keys(this.props.containedViews).map((id, key)=>{
                             return (<div style={{width: "100%", height: "20px", marginTop: "10px", marginLeft: "20px", color: "#9A9A9A"}}>{id}</div>)

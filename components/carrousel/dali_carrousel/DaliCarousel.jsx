@@ -13,11 +13,13 @@ export default class DaliCarousel extends Component {
             /* jshint ignore:start */
             carrouselContent = <CarrouselList id={0}
                                               containedViews={this.props.containedViews}
+                                              containedViewsVisible={this.props.containedViewsVisible}
                                               boxes={this.props.boxes}
                                               navItemsIds={this.props.navItemsIds}
                                               navItems={this.props.navItems}
                                               navItemSelected={this.props.navItemSelected}
                                               onBoxAdded={this.props.onBoxAdded}
+                                              onContainedViewsExpand={this.props.onContainedViewsExpand}
                                               onNavItemNameChanged={this.props.onNavItemNameChanged}
                                               onNavItemAdded={this.props.onNavItemAdded}
                                               onNavItemSelected={this.props.onNavItemSelected}

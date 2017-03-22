@@ -49,7 +49,6 @@ export const EDIT_RICH_MARK = 'EDIT_RICH_MARK';
 
 export const ADD_CONTAINED_VIEW = 'ADD_CONTAINED_VIEW';
 export const SELECT_CONTAINED_VIEW = 'SELECT_CONTAINED_VIEW';
-export const EXPAND_CONTAINED_VIEW_LIST = 'EXPAND_CONTAINED_VIEW_LIST';
 
 export const UPLOAD_IMAGE = 'UPLOAD_IMAGE';
 
@@ -63,10 +62,6 @@ export function selectNavItem(id) {
 
 export function addContainedView(id, name, container){
     return {type: ADD_CONTAINED_VIEW, payload: {id, name, container}};
-}
-
-export function expandContainedViewList(value){
-    return {type: EXPAND_CONTAINED_VIEW_LIST, payload:{value}};
 }
 
 export function addNavItem(id, name, parent, type, position) {
