@@ -89,6 +89,7 @@ class DaliApp extends Component {
                                   navItemSelected={navItemSelected}
                                   displayMode={displayMode}
                                   onBoxAdded={(ids, draggable, resizable, content, toolbar, config, state) => this.dispatchAndSetState(addBox(ids, draggable, resizable, content, toolbar, config, state))}
+                                  onContainedViewSelected={ (id) => this.dispatchAndSetState(selectContainedView(id)) }
                                   onNavItemNameChanged={(id, title) => this.dispatchAndSetState(changeNavItemName(id,title))}
                                   onNavItemAdded={(id, name, parent, type, position) => this.dispatchAndSetState(addNavItem(id, name, parent, type, position))}
                                   onNavItemSelected={id => this.dispatchAndSetState(selectNavItem(id))}

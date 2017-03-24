@@ -85,7 +85,20 @@ export default class CarrouselList extends Component {
                                                              display: (this.props.containedViewsVisible && containedViewsIncluded) ? 'block' : 'none', overflowY: 'auto', overflowX: 'hidden'}}>
                     {
                         Object.keys(this.props.containedViews).map((id, key)=>{
-                            return (<div style={{width: "100%", height: "20px", marginTop: "10px", marginLeft: "20px", color: "#9A9A9A"}}>{id}</div>)
+                            console.log(this.props.containedViews[id]);
+                            return (<div key={id} style={{
+                                                width: "100%", 
+                                                height: "20px", 
+                                                paddingTop: "10px", 
+                                                paddingLeft: "20px", 
+                                                paddingBottom: "25px",
+                                                color: (this.props.containedViewSelected === id) ? "white" : "#9A9A9A",
+                                                backgroundColor: (this.props.containedViewSelected === id) ? "#545454" : "transparent"
+                                          }}  
+                                          onClick={e => {
+                                            this.props.onContainedViewSelected(id);
+                                            e.stopPropagation();
+                                          }}>{id}</div>)
                         })
                     }
                 </div>
