@@ -27,6 +27,7 @@ var en = {
         },
         "Exercises": "Exercises",
         "Exporting": "Exporting...",
+        "Header": "Page header",
         "Height": "Height",
         "Height_auto": "Height Auto",
         "Height_auto_message": "This will not work unless the container has a height other than auto",

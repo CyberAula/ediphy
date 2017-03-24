@@ -255,17 +255,37 @@ function toolbarSectionCreator(state, action) {
                 __name: "Main",
                 accordions: { //define accordions for section
                   basic: {
-                      __name: "Cabecera_prueba",
+                    __name: "Generales",
+                    icon: 'settings',
+                    buttons: {
+                        controls: {
+                            __name: "Página visible",
+                            type: 'checkbox',
+                            //checked: base.getState().controls,
+                            checked: true,
+                            autoManaged: false
+                        }
+                    }
+                  },
+                  style: {
+                      __name: i18n.t('Header'),
                       icon: 'format_color_text',
                       buttons: {
+                          controls: {
+                              __name: "Título visible",
+                              type: 'checkbox',
+                              //checked: base.getState().controls,
+                              checked: true,
+                              autoManaged: false
+                          },
                           url: {
                               __name: "Título",
                               type: 'text',
                               value: "Título curso",
                               autoManaged: false
                           }
-
                       }
+
                   }
                 }
             }

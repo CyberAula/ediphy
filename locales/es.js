@@ -22,6 +22,7 @@ var es = {
             "importing": "Ha ocurrido un error al importar",
             "searching": "Ha ocurrido un error al buscar",
         },
+        "Header": "Cabecera",
         "Height": "Altura",
         "Height_auto": "Alto Automático",
         "Height_auto_message": "Sólo funcionará si el contenedor tiene una altura fijada",

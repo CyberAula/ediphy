@@ -11,7 +11,7 @@ export function RichText(base) {
                 extraTextConfig: {
                     extraPlugins: "daliplugin"
                 },
-                icon: 'format_color_text'
+                icon: 'format_indent_increase'
             };
         },
         getToolbar: function () {

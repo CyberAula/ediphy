@@ -32,7 +32,7 @@ export default class DaliNavBar extends Component {
                     className={ this.props.hideTab == 'show' && this.props.categoria == 'text' ? 'navButtonPlug active':'navButtonPlug' }
                     title='Text' disabled={false /*disablePlugins*/}
                     onClick={() => {this.openPlugin('text')}}><i
-                    className="material-icons">format_color_text</i><br/> <span
+                    className="material-icons">text_fields</i><br/> <span
                     className="hideonresize">{i18n.t("Text")}</span></button>
                 <button
                     className={ this.props.hideTab == 'show' && this.props.categoria == 'image' ? 'navButtonPlug active':'navButtonPlug' }
