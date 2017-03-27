@@ -6,7 +6,7 @@ import PluginPlaceholder from '../plugin_placeholder/PluginPlaceholder';
 import {ADD_BOX, UPDATE_BOX, RESIZE_BOX, EDIT_PLUGIN_TEXT, IMPORT_STATE} from '../../../actions';
 import Dali from './../../../core/main';
 import i18n from 'i18next';
-import {isBox, isSortableBox, isView, isSortableContainer, isAncestorOrSibling} from './../../../utils';
+import {isBox, isSortableBox, isView, isSortableContainer, isAncestorOrSibling, isContainedView} from './../../../utils';
 
 require('./_daliBox.scss');
 
@@ -467,6 +467,8 @@ export default class DaliBox extends Component {
                         clone.style.width = originalRect.width + "px";
                         clone.style.border = "1px dashed #555";
                         original.style.opacity = 0;
+                    } else if(isContainedView(box.container)){
+                        event.target.style.left = this.getElementPositionFromLeft(event.target.style.left, event.target.parentElement.offsetWidth) + "px";
                     } else {
                         let target = event.target;
 
@@ -712,6 +714,15 @@ export default class DaliBox extends Component {
             });
     }
 
+
+    getElementPositionFromLeft(left, width){
+        if(left.indexOf("px") !== -1){
+            return left;
+        } else if( left.indexOf("%") !== -1){
+            return width * parseFloat(left)/100;
+        }
+    }
+
     componentWillUnmount() {
         interact(ReactDOM.findDOMNode(this)).unset();
         if (CKEDITOR.instances[this.props.id]) {
@@ -721,4 +732,5 @@ export default class DaliBox extends Component {
             CKEDITOR.instances[this.props.id].destroy();
         }
     }
+
 }
