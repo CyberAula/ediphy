@@ -258,8 +258,8 @@ function toolbarSectionCreator(state, action) {
                     __name: "Generales",
                     icon: 'settings',
                     buttons: {
-                        controls: {
-                            __name: "Página visible",
+                        visibility: {
+                            __name: "Visibilidad página",
                             type: 'checkbox',
                             //checked: base.getState().controls,
                             checked: true,

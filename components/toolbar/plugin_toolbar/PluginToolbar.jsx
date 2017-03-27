@@ -362,7 +362,7 @@ export default class PluginToolbar extends Component {
         if(this.props.boxSelected === -1){
           id = this.props.navItemSelected;
         }else{
-          id = this.props.box.id;  
+          id = this.props.box.id;
         }
 
         let props = {
@@ -479,7 +479,7 @@ export default class PluginToolbar extends Component {
                 }
                 this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, value);
 
-                if (!button.autoManaged ) {
+                if (!button.autoManaged) {
                     button.callback(state, buttonKey, value, id, UPDATE_TOOLBAR);
                 }
             }

@@ -38,7 +38,7 @@ export default class CarrouselList extends Component {
                                             onNavItemToggled={this.props.onNavItemToggled}/>
                         } else if (isPage(id)) {
                             let classSelected = (this.props.navItemSelected === id) ? 'selected' : 'notSelected';
-                            return  <h4 key={index}
+                            return  <div key={index}
                                         id={id}
                                         className={'navItemBlock ' + classSelected}
                                         onMouseDown={e => {
@@ -61,7 +61,7 @@ export default class CarrouselList extends Component {
                                                     onNameChanged={this.props.onNavItemNameChanged}
                                                     onNavItemToggled={this.props.onNavItemToggled}/>
                                         </span>
-                                    </h4>
+                                    </div>
                             }
                         })}
                 </div>
