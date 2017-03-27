@@ -24,19 +24,8 @@ export default class ContainedCanvas extends Component {
             containedView = {boxes: []};
         }
 
-        let paddings = /*(this.props.navItemSelected.type!= "slide") ? (*/'5px 5px 5px 5px';
-        /*) : ('30px 0px 30px 0px')*/
-
-        /*
-         let maincontent = document.getElementById('maincontent');
-         let actualHeight;
-         if (maincontent) {
-         actualHeight = parseInt(maincontent.scrollHeight);
-         actualHeight = (parseInt(maincontent.clientHeight) < actualHeight) ? (actualHeight) + 'px' : '100%';
-         }
-
-         let overlayHeight = actualHeight ? actualHeight : '100%';
-         */
+        let paddings = '5px 5px 5px 5px';
+      
         let overlayHeight = '100%';
 
         return (
