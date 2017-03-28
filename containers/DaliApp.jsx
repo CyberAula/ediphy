@@ -237,6 +237,7 @@ class DaliApp extends Component {
                                carouselShow={this.state.carouselShow}
                                isBusy={isBusy}
                                fetchResults={fetchVishResults}
+                               onNavItemToggled={ id => this.dispatchAndSetState(toggleNavItem(navItemSelected)) }
                                onNavItemSelected={id => this.dispatchAndSetState(selectNavItem(id))}
                                onContainedViewSelected={id => this.dispatchAndSetState(selectContainedView(id))}
                                onColsChanged={(id, parent, distribution, boxesAffected) => this.dispatchAndSetState(changeCols(id, parent, distribution, boxesAffected))}

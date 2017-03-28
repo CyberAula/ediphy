@@ -255,11 +255,11 @@ function toolbarSectionCreator(state, action) {
                 __name: "Main",
                 accordions: { //define accordions for section
                   basic: {
-                    __name: "Generales",
+                    __name: "Página",
                     icon: 'settings',
                     buttons: {
                         visibility: {
-                            __name: "Visibilidad página",
+                            __name: i18n.t('display_page'),
                             type: 'checkbox',
                             //checked: base.getState().controls,
                             checked: true,

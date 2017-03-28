@@ -133,7 +133,7 @@ export default class CarrouselList extends Component {
                                 }}><i className="material-icons">slideshow</i>
                             </Button>
                     </OverlayTrigger>
-
+                    {/*
                     <OverlayTrigger placement="top" overlay={
                         <Tooltip  id="hideNavItemTooltip">{i18n.t('display')}
                         </Tooltip>}>
@@ -142,9 +142,9 @@ export default class CarrouselList extends Component {
                                    onClick={e => {
                                         this.props.onNavItemToggled(this.props.navItemSelected);
                                    }}>{this.props.navItems[this.props.navItemSelected].hidden ? "visibility_off" : "visibility"}</i>
-                            </Button>
+                                 </Button>
                     </OverlayTrigger>
-
+                     */}
                     <OverlayTrigger trigger={["focus"]} placement="top" overlay={
                         <Popover id="popov" title={isSection(this.props.navItemSelected) ? i18n.t("delete_section") : i18n.t("delete_page")}>
                             <i style={{color: 'yellow', fontSize: '13px'}} className="material-icons">warning</i>

@@ -8,7 +8,7 @@ import VishProvider from './../../vish_provider/vish_provider/VishProvider';
 import MarksList from './../../rich_plugins/marks_list/MarksList.jsx';
 import ContentList from './../../rich_plugins/content_list/ContentList.jsx';
 import Dali from './../../../core/main';
-import {UPDATE_TOOLBAR, UPDATE_BOX} from '../../../actions';
+import {UPDATE_TOOLBAR, UPDATE_BOX, TOGGLE_NAV_ITEM} from '../../../actions';
 import {isSortableContainer, isCanvasElement} from '../../../utils';
 import i18n from 'i18next';
 
@@ -275,6 +275,18 @@ export default class PluginToolbar extends Component {
         );
     }
 
+    handlecanvasToolbar (type, name){
+      switch (type){
+        case "checkbox":
+          if(name=== i18n.t('display_page')){
+            this.props.onNavItemToggled(this.props.navItemSelected);
+          }
+          break;
+        default:
+          break;
+
+      }
+    }
     renderAccordion(accordion, tabKey, accordionKeys, state, key) {
         let props = {
             key: key,
@@ -384,7 +396,7 @@ export default class PluginToolbar extends Component {
                     value = button.min ? button.min : 0;
                 }
 
-                if (!button.autoManaged) {
+                if (!button.autoManaged && button.callback) {
                     button.callback(state, buttonKey, value, id, UPDATE_TOOLBAR);
                 }
             },
@@ -480,7 +492,12 @@ export default class PluginToolbar extends Component {
                 this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, value);
 
                 if (!button.autoManaged) {
+                  if(!button.callback){
+                    this.handlecanvasToolbar(button.type, button.__name);
+                  }else{
                     button.callback(state, buttonKey, value, id, UPDATE_TOOLBAR);
+                  }
+
                 }
             }
 

@@ -14,6 +14,8 @@ var es = {
         "course_title": "Título Curso",
         "delete_page": "Eliminar página",
         "delete_section": "Eliminar sección",
+        "display": "Visualización",
+        "display_page": "Previsualizar / exportar",
         "Exercises": "Ejercicios",
         "Exporting": "Se está exportando...",
         "error": {

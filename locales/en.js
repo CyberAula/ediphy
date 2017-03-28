@@ -17,8 +17,9 @@ var en = {
         "create new slide": "Crear nueva diapositiva",
         "delete_page": "Delete Page",
         "delete_section": "Delete Section",
-        "delete": "Borrar",
-        "display": "Visualización",
+        "delete": "Delete",
+        "display": "Display",
+        "display_page": "Preview / Export",
         "error": {
             "exporting": "There was an error when exporting",
             "generic": "There was an error",
