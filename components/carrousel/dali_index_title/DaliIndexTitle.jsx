@@ -78,7 +78,7 @@ export default class DaliIndexTitle extends Component {
                 )
             }
             <i className="material-icons"
-              style={{position: "relative", color: this.props.hidden ? "gray" : "white"}}>{this.props.hidden ? "visibility_off" : ""}</i>
+              style={{position: "absolute", right: "0", color: this.props.hidden ? "gray" : "white"}}>{this.props.hidden ? "visibility_off" : ""}</i>
             </span>
             /* jshint ignore:end */
         );
