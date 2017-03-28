@@ -112,9 +112,9 @@ export default function () {
                 template = template.replace(/pointer-events:[\s'"]+none[\s'"]+/g, "");
             }
 
-            if (!hasChildren) {
+            /*if (!hasChildren) {
                 return template;
-            }
+            }*/
             var json = html2json(template);
             parseJson(json, state, hasVisorTemplate);
             return json;

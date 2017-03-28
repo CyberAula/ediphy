@@ -4,9 +4,14 @@ export function EnrichedVideo(base) {
             base.registerExtraFunction(this.imageClicky, "click");
         },
         getRenderTemplate: function (state) {
+            /*return "<video " + (state.controls && state.controls !== "on" ? "controls='true' " : "") +
+             (state.autoplay ? " autoplay " : "") +
+              " style=\"width: 100%; height: 100%; z-index:0;\" src=\"" +
+               state.url +
+                "\"  class=\"basicVideoClass\"></video>";*/
             return "<video " +
-                ((state.controls === "checked") ? " controls " : "") +
-                ((state.autoplay === "checked") ? " autoplay " : "") +
+                ((state.controls === "checked") ? " controls='true' " : "") +
+                ((state.autoplay === "checked") ? " autoPlay " : "") +
                 " style=\"width: 100%; height: 100%; pointer-events: 'none'; z-index:0;\" src=\"" +
                 state.url + "\" ontimeupdate='$dali$.timeUpdate()'></video>";
         },

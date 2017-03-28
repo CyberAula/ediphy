@@ -106,7 +106,7 @@ export default class BoxVisor extends Component {
         ) : (
             /* jshint ignore:start */
             <div style={style} {...attrs} className={"boxStyle " + classNames} ref={"content"}>
-                {this.renderChildren(box.content)}
+                {this.renderChildren(Dali.Visor.Plugins.get(toolbar.config.name).export(toolbar.state, toolbar.config.name, box.children.length !== 0),0)}
             </div>
             /* jshint ignore:end */
         );
