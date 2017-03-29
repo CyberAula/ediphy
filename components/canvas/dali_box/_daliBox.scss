@@ -108,7 +108,15 @@
     }
 }
 
+.containerBasicImage, .basicImageClass, .basicVideoClass{
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
 .basicImageClass, .basicVideoClass{
+  left :0px;
+  top: 0px;
   @include box-shadow(1px, 1px, 9px, #ccc, $inset: false);
 }
 .automaticallySizedBox .basicImageClass{
