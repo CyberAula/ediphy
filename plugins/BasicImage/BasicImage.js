@@ -92,7 +92,9 @@ export function BasicImage(base) {
             };
         },
         getRenderTemplate: function (state) {
-            return "<div style=\"width: 100%; margin: 0px; height: 100%; \"><img onclick=\"$dali$.showPreview()\" class=\"basicImageClass\" style=\"width: 100%; height: 100%; \" src=\"" + state.url + "\"/></div>";
+            return "<div class= \"containerBasicImage\" >" +
+                   "<img class=\"basicImageClass\" onclick=\"$dali$.showPreview()\" src=\"" + state.url + " \" >" +
+                   "</div>";
         },
         handleToolbar: function (name, value) {
             base.setState(name, value);
