@@ -4,47 +4,55 @@
 .helpersResizable {
     border: 1px solid #777;
     background-color: white;
-    z-index: 1;
     position: absolute;
+    z-index: 1;
 }
 
 /*Dali Box*/
-.boxStyle {
+.boxStyle, .textareaStyle{
     width: 100%;
     height: 100%;
+}
+
+.boxStyle {
     position: relative;
     word-wrap: break-word;
     overflow: visible;
 }
 
-/*Dali Box needsTextEdition*/
 .textareaStyle {
-    width: 100%;
-    height: 100%;
-    top: 0%;
     position: absolute !important;
+    top: 0;
 }
 
 /*Box overlay*/
 .boxOverlay {
     width: 100%;
     height: 100%;
-    background: black;
     top: 0;
     left: 0;
+    background: #000;
     position: absolute;
     opacity: 0.4;
 }
 
 /*Box editing shortcuts*/
+#daliBoxIcons, #contained_daliBoxIcons{
+  position: absolute;
+  text-align: center;
+  height: 40px;
+  margin-top: -40px;
+  .daliTitleButton {
+      background-color: #bababa !important;
+      &:hover {
+          background-color: $naranjaadams !important;
+      }
+  }
+}
 #daliBoxIcons {
   @include box-shadow(1px, -1px, 4px, #ccc, $inset: false);
-    position: absolute;
-    text-align: center;
-    height: 40px;
     z-index: 999;
     width: auto;
-    margin-top: -40px;
     background: #f5f5f5;
     border-radius: 2px 2px 0 0;
     .namePlugin{
@@ -53,29 +61,12 @@
       float: left;
       margin: 4px 3px;
     }
-    .daliTitleButton {
-        background-color: #bababa !important;
-        &:hover {
-            background-color: $naranjaadams !important;
-        }
-    }
 }
 
 #contained_daliBoxIcons {
-    position: absolute;
-    text-align: center;
-    height: 40px;
     margin-top: 0px;
     z-index: 999;
     width: 100%;
-    margin-top: -40px;
-    .daliTitleButton {
-        background-color: #bababa !important;
-        &:hover {
-            background-color: $naranjaadams !important;
-
-        }
-    }
 }
 
 .selectedBox {
@@ -84,25 +75,11 @@
     color: $fondo;
 }
 
-.wholebox {
+.wholebox, .wholeboxvisor{
     display: inline-block;
-}
-
-.wholeboxvisor {
-    display: inline-block;
-}
-
-.daliBoxSortableContainer {
-    //border-bottom: 1px dashed black;
 }
 
 .canvaseditor {
-    .wholebox > div > div > iframe, .wholebox > div > div > video {
-        pointer-events: none !important;
-    }
-}
-
-.canvasvisor {
     .wholebox > div > div > iframe, .wholebox > div > div > video {
         pointer-events: none !important;
     }
