@@ -239,6 +239,7 @@ class DaliApp extends Component {
                                fetchResults={fetchVishResults}
                                onNavItemToggled={ id => this.dispatchAndSetState(toggleNavItem(navItemSelected)) }
                                onNavItemSelected={id => this.dispatchAndSetState(selectNavItem(id))}
+                               onNavItemNameChanged={(id, title) => this.dispatchAndSetState(changeNavItemName(id,title))}
                                onContainedViewSelected={id => this.dispatchAndSetState(selectContainedView(id))}
                                onColsChanged={(id, parent, distribution, boxesAffected) => this.dispatchAndSetState(changeCols(id, parent, distribution, boxesAffected))}
                                onRowsChanged={(id, parent, column, distribution, boxesAffected) => this.dispatchAndSetState(changeRows(id, parent, column, distribution, boxesAffected))}

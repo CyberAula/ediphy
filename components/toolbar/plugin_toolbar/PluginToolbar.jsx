@@ -8,7 +8,7 @@ import VishProvider from './../../vish_provider/vish_provider/VishProvider';
 import MarksList from './../../rich_plugins/marks_list/MarksList.jsx';
 import ContentList from './../../rich_plugins/content_list/ContentList.jsx';
 import Dali from './../../../core/main';
-import {UPDATE_TOOLBAR, UPDATE_BOX, TOGGLE_NAV_ITEM} from '../../../actions';
+import {UPDATE_TOOLBAR, UPDATE_BOX, TOGGLE_NAV_ITEM, CHANGE_NAV_ITEM_NAME} from '../../../actions';
 import {isSortableContainer, isCanvasElement} from '../../../utils';
 import i18n from 'i18next';
 
@@ -280,6 +280,11 @@ export default class PluginToolbar extends Component {
         case i18n.t('display_page'):
           this.props.onNavItemToggled(this.props.navItemSelected);
           break;
+        case i18n.t('Page_name'):
+          console.log(this.props.navItems[this.props.navItemSelected].name);
+          this.props.onNavItemNameChanged(this.props.navItemSelected, "test");
+          break;
+
         default:
           break;
       }

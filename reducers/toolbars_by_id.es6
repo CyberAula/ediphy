@@ -264,6 +264,12 @@ function toolbarSectionCreator(state, action) {
                             //checked: base.getState().controls,
                             checked: true,
                             autoManaged: false
+                        },
+                        page_name: {
+                            __name: i18n.t('Page_name'),
+                            type: 'text',
+                            value: "Título pagina",
+                            autoManaged: false
                         }
                     }
                   },
