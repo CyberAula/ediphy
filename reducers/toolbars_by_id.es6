@@ -267,21 +267,21 @@ function toolbarSectionCreator(state, action) {
                         }
                     }
                   },
-                  style: {
+                  header: {
                       __name: i18n.t('Header'),
                       icon: 'format_color_text',
                       buttons: {
-                          controls: {
+                          display_title: {
                               __name: "Título visible",
                               type: 'checkbox',
                               //checked: base.getState().controls,
                               checked: true,
                               autoManaged: false
                           },
-                          url: {
+                          title_txt: {
                               __name: "Título",
                               type: 'text',
-                              value: "Título curso",
+                              value: "Título pagina",
                               autoManaged: false
                           }
                       }

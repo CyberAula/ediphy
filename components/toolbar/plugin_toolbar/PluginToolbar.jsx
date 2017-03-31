@@ -275,16 +275,13 @@ export default class PluginToolbar extends Component {
         );
     }
 
-    handlecanvasToolbar (type, name){
-      switch (type){
-        case "checkbox":
-          if(name=== i18n.t('display_page')){
-            this.props.onNavItemToggled(this.props.navItemSelected);
-          }
+    handlecanvasToolbar (name){
+      switch (name){
+        case i18n.t('display_page'):
+          this.props.onNavItemToggled(this.props.navItemSelected);
           break;
         default:
           break;
-
       }
     }
     renderAccordion(accordion, tabKey, accordionKeys, state, key) {
@@ -493,7 +490,7 @@ export default class PluginToolbar extends Component {
 
                 if (!button.autoManaged) {
                   if(!button.callback){
-                    this.handlecanvasToolbar(button.type, button.__name);
+                    this.handlecanvasToolbar(button.__name);
                   }else{
                     button.callback(state, buttonKey, value, id, UPDATE_TOOLBAR);
                   }
