@@ -9,6 +9,13 @@
     <script src="lib/html2json.js"></script>
     <script>
         var State = <%= JSON.stringify(state) %>
+        
+        function __getPlugin(element){
+            if(element.className.indexOf('wholebox') !== -1){
+                return this;
+            }
+            return __getPlugin(element.parentElement);
+        };
     </script>
 </head>
 <body style="margin: 0px; height: 100%">

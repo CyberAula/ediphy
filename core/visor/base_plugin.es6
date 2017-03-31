@@ -101,9 +101,10 @@ export default function () {
             }
             matches.map(function (match) {
                 if (match[1].length === 0) {
-                    template = template.replace(match[0], match[0] + "event, this, __getPlugin(this)");
+                    //no traducir pasar directamente la función pasarle directamenete Dali.Visor.Plugins[match[0]].function(event,props,)
+                    template = template.replace(match[0], match[0] + "event, props, ReactDOM.findDOMNode(this)");  //template.replace(match[0], match[0] + "event, this, __getPlugin(this)"); 
                 } else {
-                    template = template.replace(match[0], match[0].replace(match[1], "event, this, __getPlugin(this)"));
+                    template = template.replace(match[0], match[0].replace(match[1], "event, props, ReactDOM.findDOMNode(this)")); //template.replace(match[0], match[0].replace(match[1], "event, this, __getPlugin(this)"));
                 }
                 template = template.replace(/[$]dali[$][.]/, "Dali.Visor.Plugins." + name + ".");
             });

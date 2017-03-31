@@ -10,8 +10,8 @@ export function EnrichedVideo(base) {
                state.url +
                 "\"  class=\"basicVideoClass\"></video>";*/
             return "<video " +
-                ((state.controls === "checked") ? " controls='true' " : "") +
-                ((state.autoplay === "checked") ? " autoPlay " : "") +
+                ((state.controls) ? " controls='true' " : "") +
+                ((state.autoplay) ? " autoPlay " : "") +
                 " style=\"width: 100%; height: 100%; pointer-events: 'none'; z-index:0;\" src=\"" +
                 state.url + "\" ontimeupdate='$dali$.timeUpdate()'></video>";
         },

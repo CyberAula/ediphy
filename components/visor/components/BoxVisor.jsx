@@ -234,8 +234,7 @@ export default class BoxVisor extends Component {
             if (prop.startsWith("on")) {
                 let value = props[prop];
                 if (typeof value === "string") {
-                    props[prop] = function () {
-                    };
+                    props[prop] = new Function(value);
                 }
             }
         });
