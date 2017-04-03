@@ -10,11 +10,8 @@
     <script>
         var State = <%= JSON.stringify(state) %>
         
-        function __getPlugin(element){
-            if(element.className.indexOf('wholebox') !== -1){
-                return this;
-            }
-            return __getPlugin(element.parentElement);
+        function getPlugin(element){
+            return element;
         };
     </script>
 </head>

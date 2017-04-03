@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
+import {Grid} from 'react-bootstrap';
 
 import CanvasVisor from './components/CanvasVisor';
+import ContainedCanvasVisor from './components/ContainedCanvasVisor';
 
 require('es6-promise').polyfill();
 require('./../../sass/style.scss');
@@ -25,16 +27,28 @@ export default class Visor extends Component {
 
         return (
             /* jshint ignore:start */
-            <CanvasVisor boxes={boxes}
-                             boxSelected={boxSelected}
-                             navItemSelected={navItems[navItemSelected]}
-                             navItems={navItems}
-                             containedViews={containedViews}
-                             containedViewSelected={containedViewSelected}
-                             toolbars={toolbars}
-                             title={title}
-                             showCanvas={(navItemSelected !== 0)}
-            />
+            <Grid id="app" fluid={true} style={{height: '100%'}}>
+                <CanvasVisor boxes={boxes}
+                                boxSelected={boxSelected}
+                                navItemSelected={navItems[navItemSelected]}
+                                navItems={navItems}
+                                containedViews={containedViews}
+                                containedViewSelected={containedViewSelected}
+                                toolbars={toolbars}
+                                title={title}
+                                showCanvas={(navItemSelected !== 0)}
+                />
+                <ContainedCanvasVisor boxes={boxes}
+                                boxSelected={boxSelected}
+                                navItemSelected={navItems[navItemSelected]}
+                                navItems={navItems}
+                                containedViews={containedViews}
+                                containedViewSelected={containedViewSelected}
+                                toolbars={toolbars}
+                                title={title}
+                                showCanvas={(navItemSelected !== 0)}
+                />
+            </Grid>
             /* jshint ignore:end */
         );
     }
