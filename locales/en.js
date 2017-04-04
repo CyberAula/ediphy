@@ -63,7 +63,7 @@ var en = {
         "Open": "Open",
         "Open_Catalog": "View uploaded images",
         "page": "Page",
-        "Page_name": "Nombre página",
+        "Page_name": "Page name",
         "Pixels": "Pixels",
         "Percentage": "Percentage",
         "Position": "Positioning",

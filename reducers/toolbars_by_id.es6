@@ -268,7 +268,7 @@ function toolbarSectionCreator(state, action) {
                         page_name: {
                             __name: i18n.t('Page_name'),
                             type: 'text',
-                            value: "Título pagina",
+                            value: "Página",
                             autoManaged: false
                         }
                     }

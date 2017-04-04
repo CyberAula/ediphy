@@ -93,7 +93,7 @@ export default class DaliTitle extends Component {
         /* jshint ignore:start */
         <div className="contenido"
             style={{backgroundColor: 'transparent',  display: currentStatus=='hidden'? 'none':'block'}}>
-            {content}
+            {/* content */}
         </div>
         /* jshint ignore:end */
         );

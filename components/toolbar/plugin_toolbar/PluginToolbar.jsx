@@ -275,19 +275,16 @@ export default class PluginToolbar extends Component {
         );
     }
 
-    handlecanvasToolbar (name){
+    handlecanvasToolbar (name, value){
       switch (name){
         case i18n.t('display_page'):
           this.props.onNavItemToggled(this.props.navItemSelected);
           break;
         case i18n.t('Page_name'):
-          console.log(this.props.navItems[this.props.navItemSelected].name);
-          this.props.onNavItemNameChanged(this.props.navItemSelected, "test");
-          break;
-
-        default:
+          this.props.onNavItemNameChanged(this.props.navItemSelected, value);
           break;
       }
+      console.log(value);
     }
     renderAccordion(accordion, tabKey, accordionKeys, state, key) {
         let props = {
@@ -495,7 +492,9 @@ export default class PluginToolbar extends Component {
 
                 if (!button.autoManaged) {
                   if(!button.callback){
-                    this.handlecanvasToolbar(button.__name);
+                    this.handlecanvasToolbar(button.__name, button.value);
+
+                    console.log(button.value);
                   }else{
                     button.callback(state, buttonKey, value, id, UPDATE_TOOLBAR);
                   }
