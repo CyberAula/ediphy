@@ -139,6 +139,9 @@ export default function () {
                 extraFunctions[fnAlias](element[0]);
             }
         },
+        getMarks: function(){
+          //TODO
+        },
         triggerMark: function(parent, selector){
 
             if(!parent.id){
