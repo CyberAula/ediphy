@@ -280,7 +280,7 @@ export default class PluginToolbar extends Component {
         case i18n.t('display_page'):
           this.props.onNavItemToggled(this.props.navItemSelected);
           break;
-        case i18n.t('Page_name'):
+        case i18n.t('Document_name'):
           this.props.onNavItemNameChanged(this.props.navItemSelected, value);
           break;
       }
@@ -492,9 +492,7 @@ export default class PluginToolbar extends Component {
 
                 if (!button.autoManaged) {
                   if(!button.callback){
-                    this.handlecanvasToolbar(button.__name, button.value);
-
-                    console.log(button.value);
+                      this.handlecanvasToolbar(button.__name, value);
                   }else{
                     button.callback(state, buttonKey, value, id, UPDATE_TOOLBAR);
                   }

@@ -8,6 +8,7 @@ import DaliIndexTitle from './../dali_index_title/DaliIndexTitle';
 import {isPage, isSection, isSlide, calculateNewIdOrder} from './../../../utils';
 import i18n from 'i18next';
 import Dali from './../../../core/main';
+import {UPDATE_TOOLBAR} from '../../../actions';
 
 require('./_carrouselList.scss');
 

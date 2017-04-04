@@ -80,7 +80,7 @@ export default class ReduxProvider extends Component {
                                 accordions: {}
                             }
                         },
-                        config: {displayName: "prueba"}
+                        config: {displayName: i18n.t('section')}
                     }
                 } : {}
             }

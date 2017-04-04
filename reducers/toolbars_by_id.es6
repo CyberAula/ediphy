@@ -1,7 +1,7 @@
 import {ADD_BOX, ADD_RICH_MARK, DELETE_BOX, ADD_NAV_ITEM, DELETE_NAV_ITEM, DELETE_SORTABLE_CONTAINER, DUPLICATE_BOX,
     EDIT_RICH_MARK, RESIZE_BOX, RESIZE_SORTABLE_CONTAINER, TOGGLE_TEXT_EDITOR, UPDATE_BOX, UPDATE_TOOLBAR,
     VERTICALLY_ALIGN_BOX, IMPORT_STATE} from './../actions';
-import Utils, {changeProp, changeProps, deleteProps, isSortableBox, isSortableContainer} from './../utils';
+import Utils, {changeProp, changeProps, deleteProps, isSortableBox, isSortableContainer, isPage, isSection, isSlide} from './../utils';
 import i18n from 'i18next';
 
 function createAspectRatioButton(controls, config) {
@@ -248,6 +248,14 @@ function toolbarCreator(state, action) {
 }
 
 function toolbarSectionCreator(state, action) {
+    let doc_type;
+    if (isPage(action.payload.id)) {
+        doc_type = i18n.t('page');
+    }
+    if(isSlide(action.payload.type)){
+        doc_type = i18n.t('slide');
+    }
+
     let toolbar = {
         id: action.payload.id,
         controls: action.payload.toolbar || {
@@ -255,20 +263,19 @@ function toolbarSectionCreator(state, action) {
                 __name: "Main",
                 accordions: { //define accordions for section
                   basic: {
-                    __name: "Página",
+                    __name: "Generales",
                     icon: 'settings',
                     buttons: {
-                        visibility: {
+                        page_display: {
                             __name: i18n.t('display_page'),
                             type: 'checkbox',
-                            //checked: base.getState().controls,
                             checked: true,
                             autoManaged: false
                         },
-                        page_name: {
-                            __name: i18n.t('Page_name'),
+                        document_name: {
+                            __name: i18n.t('Document_name'),
                             type: 'text',
-                            value: "Página",
+                            value: doc_type,
                             autoManaged: false
                         }
                     }
@@ -278,16 +285,15 @@ function toolbarSectionCreator(state, action) {
                       icon: 'format_color_text',
                       buttons: {
                           display_title: {
-                              __name: "Título visible",
+                              __name: "Título curso",
                               type: 'checkbox',
-                              //checked: base.getState().controls,
                               checked: true,
                               autoManaged: false
                           },
                           title_txt: {
                               __name: "Título",
                               type: 'text',
-                              value: "Título pagina",
+                              value: "Título curso",
                               autoManaged: false
                           }
                       }
@@ -300,7 +306,7 @@ function toolbarSectionCreator(state, action) {
         state: action.payload.state || {}
     };
 
-    toolbar.config.displayName = "Documento_prueba";
+    toolbar.config.displayName = doc_type;
 
     createAliasButton(toolbar.controls, null);
 

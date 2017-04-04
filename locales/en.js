@@ -20,6 +20,7 @@ var en = {
         "delete": "Delete",
         "display": "Display",
         "display_page": "Preview / Export",
+        "Document_name": "Document name",
         "error": {
             "exporting": "There was an error when exporting",
             "generic": "There was an error",
@@ -63,7 +64,6 @@ var en = {
         "Open": "Open",
         "Open_Catalog": "View uploaded images",
         "page": "Page",
-        "Page_name": "Page name",
         "Pixels": "Pixels",
         "Percentage": "Percentage",
         "Position": "Positioning",

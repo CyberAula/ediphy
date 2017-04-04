@@ -39,6 +39,7 @@ export default class DaliIndexTitle extends Component {
                             this.setState({ editing: !this.state.editing });
                             if (this.state.editing) { /*Save changes to Redux state*/
                                 this.props.onNameChanged(this.props.id, this.state.currentValue);
+
                             // Synchronize current component state with Redux state when entering edition mode
                             } else {
                                 this.setState({currentValue: this.props.title});
