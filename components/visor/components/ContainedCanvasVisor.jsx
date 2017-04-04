@@ -11,12 +11,12 @@ export default class ContainedCanvasVisor extends Component {
 
     render() {
         let titles = [];
-        if (this.props.navItemSelected.id !== 0) {
-            titles.push(this.props.navItemSelected.name);
-            let parent = this.props.navItemSelected.parent;
+        if (this.props.containedCanvasSeleted.id !== 0) {
+            titles.push(this.props.containedViewsById.name);
+            let parent = this.props.containedViewsById.parent;
             while (parent !== 0) {
-                titles.push(this.props.navItems[parent].name);
-                parent = this.props.navItems[parent].parent;
+                titles.push(this.props.containedViewsById[parent].name);
+                parent = this.props.containedViewsById[parent].parent;
             }
             titles.reverse();
         }
@@ -35,15 +35,6 @@ export default class ContainedCanvasVisor extends Component {
             <Col id="containedCanvas" md={12} xs={12}
                  style={{display: 'none'/*this.props.containedViewSelected !== 0 ? 'none' : 'initial'*/, backgroundColor: 'white'}}>
                  <div className="scrollcontainer">
-                 <HeaderVisor titles={titles}
-                        onShowTitle={()=>this.setState({showTitle:true})}
-                        courseTitle={this.props.title}
-                        titleMode={this.props.navItemSelected.titleMode}
-                        navItem={this.props.navItemSelected}
-                        navItems={this.props.navItems}
-                        titleModeToggled={this.props.titleModeToggled}
-                        onUnitNumberChanged={this.props.onUnitNumberChanged}
-                        showButton={true}/>
                 <div className="outter canvasvisor">
                     <div id="airlayer"
                     className={isSlide(this.props.navItemSelected.type) ? 'slide_air' : 'doc_air'}

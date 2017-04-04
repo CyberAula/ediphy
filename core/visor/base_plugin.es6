@@ -140,6 +140,7 @@ export default function () {
             }
         },
         triggerMark: function(parent, selector){
+
             if(!parent.id){
                 console.error("Invalid argument -> need parent with correct id @ triggerMark");
                 return;

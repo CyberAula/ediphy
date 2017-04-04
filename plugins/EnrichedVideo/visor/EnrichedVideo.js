@@ -17,16 +17,15 @@ export function EnrichedVideo(base) {
         },
         timeUpdate: function (e, element) {
             var id = "box-" + element;
-            var parent = document.getElementById(id);
-            var time = Math.floor(e.target.currentTime * 10) / 10;
-
-            /*base.triggerMark(parent, function (marks) {
+            var time = document.getElementById(id).getElementsByTagName('video')[0].currentTime;
+            //Rescatar de Dali.toolbarsById[element].config.state.__marks
+            base.triggerMark(element, function (marks) {
                 console.log(time);
                 if (time === 10) {
                     return "a";
                 }
                 return;
-            });*/
+            });
         }
     };
 }
