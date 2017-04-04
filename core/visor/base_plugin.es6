@@ -1,14 +1,14 @@
 import Dali from './../main';
 
 export default function () {
-    var descendant;
-    var extraFunctions = {};
+    let descendant;
+    let extraFunctions = {};
 
-    var parseJson = function (json, state, hasVisorTemplate) {
+    let parseJson = function (json, state, hasVisorTemplate) {
         if (json.child) {
-            for (var i = 0; i < json.child.length; i++) {
+            for (let i = 0; i < json.child.length; i++) {
                 if (json.child[i].tag && json.child[i].tag === "plugin") {
-                    var height = state.__pluginContainerIds[json.child[i].attr['plugin-data-key']].height;
+                    let height = state.__pluginContainerIds[json.child[i].attr['plugin-data-key']].height;
                     height = !isNaN(height) ? height + "px" : height;
                     json.child[i].attr["plugin-data-height"] = height;
                     if (!json.attr) {
@@ -38,7 +38,7 @@ export default function () {
             if (!state.__pluginContainerIds) {
                 state.__pluginContainerIds = {};
             }
-            var key = json.attr['plugin-data-key'];
+            let key = json.attr['plugin-data-key'];
             if (!key) {
                 console.error(json.tag + " has not defined plugin-data-key");
             } else {
@@ -49,7 +49,7 @@ export default function () {
         }
     };
 
-    var plugin = {
+    let plugin = {
         create: function (obj) {
             descendant = obj;
 
@@ -71,7 +71,7 @@ export default function () {
             }
         },
         export: function (state, name, hasChildren, id="") {
-            var plugin, template, hasVisorTemplate;
+            let plugin, template, hasVisorTemplate;
 
             if (!Dali.Visor.Plugins[name]) {
                 plugin = Dali.Plugins[name];
@@ -91,9 +91,9 @@ export default function () {
                 template = plugin.getRenderTemplate(state);
             }
 
-            var regexp = new RegExp(/[$]dali[$][.][\w\s]+[(]([^)]*)/g);
-            var match = regexp.exec(template);
-            var matches = [];
+            let regexp = new RegExp(/[$]dali[$][.][\w\s]+[(]([^)]*)/g);
+            let match = regexp.exec(template);
+            let matches = [];
 
             while (match !== null) {
                 matches.push(match);
@@ -116,7 +116,7 @@ export default function () {
             /*if (!hasChildren) {
                 return template;
             }*/
-            var json = html2json(template);
+            let json = html2json(template);
             parseJson(json, state, hasVisorTemplate);
             return json;
         },
@@ -134,7 +134,7 @@ export default function () {
             return Object.keys(extraFunctions);
         },
         callExtraFunction: function (alias, fnAlias) {
-            var element = $.find("[data-alias='" + alias + "']");
+            let element = $.find("[data-alias='" + alias + "']");
             if (element && extraFunctions && extraFunctions[fnAlias]) {
                 extraFunctions[fnAlias](element[0]);
             }

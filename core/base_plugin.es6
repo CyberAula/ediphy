@@ -2,9 +2,9 @@ import Dali from './main';
 import ReactDOM from 'react-dom';
 
 export default function () {
-    var descendant, state, id, initialParams = {};
+    let descendant, state, id, initialParams = {};
 
-    var defaultFor = function (arg, value, warn) {
+    let defaultFor = function (arg, value, warn) {
         if (typeof arg !== 'undefined') {
             return arg;
         }
@@ -15,9 +15,9 @@ export default function () {
         return value;
     };
 
-    var assignPluginContainerIds = function (json) {
+    let assignPluginContainerIds = function (json) {
         if (json.child) {
-            for (var i = 0; i < json.child.length; i++) {
+            for (let i = 0; i < json.child.length; i++) {
                 assignPluginContainerIds(json.child[i]);
             }
         }
@@ -25,7 +25,7 @@ export default function () {
             if (!state.__pluginContainerIds) {
                 state.__pluginContainerIds = {};
             }
-            var key = json.attr['plugin-data-key'];
+            let key = json.attr['plugin-data-key'];
             if (!key) {
                 console.error(json.tag + " has not defined plugin-data-key");
             } else {
@@ -39,7 +39,7 @@ export default function () {
     };
 
 
-    var plugin = {
+    let plugin = {
         create: function (obj) {
             descendant = obj;
 
@@ -73,7 +73,7 @@ export default function () {
         },
         getConfig: function () {
             var name, displayName, category, callback, needsConfigModal, needsTextEdition, extraTextConfig,
-            needsXMLEdition, icon, iconFromUrl, aspectRatioButtonConfig, isRich, flavor, allowFloatingBox;
+            needsXMLEdition, icon, iconFromUrl, aspectRatioButtonConfig, isRich, marksType, flavor, allowFloatingBox;
             if (descendant.getConfig) {
                 let cfg = descendant.getConfig();
                 name = cfg.name;
@@ -83,6 +83,7 @@ export default function () {
                 iconFromUrl = cfg.iconFromUrl;
                 isRich = cfg.isRich;
                 flavor = cfg.flavor;
+                marksType= cfg.marksType;
                 needsConfigModal = cfg.needsConfigModal;
                 needsTextEdition = cfg.needsTextEdition;
                 extraTextConfig = cfg.extraTextConfig;
@@ -97,6 +98,7 @@ export default function () {
             icon = defaultFor(icon, 'fa-cogs', "Plugin icon not assigned");
             iconFromUrl = defaultFor(iconFromUrl, false);
             isRich = defaultFor(isRich, false);
+            marksType = defaultFor(marksType, [{name:'value',key:'value'}]);
             flavor = defaultFor(flavor, 'plain');
             allowFloatingBox = defaultFor(allowFloatingBox, true);
             needsConfigModal = defaultFor(needsConfigModal, false);
@@ -163,6 +165,7 @@ export default function () {
                 icon: icon,
                 iconFromUrl: iconFromUrl,
                 isRich: isRich,
+                marksType: marksType,
                 flavor: flavor
             };
         },
