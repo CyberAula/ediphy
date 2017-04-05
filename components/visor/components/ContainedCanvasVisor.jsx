@@ -11,7 +11,7 @@ export default class ContainedCanvasVisor extends Component {
 
     render() {
         let titles = [];
-        if (this.props.containedCanvasSeleted.id !== 0) {
+        if (this.props.containedViewSelected !== 0) {
             titles.push(this.props.containedViewsById.name);
             let parent = this.props.containedViewsById.parent;
             while (parent !== 0) {

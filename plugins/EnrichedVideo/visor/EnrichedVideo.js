@@ -18,7 +18,10 @@ export function EnrichedVideo(base) {
         timeUpdate: function (e, element) {
             var id = "box-" + element;
             var time = document.getElementById(id).getElementsByTagName('video')[0].currentTime;
-            //Rescatar de Dali.toolbarsById[element].config.state.__marks
+            var times = base.getMarks(element);
+
+            console.log(times);
+
             base.triggerMark(element, function (marks) {
                 console.log(time);
                 if (time === 10) {

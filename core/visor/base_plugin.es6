@@ -139,16 +139,18 @@ export default function () {
                 extraFunctions[fnAlias](element[0]);
             }
         },
-        getMarks: function(){
-          //TODO
+        getMarks: function(id){
+            //TODO: Analyze state.__marks parse and return an object array with values an mark id
+
+          return window.Dali.State.toolbarsById[id].state.__marks;
         },
         triggerMark: function(parent, selector){
 
-            if(!parent.id){
+            if(!parent){
                 console.error("Invalid argument -> need parent with correct id @ triggerMark");
                 return;
             }
-            let selected = selector(window.Dali.State.toolbarsById[parent.id].state.__marks);
+            let selected = selector(window.Dali.State.toolbarsById[parent].state.__marks);
             if(selected){
                 console.log(selected);
             }
