@@ -140,7 +140,15 @@ export default function () {
             }
         },
         getMarks: function(id){
-            //TODO: Analyze state.__marks parse and return an object array with values an mark id
+            /*let marks = {};
+
+            Object.keys(window.Dali.State.toolbarsById[id].state.__marks).map((mark) =>{
+                let inner_mark = window.Dali.State.toolbarsById[id].state.__marks[mark];
+                let value = inner_mark.value.toString();
+                let element = {};
+                element[value] = inner_mark.id;
+                marks.add(element);
+            });*/
 
           return window.Dali.State.toolbarsById[id].state.__marks;
         },

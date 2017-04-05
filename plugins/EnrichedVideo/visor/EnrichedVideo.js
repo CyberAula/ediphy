@@ -20,7 +20,7 @@ export function EnrichedVideo(base) {
             var time = document.getElementById(id).getElementsByTagName('video')[0].currentTime;
             var times = base.getMarks(element);
 
-            console.log(times);
+            
 
             base.triggerMark(element, function (marks) {
                 console.log(time);
