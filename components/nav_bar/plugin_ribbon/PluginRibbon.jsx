@@ -87,6 +87,7 @@ export default class PluginRibbon extends Component {
                 autoScroll: {
                   container: document.getElementById('canvas'),
                   margin: 50,
+                    speed: 400,
                   distance: 0,
                   interval: 0
                 },
