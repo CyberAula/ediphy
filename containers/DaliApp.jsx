@@ -237,6 +237,7 @@ class DaliApp extends Component {
                                carouselShow={this.state.carouselShow}
                                isBusy={isBusy}
                                fetchResults={fetchVishResults}
+                               titleModeToggled={(id, value) => this.dispatchAndSetState(toggleTitleMode(navItemSelected, value))}
                                onNavItemToggled={ id => this.dispatchAndSetState(toggleNavItem(navItemSelected)) }
                                onNavItemSelected={id => this.dispatchAndSetState(selectNavItem(id))}
                                onNavItemNameChanged={(id, title) => this.dispatchAndSetState(changeNavItemName(id,title))}

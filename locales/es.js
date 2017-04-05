@@ -16,7 +16,6 @@ var es = {
         "delete_section": "Eliminar sección",
         "display": "Visualización",
         "display_page": "Previsualizar / exportar",
-        "Document_name": "Nombre documento",
         "Exercises": "Ejercicios",
         "Exporting": "Se está exportando...",
         "error": {
@@ -56,6 +55,7 @@ var es = {
             "height_auto_warning": "Sólo si fijas una altura podrán tener alturas relativas las cajas en su interior"
         },
         "Multimedia": "Multimedia",
+        "NavItem_name": "Nombre documento",
         "no_results": "Sin resultados",
         "Open": "Abrir",
         "Open_Catalog": "Ver imágenes subidas",

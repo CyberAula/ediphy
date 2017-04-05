@@ -146,8 +146,10 @@ export default class DaliHeader extends Component {
                                 }}
                             >{this.props.navItem.unitNumber}</div>
                             <div className="tit_ud_cap">
-                                <h1>{this.props.courseTitle}</h1>
-                                <h2>{unidad}</h2>
+                                <h1>{this.props.courseTitle}</h1> {/* Course title*/}
+                                <h2>{unidad}</h2> {/* NavItem title */}
+                                <h3 style={{display: 'none'}}></h3> {/* NavItem subtitle */}
+                                <h4 style={{display: 'none'}}></h4> {/* Dali Breadcrumb */}
                             </div>
                              {/* <div className="cabtabla_lapiz">
                                 <img style={{display: 'none', visibility: 'inherit'}}

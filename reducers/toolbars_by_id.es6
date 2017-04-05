@@ -272,8 +272,8 @@ function toolbarSectionCreator(state, action) {
                             checked: true,
                             autoManaged: false
                         },
-                        document_name: {
-                            __name: i18n.t('Document_name'),
+                        navitem_name: {
+                            __name: i18n.t('NavItem_name'),
                             type: 'text',
                             value: doc_type,
                             autoManaged: false
@@ -285,15 +285,21 @@ function toolbarSectionCreator(state, action) {
                       icon: 'format_color_text',
                       buttons: {
                           display_title: {
-                              __name: "Título curso",
+                              __name: i18n.t('course_title'),
+                              type: 'checkbox',
+                              checked: true,
+                              autoManaged: false
+                          },
+                          display_pagetitle: {
+                              __name: "Título " + doc_type ,
                               type: 'checkbox',
                               checked: true,
                               autoManaged: false
                           },
                           title_txt: {
-                              __name: "Título",
+                              __name: "Personalizar",
                               type: 'text',
-                              value: "Título curso",
+                              value: doc_type,
                               autoManaged: false
                           }
                       }
@@ -318,6 +324,10 @@ function toolbarReducer(state, action) {
     switch (action.type) {
         case ADD_RICH_MARK:
             return changeProp(state, "state", action.payload.state);
+        case CHANGE_NAV_ITEM_NAME:
+            newState = Utils.deepClone(state);
+            newState.controls.main.accordions.basic.buttons.navitem_name.value = action.payload.title;
+            return newState;
         case EDIT_RICH_MARK:
             return changeProp(state, "state", action.payload.state);
         case RESIZE_BOX:

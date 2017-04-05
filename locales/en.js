@@ -20,7 +20,6 @@ var en = {
         "delete": "Delete",
         "display": "Display",
         "display_page": "Preview / Export",
-        "Document_name": "Document name",
         "error": {
             "exporting": "There was an error when exporting",
             "generic": "There was an error",
@@ -60,6 +59,8 @@ var en = {
             "height_auto_warning": "The boxes inside can only have a relative height if you fix the container height"
         },
         "Multimedia": "Multimedia",
+        "NavItem_name": "Document name",
+        "NavItem_title": "Document title",
         "no_results": "No results",
         "Open": "Open",
         "Open_Catalog": "View uploaded images",
