@@ -140,26 +140,20 @@ export default function () {
             }
         },
         getMarks: function(id){
-            /*let marks = {};
-
-            Object.keys(window.Dali.State.toolbarsById[id].state.__marks).map((mark) =>{
-                let inner_mark = window.Dali.State.toolbarsById[id].state.__marks[mark];
-                let value = inner_mark.value.toString();
-                let element = {};
-                element[value] = inner_mark.id;
-                marks.add(element);
-            });*/
-
-          return window.Dali.State.toolbarsById[id].state.__marks;
+          if(typeof window.Dali.State.toolbarsById[id] !== 'undefined'){
+              return window.Dali.State.toolbarsById[id].state.__marks;
+          }
+          return false;
         },
-        triggerMark: function(parent, selector){
+        triggerMark: function(parent, selected){
 
             if(!parent){
                 console.error("Invalid argument -> need parent with correct id @ triggerMark");
                 return;
             }
-            let selected = selector(window.Dali.State.toolbarsById[parent].state.__marks);
+
             if(selected){
+                //SEND EVENT to select contained view
                 console.log(selected);
             }
         }
