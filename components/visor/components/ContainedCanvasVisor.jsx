@@ -10,16 +10,6 @@ import {isSortableBox, isSlide} from './../../../utils';
 export default class ContainedCanvasVisor extends Component {
 
     render() {
-        let titles = [];
-        if (this.props.containedViewSelected !== 0) {
-            titles.push(this.props.containedViewsById.name);
-            let parent = this.props.containedViewsById.parent;
-            while (parent !== 0) {
-                titles.push(this.props.containedViewsById[parent].name);
-                parent = this.props.containedViewsById[parent].parent;
-            }
-            titles.reverse();
-        }
 
         let maincontent = document.getElementById('contained_maincontent');
         let actualHeight;
@@ -33,25 +23,20 @@ export default class ContainedCanvasVisor extends Component {
             /* jshint ignore:start */
 
             <Col id="containedCanvas" md={12} xs={12}
-                 style={{display: 'none'/*this.props.containedViewSelected !== 0 ? 'none' : 'initial'*/, backgroundColor: 'white'}}>
+                 style={{display: this.props.containedViewSelected !== 0 ? 'initial' : 'none' , backgroundColor: 'white'}}>
                  <div className="scrollcontainer">
                 <div className="outter canvasvisor">
                     <div id="airlayer"
-                    className={isSlide(this.props.navItemSelected.type) ? 'slide_air' : 'doc_air'}
+                    /*className={isSlide(this.props.navItemSelected.type) ? 'slide_air' : 'doc_air'}*/
                     style={{visibility: (this.props.showCanvas ? 'visible' : 'hidden') }}>
 
                     <div id="contained_maincontent"
                          onClick={e => {
                         this.setState({showTitle:false})
                        }}
-                         className={isSlide(this.props.navItemSelected.type) ? 'innercanvas sli':'innercanvas doc'}
+                         /*className={isSlide(this.props.navItemSelected.type) ? 'innercanvas sli':'innercanvas doc'}*/
                          style={{visibility: (this.props.showCanvas ? 'visible' : 'hidden')}}>
 
-                        <TitleVisor titles={titles}
-                            courseTitle={this.props.title}
-                            titleMode={this.props.navItemSelected.titleMode}
-                            navItem={this.props.navItemSelected}
-                            navItems={this.props.navItems}/>
                         <br/>
 
 
@@ -68,7 +53,8 @@ export default class ContainedCanvasVisor extends Component {
                             }}></div>
 
 
-                        {this.props.navItemSelected.boxes.map(id => {
+                        {(this.props.containedViewSelected !== 0) &&
+                            this.props.containedViews[this.props.containedViewSelected].boxes.map(id => {
                             let box = this.props.boxes[id];
                             if (!isSortableBox(box.id)) {
                                 return <BoxVisor key={id}

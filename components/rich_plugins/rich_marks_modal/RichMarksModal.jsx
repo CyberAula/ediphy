@@ -136,12 +136,13 @@ export default class RichMarksModal extends Component {
                                 this.props.pluginToolbar.config.marksType.map((e) =>{
                                 let radio_key = e.key;
                                 return (<Radio name="type_mark"
-                                        checked={this.state.actualMarkType === radio_key}
-                                        onChange={e => {
-                                            this.setState({actualMarkType: radio_key})}}
-                                >{e.name}</Radio>)
-                                }
-                            )}
+                                               key ={radio_key}
+                                               checked={this.state.actualMarkType === radio_key}
+                                               onChange={e => {
+                                                   this.setState({actualMarkType: radio_key})}}
+                                        >{e.name}</Radio>)
+                                 })
+                            }
 
                             <ControlLabel>Value</ControlLabel>
                                 <FormControl ref="value"
