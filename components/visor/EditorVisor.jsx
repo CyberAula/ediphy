@@ -12,12 +12,12 @@ require('./../../core/visor_entrypoint');
 //TODO: define action to toggle different places
 
 export default class Visor extends Component {
+
+
     getCurrentView(NIselected, CVselected){
         let currentView = (CVselected === 0) ? NIselected : CVselected;
         return currentView;
     }
-
-
 
     render() {
 
@@ -33,7 +33,7 @@ export default class Visor extends Component {
         let containedViewSelected = Dali.State.containedViewSelected;
         let toolbars = Dali.State.toolbarsById;
         let title = Dali.State.title;
-        Dali.currentView = this.getCurrentView(navItemSelected, containedViewSelected);
+        const currentView = this.getCurrentView(navItemSelected, containedViewSelected);
 
         return (
             /* jshint ignore:start */
@@ -44,10 +44,13 @@ export default class Visor extends Component {
                                 containedViews={containedViews}
                                 navItems={navItems}
                                 navItemSelected={navItems[navItemSelected]}
+                                changeCurrentFocus={(id) => this.dispatchAndSetState((id)=>{
+
+                                })}
                                 toolbars={toolbars}
                                 title={title}
                                 showCanvas={(navItemSelected !== 0)}
-                />) :
+                    />) :
                     (<ContainedCanvasVisor boxes={boxes}
                                 boxSelected={boxSelected}
                                 containedViews={containedViews}

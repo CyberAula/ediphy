@@ -12,6 +12,9 @@ export function api() {
             Dali.API_Private.emit(Dali.API_Private.events.openConfig, {name: name, reason: reason});
             return promise;
         },
+        changePage: function(id){
+            Dali.API_Private.emit()
+        },
         renderPlugin: function (html, toolbar, config, state, ids, initialParams, reason) {
             if(!reason){
                 console.warn("No reason given");
