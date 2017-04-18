@@ -62,6 +62,7 @@ export default class DaliHeader extends Component {
                                         this.props.onShowTitle();
                                         e.stopPropagation(); }}>
                     <div style={{backgroundColor:'white', display:(titles.length !== 0)? 'initial' : 'none' }}>
+                    {/*
                     <div id="daliTitleButtons" style={{height:'40px'}}>
                         <OverlayTrigger placement="bottom" overlay={
                             <Tooltip id="verticTooltip">{i18n.t('vertical')}
@@ -135,9 +136,11 @@ export default class DaliHeader extends Component {
                         </OverlayTrigger>
 
                     </div>
-                    <div className={this.props.showButtons ?  "caja selectedTitle selectedBox":"caja"}>
-                        <div className="cab"
-                            style={{backgroundColor: 'transparent',  visibility:(currentStatus == 'hidden') ? 'hidden' : 'inherit'}}>
+                    */}
+
+                    {/* Course title*/}
+                    <div className={this.props.showButtons ?  "caja selectedTitle selectedBox":"caja"} style={{visibility:(currentStatus == 'hidden') ? 'hidden' : 'inherit'}}>
+                        <div className="cab">
                             <div className="cabtabla_numero"
                                 contentEditable={this.props.navItem.parent === 0}
                                 suppressContentEditableWarning
@@ -146,20 +149,18 @@ export default class DaliHeader extends Component {
                                 }}
                             >{this.props.navItem.unitNumber}</div>
                             <div className="tit_ud_cap">
-                                <h1>{this.props.courseTitle}</h1> {/* Course title*/}
-                                <h2>{unidad}</h2> {/* NavItem title */}
-                                <h3 style={{display: 'none'}}></h3> {/* NavItem subtitle */}
-                                <h4 style={{display: 'none'}}></h4> {/* Dali Breadcrumb */}
+                                <h1>{this.props.courseTitle}</h1>
                             </div>
-                             {/* <div className="cabtabla_lapiz">
-                                <img style={{display: 'none', visibility: 'inherit'}}
-                                    src="images/ico_alumno.gif" alt="Alumno"/>
-                                <div style={{display: 'none'}} id="alumno2"> Alumno</div>
-                            </div>*/}
+
                             <div style={{display: 'none'}} className="clear"></div>
                         </div>
                     </div>
-                    <br style={{clear:'both',  visibility: 'inherit'}}/>
+
+                    {/* <h2>{unidad}</h2>  NavItem title */}
+                    {/* <h3 style={{display: 'none'}}></h3>  NavItem subtitle */}
+                    {/* <h4 style={{display: 'none'}}></h4>  Dali Breadcrumb */}
+
+                    {/* <br style={{clear:'both',  visibility: 'inherit'}}/> */}
                 </div>
             </div>
             /* jshint ignore:end */

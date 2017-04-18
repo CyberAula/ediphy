@@ -19,7 +19,8 @@ function navItemCreator(state = {}, action = {}) {
             state[action.payload.parent].unitNumber),
         hidden: state[action.payload.parent].hidden,
         extraFiles: {},
-        titleMode: isSlide(action.payload.type) ? 'hidden' : 'expanded'
+        titleMode: 'hidden'
+        //titleMode: isSlide(action.payload.type) ? 'hidden' : 'expanded'
     };
 }
 

@@ -287,7 +287,7 @@ function toolbarSectionCreator(state, action) {
                           display_title: {
                               __name: i18n.t('course_title'),
                               type: 'checkbox',
-                              checked: true,
+                              checked: false,
                               autoManaged: false
                           },
                           display_pagetitle: {
