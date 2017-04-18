@@ -146,16 +146,13 @@ export default function () {
           return false;
         },
         triggerMark: function(parent, selected){
-
             if(!parent){
                 console.error("Invalid argument -> need parent with correct id @ triggerMark");
                 return;
             }
-
             if(selected){
                 //SEND EVENT to select contained view
-                window.Dali.currentView = selected;
-                //console.log(selected);
+                Dali.API.changeView(selected);
             }
         }
     };

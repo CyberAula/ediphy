@@ -12,8 +12,8 @@ export function api() {
             Dali.API_Private.emit(Dali.API_Private.events.openConfig, {name: name, reason: reason});
             return promise;
         },
-        changePage: function(id){
-            Dali.API_Private.emit()
+        changeView: function(id){
+            Dali.API_Private.emit(Dali.API_Private.events.changeView, {id: id});
         },
         renderPlugin: function (html, toolbar, config, state, ids, initialParams, reason) {
             if(!reason){
@@ -41,6 +41,10 @@ export function api_private() {
             },
             render: {
                 emit: 'render'
+            },
+            //TODO: change into VIEW API?
+            changeView:{
+                emit: 'changeView'
             },
             openConfig: {
                 emit: 'openConfig',

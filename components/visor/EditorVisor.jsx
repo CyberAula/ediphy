@@ -13,6 +13,11 @@ require('./../../core/visor_entrypoint');
 
 export default class Visor extends Component {
 
+    componentDidMount(){
+        Dali.API_Private.listenEmission(Dali.API_Private.events.changeView, e => {
+
+        });
+    }
 
     getCurrentView(NIselected, CVselected){
         let currentView = (CVselected === 0) ? NIselected : CVselected;
