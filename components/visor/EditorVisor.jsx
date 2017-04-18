@@ -9,7 +9,16 @@ require('es6-promise').polyfill();
 require('./../../sass/style.scss');
 require('./../../core/visor_entrypoint');
 
+//TODO: define action to toggle different places
+
 export default class Visor extends Component {
+    getCurrentView(NIselected, CVselected){
+        let currentView = (CVselected === 0) ? NIselected : CVselected;
+        return currentView;
+    }
+
+
+
     render() {
 
         if(window.State){
@@ -24,30 +33,31 @@ export default class Visor extends Component {
         let containedViewSelected = Dali.State.containedViewSelected;
         let toolbars = Dali.State.toolbarsById;
         let title = Dali.State.title;
+        Dali.currentView = this.getCurrentView(navItemSelected, containedViewSelected);
 
         return (
             /* jshint ignore:start */
             <Grid id="app" fluid={true} style={{height: '100%'}}>
-                <CanvasVisor boxes={boxes}
+                { Dali.currentView.indexOf("cv-") === -1 ?
+                    (<CanvasVisor boxes={boxes}
                                 boxSelected={boxSelected}
-                                navItemSelected={navItems[navItemSelected]}
-                                navItems={navItems}
                                 containedViews={containedViews}
-                                containedViewSelected={containedViewSelected}
+                                navItems={navItems}
+                                navItemSelected={navItems[navItemSelected]}
                                 toolbars={toolbars}
                                 title={title}
                                 showCanvas={(navItemSelected !== 0)}
-                />
-                <ContainedCanvasVisor boxes={boxes}
+                />) :
+                    (<ContainedCanvasVisor boxes={boxes}
                                 boxSelected={boxSelected}
-                                navItemSelected={navItems[navItemSelected]}
-                                navItems={navItems}
                                 containedViews={containedViews}
                                 containedViewSelected={containedViewSelected}
+                                navItems={navItems}
                                 toolbars={toolbars}
                                 title={title}
                                 showCanvas={(navItemSelected !== 0)}
-                />
+                    />)
+                }
             </Grid>
             /* jshint ignore:end */
         );

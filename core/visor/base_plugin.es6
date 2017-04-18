@@ -154,7 +154,8 @@ export default function () {
 
             if(selected){
                 //SEND EVENT to select contained view
-                console.log(selected);
+                window.Dali.currentView = selected;
+                //console.log(selected);
             }
         }
     };

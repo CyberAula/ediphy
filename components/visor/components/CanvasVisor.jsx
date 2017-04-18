@@ -33,7 +33,7 @@ export default class CanvasVisor extends Component {
             /* jshint ignore:start */
 
             <Col id="canvas" md={12} xs={12}
-                 style={{display: this.props.containedViewSelected !== 0 ? 'none' : 'initial', backgroundColor: 'white'}}>
+                 style={{display:'initial', backgroundColor: 'white'}}>
                  <div className="scrollcontainer">
                  <HeaderVisor titles={titles}
                         onShowTitle={()=>this.setState({showTitle:true})}

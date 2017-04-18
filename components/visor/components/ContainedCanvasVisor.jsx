@@ -23,7 +23,7 @@ export default class ContainedCanvasVisor extends Component {
             /* jshint ignore:start */
 
             <Col id="containedCanvas" md={12} xs={12}
-                 style={{display: this.props.containedViewSelected !== 0 ? 'initial' : 'none' , backgroundColor: 'white'}}>
+                 style={{display: 'initial', backgroundColor: 'white'}}>
                  <div className="scrollcontainer">
                 <div className="outter canvasvisor">
                     <div id="airlayer"
