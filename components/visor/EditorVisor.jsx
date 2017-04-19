@@ -57,7 +57,8 @@ export default class Visor extends Component {
                                 navItemSelected={navItems[navItemSelected]}
                                 toolbars={toolbars}
                                 title={title}
-                                showCanvas={(navItemSelected !== 0)}
+                                showCanvas={this.state.currentView.indexOf("cv-") === -1}
+                                currentView={this.state.currentView}
                     />) :
                     (<ContainedCanvasVisor boxes={boxes}
                                 boxSelected={boxSelected}
@@ -66,7 +67,8 @@ export default class Visor extends Component {
                                 navItems={navItems}
                                 toolbars={toolbars}
                                 title={title}
-                                showCanvas={(navItemSelected !== 0)}
+                                showCanvas={this.state.currentView.indexOf("cv-") !== -1}
+                                currentView={this.state.currentView}
                     />)
                 }
             </Grid>

@@ -152,7 +152,7 @@ export default function () {
             }
             if(selected){
                 //SEND EVENT to select contained view
-                Dali.API.changeView(selected);
+                Dali.API.changeView(window.Dali.State.toolbarsById[parent].state.__marks[selected].connection);
             }
         }
     };

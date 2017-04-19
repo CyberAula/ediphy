@@ -99,7 +99,7 @@ export function EnrichedVideo(base) {
         // Posibilidad: http://modernizr.com/
         getInitialState: function () {
             return {
-                url: 'http://video.webmfiles.org/big-buck-bunny_trailer.webm',
+                url: 'http://dl1.webmfiles.org/big-buck-bunny_trailer.webm',
                 controls: true,
                 autoplay: true
             };

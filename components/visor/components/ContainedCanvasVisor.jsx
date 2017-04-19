@@ -53,8 +53,8 @@ export default class ContainedCanvasVisor extends Component {
                             }}></div>
 
 
-                        {(this.props.containedViewSelected !== 0) &&
-                            this.props.containedViews[this.props.containedViewSelected].boxes.map(id => {
+                        {(this.props.showCanvas) &&
+                            this.props.containedViews[this.props.currentView].boxes.map(id => {
                             let box = this.props.boxes[id];
                             if (!isSortableBox(box.id)) {
                                 return <BoxVisor key={id}
