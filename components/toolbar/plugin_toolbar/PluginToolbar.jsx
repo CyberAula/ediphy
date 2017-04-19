@@ -285,7 +285,7 @@ export default class PluginToolbar extends Component {
             break;
         case i18n.t('course_title'):
             let courseTitle = value ? 'reduced' : 'hidden';
-            this.props.titleModeToggled(this.props.navItemSelected, courseTitle);
+            this.props.titleModeToggled(this.props.navItemSelected, {courseTitle});
             break;
         case i18n.t('Title')+i18n.t('page'):
             let docTitle = value ? 'reduced' : 'hidden';

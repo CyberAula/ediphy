@@ -14,15 +14,15 @@
 
 }
 .drop-target .dragContentHere {
-  box-shadow: inset 0 0 5px 1px lighten($grismedio, 20%);
+  //box-shadow: inset 0 0 5px 1px lighten($grismedio, 20%);
   background-color: lighten($grisclaro, 5%);
   transition: background-color 0.3s;
 }
 #clone {
   position:absolute;
-	color: $verdeoscurogrisaceo;
-	border: 1px dashed $verdeoscurogrisaceo;
-	background-color: white;
+	color: $blueprimary;
+	border: 1px dashed $blueprimary;
+	background-color: white !important;
 }
 
 /*Resize*/

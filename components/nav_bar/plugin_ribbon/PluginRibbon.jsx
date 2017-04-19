@@ -54,8 +54,7 @@ export default class PluginRibbon extends Component {
                         })}
                     </div>
                 </div>
-                <div className="mainButtons">
-                </div>
+
             </Col>
             /* jshint ignore:end */
         );

@@ -172,8 +172,8 @@ export function toggleTextEditor(caller, value) {
     return {type: TOGGLE_TEXT_EDITOR, payload: {caller, value}};
 }
 
-export function toggleTitleMode(id, value) {
-    return {type: TOGGLE_TITLE_MODE, payload: {id, value}};
+export function toggleTitleMode(id, titles) {
+    return {type: TOGGLE_TITLE_MODE, payload: {id, titles}};
 }
 
 export function changeDisplayMode(mode) {

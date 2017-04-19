@@ -43,7 +43,7 @@
   font-size: 20px;
   height: 60px;
   padding: 0 8px;
-  color: $verdeoscurogrisaceo;
+  color: $grisadams;
   background: $lightestgrey;
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
@@ -51,7 +51,7 @@
   vertical-align: middle;
   &:hover, &:active {
     border-bottom: 0px solid $grisclaro;
-    color: $detailgreen;
+    color: #1fc8db;
     background: $lightestgrey;
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
@@ -76,6 +76,14 @@ button[disabled].navButton {
 
 /*****************Course title******************/
 /*Gap for course title*/
+.grad1 {
+  height: 60px;
+  width: 80px;
+  float: left;
+  background: linear-gradient(141deg, #0fb8ad 0%, #1fc8db 51%, #2cb5e8 75%);
+  color: white;
+  opacity: 0.95;
+}
 .navBarSpace {
   height: 100%;
   padding: 10px;
@@ -116,18 +124,23 @@ button[disabled].navButton {
   @extend .navButton;
   width: auto;
   min-width: 80px;
-  padding: 0 4px;
   .material-icons {
     vertical-align: middle;
   }
   &.active {
-    color: white !important;
-    background-color: $grismedio;
+    color: $blueprimary !important;
+    background-color: white;
+    -webkit-box-shadow: inset 0px 0px 15px -3px rgba(179,179,179,1);
+    -moz-box-shadow: inset 0px 0px 15px -3px rgba(179,179,179,1);
+    box-shadow: inset 0px 0px 15px -3px rgba(179,179,179,1);
     &:after {
       border-bottom: 8px solid $naranjaadams;
     }
   }
+
 }
+
+
 
 /****Make navbar icons fit into smaller screens****/
 .hideonresize {

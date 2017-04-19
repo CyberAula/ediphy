@@ -21,7 +21,7 @@ export default class DaliNavBar extends Component {
         return (
             /* jshint ignore:start */
             <Col id="iconBar">
-                <img src="images/icon.png"/>
+                <div className="grad1"></div>
                 <div className="navBarSpace">
                     <DaliIndexTitle className="tituloCurso"
                                     title={this.props.title}
