@@ -51,8 +51,9 @@ export default class DaliHeader extends Component {
 
     render() {
         let titles = this.props.titles;
-        let currentStatus = this.props.titleMode;
-        let unidad = titles[0];
+        let currentStatusTitle = this.props.titleMode;
+        let currentStatusDocTitle = this.props.docTitleMode;
+        let docTitle = titles[1];
 
         return (
             /* jshint ignore:start */
@@ -139,17 +140,28 @@ export default class DaliHeader extends Component {
                     */}
 
                     {/* Course title*/}
-                    <div className={this.props.showButtons ?  "caja selectedTitle selectedBox":"caja"} style={{visibility:(currentStatus == 'hidden') ? 'hidden' : 'inherit'}}>
+                    <div className={this.props.showButtons ?  "caja selectedTitle selectedBox":"caja"} style={{display:(currentStatusTitle == 'hidden') ? 'none' : 'block'}}>
                         <div className="cab">
+                            {/*
                             <div className="cabtabla_numero"
                                 contentEditable={this.props.navItem.parent === 0}
                                 suppressContentEditableWarning
                                 onBlur={e => {
                                         this.props.onUnitNumberChanged(this.props.navItem.id, parseInt(e.target.innerText, 10));
                                 }}
-                            >{this.props.navItem.unitNumber}</div>
+                            >{this.props.navItem.unitNumber}</div> */}
+
                             <div className="tit_ud_cap">
                                 <h1>{this.props.courseTitle}</h1>
+                            </div>
+
+                            <div style={{display: 'none'}} className="clear"></div>
+                        </div>
+                    </div>
+                    <div className={this.props.showButtons ?  "caja selectedTitle selectedBox":"caja"} style={{display:(currentStatusDocTitle == 'hidden') ? 'none' : 'block'}}>
+                        <div className="cab">
+                            <div className="tit_ud_cap">
+                                <h2>{docTitle}</h2>
                             </div>
 
                             <div style={{display: 'none'}} className="clear"></div>

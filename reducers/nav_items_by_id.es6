@@ -7,7 +7,7 @@ import {changeProp, changeProps, deleteProp, deleteProps, isView, isSlide, isDoc
 function navItemCreator(state = {}, action = {}) {
     return {
         id: action.payload.id,
-        name: action.payload.name,
+        name: action.payload.name + " " + state[action.payload.parent].children.length ,
         isExpanded: true,
         parent: action.payload.parent,
         children: [],
@@ -19,7 +19,8 @@ function navItemCreator(state = {}, action = {}) {
             state[action.payload.parent].unitNumber),
         hidden: state[action.payload.parent].hidden,
         extraFiles: {},
-        titleMode: 'hidden'
+        titleMode: 'hidden',
+        docTitleMode: 'expanded'
         //titleMode: isSlide(action.payload.type) ? 'hidden' : 'expanded'
     };
 }

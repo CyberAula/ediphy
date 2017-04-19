@@ -96,6 +96,7 @@ var en = {
         },
         "Text" : "Text",
         "text_here" : "Text goes here",
+        "Title": "Title ",
         "Undone": "Undone",
         "Units": "Units",
         "Uploading": "Uploading...",

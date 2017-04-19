@@ -278,17 +278,20 @@ export default class PluginToolbar extends Component {
     handlecanvasToolbar (name, value){
       switch (name){
         case i18n.t('display_page'):
-          this.props.onNavItemToggled(this.props.navItemSelected);
-          break;
+            this.props.onNavItemToggled(this.props.navItemSelected);
+            break;
         case i18n.t('NavItem_name'):
-          this.props.onNavItemNameChanged(this.props.navItemSelected, value);
-          break;
+            this.props.onNavItemNameChanged(this.props.navItemSelected, value);
+            break;
         case i18n.t('course_title'):
             let visible = value ? 'reduced' : 'hidden';
-          this.props.titleModeToggled(this.props.navItemSelected, visible);
-          break;
+            this.props.titleModeToggled(this.props.navItemSelected, visible);
+            break;
+        case i18n.t('Title')+i18n.t('page'):
+
+            break;
         default:
-          break;
+            break;
       }
       console.log(value);
     }

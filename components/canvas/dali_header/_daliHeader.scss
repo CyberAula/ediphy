@@ -41,7 +41,7 @@
 .title {
     display: block;
     background-color: white;
-    padding: 30px 20px 0;
+    padding: 0 20px;
     .cab {
       display: flex;
       font-size: 2em;
@@ -50,11 +50,11 @@
         line-height: 1.1em;
       }
       h1{
-        margin: 0;
+        margin-top: 20px;
         font-size: 1em;
       }
       h2{
-        margin: 0;
+        margin-top: 20px;
         font-size: 0.7em;
         color: $grismedio;
       }

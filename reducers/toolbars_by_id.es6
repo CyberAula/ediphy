@@ -255,6 +255,7 @@ function toolbarSectionCreator(state, action) {
     if(isSlide(action.payload.type)){
         doc_type = i18n.t('slide');
     }
+    let pagetitle = i18n.t('Title') + doc_type;
 
     let toolbar = {
         id: action.payload.id,
@@ -291,7 +292,7 @@ function toolbarSectionCreator(state, action) {
                               autoManaged: false
                           },
                           display_pagetitle: {
-                              __name: "Título " + doc_type ,
+                              __name: pagetitle ,
                               type: 'checkbox',
                               checked: true,
                               autoManaged: false

@@ -92,6 +92,7 @@ var es = {
         },
         "Text": "Texto",
         "text_here": "Introduzca aquí su texto",
+        "Title": "Título ",
         "Undone": "Deshacer",
         "Units": "Unidades",
         "Uploading": "Subiendo...",
