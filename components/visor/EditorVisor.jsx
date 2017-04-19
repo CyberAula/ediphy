@@ -12,10 +12,16 @@ require('./../../core/visor_entrypoint');
 //TODO: define action to toggle different places
 
 export default class Visor extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            currentView: this.getCurrentView(Dali.State.navItemSelected, Dali.State.containedViewSelected)
+        };
+    }
 
     componentDidMount(){
         Dali.API_Private.listenEmission(Dali.API_Private.events.changeView, e => {
-
+            this.setState({currentView: e.detail.id});
         });
     }
 
@@ -38,20 +44,17 @@ export default class Visor extends Component {
         let containedViewSelected = Dali.State.containedViewSelected;
         let toolbars = Dali.State.toolbarsById;
         let title = Dali.State.title;
-        const currentView = this.getCurrentView(navItemSelected, containedViewSelected);
+        //const currentView = this.getCurrentView(navItemSelected, containedViewSelected);
 
         return (
             /* jshint ignore:start */
             <Grid id="app" fluid={true} style={{height: '100%'}}>
-                { Dali.currentView.indexOf("cv-") === -1 ?
+                { this.state.currentView.indexOf("cv-") === -1 ?
                     (<CanvasVisor boxes={boxes}
                                 boxSelected={boxSelected}
                                 containedViews={containedViews}
                                 navItems={navItems}
                                 navItemSelected={navItems[navItemSelected]}
-                                changeCurrentFocus={(id) => this.dispatchAndSetState((id)=>{
-
-                                })}
                                 toolbars={toolbars}
                                 title={title}
                                 showCanvas={(navItemSelected !== 0)}
