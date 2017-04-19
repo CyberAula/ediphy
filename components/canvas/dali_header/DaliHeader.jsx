@@ -53,7 +53,7 @@ export default class DaliHeader extends Component {
         let titles = this.props.titles;
         let currentStatusTitle = this.props.titleMode;
         let currentStatusDocTitle = this.props.docTitleMode;
-        let docTitle = titles[1];
+        let docTitle = this.props.title;
 
         return (
             /* jshint ignore:start */

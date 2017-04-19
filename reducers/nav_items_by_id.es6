@@ -7,7 +7,7 @@ import {changeProp, changeProps, deleteProp, deleteProps, isView, isSlide, isDoc
 function navItemCreator(state = {}, action = {}) {
     return {
         id: action.payload.id,
-        name: action.payload.name + " " + state[action.payload.parent].children.length ,
+        name: action.payload.name ,
         isExpanded: true,
         parent: action.payload.parent,
         children: [],
