@@ -63,8 +63,6 @@ export default class CanvasVisor extends Component {
                             navItems={this.props.navItems}/>
                         <br/>
 
-
-
                         <div style={{
                                 width: "100%",
                                 background: "black",
@@ -75,7 +73,6 @@ export default class CanvasVisor extends Component {
                                 display:(this.props.boxLevelSelected > 0) ? "block" : "none",
                                 visibility: (this.props.boxLevelSelected > 0) ? "visible" : "collapse"
                             }}></div>
-
 
                         {this.props.navItemSelected.boxes.map(id => {
                             let box = this.props.boxes[id];

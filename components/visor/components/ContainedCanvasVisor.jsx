@@ -3,8 +3,6 @@ import ReactDOM from 'react-dom';
 import BoxVisor from './BoxVisor';
 import BoxSortableVisor from './BoxSortableVisor';
 import {Col} from 'react-bootstrap';
-import TitleVisor from './TitleVisor';
-import HeaderVisor from './HeaderVisor';
 import {isSortableBox, isSlide} from './../../../utils';
 
 export default class ContainedCanvasVisor extends Component {
@@ -38,8 +36,6 @@ export default class ContainedCanvasVisor extends Component {
                          style={{visibility: (this.props.showCanvas ? 'visible' : 'hidden')}}>
 
                         <br/>
-
-
 
                         <div style={{
                                 width: "100%",
