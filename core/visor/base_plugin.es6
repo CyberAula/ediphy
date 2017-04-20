@@ -139,19 +139,12 @@ export default function () {
                 extraFunctions[fnAlias](element[0]);
             }
         },
-        getMarks: function(id){
-          if(typeof window.Dali.State.toolbarsById[id] !== 'undefined'){
-              return window.Dali.State.toolbarsById[id].state.__marks;
-          }
-          return false;
-        },
         triggerMark: function(parent, selected){
             if(!parent){
                 console.error("Invalid argument -> need parent with correct id @ triggerMark");
                 return;
             }
             if(selected){
-                //SEND EVENT to select contained view
                 Dali.API.changeView(window.Dali.State.toolbarsById[parent].state.__marks[selected].connection);
             }
         }
