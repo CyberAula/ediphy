@@ -158,6 +158,9 @@ export default class DaliHeader extends Component {
                                 <h2 style={{display:(currentStatus.documentTitle == 'hidden') ? 'none' : 'block'}}>{docTitle}</h2>
                                 {/* NavItem subtitle */}
                                 <h3 style={{display:(currentStatus.documentSubTitle == 'hidden') ? 'none' : 'block'}}>{subTitle}</h3>
+
+                                {/* breadcrumb */}
+                                <h4 style={{display:(currentStatus.breadcrumb == 'hidden') ? 'none' : 'block'}}>{"breadcrumb_example / change this with real breadcrum"}</h4>
                             </div>
 
                             <div style={{display: 'none'}} className="clear"></div>

@@ -302,6 +302,12 @@ function toolbarSectionCreator(state, action) {
                               type: 'checkbox',
                               checked: false,
                               autoManaged: false
+                          },
+                          display_breadcrumb: {
+                              __name:  i18n.t('Breadcrumb'),
+                              type: 'checkbox',
+                              checked: false,
+                              autoManaged: false
                           }
                       }
 
