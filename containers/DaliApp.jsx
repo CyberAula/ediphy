@@ -52,7 +52,7 @@ class DaliApp extends Component {
     render() {
         const { dispatch, boxes, boxesIds, boxSelected, boxLevelSelected, navItemsIds, navItems, navItemSelected,
             containedViews, containedViewSelected, imagesUploaded,
-            undoDisabled, redoDisabled, displayMode, isBusy, toolbars, title, fetchVishResults } = this.props;
+            undoDisabled, redoDisabled, displayMode, isBusy, toolbars, title, fetchVishResults, titlesDisplay } = this.props;
         let ribbonHeight = this.state.hideTab === 'hide' ? 0 : 47;
         return (
             /* jshint ignore:start */

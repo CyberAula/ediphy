@@ -61,8 +61,6 @@ export default class DaliCanvas extends Component {
                         onBoxSelected={this.props.onBoxSelected}
                         courseTitle={this.props.title}
                         title={this.props.navItemSelected.name}
-                        titleMode={this.props.navItemSelected.titleMode}
-                        doctitleMode={this.props.navItemSelected.docTitleMode}
                         navItem={this.props.navItemSelected}
                         navItems={this.props.navItems}
                         titleModeToggled={this.props.titleModeToggled}

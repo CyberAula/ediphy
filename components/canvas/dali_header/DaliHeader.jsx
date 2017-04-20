@@ -51,8 +51,8 @@ export default class DaliHeader extends Component {
 
     render() {
         let titles = this.props.titles;
-        let currentStatusTitle = this.props.titleMode;
-        let currentStatusDocTitle = this.props.docTitleMode;
+        let currentStatus = this.props.navItem.titlesDisplay;
+        //let currentStatusDocTitle = this.props.docTitleMode;
         let docTitle = this.props.title;
 
         return (
@@ -140,7 +140,7 @@ export default class DaliHeader extends Component {
                     */}
 
                     {/* Course title*/}
-                    <div className={this.props.showButtons ?  "caja selectedTitle selectedBox":"caja"} style={{display:(currentStatusTitle == 'hidden') ? 'none' : 'block'}}>
+                    <div className={this.props.showButtons ?  "caja selectedTitle selectedBox":"caja"} style={{display:(currentStatus.courseTitle == 'hidden') ? 'none' : 'block'}}>
                         <div className="cab">
                             {/*
                             <div className="cabtabla_numero"
@@ -158,7 +158,9 @@ export default class DaliHeader extends Component {
                             <div style={{display: 'none'}} className="clear"></div>
                         </div>
                     </div>
-                    <div className={this.props.showButtons ?  "caja selectedTitle selectedBox":"caja"} style={{display:(currentStatusDocTitle == 'hidden') ? 'none' : 'block'}}>
+
+                    {/* NavItem title */}
+                    <div className={this.props.showButtons ?  "caja selectedTitle selectedBox":"caja"} style={{display:(currentStatus.documentTitle == 'hidden') ? 'none' : 'block'}}>
                         <div className="cab">
                             <div className="tit_ud_cap">
                                 <h2>{docTitle}</h2>

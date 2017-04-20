@@ -285,16 +285,23 @@ export default class PluginToolbar extends Component {
             break;
         case i18n.t('course_title'):
             let courseTitle = value ? 'reduced' : 'hidden';
-            this.props.titleModeToggled(this.props.navItemSelected, {courseTitle});
+            this.props.titleModeToggled(this.props.navItemSelected, {courseTitle: courseTitle,
+                documentTitle: this.props.navItems[this.props.navItemSelected].titlesDisplay.documentTitle});
             break;
         case i18n.t('Title')+i18n.t('page'):
             let docTitle = value ? 'reduced' : 'hidden';
-
+            this.props.titleModeToggled(this.props.navItemSelected, {courseTitle: this.props.navItems[this.props.navItemSelected].titlesDisplay.courseTitle,
+                documentTitle: docTitle});
+            break;
+        case i18n.t('Title')+i18n.t('slide'):
+            let slideTitle = value ? 'reduced' : 'hidden';
+            this.props.titleModeToggled(this.props.navItemSelected, {courseTitle: this.props.navItems[this.props.navItemSelected].titlesDisplay.courseTitle,
+                documentTitle: slideTitle});
             break;
         default:
             break;
       }
-      console.log(value);
+      console.log(i18n.t('Title')+i18n.t('slide'));
     }
     renderAccordion(accordion, tabKey, accordionKeys, state, key) {
         let props = {
