@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import BoxVisor from './BoxVisor';
 import BoxSortableVisor from './BoxSortableVisor';
-import {Col} from 'react-bootstrap';
+import {Col, Button} from 'react-bootstrap';
 import {isSortableBox, isSlide} from './../../../utils';
 
 export default class ContainedCanvasVisor extends Component {
@@ -35,6 +35,11 @@ export default class ContainedCanvasVisor extends Component {
                          /*className={isSlide(this.props.navItemSelected.type) ? 'innercanvas sli':'innercanvas doc'}*/
                          style={{visibility: (this.props.showCanvas ? 'visible' : 'hidden')}}>
 
+                        <Button style={{margin: "10px 0px 0px 10px", padding: "6px 12px"}}
+                                onClick={e => {
+                                    //TODO: put here the call for changing to the API
+                                    e.stopPropagation();
+                                }}>X</Button>
                         <br/>
 
                         <div style={{
