@@ -52,8 +52,8 @@ export default class DaliHeader extends Component {
     render() {
         let titles = this.props.titles;
         let currentStatus = this.props.navItem.titlesDisplay;
-        //let currentStatusDocTitle = this.props.docTitleMode;
         let docTitle = this.props.title;
+        let subTitle = i18n.t('subtitle');
 
         return (
             /* jshint ignore:start */
@@ -139,8 +139,8 @@ export default class DaliHeader extends Component {
                     </div>
                     */}
 
-                    {/* Course title*/}
-                    <div className={this.props.showButtons ?  "caja selectedTitle selectedBox":"caja"} style={{display:(currentStatus.courseTitle == 'hidden') ? 'none' : 'block'}}>
+
+                    <div className={this.props.showButtons ?  "caja selectedTitle selectedBox":"caja"} >
                         <div className="cab">
                             {/*
                             <div className="cabtabla_numero"
@@ -152,26 +152,18 @@ export default class DaliHeader extends Component {
                             >{this.props.navItem.unitNumber}</div> */}
 
                             <div className="tit_ud_cap">
-                                <h1>{this.props.courseTitle}</h1>
+                                {/* Course title*/}
+                                <h1 style={{display:(currentStatus.courseTitle == 'hidden') ? 'none' : 'block'}}>{this.props.courseTitle}</h1>
+                                {/* NavItem title */}
+                                <h2 style={{display:(currentStatus.documentTitle == 'hidden') ? 'none' : 'block'}}>{docTitle}</h2>
+                                {/* NavItem subtitle */}
+                                <h3 style={{display:(currentStatus.documentSubTitle == 'hidden') ? 'none' : 'block'}}>{subTitle}</h3>
                             </div>
 
                             <div style={{display: 'none'}} className="clear"></div>
                         </div>
                     </div>
 
-                    {/* NavItem title */}
-                    <div className={this.props.showButtons ?  "caja selectedTitle selectedBox":"caja"} style={{display:(currentStatus.documentTitle == 'hidden') ? 'none' : 'block'}}>
-                        <div className="cab">
-                            <div className="tit_ud_cap">
-                                <h2>{docTitle}</h2>
-                            </div>
-
-                            <div style={{display: 'none'}} className="clear"></div>
-                        </div>
-                    </div>
-
-                    {/* <h2>{unidad}</h2>  NavItem title */}
-                    {/* <h3 style={{display: 'none'}}></h3>  NavItem subtitle */}
                     {/* <h4 style={{display: 'none'}}></h4>  Dali Breadcrumb */}
 
                     {/* <br style={{clear:'both',  visibility: 'inherit'}}/> */}

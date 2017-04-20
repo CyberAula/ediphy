@@ -286,17 +286,26 @@ export default class PluginToolbar extends Component {
         case i18n.t('course_title'):
             let courseTitle = value ? 'reduced' : 'hidden';
             this.props.titleModeToggled(this.props.navItemSelected, {courseTitle: courseTitle,
-                documentTitle: this.props.navItems[this.props.navItemSelected].titlesDisplay.documentTitle});
+                documentTitle: this.props.navItems[this.props.navItemSelected].titlesDisplay.documentTitle,
+                documentSubTitle: this.props.navItems[this.props.navItemSelected].titlesDisplay.documentSubTitle});
             break;
         case i18n.t('Title')+i18n.t('page'):
             let docTitle = value ? 'reduced' : 'hidden';
             this.props.titleModeToggled(this.props.navItemSelected, {courseTitle: this.props.navItems[this.props.navItemSelected].titlesDisplay.courseTitle,
-                documentTitle: docTitle});
+                documentTitle: docTitle,
+                documentSubTitle: this.props.navItems[this.props.navItemSelected].titlesDisplay.documentSubTitle});
             break;
         case i18n.t('Title')+i18n.t('slide'):
             let slideTitle = value ? 'reduced' : 'hidden';
             this.props.titleModeToggled(this.props.navItemSelected, {courseTitle: this.props.navItems[this.props.navItemSelected].titlesDisplay.courseTitle,
-                documentTitle: slideTitle});
+                documentTitle: slideTitle,
+                documentSubTitle: this.props.navItems[this.props.navItemSelected].titlesDisplay.documentSubTitle});
+            break;
+        case i18n.t('subtitle'):
+            let subTitle = value ? 'reduced' : 'hidden';
+            this.props.titleModeToggled(this.props.navItemSelected, {courseTitle: this.props.navItems[this.props.navItemSelected].titlesDisplay.courseTitle,
+                documentTitle: this.props.navItems[this.props.navItemSelected].titlesDisplay.documentTitle,
+                documentSubTitle: subTitle});
             break;
         default:
             break;

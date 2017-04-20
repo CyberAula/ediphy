@@ -41,23 +41,31 @@
 .title {
     display: block;
     background-color: white;
-    padding: 0 20px;
+
     .cab {
       display: flex;
       font-size: 2em;
+      padding: 20px;
       .cabtabla_numero{
         padding: 0 10px;
         line-height: 1.1em;
       }
       h1{
-        margin: 20px 0 0;
+        margin: 10px 0 0;
         font-size: 1em;
         font-family: 'Ubuntu-bold';
       }
       h2{
-        margin: 15px 0 0;
+        margin: 10px 0 0;
         font-size: 0.8em;
-        color: $grismedio;
+        color: $blueprimary;
+      }
+      h3{
+        margin: 10px 0 0;
+        font-size: 0.7em;
+        font-family: 'Ubuntu-light';
+        color: $grisadams;
+
       }
     }
 }

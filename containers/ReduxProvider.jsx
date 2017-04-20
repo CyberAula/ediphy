@@ -30,7 +30,7 @@ export default class ReduxProvider extends Component {
                         level: 1,
                         type: "",
                         extraFiles: {},
-                        titlesDisplay: {courseTitle: 'hidden', documentTitle: 'expanded'}
+                        titlesDisplay: {courseTitle: 'hidden', documentTitle: 'expanded', documentSubTitle: 'hidden'}
                         //titleMode: "expanded",
                         //docTitleMode: "hidden"
                     }

@@ -79,6 +79,7 @@ var en = {
         "show": "Show",
         "show_subtitle": "Show Subtitle",
         "slide" : "Slide",
+        "subtitle" : "Subtitle",
         "subtitle_hide": "Hide Subtitle",
         "success_transaction" : "The operation has been successful",
         "Structure" : "Structure",

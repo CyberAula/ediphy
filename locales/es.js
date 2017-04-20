@@ -74,6 +74,7 @@ var es = {
         "show": "Mostrar",
         "show_subtitle": "Mostrar Subtítulo",
         "slide": "Diapositiva",
+        "subtitle" : "Subtítulo",
         "subtitle_hide": "Ocultar Subtítulo",
         "success_transaction": "La operación se ha realizado correctamente",
         "Structure": "Estructura",
