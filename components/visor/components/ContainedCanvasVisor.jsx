@@ -35,11 +35,10 @@ export default class ContainedCanvasVisor extends Component {
                          /*className={isSlide(this.props.navItemSelected.type) ? 'innercanvas sli':'innercanvas doc'}*/
                          style={{visibility: (this.props.showCanvas ? 'visible' : 'hidden')}}>
 
-                        <Button style={{margin: "10px 0px 0px 10px", padding: "6px 12px"}}
-                                onClick={e => {
-                                    //TODO: put here the call for changing to the API
+                        <a href="#" style={{margin:"10px", pointerEvents: this.props.viewsArray.length > 1 ? 'initial': 'none',  color: this.props.viewsArray.length > 1 ? 'black': 'gray'}} onClick={e => {
+                                    this.props.removeLastView();
                                     e.stopPropagation();
-                                }}>X</Button>
+                                }}><i className="material-icons">keyboard_backspace</i></a>
                         <br/>
 
                         <div style={{
@@ -63,7 +62,7 @@ export default class ContainedCanvasVisor extends Component {
                                                 boxes={this.props.boxes}
                                                 boxSelected={this.props.boxSelected}
                                                 boxLevelSelected={this.props.boxLevelSelected}
-                                                containedViewSelected={this.props.containedViewSelected}
+                                                containedViewSelected={this.props.currentView}
                                                 toolbars={this.props.toolbars}/>
                             } else {
                                 return <BoxSortableVisor key={id}
@@ -71,7 +70,7 @@ export default class ContainedCanvasVisor extends Component {
                                                         boxes={this.props.boxes}
                                                         boxSelected={this.props.boxSelected}
                                                         boxLevelSelected={this.props.boxLevelSelected}
-                                                        containedViewSelected={this.props.containedViewSelected}
+                                                        containedViewSelected={this.props.currentView}
                                                         toolbars={this.props.toolbars}/>
                             }
                         })}

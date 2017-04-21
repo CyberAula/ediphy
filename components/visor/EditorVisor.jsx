@@ -15,13 +15,14 @@ export default class Visor extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            currentView: this.getCurrentView(Dali.State.navItemSelected, Dali.State.containedViewSelected)
+            currentView: [this.getCurrentView(Dali.State.navItemSelected, Dali.State.containedViewSelected)]
+
         };
     }
 
     componentDidMount(){
         Dali.API_Private.listenEmission(Dali.API_Private.events.changeView, e => {
-            this.setState({currentView: e.detail.id});
+            this.setState({currentView: [this.getCurrentView(Dali.State.navItemSelected, Dali.State.containedViewSelected), e.detail.id]});
         });
     }
 
@@ -49,7 +50,7 @@ export default class Visor extends Component {
         return (
             /* jshint ignore:start */
             <Grid id="app" fluid={true} style={{height: '100%'}}>
-                { this.state.currentView.indexOf("cv-") === -1 ?
+                { this.getLastCurrentViewElement().indexOf("cv-") === -1 ?
                     (<CanvasVisor boxes={boxes}
                                 boxSelected={boxSelected}
                                 containedViews={containedViews}
@@ -57,8 +58,12 @@ export default class Visor extends Component {
                                 navItemSelected={navItems[navItemSelected]}
                                 toolbars={toolbars}
                                 title={title}
-                                showCanvas={this.state.currentView.indexOf("cv-") === -1}
-                                currentView={this.state.currentView}
+                                showCanvas={this.getLastCurrentViewElement().indexOf("cv-") === -1}
+                                removeLastView={()=>{
+                                    this.setState({currentView: this.state.currentView.slice(0,-1)})
+                                }}
+                                currentView={this.getLastCurrentViewElement()}
+                                viewsArray={this.state.currentView}
                     />) :
                     (<ContainedCanvasVisor boxes={boxes}
                                 boxSelected={boxSelected}
@@ -67,14 +72,23 @@ export default class Visor extends Component {
                                 navItems={navItems}
                                 toolbars={toolbars}
                                 title={title}
-                                showCanvas={this.state.currentView.indexOf("cv-") !== -1}
-                                currentView={this.state.currentView}
+                                showCanvas={this.getLastCurrentViewElement().indexOf("cv-") !== -1}
+                                currentView={this.getLastCurrentViewElement()}
+                                removeLastView={()=>{
+                                   this.setState({currentView: this.state.currentView.slice(0,-1)})
+                                }}
+                                viewsArray={this.state.currentView}
                     />)
                 }
             </Grid>
             /* jshint ignore:end */
         );
     }
+
+    getLastCurrentViewElement(){
+        return this.state.currentView[this.state.currentView.length - 1];
+    }
+
 }
 
 /* jshint ignore:start */
