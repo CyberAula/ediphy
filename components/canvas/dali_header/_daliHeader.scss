@@ -47,8 +47,10 @@
       font-size: 2em;
       padding: 20px;
       .cabtabla_numero{
-        padding: 0 10px;
-        line-height: 1.1em;
+        padding: 8px;
+        line-height: 1em;
+        color: $blueprimary;
+        font-family: 'Ubuntu-bold', sans-serif;
       }
       h1{
         margin: 10px 0 0;

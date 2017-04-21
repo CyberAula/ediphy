@@ -7,6 +7,7 @@ var es = {
         "Aspect_ratio": "Relación de aspecto",
         "Auto": "Automática",
         "Block": "Bloque",
+        "Breadcrumb" : "Breadcrumb",
         "Cancel": "Cancelar",
         "Container_": "Contenedor",
         "col_dist": "Distribución de columnas",

@@ -308,6 +308,12 @@ function toolbarSectionCreator(state, action) {
                               type: 'checkbox',
                               checked: false,
                               autoManaged: false
+                          },
+                          display_pagenumber: {
+                              __name:  i18n.t('pagenumber'),
+                              type: 'checkbox',
+                              checked: false,
+                              autoManaged: false
                           }
                       }
 

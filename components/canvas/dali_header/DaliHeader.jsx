@@ -142,14 +142,15 @@ export default class DaliHeader extends Component {
 
                     <div className={this.props.showButtons ?  "caja selectedTitle selectedBox":"caja"} >
                         <div className="cab">
-                            {/*
+
                             <div className="cabtabla_numero"
                                 contentEditable={this.props.navItem.parent === 0}
                                 suppressContentEditableWarning
+                                style={{display:(currentStatus.pageNumber == 'hidden') ? 'none' : 'block'}}
                                 onBlur={e => {
                                         this.props.onUnitNumberChanged(this.props.navItem.id, parseInt(e.target.innerText, 10));
                                 }}
-                            >{this.props.navItem.unitNumber}</div> */}
+                            >{this.props.navItem.unitNumber}</div>
 
                             <div className="tit_ud_cap">
                                 {/* Course title*/}
@@ -160,14 +161,15 @@ export default class DaliHeader extends Component {
                                 <h3 style={{display:(currentStatus.documentSubTitle == 'hidden') ? 'none' : 'block'}}>{subTitle}</h3>
 
                                 {/* breadcrumb */}
-                                <h4 style={{display:(currentStatus.breadcrumb == 'hidden') ? 'none' : 'block'}}>{"breadcrumb_example / change this with real breadcrum"}</h4>
+                                <h4 style={{display:(currentStatus.breadcrumb == 'hidden') ? 'none' : 'block'}}>
+                                    {"breadcrumb_example / change this with real breadcrumb"}
+                                </h4>
                             </div>
 
                             <div style={{display: 'none'}} className="clear"></div>
                         </div>
                     </div>
 
-                    {/* <h4 style={{display: 'none'}}></h4>  Dali Breadcrumb */}
 
                     {/* <br style={{clear:'both',  visibility: 'inherit'}}/> */}
                 </div>

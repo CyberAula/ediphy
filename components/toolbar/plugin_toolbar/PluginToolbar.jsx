@@ -288,35 +288,35 @@ export default class PluginToolbar extends Component {
             this.props.titleModeToggled(this.props.navItemSelected, {courseTitle: courseTitle,
                 documentTitle: this.props.navItems[this.props.navItemSelected].titlesDisplay.documentTitle,
                 documentSubTitle: this.props.navItems[this.props.navItemSelected].titlesDisplay.documentSubTitle,
-                breadcrum: this.props.navItems[this.props.navItemSelected].titlesDisplay.breadcrum});
+                breadcrumb: this.props.navItems[this.props.navItemSelected].titlesDisplay.breadcrum});
             break;
         case i18n.t('Title')+i18n.t('page'):
             let docTitle = value ? 'reduced' : 'hidden';
             this.props.titleModeToggled(this.props.navItemSelected, {courseTitle: this.props.navItems[this.props.navItemSelected].titlesDisplay.courseTitle,
                 documentTitle: docTitle,
                 documentSubTitle: this.props.navItems[this.props.navItemSelected].titlesDisplay.documentSubTitle,
-                breadcrum: this.props.navItems[this.props.navItemSelected].titlesDisplay.breadcrum});
+                breadcrumb: this.props.navItems[this.props.navItemSelected].titlesDisplay.breadcrum});
             break;
         case i18n.t('Title')+i18n.t('slide'):
             let slideTitle = value ? 'reduced' : 'hidden';
             this.props.titleModeToggled(this.props.navItemSelected, {courseTitle: this.props.navItems[this.props.navItemSelected].titlesDisplay.courseTitle,
                 documentTitle: slideTitle,
                 documentSubTitle: this.props.navItems[this.props.navItemSelected].titlesDisplay.documentSubTitle,
-                breadcrum: this.props.navItems[this.props.navItemSelected].titlesDisplay.breadcrum});
+                breadcrumb: this.props.navItems[this.props.navItemSelected].titlesDisplay.breadcrum});
             break;
         case i18n.t('subtitle'):
             let subTitle = value ? 'reduced' : 'hidden';
             this.props.titleModeToggled(this.props.navItemSelected, {courseTitle: this.props.navItems[this.props.navItemSelected].titlesDisplay.courseTitle,
                 documentTitle: this.props.navItems[this.props.navItemSelected].titlesDisplay.documentTitle,
                 documentSubTitle: subTitle,
-                breadcrum: this.props.navItems[this.props.navItemSelected].titlesDisplay.breadcrum});
+                breadcrumb: this.props.navItems[this.props.navItemSelected].titlesDisplay.breadcrum});
             break;
         case i18n.t('Breadcrumb'):
             let breadcrum = value ? 'reduced' : 'hidden';
             this.props.titleModeToggled(this.props.navItemSelected, {courseTitle: this.props.navItems[this.props.navItemSelected].titlesDisplay.courseTitle,
                 documentTitle: this.props.navItems[this.props.navItemSelected].titlesDisplay.documentTitle,
                 documentSubTitle: this.props.navItems[this.props.navItemSelected].titlesDisplay.documentSubTitle,
-                breadcrum: breadcrum});
+                breadcrumb: breadcrum});
             break;
         default:
             break;

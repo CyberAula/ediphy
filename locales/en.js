@@ -7,6 +7,7 @@ var en = {
         "Aspect_ratio": "Aspect ratio",
         "Auto": "Automatic",
         "Block": "Block",
+        "Breadcrumb" : "Breadcrumb",
         "Cancel": "Cancel",
         "Container_": "Container",
         "col_dist": "Column distribution",
