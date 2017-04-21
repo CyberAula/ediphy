@@ -50,7 +50,7 @@ export default class ContainedCanvasVisor extends Component {
                                 opacity: 0.4,
                                 display:(this.props.boxLevelSelected > 0) ? "block" : "none",
                                 visibility: (this.props.boxLevelSelected > 0) ? "visible" : "collapse"
-                            }}></div>
+                            }}> </div>
 
 
                         {(this.props.showCanvas) &&
