@@ -66,6 +66,7 @@ var en = {
         "Open": "Open",
         "Open_Catalog": "View uploaded images",
         "page": "Page",
+        "pagenumber" : "Page Number",
         "Pixels": "Pixels",
         "Percentage": "Percentage",
         "Position": "Positioning",
