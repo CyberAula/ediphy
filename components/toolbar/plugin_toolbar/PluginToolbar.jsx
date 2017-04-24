@@ -334,7 +334,7 @@ export default class PluginToolbar extends Component {
         default:
             break;
       }
-      console.log(i18n.t('Title')+i18n.t('slide'));
+
     }
     renderAccordion(accordion, tabKey, accordionKeys, state, key) {
         let props = {

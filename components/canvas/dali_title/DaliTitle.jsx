@@ -51,7 +51,6 @@ export default class DaliTitle extends Component {
         let content;
         let unidad = "";
         let currentStatus = this.props.titleMode;
-        //let actualIndex = this.getActualIndex();
 
         if (currentStatus === 'reduced') {
             let titles = this.props.titles;

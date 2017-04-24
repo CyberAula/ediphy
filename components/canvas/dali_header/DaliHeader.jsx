@@ -52,8 +52,52 @@ export default class DaliHeader extends Component {
     render() {
         let titles = this.props.titles;
         let currentStatus = this.props.navItem.titlesDisplay;
+        let currentStatustitleMode = this.props.navItem.titlesDisplay.breadcrumb;
         let docTitle = this.props.title;
         let subTitle = i18n.t('subtitle');
+
+
+        let content;
+        let unidad = "";
+
+        console.log(currentStatustitleMode);
+        if (currentStatustitleMode === 'reduced') {
+            let titles = this.props.titles;
+
+            let actualTitle = titles[titles.length - 1];
+            unidad = titles[0];
+            content = React.createElement("div", {className:"subheader"},
+                React.createElement("h3", {style: {marginTop: '0px'}},
+                    React.createElement(Breadcrumb, {style: {margin: 0, backgroundColor: 'inherit'}},
+                        titles.map((item, index) => {
+                            if (index !== 0 && index !== titles.length - 1) {
+                                return React.createElement(BreadcrumbItem, {key: index}, /*this.getActualIndex(titles.length, index) + */item);
+                            }
+                        })
+                    )
+                ),
+                React.createElement("h4", {}, /*this.getActualIndex() + */actualTitle)
+            );
+
+        } else if (currentStatustitleMode === 'expanded') {
+            let titlesComponents = "";
+            let titles_length = this.props.titles.length;
+            content = React.createElement("div", {className:"subheader"},
+                this.props.titles.map((text, index) => {
+                    if (index === 0) {
+                        unidad = text;
+                    } else {
+                        let nivel = (index > 4 ) ? 6 : index + 2;
+                        return React.createElement("h" + nivel, {
+                            key: index,
+                            style: {marginTop: '0px'}
+                        }, /*this.getActualIndex(titles_length, index) + */text);
+                    }
+                })
+            );
+        }
+
+
 
         return (
             /* jshint ignore:start */
@@ -161,8 +205,8 @@ export default class DaliHeader extends Component {
                                 <h3 style={{display:(currentStatus.documentSubTitle == 'hidden') ? 'none' : 'block'}}>{subTitle}</h3>
 
                                 {/* breadcrumb */}
-                                <h4 style={{display:(currentStatus.breadcrumb == 'hidden') ? 'none' : 'block'}}>
-                                    {"breadcrumb_example / change this with real breadcrumb"}
+                                <h4 className="contenido" style={{display:(currentStatus.breadcrumb == 'hidden') ? 'none' : 'block'}}>
+                                    {/* content */}
                                 </h4>
                             </div>
 
