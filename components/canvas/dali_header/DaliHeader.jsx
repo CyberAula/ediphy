@@ -67,16 +67,13 @@ export default class DaliHeader extends Component {
             let actualTitle = titles[titles.length - 1];
             unidad = titles[0];
             content = React.createElement("div", {className:"subheader"},
-                React.createElement("h3", {style: {marginTop: '0px'}},
-                    React.createElement(Breadcrumb, {style: {margin: 0, backgroundColor: 'inherit'}},
-                        titles.map((item, index) => {
-                            if (index !== 0 && index !== titles.length - 1) {
-                                return React.createElement(BreadcrumbItem, {key: index}, /*this.getActualIndex(titles.length, index) + */item);
-                            }
-                        })
-                    )
-                ),
-                React.createElement("h4", {}, /*this.getActualIndex() + */actualTitle)
+                React.createElement(Breadcrumb, {style: {margin: 0, backgroundColor: 'inherit'}},
+                    titles.map((item, index) => {
+                        if (index !== 0 && index !== titles.length ) {
+                            return React.createElement(BreadcrumbItem, {key: index}, item);
+                        }
+                    })
+                )
             );
 
         } else if (currentStatustitleMode === 'expanded') {
@@ -205,9 +202,9 @@ export default class DaliHeader extends Component {
                                 <h3 style={{display:(currentStatus.documentSubTitle == 'hidden') ? 'none' : 'block'}}>{subTitle}</h3>
 
                                 {/* breadcrumb */}
-                                <h4 className="contenido" style={{display:(currentStatus.breadcrumb == 'hidden') ? 'none' : 'block'}}>
-                                    {/* content */}
-                                </h4>
+                                <div className="contenido" style={{display:(currentStatus.breadcrumb == 'hidden') ? 'none' : 'block'}}>
+                                    { content }
+                                </div>
                             </div>
 
                             <div style={{display: 'none'}} className="clear"></div>

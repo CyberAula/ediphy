@@ -34,7 +34,7 @@
     background-color: transparent !important;
     border: none !important;
     outline: none !important;
-    &:hover, &:active, &:focus, &:selected {
+    &:hover, &:active, &:focus {
         -webkit-box-shadow: none !important;
         box-shadow: none !important;
         -moz-box-shadow: none !important;
@@ -267,7 +267,7 @@
 
 .popoverButton {
     @extend .daliTitleButton;
-    margin-top: px !important;
+    margin-top: 0px !important;
     padding: 2px 4px !important;
     width: auto !important;
     height: auto !important;

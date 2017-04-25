@@ -34,7 +34,7 @@ export default class ReduxProvider extends Component {
                             courseTitle: 'hidden',
                             documentTitle: 'expanded',
                             documentSubTitle: 'hidden',
-                            breadcrumb: "hidden",
+                            breadcrumb: "reduced",
                             pageNumber: "hidden"
                         }
 
