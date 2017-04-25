@@ -8,8 +8,8 @@ import VishProvider from './../../vish_provider/vish_provider/VishProvider';
 import MarksList from './../../rich_plugins/marks_list/MarksList.jsx';
 import ContentList from './../../rich_plugins/content_list/ContentList.jsx';
 import Dali from './../../../core/main';
-import {UPDATE_TOOLBAR, UPDATE_BOX} from '../../../actions';
-import {isSortableContainer} from '../../../utils';
+import {UPDATE_TOOLBAR, UPDATE_BOX, TOGGLE_NAV_ITEM, CHANGE_NAV_ITEM_NAME, TOGGLE_TITLE_MODE} from '../../../actions';
+import {isSortableContainer, isCanvasElement} from '../../../utils';
 import i18n from 'i18next';
 
 require('./_pluginToolbar.scss');
@@ -23,7 +23,7 @@ export default class PluginToolbar extends Component {
     }
 
     render() {
-        if (this.props.boxSelected === -1) {
+        if (!isCanvasElement(this.props.navItemSelected, Dali.Config.sections_have_content)) {
             return (
                 /* jshint ignore:start */
                 <div id="wrap"
@@ -37,9 +37,78 @@ export default class PluginToolbar extends Component {
                 /* jshint ignore:end */
             );
         }
-
+        //when no plugin selected, but new navitem
+        if (this.props.boxSelected === -1 && isCanvasElement(this.props.navItemSelected, Dali.Config.sections_have_content)) {
+          let toolbar = this.props.toolbars[this.props.navItemSelected];
+          return (
+              /* jshint ignore:start */
+              <div id="wrap"
+                   className="wrapper"
+                   style={{
+                     right: '0px',
+                      top: this.props.top
+                   }}>
+                   <div className="pestana"
+                        onClick={() => {
+                           this.setState({open: !this.state.open});
+                        }}>
+                   </div>
+                  <div id="tools"
+                       style={{
+                          width: this.state.open ? '250px' : '40px'
+                       }}
+                       className="toolbox">
+                       <OverlayTrigger placement="left"
+                                       overlay={
+                                           <Tooltip className={this.state.open ? 'hidden':''}
+                                                    id="tooltip_props">
+                                               {i18n.t('Properties')}
+                                           </Tooltip>
+                                       }>
+                           <div onClick={() => {
+                                   this.setState({open: !this.state.open});
+                                }}
+                                style={{display: this.props.carouselShow ? 'block' : 'none'}}
+                                className={this.state.open ? 'carouselListTitle toolbarSpread' : 'carouselListTitle toolbarHide'}>
+                               <div className="toolbarTitle">
+                                   <i className="material-icons">settings</i>
+                                   <span className="toolbarTitletxt">
+                                       {i18n.t('Properties')}
+                                   </span>
+                               </div>
+                               <div className="pluginTitleInToolbar">
+                                   {toolbar.config.displayName || ""}
+                               </div>
+                           </div>
+                       </OverlayTrigger>
+                       <div id="insidetools" style={{display: this.state.open ? 'block' : 'none'}}>
+                         <div className="toolbarTabs">
+                           {Object.keys(toolbar.controls).map((tabKey, index) => {
+                               let tab = toolbar.controls[tabKey];
+                               return (
+                                 <div key={'key_'+index} className="toolbarTab">
+                                   <PanelGroup>
+                                     {Object.keys(tab.accordions).sort().map((accordionKey, index) => {
+                                         return this.renderAccordion(
+                                             tab.accordions[accordionKey],
+                                             tabKey,
+                                             [accordionKey],
+                                             toolbar.state,
+                                             index
+                                         );
+                                     })}
+                                   </PanelGroup>
+                                 </div>
+                               );
+                            })}
+                         </div>
+                       </div>
+                  </div>
+              </div>
+              /* jshint ignore:end */
+          );
+        }
         let toolbar = this.props.toolbars[this.props.box.id];
-
         // We define the extra buttons we need depending on plugin's configuration
         let textButton;
         if (toolbar.config.needsTextEdition) {
@@ -83,7 +152,6 @@ export default class PluginToolbar extends Component {
                 /* jshint ignore:end */
             );
         }
-
         let duplicateButton;
         if (this.props.box.id[1] !== 's') {
             duplicateButton = (
@@ -99,6 +167,7 @@ export default class PluginToolbar extends Component {
                 /* jshint ignore:end */
             );
         }
+
 
         return (
             /* jshint ignore:start */
@@ -206,6 +275,67 @@ export default class PluginToolbar extends Component {
         );
     }
 
+    handlecanvasToolbar (name, value){
+      switch (name){
+        case i18n.t('display_page'):
+            this.props.onNavItemToggled(this.props.navItemSelected);
+            break;
+        case i18n.t('NavItem_name'):
+            this.props.onNavItemNameChanged(this.props.navItemSelected, value);
+            break;
+        case i18n.t('course_title'):
+            let courseTitle = value ? 'reduced' : 'hidden';
+            this.props.titleModeToggled(this.props.navItemSelected, {courseTitle: courseTitle,
+                documentTitle: this.props.navItems[this.props.navItemSelected].titlesDisplay.documentTitle,
+                documentSubTitle: this.props.navItems[this.props.navItemSelected].titlesDisplay.documentSubTitle,
+                breadcrumb: this.props.navItems[this.props.navItemSelected].titlesDisplay.breadcrumb,
+                pageNumber: this.props.navItems[this.props.navItemSelected].titlesDisplay.pageNumber});
+            break;
+        case i18n.t('Title')+i18n.t('page'):
+            let docTitle = value ? 'reduced' : 'hidden';
+            this.props.titleModeToggled(this.props.navItemSelected, {courseTitle: this.props.navItems[this.props.navItemSelected].titlesDisplay.courseTitle,
+                documentTitle: docTitle,
+                documentSubTitle: this.props.navItems[this.props.navItemSelected].titlesDisplay.documentSubTitle,
+                breadcrumb: this.props.navItems[this.props.navItemSelected].titlesDisplay.breadcrumb,
+                pageNumber: this.props.navItems[this.props.navItemSelected].titlesDisplay.pageNumber});
+            break;
+        case i18n.t('Title')+i18n.t('slide'):
+            let slideTitle = value ? 'reduced' : 'hidden';
+            this.props.titleModeToggled(this.props.navItemSelected, {courseTitle: this.props.navItems[this.props.navItemSelected].titlesDisplay.courseTitle,
+                documentTitle: slideTitle,
+                documentSubTitle: this.props.navItems[this.props.navItemSelected].titlesDisplay.documentSubTitle,
+                breadcrumb: this.props.navItems[this.props.navItemSelected].titlesDisplay.breadcrumb,
+                pageNumber: this.props.navItems[this.props.navItemSelected].titlesDisplay.pageNumber});
+            break;
+        case i18n.t('subtitle'):
+            let subTitle = value ? 'reduced' : 'hidden';
+            this.props.titleModeToggled(this.props.navItemSelected, {courseTitle: this.props.navItems[this.props.navItemSelected].titlesDisplay.courseTitle,
+                documentTitle: this.props.navItems[this.props.navItemSelected].titlesDisplay.documentTitle,
+                documentSubTitle: subTitle,
+                breadcrumb: this.props.navItems[this.props.navItemSelected].titlesDisplay.breadcrumb,
+                pageNumber: this.props.navItems[this.props.navItemSelected].titlesDisplay.pageNumber});
+            break;
+        case i18n.t('Breadcrumb'):
+            let breadcrumb = value ? 'reduced' : 'hidden';
+            this.props.titleModeToggled(this.props.navItemSelected, {courseTitle: this.props.navItems[this.props.navItemSelected].titlesDisplay.courseTitle,
+                documentTitle: this.props.navItems[this.props.navItemSelected].titlesDisplay.documentTitle,
+                documentSubTitle: this.props.navItems[this.props.navItemSelected].titlesDisplay.documentSubTitle,
+                breadcrumb: breadcrumb,
+                pageNumber: this.props.navItems[this.props.navItemSelected].titlesDisplay.pageNumber});
+            break;
+        case i18n.t('pagenumber'):
+            let pagenumber = value ? 'reduced' : 'hidden';
+            this.props.titleModeToggled(this.props.navItemSelected, {courseTitle: this.props.navItems[this.props.navItemSelected].titlesDisplay.courseTitle,
+                documentTitle: this.props.navItems[this.props.navItemSelected].titlesDisplay.documentTitle,
+                documentSubTitle: this.props.navItems[this.props.navItemSelected].titlesDisplay.documentSubTitle,
+                breadcrumb: this.props.navItems[this.props.navItemSelected].titlesDisplay.breadcrumb,
+                pageNumber: pagenumber});
+            break;
+        default:
+            break;
+      }
+
+    }
     renderAccordion(accordion, tabKey, accordionKeys, state, key) {
         let props = {
             key: key,
@@ -289,7 +419,13 @@ export default class PluginToolbar extends Component {
     renderButton(accordion, tabKey, accordionKeys, buttonKey, state, key) {
         let button = accordion.buttons[buttonKey];
         let children = null;
-        let id = this.props.box.id;
+        let id;
+        if(this.props.boxSelected === -1){
+          id = this.props.navItemSelected;
+        }else{
+          id = this.props.box.id;
+        }
+
         let props = {
             key: ('child_' + key),
             type: button.type,
@@ -309,7 +445,7 @@ export default class PluginToolbar extends Component {
                     value = button.min ? button.min : 0;
                 }
 
-                if (!button.autoManaged) {
+                if (!button.autoManaged && button.callback) {
                     button.callback(state, buttonKey, value, id, UPDATE_TOOLBAR);
                 }
             },
@@ -404,8 +540,13 @@ export default class PluginToolbar extends Component {
                 }
                 this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, value);
 
-                if (!button.autoManaged ) {
+                if (!button.autoManaged) {
+                  if(!button.callback){
+                      this.handlecanvasToolbar(button.__name, value);
+                  }else{
                     button.callback(state, buttonKey, value, id, UPDATE_TOOLBAR);
+                  }
+
                 }
             }
 

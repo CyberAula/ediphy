@@ -61,6 +61,14 @@
       float: left;
       margin: 4px 3px;
     }
+
+    .daliTitleButton {
+        background-color: #bababa !important;
+        &:hover {
+            background-color: $blueprimary !important;
+        }
+    }
+
 }
 
 #contained_daliBoxIcons {

@@ -1,7 +1,7 @@
-import {ADD_BOX, ADD_RICH_MARK, DELETE_BOX, DELETE_NAV_ITEM, DELETE_SORTABLE_CONTAINER, DUPLICATE_BOX,
+import {ADD_BOX, ADD_RICH_MARK, CHANGE_NAV_ITEM_NAME, DELETE_BOX, ADD_NAV_ITEM, DELETE_NAV_ITEM, DELETE_SORTABLE_CONTAINER, DUPLICATE_BOX,
     EDIT_RICH_MARK, RESIZE_BOX, RESIZE_SORTABLE_CONTAINER, TOGGLE_TEXT_EDITOR, UPDATE_BOX, UPDATE_TOOLBAR,
     VERTICALLY_ALIGN_BOX, IMPORT_STATE} from './../actions';
-import Utils, {changeProp, changeProps, deleteProps, isSortableBox, isSortableContainer} from './../utils';
+import Utils, {changeProp, changeProps, deleteProps, isSortableBox, isSortableContainer, isPage, isSection, isSlide} from './../utils';
 import i18n from 'i18next';
 
 function createAspectRatioButton(controls, config) {
@@ -18,6 +18,7 @@ function createAspectRatioButton(controls, config) {
         controls[arb.location[0]].accordions[arb.location[1]].accordions[arb.location[2]].buttons.__aspectRatio = button;
     }
 }
+
 function createRichAccordions(controls) {
     if (!controls.main) {
         controls.main = {
@@ -246,11 +247,107 @@ function toolbarCreator(state, action) {
     return toolbar;
 }
 
+function toolbarSectionCreator(state, action) {
+    let doc_type;
+    if (isPage(action.payload.id)) {
+        doc_type = i18n.t('page');
+    }
+    if(isSlide(action.payload.type)){
+        doc_type = i18n.t('slide');
+    }
+    let pagetitle = i18n.t('Title') + doc_type;
+
+    let toolbar = {
+        id: action.payload.id,
+        controls: action.payload.toolbar || {
+            main: {
+                __name: "Main",
+                accordions: { //define accordions for section
+                  basic: {
+                    __name: "Generales",
+                    icon: 'settings',
+                    buttons: {
+                        page_display: {
+                            __name: i18n.t('display_page'),
+                            type: 'checkbox',
+                            checked: true,
+                            autoManaged: false
+                        },
+                        navitem_name: {
+                            __name: i18n.t('NavItem_name'),
+                            type: 'text',
+                            value: doc_type,
+                            autoManaged: false
+                        }
+                    }
+                  },
+                  header: {
+                      __name: i18n.t('Header'),
+                      icon: 'format_color_text',
+                      buttons: {
+                          display_title: {
+                              __name: i18n.t('course_title'),
+                              type: 'checkbox',
+                              checked: false,
+                              autoManaged: false
+                          },
+                          display_pagetitle: {
+                              __name: pagetitle ,
+                              type: 'checkbox',
+                              checked: true,
+                              autoManaged: false
+                          },
+                          //pagetitle_name: {
+                          //    __name: "Personalizar",
+                          //    type: 'text',
+                          //    value: doc_type,
+                          //    autoManaged: false,
+                          //    display: false
+                          //},
+                          display_pagesubtitle: {
+                              __name:  i18n.t('subtitle'),
+                              type: 'checkbox',
+                              checked: false,
+                              autoManaged: false
+                          },
+                          display_breadcrumb: {
+                              __name:  i18n.t('Breadcrumb'),
+                              type: 'checkbox',
+                              checked: false,
+                              autoManaged: false
+                          },
+                          display_pagenumber: {
+                              __name:  i18n.t('pagenumber'),
+                              type: 'checkbox',
+                              checked: false,
+                              autoManaged: false
+                          }
+                      }
+
+                  }
+                }
+            }
+        },
+        config: action.payload.config || {},
+        state: action.payload.state || {}
+    };
+
+    toolbar.config.displayName = doc_type;
+
+    createAliasButton(toolbar.controls, null);
+
+    return toolbar;
+}
+
 function toolbarReducer(state, action) {
     var newState;
     switch (action.type) {
         case ADD_RICH_MARK:
             return changeProp(state, "state", action.payload.state);
+        case CHANGE_NAV_ITEM_NAME:
+            newState = Utils.deepClone(state);
+            newState.controls.main.accordions.basic.buttons.navitem_name.value = action.payload.title;
+            return newState;
         case EDIT_RICH_MARK:
             return changeProp(state, "state", action.payload.state);
         case RESIZE_BOX:
@@ -266,7 +363,7 @@ function toolbarReducer(state, action) {
                     }
                 }
             }
-            
+
             // Rebind callback functions because from not automanaged buttons
              for (let tabKey in newState.controls) {
                 for (let accordionKey in newState.controls[tabKey].accordions) {
@@ -289,7 +386,7 @@ function toolbarReducer(state, action) {
                     }
                 }
              }
-            
+
             return newState;
         case RESIZE_SORTABLE_CONTAINER:
             newState = Utils.deepClone(state);
@@ -300,7 +397,7 @@ function toolbarReducer(state, action) {
                     break;
                 }
             }
-            
+
             // Rebind callback functions because from not automanaged buttons
              for (let tabKey in newState.controls) {
                 for (let accordionKey in newState.controls[tabKey].accordions) {
@@ -323,7 +420,7 @@ function toolbarReducer(state, action) {
                     }
                 }
              }
-            
+
             return newState;
         case TOGGLE_TEXT_EDITOR:
             return changeProp(state, "showTextEditor", action.payload.value);
@@ -366,7 +463,7 @@ function toolbarReducer(state, action) {
                         .buttons[pl.name][typeof pl.value === "boolean" ? "checked" : "value"] = pl.value;
                 }
             }
-            
+
             // Rebind callback functions because from not automanaged buttons
              for (let tabKey in newState.controls) {
                 for (let accordionKey in newState.controls[tabKey].accordions) {
@@ -394,7 +491,7 @@ function toolbarReducer(state, action) {
         case VERTICALLY_ALIGN_BOX:
             newState = Utils.deepClone(state);
             newState.controls.main.accordions.__sortable.buttons.__verticalAlign.value = action.payload.verticalAlign;
-            
+
             // Rebind callback functions because from not automanaged buttons
              for (let tabKey in newState.controls) {
                 for (let accordionKey in newState.controls[tabKey].accordions) {
@@ -417,7 +514,7 @@ function toolbarReducer(state, action) {
                     }
                 }
              }
-             
+
             return newState;
         default:
             return state;
@@ -428,13 +525,20 @@ export default function (state = {}, action = {}) {
     switch (action.type) {
         case ADD_BOX:
             return changeProp(state, action.payload.ids.id, toolbarCreator(state, action));
+        case ADD_NAV_ITEM:
+            return changeProp(state, action.payload.id, toolbarSectionCreator(state, action));
         case ADD_RICH_MARK:
             return changeProp(state, action.payload.parent, toolbarReducer(state[action.payload.parent], action));
+
+        case CHANGE_NAV_ITEM_NAME:
+            return changeProp(state, action.payload.id, toolbarReducer(state[action.payload.id], action));
+            //return state;
         case DELETE_BOX:
             let children = action.payload.children ? action.payload.children : [];
             return deleteProps(state, children.concat(action.payload.id));
         case DELETE_NAV_ITEM:
-            return deleteProps(state, action.payload.boxes);
+            let boxes = action.payload.boxes ? action.payload.boxes : [];
+            return deleteProps(state, boxes.concat(action.payload.id));
         case DELETE_SORTABLE_CONTAINER:
             return deleteProps(state, action.payload.children);
         case DUPLICATE_BOX:

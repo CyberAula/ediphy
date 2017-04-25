@@ -51,8 +51,50 @@ export default class DaliHeader extends Component {
 
     render() {
         let titles = this.props.titles;
-        let currentStatus = this.props.titleMode;
-        let unidad = titles[0];
+        let currentStatus = this.props.navItem.titlesDisplay;
+        let currentStatustitleMode = this.props.navItem.titlesDisplay.breadcrumb;
+        let docTitle = this.props.title;
+        let subTitle = i18n.t('subtitle');
+
+
+        let content;
+        let unidad = "";
+
+        console.log(currentStatustitleMode);
+        if (currentStatustitleMode === 'reduced') {
+            let titles = this.props.titles;
+
+            let actualTitle = titles[titles.length - 1];
+            unidad = titles[0];
+            content = React.createElement("div", {className:"subheader"},
+                React.createElement(Breadcrumb, {style: {margin: 0, backgroundColor: 'inherit'}},
+                    titles.map((item, index) => {
+                        if (index !== titles.length ) {
+                            return React.createElement(BreadcrumbItem, {key: index}, item);
+                        }
+                    })
+                )
+            );
+
+        } else if (currentStatustitleMode === 'expanded') {
+            let titlesComponents = "";
+            let titles_length = this.props.titles.length;
+            content = React.createElement("div", {className:"subheader"},
+                this.props.titles.map((text, index) => {
+                    if (index === 0) {
+                        unidad = text;
+                    } else {
+                        let nivel = (index > 4 ) ? 6 : index + 2;
+                        return React.createElement("h" + nivel, {
+                            key: index,
+                            style: {marginTop: '0px'}
+                        }, /*this.getActualIndex(titles_length, index) + */text);
+                    }
+                })
+            );
+        }
+
+
 
         return (
             /* jshint ignore:start */
@@ -62,6 +104,7 @@ export default class DaliHeader extends Component {
                                         this.props.onShowTitle();
                                         e.stopPropagation(); }}>
                     <div style={{backgroundColor:'white', display:(titles.length !== 0)? 'initial' : 'none' }}>
+                    {/*
                     <div id="daliTitleButtons" style={{height:'40px'}}>
                         <OverlayTrigger placement="bottom" overlay={
                             <Tooltip id="verticTooltip">{i18n.t('vertical')}
@@ -135,29 +178,41 @@ export default class DaliHeader extends Component {
                         </OverlayTrigger>
 
                     </div>
-                    <div className={this.props.showButtons ?  "caja selectedTitle selectedBox":"caja"}>
-                        <div className="cab"
-                            style={{backgroundColor: 'transparent',  visibility:(currentStatus == 'hidden') ? 'hidden' : 'inherit'}}>
+                    */}
+
+
+                    <div className={this.props.showButtons ?  "caja selectedTitle selectedBox":"caja"} >
+                        <div className="cab">
+
                             <div className="cabtabla_numero"
                                 contentEditable={this.props.navItem.parent === 0}
                                 suppressContentEditableWarning
+                                style={{display:(currentStatus.pageNumber == 'hidden') ? 'none' : 'block'}}
                                 onBlur={e => {
                                         this.props.onUnitNumberChanged(this.props.navItem.id, parseInt(e.target.innerText, 10));
                                 }}
                             >{this.props.navItem.unitNumber}</div>
+
                             <div className="tit_ud_cap">
-                                <h1>{this.props.courseTitle}</h1>
-                                <h2>{unidad}</h2>
+                                {/* Course title*/}
+                                <h1 style={{display:(currentStatus.courseTitle == 'hidden') ? 'none' : 'block'}}>{this.props.courseTitle}</h1>
+                                {/* NavItem title */}
+                                <h2 style={{display:(currentStatus.documentTitle == 'hidden') ? 'none' : 'block'}}>{docTitle}</h2>
+                                {/* NavItem subtitle */}
+                                <h3 style={{display:(currentStatus.documentSubTitle == 'hidden') ? 'none' : 'block'}}>{subTitle}</h3>
+
+                                {/* breadcrumb */}
+                                <div className="contenido" style={{display:(currentStatus.breadcrumb == 'hidden') ? 'none' : 'block'}}>
+                                    { content }
+                                </div>
                             </div>
-                             {/* <div className="cabtabla_lapiz">
-                                <img style={{display: 'none', visibility: 'inherit'}}
-                                    src="images/ico_alumno.gif" alt="Alumno"/>
-                                <div style={{display: 'none'}} id="alumno2"> Alumno</div>
-                            </div>*/}
+
                             <div style={{display: 'none'}} className="clear"></div>
                         </div>
                     </div>
-                    <br style={{clear:'both',  visibility: 'inherit'}}/>
+
+
+                    {/* <br style={{clear:'both',  visibility: 'inherit'}}/> */}
                 </div>
             </div>
             /* jshint ignore:end */

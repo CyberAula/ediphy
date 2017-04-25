@@ -34,15 +34,24 @@
       }
   	}
   	.modal-footer{
-      border: none;
-  		button{
-  			background-color: $greyPanelHeadings;
-  			color: white !important;
-  			border: none;
-  			&:hover{
-  				background-color: $brand_orange !important;
-  			}
-  		}
+        border: none;
+		.btn-primary{
+			background-color: $blueprimary;
+			&:hover{
+				background-color: darken($blueprimary, 7%) !important;
+			}
+		}
+		.btn-default{
+			background-color: $greyPanelHeadings;
+			&:hover{
+				background-color: darken($greyPanelHeadings, 50%) !important;
+			}
+		}
+		button{
+			color: white !important;
+			border: none;
+
+		}
  	}
 }
 

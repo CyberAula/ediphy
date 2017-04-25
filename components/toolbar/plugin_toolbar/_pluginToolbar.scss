@@ -78,10 +78,10 @@
         //margin: 5px;
         /*Edit text button when CKEditor is active */
         &.textediting {
-            background-color: $naranjaadams;
+            background-color: $blueprimary;
         }
         &:hover {
-            background-color: $naranjaadams;
+            background-color: $blueprimary;
         }
     }
 }
@@ -152,7 +152,7 @@
         background-color: #121212;
         @include animacion(all, 0.2s);
         &:hover, &:active, &:focus {
-            border-left: 3px solid $naranjaadams;
+            border-left: 3px solid $blueprimary;
             border-radius: 0;
         }
     }
@@ -164,7 +164,7 @@
 }
 
 .extendedPanel .panel-heading {
-    border-left: 4px solid $naranjaadams;
+    border-left: 3px solid $blueprimary;
     border-radius: 0;
 }
 
@@ -202,7 +202,7 @@
     }
     .pluginTitleInToolbar {
         margin: -8px 6px 8px;
-        color: $brand_orange;
+        color: $blueprimary;
         font-weight: 500;
     }
     .toolbarTitletxt{

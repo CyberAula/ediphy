@@ -60,7 +60,7 @@ export default class DaliCanvas extends Component {
                         onShowTitle={()=>this.setState({showTitle:true})}
                         onBoxSelected={this.props.onBoxSelected}
                         courseTitle={this.props.title}
-                        titleMode={this.props.navItemSelected.titleMode}
+                        title={this.props.navItemSelected.name}
                         navItem={this.props.navItemSelected}
                         navItems={this.props.navItems}
                         titleModeToggled={this.props.titleModeToggled}

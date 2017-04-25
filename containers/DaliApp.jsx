@@ -53,7 +53,7 @@ class DaliApp extends Component {
     render() {
         const { dispatch, boxes, boxesIds, boxSelected, boxLevelSelected, navItemsIds, navItems, navItemSelected,
             containedViews, containedViewSelected, imagesUploaded,
-            undoDisabled, redoDisabled, displayMode, containedList, isBusy, toolbars, title, fetchVishResults } = this.props;
+            undoDisabled, redoDisabled, displayMode, isBusy, toolbars, title, fetchVishResults, titlesDisplay } = this.props;
         let ribbonHeight = this.state.hideTab === 'hide' ? 0 : 47;
         return (
             /* jshint ignore:start */
@@ -241,11 +241,15 @@ class DaliApp extends Component {
                                toolbars={toolbars}
                                box={boxes[boxSelected]}
                                boxSelected={boxSelected}
+                               navItemSelected={navItemSelected}
                                navItems={navItems}
-                               carouselShow={boxSelected != -1}
+                               carouselShow={this.state.carouselShow}
                                isBusy={isBusy}
                                fetchResults={fetchVishResults}
+                               titleModeToggled={(id, value) => this.dispatchAndSetState(toggleTitleMode(navItemSelected, value))}
+                               onNavItemToggled={ id => this.dispatchAndSetState(toggleNavItem(navItemSelected)) }
                                onNavItemSelected={id => this.dispatchAndSetState(selectNavItem(id))}
+                               onNavItemNameChanged={(id, title) => this.dispatchAndSetState(changeNavItemName(id,title))}
                                onContainedViewSelected={id => this.dispatchAndSetState(selectContainedView(id))}
                                onColsChanged={(id, parent, distribution, boxesAffected) => this.dispatchAndSetState(changeCols(id, parent, distribution, boxesAffected))}
                                onRowsChanged={(id, parent, column, distribution, boxesAffected) => this.dispatchAndSetState(changeRows(id, parent, column, distribution, boxesAffected))}
@@ -319,7 +323,7 @@ class DaliApp extends Component {
                     this.severalBoxes = Date.now() + this.index++;
                 }
                 e.detail.ids.id = (this.severalBoxes !== 0) ? ID_PREFIX_BOX + this.severalBoxes++ : ID_PREFIX_BOX + Date.now() + this.index++ ;
-                
+
                     this.dispatchAndSetState(addBox(
                         {
                             parent: e.detail.ids.parent,
@@ -571,18 +575,18 @@ class DaliApp extends Component {
             delete obj.attr.class;
         }
     }
-    
+
     hasExerciseBox(navItemId, navItems, state, boxes){
        if(state.pluginTab === "exercises" && (navItems[navItemId].boxes.length > 1 || boxes[navItems[navItemId].boxes[0]].children.length !== 0)){
            return true;
        }
-       
+
        if(Object.keys(navItems[navItemId].extraFiles).length !== 0 ){
            return true;
        }
        return false;
     }
-    
+
     addDefaultContainerPlugins(eventDetails, obj) {
         if (obj.child) {
             for (let i = 0; i < obj.child.length; i++) {

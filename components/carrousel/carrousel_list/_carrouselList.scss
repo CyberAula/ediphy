@@ -34,7 +34,7 @@
     background-color: transparent !important;
     border: none !important;
     outline: none !important;
-    &:hover, &:active, &:focus, &:selected {
+    &:hover, &:active, &:focus {
         -webkit-box-shadow: none !important;
         box-shadow: none !important;
         -moz-box-shadow: none !important;
@@ -70,7 +70,7 @@
 .selected {
     font-size: 12px;
     color: white;
-    background-color: $greyNavItemSelected;
+    background-color: #111;
 }
 
 /*NavItem NOT Selected*/
@@ -85,6 +85,7 @@
 /*Each NavItem*/
 .navItemBlock {
     padding: 8px 4px;
+    border-bottom: 1px solid black;
     .editIndexTitleIcon {
         padding: 4px;
     }
@@ -260,7 +261,7 @@
 
 .popoverButton {
     @extend .daliTitleButton;
-    margin-top: px !important;
+    margin-top: 0px !important;
     padding: 2px 4px !important;
     width: auto !important;
     height: auto !important;
@@ -271,10 +272,9 @@
     width: 200px;
     border-radius: 0;
     color: $grismedio;
-
     background-color: $darkest;
     .popover-title {
-        color: $naranjaadams;
+        color: $blueprimary;
         border-color: #333;
         background-color: transparent;
     }

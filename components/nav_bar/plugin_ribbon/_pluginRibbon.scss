@@ -12,7 +12,10 @@
 
 /*Ribbon Column*/
 #ribbon {
-  background-color: $grismedio;
+  background-color: $grisclaro;
+  -webkit-box-shadow: inset 0px 3px 5px 0px rgba(179,179,179,1);
+  -moz-box-shadow: inset 0px 3px 5px 0px rgba(179,179,179,1);
+  box-shadow: inset 0px 3px 5px 0px rgba(179,179,179,1);
   height: 60px;
   padding: 0;
   z-index: 0;
@@ -49,16 +52,17 @@
 /*Ribbon buttons*/
 .rib {
   position: relative;
-  padding: 6px 15px;
+  padding: 0 9px;
   font-size: 14px !important;
   border-radius: 0;
-  height: 100%;
-  background-color: transparent;
-  border: none;
-  color: $darkest;
+  border: 1px solid lightgray;
+  background-color: transparent !important;
+  color: $grismedio;
+  height: 70%;
+  margin: 8px 4px;
   &:hover {
-    background-color: transparent !important;
-    color: white;
+    background-color: white !important;
+    color: $grisoscuro;
     box-shadow: none !important;
     -webkit-box-shadow: none !important;
     -moz-box-shadow: none !important;

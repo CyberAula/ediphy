@@ -8,6 +8,7 @@ import DaliIndexTitle from './../dali_index_title/DaliIndexTitle';
 import {isPage, isSection, isSlide, calculateNewIdOrder} from './../../../utils';
 import i18n from 'i18next';
 import Dali from './../../../core/main';
+import {UPDATE_TOOLBAR} from '../../../actions';
 
 require('./_carrouselList.scss');
 
@@ -45,7 +46,7 @@ export default class CarrouselList extends Component {
                                             onNavItemToggled={this.props.onNavItemToggled}/>
                         } else if (isPage(id)) {
                             let classSelected = (this.props.navItemSelected === id) ? 'selected' : 'notSelected';
-                            return  <h4 key={index}
+                            return  <div key={index}
                                         id={id}
                                         className={'navItemBlock ' + classSelected}
                                         onMouseDown={e => {
@@ -68,7 +69,7 @@ export default class CarrouselList extends Component {
                                                     onNameChanged={this.props.onNavItemNameChanged}
                                                     onNavItemToggled={this.props.onNavItemToggled}/>
                                         </span>
-                                    </h4>
+                                    </div>
                             }
                         })}
                 </div>
@@ -170,7 +171,7 @@ export default class CarrouselList extends Component {
                                 }}><i className="material-icons">slideshow</i>
                             </Button>
                     </OverlayTrigger>
-
+                    {/*
                     <OverlayTrigger placement="top" overlay={
                         <Tooltip  id="hideNavItemTooltip">{i18n.t('display')}
                         </Tooltip>}>
@@ -179,16 +180,17 @@ export default class CarrouselList extends Component {
                                    onClick={e => {
                                         this.props.onNavItemToggled(this.props.navItemSelected);
                                    }}>{this.props.navItems[this.props.navItemSelected].hidden ? "visibility_off" : "visibility"}</i>
-                            </Button>
+                                 </Button>
                     </OverlayTrigger>
-
+                     */}
                     <OverlayTrigger trigger={["focus"]} placement="top" overlay={
                         <Popover id="popov" title={isSection(this.props.navItemSelected) ? i18n.t("delete_section") : i18n.t("delete_page")}>
-                            <i style={{color: 'yellow', fontSize: '13px'}} className="material-icons">warning</i>
+                            <i style={{color: 'yellow', fontSize: '13px', padding: '0 5px'}} className="material-icons">warning</i>
                             {isSection(this.props.navItemSelected) ?
                                 i18n.t("messages.delete_section") :
                                 i18n.t("messages.delete_page")
                             }
+                            <br/>
                             <br/>
                             <Button className="popoverButton"
                                     disabled={this.props.navItemSelected === 0}

@@ -7,7 +7,7 @@ import {changeProp, changeProps, deleteProp, deleteProps, isView, isSlide, isDoc
 function navItemCreator(state = {}, action = {}) {
     return {
         id: action.payload.id,
-        name: action.payload.name,
+        name: action.payload.name ,
         isExpanded: true,
         parent: action.payload.parent,
         children: [],
@@ -19,7 +19,8 @@ function navItemCreator(state = {}, action = {}) {
             state[action.payload.parent].unitNumber),
         hidden: state[action.payload.parent].hidden,
         extraFiles: {},
-        titleMode: isSlide(action.payload.type) ? 'hidden' : 'expanded'
+        titlesDisplay: {courseTitle: 'hidden', documentTitle: 'expanded', documentSubTitle: 'hidden', breadcrumb: "reduced", pageNumber: "hidden"}
+        //titleMode: isSlide(action.payload.type) ? 'hidden' : 'expanded'
     };
 }
 
@@ -96,7 +97,7 @@ function singleNavItemReducer(state = {}, action = {}) {
         case TOGGLE_NAV_ITEM:
             return changeProp(state, "hidden", action.payload.value);
         case TOGGLE_TITLE_MODE:
-            return changeProp(state, "titleMode", action.payload.value);
+            return changeProp(state, "titlesDisplay", action.payload.titles);
         case UPDATE_NAV_ITEM_EXTRA_FILES:
             return changeProp(
                 state,

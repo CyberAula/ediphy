@@ -7,7 +7,7 @@ export function BasicText(base) {
                 category: 'text',
                 needsConfigModal: false,
                 needsTextEdition: true,
-                icon: 'format_color_text'
+                icon: 'short_text'
             };
         },
         getToolbar: function () {

@@ -39,6 +39,7 @@ export default class DaliIndexTitle extends Component {
                             this.setState({ editing: !this.state.editing });
                             if (this.state.editing) { /*Save changes to Redux state*/
                                 this.props.onNameChanged(this.props.id, this.state.currentValue);
+
                             // Synchronize current component state with Redux state when entering edition mode
                             } else {
                                 this.setState({currentValue: this.props.title});
@@ -77,6 +78,8 @@ export default class DaliIndexTitle extends Component {
                     }} />
                 )
             }
+            <i className="material-icons"
+              style={{position: "absolute", right: "0", color: this.props.hidden ? "gray" : "white"}}>{this.props.hidden ? "visibility_off" : ""}</i>
             </span>
             /* jshint ignore:end */
         );
