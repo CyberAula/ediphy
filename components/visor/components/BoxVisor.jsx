@@ -15,7 +15,7 @@ export default class BoxVisor extends Component {
         Dali.API_Private.listenEmission(Dali.API_Private.events.markTriggered, e=>{
             if(box_id === e.detail.id){
                 let marksObject = this.__getMarkKeys(marks);
-                if(marksObject.hasOwnProperty(e.detail.value)){
+                if(marksObject.hasOwnProperty(e.detail.value) && Dali.State.toolbarsById[box_id].state.currentValue !== e.detail.value){
                     this.props.changeCurrentView(marksObject[e.detail.value]);
                 }
             }
@@ -193,20 +193,6 @@ export default class BoxVisor extends Component {
             /* jshint ignore:end */
         );
     }
-
-    /*__getMarkArray(marks){
-        if (Object.keys(marks).length <= 0) {
-            return false;
-        }
-        var marksArray = [];
-        Object.keys(marks).map((mark) =>{
-            let inner_mark = marks[mark];
-            let value = inner_mark.value.toString();
-            marksArray.push(value);
-        });
-
-        return marksArray;
-    }*/
 
     __getMarkKeys(marks){
         var markKeys = {};

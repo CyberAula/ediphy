@@ -9,14 +9,21 @@ require('es6-promise').polyfill();
 require('./../../sass/style.scss');
 require('./../../core/visor_entrypoint');
 
-//TODO: define action to toggle different places
+//TODO: define actions for visor?
 
 export default class Visor extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            currentView: [this.getCurrentView(Dali.State.navItemSelected, Dali.State.containedViewSelected)]
+            currentView: [this.getCurrentView(Dali.State.navItemSelected, Dali.State.containedViewSelected)],
+            richElementState: {}
         };
+    }
+
+    componentDidMount(){
+        Dali.API_Private.listenEmission(Dali.API_Private.events.markTriggered, e=>{
+            Dali.State.toolbarsById[e.detail.id].state.currentValue = e.detail.value;
+        });
     }
 
     changeCurrentView(element){
@@ -42,7 +49,6 @@ export default class Visor extends Component {
         let containedViewSelected = Dali.State.containedViewSelected;
         let toolbars = Dali.State.toolbarsById;
         let title = Dali.State.title;
-        //const currentView = this.getCurrentView(navItemSelected, containedViewSelected);
 
         return (
             /* jshint ignore:start */
@@ -50,10 +56,11 @@ export default class Visor extends Component {
                 { this.getLastCurrentViewElement().indexOf("cv-") === -1 ?
                     (<CanvasVisor boxes={boxes}
                                 boxSelected={boxSelected}
-                                containedViews={containedViews}
                                 changeCurrentView={(element) => {
                                     this.setState({currentView: [this.getCurrentView(Dali.State.navItemSelected, Dali.State.containedViewSelected), element]}); //Add a global state of Object Values so when transitioning you keep that value
                                 }}
+                                containedViews={containedViews}
+                                currentView={this.getLastCurrentViewElement()}
                                 navItems={navItems}
                                 navItemSelected={navItems[navItemSelected]}
                                 toolbars={toolbars}
@@ -62,7 +69,7 @@ export default class Visor extends Component {
                                 removeLastView={()=>{
                                     this.setState({currentView: this.state.currentView.slice(0,-1)})
                                 }}
-                                currentView={this.getLastCurrentViewElement()}
+                                richElementsState={this.state.richElementState}
                                 viewsArray={this.state.currentView}
                     />) :
                     (<ContainedCanvasVisor boxes={boxes}
@@ -80,6 +87,7 @@ export default class Visor extends Component {
                                 removeLastView={()=>{
                                    this.setState({currentView: this.state.currentView.slice(0,-1)})
                                 }}
+                                richElementsState={this.state.richElementState}
                                 viewsArray={this.state.currentView}
                     />)
                 }
