@@ -34,7 +34,17 @@
     font-size: 0.6em;
     font-family: 'Ubuntu-light';
     color: $grismedio;
+    &:hover, &:active, &:focus{
+      text-decoration: none;
+      cursor: default;
+    }
   }
+  li:last-child{
+    a{
+      color: $blueprimary;
+    }
+  }
+
 }
 /*Added transparent margin to avoid small shift when title is selected*/
 .caja {

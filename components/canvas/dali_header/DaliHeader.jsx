@@ -69,7 +69,7 @@ export default class DaliHeader extends Component {
             content = React.createElement("div", {className:"subheader"},
                 React.createElement(Breadcrumb, {style: {margin: 0, backgroundColor: 'inherit'}},
                     titles.map((item, index) => {
-                        if (index !== 0 && index !== titles.length ) {
+                        if (index !== titles.length ) {
                             return React.createElement(BreadcrumbItem, {key: index}, item);
                         }
                     })

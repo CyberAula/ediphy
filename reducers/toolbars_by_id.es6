@@ -297,6 +297,13 @@ function toolbarSectionCreator(state, action) {
                               checked: true,
                               autoManaged: false
                           },
+                          //pagetitle_name: {
+                          //    __name: "Personalizar",
+                          //    type: 'text',
+                          //    value: doc_type,
+                          //    autoManaged: false,
+                          //    display: false
+                          //},
                           display_pagesubtitle: {
                               __name:  i18n.t('subtitle'),
                               type: 'checkbox',
