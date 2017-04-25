@@ -12,10 +12,17 @@ import Dali from './../../../core/main';
 require('./_carrouselList.scss');
 
 export default class CarrouselList extends Component {
+    
     render() {
+        let containedViewsIncluded = Object.keys(this.props.containedViews).length > 0;
+        
         return (
             /* jshint ignore:start */
-            <div style={{height: 'calc(100% - 25px)'}}>
+            <div style={{height: !containedViewsIncluded ? 
+                                 'calc(100% - 25px)' :  
+                                 this.props.containedViewsVisible ? //REFACTOR
+                                 'calc(100% - 185px)' : 
+                                 'calc(100% - 30px)' }}>
                 <div ref="sortableList"
                      className="carList connectedSortables"
                      onClick={e => {
@@ -64,6 +71,36 @@ export default class CarrouselList extends Component {
                                     </h4>
                             }
                         })}
+                </div>
+                <div className="Line" style={{ width: "100%", backgroundColor: '#ccc', height: '10px', cursor: 'pointer', display: containedViewsIncluded ? 'block' : 'none'}} onClick={
+                    e => {
+                        this.props.onContainedViewsExpand();
+                        e.stopPropagation();
+                    }}>
+                    {!this.props.containedViewsVisible ? 
+                    (<i className="material-icons" style={{textAlign:'center', width: '100%', marginTop: '-12px'}}>arrow_drop_up</i>) : 
+                    (<i className="material-icons" style={{textAlign:'center', width: '100%', marginTop: '-12px'}}>arrow_drop_down</i>)}
+                </div>
+                <div className="containedViewsList" style={{ height: '155px', 
+                                                             display: (this.props.containedViewsVisible && containedViewsIncluded) ? 'block' : 'none', overflowY: 'auto', overflowX: 'hidden'}}>
+                    {
+                        Object.keys(this.props.containedViews).map((id, key)=>{
+                            console.log(this.props.containedViews[id]);
+                            return (<div key={id} style={{
+                                                width: "100%", 
+                                                height: "20px", 
+                                                paddingTop: "10px", 
+                                                paddingLeft: "20px", 
+                                                paddingBottom: "25px",
+                                                color: (this.props.containedViewSelected === id) ? "white" : "#9A9A9A",
+                                                backgroundColor: (this.props.containedViewSelected === id) ? "#545454" : "transparent"
+                                          }}  
+                                          onClick={e => {
+                                            this.props.onContainedViewSelected(id);
+                                            e.stopPropagation();
+                                          }}>{id}</div>)
+                        })
+                    }
                 </div>
                 <div className="bottomLine"></div>
                 <div className="bottomGroup">

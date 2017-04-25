@@ -11,7 +11,8 @@ export default class RichMarksModal extends Component {
             connectMode: "new",
             displayMode: "navigate",
             newSelected: PAGE_TYPES.SLIDE,
-            existingSelected: ""
+            existingSelected: "",
+            actualMarkType: "value"
         };
     }
 
@@ -25,6 +26,7 @@ export default class RichMarksModal extends Component {
                 existingSelected: (current.connectMode === "existing" && nextProps.navItems[current.connection] ? nextProps.navItems[current.connection].name : "")
             });
         }
+
     }
 
     render() {
@@ -128,9 +130,23 @@ export default class RichMarksModal extends Component {
                                    }}>Open in new tab</Radio>
                         </FormGroup>
                         <FormGroup>
+                            {(this.props.pluginToolbar &&  this.props.pluginToolbar.config.marksType && this.props.pluginToolbar.config.marksType.length > 1) &&
+                            <ControlLabel>Type of Value</ControlLabel>}
+                            {(this.props.pluginToolbar && this.props.pluginToolbar.config.marksType && this.props.pluginToolbar.config.marksType.length > 1 ) &&
+                                this.props.pluginToolbar.config.marksType.map((e) =>{
+                                let radio_key = e.key;
+                                return (<Radio name="type_mark"
+                                               key ={radio_key}
+                                               checked={this.state.actualMarkType === radio_key}
+                                               onChange={e => {
+                                                   this.setState({actualMarkType: radio_key})}}
+                                        >{e.name}</Radio>)
+                                 })
+                            }
+
                             <ControlLabel>Value</ControlLabel>
-                            <FormControl ref="value"
-                                         type="text"
+                                <FormControl ref="value"
+                                         type={this.state.actualMarkType}
                                          defaultValue={current ? current.value : ""}/>
                         </FormGroup>
                     </Row>

@@ -9,6 +9,20 @@ export default class BoxVisor extends Component {
         this.borderSize = 2;
     }
 
+    componentDidMount(){
+        let marks = this.props.toolbars[this.props.id].state.__marks;
+        let box_id = this.props.id;
+        Dali.API_Private.listenEmission(Dali.API_Private.events.markTriggered, e=>{
+            if(box_id === e.detail.id){
+                let marksObject = this.__getMarkKeys(marks);
+                if(marksObject.hasOwnProperty(e.detail.value) && Dali.State.toolbarsById[box_id].state.currentValue !== e.detail.value){
+                    this.props.changeCurrentView(marksObject[e.detail.value]);
+                }
+            }
+        });
+    }
+
+
     render() {
         let cornerSize = 15;
         let box = this.props.boxes[this.props.id];
@@ -106,7 +120,7 @@ export default class BoxVisor extends Component {
         ) : (
             /* jshint ignore:start */
             <div style={style} {...attrs} className={"boxStyle " + classNames} ref={"content"}>
-                {this.renderChildren(box.content)}
+                {this.renderChildren(Dali.Visor.Plugins.get(toolbar.config.name).export(toolbar.state, toolbar.config.name, box.children.length !== 0, this.props.id),0)}
             </div>
             /* jshint ignore:end */
         );
@@ -180,6 +194,16 @@ export default class BoxVisor extends Component {
         );
     }
 
+    __getMarkKeys(marks){
+        var markKeys = {};
+        Object.keys(marks).map((mark) =>{
+            let inner_mark = marks[mark];
+            let value = inner_mark.value.toString();
+            markKeys[value] = inner_mark.connection;
+        });
+        return markKeys;
+    }
+
      renderChildren(markup, key) {
         let component;
         let props = {};
@@ -234,8 +258,7 @@ export default class BoxVisor extends Component {
             if (prop.startsWith("on")) {
                 let value = props[prop];
                 if (typeof value === "string") {
-                    props[prop] = function () {
-                    };
+                    props[prop] = new Function(value);
                 }
             }
         });

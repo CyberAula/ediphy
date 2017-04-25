@@ -32,6 +32,7 @@ export const UPDATE_NAV_ITEM_EXTRA_FILES = 'UPDATE_NAV_ITEM_EXTRA_FILES';
 export const CHANGE_NAV_ITEM_NAME = 'CHANGE_NAV_ITEM_NAME';
 export const CHANGE_UNIT_NUMBER = 'CHANGE_UNIT_NUMBER';
 
+
 export const TOGGLE_TEXT_EDITOR = 'TOGGLE_TEXT_EDITOR';
 export const TOGGLE_TITLE_MODE = 'TOGGLE_TITLE_MODE';
 export const CHANGE_DISPLAY_MODE = 'CHANGE_DISPLAY_MODE';
@@ -45,6 +46,8 @@ export const FETCH_VISH_RESOURCES_SUCCESS = "FETCH_VISH_RESOURCES_SUCCESS";
 
 export const ADD_RICH_MARK = 'ADD_RICH_MARK';
 export const EDIT_RICH_MARK = 'EDIT_RICH_MARK';
+
+export const ADD_CONTAINED_VIEW = 'ADD_CONTAINED_VIEW';
 export const SELECT_CONTAINED_VIEW = 'SELECT_CONTAINED_VIEW';
 
 export const UPLOAD_IMAGE = 'UPLOAD_IMAGE';
@@ -55,6 +58,10 @@ export const EDIT_PLUGIN_TEXT = 'EDIT_PLUGIN_TEXT';
 
 export function selectNavItem(id) {
     return {type: SELECT_NAV_ITEM, payload: {id}};
+}
+
+export function addContainedView(id, name, container){
+    return {type: ADD_CONTAINED_VIEW, payload: {id, name, container}};
 }
 
 export function addNavItem(id, name, parent, type, position) {

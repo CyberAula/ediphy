@@ -33,7 +33,7 @@ export default class CanvasVisor extends Component {
             /* jshint ignore:start */
 
             <Col id="canvas" md={12} xs={12}
-                 style={{display: this.props.containedViewSelected !== 0 ? 'none' : 'initial', backgroundColor: 'white'}}>
+                 style={{display:'initial', backgroundColor: 'white'}}>
                  <div className="scrollcontainer">
                  <HeaderVisor titles={titles}
                         onShowTitle={()=>this.setState({showTitle:true})}
@@ -63,8 +63,6 @@ export default class CanvasVisor extends Component {
                             navItems={this.props.navItems}/>
                         <br/>
 
-
-
                         <div style={{
                                 width: "100%",
                                 background: "black",
@@ -76,7 +74,6 @@ export default class CanvasVisor extends Component {
                                 visibility: (this.props.boxLevelSelected > 0) ? "visible" : "collapse"
                             }}></div>
 
-
                         {this.props.navItemSelected.boxes.map(id => {
                             let box = this.props.boxes[id];
                             if (!isSortableBox(box.id)) {
@@ -85,16 +82,20 @@ export default class CanvasVisor extends Component {
                                                 boxes={this.props.boxes}
                                                 boxSelected={this.props.boxSelected}
                                                 boxLevelSelected={this.props.boxLevelSelected}
+                                                changeCurrentView={(element)=>{this.props.changeCurrentView(element)}}
                                                 containedViewSelected={this.props.containedViewSelected}
-                                                toolbars={this.props.toolbars}/>
+                                                toolbars={this.props.toolbars}
+                                                richElementsState={this.props.richElementState}/>
                             } else {
                                 return <BoxSortableVisor key={id}
-                                                        id={id}
-                                                        boxes={this.props.boxes}
-                                                        boxSelected={this.props.boxSelected}
-                                                        boxLevelSelected={this.props.boxLevelSelected}
-                                                        containedViewSelected={this.props.containedViewSelected}
-                                                        toolbars={this.props.toolbars}/>
+                                                id={id}
+                                                boxes={this.props.boxes}
+                                                boxSelected={this.props.boxSelected}
+                                                boxLevelSelected={this.props.boxLevelSelected}
+                                                changeCurrentView={this.props.changeCurrentView}
+                                                containedViewSelected={this.props.containedViewSelected}
+                                                toolbars={this.props.toolbars}
+                                                richElementsState={this.props.richElementState}/>
                             }
                         })}
                     </div>

@@ -7,7 +7,7 @@ import {addNavItem, selectNavItem, expandNavItem, deleteNavItem, reorderNavItem,
     addBox, changeTitle, selectBox, moveBox, resizeBox, updateBox, duplicateBox, deleteBox, reorderSortableContainer, dropBox, increaseBoxLevel,
     resizeSortableContainer, deleteSortableContainer, changeCols, changeRows, changeSortableProps, reorderBoxes, verticallyAlignBox,
     toggleTextEditor, toggleTitleMode,
-    changeDisplayMode, updateToolbar,
+    changeDisplayMode, expandContainedViewList, updateToolbar,
     exportStateAsync, importStateAsync,
     fetchVishResourcesSuccess, fetchVishResourcesAsync, uploadVishResourceAsync,
     selectContainedView,
@@ -40,6 +40,7 @@ class DaliApp extends Component {
             visorVisible: false,
             xmlEditorVisible: false,
             richMarksVisible: false,
+            containedViewsVisible: false,
             currentRichMark: null,
             carouselShow: true,
             carouselFull: false,
@@ -52,7 +53,7 @@ class DaliApp extends Component {
     render() {
         const { dispatch, boxes, boxesIds, boxSelected, boxLevelSelected, navItemsIds, navItems, navItemSelected,
             containedViews, containedViewSelected, imagesUploaded,
-            undoDisabled, redoDisabled, displayMode, isBusy, toolbars, title, fetchVishResults } = this.props;
+            undoDisabled, redoDisabled, displayMode, containedList, isBusy, toolbars, title, fetchVishResults } = this.props;
         let ribbonHeight = this.state.hideTab === 'hide' ? 0 : 47;
         return (
             /* jshint ignore:start */
@@ -81,11 +82,14 @@ class DaliApp extends Component {
                 <Row style={{height: 'calc(100% - 60px)'}}>
                     <DaliCarousel boxes={boxes}
                                   title={title}
+                                  containedViews={containedViews}
+                                  containedViewSelected={containedViewSelected}
                                   navItemsIds={navItemsIds}
                                   navItems={navItems}
                                   navItemSelected={navItemSelected}
                                   displayMode={displayMode}
                                   onBoxAdded={(ids, draggable, resizable, content, toolbar, config, state) => this.dispatchAndSetState(addBox(ids, draggable, resizable, content, toolbar, config, state))}
+                                  onContainedViewSelected={ (id) => this.dispatchAndSetState(selectContainedView(id)) }
                                   onNavItemNameChanged={(id, title) => this.dispatchAndSetState(changeNavItemName(id,title))}
                                   onNavItemAdded={(id, name, parent, type, position) => this.dispatchAndSetState(addNavItem(id, name, parent, type, position))}
                                   onNavItemSelected={id => this.dispatchAndSetState(selectNavItem(id))}
@@ -106,6 +110,10 @@ class DaliApp extends Component {
                                   onNavItemReordered={(id, newParent, oldParent, idsInOrder, childrenInOrder) => this.dispatchAndSetState(reorderNavItem(id, newParent, oldParent, idsInOrder, childrenInOrder))}
                                   onNavItemToggled={ id => this.dispatchAndSetState(toggleNavItem(id)) }
                                   onDisplayModeChanged={mode => this.dispatchAndSetState(changeDisplayMode(mode))}
+                                  containedViewsVisible={this.state.containedViewsVisible}
+                                  onContainedViewsExpand={()=>{
+                                      this.setState({containedViewsVisible: !this.state.containedViewsVisible});
+                                  }}
                                   carouselShow={this.state.carouselShow}
                                   carouselFull={this.state.carouselFull}
                                   onToggleFull={() => {
@@ -136,7 +144,7 @@ class DaliApp extends Component {
                                           hideTab={this.state.hideTab}
                                           undo={() => {this.dispatchAndSetState(ActionCreators.undo())}}
                                           redo={() => {this.dispatchAndSetState(ActionCreators.redo())}}
-                                          ribbonHeight={ribbonHeight+'px'}
+                                          ribbonHeight={ribbonHeight + 'px'}
                                           onBoxDuplicated={(id, parent, container)=> this.dispatchAndSetState( duplicateBox( id, parent, container, this.getDescendantBoxes(boxes[id]), this.getDuplicatedBoxesIds(this.getDescendantBoxes(boxes[id]) ), Date.now()-1 ))}/>
                         </Row>
                         <Row id="canvasRow" style={{height: 'calc(100% - '+ribbonHeight+'px)'}}>
@@ -205,6 +213,7 @@ class DaliApp extends Component {
                                   visible={this.state.catalogModal}
                                   onVishCatalogToggled={() => this.setState({catalogModal: !this.state.catalogModal})}/>
                 <RichMarksModal boxSelected={boxSelected}
+                                pluginToolbar={toolbars[boxSelected]}
                                 navItems={navItems}
                                 navItemsIds={navItemsIds}
                                 visible={this.state.richMarksVisible}

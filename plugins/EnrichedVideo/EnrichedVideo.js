@@ -11,6 +11,7 @@ export function EnrichedVideo(base) {
                     defaultValue: true
                 },
                 isRich: true,
+                marksType: [{name: 'Tiempo', key:'time'},{name: 'Valor', key: 'value'}],
                 icon: 'play_arrow'
             };
         },
@@ -98,13 +99,17 @@ export function EnrichedVideo(base) {
         // Posibilidad: http://modernizr.com/
         getInitialState: function () {
             return {
-                url: 'http://video.webmfiles.org/big-buck-bunny_trailer.webm',
+                url: 'http://dl1.webmfiles.org/big-buck-bunny_trailer.webm',
                 controls: true,
-                autoplay: false
+                autoplay: true
             };
         },
         getRenderTemplate: function (state) {
-            return "<video " + (state.controls ? " controls " : "") + (state.autoplay ? " autoplay " : "") + " style=\"width: 100%; height: 100%; pointer-events: 'none'; z-index:0;\" src=\"" + state.url + "\"></video>";
+            return "<video " + (state.controls && state.controls !== "on" ? "controls='true' " : "")  + 
+            (state.autoplay ? " autoPlay " : "") + 
+            " style=\"width: 100%; height: 100%; z-index:0;\" src=\"" + 
+            state.url + 
+            "\"></video>";
         },
         handleToolbar: function (name, value) {
             base.setState(name, value);
