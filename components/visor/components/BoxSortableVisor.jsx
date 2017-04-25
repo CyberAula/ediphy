@@ -35,6 +35,7 @@ export default class BoxSortableVisor extends Component {
                                                                              boxes={this.props.boxes}
                                                                              boxSelected={this.props.boxSelected}
                                                                              boxLevelSelected={this.props.boxLevelSelected}
+                                                                             changeCurrentView={(element)=>{this.props.changeCurrentView(element)}}
                                                                              containedViewSelected={this.props.containedViewSelected}
                                                                              toolbars={this.props.toolbars}/>);
 

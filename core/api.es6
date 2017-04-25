@@ -12,6 +12,9 @@ export function api() {
             Dali.API_Private.emit(Dali.API_Private.events.openConfig, {name: name, reason: reason});
             return promise;
         },
+        markTriggered: function(id,value){
+          Dali.API_Private.emit(Dali.API_Private.events.markTriggered, {id,value});
+        },
         changeView: function(id){
             Dali.API_Private.emit(Dali.API_Private.events.changeView, {id: id});
         },
@@ -41,6 +44,10 @@ export function api_private() {
             },
             render: {
                 emit: 'render'
+            },
+            markTriggered:{
+                emit: 'markTriggered',
+                answer: 'markTriggered_back'
             },
             //TODO: change into VIEW API?
             changeView:{

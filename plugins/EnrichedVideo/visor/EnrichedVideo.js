@@ -45,7 +45,9 @@ export function EnrichedVideo(base) {
         timeUpdate: function (e, element) {
             var time = document.getElementById("box-" + element).getElementsByTagName('video')[0].currentTime;
             time = Math.floor(time);
-            if ( this.actualMark.length !== 0 && this.getActualMarkTime(time) !== time.toString()){
+            base.triggerMark(element, time);
+
+            /*if ( this.actualMark.length !== 0 && this.getActualMarkTime(time) !== time.toString()){
                 this.actualMark = "";
             }
 
@@ -54,7 +56,7 @@ export function EnrichedVideo(base) {
                 this.t= "#t=" + time;
                 this.actualMark = time;
                 base.triggerMark(element, this.getMarkKeys()[time]);
-            }
+            }*/
         }
     };
 }

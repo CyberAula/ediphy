@@ -16,14 +16,11 @@ export default class Visor extends Component {
         super(props);
         this.state = {
             currentView: [this.getCurrentView(Dali.State.navItemSelected, Dali.State.containedViewSelected)]
-
         };
     }
 
-    componentDidMount(){
-        Dali.API_Private.listenEmission(Dali.API_Private.events.changeView, e => {
-            this.setState({currentView: [this.getCurrentView(Dali.State.navItemSelected, Dali.State.containedViewSelected), e.detail.id]});
-        });
+    changeCurrentView(element){
+        this.setState({currentView: [this.getCurrentView(Dali.State.navItemSelected, Dali.State.containedViewSelected), element]});
     }
 
     getCurrentView(NIselected, CVselected){
@@ -54,6 +51,9 @@ export default class Visor extends Component {
                     (<CanvasVisor boxes={boxes}
                                 boxSelected={boxSelected}
                                 containedViews={containedViews}
+                                changeCurrentView={(element) => {
+                                    this.setState({currentView: [this.getCurrentView(Dali.State.navItemSelected, Dali.State.containedViewSelected), element]}); //Add a global state of Object Values so when transitioning you keep that value
+                                }}
                                 navItems={navItems}
                                 navItemSelected={navItems[navItemSelected]}
                                 toolbars={toolbars}
@@ -67,6 +67,9 @@ export default class Visor extends Component {
                     />) :
                     (<ContainedCanvasVisor boxes={boxes}
                                 boxSelected={boxSelected}
+                                changeCurrentView={(element) => {
+                                   this.setState({currentView: [this.getCurrentView(Dali.State.navItemSelected, Dali.State.containedViewSelected), element]});
+                                }}
                                 containedViews={containedViews}
                                 containedViewSelected={containedViewSelected}
                                 navItems={navItems}

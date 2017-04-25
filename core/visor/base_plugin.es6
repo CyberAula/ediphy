@@ -102,7 +102,7 @@ export default function () {
             matches.map(function (match) {
                 if (match[1].length === 0) {
                     //no traducir pasar directamente la función pasarle directamenete Dali.Visor.Plugins[match[0]].function(event,props,)
-                    template = template.replace(match[0], match[0] + "event, \"" + id+  "\"");  //template.replace(match[0], match[0] + "event, this, __getPlugin(this)"); 
+                    template = template.replace(match[0], match[0] + "event, \"" + id +  "\"");  //template.replace(match[0], match[0] + "event, this, __getPlugin(this)");
                 } else {
                     template = template.replace(match[0], match[0].replace(match[1], "event, \"" + id+  "\"")); //template.replace(match[0], match[0].replace(match[1], "event, this, __getPlugin(this)"));
                 }
@@ -139,13 +139,13 @@ export default function () {
                 extraFunctions[fnAlias](element[0]);
             }
         },
-        triggerMark: function(parent, selected){
-            if(!parent){
+        triggerMark: function(element, value){
+            if(!element){
                 console.error("Invalid argument -> need parent with correct id @ triggerMark");
                 return;
             }
-            if(selected){
-                Dali.API.changeView(window.Dali.State.toolbarsById[parent].state.__marks[selected].connection);
+            if(value){
+                Dali.API.markTriggered(element, value);
             }
         }
     };

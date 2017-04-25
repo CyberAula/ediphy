@@ -82,16 +82,18 @@ export default class CanvasVisor extends Component {
                                                 boxes={this.props.boxes}
                                                 boxSelected={this.props.boxSelected}
                                                 boxLevelSelected={this.props.boxLevelSelected}
+                                                changeCurrentView={(element)=>{this.props.changeCurrentView(element)}}
                                                 containedViewSelected={this.props.containedViewSelected}
                                                 toolbars={this.props.toolbars}/>
                             } else {
                                 return <BoxSortableVisor key={id}
-                                                        id={id}
-                                                        boxes={this.props.boxes}
-                                                        boxSelected={this.props.boxSelected}
-                                                        boxLevelSelected={this.props.boxLevelSelected}
-                                                        containedViewSelected={this.props.containedViewSelected}
-                                                        toolbars={this.props.toolbars}/>
+                                                id={id}
+                                                boxes={this.props.boxes}
+                                                boxSelected={this.props.boxSelected}
+                                                boxLevelSelected={this.props.boxLevelSelected}
+                                                changeCurrentView={this.props.changeCurrentView}
+                                                containedViewSelected={this.props.containedViewSelected}
+                                                toolbars={this.props.toolbars}/>
                             }
                         })}
                     </div>
