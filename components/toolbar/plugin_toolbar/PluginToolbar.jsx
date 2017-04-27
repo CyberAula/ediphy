@@ -672,6 +672,28 @@ export default class PluginToolbar extends Component {
             );
         }
 
+        if (button.type === 'conditionalText') {
+
+            return React.createElement(
+                FormGroup,
+                {key: button.__name, style:{display: button.display ? 'block': 'none'} },
+                [
+                    React.createElement(
+                        ControlLabel,
+                        {key: 'label_' + button.__name},
+                        button.__name),
+                    React.createElement(
+                        "span",
+                        {key: 'output_span' + button.__name, className: 'rangeOutput'},
+                        button.type === "range" ? button.value : null),
+                    React.createElement(
+                        FormControl,
+                        props,
+                        null)
+                ]
+            );
+        }
+
         if (button.type === "vish_provider") {
             return React.createElement(VishProvider, {
                 key: button.__name,

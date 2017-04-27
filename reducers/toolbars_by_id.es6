@@ -299,7 +299,7 @@ function toolbarSectionCreator(state, action) {
                           },
                           pagetitle_name: {
                               __name: "Personalizar",
-                              type: 'text',
+                              type: 'conditionalText',
                               value: doc_type,
                               autoManaged: false,
                               display: true
