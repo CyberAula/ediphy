@@ -93,10 +93,16 @@ export function HotspotImages(base) {
             };
         },
         getRenderTemplate: function (state) {
-            return ( <div>
-                        <img src={state.url}/>
-                    /*(state.marks.length !== 0) && Object.keys(state.marks).map((i,k) =>{ });*/
-                    </div>)
+            /* jshint ignore:start */
+            let markElements = Object.keys(state.__marks).map((id,key) =>(<a href="#"><i key={id} style={{width:"100%",height:"100%"}} className="material-icons">room</i></a>));
+            return (
+                <div >
+                        <img style={{height:"100%",width:"100%"}} src={state.url}/>
+                        <div>{markElements}</div>
+                </div>
+
+            );
+            /* jshint ignore:end */
         },
         handleToolbar: function (name, value) {
             base.setState(name, value);

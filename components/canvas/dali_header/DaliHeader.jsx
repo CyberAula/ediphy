@@ -60,7 +60,7 @@ export default class DaliHeader extends Component {
         let content;
         let unidad = "";
 
-        console.log(currentStatustitleMode);
+
         if (currentStatustitleMode === 'reduced') {
             let titles = this.props.titles;
 
