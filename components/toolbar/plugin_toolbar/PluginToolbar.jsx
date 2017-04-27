@@ -276,6 +276,8 @@ export default class PluginToolbar extends Component {
     }
 
     handlecanvasToolbar (name, value){
+      let navitem = this.props.navItems[this.props.navItemSelected];
+      let toolbar = this.props.toolbars[this.props.navItemSelected].controls.main.accordions;
       switch (name){
         case i18n.t('display_page'):
             this.props.onNavItemToggled(this.props.navItemSelected);
@@ -286,49 +288,53 @@ export default class PluginToolbar extends Component {
         case i18n.t('course_title'):
             let courseTitle = value ? 'reduced' : 'hidden';
             this.props.titleModeToggled(this.props.navItemSelected, {courseTitle: courseTitle,
-                documentTitle: this.props.navItems[this.props.navItemSelected].titlesDisplay.documentTitle,
-                documentSubTitle: this.props.navItems[this.props.navItemSelected].titlesDisplay.documentSubTitle,
-                breadcrumb: this.props.navItems[this.props.navItemSelected].titlesDisplay.breadcrumb,
-                pageNumber: this.props.navItems[this.props.navItemSelected].titlesDisplay.pageNumber});
+                documentTitle: navitem.titlesDisplay.documentTitle,
+                documentSubTitle: navitem.titlesDisplay.documentSubTitle,
+                breadcrumb: navitem.titlesDisplay.breadcrumb,
+                pageNumber: navitem.titlesDisplay.pageNumber});
             break;
+        //display - page title
         case i18n.t('Title')+i18n.t('page'):
             let docTitle = value ? 'reduced' : 'hidden';
-            this.props.titleModeToggled(this.props.navItemSelected, {courseTitle: this.props.navItems[this.props.navItemSelected].titlesDisplay.courseTitle,
+            this.props.titleModeToggled(this.props.navItemSelected, {courseTitle: navitem.titlesDisplay.courseTitle,
                 documentTitle: docTitle,
-                documentSubTitle: this.props.navItems[this.props.navItemSelected].titlesDisplay.documentSubTitle,
-                breadcrumb: this.props.navItems[this.props.navItemSelected].titlesDisplay.breadcrumb,
-                pageNumber: this.props.navItems[this.props.navItemSelected].titlesDisplay.pageNumber});
+                documentSubTitle: navitem.titlesDisplay.documentSubTitle,
+                breadcrumb: navitem.titlesDisplay.breadcrumb,
+                pageNumber: navitem.titlesDisplay.pageNumber});
+
+            toolbar.header.buttons.pagetitle_name.display =  value ? 'true' : 'false';
             break;
+        //display - slide title
         case i18n.t('Title')+i18n.t('slide'):
             let slideTitle = value ? 'reduced' : 'hidden';
-            this.props.titleModeToggled(this.props.navItemSelected, {courseTitle: this.props.navItems[this.props.navItemSelected].titlesDisplay.courseTitle,
+            this.props.titleModeToggled(this.props.navItemSelected, {courseTitle: navitem.titlesDisplay.courseTitle,
                 documentTitle: slideTitle,
-                documentSubTitle: this.props.navItems[this.props.navItemSelected].titlesDisplay.documentSubTitle,
-                breadcrumb: this.props.navItems[this.props.navItemSelected].titlesDisplay.breadcrumb,
-                pageNumber: this.props.navItems[this.props.navItemSelected].titlesDisplay.pageNumber});
+                documentSubTitle: navitem.titlesDisplay.documentSubTitle,
+                breadcrumb: navitem.titlesDisplay.breadcrumb,
+                pageNumber: navitem.titlesDisplay.pageNumber});
             break;
         case i18n.t('subtitle'):
             let subTitle = value ? 'reduced' : 'hidden';
-            this.props.titleModeToggled(this.props.navItemSelected, {courseTitle: this.props.navItems[this.props.navItemSelected].titlesDisplay.courseTitle,
-                documentTitle: this.props.navItems[this.props.navItemSelected].titlesDisplay.documentTitle,
+            this.props.titleModeToggled(this.props.navItemSelected, {courseTitle: navitem.titlesDisplay.courseTitle,
+                documentTitle: navitem.titlesDisplay.documentTitle,
                 documentSubTitle: subTitle,
-                breadcrumb: this.props.navItems[this.props.navItemSelected].titlesDisplay.breadcrumb,
-                pageNumber: this.props.navItems[this.props.navItemSelected].titlesDisplay.pageNumber});
+                breadcrumb: navitem.titlesDisplay.breadcrumb,
+                pageNumber: navitem.titlesDisplay.pageNumber});
             break;
         case i18n.t('Breadcrumb'):
             let breadcrumb = value ? 'reduced' : 'hidden';
-            this.props.titleModeToggled(this.props.navItemSelected, {courseTitle: this.props.navItems[this.props.navItemSelected].titlesDisplay.courseTitle,
-                documentTitle: this.props.navItems[this.props.navItemSelected].titlesDisplay.documentTitle,
-                documentSubTitle: this.props.navItems[this.props.navItemSelected].titlesDisplay.documentSubTitle,
+            this.props.titleModeToggled(this.props.navItemSelected, {courseTitle: navitem.titlesDisplay.courseTitle,
+                documentTitle: navitem.titlesDisplay.documentTitle,
+                documentSubTitle: navitem.titlesDisplay.documentSubTitle,
                 breadcrumb: breadcrumb,
-                pageNumber: this.props.navItems[this.props.navItemSelected].titlesDisplay.pageNumber});
+                pageNumber: navitem.titlesDisplay.pageNumber});
             break;
         case i18n.t('pagenumber'):
             let pagenumber = value ? 'reduced' : 'hidden';
-            this.props.titleModeToggled(this.props.navItemSelected, {courseTitle: this.props.navItems[this.props.navItemSelected].titlesDisplay.courseTitle,
-                documentTitle: this.props.navItems[this.props.navItemSelected].titlesDisplay.documentTitle,
-                documentSubTitle: this.props.navItems[this.props.navItemSelected].titlesDisplay.documentSubTitle,
-                breadcrumb: this.props.navItems[this.props.navItemSelected].titlesDisplay.breadcrumb,
+            this.props.titleModeToggled(this.props.navItemSelected, {courseTitle: navitem.titlesDisplay.courseTitle,
+                documentTitle: navitem.titlesDisplay.documentTitle,
+                documentSubTitle: navitem.titlesDisplay.documentSubTitle,
+                breadcrumb: navitem.titlesDisplay.breadcrumb,
                 pageNumber: pagenumber});
             break;
         default:
