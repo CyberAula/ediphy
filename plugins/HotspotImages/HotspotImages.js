@@ -94,21 +94,29 @@ export function HotspotImages(base) {
         },
         getRenderTemplate: function (state) {
             /* jshint ignore:start */
-            let markElements = Object.keys(state.__marks).map((id,key) =>(<a href="#"><i key={id} style={{width:"100%",height:"100%"}} className="material-icons">room</i></a>));
+            let marks = state.__marks;
+            let markElements = Object.keys(marks).map((id) =>{
+                let value = marks[id].value;
+                let position;
+                if (value && value.split(',').length === 2){
+                    position = value.split(',');
+                } else{
+                    position = [0,0];
+                }
+
+                return(<a key={id} style={{position: 'absolute', top:position[0],left: position[1]}} href="#"><i style={{width:"100%",height:"100%"}} className="material-icons">room</i></a>)
+            });
+
             return (
                 <div >
                         <img style={{height:"100%",width:"100%"}} src={state.url}/>
-                        <div>{markElements}</div>
+                        {markElements}
                 </div>
-
             );
             /* jshint ignore:end */
         },
         handleToolbar: function (name, value) {
             base.setState(name, value);
-        },
-        imageClick: function () {
-            /*alert("Miaua!");*/
         }
     };
 }
