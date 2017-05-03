@@ -302,7 +302,8 @@ export default class PluginToolbar extends Component {
                 breadcrumb: navitem.titlesDisplay.breadcrumb,
                 pageNumber: navitem.titlesDisplay.pageNumber});
 
-            toolbar.header.buttons.pagetitle_name.display =  value ? 'true' : 'false';
+            toolbar.header.buttons.pagetitle_name.display =  value ? true : false;
+            console.log('cambia el display a ' + value);
             break;
         //display - slide title
         case i18n.t('Title')+i18n.t('slide'):
@@ -673,10 +674,9 @@ export default class PluginToolbar extends Component {
         }
 
         if (button.type === 'conditionalText') {
-
             return React.createElement(
                 FormGroup,
-                {key: button.__name, style:{display: button.display ? 'block': 'none'} },
+                {key: button.__name, style: {display: button.display ? "block" : "none"}},
                 [
                     React.createElement(
                         ControlLabel,
