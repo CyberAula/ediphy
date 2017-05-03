@@ -302,8 +302,6 @@ export default class PluginToolbar extends Component {
                 breadcrumb: navitem.titlesDisplay.breadcrumb,
                 pageNumber: navitem.titlesDisplay.pageNumber});
 
-            toolbar.header.buttons.pagetitle_name.display =  value ? true : false;
-            console.log('cambia el display a ' + value);
             break;
         //display - slide title
         case i18n.t('Title')+i18n.t('slide'):
@@ -370,7 +368,7 @@ export default class PluginToolbar extends Component {
                 if (accordion.accordions[accordion.order[i]]) {
                     children.push(this.renderAccordion(accordion.accordions[accordion.order[i]], tabKey, [accordionKeys[0], accordion.order[i]], state, i));
                 } else if (accordion.buttons[accordion.order[i]]) {
-                    children.push(this.renderButton(accordion, tabKey, accordionKeys, accordion.order[i], state, i));
+                    children.push(this.renderButton(accordion, tabKey, accordionKeys, accordion.order[i],accordion.order , state, i));
                 } else {
                     console.error("Element %s not defined", accordion.order[i]);
                 }
@@ -388,11 +386,13 @@ export default class PluginToolbar extends Component {
                             marginRight: buttonMargin,
                             display: 'inline-block'
                          }}>
-                        {this.renderButton(accordion, tabKey, accordionKeys, buttonKeys[i], state, i)}
+                        {this.renderButton(accordion, tabKey, accordionKeys, buttonKeys[i], buttonKeys, state, i)}
+
                     </div>
                     /* jshint ignore:end */
                 );
             }
+
         }
 
         if (accordion.key === 'marks_list') {
@@ -423,7 +423,7 @@ export default class PluginToolbar extends Component {
         return React.createElement(Panel, props, children);
     }
 
-    renderButton(accordion, tabKey, accordionKeys, buttonKey, state, key) {
+    renderButton(accordion, tabKey, accordionKeys, buttonKey, buttonKeys, state, key) {
         let button = accordion.buttons[buttonKey];
         let children = null;
         let id;
@@ -676,12 +676,8 @@ export default class PluginToolbar extends Component {
         if (button.type === 'conditionalText') {
             return React.createElement(
                 FormGroup,
-                {key: button.__name, style: {display: button.display ? "block" : "none"}},
+                {key: button.__name, style: {display: accordion.buttons[buttonKeys[key-1]].checked ? "block" : "none"}},
                 [
-                    React.createElement(
-                        ControlLabel,
-                        {key: 'label_' + button.__name},
-                        button.__name),
                     React.createElement(
                         "span",
                         {key: 'output_span' + button.__name, className: 'rangeOutput'},

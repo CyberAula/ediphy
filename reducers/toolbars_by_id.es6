@@ -298,7 +298,7 @@ function toolbarSectionCreator(state, action) {
                               autoManaged: false
                           },
                           pagetitle_name: {
-                              __name: "Personalizar",
+                              __name: "custom_title",
                               type: 'conditionalText',
                               value: doc_type,
                               autoManaged: false,
@@ -309,6 +309,13 @@ function toolbarSectionCreator(state, action) {
                               type: 'checkbox',
                               checked: false,
                               autoManaged: false
+                          },
+                          pagesubtitle_name: {
+                              __name: "custom_subtitle",
+                              type: 'conditionalText',
+                              value: i18n.t('subtitle'),
+                              autoManaged: false,
+                              display: true
                           },
                           display_breadcrumb: {
                               __name:  i18n.t('Breadcrumb'),
