@@ -676,7 +676,7 @@ export default class PluginToolbar extends Component {
         if (button.type === 'conditionalText') {
             return React.createElement(
                 FormGroup,
-                {key: button.__name, style: {display: accordion.buttons[buttonKeys[key-1]].checked ? "block" : "none"}},
+                {key: button.__name, style: {display: accordion.buttons[button.associatedKey].checked ? "block" : "none"}},
                 [
                     React.createElement(
                         "span",
