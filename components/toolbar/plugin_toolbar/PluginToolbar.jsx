@@ -279,12 +279,15 @@ export default class PluginToolbar extends Component {
       let navitem = this.props.navItems[this.props.navItemSelected];
       let toolbar = this.props.toolbars[this.props.navItemSelected].controls.main.accordions;
       switch (name){
+        //preview / export document
         case i18n.t('display_page'):
             this.props.onNavItemToggled(this.props.navItemSelected);
             break;
+        //change document(navitem) name
         case i18n.t('NavItem_name'):
             this.props.onNavItemNameChanged(this.props.navItemSelected, value);
             break;
+        //display - course title
         case i18n.t('course_title'):
             let courseTitle = value ? 'reduced' : 'hidden';
             this.props.titleModeToggled(this.props.navItemSelected, {courseTitle: courseTitle,
@@ -312,6 +315,11 @@ export default class PluginToolbar extends Component {
                 breadcrumb: navitem.titlesDisplay.breadcrumb,
                 pageNumber: navitem.titlesDisplay.pageNumber});
             break;
+        //change page/slide title
+        case "custom_title":
+            navitem.titlemodified = true;
+            break;
+        //display - subtitle
         case i18n.t('subtitle'):
             let subTitle = value ? 'reduced' : 'hidden';
             this.props.titleModeToggled(this.props.navItemSelected, {courseTitle: navitem.titlesDisplay.courseTitle,
@@ -320,6 +328,7 @@ export default class PluginToolbar extends Component {
                 breadcrumb: navitem.titlesDisplay.breadcrumb,
                 pageNumber: navitem.titlesDisplay.pageNumber});
             break;
+        //display - breadcrumb
         case i18n.t('Breadcrumb'):
             let breadcrumb = value ? 'reduced' : 'hidden';
             this.props.titleModeToggled(this.props.navItemSelected, {courseTitle: navitem.titlesDisplay.courseTitle,
@@ -328,6 +337,7 @@ export default class PluginToolbar extends Component {
                 breadcrumb: breadcrumb,
                 pageNumber: navitem.titlesDisplay.pageNumber});
             break;
+        //display - pagenumber
         case i18n.t('pagenumber'):
             let pagenumber = value ? 'reduced' : 'hidden';
             this.props.titleModeToggled(this.props.navItemSelected, {courseTitle: navitem.titlesDisplay.courseTitle,
@@ -368,7 +378,7 @@ export default class PluginToolbar extends Component {
                 if (accordion.accordions[accordion.order[i]]) {
                     children.push(this.renderAccordion(accordion.accordions[accordion.order[i]], tabKey, [accordionKeys[0], accordion.order[i]], state, i));
                 } else if (accordion.buttons[accordion.order[i]]) {
-                    children.push(this.renderButton(accordion, tabKey, accordionKeys, accordion.order[i],accordion.order , state, i));
+                    children.push(this.renderButton(accordion, tabKey, accordionKeys, accordion.order[i], state, i));
                 } else {
                     console.error("Element %s not defined", accordion.order[i]);
                 }
@@ -383,10 +393,9 @@ export default class PluginToolbar extends Component {
                     <div key={'div_' + i }
                          style={{
                             width: buttonWidth,
-                            marginRight: buttonMargin,
-                            display: 'inline-block'
+                            marginRight: buttonMargin
                          }}>
-                        {this.renderButton(accordion, tabKey, accordionKeys, buttonKeys[i], buttonKeys, state, i)}
+                        {this.renderButton(accordion, tabKey, accordionKeys, buttonKeys[i], state, i)}
 
                     </div>
                     /* jshint ignore:end */
@@ -423,7 +432,7 @@ export default class PluginToolbar extends Component {
         return React.createElement(Panel, props, children);
     }
 
-    renderButton(accordion, tabKey, accordionKeys, buttonKey, buttonKeys, state, key) {
+    renderButton(accordion, tabKey, accordionKeys, buttonKey, state, key) {
         let button = accordion.buttons[buttonKey];
         let children = null;
         let id;

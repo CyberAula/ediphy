@@ -302,6 +302,7 @@ function toolbarSectionCreator(state, action) {
                               type: 'conditionalText',
                               associatedKey: 'display_pagetitle',
                               value: doc_type,
+                              modified: false,
                               autoManaged: false,
                               display: true
                           },
@@ -316,6 +317,7 @@ function toolbarSectionCreator(state, action) {
                               type: 'conditionalText',
                               associatedKey: 'display_pagesubtitle',
                               value: i18n.t('subtitle'),
+                              modified: false,
                               autoManaged: false,
                               display: true
                           },

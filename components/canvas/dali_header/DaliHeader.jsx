@@ -53,7 +53,7 @@ export default class DaliHeader extends Component {
         let titles = this.props.titles;
         let currentStatus = this.props.navItem.titlesDisplay;
         let currentStatustitleMode = this.props.navItem.titlesDisplay.breadcrumb;
-        let docTitle = this.props.title;
+        let docTitle = this.props.navItem.titlemodified ? "modificado" : "Título " + this.props.navItem.name;
         let subTitle = i18n.t('subtitle');
 
 
