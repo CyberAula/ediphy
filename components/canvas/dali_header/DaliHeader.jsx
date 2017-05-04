@@ -53,7 +53,10 @@ export default class DaliHeader extends Component {
         let titles = this.props.titles;
         let currentStatus = this.props.navItem.titlesDisplay;
         let currentStatustitleMode = this.props.navItem.titlesDisplay.breadcrumb;
-        let docTitle = this.props.navItem.titlemodified ? "modificado" : "Título " + this.props.navItem.name;
+        //let customtitle = this.props.toolbar.controls.main.accordions.header.buttons.pagetitle_name.value;
+        let customtitle = this.props.toolbars[this.props.navItem];
+        
+        let docTitle = this.props.navItem.titlemodified ? "Mod" : "Título " + this.props.navItem.name;
         let subTitle = i18n.t('subtitle');
 
 
