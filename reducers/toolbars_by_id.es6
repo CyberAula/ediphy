@@ -301,8 +301,7 @@ function toolbarSectionCreator(state, action) {
                               __name: "custom_title",
                               type: 'conditionalText',
                               associatedKey: 'display_pagetitle',
-                              value: doc_type,
-                              modified: false,
+                              value: "",
                               autoManaged: false,
                               display: true
                           },
@@ -316,8 +315,7 @@ function toolbarSectionCreator(state, action) {
                               __name: "custom_subtitle",
                               type: 'conditionalText',
                               associatedKey: 'display_pagesubtitle',
-                              value: i18n.t('subtitle'),
-                              modified: false,
+                              value: "",
                               autoManaged: false,
                               display: true
                           },

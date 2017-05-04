@@ -27,7 +27,7 @@ export default class CarrouselList extends Component {
                 <div ref="sortableList"
                      className="carList connectedSortables"
                      onClick={e => {
-                        this.props.onNavItemSelected(this.props.id);
+                        if (this.props.id != 0){this.props.onNavItemSelected(this.props.id);}
                         e.stopPropagation();
                      }}>
                     {this.props.navItems[this.props.id].children.map((id, index) => {

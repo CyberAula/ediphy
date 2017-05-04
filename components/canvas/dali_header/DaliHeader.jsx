@@ -52,52 +52,56 @@ export default class DaliHeader extends Component {
     render() {
         let titles = this.props.titles;
         let currentStatus = this.props.navItem.titlesDisplay;
-        let currentStatustitleMode = this.props.navItem.titlesDisplay.breadcrumb;
-        //let customtitle = this.props.toolbar.controls.main.accordions.header.buttons.pagetitle_name.value;
-        let customtitle = this.props.toolbars[this.props.navItem];
-        
-        let docTitle = this.props.navItem.titlemodified ? "Mod" : "Título " + this.props.navItem.name;
+        let docTitle =  this.props.navItem.name;
         let subTitle = i18n.t('subtitle');
 
+        let toolbar = this.props.toolbars[this.props.navItem.id];
+
+        if (toolbar !== undefined){
+                let control = toolbar.controls.main.accordions.header.buttons;
+                docTitle = control.pagetitle_name.value !== "" && (control.pagetitle_name.value !== this.props.navItem.name) ? control.pagetitle_name.value : this.props.navItem.name;
+                subTitle = control.pagesubtitle_name.value !== "" && (control.pagesubtitle_name.value !== i18n.t('subtitle')) ? control.pagesubtitle_name.value : i18n.t('subtitle');
+        }
 
         let content;
         let unidad = "";
 
-        //console.log(currentStatustitleMode);
-        if (currentStatustitleMode === 'reduced') {
-            let titles = this.props.titles;
+        // breadcrumb
+        if (currentStatus !== undefined) {
+            if (currentStatus.breadcrumb === 'reduced') {
+                let titles = this.props.titles;
 
-            let actualTitle = titles[titles.length - 1];
-            unidad = titles[0];
-            content = React.createElement("div", {className:"subheader"},
-                React.createElement(Breadcrumb, {style: {margin: 0, backgroundColor: 'inherit'}},
-                    titles.map((item, index) => {
-                        if (index !== titles.length ) {
-                            return React.createElement(BreadcrumbItem, {key: index}, item);
+                let actualTitle = titles[titles.length - 1];
+                unidad = titles[0];
+                content = React.createElement("div", {className: "subheader"},
+                    React.createElement(Breadcrumb, {style: {margin: 0, backgroundColor: 'inherit'}},
+                        titles.map((item, index) => {
+                            if (index !== titles.length) {
+                                return React.createElement(BreadcrumbItem, {key: index}, item);
+                            }
+                        })
+                    )
+                );
+
+            } else if (currentStatus.breadcrumb === 'expanded') {
+                let titlesComponents = "";
+                let titles_length = this.props.titles.length;
+                content = React.createElement("div", {className: "subheader"},
+                    this.props.titles.map((text, index) => {
+                        if (index === 0) {
+                            unidad = text;
+                        } else {
+                            let nivel = (index > 4 ) ? 6 : index + 2;
+                            return React.createElement("h" + nivel, {
+                                key: index,
+                                style: {marginTop: '0px'}
+                            }, /*this.getActualIndex(titles_length, index) + */text);
                         }
                     })
-                )
-            );
+                );
+            }
 
-        } else if (currentStatustitleMode === 'expanded') {
-            let titlesComponents = "";
-            let titles_length = this.props.titles.length;
-            content = React.createElement("div", {className:"subheader"},
-                this.props.titles.map((text, index) => {
-                    if (index === 0) {
-                        unidad = text;
-                    } else {
-                        let nivel = (index > 4 ) ? 6 : index + 2;
-                        return React.createElement("h" + nivel, {
-                            key: index,
-                            style: {marginTop: '0px'}
-                        }, /*this.getActualIndex(titles_length, index) + */text);
-                    }
-                })
-            );
         }
-
-
 
         return (
             /* jshint ignore:start */
