@@ -330,6 +330,14 @@ function toolbarSectionCreator(state, action) {
                               type: 'checkbox',
                               checked: false,
                               autoManaged: false
+                          },
+                          pagenumber_name: {
+                              __name: "custom_pagenum",
+                              type: 'conditionalText',
+                              associatedKey: 'display_pagenumber',
+                              value: "",
+                              autoManaged: false,
+                              display: true
                           }
                       }
 

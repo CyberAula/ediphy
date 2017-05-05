@@ -54,6 +54,7 @@ export default class DaliHeader extends Component {
         let currentStatus = this.props.navItem.titlesDisplay;
         let docTitle =  this.props.navItem.name;
         let subTitle = i18n.t('subtitle');
+        let pagenumber = this.props.navItem.unitNumber;
 
         let toolbar = this.props.toolbars[this.props.navItem.id];
 
@@ -61,6 +62,7 @@ export default class DaliHeader extends Component {
                 let control = toolbar.controls.main.accordions.header.buttons;
                 docTitle = control.pagetitle_name.value !== "" && (control.pagetitle_name.value !== this.props.navItem.name) ? control.pagetitle_name.value : this.props.navItem.name;
                 subTitle = control.pagesubtitle_name.value !== "" && (control.pagesubtitle_name.value !== i18n.t('subtitle')) ? control.pagesubtitle_name.value : i18n.t('subtitle');
+                pagenumber = control.pagenumber_name.value !== "" && (control.pagenumber_name.value !== this.props.navItem.unitNumber) ? control.pagenumber_name.value : this.props.navItem.unitNumber;
         }
 
         let content;
@@ -192,13 +194,14 @@ export default class DaliHeader extends Component {
                         <div className="cab">
 
                             <div className="cabtabla_numero"
-                                contentEditable={this.props.navItem.parent === 0}
+                                contentEditable={false}
                                 suppressContentEditableWarning
                                 style={{display:(currentStatus.pageNumber == 'hidden') ? 'none' : 'block'}}
                                 onBlur={e => {
                                         this.props.onUnitNumberChanged(this.props.navItem.id, parseInt(e.target.innerText, 10));
+
                                 }}
-                            >{this.props.navItem.unitNumber}</div>
+                            >{pagenumber}</div>
 
                             <div className="tit_ud_cap">
                                 {/* Course title*/}
