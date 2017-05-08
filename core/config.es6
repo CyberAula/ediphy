@@ -23,7 +23,8 @@ export default {
         'ListaNumerada',
         'RelacionaAll',
         'GraficaD3',
-        'EnrichedVideo'
+        'EnrichedVideo',
+        'HotspotImages'
     ],
     availableLanguages:[
         'en',

@@ -313,10 +313,22 @@ class DaliApp extends Component {
             }
             switch (reason) {
                 case ADD_RICH_MARK:
-                    this.dispatchAndSetState(e.detail.reason); //The action was created previously
+                    this.dispatchAndSetState(e.detail.reason); //The action was created previously //TODO: here is the problem we need to trigger update box as well
+                    this.dispatchAndSetState(updateBox(
+                        e.detail.ids.id,
+                        e.detail.content,
+                        e.detail.toolbar,
+                        e.detail.state
+                    ));
                     break;
                 case EDIT_RICH_MARK:
                     this.dispatchAndSetState(editRichMark(e.detail.ids.id, e.detail.state));
+                    this.dispatchAndSetState(updateBox(
+                        e.detail.ids.id,
+                        e.detail.content,
+                        e.detail.toolbar,
+                        e.detail.state
+                    ));
                     break;
                 case ADD_BOX:
                 if(this.severalBoxes === 0 ){

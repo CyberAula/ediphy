@@ -86,7 +86,6 @@ export default class CarrouselList extends Component {
                                                              display: (this.props.containedViewsVisible && containedViewsIncluded) ? 'block' : 'none', overflowY: 'auto', overflowX: 'hidden'}}>
                     {
                         Object.keys(this.props.containedViews).map((id, key)=>{
-                            console.log(this.props.containedViews[id]);
                             return (<div key={id} style={{
                                                 width: "100%", 
                                                 height: "20px", 
