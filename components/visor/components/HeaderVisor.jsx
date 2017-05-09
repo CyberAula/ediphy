@@ -49,7 +49,7 @@ export default class HeaderVisor extends Component {
 
     render() {
         let titles = this.props.titles;
-        let currentStatus = this.props.navItem.titlesDisplay;
+        let currentStatus = this.props.navItem.header;
 
         let docTitle = "Titulo";
         let subTitle = "Subtítulo";

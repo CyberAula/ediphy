@@ -30,7 +30,20 @@ export default class ReduxProvider extends Component {
                         level: 1,
                         type: "",
                         extraFiles: {},
-                        titlesDisplay: {courseTitle: 'hidden', documentTitle: 'expanded', documentSubTitle: 'hidden', breadcrumb: "reduced", pageNumber: "hidden"}
+                        header: {
+                            elementContent:{
+                                documentTitle:'',
+                                documentSubTitle:'',
+                                numPage:''
+                            },
+                            display: {
+                                courseTitle: 'hidden',
+                                documentTitle: 'expanded',
+                                documentSubTitle: 'hidden',
+                                breadcrumb: "reduced",
+                                pageNumber: "hidden"
+                            }
+                        }
                     }
                 },
                 navItemsIds: ['se-1467887497411'],
