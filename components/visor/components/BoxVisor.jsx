@@ -15,6 +15,7 @@ export default class BoxVisor extends Component {
         Dali.API_Private.listenAnswer(Dali.API_Private.events.markTriggered, e=>{
             if(box_id === e.detail.id){
                 let marksObject = this.__getMarkKeys(marks);
+
                 if(marksObject.hasOwnProperty(e.detail.value) && (!e.detail.stateElement || Dali.State.toolbarsById[box_id].state.currentValue !== e.detail.value)){
                     this.props.changeCurrentView(marksObject[e.detail.value]);
                 }
