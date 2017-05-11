@@ -139,13 +139,17 @@ export default function () {
                 extraFunctions[fnAlias](element[0]);
             }
         },
-        triggerMark: function(element, value){
+        triggerMark: function(element, value, stateElement){
+            if (stateElement === undefined) {
+                stateElement = true;
+            }
+
             if(!element){
                 console.error("Invalid argument -> need parent with correct id @ triggerMark");
                 return;
             }
             if(value){
-                Dali.API.markTriggered(element, value);
+                Dali.API.markTriggered(element, value, stateElement);
             }
         }
     };

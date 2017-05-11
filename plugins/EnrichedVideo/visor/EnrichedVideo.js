@@ -21,17 +21,6 @@ export function EnrichedVideo(base) {
             var time = document.getElementById("box-" + element).getElementsByTagName('video')[0].currentTime;
             time = Math.floor(time);
             base.triggerMark(element, time);
-
-            /*if ( this.actualMark.length !== 0 && this.getActualMarkTime(time) !== time.toString()){
-                this.actualMark = "";
-            }
-
-            if(this.getMarkArray() && this.getMarkArray().indexOf(time.toString() !== -1) && this.actualMark.toString() !== this.getActualMarkTime(time)){
-
-                this.t= "#t=" + time;
-                this.actualMark = time;
-                base.triggerMark(element, this.getMarkKeys()[time]);
-            }*/
         }
     };
 }

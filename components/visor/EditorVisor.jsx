@@ -15,13 +15,13 @@ export default class Visor extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            currentView: [this.getCurrentView(Dali.State.navItemSelected, Dali.State.containedViewSelected)],
+            currentView: [this.getCurrentView(Dali.State.navItemSelected, Dali.State.containedViewSelected)],  /*This is the actual view rendering*/
             richElementState: {}
         };
     }
 
     componentDidMount(){
-        Dali.API_Private.listenEmission(Dali.API_Private.events.markTriggered, e=>{
+        Dali.API_Private.listenAnswer(Dali.API_Private.events.markTriggered, e=>{
             Dali.State.toolbarsById[e.detail.id].state.currentValue = e.detail.value;
         });
     }

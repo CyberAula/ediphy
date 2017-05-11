@@ -7,6 +7,10 @@ import {isSortableBox, isSlide} from './../../../utils';
 
 export default class ContainedCanvasVisor extends Component {
 
+    componentDidMount(){
+
+    }
+
     render() {
 
         let maincontent = document.getElementById('contained_maincontent');
@@ -35,9 +39,9 @@ export default class ContainedCanvasVisor extends Component {
                          /*className={isSlide(this.props.navItemSelected.type) ? 'innercanvas sli':'innercanvas doc'}*/
                          style={{visibility: (this.props.showCanvas ? 'visible' : 'hidden')}}>
 
-                        <a href="#" style={{margin:"10px", pointerEvents: this.props.viewsArray.length > 1 ? 'initial': 'none',  color: this.props.viewsArray.length > 1 ? 'black': 'gray'}} onClick={e => {
+                        <a href="#" style={{margin:"10px", pointerEvents: this.props.viewsArray.length > 1 ? 'initial': 'none',  color: this.props.viewsArray.length > 1 ? 'black': 'gray'}} onClick={a => {
                                     this.props.removeLastView();
-                                    e.stopPropagation();
+                                    a.stopPropagation();
                                 }}><i className="material-icons">keyboard_backspace</i></a>
                         <br/>
 

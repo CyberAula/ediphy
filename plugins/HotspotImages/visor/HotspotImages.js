@@ -22,7 +22,7 @@ export function HotspotImages(base) {
             /* jshint ignore:end */
         },
         onMarkClicked(element,value){
-            base.triggerMark(element,value);
+            base.triggerMark(element,value, false);
         }
     };
 }
