@@ -283,7 +283,7 @@ export default class PluginToolbar extends Component {
       case "custom_title":
           this.props.titleModeToggled(this.props.navItemSelected, {
               elementContent:{
-                  documentTitle: value,
+                  documentTitle: value ,
                   documentSubTitle:  navitem.header.elementContent.documentSubTitle,
                   numPage: navitem.header.elementContent.numPage
               },
@@ -399,7 +399,7 @@ export default class PluginToolbar extends Component {
             this.props.titleModeToggled(this.props.navItemSelected, {
                 elementContent:{
                     documentTitle: navitem.header.elementContent.documentTitle,
-                    documentSubTitle:  navitem.header.elementContent.documentSubTitle,
+                    documentSubTitle: navitem.header.elementContent.documentSubTitle ? navitem.header.elementContent.documentSubTitle : i18n.t('subtitle'),
                     numPage: navitem.header.elementContent.numPage
                 },
                 display:{
@@ -423,7 +423,7 @@ export default class PluginToolbar extends Component {
                 display:{
                     courseTitle: navitem.header.display.courseTitle,
                     documentTitle: navitem.header.display.documentTitle,
-                    documentSubTitle: navitem.header.display.subTitle,
+                    documentSubTitle: navitem.header.display.documentSubTitle,
                     breadcrumb: breadcrumb,
                     pageNumber: navitem.header.display.pageNumber
                 }
@@ -441,7 +441,7 @@ export default class PluginToolbar extends Component {
                 display:{
                     courseTitle: navitem.header.display.courseTitle,
                     documentTitle: navitem.header.display.documentTitle,
-                    documentSubTitle: navitem.header.display.subTitle,
+                    documentSubTitle: navitem.header.display.documentSubTitle,
                     breadcrumb: navitem.header.display.breadcrumb,
                     pageNumber: pagenumber
                 }

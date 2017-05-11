@@ -48,12 +48,20 @@ export default class HeaderVisor extends Component {
     }
 
     render() {
-        let titles = this.props.titles;
-        let currentStatus = this.props.navItem.header;
 
-        let docTitle = "Titulo";
-        let subTitle = "Subtítulo";
-        let pagenumber = "Num página";
+        let titles = this.props.titles;
+        let currentStatus = this.props.navItem.header.display;
+        let docTitle =  this.props.navItem.name;
+        let subTitle = i18n.t('subtitle');
+        let pagenumber = this.props.navItem.unitNumber;
+        let navItem = this.props.navItem;
+
+        if (navItem !== undefined){
+            docTitle = navItem.header.elementContent.documentTitle !== "" && ( navItem.header.elementContent.documentTitle !== this.props.navItem.name) ?  navItem.header.elementContent.documentTitle : this.props.navItem.name;
+            subTitle = navItem.header.elementContent.documentSubTitle !== "" && (navItem.header.elementContent.documentSubTitle !== i18n.t('subtitle')) ? navItem.header.elementContent.documentSubTitle : i18n.t('subtitle');
+            pagenumber = navItem.header.elementContent.numPage !== "" && (navItem.header.elementContent.numPage !== this.props.navItem.unitNumber) ? navItem.header.elementContent.numPage : this.props.navItem.unitNumber;
+        }
+
 
         let content;
         let unidad = "";
