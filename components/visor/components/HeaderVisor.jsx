@@ -48,9 +48,42 @@ export default class HeaderVisor extends Component {
     }
 
     render() {
+
         let titles = this.props.titles;
-        let currentStatus = this.props.titleMode;
-        let unidad = titles[0];
+        let currentStatus = this.props.navItem.header.display;
+        let docTitle =  this.props.navItem.name;
+        let subTitle = i18n.t('subtitle');
+        let pagenumber = this.props.navItem.unitNumber;
+        let navItem = this.props.navItem;
+
+        if (navItem !== undefined){
+            docTitle = navItem.header.elementContent.documentTitle !== "" && ( navItem.header.elementContent.documentTitle !== this.props.navItem.name) ?  navItem.header.elementContent.documentTitle : this.props.navItem.name;
+            subTitle = navItem.header.elementContent.documentSubTitle !== "" && (navItem.header.elementContent.documentSubTitle !== i18n.t('subtitle')) ? navItem.header.elementContent.documentSubTitle : i18n.t('subtitle');
+            pagenumber = navItem.header.elementContent.numPage !== "" && (navItem.header.elementContent.numPage !== this.props.navItem.unitNumber) ? navItem.header.elementContent.numPage : this.props.navItem.unitNumber;
+        }
+
+
+        let content;
+        let unidad = "";
+
+        // breadcrumb
+        if (currentStatus !== undefined) {
+            if (currentStatus.breadcrumb === 'reduced') {
+                let titles = this.props.titles;
+
+                let actualTitle = titles[titles.length - 1];
+                unidad = titles[0];
+                content = React.createElement("div", {className: "subheader"},
+                    React.createElement(Breadcrumb, {style: {margin: 0, backgroundColor: 'inherit'}},
+                        titles.map((item, index) => {
+                            if (index !== titles.length) {
+                                return React.createElement(BreadcrumbItem, {key: index}, item);
+                            }
+                        })
+                    )
+                );
+            }
+        }
 
         return (
             /* jshint ignore:start */
@@ -65,13 +98,23 @@ export default class HeaderVisor extends Component {
                             <div className="cabtabla_numero"
                                 contentEditable={this.props.navItem.parent === 0}
                                 suppressContentEditableWarning
+                                style={{display:(currentStatus.pageNumber == 'hidden') ? 'none' : 'block'}}
                                 onBlur={e => {
                                         this.props.onUnitNumberChanged(this.props.navItem.id, parseInt(e.target.innerText, 10));
                                 }}
-                            >{this.props.navItem.unitNumber}</div>
+                            >{pagenumber}</div>
                             <div className="tit_ud_cap">
-                                <h1>{this.props.courseTitle}</h1>
-                                <h2>{unidad}</h2>
+                                {/* Course title*/}
+                                <h1 style={{display:(currentStatus.courseTitle == 'hidden') ? 'none' : 'block'}}>{this.props.courseTitle}</h1>
+                                {/* NavItem title */}
+                                <h2 style={{display:(currentStatus.documentTitle == 'hidden') ? 'none' : 'block'}}>{docTitle}</h2>
+                                {/* NavItem subtitle */}
+                                <h3 style={{display:(currentStatus.documentSubTitle == 'hidden') ? 'none' : 'block'}}>{subTitle}</h3>
+
+                                {/* breadcrumb */}
+                                <div className="contenido" style={{display:(currentStatus.breadcrumb == 'hidden') ? 'none' : 'block'}}>
+                                    { content }
+                                </div>
                             </div>
                              {/* <div className="cabtabla_lapiz">
                                 <img style={{display: 'none', visibility: 'inherit'}}

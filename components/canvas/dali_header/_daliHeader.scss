@@ -35,7 +35,7 @@
     font-family: 'Ubuntu-light';
     color: $grismedio;
     &:hover, &:active, &:focus{
-      text-decoration: none;
+      text-decoration: none !important;
       cursor: default;
     }
   }

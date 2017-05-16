@@ -33,7 +33,7 @@
 }
 
 .pills.active {
-  opacity: 0.7%;
+  opacity: 0.7;
 }
 
 #visor *, #truevisor * {
@@ -44,13 +44,15 @@
   height: 100%;
 }
 
+.visor * {
+  pointer-events: all !important;
+}
+
 .visor {
   .modal-content {
-    height: 90%;
+    height: 97%;
     border-radius: 0;
     .modal-header {
-      //border-bottom: 1px solid #ddd;
-      //border-radius: 0;
       padding: 10px;
   		background-color:$greyPanelHeadings;
   		color: white;
@@ -63,35 +65,27 @@
 
 }
 
-.outter2 {
-  // padding-top:40px !important;
-}
-
 ul li a {
   color: #555;
 }
 
 .visor .modal-lg {
   width: 100% !important;
-  margin-top: 40px;
+  margin: 0;
   height: 100%;
 }
 
 .visor .doc {
   overflow-y: auto;
 }
-
-.visor * {
-  pointer-events: all !important;
+.modal-dialog{
+  margin: 30px auto;
 }
 
 .modalVisorContainer {
-  padding-right: 15px;
+  margin: 15px;
 }
 
-//.modalVisorContainer .visor .modal-open {
-  //overflow-y: hidden;
-//}
 .modal-open .modal{
   overflow-y: hidden;
 }

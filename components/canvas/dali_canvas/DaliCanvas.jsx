@@ -64,7 +64,6 @@ export default class DaliCanvas extends Component {
                         navItem={this.props.navItemSelected}
                         navItems={this.props.navItems}
                         titleModeToggled={this.props.titleModeToggled}
-                        toolbars={this.props.toolbars}
                         onUnitNumberChanged={this.props.onUnitNumberChanged}
                         showButton={true}
                         />

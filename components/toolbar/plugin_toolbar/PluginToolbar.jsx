@@ -279,6 +279,57 @@ export default class PluginToolbar extends Component {
       let navitem = this.props.navItems[this.props.navItemSelected];
       let toolbar = this.props.toolbars[this.props.navItemSelected].controls.main.accordions;
       switch (name){
+      //change page/slide title
+      case "custom_title":
+          this.props.titleModeToggled(this.props.navItemSelected, {
+              elementContent:{
+                  documentTitle: value ,
+                  documentSubTitle:  navitem.header.elementContent.documentSubTitle,
+                  numPage: navitem.header.elementContent.numPage
+              },
+              display:{
+                  courseTitle: navitem.header.display.courseTitle,
+                  documentTitle: navitem.header.display.documentTitle,
+                  documentSubTitle: navitem.header.display.documentSubTitle,
+                  breadcrumb: navitem.header.display.breadcrumb,
+                  pageNumber: navitem.header.display.pageNumber
+              }
+          });
+          break;
+      //change page/slide title
+      case "custom_subtitle":
+          this.props.titleModeToggled(this.props.navItemSelected, {
+              elementContent:{
+                  documentTitle: navitem.header.elementContent.documentTitle,
+                  documentSubTitle: value,
+                  numPage: navitem.header.elementContent.numPage
+              },
+              display:{
+                  courseTitle: navitem.header.display.courseTitle,
+                  documentTitle: navitem.header.display.documentTitle,
+                  documentSubTitle: navitem.header.display.documentSubTitle,
+                  breadcrumb: navitem.header.display.breadcrumb,
+                  pageNumber: navitem.header.display.pageNumber
+              }
+          });
+          break;
+      //change page/slide title
+      case "custom_pagenum":
+          this.props.titleModeToggled(this.props.navItemSelected, {
+              elementContent:{
+                  documentTitle: navitem.header.elementContent.documentTitle,
+                  documentSubTitle:  navitem.header.elementContent.documentSubTitle,
+                  numPage: value
+              },
+              display:{
+                  courseTitle: navitem.header.display.courseTitle,
+                  documentTitle: navitem.header.display.documentTitle,
+                  documentSubTitle: navitem.header.display.documentSubTitle,
+                  breadcrumb: navitem.header.display.breadcrumb,
+                  pageNumber: navitem.header.display.pageNumber
+              }
+          });
+          break;
         //preview / export document
         case i18n.t('display_page'):
             this.props.onNavItemToggled(this.props.navItemSelected);
@@ -290,61 +341,111 @@ export default class PluginToolbar extends Component {
         //display - course title
         case i18n.t('course_title'):
             let courseTitle = value ? 'reduced' : 'hidden';
-            this.props.titleModeToggled(this.props.navItemSelected, {courseTitle: courseTitle,
-                documentTitle: navitem.titlesDisplay.documentTitle,
-                documentSubTitle: navitem.titlesDisplay.documentSubTitle,
-                breadcrumb: navitem.titlesDisplay.breadcrumb,
-                pageNumber: navitem.titlesDisplay.pageNumber});
+            this.props.titleModeToggled(this.props.navItemSelected, {
+                    elementContent:{
+                        documentTitle: navitem.header.elementContent.documentTitle,
+                        documentSubTitle:  navitem.header.elementContent.documentSubTitle,
+                        numPage: navitem.header.elementContent.numPage
+                    },
+                    display:{
+                        courseTitle: courseTitle,
+                        documentTitle: navitem.header.display.documentTitle,
+                        documentSubTitle: navitem.header.display.documentSubTitle,
+                        breadcrumb: navitem.header.display.breadcrumb,
+                        pageNumber: navitem.header.display.pageNumber
+                    }
+            });
             break;
         //display - page title
         case i18n.t('Title')+i18n.t('page'):
             let docTitle = value ? 'reduced' : 'hidden';
-            this.props.titleModeToggled(this.props.navItemSelected, {courseTitle: navitem.titlesDisplay.courseTitle,
-                documentTitle: docTitle,
-                documentSubTitle: navitem.titlesDisplay.documentSubTitle,
-                breadcrumb: navitem.titlesDisplay.breadcrumb,
-                pageNumber: navitem.titlesDisplay.pageNumber});
+            this.props.titleModeToggled(this.props.navItemSelected, {
+                elementContent:{
+                    documentTitle: navitem.header.elementContent.documentTitle,
+                    documentSubTitle:  navitem.header.elementContent.documentSubTitle,
+                    numPage: navitem.header.elementContent.numPage
+                },
+                display:{
+                    courseTitle: navitem.header.display.courseTitle,
+                    documentTitle: docTitle,
+                    documentSubTitle: navitem.header.display.documentSubTitle,
+                    breadcrumb: navitem.header.display.breadcrumb,
+                    pageNumber: navitem.header.display.pageNumber
+                }
+            });
 
             break;
         //display - slide title
         case i18n.t('Title')+i18n.t('slide'):
             let slideTitle = value ? 'reduced' : 'hidden';
-            this.props.titleModeToggled(this.props.navItemSelected, {courseTitle: navitem.titlesDisplay.courseTitle,
-                documentTitle: slideTitle,
-                documentSubTitle: navitem.titlesDisplay.documentSubTitle,
-                breadcrumb: navitem.titlesDisplay.breadcrumb,
-                pageNumber: navitem.titlesDisplay.pageNumber});
-            break;
-        //change page/slide title
-        case "custom_title":
-            navitem.titlemodified = true;
+            this.props.titleModeToggled(this.props.navItemSelected, {
+                elementContent:{
+                    documentTitle: navitem.header.elementContent.documentTitle,
+                    documentSubTitle:  navitem.header.elementContent.documentSubTitle,
+                    numPage: navitem.header.elementContent.numPage
+                },
+                display:{
+                    courseTitle: navitem.header.display.courseTitle,
+                    documentTitle: slideTitle,
+                    documentSubTitle: navitem.header.display.documentSubTitle,
+                    breadcrumb: navitem.header.display.breadcrumb,
+                    pageNumber: navitem.header.display.pageNumber
+                }
+            });
             break;
         //display - subtitle
         case i18n.t('subtitle'):
             let subTitle = value ? 'reduced' : 'hidden';
-            this.props.titleModeToggled(this.props.navItemSelected, {courseTitle: navitem.titlesDisplay.courseTitle,
-                documentTitle: navitem.titlesDisplay.documentTitle,
-                documentSubTitle: subTitle,
-                breadcrumb: navitem.titlesDisplay.breadcrumb,
-                pageNumber: navitem.titlesDisplay.pageNumber});
+            this.props.titleModeToggled(this.props.navItemSelected, {
+                elementContent:{
+                    documentTitle: navitem.header.elementContent.documentTitle,
+                    documentSubTitle: navitem.header.elementContent.documentSubTitle ? navitem.header.elementContent.documentSubTitle : i18n.t('subtitle'),
+                    numPage: navitem.header.elementContent.numPage
+                },
+                display:{
+                    courseTitle: navitem.header.display.courseTitle,
+                    documentTitle: navitem.header.display.documentTitle,
+                    documentSubTitle: subTitle,
+                    breadcrumb: navitem.header.display.breadcrumb,
+                    pageNumber: navitem.header.display.pageNumber
+                }
+            });
             break;
         //display - breadcrumb
         case i18n.t('Breadcrumb'):
             let breadcrumb = value ? 'reduced' : 'hidden';
-            this.props.titleModeToggled(this.props.navItemSelected, {courseTitle: navitem.titlesDisplay.courseTitle,
-                documentTitle: navitem.titlesDisplay.documentTitle,
-                documentSubTitle: navitem.titlesDisplay.documentSubTitle,
-                breadcrumb: breadcrumb,
-                pageNumber: navitem.titlesDisplay.pageNumber});
+            this.props.titleModeToggled(this.props.navItemSelected, {
+                elementContent:{
+                    documentTitle: navitem.header.elementContent.documentTitle,
+                    documentSubTitle:  navitem.header.elementContent.documentSubTitle,
+                    numPage: navitem.header.elementContent.numPage
+                },
+                display:{
+                    courseTitle: navitem.header.display.courseTitle,
+                    documentTitle: navitem.header.display.documentTitle,
+                    documentSubTitle: navitem.header.display.documentSubTitle,
+                    breadcrumb: breadcrumb,
+                    pageNumber: navitem.header.display.pageNumber
+                }
+            });
             break;
         //display - pagenumber
         case i18n.t('pagenumber'):
             let pagenumber = value ? 'reduced' : 'hidden';
-            this.props.titleModeToggled(this.props.navItemSelected, {courseTitle: navitem.titlesDisplay.courseTitle,
-                documentTitle: navitem.titlesDisplay.documentTitle,
-                documentSubTitle: navitem.titlesDisplay.documentSubTitle,
-                breadcrumb: navitem.titlesDisplay.breadcrumb,
-                pageNumber: pagenumber});
+            this.props.titleModeToggled(this.props.navItemSelected, {
+                elementContent:{
+                    documentTitle: navitem.header.elementContent.documentTitle,
+                    documentSubTitle:  navitem.header.elementContent.documentSubTitle,
+                    numPage: navitem.header.elementContent.numPage
+                },
+                display:{
+                    courseTitle: navitem.header.display.courseTitle,
+                    documentTitle: navitem.header.display.documentTitle,
+                    documentSubTitle: navitem.header.display.documentSubTitle,
+                    breadcrumb: navitem.header.display.breadcrumb,
+                    pageNumber: pagenumber
+                }
+            });
             break;
         default:
             break;
