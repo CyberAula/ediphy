@@ -104,7 +104,7 @@ export function HotspotImages(base) {
                     position = [0,0];
                 }
 
-                return(<a key={id} style={{position: 'absolute', top:position[0],left: position[1]}} href="#"><i style={{width:"100%",height:"100%"}} className="material-icons">room</i></a>)
+                return(<a key={id} style={{position: 'absolute', top:position[0] +"px",left: position[1]+"px"}} href="#"><i style={{width:"100%",height:"100%"}} className="material-icons">room</i></a>)
             });
 
             return (

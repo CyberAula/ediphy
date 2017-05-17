@@ -13,12 +13,7 @@ export function api() {
             return promise;
         },
         markTriggered: function(id,value,stateElement){
-            var promise = new Promise(function (resolve) {
-                Dali.API_Private.listenAnswer(Dali.API_Private.events.markTriggered, resolve);
-            });
-
             Dali.API_Private.emit(Dali.API_Private.events.markTriggered, {id,value,stateElement});
-            return promise;
         },
         changeView: function(id){
             Dali.API_Private.emit(Dali.API_Private.events.changeView, {id: id});

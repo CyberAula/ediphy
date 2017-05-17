@@ -20,8 +20,8 @@ export default class Visor extends Component {
         };
     }
 
-    componentDidMount(){
-        Dali.API_Private.listenAnswer(Dali.API_Private.events.markTriggered, e=>{
+    componentWillUpdate(){
+        Dali.API_Private.listenEmission(Dali.API_Private.events.markTriggered, e=>{
             Dali.State.toolbarsById[e.detail.id].state.currentValue = e.detail.value;
         });
     }
