@@ -212,7 +212,7 @@ export default class CarrouselList extends Component {
                                         <i className="material-icons">delete</i>
                                     </Button>
                             </OverlayTrigger>
-                        </OverlayTrigger>
+                    </OverlayTrigger>
                 </div>
             </div>
             /* jshint ignore:end */
