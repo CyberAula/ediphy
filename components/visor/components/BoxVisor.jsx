@@ -9,23 +9,6 @@ export default class BoxVisor extends Component {
         this.borderSize = 2;
     }
 
-    componentDidMount(){
-        let marks = this.props.toolbars[this.props.id].state.__marks;
-        let box_id = this.props.id;
-        Dali.API_Private.listenEmission(Dali.API_Private.events.markTriggered, e=>{
-            if(box_id === e.detail.id){
-                let marksObject = this.__getMarkKeys(marks);
-                if(marksObject.hasOwnProperty(e.detail.value) &&  Dali.State.toolbarsById[box_id].state.currentValue !== e.detail.value){
-                    this.props.changeCurrentView(marksObject[e.detail.value]);
-                }
-            }
-        });
-    }
-
-    componentWillUpdate(){
-        Dali.State.toolbarsById[this.props.id].state.currentValue = "";
-    }
-
     render() {
         let cornerSize = 15;
         let box = this.props.boxes[this.props.id];

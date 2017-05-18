@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import {Grid} from 'react-bootstrap';
+import {isAncestorOrSibling} from './../../utils';
 
 import CanvasVisor from './components/CanvasVisor';
 import ContainedCanvasVisor from './components/ContainedCanvasVisor';
@@ -16,24 +17,27 @@ export default class Visor extends Component {
         super(props);
         this.state = {
             currentView: [this.getCurrentView(Dali.State.navItemSelected, Dali.State.containedViewSelected)],  /*This is the actual view rendering*/
+            triggeredMarks: [],
             richElementState: {}
         };
     }
 
-    componentWillUpdate(){
+    componentDidMount(){
+        //Get the event received check if exist and modify the state
+        //
+        // Add a queue of marks fired [{id: value, CurrentState: CLEAR, PENDING, DONE}] or array
+        // Whenever the mark is ready trigger it
+
+        let marks = this.getAllMarks();
+        let box_id = this.props.id;
         Dali.API_Private.listenEmission(Dali.API_Private.events.markTriggered, e=>{
-            Dali.State.toolbarsById[e.detail.id].state.currentValue = e.detail.value;
         });
+
+
+
     }
 
-    changeCurrentView(element){
-        this.setState({currentView: [this.getCurrentView(Dali.State.navItemSelected, Dali.State.containedViewSelected), element]});
-    }
 
-    getCurrentView(NIselected, CVselected){
-        let currentView = (CVselected === 0) ? NIselected : CVselected;
-        return currentView;
-    }
 
     render() {
 
@@ -98,6 +102,45 @@ export default class Visor extends Component {
 
     getLastCurrentViewElement(){
         return this.state.currentView[this.state.currentView.length - 1];
+    }
+
+    changeCurrentView(element){
+        this.setState({currentView: [this.getCurrentView(Dali.State.navItemSelected, Dali.State.containedViewSelected), element]});
+    }
+
+    getCurrentView(NIselected, CVselected){
+        let currentView = (CVselected === 0) ? NIselected : CVselected;
+        return currentView;
+    }
+
+    getAllMarks(){
+        let currentView = this.state.currentView[0];
+
+        Dali.State.toolbarsById[currentView];
+
+    }
+
+    getAllRichDescendantBoxes(searchingID){
+        let boxes = Dali.State.navItemsById[searchingId].boxes;
+
+        let newBoxes=[];
+
+        Object.keys(Dali.State.boxesById).map(e=>{
+            if(boxes.indexOf(e) !== -1){
+                newBoxes.push(boxes[e]);
+
+
+                if(Object.keys(Dali.State.boxesById(boxes[e])).length !== 0){
+                    Object.keys(boxe[e].map(a=>{
+                        boxes[e].
+                    }));
+                }
+            }
+        });
+
+        newBoxes.
+
+
     }
 
 }
