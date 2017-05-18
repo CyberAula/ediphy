@@ -83,7 +83,8 @@ class DaliApp extends Component {
                                 onVishCatalogToggled={() => this.setState({catalogModal: true})}
                                 setcat={(categoria) => {this.setState({ pluginTab: categoria, hideTab:'show' })}}/>
                     <AutoSave save={() => {this.dispatchAndSetState(exportStateAsync({present: this.props.store.getState().present}))}}
-                              serverModalOpen={()=>{this.setState({serverModal: true })}}/>
+                              serverModalOpen={()=>{this.setState({serverModal: true })}}
+                              isBusy={isBusy}/>
                 </Row>
                 <Row style={{height: 'calc(100% - 60px)'}}>
                     <DaliCarousel boxes={boxes}
