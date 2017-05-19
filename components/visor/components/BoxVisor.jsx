@@ -16,6 +16,10 @@ export default class BoxVisor extends Component {
         let vis = this.props.boxSelected === this.props.id;
         let style = {};
 
+        if(typeof this.props.richElementState[box.id] !== 'undefined'){
+            box.content.props.currentState = this.props.richElementState[box.id];
+        }
+
         let textareaStyle = {
             position: 'absolute',
             resize: 'none',

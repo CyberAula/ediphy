@@ -67,7 +67,8 @@ export default class ContainedCanvasVisor extends Component {
                                                 boxSelected={this.props.boxSelected}
                                                 boxLevelSelected={this.props.boxLevelSelected}
                                                 containedViewSelected={this.props.currentView}
-                                                toolbars={this.props.toolbars}/>
+                                                toolbars={this.props.toolbars}
+                                                richElementsState={this.props.richElementsState}/>
                             } else {
                                 return <BoxSortableVisor key={id}
                                                         id={id}
@@ -75,7 +76,8 @@ export default class ContainedCanvasVisor extends Component {
                                                         boxSelected={this.props.boxSelected}
                                                         boxLevelSelected={this.props.boxLevelSelected}
                                                         containedViewSelected={this.props.currentView}
-                                                        toolbars={this.props.toolbars}/>
+                                                        toolbars={this.props.toolbars}
+                                                        richElementsState={this.props.richElementsState}/>
                             }
                         })}
                     </div>
