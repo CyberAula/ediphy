@@ -16,10 +16,6 @@ export default class BoxVisor extends Component {
         let vis = this.props.boxSelected === this.props.id;
         let style = {};
 
-        if(typeof this.props.richElementState[box.id] !== 'undefined'){
-            box.content.props.currentState = this.props.richElementState[box.id];
-        }
-
         let textareaStyle = {
             position: 'absolute',
             resize: 'none',
@@ -98,6 +94,15 @@ export default class BoxVisor extends Component {
                         }
                     }
                 }
+            }
+        }
+
+        //pass currentState  of component if exists
+        if(this.props.richElementsState && this.props.richElementsState[box.id] !== undefined){
+            if(toolbar.config.flavor === "react"){
+                box.content.props.currentState = this.props.richElementsState[box.id];
+            } else {
+                toolbar.state.currentState = this.props.richElementsState[box.id];
             }
         }
 

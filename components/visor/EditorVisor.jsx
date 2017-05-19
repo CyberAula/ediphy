@@ -27,14 +27,15 @@ export default class Visor extends Component {
         // Add a queue of marks fired [{id: value, CurrentState: CLEAR, PENDING, DONE}] or array
         // Whenever the mark is ready trigger it
         let marks = this.getAllMarks();
+        let richElementsState = this.state.richElementState;
         Dali.API_Private.listenEmission(Dali.API_Private.events.markTriggered, e=>{
             if(this.containsMarkValue(marks,e.detail.value)){
-                if(e.detail.stateElement){
+                if(e.detail.stateElement){ //checkIfTriggered
                     let new_mark = {};
                     new_mark[e.detail.id] = e.detail.value; //TODO: add this to state so it updates
                     this.setState({
                         triggeredMarks: this.getTriggeredMarks(marks,e.detail.value),
-                        richElementState: Object.assign({},this.state.richElementState, new_mark)
+                        richElementState: Object.assign({}, richElementsState, new_mark)
                     });
                 }else{
                     this.setState({triggeredMarks: this.getTriggeredMarks(marks,e.detail.value)});

@@ -8,8 +8,8 @@ export function EnrichedVideo(base) {
         getRenderTemplate: function (state) {
             this.__marks = state.__marks;
             let time = "";
-            if(state.currentValue){
-                time = "#t=" + state.currentValue;
+            if(state.currentState){
+                time = "#t=" + state.currentState;
             }
             return "<video " +
                 ((state.controls) ? " controls='true' " : "") +
