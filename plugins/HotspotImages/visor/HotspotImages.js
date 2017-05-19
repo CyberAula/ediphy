@@ -10,7 +10,7 @@ export function HotspotImages(base) {
             /* jshint ignore:start */
             let markElements = marks.map((e) =>{
                return(
-                   <a key={e.key} style={{position: 'absolute', top :e.props.style.top, left:  e.props.style.left }} href="#" onClick={this.onMarkClicked(box_id, parseFloat(e.props.style.top) + "," + parseFloat(e.props.style.left))}><i style={{width:"100%",height:"100%"}} className="material-icons">room</i></a>
+                   <a key={e.key} style={{position: 'absolute', top :e.props.style.top, left:  e.props.style.left }} href="#" onClick={()=>{this.onMarkClicked(box_id, parseFloat(e.props.style.top) + "," + parseFloat(e.props.style.left))}}><i style={{width:"100%",height:"100%"}} className="material-icons">room</i></a>
                );
             });
 

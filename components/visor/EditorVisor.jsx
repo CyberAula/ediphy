@@ -24,20 +24,35 @@ export default class Visor extends Component {
 
     componentDidMount(){
         //Get the event received check if exist and modify the state
-        //
         // Add a queue of marks fired [{id: value, CurrentState: CLEAR, PENDING, DONE}] or array
         // Whenever the mark is ready trigger it
-
         let marks = this.getAllMarks();
-        let box_id = this.props.id;
         Dali.API_Private.listenEmission(Dali.API_Private.events.markTriggered, e=>{
+            if(this.containsMarkValue(marks,e.detail.value)){
+                if(e.detail.stateElement){
+                    let new_mark = {};
+                    new_mark[e.detail.id] = e.detail.value; //TODO: add this to state so it updates
+                    this.setState({
+                        triggeredMarks: this.getTriggeredMarks(marks,e.detail.value),
+                        richElementState: Object.assign({},this.state.richElementState, new_mark)
+                    });
+                }else{
+                    this.setState({triggeredMarks: this.getTriggeredMarks(marks,e.detail.value)});
+                }
+            }
         });
-
-
-
     }
 
-
+    componentWillUpdate(nextProps, nextState){
+        if(nextState.triggeredMarks.length !== 0 && nextState.triggeredMarks[0].currentState === 'PENDING'){
+            let newMark = nextState.triggeredMarks.slice();
+            newMark[0].currentState = 'TRIGGERED';
+            this.setState({
+                currentView:  nextState.currentView.concat([nextState.triggeredMarks[0].connection]),
+                triggeredMarks: newMark
+            });
+        }
+    }
 
     render() {
 
@@ -69,6 +84,7 @@ export default class Visor extends Component {
                                 navItemSelected={navItems[navItemSelected]}
                                 toolbars={toolbars}
                                 title={title}
+                                triggeredMarks={this.state.triggeredMarks}
                                 showCanvas={this.getLastCurrentViewElement().indexOf("cv-") === -1}
                                 removeLastView={()=>{
                                     this.setState({currentView: this.state.currentView.slice(0,-1)})
@@ -86,6 +102,7 @@ export default class Visor extends Component {
                                 navItems={navItems}
                                 toolbars={toolbars}
                                 title={title}
+                                triggeredMarks={this.state.triggeredMarks}
                                 showCanvas={this.getLastCurrentViewElement().indexOf("cv-") !== -1}
                                 currentView={this.getLastCurrentViewElement()}
                                 removeLastView={()=>{
@@ -100,6 +117,8 @@ export default class Visor extends Component {
         );
     }
 
+
+
     getLastCurrentViewElement(){
         return this.state.currentView[this.state.currentView.length - 1];
     }
@@ -113,36 +132,75 @@ export default class Visor extends Component {
         return currentView;
     }
 
-    getAllMarks(){
-        let currentView = this.state.currentView[0];
+    /*Marks functions*/
 
-        Dali.State.toolbarsById[currentView];
-
+    containsMarkValue(marks,mark_value){
+        let exists = false;
+        marks.forEach(mark_element=>{
+            if(mark_element.value === mark_value){
+                exists = true;
+            }
+        });
+        return exists;
     }
 
-    getAllRichDescendantBoxes(searchingID){
-        let boxes = Dali.State.navItemsById[searchingId].boxes;
+    getTriggeredMarks(marks,mark_value){
+        let state_marks = [];
+        marks.forEach(mark_element=>{
+            if(mark_element.value === mark_value){
+                state_marks.push({
+                    currentState:"PENDING",
+                    id: mark_element.id,
+                    value: mark_element.value,
+                    connection:mark_element.connection
+                });
+            }
+        });
+        return state_marks;
+    }
 
-        let newBoxes=[];
+    getAllMarks() {
+        let currentView = this.state.currentView[0];
 
-        Object.keys(Dali.State.boxesById).map(e=>{
-            if(boxes.indexOf(e) !== -1){
-                newBoxes.push(boxes[e]);
+        let boxes = this.getAllRichDescendantBoxes(currentView);
+        let marks = [];
+        boxes.forEach(box=>{
+            Object.keys(Dali.State.toolbarsById[box].state.__marks).map(mark_element=>{
+                marks.push(Dali.State.toolbarsById[box].state.__marks[mark_element]);
+            });
+        });
+        return marks;
+    }
 
 
-                if(Object.keys(Dali.State.boxesById(boxes[e])).length !== 0){
-                    Object.keys(boxe[e].map(a=>{
-                        boxes[e].
-                    }));
+
+    getAllRichDescendantBoxes(navItemID){
+        let boxes = Dali.State.navItemsById[navItemID].boxes;
+
+        let newBoxes = [];
+
+        let richBoxes = [];
+        Object.keys(Dali.State.boxesById).map(box=>{
+
+            if(boxes.indexOf(box) !== -1){
+                newBoxes.push(box);
+
+                if(Object.keys(Dali.State.boxesById[box].children).length !== 0){
+                    Object.keys(Dali.State.boxesById[box].sortableContainers).map(second_box=>{
+                        newBoxes = newBoxes.concat(Dali.State.boxesById[box].sortableContainers[second_box].children);
+                   });
                 }
             }
         });
 
-        newBoxes.
-
-
+        newBoxes.forEach(final=>{
+            if(Dali.State.toolbarsById[final] && Dali.State.toolbarsById[final].config && Dali.State.toolbarsById[final].config.isRich){
+                richBoxes.push(final);
+            }
+        });
+        return richBoxes;
     }
-
+    /*Marks functions*/
 }
 
 /* jshint ignore:start */

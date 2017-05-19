@@ -91,9 +91,8 @@ export default class ContainedCanvasVisor extends Component {
         if (nextProps.boxSelected !== -1) {
             this.setState({showTitle: false});
         }
-        if (this.props.navItemSelected.id !== nextProps.navItemSelected.id) {
-            document.getElementById('contained_maincontent').scrollTop = 0;
-        }
+        document.getElementById('contained_maincontent').scrollTop = 0;
+
     }
 
 

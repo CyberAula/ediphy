@@ -20,7 +20,7 @@ export function EnrichedVideo(base) {
         timeUpdate: function (e, element) {
             var time = document.getElementById("box-" + element).getElementsByTagName('video')[0].currentTime;
             time = Math.floor(time);
-            base.triggerMark(element, time);
+            base.triggerMark(element, time.toString(), true);
         }
     };
 }
