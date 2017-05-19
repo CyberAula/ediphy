@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import Dali from './../../core/main';
 
 export default class AutoSave extends Component {
 
@@ -8,7 +9,7 @@ export default class AutoSave extends Component {
     }
 
     componentDidMount() {
-        this.intervalId = setInterval(this.timer.bind(this), 30000);
+        this.intervalId = setInterval(this.timer.bind(this), Dali.Config.autosave_time);
     }
 
     componentWillUnmount() {
@@ -20,8 +21,10 @@ export default class AutoSave extends Component {
 
         if(nextProps.isBusy.value){
             this.setState({displaySave: true});
-        }else{
-            this.setState({displaySave: false});
+            setTimeout(() => {
+                this.setState({displaySave: false});
+            }, 2000);
+
         }
 
     }
