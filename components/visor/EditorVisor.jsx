@@ -28,23 +28,20 @@ export default class Visor extends Component {
         // Whenever the mark is ready trigger it
         let marks = this.getAllMarks();
         let richElementsState = this.state.richElementState;
+
         // Marks Global Listener
         Dali.API_Private.listenEmission(Dali.API_Private.events.markTriggered, e=>{
+            //clearMark | If actual Triggered Mark have passed e.detail.value and actual value is different or actual element doesn't need to clear the value
+            this.clearTriggeredValues(e.detail, marks, this.getTriggeredMarks(marks,e.detail.value));
 
-            //clearMark
-            if(!this.containsMarkValue(marks,e.detail.value) || !e.detail.stateElement){
-                this.clearTriggeredValues(e.detail.value, this.getTriggeredMarks(marks,e.detail.value) );
-            }
-
-            //markExists?
+            //Just try to trigger if mark exists
             if(this.containsMarkValue(marks,e.detail.value)){
-                let triggered_marks = this.getTriggeredMarks(marks,e.detail.value);
-                //can you Trigger it?
-                if(this.isTriggereableMark(e.detail.value,triggered_marks)){
-                    //Is Mark value storable?
-                    if(e.detail.stateElement){ //checkIfTriggered
+                //And is triggereable (not pending)
+                if(this.isTriggereableMark(e.detail.value,this.getTriggeredMarks(marks,e.detail.value))){
+                    //If mark is storable (if make any sense to store to render something different like a video) do it else, don't
+                    if(e.detail.stateElement){
                         let new_mark = {};
-                        new_mark[e.detail.id] = e.detail.value; //TODO: add this to state so it updates
+                        new_mark[e.detail.id] = e.detail.value;
                         this.setState({
                             triggeredMarks: this.getTriggeredMarks(marks,e.detail.value),
                             richElementState: Object.assign({}, richElementsState, new_mark)
@@ -132,8 +129,6 @@ export default class Visor extends Component {
         );
     }
 
-
-
     getLastCurrentViewElement(){
         return this.state.currentView[this.state.currentView.length - 1];
     }
@@ -159,6 +154,7 @@ export default class Visor extends Component {
         return exists;
     }
 
+    /*Check if status is PENDING and not TRIGGERED*/
     isTriggereableMark(mark, triggerable_marks){
         let isAnyTriggereableMark = false;
         triggerable_marks.forEach(triggereable_mark=>{
@@ -171,15 +167,16 @@ export default class Visor extends Component {
         return isAnyTriggereableMark;
     }
 
-    /*Cleans */
-    clearTriggeredValues(value, marks){
-        let cleared_marks = [];
-        marks.forEach(unclear_mark =>{
-           if(unclear_mark.value !== value && unclear_mark.currentStatus !== 'TRIGGERED'){
-               cleared_marks.push(unclear_mark);
-           }
+    /* Cleans */
+    clearTriggeredValues(value, marks, triggeredMarks){
+        // Clear TRIGGERED MARKS
+        let marks_to_be_cleared = [];
+        triggeredMarks.forEach(mark_to_check=>{
+            if(value.value !== mark_to_check.value && mark_to_check.current_state === 'TRIGGERED'){
+                marks_to_be_cleared.push(mark_to_check);
+            }
         });
-        this.setState({triggeredMarks: cleared_marks});
+
     }
 
     getTriggeredMarks(marks,mark_value){
@@ -197,15 +194,15 @@ export default class Visor extends Component {
                 }
             });
         }else{
-            marks.forEach(mark_element=>{
-                if(mark_element.value === mark_value){
-                    state_marks.push({
-                        currentState:"TRIGGERED",
-                        id: mark_element.id,
-                        value: mark_element.value,
-                        connection:mark_element.connection
-                    });
-                }
+            //return only triggered MARKS
+            console.log("triggered_marks");
+            previously_triggered_marks.forEach(triggered_mark=>{
+                console.log(triggered_mark);
+            });
+
+            console.log("all_marks");
+            marks.forEach(triggered_mark=>{
+                console.log(triggered_mark);
             });
         }
 
