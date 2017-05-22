@@ -25,6 +25,7 @@ import PluginRibbon from '../components/nav_bar/plugin_ribbon/PluginRibbon';
 import DaliNavBar from '../components/nav_bar/dali_nav_bar/DaliNavBar';
 import ServerFeedback from '../components/server_feedback/ServerFeedback';
 import RichMarksModal from '../components/rich_plugins/rich_marks_modal/RichMarksModal';
+import AutoSave from '../components/autosave/AutoSave';
 import Dali from './../core/main';
 import {isSortableBox, isSection, isSortableContainer} from './../utils';
 
@@ -53,11 +54,14 @@ class DaliApp extends Component {
     render() {
         const { dispatch, boxes, boxesIds, boxSelected, boxLevelSelected, navItemsIds, navItems, navItemSelected,
             containedViews, containedViewSelected, imagesUploaded,
-            undoDisabled, redoDisabled, displayMode, isBusy, toolbars, title, fetchVishResults, titlesDisplay } = this.props;
+            undoDisabled, redoDisabled, displayMode, isBusy, toolbars, title, fetchVishResults } = this.props;
         let ribbonHeight = this.state.hideTab === 'hide' ? 0 : 47;
         return (
             /* jshint ignore:start */
+
+
             <Grid id="app" fluid={true} style={{height: '100%'}}>
+
                 <Row className="navBar">
                     <DaliNavBar hideTab={this.state.hideTab}
                                 undoDisabled={undoDisabled}
@@ -78,6 +82,9 @@ class DaliApp extends Component {
                                 serverModalOpen={()=>{this.setState({serverModal: true })}}
                                 onVishCatalogToggled={() => this.setState({catalogModal: true})}
                                 setcat={(categoria) => {this.setState({ pluginTab: categoria, hideTab:'show' })}}/>
+                    <AutoSave save={() => {this.dispatchAndSetState(exportStateAsync({present: this.props.store.getState().present}))}}
+                              serverModalOpen={()=>{this.setState({serverModal: true })}}
+                              isBusy={isBusy}/>
                 </Row>
                 <Row style={{height: 'calc(100% - 60px)'}}>
                     <DaliCarousel boxes={boxes}
@@ -205,6 +212,7 @@ class DaliApp extends Component {
                        onVisibilityToggled={()=> this.setState({visorVisible: !this.state.visorVisible })}
                        state={this.props.store.getState().present}/>
                 <PluginConfigModal />
+
                 <XMLConfigModal id={boxSelected}
                                 toolbar={toolbars[boxSelected]}
                                 visible={this.state.xmlEditorVisible}

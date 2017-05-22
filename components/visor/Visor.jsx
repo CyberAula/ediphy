@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 import {Modal} from 'react-bootstrap';
 import i18n from 'i18next';
 
+require('./_visor.scss');
+
 export default class Visor extends Component {
    shouldComponentUpdate(nextProps, nextState) {
         return this.props.visorVisible || nextProps.visorVisible;
@@ -30,7 +32,7 @@ export default class Visor extends Component {
                     <Modal.Title><span id="previewTitle">{i18n.t('Preview')}</span></Modal.Title>
                 </Modal.Header>
 
-                <Modal.Body style={{position: 'absolute', top: '56px', padding: 0, bottom: 0, width: '100%', minHeight:'500px', backgroundColor: 'white'}}>
+                <Modal.Body style={{position: 'absolute', top: '45px', padding: 0, bottom: 0, width: '100%', minHeight:'500px', backgroundColor: 'white'}}>
                     <iframe ref={el => {
                         if(el !== null && this.props.visorVisible){
                             el.contentWindow.document.open();

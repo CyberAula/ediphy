@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
-import {Button} from 'react-bootstrap';
+import {Button, OverlayTrigger, Popover, Tooltip} from 'react-bootstrap';
 import interact from 'interact.js';
 import DaliBox from '../dali_box/DaliBox';
 import {ID_PREFIX_SORTABLE_CONTAINER} from '../../../constants';
@@ -97,12 +97,42 @@ export default class DaliBoxSortable extends Component {
 
                             <div className="sortableMenu width100 over_hidden">
                                 <div className="iconsOverBar float_left pos_absolute bottom0">
-                                    <i className="material-icons drag-handle btnOverBar">swap_vert</i>
-                                    <i className="material-icons delete-sortable btnOverBar"
-                                       onClick={e => {
-                                            this.props.onSortableContainerDeleted(idContainer, box.id);
-                                            e.stopPropagation();
-                                       }}>delete</i>
+                                    <OverlayTrigger placement="top" overlay={
+                                        <Tooltip id="deleteTooltip">{i18n.t('Reorder')}
+                                        </Tooltip>}>
+                                        <i className="material-icons drag-handle btnOverBar">swap_vert</i>
+                                    </OverlayTrigger>
+
+                                    <OverlayTrigger trigger={["focus"]} placement="top" overlay={
+                                        <Popover id="popov" title={i18n.t("delete_container")}>
+                                            <i style={{color: 'yellow', fontSize: '13px', padding: '0 5px'}} className="material-icons">warning</i>
+                                            {
+                                                i18n.t("messages.delete_container")
+                                            }
+                                            <br/>
+                                            <br/>
+                                            <Button className="popoverButton"
+                                                    style={{float: 'right'}}
+                                                    onClick={e => {
+                                                        this.props.onSortableContainerDeleted(idContainer, box.id);
+                                                        e.stopPropagation();
+                                                    }}>
+                                                {i18n.t("Accept")}
+                                            </Button>
+                                            <Button className="popoverButton"
+                                                    style={{float: 'right'}}  >
+                                                {i18n.t("Cancel")}
+                                            </Button>
+                                        </Popover>}>
+                                        <OverlayTrigger placement="top" overlay={
+                                            <Tooltip id="deleteTooltip">{i18n.t('delete')}
+                                            </Tooltip>}>
+                                            <Button className="material-icons delete-sortable btnOverBar">delete</Button>
+                                        </OverlayTrigger>
+                                    </OverlayTrigger>
+
+
+
                                 </div>
 
 
