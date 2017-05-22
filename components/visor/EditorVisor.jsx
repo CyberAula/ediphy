@@ -24,23 +24,37 @@ export default class Visor extends Component {
 
     componentDidMount(){
         //Get the event received check if exist and modify the state
-        // Add a queue of marks fired [{id: value, CurrentState: CLEAR, PENDING, DONE}] or array
+        // Add a queue of marks fired [{id: value, CurrentState: PENDING, TRIGGERED}] or array
         // Whenever the mark is ready trigger it
         let marks = this.getAllMarks();
         let richElementsState = this.state.richElementState;
+        // Marks Global Listener
         Dali.API_Private.listenEmission(Dali.API_Private.events.markTriggered, e=>{
+
+            //clearMark
+            if(!this.containsMarkValue(marks,e.detail.value) || !e.detail.stateElement){
+                this.clearTriggeredValues(e.detail.value, this.getTriggeredMarks(marks,e.detail.value) );
+            }
+
+            //markExists?
             if(this.containsMarkValue(marks,e.detail.value)){
-                if(e.detail.stateElement){ //checkIfTriggered
-                    let new_mark = {};
-                    new_mark[e.detail.id] = e.detail.value; //TODO: add this to state so it updates
-                    this.setState({
-                        triggeredMarks: this.getTriggeredMarks(marks,e.detail.value),
-                        richElementState: Object.assign({}, richElementsState, new_mark)
-                    });
-                }else{
-                    this.setState({triggeredMarks: this.getTriggeredMarks(marks,e.detail.value)});
+                let triggered_marks = this.getTriggeredMarks(marks,e.detail.value);
+                //can you Trigger it?
+                if(this.isTriggereableMark(e.detail.value,triggered_marks)){
+                    //Is Mark value storable?
+                    if(e.detail.stateElement){ //checkIfTriggered
+                        let new_mark = {};
+                        new_mark[e.detail.id] = e.detail.value; //TODO: add this to state so it updates
+                        this.setState({
+                            triggeredMarks: this.getTriggeredMarks(marks,e.detail.value),
+                            richElementState: Object.assign({}, richElementsState, new_mark)
+                        });
+                    }else{
+                        this.setState({triggeredMarks: this.getTriggeredMarks(marks,e.detail.value)});
+                    }
                 }
             }
+
         });
     }
 
@@ -145,18 +159,56 @@ export default class Visor extends Component {
         return exists;
     }
 
+    isTriggereableMark(mark, triggerable_marks){
+        let isAnyTriggereableMark = false;
+        triggerable_marks.forEach(triggereable_mark=>{
+           if (triggereable_mark.currentState === 'PENDING' && triggereable_mark.value === mark){
+               if(!isAnyTriggereableMark){
+                    isAnyTriggereableMark = triggereable_mark;
+               }
+           }
+        });
+        return isAnyTriggereableMark;
+    }
+
+    /*Cleans */
+    clearTriggeredValues(value, marks){
+        let cleared_marks = [];
+        marks.forEach(unclear_mark =>{
+           if(unclear_mark.value !== value && unclear_mark.currentStatus !== 'TRIGGERED'){
+               cleared_marks.push(unclear_mark);
+           }
+        });
+        this.setState({triggeredMarks: cleared_marks});
+    }
+
     getTriggeredMarks(marks,mark_value){
         let state_marks = [];
-        marks.forEach(mark_element=>{
-            if(mark_element.value === mark_value){
-                state_marks.push({
-                    currentState:"PENDING",
-                    id: mark_element.id,
-                    value: mark_element.value,
-                    connection:mark_element.connection
-                });
-            }
-        });
+        let previously_triggered_marks = this.state.triggeredMarks;
+        if(previously_triggered_marks.length === 0){
+            marks.forEach(mark_element=>{
+                if(mark_element.value === mark_value){
+                    state_marks.push({
+                        currentState:"PENDING",
+                        id: mark_element.id,
+                        value: mark_element.value,
+                        connection:mark_element.connection
+                    });
+                }
+            });
+        }else{
+            marks.forEach(mark_element=>{
+                if(mark_element.value === mark_value){
+                    state_marks.push({
+                        currentState:"TRIGGERED",
+                        id: mark_element.id,
+                        value: mark_element.value,
+                        connection:mark_element.connection
+                    });
+                }
+            });
+        }
+
         return state_marks;
     }
 
