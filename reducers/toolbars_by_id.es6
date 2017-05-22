@@ -153,6 +153,7 @@ function createSizeButtons(controls, state, action, floatingBox) {
                 }
             }
         }
+
     } else {
         let width = state.controls.main.accordions.__sortable.buttons.__width;
         displayValue = width.displayValue;
@@ -171,16 +172,23 @@ function createSizeButtons(controls, state, action, floatingBox) {
         autoManaged: true
     };
     if(state === null){
-        controls.main.accordions.__sortable.buttons.__height = {
-            __name: i18n.t('Height'),
-            type: 'text',
-            displayValue: 'auto',
-            value: 100,
-            step: 5,
-            units: floatingBox ? "px" : "%",
-            auto: true,
-            autoManaged: true
-        };
+      let initialHeight = action.payload.initialParams.height;
+      if (initialHeight) {
+          if (initialHeight === "auto") {
+              displayValue = "auto";
+              units = "%";
+              type = "text";
+          } else {
+              displayValue = parseInt(initialHeight, 10);
+              value = parseInt(initialHeight, 10);
+              if (initialHeight.indexOf("px") !== -1) {
+                  units = "px";
+              }else{
+                  units = "%";
+              }
+          }
+      }
+
     }else {
         let height = state.controls.main.accordions.__sortable.buttons.__height;
         controls.main.accordions.__sortable.buttons.__height = {
@@ -194,6 +202,16 @@ function createSizeButtons(controls, state, action, floatingBox) {
             autoManaged: true
         };
     }
+    controls.main.accordions.__sortable.buttons.__height = {
+        __name: i18n.t('Height'),
+        type: type,
+        displayValue: displayValue,
+        value: value,
+        step: 5,
+        units: units,
+        auto: displayValue === "auto",
+        autoManaged: true
+    };
 
     //This will be commented until it's working correctly
     /*
