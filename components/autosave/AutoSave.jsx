@@ -24,9 +24,7 @@ export default class AutoSave extends Component {
             setTimeout(() => {
                 this.setState({displaySave: false});
             }, 2000);
-
         }
-
     }
 
     timer() {
