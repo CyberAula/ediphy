@@ -187,6 +187,11 @@ function createSizeButtons(controls, state, action, floatingBox) {
                   units = "%";
               }
           }
+      }else{
+          value = "auto";
+          displayValue = "auto";
+          units = "%";
+          type = "text";
       }
 
     }else {
