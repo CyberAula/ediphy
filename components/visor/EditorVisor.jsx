@@ -26,28 +26,30 @@ export default class Visor extends Component {
         //Get the event received check if exist and modify the state
         // Add a queue of marks fired [{id: value, CurrentState: PENDING, TRIGGERED}] or array
         // Whenever the mark is ready trigger it
+
         let marks = this.getAllMarks();
         let richElementsState = this.state.richElementState;
 
         // Marks Global Listener
         Dali.API_Private.listenEmission(Dali.API_Private.events.markTriggered, e=>{
+            let triggered_event = e.detail;
             //clearMark | If actual Triggered Mark have passed e.detail.value and actual value is different or actual element doesn't need to clear the value
-            this.clearTriggeredValues(e.detail, marks, this.getTriggeredMarks(marks,e.detail.value));
+            //this.clearTriggeredValues(e.detail, marks, this.getTriggeredMarks(marks,e.detail.value));
 
             //Just try to trigger if mark exists
             if(this.containsMarkValue(marks,e.detail.value)){
                 //And is triggereable (not pending)
-                if(this.isTriggereableMark(e.detail.value,this.getTriggeredMarks(marks,e.detail.value))){
+                if(this.isTriggereableMark(triggered_event, this.getTriggeredMarks(marks,triggered_event))){
                     //If mark is storable (if make any sense to store to render something different like a video) do it else, don't
-                    if(e.detail.stateElement){
+                    if(triggered_event.stateElement){
                         let new_mark = {};
-                        new_mark[e.detail.id] = e.detail.value;
+                        new_mark[triggered_event.id] = triggered_event.value;
                         this.setState({
-                            triggeredMarks: this.getTriggeredMarks(marks,e.detail.value),
+                            triggeredMarks: this.getTriggeredMarks(marks,triggered_event),
                             richElementState: Object.assign({}, richElementsState, new_mark)
                         });
                     }else{
-                        this.setState({triggeredMarks: this.getTriggeredMarks(marks,e.detail.value)});
+                        this.setState({triggeredMarks: this.getTriggeredMarks(marks,triggered_event)});
                     }
                 }
             }
@@ -56,11 +58,13 @@ export default class Visor extends Component {
     }
 
     componentWillUpdate(nextProps, nextState){
-        if(nextState.triggeredMarks.length !== 0 && nextState.triggeredMarks[0].currentState === 'PENDING'){
-            let newMark = nextState.triggeredMarks.slice();
-            newMark[0].currentState = 'TRIGGERED';
+        if(nextState.triggeredMarks.length !== 0 && this.returnTriggereableMark(nextState.triggeredMarks)){
+            let newMark = this.returnTriggereableMark(nextState.triggeredMarks);
+            newMark.currentState = 'TRIGGERED';
+            let array_trigger_mark = nextState.currentView.concat([newMark.connection])
+            //TODO: Here
             this.setState({
-                currentView:  nextState.currentView.concat([nextState.triggeredMarks[0].connection]),
+                currentView: array_trigger_mark,
                 triggeredMarks: newMark
             });
         }
@@ -154,11 +158,21 @@ export default class Visor extends Component {
         return exists;
     }
 
+    returnTriggereableMark(triggeredMarks){
+        let isAnyTriggereableMark = false;
+        triggeredMarks.forEach(mark=>{
+            if(mark.currentState === 'PENDING' && !isAnyTriggereableMark){
+                isAnyTriggereableMark = mark;
+            }
+        });
+        return isAnyTriggereableMark;
+    }
+
     /*Check if status is PENDING and not TRIGGERED*/
     isTriggereableMark(mark, triggerable_marks){
         let isAnyTriggereableMark = false;
         triggerable_marks.forEach(triggereable_mark=>{
-           if (triggereable_mark.currentState === 'PENDING' && triggereable_mark.value === mark){
+           if (triggereable_mark.currentState === 'PENDING' && triggereable_mark.value === mark.value && triggereable_mark.box_id === mark.id){
                if(!isAnyTriggereableMark){
                     isAnyTriggereableMark = triggereable_mark;
                }
@@ -179,30 +193,45 @@ export default class Visor extends Component {
 
     }
 
-    getTriggeredMarks(marks,mark_value){
+    getTriggeredMarks(marks,triggered_event){
         let state_marks = [];
         let previously_triggered_marks = this.state.triggeredMarks;
         if(previously_triggered_marks.length === 0){
             marks.forEach(mark_element=>{
-                if(mark_element.value === mark_value){
+                if(mark_element.value === triggered_event.value && mark_element.box_id === triggered_event.id){
                     state_marks.push({
                         currentState:"PENDING",
                         id: mark_element.id,
                         value: mark_element.value,
-                        connection:mark_element.connection
+                        connection:mark_element.connection,
+                        box_id: mark_element.box_id
                     });
                 }
             });
         }else{
             //return only triggered MARKS
             console.log("triggered_marks");
-            previously_triggered_marks.forEach(triggered_mark=>{
-                console.log(triggered_mark);
-            });
+            state_marks = state_marks.concat(previously_triggered_marks);
 
             console.log("all_marks");
             marks.forEach(triggered_mark=>{
-                console.log(triggered_mark);
+                let is_different = true;
+                for(let n in state_marks){
+                    if(state_marks[n].value === triggered_mark.value && state_marks[n].id === triggered_event.box_id ){
+                        is_different = false;
+                    }
+                }
+
+                if(is_different && triggered_event.value === triggered_mark.value && triggered_event.box_id === triggered_mark.id){
+                    state_marks.push({
+                        currentState:"PENDING",
+                        id: triggered_mark.id,
+                        value: triggered_mark.value,
+                        connection:triggered_mark.connection,
+                        box_id: triggered_mark.box_id
+                    });
+                }
+
             });
         }
 
@@ -216,7 +245,9 @@ export default class Visor extends Component {
         let marks = [];
         boxes.forEach(box=>{
             Object.keys(Dali.State.toolbarsById[box].state.__marks).map(mark_element=>{
-                marks.push(Dali.State.toolbarsById[box].state.__marks[mark_element]);
+                let mark_box = Dali.State.toolbarsById[box].state.__marks[mark_element];
+                mark_box.box_id = box;
+                marks.push(mark_box);
             });
         });
         return marks;
