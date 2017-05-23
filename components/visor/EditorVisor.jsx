@@ -24,7 +24,7 @@ export default class Visor extends Component {
 
     componentDidMount(){
         //Get the event received check if exist and modify the state
-        // Add a queue of marks fired [{id: value, CurrentState: PENDING, TRIGGERED}] or array
+        // Add a queue of marks fired [{id: value, CurrentState: PENDING, TRIGGERED, DONE}] or array
         // Whenever the mark is ready trigger it
 
         let marks = this.getAllMarks();
@@ -57,12 +57,12 @@ export default class Visor extends Component {
         });
     }
 
-    componentWillUpdate(nextProps, nextState){
+    componentDidUpdate(nextProps, nextState){
         if(nextState.triggeredMarks.length !== 0 && this.returnTriggereableMark(nextState.triggeredMarks)){
-            let newMark = this.returnTriggereableMark(nextState.triggeredMarks);
+            let newMark = this.returnTriggereableMark(nextState.triggeredMarks); //TODO: pro aquí va algo mal
             newMark.currentState = 'TRIGGERED';
-            let array_trigger_mark = nextState.currentView.concat([newMark.connection])
-            //TODO: Here
+            let array_trigger_mark = nextState.currentView.concat([newMark.connection]);
+
             this.setState({
                 currentView: array_trigger_mark,
                 triggeredMarks: newMark
@@ -160,11 +160,13 @@ export default class Visor extends Component {
 
     returnTriggereableMark(triggeredMarks){
         let isAnyTriggereableMark = false;
-        triggeredMarks.forEach(mark=>{
-            if(mark.currentState === 'PENDING' && !isAnyTriggereableMark){
-                isAnyTriggereableMark = mark;
-            }
-        });
+        if( Array.isArray(triggeredMarks)){
+            triggeredMarks.forEach(mark=>{
+                if(mark.currentState === 'PENDING' && !isAnyTriggereableMark){
+                    isAnyTriggereableMark = mark;
+                }
+            });
+        }
         return isAnyTriggereableMark;
     }
 
