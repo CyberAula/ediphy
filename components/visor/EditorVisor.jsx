@@ -18,7 +18,8 @@ export default class Visor extends Component {
         this.state = {
             currentView: [this.getCurrentView(Dali.State.navItemSelected, Dali.State.containedViewSelected)],  /*This is the actual view rendering*/
             triggeredMarks: [],
-            richElementState: {}
+            richElementState: {},
+            backupElementStates: {}
         };
     }
 
@@ -33,7 +34,6 @@ export default class Visor extends Component {
 
         // Marks Global Listener
         Dali.API_Private.listenEmission(Dali.API_Private.events.markTriggered, e=>{
-
 
             let triggered_event = e.detail;
             let triggered_marks = this.getTriggeredMarks(marks,triggered_event);
@@ -65,36 +65,21 @@ export default class Visor extends Component {
 
                     }
                 }
-            }
-
-            /*TODO: Fix other timestamps when serveral videos are in the same situation and marks have been triggeredelse {
+            } else {
                 if(triggered_event.stateElement){
-                    let new_position = {};
-                    new_position[triggered_event.id] = triggered_event.value;
-
+                    let backupElementStates = this.state.backupElementStates;
+                    let new_mark = {};
+                    new_mark[triggered_event.id] = triggered_event.value;
                     this.setState({
-                        richElementState: Object.assign({}, richElementsState, new_position)
+                        backupElementStates: Object.assign({}, backupElementStates, new_mark)
                     });
                 }
-            }*/
+            }
 
         });
     }
 
     componentWillUpdate(nextProps, nextState){
-
-        /* CLEAN STATIC ELEMENTS */
-        /*if(nextState.triggeredMarks.length !== 0){
-            let cleaned_marks = [];
-            nextState.triggeredMarks.forEach(mark=>{
-                if(mark.currentState !== "DONE" && nextState.richElementState[mark.box_id] !== undefined){
-                    cleaned_marks.push(mark);
-                }
-            });
-            if(cleaned_marks.length !== nextState.triggeredMarks.length){
-                this.setState({triggeredMarks: cleaned_marks});
-            }
-        }*/
 
         if(nextState.triggeredMarks.length !== 0 && this.returnTriggereableMark(nextState.triggeredMarks)){
             let newMark = this.returnTriggereableMark(nextState.triggeredMarks);
@@ -149,7 +134,8 @@ export default class Visor extends Component {
                                 removeLastView={()=>{
                                     this.setState({
                                         currentView: this.state.currentView.slice(0,-1),
-                                        triggeredMarks: this.unTriggerLastMark(this.state.triggeredMarks)
+                                        triggeredMarks: this.unTriggerLastMark(this.state.triggeredMarks),
+                                        richElementState: this.getActualBoxesStates(backupElementStates,richElementState)
                                     })
                                 }}
                                 richElementsState={this.state.richElementState}
@@ -171,7 +157,8 @@ export default class Visor extends Component {
                                 removeLastView={()=>{
                                    this.setState({
                                        currentView: this.state.currentView.slice(0,-1),
-                                       triggeredMarks: this.unTriggerLastMark(this.state.triggeredMarks)
+                                       triggeredMarks: this.unTriggerLastMark(this.state.triggeredMarks),
+                                       richElementState: this.getActualBoxesStates(backupElementStates,richElementState)
                                    })
                                 }}
                                 richElementsState={this.state.richElementState}
@@ -381,6 +368,10 @@ export default class Visor extends Component {
             }
         });
         return richBoxes;
+    }
+
+    getActualBoxesStates(backup, current){
+        
     }
     /*Marks functions*/
 }
