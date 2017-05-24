@@ -33,23 +33,25 @@ export default class Visor extends Component {
         // Marks Global Listener
         Dali.API_Private.listenEmission(Dali.API_Private.events.markTriggered, e=>{
             let triggered_event = e.detail;
+            let triggered_marks = this.getTriggeredMarks(marks,triggered_event);
             //clearMark | If actual Triggered Mark have passed e.detail.value and actual value is different or actual element doesn't need to clear the value
-            //this.clearTriggeredValues(e.detail, marks, this.getTriggeredMarks(marks,e.detail.value));
+            this.clearTriggeredValues(triggered_event, triggered_marks);
 
             //Just try to trigger if mark exists
-            if(this.containsMarkValue(marks,e.detail.value)){
+            if(this.containsMarkValue(marks,triggered_event.value)){
                 //And is triggereable (not pending)
-                if(this.isTriggereableMark(triggered_event, this.getTriggeredMarks(marks,triggered_event))){
+
+                if(this.isTriggereableMark(triggered_event, triggered_marks)){
                     //If mark is storable (if make any sense to store to render something different like a video) do it else, don't
                     if(triggered_event.stateElement){
                         let new_mark = {};
                         new_mark[triggered_event.id] = triggered_event.value;
                         this.setState({
-                            triggeredMarks: this.getTriggeredMarks(marks,triggered_event),
+                            triggeredMarks: triggered_marks,
                             richElementState: Object.assign({}, richElementsState, new_mark)
                         });
                     }else{
-                        this.setState({triggeredMarks: this.getTriggeredMarks(marks,triggered_event)});
+                        this.setState({triggeredMarks: triggered_marks});
                     }
                 }
             }
@@ -59,13 +61,19 @@ export default class Visor extends Component {
 
     componentDidUpdate(nextProps, nextState){
         if(nextState.triggeredMarks.length !== 0 && this.returnTriggereableMark(nextState.triggeredMarks)){
-            let newMark = this.returnTriggereableMark(nextState.triggeredMarks); //TODO: pro aquí va algo mal
-            newMark.currentState = 'TRIGGERED';
-            let array_trigger_mark = nextState.currentView.concat([newMark.connection]);
+            let newMark = this.returnTriggereableMark(nextState.triggeredMarks);
 
+           nextState.triggeredMarks.forEach(mark=>{
+                if(newMark.id ===mark.id){
+                    mark.currentState = 'TRIGGERED';
+                }
+                return mark;
+            });
+
+            let array_trigger_mark = this.santinizeViewsArray(nextState.triggeredMarks, nextState.currentView.concat([newMark.connection]));
             this.setState({
                 currentView: array_trigger_mark,
-                triggeredMarks: newMark
+                triggeredMarks: nextState.triggeredMarks
             });
         }
     }
@@ -103,7 +111,10 @@ export default class Visor extends Component {
                                 triggeredMarks={this.state.triggeredMarks}
                                 showCanvas={this.getLastCurrentViewElement().indexOf("cv-") === -1}
                                 removeLastView={()=>{
-                                    this.setState({currentView: this.state.currentView.slice(0,-1)})
+                                    this.setState({
+                                        currentView: this.state.currentView.slice(0,-1),
+                                        triggeredMarks: this.unTriggerLastMark(this.state.triggeredMarks)
+                                    })
                                 }}
                                 richElementsState={this.state.richElementState}
                                 viewsArray={this.state.currentView}
@@ -122,7 +133,10 @@ export default class Visor extends Component {
                                 showCanvas={this.getLastCurrentViewElement().indexOf("cv-") !== -1}
                                 currentView={this.getLastCurrentViewElement()}
                                 removeLastView={()=>{
-                                   this.setState({currentView: this.state.currentView.slice(0,-1)})
+                                   this.setState({
+                                       currentView: this.state.currentView.slice(0,-1),
+                                       triggeredMarks: this.unTriggerLastMark(this.state.triggeredMarks)
+                                   })
                                 }}
                                 richElementsState={this.state.richElementState}
                                 viewsArray={this.state.currentView}
@@ -160,9 +174,13 @@ export default class Visor extends Component {
 
     returnTriggereableMark(triggeredMarks){
         let isAnyTriggereableMark = false;
+        let canBeTriggered = true;
         if( Array.isArray(triggeredMarks)){
             triggeredMarks.forEach(mark=>{
-                if(mark.currentState === 'PENDING' && !isAnyTriggereableMark){
+                if (mark.currentState === 'TRIGGERED'){
+                    canBeTriggered = false;
+                }
+                if(canBeTriggered && mark.currentState === 'PENDING' && !isAnyTriggereableMark){
                     isAnyTriggereableMark = mark;
                 }
             });
@@ -183,16 +201,56 @@ export default class Visor extends Component {
         return isAnyTriggereableMark;
     }
 
-    /* Cleans */
-    clearTriggeredValues(value, marks, triggeredMarks){
-        // Clear TRIGGERED MARKS
-        let marks_to_be_cleared = [];
-        triggeredMarks.forEach(mark_to_check=>{
-            if(value.value !== mark_to_check.value && mark_to_check.current_state === 'TRIGGERED'){
-                marks_to_be_cleared.push(mark_to_check);
+    unTriggerLastMark(state){
+        let new_array = state;
+        new_array.forEach(mark=>{
+            if(mark.currentState === 'TRIGGERED'){
+                mark.currentState = 'DONE';
             }
         });
+        return new_array;
+    }
 
+    santinizeViewsArray(triggeredMarks, arrayViews){
+        let final_array = arrayViews;
+
+        triggeredMarks.forEach(mark=>{
+           if(mark.currentState === "DONE" && final_array.indexOf(mark.connection) !== -1){
+               final_array.splice(final_array.indexOf(mark.connection),1);
+
+           }
+        });
+
+        return final_array;
+    }
+
+    /* Cleans */
+    clearTriggeredValues(triggered_event, triggeredMarks){
+        let clean_array = [];
+        console.log("event");
+        console.log(triggered_event);
+
+        if(triggeredMarks.length > 0){
+            if(!triggered_event.stateElement){
+                triggeredMarks.forEach(element=>{
+                   if(element.currentState !== 'DONE' || triggered_event.id !== element.box_id ){
+                       clean_array.push(element);
+                   }
+                });
+                if(clean_array.length !== triggeredMarks.length){
+                    this.setState({triggeredMarks: clean_array});
+                }
+            } else {
+                triggeredMarks.forEach(element =>{
+                    if(element.currentState !== "DONE" || element.value === triggered_event.value || element.box_id !== triggered_event.id ){
+                        clean_array.push(element);
+                    }
+                });
+                if(clean_array.length !== triggeredMarks.length){
+                    this.setState({triggeredMarks: clean_array});
+                }
+            }
+        }
     }
 
     getTriggeredMarks(marks,triggered_event){
