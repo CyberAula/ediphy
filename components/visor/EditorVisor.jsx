@@ -135,7 +135,7 @@ export default class Visor extends Component {
                                     this.setState({
                                         currentView: this.state.currentView.slice(0,-1),
                                         triggeredMarks: this.unTriggerLastMark(this.state.triggeredMarks),
-                                        richElementState: this.getActualBoxesStates(backupElementStates,richElementState)
+                                        richElementState: this.getActualBoxesStates(this.state.backupElementStates,this.state.richElementState)
                                     })
                                 }}
                                 richElementsState={this.state.richElementState}
@@ -158,7 +158,7 @@ export default class Visor extends Component {
                                    this.setState({
                                        currentView: this.state.currentView.slice(0,-1),
                                        triggeredMarks: this.unTriggerLastMark(this.state.triggeredMarks),
-                                       richElementState: this.getActualBoxesStates(backupElementStates,richElementState)
+                                       richElementState: this.getActualBoxesStates(this.state.backupElementStates,this.state.richElementState)
                                    })
                                 }}
                                 richElementsState={this.state.richElementState}
@@ -371,7 +371,7 @@ export default class Visor extends Component {
     }
 
     getActualBoxesStates(backup, current){
-        
+        return backup;
     }
     /*Marks functions*/
 }
