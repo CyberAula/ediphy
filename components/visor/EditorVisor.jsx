@@ -298,10 +298,8 @@ export default class Visor extends Component {
             });
         }else{
             //return only triggered MARKS
-            console.log("triggered_marks");
             state_marks = state_marks.concat(previously_triggered_marks);
-
-            console.log("all_marks");
+            
             marks.forEach(triggered_mark=>{
                 let is_different = true;
                 for(let n in state_marks){
@@ -371,7 +369,9 @@ export default class Visor extends Component {
     }
 
     getActualBoxesStates(backup, current){
-        return backup;
+        let nextState = backup;
+        nextState[this.state.triggeredMarks[0].box_id] = current[this.state.triggeredMarks[0].box_id];
+        return nextState;
     }
     /*Marks functions*/
 }
