@@ -147,6 +147,7 @@ class DaliApp extends Component {
                                           boxSelected={boxes[boxSelected]}
                                           undoDisabled={undoDisabled}
                                           redoDisabled={redoDisabled}
+                                          containedViewSelected={containedViewSelected}
                                           category={this.state.pluginTab}
                                           hideTab={this.state.hideTab}
                                           undo={() => {this.dispatchAndSetState(ActionCreators.undo())}}

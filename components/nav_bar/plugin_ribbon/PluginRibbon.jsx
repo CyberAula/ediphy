@@ -73,9 +73,164 @@ export default class PluginRibbon extends Component {
     }
 
     componentWillUpdate(nextProps,nextState){
-
         //unset interactable and put it back with autoscroll false
-        console.log(this.props.containedViewSelected);
+        if(this.props.containedViewSelected !== nextProps.containedViewSelected){
+            if(nextProps.containedViewSelected !== 0){
+                interact(".rib").unset();
+                interact(".rib")
+                    .draggable({
+                        inertia: true,
+                        autoScroll: {
+                            container: document.getElementById("containedCanvas"),
+                            margin: 50,
+                            speed: 400,
+                            distance: 0,
+                            interval: 0
+                        },
+                        onstart: function (event) {
+                            changeOverflow(true);
+                            let original = event.target;
+                            let parent = original.parentNode;
+                            let dw = original.offsetWidth;
+                            let clone = original.cloneNode(true),
+                                x = (parseFloat(original.getAttribute('data-x') - dw, 10) || 0),
+                                y = (parseFloat(original.getAttribute('data-y'), 10) || 0);
+                            clone.setAttribute("id", "clone");
+                            clone.setAttribute('data-x', x);
+                            clone.setAttribute('data-y', y);
+                            parent.appendChild(clone);
+                            // translate the element
+                            clone.style.webkitTransform =
+                                clone.style.transform =
+                                    'translate(' + (x) + 'px, ' + (y) + 'px)';
+                            clone.style.position = 'absolute';
+                        },
+                        onmove: (event) => {
+                            let target = document.getElementById('clone'),
+                                // keep the dragged position in the data-x/data-y attributes
+
+                                x = (parseFloat(target.getAttribute('data-x'), 10) || 0) + event.dx,
+                                y = (parseFloat(target.getAttribute('data-y'), 10) || 0) + event.dy;
+
+                            // translate the element
+                            target.style.webkitTransform =
+                                target.style.transform =
+                                    'translate(' + (x) + 'px, ' + (y) + 'px)';
+                            target.style.zIndex = '9999';
+
+                            target.classList.add('ribdrag');
+
+                            // update the position attributes
+                            target.setAttribute('data-x', x);
+                            target.setAttribute('data-y', y);
+
+                            //console.log(y);
+                        },
+                        onend: (event) => {
+                            changeOverflow(false);
+                            let original = event.target;
+                            let parent = original.parentNode;
+                            let dw = original.offsetWidth;
+                            let clone = document.getElementById('clone');
+
+
+                            var target = clone,
+                                x = 0,
+                                y = 0;
+                            target.style.webkitTransform =
+                                target.style.transform =
+                                    'translate(' + (x) + 'px, ' + y + 'px)';
+
+                            target.style.zIndex = '9999';
+                            target.style.position = 'relative';
+                            target.classList.remove('ribdrag');
+
+                            target.setAttribute('data-x', x);
+                            target.setAttribute('data-y', y);
+
+                            parent.removeChild(clone);
+                            event.stopPropagation();
+                        }
+                    });
+            } else {
+                interact(".rib").unset();
+                interact(".rib")
+                    .draggable({
+                        inertia: true,
+                        autoScroll: {
+                            container: document.getElementById("canvas"),
+                            margin: 50,
+                            speed: 400,
+                            distance: 0,
+                            interval: 0
+                        },
+                        onstart: function (event) {
+                            changeOverflow(true);
+                            let original = event.target;
+                            let parent = original.parentNode;
+                            let dw = original.offsetWidth;
+                            let clone = original.cloneNode(true),
+                                x = (parseFloat(original.getAttribute('data-x') - dw, 10) || 0),
+                                y = (parseFloat(original.getAttribute('data-y'), 10) || 0);
+                            clone.setAttribute("id", "clone");
+                            clone.setAttribute('data-x', x);
+                            clone.setAttribute('data-y', y);
+                            parent.appendChild(clone);
+                            // translate the element
+                            clone.style.webkitTransform =
+                                clone.style.transform =
+                                    'translate(' + (x) + 'px, ' + (y) + 'px)';
+                            clone.style.position = 'absolute';
+                        },
+                        onmove: (event) => {
+                            let target = document.getElementById('clone'),
+                                // keep the dragged position in the data-x/data-y attributes
+
+                                x = (parseFloat(target.getAttribute('data-x'), 10) || 0) + event.dx,
+                                y = (parseFloat(target.getAttribute('data-y'), 10) || 0) + event.dy;
+
+                            // translate the element
+                            target.style.webkitTransform =
+                                target.style.transform =
+                                    'translate(' + (x) + 'px, ' + (y) + 'px)';
+                            target.style.zIndex = '9999';
+
+                            target.classList.add('ribdrag');
+
+                            // update the position attributes
+                            target.setAttribute('data-x', x);
+                            target.setAttribute('data-y', y);
+
+                            //console.log(y);
+                        },
+                        onend: (event) => {
+                            changeOverflow(false);
+                            let original = event.target;
+                            let parent = original.parentNode;
+                            let dw = original.offsetWidth;
+                            let clone = document.getElementById('clone');
+
+
+                            var target = clone,
+                                x = 0,
+                                y = 0;
+                            target.style.webkitTransform =
+                                target.style.transform =
+                                    'translate(' + (x) + 'px, ' + y + 'px)';
+
+                            target.style.zIndex = '9999';
+                            target.style.position = 'relative';
+                            target.classList.remove('ribdrag');
+
+                            target.setAttribute('data-x', x);
+                            target.setAttribute('data-y', y);
+
+                            parent.removeChild(clone);
+                            event.stopPropagation();
+                        }
+                    });
+            }
+        }
     }
 
     componentDidMount() {
