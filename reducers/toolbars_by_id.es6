@@ -1,4 +1,4 @@
-import {ADD_BOX, ADD_RICH_MARK, CHANGE_NAV_ITEM_NAME, DELETE_BOX, ADD_NAV_ITEM, DELETE_NAV_ITEM, DELETE_SORTABLE_CONTAINER, DUPLICATE_BOX,
+import {ADD_BOX, ADD_RICH_MARK, CHANGE_NAV_ITEM_NAME, DELETE_BOX,DELETE_CONTAINED_VIEWS, ADD_NAV_ITEM, DELETE_NAV_ITEM, DELETE_SORTABLE_CONTAINER, DUPLICATE_BOX,
     EDIT_RICH_MARK, RESIZE_BOX, RESIZE_SORTABLE_CONTAINER, TOGGLE_TEXT_EDITOR, UPDATE_BOX, UPDATE_TOOLBAR,
     VERTICALLY_ALIGN_BOX, IMPORT_STATE} from './../actions';
 import Utils, {changeProp, changeProps, deleteProps, isSortableBox, isSortableContainer, isPage, isSection, isSlide} from './../utils';
@@ -546,13 +546,14 @@ export default function (state = {}, action = {}) {
             return changeProp(state, action.payload.id, toolbarSectionCreator(state, action));
         case ADD_RICH_MARK:
             return changeProp(state, action.payload.parent, toolbarReducer(state[action.payload.parent], action));
-
         case CHANGE_NAV_ITEM_NAME:
             return changeProp(state, action.payload.id, toolbarReducer(state[action.payload.id], action));
             //return state;
         case DELETE_BOX:
             let children = action.payload.children ? action.payload.children : [];
             return deleteProps(state, children.concat(action.payload.id));
+        case DELETE_CONTAINED_VIEWS:
+            return 0;
         case DELETE_NAV_ITEM:
             let boxes = action.payload.boxes ? action.payload.boxes : [];
             return deleteProps(state, boxes.concat(action.payload.id));

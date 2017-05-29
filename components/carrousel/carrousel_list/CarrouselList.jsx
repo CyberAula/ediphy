@@ -183,18 +183,32 @@ export default class CarrouselList extends Component {
                     </OverlayTrigger>
                      */}
                     <OverlayTrigger trigger={["focus"]} placement="top" overlay={
-                        <Popover id="popov" title={isSection(this.props.navItemSelected) ? i18n.t("delete_section") : i18n.t("delete_page")}>
+                        <Popover id="popov" title={this.props.containedViewSelected !== 0 ?
+                                                                                        i18n.t('messages.delete_contained_canvas'):
+                                                   isSection(this.props.navItemSelected) ?
+                                                                                        i18n.t("delete_section") :
+                                                                                        i18n.t("delete_page")}>
                             <i style={{color: 'yellow', fontSize: '13px', padding: '0 5px'}} className="material-icons">warning</i>
-                            {isSection(this.props.navItemSelected) ?
-                                i18n.t("messages.delete_section") :
-                                i18n.t("messages.delete_page")
+                            {   this.props.containedViewSelected ?
+                                                                    i18n.t('messages.delete_contained_canvas'):
+                                isSection(this.props.navItemSelected) ?
+                                                                        i18n.t("messages.delete_section") :
+                                                                        i18n.t("messages.delete_page")
                             }
                             <br/>
                             <br/>
                             <Button className="popoverButton"
                                     disabled={this.props.navItemSelected === 0}
                                     style={{float: 'right'}}
-                                    onClick={(e) => this.props.onNavItemDeleted()}>
+                                    onClick={(e) =>
+                                        {
+                                            if(this.props.containedViewSelected !== 0){
+                                                this.props.containedViewDeleted();
+                                            }else{
+                                                this.props.onNavItemDeleted()
+                                            }
+                                        }
+                                    }>
                                 {i18n.t("Accept")}
                             </Button>
                             <Button className="popoverButton"

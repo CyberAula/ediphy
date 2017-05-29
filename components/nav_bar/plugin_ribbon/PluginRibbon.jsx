@@ -73,7 +73,7 @@ export default class PluginRibbon extends Component {
     }
 
     componentWillUpdate(nextProps,nextState){
-        //unset interactable and put it back with autoscroll false
+        //unset interactable and put it back with autoscroll false this is mandatory when changing between containecanvas and canvas
         if(this.props.containedViewSelected !== nextProps.containedViewSelected){
             if(nextProps.containedViewSelected !== 0){
                 interact(".rib").unset();

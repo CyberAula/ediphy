@@ -10,7 +10,7 @@ import {addNavItem, selectNavItem, expandNavItem, deleteNavItem, reorderNavItem,
     changeDisplayMode, expandContainedViewList, updateToolbar,
     exportStateAsync, importStateAsync,
     fetchVishResourcesSuccess, fetchVishResourcesAsync, uploadVishResourceAsync,
-    selectContainedView,
+    deleteContainedView, selectContainedView,
     ADD_BOX, ADD_RICH_MARK, addRichMark, EDIT_RICH_MARK, editRichMark, EDIT_PLUGIN_TEXT, DELETE_RICH_MARK, UPDATE_BOX, UPDATE_TOOLBAR} from '../actions';
 import {ID_PREFIX_BOX, ID_PREFIX_SORTABLE_CONTAINER} from '../constants';
 import DaliCanvas from '../components/canvas/dali_canvas/DaliCanvas';
@@ -97,6 +97,14 @@ class DaliApp extends Component {
                                   displayMode={displayMode}
                                   onBoxAdded={(ids, draggable, resizable, content, toolbar, config, state) => this.dispatchAndSetState(addBox(ids, draggable, resizable, content, toolbar, config, state))}
                                   onContainedViewSelected={ (id) => this.dispatchAndSetState(selectContainedView(id)) }
+                                  onContainedViewDeleted={()=>{
+                                      let boxesRemoving = [];
+                                      containedViews[containedViewSelected].boxes.map(boxId => {
+                                          boxesRemoving.push(boxId);
+                                          boxesRemoving = boxesRemoving.concat(this.getDescendantBoxes(boxes[boxId]));
+                                      });
+                                      this.dispatchAndSetState(deleteContainedView([containedViewSelected], boxesRemoving));
+                                  }}
                                   onNavItemNameChanged={(id, title) => this.dispatchAndSetState(changeNavItemName(id,title))}
                                   onNavItemAdded={(id, name, parent, type, position) => this.dispatchAndSetState(addNavItem(id, name, parent, type, position))}
                                   onNavItemSelected={id => this.dispatchAndSetState(selectNavItem(id))}
