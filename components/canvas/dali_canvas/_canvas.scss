@@ -1,12 +1,21 @@
 @import "../../../sass/general/_variables.scss";
 
+
+#canvas {
+  height: 100%;
+  overflow-y: auto;
+  padding: 10px 8px 8px 8px;
+  width: calc(100% - 40px);
+  background-color: #555;
+}
+
 .scrollcontainer, .outter{
   width: 100%;
   height: 100%;
 }
 
 .scrollcontainer{
-   display: table;
+  display: table;
 }
 
 .outter {
@@ -32,17 +41,30 @@
   overflow: hidden;
 }
 .sli {
-
   position: absolute;
   top: 0; bottom: 0; left: 0; right: 0;
-
-  color: white;
-  font-size: 24px;
   text-align: center;
 }
 
 .doc{
   position: relative;
+}
+
+.slide_air{
+  width: 100%;
+  padding-bottom: 51.25%; /* 16:9 */
+  background-color: white;
+  position: relative;
+}
+.doc_air{
+  height: 100%;
+  overflow: hidden;
+  z-index: 0;
+  visibility: visible;
+  background-color: white;
+  margin: 0px;
+  position: relative;
+  padding: 0 20px;
 }
 
 .buttonTitle {
@@ -77,37 +99,7 @@
   }
 }
 
-#canvas {
-  height: 100%;
-  overflow-y: auto;
-  padding: 10px 8px 8px 8px;
-  width: calc(100% - 40px);
-  background-color: #555;
-}
 
 
-
-.doc_air{
-  height: 100%;
-  overflow: hidden;
-}
-
-.slide_air{
-  width: 100%;
-  padding-bottom: 51.25%; /* 16:9 */
-  position: relative;
-}
-.doc_air{
-    z-index: 0;
-    visibility: visible;
-    background-color: white;
-    margin: 0px;
-    position: relative;
-    padding: 0 20px;
-}
-
-.slide_air{
-    background-color: white;
-}
 
 .drag-handle{}
