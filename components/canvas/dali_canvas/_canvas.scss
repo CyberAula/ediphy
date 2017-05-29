@@ -73,12 +73,24 @@
 }
 
 #maincontent {
-  position: relative;
+  //position: relative;
+  position: absolute;
+  top: 0; bottom: 0; left: 0; right: 0;
+
+  color: white;
+  font-size: 24px;
+  text-align: center;
 }
 
-.doc_air, .slide_air{
+.doc_air{
   height: 100%;
   overflow: hidden;
+}
+
+.slide_air{
+  width: 100%;
+  padding-bottom: 51.25%; /* 16:9 */
+  position: relative;
 }
 .doc_air{
     z-index: 0;
