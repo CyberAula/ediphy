@@ -299,7 +299,7 @@ export default class Visor extends Component {
         }else{
             //return only triggered MARKS
             state_marks = state_marks.concat(previously_triggered_marks);
-            
+
             marks.forEach(triggered_mark=>{
                 let is_different = true;
                 for(let n in state_marks){

@@ -60,7 +60,7 @@ export default class PluginRibbon extends Component {
         );
     }
     handleScroll(e) {
-        var element = document.getElementById("canvas");
+        var element = this.props.containedViewSelected !== 0 ? document.getElementById("containedCanvas") : document.getElementById("canvas");
         if (e.deltaY > 0){ //scroll-down
           element.scrollTop = element.scrollTop + 20;
         }else{ //scroll-up
@@ -71,6 +71,13 @@ export default class PluginRibbon extends Component {
           const holder = ReactDOM.findDOMNode(this.refs.holder);
           holder.removeEventListener('mousewheel', this.handleScroll);
     }
+
+    componentWillUpdate(nextProps,nextState){
+
+        //unset interactable and put it back with autoscroll false
+        console.log(this.props.containedViewSelected);
+    }
+
     componentDidMount() {
         Dali.API_Private.listenEmission(Dali.API_Private.events.addMenuButtons, e => {
             this.setState({buttons: this.state.buttons.concat(e.detail)});
@@ -84,7 +91,7 @@ export default class PluginRibbon extends Component {
             .draggable({
                 inertia: true,
                 autoScroll: {
-                  container: document.getElementById('canvas'),
+                  container: document.getElementById("canvas"),
                   margin: 50,
                     speed: 400,
                   distance: 0,
