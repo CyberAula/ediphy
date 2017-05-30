@@ -203,7 +203,7 @@ export default class CarrouselList extends Component {
                                     onClick={(e) =>
                                         {
                                             if(this.props.containedViewSelected !== 0){
-                                                this.props.containedViewDeleted();
+                                                this.props.onContainedViewDeleted();
                                             }else{
                                                 this.props.onNavItemDeleted()
                                             }

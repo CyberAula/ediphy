@@ -1,4 +1,4 @@
-import {ADD_BOX, ADD_CONTAINED_VIEW, ADD_RICH_MARK, DELETE_BOX,DELETE_CONTAINED_VIEWS, DELETE_NAV_ITEM, DELETE_SORTABLE_CONTAINER, IMPORT_STATE} from './../actions';
+import {ADD_BOX, ADD_CONTAINED_VIEW, ADD_RICH_MARK, DELETE_BOX,DELETE_CONTAINED_VIEW, DELETE_NAV_ITEM, DELETE_SORTABLE_CONTAINER, IMPORT_STATE} from './../actions';
 import {changeProp, deleteProps, isContainedView} from './../utils';
 
 function singleContainedViewReducer(state = {}, action = {}) {
@@ -38,8 +38,8 @@ export default function (state = {}, action = {}) {
                     singleContainedViewReducer(stateWithViewsDeleted[action.payload.container], action));
             }
             return stateWithViewsDeleted;
-        case DELETE_CONTAINED_VIEWS:
-
+        case DELETE_CONTAINED_VIEW:
+            return deleteProps(state, action.payload.ids);
         case DELETE_NAV_ITEM:
             return deleteProps(state, action.payload.containedViews);
         case DELETE_SORTABLE_CONTAINER:
