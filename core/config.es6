@@ -11,7 +11,7 @@ export default {
     search_vish_url: "http://vishub.org/apis/search/",
     show_numbers_before_navitems: false,
     sections_have_content: false,
-    autosave_time: 30000,
+    autosave_time: 100000,
     upload_vish_url: "http://127.0.0.1:8081/upload",
     pluginList: [
         'BasicImage',

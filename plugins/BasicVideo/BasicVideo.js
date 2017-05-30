@@ -5,6 +5,7 @@ export function BasicVideo(base) {
                 name: 'BasicVideo',
                 displayName: Dali.i18n.t('BasicVideo.PluginName'),
                 category: 'multimedia',
+                initialWidth: '350px',
                 aspectRatioButtonConfig: {
                     location: ["main", "__sortable"],
                     defaultValue: true
