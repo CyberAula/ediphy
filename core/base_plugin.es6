@@ -139,6 +139,9 @@ export default function () {
                     if(!state.__marks){
                         state.__marks = {};
                     }
+                    if( descendant.getRichMarkInput){
+                        state.getRichMarkInput = descendant.getRichMarkInput();
+                    }
                 }
                 initialParams = initParams;
                 if(descendant.getConfig().initialWidth){

@@ -87,6 +87,11 @@ export function HotspotImages(base) {
                 }
             };
         },
+        getRichMarkInput:function(){
+            /* jshint ignore:start */
+            return (<div className="cosas">sadfsadfsad<input usingInput className="jalapenos"></input></div>);
+            /* jshint ignore:end */
+        },
         getInitialState: function () {
             return {
                 url: 'http://nemanjakovacevic.net/wp-content/uploads/2013/07/placeholder.png'

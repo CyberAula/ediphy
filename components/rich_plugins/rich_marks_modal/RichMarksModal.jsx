@@ -11,8 +11,7 @@ export default class RichMarksModal extends Component {
             connectMode: "new",
             displayMode: "navigate",
             newSelected: PAGE_TYPES.SLIDE,
-            existingSelected: "",
-            actualMarkType: "value"
+            existingSelected: ""
         };
     }
 
@@ -130,24 +129,13 @@ export default class RichMarksModal extends Component {
                                    }}>Open in new tab</Radio>
                         </FormGroup>
                         <FormGroup>
-                            {(this.props.pluginToolbar &&  this.props.pluginToolbar.config.marksType && this.props.pluginToolbar.config.marksType.length > 1) &&
-                            <ControlLabel>Type of Value</ControlLabel>}
-                            {(this.props.pluginToolbar && this.props.pluginToolbar.config.marksType && this.props.pluginToolbar.config.marksType.length > 1 ) &&
-                                this.props.pluginToolbar.config.marksType.map((e) =>{
-                                let radio_key = e.key;
-                                return (<Radio name="type_mark"
-                                               key ={radio_key}
-                                               checked={this.state.actualMarkType === radio_key}
-                                               onChange={e => {
-                                                   this.setState({actualMarkType: radio_key})}}
-                                        >{e.name}</Radio>)
-                                 })
-                            }
-
+                            /*Input need to have certain label like richValue*/
                             <ControlLabel>Value</ControlLabel>
-                                <FormControl ref="value"
+                            {(this.props.pluginToolbar && this.props.pluginToolbar.state.getRichMarkInput) ? this.props.pluginToolbar.state.getRichMarkInput:
+                                <FormControl
+                                    richValue
                                          type={this.state.actualMarkType}
-                                         defaultValue={current ? current.value : ""}/>
+                                         defaultValue={current ? current.value : ""}/>}
                         </FormGroup>
                     </Row>
                 </Modal.Body>
@@ -180,7 +168,7 @@ export default class RichMarksModal extends Component {
                             break;
                         }
                         let displayMode = this.state.displayMode;
-                        let value = ReactDOM.findDOMNode(this.refs.value).value;
+                        let value = ReactDOM.findDOMNode(document.getElementsByTagName("richValue")).value;
                         this.props.onRichMarkUpdated({id: (current ? current.id : ID_PREFIX_RICH_MARK + Date.now()), title, connectMode, connection, displayMode, value});
                         this.props.onRichMarksModalToggled();
                     }}>Save changes</Button>
