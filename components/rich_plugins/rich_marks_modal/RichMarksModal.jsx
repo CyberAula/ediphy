@@ -129,7 +129,7 @@ export default class RichMarksModal extends Component {
                                    }}>Open in new tab</Radio>
                         </FormGroup>
                         <FormGroup>
-                            /*Input need to have certain label like richValue*/
+                            {/*Input need to have certain label like richValue*/}
                             <ControlLabel>Value</ControlLabel>
                             {(this.props.pluginToolbar && this.props.pluginToolbar.state.getRichMarkInput) ? this.props.pluginToolbar.state.getRichMarkInput:
                                 <FormControl

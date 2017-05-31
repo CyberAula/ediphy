@@ -89,7 +89,9 @@ export function HotspotImages(base) {
         },
         getRichMarkInput:function(){
             /* jshint ignore:start */
-            return (<div className="cosas">sadfsadfsad<input usingInput className="jalapenos"></input></div>);
+            return (
+                <div className="cosas">sadfsadfsad<input ref={(input)=> {this.input = input;}} className="jalapenos"></input></div>
+            );
             /* jshint ignore:end */
         },
         getInitialState: function () {
