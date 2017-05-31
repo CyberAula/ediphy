@@ -87,10 +87,10 @@ export function HotspotImages(base) {
                 }
             };
         },
-        getRichMarkInput:function(){
+        getRichMarkInput:function(state){
             /* jshint ignore:start */
             return (
-                <div className="cosas">sadfsadfsad<input ref={(input)=> {this.input = input;}} className="jalapenos"></input></div>
+                <div className="cosas">sadfsadfsad<input ref={(state) => this.input = state}></input></div>
             );
             /* jshint ignore:end */
         },

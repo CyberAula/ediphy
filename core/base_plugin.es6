@@ -140,7 +140,7 @@ export default function () {
                         state.__marks = {};
                     }
                     if( descendant.getRichMarkInput){
-                        state.getRichMarkInput = descendant.getRichMarkInput();
+                        state.getRichMarkInput = descendant.getRichMarkInput;
                     }
                 }
                 initialParams = initParams;

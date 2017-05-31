@@ -5,6 +5,7 @@ import Typeahead from 'react-bootstrap-typeahead';
 import {ID_PREFIX_RICH_MARK, ID_PREFIX_CONTAINED_VIEW, PAGE_TYPES} from '../../../constants';
 
 export default class RichMarksModal extends Component {
+
     constructor(props) {
         super(props);
         this.state = {
@@ -29,6 +30,7 @@ export default class RichMarksModal extends Component {
     }
 
     render() {
+        let richMarkValue = null;
         let navItemsNames = [];
         this.props.navItemsIds.map(id => {
             if (id === 0) {
@@ -131,11 +133,12 @@ export default class RichMarksModal extends Component {
                         <FormGroup>
                             {/*Input need to have certain label like richValue*/}
                             <ControlLabel>Value</ControlLabel>
-                            {(this.props.pluginToolbar && this.props.pluginToolbar.state.getRichMarkInput) ? this.props.pluginToolbar.state.getRichMarkInput:
+                            <div>
+                            {(this.props.pluginToolbar && this.props.pluginToolbar.state.getRichMarkInput) ? this.props.pluginToolbar.state.getRichMarkInput(richMarkValue):
                                 <FormControl
-                                    richValue
                                          type={this.state.actualMarkType}
                                          defaultValue={current ? current.value : ""}/>}
+                            </div>
                         </FormGroup>
                     </Row>
                 </Modal.Body>
@@ -145,7 +148,7 @@ export default class RichMarksModal extends Component {
                         this.props.onRichMarksModalToggled();
                     }}>Cancel</Button>
                     <Button bsStyle="primary" onClick={e => {
-                        let title = ReactDOM.findDOMNode(this.refs.title).value;
+                        let title = document.getElementsByName("richValue");
                         let connectMode = this.state.connectMode;
                         let connection;
                         switch (connectMode){
@@ -168,7 +171,7 @@ export default class RichMarksModal extends Component {
                             break;
                         }
                         let displayMode = this.state.displayMode;
-                        let value = ReactDOM.findDOMNode(document.getElementsByTagName("richValue")).value;
+                        let value = richMarkValue;
                         this.props.onRichMarkUpdated({id: (current ? current.id : ID_PREFIX_RICH_MARK + Date.now()), title, connectMode, connection, displayMode, value});
                         this.props.onRichMarksModalToggled();
                     }}>Save changes</Button>
