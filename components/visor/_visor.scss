@@ -31,6 +31,10 @@
 #nav li.active {
   color: red !important;
 }
+#nav {
+  height: 100%;
+}
+
 
 .pills.active {
   opacity: 0.7;
@@ -40,9 +44,6 @@
   pointer-events: all !important;
 }
 
-#nav {
-  height: 100%;
-}
 
 .visor * {
   pointer-events: all !important;
