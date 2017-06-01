@@ -153,7 +153,7 @@ export default class RichMarksModal extends Component {
                         this.props.onRichMarksModalToggled();
                     }}>Cancel</Button>
                     <Button bsStyle="primary" onClick={e => {
-                        let title = document.getElementsByName("richValue");
+                        let title = ReactDOM.findDOMNode(this.refs.title).value;
                         let connectMode = this.state.connectMode;
                         let connection;
                         switch (connectMode){
