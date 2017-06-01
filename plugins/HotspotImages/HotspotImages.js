@@ -87,11 +87,12 @@ export function HotspotImages(base) {
                 }
             };
         },
-        getRichMarkInput:function(state){
+        getRichMarkInput :function(MarkInput){
             /* jshint ignore:start */
-            return (
-                <div className="cosas">sadfsadfsad<input ref={(state) => this.input = state}></input></div>
-            );
+
+            let div = <div className="cosas"><input onChange={(event)=>{MarkInput(event.target.value);}}></input></div>;
+
+            return div;
             /* jshint ignore:end */
         },
         getInitialState: function () {

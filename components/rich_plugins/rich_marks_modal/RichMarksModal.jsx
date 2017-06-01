@@ -31,6 +31,11 @@ export default class RichMarksModal extends Component {
 
     render() {
         let richMarkValue = null;
+
+        function getRichMarkInput(value){
+            richMarkValue = value;
+        }
+
         let navItemsNames = [];
         this.props.navItemsIds.map(id => {
             if (id === 0) {
@@ -134,7 +139,7 @@ export default class RichMarksModal extends Component {
                             {/*Input need to have certain label like richValue*/}
                             <ControlLabel>Value</ControlLabel>
                             <div>
-                            {(this.props.pluginToolbar && this.props.pluginToolbar.state.getRichMarkInput) ? this.props.pluginToolbar.state.getRichMarkInput(richMarkValue):
+                            {(this.props.pluginToolbar && this.props.pluginToolbar.state.getRichMarkInput) ? this.props.pluginToolbar.state.getRichMarkInput(getRichMarkInput):
                                 <FormControl
                                          type={this.state.actualMarkType}
                                          defaultValue={current ? current.value : ""}/>}
@@ -179,5 +184,8 @@ export default class RichMarksModal extends Component {
             </Modal>
             /* jshint ignore:end */
         );
+
     }
+
+
 }
