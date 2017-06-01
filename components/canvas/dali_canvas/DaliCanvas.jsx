@@ -1,17 +1,13 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
-import DaliBox from '../dali_box/DaliBox';
-import DaliBoxSortable from '../dali_box_sortable/DaliBoxSortable';
-import DaliShortcuts from '../dali_shortcuts/DaliShortcuts';
 import {Col} from 'react-bootstrap';
-import DaliTitle from '../dali_title/DaliTitle';
-import DaliHeader from '../dali_header/DaliHeader';
+import DaliCanvasSli from '../dali_canvas_sli/DaliCanvasSli';
+import DaliCanvasDoc from '../dali_canvas_doc/DaliCanvasDoc';
 import interact from 'interact.js';
 import {ADD_BOX,REORDER_SORTABLE_CONTAINER} from '../../../actions';
 import Dali from './../../../core/main';
-import {isSortableBox, isSlide} from './../../../utils';
+import {isSlide} from './../../../utils';
 
-require('./_canvas.scss');
 
 export default class DaliCanvas extends Component {
     constructor(props) {
@@ -41,122 +37,37 @@ export default class DaliCanvas extends Component {
         }
 
         let overlayHeight = actualHeight ? actualHeight : '100%';
+        let canvasContent;
+        if (isSlide(this.props.navItemSelected.type)) {
+            canvasContent = <DaliCanvasSli navItemSelected={this.props.navItemSelected}
+                                           navItems={this.props.navItems}
+                                           boxes={this.props.boxes}
+                                           boxSelected={this.props.boxSelected}
+                                           boxLevelSelected={this.props.boxLevelSelected}
+                                           toolbars={this.props.toolbars}
+                                           containedViewSelected={this.props.containedViewSelected}/>;
+        }else{
+            canvasContent = <DaliCanvasDoc navItemSelected={this.props.navItemSelected}
+                                           navItems={this.props.navItems}
+                                           boxes={this.props.boxes}
+                                           boxSelected={this.props.boxSelected}
+                                           boxLevelSelected={this.props.boxLevelSelected}
+                                           toolbars={this.props.toolbars}
+                                           containedViewSelected={this.props.containedViewSelected}/>;
+        }
+
         return (
             /* jshint ignore:start */
 
-            <Col id="canvas" md={12} xs={12}
-                 style={{display: this.props.containedViewSelected !== 0 ? 'none' : 'initial'}}>
-                 <DaliShortcuts
-                     box={this.props.boxes[this.props.boxSelected]}
-                     containedViewSelected={this.props.containedViewSelected}
-                     isContained={false}
-                     onTextEditorToggled={this.props.onTextEditorToggled}
-                     onBoxResized={this.props.onBoxResized}
-                     onBoxDeleted={this.props.onBoxDeleted}
-                     toolbar={this.props.toolbars[this.props.boxSelected]}/>
-                 <div className="scrollcontainer">
-                 <DaliHeader titles={titles}
-                        showButtons={this.state.showTitle}
-                        onShowTitle={()=>this.setState({showTitle:true})}
-                        onBoxSelected={this.props.onBoxSelected}
-                        courseTitle={this.props.title}
-                        title={this.props.navItemSelected.name}
-                        navItem={this.props.navItemSelected}
-                        navItems={this.props.navItems}
-                        titleModeToggled={this.props.titleModeToggled}
-                        onUnitNumberChanged={this.props.onUnitNumberChanged}
-                        showButton={true}
-                        />
-                <div className="outter canvaseditor">
-                    <div id="airlayer"
-                    className={isSlide(this.props.navItemSelected.type) ? 'slide_air' : 'doc_air'}
-                    style={{visibility: (this.props.showCanvas ? 'visible' : 'hidden') }}>
-
-                    <div id="maincontent"
-                         onClick={e => {
-                        this.props.onBoxSelected(-1);
-                        this.setState({showTitle:false})
-                       }}
-                         className={isSlide(this.props.navItemSelected.type) ? 'innercanvas sli':'innercanvas doc'}
-                         style={{visibility: (this.props.showCanvas ? 'visible' : 'hidden')}}>
-
-                        <DaliTitle titles={titles}
-                            showButtons={this.state.showTitle}
-                            onShowTitle={()=>this.setState({showTitle:true})}
-                            onBoxSelected={this.props.onBoxSelected}
-                            courseTitle={this.props.title}
-                            titleMode={this.props.navItemSelected.titleMode}
-                            navItem={this.props.navItemSelected}
-                            navItems={this.props.navItems}
-                            titleModeToggled={this.props.titleModeToggled}
-                            onUnitNumberChanged={this.props.onUnitNumberChanged}
-                            showButton={true}/>
-                        <br/>
+            <DaliCanvasDoc navItemSelected={this.props.navItemSelected}
+                           navItems={this.props.navItems}
+                           boxes={this.props.boxes}
+                           boxSelected={this.props.boxSelected}
+                           boxLevelSelected={this.props.boxLevelSelected}
+                           toolbars={this.props.toolbars}
+                           containedViewSelected={this.props.containedViewSelected}/>
 
 
-
-                        <div style={{
-                                width: "100%",
-                                background: "black",
-                                height: overlayHeight,
-                                position: "absolute",
-                                top: 0,
-                                opacity: 0.4,
-                                display:(this.props.boxLevelSelected > 0) ? "block" : "none",
-                                visibility: (this.props.boxLevelSelected > 0) ? "visible" : "collapse"
-                            }}></div>
-
-
-                        {this.props.navItemSelected.boxes.map(id => {
-                            let box = this.props.boxes[id];
-                            if (!isSortableBox(box.id)) {
-                                return <DaliBox key={id}
-                                                id={id}
-                                                boxes={this.props.boxes}
-                                                boxSelected={this.props.boxSelected}
-                                                boxLevelSelected={this.props.boxLevelSelected}
-                                                containedViewSelected={this.props.containedViewSelected}
-                                                toolbars={this.props.toolbars}
-                                                lastActionDispatched={this.props.lastActionDispatched}
-                                                onBoxSelected={this.props.onBoxSelected}
-                                                onBoxLevelIncreased={this.props.onBoxLevelIncreased}
-                                                onBoxMoved={this.props.onBoxMoved}
-                                                onBoxResized={this.props.onBoxResized}
-                                                onSortableContainerResized={this.props.onSortableContainerResized}
-                                                onBoxesInsideSortableReorder={this.props.onBoxesInsideSortableReorder}
-                                                onBoxDropped={this.props.onBoxDropped}
-                                                onVerticallyAlignBox={this.props.onVerticallyAlignBox}
-                                                onBoxModalToggled={this.props.onBoxModalToggled}
-                                                onTextEditorToggled={this.props.onTextEditorToggled}
-                                />
-                            } else {
-                                return <DaliBoxSortable key={id}
-                                                        id={id}
-                                                        boxes={this.props.boxes}
-                                                        boxSelected={this.props.boxSelected}
-                                                        boxLevelSelected={this.props.boxLevelSelected}
-                                                        containedViewSelected={this.props.containedViewSelected}
-                                                        toolbars={this.props.toolbars}
-                                                        lastActionDispatched={this.props.lastActionDispatched}
-                                                        onBoxSelected={this.props.onBoxSelected}
-                                                        onBoxLevelIncreased={this.props.onBoxLevelIncreased}
-                                                        onBoxMoved={this.props.onBoxMoved}
-                                                        onBoxResized={this.props.onBoxResized}
-                                                        onBoxesInsideSortableReorder={this.props.onBoxesInsideSortableReorder}
-                                                        onSortableContainerResized={this.props.onSortableContainerResized}
-                                                        onSortableContainerDeleted={this.props.onSortableContainerDeleted}
-                                                        onSortableContainerReordered={this.props.onSortableContainerReordered}
-                                                        onBoxDropped={this.props.onBoxDropped}
-                                                        onVerticallyAlignBox={this.props.onVerticallyAlignBox}
-                                                        onBoxModalToggled={this.props.onBoxModalToggled}
-                                                        onTextEditorToggled={this.props.onTextEditorToggled}/>
-                            }
-                        })}
-                    </div>
-                </div>
-                </div>
-                </div>
-            </Col>
             /* jshint ignore:end */
         );
     }
