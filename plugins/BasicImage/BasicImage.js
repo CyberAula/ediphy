@@ -7,7 +7,7 @@ export function BasicImage(base) {
                 category: 'image',
                 needsConfigModal: false,
                 needsTextEdition: false,
-                initialWidth: '350px',
+                initialWidth: '25%',
                 aspectRatioButtonConfig: {
                     location: ["main", "__sortable"],
                     defaultValue: true

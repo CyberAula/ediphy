@@ -52,7 +52,9 @@
 
 .slide_air{
   width: 100%;
-  padding-bottom: calc(56.25% - 5%); /* 16:9 */
+  //Aspect Ratio
+  //padding-bottom: calc(56.25% - 212px); /* 16:9 */
+  padding-top: calc(75% - 212px); /* 4:3 */
   background-color: white;
   position: relative;
 }

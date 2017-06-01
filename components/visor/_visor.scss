@@ -44,56 +44,40 @@
   pointer-events: all !important;
 }
 
+#root{
+  height:100%;
+}
 
 .visor * {
   pointer-events: all !important;
 }
 
-.visor {
-  .modal-content {
-    height: 97%;
-    border-radius: 0;
-    .modal-header {
-      padding: 10px;
-  		background-color:$greyPanelHeadings;
-  		color: white;
-  		.close {
-  			color: white;
-  			text-shadow: none;
-  		}
-    }
-  }
-
-}
-
-ul li a {
-  color: #555;
-}
-
-.visor .modal-lg {
-  width: 100% !important;
-  margin: 0;
-  height: 100%;
-  .modal-body{
-    background-color: #555 !important;
-    padding: 20px 20px 0 !important;
-  }
-}
-
-.visor .doc {
-  overflow-y: auto;
-}
-.modal-dialog{
-  margin: 30px auto;
-}
-
-.modalVisorContainer {
-  margin: 15px;
-}
-
 .modal-open .modal{
   overflow-y: hidden;
 }
+
+.modalVisorContainer {
+  //margin: 15px;
+  .modal-lg {
+    width: 85% !important;
+    margin: 0 auto;
+    height: 100%;
+    .modal-content {
+      height: 97%;
+      border-radius: 0;
+      .modal-header {
+        padding: 10px;
+        background-color:$greyPanelHeadings;
+        color: white;
+        .close {
+          color: white;
+          text-shadow: none;
+        }
+      }
+    }
+  }
+}
+
 #previewTitle {
   background-color: transparent;
   font-weight: bold;
