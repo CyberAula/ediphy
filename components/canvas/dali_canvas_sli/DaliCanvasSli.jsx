@@ -51,20 +51,10 @@ export default class DaliCanvasSli extends Component {
                      onBoxResized={this.props.onBoxResized}
                      onBoxDeleted={this.props.onBoxDeleted}
                      toolbar={this.props.toolbars[this.props.boxSelected]}/>
-                 <div className="scrollcontainer">
-                 <DaliHeader titles={titles}
-                        showButtons={this.state.showTitle}
-                        onShowTitle={()=>this.setState({showTitle:true})}
-                        onBoxSelected={this.props.onBoxSelected}
-                        courseTitle={this.props.title}
-                        title={this.props.navItemSelected.name}
-                        navItem={this.props.navItemSelected}
-                        navItems={this.props.navItems}
-                        titleModeToggled={this.props.titleModeToggled}
-                        onUnitNumberChanged={this.props.onUnitNumberChanged}
-                        showButton={true}
-                        />
+
+
                 <div className="outter canvaseditor">
+
                     <div id="airlayer"
                     className={'slide_air'}
                     style={{visibility: (this.props.showCanvas ? 'visible' : 'hidden') }}>
@@ -76,7 +66,18 @@ export default class DaliCanvasSli extends Component {
                        }}
                          className={'innercanvas sli'}
                          style={{visibility: (this.props.showCanvas ? 'visible' : 'hidden')}}>
-
+                        <DaliHeader titles={titles}
+                                    showButtons={this.state.showTitle}
+                                    onShowTitle={()=>this.setState({showTitle:true})}
+                                    onBoxSelected={this.props.onBoxSelected}
+                                    courseTitle={this.props.title}
+                                    title={this.props.navItemSelected.name}
+                                    navItem={this.props.navItemSelected}
+                                    navItems={this.props.navItems}
+                                    titleModeToggled={this.props.titleModeToggled}
+                                    onUnitNumberChanged={this.props.onUnitNumberChanged}
+                                    showButton={true}
+                        />
                         <DaliTitle titles={titles}
                             showButtons={this.state.showTitle}
                             onShowTitle={()=>this.setState({showTitle:true})}
@@ -90,8 +91,6 @@ export default class DaliCanvasSli extends Component {
                             showButton={true}/>
                         <br/>
 
-
-
                         <div style={{
                                 width: "100%",
                                 background: "black",
@@ -102,7 +101,6 @@ export default class DaliCanvasSli extends Component {
                                 display:(this.props.boxLevelSelected > 0) ? "block" : "none",
                                 visibility: (this.props.boxLevelSelected > 0) ? "visible" : "collapse"
                             }}></div>
-
 
                         {this.props.navItemSelected.boxes.map(id => {
                             let box = this.props.boxes[id];
@@ -130,7 +128,7 @@ export default class DaliCanvasSli extends Component {
                     </div>
                 </div>
                 </div>
-                </div>
+
             </Col>
             /* jshint ignore:end */
         );
@@ -168,5 +166,24 @@ export default class DaliCanvasSli extends Component {
                 event.target.classList.remove("drop-target");
             }
         });
+    }
+    aspectRatio() {
+        let canvas = document.getElementById('airlayer');
+        canvas.height("100%");
+        canvas.width("100%");
+        let ratio = 16/9;
+        let w = canvas.outerWidth();
+        let h = canvas.outerHeight();
+
+        if (w > ratio*h) {
+            canvas.width(ratio*h);
+            // horizontal centering is done using margin:auto in CSS
+        } else if (h > w/ratio) {
+            let newHeight = w/ratio;
+            canvas.height(newHeight);
+            // for vertical centering:
+            //scaled.css({marginTop: (document.getElementById('canvas').height()-newHeight)/2});
+        }
+
     }
 }

@@ -59,7 +59,7 @@
   //position: relative;
 //}
 
-.doc_air, .slide_air{
+.doc_air{
   height: 100%;
   overflow: hidden;
   z-index: 0;
@@ -101,8 +101,6 @@
     border: 5px dashed $naranjaadams;
   }
 }
-
-
 
 
 .drag-handle{}

@@ -160,6 +160,7 @@ export default class DaliCanvasDoc extends Component {
         );
     }
     componentDidMount() {
+
         interact(ReactDOM.findDOMNode(this)).dropzone({
             accept: '.floatingDaliBox',
             overlap: 'pointer',
