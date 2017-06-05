@@ -19,11 +19,14 @@ export default class CarrouselList extends Component {
         
         return (
             /* jshint ignore:start */
-            <div style={{height: !containedViewsIncluded ? 
+            <div style={{height: !containedViewsIncluded ?
                                  'calc(100% - 25px)' :  
                                  this.props.containedViewsVisible ? //REFACTOR
                                  'calc(100% - 185px)' : 
                                  'calc(100% - 30px)' }}>
+                <div style={{height:"20px",backgroundColor:"black", marginBottom:"2px", paddingLeft:"10px"}}>
+                    <i className="material-icons" style={{color:"gray"}}>arrow_drop_down</i><span style={{color:"white",fontSize:"13px"}}>{i18n.t("COURSE")}</span>
+                </div>
                 <div ref="sortableList"
                      className="carList connectedSortables"
                      onClick={e => {
