@@ -24,8 +24,10 @@ export default class CarrouselList extends Component {
                                  this.props.containedViewsVisible ? //REFACTOR
                                  'calc(100% - 185px)' : 
                                  'calc(100% - 30px)' }}>
-                <div style={{height:"20px",backgroundColor:"black", marginBottom:"2px", paddingLeft:"10px"}}>
-                    <i className="material-icons" style={{color:"gray"}}>arrow_drop_down</i><span style={{color:"white",fontSize:"13px"}}>{i18n.t("COURSE")}</span>
+                <div style={{height:"20px",backgroundColor:"black", marginBottom:"2px", paddingLeft:"10px"}} onClick={()=> {
+                    this.refs.sortableList
+                }}>
+                    <i className="material-icons" style={{color:"gray", fontSize:"22px"}}>arrow_drop_down</i><span style={{color:"white",fontSize:"13px"}}>{i18n.t("COURSE")}</span>
                 </div>
                 <div ref="sortableList"
                      className="carList connectedSortables"
