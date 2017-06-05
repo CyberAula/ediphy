@@ -7,13 +7,13 @@ import {Col} from 'react-bootstrap';
 import DaliTitle from '../dali_title/DaliTitle';
 import DaliHeader from '../dali_header/DaliHeader';
 import interact from 'interact.js';
-import {ADD_BOX,REORDER_SORTABLE_CONTAINER} from '../../../actions';
+import {ADD_BOX} from '../../../actions';
 import Dali from './../../../core/main';
-import {isSortableBox, isSlide} from './../../../utils';
+import {isSortableBox} from './../../../utils';
 
-require('./_canvas.scss');
 
-export default class DaliCanvas extends Component {
+
+export default class DaliCanvasDoc extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -69,7 +69,7 @@ export default class DaliCanvas extends Component {
                         />
                 <div className="outter canvaseditor">
                     <div id="airlayer"
-                    className={isSlide(this.props.navItemSelected.type) ? 'slide_air' : 'doc_air'}
+                    className={'doc_air'}
                     style={{visibility: (this.props.showCanvas ? 'visible' : 'hidden') }}>
 
                     <div id="maincontent"
@@ -77,7 +77,7 @@ export default class DaliCanvas extends Component {
                         this.props.onBoxSelected(-1);
                         this.setState({showTitle:false})
                        }}
-                         className={isSlide(this.props.navItemSelected.type) ? 'innercanvas sli':'innercanvas doc'}
+                         className={'innercanvas doc'}
                          style={{visibility: (this.props.showCanvas ? 'visible' : 'hidden')}}>
 
                         <DaliTitle titles={titles}
@@ -92,7 +92,6 @@ export default class DaliCanvas extends Component {
                             onUnitNumberChanged={this.props.onUnitNumberChanged}
                             showButton={true}/>
                         <br/>
-
 
 
                         <div style={{
@@ -160,31 +159,6 @@ export default class DaliCanvas extends Component {
             /* jshint ignore:end */
         );
     }
-
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.boxSelected !== -1) {
-            this.setState({showTitle: false});
-        }
-        if (this.props.navItemSelected.id !== nextProps.navItemSelected.id) {
-            document.getElementById('maincontent').scrollTop = 0;
-        }
-    }
-
-    componentDidUpdate(prevProps, prevState) {
-        //Fixes bug when reordering dalibox sortable CKEDITOR doesn't update otherwise
-        if(this.props.lastActionDispatched.type === REORDER_SORTABLE_CONTAINER){
-             for (let instance in CKEDITOR.instances) {
-                CKEDITOR.instances[instance].destroy();
-             }
-             CKEDITOR.inlineAll();
-             for (let editor in CKEDITOR.instances){
-                 if (this.props.toolbars[editor].state.__text) {
-                    CKEDITOR.instances[editor].setData(decodeURI(this.props.toolbars[editor].state.__text));
-                }
-             }
-        }
-    }
-
     componentDidMount() {
         interact(ReactDOM.findDOMNode(this)).dropzone({
             accept: '.floatingDaliBox',
@@ -218,4 +192,5 @@ export default class DaliCanvas extends Component {
             }
         });
     }
+
 }

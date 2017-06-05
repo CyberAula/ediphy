@@ -1,4 +1,4 @@
-@import "../../../sass/general/_variables.scss";
+@import "../../../sass/general/variables";
 
 
 #canvas {
@@ -50,15 +50,16 @@
   position: relative;
 }
 
-.slide_air{
-  width: 100%;
+//.slide_air{
+  //width: 100%;
   //Aspect Ratio
   //padding-bottom: calc(56.25% - 212px); /* 16:9 */
-  padding-top: calc(75% - 212px); /* 4:3 */
-  background-color: white;
-  position: relative;
-}
-.doc_air{
+  //padding-top: calc(75% - 212px); /* 4:3 */
+  //background-color: white;
+  //position: relative;
+//}
+
+.doc_air, .slide_air{
   height: 100%;
   overflow: hidden;
   z-index: 0;

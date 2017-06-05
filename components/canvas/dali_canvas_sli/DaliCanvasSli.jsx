@@ -1,19 +1,16 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import DaliBox from '../dali_box/DaliBox';
-import DaliBoxSortable from '../dali_box_sortable/DaliBoxSortable';
 import DaliShortcuts from '../dali_shortcuts/DaliShortcuts';
 import {Col} from 'react-bootstrap';
 import DaliTitle from '../dali_title/DaliTitle';
 import DaliHeader from '../dali_header/DaliHeader';
 import interact from 'interact.js';
-import {ADD_BOX,REORDER_SORTABLE_CONTAINER} from '../../../actions';
+import {ADD_BOX} from '../../../actions';
 import Dali from './../../../core/main';
-import {isSortableBox, isSlide} from './../../../utils';
 
-require('./_canvas.scss');
 
-export default class DaliCanvas extends Component {
+export default class DaliCanvasSli extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -69,7 +66,7 @@ export default class DaliCanvas extends Component {
                         />
                 <div className="outter canvaseditor">
                     <div id="airlayer"
-                    className={isSlide(this.props.navItemSelected.type) ? 'slide_air' : 'doc_air'}
+                    className={'slide_air'}
                     style={{visibility: (this.props.showCanvas ? 'visible' : 'hidden') }}>
 
                     <div id="maincontent"
@@ -77,7 +74,7 @@ export default class DaliCanvas extends Component {
                         this.props.onBoxSelected(-1);
                         this.setState({showTitle:false})
                        }}
-                         className={isSlide(this.props.navItemSelected.type) ? 'innercanvas sli':'innercanvas doc'}
+                         className={'innercanvas sli'}
                          style={{visibility: (this.props.showCanvas ? 'visible' : 'hidden')}}>
 
                         <DaliTitle titles={titles}
@@ -109,48 +106,26 @@ export default class DaliCanvas extends Component {
 
                         {this.props.navItemSelected.boxes.map(id => {
                             let box = this.props.boxes[id];
-                            if (!isSortableBox(box.id)) {
-                                return <DaliBox key={id}
-                                                id={id}
-                                                boxes={this.props.boxes}
-                                                boxSelected={this.props.boxSelected}
-                                                boxLevelSelected={this.props.boxLevelSelected}
-                                                containedViewSelected={this.props.containedViewSelected}
-                                                toolbars={this.props.toolbars}
-                                                lastActionDispatched={this.props.lastActionDispatched}
-                                                onBoxSelected={this.props.onBoxSelected}
-                                                onBoxLevelIncreased={this.props.onBoxLevelIncreased}
-                                                onBoxMoved={this.props.onBoxMoved}
-                                                onBoxResized={this.props.onBoxResized}
-                                                onSortableContainerResized={this.props.onSortableContainerResized}
-                                                onBoxesInsideSortableReorder={this.props.onBoxesInsideSortableReorder}
-                                                onBoxDropped={this.props.onBoxDropped}
-                                                onVerticallyAlignBox={this.props.onVerticallyAlignBox}
-                                                onBoxModalToggled={this.props.onBoxModalToggled}
-                                                onTextEditorToggled={this.props.onTextEditorToggled}
-                                />
-                            } else {
-                                return <DaliBoxSortable key={id}
-                                                        id={id}
-                                                        boxes={this.props.boxes}
-                                                        boxSelected={this.props.boxSelected}
-                                                        boxLevelSelected={this.props.boxLevelSelected}
-                                                        containedViewSelected={this.props.containedViewSelected}
-                                                        toolbars={this.props.toolbars}
-                                                        lastActionDispatched={this.props.lastActionDispatched}
-                                                        onBoxSelected={this.props.onBoxSelected}
-                                                        onBoxLevelIncreased={this.props.onBoxLevelIncreased}
-                                                        onBoxMoved={this.props.onBoxMoved}
-                                                        onBoxResized={this.props.onBoxResized}
-                                                        onBoxesInsideSortableReorder={this.props.onBoxesInsideSortableReorder}
-                                                        onSortableContainerResized={this.props.onSortableContainerResized}
-                                                        onSortableContainerDeleted={this.props.onSortableContainerDeleted}
-                                                        onSortableContainerReordered={this.props.onSortableContainerReordered}
-                                                        onBoxDropped={this.props.onBoxDropped}
-                                                        onVerticallyAlignBox={this.props.onVerticallyAlignBox}
-                                                        onBoxModalToggled={this.props.onBoxModalToggled}
-                                                        onTextEditorToggled={this.props.onTextEditorToggled}/>
-                            }
+                            return <DaliBox key={id}
+                                            id={id}
+                                            boxes={this.props.boxes}
+                                            boxSelected={this.props.boxSelected}
+                                            boxLevelSelected={this.props.boxLevelSelected}
+                                            containedViewSelected={this.props.containedViewSelected}
+                                            toolbars={this.props.toolbars}
+                                            lastActionDispatched={this.props.lastActionDispatched}
+                                            onBoxSelected={this.props.onBoxSelected}
+                                            onBoxLevelIncreased={this.props.onBoxLevelIncreased}
+                                            onBoxMoved={this.props.onBoxMoved}
+                                            onBoxResized={this.props.onBoxResized}
+                                            onSortableContainerResized={this.props.onSortableContainerResized}
+                                            onBoxesInsideSortableReorder={this.props.onBoxesInsideSortableReorder}
+                                            onBoxDropped={this.props.onBoxDropped}
+                                            onVerticallyAlignBox={this.props.onVerticallyAlignBox}
+                                            onBoxModalToggled={this.props.onBoxModalToggled}
+                                            onTextEditorToggled={this.props.onTextEditorToggled}
+                            />
+
                         })}
                     </div>
                 </div>
@@ -159,30 +134,6 @@ export default class DaliCanvas extends Component {
             </Col>
             /* jshint ignore:end */
         );
-    }
-
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.boxSelected !== -1) {
-            this.setState({showTitle: false});
-        }
-        if (this.props.navItemSelected.id !== nextProps.navItemSelected.id) {
-            document.getElementById('maincontent').scrollTop = 0;
-        }
-    }
-
-    componentDidUpdate(prevProps, prevState) {
-        //Fixes bug when reordering dalibox sortable CKEDITOR doesn't update otherwise
-        if(this.props.lastActionDispatched.type === REORDER_SORTABLE_CONTAINER){
-             for (let instance in CKEDITOR.instances) {
-                CKEDITOR.instances[instance].destroy();
-             }
-             CKEDITOR.inlineAll();
-             for (let editor in CKEDITOR.instances){
-                 if (this.props.toolbars[editor].state.__text) {
-                    CKEDITOR.instances[editor].setData(decodeURI(this.props.toolbars[editor].state.__text));
-                }
-             }
-        }
     }
 
     componentDidMount() {
