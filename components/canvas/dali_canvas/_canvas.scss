@@ -41,12 +41,14 @@
   overflow: hidden;
 }
 .sli {
-  position: absolute;
-  top: 0; bottom: 0; left: 0; right: 0;
-  text-align: center;
+  //position: absolute;
+  //top: 0; bottom: 0; left: 0; right: 0;
+  //text-align: center;
+  height: 100%;
+  width: 100%;
 }
 
-.doc{
+.doc, .sli{
   position: relative;
 }
 

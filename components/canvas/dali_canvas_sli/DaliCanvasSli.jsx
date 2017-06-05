@@ -166,7 +166,15 @@ export default class DaliCanvasSli extends Component {
                 event.target.classList.remove("drop-target");
             }
         });
+
+        this.aspectRatio();
+        window.addEventListener("resize", this.aspectRatio.bind(this));
     }
+
+    componentWillUnmount() {
+        window.removeEventListener("resize", this.aspectRatio.bind(this));
+    }
+
     aspectRatio() {
         let canvas = document.getElementById('airlayer');
         canvas.height("100%");
