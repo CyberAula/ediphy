@@ -41,6 +41,17 @@ var en = {
         "Images": "Images",
         "Importing": "Importing...",
         "INDEX": "INDEX",
+        "marks":{
+            "add_mark_to": "Add mark to",
+            "edit_mark_to": "Edit mark to",
+            "existing_content": "Existing content",
+            "external_url": "External URL",
+            "link_to": "Link to",
+            "mark_name": "Mark name",
+            "new_content": "New content",
+            "new_document": "New document",
+            "new_slide": "New slide"
+        },
         "messages": {
             "adjust_to_document": "Adjust to document",
             "align_bottom": "The bottom of the element is aligned with the lowest element on the line",

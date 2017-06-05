@@ -139,9 +139,6 @@ export default function () {
                     if(!state.__marks){
                         state.__marks = {};
                     }
-                    if( descendant.getRichMarkInput){
-                        state.getRichMarkInput = descendant.getRichMarkInput;
-                    }
                 }
                 initialParams = initParams;
                 if(descendant.getConfig().initialWidth){
@@ -246,6 +243,11 @@ export default function () {
                         ReactDOM.render(descendant.getConfigTemplate(oldState), div);
                     }
                 }.bind(this));
+            }
+        },
+        getRichMarkInput:function(setMark){
+            if(descendant.getRichMarkInput){
+                this.descendant.getRichMarkInput(state,setMark);
             }
         },
         forceUpdate: function (oldState, sender, reason) {
