@@ -53,6 +53,7 @@ var en = {
             "new_slide": "New slide"
         },
         "messages": {
+            "add_new_mark": "Add new mark",
             "adjust_to_document": "Adjust to document",
             "align_bottom": "The bottom of the element is aligned with the lowest element on the line",
             "align_center": "Align center",

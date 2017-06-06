@@ -112,7 +112,7 @@ export default class CarrouselList extends Component {
                     <span style={{color:"white",fontSize:"13px"}}>{i18n.t("CONTAINED_VIEWS")}</span>
                 </div>
 
-                <div className="containedViewsList" style={{ height: '155px', 
+                <div className="containedViewsList" style={{ height: "calc(50% - 122px)",
                                                              display: (this.state.showContainedViews) ? 'block' : 'none', overflowY: 'auto', overflowX: 'hidden'}}>
                     {
                         Object.keys(this.props.containedViews).map((id, key)=>{
