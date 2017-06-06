@@ -8,15 +8,20 @@ import DaliIndexTitle from './../dali_index_title/DaliIndexTitle';
 import {isPage, isSection, isSlide, calculateNewIdOrder} from './../../../utils';
 import i18n from 'i18next';
 import Dali from './../../../core/main';
-import {UPDATE_TOOLBAR} from '../../../actions';
 
 require('./_carrouselList.scss');
 
 export default class CarrouselList extends Component {
-    
+    constructor(props){
+        super(props);
+        this.state = {
+            showSortableItems: true,
+            showContainedViews: false
+        };
+    }
     render() {
         let containedViewsIncluded = Object.keys(this.props.containedViews).length > 0;
-        
+
         return (
             /* jshint ignore:start */
             <div style={{height: !containedViewsIncluded ?
@@ -25,12 +30,17 @@ export default class CarrouselList extends Component {
                                  'calc(100% - 185px)' : 
                                  'calc(100% - 30px)' }}>
                 <div style={{height:"20px",backgroundColor:"black", marginBottom:"2px", paddingLeft:"10px"}} onClick={()=> {
-                    this.refs.sortableList
+                    this.setState( {showSortableItems: !this.state.showSortableItems});
                 }}>
-                    <i className="material-icons" style={{color:"gray", fontSize:"22px"}}>arrow_drop_down</i><span style={{color:"white",fontSize:"13px"}}>{i18n.t("COURSE")}</span>
+                    {(this.state.showSortableItems) ?
+                        <i className="material-icons" style={{color:"gray", fontSize:"22px"}}>{"arrow_drop_down" }</i>:
+                        <i className="material-icons" style={{color:"gray", fontSize:"15px", marginLeft: "2px", marginRight: "2px"}}>{"play_arrow" }</i>
+                    }
+                        <span style={{color:"white",fontSize:"13px"}}>{i18n.t("COURSE")}</span>
                 </div>
                 <div ref="sortableList"
                      className="carList connectedSortables"
+                     style={{display:(this.state.showSortableItems)?'inherit':'none'}}
                      onClick={e => {
                         if (this.props.id != 0){this.props.onNavItemSelected(this.props.id);}
                         e.stopPropagation();
@@ -78,17 +88,19 @@ export default class CarrouselList extends Component {
                             }
                         })}
                 </div>
-                <div className="Line" style={{ width: "100%", backgroundColor: '#ccc', height: '10px', cursor: 'pointer', display: containedViewsIncluded ? 'block' : 'none'}} onClick={
-                    e => {
-                        this.props.onContainedViewsExpand();
-                        e.stopPropagation();
-                    }}>
-                    {!this.props.containedViewsVisible ? 
-                    (<i className="material-icons" style={{textAlign:'center', width: '100%', marginTop: '-12px'}}>arrow_drop_up</i>) : 
-                    (<i className="material-icons" style={{textAlign:'center', width: '100%', marginTop: '-12px'}}>arrow_drop_down</i>)}
+
+                <div style={{height:"20px",backgroundColor:"black", marginBottom:"2px", paddingLeft:"10px"}} onClick={()=> {
+                    this.setState( {showContainedViews: !this.state.showContainedViews});
+                }}>
+                    {(this.state.showContainedViews) ?
+                        <i className="material-icons" style={{color:"gray", fontSize:"22px"}}>{"arrow_drop_down" }</i>:
+                        <i className="material-icons" style={{color:"gray", fontSize:"15px", marginLeft: "2px", marginRight: "2px"}}>{"play_arrow" }</i>
+                    }
+                    <span style={{color:"white",fontSize:"13px"}}>{i18n.t("CONTAINED_VIEWS")}</span>
                 </div>
+
                 <div className="containedViewsList" style={{ height: '155px', 
-                                                             display: (this.props.containedViewsVisible && containedViewsIncluded) ? 'block' : 'none', overflowY: 'auto', overflowX: 'hidden'}}>
+                                                             display: (this.state.showContainedViews) ? 'block' : 'none', overflowY: 'auto', overflowX: 'hidden'}}>
                     {
                         Object.keys(this.props.containedViews).map((id, key)=>{
                             return (<div key={id} style={{
