@@ -19,16 +19,29 @@ export default class CarrouselList extends Component {
             showContainedViews: false
         };
     }
+
+    getContentHeight(){
+        if(!this.state.showSortableItems && !this.state.showContainedViews){
+            return("50px");
+        } else if( this.state.showSortableItems && !this.state.showContainedViews){
+            return "calc(100% - 118px)";
+        } else if(this.state.showSortableItems && this.state.showContainedViews){
+            return "calc(50%)";
+        } else {
+            return "calc(100% - 118px)";
+        }
+    }
+
+    getContainedViewHeight(){
+
+    }
+
     render() {
         let containedViewsIncluded = Object.keys(this.props.containedViews).length > 0;
 
         return (
             /* jshint ignore:start */
-            <div style={{height: !containedViewsIncluded ?
-                                 'calc(100% - 25px)' :  
-                                 this.props.containedViewsVisible ? //REFACTOR
-                                 'calc(100% - 185px)' : 
-                                 'calc(100% - 30px)' }}>
+            <div style={{height: "100%" }}>
                 <div style={{height:"20px",backgroundColor:"black", marginBottom:"2px", paddingLeft:"10px"}} onClick={()=> {
                     this.setState( {showSortableItems: !this.state.showSortableItems});
                 }}>
@@ -40,9 +53,9 @@ export default class CarrouselList extends Component {
                 </div>
                 <div ref="sortableList"
                      className="carList connectedSortables"
-                     style={{display:(this.state.showSortableItems)?'inherit':'none'}}
+                     style={{height: this.getContentHeight(),display:(this.state.showSortableItems)?'inherit':'none'}}
                      onClick={e => {
-                        if (this.props.id != 0){this.props.onNavItemSelected(this.props.id);}
+                        this.props.onNavItemSelected(this.props.id);
                         e.stopPropagation();
                      }}>
                     {this.props.navItems[this.props.id].children.map((id, index) => {
@@ -119,8 +132,9 @@ export default class CarrouselList extends Component {
                         })
                     }
                 </div>
-                <div className="bottomLine"></div>
+
                 <div className="bottomGroup">
+                    <div className="bottomLine"></div>
                     <OverlayTrigger placement="top" overlay={
                         <Tooltip  id="newFolderTooltip">{i18n.t('create new folder')}
                         </Tooltip>}>
