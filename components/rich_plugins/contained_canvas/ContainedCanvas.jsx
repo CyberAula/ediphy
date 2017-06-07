@@ -63,6 +63,7 @@ export default class ContainedCanvas extends Component {
                             toolbar={this.props.toolbars[this.props.boxSelected]}/>
 
                         <div style={{
+                            id:"contained_canvas_boxes",
                             width: "100%",
                             background: "black",
                             height: overlayHeight,
@@ -133,7 +134,7 @@ export default class ContainedCanvas extends Component {
     componentDidMount() {
         interact(ReactDOM.findDOMNode(this)).dropzone({
             accept: '.floatingDaliBox',
-            overlap: 'pointer',
+            //overlap: 'pointer',
             ondropactivate: function (event) {
                 event.target.classList.add('drop-active');
             },

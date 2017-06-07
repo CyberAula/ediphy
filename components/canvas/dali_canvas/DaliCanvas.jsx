@@ -100,5 +100,6 @@ export default class DaliCanvas extends Component {
         }
     }
 
+
 }
 

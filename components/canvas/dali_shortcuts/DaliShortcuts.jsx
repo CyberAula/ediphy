@@ -37,7 +37,14 @@ export default class DaliShortcuts extends Component {
                  }}>
                 <div ref="innerContainer" style={{display: "inline-block", minWidth: "150px" }}>
                     <span className="namePlugin">{toolbar.config.displayName || ""}</span>
-
+                    {
+                        toolbar.config.isRich ?
+                            (<OverlayTrigger placement="top"
+                                             overlay={
+                                                 <Tooltip id="richMark">{i18n.t('messages.add_new_mark')}</Tooltip>
+                                             }><button className="daliTitleButton"><i className="material-icons">room</i></button></OverlayTrigger>)
+                            : <span></span>
+                    }
                     {
                         isSortableContainer(box.container) ? (
                             <OverlayTrigger placement="top"

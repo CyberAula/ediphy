@@ -17,8 +17,10 @@ export default class MarksList extends Component {
                     Object.keys(this.props.state.__marks).map(id => {
                         let mark = this.props.state.__marks[id];
                         return (
-                            <div key={id}>
-                                {mark.title}
+                            <div style={{display:"block"}} key={id}>
+                                <i className="material-icons">room</i>
+                                <span style={{marginLeft: "10px", verticalAlign: "super", width: "50px", textOverflow: "ellipsis", overflow: "hidden", whiteSpace: "nowrap"}}>{mark.title}</span>
+                                <span style={{fontSize:"10px", marginLeft: "15px", marginRight: "20px", verticalAlign:"super"}}>{mark.value}</span>
                                 <i className="material-icons"
                                    onClick={() => {
                                         this.props.onRichMarkEditPressed(mark);

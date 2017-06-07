@@ -173,6 +173,7 @@ export default class DaliCanvasSli extends Component {
 
     componentWillUnmount() {
         window.removeEventListener("resize", this.aspectRatio.bind(this));
+        interact(ReactDOM.findDOMNode(this)).unset();
     }
 
     aspectRatio() {

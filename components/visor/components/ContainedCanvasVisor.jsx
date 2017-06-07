@@ -7,6 +7,10 @@ import {isSortableBox, isSlide} from './../../../utils';
 
 export default class ContainedCanvasVisor extends Component {
 
+    componentDidMount(){
+
+    }
+
     render() {
 
         let maincontent = document.getElementById('contained_maincontent');
@@ -35,9 +39,9 @@ export default class ContainedCanvasVisor extends Component {
                          /*className={isSlide(this.props.navItemSelected.type) ? 'innercanvas sli':'innercanvas doc'}*/
                          style={{visibility: (this.props.showCanvas ? 'visible' : 'hidden')}}>
 
-                        <a href="#" style={{margin:"10px", pointerEvents: this.props.viewsArray.length > 1 ? 'initial': 'none',  color: this.props.viewsArray.length > 1 ? 'black': 'gray'}} onClick={e => {
+                        <a href="#" style={{margin:"10px", pointerEvents: this.props.viewsArray.length > 1 ? 'initial': 'none',  color: this.props.viewsArray.length > 1 ? 'black': 'gray'}} onClick={a => {
                                     this.props.removeLastView();
-                                    e.stopPropagation();
+                                    a.stopPropagation();
                                 }}><i className="material-icons">keyboard_backspace</i></a>
                         <br/>
 
@@ -63,7 +67,8 @@ export default class ContainedCanvasVisor extends Component {
                                                 boxSelected={this.props.boxSelected}
                                                 boxLevelSelected={this.props.boxLevelSelected}
                                                 containedViewSelected={this.props.currentView}
-                                                toolbars={this.props.toolbars}/>
+                                                toolbars={this.props.toolbars}
+                                                richElementsState={this.props.richElementsState}/>
                             } else {
                                 return <BoxSortableVisor key={id}
                                                         id={id}
@@ -71,7 +76,8 @@ export default class ContainedCanvasVisor extends Component {
                                                         boxSelected={this.props.boxSelected}
                                                         boxLevelSelected={this.props.boxLevelSelected}
                                                         containedViewSelected={this.props.currentView}
-                                                        toolbars={this.props.toolbars}/>
+                                                        toolbars={this.props.toolbars}
+                                                        richElementsState={this.props.richElementsState}/>
                             }
                         })}
                     </div>
@@ -87,9 +93,8 @@ export default class ContainedCanvasVisor extends Component {
         if (nextProps.boxSelected !== -1) {
             this.setState({showTitle: false});
         }
-        if (this.props.navItemSelected.id !== nextProps.navItemSelected.id) {
-            document.getElementById('contained_maincontent').scrollTop = 0;
-        }
+        document.getElementById('contained_maincontent').scrollTop = 0;
+
     }
 
 

@@ -8,26 +8,54 @@ import DaliIndexTitle from './../dali_index_title/DaliIndexTitle';
 import {isPage, isSection, isSlide, calculateNewIdOrder} from './../../../utils';
 import i18n from 'i18next';
 import Dali from './../../../core/main';
-import {UPDATE_TOOLBAR} from '../../../actions';
 
 require('./_carrouselList.scss');
 
 export default class CarrouselList extends Component {
-    
+    constructor(props){
+        super(props);
+        this.state = {
+            showSortableItems: true,
+            showContainedViews: false
+        };
+    }
+
+    getContentHeight(){
+        if(!this.state.showSortableItems && !this.state.showContainedViews){
+            return("50px");
+        } else if( this.state.showSortableItems && !this.state.showContainedViews){
+            return "calc(100% - 118px)";
+        } else if(this.state.showSortableItems && this.state.showContainedViews){
+            return "calc(50%)";
+        } else {
+            return "calc(100% - 118px)";
+        }
+    }
+
+    getContainedViewHeight(){
+
+    }
+
     render() {
         let containedViewsIncluded = Object.keys(this.props.containedViews).length > 0;
-        
+
         return (
             /* jshint ignore:start */
-            <div style={{height: !containedViewsIncluded ? 
-                                 'calc(100% - 25px)' :  
-                                 this.props.containedViewsVisible ? //REFACTOR
-                                 'calc(100% - 185px)' : 
-                                 'calc(100% - 30px)' }}>
+            <div style={{height: "100%" }}>
+                <div style={{height:"20px",backgroundColor:"black", marginBottom:"2px", paddingLeft:"10px"}} onClick={()=> {
+                    this.setState( {showSortableItems: !this.state.showSortableItems});
+                }}>
+                    {(this.state.showSortableItems) ?
+                        <i className="material-icons" style={{color:"gray", fontSize:"22px"}}>{"arrow_drop_down" }</i>:
+                        <i className="material-icons" style={{color:"gray", fontSize:"15px", marginLeft: "2px", marginRight: "2px"}}>{"play_arrow" }</i>
+                    }
+                        <span style={{color:"white",fontSize:"13px"}}>{i18n.t("COURSE")}</span>
+                </div>
                 <div ref="sortableList"
                      className="carList connectedSortables"
+                     style={{height: this.getContentHeight(),display:(this.state.showSortableItems)?'inherit':'none'}}
                      onClick={e => {
-                        if (this.props.id != 0){this.props.onNavItemSelected(this.props.id);}
+                        this.props.onNavItemSelected(this.props.id);
                         e.stopPropagation();
                      }}>
                     {this.props.navItems[this.props.id].children.map((id, index) => {
@@ -73,17 +101,19 @@ export default class CarrouselList extends Component {
                             }
                         })}
                 </div>
-                <div className="Line" style={{ width: "100%", backgroundColor: '#ccc', height: '10px', cursor: 'pointer', display: containedViewsIncluded ? 'block' : 'none'}} onClick={
-                    e => {
-                        this.props.onContainedViewsExpand();
-                        e.stopPropagation();
-                    }}>
-                    {!this.props.containedViewsVisible ? 
-                    (<i className="material-icons" style={{textAlign:'center', width: '100%', marginTop: '-12px'}}>arrow_drop_up</i>) : 
-                    (<i className="material-icons" style={{textAlign:'center', width: '100%', marginTop: '-12px'}}>arrow_drop_down</i>)}
+
+                <div style={{height:"20px",backgroundColor:"black", marginBottom:"2px", paddingLeft:"10px"}} onClick={()=> {
+                    this.setState( {showContainedViews: !this.state.showContainedViews});
+                }}>
+                    {(this.state.showContainedViews) ?
+                        <i className="material-icons" style={{color:"gray", fontSize:"22px"}}>{"arrow_drop_down" }</i>:
+                        <i className="material-icons" style={{color:"gray", fontSize:"15px", marginLeft: "2px", marginRight: "2px"}}>{"play_arrow" }</i>
+                    }
+                    <span style={{color:"white",fontSize:"13px"}}>{i18n.t("CONTAINED_VIEWS")}</span>
                 </div>
-                <div className="containedViewsList" style={{ height: '155px', 
-                                                             display: (this.props.containedViewsVisible && containedViewsIncluded) ? 'block' : 'none', overflowY: 'auto', overflowX: 'hidden'}}>
+
+                <div className="containedViewsList" style={{ height: "calc(50% - 122px)",
+                                                             display: (this.state.showContainedViews) ? 'block' : 'none', overflowY: 'auto', overflowX: 'hidden'}}>
                     {
                         Object.keys(this.props.containedViews).map((id, key)=>{
                             return (<div key={id} style={{
@@ -102,8 +132,9 @@ export default class CarrouselList extends Component {
                         })
                     }
                 </div>
-                <div className="bottomLine"></div>
+
                 <div className="bottomGroup">
+                    <div className="bottomLine"></div>
                     <OverlayTrigger placement="top" overlay={
                         <Tooltip  id="newFolderTooltip">{i18n.t('create new folder')}
                         </Tooltip>}>
@@ -183,18 +214,32 @@ export default class CarrouselList extends Component {
                     </OverlayTrigger>
                      */}
                     <OverlayTrigger trigger={["focus"]} placement="top" overlay={
-                        <Popover id="popov" title={isSection(this.props.navItemSelected) ? i18n.t("delete_section") : i18n.t("delete_page")}>
+                        <Popover id="popov" title={this.props.containedViewSelected !== 0 ?
+                                                                                        i18n.t('messages.delete_contained_canvas'):
+                                                   isSection(this.props.navItemSelected) ?
+                                                                                        i18n.t("delete_section") :
+                                                                                        i18n.t("delete_page")}>
                             <i style={{color: 'yellow', fontSize: '13px', padding: '0 5px'}} className="material-icons">warning</i>
-                            {isSection(this.props.navItemSelected) ?
-                                i18n.t("messages.delete_section") :
-                                i18n.t("messages.delete_page")
+                            {   this.props.containedViewSelected ?
+                                                                    i18n.t('messages.delete_contained_canvas'):
+                                isSection(this.props.navItemSelected) ?
+                                                                        i18n.t("messages.delete_section") :
+                                                                        i18n.t("messages.delete_page")
                             }
                             <br/>
                             <br/>
                             <Button className="popoverButton"
                                     disabled={this.props.navItemSelected === 0}
                                     style={{float: 'right'}}
-                                    onClick={(e) => this.props.onNavItemDeleted()}>
+                                    onClick={(e) =>
+                                        {
+                                            if(this.props.containedViewSelected !== 0){
+                                                this.props.onContainedViewDeleted();
+                                            }else{
+                                                this.props.onNavItemDeleted()
+                                            }
+                                        }
+                                    }>
                                 {i18n.t("Accept")}
                             </Button>
                             <Button className="popoverButton"

@@ -51,13 +51,13 @@ export default class DaliHeader extends Component {
 
     render() {
         let titles = this.props.titles;
-        let currentStatus = this.props.navItem.header.display;
+        let currentStatus = (this.props.navItem.header) ? this.props.navItem.header.display : undefined;
         let docTitle =  this.props.navItem.name;
         let subTitle = i18n.t('subtitle');
         let pagenumber = this.props.navItem.unitNumber;
         let navItem = this.props.navItem;
 
-        if (navItem !== undefined){
+        if (navItem !== undefined && navItem.id !== 0){
                 docTitle = navItem.header.elementContent.documentTitle !== "" && ( navItem.header.elementContent.documentTitle !== this.props.navItem.name) ?  navItem.header.elementContent.documentTitle : this.props.navItem.name;
                 subTitle = navItem.header.elementContent.documentSubTitle !== "" && (navItem.header.elementContent.documentSubTitle !== i18n.t('subtitle')) ? navItem.header.elementContent.documentSubTitle : i18n.t('subtitle');
                 pagenumber = navItem.header.elementContent.numPage !== "" && (navItem.header.elementContent.numPage !== this.props.navItem.unitNumber) ? navItem.header.elementContent.numPage : this.props.navItem.unitNumber;
@@ -103,6 +103,7 @@ export default class DaliHeader extends Component {
 
         }
 
+        if(navItem.id !== 0){
         return (
             /* jshint ignore:start */
 
@@ -225,6 +226,11 @@ export default class DaliHeader extends Component {
             </div>
             /* jshint ignore:end */
         );
+        }
+        else
+        {
+            return null;
+        }
     }
 
 }

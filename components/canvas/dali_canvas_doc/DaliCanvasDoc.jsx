@@ -159,6 +159,11 @@ export default class DaliCanvasDoc extends Component {
             /* jshint ignore:end */
         );
     }
+
+    componentWillUnmount(){
+        interact(ReactDOM.findDOMNode(this)).unset();
+    }
+
     componentDidMount() {
 
         interact(ReactDOM.findDOMNode(this)).dropzone({

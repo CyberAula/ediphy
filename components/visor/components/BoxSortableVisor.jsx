@@ -38,7 +38,7 @@ export default class BoxSortableVisor extends Component {
                                                                              changeCurrentView={(element)=>{this.props.changeCurrentView(element)}}
                                                                              containedViewSelected={this.props.containedViewSelected}
                                                                              toolbars={this.props.toolbars}
-                                                                             richElementsState={this.props.richElementState}/>);
+                                                                             richElementsState={this.props.richElementsState}/>);
 
                                                         } else if (index == container.children.length - 1) {
                                                             return (<span key={index}><br/><br/></span>);
