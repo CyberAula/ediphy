@@ -12,8 +12,8 @@ export function api() {
             Dali.API_Private.emit(Dali.API_Private.events.openConfig, {name: name, reason: reason});
             return promise;
         },
-        markTriggered: function(id,value){
-          Dali.API_Private.emit(Dali.API_Private.events.markTriggered, {id,value});
+        markTriggered: function(id,value,stateElement){
+            Dali.API_Private.emit(Dali.API_Private.events.markTriggered, {id,value,stateElement});
         },
         changeView: function(id){
             Dali.API_Private.emit(Dali.API_Private.events.changeView, {id: id});

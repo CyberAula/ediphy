@@ -52,7 +52,7 @@
     "html2json": "^1.0.2",
     "i18next": "^4.1.0",
     "i18next-browser-languagedetector": "^1.0.1",
-    "interact.js": "^1.2.6",
+    "interact.js": "^1.2.8",
     "isomorphic-fetch": "^2.2.1",
     "jquery": "^3.1.1",
     "jquery-ui": "^1.12.1",

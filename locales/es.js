@@ -38,7 +38,19 @@ var es = {
         "Images": "Imágenes",
         "Importing": "Se está importando...",
         "INDEX": "ÍNDICE",
+        "marks":{
+          "add_mark_to": "Añadir marca a",
+          "edit_mark_to": "Editar marca a",
+          "existing_content": "Contenido Existente",
+          "external_url": "Url externa",
+          "link_to": "Enlazar con",
+          "mark_name": "Nombre marca",
+          "new_content": "Nuevo contenido",
+          "new_document": "Nuevo documento",
+          "new_slide": "Nueva diapositiva"
+        },
         "messages": {
+            "add_new_mark": "Añadir nueva marca",
             "adjust_to_document": "Ajustar al documento",
             "align_bottom": "La parte inferior del elemento se alinea con la parte inferior del elemento más bajo de la línea",
             "align_center": "Alinear al centro",

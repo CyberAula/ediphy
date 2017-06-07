@@ -8,8 +8,8 @@ export function EnrichedVideo(base) {
         getRenderTemplate: function (state) {
             this.__marks = state.__marks;
             let time = "";
-            if(state.currentValue){
-                time = "#t=" + state.currentValue;
+            if(state.currentState){
+                time = "#t=" + state.currentState;
             }
             return "<video " +
                 ((state.controls) ? " controls='true' " : "") +
@@ -20,18 +20,7 @@ export function EnrichedVideo(base) {
         timeUpdate: function (e, element) {
             var time = document.getElementById("box-" + element).getElementsByTagName('video')[0].currentTime;
             time = Math.floor(time);
-            base.triggerMark(element, time);
-
-            /*if ( this.actualMark.length !== 0 && this.getActualMarkTime(time) !== time.toString()){
-                this.actualMark = "";
-            }
-
-            if(this.getMarkArray() && this.getMarkArray().indexOf(time.toString() !== -1) && this.actualMark.toString() !== this.getActualMarkTime(time)){
-
-                this.t= "#t=" + time;
-                this.actualMark = time;
-                base.triggerMark(element, this.getMarkKeys()[time]);
-            }*/
+            base.triggerMark(element, time.toString(), true);
         }
     };
 }

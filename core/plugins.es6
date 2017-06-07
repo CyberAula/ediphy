@@ -1,6 +1,5 @@
 import Dali from './main';
 import BasePlugin from './base_plugin';
-import BasePluginVisor from './visor/base_plugin';
 
 export default function () {
     var pluginInstancesList = {};

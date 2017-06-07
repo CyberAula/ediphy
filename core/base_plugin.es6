@@ -248,6 +248,11 @@ export default function () {
                 }.bind(this));
             }
         },
+        getRichMarkInput:function(setMark){
+            if(descendant.getRichMarkInput){
+                this.descendant.getRichMarkInput(state,setMark);
+            }
+        },
         forceUpdate: function (oldState, sender, reason) {
             state = oldState;
             id = sender;

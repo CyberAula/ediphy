@@ -185,6 +185,10 @@ export default class DaliCanvas extends Component {
         }
     }
 
+    componentWillUnmount(){
+        interact(ReactDOM.findDOMNode(this)).unset();
+    }
+
     componentDidMount() {
         interact(ReactDOM.findDOMNode(this)).dropzone({
             accept: '.floatingDaliBox',
