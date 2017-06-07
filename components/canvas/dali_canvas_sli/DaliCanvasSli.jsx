@@ -53,7 +53,7 @@ export default class DaliCanvasSli extends Component {
                      toolbar={this.props.toolbars[this.props.boxSelected]}/>
 
 
-                <div className="outter canvaseditor">
+
 
                     <div id="airlayer"
                     className={'slide_air'}
@@ -127,7 +127,7 @@ export default class DaliCanvasSli extends Component {
                         })}
                     </div>
                 </div>
-                </div>
+
 
             </Col>
             /* jshint ignore:end */
@@ -177,20 +177,22 @@ export default class DaliCanvasSli extends Component {
 
     aspectRatio() {
         let canvas = document.getElementById('airlayer');
-        canvas.height("100%");
-        canvas.width("100%");
+        canvas.style.height="100%";
+        canvas.style.width="100%";
         let ratio = 16/9;
-        let w = canvas.outerWidth();
-        let h = canvas.outerHeight();
+        let w = canvas.offsetWidth;
+        let h = canvas.offsetHeight;
 
+        console.log('hellooo');
         if (w > ratio*h) {
-            canvas.width(ratio*h);
+
+            canvas.style.width=(ratio*h)+"px";
             // horizontal centering is done using margin:auto in CSS
         } else if (h > w/ratio) {
             let newHeight = w/ratio;
-            canvas.height(newHeight);
+            canvas.style.height=newHeight;
             // for vertical centering:
-            //scaled.css({marginTop: (document.getElementById('canvas').height()-newHeight)/2});
+            canvas.style.marginTop = (canvas.style.height-newHeight)/2;
         }
 
     }
