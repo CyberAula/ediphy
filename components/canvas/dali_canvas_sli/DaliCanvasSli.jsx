@@ -168,11 +168,11 @@ export default class DaliCanvasSli extends Component {
         });
 
         this.aspectRatio();
-        window.addEventListener("resize", this.aspectRatio.bind(this));
+        window.addEventListener("resize", this.aspectRatio);
     }
 
     componentWillUnmount() {
-        window.removeEventListener("resize", this.aspectRatio.bind(this));
+        window.removeEventListener("resize", this.aspectRatio);
         interact(ReactDOM.findDOMNode(this)).unset();
     }
 
@@ -184,14 +184,17 @@ export default class DaliCanvasSli extends Component {
         let w = canvas.offsetWidth;
         let h = canvas.offsetHeight;
 
-        console.log('hellooo');
-        if (w > ratio*h) {
 
+        if (h < 400 || w < 400){
+            canvas.style.height = 0 + "px";
+            canvas.style.width = 0 + "px";
+        }else if (w > ratio*h) {
+            console.log(h);
             canvas.style.width=(ratio*h)+"px";
             // horizontal centering is done using margin:auto in CSS
         } else if (h > w/ratio) {
             let newHeight = w/ratio;
-            canvas.style.height=newHeight;
+            canvas.style.height=newHeight +"px";
             // for vertical centering:
             canvas.style.marginTop = (canvas.style.height-newHeight)/2;
         }
