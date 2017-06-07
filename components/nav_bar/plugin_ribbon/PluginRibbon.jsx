@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Modal, Button, Tabs, Tab, Col} from 'react-bootstrap';
 import interact from 'interact.js';
 import Dali from './../../../core/main';
-import {isSortableBox} from './../../../utils';
+import {isSortableBox, isSlide} from './../../../utils';
 import ReactDOM from 'react-dom';
 
 require('./_pluginRibbon.scss');
@@ -74,7 +74,10 @@ export default class PluginRibbon extends Component {
 
     componentWillUpdate(nextProps,nextState){
         //unset interactable and put it back with autoscroll false this is mandatory when changing between containecanvas and canvas
+
+
         if(this.props.containedViewSelected !== nextProps.containedViewSelected){
+
             if(nextProps.containedViewSelected !== 0){
                 interact(".rib").unset();
                 interact(".rib")
@@ -230,6 +233,11 @@ export default class PluginRibbon extends Component {
                         }
                     });
             }
+        }
+        // !isSlide(this.props.navItemSelected) && isSlide(nextProps.navitemselected) -> Aplicar interact para slide
+        // isSlide(this.props.navItemSelected) && !isSlide(nextProps.navitemselected) -> Aplicar interact para doc
+        if(isSlide(nextProps.navItemSelected.type)){
+            console.log('sss');
         }
     }
 
