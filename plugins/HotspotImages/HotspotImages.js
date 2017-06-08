@@ -117,7 +117,7 @@ export function HotspotImages(base) {
 
             return (
                 <div >
-                        <img style={{height:"100%",width:"100%"}} src={state.url}/>
+                        <img className="dropableRichZone" style={{height:"100%",width:"100%"}} src={state.url}/>
                         {markElements}
                 </div>
             );
