@@ -10,7 +10,6 @@ import interact from 'interact.js';
 import {ADD_BOX,REORDER_SORTABLE_CONTAINER} from '../../../actions';
 import Dali from './../../../core/main';
 import {isSortableBox, isSlide} from './../../../utils';
-import MarkCreator from "../mark_creator/MarkCreator";
 
 require('./_canvas.scss');
 
@@ -47,8 +46,6 @@ export default class DaliCanvas extends Component {
 
             <Col id="canvas" md={12} xs={12}
                  style={{display: this.props.containedViewSelected !== 0 ? 'none' : 'initial'}}>
-                <MarkCreator
-                    markCreatorId={this.props.markCreatorId}/>
                  <DaliShortcuts
                      box={this.props.boxes[this.props.boxSelected]}
                      containedViewSelected={this.props.containedViewSelected}

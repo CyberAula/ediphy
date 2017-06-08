@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
+import MarkCreator from '../mark_creator/MarkCreator';
 import {Button} from 'react-bootstrap';
 import interact from 'interact.js';
 import PluginPlaceholder from '../plugin_placeholder/PluginPlaceholder';
@@ -176,6 +177,7 @@ export default class DaliBox extends Component {
                 verticalAlign = 'top';
             }
         }
+        /*<MarkCreator/>*/
         return (
             /* jshint ignore:start */
             <div className={classes} id={'box-' + this.props.id}
@@ -234,6 +236,8 @@ export default class DaliBox extends Component {
                     null
                 }
                 <div className="boxOverlay" style={{ display: showOverlay }}></div>
+                <MarkCreator
+                    markCreatorId={this.props.markCreatorId}/>
             </div>
             /* jshint ignore:end */
         );
