@@ -24,6 +24,7 @@ export default class DaliCanvas extends Component {
         if (isSlide(this.props.navItemSelected.type)) {
             /* jshint ignore:start */
             canvasContent = <DaliCanvasSli navItemSelected={this.props.navItemSelected}
+                                           canvasRatio={this.props.canvasRatio}
                                            navItems={this.props.navItems}
                                            boxes={this.props.boxes}
                                            boxSelected={this.props.boxSelected}

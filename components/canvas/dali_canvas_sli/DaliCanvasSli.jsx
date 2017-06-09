@@ -57,7 +57,7 @@ export default class DaliCanvasSli extends Component {
 
                     <div id="airlayer"
                     className={'slide_air'}
-                    style={{visibility: (this.props.showCanvas ? 'visible' : 'hidden') }}>
+                    style={{margin: 'auto',visibility: (this.props.showCanvas ? 'visible' : 'hidden') }}>
 
                     <div id="maincontent"
                          onClick={e => {
@@ -181,15 +181,14 @@ export default class DaliCanvasSli extends Component {
         canvas.style.height="100%";
         canvas.style.width="100%";
         let ratio = 16/9;
+
         let w = canvas.offsetWidth;
         let h = canvas.offsetHeight;
-
 
         if (h < 400 || w < 400){
             canvas.style.height = 0 + "px";
             canvas.style.width = 0 + "px";
         }else if (w > ratio*h) {
-            console.log(h);
             canvas.style.width=(ratio*h)+"px";
             // horizontal centering is done using margin:auto in CSS
         } else if (h > w/ratio) {

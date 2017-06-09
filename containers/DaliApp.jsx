@@ -47,6 +47,7 @@ class DaliApp extends Component {
             carouselFull: false,
             serverModal: false,
             catalogModal: false,
+            canvasRatio: 16/9,
             lastAction: ""
         };
     }
@@ -165,6 +166,7 @@ class DaliApp extends Component {
                         </Row>
                         <Row id="canvasRow" style={{height: 'calc(100% - '+ribbonHeight+'px)'}}>
                             <DaliCanvas boxes={boxes}
+                                        canvasRatio={this.state.canvasRatio}
                                         boxSelected={boxSelected}
                                         boxLevelSelected={boxLevelSelected}
                                         navItems={navItems}
