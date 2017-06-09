@@ -73,6 +73,7 @@ export default class DaliBoxSortable extends Component {
                                                                              containedViewSelected={this.props.containedViewSelected}
                                                                              toolbars={this.props.toolbars}
                                                                              lastActionDispatched={this.props.lastActionDispatched}
+                                                                             markCreatorId={this.props.markCreatorId}
                                                                              onBoxSelected={this.props.onBoxSelected}
                                                                              onBoxLevelIncreased={this.props.onBoxLevelIncreased}
                                                                              onBoxMoved={this.props.onBoxMoved}

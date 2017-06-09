@@ -237,7 +237,10 @@ export default class DaliBox extends Component {
                 }
                 <div className="boxOverlay" style={{ display: showOverlay }}></div>
                 <MarkCreator
-                    markCreatorId={this.props.markCreatorId}/>
+                    content={this.refs.content}
+                    markCreatorId={this.props.markCreatorId}
+                    currentId={this.props.id}
+                />
             </div>
             /* jshint ignore:end */
         );
