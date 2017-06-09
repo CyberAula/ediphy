@@ -180,7 +180,14 @@ export default class DaliCanvasSli extends Component {
         let canvas = document.getElementById('airlayer');
         canvas.style.height="100%";
         canvas.style.width="100%";
-        let ratio = 16/9;
+        let ratio;
+        if(window.canvasRatio === undefined){
+            ratio = this.props.canvasRatio;
+            window.canvasRatio = this.props.canvasRatio;
+        } else {
+            ratio = window.canvasRatio;
+        }
+
 
         let w = canvas.offsetWidth;
         let h = canvas.offsetHeight;
