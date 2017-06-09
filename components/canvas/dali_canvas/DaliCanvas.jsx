@@ -119,6 +119,7 @@ export default class DaliCanvas extends Component {
                                                 containedViewSelected={this.props.containedViewSelected}
                                                 toolbars={this.props.toolbars}
                                                 lastActionDispatched={this.props.lastActionDispatched}
+                                                deleteMarkCreator={this.props.deleteMarkCreator}
                                                 markCreatorId={this.props.markCreatorId}
                                                 onBoxSelected={this.props.onBoxSelected}
                                                 onBoxLevelIncreased={this.props.onBoxLevelIncreased}
@@ -140,6 +141,7 @@ export default class DaliCanvas extends Component {
                                                         containedViewSelected={this.props.containedViewSelected}
                                                         toolbars={this.props.toolbars}
                                                         lastActionDispatched={this.props.lastActionDispatched}
+                                                        deleteMarkCreator={this.props.deleteMarkCreator}
                                                         markCreatorId={this.props.markCreatorId}
                                                         onBoxSelected={this.props.onBoxSelected}
                                                         onBoxLevelIncreased={this.props.onBoxLevelIncreased}

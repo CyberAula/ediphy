@@ -175,6 +175,7 @@ class DaliApp extends Component {
                                         toolbars={toolbars}
                                         title={title}
                                         markCreatorId={this.state.markCreatorVisible}
+                                        deleteMarkCreator={()=>this.setState({markCreatorVisible: false})}
                                         lastActionDispatched={this.state.lastAction}
                                         onBoxSelected={(id) => this.dispatchAndSetState(selectBox(id))}
                                         onBoxLevelIncreased={() => this.dispatchAndSetState(increaseBoxLevel())}
@@ -197,6 +198,7 @@ class DaliApp extends Component {
                                              containedViews={containedViews}
                                              containedViewSelected={containedViewSelected}
                                              markCreatorId={this.state.markCreatorVisible}
+                                             deleteMarkCreator={()=>this.setState({markCreatorVisible: false})}
                                              toolbars={toolbars}
                                              lastActionDispatched={this.state.lastAction}
                                              onContainedViewSelected={id => this.dispatchAndSetState(selectContainedView(id))}
