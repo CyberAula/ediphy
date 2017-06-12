@@ -113,6 +113,7 @@ export default class DaliCanvas extends Component {
                             if (!isSortableBox(box.id)) {
                                 return <DaliBox key={id}
                                                 id={id}
+                                                addMarkShortcut={this.props.addMarkShortcut}
                                                 boxes={this.props.boxes}
                                                 boxSelected={this.props.boxSelected}
                                                 boxLevelSelected={this.props.boxLevelSelected}
@@ -135,6 +136,7 @@ export default class DaliCanvas extends Component {
                             } else {
                                 return <DaliBoxSortable key={id}
                                                         id={id}
+                                                        addMarkShortcut={this.props.addMarkShortcut}
                                                         boxes={this.props.boxes}
                                                         boxSelected={this.props.boxSelected}
                                                         boxLevelSelected={this.props.boxLevelSelected}

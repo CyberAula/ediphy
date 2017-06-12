@@ -89,9 +89,7 @@ export function HotspotImages(base) {
         },
         getRichMarkInput :function(state,MarkInput){
             /* jshint ignore:start */
-
             let div = <div><span>x,y</span><input onChange={(event)=>{MarkInput(event.target.value);}}></input></div>;
-
             return div;
             /* jshint ignore:end */
         },
@@ -125,6 +123,11 @@ export function HotspotImages(base) {
         },
         handleToolbar: function (name, value) {
             base.setState(name, value);
+        },
+        parseRichMarkInput: function(...value){
+            let finalValue = value[0]+","+value[1];
+
+            return finalValue;
         }
     };
 }

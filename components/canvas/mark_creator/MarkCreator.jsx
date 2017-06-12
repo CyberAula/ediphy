@@ -35,18 +35,27 @@ export default class MarkCreator extends Component {
                 overlay.style.background = 'yellow';
                 overlay.style.opacity = '0.35';
                 overlay.style.zIndex = 999;
-                overlay.style.cursor = 'url("https://storage.googleapis.com/material-icons/external-assets/v4/icons/svg/ic_room_black_24px.svg"), default';
+                overlay.style.cursor = 'url("https://storage.googleapis.com/material-icons/external-assets/v4/icons/svg/ic_room_black_24px.svg") 12 20, pointer';
                 let component = this;
-                let deleteMark = this.props.deleteMarkCreator;
+                let deleteMarkCreator = this.props.deleteMarkCreator;
+                let addMarkShortcut = this.props.addMarkShortcut;
+                let parseRichMarkInput = this.props.parseRichMarkInput;
 
                 overlay.onclick = function(e){
+                    let square = this.getClientRects()[0];
 
-                    console.log(e);
+                    let x = e.clientX - square.left  ;//e.offsetX;
+                    let y = e.clientY - square.top  ;//e.offsetY;
+
+                    let richMarkParsedValue = parseRichMarkInput(x,y);
+                    console.log(richMarkParsedValue);
+                    addMarkShortcut(richMarkParsedValue);
 
                     /* This is to delete all elements involved */
                     overlay.remove();
                     e.preventDefault();
-                    deleteMark();
+                    deleteMarkCreator();
+
                     component.setState({onCreation: false});
                 };
                 //document.documentElement.style.cursor = 'url("https://storage.googleapis.com/material-icons/external-assets/v4/icons/svg/ic_room_black_24px.svg"), default';

@@ -19,6 +19,7 @@ export default class DaliBox extends Component {
     }
 
     render() {
+
         let cornerSize = 15;
         let box = this.props.boxes[this.props.id];
         let toolbar = this.props.toolbars[this.props.id];
@@ -177,6 +178,7 @@ export default class DaliBox extends Component {
                 verticalAlign = 'top';
             }
         }
+
         /*<MarkCreator/>*/
         return (
             /* jshint ignore:start */
@@ -237,8 +239,10 @@ export default class DaliBox extends Component {
                 }
                 <div className="boxOverlay" style={{ display: showOverlay }}></div>
                 <MarkCreator
+                    addMarkShortcut={this.props.addMarkShortcut}
                     content={this.refs.content}
                     deleteMarkCreator={this.props.deleteMarkCreator}
+                    parseRichMarkInput={Dali.Plugins.get(toolbar.config.name).parseRichMarkInput}
                     markCreatorId={this.props.markCreatorId}
                     currentId={this.props.id}
                 />

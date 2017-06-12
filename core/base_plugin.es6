@@ -245,9 +245,14 @@ export default function () {
                 }.bind(this));
             }
         },
-        getRichMarkInput:function(setMark){
+        getRichMarkInput: function(setMark){
             if(descendant.getRichMarkInput){
-                this.descendant.getRichMarkInput(state,setMark);
+                descendant.getRichMarkInput(state, setMark);
+            }
+        },
+        parseRichMarkInput: function(...values){
+            if(descendant.parseRichMarkInput){
+               return descendant.parseRichMarkInput(...values);
             }
         },
         forceUpdate: function (oldState, sender, reason) {
