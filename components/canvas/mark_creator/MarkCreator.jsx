@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
+import i18n from 'i18next';
+import {ID_PREFIX_RICH_MARK, ID_PREFIX_CONTAINED_VIEW, PAGE_TYPES} from '../../../constants';
 
 export default class MarkCreator extends Component {
 
@@ -27,6 +29,7 @@ export default class MarkCreator extends Component {
                 /* find dropableRichZone*/
 
                 let overlay = document.createElement("div");
+                /* OVERLAY */
                 overlay.style.top = 0;
                 overlay.style.left = 0;
                 overlay.style.width = "100%";
@@ -36,10 +39,25 @@ export default class MarkCreator extends Component {
                 overlay.style.opacity = '0.35';
                 overlay.style.zIndex = 999;
                 overlay.style.cursor = 'url("https://storage.googleapis.com/material-icons/external-assets/v4/icons/svg/ic_room_black_24px.svg") 12 20, pointer';
+                /* OVERLAY */
+
                 let component = this;
                 let deleteMarkCreator = this.props.deleteMarkCreator;
                 let addMarkShortcut = this.props.addMarkShortcut;
                 let parseRichMarkInput = this.props.parseRichMarkInput;
+
+                /* NEW MARK DEFAULT PARAMS*/
+                let connectMode = 'new';
+                let title = i18n.t('new_mark');
+                let connection = {
+                    id: ID_PREFIX_CONTAINED_VIEW + Date.now(),
+                    parent: this.props.boxSelected,
+                    boxes: [],
+                    type: PAGE_TYPES.SLIDE,
+                    extraFiles: {}
+                };
+                let displayMode = 'navigate';
+                /* NEW MARK DEFAULT PARAMS*/
 
                 overlay.onclick = function(e){
                     let square = this.getClientRects()[0];
@@ -47,9 +65,9 @@ export default class MarkCreator extends Component {
                     let x = e.clientX - square.left  ;//e.offsetX;
                     let y = e.clientY - square.top  ;//e.offsetY;
 
-                    let richMarkParsedValue = parseRichMarkInput(x,y);
-                    console.log(richMarkParsedValue);
-                    addMarkShortcut(richMarkParsedValue);
+                    let value = parseRichMarkInput(x,y);
+
+                    addMarkShortcut({id: ID_PREFIX_RICH_MARK + Date.now(), title, connectMode, connection, displayMode, value});
 
                     /* This is to delete all elements involved */
                     overlay.remove();

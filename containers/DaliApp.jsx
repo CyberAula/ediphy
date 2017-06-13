@@ -175,7 +175,19 @@ class DaliApp extends Component {
                                         toolbars={toolbars}
                                         title={title}
                                         markCreatorId={this.state.markCreatorVisible}
-                                        addMarkShortcut={(value)=>{console.log(value)}}
+                                        addMarkShortcut= {(mark) => {
+                                            let toolbar = toolbars[boxSelected];
+                                            let state = JSON.parse(JSON.stringify(toolbar.state));
+                                            state.__marks[mark.id] = JSON.parse(JSON.stringify(mark));
+                                            if(mark.connection.id){
+                                                state.__marks[mark.id].connection = mark.connection.id;
+                                            }
+                                            Dali.Plugins.get(toolbar.config.name).forceUpdate(
+                                                state,
+                                                boxSelected,
+                                                addRichMark(boxSelected, mark, state)
+                                            );
+                                        }}
                                         deleteMarkCreator={()=>this.setState({markCreatorVisible: false})}
                                         lastActionDispatched={this.state.lastAction}
                                         onBoxSelected={(id) => this.dispatchAndSetState(selectBox(id))}

@@ -240,6 +240,7 @@ export default class DaliBox extends Component {
                 <div className="boxOverlay" style={{ display: showOverlay }}></div>
                 <MarkCreator
                     addMarkShortcut={this.props.addMarkShortcut}
+                    boxSelected={this.props.boxSelected}
                     content={this.refs.content}
                     deleteMarkCreator={this.props.deleteMarkCreator}
                     parseRichMarkInput={Dali.Plugins.get(toolbar.config.name).parseRichMarkInput}
