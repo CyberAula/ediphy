@@ -57,6 +57,15 @@ export const UPLOAD_IMAGE = 'UPLOAD_IMAGE';
 export const DELETE_RICH_MARK = 'DELETE_RICH_MARK';
 export const EDIT_PLUGIN_TEXT = 'EDIT_PLUGIN_TEXT';
 
+//testing an aspect ratio code to change the state on slides
+export const TOGGLE_ASPECT_RATIO = 'TOGGLE_ASPECT_RATIO';
+
+export function toggleAspectRatio(id, canvasRatio) {
+    return {type: TOGGLE_ASPECT_RATIO, payload: {id, canvasRatio}};
+}
+//end testing aspect ratio function
+
+
 export function selectNavItem(id) {
     return {type: SELECT_NAV_ITEM, payload: {id}};
 }

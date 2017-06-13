@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {ActionCreators} from 'redux-undo';
 import {Grid, Col, Row, Button, OverlayTrigger, Popover} from 'react-bootstrap';
 import {addNavItem, selectNavItem, expandNavItem, deleteNavItem, reorderNavItem, toggleNavItem, updateNavItemExtraFiles,
-    changeNavItemName, changeUnitNumber,
+    changeNavItemName, changeUnitNumber, toggleAspectRatio,
     addBox, changeTitle, selectBox, moveBox, resizeBox, updateBox, duplicateBox, deleteBox, reorderSortableContainer, dropBox, increaseBoxLevel,
     resizeSortableContainer, deleteSortableContainer, changeCols, changeRows, changeSortableProps, reorderBoxes, verticallyAlignBox,
     toggleTextEditor, toggleTitleMode,
@@ -65,9 +65,12 @@ class DaliApp extends Component {
 
                 <Row className="navBar">
                     <DaliNavBar hideTab={this.state.hideTab}
+                                onAspectRatioToggled={ id => this.dispatchAndSetState(toggleAspectRatio(navItemSelected,this.state.canvasRatio)) }
+                                canvasRatio={this.state.canvasRatio}
                                 undoDisabled={undoDisabled}
                                 redoDisabled={redoDisabled}
                                 navItemsIds={navItemsIds}
+                                navItems={navItems}
                                 title={title}
                                 onTitleChanged={(id, title) => {this.dispatchAndSetState(changeTitle(title))}}
                                 navItemSelected={navItemSelected}
