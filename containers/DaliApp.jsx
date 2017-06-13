@@ -65,8 +65,8 @@ class DaliApp extends Component {
 
                 <Row className="navBar">
                     <DaliNavBar hideTab={this.state.hideTab}
-                                onAspectRatioToggled={ id => this.dispatchAndSetState(toggleAspectRatio(navItemSelected,this.state.canvasRatio)) }
                                 canvasRatio={this.state.canvasRatio}
+                                changeAspectRatio={(ratio) => this.setState({canvasRatio: ratio})}
                                 undoDisabled={undoDisabled}
                                 redoDisabled={redoDisabled}
                                 navItemsIds={navItemsIds}
@@ -159,6 +159,7 @@ class DaliApp extends Component {
                                           boxSelected={boxes[boxSelected]}
                                           undoDisabled={undoDisabled}
                                           redoDisabled={redoDisabled}
+                                          navItemSelected={navItems[navItemSelected]}
                                           containedViewSelected={containedViewSelected}
                                           category={this.state.pluginTab}
                                           hideTab={this.state.hideTab}

@@ -81,7 +81,9 @@ export default class PluginRibbon extends Component {
                 container = "containedCanvas";
             }
         }else{
-            container = "canvas";
+
+                container = "canvas";
+
         }
 
         // !isSlide(this.props.navItemSelected) && isSlide(nextProps.navitemselected) -> Aplicar interact para slide
@@ -174,12 +176,24 @@ export default class PluginRibbon extends Component {
         const holder = ReactDOM.findDOMNode(this.refs.holder);
         holder.addEventListener('mousewheel', this.handleScroll);
 
+        let container;
+
+
+            if(this.props.containedViewSelected !== 0) {
+                container = "containedCanvas";
+
+        }else{
+
+                container = "canvas";
+
+        }
+
         interact.dynamicDrop(true);
         interact(".rib")
             .draggable({
                 inertia: true,
                 autoScroll: {
-                    container: document.getElementById("canvas"),
+                    container: document.getElementById(container),
                     margin: 50,
                     speed: 400,
                     distance: 0,

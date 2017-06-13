@@ -79,7 +79,7 @@ export default class DaliNavBar extends Component {
                         <MenuItem disabled={this.props.undoDisabled} eventKey="3" style={{display: (isSlide(this.props.navItems[this.props.navItemSelected].type) ? 'block' : 'none')}}>
                             <button className="dropdownButton" title={i18n.t('messages.Aspect_ratio')}
                                     disabled={this.props.undoDisabled}
-                                    onClick={() => this.props.canvasRatio === 16/9 ? this.props.onAspectRatioToggled(this.props.navItemSelected, 4/3) : this.props.onAspectRatioToggled(this.props.navItemSelected, 16/9) }><i className="material-icons">tv</i>
+                                    onClick={() => this.props.canvasRatio === 16/9 ? this.props.changeAspectRatio(4/3) : this.props.changeAspectRatio(16/9) }><i className="material-icons">tv</i>
                                 {this.props.canvasRatio === 16/9 ? i18n.t('4/3') : i18n.t('16/9')}
                             </button>
                         </MenuItem>
