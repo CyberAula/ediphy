@@ -42,7 +42,7 @@ export default class MarkCreator extends Component {
                 let cursor_x_offset = 12;
                 let cursor_y_offset = 20;
 
-                overlay.style.cursor = 'url("https://storage.googleapis.com/material-icons/external-assets/v4/icons/svg/ic_room_black_24px.svg") '+ cursor_x_offset+' '+cursor_y_offset+', pointer';
+                overlay.style.cursor = 'url("https://storage.googleapis.com/material-icons/external-assets/v4/icons/svg/ic_room_black_24px.svg") ' + cursor_x_offset + ' ' + cursor_y_offset + ', pointer';
                 /* OVERLAY */
 
                 let component = this;
@@ -69,10 +69,9 @@ export default class MarkCreator extends Component {
                     let x = e.clientX - square.left  - cursor_x_offset;//e.offsetX;
                     let y = e.clientY - square.top - cursor_y_offset ;//e.offsetY;
                     let width = square.right - square.left;
-                    let height =  square.down - square.down;
+                    let height =  square.bottom - square.top;
 
-
-                    let value = parseRichMarkInput(x,y, height, width);
+                    let value = parseRichMarkInput(x,y, width, height);
 
                     addMarkShortcut({id: ID_PREFIX_RICH_MARK + Date.now(), title, connectMode, connection, displayMode, value});
 

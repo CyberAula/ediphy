@@ -110,7 +110,7 @@ export function HotspotImages(base) {
                     position = [0,0];
                 }
 
-                return(<a key={id} style={{position: 'absolute', top: position[0] - 20 +"px",left: position[1] - 12+"px"}} href="#"><i style={{width:"100%",height:"100%"}} className="material-icons">room</i></a>)
+                return(<a key={id} style={{position: 'absolute', top: position[0] + "%",left: position[1] + "%"}} href="#"><i style={{width:"100%",height:"100%"}} className="material-icons">room</i></a>)
             });
 
             return (
@@ -125,7 +125,10 @@ export function HotspotImages(base) {
             base.setState(name, value);
         },
         parseRichMarkInput: function(...value){
-            let finalValue = value[1]+","+value[0];
+            console.log(value);
+            let x = value[0]*100/value[2];
+            let y = value [1]*100/value[3];
+            let finalValue = y+","+x;
 
             return finalValue;
         }
