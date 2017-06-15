@@ -120,6 +120,7 @@ export default class Visor extends Component {
         let title = Dali.State.title;
         let wrapperClasses =  this.state.toggledSidebar ? "visorwrapper toggled" : "visorwrapper";
         let toggleIcon = this.state.toggledSidebar ? "clear" : "menu";
+        let toggleColor = this.state.toggledSidebar ? "toggleColor" : "";        
         return (
             /* jshint ignore:start */      
             <div id="app" className={wrapperClasses} stlye={{height: "100%"}}>
@@ -133,7 +134,7 @@ export default class Visor extends Component {
                         <Row>
                             <Col lg={12}>
                                 <VisorPlayer changePage={(page)=> {this.changePage(page)}} navItemsById={navItems} navItemsIds={navItemsIds} navItemSelected={navItemSelected} />
-                                <Button id="visorNavButton" bsStyle="primary" onClick={e => {this.setState({toggledSidebar: !this.state.toggledSidebar})}}>
+                                <Button id="visorNavButton" className={toggleColor} bsStyle="primary"  onClick={e => {this.setState({toggledSidebar: !this.state.toggledSidebar})}}>
                                     <i className="material-icons">{toggleIcon}</i>
                                 </Button>
                                 { 

@@ -107,6 +107,7 @@ ul li a {
   margin:0;
   padding:0;
   border:0;
+  z-index: 9999;
 }
 
 .playerButton {
@@ -131,6 +132,7 @@ ul li a {
 }
 
 /* Toggle Styles */
+
 
 .visorwrapper {
     padding-left: 0;
@@ -177,19 +179,29 @@ ul li a {
 
 /* Sidebar Styles */
 
+
+
 #visorNavButton {
   border:0;
-  background-color: transparent;
+  background-color: transparent !important;
   color: $newBlue;
   border-radius: 5px;
   padding:2px 2px 0px 2px;
+  top:18px;
+  left: 6px;
+  z-index: 9999;
+  position:fixed;
   &:hover, &:active, &:focus {
-    color: $newBlue !important;
+    color: #777 !important;
     cursor: pointer;
+    background-color: transparent !important;
     opacity: 50% !important;
   }
 }
 
+.toggleColor{
+  color: white !important;
+}
 
 .sidebar-nav {
     position: absolute;
@@ -231,8 +243,9 @@ ul li a {
 
 .sidebar-nav > .sidebar-brand {
     height: 65px;
-    font-size: 18px;
+    font-size: 22px;
     line-height: 60px;
+    padding-left: 14px;
 }
 
 .sidebar-nav > .sidebar-brand a {
