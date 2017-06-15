@@ -22,8 +22,10 @@ export default class Visor extends Component {
             triggeredMarks: [],
             richElementState: {},
             backupElementStates: {},
-            toggledSidebar : true
+            toggledSidebar : true,
+            navItemSelected: Dali.State.navItemSelected
         };
+
     }
 
     componentWillMount(){
@@ -121,12 +123,16 @@ export default class Visor extends Component {
         return (
             /* jshint ignore:start */      
             <div id="app" className={wrapperClasses} stlye={{height: "100%"}}>
-                <SideNavVisor toggled={this.state.toggledSidebar} navItemsById={navItems} navItemsIds={navItemsIds} navItemSelected={navItemSelected}/> 
+                <SideNavVisor toggled={this.state.toggledSidebar} 
+                              changePage={(page)=> {this.changePage(page)}} 
+                              navItemsById={navItems} 
+                              navItemsIds={navItemsIds} 
+                              navItemSelected={navItemSelected}/> 
                 <div id="page-content-wrapper">
                     <Grid fluid={true} style={{height: '100%'}}>
                         <Row>
                             <Col lg={12}>
-                                <VisorPlayer/>
+                                <VisorPlayer changePage={(page)=> {this.changePage(page)}} navItemsById={navItems} navItemsIds={navItemsIds} navItemSelected={navItemSelected} />
                                 <Button id="visorNavButton" bsStyle="primary" onClick={e => {this.setState({toggledSidebar: !this.state.toggledSidebar})}}>
                                     <i className="material-icons">{toggleIcon}</i>
                                 </Button>
@@ -392,6 +398,15 @@ export default class Visor extends Component {
         return nextState;
     }
     /*Marks functions*/
+
+
+    /*Navigation functions*/
+
+    changePage(page){
+        Dali.State.navItemSelected = page;
+        this.setState({navItemSelected: page, currentView: [this.getCurrentView(page, Dali.State.containedViewSelected)] });
+
+    }
 }
 
 /* jshint ignore:start */

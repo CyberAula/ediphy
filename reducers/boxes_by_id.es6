@@ -299,7 +299,6 @@ function sortableContainersReducer(state = {}, action = {}) {
 export default function (state = {}, action = {}) {
     var newState;
     let temp;
-    console.log(action);
     switch (action.type) {
         case ADD_BOX:
             // if box is contained in sortableContainer, add it aswell to its children

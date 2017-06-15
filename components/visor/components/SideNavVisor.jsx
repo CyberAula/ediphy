@@ -9,25 +9,23 @@ export default class SideNavVisor extends Component {
     }
 
     render() {
-         return( 
+        return( 
             /* jshint ignore:start */
-             <div id="sidebar-wrapper">
+            <div id="sidebar-wrapper">
                 <ul className="sidebar-nav">
                     <li className="sidebar-brand">
                         <a href="#">Content</a>
                     </li>
                     {this.props.navItemsIds.map(page => {
                         let margin = this.props.navItemsById[page].level*10 + "px";
-                        console.log(margin);
-                        return (<li style={{marginLeft: margin}}>
-                                    <a href="#">{this.props.navItemsById[page].name}</a>
-                                </li>);
+                        return (<li key={page} style={{marginLeft: margin}} onClick={(e)=>{this.props.changePage(page)}}>
+                                <a href="#">{this.props.navItemsById[page].name}</a>
+                            </li>);
                     })}
-                    {console.log(this.props.navItemsById)}
                      
                 </ul>
             </div>
             /* jshint ignore:end */
-            );
+        );
     }
 }
