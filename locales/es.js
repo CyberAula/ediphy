@@ -80,6 +80,12 @@ var es = {
         "pagenumber" : "Nº Página",
         "Pixels": "Píxeles",
         "Percentage": "Porcentaje",
+        "player": {
+            "First": "Principio",
+            "Previous": "Anterior",
+            "Next": "Siguiente",
+            "Last": "Fin"
+        },
         "Position": "Posicionamiento",
         "Preview": "Previsualizar",
         "Properties": "Propiedades",

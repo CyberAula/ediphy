@@ -84,6 +84,12 @@ var en = {
         "pagenumber" : "Page Number",
         "Pixels": "Pixels",
         "Percentage": "Percentage",
+        "player": {
+            "First": "First",
+            "Previous": "Previous",
+            "Next": "Next",
+            "Last": "Last"
+        },
         "Position": "Positioning",
         "Preview": "Preview",
         "Properties" : "Properties",
