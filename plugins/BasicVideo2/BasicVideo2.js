@@ -1,0 +1,172 @@
+import React from "react";
+import { Form, Button, FormGroup, FormControl, ControlLabel, Col, Grid, Row, Table, Checkbox, Radio} from "react-bootstrap";
+import Typeahead from 'react-bootstrap-typeahead';
+import { Player } from 'video-react';
+
+export function BasicVideo2(base) {
+    return {
+        getConfig: function () {
+            return {
+                name: "BasicVideo2",
+                flavor: "react",
+                displayName: Dali.i18n.t("BasicVideo2.PluginName"),
+                category: "multimedia",
+                icon: "play_arrow"
+            };
+        },
+        getToolbar: function () {
+            return {
+                main: {
+                    __name: "Main",
+                    accordions: {
+                        style: {
+                            __name: Dali.i18n.t("BasicVideo2.style"),
+                            icon: "palette",
+                            order: [
+                                "margins",
+                                "paddings",
+                                "borderWidth",
+                                "borderStyle",
+                                "borderColor",
+                                "borderRadius",
+                                "opacity"
+                            ],
+                            accordions: {
+                                margins: {
+                                    __name: Dali.i18n.t("BasicVideo2.margin"),
+                                    buttons: {
+                                        left: {
+                                            __name: Dali.i18n.t("BasicVideo2.left"),
+                                            type: "number",
+                                            value: "0px",
+                                            min: 0,
+                                            max: 500,
+                                            units: "px"
+                                        },
+                                        right: {
+                                            __name: Dali.i18n.t("BasicVideo2.right"),
+                                            type: "number",
+                                            value: "0px",
+                                            min: 0,
+                                            max: 500,
+                                            units: "px"
+                                        },
+                                        top: {
+                                            __name: Dali.i18n.t("BasicVideo2.top"),
+                                            type: "number",
+                                            value: "0px",
+                                            min: 0,
+                                            max: 500,
+                                            units: "px"
+                                        },
+                                        bottom: {
+                                            __name: Dali.i18n.t("BasicVideo2.bottom"),
+                                            type: "number",
+                                            value: "0px",
+                                            min: 0,
+                                            max: 500,
+                                            units: "px"
+                                        }
+                                    },
+                                },
+                                paddings: {
+                                    __name: Dali.i18n.t("BasicVideo2.padding"),
+                                    buttons: {
+                                        left: {
+                                            __name: Dali.i18n.t("BasicVideo2.left"),
+                                            type: "number",
+                                            value: "0px",
+                                            min: 0,
+                                            max: 500,
+                                            units: "px"
+                                        },
+                                        right: {
+                                            __name: Dali.i18n.t("BasicVideo2.right"),
+                                            type: "number",
+                                            value: "0px",
+                                            min: 0,
+                                            max: 500,
+                                            units: "px"
+                                        },
+                                        top: {
+                                            __name: Dali.i18n.t("BasicVideo2.top"),
+                                            type: "number",
+                                            value: "0px",
+                                            min: 0,
+                                            max: 500,
+                                            units: "px"
+                                        },
+                                        bottom: {
+                                            __name: Dali.i18n.t("BasicVideo2.bottom"),
+                                            type: "number",
+                                            value: "0px",
+                                            min: 0,
+                                            max: 500,
+                                            units: "px"
+                                        }
+                                    },
+                                }
+                            },
+                            buttons: {
+                                borderWidth: {
+                                    __name: Dali.i18n.t("BasicVideo2.border_width"),
+                                    type: "number",
+                                    value: "0px",
+                                    min: 0,
+                                    max: 10,
+                                    units: "px"
+                                },
+                                borderStyle: {
+                                    __name: Dali.i18n.t("BasicVideo2.border_style"),
+                                    type: "select",
+                                    value: "solid",
+                                    options: ["none", "hidden", "dotted", "dashed", "solid", "double", "groove", "ridge", "inset", "outset", "initial", "inherit"]
+                                },
+                                borderColor: {
+                                    __name: Dali.i18n.t("BasicVideo2.border_color"),
+                                    type: "color",
+                                    value: "#000000"
+                                },
+                                borderRadius: {
+                                    __name: Dali.i18n.t("BasicVideo2.border_radius"),
+                                    type: "number",
+                                    value: "0%",
+                                    min: "0",
+                                    max: "50",
+                                    step: "5",
+                                    units: "%"
+                                },
+                                opacity: {
+                                    __name: Dali.i18n.t("BasicVideo2.opacity"),
+                                    type: "range",
+                                    value: 1,
+                                    min: 0,
+                                    max: 1,
+                                    step: 0.01
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+        },
+        getInitialState: function () {
+            return {
+                url: 'http://dl1.webmfiles.org/big-buck-bunny_trailer.webm',
+                controls: true,
+                autoplay: false
+            };
+        },
+        getRenderTemplate: function (state) {
+            return (
+                /* jshint ignore:start */
+                <Player playsInline src={state.url}></Player>
+                /* jshint ignore:end */
+            );
+        },
+        handleToolbar: function (name, value) {
+            base.setState(name, value);
+        }
+
+    };
+}
