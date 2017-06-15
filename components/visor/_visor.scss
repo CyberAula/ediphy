@@ -1,5 +1,7 @@
 @import "../../sass/general/_variables.scss";
 
+$newBlue: #1fc8db;
+
 .thumb {
   font-size: 16px;
   color: #f87060;
@@ -20,12 +22,12 @@
 
 ::-moz-selection {
   color: white;
-  background: #f87060;
+  background: $newBlue;
 }
 
 ::selection {
   color: white;
-  background: #f87060;
+  background: $newBlue;
 }
 
 #nav li.active {
@@ -92,4 +94,172 @@ ul li a {
 #previewTitle {
   background-color: transparent;
   font-weight: bold;
+}
+
+
+/********************Sidebar*************************/
+
+#player {
+  background-color: grey;
+  height:30px;
+  position:fixed;
+  top:0;
+  right:0;
+}
+
+/* Toggle Styles */
+
+.visorwrapper {
+    padding-left: 0;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+    height: 100%;
+}
+
+.visorwrapper.toggled {
+    padding-left: 250px !important;
+}
+
+#sidebar-wrapper {
+    z-index: 1000;
+    position: fixed;
+    left: 250px;
+    width: 0;
+    height: 100%;
+    margin-left: -250px;
+    overflow-y: auto;
+    background: #000;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+
+.visorwrapper.toggled #sidebar-wrapper {
+    width: 250px !important;
+}
+
+#page-content-wrapper {
+    width: 100%;
+    position: absolute;
+    padding: 15px;
+ }
+
+.visorwrapper.toggled #page-content-wrapper {
+    position: absolute !important;
+    margin-right: -250px !important;
+}
+
+/* Sidebar Styles */
+
+#visorNavButton {
+  border:0;
+  background-color: transparent;
+  color: $newBlue;
+  border-radius: 5px;
+  padding:2px 2px 0px 2px;
+  &:hover, &:active, &:focus {
+    color: $newBlue !important;
+    cursor: pointer;
+    opacity: 50% !important;
+  }
+}
+
+
+.sidebar-nav {
+    position: absolute;
+    top: 0;
+    width: 250px;
+    margin: 0;
+    padding: 0;
+    height:100%;
+    background-color: $newBlue;
+    list-style: none;
+    color:white !important;
+    overflow: auto;
+    ul {
+      height:100%;
+    }
+}
+
+.sidebar-nav li {
+    text-indent: 20px;
+    line-height: 40px;
+}
+
+.sidebar-nav li a {
+    display: block;
+    text-decoration: none;
+    color: white;
+}
+
+.sidebar-nav li a:hover {
+    text-decoration: none;
+    color: #fff;
+    background: rgba(255,255,255,0.2);
+}
+
+.sidebar-nav li a:active,
+.sidebar-nav li a:focus {
+    text-decoration: none;
+}
+
+.sidebar-nav > .sidebar-brand {
+    height: 65px;
+    font-size: 18px;
+    line-height: 60px;
+}
+
+.sidebar-nav > .sidebar-brand a {
+    color: white;
+    font-weight: bolder;
+}
+
+.sidebar-nav > .sidebar-brand a:hover {
+    color: #fff;
+    background: none;
+}
+
+@media(min-width:768px) {
+    .visorwrapper {
+        padding-left: 0;
+    }
+
+    .visorwrapper.toggled {
+        padding-left: 250px !important;
+    }
+
+    #sidebar-wrapper {
+        width: 0;
+    }
+
+    .visorwrapper.toggled #sidebar-wrapper {
+        width: 250px !important;
+    }
+
+    #page-content-wrapper {
+        padding: 20px;
+        position: relative;
+    }
+
+    .visorwrapper.toggled #page-content-wrapper {
+        position: relative !important;
+        margin-right: 0 !important;
+    }
+}
+
+/*Scrollbar*/
+.visorwrapper *::-webkit-scrollbar-track {
+  background-color: $newBlue;
+  border:0;
+
+}
+.visorwrapper *::-webkit-scrollbar-thumb {
+    background-color: #ddd;
+}
+.visorwrapper *::-webkit-scrollbar-thumb:hover {
+    background-color:  #ddd;
+    opacity: 50%;
 }

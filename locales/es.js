@@ -38,6 +38,7 @@ var es = {
         "Images": "Imágenes",
         "Importing": "Se está importando...",
         "INDEX": "ÍNDICE",
+        "Indice" : "Índice",
         "marks":{
           "add_mark_to": "Añadir marca a",
           "edit_mark_to": "Editar marca a",

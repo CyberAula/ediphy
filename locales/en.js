@@ -41,6 +41,7 @@ var en = {
         "Images": "Images",
         "Importing": "Importing...",
         "INDEX": "INDEX",
+        "Indice" : "Index",
         "marks":{
             "add_mark_to": "Add mark to",
             "edit_mark_to": "Edit mark to",
