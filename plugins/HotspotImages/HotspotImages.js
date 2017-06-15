@@ -128,7 +128,7 @@ export function HotspotImages(base) {
             console.log(value);
             let x = value[0]*100/value[2];
             let y = value [1]*100/value[3];
-            let finalValue = y+","+x;
+            let finalValue = y.toFixed(3)+","+x.toFixed(3);
 
             return finalValue;
         }

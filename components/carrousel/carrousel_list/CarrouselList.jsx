@@ -128,7 +128,7 @@ export default class CarrouselList extends Component {
                                           onClick={e => {
                                             this.props.onContainedViewSelected(id);
                                             e.stopPropagation();
-                                          }}>{id}</div>)
+                                          }}>{this.props.containedViews[id].name}</div>)
                         })
                     }
                 </div>

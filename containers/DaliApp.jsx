@@ -182,6 +182,8 @@ class DaliApp extends Component {
                                             if(mark.connection.id){
                                                 state.__marks[mark.id].connection = mark.connection.id;
                                             }
+
+
                                             Dali.Plugins.get(toolbar.config.name).forceUpdate(
                                                 state,
                                                 boxSelected,

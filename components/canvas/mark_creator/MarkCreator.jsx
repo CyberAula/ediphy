@@ -56,6 +56,7 @@ export default class MarkCreator extends Component {
                 let connection = {
                     id: ID_PREFIX_CONTAINED_VIEW + Date.now(),
                     parent: this.props.boxSelected,
+                    name: i18n.t('contained_view'),
                     boxes: [],
                     type: PAGE_TYPES.SLIDE,
                     extraFiles: {}

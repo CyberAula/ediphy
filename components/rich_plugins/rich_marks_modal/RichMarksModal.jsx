@@ -180,6 +180,7 @@ export default class RichMarksModal extends Component {
                                     {
                                         id: ID_PREFIX_CONTAINED_VIEW + Date.now(),
                                         parent: this.props.boxSelected,
+                                        name: i18n.t('contained_view'),
                                         boxes: [],
                                         type: this.state.newSelected,
                                         extraFiles: {}
