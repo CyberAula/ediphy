@@ -46,6 +46,7 @@ function isBusy(state = "", action = {}) {
     }
 }
 
+
 function fetchVishResults(state = {results: []}, action = {}) {
     switch (action.type) {
         case FETCH_VISH_RESOURCES_SUCCESS:
