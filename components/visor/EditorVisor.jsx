@@ -114,7 +114,9 @@ export default class Visor extends Component {
         let toolbars = Dali.State.toolbarsById;
         let title = Dali.State.title;
 
+        console.log(Dali.State);
         return (
+
             /* jshint ignore:start */
             <Grid id="app" fluid={true} style={{height: '100%'}}>
                 { this.getLastCurrentViewElement().indexOf("cv-") === -1 ?
@@ -140,6 +142,7 @@ export default class Visor extends Component {
                                 }}
                                 richElementsState={this.state.richElementState}
                                 viewsArray={this.state.currentView}
+                                canvasRatio={this.state.canvasRatio}
                     />) :
                     (<ContainedCanvasVisor boxes={boxes}
                                 boxSelected={boxSelected}

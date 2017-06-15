@@ -177,6 +177,8 @@ export default class DaliCanvasSli extends Component {
     }
 
     aspectRatio() {
+        //console.log(parametro);
+        //console.log(arguments);
         let canvas = document.getElementById('airlayer');
         canvas.style.height="100%";
         canvas.style.width="100%";

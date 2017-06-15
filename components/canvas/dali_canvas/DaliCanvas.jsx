@@ -41,6 +41,7 @@ export default class DaliCanvas extends Component {
                                            onTextEditorToggled={this.props.onTextEditorToggled}
                                            titleModeToggled={this.props.titleModeToggled}
                                            showCanvas={this.props.showCanvas}
+                                           title={this.props.title}
                                            containedViewSelected={this.props.containedViewSelected}/>;
 
             /* jshint ignore:end */
@@ -67,6 +68,7 @@ export default class DaliCanvas extends Component {
                                            onBoxesInsideSortableReorder={this.props.onBoxesInsideSortableReorder}
                                            titleModeToggled={this.props.titleModeToggled}
                                            showCanvas={this.props.showCanvas}
+                                           title={this.props.title}
                                            containedViewSelected={this.props.containedViewSelected}/>;
             /* jshint ignore:end */
         }
