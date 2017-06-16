@@ -15,6 +15,7 @@ export default class SideNavVisor extends Component {
             <div id="sidebar-wrapper">
                 <ul className="sidebar-nav">
                     <li className="sidebar-brand">
+                        {/*Falta traducir "Content" con i18n*/}
                         <a href="#">Content</a>
                     </li>
                     {this.props.navItemsIds.map(page => {
@@ -22,9 +23,9 @@ export default class SideNavVisor extends Component {
                         let marginPage = level*10 + 10 + "px";
                         if(level == 1) {
                             if (page.indexOf("se") != -1){
-                                 return (<VisorNavSection key={page} pageName={page} navItemsById={this.props.navItemsById} changePage={(page)=> {this.props.changePage(page)}} />);
+                                return (<VisorNavSection display={true} key={page} pageName={page} navItemsById={this.props.navItemsById} changePage={(page)=> {this.props.changePage(page)}} />);
                             } else {
-                                 return (<li key={page}  onClick={(e)=>{this.props.changePage(page)}} className="visorNavListEl">
+                                return (<li key={page}  onClick={(e)=>{this.props.changePage(page)}} className="visorNavListEl">
                                     <a style={{paddingLeft: marginPage}} href="#">{this.props.navItemsById[page].name}</a>
                                 </li>);
                             }

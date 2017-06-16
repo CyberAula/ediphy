@@ -120,7 +120,8 @@ export default class Visor extends Component {
         let title = Dali.State.title;
         let wrapperClasses =  this.state.toggledSidebar ? "visorwrapper toggled" : "visorwrapper";
         let toggleIcon = this.state.toggledSidebar ? "clear" : "menu";
-        let toggleColor = this.state.toggledSidebar ? "toggleColor" : "";        
+        let toggleColor = this.state.toggledSidebar ? "toggleColor" : "";  
+            
         return (
             /* jshint ignore:start */      
             <div id="app" className={wrapperClasses} stlye={{height: "100%"}}>

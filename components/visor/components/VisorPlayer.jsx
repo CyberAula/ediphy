@@ -57,6 +57,7 @@ export default class VisorPlayer extends Component {
     }
     createTooltip(id, message){
         /* jshint ignore:start */
+        /*Añadir aquí i18n next para traducir el tooltip*/
         return(<Tooltip className="visorNavTooltip" id={id}>{message}</Tooltip>);
         /* jshint ignore:end */
     }
