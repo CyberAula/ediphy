@@ -179,6 +179,22 @@ ul li a {
 
 /* Sidebar Styles */
 
+.visorNavListEl {
+  list-style: none;
+  list-style-type: none;
+  height:auto;
+  
+  i {
+    vertical-align: middle;
+    margin:0;
+    width:auto;
+    text-indent:0px;
+  }
+}
+
+li.visorNavListEl {
+  //border-bottom: 1px solid white;
+}
 
 
 #visorNavButton {
@@ -221,9 +237,10 @@ ul li a {
     list-style: none;
     color:white !important;
     overflow: auto;
-    ul {
-      height:100%;
-    }
+}
+
+ul.sidebar-nav  {
+  height:100%;
 }
 
 .sidebar-nav li {

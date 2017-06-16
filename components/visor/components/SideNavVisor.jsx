@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import i18n from 'i18next';
+import VisorNavSection from './VisorNavSection';
 
 export default class SideNavVisor extends Component {
     constructor(props) {
@@ -17,10 +18,17 @@ export default class SideNavVisor extends Component {
                         <a href="#">Content</a>
                     </li>
                     {this.props.navItemsIds.map(page => {
-                        let margin = this.props.navItemsById[page].level*10 + "px";
-                        return (<li key={page} style={{marginLeft: margin}} onClick={(e)=>{this.props.changePage(page)}}>
-                                <a href="#">{this.props.navItemsById[page].name}</a>
-                            </li>);
+                        let level = this.props.navItemsById[page].level;
+                        let marginPage = level*10 + 10 + "px";
+                        if(level == 1) {
+                            if (page.indexOf("se") != -1){
+                                 return (<VisorNavSection key={page} pageName={page} navItemsById={this.props.navItemsById} changePage={(page)=> {this.props.changePage(page)}} />);
+                            } else {
+                                 return (<li key={page}  onClick={(e)=>{this.props.changePage(page)}} className="visorNavListEl">
+                                    <a style={{paddingLeft: marginPage}} href="#">{this.props.navItemsById[page].name}</a>
+                                </li>);
+                            }
+                        }
                     })}
                      
                 </ul>

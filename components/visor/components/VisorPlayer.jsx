@@ -19,7 +19,7 @@ export default class VisorPlayer extends Component {
         return( 
             /* jshint ignore:start */
             <div id="player">
-                <OverlayTrigger placement="bottom" delayHide={0} overlay={this.createTooltip("first","First")}>
+                <OverlayTrigger placement="bottom" delay={0} trigger={['hover']} rootClose={true} overlay={this.createTooltip("first","First")}>
                     <Button className="playerButton" 
                             bsStyle="primary" 
                             disabled={maxIndex==0}
@@ -27,7 +27,7 @@ export default class VisorPlayer extends Component {
                         <i className="material-icons">first_page</i>
                     </Button>
                 </OverlayTrigger>
-                <OverlayTrigger placement="bottom" overlay={this.createTooltip("previous","Previous")}>
+                <OverlayTrigger placement="bottom" delay={0} trigger={['hover']} rootClose={true} overlay={this.createTooltip("previous","Previous")}>
                     <Button className="playerButton" 
                             bsStyle="primary" 
                             disabled={index==0 || maxIndex==0} 
@@ -35,7 +35,7 @@ export default class VisorPlayer extends Component {
                         <i className="material-icons">chevron_left</i>
                     </Button>
                 </OverlayTrigger>
-                <OverlayTrigger placement="bottom" overlay={this.createTooltip("next","Next")}>
+                <OverlayTrigger placement="bottom" delay={0} trigger={['hover']} rootClose={true} overlay={this.createTooltip("next","Next")}>
                     <Button className="playerButton" 
                             bsStyle="primary"
                             disabled={index==maxIndex-1 || maxIndex==0} 
@@ -43,7 +43,7 @@ export default class VisorPlayer extends Component {
                         <i className="material-icons">chevron_right</i>
                     </Button>   
                 </OverlayTrigger>   
-                <OverlayTrigger placement="bottom" overlay={this.createTooltip("last","Last")}>          
+                <OverlayTrigger placement="bottom" delay={0} trigger={['hover']} rootClose={true} overlay={this.createTooltip("last","Last")}>          
                     <Button className="playerButton" 
                             bsStyle="primary" 
                             disabled={maxIndex==0}
