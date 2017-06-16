@@ -19,7 +19,8 @@ export default class Visor extends Component {
             currentView: [this.getCurrentView(Dali.State.navItemSelected, Dali.State.containedViewSelected)],  /*This is the actual view rendering*/
             triggeredMarks: [],
             richElementState: {},
-            backupElementStates: {}
+            backupElementStates: {},
+            canvasRatio: 16/9,
         };
     }
 
