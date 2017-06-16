@@ -1,7 +1,7 @@
 import React from "react";
 import { Form, Button, FormGroup, FormControl, ControlLabel, Col, Grid, Row, Table, Checkbox, Radio} from "react-bootstrap";
 import Typeahead from 'react-bootstrap-typeahead';
-import { Player } from 'video-react';
+import {Player} from "video-react";
 
 export function BasicVideo2(base) {
     return {

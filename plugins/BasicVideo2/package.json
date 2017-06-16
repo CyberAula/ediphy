@@ -1,0 +1,7 @@
+{
+  "name" : "BasicVideo2",
+  "version" : "0.1.0",
+  "dependencies": {
+    "video-react": "^0.8.51.5.3"
+  }
+}

@@ -25,7 +25,8 @@ export default {
         'RelacionaAll',
         'GraficaD3',
         'EnrichedVideo',
-        'HotspotImages'
+        'HotspotImages',
+        'BasicVideo2'
     ],
     availableLanguages:[
         'en',
