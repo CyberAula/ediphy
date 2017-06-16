@@ -124,8 +124,7 @@ export default class PluginRibbon extends Component {
                             target.setAttribute('data-x', x);
                             target.setAttribute('data-y', y);
 
-                            //console.log(y);
-                        },
+                         },
                         onend: (event) => {
                             changeOverflow(false);
                             let original = event.target;
@@ -201,7 +200,7 @@ export default class PluginRibbon extends Component {
                             target.setAttribute('data-x', x);
                             target.setAttribute('data-y', y);
 
-                            //console.log(y);
+                     
                         },
                         onend: (event) => {
                             changeOverflow(false);
@@ -289,8 +288,7 @@ export default class PluginRibbon extends Component {
                     target.setAttribute('data-x', x);
                     target.setAttribute('data-y', y);
 
-                    //console.log(y);
-                },
+                 },
                 onend: (event) => {
                     changeOverflow(false);
                     let original = event.target;

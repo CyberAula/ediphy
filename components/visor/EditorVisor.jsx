@@ -1,10 +1,12 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
-import {Grid} from 'react-bootstrap';
+import {Grid, Row, Col, Button} from 'react-bootstrap';
 import {isAncestorOrSibling} from './../../utils';
 
 import CanvasVisor from './components/CanvasVisor';
 import ContainedCanvasVisor from './components/ContainedCanvasVisor';
+import SideNavVisor from './components/SideNavVisor';
+import VisorPlayer from './components/VisorPlayer';
 
 require('es6-promise').polyfill();
 require('./../../sass/style.scss');
@@ -19,8 +21,11 @@ export default class Visor extends Component {
             currentView: [this.getCurrentView(Dali.State.navItemSelected, Dali.State.containedViewSelected)],  /*This is the actual view rendering*/
             triggeredMarks: [],
             richElementState: {},
-            backupElementStates: {}
+            backupElementStates: {},
+            toggledSidebar : true,
+            navItemSelected: Dali.State.navItemSelected
         };
+
     }
 
     componentWillMount(){
@@ -104,68 +109,89 @@ export default class Visor extends Component {
         if(window.State){
             Dali.State = window.State;
         }
-
         let boxes = Dali.State.boxesById;
         let boxSelected = Dali.State.boxSelected;
         let navItems = Dali.State.navItemsById;
+        let navItemsIds = Dali.State.navItemsIds;
         let navItemSelected = Dali.State.navItemSelected;
         let containedViews = Dali.State.containedViewsById;
         let containedViewSelected = Dali.State.containedViewSelected;
         let toolbars = Dali.State.toolbarsById;
         let title = Dali.State.title;
-
+        let wrapperClasses =  this.state.toggledSidebar ? "visorwrapper toggled" : "visorwrapper";
+        let toggleIcon = this.state.toggledSidebar ? "clear" : "menu";
+        let toggleColor = this.state.toggledSidebar ? "toggleColor" : "";  
+            
         return (
-            /* jshint ignore:start */
-            <Grid id="app" fluid={true} style={{height: '100%'}}>
-                { this.getLastCurrentViewElement().indexOf("cv-") === -1 ?
-                    (<CanvasVisor boxes={boxes}
-                                boxSelected={boxSelected}
-                                changeCurrentView={(element) => {
-                                    this.setState({currentView: [this.getCurrentView(Dali.State.navItemSelected, Dali.State.containedViewSelected), element]}); //Add a global state of Object Values so when transitioning you keep that value
-                                }}
-                                containedViews={containedViews}
-                                currentView={this.getLastCurrentViewElement()}
-                                navItems={navItems}
-                                navItemSelected={navItems[navItemSelected]}
-                                toolbars={toolbars}
-                                title={title}
-                                triggeredMarks={this.state.triggeredMarks}
-                                showCanvas={this.getLastCurrentViewElement().indexOf("cv-") === -1}
-                                removeLastView={()=>{
-                                    this.setState({
-                                        currentView: this.state.currentView.slice(0,-1),
-                                        triggeredMarks: this.unTriggerLastMark(this.state.triggeredMarks),
-                                        richElementState: this.getActualBoxesStates(this.state.backupElementStates,this.state.richElementState)
-                                    })
-                                }}
-                                richElementsState={this.state.richElementState}
-                                viewsArray={this.state.currentView}
-                    />) :
-                    (<ContainedCanvasVisor boxes={boxes}
-                                boxSelected={boxSelected}
-                                changeCurrentView={(element) => {
-                                   this.setState({currentView: [this.getCurrentView(Dali.State.navItemSelected, Dali.State.containedViewSelected), element]});
-                                }}
-                                containedViews={containedViews}
-                                containedViewSelected={containedViewSelected}
-                                navItems={navItems}
-                                toolbars={toolbars}
-                                title={title}
-                                triggeredMarks={this.state.triggeredMarks}
-                                showCanvas={this.getLastCurrentViewElement().indexOf("cv-") !== -1}
-                                currentView={this.getLastCurrentViewElement()}
-                                removeLastView={()=>{
-                                   this.setState({
-                                       currentView: this.state.currentView.slice(0,-1),
-                                       triggeredMarks: this.unTriggerLastMark(this.state.triggeredMarks),
-                                       richElementState: this.getActualBoxesStates(this.state.backupElementStates,this.state.richElementState)
-                                   })
-                                }}
-                                richElementsState={this.state.richElementState}
-                                viewsArray={this.state.currentView}
-                    />)
-                }
-            </Grid>
+            /* jshint ignore:start */      
+            <div id="app" className={wrapperClasses} stlye={{height: "100%"}}>
+                <SideNavVisor toggled={this.state.toggledSidebar} 
+                              changePage={(page)=> {this.changePage(page)}} 
+                              navItemsById={navItems} 
+                              navItemsIds={navItemsIds} 
+                              navItemSelected={navItemSelected}/> 
+                <div id="page-content-wrapper">
+                    <Grid fluid={true} style={{height: '100%'}}>
+                        <Row>
+                            <Col lg={12}>
+                                <VisorPlayer changePage={(page)=> {this.changePage(page)}} navItemsById={navItems} navItemsIds={navItemsIds} navItemSelected={navItemSelected} />
+                                <Button id="visorNavButton" className={toggleColor} bsStyle="primary"  onClick={e => {this.setState({toggledSidebar: !this.state.toggledSidebar})}}>
+                                    <i className="material-icons">{toggleIcon}</i>
+                                </Button>
+                                { 
+                                    this.getLastCurrentViewElement().indexOf("cv-") === -1 ?
+                                    (<CanvasVisor boxes={boxes}
+                                                boxSelected={boxSelected}
+                                                changeCurrentView={(element) => {
+                                                    this.setState({currentView: [this.getCurrentView(Dali.State.navItemSelected, Dali.State.containedViewSelected), element]}); //Add a global state of Object Values so when transitioning you keep that value
+                                                }}
+                                                containedViews={containedViews}
+                                                currentView={this.getLastCurrentViewElement()}
+                                                navItems={navItems}
+                                                navItemSelected={navItems[navItemSelected]}
+                                                toolbars={toolbars}
+                                                title={title}
+                                                triggeredMarks={this.state.triggeredMarks}
+                                                showCanvas={this.getLastCurrentViewElement().indexOf("cv-") === -1}
+                                                removeLastView={()=>{
+                                                    this.setState({
+                                                        currentView: this.state.currentView.slice(0,-1),
+                                                        triggeredMarks: this.unTriggerLastMark(this.state.triggeredMarks),
+                                                        richElementState: this.getActualBoxesStates(this.state.backupElementStates,this.state.richElementState)
+                                                    })
+                                                }}
+                                                richElementsState={this.state.richElementState}
+                                                viewsArray={this.state.currentView}
+                                    />) :
+                                    (<ContainedCanvasVisor boxes={boxes}
+                                                boxSelected={boxSelected}
+                                                changeCurrentView={(element) => {
+                                                   this.setState({currentView: [this.getCurrentView(Dali.State.navItemSelected, Dali.State.containedViewSelected), element]});
+                                                }}
+                                                containedViews={containedViews}
+                                                containedViewSelected={containedViewSelected}
+                                                navItems={navItems}
+                                                toolbars={toolbars}
+                                                title={title}
+                                                triggeredMarks={this.state.triggeredMarks}
+                                                showCanvas={this.getLastCurrentViewElement().indexOf("cv-") !== -1}
+                                                currentView={this.getLastCurrentViewElement()}
+                                                removeLastView={()=>{
+                                                   this.setState({
+                                                       currentView: this.state.currentView.slice(0,-1),
+                                                       triggeredMarks: this.unTriggerLastMark(this.state.triggeredMarks),
+                                                       richElementState: this.getActualBoxesStates(this.state.backupElementStates,this.state.richElementState)
+                                                   })
+                                                }}
+                                                richElementsState={this.state.richElementState}
+                                                viewsArray={this.state.currentView}
+                                    />)
+                                 }
+                            </Col>
+                        </Row>
+                    </Grid>
+                </div>
+            </div>
             /* jshint ignore:end */
         );
     }
@@ -374,6 +400,15 @@ export default class Visor extends Component {
         return nextState;
     }
     /*Marks functions*/
+
+
+    /*Navigation functions*/
+
+    changePage(page){
+        Dali.State.navItemSelected = page;
+        this.setState({navItemSelected: page, currentView: [this.getCurrentView(page, Dali.State.containedViewSelected)] });
+
+    }
 }
 
 /* jshint ignore:start */
