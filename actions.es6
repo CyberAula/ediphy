@@ -58,6 +58,14 @@ export const DELETE_RICH_MARK = 'DELETE_RICH_MARK';
 export const EDIT_PLUGIN_TEXT = 'EDIT_PLUGIN_TEXT';
 
 
+//aspect ratio
+export const TOGGLE_ASPECT_RATIO = 'TOGGLE_ASPECT_RATIO';
+
+export function toggleAspectRatio(ratio) {
+    return {type: TOGGLE_ASPECT_RATIO, payload: {ratio}};
+}
+
+
 export function selectNavItem(id) {
     return {type: SELECT_NAV_ITEM, payload: {id}};
 }

@@ -35,7 +35,7 @@ export default class CanvasVisorSli extends Component {
 
                     <div id="airlayer"
                     className={'slide_air'}
-                    style={{visibility: (this.props.showCanvas ? 'visible' : 'hidden') }}>
+                    style={{margin:'0 auto',visibility: (this.props.showCanvas ? 'visible' : 'hidden') }}>
 
                     <div id="maincontent"
                          onClick={e => {
