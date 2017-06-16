@@ -1,7 +1,9 @@
 import React from "react";
-import { Form, Button, FormGroup, FormControl, ControlLabel, Col, Grid, Row, Table, Checkbox, Radio} from "react-bootstrap";
-import Typeahead from 'react-bootstrap-typeahead';
-import {Player} from "video-react";
+import { Media, Player, withMediaProps, withKeyboardControls, controls } from 'react-media-player';
+const { CurrentTime, Progress, SeekBar, Duration, Volume } = controls;
+import PlayPause from './components/PlayPause';
+import MuteUnmute from './components/MuteUnmute';
+import Fullscreen from './components/FullScreen';
 
 export function BasicVideo2(base) {
     return {
@@ -152,7 +154,7 @@ export function BasicVideo2(base) {
         },
         getInitialState: function () {
             return {
-                url: 'http://dl1.webmfiles.org/big-buck-bunny_trailer.webm',
+                url: "https://www.youtube.com/watch?v=EFdEmbuikOw",
                 controls: true,
                 autoplay: false
             };
@@ -160,7 +162,31 @@ export function BasicVideo2(base) {
         getRenderTemplate: function (state) {
             return (
                 /* jshint ignore:start */
-                <Player playsInline src={state.url}></Player>
+            <Media>
+                {({ isFullscreen, playPause }) =>
+                    <div
+                        className={'media-player' + (isFullscreen ? ' media-player--fullscreen' : '')}
+                        tabIndex="0"
+                    >
+                        <Player
+                            src={state.url}
+                            onClick={() => playPause()}
+                        />
+                        <div className="media-controls">
+                            <PlayPause className="media-control media-control--play-pause" />
+                            <CurrentTime className="media-control media-control--current-time" />
+                            <div className="media-control-group media-control-group--seek">
+                                <Progress className="media-control media-control--progress" />
+                                <SeekBar className="media-control media-control--seekbar" />
+                            </div>
+                            <Duration className="media-control media-control--duration" />
+                            <MuteUnmute className="media-control media-control--mute-unmute" />
+                            <Volume className="media-control media-control--volume" />
+                            <Fullscreen className="media-control media-control--fullscreen" />
+                        </div>
+                    </div>
+                }
+            </Media>
                 /* jshint ignore:end */
             );
         },
