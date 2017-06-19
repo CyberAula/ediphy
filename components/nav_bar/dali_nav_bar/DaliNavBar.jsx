@@ -18,7 +18,7 @@ export default class DaliNavBar extends Component {
         let disablePlugins = (this.props.navItemsIds.length === 0 || this.props.navItemSelected === 0);
         let modalTitle = "";
         let modalShow = false;
-        
+
         return (
             /* jshint ignore:start */
             <Col id="iconBar">
