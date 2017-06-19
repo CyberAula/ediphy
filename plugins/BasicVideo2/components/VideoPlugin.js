@@ -70,31 +70,18 @@ export default class VideoPlugin extends React.Component {
                     onProgress={this.onProgress.bind(this)}
                     onDuration={duration => this.setState({ duration })}
                 />
-                <table><tbody>
-                <tr>
-                    <td>
-                        <button onClick={this.playPause.bind(this)}>{this.state.playing ? 'Pause' : 'Play'}</button>
-                        <button onClick={this.onClickFullscreen.bind(this)}>Fullscreen</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <input
-                            type='range' min={0} max={1} step='any'
-                            value={this.state.played}
-                            onMouseDown={this.onSeekMouseDown.bind(this)}
-                            onChange={this.onSeekChange.bind(this)}
-                             onMouseUp={this.onSeekMouseUp.bind(this)}
-                        />
-                        <td><progress max={1} value={this.state.played} /></td>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <input type='range' min={0} max={1} step='any' value={this.state.volume} onChange={this.setVolume.bind(this)} />
-                    </td>
-                </tr>
-                </tbody></table>
+
+                <button onClick={this.playPause.bind(this)}>{this.state.playing ? 'Pause' : 'Play'}</button>
+                <button onClick={this.onClickFullscreen.bind(this)}>Fullscreen</button>
+                <input
+                    type='range' min={0} max={1} step='any'
+                    value={this.state.played}
+                    onMouseDown={this.onSeekMouseDown.bind(this)}
+                    onChange={this.onSeekChange.bind(this)}
+                     onMouseUp={this.onSeekMouseUp.bind(this)}
+                />
+                <progress max={1} value={this.state.played} />
+                <input type='range' min={0} max={1} step='any' value={this.state.volume} onChange={this.setVolume.bind(this)} />
             </div>
         );
         /* jshint ignore:end */
