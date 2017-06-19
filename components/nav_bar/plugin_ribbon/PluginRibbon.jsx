@@ -81,9 +81,7 @@ export default class PluginRibbon extends Component {
                 container = "containedCanvas";
             }
         }else{
-
                 container = "canvas";
-
         }
 
         // !isSlide(this.props.navItemSelected) && isSlide(nextProps.navitemselected) -> Aplicar interact para slide
@@ -236,8 +234,7 @@ export default class PluginRibbon extends Component {
                     target.setAttribute('data-x', x);
                     target.setAttribute('data-y', y);
 
-                    //console.log(y);
-                },
+                 },
                 onend: (event) => {
                     changeOverflow(false);
                     let original = event.target;

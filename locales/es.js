@@ -40,6 +40,7 @@ var es = {
         "Images": "Imágenes",
         "Importing": "Se está importando...",
         "INDEX": "ÍNDICE",
+        "Indice" : "Índice",
         "marks":{
           "add_mark_to": "Añadir marca a",
           "edit_mark_to": "Editar marca a",
@@ -81,6 +82,12 @@ var es = {
         "pagenumber" : "Nº Página",
         "Pixels": "Píxeles",
         "Percentage": "Porcentaje",
+        "player": {
+            "First": "Principio",
+            "Previous": "Anterior",
+            "Next": "Siguiente",
+            "Last": "Fin"
+        },
         "Position": "Posicionamiento",
         "Preview": "Previsualizar",
         "Properties": "Propiedades",
