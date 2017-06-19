@@ -1,5 +1,6 @@
 import React from "react";
 import VideoPlugin from './components/VideoPlugin.js';
+require('./BasicVideo.scss');
 
 export function BasicVideo2(base) {
     return {
@@ -17,131 +18,75 @@ export function BasicVideo2(base) {
                 main: {
                     __name: "Main",
                     accordions: {
-                        style: {
-                            __name: Dali.i18n.t("BasicVideo2.style"),
-                            icon: "palette",
-                            order: [
-                                "margins",
-                                "paddings",
-                                "borderWidth",
-                                "borderStyle",
-                                "borderColor",
-                                "borderRadius",
-                                "opacity"
-                            ],
-                            accordions: {
-                                margins: {
-                                    __name: Dali.i18n.t("BasicVideo2.margin"),
-                                    buttons: {
-                                        left: {
-                                            __name: Dali.i18n.t("BasicVideo2.left"),
-                                            type: "number",
-                                            value: "0px",
-                                            min: 0,
-                                            max: 500,
-                                            units: "px"
-                                        },
-                                        right: {
-                                            __name: Dali.i18n.t("BasicVideo2.right"),
-                                            type: "number",
-                                            value: "0px",
-                                            min: 0,
-                                            max: 500,
-                                            units: "px"
-                                        },
-                                        top: {
-                                            __name: Dali.i18n.t("BasicVideo2.top"),
-                                            type: "number",
-                                            value: "0px",
-                                            min: 0,
-                                            max: 500,
-                                            units: "px"
-                                        },
-                                        bottom: {
-                                            __name: Dali.i18n.t("BasicVideo2.bottom"),
-                                            type: "number",
-                                            value: "0px",
-                                            min: 0,
-                                            max: 500,
-                                            units: "px"
-                                        }
-                                    },
-                                },
-                                paddings: {
-                                    __name: Dali.i18n.t("BasicVideo2.padding"),
-                                    buttons: {
-                                        left: {
-                                            __name: Dali.i18n.t("BasicVideo2.left"),
-                                            type: "number",
-                                            value: "0px",
-                                            min: 0,
-                                            max: 500,
-                                            units: "px"
-                                        },
-                                        right: {
-                                            __name: Dali.i18n.t("BasicVideo2.right"),
-                                            type: "number",
-                                            value: "0px",
-                                            min: 0,
-                                            max: 500,
-                                            units: "px"
-                                        },
-                                        top: {
-                                            __name: Dali.i18n.t("BasicVideo2.top"),
-                                            type: "number",
-                                            value: "0px",
-                                            min: 0,
-                                            max: 500,
-                                            units: "px"
-                                        },
-                                        bottom: {
-                                            __name: Dali.i18n.t("BasicVideo2.bottom"),
-                                            type: "number",
-                                            value: "0px",
-                                            min: 0,
-                                            max: 500,
-                                            units: "px"
-                                        }
-                                    },
-                                }
-                            },
+                        basic: {
+                            __name: Dali.i18n.t('BasicVideo.Video'),
+                            icon: 'link',
                             buttons: {
-                                borderWidth: {
-                                    __name: Dali.i18n.t("BasicVideo2.border_width"),
-                                    type: "number",
-                                    value: "0px",
+                                url: {
+                                    __name: Dali.i18n.t('BasicVideo.URL'),
+                                    type: 'text',
+                                    value: base.getState().url,
+                                    autoManaged: false
+                                },
+                                controls: {
+                                    __name: Dali.i18n.t('BasicVideo.Show_controls'),
+                                    type: 'checkbox',
+                                    checked: base.getState().controls,
+                                    autoManaged: false
+                                },
+                                autoplay: {
+                                    __name: Dali.i18n.t('BasicVideo.Autoplay'),
+                                    type: 'checkbox',
+                                    checked: base.getState().autoplay,
+                                    autoManaged: false
+                                }
+                            }
+                        },
+                        style: {
+                            __name: Dali.i18n.t('BasicVideo.box_style'),
+                            icon: 'palette',
+                            buttons: {
+                                padding: {
+                                    __name: Dali.i18n.t('BasicVideo.padding'),
+                                    type: 'number',
+                                    value: 0,
                                     min: 0,
-                                    max: 10,
-                                    units: "px"
+                                    max: 100
+                                },
+                                borderWidth: {
+                                    __name: Dali.i18n.t('BasicVideo.border_size'),
+                                    type: 'number',
+                                    value: 0,
+                                    min: 0,
+                                    max: 10
                                 },
                                 borderStyle: {
-                                    __name: Dali.i18n.t("BasicVideo2.border_style"),
-                                    type: "select",
-                                    value: "solid",
-                                    options: ["none", "hidden", "dotted", "dashed", "solid", "double", "groove", "ridge", "inset", "outset", "initial", "inherit"]
+                                    __name: Dali.i18n.t('BasicVideo.border_style'),
+                                    type: 'select',
+                                    value: 'solid',
+                                    options: ['none', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset', 'initial', 'inherit']
                                 },
                                 borderColor: {
-                                    __name: Dali.i18n.t("BasicVideo2.border_color"),
-                                    type: "color",
-                                    value: "#000000"
+                                    __name: Dali.i18n.t('BasicVideo.border_color'),
+                                    type: 'color',
+                                    value: '#000000'
                                 },
                                 borderRadius: {
-                                    __name: Dali.i18n.t("BasicVideo2.border_radius"),
-                                    type: "number",
-                                    value: "0%",
-                                    min: "0",
-                                    max: "50",
-                                    step: "5",
-                                    units: "%"
+                                    __name: Dali.i18n.t('BasicVideo.radius'),
+                                    type: 'number',
+                                    value: 0,
+                                    min: 0,
+                                    max: 50
                                 },
                                 opacity: {
-                                    __name: Dali.i18n.t("BasicVideo2.opacity"),
-                                    type: "range",
+                                    __name: Dali.i18n.t('BasicVideo.opacity'),
+                                    type: 'range',
                                     value: 1,
                                     min: 0,
                                     max: 1,
-                                    step: 0.01
+                                    step: 0.05
                                 }
+
                             }
                         }
                     }

@@ -9,7 +9,7 @@ export default class VideoPlugin extends React.Component {
     this.state = {
         volume: 0.8,
         duration: 0,
-        playing: true,
+        playing: this.props.autoplay,
         played: 0,
         seeking: false
     };
@@ -72,17 +72,12 @@ export default class VideoPlugin extends React.Component {
                 />
                 <table><tbody>
                 <tr>
-                    <th>Controls</th>
                     <td>
                         <button onClick={this.playPause.bind(this)}>{this.state.playing ? 'Pause' : 'Play'}</button>
                         <button onClick={this.onClickFullscreen.bind(this)}>Fullscreen</button>
-                        <button onClick={this.setPlaybackRate.bind(this)} value={1}>1</button>
-                        <button onClick={this.setPlaybackRate.bind(this)} value={1.5}>1.5</button>
-                        <button onClick={this.setPlaybackRate.bind(this)} value={2}>2</button>
                     </td>
                 </tr>
                 <tr>
-                    <th>Seek</th>
                     <td>
                         <input
                             type='range' min={0} max={1} step='any'
@@ -91,17 +86,13 @@ export default class VideoPlugin extends React.Component {
                             onChange={this.onSeekChange.bind(this)}
                              onMouseUp={this.onSeekMouseUp.bind(this)}
                         />
+                        <td><progress max={1} value={this.state.played} /></td>
                     </td>
                 </tr>
                 <tr>
-                    <th>Volume</th>
                     <td>
                         <input type='range' min={0} max={1} step='any' value={this.state.volume} onChange={this.setVolume.bind(this)} />
                     </td>
-                </tr>
-                <tr>
-                    <th>Played</th>
-                    <td><progress max={1} value={this.state.played} /></td>
                 </tr>
                 </tbody></table>
             </div>
