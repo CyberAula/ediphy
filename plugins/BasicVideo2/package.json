@@ -2,7 +2,7 @@
   "name" : "BasicVideo2",
   "version" : "0.1.0",
   "dependencies": {
-    "react-media-player": "^0.6.1",
-    "react-motion-ui-pack": "^0.10.2"
+    "react-player": "^0.18.0",
+    "screenfull": "^3.2.2"
   }
 }
