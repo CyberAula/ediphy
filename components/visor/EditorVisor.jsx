@@ -22,8 +22,11 @@ export default class Visor extends Component {
             triggeredMarks: [],
             richElementState: {},
             backupElementStates: {},
+            canvasRatio: 16/9,
             toggledSidebar : true,
             navItemSelected: Dali.State.navItemSelected
+ 
+
         };
 
     }
@@ -118,30 +121,29 @@ export default class Visor extends Component {
         let containedViewSelected = Dali.State.containedViewSelected;
         let toolbars = Dali.State.toolbarsById;
         let title = Dali.State.title;
+        let ratio = Dali.State.canvasRatio;
         let wrapperClasses =  this.state.toggledSidebar ? "visorwrapper toggled" : "visorwrapper";
         let toggleIcon = this.state.toggledSidebar ? "clear" : "menu";
-        let toggleColor = this.state.toggledSidebar ? "toggleColor" : "";
-        let ratio = Dali.State.canvasRatio;
-
+        let toggleColor = this.state.toggledSidebar ? "toggleColor" : "";  
+        let isSlide = navItems[navItemSelected].type === "slide" ? "pcw_slide":"pcw_doc";
+            
         return (
-
-            /* jshint ignore:start */
-            <div id="app" className={wrapperClasses} stlye={{height: "100%"}}>
-                <SideNavVisor toggled={this.state.toggledSidebar}
-                              changePage={(page)=> {this.changePage(page)}}
-                              navItemsById={navItems}
-                              navItemsIds={navItemsIds}
-                              navItemSelected={navItemSelected}/>
-                <div id="page-content-wrapper">
+            /* jshint ignore:start */      
+            <div id="app" className={wrapperClasses} >
+                <SideNavVisor toggled={this.state.toggledSidebar} 
+                              changePage={(page)=> {this.changePage(page)}} 
+                              navItemsById={navItems} 
+                              navItemsIds={navItemsIds} 
+                              navItemSelected={navItemSelected}/> 
+                <div id="page-content-wrapper" className={isSlide} style={{height: '100%'}}>
                     <Grid fluid={true} style={{height: '100%'}}>
-                        <Row>
-                            <Col lg={12}>
+                        <Row style={{height: '100%'}}>
+                            <Col lg={12} style={{height: '100%'}}>
                                 <VisorPlayer changePage={(page)=> {this.changePage(page)}} navItemsById={navItems} navItemsIds={navItemsIds} navItemSelected={navItemSelected} />
                                 <Button id="visorNavButton" className={toggleColor} bsStyle="primary"  onClick={e => {this.setState({toggledSidebar: !this.state.toggledSidebar})}}>
                                     <i className="material-icons">{toggleIcon}</i>
                                 </Button>
-                                {
-                                    this.getLastCurrentViewElement().indexOf("cv-") === -1 ?
+                                { this.getLastCurrentViewElement().indexOf("cv-") === -1 ?
                                     (<CanvasVisor boxes={boxes}
                                                 boxSelected={boxSelected}
                                                 changeCurrentView={(element) => {
@@ -189,7 +191,7 @@ export default class Visor extends Component {
                                                 richElementsState={this.state.richElementState}
                                                 viewsArray={this.state.currentView}
                                     />)
-                                 }
+                                }
                             </Col>
                         </Row>
                     </Grid>

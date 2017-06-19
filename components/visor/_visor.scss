@@ -130,6 +130,8 @@ $newBlue: #1fc8db;
     -o-transition: all 0.5s ease;
     transition: all 0.5s ease;
     height: 100%;
+    min-height: 100%;
+    background-color: #555555;
 }
 
 .visorwrapper.toggled {
@@ -157,8 +159,13 @@ $newBlue: #1fc8db;
 
 #page-content-wrapper {
     width: 100%;
+    background-color: #555555;
     position: absolute;
     padding: 15px;
+ }
+
+ .pcw_doc {
+    padding:0 !important;
  }
 
 .visorwrapper.toggled #page-content-wrapper {
@@ -301,6 +308,7 @@ ul.sidebar-nav  {
     #page-content-wrapper {
         padding: 20px;
         position: relative;
+        background-color: $fondo;
     }
 
     .visorwrapper.toggled #page-content-wrapper {
@@ -325,6 +333,7 @@ ul.sidebar-nav  {
 
 /*Iframe*/
 iframe#visor_iframe{
+    background-color: white;
     background-image: url("https://s-media-cache-ak0.pinimg.com/originals/25/ef/28/25ef280441ad6d3a5ccf89960b4e95eb.gif");   
     background-repeat: no-repeat;
     background-position: 50% 50%;
