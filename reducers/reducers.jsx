@@ -93,8 +93,7 @@ const GlobalState = undoable(combineReducers({
     fetchVishResults: fetchVishResults
 }), {
     filter: (action, currentState, previousState) => {
-        console.log(action);
-        switch (action.type) {
+         switch (action.type) {
             case CHANGE_DISPLAY_MODE:
             case EXPAND_NAV_ITEM:
             case IMPORT_STATE:
