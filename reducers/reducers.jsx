@@ -66,10 +66,10 @@ function imagesUploaded(state = [], action = {}){
             return state;
     }
 }
-function toggleAspectRatio(state = [], action = {}){
+function toggleAspectRatio(state = "", action = {}){
     switch(action.type){
         case TOGGLE_ASPECT_RATIO:
-            return state.concat(action.payload.url);
+            return action.payload.ratio;
         default:
             return state;
     }

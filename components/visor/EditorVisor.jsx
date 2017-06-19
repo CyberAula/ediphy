@@ -114,6 +114,7 @@ export default class Visor extends Component {
         let containedViewSelected = Dali.State.containedViewSelected;
         let toolbars = Dali.State.toolbarsById;
         let title = Dali.State.title;
+        let ratio = Dali.State.canvasRatio;
 
         console.log(Dali.State);
         return (
@@ -143,7 +144,7 @@ export default class Visor extends Component {
                                 }}
                                 richElementsState={this.state.richElementState}
                                 viewsArray={this.state.currentView}
-                                canvasRatio={this.state.canvasRatio}
+                                canvasRatio={ratio}
                     />) :
                     (<ContainedCanvasVisor boxes={boxes}
                                 boxSelected={boxSelected}
