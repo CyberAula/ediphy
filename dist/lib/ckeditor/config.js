@@ -27,7 +27,7 @@ CKEDITOR.editorConfig = function (config) {
         {name: 'others', groups: ['others']},
         {name: 'about', groups: ['about']}
     ];
-
+    /*Currently disabled: plugin stylescombo*/
     config.stylesSet = [
         {name: 'Negrita', element: 'strong', attributes: {'class': 'ck_strong'}},
         {name: 'Cursiva', element: 'em', attributes: {'class': 'ck_em'}},
@@ -38,8 +38,9 @@ CKEDITOR.editorConfig = function (config) {
     config.removeButtons =
         'Anchor,' +
         'Unlink,';
-
-    config.mathJaxLib = '//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML';    
+    config.mathJaxClass = 'math-tex';
+    config.extraPlugins = 'mathjax';
+    config.mathJaxLib = 'http://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML';    
 
     config.plugins =
         'a11yhelp,' +
