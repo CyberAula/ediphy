@@ -49,6 +49,7 @@ CKEDITOR.editorConfig = function (config) {
 
     config.plugins =
         'a11yhelp,' +
+        'basicstyles,' +
         'blockquote,' +
         'clipboard,' +
         'contextmenu,' +
