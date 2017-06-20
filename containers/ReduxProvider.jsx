@@ -12,8 +12,8 @@ export default class ReduxProvider extends Component {
     constructor(props) {
         super(props);
 
-        this.initialState = {
-            present: {
+        this.initialState = Dali.Config.sections_have_content ? 
+            ({present: {
                 title: i18n.t('course_title'),
                 canvasRatio: 16/9,
                 displayMode: "list",
@@ -97,8 +97,44 @@ export default class ReduxProvider extends Component {
                         config: {displayName: i18n.t('section')}
                     }
                 } : {}
-            }
-        };
+            }}) :
+            ({present:{
+                 title: i18n.t('course_title'),
+                 canvasRatio: 16/9,
+                 imagesUploaded:[],
+                 boxesById:{
+                    "bs-1497983247797":
+                        {"id":"bs-1497983247797",
+                         "parent":"pa-1497983247795",
+                         "container":0,
+                         "level":-1,
+                         "col":0,
+                         "row":0,
+                         "position":{"x":0,"y":0,"type":"relative"},
+                         "draggable":false,
+                         "resizable":false,
+                         "showTextEditor":false,
+                         "fragment":{},
+                         "children":[],
+                         "sortableContainers":{},
+                         "containedViews":[]}
+                     },
+                 boxSelected:-1,
+                 boxLevelSelected:0,
+                 navItemsIds:["se-1467887497411","pa-1497983247795"],
+                 navItemSelected:"pa-1497983247795",
+                 navItemsById:{
+                    "0":{"id":0,"children":["se-1467887497411"],"boxes":[],"level":0,"type":"","hidden":false},
+                    "se-1467887497411":{"id":"se-1467887497411","name":"Sección","isExpanded":true,"parent":0,"children":["pa-1497983247795"],"unitNumber":1,"hidden":false,"boxes":[],"level":1,"type":"","extraFiles":{},"header":{"elementContent":{"documentTitle":"","documentSubTitle":"","numPage":""},"display":{"courseTitle":"hidden","documentTitle":"expanded","documentSubTitle":"hidden","breadcrumb":"reduced","pageNumber":"hidden"}}},
+                    "pa-1497983247795":{"id":"pa-1497983247795","name":"Página","isExpanded":true,"parent":"se-1467887497411","children":[],"boxes":["bs-1497983247797"],"level":2,"type":"document","unitNumber":1,"hidden":false,"extraFiles":{},"header":{"elementContent":{"documentTitle":"","documentSubTitle":"","numPage":""},"display":{"courseTitle":"hidden","documentTitle":"expanded","documentSubTitle":"hidden","breadcrumb":"reduced","pageNumber":"hidden"}}}},
+                 containedViewsById:{},
+                 containedViewSelected:0,
+                 displayMode:"list",
+                 toolbarsById:{
+                    "pa-1497983247795":{"id":"pa-1497983247795","controls":{"main":{"__name":"Main","accordions":{"basic":{"__name":"Generales","icon":"settings","buttons":{"page_display":{"__name":"Previsualizar / exportar","type":"checkbox","checked":true,"autoManaged":false},"navitem_name":{"__name":"Nombre documento","type":"text","value":"Página","autoManaged":false}}},"header":{"__name":"Cabecera","icon":"format_color_text","buttons":{"display_title":{"__name":"Título Curso","type":"checkbox","checked":false,"autoManaged":false},"display_pagetitle":{"__name":"Título Página","type":"checkbox","checked":true,"autoManaged":false},"pagetitle_name":{"__name":"custom_title","type":"conditionalText","associatedKey":"display_pagetitle","value":"","autoManaged":false,"display":true},"display_pagesubtitle":{"__name":"Subtítulo","type":"checkbox","checked":false,"autoManaged":false},"pagesubtitle_name":{"__name":"custom_subtitle","type":"conditionalText","associatedKey":"display_pagesubtitle","value":"","autoManaged":false,"display":true},"display_breadcrumb":{"__name":"Breadcrumb","type":"checkbox","checked":true,"autoManaged":false},"display_pagenumber":{"__name":"Nº Página","type":"checkbox","checked":false,"autoManaged":false},"pagenumber_name":{"__name":"custom_pagenum","type":"conditionalText","associatedKey":"display_pagenumber","value":"","autoManaged":false,"display":true}}},"__extra":{"__name":"Alias","icon":"rate_review","buttons":{"alias":{"__name":"Alias","type":"text","value":"","autoManaged":true,"isAttribute":true}}}}}},"config":{"displayName":"Página"},"state":{}},"bs-1497983247797":{"id":"bs-1497983247797","controls":{"main":{"__name":"Main","accordions":{}}},"config":{"displayName":"Contenedor"},"state":{},"showTextEditor":false}},
+                 isBusy:"",
+                 fetchVishResults:{"results":[]}
+            }});
 
         this.store = this.configureStore();
     }
@@ -130,3 +166,5 @@ export default class ReduxProvider extends Component {
         return store;
     }
 }
+
+

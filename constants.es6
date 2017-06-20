@@ -6,7 +6,7 @@ export const ID_PREFIX_SORTABLE_BOX = "bs-";
 export const ID_PREFIX_SORTABLE_CONTAINER = "sc-";
 export const ID_PREFIX_CONTAINED_VIEW = "cv-";
 export const ID_PREFIX_RICH_MARK = "rm-";
-
+export const SECTIONS_HAVE_CONTENT = false;
 export const PAGE_TYPES = {
     SLIDE: "slide",
     DOCUMENT: "document"

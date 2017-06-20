@@ -3,6 +3,7 @@ import {Button} from 'react-bootstrap';
 import {ID_PREFIX_PAGE, ID_PREFIX_SECTION} from '../../../constants';
 import DaliIndexTitle from '../dali_index_title/DaliIndexTitle';
 import {isPage, isSection, isSlide, calculateNewIdOrder} from './../../../utils';
+import Dali from './../../../core/main';
 
 export default class Section extends Component {
     render() {
@@ -12,12 +13,20 @@ export default class Section extends Component {
             /* jshint ignore:start */
             <div id={this.props.id}
                  onMouseDown={e => {
-                    this.props.onNavItemSelected(navItem.id);
-                    e.stopPropagation();
+                    if (Dali.Config.sections_have_content) {
+                        this.props.onNavItemSelected(navItem.id);
+                        e.stopPropagation();
+                    } 
+                    
                  }}
                  onClick={e => {
-                    this.props.onNavItemSelected(navItem.id);
-                    e.stopPropagation();
+                    if (Dali.Config.sections_have_content) { /*Que pasa al crear secciones dentro de secciones*/
+                        this.props.onNavItemSelected(navItem.id);
+                        e.stopPropagation();
+                    } else {
+                        this.props.onNavItemExpanded(navItem.id, !navItem.isExpanded);
+                        e.stopPropagation();
+                    }
                  }}>
                 <div className={"navItemBlock " + classSelected}>
                     <span style={{marginLeft: 20 * (this.props.navItems[this.props.id].level - 1)}}>
