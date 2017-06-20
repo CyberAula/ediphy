@@ -12,6 +12,8 @@
 .boxStyle, .textareaStyle{
     width: 100%;
     height: 100%;
+    line-height: normal;
+
 }
 
 .boxStyle {
@@ -108,3 +110,4 @@
 .automaticallySizedBox .basicImageClass{
     position: relative;
 }
+

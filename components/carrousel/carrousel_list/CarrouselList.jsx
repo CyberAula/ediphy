@@ -53,7 +53,7 @@ export default class CarrouselList extends Component {
                 </div>
                 <div ref="sortableList"
                      className="carList connectedSortables"
-                     style={{height: this.getContentHeight(),display:(this.state.showSortableItems)?'inherit':'none'}}
+                     style={{height: (this.state.showSortableItems)? this.getContentHeight():'0px',display:'inherit'}}
                      onClick={e => {
                         this.props.onNavItemSelected(this.props.id);
                         e.stopPropagation();
@@ -112,8 +112,8 @@ export default class CarrouselList extends Component {
                     <span style={{color:"white",fontSize:"13px"}}>{i18n.t("CONTAINED_VIEWS")}</span>
                 </div>
 
-                <div className="containedViewsList" style={{ height: "calc(50% - 122px)",
-                                                             display: (this.state.showContainedViews) ? 'block' : 'none', overflowY: 'auto', overflowX: 'hidden'}}>
+                <div className="containedViewsList" style={{ height: (this.state.showContainedViews) ? "calc(50% - 122px)":"0px",
+                                                             display: 'block', overflowY: 'auto', overflowX: 'hidden'}}>
                     {
                         Object.keys(this.props.containedViews).map((id, key)=>{
                             return (<div key={id} style={{

@@ -23,10 +23,19 @@ export default class SideNavVisor extends Component {
                         let marginPage = level*10 + 10 + "px";
                         if(level == 1) {
                             if (page.indexOf("se") != -1){
-                                return (<VisorNavSection display={true} key={page} pageName={page} navItemsById={this.props.navItemsById} changePage={(page)=> {this.props.changePage(page)}} />);
+                                return (<VisorNavSection display={true} 
+                                                         key={page} 
+                                                         pageName={page} 
+                                                         navItemsById={this.props.navItemsById} 
+                                                         navItemSelected={this.props.navItemSelected}
+                                                         changePage={(page)=> {this.props.changePage(page)}} />);
                             } else {
-                                return (<li key={page}  onClick={(e)=>{this.props.changePage(page)}} className="visorNavListEl">
-                                    <a style={{paddingLeft: marginPage}} href="#">{this.props.navItemsById[page].name}</a>
+                                return (<li key={page}  
+                                            onClick={(e)=>{this.props.changePage(page)}} 
+                                            className="visorNavListEl">
+                                            <a style={{paddingLeft: marginPage}} 
+                                                className={this.props.navItemSelected == page ? "selectedNavItemVisor":""} 
+                                                href="#">{this.props.navItemsById[page].name}</a>
                                 </li>);
                             }
                         }

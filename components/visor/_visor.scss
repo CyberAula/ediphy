@@ -338,3 +338,7 @@ iframe#visor_iframe{
     background-repeat: no-repeat;
     background-position: 50% 50%;
 }
+
+li > .selectedNavItemVisor {
+  background-color: rgba(255,255,255,0.3) !important;
+}

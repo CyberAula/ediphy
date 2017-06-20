@@ -28,10 +28,19 @@ export default class VisorNavSection extends Component {
                     { children.map(page => {
                             let margin = this.props.navItemsById[page].level*10 + 20 + "px";
                             if (page.indexOf("se") != -1){
-                                return (<VisorNavSection display={this.state.toggled} key={page} pageName={page} navItemsById={this.props.navItemsById} changePage={(page)=> {this.props.changePage(page)}} />);
+                                return (<VisorNavSection display={this.state.toggled} 
+                                                         key={page} 
+                                                         pageName={page} 
+                                                         navItemSelected={this.props.navItemSelected}
+                                                         navItemsById={this.props.navItemsById} 
+                                                         changePage={(page)=> {this.props.changePage(page)}} />);
                             } else {
-                                return (<li key={page} onClick={(e)=>{this.props.changePage(page)}} className={this.state.toggled ? "visorNavListEl": "visorNavListEl hiddenNavVisor"}>
-                                        <a style={{paddingLeft: margin}} href="#">{this.props.navItemsById[page].name}</a>
+                                return (<li key={page} 
+                                            onClick={(e)=>{this.props.changePage(page)}} 
+                                            className={this.state.toggled ? "visorNavListEl": "visorNavListEl hiddenNavVisor"}>
+                                            <a  style={{paddingLeft: margin}}
+                                                className={this.props.navItemSelected == page ? "selectedNavItemVisor":""} 
+                                                href="#">{this.props.navItemsById[page].name}</a>
                                         </li>);
                             }
                         })
