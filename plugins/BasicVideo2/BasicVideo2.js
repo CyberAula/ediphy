@@ -1,5 +1,5 @@
 import React from "react";
-import VideoPlugin from './components/VideoPlugin.js';
+import VideoPlugin from './components/VideoPluginEditor.js';
 require('./BasicVideo.scss');
 
 export function BasicVideo2(base) {
@@ -34,12 +34,6 @@ export function BasicVideo2(base) {
                                     checked: base.getState().controls,
                                     autoManaged: false
                                 },
-                                autoplay: {
-                                    __name: Dali.i18n.t('BasicVideo.Autoplay'),
-                                    type: 'checkbox',
-                                    checked: base.getState().autoplay,
-                                    autoManaged: false
-                                }
                             }
                         },
                         style: {
@@ -96,14 +90,15 @@ export function BasicVideo2(base) {
         getInitialState: function () {
             return {
                 url: "https://www.youtube.com/watch?time_continue=156&v=yqCwDurUrw0",
-                controls: true,
-                autoplay: false
+                controls: true
             };
         },
         getRenderTemplate: function (state) {
             return (
                 /* jshint ignore:start */
-                <VideoPlugin state={state}></VideoPlugin>
+                <div>
+                    <VideoPlugin state={state}></VideoPlugin>
+                </div>
                 /* jshint ignore:end */
             );
         },

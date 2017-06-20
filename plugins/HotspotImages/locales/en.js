@@ -1,5 +1,5 @@
 module.exports = {
-    "HotspotImage": {
+    "HotspotImages": {
         "background_color": "Background color",
         "border_color": "Border color",
         "border_size": "Border Size",
@@ -7,7 +7,7 @@ module.exports = {
         "box_style": "Box style",
         "opacity": "Opacity",
         "padding": "Padding",
-        "PluginName": "Hotspot Image",
+        "PluginName": "Hotspot Images",
         "radius": "Radius",
         "source": "Source"
     }

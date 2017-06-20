@@ -1,5 +1,5 @@
 module.exports = {
-    "HotspotImage": {
+    "HotspotImages": {
         "background_color": "Color de fondo",
         "PluginName": "Imagen con puntos de interés",
         "border_color": "Color de borde",

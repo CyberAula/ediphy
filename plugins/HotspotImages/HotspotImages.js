@@ -5,7 +5,7 @@ export function HotspotImages(base) {
         getConfig: function () {
             return {
                 name: 'HotspotImages',
-                displayName: 'HotspotImages',
+                displayName: Dali.i18n.t('HotspotImages.PluginName'),
                 category: 'image',
                 needsConfigModal: false,
                 flavor: "react",
