@@ -19,7 +19,7 @@ export default class BoxVisor extends Component {
         let textareaStyle = {
             position: 'absolute',
             resize: 'none',
-            top: '0%',
+            //top: '0%', ** there is an error here
             color: 'black',
             backgroundColor: 'white',
             padding: 0,

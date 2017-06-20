@@ -7,6 +7,8 @@ export function BasicText(base) {
                 category: 'text',
                 needsConfigModal: false,
                 needsTextEdition: true,
+                initialWidth: '300px',
+                initialHeight: '100px',
                 icon: 'short_text'
             };
         },

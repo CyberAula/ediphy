@@ -7,6 +7,7 @@ export function BasicImage(base) {
                 category: 'image',
                 needsConfigModal: false,
                 needsTextEdition: false,
+                initialWidth: '25%',
                 aspectRatioButtonConfig: {
                     location: ["main", "__sortable"],
                     defaultValue: true
@@ -92,7 +93,7 @@ export function BasicImage(base) {
             };
         },
         getRenderTemplate: function (state) {
-            return "<div style=\"width: 100%; margin: 0px; height: 100%; \"><img onclick=\"$dali$.showPreview()\" class=\"basicImageClass\" style=\"width: 100%; height: 100%; \" src='" + state.url + "' /></div>";
+            return "<div style=\"width: 100%; margin: 0px; height: 100%; \"><img onclick=\"$dali$.showPreview()\" className=\"basicImageClass\" style=\"width: 100%; height: 100%; \" src='" + state.url + "' /></div>";
 
         },
         handleToolbar: function (name, value) {

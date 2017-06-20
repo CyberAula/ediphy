@@ -1,5 +1,7 @@
 var es = {
     translation: {
+        "16/9":"Cambiar a 16:9",
+        "4/3":"Cambiar a 4:3",
         "Accept": "Aceptar",
         "Animations": "Animaciones",
         "Alignment": "Alineación",

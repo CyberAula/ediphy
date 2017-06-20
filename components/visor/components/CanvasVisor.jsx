@@ -1,120 +1,53 @@
 import React, {Component} from 'react';
-import ReactDOM from 'react-dom';
-import BoxVisor from './BoxVisor';
-import BoxSortableVisor from './BoxSortableVisor';
-import {Col} from 'react-bootstrap';
-import TitleVisor from './TitleVisor';
-import HeaderVisor from './HeaderVisor';
-import {isSortableBox, isSlide} from './../../../utils';
+import CanvasVisorDoc from './CanvasVisorDoc';
+import CanvasVisorSli from './CanvasVisorSli';
+import {isSlide} from './../../../utils';
 
 export default class CanvasVisor extends Component {
 
     render() {
-        let titles = [];
-        if (this.props.navItemSelected.id !== 0) {
-            titles.push(this.props.navItemSelected.name);
-            let parent = this.props.navItemSelected.parent;
-            while (parent !== 0) {
-                titles.push(this.props.navItems[parent].name);
-                parent = this.props.navItems[parent].parent;
-            }
-            titles.reverse();
+        let visorContent;
+        if (isSlide(this.props.navItemSelected.type)) {
+            /* jshint ignore:start */
+            visorContent = <CanvasVisorSli navItemSelected={this.props.navItemSelected}
+                                           navItems={this.props.navItems}
+                                           boxes={this.props.boxes}
+                                           boxSelected={this.props.boxSelected}
+                                           boxLevelSelected={this.props.boxLevelSelected}
+                                           toolbars={this.props.toolbars}
+                                           richElementsState={this.props.richElementsState}
+                                           showCanvas={this.props.showCanvas}
+                                           canvasRatio={this.props.canvasRatio}
+                                           changeCurrentView={this.props.changeCurrentView}
+                                           title={this.props.title}
+                                           triggeredMarks={this.props.triggeredMarks}
+                                           viewsArray={this.props.viewsArray}/>;
+            /* jshint ignore:end */
+        }else{
+            /* jshint ignore:start */
+            visorContent = <CanvasVisorDoc navItemSelected={this.props.navItemSelected}
+                                           navItems={this.props.navItems}
+                                           boxes={this.props.boxes}
+                                           boxSelected={this.props.boxSelected}
+                                           boxLevelSelected={this.props.boxLevelSelected}
+                                           toolbars={this.props.toolbars}
+                                           richElementsState={this.props.richElementsState}
+                                           showCanvas={this.props.showCanvas}
+                                           changeCurrentView={this.props.changeCurrentView}
+                                           title={this.props.title}
+                                           triggeredMarks={this.props.triggeredMarks}
+                                           viewsArray={this.props.viewsArray}/>;
+            /* jshint ignore:end */
         }
 
-        let maincontent = document.getElementById('maincontent');
-        let actualHeight;
-        if (maincontent) {
-            actualHeight = parseInt(maincontent.scrollHeight, 10);
-            actualHeight = (parseInt(maincontent.clientHeight, 10) < actualHeight) ? (actualHeight) + 'px' : '100%';
-        }
-
-        let overlayHeight = actualHeight ? actualHeight : '100%';
         return (
             /* jshint ignore:start */
-
-            <Col id="canvas" md={12} xs={12}
-                 style={{display:'initial', backgroundColor: 'white', padding: '0'}}>
-                 <div className="scrollcontainer">
-                 <HeaderVisor titles={titles}
-                        onShowTitle={()=>this.setState({showTitle:true})}
-                        courseTitle={this.props.title}
-                        titleMode={this.props.navItemSelected.titleMode}
-                        navItem={this.props.navItemSelected}
-                        navItems={this.props.navItems}
-                        titleModeToggled={this.props.titleModeToggled}
-                        onUnitNumberChanged={this.props.onUnitNumberChanged}
-                        showButton={true}/>
-                <div className="outter canvasvisor">
-                    <div id="airlayer"
-                    className={isSlide(this.props.navItemSelected.type) ? 'slide_air' : 'doc_air'}
-                    style={{visibility: (this.props.showCanvas ? 'visible' : 'hidden') }}>
-
-                    <div id="maincontent"
-                         onClick={e => {
-                        this.setState({showTitle:false})
-                       }}
-                         className={isSlide(this.props.navItemSelected.type) ? 'innercanvas sli':'innercanvas doc'}
-                         style={{visibility: (this.props.showCanvas ? 'visible' : 'hidden')}}>
-
-                        <TitleVisor titles={titles}
-                            courseTitle={this.props.title}
-                            titleMode={this.props.navItemSelected.titleMode}
-                            navItem={this.props.navItemSelected}
-                            navItems={this.props.navItems}/>
-                        <br/>
-
-                        <div style={{
-                                width: "100%",
-                                background: "black",
-                                height: overlayHeight,
-                                position: "absolute",
-                                top: 0,
-                                opacity: 0.4,
-                                display:(this.props.boxLevelSelected > 0) ? "block" : "none",
-                                visibility: (this.props.boxLevelSelected > 0) ? "visible" : "collapse"
-                            }}></div>
-
-                        {this.props.navItemSelected.boxes.map(id => {
-                            let box = this.props.boxes[id];
-                            if (!isSortableBox(box.id)) {
-                                return <BoxVisor key={id}
-                                                id={id}
-                                                boxes={this.props.boxes}
-                                                boxSelected={this.props.boxSelected}
-                                                boxLevelSelected={this.props.boxLevelSelected}
-                                                changeCurrentView={(element)=>{this.props.changeCurrentView(element)}}
-                                                containedViewSelected={this.props.containedViewSelected}
-                                                toolbars={this.props.toolbars}
-                                                richElementsState={this.props.richElementsState}/>
-                            } else {
-                                return <BoxSortableVisor key={id}
-                                                id={id}
-                                                boxes={this.props.boxes}
-                                                boxSelected={this.props.boxSelected}
-                                                boxLevelSelected={this.props.boxLevelSelected}
-                                                changeCurrentView={this.props.changeCurrentView}
-                                                containedViewSelected={this.props.containedViewSelected}
-                                                toolbars={this.props.toolbars}
-                                                richElementsState={this.props.richElementsState}/>
-                            }
-                        })}
-                    </div>
-                </div>
-                </div>
-                </div>
-            </Col>
+            visorContent
             /* jshint ignore:end */
         );
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.boxSelected !== -1) {
-            this.setState({showTitle: false});
-        }
-        if (this.props.navItemSelected.id !== nextProps.navItemSelected.id) {
-            document.getElementById('maincontent').scrollTop = 0;
-        }
-    }
+
 
 
 }

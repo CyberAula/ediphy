@@ -15,6 +15,7 @@ export default class ReduxProvider extends Component {
         this.initialState = {
             present: {
                 title: i18n.t('course_title'),
+                canvasRatio: 16/9,
                 displayMode: "list",
                 navItemsById: {
                     0: {id: 0, children: ["se-1467887497411"], boxes: [], level: 0, type: '', hidden: false},

@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import {Col, Row, Input, Button, OverlayTrigger, Popover, Dropdown, Tooltip, MenuItem} from 'react-bootstrap';
 import DaliIndexTitle from '../../carrousel/dali_index_title/DaliIndexTitle';
 import i18n from 'i18next';
-import {isSection} from './../../../utils';
+import {isSection, isSlide} from './../../../utils';
 
 require('./_navBar.scss');
 
@@ -18,6 +18,7 @@ export default class DaliNavBar extends Component {
         let disablePlugins = (this.props.navItemsIds.length === 0 || this.props.navItemSelected === 0);
         let modalTitle = "";
         let modalShow = false;
+
         return (
             /* jshint ignore:start */
             <Col id="iconBar">
@@ -61,7 +62,7 @@ export default class DaliNavBar extends Component {
                         <i className="material-icons">more_vert</i><br/>
                         <span className="hideonresize" style={{fontSize: '12px'}}>Menu</span>
                     </Dropdown.Toggle>
-                    <Dropdown.Menu id="topMenu" className="pageMenu  super-colors topMenu">
+                    <Dropdown.Menu id="topMenu" className="pageMenu super-colors topMenu">
                         <MenuItem disabled={this.props.undoDisabled} eventKey="1">
                             <button className="dropdownButton" title={i18n.t('messages.export_to_HTML')}
                                     disabled={this.props.undoDisabled}
@@ -76,8 +77,15 @@ export default class DaliNavBar extends Component {
                                 {i18n.t('messages.export_to_SCORM')}
                             </button>
                         </MenuItem>
+                        <MenuItem disabled={this.props.undoDisabled} eventKey="3" style={{display: (isSlide(this.props.navItems[this.props.navItemSelected].type) ? 'block' : 'none')}}>
+                            <button className="dropdownButton" title={i18n.t('messages.Aspect_ratio')}
+                                    disabled={this.props.undoDisabled}
+                                    onClick={() => this.props.canvasRatio === 16/9 ? this.props.changeAspectRatio(4/3) : this.props.changeAspectRatio(16/9) }><i className="material-icons">tv</i>
+                                {this.props.canvasRatio === 16/9 ? i18n.t('4/3') : i18n.t('16/9')}
+                            </button>
+                        </MenuItem>
                         <MenuItem divider/>
-                        <MenuItem eventKey="3">
+                        <MenuItem eventKey="4">
                             <button className="dropdownButton" title={i18n.t('Open_Catalog')}
                                     onClick={() => {
                                         this.props.onVishCatalogToggled();
@@ -86,7 +94,7 @@ export default class DaliNavBar extends Component {
                             </button>
                         </MenuItem>
                         <MenuItem divider/>
-                        <MenuItem eventKey="4">
+                        <MenuItem eventKey="5">
                             <button className="dropdownButton"
                                     onClick={(e) => {
                                         this.props.serverModalOpen()
