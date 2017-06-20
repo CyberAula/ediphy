@@ -5,7 +5,7 @@ import DaliCanvasDoc from '../dali_canvas_doc/DaliCanvasDoc';
 import interact from 'interact.js';
 import {ADD_BOX,REORDER_SORTABLE_CONTAINER} from '../../../actions';
 import Dali from './../../../core/main';
-import {isSlide} from './../../../utils';
+import {isSlide, isSection} from './../../../utils';
 
 require('./_canvas.scss');
 

@@ -41,6 +41,10 @@ export default class DaliCanvasDoc extends Component {
         }
 
         let overlayHeight = actualHeight ? actualHeight : '100%';
+        let isSection = this.props.navItemSelected.id.toString().indexOf('se') !== -1;
+        let contentAllowedInSections = Dali.Config.sections_have_content;
+        let showCanvas = (!isSection || (isSection && contentAllowedInSections));
+
         return (
             /* jshint ignore:start */
 
@@ -54,7 +58,7 @@ export default class DaliCanvasDoc extends Component {
                      onBoxResized={this.props.onBoxResized}
                      onBoxDeleted={this.props.onBoxDeleted}
                      toolbar={this.props.toolbars[this.props.boxSelected]}/>
-                 <div className="scrollcontainer">
+                 <div className="scrollcontainer" style={{display: showCanvas?'block':'none' }}>
                  <DaliHeader titles={titles}
                         showButtons={this.state.showTitle}
                         onShowTitle={()=>this.setState({showTitle:true})}
