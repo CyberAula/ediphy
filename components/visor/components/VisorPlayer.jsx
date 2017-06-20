@@ -9,7 +9,9 @@ export default class VisorPlayer extends Component {
     }
 
     render() {
-        let navItemsIds = this.props.navItemsIds;        
+        /*let navItemsIds = this.props.navItemsIds;*/
+        /*Para permitir previsualizar secciones en el visor, descomentar la línea anterior y comentar la siguiente */
+        let navItemsIds = this.props.navItemsIds.filter(this.isntSection);        
         let navItemsById = this.props.navItemsById;
         let navItemSelected = this.props.navItemSelected;
 
@@ -55,6 +57,11 @@ export default class VisorPlayer extends Component {
             /* jshint ignore:end */
         );
     }
+
+    isntSection(page){
+        return (page.indexOf("se") === -1);
+    }
+
     createTooltip(id, message){
         /* jshint ignore:start */
         /*Añadir aquí i18n next para traducir el tooltip*/

@@ -38,6 +38,11 @@ CKEDITOR.editorConfig = function (config) {
     config.removeButtons =
         'Anchor,' +
         'Unlink,';
+    
+    /*Currently disabled: plugin mathjax
+        Necesario configurarlo también en index.html +visor
+    */   
+
     config.mathJaxClass = 'math-tex';
     config.extraPlugins = 'mathjax';
     config.mathJaxLib = 'http://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML';    
@@ -66,7 +71,7 @@ CKEDITOR.editorConfig = function (config) {
         'list,' +
         'liststyle,' +
         'magicline,' +
-        'mathjax,' +
+        /*'mathjax,' +*/
         'pastefromword,' +
         'pastetext,' +
         'pbckcode,' +
