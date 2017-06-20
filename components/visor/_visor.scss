@@ -182,7 +182,7 @@ $newBlue: #1fc8db;
   list-style-type: none;
   height:auto;
   display:block;
-  opacity: 100%;
+  opacity: 1;
   
   i {
     vertical-align: middle;
@@ -198,7 +198,7 @@ li.visorNavListEl {
 
 .hiddenNavVisor {
   display: none !important;
-  opacity: 0%;
+  opacity: 0;
   overflow: hidden;
  
  }
@@ -217,7 +217,7 @@ li.visorNavListEl {
     color: #777 !important;
     cursor: pointer;
     background-color: transparent !important;
-    opacity: 50% !important;
+    opacity: 0.5 !important;
   }
 }
 
@@ -328,7 +328,7 @@ ul.sidebar-nav  {
 }
 .visorwrapper *::-webkit-scrollbar-thumb:hover {
     background-color:  #ddd;
-    opacity: 50%;
+    opacity: 0.5;
 }
 
 /*Iframe*/
