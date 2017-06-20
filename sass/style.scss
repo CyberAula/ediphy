@@ -1,5 +1,6 @@
 @import "general/_variables.scss";
 @import "general/_cke_rewrite.scss";
+@import "general/_ck_styles.scss";
 
 @import 'general/mixins/mixins';
 
@@ -166,3 +167,6 @@ button, i{
     z-index: 9999;
 }
 
+.boxStyle {
+    line-height: normal;
+}
