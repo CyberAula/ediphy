@@ -6,7 +6,7 @@ import {addNavItem, selectNavItem, expandNavItem, deleteNavItem, reorderNavItem,
     changeNavItemName, changeUnitNumber,
     addBox, changeTitle, selectBox, moveBox, resizeBox, updateBox, duplicateBox, deleteBox, reorderSortableContainer, dropBox, increaseBoxLevel,
     resizeSortableContainer, deleteSortableContainer, changeCols, changeRows, changeSortableProps, reorderBoxes, verticallyAlignBox,
-    toggleTextEditor, toggleTitleMode,
+    toggleTextEditor, toggleTitleMode, toggleAspectRatio,
     changeDisplayMode, expandContainedViewList, updateToolbar,
     exportStateAsync, importStateAsync,
     fetchVishResourcesSuccess, fetchVishResourcesAsync, uploadVishResourceAsync,
@@ -52,9 +52,10 @@ class DaliApp extends Component {
     }
 
     render() {
+
         const { dispatch, boxes, boxesIds, boxSelected, boxLevelSelected, navItemsIds, navItems, navItemSelected,
             containedViews, containedViewSelected, imagesUploaded,
-            undoDisabled, redoDisabled, displayMode, isBusy, toolbars, title, fetchVishResults } = this.props;
+            undoDisabled, redoDisabled, displayMode, isBusy, toolbars, title, fetchVishResults, canvasRatio} = this.props;
         let ribbonHeight = this.state.hideTab === 'hide' ? 0 : 47;
         return (
             /* jshint ignore:start */
@@ -64,9 +65,12 @@ class DaliApp extends Component {
 
                 <Row className="navBar">
                     <DaliNavBar hideTab={this.state.hideTab}
+                                canvasRatio={this.props.store.getState().present.canvasRatio}
+                                changeAspectRatio={(canvasRatio) => {this.dispatchAndSetState(toggleAspectRatio(canvasRatio))}}
                                 undoDisabled={undoDisabled}
                                 redoDisabled={redoDisabled}
                                 navItemsIds={navItemsIds}
+                                navItems={navItems}
                                 title={title}
                                 onTitleChanged={(id, title) => {this.dispatchAndSetState(changeTitle(title))}}
                                 navItemSelected={navItemSelected}
@@ -155,6 +159,7 @@ class DaliApp extends Component {
                                           boxSelected={boxes[boxSelected]}
                                           undoDisabled={undoDisabled}
                                           redoDisabled={redoDisabled}
+                                          navItemSelected={navItems[navItemSelected]}
                                           containedViewSelected={containedViewSelected}
                                           category={this.state.pluginTab}
                                           hideTab={this.state.hideTab}
@@ -165,6 +170,7 @@ class DaliApp extends Component {
                         </Row>
                         <Row id="canvasRow" style={{height: 'calc(100% - '+ribbonHeight+'px)'}}>
                             <DaliCanvas boxes={boxes}
+                                        canvasRatio={this.props.store.getState().present.canvasRatio}
                                         boxSelected={boxSelected}
                                         boxLevelSelected={boxLevelSelected}
                                         navItems={navItems}

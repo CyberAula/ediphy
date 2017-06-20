@@ -124,12 +124,12 @@ export default class DaliShortcuts extends Component {
     }
 
 
-    componentDidUpdate(nextProps) {
+    componentWillUpdate(nextProps) {
 
       if (nextProps !== this.props){
-        if (nextProps.box && this.props.box) {
+        if (nextProps.box) {
 
-            let box = document.getElementById('box-' + this.props.box.id);
+            let box = document.getElementById('box-' + nextProps.box.id);
             let element = ReactDOM.findDOMNode(this.refs.innerContainer);
             let left = 0;
             let top = 0;

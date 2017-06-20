@@ -5,6 +5,8 @@ export function Youtube(base) {
                 name: 'Youtube',
                 displayName: Dali.i18n.t('Youtube.PluginName'),
                 category: 'multimedia',
+                initialWidth: '350px',
+                initialHeight: '200px',
                 aspectRatioButtonConfig: {
                     location: ["main", "__sortable"],
                     defaultValue: true

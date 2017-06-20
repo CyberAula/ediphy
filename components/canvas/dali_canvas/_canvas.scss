@@ -1,4 +1,13 @@
-@import "../../../sass/general/_variables.scss";
+@import "../../../sass/general/variables";
+
+
+#canvas {
+  height: 100%;
+  overflow-y: auto;
+  padding: 10px 8px 8px 8px;
+  width: calc(100% - 40px);
+  background-color: #555;
+}
 
 .scrollcontainer, .outter{
   width: 100%;
@@ -6,11 +15,11 @@
 }
 
 .scrollcontainer{
-   display: table;
+  display: table;
 }
 
 .outter {
-  display: table-row;
+  //display: table-row;
 }
 
 .margin-left{
@@ -30,6 +39,35 @@
   height: 100%;
   background-color: white;
   overflow: hidden;
+}
+.sli {
+  //position: absolute;
+  //top: 0; bottom: 0; left: 0; right: 0;
+  //text-align: center;
+}
+
+.doc, .sli{
+  position: relative;
+}
+
+//.slide_air{
+  //width: 100%;
+  //Aspect Ratio
+  //padding-bottom: calc(56.25% - 212px); /* 16:9 */
+  //padding-top: calc(75% - 212px); /* 4:3 */
+  //background-color: white;
+  //position: relative;
+//}
+
+.doc_air{
+  height: 100%;
+  overflow: hidden;
+  z-index: 0;
+  visibility: visible;
+  background-color: white;
+  margin: 0px;
+  position: relative;
+  padding: 0 20px;
 }
 
 .buttonTitle {
@@ -64,33 +102,5 @@
   }
 }
 
-#canvas {
-  height: 100%;
-  overflow-y: auto;
-  padding: 10px 8px 8px 8px;
-  width: calc(100% - 40px);
-  background-color: #555;
-}
-
-#maincontent {
-  position: relative;
-}
-
-.doc_air, .slide_air{
-  height: 100%;
-  overflow: hidden;
-}
-.doc_air{
-    z-index: 0;
-    visibility: visible;
-    background-color: white;
-    margin: 0px;
-    position: relative;
-    padding: 0 20px;
-}
-
-.slide_air{
-    background-color: white;
-}
 
 .drag-handle{}
