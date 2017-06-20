@@ -16,42 +16,42 @@ CKEDITOR.editorConfig = function (config) {
         {name: 'clipboard', groups: ['clipboard', 'undo']},
         {name: 'editing', groups: ['find', 'selection', 'spellchecker', 'editing']},
         {name: 'forms', groups: ['forms']},
-        {name: 'basicstyles', groups: ['basicstyles', 'cleanup']},
+        {name: 'basicstyles', groups: ['basicstyles', 'cleanup', 'colorbutton']},
         {name: 'links', groups: ['links']},
-        {name: 'insert', groups: ['insert']},
+        {name: 'insert', groups: ['insert']}, 
+        {name: 'colors', groups: ['colors']},
         '/',
         {name: 'paragraph', groups: ['list', 'indent', 'blocks', 'align', 'bidi', 'paragraph']},
         {name: 'styles', groups: ['styles']},
-        {name: 'colors', groups: ['colors']},
         {name: 'tools', groups: ['tools']},
         {name: 'others', groups: ['others']},
         {name: 'about', groups: ['about']}
     ];
-    /*Currently disabled: plugin stylescombo*/
+    /*Currently disabled: plugin stylescombo
     config.stylesSet = [
         {name: 'Negrita', element: 'strong', attributes: {'class': 'ck_strong'}},
         {name: 'Cursiva', element: 'em', attributes: {'class': 'ck_em'}},
         {name: 'Encabezado 1', element: 'h1', attributes: {'class': 'ck_h1'}},       
        
     ];
-
+*/
     config.removeButtons =
         'Anchor,' +
         'Unlink,';
     
     /*Currently disabled: plugin mathjax
         Necesario configurarlo también en index.html +visor
-    */   
+    
 
     config.mathJaxClass = 'math-tex';
-    config.extraPlugins = 'mathjax';
     config.mathJaxLib = 'http://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML';    
-
+    */   
     config.plugins =
         'a11yhelp,' +
         'basicstyles,' +
         'blockquote,' +
         'clipboard,' +
+        'colorbutton,' +
         'contextmenu,' +
         'dialog,' +
         'dialogui,' +
