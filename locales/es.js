@@ -14,6 +14,8 @@ var es = {
         "Container_": "Contenedor",
         "col_dist": "Distribución de columnas",
         "col_number": "Nº columnas",
+        "content": "Contenido",
+        "course": "Curso",
         "course_title": "Título Curso",
         "delete": "Eliminar",
         "delete_container": "Eliminar bloque",

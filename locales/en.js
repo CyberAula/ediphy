@@ -14,6 +14,8 @@ var en = {
         "Container_": "Container",
         "col_dist": "Column distribution",
         "col_number": "Number of columns",
+        "content": "Content",
+        "course": "Course",
         "course_title": "Course Title",
         "create new document": "Crear nuevo documento",
         "create new folder": "Crear nueva carpeta",
