@@ -5,7 +5,7 @@ import {ID_PREFIX_PAGE, ID_PREFIX_SECTION, ID_PREFIX_SORTABLE_BOX, PAGE_TYPES} f
 import Section from './../section/Section';
 import PageMenu from './../page_menu/PageMenu';
 import DaliIndexTitle from './../dali_index_title/DaliIndexTitle';
-import {isPage, isSection, isSlide, calculateNewIdOrder} from './../../../utils';
+import {isPage, isSection, isSlide, isContainedView, calculateNewIdOrder} from './../../../utils';
 import i18n from 'i18next';
 import Dali from './../../../core/main';
 
@@ -55,7 +55,7 @@ export default class CarrouselList extends Component {
                      className="carList connectedSortables"
                      style={{height: (this.state.showSortableItems)? this.getContentHeight():'0px',display:'inherit'}}
                      onClick={e => {
-                        this.props.onNavItemSelected(this.props.id);
+                        this.props.onIndexSelected(this.props.id);
                         e.stopPropagation();
                      }}>
                     {this.props.navItems[this.props.id].children.map((id, index) => {
@@ -123,17 +123,23 @@ export default class CarrouselList extends Component {
                                                              display: 'block', overflowY: 'auto', overflowX: 'hidden'}}>
                     {
                         Object.keys(this.props.containedViews).map((id, key)=>{
-                            return (<div key={id} style={{
-                                                width: "100%", 
-                                                height: "20px", 
-                                                paddingTop: "10px", 
-                                                paddingLeft: "20px", 
-                                                paddingBottom: "25px",
-                                                color: (this.props.containedViewSelected === id) ? "white" : "#9A9A9A",
-                                                backgroundColor: (this.props.containedViewSelected === id) ? "#545454" : "transparent"
+                            return (<div key={id} 
+                                         className={id == this.props.indexSelected ? 'classIndexSelected':''}
+                                         style={{
+                                            width: "100%", 
+                                            height: "20px", 
+                                            paddingTop: "10px", 
+                                            paddingLeft: "20px", 
+                                            paddingBottom: "25px",
+                                            color: (this.props.containedViewSelected === id) ? "white" : "#9A9A9A",
+                                            backgroundColor: (this.props.containedViewSelected === id) ? "#545454" : "transparent"
                                           }}  
-                                          onClick={e => {
+                                          onDoubleClick={e => {
                                             this.props.onContainedViewSelected(id);
+                                            e.stopPropagation();
+                                          }}
+                                          onClick={e => {
+                                            this.props.onIndexSelected(id);
                                             e.stopPropagation();
                                           }}>{id}</div>)
                         })
@@ -142,11 +148,9 @@ export default class CarrouselList extends Component {
 
                 <div className="bottomGroup">
                     <div className="bottomLine"></div>
-                    <OverlayTrigger placement="top" overlay={
-                        <Tooltip  id="newFolderTooltip">{i18n.t('create new folder')}
-                        </Tooltip>}>
+                    <OverlayTrigger placement="top" overlay={(<Tooltip  id="newFolderTooltip">{i18n.t('create new folder')}</Tooltip>)}>
                             <Button className="carrouselButton"
-                                    disabled={(!isSection(this.props.indexSelected) && this.props.indexSelected !== 0) || this.props.navItems[this.props.indexSelected].level >= 10}
+                                    disabled={ isContainedView(this.props.indexSelected) || (!isSection(this.props.indexSelected) && this.props.indexSelected !== 0 ) || this.props.navItems[this.props.indexSelected].level >= 10}
                                     onClick={e => {
 
                                       let idnuevo = ID_PREFIX_SECTION + Date.now();
@@ -154,7 +158,7 @@ export default class CarrouselList extends Component {
                                             idnuevo,
                                             i18n.t("section"),
                                             this.getParent().id,
-                                            "",
+                                            PAGE_TYPES.SECTION,
                                             this.calculatePosition()
                                         );
                                       if(Dali.Config.sections_have_content){
@@ -166,6 +170,7 @@ export default class CarrouselList extends Component {
                                               false
                                           );
                                       }
+                                      this.props.onIndexSelected(idnuevo);
                                       e.stopPropagation();
 
                                 }}><i className="material-icons">create_new_folder</i>
@@ -176,6 +181,7 @@ export default class CarrouselList extends Component {
                         <Tooltip id="newDocumentTooltip">{i18n.t('create new document')}
                         </Tooltip>}>
                             <Button className="carrouselButton"
+                                    disabled={isContainedView(this.props.indexSelected)}
                                     onClick={e =>{
                                        var newId = ID_PREFIX_PAGE + Date.now();
                                        this.props.onNavItemAdded(
@@ -190,6 +196,7 @@ export default class CarrouselList extends Component {
                                             false,
                                             false
                                         );
+                                        this.props.onIndexSelected(newId);
                                     }}><i className="material-icons">insert_drive_file</i></Button>
                     </OverlayTrigger>
 
@@ -197,14 +204,17 @@ export default class CarrouselList extends Component {
                         <Tooltip id="newSlideTooltip">{i18n.t('create new slide')}
                         </Tooltip>}>
                             <Button className="carrouselButton"
+                                    disabled={isContainedView(this.props.indexSelected)}
                                     onClick={e => {
+                                    var newId = ID_PREFIX_PAGE + Date.now(); 
                                     this.props.onNavItemAdded(
-                                        ID_PREFIX_PAGE + Date.now(),
+                                        newId,
                                         i18n.t("slide"),
                                         this.getParent().id,
                                         PAGE_TYPES.SLIDE,
                                         this.calculatePosition()
                                     );
+                                    this.props.onIndexSelected(newId);
                                 }}><i className="material-icons">slideshow</i>
                             </Button>
                     </OverlayTrigger>
@@ -221,31 +231,29 @@ export default class CarrouselList extends Component {
                     </OverlayTrigger>
                      */}
                     <OverlayTrigger trigger={["focus"]} placement="top" overlay={
-                        <Popover id="popov" title={this.props.indexSelected !== 0 ?
-                                                                                        i18n.t('messages.delete_contained_canvas'):
-                                                   isSection(this.props.indexSelected) ?
-                                                                                        i18n.t("delete_section") :
-                                                                                        i18n.t("delete_page")}>
+                        <Popover id="popov" title={
+                            isSection(this.props.indexSelected) ? i18n.t("delete_section") :
+                                isContainedView(this.props.indexSelected) ? i18n.t('delete_contained_canvas') :
+                                    i18n.t("delete_page")}>
                             <i style={{color: 'yellow', fontSize: '13px', padding: '0 5px'}} className="material-icons">warning</i>
-                            {   isSection(this.props.indexSelected) ?
-                                                                        i18n.t("messages.delete_section") :
-                                                                        i18n.t("messages.delete_page")
-                            }
+                            {isSection(this.props.indexSelected) ? i18n.t("messages.delete_section") : 
+                                (isContainedView(this.props.indexSelected) && !this.canDeleteContainedView(this.props.indexSelected)) ? i18n.t("messages.delete_busy_cv"):i18n.t("messages.delete_page")}
                             <br/>
                             <br/>
                             <Button className="popoverButton"
-                                    disabled={this.props.indexSelected === 0}
+                                    disabled={!this.canDeleteContainedView(this.props.indexSelected) || this.props.indexSelected === 0}
                                     style={{float: 'right'}}
                                     onClick={(e) =>
                                         {
                                             if(this.props.indexSelected !== 0 ){
-                                                if (this.props.indexSelected.indexOf('cv') !== -1) {
+                                                if (isContainedView(this.props.indexSelected) && this.canDeleteContainedView(this.props.indexSelected)) {
                                                     this.props.onContainedViewDeleted(this.props.indexSelected);
                                                 } else {
                                                     this.props.onNavItemDeleted(this.props.indexSelected);
-                                                    console.log('here');
                                                 }
                                             }
+                                        
+                                        this.props.onIndexSelected(0);
                                         }
                                     }>
                                 {i18n.t("Accept")}
@@ -272,6 +280,17 @@ export default class CarrouselList extends Component {
         );
     }
 
+    canDeleteContainedView(id) {
+        if (id !== 0 && isContainedView(id) ){
+            let thisPage = this.props.containedViews[id];
+            let boxes = this.props.boxes;
+            let parent = thisPage.parent;
+            return parent && boxes[parent] && boxes[parent].containedViews && !boxes[parent].containedViews.includes(id);
+    
+        }
+        
+        return false;
+    }
     getParent() {
         // If the selected navItem is not a section, it cannot have children -> we return it's parent
         if (isSection(this.props.indexSelected)) {

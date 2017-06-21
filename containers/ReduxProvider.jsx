@@ -17,6 +17,8 @@ export default class ReduxProvider extends Component {
                 title: i18n.t('course_title'),
                 canvasRatio: 16/9,
                 displayMode: "list",
+                imagesUploaded:[],
+                indexSelected: "se-1467887497411",
                 navItemsById: {
                     0: {id: 0, children: ["se-1467887497411"], boxes: [], level: 0, type: '', hidden: false},
                     "se-1467887497411": {
@@ -29,7 +31,7 @@ export default class ReduxProvider extends Component {
                         hidden: false,
                         boxes: Dali.Config.sections_have_content ? ['bs-1467887497412'] : [],
                         level: 1,
-                        type: "",
+                        type: "section",
                         extraFiles: {},
                         header: {
                             elementContent:{
@@ -72,7 +74,7 @@ export default class ReduxProvider extends Component {
                         containedViews: []
                     }
                 } : {},
-                toolbarsById: Dali.Config.sections_have_content ? {
+                toolbarsById: Dali.Config.sections_have_content ? ({
                     'bs-1467887497412': {
                         id: "bs-1467887497412",
                         state: {},
@@ -96,37 +98,97 @@ export default class ReduxProvider extends Component {
                         },
                         config: {displayName: i18n.t('section')}
                     }
-                } : {}
+                }) : ({}),
+                isBusy:"",
+                fetchVishResults:{"results":[]}
             }}) :
             ({present:{
                  title: i18n.t('course_title'),
                  canvasRatio: 16/9,
                  imagesUploaded:[],
+                 indexSelected: 'pa-1497983247795',
                  boxesById:{
                     "bs-1497983247797":
-                        {"id":"bs-1497983247797",
-                         "parent":"pa-1497983247795",
-                         "container":0,
-                         "level":-1,
-                         "col":0,
-                         "row":0,
-                         "position":{"x":0,"y":0,"type":"relative"},
-                         "draggable":false,
-                         "resizable":false,
-                         "showTextEditor":false,
-                         "fragment":{},
-                         "children":[],
-                         "sortableContainers":{},
-                         "containedViews":[]}
+                        { id:"bs-1497983247797",
+                         parent:"pa-1497983247795",
+                         container:0,
+                         level:-1,
+                         col:0,
+                         row:0,
+                         position:{x:0,y:0,type:"relative"},
+                         draggable:false,
+                         resizable:false,
+                         showTextEditor:false,
+                         fragment:{},
+                         children:[],
+                         sortableContainers:{},
+                         containedViews:[]}
                      },
                  boxSelected:-1,
                  boxLevelSelected:0,
                  navItemsIds:["se-1467887497411","pa-1497983247795"],
                  navItemSelected:"pa-1497983247795",
                  navItemsById:{
-                    "0":{"id":0,"children":["se-1467887497411"],"boxes":[],"level":0,"type":"","hidden":false},
-                    "se-1467887497411":{"id":"se-1467887497411","name":"Sección","isExpanded":true,"parent":0,"children":["pa-1497983247795"],"unitNumber":1,"hidden":false,"boxes":[],"level":1,"type":"","extraFiles":{},"header":{"elementContent":{"documentTitle":"","documentSubTitle":"","numPage":""},"display":{"courseTitle":"hidden","documentTitle":"expanded","documentSubTitle":"hidden","breadcrumb":"reduced","pageNumber":"hidden"}}},
-                    "pa-1497983247795":{"id":"pa-1497983247795","name":"Página","isExpanded":true,"parent":"se-1467887497411","children":[],"boxes":["bs-1497983247797"],"level":2,"type":"document","unitNumber":1,"hidden":false,"extraFiles":{},"header":{"elementContent":{"documentTitle":"","documentSubTitle":"","numPage":""},"display":{"courseTitle":"hidden","documentTitle":"expanded","documentSubTitle":"hidden","breadcrumb":"reduced","pageNumber":"hidden"}}}},
+                    "0":{
+                        id: 0,
+                        children:["se-1467887497411"],
+                        boxes:[],
+                        level:0,
+                        type:"",
+                        hidden:false},
+                    "se-1467887497411":{
+                        id:"se-1467887497411",
+                        name:"Sección",
+                        isExpanded:true,
+                        parent:0, 
+                        children:["pa-1497983247795"],
+                        unitNumber:1,
+                        hidden:false,
+                        boxes:[],
+                        level:1,
+                        type:"section",
+                        extraFiles:{},
+                        header:{
+                            elementContent:{
+                                documentTitle:"",
+                                documentSubTitle:"",
+                                numPage:""},
+                            display:{
+                                courseTitle:"hidden",
+                                documentTitle:"expanded",
+                                documentSubTitle:"hidden",
+                                breadcrumb:"reduced",
+                                pageNumber:"hidden"}
+                        }
+                    },
+                    "pa-1497983247795":{
+                        id:"pa-1497983247795",
+                        name:"Página",
+                        isExpanded:true,
+                        parent:"se-1467887497411",
+                        children:[],
+                        boxes:["bs-1497983247797"],
+                        level: 2,
+                        type:"document",
+                        unitNumber:1,
+                        hidden:false,
+                        extraFiles: {},
+                        header:{
+                            elementContent:{
+                                documentTitle:"",
+                                documentSubTitle:"",
+                                numPage:""
+                            },
+                            display:{
+                                courseTitle:"hidden",
+                                documentTitle:"expanded",
+                                documentSubTitle:"hidden",
+                                breadcrumb:"reduced",
+                                pageNumber:"hidden"
+                            }
+                        }
+                    }
+                },
                  containedViewsById:{},
                  containedViewSelected:0,
                  displayMode:"list",
@@ -145,7 +207,7 @@ export default class ReduxProvider extends Component {
             <Provider store={this.store}>
                 <div style={{height: '100%'}}>
                     <DaliApp id="app" store={this.store}/>
-                    {/*<DevTools/>*/}
+                    <DevTools/>
                 </div>
             </Provider>
             /* jshint ignore:end */
