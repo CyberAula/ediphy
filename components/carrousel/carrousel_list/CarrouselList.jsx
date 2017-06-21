@@ -150,7 +150,7 @@ export default class CarrouselList extends Component {
                     <div className="bottomLine"></div>
                     <OverlayTrigger placement="top" overlay={(<Tooltip  id="newFolderTooltip">{i18n.t('create new folder')}</Tooltip>)}>
                             <Button className="carrouselButton"
-                                    disabled={ isContainedView(this.props.indexSelected) || (!isSection(this.props.indexSelected) && this.props.indexSelected !== 0 ) || this.props.navItems[this.props.indexSelected].level >= 10}
+                                    disabled={ isContainedView(this.props.indexSelected) || this.props.navItems[this.props.indexSelected].level >= 10}
                                     onClick={e => {
 
                                       let idnuevo = ID_PREFIX_SECTION + Date.now();
@@ -170,7 +170,7 @@ export default class CarrouselList extends Component {
                                               false
                                           );
                                       }
-                                      this.props.onIndexSelected(idnuevo);
+                                     
                                       e.stopPropagation();
 
                                 }}><i className="material-icons">create_new_folder</i>
@@ -196,7 +196,6 @@ export default class CarrouselList extends Component {
                                             false,
                                             false
                                         );
-                                        this.props.onIndexSelected(newId);
                                     }}><i className="material-icons">insert_drive_file</i></Button>
                     </OverlayTrigger>
 
@@ -241,7 +240,7 @@ export default class CarrouselList extends Component {
                             <br/>
                             <br/>
                             <Button className="popoverButton"
-                                    disabled={!this.canDeleteContainedView(this.props.indexSelected) || this.props.indexSelected === 0}
+                                    disabled={(isContainedView(this.props.indexSelected) && !this.canDeleteContainedView(this.props.indexSelected)) || this.props.indexSelected === 0}
                                     style={{float: 'right'}}
                                     onClick={(e) =>
                                         {

@@ -8,7 +8,7 @@ export default function (state = 0, action = {}) {
             }
             return state;
         case DELETE_NAV_ITEM:
-            if (action.payload.ids && action.payload.ids.length > 0 && state === action.payload.ids[0]) {
+            if (action.payload.ids && action.payload.ids.length > 0 && action.payload.ids.includes(state)) {
                 return 0;
             } 
             return state;
