@@ -9,32 +9,39 @@ export default class Section extends Component {
     render() {
         let navItem = this.props.navItems[this.props.id];
         let classSelected = this.props.navItemSelected === navItem.id ? 'selected' : 'notSelected';
+        let classIndexSelected = this.props.indexSelected === navItem.id ? ' classIndexSelected':'';
         return (
             /* jshint ignore:start */
             <div id={this.props.id}
                  onMouseDown={e => {
-                   // if (Dali.Config.sections_have_content) {
-                        this.props.onNavItemSelected(navItem.id);
-                        e.stopPropagation();
-                    //} 
-                    
+                    this.props.onIndexSelected(navItem.id);
+                    e.stopPropagation(); 
                  }}
                  onClick={e => {
-                    //if (Dali.Config.sections_have_content) { /*Que pasa al crear secciones dentro de secciones*/
+                   
+                    this.props.onNavItemExpanded(navItem.id, !navItem.isExpanded);
+                    this.props.onIndexSelected(navItem.id);
+                    e.stopPropagation();
+                 }}
+                 onDoubleClick={e => {
+                    if (Dali.Config.sections_have_content) { 
                         this.props.onNavItemSelected(navItem.id);
-                        e.stopPropagation();
-                    //} else {
-                    //    this.props.onNavItemExpanded(navItem.id, !navItem.isExpanded);
-                    //    e.stopPropagation();
-                    //}
+                        this.props.onNavItemExpanded(navItem.id, !navItem.isExpanded);
+                    }
+                    this.props.onIndexSelected(navItem.id);
+                    e.stopPropagation();
+                    
                  }}>
-                <div className={"navItemBlock " + classSelected}>
+                <div className={"navItemBlock " + classSelected + classIndexSelected}>
                     <span style={{marginLeft: 20 * (this.props.navItems[this.props.id].level - 1)}}>
-                        <button className="expandir" onClick={e => {
-                            this.props.onNavItemExpanded(navItem.id, !navItem.isExpanded);
-                            e.stopPropagation();
-                        }}>
+                        <button className="expandir" 
+                                onClick={e => {
+                                    this.props.onNavItemExpanded(navItem.id, !navItem.isExpanded);
+                                    this.props.onIndexSelected(navItem.id);
+                                    e.stopPropagation();
+                                }}>
                             <i onClick={e => {
+                                    this.props.onIndexSelected(navItem.id); // Confirmar
                                     this.props.onNavItemExpanded(navItem.id, !navItem.isExpanded);
                                     e.stopPropagation();
                                }}
@@ -64,10 +71,12 @@ export default class Section extends Component {
                         if (isSection(id)) {
                             return <Section id={id}
                                             key={index}
+                                            indexSelected={this.props.indexSelected}
                                             navItemsIds={this.props.navItemsIds}
                                             navItems={this.props.navItems}
                                             navItemSelected={this.props.navItemSelected}
                                             onBoxAdded={this.props.onBoxAdded}
+                                            onIndexSelected={this.props.onIndexSelected}
                                             onNavItemAdded={this.props.onNavItemAdded}
                                             onNavItemNameChanged={this.props.onNavItemNameChanged}
                                             onNavItemSelected={this.props.onNavItemSelected}
@@ -76,15 +85,20 @@ export default class Section extends Component {
                                             onNavItemToggled={this.props.onNavItemToggled}/>;
                         } else if (isPage(id)) {
                             let classSelected = this.props.navItemSelected === id ? 'selected dragS' : 'notSelected dragS';
+                            let classIndexSelected = this.props.indexSelected === id ? ' classIndexSelected':'';
                             return (
                                 <div key={index}
                                     id={id}
-                                    className={'navItemBlock ' + classSelected}
+                                    className={'navItemBlock ' + classSelected + classIndexSelected}
                                     onMouseDown={e => {
-                                        this.props.onNavItemSelected(id);
+                                        this.props.onIndexSelected(id);
                                         e.stopPropagation();
                                     }}
                                     onClick={e => {
+                                        this.props.onIndexSelected(id);
+                                        e.stopPropagation();
+                                    }}  
+                                    onDoubleClick={e => {
                                         this.props.onNavItemSelected(id);
                                         e.stopPropagation();
                                     }}>
@@ -138,17 +152,17 @@ export default class Section extends Component {
                 let newChildren = list.sortable('toArray', {attribute: 'id'});
 
                 // If item moved is still in this element's children (wasn't moved away) -> update
-                if (newChildren.indexOf(this.props.navItemSelected) !== -1) {
+                if (newChildren.indexOf(this.props.indexSelected) !== -1) {
 
                     // This is necessary in order to avoid that JQuery touches the DOM
                     // It has to be BEFORE action is dispatched and React tries to repaint
                     list.sortable('cancel');
 
                     this.props.onNavItemReordered(
-                        this.props.navItemSelected, // item moved
+                        this.props.indexSelected, // item moved
                         this.props.id, // new parent
-                        this.props.navItems[this.props.navItemSelected].parent, // old parent
-                        calculateNewIdOrder(this.props.navItemsIds, newChildren, this.props.id, this.props.navItemSelected, this.props.navItems),
+                        this.props.navItems[this.props.indexSelected].parent, // old parent
+                        calculateNewIdOrder(this.props.navItemsIds, newChildren, this.props.id, this.props.indexSelected, this.props.navItems),
                         newChildren
                     );
                 }
@@ -162,10 +176,10 @@ export default class Section extends Component {
                 $(ui.sender).sortable('cancel');
 
                 this.props.onNavItemReordered(
-                    this.props.navItemSelected, // item moved
+                    this.props.indexSelected, // item moved
                     this.props.id, // new parent
-                    this.props.navItems[this.props.navItemSelected].parent, // old parent
-                    calculateNewIdOrder(this.props.navItemsIds, newChildren, this.props.id, this.props.navItemSelected, this.props.navItems),
+                    this.props.navItems[this.props.indexSelected].parent, // old parent
+                    calculateNewIdOrder(this.props.navItemsIds, newChildren, this.props.id, this.props.indexSelected, this.props.navItems),
                     newChildren
                 );
             }

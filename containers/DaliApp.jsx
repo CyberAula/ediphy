@@ -101,9 +101,9 @@ class DaliApp extends Component {
                                   displayMode={displayMode}
                                   onBoxAdded={(ids, draggable, resizable, content, toolbar, config, state) => this.dispatchAndSetState(addBox(ids, draggable, resizable, content, toolbar, config, state))}
                                   onContainedViewSelected={ (id) => this.dispatchAndSetState(selectContainedView(id)) }
-                                  onContainedViewDeleted={()=>{
+                                  onContainedViewDeleted={(cvid)=>{
                                       let boxesRemoving = [];
-                                      containedViews[containedViewSelected].boxes.map(boxId => {
+                                      containedViews[cvid].boxes.map(boxId => {
                                           boxesRemoving.push(boxId);
                                           boxesRemoving = boxesRemoving.concat(this.getDescendantBoxes(boxes[boxId]));
                                       });
@@ -113,8 +113,8 @@ class DaliApp extends Component {
                                   onNavItemAdded={(id, name, parent, type, position) => this.dispatchAndSetState(addNavItem(id, name, parent, type, position))}
                                   onNavItemSelected={id => this.dispatchAndSetState(selectNavItem(id))}
                                   onNavItemExpanded={(id, value) => this.dispatchAndSetState(expandNavItem(id, value))}
-                                  onNavItemDeleted={() => {
-                                    let viewRemoving = [navItemSelected].concat(this.getDescendantViews(navItems[navItemSelected]));
+                                  onNavItemDeleted={(navsel) => {
+                                    let viewRemoving = [navsel].concat(this.getDescendantViews(navItems[navsel]));
                                     let boxesRemoving = [];
                                     let containedRemoving = [];
                                     viewRemoving.map(id => {

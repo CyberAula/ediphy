@@ -5,6 +5,12 @@ import CarrouselList from '../carrousel_list/CarrouselList';
 import i18n from 'i18next';
 
 export default class DaliCarousel extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+           indexSelected : this.props.navItemSelected
+        };
+    }
 
     render() {
         let displayModeClassName = "";
@@ -19,6 +25,7 @@ export default class DaliCarousel extends Component {
                                               navItemsIds={this.props.navItemsIds}
                                               navItems={this.props.navItems}
                                               navItemSelected={this.props.navItemSelected}
+                                              indexSelected={this.state.indexSelected}
                                               onBoxAdded={this.props.onBoxAdded}
                                               onContainedViewsExpand={this.props.onContainedViewsExpand}
                                               onContainedViewDeleted={this.props.onContainedViewDeleted}
@@ -26,6 +33,7 @@ export default class DaliCarousel extends Component {
                                               onNavItemNameChanged={this.props.onNavItemNameChanged}
                                               onNavItemAdded={this.props.onNavItemAdded}
                                               onNavItemSelected={this.props.onNavItemSelected}
+                                              onIndexSelected={(el)=>{this.changeIndexSelection(el)}}
                                               onNavItemExpanded={this.props.onNavItemExpanded}
                                               onNavItemDeleted={this.props.onNavItemDeleted}
                                               onNavItemToggled={this.props.onNavItemToggled}
@@ -69,5 +77,10 @@ export default class DaliCarousel extends Component {
             </div>
             /* jshint ignore:end */
         );
+    }
+
+    changeIndexSelection(element){
+      this.setState({indexSelected: element});
+      console.log(element, ' selected index')
     }
 }

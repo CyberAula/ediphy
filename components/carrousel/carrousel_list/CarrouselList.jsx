@@ -62,28 +62,35 @@ export default class CarrouselList extends Component {
                         if (isSection(id)) {
                             return <Section id={id}
                                             key={index}
+                                            indexSelected={this.props.indexSelected}
                                             navItemsIds={this.props.navItemsIds}
                                             navItems={this.props.navItems}
                                             navItemSelected={this.props.navItemSelected}
                                             onNavItemNameChanged={this.props.onNavItemNameChanged}
                                             onNavItemAdded={this.props.onNavItemAdded}
                                             onBoxAdded={this.props.onBoxAdded}
+                                            onIndexSelected={this.props.onIndexSelected}
                                             onNavItemSelected={this.props.onNavItemSelected}
                                             onNavItemExpanded={this.props.onNavItemExpanded}
                                             onNavItemReordered={this.props.onNavItemReordered}
                                             onNavItemToggled={this.props.onNavItemToggled}/>
                         } else if (isPage(id)) {
                             let classSelected = (this.props.navItemSelected === id) ? 'selected' : 'notSelected';
+                            let classIndexSelected = this.props.indexSelected === id ? ' classIndexSelected':'';
                             return  <div key={index}
                                         id={id}
-                                        className={'navItemBlock ' + classSelected}
+                                        className={'navItemBlock ' + classSelected + classIndexSelected}
                                         onMouseDown={e => {
-                                             this.props.onNavItemSelected(id);
-                                             e.stopPropagation();
+                                            this.props.onIndexSelected(id);
+                                            e.stopPropagation();
                                         }}
                                         onClick={e => {
-                                             this.props.onNavItemSelected(id);
-                                             e.stopPropagation();
+                                            this.props.onIndexSelected(id);
+                                            e.stopPropagation();
+                                        }}  
+                                        onDoubleClick={e => {
+                                            this.props.onNavItemSelected(id);
+                                            e.stopPropagation();
                                         }}>
                                         <span style={{marginLeft: 20 * (this.props.navItems[id].level-1)}}>
                                                 <i className="material-icons fileIcon">
@@ -139,7 +146,7 @@ export default class CarrouselList extends Component {
                         <Tooltip  id="newFolderTooltip">{i18n.t('create new folder')}
                         </Tooltip>}>
                             <Button className="carrouselButton"
-                                    disabled={(!isSection(this.props.navItemSelected) && this.props.navItemSelected !== 0) || this.props.navItems[this.props.navItemSelected].level >= 10}
+                                    disabled={(!isSection(this.props.indexSelected) && this.props.indexSelected !== 0) || this.props.navItems[this.props.indexSelected].level >= 10}
                                     onClick={e => {
 
                                       let idnuevo = ID_PREFIX_SECTION + Date.now();
@@ -214,36 +221,37 @@ export default class CarrouselList extends Component {
                     </OverlayTrigger>
                      */}
                     <OverlayTrigger trigger={["focus"]} placement="top" overlay={
-                        <Popover id="popov" title={this.props.containedViewSelected !== 0 ?
+                        <Popover id="popov" title={this.props.indexSelected !== 0 ?
                                                                                         i18n.t('messages.delete_contained_canvas'):
-                                                   isSection(this.props.navItemSelected) ?
+                                                   isSection(this.props.indexSelected) ?
                                                                                         i18n.t("delete_section") :
                                                                                         i18n.t("delete_page")}>
                             <i style={{color: 'yellow', fontSize: '13px', padding: '0 5px'}} className="material-icons">warning</i>
-                            {   this.props.containedViewSelected ?
-                                                                    i18n.t('messages.delete_contained_canvas'):
-                                isSection(this.props.navItemSelected) ?
+                            {   isSection(this.props.indexSelected) ?
                                                                         i18n.t("messages.delete_section") :
                                                                         i18n.t("messages.delete_page")
                             }
                             <br/>
                             <br/>
                             <Button className="popoverButton"
-                                    disabled={this.props.navItemSelected === 0}
+                                    disabled={this.props.indexSelected === 0}
                                     style={{float: 'right'}}
                                     onClick={(e) =>
                                         {
-                                            if(this.props.containedViewSelected !== 0){
-                                                this.props.onContainedViewDeleted();
-                                            }else{
-                                                this.props.onNavItemDeleted()
+                                            if(this.props.indexSelected !== 0 ){
+                                                if (this.props.indexSelected.indexOf('cv') !== -1) {
+                                                    this.props.onContainedViewDeleted(this.props.indexSelected);
+                                                } else {
+                                                    this.props.onNavItemDeleted(this.props.indexSelected);
+                                                    console.log('here');
+                                                }
                                             }
                                         }
                                     }>
                                 {i18n.t("Accept")}
                             </Button>
                             <Button className="popoverButton"
-                                    disabled={this.props.navItemSelected === 0}
+                                    disabled={this.props.indexSelected === 0}
                                     style={{float: 'right'}}  >
                                 {i18n.t("Cancel")}
                             </Button>
@@ -252,7 +260,7 @@ export default class CarrouselList extends Component {
                                 <Tooltip id="deleteTooltip">{i18n.t('delete')}
                                 </Tooltip>}>
                                     <Button className="carrouselButton"
-                                            disabled={this.props.navItemSelected === 0}
+                                            disabled={this.props.indexSelected === 0}
                                             style={{float: 'right'}}>
                                         <i className="material-icons">delete</i>
                                     </Button>
@@ -266,10 +274,10 @@ export default class CarrouselList extends Component {
 
     getParent() {
         // If the selected navItem is not a section, it cannot have children -> we return it's parent
-        if (isSection(this.props.navItemSelected)) {
-            return this.props.navItems[this.props.navItemSelected];
+        if (isSection(this.props.indexSelected)) {
+            return this.props.navItems[this.props.indexSelected];
         }
-        return this.props.navItems[this.props.navItems[this.props.navItemSelected].parent] || this.props.navItems[0];
+        return this.props.navItems[this.props.navItems[this.props.indexSelected].parent] || this.props.navItems[0];
     }
 
     calculatePosition() {
@@ -322,10 +330,10 @@ export default class CarrouselList extends Component {
                     list.sortable('cancel');
 
                     this.props.onNavItemReordered(
-                        this.props.navItemSelected, // item moved
+                        this.props.indexSelected, // item moved
                         this.props.id, // new parent
-                        this.props.navItems[this.props.navItemSelected].parent, // old parent
-                        calculateNewIdOrder(this.props.navItemsIds, newChildren, this.props.id, this.props.navItemSelected, this.props.navItems),
+                        this.props.navItems[this.props.indexSelected].parent, // old parent
+                        calculateNewIdOrder(this.props.navItemsIds, newChildren, this.props.id, this.props.indexSelected, this.props.navItems),
                         newChildren
                     );
                 }
@@ -335,8 +343,8 @@ export default class CarrouselList extends Component {
                 let newChildren = list.sortable('toArray', {attribute: 'id'});
 
                 // If action is done very quickly, jQuery may not notice the update and not detect that a new child was dragged
-                if(newChildren.indexOf(this.props.navItemSelected) === -1){
-                    newChildren.push(this.props.navItemSelected);
+                if(newChildren.indexOf(this.props.indexSelected) === -1){
+                    newChildren.push(this.props.indexSelected);
                 }
 
                 // This is necessary in order to avoid that JQuery touches the DOM
@@ -344,10 +352,10 @@ export default class CarrouselList extends Component {
                 $(ui.sender).sortable('cancel');
 
                 this.props.onNavItemReordered(
-                    this.props.navItemSelected, // item moved
+                    this.props.indexSelected, // item moved
                     this.props.id, // new parent
-                    this.props.navItems[this.props.navItemSelected].parent, // old parent
-                    calculateNewIdOrder(this.props.navItemsIds, newChildren, this.props.id, this.props.navItemSelected, this.props.navItems),
+                    this.props.navItems[this.props.indexSelected].parent, // old parent
+                    calculateNewIdOrder(this.props.navItemsIds, newChildren, this.props.id, this.props.indexSelected, this.props.navItems),
                     newChildren
                 );
             }
