@@ -31,7 +31,7 @@ export const TOGGLE_NAV_ITEM = 'TOGGLE_NAV_ITEM';
 export const UPDATE_NAV_ITEM_EXTRA_FILES = 'UPDATE_NAV_ITEM_EXTRA_FILES';
 export const CHANGE_NAV_ITEM_NAME = 'CHANGE_NAV_ITEM_NAME';
 export const CHANGE_UNIT_NUMBER = 'CHANGE_UNIT_NUMBER';
-
+export const INDEX_SELECT = 'INDEX_SELECT';
 
 export const TOGGLE_TEXT_EDITOR = 'TOGGLE_TEXT_EDITOR';
 export const TOGGLE_TITLE_MODE = 'TOGGLE_TITLE_MODE';
@@ -65,6 +65,9 @@ export function toggleAspectRatio(ratio) {
     return {type: TOGGLE_ASPECT_RATIO, payload: {ratio}};
 }
 
+export function selectIndex(id) {
+    return {type: INDEX_SELECT, payload: {id}};
+}
 
 export function selectNavItem(id) {
     return {type: SELECT_NAV_ITEM, payload: {id}};
@@ -78,8 +81,8 @@ export function deleteContainedView(ids, boxes) {
     return {type: DELETE_CONTAINED_VIEW, payload: {ids, boxes}};
 }
 
-export function addNavItem(id, name, parent, type, position) {
-    return {type: ADD_NAV_ITEM, payload: {id, name, parent, type, position}};
+export function addNavItem(id, name, parent, type, position, hasContent) {
+    return {type: ADD_NAV_ITEM, payload: {id, name, parent, type, position, hasContent}};
 }
 
 export function expandNavItem(id, value) {

@@ -41,6 +41,10 @@ export default class DaliCanvasDoc extends Component {
         }
 
         let overlayHeight = actualHeight ? actualHeight : '100%';
+        /*let isSection = this.props.navItemSelected.id.toString().indexOf('se') !== -1;
+        let contentAllowedInSections = Dali.Config.sections_have_content;
+        let showCanvas = (!isSection || (isSection && contentAllowedInSections));*/
+
         return (
             /* jshint ignore:start */
 

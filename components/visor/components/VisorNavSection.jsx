@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import i18n from 'i18next';
+import Dali from './../../../core/main';
 
 export default class VisorNavSection extends Component {
     constructor(props) {
@@ -18,9 +19,15 @@ export default class VisorNavSection extends Component {
         return ( 
             /* jshint ignore:start */
                 <ul  className={classes}>
-                    <li className="visorNavListEl visorNavListBorder" onClick={(e)=>{this.setState({toggled: !this.state.toggled})}}>
-                        <a style={{paddingLeft: marginUl}} href="#"> 
-                            {this.state.toggled ? (<i className="material-icons">keyboard_arrow_down</i>):(<i className="material-icons">keyboard_arrow_right</i>)} 
+                    <li className="visorNavListEl" onClick={(e)=>{
+                        if (Dali.Config.sections_have_content) {
+                            this.props.changePage(this.props.pageName);
+                        } else {
+                            this.setState({toggled: !this.state.toggled});
+                        }}}>
+                        <a className={this.props.navItemSelected == this.props.pageName ? "visorNavListEl selectedNavItemVisor":"visorNavListEl"} style={{paddingLeft: marginUl}} href="#"> 
+                            {this.state.toggled ? 
+                                (<i onClick={(e)=>{this.setState({toggled: !this.state.toggled})}} className="material-icons">keyboard_arrow_down</i>):(<i onClick={(e)=>{this.setState({toggled: !this.state.toggled})}} className="material-icons">keyboard_arrow_right</i>)} 
                             <span> {name} </span>
                         </a>                       
                     </li>

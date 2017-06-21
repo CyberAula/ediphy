@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {ActionCreators} from 'redux-undo';
 import {Grid, Col, Row, Button, OverlayTrigger, Popover} from 'react-bootstrap';
 import {addNavItem, selectNavItem, expandNavItem, deleteNavItem, reorderNavItem, toggleNavItem, updateNavItemExtraFiles,
-    changeNavItemName, changeUnitNumber,
+    changeNavItemName, changeUnitNumber, selectIndex,
     addBox, changeTitle, selectBox, moveBox, resizeBox, updateBox, duplicateBox, deleteBox, reorderSortableContainer, dropBox, increaseBoxLevel,
     resizeSortableContainer, deleteSortableContainer, changeCols, changeRows, changeSortableProps, reorderBoxes, verticallyAlignBox,
     toggleTextEditor, toggleTitleMode, toggleMarkCreator,
@@ -55,7 +55,7 @@ class DaliApp extends Component {
     render() {
 
         const { dispatch, boxes, boxesIds, boxSelected, boxLevelSelected, navItemsIds, navItems, navItemSelected,
-            containedViews, containedViewSelected, imagesUploaded,
+            containedViews, containedViewSelected, imagesUploaded, indexSelected,
             undoDisabled, redoDisabled, displayMode, isBusy, toolbars, title, fetchVishResults, canvasRatio} = this.props;
         let ribbonHeight = this.state.hideTab === 'hide' ? 0 : 47;
         return (
@@ -96,26 +96,28 @@ class DaliApp extends Component {
                                   title={title}
                                   containedViews={containedViews}
                                   containedViewSelected={containedViewSelected}
+                                  indexSelected={indexSelected}
                                   navItemsIds={navItemsIds}
                                   navItems={navItems}
                                   navItemSelected={navItemSelected}
                                   displayMode={displayMode}
                                   onBoxAdded={(ids, draggable, resizable, content, toolbar, config, state) => this.dispatchAndSetState(addBox(ids, draggable, resizable, content, toolbar, config, state))}
+                                  onIndexSelected={(id) => this.dispatchAndSetState(selectIndex(id))}
                                   onContainedViewSelected={ (id) => this.dispatchAndSetState(selectContainedView(id)) }
-                                  onContainedViewDeleted={()=>{
+                                  onContainedViewDeleted={(cvid)=>{
                                       let boxesRemoving = [];
-                                      containedViews[containedViewSelected].boxes.map(boxId => {
+                                      containedViews[cvid].boxes.map(boxId => {
                                           boxesRemoving.push(boxId);
                                           boxesRemoving = boxesRemoving.concat(this.getDescendantBoxes(boxes[boxId]));
                                       });
-                                      this.dispatchAndSetState(deleteContainedView([containedViewSelected], boxesRemoving));
+                                      this.dispatchAndSetState(deleteContainedView([cvid], boxesRemoving));
                                   }}
                                   onNavItemNameChanged={(id, title) => this.dispatchAndSetState(changeNavItemName(id,title))}
-                                  onNavItemAdded={(id, name, parent, type, position) => this.dispatchAndSetState(addNavItem(id, name, parent, type, position))}
+                                  onNavItemAdded={(id, name, parent, type, position) => this.dispatchAndSetState(addNavItem(id, name, parent, type, position, (type !== 'section' || (type === 'section' && Dali.Config.sections_have_content)) ))}
                                   onNavItemSelected={id => this.dispatchAndSetState(selectNavItem(id))}
                                   onNavItemExpanded={(id, value) => this.dispatchAndSetState(expandNavItem(id, value))}
-                                  onNavItemDeleted={() => {
-                                    let viewRemoving = [navItemSelected].concat(this.getDescendantViews(navItems[navItemSelected]));
+                                  onNavItemDeleted={(navsel) => {
+                                    let viewRemoving = [navsel].concat(this.getDescendantViews(navItems[navsel]));
                                     let boxesRemoving = [];
                                     let containedRemoving = [];
                                     viewRemoving.map(id => {
@@ -125,7 +127,7 @@ class DaliApp extends Component {
                                             containedRemoving = containedRemoving.concat(this.getDescendantContainedViews(boxes[boxId]));
                                         });
                                     });
-                                    this.dispatchAndSetState(deleteNavItem(viewRemoving, navItems[navItemSelected].parent, boxesRemoving, containedRemoving))
+                                    this.dispatchAndSetState(deleteNavItem(viewRemoving, navItems[navsel].parent, boxesRemoving, containedRemoving))
                                   }}
                                   onNavItemReordered={(id, newParent, oldParent, idsInOrder, childrenInOrder) => this.dispatchAndSetState(reorderNavItem(id, newParent, oldParent, idsInOrder, childrenInOrder))}
                                   onNavItemToggled={ id => this.dispatchAndSetState(toggleNavItem(id)) }
@@ -635,14 +637,13 @@ class DaliApp extends Component {
     }
 
     hasExerciseBox(navItemId, navItems, state, boxes){
-       if(state.pluginTab === "exercises" && (navItems[navItemId].boxes.length > 1 || boxes[navItems[navItemId].boxes[0]].children.length !== 0)){
-           return true;
-       }
-
-       if(Object.keys(navItems[navItemId].extraFiles).length !== 0 ){
-           return true;
-       }
-       return false;
+      if(state.pluginTab === "exercises" && (navItems[navItemId].boxes.length > 1 || boxes[navItems[navItemId].boxes[0]].children.length !== 0)){
+        return true;
+      }
+      if(navItems[navItemId] && Object.keys(navItems[navItemId].extraFiles).length !== 0 ){
+        return true;
+      }
+      return false;
     }
 
     addDefaultContainerPlugins(eventDetails, obj) {
@@ -680,6 +681,7 @@ function mapStateToProps(state) {
         boxes: state.present.boxesById,
         boxSelected: state.present.boxSelected,
         boxLevelSelected: state.present.boxLevelSelected,
+        indexSelected: state.present.indexSelected,
         navItemsIds: state.present.navItemsIds,
         navItems: state.present.navItemsById,
         navItemSelected: state.present.navItemSelected,

@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import {Button, OverlayTrigger, Tooltip} from 'react-bootstrap';
 import i18n from 'i18next';
+import Dali from './../../../core/main';
 
 export default class VisorPlayer extends Component {
     constructor(props) {
@@ -9,9 +10,11 @@ export default class VisorPlayer extends Component {
     }
 
     render() {
-        /*let navItemsIds = this.props.navItemsIds;*/
-        /*Para permitir previsualizar secciones en el visor, descomentar la línea anterior y comentar la siguiente */
-        let navItemsIds = this.props.navItemsIds.filter(this.isntSection);        
+        let navItemsIds = this.props.navItemsIds;
+        if (!Dali.Config.sections_have_content) {
+            navItemsIds = this.props.navItemsIds.filter(this.isntSection); 
+        } 
+       
         let navItemsById = this.props.navItemsById;
         let navItemSelected = this.props.navItemSelected;
 

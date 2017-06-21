@@ -5,6 +5,9 @@ import CarrouselList from '../carrousel_list/CarrouselList';
 import i18n from 'i18next';
 
 export default class DaliCarousel extends Component {
+    constructor(props) {
+        super(props);
+    }
 
     render() {
         let displayModeClassName = "";
@@ -19,6 +22,7 @@ export default class DaliCarousel extends Component {
                                               navItemsIds={this.props.navItemsIds}
                                               navItems={this.props.navItems}
                                               navItemSelected={this.props.navItemSelected}
+                                              indexSelected={this.props.indexSelected}
                                               onBoxAdded={this.props.onBoxAdded}
                                               onContainedViewsExpand={this.props.onContainedViewsExpand}
                                               onContainedViewDeleted={this.props.onContainedViewDeleted}
@@ -26,6 +30,7 @@ export default class DaliCarousel extends Component {
                                               onNavItemNameChanged={this.props.onNavItemNameChanged}
                                               onNavItemAdded={this.props.onNavItemAdded}
                                               onNavItemSelected={this.props.onNavItemSelected}
+                                              onIndexSelected={this.props.onIndexSelected}
                                               onNavItemExpanded={this.props.onNavItemExpanded}
                                               onNavItemDeleted={this.props.onNavItemDeleted}
                                               onNavItemToggled={this.props.onNavItemToggled}
@@ -70,4 +75,6 @@ export default class DaliCarousel extends Component {
             /* jshint ignore:end */
         );
     }
+
+
 }

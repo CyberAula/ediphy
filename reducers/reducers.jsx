@@ -1,6 +1,6 @@
 import {combineReducers} from 'redux';
 import undoable from 'redux-undo';
-import {ADD_BOX, SELECT_BOX, INCREASE_LEVEL, SELECT_NAV_ITEM, EXPAND_NAV_ITEM, UPDATE_NAV_ITEM_EXTRA_FILES, TOGGLE_TEXT_EDITOR,
+import {ADD_BOX, SELECT_BOX, INCREASE_LEVEL, INDEX_SELECT, SELECT_NAV_ITEM, EXPAND_NAV_ITEM, UPDATE_NAV_ITEM_EXTRA_FILES, TOGGLE_TEXT_EDITOR,
     TOGGLE_TITLE_MODE, TOGGLE_ASPECT_RATIO,CHANGE_TITLE, CHANGE_DISPLAY_MODE, SET_BUSY, IMPORT_STATE, FETCH_VISH_RESOURCES_SUCCESS, UPDATE_BOX, UPLOAD_IMAGE} from './../actions';
 import {isSortableBox} from './../utils';
 import boxesById from './boxes_by_id';
@@ -8,6 +8,7 @@ import boxLevelSelected from './box_level_selected';
 import boxSelected from './box_selected';
 import containedViewsById from './contained_views_by_id';
 import containedViewSelected from './contained_view_selected';
+import indexSelected from './index_selected';
 import navItemsById from './nav_items_by_id';
 import navItemsIds from './nav_items_ids';
 import navItemSelected from './nav_item_selected';
@@ -82,6 +83,7 @@ const GlobalState = undoable(combineReducers({
     boxesById: boxesById, //{0: box0, 1: box1}
     boxSelected: boxSelected, //0
     boxLevelSelected: boxLevelSelected, //0
+    indexSelected: indexSelected,
     navItemsIds: navItemsIds, //[0, 1]
     navItemSelected: navItemSelected, // 0
     navItemsById: navItemsById, // {0: navItem0, 1: navItem1}
@@ -98,6 +100,7 @@ const GlobalState = undoable(combineReducers({
             case EXPAND_NAV_ITEM:
             case IMPORT_STATE:
             case INCREASE_LEVEL:
+            case INDEX_SELECT:
             case SELECT_BOX:
             case SELECT_NAV_ITEM:
             case SET_BUSY:
