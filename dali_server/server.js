@@ -30,7 +30,8 @@ app.get('/getConfig', function (req, res) {
 
 app.post('/saveConfig', function (req, res) {
    var data = req.body;
-   console.log(data);
+   //Print data
+   //console.log(JSON.stringify(data));
    fs.writeFile( __dirname + "/" + "config.json", JSON.stringify(data), 'utf8', function (err) {
 		if(err)
 			res.end("Write error");

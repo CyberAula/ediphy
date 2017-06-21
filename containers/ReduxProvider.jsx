@@ -87,16 +87,107 @@ export default class ReduxProvider extends Component {
                         config: {displayName: i18n.t('Container_')},
                         showTextEditor: false
                     },
-                    'se-1467887497411': {
-                        id: "se-1467887497411",
-                        state: {},
-                        controls: {
-                            main: {
-                                __name: "Main",
-                                accordions: {}
+                    "se-1467887497411":{
+                        "id":"se-1467887497411",
+                        "controls":{
+                            "main":{
+                                "__name":"Main",
+                                "accordions":{
+                                    "basic":{
+                                        "__name":"Generales",
+                                        "icon":"settings",
+                                        "buttons":{
+                                            "page_display":{
+                                                "__name":"Previsualizar / exportar",
+                                                "type":"checkbox",
+                                                "checked":true,
+                                                "autoManaged":false
+                                            },
+                                            "navitem_name":{
+                                                "__name":"Nombre documento",
+                                                "type":"text",
+                                                "autoManaged":false
+                                            }
+                                        }
+                                    },
+                                    "header":{
+                                        "__name":"Cabecera",
+                                        "icon":"format_color_text",
+                                        "buttons":{
+                                            "display_title":{
+                                                "__name":"Título Curso",
+                                                "type":"checkbox",
+                                                "checked":false,
+                                                "autoManaged":false
+                                            },
+                                            "display_pagetitle":{
+                                                "__name":"Título undefined",
+                                                "type":"checkbox",
+                                                "checked":true,
+                                                "autoManaged":false
+                                            },
+                                            "pagetitle_name":{
+                                                "__name":"custom_title",
+                                                "type":"conditionalText",
+                                                "associatedKey":"display_pagetitle",
+                                                "value":"",
+                                                "autoManaged":false,
+                                                "display":true
+                                            },
+                                            "display_pagesubtitle":{
+                                                "__name":"Subtítulo",
+                                                "type":"checkbox",
+                                                "checked":false,
+                                                "autoManaged":false
+                                            },
+                                            "pagesubtitle_name":{
+                                                "__name":"custom_subtitle",
+                                                "type":"conditionalText",
+                                                "associatedKey":"display_pagesubtitle",
+                                                "value":"",
+                                                "autoManaged":false,
+                                                "display":true
+                                            },
+                                            "display_breadcrumb":{
+                                                "__name":"Breadcrumb",
+                                                "type":"checkbox",
+                                                "checked":true,
+                                                "autoManaged":false
+                                            },
+                                            "display_pagenumber":{
+                                                "__name":"Nº Página",   
+                                                "type":"checkbox",
+                                                "checked":false,
+                                                "autoManaged":false
+                                            },
+                                            "pagenumber_name":{
+                                                "__name":"custom_pagenum",
+                                                "type":"conditionalText",
+                                                "associatedKey":"display_pagenumber",
+                                                "value":"",
+                                                "autoManaged":false,
+                                                "display":true
+                                            }
+                                        }
+                                    },
+                                    "__extra":{
+                                        "__name":"Alias",
+                                        "icon":"rate_review",
+                                        "buttons":{
+                                            "alias":{
+                                                "__name":"Alias",
+                                                "type":"text",
+                                                "value":"",
+                                                "autoManaged":true,
+                                                "isAttribute":true
+                                            }
+                                        }
+                                    }
+                                }
                             }
                         },
-                        config: {displayName: i18n.t('section')}
+                        "config":{displayName: i18n.t('section')},
+                        "state":{}
                     }
                 }) : ({}),
                 isBusy:"",
@@ -193,7 +284,214 @@ export default class ReduxProvider extends Component {
                  containedViewSelected:0,
                  displayMode:"list",
                  toolbarsById:{
-                    "pa-1497983247795":{"id":"pa-1497983247795","controls":{"main":{"__name":"Main","accordions":{"basic":{"__name":"Generales","icon":"settings","buttons":{"page_display":{"__name":"Previsualizar / exportar","type":"checkbox","checked":true,"autoManaged":false},"navitem_name":{"__name":"Nombre documento","type":"text","value":"Página","autoManaged":false}}},"header":{"__name":"Cabecera","icon":"format_color_text","buttons":{"display_title":{"__name":"Título Curso","type":"checkbox","checked":false,"autoManaged":false},"display_pagetitle":{"__name":"Título Página","type":"checkbox","checked":true,"autoManaged":false},"pagetitle_name":{"__name":"custom_title","type":"conditionalText","associatedKey":"display_pagetitle","value":"","autoManaged":false,"display":true},"display_pagesubtitle":{"__name":"Subtítulo","type":"checkbox","checked":false,"autoManaged":false},"pagesubtitle_name":{"__name":"custom_subtitle","type":"conditionalText","associatedKey":"display_pagesubtitle","value":"","autoManaged":false,"display":true},"display_breadcrumb":{"__name":"Breadcrumb","type":"checkbox","checked":true,"autoManaged":false},"display_pagenumber":{"__name":"Nº Página","type":"checkbox","checked":false,"autoManaged":false},"pagenumber_name":{"__name":"custom_pagenum","type":"conditionalText","associatedKey":"display_pagenumber","value":"","autoManaged":false,"display":true}}},"__extra":{"__name":"Alias","icon":"rate_review","buttons":{"alias":{"__name":"Alias","type":"text","value":"","autoManaged":true,"isAttribute":true}}}}}},"config":{"displayName":"Página"},"state":{}},"bs-1497983247797":{"id":"bs-1497983247797","controls":{"main":{"__name":"Main","accordions":{}}},"config":{"displayName":"Contenedor"},"state":{},"showTextEditor":false}},
+                    "se-1467887497411":{
+                        "id":"se-1467887497411",
+                        "controls":{
+                            "main":{
+                                "__name":"Main",
+                                "accordions":{
+                                    "basic":{
+                                        "__name":"Generales",
+                                        "icon":"settings",
+                                        "buttons":{
+                                            "page_display":{
+                                                "__name":"Previsualizar / exportar",
+                                                "type":"checkbox",
+                                                "checked":true,
+                                                "autoManaged":false
+                                            },
+                                            "navitem_name":{
+                                                "__name":"Nombre documento",
+                                                "type":"text",
+                                                "autoManaged":false
+                                            }
+                                        }
+                                    },
+                                    "header":{
+                                        "__name":"Cabecera",
+                                        "icon":"format_color_text",
+                                        "buttons":{
+                                            "display_title":{
+                                                "__name":"Título Curso",
+                                                "type":"checkbox",
+                                                "checked":false,
+                                                "autoManaged":false
+                                            },
+                                            "display_pagetitle":{
+                                                "__name":"Título undefined",
+                                                "type":"checkbox",
+                                                "checked":true,
+                                                "autoManaged":false
+                                            },
+                                            "pagetitle_name":{
+                                                "__name":"custom_title",
+                                                "type":"conditionalText",
+                                                "associatedKey":"display_pagetitle",
+                                                "value":"",
+                                                "autoManaged":false,
+                                                "display":true
+                                            },
+                                            "display_pagesubtitle":{
+                                                "__name":"Subtítulo",
+                                                "type":"checkbox",
+                                                "checked":false,
+                                                "autoManaged":false
+                                            },
+                                            "pagesubtitle_name":{
+                                                "__name":"custom_subtitle",
+                                                "type":"conditionalText",
+                                                "associatedKey":"display_pagesubtitle",
+                                                "value":"",
+                                                "autoManaged":false,
+                                                "display":true
+                                            },
+                                            "display_breadcrumb":{
+                                                "__name":"Breadcrumb",
+                                                "type":"checkbox",
+                                                "checked":true,
+                                                "autoManaged":false
+                                            },
+                                            "display_pagenumber":{
+                                                "__name":"Nº Página",   
+                                                "type":"checkbox",
+                                                "checked":false,
+                                                "autoManaged":false
+                                            },
+                                            "pagenumber_name":{
+                                                "__name":"custom_pagenum",
+                                                "type":"conditionalText",
+                                                "associatedKey":"display_pagenumber",
+                                                "value":"",
+                                                "autoManaged":false,
+                                                "display":true
+                                            }
+                                        }
+                                    },
+                                    "__extra":{
+                                        "__name":"Alias",
+                                        "icon":"rate_review",
+                                        "buttons":{
+                                            "alias":{
+                                                "__name":"Alias",
+                                                "type":"text",
+                                                "value":"",
+                                                "autoManaged":true,
+                                                "isAttribute":true
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "config":{displayName: i18n.t('section')},
+                        "state":{}
+                    },
+                    "pa-1497983247795":{
+                        id:"pa-1497983247795",
+                        controls:{
+                            main:{
+                                "__name":"Main",
+                                "accordions":{
+                                    basic:{
+                                        "__name":"Generales",
+                                        "icon":"settings",
+                                        "buttons":{
+                                            "page_display":{
+                                                "__name":"Previsualizar / exportar",
+                                                "type":"checkbox",
+                                                "checked":true,
+                                                "autoManaged":false},
+                                            "navitem_name":{
+                                                "__name":"Nombre documento",
+                                                "type":"text",
+                                                "value":"Página",
+                                                "autoManaged":false}
+                                        }
+                                    },
+                                    header:{
+                                        "__name":"Cabecera",
+                                        "icon":"format_color_text",
+                                        "buttons":{
+                                            display_title:{
+                                                "__name":"Título Curso",
+                                                "type":"checkbox",
+                                                "checked":false,
+                                                "autoManaged":false},
+                                            display_pagetitle:{
+                                                "__name":"Título Página",
+                                                "type":"checkbox",
+                                                "checked":true,
+                                                "autoManaged":false},
+                                            pagetitle_name:{
+                                                "__name":"custom_title",
+                                                "type":"conditionalText",
+                                                "associatedKey":"display_pagetitle",
+                                                "value":"",
+                                                "autoManaged":false,
+                                                "display":true},
+                                            display_pagesubtitle:{
+                                                "__name":"Subtítulo",
+                                                "type":"checkbox",
+                                                "checked":false,
+                                                "autoManaged":false},
+                                            pagesubtitle_name:{
+                                                "__name":"custom_subtitle",
+                                                "type":"conditionalText",
+                                                "associatedKey":"display_pagesubtitle",
+                                                "value":"",
+                                                "autoManaged":false,
+                                                "display":true},
+                                            display_breadcrumb:{
+                                                "__name":"Breadcrumb",
+                                                "type":"checkbox",
+                                                "checked":true,
+                                                "autoManaged":false},
+                                            display_pagenumber:{
+                                                "__name":"Nº Página",
+                                                "type":"checkbox",
+                                                "checked":false,
+                                                "autoManaged":false},
+                                            pagenumber_name:{
+                                                "__name":"custom_pagenum",
+                                                "type":"conditionalText",
+                                                "associatedKey":"display_pagenumber",
+                                                "value":"",
+                                                "autoManaged":false,
+                                                "display":true}
+                                            }
+                                        },
+                                        "__extra":{
+                                            "__name":"Alias",
+                                            "icon":"rate_review",
+                                            "buttons":{
+                                                "alias":{
+                                                    "__name":"Alias",
+                                                    "type":"text",
+                                                    "value":"",
+                                                    "autoManaged":true,
+                                                    "isAttribute":true}
+                                                }
+                                            }
+                                        }
+                                    }
+                                },
+                            config:{"displayName": i18n.t('page')},
+                            state:{}
+                            },
+                    "bs-1497983247797":{
+                        id:"bs-1497983247797",
+                        controls:{
+                            main:{
+                                "__name":"Main",
+                                "accordions":{}
+                            }
+                        },
+                        config:{
+                            displayName:"Contenedor"
+                        },
+                        state:{},
+                        showTextEditor:false}
+                    },
                  isBusy:"",
                  fetchVishResults:{"results":[]}
             }});

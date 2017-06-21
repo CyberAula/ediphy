@@ -4,7 +4,7 @@ import {ID_PREFIX_BOX, ID_PREFIX_PAGE, ID_PREFIX_SECTION, ID_PREFIX_SORTABLE_BOX
 export default {
     //This would be a good post to explore if we don't want to use JSON Stringify: http://stackoverflow.com/questions/728360/how-do-i-correctly-clone-a-javascript-object
     deepClone: function (myObj) {
-        return JSON.parse(JSON.stringify(myObj));
+        return myObj ? JSON.parse(JSON.stringify(myObj)):myObj;
     }
 };
 
