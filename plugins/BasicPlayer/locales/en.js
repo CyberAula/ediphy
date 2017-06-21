@@ -1,5 +1,5 @@
 module.exports = {
-    "BasicVideo2": {
+    "BasicPlayer": {
         "Allow_fullscreen": "Allow fullscreen",
         "Show_controls": "Show Controls",
         "Autoplay": "Autoplay",
@@ -12,7 +12,7 @@ module.exports = {
         "box_style": "Box style",
         "opacity": "Opacity",
         "padding": "Padding",
-        "PluginName": "Basic Video",
+        "PluginName": "Basic Player",
         "radius": "Radius",
         "source": "Source"
     }

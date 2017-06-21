@@ -1,5 +1,5 @@
 {
-  "name" : "BasicVideo2",
+  "name" : "BasicPlayer",
   "version" : "0.1.0",
   "dependencies": {
     "react-player": "^0.18.0",

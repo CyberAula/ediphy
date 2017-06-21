@@ -3,7 +3,7 @@ import { findDOMNode } from 'react-dom';
 import ReactPlayer from 'react-player';
 import screenfull from 'screenfull';
 
-export default class VideoPlugin extends React.Component {
+export default class PlayerPlugin extends React.Component {
     constructor(props){
         super(props);
         this.state = {

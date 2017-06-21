@@ -1,5 +1,5 @@
 module.exports = {
-    "BasicVideo2": {
+    "BasicPlayer": {
         "Allow_fullscreen": "Permitir pantalla completa",
         "Show_controls": "Mostrar controles",
         "Autoplay": "Reproducción automática",
@@ -12,7 +12,7 @@ module.exports = {
         "box_style": "Estilo caja",
         "opacity": "Opacidad",
         "padding": "Padding",
-        "PluginName": "Video Básico",
+        "PluginName": "Reproductor Básico",
         "radius": "Radio",
         "source": "Origen"
     }

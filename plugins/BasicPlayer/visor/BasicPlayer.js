@@ -1,14 +1,14 @@
 import React from 'react';
-import VideoPlugin from './../components/VideoPlugin.js';
-require('./../BasicVideo.scss');
+import PlayerPlugin from '../components/PlayerPlugin.js';
+require('../BasicPlayer.scss');
 
-export function BasicVideo2(base) {
+export function BasicPlayer(base) {
     return {
         getRenderTemplate: function (state,id) {
             return (
                 /* jshint ignore:start */
                 <div style={{width:"100%", height:"100%"}}>
-                    <VideoPlugin style={{width:"100%", height: "100%"}} state={state}></VideoPlugin>
+                    <PlayerPlugin style={{width:"100%", height: "100%"}} state={state}></PlayerPlugin>
                 </div>
                 /* jshint ignore:end */
             );

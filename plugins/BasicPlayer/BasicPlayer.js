@@ -1,14 +1,14 @@
 import React from "react";
-import VideoPlugin from './components/VideoPluginEditor.js';
-require('./BasicVideo.scss');
+import PlayerPlugin from './components/PlayerPluginEditor.js';
+require('./BasicPlayer.scss');
 
-export function BasicVideo2(base) {
+export function BasicPlayer(base) {
     return {
         getConfig: function () {
             return {
-                name: "BasicVideo2",
+                name: "BasicPlayer",
                 flavor: "react",
-                displayName: Dali.i18n.t("BasicVideo2.PluginName"),
+                displayName: Dali.i18n.t("BasicPlayer.PluginName"),
                 category: "multimedia",
                 icon: "play_arrow"
             };
@@ -19,17 +19,17 @@ export function BasicVideo2(base) {
                     __name: "Main",
                     accordions: {
                         basic: {
-                            __name: Dali.i18n.t('BasicVideo.Video'),
+                            __name: Dali.i18n.t('BasicPlayer.Video'),
                             icon: 'link',
                             buttons: {
                                 url: {
-                                    __name: Dali.i18n.t('BasicVideo.URL'),
+                                    __name: Dali.i18n.t('BasicPlayer.URL'),
                                     type: 'text',
                                     value: base.getState().url,
                                     autoManaged: false
                                 },
                                 controls: {
-                                    __name: Dali.i18n.t('BasicVideo.Show_controls'),
+                                    __name: Dali.i18n.t('BasicPlayer.Show_controls'),
                                     type: 'checkbox',
                                     checked: base.getState().controls,
                                     autoManaged: false
@@ -37,43 +37,43 @@ export function BasicVideo2(base) {
                             }
                         },
                         style: {
-                            __name: Dali.i18n.t('BasicVideo.box_style'),
+                            __name: Dali.i18n.t('BasicPlayer.box_style'),
                             icon: 'palette',
                             buttons: {
                                 padding: {
-                                    __name: Dali.i18n.t('BasicVideo.padding'),
+                                    __name: Dali.i18n.t('BasicPlayer.padding'),
                                     type: 'number',
                                     value: 0,
                                     min: 0,
                                     max: 100
                                 },
                                 borderWidth: {
-                                    __name: Dali.i18n.t('BasicVideo.border_size'),
+                                    __name: Dali.i18n.t('BasicPlayer.border_size'),
                                     type: 'number',
                                     value: 0,
                                     min: 0,
                                     max: 10
                                 },
                                 borderStyle: {
-                                    __name: Dali.i18n.t('BasicVideo.border_style'),
+                                    __name: Dali.i18n.t('BasicPlayer.border_style'),
                                     type: 'select',
                                     value: 'solid',
                                     options: ['none', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset', 'initial', 'inherit']
                                 },
                                 borderColor: {
-                                    __name: Dali.i18n.t('BasicVideo.border_color'),
+                                    __name: Dali.i18n.t('BasicPlayer.border_color'),
                                     type: 'color',
                                     value: '#000000'
                                 },
                                 borderRadius: {
-                                    __name: Dali.i18n.t('BasicVideo.radius'),
+                                    __name: Dali.i18n.t('BasicPlayer.radius'),
                                     type: 'number',
                                     value: 0,
                                     min: 0,
                                     max: 50
                                 },
                                 opacity: {
-                                    __name: Dali.i18n.t('BasicVideo.opacity'),
+                                    __name: Dali.i18n.t('BasicPlayer.opacity'),
                                     type: 'range',
                                     value: 1,
                                     min: 0,
@@ -97,7 +97,7 @@ export function BasicVideo2(base) {
             return (
                 /* jshint ignore:start */
                 <div style={{width:"100%", height:"100%"}}>
-                    <VideoPlugin style={{width:"100%", height:"100%"}} state={state}></VideoPlugin>
+                    <PlayerPlugin style={{width:"100%", height:"100%"}} state={state}></PlayerPlugin>
                 </div>
                 /* jshint ignore:end */
             );
