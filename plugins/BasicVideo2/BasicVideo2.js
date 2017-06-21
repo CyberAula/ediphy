@@ -96,8 +96,8 @@ export function BasicVideo2(base) {
         getRenderTemplate: function (state) {
             return (
                 /* jshint ignore:start */
-                <div>
-                    <VideoPlugin state={state}></VideoPlugin>
+                <div style={{width:"100%", height:"100%"}}>
+                    <VideoPlugin style={{width:"100%", height:"100%"}} state={state}></VideoPlugin>
                 </div>
                 /* jshint ignore:end */
             );

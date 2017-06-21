@@ -1,11 +1,15 @@
+import React from 'react';
 import VideoPlugin from './../components/VideoPlugin.js';
+require('./../BasicVideo.scss');
 
-export function EnrichedVideo(base) {
+export function BasicVideo2(base) {
     return {
-        getRenderTemplate: function (state) {
+        getRenderTemplate: function (state,id) {
             return (
                 /* jshint ignore:start */
-                <VideoPlugin state={state}></VideoPlugin>
+                <div style={{width:"100%", height:"100%"}}>
+                    <VideoPlugin style={{width:"100%", height: "100%"}} state={state}></VideoPlugin>
+                </div>
                 /* jshint ignore:end */
             );
         }
