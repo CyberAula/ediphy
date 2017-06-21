@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
+import MarkCreator from '../mark_creator/MarkCreator';
 import {Button} from 'react-bootstrap';
 import interact from 'interact.js';
 import PluginPlaceholder from '../plugin_placeholder/PluginPlaceholder';
@@ -18,6 +19,7 @@ export default class DaliBox extends Component {
     }
 
     render() {
+
         let cornerSize = 15;
         let box = this.props.boxes[this.props.id];
         let toolbar = this.props.toolbars[this.props.id];
@@ -176,6 +178,8 @@ export default class DaliBox extends Component {
                 verticalAlign = 'top';
             }
         }
+
+        /*<MarkCreator/>*/
         return (
             /* jshint ignore:start */
             <div className={classes} id={'box-' + this.props.id}
@@ -234,6 +238,15 @@ export default class DaliBox extends Component {
                     null
                 }
                 <div className="boxOverlay" style={{ display: showOverlay }}></div>
+                <MarkCreator
+                    addMarkShortcut={this.props.addMarkShortcut}
+                    boxSelected={this.props.boxSelected}
+                    content={this.refs.content}
+                    deleteMarkCreator={this.props.deleteMarkCreator}
+                    parseRichMarkInput={Dali.Plugins.get(toolbar.config.name).parseRichMarkInput}
+                    markCreatorId={this.props.markCreatorId}
+                    currentId={this.props.id}
+                />
             </div>
             /* jshint ignore:end */
         );

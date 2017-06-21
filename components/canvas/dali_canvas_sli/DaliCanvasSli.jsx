@@ -50,6 +50,7 @@ export default class DaliCanvasSli extends Component {
                      onTextEditorToggled={this.props.onTextEditorToggled}
                      onBoxResized={this.props.onBoxResized}
                      onBoxDeleted={this.props.onBoxDeleted}
+                     onMarkCreatorToggled={this.props.onMarkCreatorToggled}
                      toolbar={this.props.toolbars[this.props.boxSelected]}/>
 
 
@@ -106,12 +107,15 @@ export default class DaliCanvasSli extends Component {
                             let box = this.props.boxes[id];
                             return <DaliBox key={id}
                                             id={id}
+                                            addMarkShortcut={this.props.addMarkShortcut}
                                             boxes={this.props.boxes}
                                             boxSelected={this.props.boxSelected}
                                             boxLevelSelected={this.props.boxLevelSelected}
                                             containedViewSelected={this.props.containedViewSelected}
                                             toolbars={this.props.toolbars}
                                             lastActionDispatched={this.props.lastActionDispatched}
+                                            deleteMarkCreator={this.props.deleteMarkCreator}
+                                            markCreatorId={this.props.markCreatorId}
                                             onBoxSelected={this.props.onBoxSelected}
                                             onBoxLevelIncreased={this.props.onBoxLevelIncreased}
                                             onBoxMoved={this.props.onBoxMoved}

@@ -57,6 +57,7 @@ export default class DaliCanvasDoc extends Component {
                      onTextEditorToggled={this.props.onTextEditorToggled}
                      onBoxResized={this.props.onBoxResized}
                      onBoxDeleted={this.props.onBoxDeleted}
+                     onMarkCreatorToggled={this.props.onMarkCreatorToggled}
                      toolbar={this.props.toolbars[this.props.boxSelected]}/>
                  <div className="scrollcontainer">
                  <DaliHeader titles={titles}
@@ -115,12 +116,14 @@ export default class DaliCanvasDoc extends Component {
                             if (!isSortableBox(box.id)) {
                                 return <DaliBox key={id}
                                                 id={id}
+                                                addMarkShortcut={this.props.addMarkShortcut}
                                                 boxes={this.props.boxes}
                                                 boxSelected={this.props.boxSelected}
                                                 boxLevelSelected={this.props.boxLevelSelected}
                                                 containedViewSelected={this.props.containedViewSelected}
-                                                toolbars={this.props.toolbars}
+                                                deleteMarkCreator={this.props.deleteMarkCreator}
                                                 lastActionDispatched={this.props.lastActionDispatched}
+                                                markCreatorId={this.props.markCreatorId}
                                                 onBoxSelected={this.props.onBoxSelected}
                                                 onBoxLevelIncreased={this.props.onBoxLevelIncreased}
                                                 onBoxMoved={this.props.onBoxMoved}
@@ -131,16 +134,20 @@ export default class DaliCanvasDoc extends Component {
                                                 onVerticallyAlignBox={this.props.onVerticallyAlignBox}
                                                 onBoxModalToggled={this.props.onBoxModalToggled}
                                                 onTextEditorToggled={this.props.onTextEditorToggled}
+                                                toolbars={this.props.toolbars}
                                 />
                             } else {
                                 return <DaliBoxSortable key={id}
                                                         id={id}
+                                                        addMarkShortcut={this.props.addMarkShortcut}
                                                         boxes={this.props.boxes}
                                                         boxSelected={this.props.boxSelected}
                                                         boxLevelSelected={this.props.boxLevelSelected}
                                                         containedViewSelected={this.props.containedViewSelected}
                                                         toolbars={this.props.toolbars}
                                                         lastActionDispatched={this.props.lastActionDispatched}
+                                                        deleteMarkCreator={this.props.deleteMarkCreator}
+                                                        markCreatorId={this.props.markCreatorId}
                                                         onBoxSelected={this.props.onBoxSelected}
                                                         onBoxLevelIncreased={this.props.onBoxLevelIncreased}
                                                         onBoxMoved={this.props.onBoxMoved}

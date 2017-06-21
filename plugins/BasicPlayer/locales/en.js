@@ -1,5 +1,10 @@
 module.exports = {
-    "HotspotImages": {
+    "BasicPlayer": {
+        "Allow_fullscreen": "Allow fullscreen",
+        "Show_controls": "Show Controls",
+        "Autoplay": "Autoplay",
+        "URL": "URL",
+        "Video": "Video",
         "background_color": "Background color",
         "border_color": "Border color",
         "border_size": "Border Size",
@@ -7,7 +12,7 @@ module.exports = {
         "box_style": "Box style",
         "opacity": "Opacity",
         "padding": "Padding",
-        "PluginName": "Hotspot Images",
+        "PluginName": "Basic Player",
         "radius": "Radius",
         "source": "Source"
     }

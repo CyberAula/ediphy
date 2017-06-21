@@ -5,7 +5,7 @@ export function HotspotImages(base) {
         getConfig: function () {
             return {
                 name: 'HotspotImages',
-                displayName: 'HotspotImages',
+                displayName: Dali.i18n.t('HotspotImages.PluginName'),
                 category: 'image',
                 needsConfigModal: false,
                 flavor: "react",
@@ -90,9 +90,7 @@ export function HotspotImages(base) {
         },
         getRichMarkInput :function(state,MarkInput){
             /* jshint ignore:start */
-
             let div = <div><span>x,y</span><input onChange={(event)=>{MarkInput(event.target.value);}}></input></div>;
-
             return div;
             /* jshint ignore:end */
         },
@@ -113,12 +111,12 @@ export function HotspotImages(base) {
                     position = [0,0];
                 }
 
-                return(<a key={id} style={{position: 'absolute', top:position[0] +"px",left: position[1]+"px"}} href="#"><i style={{width:"100%",height:"100%"}} className="material-icons">room</i></a>)
+                return(<a key={id} style={{position: 'absolute', top: position[0] + "%",left: position[1] + "%"}} href="#"><i style={{width:"100%",height:"100%"}} className="material-icons">room</i></a>)
             });
 
             return (
                 <div >
-                        <img style={{height:"100%",width:"100%"}} src={state.url}/>
+                        <img className="dropableRichZone" style={{height:"100%",width:"100%"}} src={state.url}/>
                         {markElements}
                 </div>
             );
@@ -126,6 +124,14 @@ export function HotspotImages(base) {
         },
         handleToolbar: function (name, value) {
             base.setState(name, value);
+        },
+        parseRichMarkInput: function(...value){
+            console.log(value);
+            let x = value[0]*100/value[2];
+            let y = value [1]*100/value[3];
+            let finalValue = y.toFixed(3)+","+x.toFixed(3);
+
+            return finalValue;
         }
     };
 }

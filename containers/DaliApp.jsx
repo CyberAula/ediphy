@@ -6,7 +6,7 @@ import {addNavItem, selectNavItem, expandNavItem, deleteNavItem, reorderNavItem,
     changeNavItemName, changeUnitNumber, selectIndex,
     addBox, changeTitle, selectBox, moveBox, resizeBox, updateBox, duplicateBox, deleteBox, reorderSortableContainer, dropBox, increaseBoxLevel,
     resizeSortableContainer, deleteSortableContainer, changeCols, changeRows, changeSortableProps, reorderBoxes, verticallyAlignBox,
-    toggleTextEditor, toggleTitleMode, toggleAspectRatio,
+    toggleTextEditor, toggleTitleMode, toggleMarkCreator,
     changeDisplayMode, expandContainedViewList, updateToolbar,
     exportStateAsync, importStateAsync,
     fetchVishResourcesSuccess, fetchVishResourcesAsync, uploadVishResourceAsync,
@@ -41,6 +41,7 @@ class DaliApp extends Component {
             visorVisible: false,
             xmlEditorVisible: false,
             richMarksVisible: false,
+            markCreatorVisible: false,
             containedViewsVisible: false,
             currentRichMark: null,
             carouselShow: true,
@@ -181,6 +182,23 @@ class DaliApp extends Component {
                                         showCanvas={(navItemSelected !== 0)}
                                         toolbars={toolbars}
                                         title={title}
+                                        markCreatorId={this.state.markCreatorVisible}
+                                        addMarkShortcut= {(mark) => {
+                                            let toolbar = toolbars[boxSelected];
+                                            let state = JSON.parse(JSON.stringify(toolbar.state));
+                                            state.__marks[mark.id] = JSON.parse(JSON.stringify(mark));
+                                            if(mark.connection.id){
+                                                state.__marks[mark.id].connection = mark.connection.id;
+                                            }
+
+
+                                            Dali.Plugins.get(toolbar.config.name).forceUpdate(
+                                                state,
+                                                boxSelected,
+                                                addRichMark(boxSelected, mark, state)
+                                            );
+                                        }}
+                                        deleteMarkCreator={()=>this.setState({markCreatorVisible: false})}
                                         lastActionDispatched={this.state.lastAction}
                                         onBoxSelected={(id) => this.dispatchAndSetState(selectBox(id))}
                                         onBoxLevelIncreased={() => this.dispatchAndSetState(increaseBoxLevel())}
@@ -195,12 +213,16 @@ class DaliApp extends Component {
                                         onUnitNumberChanged={(id, value) => this.dispatchAndSetState(changeUnitNumber(id, value))}
                                         onTextEditorToggled={(caller, value) => this.dispatchAndSetState(toggleTextEditor(caller, value))}
                                         onBoxesInsideSortableReorder={(parent, container, order) => {this.dispatchAndSetState(reorderBoxes(parent, container, order))}}
-                                        titleModeToggled={(id, value) => this.dispatchAndSetState(toggleTitleMode(id, value))}/>
+                                        titleModeToggled={(id, value) => this.dispatchAndSetState(toggleTitleMode(id, value))}
+                                        onMarkCreatorToggled={(id) => this.setState({markCreatorVisible: id})}/>
                             <ContainedCanvas boxes={boxes}
                                              boxSelected={boxSelected}
                                              boxLevelSelected={boxLevelSelected}
                                              containedViews={containedViews}
                                              containedViewSelected={containedViewSelected}
+                                             markCreatorId={this.state.markCreatorVisible}
+                                             addMarkShortcut={(value)=>{console.log(value)}}
+                                             deleteMarkCreator={()=>this.setState({markCreatorVisible: false})}
                                              toolbars={toolbars}
                                              lastActionDispatched={this.state.lastAction}
                                              onContainedViewSelected={id => this.dispatchAndSetState(selectContainedView(id))}
@@ -213,6 +235,7 @@ class DaliApp extends Component {
                                              onSortableContainerReordered={(ids, parent) => this.dispatchAndSetState(reorderSortableContainer(ids, parent))}
                                              onBoxDropped={(id, row, col) => this.dispatchAndSetState(dropBox(id, row, col))}
                                              onBoxDeleted={(id, parent, container)=> this.dispatchAndSetState(deleteBox(id, parent, container, this.getDescendantBoxes(boxes[id]), this.getDescendantContainedViews(boxes[id])))}
+                                             onMarkCreatorToggled={(id) => this.setState({markCreatorVisible: id})}
                                              onVerticallyAlignBox={(id, verticalAlign)=>this.dispatchAndSetState(verticallyAlignBox(id, verticalAlign))}
                                              onTextEditorToggled={(caller, value) => this.dispatchAndSetState(toggleTextEditor(caller, value))}
                                              onBoxesInsideSortableReorder={(parent, container, order) => {this.dispatchAndSetState(reorderBoxes(parent, container, order))}}/>

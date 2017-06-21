@@ -137,11 +137,12 @@ export default class CarrouselList extends Component {
                                           onDoubleClick={e => {
                                             this.props.onContainedViewSelected(id);
                                             e.stopPropagation();
+
                                           }}
                                           onClick={e => {
                                             this.props.onIndexSelected(id);
                                             e.stopPropagation();
-                                          }}>{id}</div>)
+                                          }}>{this.props.containedViews[id].name}</div>)
                         })
                     }
                 </div>

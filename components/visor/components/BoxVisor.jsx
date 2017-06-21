@@ -109,7 +109,7 @@ export default class BoxVisor extends Component {
         let content = toolbar.config.flavor === "react" ? (
             /* jshint ignore:start */
             <div style={style} {...attrs} className={"boxStyle " + classNames} ref={"content"}>
-                {Dali.Visor.Plugins[toolbar.config.name].getRenderTemplate(box.content.props, box.id)}  {/*TODO: Reasign object if is rich to have marks as property */}
+                {Dali.Visor.Plugins[toolbar.config.name].getRenderTemplate(toolbar.state, box.id)}  {/*TODO: Reasign object if is rich to have marks as property box.content.props*/}
             </div>
             /* jshint ignore:end */
         ) : (

@@ -42,7 +42,9 @@ export default class DaliShortcuts extends Component {
                             (<OverlayTrigger placement="top"
                                              overlay={
                                                  <Tooltip id="richMark">{i18n.t('messages.add_new_mark')}</Tooltip>
-                                             }><button className="daliTitleButton"><i className="material-icons">room</i></button></OverlayTrigger>)
+                                             }><button className="daliTitleButton" onClick={(e)=>{
+                                                this.props.onMarkCreatorToggled(box.id);
+                            }}><i className="material-icons">room</i></button></OverlayTrigger>)
                             : <span></span>
                     }
                     {

@@ -18,58 +18,69 @@ export default class DaliCanvas extends Component {
     }
 
     render() {
-
-
         let canvasContent;
         if (isSlide(this.props.navItemSelected.type)) {
             /* jshint ignore:start */
-            canvasContent = <DaliCanvasSli navItemSelected={this.props.navItemSelected}
-                                           canvasRatio={this.props.canvasRatio}
-                                           navItems={this.props.navItems}
-                                           boxes={this.props.boxes}
-                                           boxSelected={this.props.boxSelected}
-                                           boxLevelSelected={this.props.boxLevelSelected}
-                                           toolbars={this.props.toolbars}
-                                           lastActionDispatched={this.props.lastActionDispatched}
-                                           onBoxSelected={this.props.onBoxSelected}
-                                           onBoxLevelIncreased={this.props.onBoxLevelIncreased}
-                                           onBoxMoved={this.props.onBoxMoved}
-                                           onBoxResized={this.props.onBoxResized}
-                                           onBoxDropped={this.props.onBoxDropped}
-                                           onBoxDeleted={this.props.onBoxDeleted}
-                                           onVerticallyAlignBox={this.props.onVerticallyAlignBox}
-                                           onTextEditorToggled={this.props.onTextEditorToggled}
-                                           titleModeToggled={this.props.titleModeToggled}
-                                           showCanvas={this.props.showCanvas}
-                                           title={this.props.title}
-                                           containedViewSelected={this.props.containedViewSelected}/>;
+            canvasContent = <DaliCanvasSli
+                addMarkShortcut={this.props.addMarkShortcut}
+                boxes={this.props.boxes}
+                boxSelected={this.props.boxSelected}
+                boxLevelSelected={this.props.boxLevelSelected}
+                canvasRatio={this.props.canvasRatio}
+                containedViewSelected={this.props.containedViewSelected}
+                deleteMarkCreator={this.props.deleteMarkCreator}
+                lastActionDispatched={this.props.lastActionDispatched}
+                markCreatorId={this.props.markCreatorId}
+                onBoxLevelIncreased={this.props.onBoxLevelIncreased}
+                onBoxSelected={this.props.onBoxSelected}
+                onBoxMoved={this.props.onBoxMoved}
+                onBoxResized={this.props.onBoxResized}
+                onBoxDropped={this.props.onBoxDropped}
+                onBoxDeleted={this.props.onBoxDeleted}
+                onMarkCreatorToggled={this.props.onMarkCreatorToggled}
+                onVerticallyAlignBox={this.props.onVerticallyAlignBox}
+                onTextEditorToggled={this.props.onTextEditorToggled}
+                navItems={this.props.navItems}
+                navItemSelected={this.props.navItemSelected}
+                title={this.props.title}
+                titleModeToggled={this.props.titleModeToggled}
+                toolbars={this.props.toolbars}
+                showCanvas={this.props.showCanvas}
+            />;
+
 
             /* jshint ignore:end */
         }else{
             /* jshint ignore:start */
-            canvasContent = <DaliCanvasDoc navItemSelected={this.props.navItemSelected}
-                                           navItems={this.props.navItems}
-                                           boxes={this.props.boxes}
-                                           boxSelected={this.props.boxSelected}
-                                           boxLevelSelected={this.props.boxLevelSelected}
-                                           toolbars={this.props.toolbars}
-                                           lastActionDispatched={this.props.lastActionDispatched}
-                                           onBoxSelected={this.props.onBoxSelected}
-                                           onBoxLevelIncreased={this.props.onBoxLevelIncreased}
-                                           onBoxMoved={this.props.onBoxMoved}
-                                           onBoxResized={this.props.onBoxResized}
-                                           onSortableContainerResized={this.props.onSortableContainerResized}
-                                           onSortableContainerDeleted={this.props.onSortableContainerDeleted}
-                                           onSortableContainerReordered={this.props.onSortableContainerReordered}
-                                           onBoxDropped={this.props.onBoxDropped}
-                                           onBoxDeleted={this.props.onBoxDeleted}
-                                           onVerticallyAlignBox={this.props.onVerticallyAlignBox}
-                                           onTextEditorToggled={this.props.onTextEditorToggled}
-                                           onBoxesInsideSortableReorder={this.props.onBoxesInsideSortableReorder}
-                                           titleModeToggled={this.props.titleModeToggled}
-                                           showCanvas={this.props.showCanvas}
-                                           title={this.props.title}
-                                           containedViewSelected={this.props.containedViewSelected}/>;
+            canvasContent = <DaliCanvasDoc
+                addMarkShortcut={this.props.addMarkShortcut}
+                boxes={this.props.boxes}
+                boxSelected={this.props.boxSelected}
+                boxLevelSelected={this.props.boxLevelSelected}
+                containedViewSelected={this.props.containedViewSelected}
+                deleteMarkCreator={this.props.deleteMarkCreator}
+                lastActionDispatched={this.props.lastActionDispatched}
+                markCreatorId={this.props.markCreatorId}
+                onMarkCreatorToggled={this.props.onMarkCreatorToggled}
+                onBoxSelected={this.props.onBoxSelected}
+                onBoxLevelIncreased={this.props.onBoxLevelIncreased}
+                onBoxMoved={this.props.onBoxMoved}
+                onBoxResized={this.props.onBoxResized}
+                onSortableContainerResized={this.props.onSortableContainerResized}
+                onSortableContainerDeleted={this.props.onSortableContainerDeleted}
+                onSortableContainerReordered={this.props.onSortableContainerReordered}
+                onBoxDropped={this.props.onBoxDropped}
+                onBoxDeleted={this.props.onBoxDeleted}
+                onVerticallyAlignBox={this.props.onVerticallyAlignBox}
+                onTextEditorToggled={this.props.onTextEditorToggled}
+                onBoxesInsideSortableReorder={this.props.onBoxesInsideSortableReorder}
+                navItems={this.props.navItems}
+                navItemSelected={this.props.navItemSelected}
+                toolbars={this.props.toolbars}
+                showCanvas={this.props.showCanvas}
+                titleModeToggled={this.props.titleModeToggled}
+                title={this.props.title}
+            />;
             /* jshint ignore:end */
         }
 
