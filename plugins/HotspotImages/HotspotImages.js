@@ -11,6 +11,7 @@ export function HotspotImages(base) {
                 flavor: "react",
                 needsTextEdition: false,
                 icon: 'image',
+                initialWidth: '350px',
                 isRich: true,
                 marksType: [{name: 'Valor', key: 'value'}]
             };

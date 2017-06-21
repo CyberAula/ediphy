@@ -1,0 +1,7 @@
+{
+    "name" : "GraficaD3",
+    "version" : "0.1.1",
+    "dependencies": {
+        "recharts": "^0.21.2"
+    }
+}

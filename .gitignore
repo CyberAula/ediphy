@@ -11,3 +11,4 @@ dali_server/config.json
 nbproject
 dist/lib/scorm/scorm.zip
 dist/lib/visor/dist.zip
+.stylelintrc.json

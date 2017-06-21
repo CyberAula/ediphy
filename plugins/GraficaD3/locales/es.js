@@ -1,0 +1,31 @@
+module.exports = {
+    "GraficaD3": {
+        "PluginName": "Gráfica",
+        "style": "Estilo",
+        "margin": "Margin",
+        "left": "Izquierda",
+        "right": "Derecha",
+        "top": "Superior",
+        "bottom": "Inferior",
+        "padding": "Padding",
+        "border_width": "Ancho de borde",
+        "border_style": "Estilo de borde",
+        "border_color": "Color de borde",
+        "border_radius": "Radio de borde",
+        "opacity": "Opacidad",
+        "title": "Título",
+        "grid": "Rejilla",
+        "x_grid": "Rejilla eje x",
+        "y_grid": "Rejilla eje y",
+        "line_color": "Color de línea",
+        "file": "Elegir Archivo",
+        "or": "O rellenar la tabla",
+        "x_axis": "Eje X",
+        "y_axis": "Eje Y",
+        "chart_type": "Tipo de Grafico",
+        "order_by": "Ordenar Por",
+        "data_rows": "Filas",
+        "data_cols": "Columnas",
+        "key": "Key"
+    }
+};
