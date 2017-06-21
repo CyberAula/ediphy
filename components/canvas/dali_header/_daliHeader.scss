@@ -33,6 +33,7 @@
     font-size: 0.6em;
     font-family: 'Ubuntu';
     color: $grismedio;
+    text-decoration: none;
     &:hover, &:active, &:focus{
       text-decoration: none !important;
       cursor: default;

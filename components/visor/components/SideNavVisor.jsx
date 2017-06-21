@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import i18n from 'i18next';
+import Dali from '../../../core/main';
 import VisorNavSection from './VisorNavSection';
 
 export default class SideNavVisor extends Component {
@@ -10,13 +11,13 @@ export default class SideNavVisor extends Component {
 
     render() {
 
-        let content = "CONTENIDO";
+        console.log(Dali.i18n.t('content'));
         return(
             /* jshint ignore:start */
             <div id="sidebar-wrapper">
                 <ul className="sidebar-nav">
                     <li className="sidebar-brand">
-                        <h1>{content}</h1>
+                        <h1>CONTENIDO</h1>
                     </li>
                     {this.props.navItemsIds.map(page => {
                         let level = this.props.navItemsById[page].level;
