@@ -242,7 +242,7 @@
             text-decoration: none;
         }
         span{
-          font-family: 'Ubuntu-light';
+          font-family: 'Ubuntu';
           line-height: 1;
           vertical-align: middle;
         }
@@ -319,7 +319,7 @@
 iframe#visor_iframe{
     background-color: white;
     //background-image: url("https://s-media-cache-ak0.pinimg.com/originals/25/ef/28/25ef280441ad6d3a5ccf89960b4e95eb.gif");
-    background-image: url("../../dist/images/spinner.svg"); 
+    background-image: url("../../dist/images/spinner.svg");
     background-repeat: no-repeat;
     background-position: 50% 50%;
 }
