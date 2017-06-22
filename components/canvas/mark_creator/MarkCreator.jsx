@@ -35,6 +35,7 @@ export default class MarkCreator extends Component {
                 overlay.style.width = "100%";
                 overlay.style.height = "100%";
                 overlay.style.position = "absolute";
+                overlay.style.pointerEvents = "all";
                 overlay.style.background = 'yellow';
                 overlay.style.opacity = '0.35';
                 overlay.style.zIndex = 999;

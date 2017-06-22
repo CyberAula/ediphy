@@ -1,5 +1,5 @@
 module.exports = {
-    "BasicPlayer": {
+    "EnrichedPlayer": {
         "Allow_fullscreen": "Permitir pantalla completa",
         "Show_controls": "Mostrar controles",
         "Autoplay": "Reproducción automática",
@@ -12,7 +12,7 @@ module.exports = {
         "box_style": "Estilo caja",
         "opacity": "Opacidad",
         "padding": "Padding",
-        "PluginName": "Reproductor Básico",
+        "PluginName": "Reproductor con puntos de interés",
         "radius": "Radio",
         "source": "Origen"
     }

@@ -1,5 +1,5 @@
 module.exports = {
-    "BasicPlayer": {
+    "EnrichedPlayer": {
         "Allow_fullscreen": "Allow fullscreen",
         "Show_controls": "Show Controls",
         "Autoplay": "Autoplay",
@@ -12,7 +12,7 @@ module.exports = {
         "box_style": "Box style",
         "opacity": "Opacity",
         "padding": "Padding",
-        "PluginName": "Basic Player",
+        "PluginName": "Enriched Player",
         "radius": "Radius",
         "source": "Source"
     }
