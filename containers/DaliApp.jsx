@@ -6,7 +6,7 @@ import {addNavItem, selectNavItem, expandNavItem, deleteNavItem, reorderNavItem,
     changeNavItemName, changeUnitNumber, selectIndex,
     addBox, changeTitle, selectBox, moveBox, resizeBox, updateBox, duplicateBox, deleteBox, reorderSortableContainer, dropBox, increaseBoxLevel,
     resizeSortableContainer, deleteSortableContainer, changeCols, changeRows, changeSortableProps, reorderBoxes, verticallyAlignBox,
-    toggleTextEditor, toggleTitleMode, toggleMarkCreator,
+    toggleTextEditor, toggleTitleMode, toggleMarkCreator, toggleAspefctRatio,
     changeDisplayMode, expandContainedViewList, updateToolbar,
     exportStateAsync, importStateAsync,
     fetchVishResourcesSuccess, fetchVishResourcesAsync, uploadVishResourceAsync,
@@ -91,7 +91,7 @@ class DaliApp extends Component {
                               serverModalOpen={()=>{this.setState({serverModal: true })}}
                               isBusy={isBusy}/>
                 </Row>
-                <Row style={{height: 'calc(100% - 60px)'}}>
+                <Row style={{height: 'calc(100% - 60px)'}} id="mainRow">
                     <DaliCarousel boxes={boxes}
                                   title={title}
                                   containedViews={containedViews}
