@@ -67,13 +67,15 @@ export default class MarkCreator extends Component {
 
                 overlay.onclick = function(e){
                     let square = this.getClientRects()[0];
-
                     let x = e.clientX - square.left  - cursor_x_offset;//e.offsetX;
                     let y = e.clientY - square.top - cursor_y_offset ;//e.offsetY;
                     let width = square.right - square.left;
                     let height =  square.bottom - square.top;
 
-                    let value = parseRichMarkInput(x,y, width, height);
+                    let richMarkValues = [];
+
+
+                    let value = parseRichMarkInput(x,y, width, height, richMarkValues);
 
                     addMarkShortcut({id: ID_PREFIX_RICH_MARK + Date.now(), title, connectMode, connection, displayMode, value});
 

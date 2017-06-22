@@ -59,6 +59,10 @@ export default class EnrichedPlayerPlugin extends React.Component {
         }
     }
 
+    getDuration(){
+        return this.state.duration;
+    }
+
     componentWillReceiveProps(nextProps){
         if(nextProps.state.controls === true && this.state.controls !== this.props.state.controls){
             this.setState({controls:true});
@@ -70,7 +74,8 @@ export default class EnrichedPlayerPlugin extends React.Component {
     render(){
 
         /* jshint ignore:start */
-        let marks = state.__marks;
+        let marks = this.props.state.__marks;
+
         let markElements = Object.keys(marks).map((id) =>{
             let value = marks[id].value;
             let position;
