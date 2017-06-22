@@ -95,6 +95,8 @@ export function EnrichedPlayer(base) {
             };
         },
         getRenderTemplate: function (state) {
+            /* jshint ignore:start */
+
             return (
                 /* jshint ignore:start */
                 <div style={{width:"100%", height:"100%"}}>
@@ -102,6 +104,11 @@ export function EnrichedPlayer(base) {
                 </div>
                 /* jshint ignore:end */
             );
+        },
+        parseRichMarkInput: function(...values){
+            let x = value[0]*100/value[2];
+
+            return finalValue;
         },
         handleToolbar: function (name, value) {
             base.setState(name, value);

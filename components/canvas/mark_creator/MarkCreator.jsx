@@ -30,10 +30,10 @@ export default class MarkCreator extends Component {
 
                 let overlay = document.createElement("div");
                 /* OVERLAY */
-                overlay.style.top = 0;
-                overlay.style.left = 0;
-                overlay.style.width = "100%";
-                overlay.style.height = "100%";
+                overlay.style.top = dropableElement.offsetTop +"px";
+                overlay.style.left = dropableElement.offsetLeft+"px";
+                overlay.style.width = dropableElement.offsetWidth+"px";
+                overlay.style.height = dropableElement.offsetHeight+"px";
                 overlay.style.position = "absolute";
                 overlay.style.pointerEvents = "all";
                 overlay.style.background = 'yellow';

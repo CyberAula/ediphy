@@ -68,6 +68,21 @@ export default class EnrichedPlayerPlugin extends React.Component {
     }
 
     render(){
+
+        /* jshint ignore:start */
+        let marks = state.__marks;
+        let markElements = Object.keys(marks).map((id) =>{
+            let value = marks[id].value;
+            let position;
+            if (value && value.split(',').length === 2){
+                position = value.split(',');
+            } else{
+                position = [0,0];
+            }
+
+            return(<a key={id} style={{position: 'absolute', top: position[0] + "%",left: position[1] + "%"}} href="#"><i style={{width:"100%",height:"100%"}} className="material-icons">room</i></a>)
+        });
+
         /* jshint ignore:start */
         return (
             <div ref={player_wrapper => {this.player_wrapper = player_wrapper}} style={{width:"100%",height:"100%", pointerEvents: "none"}} className="player-wrapper">
@@ -88,14 +103,13 @@ export default class EnrichedPlayerPlugin extends React.Component {
                 {(this.state.controls) && (
                     <div className="player-media-controls" style={{opacity:1}}>
                         <button className="play-player-button" onClick={this.playPause.bind(this)}>{this.state.playing ? <i className="material-icons">pause</i> : <i className="material-icons">play_arrow</i>}</button>
-                        <input className="progress-player-input dropableRichZone"
-                               type='range' min={0} max={1} step='any'
-                               value={this.state.played}
-                               onMouseDown={this.onSeekMouseDown.bind(this)}
-                               onChange={this.onSeekChange.bind(this)}
-                               onMouseUp={this.onSeekMouseUp.bind(this)}
-                        />
-                        {/*<progress className="progress-player-bar" max={1} value={this.state.played} />*/}
+                            <input className="progress-player-input dropableRichZone"
+                                   type='range' min={0} max={1} step='any'
+                                   value={this.state.played}
+                                   onMouseDown={this.onSeekMouseDown.bind(this)}
+                                   onChange={this.onSeekChange.bind(this)}
+                                   onMouseUp={this.onSeekMouseUp.bind(this)}
+                            />
                         <input className="volume-player-input " type='range' min={0} max={1} step='any' value={this.state.volume} onChange={this.setVolume.bind(this)} />
                         <button className="fullscreen-player-button" onClick={this.onClickFullscreen.bind(this)}>{(!this.state.fullscreen)?<i className="material-icons">fullscreen</i>:<i className="material-icons">fullscreen_exit</i>}</button>
                     </div>)}
