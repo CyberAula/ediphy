@@ -91,7 +91,7 @@ class DaliApp extends Component {
                               serverModalOpen={()=>{this.setState({serverModal: true })}}
                               isBusy={isBusy}/>
                 </Row>
-                <Row style={{height: 'calc(100% - 60px)'}}>
+                <Row style={{height: 'calc(100% - 60px)'}} id="mainRow">
                     <DaliCarousel boxes={boxes}
                                   title={title}
                                   containedViews={containedViews}
