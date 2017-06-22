@@ -27,7 +27,7 @@ export default class VisorNavSection extends Component {
                     </li>
 
                     { children.map(page => {
-                            let margin = this.props.navItemsById[page].level*10 + 20 + "px";
+                            let margin = this.props.navItemsById[page].level*10 + 10 + "px";
                             if (page.indexOf("se") != -1){
                                 return (<VisorNavSection display={this.state.toggled}
                                                          key={page}

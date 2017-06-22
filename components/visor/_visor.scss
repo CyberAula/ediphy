@@ -96,10 +96,9 @@
 }
 
 .playerButton {
-  width:35px;
-  height: 35px;
   margin:auto;
   border:0;
+  border-radius: 0;
   background-color: #777;
   &:hover, &:active, &:focus {
     cursor: pointer;
@@ -161,7 +160,6 @@
     width: 100%;
     background-color: #9a9a9a;
     position: absolute;
-    padding: 15px;
  }
 
  .pcw_doc {
@@ -185,9 +183,8 @@
 #visorNavButton {
   border:0;
   background-color: $greyPanelHeadings;
-  //color: $blueprimary;
   border-radius: 5px;
-  padding: 10px 10px 10px 3px;
+  padding: 15px 7px 10px 2px;
   border-radius: 0 30px 30px 0;
   top: 50%;
   left: 0px;
@@ -226,7 +223,7 @@
     color:white !important;
     overflow: auto;
     li{
-      line-height: 40px;
+      line-height: 35px;
       a{
         display: block;
         text-decoration: none;
@@ -243,7 +240,6 @@
         }
         span{
           font-family: 'Ubuntu';
-          line-height: 1;
           vertical-align: middle;
         }
         i{
@@ -260,6 +256,7 @@
           font-size: 1em;
           color: white;
           line-height: initial;
+          margin: 0 ;
         }
     }
 }
@@ -292,7 +289,6 @@
         width: 250px !important;
     }
     #page-content-wrapper {
-        padding: 20px;
         position: relative;
         background-color: #9a9a9a;
     }
@@ -302,18 +298,6 @@
     }
 }
 
-/*Scrollbar*/
-.visorwrapper *::-webkit-scrollbar-track {
-  background-color: $blueprimary;
-  border:0;
-}
-.visorwrapper *::-webkit-scrollbar-thumb {
-    background-color: #ddd;
-}
-.visorwrapper *::-webkit-scrollbar-thumb:hover {
-    background-color:  #ddd;
-    opacity: 0.5;
-}
 
 /*Iframe*/
 iframe#visor_iframe{

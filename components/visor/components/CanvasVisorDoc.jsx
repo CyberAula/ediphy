@@ -5,7 +5,7 @@ import BoxSortableVisor from './BoxSortableVisor';
 import {Col} from 'react-bootstrap';
 import TitleVisor from './TitleVisor';
 import HeaderVisor from './HeaderVisor';
-import {isSortableBox, isSlide} from './../../../utils';
+import {isSortableBox} from './../../../utils';
 
 export default class CanvasVisorDoc extends Component {
 
@@ -33,7 +33,7 @@ export default class CanvasVisorDoc extends Component {
             /* jshint ignore:start */
 
             <Col id="canvas" md={12} xs={12}
-                 style={{display:'initial', padding: '0'}}>
+                 style={{display:'initial', padding: '0', width: '100%'}}>
                  <div className="scrollcontainer">
                  <HeaderVisor titles={titles}
                         onShowTitle={()=>this.setState({showTitle:true})}

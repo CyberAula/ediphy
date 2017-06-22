@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import ReactDOM from 'react-dom';
 import i18n from 'i18next';
-import Dali from '../../../core/main';
+import ReactDOM from 'react-dom';
+
 import VisorNavSection from './VisorNavSection';
 
 export default class SideNavVisor extends Component {
@@ -11,7 +11,7 @@ export default class SideNavVisor extends Component {
 
     render() {
 
-        console.log(Dali.i18n.t('content'));
+        console.log(i18n.t('Preview'));
         return(
             /* jshint ignore:start */
             <div id="sidebar-wrapper">

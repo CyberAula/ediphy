@@ -3,6 +3,9 @@ import ReactDOM from 'react-dom';
 import {Button, OverlayTrigger, Tooltip} from 'react-bootstrap';
 import i18n from 'i18next';
 
+
+import 'bootstrap/dist/css/bootstrap.css';
+
 export default class VisorPlayer extends Component {
     constructor(props) {
         super(props);
@@ -21,7 +24,7 @@ export default class VisorPlayer extends Component {
         return(
             /* jshint ignore:start */
             <div id="player">
-                <OverlayTrigger placement="bottom" delay={1} overlay={this.createTooltip("first","First")}>
+                <OverlayTrigger placement="bottom" delayShow={50} trigger={['hover']} overlay={this.createTooltip("first", "Primero")}>
                     <Button className="playerButton"
                             bsStyle="primary"
                             disabled={maxIndex==0}
@@ -29,7 +32,8 @@ export default class VisorPlayer extends Component {
                         <i className="material-icons">first_page</i>
                     </Button>
                 </OverlayTrigger>
-                <OverlayTrigger placement="bottom" delay={0} trigger={['hover']} rootClose={true} overlay={this.createTooltip("previous","Previous")}>
+
+                <OverlayTrigger placement="bottom" delayShow={0} trigger={['hover']} rootClose={true} overlay={this.createTooltip("previous","Anterior")}>
                     <Button className="playerButton"
                             bsStyle="primary"
                             disabled={index==0 || maxIndex==0}
@@ -37,7 +41,7 @@ export default class VisorPlayer extends Component {
                         <i className="material-icons">chevron_left</i>
                     </Button>
                 </OverlayTrigger>
-                <OverlayTrigger placement="bottom" delay={0} trigger={['hover']} rootClose={true} overlay={this.createTooltip("next","Next")}>
+                <OverlayTrigger placement="bottom" delay={0} trigger={['hover']} rootClose={true} overlay={this.createTooltip("next","Siguiente")}>
                     <Button className="playerButton"
                             bsStyle="primary"
                             disabled={index==maxIndex-1 || maxIndex==0}
@@ -45,7 +49,7 @@ export default class VisorPlayer extends Component {
                         <i className="material-icons">chevron_right</i>
                     </Button>
                 </OverlayTrigger>
-                <OverlayTrigger placement="bottom" delay={0} trigger={['hover']} rootClose={true} overlay={this.createTooltip("last","Last")}>
+                <OverlayTrigger placement="bottom" delay={0} trigger={['hover']} rootClose={true} overlay={this.createTooltip("last","Último")}>
                     <Button className="playerButton"
                             bsStyle="primary"
                             disabled={maxIndex==0}
@@ -65,7 +69,7 @@ export default class VisorPlayer extends Component {
     createTooltip(id, message){
         /* jshint ignore:start */
         /*Añadir aquí i18n next para traducir el tooltip*/
-        return(<Tooltip className="visorNavTooltip" id={id}>{message}</Tooltip>);
+        return(<Tooltip id={id}>{message}</Tooltip>);
         /* jshint ignore:end */
     }
 

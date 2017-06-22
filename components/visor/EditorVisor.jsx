@@ -1,8 +1,6 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import {Grid, Row, Col, Button} from 'react-bootstrap';
-import {isAncestorOrSibling} from './../../utils';
-
 import CanvasVisor from './components/CanvasVisor';
 import ContainedCanvasVisor from './components/ContainedCanvasVisor';
 import SideNavVisor from './components/SideNavVisor';
