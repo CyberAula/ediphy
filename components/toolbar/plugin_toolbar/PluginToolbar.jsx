@@ -68,7 +68,7 @@ export default class PluginToolbar extends Component {
                            <div onClick={() => {
                                    this.setState({open: !this.state.open});
                                 }}
-                                style={{display: this.props.carouselShow ? 'block' : 'none'}}
+                                style={{display: this.props.carouselShow ? 'block' : 'block'}}
                                 className={this.state.open ? 'carouselListTitle toolbarSpread' : 'carouselListTitle toolbarHide'}>
                                <div className="toolbarTitle">
                                    <i className="material-icons">settings</i>
@@ -197,7 +197,7 @@ export default class PluginToolbar extends Component {
                         <div onClick={() => {
                                 this.setState({open: !this.state.open});
                              }}
-                             style={{display: this.props.carouselShow ? 'block' : 'none'}}
+                             style={{display:'block'}}
                              className={this.state.open ? 'carouselListTitle toolbarSpread' : 'carouselListTitle toolbarHide'}>
                             <div className="toolbarTitle">
                                 <i className="material-icons">settings</i>
