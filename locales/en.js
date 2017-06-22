@@ -15,7 +15,6 @@ var en = {
         "contained_view": "Contained View",
         "col_dist": "Column distribution",
         "col_number": "Number of columns",
-        "contained_view": "Vista Contenida",
         "content": "Content",
         "course": "Course",
         "course_title": "Course Title",
