@@ -31,8 +31,9 @@
   a {
     margin: 10px 0 0;
     font-size: 0.6em;
-    font-family: 'Ubuntu-light';
+    font-family: 'Ubuntu';
     color: $grismedio;
+    text-decoration: none;
     &:hover, &:active, &:focus{
       text-decoration: none !important;
       cursor: default;
@@ -67,12 +68,11 @@
       padding: 8px;
       line-height: 1em;
       color: $blueprimary;
-      font-family: 'Ubuntu-bold', sans-serif;
+      font-family: 'Ubuntu', sans-serif;
     }
     h1{
       margin: 10px 0 0;
       font-size: 1em;
-      font-family: 'Ubuntu-bold';
     }
     h2{
       margin: 10px 0 0;
@@ -82,15 +82,12 @@
     h3{
       margin: 10px 0 0;
       font-size: 0.7em;
-      font-family: 'Ubuntu-light';
       color: $grisadams;
     }
     h4{
       margin: 10px 0 0;
       font-size: 0.6em;
-      font-family: 'Ubuntu-light';
       color: $grismedio;
     }
   }
 }
-

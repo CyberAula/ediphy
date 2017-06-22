@@ -4,53 +4,58 @@ import {Button, OverlayTrigger, Tooltip} from 'react-bootstrap';
 import i18n from 'i18next';
 import Dali from './../../../core/main';
 
+
+import 'bootstrap/dist/css/bootstrap.css';
+
 export default class VisorPlayer extends Component {
     constructor(props) {
-        super(props);  
+        super(props);
     }
 
     render() {
+
         let navItemsIds = this.props.navItemsIds;
         if (!Dali.Config.sections_have_content) {
             navItemsIds = this.props.navItemsIds.filter(this.isntSection); 
         } 
-       
+
         let navItemsById = this.props.navItemsById;
         let navItemSelected = this.props.navItemSelected;
 
         let index = navItemsIds.indexOf(navItemSelected);
         let maxIndex = navItemsIds.length;
- 
-        return( 
+
+        return(
             /* jshint ignore:start */
             <div id="player">
-                <OverlayTrigger placement="bottom" delay={0} trigger={['hover']} rootClose={true} overlay={this.createTooltip("first","First")}>
-                    <Button className="playerButton" 
-                            bsStyle="primary" 
+                <OverlayTrigger placement="bottom" delayShow={50} trigger={['hover']} overlay={this.createTooltip("first", "Primero")}>
+                    <Button className="playerButton"
+                            bsStyle="primary"
                             disabled={maxIndex==0}
                             onClick={(e)=>{this.props.changePage(navItemsIds[0])}}>
                         <i className="material-icons">first_page</i>
                     </Button>
                 </OverlayTrigger>
-                <OverlayTrigger placement="bottom" delay={0} trigger={['hover']} rootClose={true} overlay={this.createTooltip("previous","Previous")}>
-                    <Button className="playerButton" 
-                            bsStyle="primary" 
-                            disabled={index==0 || maxIndex==0} 
+
+                <OverlayTrigger placement="bottom" delayShow={0} trigger={['hover']} rootClose={true} overlay={this.createTooltip("previous","Anterior")}>
+                    <Button className="playerButton"
+                            bsStyle="primary"
+                            disabled={index==0 || maxIndex==0}
                             onClick={(e)=>{this.props.changePage(navItemsIds[Math.max(index-1, 0)])}}>
                         <i className="material-icons">chevron_left</i>
                     </Button>
                 </OverlayTrigger>
-                <OverlayTrigger placement="bottom" delay={0} trigger={['hover']} rootClose={true} overlay={this.createTooltip("next","Next")}>
-                    <Button className="playerButton" 
+                <OverlayTrigger placement="bottom" delay={0} trigger={['hover']} rootClose={true} overlay={this.createTooltip("next","Siguiente")}>
+                    <Button className="playerButton"
                             bsStyle="primary"
-                            disabled={index==maxIndex-1 || maxIndex==0} 
+                            disabled={index==maxIndex-1 || maxIndex==0}
                             onClick={(e)=>{this.props.changePage(navItemsIds[Math.min(index+1, maxIndex-1)])}}>
                         <i className="material-icons">chevron_right</i>
-                    </Button>   
-                </OverlayTrigger>   
-                <OverlayTrigger placement="bottom" delay={0} trigger={['hover']} rootClose={true} overlay={this.createTooltip("last","Last")}>          
-                    <Button className="playerButton" 
-                            bsStyle="primary" 
+                    </Button>
+                </OverlayTrigger>
+                <OverlayTrigger placement="bottom" delay={0} trigger={['hover']} rootClose={true} overlay={this.createTooltip("last","Último")}>
+                    <Button className="playerButton"
+                            bsStyle="primary"
                             disabled={maxIndex==0}
                             onClick={(e)=>{this.props.changePage(navItemsIds[maxIndex-1])}}>
                         <i className="material-icons">last_page</i>
@@ -68,8 +73,8 @@ export default class VisorPlayer extends Component {
     createTooltip(id, message){
         /* jshint ignore:start */
         /*Añadir aquí i18n next para traducir el tooltip*/
-        return(<Tooltip className="visorNavTooltip" id={id}>{message}</Tooltip>);
+        return(<Tooltip id={id}>{message}</Tooltip>);
         /* jshint ignore:end */
     }
-    
+
 }

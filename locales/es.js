@@ -15,6 +15,9 @@ var es = {
         "col_dist": "Distribución de columnas",
         "col_number": "Nº columnas",
         "contained_view": "Vista Contenida",
+        "content": "Contenido",
+        "course": "Curso",
+
         "course_title": "Título Curso",
         "delete": "Eliminar",
         "delete_contained_canvas": "Eliminar vista contenida.",

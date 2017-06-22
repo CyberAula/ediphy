@@ -1,8 +1,6 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import {Grid, Row, Col, Button} from 'react-bootstrap';
-import {isAncestorOrSibling} from './../../utils';
-
 import CanvasVisor from './components/CanvasVisor';
 import ContainedCanvasVisor from './components/ContainedCanvasVisor';
 import SideNavVisor from './components/SideNavVisor';
@@ -25,7 +23,7 @@ export default class Visor extends Component {
             canvasRatio: 16/9,
             toggledSidebar : true,
             navItemSelected: Dali.State.navItemSelected
- 
+
 
         };
 
@@ -123,18 +121,18 @@ export default class Visor extends Component {
         let title = Dali.State.title;
         let ratio = Dali.State.canvasRatio;
         let wrapperClasses =  this.state.toggledSidebar ? "visorwrapper toggled" : "visorwrapper";
-        let toggleIcon = this.state.toggledSidebar ? "clear" : "menu";
-        let toggleColor = this.state.toggledSidebar ? "toggleColor" : "";  
+        let toggleIcon = this.state.toggledSidebar ? "keyboard_arrow_left" : "keyboard_arrow_right";
+        let toggleColor = this.state.toggledSidebar ? "toggleColor" : "";
         let isSlide = navItems[navItemSelected].type === "slide" ? "pcw_slide":"pcw_doc";
-            
+
         return (
-            /* jshint ignore:start */      
+            /* jshint ignore:start */
             <div id="app" className={wrapperClasses} >
-                <SideNavVisor toggled={this.state.toggledSidebar} 
-                              changePage={(page)=> {this.changePage(page)}} 
-                              navItemsById={navItems} 
-                              navItemsIds={navItemsIds} 
-                              navItemSelected={navItemSelected}/> 
+                <SideNavVisor toggled={this.state.toggledSidebar}
+                              changePage={(page)=> {this.changePage(page)}}
+                              navItemsById={navItems}
+                              navItemsIds={navItemsIds}
+                              navItemSelected={navItemSelected}/>
                 <div id="page-content-wrapper" className={isSlide} style={{height: '100%'}}>
                     <Grid fluid={true} style={{height: '100%'}}>
                         <Row style={{height: '100%'}}>
