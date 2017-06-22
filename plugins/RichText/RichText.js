@@ -7,8 +7,8 @@ export function RichText(base) {
                 category: 'text',
                 needsConfigModal: false,
                 needsTextEdition: true,
-                initialWidth: '300px',
-                initialHeight: '100px',
+                initialWidth: 'auto',
+                initialHeight: 'auto',
                 extraTextConfig: {
                     extraPlugins: "daliplugin"
                 },

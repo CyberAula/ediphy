@@ -48,7 +48,7 @@ export default class DaliCanvasDoc extends Component {
         return (
             /* jshint ignore:start */
 
-            <Col id="canvas" md={12} xs={12}
+            <Col id="canvas" md={12} xs={12} className="canvasDocClass"
                  style={{display: this.props.containedViewSelected !== 0 ? 'none' : 'initial'}}>
                  <DaliShortcuts
                      box={this.props.boxes[this.props.boxSelected]}

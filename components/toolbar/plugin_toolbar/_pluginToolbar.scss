@@ -4,6 +4,7 @@
 /*Plugin Toolbar*/
 #insidetools, #tools {
     width: 250px;
+    @include animacion(width, 0.3s);
 }
 
 /*Toolbar wrapper including tab*/
