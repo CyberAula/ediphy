@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import i18n from 'i18next';
 import ReactDOM from 'react-dom';
 
 import VisorNavSection from './VisorNavSection';
@@ -11,13 +10,12 @@ export default class SideNavVisor extends Component {
 
     render() {
 
-        console.log(i18n.t('Preview'));
         return(
             /* jshint ignore:start */
             <div id="sidebar-wrapper">
                 <ul className="sidebar-nav">
                     <li className="sidebar-brand">
-                        <h1>CONTENIDO</h1>
+                        <h1>{this.props.courseTitle}</h1>
                     </li>
                     {this.props.navItemsIds.map(page => {
                         let level = this.props.navItemsById[page].level;

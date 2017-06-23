@@ -36,6 +36,7 @@
 .innercanvas {
   height: 100%;
   background-color: white;
+  height: calc(100vh - 241px);
 }
 
 .outter > .sli {

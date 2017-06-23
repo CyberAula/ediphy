@@ -5,7 +5,7 @@ import CanvasVisor from './components/CanvasVisor';
 import ContainedCanvasVisor from './components/ContainedCanvasVisor';
 import SideNavVisor from './components/SideNavVisor';
 import VisorPlayer from './components/VisorPlayer';
-
+import i18n from './../../i18n';
 require('es6-promise').polyfill();
 require('./../../sass/style.scss');
 require('./../../core/visor_entrypoint');
@@ -124,11 +124,11 @@ export default class Visor extends Component {
         let toggleIcon = this.state.toggledSidebar ? "keyboard_arrow_left" : "keyboard_arrow_right";
         let toggleColor = this.state.toggledSidebar ? "toggleColor" : "";
         let isSlide = navItems[navItemSelected].type === "slide" ? "pcw_slide":"pcw_doc";
-
         return (
             /* jshint ignore:start */
             <div id="app" className={wrapperClasses} >
-                <SideNavVisor toggled={this.state.toggledSidebar}
+                <SideNavVisor courseTitle={title}
+                              toggled={this.state.toggledSidebar}
                               changePage={(page)=> {this.changePage(page)}}
                               navItemsById={navItems}
                               navItemsIds={navItemsIds}
