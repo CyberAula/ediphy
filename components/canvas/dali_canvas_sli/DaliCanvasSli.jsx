@@ -43,17 +43,7 @@ export default class DaliCanvasSli extends Component {
 
             <Col id="canvas" md={12} xs={12} className="canvasSliClass"
                  style={{display: this.props.containedViewSelected !== 0 ? 'none' : 'initial'}}>
-                 <DaliShortcuts
-                     box={this.props.boxes[this.props.boxSelected]}
-                     containedViewSelected={this.props.containedViewSelected}
-                     isContained={false}
-                     onTextEditorToggled={this.props.onTextEditorToggled}
-                     onBoxResized={this.props.onBoxResized}
-                     onBoxDeleted={this.props.onBoxDeleted}
-                     onMarkCreatorToggled={this.props.onMarkCreatorToggled}
-                     toolbar={this.props.toolbars[this.props.boxSelected]}/>
-
-
+                
 
 
                     <div id="airlayer"
@@ -131,6 +121,16 @@ export default class DaliCanvasSli extends Component {
                         })}
                     </div>
                 </div>
+                 <DaliShortcuts
+                     box={this.props.boxes[this.props.boxSelected]}
+                     containedViewSelected={this.props.containedViewSelected}
+                     isContained={false}
+                     onTextEditorToggled={this.props.onTextEditorToggled}
+                     onBoxResized={this.props.onBoxResized}
+                     onBoxDeleted={this.props.onBoxDeleted}
+                     onMarkCreatorToggled={this.props.onMarkCreatorToggled}
+                     toolbar={this.props.toolbars[this.props.boxSelected]}/>
+
 
 
             </Col>
