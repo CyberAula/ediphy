@@ -258,6 +258,9 @@ export default function () {
                return descendant.parseRichMarkInput(...values);
             }
         },
+        postParseRichMarkInput(mark_id,value){
+            Dali.API.editRichMark(mark_id,value);
+        },
         forceUpdate: function (oldState, sender, reason) {
             state = oldState;
             id = sender;

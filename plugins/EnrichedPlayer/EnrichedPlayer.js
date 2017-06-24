@@ -99,15 +99,13 @@ export function EnrichedPlayer(base) {
             return (
                 /* jshint ignore:start */
                 <div style={{width:"100%", height:"100%"}}>
-                    <EnrichedPlayerPlugin style={{width:"100%", height:"100%"}} state={state}></EnrichedPlayerPlugin>
+                    <EnrichedPlayerPlugin style={{width:"100%", height:"100%"}} state={state} postParseRichMarkInput={base.postParseRichMarkInput}></EnrichedPlayerPlugin>
                 </div>
                 /* jshint ignore:end */
             );
         },
         parseRichMarkInput: function(...value){
-
             let x = value[0]*100/value[2];
-
             return x;
         },
         handleToolbar: function (name, value) {
