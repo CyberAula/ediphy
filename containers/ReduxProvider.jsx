@@ -229,7 +229,7 @@ export default class ReduxProvider extends Component {
                         hidden:false},
                     "se-1467887497411":{
                         id:"se-1467887497411",
-                        name:"Sección",
+                        name: i18n.t('section'),
                         isExpanded:true,
                         parent:0, 
                         children:["pa-1497983247795"],
@@ -254,7 +254,7 @@ export default class ReduxProvider extends Component {
                     },
                     "pa-1497983247795":{
                         id:"pa-1497983247795",
-                        name:"Página",
+                        name: i18n.t('page'),
                         isExpanded:true,
                         parent:"se-1467887497411",
                         children:[],

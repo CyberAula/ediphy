@@ -323,3 +323,14 @@ li > .selectedNavItemVisor {
 }
 
 
+.visorwrapper #containedCanvas {
+  min-height: 100% !important;  
+}
+
+.visorwrapper #containedCanvas #airlayer{
+  min-height: 100vh ;  
+}
+
+// .visorwrapper #containedCanvas {
+//   min-height: 100%;  
+// }
