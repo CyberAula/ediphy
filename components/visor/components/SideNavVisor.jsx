@@ -33,7 +33,7 @@ export default class SideNavVisor extends Component {
                                             onClick={(e)=>{this.props.changePage(page)}}
                                             className="visorNavListEl">
                                             <a style={{paddingLeft: marginPage}}
-                                                className={this.props.navItemSelected == page ? "selectedNavItemVisor":""}
+                                                className={this.props.navItemSelected == page ? "indexElementTitle selectedNavItemVisor":"indexElementTitle"}
                                                 href="#">{this.props.navItemsById[page].name}</a>
                                 </li>);
                             }

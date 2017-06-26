@@ -28,7 +28,7 @@ export default class VisorPlayer extends Component {
         return(
             /* jshint ignore:start */
             <div id="player">
-                <OverlayTrigger placement="bottom" delayShow={50} trigger={['hover']} overlay={this.createTooltip("first", "Primero")}>
+                <OverlayTrigger placement="bottom" delayShow={50} trigger={['hover']} overlay={this.createTooltip("first", i18n.t("player.First"))}>
                     <Button className="playerButton"
                             bsStyle="primary"
                             disabled={maxIndex==0}
@@ -37,7 +37,7 @@ export default class VisorPlayer extends Component {
                     </Button>
                 </OverlayTrigger>
 
-                <OverlayTrigger placement="bottom" delayShow={0} trigger={['hover']} rootClose={true} overlay={this.createTooltip("previous","Anterior")}>
+                <OverlayTrigger placement="bottom" delayShow={0} trigger={['hover']} rootClose={true} overlay={this.createTooltip("previous", i18n.t("player.Previous"))}>
                     <Button className="playerButton"
                             bsStyle="primary"
                             disabled={index==0 || maxIndex==0}
@@ -45,7 +45,7 @@ export default class VisorPlayer extends Component {
                         <i className="material-icons">chevron_left</i>
                     </Button>
                 </OverlayTrigger>
-                <OverlayTrigger placement="bottom" delay={0} trigger={['hover']} rootClose={true} overlay={this.createTooltip("next","Siguiente")}>
+                <OverlayTrigger placement="bottom" delay={0} trigger={['hover']} rootClose={true} overlay={this.createTooltip("next", i18n.t("player.Next"))}>
                     <Button className="playerButton"
                             bsStyle="primary"
                             disabled={index==maxIndex-1 || maxIndex==0}
@@ -53,7 +53,7 @@ export default class VisorPlayer extends Component {
                         <i className="material-icons">chevron_right</i>
                     </Button>
                 </OverlayTrigger>
-                <OverlayTrigger placement="bottom" delay={0} trigger={['hover']} rootClose={true} overlay={this.createTooltip("last","Último")}>
+                <OverlayTrigger placement="bottom" delay={0} trigger={['hover']} rootClose={true} overlay={this.createTooltip("last", i18n.t("player.Last"))}>
                     <Button className="playerButton"
                             bsStyle="primary"
                             disabled={maxIndex==0}

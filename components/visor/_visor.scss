@@ -331,6 +331,14 @@ li > .selectedNavItemVisor {
   min-height: 100vh ;  
 }
 
+.indexElementTitle {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: inline-block;
+    padding-right: 10px;
+    
+}
 // .visorwrapper #containedCanvas {
 //   min-height: 100%;  
 // }

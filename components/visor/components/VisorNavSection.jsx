@@ -27,7 +27,7 @@ export default class VisorNavSection extends Component {
                         } else {
                             this.setState({toggled: !this.state.toggled});
                         }}}>
-                        <a className={this.props.navItemSelected == this.props.pageName ? "visorNavListEl selectedNavItemVisor":"visorNavListEl"} style={{paddingLeft: marginUl}} href="#"> 
+                        <a className={this.props.navItemSelected == this.props.pageName ? "indexElementTitle visorNavListEl selectedNavItemVisor":"indexElementTitle visorNavListEl"} style={{paddingLeft: marginUl}} href="#"> 
                             {this.state.toggled ? 
                                 (<i onClick={(e)=>{this.setState({toggled: !this.state.toggled})}} className="material-icons">keyboard_arrow_down</i>):(<i onClick={(e)=>{this.setState({toggled: !this.state.toggled})}} className="material-icons">keyboard_arrow_right</i>)} 
 
@@ -49,7 +49,7 @@ export default class VisorNavSection extends Component {
                                             onClick={(e)=>{this.props.changePage(page)}}
                                             className={this.state.toggled ? "visorNavListEl": "visorNavListEl hiddenNavVisor"}>
                                             <a  style={{paddingLeft: margin}}
-                                                className={this.props.navItemSelected == page ? "selectedNavItemVisor":""}
+                                                className={this.props.navItemSelected == page ? "indexElementTitle selectedNavItemVisor":"indexElementTitle"}
                                                 href="#">
                                                 {isSlide(this.props.navItemsById[page].type) ? (<i className="material-icons">slideshow</i>):(<i className="material-icons">insert_drive_file</i>)}
                                                 <span>{this.props.navItemsById[page].name}</span>
