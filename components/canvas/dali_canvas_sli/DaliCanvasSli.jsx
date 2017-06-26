@@ -185,12 +185,12 @@ export default class DaliCanvasSli extends Component {
 
 
     componentWillUpdate(nextProps){
-       /* if (this.props.canvasRatio !== nextProps.canvasRatio){
+        if (this.props.canvasRatio !== nextProps.canvasRatio){
             window.canvasRatio = nextProps.canvasRatio;
-            window.removeEventListener("resize", aspectRatio);
+            // window.removeEventListener("resize", aspectRatio);
             aspectRatio(this.props.canvasRatio);
-            window.addEventListener("resize", aspectRatio);
-        }*/
+            // window.addEventListener("resize", aspectRatio);
+        }
 
     }
 }

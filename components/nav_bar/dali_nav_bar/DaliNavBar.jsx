@@ -138,7 +138,7 @@ export default class DaliNavBar extends Component {
                     </button>
                     <button className="navButton"
                             title={i18n.t('Preview')}
-                            disabled={this.props.undoDisabled || (this.props.navItemSelected && !Dali.Config.sections_have_content && isSection(this.props.navItemSelected))}
+                            disabled={(this.props.navItemSelected && !Dali.Config.sections_have_content && isSection(this.props.navItemSelected))}
                             onClick={() =>this.props.visor()}><i className="material-icons">visibility</i>
                         <br/>
                         <span className="hideonresize">{i18n.t('Preview')}</span>

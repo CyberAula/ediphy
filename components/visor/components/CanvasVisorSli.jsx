@@ -111,13 +111,13 @@ export default class CanvasVisorSli extends Component {
     }
 
     componentWillUpdate(nextProps){
-       /* if (this.props.canvasRatio !== nextProps.canvasRatio){
+       if (this.props.canvasRatio !== nextProps.canvasRatio){
             window.canvasRatio = nextProps.canvasRatio;
-            window.removeEventListener("resize", aspectRatio);
+            //window.removeEventListener("resize", aspectRatio);
             aspectRatio(nextProps.canvasRatio);
-            window.addEventListener("resize", aspectRatio);
+            //window.addEventListener("resize", aspectRatio);
         }
-*/
+
     }
 
 
