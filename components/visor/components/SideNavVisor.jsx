@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 
 import VisorNavSection from './VisorNavSection';
+import {isSlide} from './../../../utils';
 
 export default class SideNavVisor extends Component {
     constructor(props) {
@@ -34,7 +35,12 @@ export default class SideNavVisor extends Component {
                                             className="visorNavListEl">
                                             <a style={{paddingLeft: marginPage}}
                                                 className={this.props.navItemSelected == page ? "indexElementTitle selectedNavItemVisor":"indexElementTitle"}
-                                                href="#">{this.props.navItemsById[page].name}</a>
+                                                href="#">
+                                                {isSlide(this.props.navItemsById[page].type) ? (<i className="material-icons">slideshow</i>):(<i className="material-icons">insert_drive_file</i>)}
+                                                <span>{this.props.navItemsById[page].name}</span>
+                                                {/*this.props.navItemsById[page].name*/}
+
+                                            </a>
                                 </li>);
                             }
                         }
