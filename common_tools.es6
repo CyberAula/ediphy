@@ -2,7 +2,7 @@
 export function aspectRatio(ratioparam) {
     //change ratio to the global ratio store in the app
     let ratio = ratioparam;
-
+    let parent = document.getElementById('canvas');
     let canvas = document.getElementById('airlayer');
     canvas.style.height="100%";
     canvas.style.width="100%";
@@ -20,7 +20,7 @@ export function aspectRatio(ratioparam) {
 
     let w = canvas.offsetWidth;
     let h = canvas.offsetHeight;
-
+    canvas.style.marginTop = 0 + 'px';
     if (h < 400 || w < 400){
         canvas.style.height = 0 + "px";
         canvas.style.width = 0 + "px";
@@ -30,7 +30,12 @@ export function aspectRatio(ratioparam) {
 
         let newHeight = w/ratio;
         canvas.style.height=newHeight +"px";
-        //canvas.style.marginTop = (canvas.style.height-newHeight)/2;
+        if (parent && parent.offsetHeight - newHeight > 0){
+            canvas.style.marginTop = ((parent.offsetHeight - newHeight)/2 - 1)+ 'px';
+        } else {
+            canvas.style.marginTop = 0 + 'px';
+        }
     }
 
 }
+

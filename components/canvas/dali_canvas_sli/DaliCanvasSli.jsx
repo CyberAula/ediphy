@@ -9,6 +9,7 @@ import interact from 'interact.js';
 import {ADD_BOX} from '../../../actions';
 import {aspectRatio} from '../../../common_tools';
 import Dali from './../../../core/main';
+import ReactResizeDetector from 'react-resize-detector';
 
 
 export default class DaliCanvasSli extends Component {
@@ -120,6 +121,7 @@ export default class DaliCanvasSli extends Component {
                             />
 
                         })}
+                        <ReactResizeDetector handleWidth handleHeight onResize={(e)=>{aspectRatio(this.props.canvasRatio)}} />
                     </div>
                 </div>
                  <DaliShortcuts
@@ -173,22 +175,22 @@ export default class DaliCanvasSli extends Component {
         });
 
         aspectRatio(this.props.canvasRatio);
-        window.addEventListener("resize", aspectRatio);
+       // window.addEventListener("resize", aspectRatio);
     }
 
     componentWillUnmount() {
-        window.removeEventListener("resize", aspectRatio);
+       // window.removeEventListener("resize", aspectRatio);
         interact(ReactDOM.findDOMNode(this)).unset();
     }
 
 
     componentWillUpdate(nextProps){
-        if (this.props.canvasRatio !== nextProps.canvasRatio){
+       /* if (this.props.canvasRatio !== nextProps.canvasRatio){
             window.canvasRatio = nextProps.canvasRatio;
             window.removeEventListener("resize", aspectRatio);
             aspectRatio(this.props.canvasRatio);
             window.addEventListener("resize", aspectRatio);
-        }
+        }*/
 
     }
 }

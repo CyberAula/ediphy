@@ -5,6 +5,7 @@ import {Col} from 'react-bootstrap';
 import TitleVisor from './TitleVisor';
 import HeaderVisor from './HeaderVisor';
 import {aspectRatio} from '../../../common_tools';
+import ReactResizeDetector from 'react-resize-detector';
 
 export default class CanvasVisorSli extends Component {
 
@@ -29,6 +30,7 @@ export default class CanvasVisorSli extends Component {
         }
 
         let overlayHeight = actualHeight ? actualHeight : '100%';
+        //aspectRatio(this.props.aspectRatio);
         return (
             /* jshint ignore:start */
 
@@ -86,6 +88,9 @@ export default class CanvasVisorSli extends Component {
                                             richElementsState={this.props.richElementsState}/>
 
                         })}
+
+
+                        <ReactResizeDetector handleWidth handleHeight onResize={(e)=>{aspectRatio(this.props.aspectRatio)}} />
                     </div>
                 </div>
 
@@ -93,22 +98,26 @@ export default class CanvasVisorSli extends Component {
             /* jshint ignore:end */
         );
     }
+    componentDidUpdate(){
+        //aspectRatio(this.props.canvasRatio);
+    }
+    
     componentDidMount() {
         aspectRatio(this.props.canvasRatio);
-        window.addEventListener("resize", aspectRatio);
+       // window.addEventListener("resize", aspectRatio);
     }
     componentWillUnmount() {
-        window.removeEventListener("resize", aspectRatio);
+       // window.removeEventListener("resize", aspectRatio);
     }
 
     componentWillUpdate(nextProps){
-        if (this.props.canvasRatio !== nextProps.canvasRatio){
+       /* if (this.props.canvasRatio !== nextProps.canvasRatio){
             window.canvasRatio = nextProps.canvasRatio;
             window.removeEventListener("resize", aspectRatio);
             aspectRatio(nextProps.canvasRatio);
             window.addEventListener("resize", aspectRatio);
         }
-
+*/
     }
 
 
