@@ -7,6 +7,8 @@ import SideNavVisor from './components/SideNavVisor';
 import VisorPlayer from './components/VisorPlayer';
 import i18n from './../../i18n';
 import {isContainedView} from './../../utils';
+import {aspectRatio} from '../../common_tools';
+
 require('es6-promise').polyfill();
 require('./../../sass/style.scss');
 require('./../../core/visor_entrypoint');
@@ -21,7 +23,6 @@ export default class Visor extends Component {
             triggeredMarks: [],
             richElementState: {},
             backupElementStates: {},
-            canvasRatio: 16/9,
             toggledSidebar : true,
             navItemSelected: Dali.State.navItemSelected,
             containedViewSelected: Dali.State.containedViewSelected
@@ -108,7 +109,9 @@ export default class Visor extends Component {
             });
 
         }
+
     }
+
 
     render() {
         if (window.State) {

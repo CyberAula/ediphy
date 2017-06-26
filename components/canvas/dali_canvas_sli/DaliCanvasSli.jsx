@@ -7,6 +7,7 @@ import DaliTitle from '../dali_title/DaliTitle';
 import DaliHeader from '../dali_header/DaliHeader';
 import interact from 'interact.js';
 import {ADD_BOX} from '../../../actions';
+import {aspectRatio} from '../../../common_tools';
 import Dali from './../../../core/main';
 
 
@@ -171,55 +172,22 @@ export default class DaliCanvasSli extends Component {
             }
         });
 
-        this.aspectRatio();
-        window.addEventListener("resize", this.aspectRatio);
+        aspectRatio(this.props.canvasRatio);
+        window.addEventListener("resize", aspectRatio);
     }
 
     componentWillUnmount() {
-        window.removeEventListener("resize", this.aspectRatio);
+        window.removeEventListener("resize", aspectRatio);
         interact(ReactDOM.findDOMNode(this)).unset();
     }
 
-    aspectRatio() {
-        //console.log(parametro);
-        //console.log(arguments);
-        let canvas = document.getElementById('airlayer');
-        canvas.style.height="100%";
-        canvas.style.width="100%";
-        let ratio;
-        /* this is to avoid get values from react flow when using event listeners that do not exist in react
-         * get the values from window.object */
-        if(window.canvasRatio === undefined){
-            ratio = this.props.canvasRatio;
-            window.canvasRatio = this.props.canvasRatio; //https://stackoverflow.com/questions/19014250/reactjs-rerender-on-browser-resize
-        } else {
-            ratio = window.canvasRatio;
-        }
 
-
-        let w = canvas.offsetWidth;
-        let h = canvas.offsetHeight;
-
-        if (h < 400 || w < 400){
-            canvas.style.height = 0 + "px";
-            canvas.style.width = 0 + "px";
-        }else if (w > ratio*h) {
-            canvas.style.width=(ratio*h)+"px";
-            // horizontal centering is done using margin:auto in CSS
-        } else if (h > w/ratio) {
-            let newHeight = w/ratio;
-            canvas.style.height=newHeight +"px";
-            // for vertical centering:
-            canvas.style.marginTop = (canvas.style.height-newHeight)/2;
-        }
-
-    }
     componentWillUpdate(nextProps){
         if (this.props.canvasRatio !== nextProps.canvasRatio){
             window.canvasRatio = nextProps.canvasRatio;
-            window.removeEventListener("resize", this.aspectRatio);
-            this.aspectRatio();
-            window.addEventListener("resize", this.aspectRatio);
+            window.removeEventListener("resize", aspectRatio);
+            aspectRatio(this.props.canvasRatio);
+            window.addEventListener("resize", aspectRatio);
         }
 
     }
