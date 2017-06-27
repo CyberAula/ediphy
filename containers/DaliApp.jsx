@@ -452,6 +452,16 @@ class DaliApp extends Component {
 
             Dali.API_Private.answer(Dali.API_Private.events.getPluginsInView, plugins);
         });
+
+        Dali.API_Private.listenEmission(Dali.API_Private.events.editRichMark, e =>{
+            let toolbar = this.props.toolbars[this.props.boxSelected];
+            let state = JSON.parse(JSON.stringify(toolbar.state));
+            state.__marks[e.detail.id].value = e.detail.value;
+
+            this.dispatchAndSetState(editRichMark(e.detail.id, e.detail.value));
+
+        });
+
         window.onkeyup = function (e) {
             var key = e.keyCode ? e.keyCode : e.which;
             if (key === 90 && e.ctrlKey) {

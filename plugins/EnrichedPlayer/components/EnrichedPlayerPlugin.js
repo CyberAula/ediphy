@@ -68,9 +68,19 @@ export default class EnrichedPlayerPlugin extends React.Component {
     }
 
     render(){
+
+        /* jshint ignore:start */
+        let marks = this.props.state.__marks;
+
+        let markElements = Object.keys(marks).map((id) =>{
+            let value = marks[id].value;
+
+            return(<a key={id} style={{position: 'absolute', left: value, position:"absolute"}} href="#"><div style={{width:"5px", height: "8px", background: "red" }}></div></a>);
+        });
+        console.log(this.state.played);
         /* jshint ignore:start */
         return (
-            <div ref={player_wrapper => {this.player_wrapper = player_wrapper}} style={{width:"100%",height:"100%"}} className="enriched-player-wrapper">
+            <div ref={player_wrapper => {this.player_wrapper = player_wrapper}} style={{width:"100%",height:"100%", pointerEvents: "none"}} className="player-wrapper">
                 <ReactPlayer
                     ref={player => { this.player = player }}
                     style={{width: "100%", height:"100%"}}
@@ -86,19 +96,20 @@ export default class EnrichedPlayerPlugin extends React.Component {
                     onDuration={duration => this.setState({ duration })}
                 />
                 {(this.state.controls) && (
-                <div className="player-media-controls">
-                    <button className="play-player-button" onClick={this.playPause.bind(this)}>{this.state.playing ? <i className="material-icons">pause</i> : <i className="material-icons">play_arrow</i>}</button>
-                    <input className="progress-player-input"
-                        type='range' min={0} max={1} step='any'
-                        value={this.state.played}
-                        onMouseDown={this.onSeekMouseDown.bind(this)}
-                        onChange={this.onSeekChange.bind(this)}
-                        onMouseUp={this.onSeekMouseUp.bind(this)}
-                    />
-                    {/*<progress className="progress-player-bar" max={1} value={this.state.played} />*/}
-                    <input className="volume-player-input" type='range' min={0} max={1} step='any' value={this.state.volume} onChange={this.setVolume.bind(this)} />
-                    <button className="fullscreen-player-button" onClick={this.onClickFullscreen.bind(this)}>{(!this.state.fullscreen)?<i className="material-icons">fullscreen</i>:<i className="material-icons">fullscreen_exit</i>}</button>
-                </div>)}
+                    <div className="player-media-controls" style={{opacity:1, pointerEvents: 'all'}}>
+                        <button className="play-player-button" onClick={this.playPause.bind(this)}>{this.state.playing ? <i className="material-icons">pause</i> : <i className="material-icons">play_arrow</i>}</button>
+                        <div className="progress-player-input dropableRichZone" style={{background: "white", height: "8px", position: "relative"}}
+                            // value={this.state.played}
+                             onMouseDown={this.onSeekMouseDown.bind(this)}
+                             onChange={this.onSeekChange.bind(this)}
+                             onMouseUp={this.onSeekMouseUp.bind(this)}
+                        >
+                            <div className="mainSlider" style={{width:"5px", height: "8px", left: this.state.played*100 +"%", background: "black", position:"absolute" }}></div>
+                            {markElements}
+                        </div>
+                        <input className="volume-player-input " type='range' min={0} max={1} step='any' value={this.state.volume} onChange={this.setVolume.bind(this)} />
+                        <button className="fullscreen-player-button" onClick={this.onClickFullscreen.bind(this)}>{(!this.state.fullscreen)?<i className="material-icons">fullscreen</i>:<i className="material-icons">fullscreen_exit</i>}</button>
+                    </div>)}
             </div>
         );
         /* jshint ignore:end */
