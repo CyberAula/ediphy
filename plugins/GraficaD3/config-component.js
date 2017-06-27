@@ -202,7 +202,7 @@ let DataProvider = React.createClass({
 							<FormControl type="number" name="rows" value={this.state.rows} onChange={this.rowsChanged}/>
 						</Col>
 						<Col xs={3}>
-							<Button onClick={this.confirmButton} style={{marginTop: '0px'}}>Confirmar</Button>
+							<Button className="btn btn-primary" onClick={this.confirmButton} style={{marginTop: '0px'}}>Confirmar</Button>
 						</Col>
 					</FormGroup>
 					<div style={{marginTop: '10px'}}>
@@ -364,178 +364,181 @@ let ChartOptions = React.createClass({
 		return (
 			/* jshint ignore:start */
 			<div>
-				<h4 style={{color:'#F47920'}}>Opciones del gráfico</h4>
-
-				<Form horizontal={true}>
-					<FormGroup>
-						<Col xs={4}>
-							<FormControl.Static>
-								{Dali.i18n.t("GraficaD3.chart_type")}
-							</FormControl.Static>
-						</Col>
-						<Col xs={8}>
-							<FormControl componentClass="select" placeholder="line" value={this.state.type} onChange={this.typeChanged}>
-								<option value="line">Línea</option>
-								<option value="area">Área</option>
-								<option value="bar">Barras</option>
-								<option value="pie">Tarta</option>
-							</FormControl>
-						</Col>
-					</FormGroup>
-				</Form>
-				{this.state.type !== 'pie' &&
+				<h4 style={{color:'#1fc8db'}}>Opciones del gráfico</h4>
+				<div className="content-block">
 					<Form horizontal={true}>
 						<FormGroup>
-							<Col xs={4}>
+							<Col xs={5}>
 								<FormControl.Static>
-									{'Eje Horizontal'}
+									{Dali.i18n.t("GraficaD3.chart_type")}
 								</FormControl.Static>
 							</Col>
-							<Col xs={8}>
-								<FormControl componentClass="select" placeholder={this.state.keys[0]} value={this.state.x} onChange={this.xKeyChanged}>
-									{this.state.keys.map((x, i) => {
-										return(
-											<option key={i + 1} value={x}>{x}</option>
-										);
-									})}
+							<Col xs={7}>
+								<FormControl componentClass="select" placeholder="line" value={this.state.type} onChange={this.typeChanged}>
+									<option value="line">Línea</option>
+									<option value="area">Área</option>
+									<option value="bar">Barras</option>
+									<option value="pie">Tarta</option>
 								</FormControl>
 							</Col>
 						</FormGroup>
 						<FormGroup>
-							<Col componentClass={ControlLabel} xs={4}>
-								<FormControl.Static>
-									{'Ejes Verticales'}
-								</FormControl.Static>
-							</Col>
-							<Col xs={8}>
-								<FormControl type="number" value={this.state.y.length} onChange={this.yAxisChanged}/>
-							</Col>
-
-						</FormGroup>
-
-						{this.state.y.map((y, i) => {
-							return(
-								<div key={i + 1}>
-									<FormGroup>
-										<Col xs={4}>
-											<FormControl.Static style={{float: 'left'}}>
-												{'Eje ' + i}
-											</FormControl.Static>
-										</Col>
-									</FormGroup>
-									<FormGroup>
-										<Col xs={4}>
-											<FormControl.Static>
-												{'Clave '}
-											</FormControl.Static>
-										</Col>
-										<Col xs={6}>
-											<FormControl componentClass="select" placeholder={this.state.valueKeys[0]} name={i} value={y.key} onChange={this.yKeyChanged}>
-												{this.state.valueKeys.map((x, i) => {
-													return(
-														<option key={i + 1} value={x}>{x}</option>
-													);
-												})}
-											</FormControl>
-										</Col>
-									</FormGroup>
-									<FormGroup>
-										<Col xs={4}>
-											<FormControl.Static>
-												{"Color"}
-											</FormControl.Static>
-										</Col>
-										<Col xs={6}>
-											<FormControl type="color" name={i} value={y.color} onChange={this.colorChanged}/>
-										</Col>
-									</FormGroup>
-								</div>
-							);
-						})}
-						<FormGroup>
-							<Col componentClass={ControlLabel} xs={4}>
+							<Col xs={12}>
 								<FormControl.Static>
 									{'Ver rejilla'}
 								</FormControl.Static>
 							</Col>
-							<Col xs={4}>
+							<Col xs={6}>
 								<Checkbox checked={this.state.gridX} onChange={this.xGridChanged}></Checkbox>
 								{'Horizontal'}
 							</Col>
-							<Col xs={4}>
+							<Col xs={6}>
 								<Checkbox checked={this.state.gridY} onChange={this.yGridChanged}></Checkbox>
 								{'Vertical'}
 							</Col>
 						</FormGroup>
 					</Form>
+					{this.state.type !== 'pie' &&
+						<Form horizontal={true}>
+							<FormGroup>
+								<Col xs={5}>
+									<FormControl.Static>
+										{'Eje Horizontal'}
+									</FormControl.Static>
+								</Col>
+								<Col xs={7}>
+									<FormControl componentClass="select" placeholder={this.state.keys[0]} value={this.state.x} onChange={this.xKeyChanged}>
+										{this.state.keys.map((x, i) => {
+											return(
+												<option key={i + 1} value={x}>{x}</option>
+											);
+										})}
+									</FormControl>
+								</Col>
+							</FormGroup>
+							<FormGroup>
+								<Col xs={5}>
+									<FormControl.Static>
+										{'Ejes Verticales'}
+									</FormControl.Static>
+								</Col>
+								<Col xs={7}>
+									<FormControl type="number" value={this.state.y.length} onChange={this.yAxisChanged}/>
+								</Col>
+							</FormGroup>
+
+							{this.state.y.map((y, i) => {
+								return(
+
+									<div key={i + 1}>
+										<hr />
+										<FormGroup>
+											<Col xs={12}>
+												<h5>
+													{'Eje ' + i}
+												</h5>
+											</Col>
+										</FormGroup>
+										<FormGroup>
+											<Col xs={5}>
+												<FormControl.Static>
+													{'Clave '}
+												</FormControl.Static>
+											</Col>
+											<Col xs={7}>
+												<FormControl componentClass="select" placeholder={this.state.valueKeys[0]} name={i} value={y.key} onChange={this.yKeyChanged}>
+													{this.state.valueKeys.map((x, i) => {
+														return(
+															<option key={i + 1} value={x}>{x}</option>
+														);
+													})}
+												</FormControl>
+											</Col>
+										</FormGroup>
+										<FormGroup>
+											<Col xs={5}>
+												<FormControl.Static>
+													{"Color"}
+												</FormControl.Static>
+											</Col>
+											<Col xs={7}>
+												<FormControl type="color" name={i} value={y.color} onChange={this.colorChanged}/>
+											</Col>
+										</FormGroup>
+									</div>
+								);
+							})}
+
+						</Form>
+					}
+					{this.state.type === 'pie' &&
+						<Form horizontal={true}>
+							<FormGroup>
+								<Col componentClass={ControlLabel} xs={4}>
+									<FormControl.Static>
+										{'Anillos'}
+									</FormControl.Static>
+								</Col>
+								<Col xs={6}>
+									<FormControl type="number" value={this.state.rings.length} onChange={this.ringsNumberChanged}/>
+								</Col>
+
+							</FormGroup>
+
+							{this.state.rings.map((ring, i) => {
+								return(
+									<div key={i + 1}>
+										<FormGroup>
+											<Col componentClass={ControlLabel} xs={6}>
+												<FormControl.Static>
+													{'Anillo ' + i}
+												</FormControl.Static>
+											</Col>
+										</FormGroup>
+
+										<FormGroup>
+											<Col componentClass={ControlLabel} xs={6} xsOffset={3}>
+												{'Nombre'}
+											</Col>
+											<Col xs={6}>
+												<FormControl componentClass="select" placeholder="select" name={i} value={ring.name} onChange={this.ringNameChanged}>
+													{this.state.keys.map((key, i) => {
+														return(
+															<option key={i + 1} value={key}>{key}</option>
+														);
+													})}
+												</FormControl>
+											</Col>
+										</FormGroup>
+										<FormGroup>
+											<Col componentClass={ControlLabel} xs={6} xsOffset={3}>
+												{'Valor'}
+											</Col>
+											<Col xs={6}>
+												<FormControl componentClass="select" placeholder={this.state.valueKeys[0]} name={i} value={ring.value} onChange={this.ringValueChanged}>
+													{this.state.valueKeys.map((key, i) => {
+														return(
+															<option key={i + 1} value={key}>{key}</option>
+														);
+													})}
+												</FormControl>
+											</Col>
+										</FormGroup>
+										<FormGroup>
+											<Col componentClass={ControlLabel} xs={6} xsOffset={3}>
+												{"Color"}
+											</Col>
+											<Col xs={6}>
+												<FormControl type="color" name={i} value={ring.color} onChange={this.ringColorChanged}/>
+											</Col>
+										</FormGroup>
+									</div>
+								);
+							})}
+						</Form>
+
 				}
-				{this.state.type === 'pie' &&
-					<Form horizontal={true}>
-						<FormGroup>
-							<Col componentClass={ControlLabel} xs={4}>
-								<FormControl.Static>
-									{'Anillos'}
-								</FormControl.Static>
-							</Col>
-							<Col xs={8}>
-								<FormControl type="number" value={this.state.rings.length} onChange={this.ringsNumberChanged}/>
-							</Col>
-
-						</FormGroup>
-
-						{this.state.rings.map((ring, i) => {
-							return(
-								<div key={i + 1}>
-									<FormGroup>
-										<Col componentClass={ControlLabel} xs={3}>
-											<FormControl.Static>
-												{'Anillo ' + i}
-											</FormControl.Static>
-										</Col>
-									</FormGroup>
-
-									<FormGroup>
-										<Col componentClass={ControlLabel} xs={4} xsOffset={3}>
-											{'Nombre'}
-										</Col>
-										<Col xs={5}>
-											<FormControl componentClass="select" placeholder="select" name={i} value={ring.name} onChange={this.ringNameChanged}>
-												{this.state.keys.map((key, i) => {
-													return(
-														<option key={i + 1} value={key}>{key}</option>
-													);
-												})}
-											</FormControl>
-										</Col>
-									</FormGroup>
-									<FormGroup>
-										<Col componentClass={ControlLabel} xs={4} xsOffset={3}>
-											{'Valor'}
-										</Col>
-										<Col xs={5}>
-											<FormControl componentClass="select" placeholder={this.state.valueKeys[0]} name={i} value={ring.value} onChange={this.ringValueChanged}>
-												{this.state.valueKeys.map((key, i) => {
-													return(
-														<option key={i + 1} value={key}>{key}</option>
-													);
-												})}
-											</FormControl>
-										</Col>
-									</FormGroup>
-									<FormGroup>
-										<Col componentClass={ControlLabel} xs={4} xsOffset={3}>
-											{"Color"}
-										</Col>
-										<Col xs={5}>
-											<FormControl type="color" name={i} value={ring.color} onChange={this.ringColorChanged}/>
-										</Col>
-									</FormGroup>
-								</div>
-							);
-						})}
-					</Form>
-
-			}
+				</div>
 			</div>
 			/* jshint ignore:end */
 		);
@@ -628,25 +631,31 @@ let Config = React.createClass({
 		return (
 			/* jshint ignore:start */
 			<Grid>
-				<Row style={{marginLeft: "10px", marginRight: "10px"}}>
-					<Col lg={this.state.editing ? 12 : 5} xs={12} style={{paddingTop: "10px"}}>
-						<h4 style={{paddingLeft: '0px', color:'#F47920'}}> Orígen de los datos </h4>
-						{!this.state.editing &&
-							<Button onClick={this.editButtonClicked} style={{marginTop: '0px'}}>Editar</Button>
-						}
-						{this.state.editing &&
-							<DataProvider data={this.state.data} dataChanged={this.dataChanged} keys={this.state.keys} valueKeys={this.state.valueKeys}></DataProvider>
-						}
-						{!this.state.editing &&
-							<ChartOptions options={this.state.options} optionsChanged={this.optionsChanged} keys={this.state.keys} valueKeys={this.state.valueKeys}></ChartOptions>
-						}
-					</Col>
-					<div className="col-xs-12 col-lg-7" ref="chartContainer" style={{padding: '0px'}}>
-						<div style={{marginLeft: '-25px', height: '300px'}}>
+				<Row>
+
+					<Col lg={this.state.editing ? 12 : 5} xs={12}>
+							<h4> Orígen de los datos </h4>
 							{!this.state.editing &&
-								<Chart data={this.state.data} options={this.state.options} width={this.state.chartWidth} key={this.state.key} ></Chart>
+								<Button onClick={this.editButtonClicked} style={{marginTop: '0px' }} className="btn-primary">Editar</Button>
 							}
-						</div>
+							{this.state.editing &&
+								<DataProvider data={this.state.data} dataChanged={this.dataChanged} keys={this.state.keys} valueKeys={this.state.valueKeys}></DataProvider>
+							}
+							{!this.state.editing &&
+								<ChartOptions options={this.state.options} optionsChanged={this.optionsChanged} keys={this.state.keys} valueKeys={this.state.valueKeys}></ChartOptions>
+							}
+					</Col>
+
+					<div className="col-xs-12 col-lg-7" ref="chartContainer" style={{padding: '0px'}}>
+
+							{!this.state.editing &&
+
+								<div style={{ height: '300px'}}>
+									<h4 style={{color:'#1fc8db'}}>Previsualización</h4>
+									<Chart data={this.state.data} options={this.state.options} width={this.state.chartWidth} key={this.state.key} ></Chart>
+								</div>
+							}
+
 					</div>
 				</Row>
 

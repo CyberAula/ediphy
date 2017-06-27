@@ -3,9 +3,34 @@
 		border-radius: 0;
 	}
 	.modal-body{
-		max-height:500px;
 		overflow-y: auto;
 		max-height: 70vh;
+    padding: 25px;
+    .container{
+      width: auto;
+      h4{
+        padding: 0px;
+        color: $blueprimary;
+        display: inline-block;
+        margin-right: 20px;
+      }
+      h5{
+        color: $blueprimary;
+        font-weight: bold;
+      }
+      hr{
+        margin-top: 10px;
+        margin-bottom: 10px;
+        border: 0;
+        border-top: 1px solid #ccc;
+      }
+      .content-block{
+        padding: 10px 15px;
+        background: #f1f0f0;
+
+      }
+    }
+
     button{
   		margin-top: 30px;
   	}
@@ -18,6 +43,7 @@
       font-size: 1em;
       color: $grisoscuro;
     }
+
 	}
    .modal-content{
       min-height: 50px;
@@ -50,7 +76,6 @@
 		button{
 			color: white !important;
 			border: none;
-
 		}
  	}
 }
@@ -64,9 +89,5 @@
 			border-color: $brand_orange;
 		}
 		margin-bottom: 5px;
-	}
-	label {
-		//font-variant: small-caps;
-		//color: $brand_orange;
 	}
 }

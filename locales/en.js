@@ -88,6 +88,7 @@ var en = {
         "no_results": "No results",
         "Open": "Open",
         "Open_Catalog": "View uploaded images",
+        "open_conf":"Settings",
         "page": "Page",
         "pagenumber" : "Page Number",
         "Pixels": "Pixels",

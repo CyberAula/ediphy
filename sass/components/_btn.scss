@@ -1,34 +1,33 @@
 .btn-primary{
-    border-color:$verdeadams;
-    background-color:$verdeadams;
+    border-color:$blueprimary;
+    background-color:$blueprimary;
     color:white;
     &:hover , &:active, &:focus {
-        border-color: $verdeadams !important;
-        background-color: white !important;
-        color: $verdeadams !important;
+        background-color: darken($blueprimary, 20%) !important;
     }
 }
 .btn[disabled].btn-primary{
-    border-color:$verdeadams;
-    background-color:$verdeadams !important;
+    border-color:$blueprimary;
+    background-color:$blueprimary !important;
     color: white !important;
+    opacity: 0.5;
     &:hover{
         color: white !important;
     }
 }
 
 .nav-pills > li  > a {
-    border-color:$verdeadams;
-    color: $verdeadams;
+    border-color:$blueprimary;
+    color: $blueprimary;
      &:hover , &:active, &:focus{
         background-color: $grisclaro;
      }
 }
 .nav-pills > li.active  > a {
     color:white;
-    background-color:   $verdeadams;
+    background-color: $blueprimary;
     &:hover , &:active, &:focus {
-        background-color: $verdeadams;
+        background-color: $blueprimary;
      }
 }
 
