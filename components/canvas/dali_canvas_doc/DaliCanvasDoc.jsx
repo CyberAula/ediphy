@@ -177,7 +177,7 @@ export default class DaliCanvasDoc extends Component {
     }
 
     componentDidMount() {
-
+        /*
         interact(ReactDOM.findDOMNode(this)).dropzone({
             accept: '.floatingDaliBox',
             overlap: 'pointer',
@@ -208,7 +208,7 @@ export default class DaliCanvasDoc extends Component {
                 event.target.classList.remove('drop-active');
                 event.target.classList.remove("drop-target");
             }
-        });
+        });*/
     }
 
 }

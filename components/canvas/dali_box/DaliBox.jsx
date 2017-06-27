@@ -7,7 +7,7 @@ import PluginPlaceholder from '../plugin_placeholder/PluginPlaceholder';
 import {ADD_BOX, UPDATE_BOX, RESIZE_BOX, EDIT_PLUGIN_TEXT, IMPORT_STATE} from '../../../actions';
 import Dali from './../../../core/main';
 import i18n from 'i18next';
-import {isBox, isSortableBox, isView, isSortableContainer, isAncestorOrSibling, isContainedView} from './../../../utils';
+import {isBox, isSortableBox, isSlide, isView, isSortableContainer, isAncestorOrSibling, isContainedView} from './../../../utils';
 
 require('./_daliBox.scss');
 
@@ -446,7 +446,7 @@ export default class DaliBox extends Component {
                     restriction: dragRestrictionSelector,
                     elementRect: {top: 0, left: 0, bottom: 1, right: 1}
                 },
-                autoScroll: true,
+                autoScroll: false,
                 onstart: (event) => {
                     // If contained in smth different from ContainedCanvas (sortableContainer || PluginPlaceHolder), clone the node and hide the original
                     if (isSortableContainer(box.container)) {
@@ -485,9 +485,9 @@ export default class DaliBox extends Component {
                     } else {
                         let target = event.target;
 
-                        //let topInPix = target.parentElement.offsetHeight * (parseFloat(target.style.top)/100);
+                        let topInPix = target.parentElement.offsetHeight * (parseFloat(target.style.top)/100);
                         let leftInPix = target.parentElement.offsetWidth * (parseFloat(target.style.left)/100);
-                        //target.style.top = topInPix + "px";
+                        target.style.top = topInPix + "px";
                         target.style.left = leftInPix + "px";
                     }
                 },
@@ -545,10 +545,12 @@ export default class DaliBox extends Component {
                     let actualLeft = pos === 'relative' ? target.style.left : target.getAttribute('data-x');
                     let actualTop = pos === 'relative' ? target.style.top : target.getAttribute('data-y');
                     let absoluteLeft = (((parseInt(target.style.left) * 100)/ target.parentElement.offsetWidth) > 100) ?
-                    (( target.parentElement.offsetWidth - (parseInt(target.style.width)))/ target.parentElement.offsetWidth) * 100 + "%":
-                    ((parseInt(target.style.left) * 100)/ target.parentElement.offsetWidth) + "%" ;
-                    let absoluteTop = target.getAttribute('data-y') + Math.max(parseInt(target.style.top, 10), 0) >0 ? target.getAttribute('data-y') + Math.max(parseInt(target.style.top, 10), 0) + 'px': "0px";
-                    //let absoluteTop = (parseInt(target.style.top) * 100)/ target.parentElement.offsetHeight + "%";
+                        (( target.parentElement.offsetWidth - (parseInt(target.style.width)))/ target.parentElement.offsetWidth) * 100 + "%":
+                        ((parseInt(target.style.left) * 100)/ target.parentElement.offsetWidth) + "%" ;
+                    /*let absoluteTop = target.getAttribute('data-y') + Math.max(parseInt(target.style.top, 10), 0) >0 ? 
+                        (target.getAttribute('data-y') + Math.max(parseInt(target.style.top, 10), 0))/ target.parentElement.offsetHeight * 100 + "%" : 
+                        "0%";*/
+                    let absoluteTop = (parseInt(target.style.top) * 100)/ target.parentElement.offsetHeight + "%";
                     let left = Math.max(Math.min(Math.floor(parseInt(actualLeft, 10) / target.parentElement.offsetWidth * 100), 100), 0) + '%';
                     let top = Math.max(Math.min(Math.floor(parseInt(actualTop, 10) / target.parentElement.offsetHeight * 100), 100), 0) + '%';
                     target.style.left = isSortableContainer(box.container) ? left : target.style.left;
@@ -693,21 +695,22 @@ export default class DaliBox extends Component {
                         }
                         widthButton.value = parseInt(target.style.width, 10);
                     }
-
+                    
                     if (heightButton.units === "%") {
                         let newHeight = Math.min(Math.floor(parseInt(target.style.height, 10) / target.parentElement.offsetHeight * 100), 100);
                         if (heightButton.displayValue !== "auto") {
                             heightButton.displayValue = newHeight;
+                            heightButton.value = newHeight;
                         }
-                        heightButton.value = newHeight;
+                        
                     } else {
                         if (heightButton.displayValue !== "auto") {
                             heightButton.displayValue = parseInt(target.style.height, 10);
-                        }
-                        heightButton.value = parseInt(target.style.height, 10);
+                            heightButton.value = parseInt(target.style.height, 10);
+                        } 
+                        
                     }
                     this.props.onBoxResized(this.props.id, widthButton, heightButton);
-
                     if (box.position.x !== target.style.left || box.position.y !== target.style.top) {
                         this.props.onBoxMoved(this.props.id, target.style.left, target.style.top, this.props.boxes[this.props.id].position.type);
                     }

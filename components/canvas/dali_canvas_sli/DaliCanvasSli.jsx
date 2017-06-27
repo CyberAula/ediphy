@@ -156,8 +156,8 @@ export default class DaliCanvasSli extends Component {
             },
             ondrop: function (event) {
                 let position = {
-                    x: (event.dragEvent.clientX - event.target.getBoundingClientRect().left - document.getElementById('maincontent').offsetLeft)*100/event.target.parentElement.offsetWidth + "%",
-                    y: (event.dragEvent.clientY - event.target.getBoundingClientRect().top + document.getElementById('maincontent').scrollTop) + 'px',
+                    x: (event.dragEvent.clientX - event.target.getBoundingClientRect().left - document.getElementById('maincontent').offsetLeft )*100 / document.getElementById('maincontent').offsetWidth + "%",
+                    y: (event.dragEvent.clientY - event.target.getBoundingClientRect().top  + document.getElementById('maincontent').scrollTop - parseFloat(document.getElementById('airlayer').style.marginTop)  )*100 / document.getElementById('maincontent').offsetHeight + '%',
                     type: 'absolute'
                 };
                 let initialParams = {
