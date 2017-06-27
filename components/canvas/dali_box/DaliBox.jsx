@@ -678,42 +678,51 @@ export default class DaliBox extends Component {
                     }
                     // Calculate new button values
                     let target = event.target;
-                    let widthButton = Object.assign({}, this.props.toolbars[this.props.id].controls.main.accordions.__sortable.buttons.__width);
+                    let widthButton  = Object.assign({}, this.props.toolbars[this.props.id].controls.main.accordions.__sortable.buttons.__width);
                     let heightButton = Object.assign({}, this.props.toolbars[this.props.id].controls.main.accordions.__sortable.buttons.__height);
 
                     // Units can be either % or px
                     if (widthButton.units === "%") {
-                        let newWidth = Math.min(Math.floor(parseInt(target.style.width, 10) / target.parentElement.offsetWidth * 100), 100);
-                        // Update display value if it's not "auto"
+                        let newWidth = Math.min(Math.floor(parseFloat(target.style.width) / target.parentElement.offsetWidth * 100), 100);
+                         // Update display value if it's not "auto"
                         if (widthButton.displayValue !== "auto") {
                             widthButton.displayValue = newWidth;
                         }
                         widthButton.value = newWidth;
                     } else {
                         if (widthButton.displayValue !== "auto") {
-                            widthButton.displayValue = parseInt(target.style.width, 10);
+                            widthButton.displayValue = parseFloat(target.style.width);
                         }
-                        widthButton.value = parseInt(target.style.width, 10);
+                        widthButton.value = parseFloat(target.style.width);
                     }
                     
                     if (heightButton.units === "%") {
-                        let newHeight = Math.min(Math.floor(parseInt(target.style.height, 10) / target.parentElement.offsetHeight * 100), 100);
+                        let newHeight = Math.min(Math.floor(parseFloat(target.style.height) / target.parentElement.offsetHeight * 100), 100);
                         if (heightButton.displayValue !== "auto") {
                             heightButton.displayValue = newHeight;
                             heightButton.value = newHeight;
                         }
-                        
                     } else {
                         if (heightButton.displayValue !== "auto") {
-                            heightButton.displayValue = parseInt(target.style.height, 10);
-                            heightButton.value = parseInt(target.style.height, 10);
+                            heightButton.displayValue = parseFloat(target.style.height);
+                            heightButton.value = parseFloat(target.style.height);
                         } 
                         
                     }
+                   
+                    target.style.width = widthButton.displayValue === 'auto' ? 'auto' : widthButton.value + widthButton.units;
+                    target.style.height = heightButton.displayValue === 'auto' ? 'auto' : heightButton.value + heightButton.units;
                     this.props.onBoxResized(this.props.id, widthButton, heightButton);
                     if (box.position.x !== target.style.left || box.position.y !== target.style.top) {
+                        target.style.left = (parseFloat(target.style.left)/100*target.parentElement.offsetWidth+ parseFloat(target.getAttribute('data-x')))*100/target.parentElement.offsetWidth + '%';
+                        target.style.top  = (parseFloat(target.style.top)/100*target.parentElement.offsetHeight+ parseFloat(target.getAttribute('data-y')))*100/target.parentElement.offsetHeight + '%';
                         this.props.onBoxMoved(this.props.id, target.style.left, target.style.top, this.props.boxes[this.props.id].position.type);
                     }
+                    target.style.webkitTransform = target.style.transform =
+                        'translate(0px, 0px)';
+
+                    target.setAttribute('data-x', 0);
+                    target.setAttribute('data-y', 0);
 
                     // Unhide DaliShorcuts and remove size textbox
                     let bar = this.props.containedViewSelected === 0 ?
