@@ -174,6 +174,7 @@ export default class DaliCanvasSli extends Component {
             }
         });
 
+
         aspectRatio(this.props.canvasRatio);
        // window.addEventListener("resize", aspectRatio);
     }

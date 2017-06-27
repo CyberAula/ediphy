@@ -436,11 +436,17 @@ export default class DaliBox extends Component {
                 editor.setData(decodeURI(toolbar.state.__text));
             }
         }
-
+        var gridTarget = interact.createSnapGrid({
+              x: 50, 
+              y: 50, 
+              range: 50,
+              offset: { x: 0, y: 0 }
+            });
         Dali.Plugins.get(toolbar.config.name).afterRender(this.refs.content, toolbar.state);
         let dragRestrictionSelector = isSortableContainer(box.container) ? ".daliBoxSortableContainer, .drg" + box.container : "parent";
         interact(ReactDOM.findDOMNode(this))
             .draggable({
+                /*snap: {targets: [gridTarget]},*/
                 enabled: box.draggable,
                 restrict: {
                     restriction: dragRestrictionSelector,
@@ -619,6 +625,7 @@ export default class DaliBox extends Component {
             })
             .ignoreFrom('input, textarea, .textAreaStyle,  a')
             .resizable({
+                /*snap: {targets: [gridTarget]},*/
                 preserveAspectRatio: this.checkAspectRatioValue(),
                 enabled: (box.resizable),
                 restrict: {
@@ -737,6 +744,8 @@ export default class DaliBox extends Component {
                     event.stopPropagation();
                 }
             });
+
+            
     }
 
 
