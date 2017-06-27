@@ -119,7 +119,8 @@ export default class PluginToolbar extends Component {
                         onClick={() => {
                             this.props.onTextEditorToggled(toolbar.id, !toolbar.showTextEditor);
                         }}>
-                    Edit text
+                        <i className="toolbarIcons material-icons">mode_edit</i>
+                    {i18n.t("edit_text")}
                 </Button>
                 /* jshint ignore:end */
             );
@@ -147,7 +148,8 @@ export default class PluginToolbar extends Component {
                         onClick={() => {
                             Dali.Plugins.get(toolbar.config.name).openConfigModal(UPDATE_BOX, toolbar.state, toolbar.id);
                         }}>
-                    Open config
+                        <i className="toolbarIcons material-icons">build</i>
+                    {i18n.t('open_conf')}
                 </Button>
                 /* jshint ignore:end */
             );

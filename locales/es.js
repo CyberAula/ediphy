@@ -26,6 +26,7 @@ var es = {
         "delete_section": "Eliminar sección",
         "display": "Visualización",
         "display_page": "Previsualizar / exportar",
+        "edit_text": "Editar texto",
         "Exercises": "Ejercicios",
         "Exporting": "Se está exportando...",
         "error": {
@@ -84,6 +85,7 @@ var es = {
         "no_results": "Sin resultados",
         "Open": "Abrir",
         "Open_Catalog": "Ver imágenes subidas",
+        "open_conf":"Configuración",
         "page": "Página",
         "pagenumber" : "Nº Página",
         "Pixels": "Píxeles",
