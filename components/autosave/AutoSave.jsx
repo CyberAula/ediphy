@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import Dali from './../../core/main';
 
+
 export default class AutoSave extends Component {
 
     constructor(props){
@@ -9,6 +10,7 @@ export default class AutoSave extends Component {
     }
 
     componentDidMount() {
+
         this.intervalId = setInterval(this.timer.bind(this), Dali.Config.autosave_time);
     }
 
@@ -18,8 +20,7 @@ export default class AutoSave extends Component {
     }
 
     componentWillReceiveProps(nextProps){
-
-        if(nextProps.isBusy.value){
+        if (nextProps.isBusy.value) {
             this.setState({displaySave: true});
             setTimeout(() => {
                 this.setState({displaySave: false});
@@ -28,7 +29,9 @@ export default class AutoSave extends Component {
     }
 
     timer() {
-        this.props.save();
+        if(!this.props.visorVisible) {
+            this.props.save();
+        }
     }
 
     render(){
