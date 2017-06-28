@@ -4,8 +4,8 @@ export function aspectRatio(ratioparam) {
     let ratio = ratioparam;
     let parent = document.getElementById('canvas');
     let canvas = document.getElementById('airlayer');
-    canvas.style.height="100%";
-    canvas.style.width="100%";
+    canvas.style.height = "100%";
+    canvas.style.width = "100%";
 
     /* this is to avoid get values from react flow when using event listeners that do not exist in react
      * get the values from window.object */
@@ -24,17 +24,14 @@ export function aspectRatio(ratioparam) {
     if (h < 400 || w < 400){
         canvas.style.height = 0 + "px";
         canvas.style.width = 0 + "px";
-    }else if (w > ratio*h) {
-        canvas.style.width=(ratio*h)+"px";
+    } else if (w > ratio * h) {
+        canvas.style.width = (ratio * h) + "px";
     } else if (h > w/ratio) {
-
         let newHeight = w/ratio;
-        canvas.style.height=newHeight +"px";
-        if (parent && parent.offsetHeight - newHeight > 0){
-            canvas.style.marginTop = ((parent.offsetHeight - newHeight)/2 - 1)+ 'px';
-        } else {
-            canvas.style.marginTop = 0 + 'px';
-        }
+        canvas.style.height = newHeight + "px";
+        if (parent/* && parent.offsetHeight - newHeight > 0*/){
+            canvas.style.marginTop = ((parent.offsetHeight - canvas.offsetHeight)/2 )+ 'px';
+        } 
     }
 
 }

@@ -9,7 +9,7 @@ import MarksList from './../../rich_plugins/marks_list/MarksList.jsx';
 import ContentList from './../../rich_plugins/content_list/ContentList.jsx';
 import Dali from './../../../core/main';
 import {UPDATE_TOOLBAR, UPDATE_BOX, TOGGLE_NAV_ITEM, CHANGE_NAV_ITEM_NAME, TOGGLE_TITLE_MODE} from '../../../actions';
-import {isSortableContainer, isCanvasElement} from '../../../utils';
+import {isSortableContainer, isCanvasElement, isSlide} from '../../../utils';
 import i18n from 'i18next';
 
 require('./_pluginToolbar.scss');
@@ -824,13 +824,16 @@ export default class PluginToolbar extends Component {
                               onChange={props.onChange}>
                         {i18n.t("Auto")}
                     </Checkbox>
-                    <ControlLabel>{i18n.t("Units")}</ControlLabel>
+                    {/*Disable px size in slides*/}
+                    {isSlide(this.props.navItems[this.props.navItemSelected].type) ? 
+                    (<span></span>) :
+                    (<div><ControlLabel>{i18n.t("Units")}</ControlLabel>
                     <FormControl componentClass='select'
                                  value={button.units}
                                  onChange={props.onChange}>
                         <option value="px">{i18n.t("Pixels")}</option>
                         <option value="%">{i18n.t("Percentage")}</option>
-                    </FormControl>
+                    </FormControl></div>)}
                 </FormGroup>
                 /* jshint ignore:end */
             );

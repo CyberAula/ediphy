@@ -219,25 +219,27 @@ function createSizeButtons(controls, state, action, floatingBox) {
     };
 
     //This will be commented until it's working correctly
-    /*
-     controls.main.accordions.__sortable.buttons.__position = {
-     __name: i18n.t('Position'),
-     type: 'radio',
-     value: 'relative',
-     options: ['absolute', 'relative'],
-     autoManaged: true
-     };
+      if (!floatingBox) {
+        controls.main.accordions.__sortable.buttons.__position = {
+        __name: i18n.t('Position'),
+        type: 'radio',
+        value: 'relative',
+        options: ['absolute', 'relative'],
+        autoManaged: true
+      };
 
-     controls.main.accordions.__sortable.buttons.__verticalAlign = {
-     __name: i18n.t('Vertical_align'),
-     type: 'fancy_radio',
-     value: 'middle',
-     options: ['top', 'middle', 'bottom'],
-     tooltips: [i18n.t('messages.align_top'), i18n.t('messages.align_middle'), i18n.t('messages.align_bottom')],
-     icons: ['vertical_align_top', 'vertical_align_center', 'vertical_align_bottom'],
-     autoManaged: true
-     };
-     */
+      /*
+       controls.main.accordions.__sortable.buttons.__verticalAlign = {
+       __name: i18n.t('Vertical_align'),
+       type: 'fancy_radio',
+       value: 'middle',
+       options: ['top', 'middle', 'bottom'],
+       tooltips: [i18n.t('messages.align_top'), i18n.t('messages.align_middle'), i18n.t('messages.align_bottom')],
+       icons: ['vertical_align_top', 'vertical_align_center', 'vertical_align_bottom'],
+       autoManaged: true
+       };
+       */
+    }
 }
 
 function toolbarCreator(state, action) {

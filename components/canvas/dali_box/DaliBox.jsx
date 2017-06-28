@@ -436,12 +436,12 @@ export default class DaliBox extends Component {
                 editor.setData(decodeURI(toolbar.state.__text));
             }
         }
-        var gridTarget = interact.createSnapGrid({
-              x: 50, 
-              y: 50, 
-              range: 50,
+       /* var gridTarget = interact.createSnapGrid({
+              x: 10, 
+              y: 10, 
+              range: 10,
               offset: { x: 0, y: 0 }
-            });
+            });*/
         Dali.Plugins.get(toolbar.config.name).afterRender(this.refs.content, toolbar.state);
         let dragRestrictionSelector = isSortableContainer(box.container) ? ".daliBoxSortableContainer, .drg" + box.container : "parent";
         interact(ReactDOM.findDOMNode(this))
@@ -485,16 +485,18 @@ export default class DaliBox extends Component {
                         clone.style.height = originalRect.height + "px";
                         clone.style.width = originalRect.width + "px";
                         clone.style.border = "1px dashed #555";
+ 
                         original.style.opacity = 0;
-                    } else if(isContainedView(box.container)){
+                    } else if (isContainedView(box.container)) {
                         event.target.style.left = this.getElementPositionFromLeft(event.target.style.left, event.target.parentElement.offsetWidth) + "px";
                     } else {
                         let target = event.target;
-
+                        target.classList.add('rotate');
                         let topInPix = target.parentElement.offsetHeight * (parseFloat(target.style.top)/100);
                         let leftInPix = target.parentElement.offsetWidth * (parseFloat(target.style.left)/100);
                         target.style.top = topInPix + "px";
                         target.style.left = leftInPix + "px";
+
                     }
                 },
                 onmove: (event) => {
@@ -513,7 +515,6 @@ export default class DaliBox extends Component {
                         // If box not in a sortableContainer or PluginPlaceHolder, just drag
                         if (!isSortableContainer(box.container)) {
                             let target = event.target;
-
                             target.style.left = (parseInt(target.style.left, 10) || 0) + event.dx + 'px';
                             target.style.top = (parseInt(target.style.top, 10) || 0) + event.dy + 'px';
                             target.style.zIndex = '9999';
@@ -523,12 +524,11 @@ export default class DaliBox extends Component {
                             let original = document.getElementById('box-' + this.props.id);
                             let x = (parseFloat(target.getAttribute('data-x'), 10) || 0) + event.dx;
                             let y = (parseFloat(target.getAttribute('data-y'), 10) || 0) + event.dy;
-
                             target.style.webkitTransform =
                                 target.style.transform =
                                     'translate(' + (x) + 'px, ' + (y) + 'px)';
                             target.style.zIndex = '9999';
-
+                            
                             target.setAttribute('data-x', x);
                             target.setAttribute('data-y', y);
                             original.setAttribute('data-x', x);
@@ -570,8 +570,10 @@ export default class DaliBox extends Component {
                             clone.parentElement.removeChild(clone);
                         }
                         target.style.opacity = 1;
-                    }
-
+                    } 
+                    
+                    target.classList.remove('rotate');
+                    
                     this.props.onBoxMoved(
                         this.props.id,
                         isSortableContainer(box.container) ? left : absoluteLeft,
