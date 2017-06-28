@@ -12,7 +12,8 @@ export default class EnrichedPlayerPlugin extends React.Component {
         played: 0,
         seeking: false,
         fullscreen: false,
-        controls: true
+        controls: true,
+        toBeTriggered: []
     };
    }
 
@@ -58,21 +59,47 @@ export default class EnrichedPlayerPlugin extends React.Component {
     }
 
     onProgress(state){
-        console.log(state);
+        //console.log(state);
         // We only want to update time slider if we are not currently seeking
         if (!this.state.seeking) {
             this.setState(state);
         }
+
+        let sudo = this;
         let marks = this.props.state.__marks;
         let triggerMark =  this.props.triggerMark;
+        let triggerArray = this.state.toBeTriggered;
+        triggerArray.forEach(function(e){
+            if ((parseFloat(e.value)/100).toFixed(3) < parseFloat(state.played).toFixed(3) ){
+                let toBeTriggered = triggerArray;
+                triggerMark(e.box_id, e.value, true);
+                toBeTriggered.splice(e,1);
+                sudo.setState({toBeTriggered: toBeTriggered});
+            }
+        });
+
         Object.keys(marks).forEach(function(key){
+            let notInArray = true;
+
+            triggerArray.forEach(function(mark){
+                if(mark === key){
+                    notInArray = false;
+                }
+            });
+
+            if(notInArray && parseFloat(state.played).toFixed(3) <= (parseFloat(marks[key].value)/100).toFixed(3) && parseFloat(state.played).toFixed(3) + 0.1 >= (parseFloat(marks[key].value)/100).toFixed(3)){
+                let toBeTriggered = triggerArray;
+                toBeTriggered.push(marks[key]);
+                sudo.setState({toBeTriggered: toBeTriggered});
+            }
+        });
+
+      /*  Object.keys(marks).forEach(function(key){
             if(parseFloat(state.played).toFixed(3).toString() === (parseFloat(marks[key].value)/100).toFixed(3).toString()){
                 triggerMark(marks[key].box_id, marks[key].value, false);
             }
         });
-
-        //console.log("Marks");
-        //console.log(this.props.state.__marks);
+        */
     }
 
     componentWillReceiveProps(nextProps){
