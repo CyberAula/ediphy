@@ -23,6 +23,7 @@
 
 .scrollcontainer{
   //display: table;
+  background-color: white;
 }
 
 .outter {
@@ -38,6 +39,11 @@
   background-color: white;
   height: calc(100vh - 241px);
 }
+
+.innercanvas.sli .caja {
+  background-color: transparent;
+}
+
 
 .outter > .sli {
   padding-bottom: 1%;

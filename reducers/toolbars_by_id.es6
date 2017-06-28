@@ -126,7 +126,7 @@ function createSizeButtons(controls, state, action, floatingBox) {
         }else{
             displayValue = 100;
             value = 100;
-            units = "%";
+            units = "px";
         }
         type = "number";
 
@@ -188,9 +188,9 @@ function createSizeButtons(controls, state, action, floatingBox) {
               }
           }
       }else{
-          value = "200";
+          value = "20";
           displayValue = "auto";
-          units = "px";
+          units = "%";
           type = "text";
       }
 

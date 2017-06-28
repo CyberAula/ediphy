@@ -53,6 +53,7 @@ export default class DaliCanvasSli extends Component {
                     style={{margin: 'auto',visibility: (this.props.showCanvas ? 'visible' : 'hidden') }}>
 
                     <div id="maincontent"
+                         ref="slideDropZone"
                          onClick={e => {
                         this.props.onBoxSelected(-1);
                         this.setState({showTitle:false})
@@ -135,9 +136,8 @@ export default class DaliCanvasSli extends Component {
 
                         })}
                         
-
-                        <ReactResizeDetector handleWidth handleHeight onResize={(e)=>{aspectRatio(this.props.canvasRatio)}} />
                     </div>
+                    <ReactResizeDetector handleWidth handleHeight onResize={(e)=>{aspectRatio(this.props.canvasRatio)}} />
                 </div>
                  <DaliShortcuts
                      box={this.props.boxes[this.props.boxSelected]}
@@ -156,7 +156,7 @@ export default class DaliCanvasSli extends Component {
     }
 
     componentDidMount() {
-        interact(ReactDOM.findDOMNode(this)).dropzone({
+        interact(ReactDOM.findDOMNode(this.refs.slideDropZone)).dropzone({
             accept: '.floatingDaliBox',
             overlap: 'pointer',
             ondropactivate: function (event) {

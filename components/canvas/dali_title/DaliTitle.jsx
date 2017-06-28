@@ -59,7 +59,7 @@ export default class DaliTitle extends Component {
             unidad = titles[0];
             content = React.createElement("div", {className:"subheader"},
                 React.createElement("h3", {style: {marginTop: '0px'}},
-                    React.createElement(Breadcrumb, {style: {margin: 0, backgroundColor: 'inherit'}},
+                    React.createElement(Breadcrumb, {style: {margin: 0,  }},
                         titles.map((item, index) => {
                             if (index !== 0 && index !== titles.length - 1) {
                                 return React.createElement(BreadcrumbItem, {key: index}, /*this.getActualIndex(titles.length, index) + */item);

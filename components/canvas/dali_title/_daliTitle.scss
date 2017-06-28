@@ -14,14 +14,15 @@
   }
   h5{
   font-size: 1em;
-  }
 }
-
+}
+.title {
+  background-color: transparent !important;
+}
 .breadcrumb {
   padding: 8px 0px;
   margin-bottom: 20px;
   list-style: none;
-  background-color: #f5f5f5;
   border-radius: 4px;
 }
 .breadcrumb > li {

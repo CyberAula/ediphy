@@ -16,8 +16,6 @@ export function aspectRatio(ratioparam) {
         ratio = window.canvasRatio;
     }
 
-
-
     let w = canvas.offsetWidth;
     let h = canvas.offsetHeight;
     canvas.style.marginTop = 0 + 'px';
@@ -30,7 +28,7 @@ export function aspectRatio(ratioparam) {
         let newHeight = w/ratio;
         canvas.style.height = newHeight + "px";
         if (parent/* && parent.offsetHeight - newHeight > 0*/){
-            canvas.style.marginTop = ((parent.offsetHeight - canvas.offsetHeight)/2 )+ 'px';
+            canvas.style.marginTop = ((parent.offsetHeight - canvas.offsetHeight)/2 -5)+ 'px';
         } 
     }
 

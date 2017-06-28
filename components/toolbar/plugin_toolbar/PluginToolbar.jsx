@@ -578,6 +578,7 @@ export default class PluginToolbar extends Component {
                 if (buttonKey === '__width' || buttonKey === '__height') {
                     let newButton = Object.assign({}, (buttonKey === '__width' ? accordion.buttons.__width : accordion.buttons.__height));
                     let otherButton = Object.assign({}, (buttonKey === '__height' ? accordion.buttons.__width : accordion.buttons.__height));
+
                     switch (e.target.type) {
                         case "checkbox":
                             newButton.auto = e.target.checked;
@@ -645,6 +646,12 @@ export default class PluginToolbar extends Component {
                     if (buttonKey === '__position') {
                         this.props.onToolbarUpdated(id, tabKey, accordionKeys, '__position', value);
                         this.props.onBoxMoved(id, 0, 0, value);
+                        let parentId = this.props.box.parent;
+                        let containerId = this.props.box.container;
+                        if (isSortableContainer(containerId)) {
+                          let newHeight = parseFloat(document.getElementById(containerId).clientHeight, 10);
+                          this.props.onSortableContainerResized(containerId, parentId, newHeight);
+                        }
                     }
                 }
 
