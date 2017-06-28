@@ -90,7 +90,7 @@ export function EnrichedPlayer(base) {
         },
         getInitialState: function () {
             return {
-                url: "https://www.youtube.com/watch?time_continue=156&v=yqCwDurUrw0",
+                url: "https://www.youtube.com/watch?v=vTIIMJ9tUc8",
                 controls: true
             };
         },

@@ -123,7 +123,7 @@ export default class EnrichedPlayerPlugin extends React.Component {
 
         /* jshint ignore:start */
         return (
-            <div ref={player_wrapper => {this.player_wrapper = player_wrapper}} style={{width:"100%",height:"100%", pointerEvents: "none"}} className="player-wrapper">
+            <div ref={player_wrapper => {this.player_wrapper = player_wrapper}} style={{width:"100%",height:"100%"}} className="player-wrapper">
                 <ReactPlayer
                     ref={player => { this.player = player }}
                     style={{width: "100%", height:"100%"}}
