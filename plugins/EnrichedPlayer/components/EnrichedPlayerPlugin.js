@@ -44,19 +44,35 @@ export default class EnrichedPlayerPlugin extends React.Component {
     }
 
     onSeekChange(e){
-        this.setState({ played: parseFloat(e.target.value) });
+        this.setState({ played: (e.clientX - e.target.getBoundingClientRect().left)/e.target.getBoundingClientRect().width });
     }
 
     onSeekMouseUp(e){
-        this.setState({ seeking: false });
-        this.player.seekTo(parseFloat(e.target.value));
+
+
+        if(e.target.className.indexOf('progress-player-input') !== -1){
+            this.setState({ seeking: false });
+        }
+        this.player.seekTo((e.clientX - e.target.getBoundingClientRect().left)/e.target.getBoundingClientRect().width);
+
     }
 
     onProgress(state){
+        console.log(state);
         // We only want to update time slider if we are not currently seeking
         if (!this.state.seeking) {
             this.setState(state);
         }
+        let marks = this.props.state.__marks;
+        let triggerMark =  this.props.triggerMark;
+        Object.keys(marks).forEach(function(key){
+            if(parseFloat(state.played).toFixed(3).toString() === (parseFloat(marks[key].value)/100).toFixed(3).toString()){
+                triggerMark(marks[key].box_id, marks[key].value, false);
+            }
+        });
+
+        //console.log("Marks");
+        //console.log(this.props.state.__marks);
     }
 
     componentWillReceiveProps(nextProps){
@@ -77,7 +93,7 @@ export default class EnrichedPlayerPlugin extends React.Component {
 
             return(<a key={id} style={{position: 'absolute', left: value, position:"absolute"}} href="#"><div style={{width:"5px", height: "8px", background: "red" }}></div></a>);
         });
-        console.log(this.state.played);
+
         /* jshint ignore:start */
         return (
             <div ref={player_wrapper => {this.player_wrapper = player_wrapper}} style={{width:"100%",height:"100%", pointerEvents: "none"}} className="player-wrapper">

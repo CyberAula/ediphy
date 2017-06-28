@@ -44,12 +44,14 @@ export default class EnrichedPlayerPlugin extends React.Component {
     }
 
     onSeekChange(e){
-        this.setState({ played: parseFloat(e.target.value) });
+        this.setState({ played: (e.clientX - e.target.getBoundingClientRect().left)/e.target.getBoundingClientRect().width });
     }
 
     onSeekMouseUp(e){
-        this.setState({ seeking: false });
-        this.player.seekTo(parseFloat(e.target.value));
+        if(e.target.className.indexOf('progress-player-input') !== -1){
+            this.setState({ seeking: false });
+        }
+        this.player.seekTo((e.clientX - e.target.getBoundingClientRect().left)/e.target.getBoundingClientRect().width);
     }
 
     onProgress(state){
@@ -81,7 +83,6 @@ export default class EnrichedPlayerPlugin extends React.Component {
 
                 return(<a key={id} style={{position: 'absolute', left: value, position:"absolute"}} href="#"><div style={{width:"5px", height: "8px", background: "red" }}></div></a>);
            });
-        console.log(this.state.played);
         /* jshint ignore:start */
         return (
             <div ref={player_wrapper => {this.player_wrapper = player_wrapper}} style={{width:"100%",height:"100%", pointerEvents: "none"}} className="player-wrapper">
