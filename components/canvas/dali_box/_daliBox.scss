@@ -51,7 +51,7 @@
       }
   }
 }
-#daliBoxIcons {
+#daliBoxIcons, #contained_daliBoxIcons {
   @include box-shadow(1px, -1px, 4px, #ccc, $inset: false);
     z-index: 999;
     width: auto;
@@ -73,11 +73,11 @@
 
 }
 
-#contained_daliBoxIcons {
+/* #contained_daliBoxIcons {
     margin-top: 0px;
     z-index: 999;
     width: 100%;
-}
+} */
 
 .selectedBox {
     background-color: $naranjaclaro;

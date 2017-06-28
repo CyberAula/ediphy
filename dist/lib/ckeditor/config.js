@@ -60,6 +60,7 @@ CKEDITOR.editorConfig = function (config) {
         'entities,' +
         'filebrowser,' +
         'floatingspace,' +
+        'floatpanel,' +
         'font,' +
         'format,' +
         'htmlwriter,' +
@@ -73,7 +74,9 @@ CKEDITOR.editorConfig = function (config) {
         'liststyle,' +
         'magicline,' +
         /*'mathjax,' +*/
+        'menu,' +
         'pastefromword,' +
+        'panel,' +
         'pastetext,' +
         'pbckcode,' +
         'removeformat,' +

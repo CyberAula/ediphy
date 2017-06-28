@@ -7,6 +7,7 @@ webpack.config.js~
 *.orig
 .sass-cache
 dali_server/config.json
+dali_server/node_modules
 *.map
 nbproject
 dist/lib/scorm/scorm.zip

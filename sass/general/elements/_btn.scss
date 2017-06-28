@@ -1,34 +1,33 @@
 .btn-primary{
-	border-color:$brand_green;
-	background-color:$brand_green;
+	border-color:$blueprimary;
+	background-color:$blueprimary;
 	color:white;
 	&:hover , &:active, &:focus {
-		border-color:$brand_green !important;
-		background-color: white !important;
-		color: $brand_green !important;
+		background-color: darken($blueprimary, 20%) !important;
 	}
 }
 .btn[disabled].btn-primary{
-	border-color:$brand_green;
-	background-color:$brand_green !important;
+	border-color:$blueprimary;
+	background-color:$blueprimary !important;
 	color: white !important;
+	opacity: 0.5;
 	&:hover{
 		color: white !important;
 	}
 }
 
 .nav-pills > li  > a {
-	border-color:$brand_green;
-	color: $brand_green;
+	border-color:$blueprimary;
+	color: $blueprimary;
 	 &:hover , &:active, &:focus{
 	 	background-color: $grisclaro;
 	 }
 }
 .nav-pills > li.active  > a {
 	color:white;
-	background-color: 	$brand_green;
+	background-color: 	$blueprimary;
 	&:hover , &:active, &:focus {
- 		background-color: $brand_green;
+ 		background-color: $blueprimary;
 	 }
 }
 
@@ -41,4 +40,8 @@
 
 .minLista{
 	min-height: 35px;
+}
+
+.checkbox{
+	display: inline-block;
 }

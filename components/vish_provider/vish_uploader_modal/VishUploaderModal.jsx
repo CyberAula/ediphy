@@ -74,8 +74,7 @@ var VishDropzone = React.createClass({
     onDrop: function (acceptedFile, rejectedFile) {
 
         if (acceptedFile.length === 1) {
-            console.log(acceptedFile[0]);
-            this.setState({file: acceptedFile[0]});
+             this.setState({file: acceptedFile[0]});
         }
     },
     toggleHover: function () {

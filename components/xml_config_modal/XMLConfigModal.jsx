@@ -13,7 +13,7 @@ export default class XMLConfigModal extends Component {
                 </Modal.Header>
 
                 <Modal.Body>
-                    <Row  >
+                    <Row>
                         <div ref={"container"}>
                             Import XML
                         </div>

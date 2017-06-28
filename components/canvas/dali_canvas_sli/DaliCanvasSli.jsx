@@ -7,7 +7,9 @@ import DaliTitle from '../dali_title/DaliTitle';
 import DaliHeader from '../dali_header/DaliHeader';
 import interact from 'interact.js';
 import {ADD_BOX} from '../../../actions';
+import {aspectRatio} from '../../../common_tools';
 import Dali from './../../../core/main';
+import ReactResizeDetector from 'react-resize-detector';
 
 
 export default class DaliCanvasSli extends Component {
@@ -41,19 +43,9 @@ export default class DaliCanvasSli extends Component {
         return (
             /* jshint ignore:start */
 
-            <Col id="canvas" md={12} xs={12}
+            <Col id="canvas" md={12} xs={12} className="canvasSliClass"
                  style={{display: this.props.containedViewSelected !== 0 ? 'none' : 'initial'}}>
-                 <DaliShortcuts
-                     box={this.props.boxes[this.props.boxSelected]}
-                     containedViewSelected={this.props.containedViewSelected}
-                     isContained={false}
-                     onTextEditorToggled={this.props.onTextEditorToggled}
-                     onBoxResized={this.props.onBoxResized}
-                     onBoxDeleted={this.props.onBoxDeleted}
-                     onMarkCreatorToggled={this.props.onMarkCreatorToggled}
-                     toolbar={this.props.toolbars[this.props.boxSelected]}/>
-
-
+                
 
 
                     <div id="airlayer"
@@ -129,8 +121,19 @@ export default class DaliCanvasSli extends Component {
                             />
 
                         })}
+                        <ReactResizeDetector handleWidth handleHeight onResize={(e)=>{aspectRatio(this.props.canvasRatio)}} />
                     </div>
                 </div>
+                 <DaliShortcuts
+                     box={this.props.boxes[this.props.boxSelected]}
+                     containedViewSelected={this.props.containedViewSelected}
+                     isContained={false}
+                     onTextEditorToggled={this.props.onTextEditorToggled}
+                     onBoxResized={this.props.onBoxResized}
+                     onBoxDeleted={this.props.onBoxDeleted}
+                     onMarkCreatorToggled={this.props.onMarkCreatorToggled}
+                     toolbar={this.props.toolbars[this.props.boxSelected]}/>
+
 
 
             </Col>
@@ -153,8 +156,8 @@ export default class DaliCanvasSli extends Component {
             },
             ondrop: function (event) {
                 let position = {
-                    x: (event.dragEvent.clientX - event.target.getBoundingClientRect().left - document.getElementById('maincontent').offsetLeft)*100/event.target.parentElement.offsetWidth + "%",
-                    y: (event.dragEvent.clientY - event.target.getBoundingClientRect().top + document.getElementById('maincontent').scrollTop) + 'px',
+                    x: (event.dragEvent.clientX - event.target.getBoundingClientRect().left - document.getElementById('maincontent').offsetLeft )*100 / document.getElementById('maincontent').offsetWidth + "%",
+                    y: (event.dragEvent.clientY - event.target.getBoundingClientRect().top  + document.getElementById('maincontent').scrollTop - parseFloat(document.getElementById('airlayer').style.marginTop)  )*100 / document.getElementById('maincontent').offsetHeight + '%',
                     type: 'absolute'
                 };
                 let initialParams = {
@@ -171,55 +174,22 @@ export default class DaliCanvasSli extends Component {
             }
         });
 
-        this.aspectRatio();
-        window.addEventListener("resize", this.aspectRatio);
+        aspectRatio(this.props.canvasRatio);
+       // window.addEventListener("resize", aspectRatio);
     }
 
     componentWillUnmount() {
-        window.removeEventListener("resize", this.aspectRatio);
+       // window.removeEventListener("resize", aspectRatio);
         interact(ReactDOM.findDOMNode(this)).unset();
     }
 
-    aspectRatio() {
-        //console.log(parametro);
-        //console.log(arguments);
-        let canvas = document.getElementById('airlayer');
-        canvas.style.height="100%";
-        canvas.style.width="100%";
-        let ratio;
-        /* this is to avoid get values from react flow when using event listeners that do not exist in react
-         * get the values from window.object */
-        if(window.canvasRatio === undefined){
-            ratio = this.props.canvasRatio;
-            window.canvasRatio = this.props.canvasRatio; //https://stackoverflow.com/questions/19014250/reactjs-rerender-on-browser-resize
-        } else {
-            ratio = window.canvasRatio;
-        }
 
-
-        let w = canvas.offsetWidth;
-        let h = canvas.offsetHeight;
-
-        if (h < 400 || w < 400){
-            canvas.style.height = 0 + "px";
-            canvas.style.width = 0 + "px";
-        }else if (w > ratio*h) {
-            canvas.style.width=(ratio*h)+"px";
-            // horizontal centering is done using margin:auto in CSS
-        } else if (h > w/ratio) {
-            let newHeight = w/ratio;
-            canvas.style.height=newHeight +"px";
-            // for vertical centering:
-            canvas.style.marginTop = (canvas.style.height-newHeight)/2;
-        }
-
-    }
     componentWillUpdate(nextProps){
         if (this.props.canvasRatio !== nextProps.canvasRatio){
             window.canvasRatio = nextProps.canvasRatio;
-            window.removeEventListener("resize", this.aspectRatio);
-            this.aspectRatio();
-            window.addEventListener("resize", this.aspectRatio);
+            // window.removeEventListener("resize", aspectRatio);
+            aspectRatio(this.props.canvasRatio);
+            // window.addEventListener("resize", aspectRatio);
         }
 
     }

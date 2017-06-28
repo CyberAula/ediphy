@@ -4,10 +4,13 @@ import BoxVisor from './BoxVisor';
 import {Col} from 'react-bootstrap';
 import TitleVisor from './TitleVisor';
 import HeaderVisor from './HeaderVisor';
+import {aspectRatio} from '../../../common_tools';
+import ReactResizeDetector from 'react-resize-detector';
 
 export default class CanvasVisorSli extends Component {
 
     render() {
+
         let titles = [];
         if (this.props.navItemSelected.id !== 0) {
             titles.push(this.props.navItemSelected.name);
@@ -27,11 +30,12 @@ export default class CanvasVisorSli extends Component {
         }
 
         let overlayHeight = actualHeight ? actualHeight : '100%';
+        //aspectRatio(this.props.aspectRatio);
         return (
             /* jshint ignore:start */
 
             <Col id="canvas" md={12} xs={12}
-                 style={{display:'initial', padding: '0'}}>
+                 style={{display:'initial', padding: '0', width: '100%'}}>
 
                     <div id="airlayer"
                     className={'slide_air'}
@@ -84,6 +88,9 @@ export default class CanvasVisorSli extends Component {
                                             richElementsState={this.props.richElementsState}/>
 
                         })}
+
+
+                        <ReactResizeDetector handleWidth handleHeight onResize={(e)=>{aspectRatio(this.props.aspectRatio)}} />
                     </div>
                 </div>
 
@@ -91,43 +98,24 @@ export default class CanvasVisorSli extends Component {
             /* jshint ignore:end */
         );
     }
+    componentDidUpdate(){
+        //aspectRatio(this.props.canvasRatio);
+    }
+    
     componentDidMount() {
-        this.aspectRatio();
-        window.addEventListener("resize", this.aspectRatio);
+        aspectRatio(this.props.canvasRatio);
+       // window.addEventListener("resize", aspectRatio);
     }
     componentWillUnmount() {
-        window.removeEventListener("resize", this.aspectRatio);
+       // window.removeEventListener("resize", aspectRatio);
     }
 
-    aspectRatio() {
-        let canvas = document.getElementById('airlayer');
-        canvas.style.height="100%";
-        canvas.style.width="100%";
-        let ratio;
-        /* this is to avoid get values from react flow when using event listeners that do not exist in react
-         * get the values from window.object */
-        if(window.canvasRatio === undefined){
-            ratio = this.props.canvasRatio;
-            window.canvasRatio = this.props.canvasRatio; //https://stackoverflow.com/questions/19014250/reactjs-rerender-on-browser-resize
-        } else {
-            ratio = window.canvasRatio;
-        }
-
-
-        let w = canvas.offsetWidth;
-        let h = canvas.offsetHeight;
-
-        if (h < 400 || w < 400){
-            canvas.style.height = 0 + "px";
-            canvas.style.width = 0 + "px";
-        }else if (w > ratio*h) {
-            canvas.style.width=(ratio*h)+"px";
-            // horizontal centering is done using margin:auto in CSS
-        } else if (h > w/ratio) {
-            let newHeight = w/ratio;
-            canvas.style.height=newHeight +"px";
-            // for vertical centering:
-            canvas.style.marginTop = (canvas.style.height-newHeight)/2;
+    componentWillUpdate(nextProps){
+       if (this.props.canvasRatio !== nextProps.canvasRatio){
+            window.canvasRatio = nextProps.canvasRatio;
+            //window.removeEventListener("resize", aspectRatio);
+            aspectRatio(nextProps.canvasRatio);
+            //window.addEventListener("resize", aspectRatio);
         }
 
     }

@@ -4,6 +4,7 @@
 /*Plugin Toolbar*/
 #insidetools, #tools {
     width: 250px;
+    @include animacion(width, 0.3s);
 }
 
 /*Toolbar wrapper including tab*/
@@ -72,16 +73,17 @@
 
     .toolbarButton {
         border-radius: 0;
-        background-color: #121212;
+        background-color: $blueprimary;
         color: white;
         border: 0;
+        width: 100%;
         //margin: 5px;
         /*Edit text button when CKEditor is active */
         &.textediting {
-            background-color: $blueprimary;
+            background-color: darken($blueprimary,20%);
         }
         &:hover {
-            background-color: $blueprimary;
+            background-color: darken($blueprimary,20%);
         }
     }
 }
@@ -89,6 +91,11 @@
 /*Navigation Tabs*/
 .toolbarTabs {
     color: $lightestgrey;
+    .toolbarTab{
+      .panel-group{
+        margin-bottom: 5px;
+      }
+    }
     li {
         padding-bottom: 0;
         a {
@@ -129,7 +136,7 @@
     border: 0;
     border-radius: 0;
     .toolbarTab {
-        color: $naranjaadams;
+        color: $blueprimary;
     }
     a {
         padding: 12px;
@@ -157,7 +164,7 @@
         }
     }
     .panel-group, .panel {
-        margin-bottom: 0;
+        margin-bottom: 5px !important;
         border-radius: 0;
         border: 0;
     }
@@ -356,4 +363,8 @@
     input[type=range]::-moz-focus-outer {
         border: 0;
     }
+}
+
+i.marklist{
+    font-size: 15px;
 }

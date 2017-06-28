@@ -1,7 +1,5 @@
 @import "../../sass/general/_variables.scss";
 
-$newBlue: #1fc8db;
-
 .thumb {
   font-size: 16px;
   color: #f87060;
@@ -22,12 +20,12 @@ $newBlue: #1fc8db;
 
 ::-moz-selection {
   color: white;
-  background: $newBlue;
+  background: $blueprimary;
 }
 
 ::selection {
   color: white;
-  background: $newBlue;
+  background: $blueprimary;
 }
 
 #nav li.active {
@@ -79,19 +77,17 @@ $newBlue: #1fc8db;
     }
   }
 }
-
 #previewTitle {
   background-color: transparent;
   font-weight: bold;
 }
 
-
 /********************Sidebar*************************/
 
 #player {
   position:fixed;
-  top:0;
-  right:0;
+  top: 0;
+  right: 0;
   padding:0;
   margin:0;
   padding:0;
@@ -100,19 +96,25 @@ $newBlue: #1fc8db;
 }
 
 .playerButton {
-  width:35px;
-  height: 35px;
-   margin:auto;
+  margin:auto;
   border:0;
+  border-radius: 0;
   background-color: #777;
+  padding: 7px 10px;
   &:hover, &:active, &:focus {
     cursor: pointer;
     color: white !important;
-    background-color: $newBlue !important;
+    background-color: $blueprimary !important;
   }
   &:disabled {
     cursor: not-allowed !important;
     background-color: #ddd !important;
+  }
+  i {
+    vertical-align: middle;
+    margin: 0;
+    width: auto;
+    text-indent: 0px;
   }
 }
 
@@ -121,8 +123,6 @@ $newBlue: #1fc8db;
 }
 
 /* Toggle Styles */
-
-
 .visorwrapper {
     padding-left: 0;
     -webkit-transition: all 0.5s ease;
@@ -159,9 +159,8 @@ $newBlue: #1fc8db;
 
 #page-content-wrapper {
     width: 100%;
-    background-color: #555555;
+    background-color: #9a9a9a;
     position: absolute;
-    padding: 15px;
  }
 
  .pcw_doc {
@@ -175,49 +174,29 @@ $newBlue: #1fc8db;
 
 /* Sidebar Styles */
 
-
-
-.visorNavListEl {
-  list-style: none;
-  list-style-type: none;
-  height:auto;
-  display:block;
-  opacity: 1;
-  
-  i {
-    vertical-align: middle;
-    margin:0;
-    width:auto;
-    text-indent:0px;
-  }
-}
-
-li.visorNavListEl {
-  //border-bottom: 1px solid white;
-}
-
 .hiddenNavVisor {
   display: none !important;
   opacity: 0;
   overflow: hidden;
- 
+
  }
 
 #visorNavButton {
   border:0;
-  background-color: transparent !important;
-  color: $newBlue;
+  background-color: $greyPanelHeadings;
   border-radius: 5px;
-  padding:2px 2px 0px 2px;
-  top:18px;
-  left: 6px;
+  padding: 15px 7px 10px 2px;
+  border-radius: 0 30px 30px 0;
+  top: 50%;
+  left: 0px;
   z-index: 9999;
-  position:fixed;
+  position: absolute;
+  opacity: 0.5;
   &:hover, &:active, &:focus {
     color: #777 !important;
+    background-color: $grey !important;
     cursor: pointer;
-    background-color: transparent !important;
-    opacity: 0.5 !important;
+    opacity: 1;
   }
 }
 
@@ -235,106 +214,97 @@ li.visorNavListEl {
 .sidebar-nav {
     position: absolute;
     top: 0;
+    height:100%;
     width: 250px;
     margin: 0;
     padding: 0;
     height:100%;
-    background-color: $newBlue;
+    background-color: $grey;
     list-style: none;
     color:white !important;
     overflow: auto;
-}
+    li{
+      line-height: 35px;
+      a{
+        display: block;
+        text-decoration: none;
+        color: white;
+        font-size: 0.9em;
 
-ul.sidebar-nav  {
-  height:100%;
+        &:hover {
+            text-decoration: none;
+            color: #fff;
+            background: rgba(255,255,255,0.2);
+        }
+        &:active, &:focus {
+            text-decoration: none;
+        }
+        span{
+          font-family: 'Ubuntu';
+          vertical-align: middle;
+        }
+        i{
+          font-size: 1em;
+          vertical-align: middle;
+          margin-right: 5px;
+        }
+      }
+    }
+    .sidebar-brand {
+        padding: 10px;
+        background-color: $blueprimary;
+        h1{
+          font-size: 1em;
+          color: white;
+          line-height: initial;
+          margin: 0 ;
+        }
+    }
 }
-
-.sidebar-nav li {
-    text-indent: 20px;
-    line-height: 40px;
-}
-
-.sidebar-nav li a {
-    display: block;
-    text-decoration: none;
-    color: white;
-}
-
-.sidebar-nav li a:hover {
-    text-decoration: none;
-    color: #fff;
-    background: rgba(255,255,255,0.2);
-}
-
-.sidebar-nav li a:active,
-.sidebar-nav li a:focus {
-    text-decoration: none;
-}
-
-.sidebar-nav > .sidebar-brand {
-    height: 65px;
-    font-size: 22px;
-    line-height: 60px;
-    padding-left: 14px;
-}
-
-.sidebar-nav > .sidebar-brand a {
-    color: white;
-    font-weight: bolder;
-}
-
-.sidebar-nav > .sidebar-brand a:hover {
-    color: #fff;
-    background: none;
+.visorNavListEl {
+  list-style: none;
+  list-style-type: none;
+  font-size: 1em;
+  height:auto;
+  display:block;
+  opacity: 1;
+  i {
+    vertical-align: middle;
+    margin: 0;
+    width: auto;
+    text-indent: 0px;
+  }
 }
 
 @media(min-width:768px) {
     .visorwrapper {
         padding-left: 0;
     }
-
     .visorwrapper.toggled {
         padding-left: 250px !important;
     }
-
     #sidebar-wrapper {
         width: 0;
     }
-
     .visorwrapper.toggled #sidebar-wrapper {
         width: 250px !important;
     }
-
     #page-content-wrapper {
-        padding: 20px;
         position: relative;
-        background-color: $fondo;
+        background-color: #9a9a9a;
     }
-
     .visorwrapper.toggled #page-content-wrapper {
         position: relative !important;
         margin-right: 0 !important;
     }
 }
 
-/*Scrollbar*/
-.visorwrapper *::-webkit-scrollbar-track {
-  background-color: $newBlue;
-  border:0;
-
-}
-.visorwrapper *::-webkit-scrollbar-thumb {
-    background-color: #ddd;
-}
-.visorwrapper *::-webkit-scrollbar-thumb:hover {
-    background-color:  #ddd;
-    opacity: 0.5;
-}
 
 /*Iframe*/
 iframe#visor_iframe{
     background-color: white;
-    background-image: url("https://s-media-cache-ak0.pinimg.com/originals/25/ef/28/25ef280441ad6d3a5ccf89960b4e95eb.gif");   
+    //background-image: url("https://s-media-cache-ak0.pinimg.com/originals/25/ef/28/25ef280441ad6d3a5ccf89960b4e95eb.gif");
+    background-image: url("../../dist/images/spinner.svg");
     background-repeat: no-repeat;
     background-position: 50% 50%;
 }
@@ -342,3 +312,33 @@ iframe#visor_iframe{
 li > .selectedNavItemVisor {
   background-color: rgba(255,255,255,0.3) !important;
 }
+
+.scrollcontainer {
+  display:block;
+}
+
+.visorwrapper #airlayer {
+  min-height: 100%;
+  min-height: calc(100vh - 135px);
+}
+
+
+.visorwrapper #containedCanvas {
+  min-height: 100% !important;  
+}
+
+.visorwrapper #containedCanvas #airlayer{
+  min-height: 100vh ;  
+}
+
+.indexElementTitle {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: inline-block;
+    padding-right: 10px;
+    
+}
+// .visorwrapper #containedCanvas {
+//   min-height: 100%;  
+// }

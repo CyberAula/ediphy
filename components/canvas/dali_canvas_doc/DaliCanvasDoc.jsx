@@ -41,20 +41,16 @@ export default class DaliCanvasDoc extends Component {
         }
 
         let overlayHeight = actualHeight ? actualHeight : '100%';
+        /*let isSection = this.props.navItemSelected.id.toString().indexOf('se') !== -1;
+        let contentAllowedInSections = Dali.Config.sections_have_content;
+        let showCanvas = (!isSection || (isSection && contentAllowedInSections));*/
+
         return (
             /* jshint ignore:start */
 
-            <Col id="canvas" md={12} xs={12}
+            <Col id="canvas" md={12} xs={12} className="canvasDocClass"
                  style={{display: this.props.containedViewSelected !== 0 ? 'none' : 'initial'}}>
-                 <DaliShortcuts
-                     box={this.props.boxes[this.props.boxSelected]}
-                     containedViewSelected={this.props.containedViewSelected}
-                     isContained={false}
-                     onTextEditorToggled={this.props.onTextEditorToggled}
-                     onBoxResized={this.props.onBoxResized}
-                     onBoxDeleted={this.props.onBoxDeleted}
-                     onMarkCreatorToggled={this.props.onMarkCreatorToggled}
-                     toolbar={this.props.toolbars[this.props.boxSelected]}/>
+                 
                  <div className="scrollcontainer">
                  <DaliHeader titles={titles}
                         showButtons={this.state.showTitle}
@@ -162,6 +158,15 @@ export default class DaliCanvasDoc extends Component {
                 </div>
                 </div>
                 </div>
+                <DaliShortcuts
+                     box={this.props.boxes[this.props.boxSelected]}
+                     containedViewSelected={this.props.containedViewSelected}
+                     isContained={false}
+                     onTextEditorToggled={this.props.onTextEditorToggled}
+                     onBoxResized={this.props.onBoxResized}
+                     onBoxDeleted={this.props.onBoxDeleted}
+                     onMarkCreatorToggled={this.props.onMarkCreatorToggled}
+                     toolbar={this.props.toolbars[this.props.boxSelected]}/>
             </Col>
             /* jshint ignore:end */
         );
@@ -172,7 +177,7 @@ export default class DaliCanvasDoc extends Component {
     }
 
     componentDidMount() {
-
+        /*
         interact(ReactDOM.findDOMNode(this)).dropzone({
             accept: '.floatingDaliBox',
             overlap: 'pointer',
@@ -203,7 +208,7 @@ export default class DaliCanvasDoc extends Component {
                 event.target.classList.remove('drop-active');
                 event.target.classList.remove("drop-target");
             }
-        });
+        });*/
     }
 
 }

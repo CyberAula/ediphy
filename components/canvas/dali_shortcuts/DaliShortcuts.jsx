@@ -76,7 +76,7 @@ export default class DaliShortcuts extends Component {
                                             }
 
                                         this.props.onBoxResized(toolbar.id, widthButton);
-                                        e.stopPropagation();
+
                                     }}>
                                     <i className="material-icons">code</i>
                                 </button>
@@ -125,12 +125,9 @@ export default class DaliShortcuts extends Component {
         );
     }
 
-
-    componentWillUpdate(nextProps) {
-
-      if (nextProps !== this.props){
-        if (nextProps.box) {
-
+    resize(fromUpdate, newProps) {
+        let nextProps = (fromUpdate === 'fromUpdate') ? newProps : this.props;
+        if (nextProps && nextProps.box) {
             let box = document.getElementById('box-' + nextProps.box.id);
             let element = ReactDOM.findDOMNode(this.refs.innerContainer);
             let left = 0;
@@ -155,10 +152,57 @@ export default class DaliShortcuts extends Component {
             }
             this.setState({left: left, top: top, width: width});
         }
-
-
-      }
-
     }
 
+    componentWillUpdate(nextProps) {
+        if (nextProps !== this.props){
+           if (nextProps.box) {
+                this.resize("fromUpdate", nextProps);
+            /*
+                let box = document.getElementById('box-' + nextProps.box.id);
+                let element = ReactDOM.findDOMNode(this.refs.innerContainer);
+                let left = 0;
+                let top = 0;
+                let width = 0;
+                if (box) {
+                  var boxRect = box.getBoundingClientRect();
+                  var canvas = this.props.containedViewSelected === 0 ?
+                      document.getElementById('canvas') :
+                      document.getElementById('contained_maincontent');
+                  var canvasRect = canvas.getBoundingClientRect();
+
+                  left = (boxRect.left - canvasRect.left);
+                  top = (boxRect.top - canvasRect.top + canvas.scrollTop);
+
+                  if (element) {
+                      var elementRect = element.getBoundingClientRect();
+                      width = boxRect.width < elementRect.width ? elementRect.width : boxRect.width;
+                  } else {
+                      width = box.getBoundingClientRect().width;
+                  }
+                }
+                this.setState({left: left, top: top, width: width});*/
+            }
+        }
+    }
+
+    componentDidMount() {
+      window.addEventListener('resize', this.resize.bind(this));
+      if (this.props && this.props.box) {
+        let boxObj = document.getElementById('box-' + this.props.box.id);
+        if(boxObj){
+            boxObj.addEventListener('resize', this.resize.bind(this));
+        }
+      }
+    }
+
+    componentWillUnmount() {
+      window.removeEventListener('resize', this.resize.bind(this));
+      if (this.props && this.props.box) {
+        let boxObj = document.getElementById('box-' + this.props.box.id);
+        if(boxObj){
+            boxObj.removeEventListener('resize', this.resize.bind(this));
+        }
+      }
+    }
 }

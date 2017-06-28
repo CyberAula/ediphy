@@ -53,14 +53,6 @@ export default class ContainedCanvas extends Component {
                                     e.stopPropagation();
                                 }}>X</Button>
 
-                        <DaliShortcuts
-                            box={this.props.boxes[this.props.boxSelected]}
-                            containedViewSelected={this.props.containedViewSelected}
-                            isContained={true}
-                            onTextEditorToggled={this.props.onTextEditorToggled}
-                            onBoxResized={this.props.onBoxResized}
-                            onBoxDeleted={this.props.onBoxDeleted}
-                            toolbar={this.props.toolbars[this.props.boxSelected]}/>
 
                         <div style={{
                             id:"contained_canvas_boxes",
@@ -118,6 +110,15 @@ export default class ContainedCanvas extends Component {
                                                         onTextEditorToggled={this.props.onTextEditorToggled}/>
                             }
                         })}
+                        
+                        <DaliShortcuts
+                            box={this.props.boxes[this.props.boxSelected]}
+                            containedViewSelected={this.props.containedViewSelected}
+                            isContained={true}
+                            onTextEditorToggled={this.props.onTextEditorToggled}
+                            onBoxResized={this.props.onBoxResized}
+                            onBoxDeleted={this.props.onBoxDeleted}
+                            toolbar={this.props.toolbars[this.props.boxSelected]}/>
                     </div>
                 </div>
             </Col>

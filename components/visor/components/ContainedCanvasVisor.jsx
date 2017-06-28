@@ -12,8 +12,7 @@ export default class ContainedCanvasVisor extends Component {
     }
 
     render() {
-
-        let maincontent = document.getElementById('contained_maincontent');
+         let maincontent = document.getElementById('contained_maincontent');
         let actualHeight;
         if (maincontent) {
             actualHeight = parseInt(maincontent.scrollHeight, 10);
@@ -24,7 +23,7 @@ export default class ContainedCanvasVisor extends Component {
         return (
             /* jshint ignore:start */
 
-            <Col id="containedCanvas" md={12} xs={12}
+            <Col id="containedCanvas" md={12} xs={12}  
                  style={{display: 'initial', backgroundColor: 'white'}}>
                  <div className="scrollcontainer">
                 <div className="outter canvasvisor">
@@ -42,7 +41,7 @@ export default class ContainedCanvasVisor extends Component {
                         <a href="#" style={{margin:"10px", pointerEvents: this.props.viewsArray.length > 1 ? 'initial': 'none',  color: this.props.viewsArray.length > 1 ? 'black': 'gray'}} onClick={a => {
                                     this.props.removeLastView();
                                     a.stopPropagation();
-                                }}><i className="material-icons">keyboard_backspace</i></a>
+                                }}><i style={{marginTop: "20px"}} className="material-icons">keyboard_backspace</i></a>
                         <br/>
 
                         <div style={{
