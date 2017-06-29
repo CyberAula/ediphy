@@ -62,17 +62,20 @@ export default class DaliShortcuts extends Component {
                                                 if(toolbar.config.needsTextEdition){
                                                     widthButton.displayValue = "auto";
                                                     widthButton.type = "text";
+                                                    widthButton.auto = true;
                                                 }else{
                                                     widthButton.value = 20;
                                                     widthButton.displayValue = 20;
                                                     widthButton.type = "number";
                                                     widthButton.units = "%";
+                                                    widthButton.auto = false;
                                                 }
                                             }else{
                                                 widthButton.value = 100;
                                                 widthButton.displayValue = 100;
                                                 widthButton.type = "number";
                                                 widthButton.units = "%";
+                                                widthButton.auto = false;
                                             }
 
                                         this.props.onBoxResized(toolbar.id, widthButton);

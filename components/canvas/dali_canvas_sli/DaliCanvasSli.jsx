@@ -50,7 +50,7 @@ export default class DaliCanvasSli extends Component {
 
                     <div id="airlayer"
                     className={'slide_air'}
-                    style={{margin: 'auto',visibility: (this.props.showCanvas ? 'visible' : 'hidden') }}>
+                    style={{margin: 'auto', visibility: (this.props.showCanvas ? 'visible' : 'hidden') }}>
 
                     <div id="maincontent"
                          ref="slideDropZone"
