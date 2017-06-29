@@ -100,7 +100,7 @@ export default class BoxVisor extends Component {
         //pass currentState  of component if exists
         if(this.props.richElementsState && this.props.richElementsState[box.id] !== undefined){
             if(toolbar.config.flavor === "react"){
-                box.content.props.currentState = this.props.richElementsState[box.id];
+                toolbar.state.currentState = this.props.richElementsState[box.id];
             } else {
                 toolbar.state.currentState = this.props.richElementsState[box.id];
             }

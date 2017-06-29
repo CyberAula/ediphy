@@ -17,6 +17,11 @@ export default class EnrichedPlayerPlugin extends React.Component {
     };
    }
 
+   componentWillMount(){
+       if(this.props.state.currentState !== undefined){
+           this.setState({initialPoint: parseFloat(this.props.state.currentState)/100});
+       }
+   }
 
    playPause(){
        this.setState({playing: !this.state.playing});
@@ -87,19 +92,13 @@ export default class EnrichedPlayerPlugin extends React.Component {
                 }
             });
 
-            if(notInArray && parseFloat(state.played).toFixed(3) <= (parseFloat(marks[key].value)/100).toFixed(3) && parseFloat(state.played).toFixed(3) + 0.1 >= (parseFloat(marks[key].value)/100).toFixed(3)){
+            if(notInArray && parseFloat(state.played).toFixed(3) <= (parseFloat(marks[key].value)/100).toFixed(3) && parseFloat(parseFloat(state.played).toFixed(3)) + 0.1 >= parseFloat((parseFloat(marks[key].value)/100).toFixed(3))){
                 let toBeTriggered = triggerArray;
                 toBeTriggered.push(marks[key]);
                 sudo.setState({toBeTriggered: toBeTriggered});
             }
         });
 
-      /*  Object.keys(marks).forEach(function(key){
-            if(parseFloat(state.played).toFixed(3).toString() === (parseFloat(marks[key].value)/100).toFixed(3).toString()){
-                triggerMark(marks[key].box_id, marks[key].value, false);
-            }
-        });
-        */
     }
 
     componentWillReceiveProps(nextProps){
@@ -118,9 +117,15 @@ export default class EnrichedPlayerPlugin extends React.Component {
         let markElements = Object.keys(marks).map((id) =>{
             let value = marks[id].value;
 
-            return(<a key={id} style={{position: 'absolute', left: value, position:"absolute"}} href="#"><div style={{width:"5px", height: "8px", background: "red" }}></div></a>);
+            return(<a key={id} style={{position: 'absolute', left: value, position:"absolute"}} href="#">
+                    <div style={{width:"5px", height: "8px", background: "red" }}></div>
+                </a>);
         });
 
+        if(this.player !== undefined && this.state.initialPoint !== undefined){
+           this.player.seekTo(this.state.initialPoint);
+           this.setState({initialPoint: undefined});
+        }
         /* jshint ignore:start */
         return (
             <div ref={player_wrapper => {this.player_wrapper = player_wrapper}} style={{width:"100%",height:"100%"}} className="player-wrapper">
