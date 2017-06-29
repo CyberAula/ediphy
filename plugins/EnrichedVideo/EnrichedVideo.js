@@ -11,7 +11,7 @@ export function EnrichedVideo(base) {
                     defaultValue: true
                 },
                 isRich: true,
-                initialWidth: '350px',
+                initialWidth: '35%',
                 marksType: [{name: 'Tiempo', key:'time'},{name: 'Valor', key: 'value'}],
                 icon: 'play_arrow'
             };
