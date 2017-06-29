@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import DaliCanvasSli from '../dali_canvas_sli/DaliCanvasSli';
 import DaliCanvasDoc from '../dali_canvas_doc/DaliCanvasDoc';
-import interact from 'interact.js';
 import {ADD_BOX,REORDER_SORTABLE_CONTAINER} from '../../../actions';
 import Dali from './../../../core/main';
 import {isSlide, isSection} from './../../../utils';
@@ -27,8 +26,10 @@ export default class DaliCanvas extends Component {
                 boxSelected={this.props.boxSelected}
                 boxLevelSelected={this.props.boxLevelSelected}
                 canvasRatio={this.props.canvasRatio}
+                containedViews={this.props.containedViews}
                 containedViewSelected={this.props.containedViewSelected}
                 deleteMarkCreator={this.props.deleteMarkCreator}
+                fromCV={false}
                 lastActionDispatched={this.props.lastActionDispatched}
                 markCreatorId={this.props.markCreatorId}
                 onBoxLevelIncreased={this.props.onBoxLevelIncreased}
@@ -57,8 +58,10 @@ export default class DaliCanvas extends Component {
                 boxes={this.props.boxes}
                 boxSelected={this.props.boxSelected}
                 boxLevelSelected={this.props.boxLevelSelected}
+                containedViews={this.props.containedViews}
                 containedViewSelected={this.props.containedViewSelected}
                 deleteMarkCreator={this.props.deleteMarkCreator}
+                fromCV={false}
                 lastActionDispatched={this.props.lastActionDispatched}
                 markCreatorId={this.props.markCreatorId}
                 onMarkCreatorToggled={this.props.onMarkCreatorToggled}

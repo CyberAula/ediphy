@@ -44,15 +44,17 @@ export default class DaliCanvasDoc extends Component {
         /*let isSection = this.props.navItemSelected.id.toString().indexOf('se') !== -1;
         let contentAllowedInSections = Dali.Config.sections_have_content;
         let showCanvas = (!isSection || (isSection && contentAllowedInSections));*/
-
+        // console.log('aaa',this.props.navItemSelected, this.props.containedViews[this.props.containedViewSelected], this.props.navItems[this.props.navItemSelected])
+        let itemSelected = this.props.fromCV ? this.props.containedViews[this.props.containedViewSelected] : this.props.navItemSelected;
+        let boxes = itemSelected ? itemSelected.boxes : [];
         return (
             /* jshint ignore:start */
 
             <Col id="canvas" md={12} xs={12} className="canvasDocClass"
-                 style={{display: this.props.containedViewSelected !== 0 ? 'none' : 'initial'}}>
+                 style={{display: this.props.containedViewSelected !== 0 && !this.props.fromCV ? 'none' : 'initial'}}>
                  
                  <div className="scrollcontainer">
-                 <DaliHeader titles={titles}
+                 {this.props.fromCV ? (<br/>):(<DaliHeader titles={titles}
                         showButtons={this.state.showTitle}
                         onShowTitle={()=>this.setState({showTitle:true})}
                         onBoxSelected={this.props.onBoxSelected}
@@ -63,7 +65,7 @@ export default class DaliCanvasDoc extends Component {
                         titleModeToggled={this.props.titleModeToggled}
                         onUnitNumberChanged={this.props.onUnitNumberChanged}
                         showButton={true}
-                        />
+                        />)}
                 <div className="outter canvaseditor">
                     <div id="airlayer"
                     className={'doc_air'}
@@ -77,7 +79,7 @@ export default class DaliCanvasDoc extends Component {
                          className={'innercanvas doc'}
                          style={{visibility: (this.props.showCanvas ? 'visible' : 'hidden')}}>
 
-                        <DaliTitle titles={titles}
+                        {this.props.fromCV ? (<br/>):(<DaliTitle titles={titles}
                             showButtons={this.state.showTitle}
                             onShowTitle={()=>this.setState({showTitle:true})}
                             onBoxSelected={this.props.onBoxSelected}
@@ -87,7 +89,7 @@ export default class DaliCanvasDoc extends Component {
                             navItems={this.props.navItems}
                             titleModeToggled={this.props.titleModeToggled}
                             onUnitNumberChanged={this.props.onUnitNumberChanged}
-                            showButton={true}/>
+                            showButton={true}/>)}
                         <br/>
 
 
@@ -103,9 +105,9 @@ export default class DaliCanvasDoc extends Component {
                             }}></div>
 
 
-                        {this.props.navItemSelected.boxes.map(id => {
-                            let box = this.props.boxes[id];
-                            if (!isSortableBox(box.id)) {
+                        {boxes.map(id => {
+                            let box = boxes[id];
+                            if (!isSortableBox(id)) {
                                 return <DaliBox key={id}
                                                 id={id}
                                                 addMarkShortcut={this.props.addMarkShortcut}

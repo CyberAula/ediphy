@@ -179,6 +179,7 @@ class DaliApp extends Component {
                                         boxLevelSelected={boxLevelSelected}
                                         navItems={navItems}
                                         navItemSelected={navItems[navItemSelected]}
+                                        containedViews={containedViews}
                                         containedViewSelected={containedViewSelected}
                                         showCanvas={(navItemSelected !== 0)}
                                         toolbars={toolbars}
@@ -219,6 +220,8 @@ class DaliApp extends Component {
                             <ContainedCanvas boxes={boxes}
                                              boxSelected={boxSelected}
                                              boxLevelSelected={boxLevelSelected}
+                                             navItems={navItems}
+                                             navItemSelected={navItems[navItemSelected]}
                                              containedViews={containedViews}
                                              containedViewSelected={containedViewSelected}
                                              markCreatorId={this.state.markCreatorVisible}
@@ -239,7 +242,8 @@ class DaliApp extends Component {
                                              onMarkCreatorToggled={(id) => this.setState({markCreatorVisible: id})}
                                              onVerticallyAlignBox={(id, verticalAlign)=>this.dispatchAndSetState(verticallyAlignBox(id, verticalAlign))}
                                              onTextEditorToggled={(caller, value) => this.dispatchAndSetState(toggleTextEditor(caller, value))}
-                                             onBoxesInsideSortableReorder={(parent, container, order) => {this.dispatchAndSetState(reorderBoxes(parent, container, order))}}/>
+                                             onBoxesInsideSortableReorder={(parent, container, order) => {this.dispatchAndSetState(reorderBoxes(parent, container, order))}}
+                                             showCanvas={(containedViewSelected !== 0)}/>
                         </Row>
                     </Col>
                 </Row>

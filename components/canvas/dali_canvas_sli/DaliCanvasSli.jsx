@@ -21,13 +21,16 @@ export default class DaliCanvasSli extends Component {
     }
 
     render() {
+        let itemSelected = this.props.fromCV ? this.props.containedViews[this.props.containedViewSelected] : this.props.navItems[this.props.navItemSelected];
         let titles = [];
-        if (this.props.navItemSelected.id !== 0) {
-            titles.push(this.props.navItemSelected.name);
-            let parent = this.props.navItemSelected.parent;
-            while (parent !== 0) {
-                titles.push(this.props.navItems[parent].name);
-                parent = this.props.navItems[parent].parent;
+        if (itemSelected.id !== 0) {
+            titles.push(itemSelected.name);
+            if (!this.props.fromCV) {
+                let parent = itemSelected.parent;
+                while (parent !== 0) {
+                    titles.push(this.props.navItems[parent].name);
+                    parent = this.props.navItems[parent].parent;
+                }
             }
             titles.reverse();
         }
@@ -40,11 +43,12 @@ export default class DaliCanvasSli extends Component {
         }
 
         let overlayHeight = actualHeight ? actualHeight : '100%';
+        let boxes = itemSelected.boxes;
         return (
             /* jshint ignore:start */
 
             <Col id="canvas" md={12} xs={12} className="canvasSliClass"
-                 style={{display: this.props.containedViewSelected !== 0 ? 'none' : 'initial'}}>
+                 style={{display: this.props.containedViewSelected !== 0 && !this.props.fromCV? 'none' : 'initial'}}>
                 
 
 
@@ -73,29 +77,32 @@ export default class DaliCanvasSli extends Component {
 
                            <rect width="100%" height="100%" fill="url(#grid)" />
                          </svg>   */}
-                        <DaliHeader titles={titles}
-                                    showButtons={this.state.showTitle}
-                                    onShowTitle={()=>this.setState({showTitle:true})}
-                                    onBoxSelected={this.props.onBoxSelected}
-                                    courseTitle={this.props.title}
-                                    title={this.props.navItemSelected.name}
-                                    navItem={this.props.navItemSelected}
-                                    navItems={this.props.navItems}
-                                    titleModeToggled={this.props.titleModeToggled}
-                                    onUnitNumberChanged={this.props.onUnitNumberChanged}
-                                    showButton={true}
-                        />
-                        <DaliTitle titles={titles}
-                            showButtons={this.state.showTitle}
-                            onShowTitle={()=>this.setState({showTitle:true})}
-                            onBoxSelected={this.props.onBoxSelected}
-                            courseTitle={this.props.title}
-                            titleMode={this.props.navItemSelected.titleMode}
-                            navItem={this.props.navItemSelected}
-                            navItems={this.props.navItems}
-                            titleModeToggled={this.props.titleModeToggled}
-                            onUnitNumberChanged={this.props.onUnitNumberChanged}
-                            showButton={true}/>
+                        {this.props.fromCV ? (<br/>):
+                            (<DaliHeader titles={titles}
+                                        showButtons={this.state.showTitle}
+                                        onShowTitle={()=>this.setState({showTitle:true})}
+                                        onBoxSelected={this.props.onBoxSelected}
+                                        courseTitle={this.props.title}
+                                        title={itemSelected.name}
+                                        navItem={this.props.navItemSelected}
+                                        navItems={this.props.navItems}
+                                        titleModeToggled={this.props.titleModeToggled}
+                                        onUnitNumberChanged={this.props.onUnitNumberChanged}
+                                        showButton={true}
+                        />)}
+                        {this.props.fromCV ? (<br/>):
+                            (<DaliTitle titles={titles}
+                                showButtons={this.state.showTitle}
+                                onShowTitle={()=>this.setState({showTitle:true})}
+                                onBoxSelected={this.props.onBoxSelected}
+                                courseTitle={this.props.title}
+                                titleMode={this.props.navItemSelected.titleMode}
+                                navItem={this.props.navItemSelected}
+                                navItems={this.props.navItems}
+                                titleModeToggled={this.props.titleModeToggled}
+                                onUnitNumberChanged={this.props.onUnitNumberChanged}
+                                showButton={true}/>)
+                        }
                         <br/>
 
                         <div style={{
@@ -109,8 +116,8 @@ export default class DaliCanvasSli extends Component {
                                 visibility: (this.props.boxLevelSelected > 0) ? "visible" : "collapse"
                             }}></div>
 
-                        {this.props.navItemSelected.boxes.map(id => {
-                            let box = this.props.boxes[id];
+                        {boxes.map(id => {
+                            let box = boxes[id];
                             return <DaliBox key={id}
                                             id={id}
                                             addMarkShortcut={this.props.addMarkShortcut}

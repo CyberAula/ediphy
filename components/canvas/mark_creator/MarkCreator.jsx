@@ -49,7 +49,7 @@ export default class MarkCreator extends Component {
                 let deleteMarkCreator = this.props.deleteMarkCreator;
                 let addMarkShortcut = this.props.addMarkShortcut;
                 let parseRichMarkInput = this.props.parseRichMarkInput;
-
+                console.log(this.props)
                 /* NEW MARK DEFAULT PARAMS*/
                 let connectMode = 'new';
                 let title = i18n.t('new_mark');
