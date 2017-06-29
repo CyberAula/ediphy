@@ -124,7 +124,7 @@ export default class CarrouselList extends Component {
                     {
                         Object.keys(this.props.containedViews).map((id, key)=>{
                             return (<div key={id} 
-                                         className={id == this.props.indexSelected ? 'classIndexSelected':''}
+                                         className={id == this.props.indexSelected ? 'navItemBlock classIndexSelected':'navItemBlock'}
                                          style={{
                                             width: "100%", 
                                             height: "20px", 
@@ -142,7 +142,7 @@ export default class CarrouselList extends Component {
                                           onClick={e => {
                                             this.props.onIndexSelected(id);
                                             e.stopPropagation();
-                                          }}>{this.props.containedViews[id].name}</div>)
+                                          }}><i className="material-icons">mode_comment</i><div className="actualSectionTitle" style={{marginLeft: '10px', display: 'inline'}}>{this.props.containedViews[id].name}</div></div>)
                         })
                     }
                 </div>

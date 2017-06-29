@@ -51,7 +51,7 @@ export default class ContainedCanvas extends Component {
                                 onClick={e => {
                                     this.props.onContainedViewSelected(0);
                                     e.stopPropagation();
-                                }}>X</Button>
+                                }}><i className="material-icons">keyboard_backspace</i></Button>
 
 
                         <div style={{
