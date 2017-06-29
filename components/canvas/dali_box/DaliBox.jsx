@@ -488,7 +488,10 @@ export default class DaliBox extends Component {
  
                         original.style.opacity = 0;
                     } else if (isContainedView(box.container)) {
-                        event.target.style.left = this.getElementPositionFromLeft(event.target.style.left, event.target.parentElement.offsetWidth) + "px";
+                        let target = event.target;
+                        target.style.left = this.getElementPositionFromLeft(target.style.left, target.parentElement.offsetWidth) + "px";
+                        target.style.top = target.parentElement.offsetHeight * (parseFloat(target.style.top)/100) + "px";
+                        //target.style.top = 
                     } else {
                         let target = event.target;
                         target.classList.add('rotate');
