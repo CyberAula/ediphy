@@ -50,15 +50,29 @@ export default class DaliCanvasSli extends Component {
 
                     <div id="airlayer"
                     className={'slide_air'}
-                    style={{margin: 'auto',visibility: (this.props.showCanvas ? 'visible' : 'hidden') }}>
+                    style={{margin: 'auto', visibility: (this.props.showCanvas ? 'visible' : 'hidden') }}>
 
                     <div id="maincontent"
+                         ref="slideDropZone"
                          onClick={e => {
                         this.props.onBoxSelected(-1);
                         this.setState({showTitle:false})
                        }}
                          className={'innercanvas sli'}
                          style={{visibility: (this.props.showCanvas ? 'visible' : 'hidden')}}>
+                         {/*<svg width="100%" height="100%" style={{position:'absolute', top:0, zIndex: 0}} xmlns="http://www.w3.org/2000/svg">
+                           <defs>
+                             <pattern id="smallGrid" width="10" height="10" patternUnits="userSpaceOnUse">
+                               <path d="M 10 0 L 0 0 0 10" fill="none" stroke="gray" strokeWidth="0.5"/>
+                             </pattern>
+                             <pattern id="grid" width="100" height="100" patternUnits="userSpaceOnUse">
+                               <rect width="100" height="100" fill="url(#smallGrid)"/>
+                               <path d="M 100 0 L 0 0 0 100" fill="none" stroke="gray" strokeWidth="1"/>
+                             </pattern>
+                           </defs>
+
+                           <rect width="100%" height="100%" fill="url(#grid)" />
+                         </svg>   */}
                         <DaliHeader titles={titles}
                                     showButtons={this.state.showTitle}
                                     onShowTitle={()=>this.setState({showTitle:true})}
@@ -121,8 +135,9 @@ export default class DaliCanvasSli extends Component {
                             />
 
                         })}
-                        <ReactResizeDetector handleWidth handleHeight onResize={(e)=>{aspectRatio(this.props.canvasRatio)}} />
+                        
                     </div>
+                    <ReactResizeDetector handleWidth handleHeight onResize={(e)=>{aspectRatio(this.props.canvasRatio)}} />
                 </div>
                  <DaliShortcuts
                      box={this.props.boxes[this.props.boxSelected]}
@@ -135,14 +150,13 @@ export default class DaliCanvasSli extends Component {
                      toolbar={this.props.toolbars[this.props.boxSelected]}/>
 
 
-
             </Col>
             /* jshint ignore:end */
         );
     }
 
     componentDidMount() {
-        interact(ReactDOM.findDOMNode(this)).dropzone({
+        interact(ReactDOM.findDOMNode(this.refs.slideDropZone)).dropzone({
             accept: '.floatingDaliBox',
             overlap: 'pointer',
             ondropactivate: function (event) {
@@ -173,6 +187,7 @@ export default class DaliCanvasSli extends Component {
                 event.target.classList.remove("drop-target");
             }
         });
+
 
         aspectRatio(this.props.canvasRatio);
        // window.addEventListener("resize", aspectRatio);

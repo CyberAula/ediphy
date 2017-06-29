@@ -51,7 +51,7 @@ export default class ContainedCanvas extends Component {
                                 onClick={e => {
                                     this.props.onContainedViewSelected(0);
                                     e.stopPropagation();
-                                }}>X</Button>
+                                }}><i className="material-icons">keyboard_backspace</i></Button>
 
 
                         <div style={{
@@ -147,8 +147,8 @@ export default class ContainedCanvas extends Component {
             },
             ondrop: function (event) {
                 let position = {
-                    x: event.dragEvent.clientX - event.target.getBoundingClientRect().left - document.getElementById('contained_maincontent').offsetLeft,
-                    y: event.dragEvent.clientY - event.target.getBoundingClientRect().top + document.getElementById('contained_maincontent').scrollTop,
+                    x: (event.dragEvent.clientX - event.target.getBoundingClientRect().left - document.getElementById('contained_maincontent').offsetLeft)/document.getElementById('containedCanvas').offsetWidth*100 + '%',
+                    y: (event.dragEvent.clientY - event.target.getBoundingClientRect().top + document.getElementById('contained_maincontent').scrollTop)/document.getElementById('containedCanvas').offsetHeight*100 + '%',
                     type: 'absolute'
                 };
                 let initialParams = {

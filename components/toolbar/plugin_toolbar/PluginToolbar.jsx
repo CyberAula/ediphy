@@ -9,7 +9,7 @@ import MarksList from './../../rich_plugins/marks_list/MarksList.jsx';
 import ContentList from './../../rich_plugins/content_list/ContentList.jsx';
 import Dali from './../../../core/main';
 import {UPDATE_TOOLBAR, UPDATE_BOX, TOGGLE_NAV_ITEM, CHANGE_NAV_ITEM_NAME, TOGGLE_TITLE_MODE} from '../../../actions';
-import {isSortableContainer, isCanvasElement} from '../../../utils';
+import {isSortableContainer, isCanvasElement, isSlide} from '../../../utils';
 import i18n from 'i18next';
 
 require('./_pluginToolbar.scss');
@@ -578,6 +578,7 @@ export default class PluginToolbar extends Component {
                 if (buttonKey === '__width' || buttonKey === '__height') {
                     let newButton = Object.assign({}, (buttonKey === '__width' ? accordion.buttons.__width : accordion.buttons.__height));
                     let otherButton = Object.assign({}, (buttonKey === '__height' ? accordion.buttons.__width : accordion.buttons.__height));
+
                     switch (e.target.type) {
                         case "checkbox":
                             newButton.auto = e.target.checked;
@@ -645,6 +646,12 @@ export default class PluginToolbar extends Component {
                     if (buttonKey === '__position') {
                         this.props.onToolbarUpdated(id, tabKey, accordionKeys, '__position', value);
                         this.props.onBoxMoved(id, 0, 0, value);
+                        let parentId = this.props.box.parent;
+                        let containerId = this.props.box.container;
+                        if (isSortableContainer(containerId)) {
+                          let newHeight = parseFloat(document.getElementById(containerId).clientHeight, 10);
+                          this.props.onSortableContainerResized(containerId, parentId, newHeight);
+                        }
                     }
                 }
 
@@ -824,13 +831,16 @@ export default class PluginToolbar extends Component {
                               onChange={props.onChange}>
                         {i18n.t("Auto")}
                     </Checkbox>
-                    <ControlLabel>{i18n.t("Units")}</ControlLabel>
+                    {/*Disable px size in slides*/}
+                    {isSlide(this.props.navItems[this.props.navItemSelected].type) ? 
+                    (<span></span>) :
+                    (<div><ControlLabel>{i18n.t("Units")}</ControlLabel>
                     <FormControl componentClass='select'
                                  value={button.units}
                                  onChange={props.onChange}>
                         <option value="px">{i18n.t("Pixels")}</option>
                         <option value="%">{i18n.t("Percentage")}</option>
-                    </FormControl>
+                    </FormControl></div>)}
                 </FormGroup>
                 /* jshint ignore:end */
             );

@@ -11,6 +11,7 @@ export function EnrichedPlayer(base) {
                 isRich: true,
                 displayName: Dali.i18n.t("EnrichedPlayer.PluginName"),
                 category: "multimedia",
+                initialWidth: '30%',
                 icon: "play_arrow"
             };
         },

@@ -23,6 +23,7 @@
 
 .scrollcontainer{
   //display: table;
+  background-color: white;
 }
 
 .outter {
@@ -38,6 +39,11 @@
   background-color: white;
   height: calc(100vh - 241px);
 }
+
+.innercanvas.sli .caja {
+  background-color: transparent;
+}
+
 
 .outter > .sli {
   padding-bottom: 1%;
@@ -118,3 +124,12 @@
 
 
 .drag-handle{}
+
+.rotate {
+    -ms-transform: rotate(5deg); /* IE 9 */
+    -ms-transform-origin: 0% 0%; /* IE 9 */
+    -webkit-transform: rotate(5deg) !important; /* Chrome, Safari, Opera */
+    -webkit-transform-origin: 0% 0% !important; /* Chrome, Safari, Opera */
+    transform: rotate(5deg);
+    transform-origin: 0% 0%;
+}
