@@ -15,28 +15,27 @@ function singleContainedViewReducer(state = {}, action = {}) {
 export default function (state = {}, action = {}) {
     switch (action.type) {
         case ADD_BOX:
-            if (isContainedView(action.payload.ids.container)) {
+            if (isContainedView(action.payload.ids.parent)) {
                 return changeProp(
                     state,
-                    action.payload.ids.container,
-                    singleContainedViewReducer(state[action.payload.ids.container], action));
+                    action.payload.ids.parent,
+                    singleContainedViewReducer(state[action.payload.ids.parent], action));
             }
             return state;
         case ADD_RICH_MARK:
             // If rich mark is connected to a new contained view, mark.connection will include this information;
             // otherwise, it's just the id/url and we're not interested
             if (action.payload.mark.connection.id) {
-                console.log(action.payload.mark)
                 return changeProp(state, action.payload.mark.connection.id, action.payload.mark.connection);
             }
             return state;
         case DELETE_BOX:
             let stateWithViewsDeleted = deleteProps(state, action.payload.childrenViews);
-            if (isContainedView(action.payload.container)) {
+            if (isContainedView(action.payload.parent)) {
                 stateWithViewsDeleted = changeProp(
                     stateWithViewsDeleted,
-                    action.payload.container,
-                    singleContainedViewReducer(stateWithViewsDeleted[action.payload.container], action));
+                    action.payload.parent,
+                    singleContainedViewReducer(stateWithViewsDeleted[action.payload.parent], action));
             }
             return stateWithViewsDeleted;
         case DELETE_CONTAINED_VIEW:

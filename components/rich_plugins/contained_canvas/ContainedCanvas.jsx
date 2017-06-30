@@ -21,9 +21,8 @@ export default class ContainedCanvas extends Component {
     render() {
         let canvasContent;
         let containedViewSelected = this.props.containedViewSelected;
-        console.log(this.props)
-        if (containedViewSelected && containedViewSelected !== 0 && this.props.containedViews && this.props.containedViews[containedViewSelected]){
-            if (isSlide(this.props.containedViews[containedViewSelected].type)) {
+        if (containedViewSelected && containedViewSelected !== 0){
+            if (isSlide(containedViewSelected.type)) {
                 /* jshint ignore:start */
                 canvasContent = (<DaliCanvasSli
                     addMarkShortcut={this.props.addMarkShortcut}
@@ -37,12 +36,14 @@ export default class ContainedCanvas extends Component {
                     fromCV={true}
                     lastActionDispatched={this.props.lastActionDispatched}
                     markCreatorId={this.props.markCreatorId}
+                    onBoxAdded={this.props.onBoxAdded}
                     onBoxLevelIncreased={this.props.onBoxLevelIncreased}
                     onBoxSelected={this.props.onBoxSelected}
                     onBoxMoved={this.props.onBoxMoved}
                     onBoxResized={this.props.onBoxResized}
                     onBoxDropped={this.props.onBoxDropped}
                     onBoxDeleted={this.props.onBoxDeleted}
+                    onContainedViewSelected={this.props.onContainedViewSelected}
                     onMarkCreatorToggled={this.props.onMarkCreatorToggled}
                     onVerticallyAlignBox={this.props.onVerticallyAlignBox}
                     onTextEditorToggled={this.props.onTextEditorToggled}
@@ -70,10 +71,12 @@ export default class ContainedCanvas extends Component {
                     lastActionDispatched={this.props.lastActionDispatched}
                     markCreatorId={this.props.markCreatorId}
                     onMarkCreatorToggled={this.props.onMarkCreatorToggled}
+                    onBoxAdded={this.props.onBoxAdded}
                     onBoxSelected={this.props.onBoxSelected}
                     onBoxLevelIncreased={this.props.onBoxLevelIncreased}
                     onBoxMoved={this.props.onBoxMoved}
                     onBoxResized={this.props.onBoxResized}
+                    onContainedViewSelected={this.props.onContainedViewSelected}
                     onSortableContainerResized={this.props.onSortableContainerResized}
                     onSortableContainerDeleted={this.props.onSortableContainerDeleted}
                     onSortableContainerReordered={this.props.onSortableContainerReordered}
@@ -92,16 +95,17 @@ export default class ContainedCanvas extends Component {
                 /* jshint ignore:end */
             }
         } else {
-            canvasContent = ( 
-                <Col id="containedCanvas"
-                     md={12}
-                     xs={12}
-                     style={{
-                        height:"100%",
-                        padding: 0,
-                        display: this.props.containedViewSelected !== 0 ? 'initial' : 'none'
-                     }}>
-                </Col>);
+            /* jshint ignore:start */
+            canvasContent =   (<Col id="containedCanvas"
+                                    md={12}
+                                    xs={12}
+                                    style={{
+                                        height:"100%",
+                                        padding: 0,
+                                        display: this.props.containedViewSelected !== 0 ? 'initial' : 'none'
+                                     }}></Col>);
+            /* jshint ignore:end */
+                
         }
         return (
             /* jshint ignore:start */
@@ -114,7 +118,12 @@ export default class ContainedCanvas extends Component {
         if (nextProps.boxSelected !== -1) {
             this.setState({showTitle: false});
         }
+        /*if (this.props.navItemSelected.id !== nextProps.navItemSelected.id) {
+            document.getElementById('contained_maincontent').scrollTop = 0;
+        }*/
     }
+
+
 
     /*componentDidMount() {
         interact(ReactDOM.findDOMNode(this)).dropzone({

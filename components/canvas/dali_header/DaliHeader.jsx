@@ -50,57 +50,60 @@ export default class DaliHeader extends Component {
     }
 
     render() {
-        let titles = this.props.titles;
-        let currentStatus = (this.props.navItem.header) ? this.props.navItem.header.display : undefined;
-        let docTitle =  this.props.navItem.name;
+        let titles = this.props.titles || [];
+        let navItem = this.props.containedView !== 0 ? this.props.containedView : this.props.navItem;
+        let currentStatus = (navItem.header) ? navItem.header.display : undefined;
+        let docTitle =  navItem.name;
         let subTitle = i18n.t('subtitle');
         let pagenumber = this.props.navItem.unitNumber;
-        let navItem = this.props.navItem;
+        
 
-        if (navItem !== undefined && navItem.id !== 0){
-                docTitle = navItem.header.elementContent.documentTitle !== "" && ( navItem.header.elementContent.documentTitle !== this.props.navItem.name) ?  navItem.header.elementContent.documentTitle : this.props.navItem.name;
+        if (navItem !== undefined && navItem.id !== 0 && navItem.header) {
+                docTitle = navItem.header.elementContent.documentTitle !== "" && ( navItem.header.elementContent.documentTitle !== navItem.name) ?  navItem.header.elementContent.documentTitle : navItem.name;
                 subTitle = navItem.header.elementContent.documentSubTitle !== "" && (navItem.header.elementContent.documentSubTitle !== i18n.t('subtitle')) ? navItem.header.elementContent.documentSubTitle : i18n.t('subtitle');
-                pagenumber = navItem.header.elementContent.numPage !== "" && (navItem.header.elementContent.numPage !== this.props.navItem.unitNumber) ? navItem.header.elementContent.numPage : this.props.navItem.unitNumber;
+                pagenumber = navItem.header.elementContent.numPage !== "" && (navItem.header.elementContent.numPage !== navItem.unitNumber) ? navItem.header.elementContent.numPage : navItem.unitNumber;
         }
 
         let content;
         let unidad = "";
 
         // breadcrumb
-        if (currentStatus !== undefined) {
-            if (currentStatus.breadcrumb === 'reduced') {
-                let titles = this.props.titles;
+        if(this.props.containedView === 0){
+            if (currentStatus !== undefined) {
+                if (currentStatus.breadcrumb === 'reduced') {
+                    let titles = this.props.titles;
 
-                let actualTitle = titles[titles.length - 1];
-                unidad = titles[0];
-                content = React.createElement("div", {className: "subheader"},
-                    React.createElement(Breadcrumb, {style: {margin: 0, backgroundColor: 'inherit'}},
-                        titles.map((item, index) => {
-                            if (index !== titles.length) {
-                                return React.createElement(BreadcrumbItem, {key: index}, item);
+                    let actualTitle = titles[titles.length - 1];
+                    unidad = titles[0];
+                    content = React.createElement("div", {className: "subheader"},
+                        React.createElement(Breadcrumb, {style: {margin: 0, backgroundColor: 'inherit'}},
+                            titles.map((item, index) => {
+                                if (index !== titles.length) {
+                                    return React.createElement(BreadcrumbItem, {key: index}, item);
+                                }
+                            })
+                        )
+                    );
+
+                } else if (currentStatus.breadcrumb === 'expanded') {
+                    let titlesComponents = "";
+                    let titles_length = this.props.titles.length;
+                    content = React.createElement("div", {className: "subheader"},
+                        this.props.titles.map((text, index) => {
+                            if (index === 0) {
+                                unidad = text;
+                            } else {
+                                let nivel = (index > 4 ) ? 6 : index + 2;
+                                return React.createElement("h" + nivel, {
+                                    key: index,
+                                    style: {marginTop: '0px'}
+                                }, /*this.getActualIndex(titles_length, index) + */text);
                             }
                         })
-                    )
-                );
+                    );
+                }
 
-            } else if (currentStatus.breadcrumb === 'expanded') {
-                let titlesComponents = "";
-                let titles_length = this.props.titles.length;
-                content = React.createElement("div", {className: "subheader"},
-                    this.props.titles.map((text, index) => {
-                        if (index === 0) {
-                            unidad = text;
-                        } else {
-                            let nivel = (index > 4 ) ? 6 : index + 2;
-                            return React.createElement("h" + nivel, {
-                                key: index,
-                                style: {marginTop: '0px'}
-                            }, /*this.getActualIndex(titles_length, index) + */text);
-                        }
-                    })
-                );
             }
-
         }
 
         if(navItem.id !== 0){
@@ -197,7 +200,7 @@ export default class DaliHeader extends Component {
                                 suppressContentEditableWarning
                                 style={{display:(currentStatus.pageNumber == 'hidden') ? 'none' : 'block'}}
                                 onBlur={e => {
-                                        this.props.onUnitNumberChanged(this.props.navItem.id, parseInt(e.target.innerText, 10));
+                                        this.props.onUnitNumberChanged(navItem.id, parseInt(e.target.innerText, 10));
 
                                 }}
                             >{pagenumber}</div>

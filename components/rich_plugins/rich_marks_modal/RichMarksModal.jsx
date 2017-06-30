@@ -183,7 +183,19 @@ export default class RichMarksModal extends Component {
                                         name: i18n.t('contained_view'),
                                         boxes: [],
                                         type: this.state.newSelected,
-                                        extraFiles: {}
+                                        extraFiles: {},
+                                        header: {
+                                           elementContent:{
+                                               documentTitle:'', 
+                                               documentSubTitle: '', 
+                                               numPage:''},
+                                           display:{
+                                               courseTitle: 'hidden', 
+                                               documentTitle: 'expanded', 
+                                               documentSubTitle: 'hidden', 
+                                               breadcrumb: "reduced", 
+                                               pageNumber: "hidden"}
+                                       }
                                     };
                                 break;
                             case "existing":

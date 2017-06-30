@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import DaliBox from '../dali_box/DaliBox';
 import DaliShortcuts from '../dali_shortcuts/DaliShortcuts';
-import {Col} from 'react-bootstrap';
+import {Col, Button} from 'react-bootstrap';
 import DaliTitle from '../dali_title/DaliTitle';
 import DaliHeader from '../dali_header/DaliHeader';
 import interact from 'interact.js';
@@ -10,7 +10,7 @@ import {ADD_BOX} from '../../../actions';
 import {aspectRatio} from '../../../common_tools';
 import Dali from './../../../core/main';
 import ReactResizeDetector from 'react-resize-detector';
-
+import i18n from 'i18next';
 
 export default class DaliCanvasSli extends Component {
     constructor(props) {
@@ -21,7 +21,7 @@ export default class DaliCanvasSli extends Component {
     }
 
     render() {
-        let itemSelected = this.props.fromCV ? this.props.containedViews[this.props.containedViewSelected] : this.props.navItems[this.props.navItemSelected];
+        let itemSelected = this.props.fromCV ? this.props.containedViewSelected : this.props.navItemSelected;
         let titles = [];
         if (itemSelected.id !== 0) {
             titles.push(itemSelected.name);
@@ -35,7 +35,7 @@ export default class DaliCanvasSli extends Component {
             titles.reverse();
         }
 
-        let maincontent = document.getElementById('maincontent');
+        let maincontent = document.getElementById(this.props.fromCV ? "contained_maincontent":"maincontent");
         let actualHeight;
         if (maincontent) {
             actualHeight = parseInt(maincontent.scrollHeight, 10);
@@ -47,16 +47,16 @@ export default class DaliCanvasSli extends Component {
         return (
             /* jshint ignore:start */
 
-            <Col id="canvas" md={12} xs={12} className="canvasSliClass"
+            <Col id={this.props.fromCV ? 'containedCanvas':'canvas'} md={12} xs={12} className="canvasSliClass"
                  style={{display: this.props.containedViewSelected !== 0 && !this.props.fromCV? 'none' : 'initial'}}>
                 
 
 
-                    <div id="airlayer"
+                <div id={this.props.fromCV ? 'airlayer_cv':'airlayer'}
                     className={'slide_air'}
                     style={{margin: 'auto', visibility: (this.props.showCanvas ? 'visible' : 'hidden') }}>
 
-                    <div id="maincontent"
+                    <div id={this.props.fromCV ? "contained_maincontent":"maincontent"}
                          ref="slideDropZone"
                          onClick={e => {
                         this.props.onBoxSelected(-1);
@@ -77,19 +77,20 @@ export default class DaliCanvasSli extends Component {
 
                            <rect width="100%" height="100%" fill="url(#grid)" />
                          </svg>   */}
-                        {this.props.fromCV ? (<br/>):
-                            (<DaliHeader titles={titles}
-                                        showButtons={this.state.showTitle}
-                                        onShowTitle={()=>this.setState({showTitle:true})}
-                                        onBoxSelected={this.props.onBoxSelected}
-                                        courseTitle={this.props.title}
-                                        title={itemSelected.name}
-                                        navItem={this.props.navItemSelected}
-                                        navItems={this.props.navItems}
-                                        titleModeToggled={this.props.titleModeToggled}
-                                        onUnitNumberChanged={this.props.onUnitNumberChanged}
-                                        showButton={true}
-                        />)}
+                        <DaliHeader titles={titles}
+                                    showButtons={this.state.showTitle}
+                                    onShowTitle={()=>this.setState({showTitle:true})}
+                                    onBoxSelected={this.props.onBoxSelected}
+                                    courseTitle={this.props.title}
+                                    title={itemSelected.name}
+                                    navItem={this.props.navItemSelected}
+                                    navItems={this.props.navItems}
+                                    containedView={this.props.containedViewSelected}
+                                    containedViews={this.props.containedViews}
+                                    titleModeToggled={this.props.titleModeToggled}
+                                    onUnitNumberChanged={this.props.onUnitNumberChanged}
+                                    showButton={true}/>
+
                         {this.props.fromCV ? (<br/>):
                             (<DaliTitle titles={titles}
                                 showButtons={this.state.showTitle}
@@ -103,6 +104,11 @@ export default class DaliCanvasSli extends Component {
                                 onUnitNumberChanged={this.props.onUnitNumberChanged}
                                 showButton={true}/>)
                         }
+                        {this.props.fromCV ?  (<button className="btnOverBar cvBackButton" style={{margin: "10px 0px 0px 10px"}}
+                                 onClick={e => {
+                                     this.props.onContainedViewSelected(0);
+                                     e.stopPropagation();
+                                 }}><i className="material-icons">undo</i></button>):(<br/>)}
                         <br/>
 
                         <div style={{
@@ -129,6 +135,7 @@ export default class DaliCanvasSli extends Component {
                                             lastActionDispatched={this.props.lastActionDispatched}
                                             deleteMarkCreator={this.props.deleteMarkCreator}
                                             markCreatorId={this.props.markCreatorId}
+                                            onBoxAdded={this.props.onBoxAdded}
                                             onBoxSelected={this.props.onBoxSelected}
                                             onBoxLevelIncreased={this.props.onBoxLevelIncreased}
                                             onBoxMoved={this.props.onBoxMoved}
@@ -142,14 +149,16 @@ export default class DaliCanvasSli extends Component {
                             />
 
                         })}
+                        {boxes.length === 0 ? (<div className="dragContentHere" style={{backgroundColor: 'transparent', border:0}}>{i18n.t("messages.drag_content")}</div>):(<span></span>)}
                         
                     </div>
-                    <ReactResizeDetector handleWidth handleHeight onResize={(e)=>{aspectRatio(this.props.canvasRatio)}} />
+                    <ReactResizeDetector handleWidth handleHeight onResize={(e)=>{aspectRatio(this.props.canvasRatio, this.props.fromCV ? 'airlayer_cv':'airlayer', this.props.fromCV ? 'canvasRow':'canvasRow');
+}} />
                 </div>
                  <DaliShortcuts
                      box={this.props.boxes[this.props.boxSelected]}
                      containedViewSelected={this.props.containedViewSelected}
-                     isContained={false}
+                     isContained={this.props.fromCV}
                      onTextEditorToggled={this.props.onTextEditorToggled}
                      onBoxResized={this.props.onBoxResized}
                      onBoxDeleted={this.props.onBoxDeleted}
@@ -176,14 +185,16 @@ export default class DaliCanvasSli extends Component {
                 event.target.classList.remove("drop-target");
             },
             ondrop: function (event) {
+                let mc = this.props.fromCV ? document.getElementById("contained_maincontent"):document.getElementById('maincontent');
+                let al = this.props.fromCV ?  document.getElementById('airlayer_cv'):document.getElementById('airlayer');
                 let position = {
-                    x: (event.dragEvent.clientX - event.target.getBoundingClientRect().left - document.getElementById('maincontent').offsetLeft )*100 / document.getElementById('maincontent').offsetWidth + "%",
-                    y: (event.dragEvent.clientY - event.target.getBoundingClientRect().top  + document.getElementById('maincontent').scrollTop - parseFloat(document.getElementById('airlayer').style.marginTop)  )*100 / document.getElementById('maincontent').offsetHeight + '%',
+                    x: (event.dragEvent.clientX - event.target.getBoundingClientRect().left - mc.offsetLeft )*100 / mc.offsetWidth + "%",
+                    y: (event.dragEvent.clientY - event.target.getBoundingClientRect().top  + mc.scrollTop - parseFloat(al.style.marginTop))*100 / mc.offsetHeight + '%',
                     type: 'absolute'
                 };
                 let initialParams = {
-                    parent: this.props.navItemSelected.id,
-                    container: 0,
+                    parent: this.props.fromCV ? this.props.containedViewSelected.id:this.props.navItemSelected.id,
+                    container:0,
                     position: position
                 };
                 Dali.Plugins.get(event.relatedTarget.getAttribute("name")).getConfig().callback(initialParams, ADD_BOX);
@@ -196,7 +207,7 @@ export default class DaliCanvasSli extends Component {
         });
 
 
-        aspectRatio(this.props.canvasRatio);
+        aspectRatio(this.props.canvasRatio, this.props.fromCV ? 'airlayer_cv':'airlayer', this.props.fromCV ? 'canvasRow':'canvasRow');
        // window.addEventListener("resize", aspectRatio);
     }
 
@@ -210,7 +221,7 @@ export default class DaliCanvasSli extends Component {
         if (this.props.canvasRatio !== nextProps.canvasRatio){
             window.canvasRatio = nextProps.canvasRatio;
             // window.removeEventListener("resize", aspectRatio);
-            aspectRatio(this.props.canvasRatio);
+            aspectRatio(this.props.canvasRatio, this.props.fromCV ? 'airlayer_cv':'airlayer', this.props.fromCV ? 'canvasRow':'canvasRow');
             // window.addEventListener("resize", aspectRatio);
         }
 
