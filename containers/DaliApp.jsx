@@ -277,6 +277,7 @@ class DaliApp extends Component {
                                 navItemsIds={navItemsIds}
                                 visible={this.state.richMarksVisible}
                                 currentRichMark={this.state.currentRichMark}
+                                onBoxAdded={(ids, draggable, resizable, content, toolbar, config, state) => this.dispatchAndSetState(addBox(ids, draggable, resizable, content, toolbar, config, state))}
                                 onRichMarkUpdated={(mark) => {
                                     let toolbar = toolbars[boxSelected];
                                     let state = JSON.parse(JSON.stringify(toolbar.state));

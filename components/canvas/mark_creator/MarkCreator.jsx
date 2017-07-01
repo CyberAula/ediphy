@@ -54,7 +54,7 @@ export default class MarkCreator extends Component {
                  /* NEW MARK DEFAULT PARAMS*/
                 let connectMode = 'new';
                 let title = i18n.t('new_mark');
-                let type = PAGE_TYPES.DOCUMENT;
+                let type = this.props.pageType;
                 let newId = ID_PREFIX_CONTAINED_VIEW + Date.now();
                 let connection = {
                     id: newId,

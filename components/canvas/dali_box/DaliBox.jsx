@@ -247,6 +247,7 @@ export default class DaliBox extends Component {
                     parseRichMarkInput={Dali.Plugins.get(toolbar.config.name).parseRichMarkInput}
                     markCreatorId={this.props.markCreatorId}
                     currentId={this.props.id}
+                    pageType={this.props.pageType}
                 />
             </div>
             /* jshint ignore:end */

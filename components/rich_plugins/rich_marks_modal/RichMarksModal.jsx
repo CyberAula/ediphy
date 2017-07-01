@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import {Modal, Button, Row,Col, FormGroup, ControlLabel, FormControl, Radio} from 'react-bootstrap';
 import Typeahead from 'react-bootstrap-typeahead';
-import {ID_PREFIX_RICH_MARK, ID_PREFIX_CONTAINED_VIEW, PAGE_TYPES} from '../../../constants';
+import {ID_PREFIX_RICH_MARK, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_CONTAINED_VIEW, PAGE_TYPES} from '../../../constants';
 import i18n from 'i18next';
 
 export default class RichMarksModal extends Component {
@@ -173,12 +173,13 @@ export default class RichMarksModal extends Component {
                         let title = ReactDOM.findDOMNode(this.refs.title).value;
                         let connectMode = this.state.connectMode;
                         let connection;
-                        switch (connectMode){
+                         switch (connectMode){
                             case "new":
+                                let newId = ID_PREFIX_CONTAINED_VIEW + Date.now();
                                 connection = current ?
                                     current.connection :
                                     {
-                                        id: ID_PREFIX_CONTAINED_VIEW + Date.now(),
+                                        id: newId,
                                         parent: this.props.boxSelected,
                                         name: i18n.t('contained_view'),
                                         boxes: [],
@@ -197,6 +198,10 @@ export default class RichMarksModal extends Component {
                                                pageNumber: "hidden"}
                                        }
                                     };
+
+                                    if(this.state.newSelected === PAGE_TYPES.DOCUMENT) {
+                                        onBoxAdded({parent: newId, container: 0, id: ID_PREFIX_SORTABLE_BOX + Date.now()}, false, false);
+                                    }
                                 break;
                             case "existing":
                                 connection = this.state.existingSelected;

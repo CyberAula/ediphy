@@ -44,7 +44,7 @@ export default class DaliCanvasDoc extends Component {
         /*let isSection = this.props.navItemSelected.id.toString().indexOf('se') !== -1;
         let contentAllowedInSections = Dali.Config.sections_have_content;
         let showCanvas = (!isSection || (isSection && contentAllowedInSections));*/
-         let itemSelected = this.props.fromCV ? this.props.containedViewSelected : this.props.navItemSelected;
+        let itemSelected = this.props.fromCV ? this.props.containedViewSelected : this.props.navItemSelected;
         let boxes = itemSelected ? itemSelected.boxes : [];
         return (
             /* jshint ignore:start */
@@ -141,7 +141,7 @@ export default class DaliCanvasDoc extends Component {
                                                         onBoxModalToggled={this.props.onBoxModalToggled}
                                                         onTextEditorToggled={this.props.onTextEditorToggled}
                                                         toolbars={this.props.toolbars}
-                                        />
+                                                        pageType={itemSelected.type||0}/>
                                     } else {
                                         return <DaliBoxSortable key={id}
                                                                 id={id}
@@ -166,7 +166,8 @@ export default class DaliCanvasDoc extends Component {
                                                                 onBoxDropped={this.props.onBoxDropped}
                                                                 onVerticallyAlignBox={this.props.onVerticallyAlignBox}
                                                                 onBoxModalToggled={this.props.onBoxModalToggled}
-                                                                onTextEditorToggled={this.props.onTextEditorToggled}/>
+                                                                onTextEditorToggled={this.props.onTextEditorToggled}
+                                                                pageType={itemSelected.type||0}/>
                                     }
                                 })}
                         </div>

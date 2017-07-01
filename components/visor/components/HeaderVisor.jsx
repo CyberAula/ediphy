@@ -49,17 +49,16 @@ export default class HeaderVisor extends Component {
 
     render() {
 
-        let titles = this.props.titles;
-        let currentStatus = this.props.navItem.header.display;
-        let docTitle =  this.props.navItem.name;
+        let titles = this.props.titles || [];
+        let navItem = this.props.fromCV ? this.props.containedView : this.props.navItem;
+        let currentStatus = navItem.header ? navItem.header.display : undefined;
+        let docTitle =  navItem.name;
         let subTitle = i18n.t('subtitle');
         let pagenumber = this.props.navItem.unitNumber;
-        let navItem = this.props.navItem;
-
-        if (navItem !== undefined){
-            docTitle = navItem.header.elementContent.documentTitle !== "" && ( navItem.header.elementContent.documentTitle !== this.props.navItem.name) ?  navItem.header.elementContent.documentTitle : this.props.navItem.name;
+        if (navItem !== undefined && navItem.header){
+            docTitle = navItem.header.elementContent.documentTitle !== "" && ( navItem.header.elementContent.documentTitle !== navItem.name) ?  navItem.header.elementContent.documentTitle : navItem.name;
             subTitle = navItem.header.elementContent.documentSubTitle !== "" && (navItem.header.elementContent.documentSubTitle !== i18n.t('subtitle')) ? navItem.header.elementContent.documentSubTitle : i18n.t('subtitle');
-            pagenumber = navItem.header.elementContent.numPage !== "" && (navItem.header.elementContent.numPage !== this.props.navItem.unitNumber) ? navItem.header.elementContent.numPage : this.props.navItem.unitNumber;
+            pagenumber = navItem.header.elementContent.numPage !== "" && (navItem.header.elementContent.numPage !== navItem.unitNumber) ? navItem.header.elementContent.numPage : navItem.unitNumber;
         }
 
 
@@ -67,21 +66,23 @@ export default class HeaderVisor extends Component {
         let unidad = "";
 
         // breadcrumb
-        if (currentStatus !== undefined) {
-            if (currentStatus.breadcrumb === 'reduced') {
-                let titles = this.props.titles;
+        if(this.props.containedView === 0){
+            if (currentStatus !== undefined) {
+                if (currentStatus.breadcrumb === 'reduced') {
+                    let titles = this.props.titles;
 
-                let actualTitle = titles[titles.length - 1];
-                unidad = titles[0];
-                content = React.createElement("div", {className: "subheader"},
-                    React.createElement(Breadcrumb, {style: {margin: 0, backgroundColor: 'inherit'}},
-                        titles.map((item, index) => {
-                            if (index !== titles.length) {
-                                return React.createElement(BreadcrumbItem, {key: index}, item);
-                            }
-                        })
-                    )
-                );
+                    let actualTitle = titles[titles.length - 1];
+                    unidad = titles[0];
+                    content = React.createElement("div", {className: "subheader"},
+                        React.createElement(Breadcrumb, {style: {margin: 0, backgroundColor: 'inherit'}},
+                            titles.map((item, index) => {
+                                if (index !== titles.length) {
+                                    return React.createElement(BreadcrumbItem, {key: index}, item);
+                                }
+                            })
+                        )
+                    );
+                }
             }
         }
 
@@ -91,16 +92,16 @@ export default class HeaderVisor extends Component {
                 <div className="title" onClick={(e) => {
                                         this.props.onShowTitle();
                                         e.stopPropagation(); }}>
-                    <div style={{backgroundColor:'white', display:(titles.length !== 0)? 'initial' : 'none' }}>
+                    <div style={{backgroundColor:'white', display: 'initial'}}>
                     <div className={this.props.showButtons ?  "caja selectedTitle selectedBox":"caja"}>
                         <div className="cab"
                             style={{backgroundColor: 'transparent',  visibility:(currentStatus == 'hidden') ? 'hidden' : 'inherit'}}>
                             <div className="cabtabla_numero"
-                                contentEditable={this.props.navItem.parent === 0}
+                                contentEditable={false}
                                 suppressContentEditableWarning
                                 style={{display:(currentStatus.pageNumber == 'hidden') ? 'none' : 'block'}}
                                 onBlur={e => {
-                                        this.props.onUnitNumberChanged(this.props.navItem.id, parseInt(e.target.innerText, 10));
+                                       // this.props.onUnitNumberChanged(this.props.navItem.id, parseInt(e.target.innerText, 10));
                                 }}
                             >{pagenumber}</div>
                             <div className="tit_ud_cap">

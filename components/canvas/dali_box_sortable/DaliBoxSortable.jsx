@@ -86,7 +86,8 @@ export default class DaliBoxSortable extends Component {
                                                                              onBoxModalToggled={this.props.onBoxModalToggled}
                                                                              onBoxesInsideSortableReorder={this.props.onBoxesInsideSortableReorder}
                                                                              onSortableContainerResized={this.props.onSortableContainerResized}
-                                                                             onTextEditorToggled={this.props.onTextEditorToggled}/>);
+                                                                             onTextEditorToggled={this.props.onTextEditorToggled}
+                                                                             pageType={this.props.pageType}/>);
 
                                                         } else if (index == container.children.length - 1) {
                                                             return (<span key={index}><br/><br/></span>);

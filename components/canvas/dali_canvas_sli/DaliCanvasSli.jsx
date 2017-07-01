@@ -89,7 +89,8 @@ export default class DaliCanvasSli extends Component {
                                     containedViews={this.props.containedViews}
                                     titleModeToggled={this.props.titleModeToggled}
                                     onUnitNumberChanged={this.props.onUnitNumberChanged}
-                                    showButton={true}/>
+                                    showButton={true}
+                                    />
 
                         {this.props.fromCV ? (<br/>):
                             (<DaliTitle titles={titles}
@@ -146,6 +147,7 @@ export default class DaliCanvasSli extends Component {
                                             onVerticallyAlignBox={this.props.onVerticallyAlignBox}
                                             onBoxModalToggled={this.props.onBoxModalToggled}
                                             onTextEditorToggled={this.props.onTextEditorToggled}
+                                            pageType={itemSelected.type || 0}
                             />
 
                         })}

@@ -1,5 +1,6 @@
 
 export function aspectRatio(ratioparam, idEl = "airlayer", idParent = "canvas") {
+
     //change ratio to the global ratio store in the app
     let ratio = ratioparam;
     let parent = document.getElementById(idParent);
