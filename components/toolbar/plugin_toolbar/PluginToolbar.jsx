@@ -339,7 +339,7 @@ export default class PluginToolbar extends Component {
         //change document(navitem) name
         case i18n.t('NavItem_name'):
             if (isContainedView(this.props.navItemSelected)) {
-              this.props.onCVNameChanged(this.props.navItemSelected, value);
+              this.props.onContainedViewNameChanged(this.props.navItemSelected, value);
             } else {
               this.props.onNavItemNameChanged(this.props.navItemSelected, value);
             }

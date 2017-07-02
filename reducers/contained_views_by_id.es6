@@ -1,4 +1,4 @@
-import {ADD_BOX, ADD_CONTAINED_VIEW, ADD_RICH_MARK, DELETE_BOX,DELETE_CONTAINED_VIEW, CHANGE_CV_NAME, TOGGLE_TITLE_MODE, DELETE_NAV_ITEM, DELETE_SORTABLE_CONTAINER, IMPORT_STATE} from './../actions';
+import {ADD_BOX, ADD_CONTAINED_VIEW, ADD_RICH_MARK, DELETE_BOX,DELETE_CONTAINED_VIEW, CHANGE_CONTAINED_VIEW_NAME, TOGGLE_TITLE_MODE, DELETE_NAV_ITEM, DELETE_SORTABLE_CONTAINER, IMPORT_STATE} from './../actions';
 import {changeProp, deleteProps, isContainedView, findNavItemContainingBox} from './../utils';
 
 function singleContainedViewReducer(state = {}, action = {}) {
@@ -9,7 +9,7 @@ function singleContainedViewReducer(state = {}, action = {}) {
             return changeProp(state, "boxes", state.boxes.filter(id => action.payload.id !== id));
         case TOGGLE_TITLE_MODE:
             return changeProp(state, "header", action.payload.titles);
-        case CHANGE_CV_NAME:
+        case CHANGE_CONTAINED_VIEW_NAME:
             return changeProp(state, "name", action.payload.title);            
         default:
             return state;
@@ -42,7 +42,7 @@ export default function (state = {}, action = {}) {
                     singleContainedViewReducer(stateWithViewsDeleted[action.payload.parent], action));
             }
             return stateWithViewsDeleted;
-        case CHANGE_CV_NAME:
+        case CHANGE_CONTAINED_VIEW_NAME:
             return changeProp(state, action.payload.id, singleContainedViewReducer(state[action.payload.id], action));
         case DELETE_CONTAINED_VIEW:
             return deleteProps(state, action.payload.ids);

@@ -10,7 +10,7 @@ import {addNavItem, selectNavItem, expandNavItem, deleteNavItem, reorderNavItem,
     changeDisplayMode, expandContainedViewList, updateToolbar,
     exportStateAsync, importStateAsync,
     fetchVishResourcesSuccess, fetchVishResourcesAsync, uploadVishResourceAsync,
-    deleteContainedView, selectContainedView, changeCVName,
+    deleteContainedView, selectContainedView, changeContainedViewName,
     ADD_BOX, ADD_RICH_MARK, addRichMark, EDIT_RICH_MARK, editRichMark, EDIT_PLUGIN_TEXT, DELETE_RICH_MARK, UPDATE_BOX, UPDATE_TOOLBAR} from '../actions';
 import {ID_PREFIX_BOX, ID_PREFIX_SORTABLE_CONTAINER} from '../constants';
 import DaliCanvas from '../components/canvas/dali_canvas/DaliCanvas';
@@ -104,7 +104,7 @@ class DaliApp extends Component {
                                   displayMode={displayMode}
                                   onBoxAdded={(ids, draggable, resizable, content, toolbar, config, state) => this.dispatchAndSetState(addBox(ids, draggable, resizable, content, toolbar, config, state))}
                                   onIndexSelected={(id) => this.dispatchAndSetState(selectIndex(id))}
-                                  onCVNameChanged={(id, title) => this.dispatchAndSetState(changeCVName(id,title))}
+                                  onContainedViewNameChanged={(id, title) => this.dispatchAndSetState(changeContainedViewName(id,title))}
                                   onContainedViewSelected={ (id) => this.dispatchAndSetState(selectContainedView(id)) }
                                   onContainedViewDeleted={(cvid)=>{
                                       let boxesRemoving = [];
@@ -322,7 +322,7 @@ class DaliApp extends Component {
                                isBusy={isBusy}
                                fetchResults={fetchVishResults}
                                titleModeToggled={(id, value) => this.dispatchAndSetState(toggleTitleMode(id, value))}
-                               onCVNameChanged={(id, title) => this.dispatchAndSetState(changeCVName(id,title))}
+                               onContainedViewNameChanged={(id, title) => this.dispatchAndSetState(changeContainedViewName(id,title))}
                                onNavItemToggled={ id => this.dispatchAndSetState(toggleNavItem(navItemSelected)) }
                                onNavItemSelected={id => this.dispatchAndSetState(selectNavItem(id))}
                                onNavItemNameChanged={(id, title) => this.dispatchAndSetState(changeNavItemName(id,title))}

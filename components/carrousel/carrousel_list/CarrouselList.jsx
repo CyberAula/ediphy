@@ -151,7 +151,7 @@ export default class CarrouselList extends Component {
                                                 title={this.props.containedViews[id].name}
                                                 index={1}
                                                 hidden={false}
-                                                onNameChanged={this.props.onCVNameChanged}
+                                                onNameChanged={this.props.onContainedViewNameChanged}
                                                 onNavItemToggled={this.props.onNavItemToggled}/>
                                         </span>
                                     </div>)
