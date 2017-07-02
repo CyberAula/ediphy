@@ -61,7 +61,6 @@ export default class HeaderVisor extends Component {
             pagenumber = navItem.header.elementContent.numPage !== "" && (navItem.header.elementContent.numPage !== navItem.unitNumber) ? navItem.header.elementContent.numPage : navItem.unitNumber;
         }
 
-
         let content;
         let unidad = "";
 

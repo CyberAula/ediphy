@@ -10,7 +10,7 @@ import {addNavItem, selectNavItem, expandNavItem, deleteNavItem, reorderNavItem,
     changeDisplayMode, expandContainedViewList, updateToolbar,
     exportStateAsync, importStateAsync,
     fetchVishResourcesSuccess, fetchVishResourcesAsync, uploadVishResourceAsync,
-    deleteContainedView, selectContainedView,
+    deleteContainedView, selectContainedView, changeCVName,
     ADD_BOX, ADD_RICH_MARK, addRichMark, EDIT_RICH_MARK, editRichMark, EDIT_PLUGIN_TEXT, DELETE_RICH_MARK, UPDATE_BOX, UPDATE_TOOLBAR} from '../actions';
 import {ID_PREFIX_BOX, ID_PREFIX_SORTABLE_CONTAINER} from '../constants';
 import DaliCanvas from '../components/canvas/dali_canvas/DaliCanvas';
@@ -228,7 +228,21 @@ class DaliApp extends Component {
                                              containedViews={containedViews}
                                              containedViewSelected={containedViews[containedViewSelected] || 0}
                                              markCreatorId={this.state.markCreatorVisible}
-                                             addMarkShortcut={(value)=>{console.log(value)}}
+                                             addMarkShortcut= {(mark) => {
+                                                 let toolbar = toolbars[boxSelected];
+                                                 let state = JSON.parse(JSON.stringify(toolbar.state));
+                                                 state.__marks[mark.id] = JSON.parse(JSON.stringify(mark));
+                                                 if(mark.connection.id){
+                                                     state.__marks[mark.id].connection = mark.connection.id;
+                                                 }
+
+
+                                                 Dali.Plugins.get(toolbar.config.name).forceUpdate(
+                                                     state,
+                                                     boxSelected,
+                                                     addRichMark(boxSelected, mark, state)
+                                                 );
+                                             }}
                                              onBoxAdded={(ids, draggable, resizable, content, toolbar, config, state) => this.dispatchAndSetState(addBox(ids, draggable, resizable, content, toolbar, config, state))}
                                              deleteMarkCreator={()=>this.setState({markCreatorVisible: false})}
                                              title={title}
@@ -306,7 +320,8 @@ class DaliApp extends Component {
                                carouselShow={this.state.carouselShow}
                                isBusy={isBusy}
                                fetchResults={fetchVishResults}
-                               titleModeToggled={(id, value) => this.dispatchAndSetState(toggleTitleMode(navItemSelected, value))}
+                               titleModeToggled={(id, value) => this.dispatchAndSetState(toggleTitleMode(id, value))}
+                               onCVNameChanged={(id, title) => this.dispatchAndSetState(changeCVName(id,title))}
                                onNavItemToggled={ id => this.dispatchAndSetState(toggleNavItem(navItemSelected)) }
                                onNavItemSelected={id => this.dispatchAndSetState(selectNavItem(id))}
                                onNavItemNameChanged={(id, title) => this.dispatchAndSetState(changeNavItemName(id,title))}

@@ -66,7 +66,6 @@ export default class DaliHeader extends Component {
 
         let content;
         let unidad = "";
-
         // breadcrumb
         if(this.props.containedView === 0){
             if (currentStatus !== undefined) {
@@ -105,7 +104,7 @@ export default class DaliHeader extends Component {
 
             }
         }
-
+ 
         if(navItem.id !== 0){
         return (
             /* jshint ignore:start */

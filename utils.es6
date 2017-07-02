@@ -29,7 +29,7 @@ export function isSection(id) {
 }
 
 export function isCanvasElement(id, config){
-    return isPage(id) || (isSection(id) && config);
+    return isPage(id) || (isSection(id) && config) || isContainedView(id);
 }
 
 export function isBox(id) {
