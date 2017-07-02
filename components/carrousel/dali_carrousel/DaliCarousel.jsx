@@ -27,6 +27,7 @@ export default class DaliCarousel extends Component {
                                               onContainedViewsExpand={this.props.onContainedViewsExpand}
                                               onContainedViewDeleted={this.props.onContainedViewDeleted}
                                               onContainedViewSelected={this.props.onContainedViewSelected}
+                                              onCVNameChanged={this.props.onCVNameChanged}
                                               onNavItemNameChanged={this.props.onNavItemNameChanged}
                                               onNavItemAdded={this.props.onNavItemAdded}
                                               onNavItemSelected={this.props.onNavItemSelected}

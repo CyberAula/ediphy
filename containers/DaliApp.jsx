@@ -104,6 +104,7 @@ class DaliApp extends Component {
                                   displayMode={displayMode}
                                   onBoxAdded={(ids, draggable, resizable, content, toolbar, config, state) => this.dispatchAndSetState(addBox(ids, draggable, resizable, content, toolbar, config, state))}
                                   onIndexSelected={(id) => this.dispatchAndSetState(selectIndex(id))}
+                                  onCVNameChanged={(id, title) => this.dispatchAndSetState(changeCVName(id,title))}
                                   onContainedViewSelected={ (id) => this.dispatchAndSetState(selectContainedView(id)) }
                                   onContainedViewDeleted={(cvid)=>{
                                       let boxesRemoving = [];
