@@ -1,5 +1,5 @@
 import {ADD_BOX, ADD_CONTAINED_VIEW, ADD_RICH_MARK, DELETE_BOX,DELETE_CONTAINED_VIEW, CHANGE_CV_NAME, TOGGLE_TITLE_MODE, DELETE_NAV_ITEM, DELETE_SORTABLE_CONTAINER, IMPORT_STATE} from './../actions';
-import {changeProp, deleteProps, isContainedView} from './../utils';
+import {changeProp, deleteProps, isContainedView, findNavItemContainingBox} from './../utils';
 
 function singleContainedViewReducer(state = {}, action = {}) {
     switch (action.type) {
@@ -49,7 +49,26 @@ export default function (state = {}, action = {}) {
         case DELETE_NAV_ITEM:
             return deleteProps(state, action.payload.containedViews);
         case DELETE_SORTABLE_CONTAINER:
-            return deleteProps(state, action.payload.childrenViews);
+            let item = findNavItemContainingBox(state,action.payload.parent);
+            if(item) {
+                if(item.extraFiles.length !== 0) {
+                    return Object.assign({}, state,
+                                    Object.assign({},
+                                        {
+                                            [findNavItemContainingBox(state, action.payload.parent).id]:
+                                            Object.assign(
+                                                {},
+                                                findNavItemContainingBox(state, action.payload.parent),
+                                                {extraFiles: {}
+                                                }
+                                            )
+                                        }
+                                    )
+                        );
+                }
+            }
+            return state;        
+            // return deleteProps(state, action.payload.childrenViews);
         case TOGGLE_TITLE_MODE:
             if (isContainedView(action.payload.id)) {
                 return changeProp(state, action.payload.id, singleContainedViewReducer(state[action.payload.id], action));

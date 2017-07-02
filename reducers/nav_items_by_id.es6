@@ -179,8 +179,9 @@ export default function (state = {}, action = {}) {
 
             return state;
         case DELETE_SORTABLE_CONTAINER:
-        
-            if(findNavItemContainingBox(state,action.payload.parent).extraFiles.length !== 0){
+            let item = findNavItemContainingBox(state,action.payload.parent);
+            if(item) {
+                if(item.extraFiles.length !== 0) {
                     return Object.assign({}, state,
                                     Object.assign({},
                                         {
@@ -194,6 +195,7 @@ export default function (state = {}, action = {}) {
                                         }
                                     )
                         );
+                }
             }
             return state;
         case DUPLICATE_BOX:
