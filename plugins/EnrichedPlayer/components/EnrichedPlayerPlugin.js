@@ -13,9 +13,46 @@ export default class EnrichedPlayerPlugin extends React.Component {
         seeking: false,
         fullscreen: false,
         controls: true,
-        toBeTriggered: []
+        toBeTriggered: [],
+        triggering: false
     };
    }
+
+    componentWillUpdate(nextProps, nextState){
+       console.log(nextState);
+       console.log(nextProps);
+        if(nextState.played !== this.state.played){
+            let sudo = this;
+
+            let marks = this.props.state.__marks;
+            let triggerMark =  this.props.triggerMark;
+            let triggerArray = this.state.toBeTriggered;
+            triggerArray.forEach(function(e){
+                if ((parseFloat(e.value)/100).toFixed(3) < parseFloat(nextState.played).toFixed(3) ){
+                    let toBeTriggered = triggerArray;
+                    triggerMark(e.box_id, e.value, true);
+                    toBeTriggered.splice(e,1);
+                    sudo.setState({toBeTriggered: toBeTriggered});
+                }
+            });
+
+            Object.keys(marks).forEach(function(key){
+                let notInArray = true;
+
+                triggerArray.forEach(function(mark){
+                    if(mark === key){
+                        notInArray = false;
+                    }
+                });
+
+                if(notInArray && parseFloat(nextState.played).toFixed(3) <= (parseFloat(marks[key].value)/100).toFixed(3) && parseFloat(parseFloat(nextState.played).toFixed(3)) + 0.1 >= parseFloat((parseFloat(marks[key].value)/100).toFixed(3))){
+                    let toBeTriggered = triggerArray;
+                    toBeTriggered.push(marks[key]);
+                    sudo.setState({toBeTriggered: toBeTriggered});
+                }
+            });
+        }
+    }
 
    componentWillMount(){
        if(this.props.state.currentState !== undefined){
@@ -70,35 +107,6 @@ export default class EnrichedPlayerPlugin extends React.Component {
             this.setState(state);
         }
 
-        let sudo = this;
-        let marks = this.props.state.__marks;
-        let triggerMark =  this.props.triggerMark;
-        let triggerArray = this.state.toBeTriggered;
-        triggerArray.forEach(function(e){
-            if ((parseFloat(e.value)/100).toFixed(3) < parseFloat(state.played).toFixed(3) ){
-                let toBeTriggered = triggerArray;
-                triggerMark(e.box_id, e.value, true);
-                toBeTriggered.splice(e,1);
-                sudo.setState({toBeTriggered: toBeTriggered});
-            }
-        });
-
-        Object.keys(marks).forEach(function(key){
-            let notInArray = true;
-
-            triggerArray.forEach(function(mark){
-                if(mark === key){
-                    notInArray = false;
-                }
-            });
-
-            if(notInArray && parseFloat(state.played).toFixed(3) <= (parseFloat(marks[key].value)/100).toFixed(3) && parseFloat(parseFloat(state.played).toFixed(3)) + 0.1 >= parseFloat((parseFloat(marks[key].value)/100).toFixed(3))){
-                let toBeTriggered = triggerArray;
-                toBeTriggered.push(marks[key]);
-                sudo.setState({toBeTriggered: toBeTriggered});
-            }
-        });
-
     }
 
     componentWillReceiveProps(nextProps){
@@ -106,6 +114,13 @@ export default class EnrichedPlayerPlugin extends React.Component {
             this.setState({controls:true});
         } else if (nextProps.state.controls === false && this.state.controls !== this.props.state.controls){
             this.setState({controls: false});
+        }
+    }
+
+    componentDidMount(){
+        if(this.player !== undefined && this.state.initialPoint !== undefined){
+            this.player.seekTo(this.state.initialPoint);
+            this.setState({initialPoint: undefined});
         }
     }
 
@@ -122,10 +137,6 @@ export default class EnrichedPlayerPlugin extends React.Component {
                 </a>);
         });
 
-        if(this.player !== undefined && this.state.initialPoint !== undefined){
-           this.player.seekTo(this.state.initialPoint);
-           this.setState({initialPoint: undefined});
-        }
         /* jshint ignore:start */
         return (
             <div ref={player_wrapper => {this.player_wrapper = player_wrapper}} style={{width:"100%",height:"100%"}} className="player-wrapper">
