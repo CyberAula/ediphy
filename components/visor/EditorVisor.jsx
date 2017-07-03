@@ -40,7 +40,7 @@ export default class Visor extends Component {
     }
 
     mountFunction(){
-
+        
         let richElementsState = this.state.richElementState;
         let marks = this.getAllMarks();
 
@@ -103,7 +103,10 @@ export default class Visor extends Component {
             });
 
             let array_trigger_mark = this.santinizeViewsArray(nextState.triggeredMarks, nextState.currentView.concat([newMark.connection]));
+            let newcv =  array_trigger_mark.length > 0 && array_trigger_mark[array_trigger_mark.length-1] && isContainedView(array_trigger_mark[array_trigger_mark.length-1]) ? array_trigger_mark[array_trigger_mark.length-1] : 0;
+
             this.setState({
+                containedViewSelected: newcv,
                 currentView: array_trigger_mark,
                 triggeredMarks: nextState.triggeredMarks
             });
@@ -117,6 +120,7 @@ export default class Visor extends Component {
         if (window.State) {
             Dali.State = window.State;
         }
+
         let boxes = Dali.State.boxesById;
         let boxSelected = Dali.State.boxSelected;
         let navItems = Dali.State.navItemsById;
@@ -131,29 +135,41 @@ export default class Visor extends Component {
         let toggleIcon = this.state.toggledSidebar ? "keyboard_arrow_left" : "keyboard_arrow_right";
         let toggleColor = this.state.toggledSidebar ? "toggleColor" : "";
         let isSlide = navItems[navItemSelected].type === "slide" ? "pcw_slide":"pcw_doc";
- 
+        
         return (
             /* jshint ignore:start */
-            <div id="app" className={wrapperClasses} >
+            <div id="app" 
+                 className={wrapperClasses} >
                 <SideNavVisor courseTitle={title}
                               toggled={this.state.toggledSidebar}
                               changePage={(page)=> {this.changeCurrentView(page)}}
                               navItemsById={navItems}
                               navItemsIds={navItemsIds}
                               navItemSelected={navItemSelected}/>
-                <div id="page-content-wrapper" className={isSlide} style={{height: '100%'}}>
-                    <Grid fluid={true} style={{height: '100%'}}>
+                <div id="page-content-wrapper" 
+                     className={isSlide} 
+                    style={{height: '100%'}}>
+                    <Grid fluid={true} 
+                          style={{height: '100%'}}>
                         <Row style={{height: '100%'}}>
                             <Col lg={12} style={{height: '100%'}}>
-                                <VisorPlayer changePage={(page)=> {this.changeCurrentView(page)}} navItemsById={navItems} navItemsIds={navItemsIds} navItemSelected={navItemSelected} />
-                                <Button id="visorNavButton" className={toggleColor} bsStyle="primary"  onClick={e => {this.setState({toggledSidebar: !this.state.toggledSidebar})}}>
+                                <VisorPlayer changePage={(page)=> {this.changeCurrentView(page)}} 
+                                             navItemsById={navItems} 
+                                             navItemsIds={navItemsIds} 
+                                             navItemSelected={navItemSelected} />
+                                <Button id="visorNavButton" 
+                                        className={toggleColor} 
+                                        bsStyle="primary"  
+                                        onClick={e => {this.setState({toggledSidebar: !this.state.toggledSidebar})}}>
                                     <i className="material-icons">{toggleIcon}</i>
                                 </Button>
-                                { this.getLastCurrentViewElement().indexOf("cv-") === -1 ?
+
+                                { !isContainedView(this.getLastCurrentViewElement()) ?
                                     (<CanvasVisor boxes={boxes}
                                                 boxSelected={boxSelected}
                                                 changeCurrentView={(element) => {this.changeCurrentView(element)}}
                                                 containedViews={containedViews}
+                                                containedViewSelected={containedViews[containedViewSelected]||0}
                                                 currentView={this.getLastCurrentViewElement()}
                                                 navItems={navItems}
                                                 navItemSelected={navItems[navItemSelected]}
@@ -161,13 +177,7 @@ export default class Visor extends Component {
                                                 title={title}
                                                 triggeredMarks={this.state.triggeredMarks}
                                                 showCanvas={this.getLastCurrentViewElement().indexOf("cv-") === -1}
-                                                removeLastView={()=>{
-                                                    this.setState({
-                                                        currentView: this.state.currentView.slice(0,-1),
-                                                        triggeredMarks: this.unTriggerLastMark(this.state.triggeredMarks),
-                                                        richElementState: this.getActualBoxesStates(this.state.backupElementStates,this.state.richElementState)
-                                                    })
-                                                }}
+                                                removeLastView={()=>{this.removeLastView()}}
                                                 richElementsState={this.state.richElementState}
                                                 viewsArray={this.state.currentView}
                                                 canvasRatio={ratio}
@@ -176,22 +186,18 @@ export default class Visor extends Component {
                                                 boxSelected={boxSelected}
                                                 changeCurrentView={(element) => {this.changeCurrentView(element)}}
                                                 containedViews={containedViews}
-                                                containedViewSelected={containedViewSelected}
+                                                containedViewSelected={containedViews[containedViewSelected]||0}
+                                                currentView={this.getLastCurrentViewElement()}
                                                 navItems={navItems}
+                                                navItemSelected={navItems[navItemSelected]}
                                                 toolbars={toolbars}
                                                 title={title}
                                                 triggeredMarks={this.state.triggeredMarks}
                                                 showCanvas={this.getLastCurrentViewElement().indexOf("cv-") !== -1}
-                                                currentView={this.getLastCurrentViewElement()}
-                                                removeLastView={()=>{
-                                                   this.setState({
-                                                       currentView: this.state.currentView.slice(0,-1),
-                                                       triggeredMarks: this.unTriggerLastMark(this.state.triggeredMarks),
-                                                       richElementState: this.getActualBoxesStates(this.state.backupElementStates,this.state.richElementState)
-                                                   })
-                                                }}
+                                                removeLastView={()=>{this.removeLastView()}}
                                                 richElementsState={this.state.richElementState}
                                                 viewsArray={this.state.currentView}
+                                                canvasRatio={ratio}
                                     />)
                                 }
                             </Col>
@@ -215,6 +221,7 @@ export default class Visor extends Component {
         } else {
 
              this.setState({ navItemSelected: element, 
+                             containedViewSelected: 0,
                              currentView: [element] });
              if(this.state.currentView.length > 1) {
                 this.setState({ triggeredMarks: this.unTriggerLastMark(this.state.triggeredMarks),
@@ -419,6 +426,21 @@ export default class Visor extends Component {
         let nextState = backup;
         nextState[this.state.triggeredMarks[0].box_id] = current[this.state.triggeredMarks[0].box_id];
         return nextState;
+    }
+
+    removeLastView() {
+        let newViews = this.state.currentView.slice(0,-1);
+        if (newViews.length > 0){
+            let lastView = newViews[newViews.length -1];
+            if (lastView.indexOf("cv-") === -1){
+                this.setState({containedViewSelected: 0});
+            }
+        }
+        this.setState({
+            currentView: newViews,
+            triggeredMarks: this.unTriggerLastMark(this.state.triggeredMarks),
+            richElementState: this.getActualBoxesStates(this.state.backupElementStates,this.state.richElementState)
+        });
     }
  
 }

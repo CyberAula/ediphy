@@ -240,12 +240,14 @@ export default class DaliBox extends Component {
                 <div className="boxOverlay" style={{ display: showOverlay }}></div>
                 <MarkCreator
                     addMarkShortcut={this.props.addMarkShortcut}
+                    onBoxAdded={this.props.onBoxAdded}
                     boxSelected={this.props.boxSelected}
                     content={this.refs.content}
                     deleteMarkCreator={this.props.deleteMarkCreator}
                     parseRichMarkInput={Dali.Plugins.get(toolbar.config.name).parseRichMarkInput}
                     markCreatorId={this.props.markCreatorId}
                     currentId={this.props.id}
+                    pageType={this.props.pageType}
                 />
             </div>
             /* jshint ignore:end */
@@ -452,7 +454,7 @@ export default class DaliBox extends Component {
                     restriction: dragRestrictionSelector,
                     elementRect: {top: 0, left: 0, bottom: 1, right: 1}
                 },
-                autoScroll: false,
+                autoScroll: true,
                 onstart: (event) => {
                     // If contained in smth different from ContainedCanvas (sortableContainer || PluginPlaceHolder), clone the node and hide the original
                     if (isSortableContainer(box.container)) {
@@ -494,7 +496,6 @@ export default class DaliBox extends Component {
                         //target.style.top = 
                     } else {
                         let target = event.target;
-                        target.classList.add('rotate');
                         let topInPix = target.parentElement.offsetHeight * (parseFloat(target.style.top)/100);
                         let leftInPix = target.parentElement.offsetWidth * (parseFloat(target.style.left)/100);
                         target.style.top = topInPix + "px";
@@ -575,8 +576,7 @@ export default class DaliBox extends Component {
                         target.style.opacity = 1;
                     } 
                     
-                    target.classList.remove('rotate');
-                    
+                     
                     this.props.onBoxMoved(
                         this.props.id,
                         isSortableContainer(box.container) ? left : absoluteLeft,

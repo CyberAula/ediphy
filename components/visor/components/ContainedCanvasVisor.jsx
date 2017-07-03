@@ -4,89 +4,64 @@ import BoxVisor from './BoxVisor';
 import BoxSortableVisor from './BoxSortableVisor';
 import {Col, Button} from 'react-bootstrap';
 import {isSortableBox, isSlide} from './../../../utils';
+import CanvasVisorDoc from './CanvasVisorDoc';
+import CanvasVisorSli from './CanvasVisorSli';
 
 export default class ContainedCanvasVisor extends Component {
 
     componentDidMount(){
 
     }
-
     render() {
-         let maincontent = document.getElementById('contained_maincontent');
-        let actualHeight;
-        if (maincontent) {
-            actualHeight = parseInt(maincontent.scrollHeight, 10);
-            actualHeight = (parseInt(maincontent.clientHeight, 10) < actualHeight) ? (actualHeight) + 'px' : '100%';
+        let visorContent;
+        if (isSlide(this.props.containedViewSelected.type)) {
+            /* jshint ignore:start */
+            visorContent = <CanvasVisorSli navItemSelected={this.props.navItemSelected}
+                                           navItems={this.props.navItems}
+                                           containedViewSelected={this.props.containedViewSelected}
+                                           containedViews={this.props.containedViews}                                           
+                                           boxes={this.props.boxes}
+                                           boxSelected={this.props.boxSelected}
+                                           boxLevelSelected={this.props.boxLevelSelected}
+                                           toolbars={this.props.toolbars}
+                                           removeLastView={this.props.removeLastView}
+                                           richElementsState={this.props.richElementsState}
+                                           showCanvas={this.props.showCanvas}
+                                           canvasRatio={this.props.canvasRatio}
+                                           changeCurrentView={this.props.changeCurrentView}
+                                           title={this.props.title}
+                                           triggeredMarks={this.props.triggeredMarks}
+                                           viewsArray={this.props.viewsArray}
+                                           fromCV={true}/>;
+            /* jshint ignore:end */
+        }else{
+            /* jshint ignore:start */
+            visorContent = <CanvasVisorDoc navItemSelected={this.props.navItemSelected}
+                                           navItems={this.props.navItems}
+                                           containedViewSelected={this.props.containedViewSelected}
+                                           containedViews={this.props.containedViews}
+                                           boxes={this.props.boxes}
+                                           boxSelected={this.props.boxSelected}
+                                           boxLevelSelected={this.props.boxLevelSelected}
+                                           toolbars={this.props.toolbars}
+                                           removeLastView={this.props.removeLastView}
+                                           richElementsState={this.props.richElementsState}
+                                           showCanvas={this.props.showCanvas}
+                                           changeCurrentView={this.props.changeCurrentView}
+                                           title={this.props.title}
+                                           triggeredMarks={this.props.triggeredMarks}
+                                           viewsArray={this.props.viewsArray}
+                                           fromCV={true}/>;
+            /* jshint ignore:end */
         }
 
-        let overlayHeight = actualHeight ? actualHeight : '100%';
         return (
             /* jshint ignore:start */
-
-            <Col id="containedCanvas" md={12} xs={12}  
-                 style={{display: 'initial', backgroundColor: 'white'}}>
-                 <div className="scrollcontainer">
-                <div className="outter canvasvisor">
-                    <div id="airlayer"
-                    /*className={isSlide(this.props.navItemSelected.type) ? 'slide_air' : 'doc_air'}*/
-                    style={{visibility: (this.props.showCanvas ? 'visible' : 'hidden') }}>
-
-                    <div id="contained_maincontent"
-                         onClick={e => {
-                        this.setState({showTitle:false})
-                       }}
-                         /*className={isSlide(this.props.navItemSelected.type) ? 'innercanvas sli':'innercanvas doc'}*/
-                         style={{visibility: (this.props.showCanvas ? 'visible' : 'hidden')}}>
-
-                        <a href="#" style={{margin:"10px", pointerEvents: this.props.viewsArray.length > 1 ? 'initial': 'none',  color: this.props.viewsArray.length > 1 ? 'black': 'gray'}} onClick={a => {
-                                    this.props.removeLastView();
-                                    a.stopPropagation();
-                                }}><i style={{marginTop: "20px"}} className="material-icons">keyboard_backspace</i></a>
-                        <br/>
-
-                        <div style={{
-                                width: "100%",
-                                background: "black",
-                                height: overlayHeight,
-                                position: "absolute",
-                                top: 0,
-                                opacity: 0.4,
-                                display:(this.props.boxLevelSelected > 0) ? "block" : "none",
-                                visibility: (this.props.boxLevelSelected > 0) ? "visible" : "collapse"
-                            }}> </div>
-
-
-                        {(this.props.showCanvas) &&
-                            this.props.containedViews[this.props.currentView].boxes.map(id => {
-                            let box = this.props.boxes[id];
-                            if (!isSortableBox(box.id)) {
-                                return <BoxVisor key={id}
-                                                id={id}
-                                                boxes={this.props.boxes}
-                                                boxSelected={this.props.boxSelected}
-                                                boxLevelSelected={this.props.boxLevelSelected}
-                                                containedViewSelected={this.props.currentView}
-                                                toolbars={this.props.toolbars}
-                                                richElementsState={this.props.richElementsState}/>
-                            } else {
-                                return <BoxSortableVisor key={id}
-                                                        id={id}
-                                                        boxes={this.props.boxes}
-                                                        boxSelected={this.props.boxSelected}
-                                                        boxLevelSelected={this.props.boxLevelSelected}
-                                                        containedViewSelected={this.props.currentView}
-                                                        toolbars={this.props.toolbars}
-                                                        richElementsState={this.props.richElementsState}/>
-                            }
-                        })}
-                    </div>
-                </div>
-                </div>
-                </div>
-            </Col>
+            visorContent
             /* jshint ignore:end */
         );
     }
+ 
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.boxSelected !== -1) {

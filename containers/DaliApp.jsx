@@ -10,7 +10,7 @@ import {addNavItem, selectNavItem, expandNavItem, deleteNavItem, reorderNavItem,
     changeDisplayMode, expandContainedViewList, updateToolbar,
     exportStateAsync, importStateAsync,
     fetchVishResourcesSuccess, fetchVishResourcesAsync, uploadVishResourceAsync,
-    deleteContainedView, selectContainedView,
+    deleteContainedView, selectContainedView, changeContainedViewName,
     ADD_BOX, ADD_RICH_MARK, addRichMark, EDIT_RICH_MARK, editRichMark, EDIT_PLUGIN_TEXT, DELETE_RICH_MARK, UPDATE_BOX, UPDATE_TOOLBAR} from '../actions';
 import {ID_PREFIX_BOX, ID_PREFIX_SORTABLE_CONTAINER} from '../constants';
 import DaliCanvas from '../components/canvas/dali_canvas/DaliCanvas';
@@ -104,6 +104,7 @@ class DaliApp extends Component {
                                   displayMode={displayMode}
                                   onBoxAdded={(ids, draggable, resizable, content, toolbar, config, state) => this.dispatchAndSetState(addBox(ids, draggable, resizable, content, toolbar, config, state))}
                                   onIndexSelected={(id) => this.dispatchAndSetState(selectIndex(id))}
+                                  onContainedViewNameChanged={(id, title) => this.dispatchAndSetState(changeContainedViewName(id,title))}
                                   onContainedViewSelected={ (id) => this.dispatchAndSetState(selectContainedView(id)) }
                                   onContainedViewDeleted={(cvid)=>{
                                       let boxesRemoving = [];
@@ -179,11 +180,13 @@ class DaliApp extends Component {
                                         boxLevelSelected={boxLevelSelected}
                                         navItems={navItems}
                                         navItemSelected={navItems[navItemSelected]}
-                                        containedViewSelected={containedViewSelected}
+                                        containedViews={containedViews}
+                                        containedViewSelected={containedViews[containedViewSelected] || 0}
                                         showCanvas={(navItemSelected !== 0)}
                                         toolbars={toolbars}
                                         title={title}
                                         markCreatorId={this.state.markCreatorVisible}
+                                        onBoxAdded={(ids, draggable, resizable, content, toolbar, config, state) => this.dispatchAndSetState(addBox(ids, draggable, resizable, content, toolbar, config, state))}
                                         addMarkShortcut= {(mark) => {
                                             let toolbar = toolbars[boxSelected];
                                             let state = JSON.parse(JSON.stringify(toolbar.state));
@@ -210,6 +213,7 @@ class DaliApp extends Component {
                                         onSortableContainerReordered={(ids, parent) => this.dispatchAndSetState(reorderSortableContainer(ids, parent))}
                                         onBoxDropped={(id, row, col) => this.dispatchAndSetState(dropBox(id, row, col))}
                                         onBoxDeleted={(id, parent, container)=> this.dispatchAndSetState(deleteBox(id, parent, container, this.getDescendantBoxes(boxes[id]), this.getDescendantContainedViews(boxes[id])))}
+                                        onContainedViewSelected={id => this.dispatchAndSetState(selectContainedView(id))}
                                         onVerticallyAlignBox={(id, verticalAlign)=>this.dispatchAndSetState(verticallyAlignBox(id, verticalAlign))}
                                         onUnitNumberChanged={(id, value) => this.dispatchAndSetState(changeUnitNumber(id, value))}
                                         onTextEditorToggled={(caller, value) => this.dispatchAndSetState(toggleTextEditor(caller, value))}
@@ -218,13 +222,33 @@ class DaliApp extends Component {
                                         onMarkCreatorToggled={(id) => this.setState({markCreatorVisible: id})}/>
                             <ContainedCanvas boxes={boxes}
                                              boxSelected={boxSelected}
+                                             canvasRatio={this.props.store.getState().present.canvasRatio}
                                              boxLevelSelected={boxLevelSelected}
+                                             navItems={navItems}
+                                             navItemSelected={navItems[navItemSelected]}
                                              containedViews={containedViews}
-                                             containedViewSelected={containedViewSelected}
+                                             containedViewSelected={containedViews[containedViewSelected] || 0}
                                              markCreatorId={this.state.markCreatorVisible}
-                                             addMarkShortcut={(value)=>{console.log(value)}}
+                                             addMarkShortcut= {(mark) => {
+                                                 let toolbar = toolbars[boxSelected];
+                                                 let state = JSON.parse(JSON.stringify(toolbar.state));
+                                                 state.__marks[mark.id] = JSON.parse(JSON.stringify(mark));
+                                                 if(mark.connection.id){
+                                                     state.__marks[mark.id].connection = mark.connection.id;
+                                                 }
+
+
+                                                 Dali.Plugins.get(toolbar.config.name).forceUpdate(
+                                                     state,
+                                                     boxSelected,
+                                                     addRichMark(boxSelected, mark, state)
+                                                 );
+                                             }}
+                                             onBoxAdded={(ids, draggable, resizable, content, toolbar, config, state) => this.dispatchAndSetState(addBox(ids, draggable, resizable, content, toolbar, config, state))}
                                              deleteMarkCreator={()=>this.setState({markCreatorVisible: false})}
+                                             title={title}
                                              toolbars={toolbars}
+                                             titleModeToggled={(id, value) => this.dispatchAndSetState(toggleTitleMode(id, value))}
                                              lastActionDispatched={this.state.lastAction}
                                              onContainedViewSelected={id => this.dispatchAndSetState(selectContainedView(id))}
                                              onBoxSelected={(id) => this.dispatchAndSetState(selectBox(id))}
@@ -239,7 +263,8 @@ class DaliApp extends Component {
                                              onMarkCreatorToggled={(id) => this.setState({markCreatorVisible: id})}
                                              onVerticallyAlignBox={(id, verticalAlign)=>this.dispatchAndSetState(verticallyAlignBox(id, verticalAlign))}
                                              onTextEditorToggled={(caller, value) => this.dispatchAndSetState(toggleTextEditor(caller, value))}
-                                             onBoxesInsideSortableReorder={(parent, container, order) => {this.dispatchAndSetState(reorderBoxes(parent, container, order))}}/>
+                                             onBoxesInsideSortableReorder={(parent, container, order) => {this.dispatchAndSetState(reorderBoxes(parent, container, order))}}
+                                             showCanvas={(containedViewSelected !== 0)}/>
                         </Row>
                     </Col>
                 </Row>
@@ -267,6 +292,7 @@ class DaliApp extends Component {
                                 navItemsIds={navItemsIds}
                                 visible={this.state.richMarksVisible}
                                 currentRichMark={this.state.currentRichMark}
+                                onBoxAdded={(ids, draggable, resizable, content, toolbar, config, state) => this.dispatchAndSetState(addBox(ids, draggable, resizable, content, toolbar, config, state))}
                                 onRichMarkUpdated={(mark) => {
                                     let toolbar = toolbars[boxSelected];
                                     let state = JSON.parse(JSON.stringify(toolbar.state));
@@ -290,12 +316,13 @@ class DaliApp extends Component {
                                toolbars={toolbars}
                                box={boxes[boxSelected]}
                                boxSelected={boxSelected}
-                               navItemSelected={navItemSelected}
-                               navItems={navItems}
+                               navItemSelected={containedViewSelected !== 0 ? containedViewSelected : navItemSelected}
+                               navItems={containedViewSelected !== 0 ? containedViews : navItems}
                                carouselShow={this.state.carouselShow}
                                isBusy={isBusy}
                                fetchResults={fetchVishResults}
-                               titleModeToggled={(id, value) => this.dispatchAndSetState(toggleTitleMode(navItemSelected, value))}
+                               titleModeToggled={(id, value) => this.dispatchAndSetState(toggleTitleMode(id, value))}
+                               onContainedViewNameChanged={(id, title) => this.dispatchAndSetState(changeContainedViewName(id,title))}
                                onNavItemToggled={ id => this.dispatchAndSetState(toggleNavItem(navItemSelected)) }
                                onNavItemSelected={id => this.dispatchAndSetState(selectNavItem(id))}
                                onNavItemNameChanged={(id, title) => this.dispatchAndSetState(changeNavItemName(id,title))}

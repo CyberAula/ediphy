@@ -44,9 +44,8 @@ export default class PluginRibbon extends Component {
                                                 backgroundSize: '32px',
                                                 backgroundPosition: '8px',
                                                 backgroundRepeat: 'no-repeat'
-                                            }:{
-
-                                            }}>
+                                            }:{}
+                                            }>
                                         <i className="material-icons" style={(button.iconFromUrl)?{display:'none'}:{}}>{clase}</i> {button.displayName}
                                     </Button>
                                 </div>);
@@ -185,13 +184,13 @@ export default class PluginRibbon extends Component {
                 container = "canvas";
 
         }
-
+        let elContainer = document.getElementById(container);
         interact.dynamicDrop(true);
         interact(".rib")
             .draggable({
                 inertia: true,
                 autoScroll: {
-                    container: document.getElementById(container),
+                    container: elContainer ? elContainer:window,
                     margin: 50,
                     speed: 400,
                     distance: 0,

@@ -28,6 +28,7 @@ var en = {
         "delete": "Delete",
         "display": "Display",
         "display_page": "Preview / Export",
+        "document": "Document",
         "error": {
             "exporting": "There was an error when exporting",
             "generic": "There was an error",

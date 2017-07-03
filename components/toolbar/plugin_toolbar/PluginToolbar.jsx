@@ -9,7 +9,7 @@ import MarksList from './../../rich_plugins/marks_list/MarksList.jsx';
 import ContentList from './../../rich_plugins/content_list/ContentList.jsx';
 import Dali from './../../../core/main';
 import {UPDATE_TOOLBAR, UPDATE_BOX, TOGGLE_NAV_ITEM, CHANGE_NAV_ITEM_NAME, TOGGLE_TITLE_MODE} from '../../../actions';
-import {isSortableContainer, isCanvasElement, isSlide} from '../../../utils';
+import {isSortableContainer, isCanvasElement, isContainedView, isSlide} from '../../../utils';
 import i18n from 'i18next';
 
 require('./_pluginToolbar.scss');
@@ -338,7 +338,11 @@ export default class PluginToolbar extends Component {
             break;
         //change document(navitem) name
         case i18n.t('NavItem_name'):
-            this.props.onNavItemNameChanged(this.props.navItemSelected, value);
+            if (isContainedView(this.props.navItemSelected)) {
+              this.props.onContainedViewNameChanged(this.props.navItemSelected, value);
+            } else {
+              this.props.onNavItemNameChanged(this.props.navItemSelected, value);
+            }
             break;
         //display - course title
         case i18n.t('course_title'):
@@ -357,9 +361,8 @@ export default class PluginToolbar extends Component {
                         pageNumber: navitem.header.display.pageNumber
                     }
             });
-            break;
-        //display - page title
-        case i18n.t('Title')+i18n.t('page'):
+            break;        //display - page title
+        case i18n.t('Title')+i18n.t('document'):
             let docTitle = value ? 'reduced' : 'hidden';
             this.props.titleModeToggled(this.props.navItemSelected, {
                 elementContent:{
@@ -370,6 +373,25 @@ export default class PluginToolbar extends Component {
                 display:{
                     courseTitle: navitem.header.display.courseTitle,
                     documentTitle: docTitle,
+                    documentSubTitle: navitem.header.display.documentSubTitle,
+                    breadcrumb: navitem.header.display.breadcrumb,
+                    pageNumber: navitem.header.display.pageNumber
+                }
+            });
+
+            break;
+        //display - page title
+        case i18n.t('Title')+i18n.t('page'):
+            let pageTitle = value ? 'reduced' : 'hidden';
+            this.props.titleModeToggled(this.props.navItemSelected, {
+                elementContent:{
+                    documentTitle: navitem.header.elementContent.documentTitle,
+                    documentSubTitle:  navitem.header.elementContent.documentSubTitle,
+                    numPage: navitem.header.elementContent.numPage
+                },
+                display:{
+                    courseTitle: navitem.header.display.courseTitle,
+                    documentTitle: pageTitle,
                     documentSubTitle: navitem.header.display.documentSubTitle,
                     breadcrumb: navitem.header.display.breadcrumb,
                     pageNumber: navitem.header.display.pageNumber
