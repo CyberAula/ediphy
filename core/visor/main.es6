@@ -44,35 +44,43 @@ export default {
         xhr.onreadystatechange = function(evt) {
             if (xhr.readyState === 4) {
                 if (xhr.status === 200) {
-                    var zip = new JSZip();
-
+ 
                     JSZipUtils.getBinaryContent(Dali.Config.visor_zip, function (err, data) {
                         if (err) {
                             throw err; // or handle err
                         }
                         JSZip.loadAsync(data).then(function (zip) {
                             var navs = state.navItemsById;
+                            /*
+                                state.navItemsIds.map(function (page) {
+                                    if(navs[page].hidden){
+                                        return;
+                                    }
+                                    if(page.indexOf(ID_PREFIX_SECTION) !== -1){
+                                        return;
+                                    }
+                                    var name = navs[page].name;
 
-                            state.navItemsIds.map(function (page) {
-                                if(navs[page].hidden){
-                                    return;
-                                }
-                                if(page.indexOf(ID_PREFIX_SECTION) !== -1){
-                                    return;
-                                }
-                                var name = navs[page].name;
-
-                                if( nav_names_used[name] === undefined ){
-                                    nav_names_used[name] = 0;
-                                } else {
-                                    name = getDistinctName(name, nav_names_used);
-                                }
+                                    if( nav_names_used[name] === undefined ){
+                                        nav_names_used[name] = 0;
+                                    } else {
+                                        name = getDistinctName(name, nav_names_used);
+                                    }
 
 
-                                var inner = parseEJS(Dali.Config.visor_ejs, page, state);
-                                zip.file("dist/" + name + ".html", inner);
-                                zip.file("js/visor-bundle.js", xhr.response);
-                            });
+                                    var inner = parseEJS(Dali.Config.visor_ejs, page, state);
+                                    zip.file("dist/" + name + ".html", inner);
+                                    zip.file("js/visor-bundle.js", xhr.response);
+                                });
+                            */
+
+                            if (state.navItemsIds && state.navItemsIds.length > 0) {
+                                var page = state.navItemsIds[0];
+                                var content = parseEJS(Dali.Config.visor_ejs, page, state);
+                                zip.file("dist/index.html", content);
+                                zip.file("dist/js/visor-bundle.js", xhr.response);
+
+                            }
                             return zip;
                         }).then(function (zip) {
                             return zip.generateAsync({type: "blob"});

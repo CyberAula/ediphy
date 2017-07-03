@@ -135,6 +135,7 @@ function createSizeButtons(controls, state, action, floatingBox) {
 
             displayValue = 25;
             value = 25;
+            units = '%';
         }
 
         let initialWidth = action.payload.initialParams.width;
