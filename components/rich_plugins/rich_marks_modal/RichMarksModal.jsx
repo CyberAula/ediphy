@@ -171,11 +171,11 @@ export default class RichMarksModal extends Component {
                     }}>Cancel</Button>
                     <Button bsStyle="primary" onClick={e => {
                         let title = ReactDOM.findDOMNode(this.refs.title).value;
+                        let newId = ID_PREFIX_CONTAINED_VIEW + Date.now();
                         let connectMode = this.state.connectMode;
                         let connection;
                          switch (connectMode){
                             case "new":
-                                let newId = ID_PREFIX_CONTAINED_VIEW + Date.now();
                                 connection = current ?
                                     current.connection :
                                     {
@@ -199,9 +199,6 @@ export default class RichMarksModal extends Component {
                                        }
                                     };
 
-                                    if(this.state.newSelected === PAGE_TYPES.DOCUMENT) {
-                                        onBoxAdded({parent: newId, container: 0, id: ID_PREFIX_SORTABLE_BOX + Date.now()}, false, false);
-                                    }
                                 break;
                             case "existing":
                                 connection = this.state.existingSelected;
@@ -213,6 +210,9 @@ export default class RichMarksModal extends Component {
                         let displayMode = this.state.displayMode;
                         let value = ReactDOM.findDOMNode(this.refs.value).value;
                         this.props.onRichMarkUpdated({id: (current ? current.id : ID_PREFIX_RICH_MARK + Date.now()), title, connectMode, connection, displayMode, value});
+                        if(connectMode === 'new' && this.state.newSelected === PAGE_TYPES.DOCUMENT) {
+                            this.props.onBoxAdded({parent: newId, container: 0, id: ID_PREFIX_SORTABLE_BOX + Date.now()}, false, false);
+                        }
                         this.props.onRichMarksModalToggled();
                     }}>Save changes</Button>
                 </Modal.Footer>
