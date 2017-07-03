@@ -4,7 +4,6 @@ import DaliBox from '../dali_box/DaliBox';
 import DaliBoxSortable from '../dali_box_sortable/DaliBoxSortable';
 import DaliShortcuts from '../dali_shortcuts/DaliShortcuts';
 import {Col, Button} from 'react-bootstrap';
-import DaliTitle from '../dali_title/DaliTitle';
 import DaliHeader from '../dali_header/DaliHeader';
 import interact from 'interact.js';
 import {ADD_BOX} from '../../../actions';
@@ -87,19 +86,6 @@ export default class DaliCanvasDoc extends Component {
                              className={'innercanvas doc'}
                              style={{visibility: (this.props.showCanvas ? 'visible' : 'hidden')}}>
 
-
-
-                            {this.props.fromCV ? (<br/>):(<DaliTitle titles={titles}
-                                showButtons={this.state.showTitle}
-                                onShowTitle={()=>this.setState({showTitle:true})}
-                                onBoxSelected={this.props.onBoxSelected}
-                                courseTitle={this.props.title}
-                                titleMode={this.props.navItemSelected.titleMode}
-                                navItem={this.props.navItemSelected}
-                                navItems={this.props.navItems}
-                                titleModeToggled={this.props.titleModeToggled}
-                                onUnitNumberChanged={this.props.onUnitNumberChanged}
-                                showButton={true}/>)}
                             <br/>
 
 

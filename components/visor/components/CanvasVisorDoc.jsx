@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import BoxVisor from './BoxVisor';
 import BoxSortableVisor from './BoxSortableVisor';
 import {Col} from 'react-bootstrap';
-import TitleVisor from './TitleVisor';
 import HeaderVisor from './HeaderVisor';
 import {isSortableBox} from './../../../utils';
 
@@ -41,18 +40,18 @@ export default class CanvasVisorDoc extends Component {
                             this.props.removeLastView();
                             a.stopPropagation();
                         }}><i  className="material-icons">undo</i></a>):(<span></span>)}
-                            <HeaderVisor titles={titles}
-                                         onShowTitle={()=>this.setState({showTitle:true})}
-                                         courseTitle={this.props.title}
-                                         titleMode={itemSelected.titleMode}
-                                         navItem={this.props.navItemSelected}
-                                         navItems={this.props.navItems}
-                                         containedView={this.props.containedViewSelected}
-                                         containedViews={this.props.containedViews}
-                                         titleModeToggled={this.props.titleModeToggled}
-                                         onUnitNumberChanged={this.props.onUnitNumberChanged}
-                                         showButton={true}
-                                         fromCV={this.props.fromCV}/>
+                     <HeaderVisor titles={titles}
+                                  onShowTitle={()=>this.setState({showTitle:true})}
+                                  courseTitle={this.props.title}
+                                  titleMode={itemSelected.titleMode}
+                                  navItem={this.props.navItemSelected}
+                                  navItems={this.props.navItems}
+                                  containedView={this.props.containedViewSelected}
+                                  containedViews={this.props.containedViews}
+                                  titleModeToggled={this.props.titleModeToggled}
+                                  onUnitNumberChanged={this.props.onUnitNumberChanged}
+                                  showButton={true}
+                                  fromCV={this.props.fromCV}/>
                 <div className="outter canvasvisor">
                     <div id={this.props.fromCV ? 'airlayer_cv':'airlayer'}
                     className={'doc_air'}
@@ -65,11 +64,6 @@ export default class CanvasVisorDoc extends Component {
                          className={'innercanvas doc'}
                          style={{visibility: (this.props.showCanvas ? 'visible' : 'hidden')}}>
 
-                        <TitleVisor titles={titles}
-                            courseTitle={this.props.title}
-                            titleMode={itemSelected.titleMode}
-                            navItem={itemSelected}
-                            navItems={this.props.fromCV? this.props.containedViews:this.props.navItems}/>
                         <br/>
 
                         <div style={{

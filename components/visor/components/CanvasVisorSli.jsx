@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import BoxVisor from './BoxVisor';
 import {Col} from 'react-bootstrap';
-import TitleVisor from './TitleVisor';
 import HeaderVisor from './HeaderVisor';
 import {aspectRatio} from '../../../common_tools';
 import ReactResizeDetector from 'react-resize-detector';
@@ -66,11 +65,7 @@ export default class CanvasVisorSli extends Component {
                                                             onUnitNumberChanged={this.props.onUnitNumberChanged}
                                                             showButton={true}
                                                             fromCV={this.props.fromCV}/>
-                        <TitleVisor titles={titles}
-                            courseTitle={this.props.title}
-                            titleMode={itemSelected.titleMode}
-                            navItem={itemSelected}
-                            navItems={this.props.fromCV? this.props.containedViews:this.props.navItems}/>
+
                         <br/>
 
                         <div style={{

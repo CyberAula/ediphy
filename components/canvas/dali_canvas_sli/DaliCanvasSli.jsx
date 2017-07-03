@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import DaliBox from '../dali_box/DaliBox';
 import DaliShortcuts from '../dali_shortcuts/DaliShortcuts';
 import {Col, Button} from 'react-bootstrap';
-import DaliTitle from '../dali_title/DaliTitle';
 import DaliHeader from '../dali_header/DaliHeader';
 import interact from 'interact.js';
 import {ADD_BOX} from '../../../actions';
@@ -92,19 +91,6 @@ export default class DaliCanvasSli extends Component {
                                     showButton={true}
                                     />
 
-                        {this.props.fromCV ? (<br/>):
-                            (<DaliTitle titles={titles}
-                                showButtons={this.state.showTitle}
-                                onShowTitle={()=>this.setState({showTitle:true})}
-                                onBoxSelected={this.props.onBoxSelected}
-                                courseTitle={this.props.title}
-                                titleMode={this.props.navItemSelected.titleMode}
-                                navItem={this.props.navItemSelected}
-                                navItems={this.props.navItems}
-                                titleModeToggled={this.props.titleModeToggled}
-                                onUnitNumberChanged={this.props.onUnitNumberChanged}
-                                showButton={true}/>)
-                        }
                         {this.props.fromCV ?  (<button className="btnOverBar cvBackButton" style={{margin: "10px 0px 0px 10px"}}
                                  onClick={e => {
                                      this.props.onContainedViewSelected(0);
@@ -215,7 +201,7 @@ export default class DaliCanvasSli extends Component {
 
     componentWillUnmount() {
        // window.removeEventListener("resize", aspectRatio);
-        interact(ReactDOM.findDOMNode(this)).unset();
+        interact(ReactDOM.findDOMNode(this.refs.slideDropZone)).unset();
     }
 
 

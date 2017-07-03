@@ -454,7 +454,7 @@ export default class DaliBox extends Component {
                     restriction: dragRestrictionSelector,
                     elementRect: {top: 0, left: 0, bottom: 1, right: 1}
                 },
-                autoScroll: false,
+                autoScroll: true,
                 onstart: (event) => {
                     // If contained in smth different from ContainedCanvas (sortableContainer || PluginPlaceHolder), clone the node and hide the original
                     if (isSortableContainer(box.container)) {
