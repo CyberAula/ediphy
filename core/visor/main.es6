@@ -22,7 +22,6 @@ var parseEJS = function (path, page, state, fromScorm) {
     if (Object.keys(state.navItemsById[page].extraFiles).length !== 0){
         let extraFileBox = Object.keys(state.navItemsById[state.navItemSelected].extraFiles)[0];
         let extraFileContainer = state.toolbarsById[extraFileBox];
-
         return (new EJS({url: path + "_exercise.ejs"}).render({
             state: state,
             relativePath: "../",
@@ -39,42 +38,61 @@ export default {
     Plugins: Plugins(),
     exports: function (state) {
         var nav_names_used = {};
-        JSZipUtils.getBinaryContent(Dali.Config.visor_zip, function (err, data) {
-            if (err) {
-                throw err; // or handle err
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', "js/visor-bundle.js", true);
+        xhr.responseType = "arraybuffer";
+        xhr.onreadystatechange = function(evt) {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    var zip = new JSZip();
+
+                    JSZipUtils.getBinaryContent(Dali.Config.visor_zip, function (err, data) {
+                        if (err) {
+                            throw err; // or handle err
+                        }
+                        JSZip.loadAsync(data).then(function (zip) {
+                            var navs = state.navItemsById;
+
+                            state.navItemsIds.map(function (page) {
+                                if(navs[page].hidden){
+                                    return;
+                                }
+                                if(page.indexOf(ID_PREFIX_SECTION) !== -1){
+                                    return;
+                                }
+                                var name = navs[page].name;
+
+                                if( nav_names_used[name] === undefined ){
+                                    nav_names_used[name] = 0;
+                                } else {
+                                    name = getDistinctName(name, nav_names_used);
+                                }
+
+
+                                var inner = parseEJS(Dali.Config.visor_ejs, page, state);
+                                zip.file("dist/" + name + ".html", inner);
+                                zip.file("js/visor-bundle.js", xhr.response);
+                            });
+                            return zip;
+                        }).then(function (zip) {
+                            return zip.generateAsync({type: "blob"});
+                        }).then(function (blob) {
+                            FileSaver.saveAs(blob, "dalivisor.zip");
+                        });
+                    });    
+
+
+                    
+                }
             }
-            JSZip.loadAsync(data).then(function (zip) {
-                var navs = state.navItemsById;
-
-                state.navItemsIds.map(function (page) {
-                    if(navs[page].hidden){
-                        return;
-                    }
-                    if(page.indexOf(ID_PREFIX_SECTION) !== -1){
-                        return;
-                    }
-                    var name = navs[page].name;
-
-                    if( nav_names_used[name] === undefined ){
-                        nav_names_used[name] = 0;
-                    } else {
-                        name = getDistinctName(name, nav_names_used);
-                    }
+        };
+        xhr.send();
 
 
-                    var inner = parseEJS(Dali.Config.visor_ejs, page, state);
-                    zip.file("views/" + name + ".html", inner);
-                });
-                return zip;
-            }).then(function (zip) {
-                return zip.generateAsync({type: "blob"});
-            }).then(function (blob) {
-                FileSaver.saveAs(blob, "dalivisor.zip");
-            });
-        });
+
+
     },
     exportPage: function (state) {
-
         if (Object.keys(state.navItemsById[state.navItemSelected].extraFiles).length !== 0){
             let extraFileBox = Object.keys(state.navItemsById[state.navItemSelected].extraFiles)[0];
             let extraFileContainer = state.toolbarsById[extraFileBox];

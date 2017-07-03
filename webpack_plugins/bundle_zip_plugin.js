@@ -43,6 +43,26 @@ ZipBundlePlugin.prototype.apply = function(compiler){
           });
         },
         function(callback){
+          var path = "./dist/js/";
+          fs.stat(path, function(err, stats) {
+            if(err){
+              console.error("/dist/js/ does not exist!");
+              callback(null, "js");
+            }else{
+              dir.files(path, function(err, filelist) {
+                  if (err) throw err;
+                  async.each(filelist, function(elem,call){
+                    visor_zip.file(purgeRoot(elem), fs.readFileSync("./" +elem));
+                    scorm_zip.file(purgeRoot(elem), fs.readFileSync("./" + elem));
+                    call();
+                  }, function(err,results){
+                    callback(null, "js");
+                  });
+              });
+            }
+          });
+        },
+        function(callback){
           var path = "./dist/images/";
           fs.stat(path, function(err, stats) {
             if(err){
