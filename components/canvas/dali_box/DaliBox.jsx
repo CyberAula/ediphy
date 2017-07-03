@@ -418,6 +418,9 @@ export default class DaliBox extends Component {
                 }
              }
         }
+        if(this.props.toolbars[this.props.id].config.needsTextEdition){
+            window.MathJax.Hub.Queue(["Typeset",window.MathJax.Hub]);
+        }
 
         if ((action.type === ADD_BOX || action.type === UPDATE_BOX || action.type === RESIZE_BOX || action.type === IMPORT_STATE) &&
             ((action.payload.id || action.payload.ids.id) === this.props.id)) {
