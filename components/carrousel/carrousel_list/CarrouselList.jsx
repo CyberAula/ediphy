@@ -129,7 +129,7 @@ export default class CarrouselList extends Component {
                                             width: "100%", 
                                             height: "20px", 
                                             paddingTop: "10px", 
-                                            paddingLeft: "20px", 
+                                            paddingLeft: "10px", 
                                             paddingBottom: "25px",
                                             color: (this.props.containedViewSelected === id) ? "white" : "#9A9A9A",
                                             backgroundColor: (this.props.containedViewSelected === id) ? "#545454" : "transparent"
@@ -142,9 +142,24 @@ export default class CarrouselList extends Component {
                                           onClick={e => {
                                             this.props.onIndexSelected(id);
                                             e.stopPropagation();
-                                          }}><i className="material-icons">mode_comment</i><div className="actualSectionTitle" style={{marginLeft: '10px', display: 'inline'}}>{this.props.containedViews[id].name}</div></div>)
+                                          }}>
+                                        <span className="" style={{marginLeft: '10px'}}>
+
+                                            <i style={{marginRight: '10px'}} className="material-icons">{isSlide(this.props.containedViews[id].type) ? "slideshow" : "insert_drive_file"}</i>
+                                            <DaliIndexTitle
+                                                id={id}
+                                                title={this.props.containedViews[id].name}
+                                                index={1}
+                                                hidden={false}
+                                                onNameChanged={this.props.onContainedViewNameChanged}
+                                                onNavItemToggled={this.props.onNavItemToggled}/>
+                                        </span>
+                                    </div>)
                         })
                     }
+
+
+
                 </div>
 
                 <div className="bottomGroup">

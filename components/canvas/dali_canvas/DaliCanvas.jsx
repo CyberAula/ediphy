@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import DaliCanvasSli from '../dali_canvas_sli/DaliCanvasSli';
 import DaliCanvasDoc from '../dali_canvas_doc/DaliCanvasDoc';
-import interact from 'interact.js';
 import {ADD_BOX,REORDER_SORTABLE_CONTAINER} from '../../../actions';
 import Dali from './../../../core/main';
 import {isSlide, isSection} from './../../../utils';
@@ -27,10 +26,13 @@ export default class DaliCanvas extends Component {
                 boxSelected={this.props.boxSelected}
                 boxLevelSelected={this.props.boxLevelSelected}
                 canvasRatio={this.props.canvasRatio}
+                containedViews={this.props.containedViews}
                 containedViewSelected={this.props.containedViewSelected}
                 deleteMarkCreator={this.props.deleteMarkCreator}
+                fromCV={false}
                 lastActionDispatched={this.props.lastActionDispatched}
                 markCreatorId={this.props.markCreatorId}
+                onBoxAdded={this.props.onBoxAdded}
                 onBoxLevelIncreased={this.props.onBoxLevelIncreased}
                 onBoxSelected={this.props.onBoxSelected}
                 onBoxMoved={this.props.onBoxMoved}
@@ -40,6 +42,7 @@ export default class DaliCanvas extends Component {
                 onMarkCreatorToggled={this.props.onMarkCreatorToggled}
                 onVerticallyAlignBox={this.props.onVerticallyAlignBox}
                 onTextEditorToggled={this.props.onTextEditorToggled}
+                onContainedViewSelected={this.props.onContainedViewSelected}
                 navItems={this.props.navItems}
                 navItemSelected={this.props.navItemSelected}
                 title={this.props.title}
@@ -57,11 +60,14 @@ export default class DaliCanvas extends Component {
                 boxes={this.props.boxes}
                 boxSelected={this.props.boxSelected}
                 boxLevelSelected={this.props.boxLevelSelected}
+                containedViews={this.props.containedViews}
                 containedViewSelected={this.props.containedViewSelected}
                 deleteMarkCreator={this.props.deleteMarkCreator}
+                fromCV={false}
                 lastActionDispatched={this.props.lastActionDispatched}
                 markCreatorId={this.props.markCreatorId}
                 onMarkCreatorToggled={this.props.onMarkCreatorToggled}
+                onBoxAdded={this.props.onBoxAdded}
                 onBoxSelected={this.props.onBoxSelected}
                 onBoxLevelIncreased={this.props.onBoxLevelIncreased}
                 onBoxMoved={this.props.onBoxMoved}
@@ -69,6 +75,7 @@ export default class DaliCanvas extends Component {
                 onSortableContainerResized={this.props.onSortableContainerResized}
                 onSortableContainerDeleted={this.props.onSortableContainerDeleted}
                 onSortableContainerReordered={this.props.onSortableContainerReordered}
+                onContainedViewSelected={this.props.onContainedViewSelected}
                 onBoxDropped={this.props.onBoxDropped}
                 onBoxDeleted={this.props.onBoxDeleted}
                 onVerticallyAlignBox={this.props.onVerticallyAlignBox}

@@ -44,6 +44,7 @@ export default class DaliIndexTitle extends Component {
                             } else {
                                 this.setState({currentValue: this.props.title});
                             }
+                            e.stopPropagation();
                      }}>
                     {Dali.Config.show_numbers_before_navitems ? this.props.index : ""} {this.props.title}
                 </div>) :

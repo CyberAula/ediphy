@@ -50,6 +50,7 @@ export const EDIT_RICH_MARK = 'EDIT_RICH_MARK';
 export const ADD_CONTAINED_VIEW = 'ADD_CONTAINED_VIEW';
 export const SELECT_CONTAINED_VIEW = 'SELECT_CONTAINED_VIEW';
 export const DELETE_CONTAINED_VIEW = 'DELETE_CONTAINED_VIEW';
+export const CHANGE_CONTAINED_VIEW_NAME = 'CHANGE_CONTAINED_VIEW_NAME';
 
 export const UPLOAD_IMAGE = 'UPLOAD_IMAGE';
 
@@ -107,6 +108,10 @@ export function updateNavItemExtraFiles(id, box, xml_path) {
 
 export function changeNavItemName(id, title) {
     return {type: CHANGE_NAV_ITEM_NAME, payload: {id, title}};
+}
+
+export function changeContainedViewName(id, title) {
+    return {type: CHANGE_CONTAINED_VIEW_NAME, payload: {id, title}};
 }
 
 export function changeUnitNumber(id, value) {

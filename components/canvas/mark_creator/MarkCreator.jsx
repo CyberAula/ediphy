@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import i18n from 'i18next';
-import {ID_PREFIX_RICH_MARK, ID_PREFIX_CONTAINED_VIEW, PAGE_TYPES} from '../../../constants';
+import {ID_PREFIX_RICH_MARK, ID_PREFIX_CONTAINED_VIEW, ID_PREFIX_SORTABLE_BOX, PAGE_TYPES} from '../../../constants';
 
 export default class MarkCreator extends Component {
 
@@ -49,18 +49,34 @@ export default class MarkCreator extends Component {
                 let deleteMarkCreator = this.props.deleteMarkCreator;
                 let addMarkShortcut = this.props.addMarkShortcut;
                 let parseRichMarkInput = this.props.parseRichMarkInput;
-
-                /* NEW MARK DEFAULT PARAMS*/
+                let onBoxAdded = this.props.onBoxAdded;
+                let boxSelected = this.props.boxSelected;
+                 /* NEW MARK DEFAULT PARAMS*/
                 let connectMode = 'new';
                 let title = i18n.t('new_mark');
+                let type = this.props.pageType;
+                let newId = ID_PREFIX_CONTAINED_VIEW + Date.now();
                 let connection = {
-                    id: ID_PREFIX_CONTAINED_VIEW + Date.now(),
+                    id: newId,
                     parent: this.props.boxSelected,
                     name: i18n.t('contained_view'),
                     boxes: [],
-                    type: PAGE_TYPES.SLIDE,
-                    extraFiles: {}
+                    type: type,
+                    extraFiles: {},
+                    header: {
+                        elementContent:{
+                            documentTitle:'', 
+                            documentSubTitle: '', 
+                            numPage:''},
+                        display:{
+                            courseTitle: 'hidden', 
+                            documentTitle: 'expanded', 
+                            documentSubTitle: 'hidden', 
+                            breadcrumb: "reduced", 
+                            pageNumber: "hidden"}
+                    }
                 };
+
                 let displayMode = 'navigate';
                 /* NEW MARK DEFAULT PARAMS*/
 
@@ -75,7 +91,9 @@ export default class MarkCreator extends Component {
                     let value = parseRichMarkInput(x,y, width, height);
 
                     addMarkShortcut({id: ID_PREFIX_RICH_MARK + Date.now(), title, connectMode, connection, displayMode, value});
-
+                    if(type === PAGE_TYPES.DOCUMENT) {
+                        onBoxAdded({parent: newId, container: 0, id: ID_PREFIX_SORTABLE_BOX + Date.now()}, false, false);
+                    }
                     /* This is to delete all elements involved */
                     overlay.remove();
                     e.preventDefault();

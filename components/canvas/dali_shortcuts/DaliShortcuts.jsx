@@ -140,7 +140,7 @@ export default class DaliShortcuts extends Component {
               var boxRect = box.getBoundingClientRect();
               var canvas = this.props.containedViewSelected === 0 ?
                   document.getElementById('canvas') :
-                  document.getElementById('contained_maincontent');
+                  document.getElementById('containedCanvas');
               var canvasRect = canvas.getBoundingClientRect();
 
               left = (boxRect.left - canvasRect.left);

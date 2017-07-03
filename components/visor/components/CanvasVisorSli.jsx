@@ -12,9 +12,11 @@ export default class CanvasVisorSli extends Component {
     render() {
 
         let titles = [];
-        if (this.props.navItemSelected.id !== 0) {
-            titles.push(this.props.navItemSelected.name);
-            let parent = this.props.navItemSelected.parent;
+        let itemSelected = this.props.fromCV ? this.props.containedViewSelected : this.props.navItemSelected;
+
+        if (itemSelected.id !== 0 && !this.props.fromCV) {
+            titles.push(itemSelected.name);
+            let parent = itemSelected.parent;
             while (parent !== 0) {
                 titles.push(this.props.navItems[parent].name);
                 parent = this.props.navItems[parent].parent;
@@ -22,7 +24,7 @@ export default class CanvasVisorSli extends Component {
             titles.reverse();
         }
 
-        let maincontent = document.getElementById('maincontent');
+        let maincontent = this.props.fromCV ? document.getElementById('contained_maincontent'):document.getElementById('maincontent');
         let actualHeight;
         if (maincontent) {
             actualHeight = parseInt(maincontent.scrollHeight, 10);
@@ -31,36 +33,44 @@ export default class CanvasVisorSli extends Component {
 
         let overlayHeight = actualHeight ? actualHeight : '100%';
         //aspectRatio(this.props.aspectRatio);
+        let boxes = itemSelected.boxes || [];
         return (
             /* jshint ignore:start */
 
-            <Col id="canvas" md={12} xs={12}
+            <Col id={this.props.fromCV ? "containedCanvas":"canvas"} md={12} xs={12}
                  style={{display:'initial', padding: '0', width: '100%'}}>
 
-                    <div id="airlayer"
+                    <div id={this.props.fromCV ? 'airlayer_cv':'airlayer'}
                     className={'slide_air'}
                     style={{margin:'0 auto',visibility: (this.props.showCanvas ? 'visible' : 'hidden') }}>
 
-                    <div id="maincontent"
+                    <div id={this.props.fromCV ? "contained_maincontent":"maincontent"}
                          onClick={e => {
                         this.setState({showTitle:false})
                        }}
                          className={'innercanvas sli'}
                          style={{visibility: (this.props.showCanvas ? 'visible' : 'hidden')}}>
-                        <HeaderVisor titles={titles}
-                                     onShowTitle={()=>this.setState({showTitle:true})}
-                                     courseTitle={this.props.title}
-                                     titleMode={this.props.navItemSelected.titleMode}
-                                     navItem={this.props.navItemSelected}
-                                     navItems={this.props.navItems}
-                                     titleModeToggled={this.props.titleModeToggled}
-                                     onUnitNumberChanged={this.props.onUnitNumberChanged}
-                                     showButton={true}/>
+                         {this.props.fromCV ? ( <a href="#" className="btnOverBar cvBackButton" style={{pointerEvents: this.props.viewsArray.length > 1 ? 'initial': 'none',  color: this.props.viewsArray.length > 1 ? 'black': 'gray'}} onClick={a => {
+                                    this.props.removeLastView();
+                                    a.stopPropagation();
+                                }}><i className="material-icons">undo</i></a>):(<span></span>)}
+                                               <HeaderVisor titles={titles}
+                                                            onShowTitle={()=>this.setState({showTitle:true})}
+                                                            courseTitle={this.props.title}
+                                                            titleMode={itemSelected.titleMode}
+                                                            navItem={this.props.navItemSelected}
+                                                            navItems={this.props.navItems}
+                                                            containedView={this.props.containedViewSelected}
+                                                            containedViews={this.props.containedViews}
+                                                            titleModeToggled={this.props.titleModeToggled}
+                                                            onUnitNumberChanged={this.props.onUnitNumberChanged}
+                                                            showButton={true}
+                                                            fromCV={this.props.fromCV}/>
                         <TitleVisor titles={titles}
                             courseTitle={this.props.title}
-                            titleMode={this.props.navItemSelected.titleMode}
-                            navItem={this.props.navItemSelected}
-                            navItems={this.props.navItems}/>
+                            titleMode={itemSelected.titleMode}
+                            navItem={itemSelected}
+                            navItems={this.props.fromCV? this.props.containedViews:this.props.navItems}/>
                         <br/>
 
                         <div style={{
@@ -74,7 +84,7 @@ export default class CanvasVisorSli extends Component {
                                 visibility: (this.props.boxLevelSelected > 0) ? "visible" : "collapse"
                             }}></div>
 
-                        {this.props.navItemSelected.boxes.map(id => {
+                        {boxes.map(id => {
                             let box = this.props.boxes[id];
 
                             return <BoxVisor key={id}
@@ -90,7 +100,7 @@ export default class CanvasVisorSli extends Component {
                         })}
 
 
-                        <ReactResizeDetector handleWidth handleHeight onResize={(e)=>{aspectRatio(this.props.aspectRatio)}} />
+                        <ReactResizeDetector handleWidth handleHeight onResize={(e)=>{aspectRatio(this.props.canvasRatio, this.props.fromCV ? 'airlayer_cv':'airlayer', this.props.fromCV ? "containedCanvas":"canvas")}} />
                     </div>
                 </div>
 
@@ -103,7 +113,8 @@ export default class CanvasVisorSli extends Component {
     }
     
     componentDidMount() {
-        aspectRatio(this.props.canvasRatio);
+        aspectRatio(this.props.canvasRatio, this.props.fromCV ? 'airlayer_cv':'airlayer', this.props.fromCV ? "containedCanvas":"canvas");
+
        // window.addEventListener("resize", aspectRatio);
     }
     componentWillUnmount() {
@@ -114,7 +125,7 @@ export default class CanvasVisorSli extends Component {
        if (this.props.canvasRatio !== nextProps.canvasRatio){
             window.canvasRatio = nextProps.canvasRatio;
             //window.removeEventListener("resize", aspectRatio);
-            aspectRatio(nextProps.canvasRatio);
+            aspectRatio(nextProps.canvasRatio, this.props.fromCV ? 'airlayer_cv':'airlayer', this.props.fromCV ?"containedCanvas":"canvas");
             //window.addEventListener("resize", aspectRatio);
         }
 

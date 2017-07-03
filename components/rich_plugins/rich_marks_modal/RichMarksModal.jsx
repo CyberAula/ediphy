@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import {Modal, Button, Row,Col, FormGroup, ControlLabel, FormControl, Radio} from 'react-bootstrap';
 import Typeahead from 'react-bootstrap-typeahead';
-import {ID_PREFIX_RICH_MARK, ID_PREFIX_CONTAINED_VIEW, PAGE_TYPES} from '../../../constants';
+import {ID_PREFIX_RICH_MARK, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_CONTAINED_VIEW, PAGE_TYPES} from '../../../constants';
 import i18n from 'i18next';
 
 export default class RichMarksModal extends Component {
@@ -171,20 +171,34 @@ export default class RichMarksModal extends Component {
                     }}>Cancel</Button>
                     <Button bsStyle="primary" onClick={e => {
                         let title = ReactDOM.findDOMNode(this.refs.title).value;
+                        let newId = ID_PREFIX_CONTAINED_VIEW + Date.now();
                         let connectMode = this.state.connectMode;
                         let connection;
-                        switch (connectMode){
+                         switch (connectMode){
                             case "new":
                                 connection = current ?
                                     current.connection :
                                     {
-                                        id: ID_PREFIX_CONTAINED_VIEW + Date.now(),
+                                        id: newId,
                                         parent: this.props.boxSelected,
                                         name: i18n.t('contained_view'),
                                         boxes: [],
                                         type: this.state.newSelected,
-                                        extraFiles: {}
+                                        extraFiles: {},
+                                        header: {
+                                           elementContent:{
+                                               documentTitle:'', 
+                                               documentSubTitle: '', 
+                                               numPage:''},
+                                           display:{
+                                               courseTitle: 'hidden', 
+                                               documentTitle: 'expanded', 
+                                               documentSubTitle: 'hidden', 
+                                               breadcrumb: "reduced", 
+                                               pageNumber: "hidden"}
+                                       }
                                     };
+
                                 break;
                             case "existing":
                                 connection = this.state.existingSelected;
@@ -196,6 +210,9 @@ export default class RichMarksModal extends Component {
                         let displayMode = this.state.displayMode;
                         let value = ReactDOM.findDOMNode(this.refs.value).value;
                         this.props.onRichMarkUpdated({id: (current ? current.id : ID_PREFIX_RICH_MARK + Date.now()), title, connectMode, connection, displayMode, value});
+                        if(connectMode === 'new' && this.state.newSelected === PAGE_TYPES.DOCUMENT) {
+                            this.props.onBoxAdded({parent: newId, container: 0, id: ID_PREFIX_SORTABLE_BOX + Date.now()}, false, false);
+                        }
                         this.props.onRichMarksModalToggled();
                     }}>Save changes</Button>
                 </Modal.Footer>

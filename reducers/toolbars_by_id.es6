@@ -1,7 +1,7 @@
 import {ADD_BOX, ADD_RICH_MARK, CHANGE_NAV_ITEM_NAME, DELETE_BOX,DELETE_CONTAINED_VIEWS, ADD_NAV_ITEM, DELETE_NAV_ITEM, DELETE_SORTABLE_CONTAINER, DUPLICATE_BOX,
     EDIT_RICH_MARK, RESIZE_BOX, RESIZE_SORTABLE_CONTAINER, TOGGLE_TEXT_EDITOR, UPDATE_BOX, UPDATE_TOOLBAR,
     VERTICALLY_ALIGN_BOX, IMPORT_STATE} from './../actions';
-import Utils, {changeProp, changeProps, deleteProps, isSortableBox, isSortableContainer, isPage, isSection, isSlide} from './../utils';
+import Utils, {changeProp, changeProps, deleteProps, isSortableBox, isSortableContainer, isPage, isSection, isSlide, isDocument} from './../utils';
 import i18n from 'i18next';
 
 function createAspectRatioButton(controls, config) {
@@ -27,7 +27,7 @@ function createRichAccordions(controls) {
                 __marks_list: {
                     key: 'marks_list',
                     __name: 'Marks List',
-                    icon: 'border_all',
+                    icon: 'room',
                     buttons: {}
                 },
                 __content_list: {
@@ -43,7 +43,7 @@ function createRichAccordions(controls) {
         controls.main.accordions.__marks_list = {
             key: 'marks_list',
             __name: 'Marks List',
-            icon: 'border_all',
+            icon: 'room',
             buttons: {}
         };
     }
@@ -272,18 +272,24 @@ function toolbarCreator(state, action) {
     return toolbar;
 }
 
-function toolbarSectionCreator(state, action) {
+function toolbarSectionCreator(state, action, isContainedView = false) {
     let doc_type;
-    if (isPage(action.payload.id)) {
-        doc_type = i18n.t('page');
+    let id = isContainedView ? action.payload.mark.connection.id:action.payload.id;
+    let type = isContainedView ? action.payload.mark.connection.type:action.payload.type;
+    if (isPage(id)) {
+      doc_type = i18n.t('page');
     }
-    if(isSlide(action.payload.type)){
-        doc_type = i18n.t('slide');
+    if(isSlide(type)){
+      doc_type = i18n.t('slide');
     }
-    let pagetitle = i18n.t('Title') + doc_type;
 
+    if(isDocument(type)){
+      doc_type = i18n.t('document');
+    } 
+
+    let pagetitle = i18n.t('Title') + doc_type;
     let toolbar = {
-        id: action.payload.id,
+        id: id,
         controls: action.payload.toolbar || {
             main: {
                 __name: "Main",
@@ -297,11 +303,11 @@ function toolbarSectionCreator(state, action) {
                             type: 'checkbox',
                             checked: true,
                             autoManaged: false
-                        },
+                        }, // Por qué hay dos títulos y por qué están en secciones distintas?
                         navitem_name: {
                             __name: i18n.t('NavItem_name'),
                             type: 'text',
-                            value: doc_type,
+                            value: isContainedView ? i18n.t('contained_view'):doc_type,
                             autoManaged: false
                         }
                     }
@@ -343,27 +349,8 @@ function toolbarSectionCreator(state, action) {
                               value: "",
                               autoManaged: false,
                               display: true
-                          },
-                          display_breadcrumb: {
-                              __name:  i18n.t('Breadcrumb'),
-                              type: 'checkbox',
-                              checked: true,
-                              autoManaged: false
-                          },
-                          display_pagenumber: {
-                              __name:  i18n.t('pagenumber'),
-                              type: 'checkbox',
-                              checked: false,
-                              autoManaged: false
-                          },
-                          pagenumber_name: {
-                              __name: "custom_pagenum",
-                              type: 'conditionalText',
-                              associatedKey: 'display_pagenumber',
-                              value: "",
-                              autoManaged: false,
-                              display: true
                           }
+
                       }
 
                   }
@@ -372,8 +359,33 @@ function toolbarSectionCreator(state, action) {
         },
         config: action.payload.config || {},
         state: action.payload.state || {}
+
+
+
     };
 
+    if (!isContainedView && toolbar.controls && toolbar.controls.main && toolbar.controls.main.header && toolbar.controls.main.header.buttons) {
+      toolbar.controls.main.header.buttons.display_breadcrumb = {
+          __name:  i18n.t('Breadcrumb'),
+          type: 'checkbox',
+          checked: true,
+          autoManaged: false
+      };
+      toolbar.controls.main.header.buttons.display_pagenumber = {
+          __name:  i18n.t('pagenumber'),
+          type: 'checkbox',
+          checked: false,
+          autoManaged: false
+      };
+      toolbar.controls.main.header.buttons.pagenumber_name = {
+          __name: "custom_pagenum",
+          type: 'conditionalText',
+          associatedKey: 'display_pagenumber',
+          value: "",
+          autoManaged: false,
+          display: true
+      };
+    }
     toolbar.config.displayName = doc_type;
 
     createAliasButton(toolbar.controls, null);
@@ -570,7 +582,8 @@ export default function (state = {}, action = {}) {
         case ADD_NAV_ITEM:
             return changeProp(state, action.payload.id, toolbarSectionCreator(state, action));
         case ADD_RICH_MARK:
-            return changeProp(state, action.payload.parent, toolbarReducer(state[action.payload.parent], action));
+            let modState = changeProp(state, action.payload.mark.connection.id, toolbarSectionCreator(state, action, true));
+            return changeProp(modState, action.payload.parent, toolbarReducer(modState[action.payload.parent], action));
         case CHANGE_NAV_ITEM_NAME:
             return changeProp(state, action.payload.id, toolbarReducer(state[action.payload.id], action));
             //return state;

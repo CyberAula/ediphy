@@ -26,6 +26,7 @@ var es = {
         "delete_section": "Eliminar sección",
         "display": "Visualización",
         "display_page": "Previsualizar / exportar",
+        "document": "Documento",
         "edit_text": "Editar texto",
         "Exercises": "Ejercicios",
         "Exporting": "Se está exportando...",

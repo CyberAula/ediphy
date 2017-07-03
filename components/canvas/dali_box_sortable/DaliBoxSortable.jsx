@@ -76,6 +76,7 @@ export default class DaliBoxSortable extends Component {
                                                                              addMarkShortcut={this.props.addMarkShortcut}
                                                                              deleteMarkCreator={this.props.deleteMarkCreator}
                                                                              markCreatorId={this.props.markCreatorId}
+                                                                             onBoxAdded={this.props.onBoxAdded}
                                                                              onBoxSelected={this.props.onBoxSelected}
                                                                              onBoxLevelIncreased={this.props.onBoxLevelIncreased}
                                                                              onBoxMoved={this.props.onBoxMoved}
@@ -85,7 +86,8 @@ export default class DaliBoxSortable extends Component {
                                                                              onBoxModalToggled={this.props.onBoxModalToggled}
                                                                              onBoxesInsideSortableReorder={this.props.onBoxesInsideSortableReorder}
                                                                              onSortableContainerResized={this.props.onSortableContainerResized}
-                                                                             onTextEditorToggled={this.props.onTextEditorToggled}/>);
+                                                                             onTextEditorToggled={this.props.onTextEditorToggled}
+                                                                             pageType={this.props.pageType}/>);
 
                                                         } else if (index == container.children.length - 1) {
                                                             return (<span key={index}><br/><br/></span>);
