@@ -71,5 +71,8 @@ export default class ContainedCanvasVisor extends Component {
 
     }
 
-
+    
+    componentDidUpdate(){
+       window.MathJax.Hub.Queue(["Typeset",window.MathJax.Hub]);
+    }
 }

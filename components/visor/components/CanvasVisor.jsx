@@ -56,6 +56,8 @@ export default class CanvasVisor extends Component {
     }
 
 
-
+    componentDidUpdate(){
+       window.MathJax.Hub.Queue(["Typeset",window.MathJax.Hub]);
+    }
 
 }
