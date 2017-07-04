@@ -367,6 +367,8 @@ export default function (state = {}, action = {}) {
             return newState;
         case DELETE_BOX:
             let children = action.payload.children ? action.payload.children : [];
+            let which_children = children.concat(action.payload.id);
+            console.log(which_children);
             temp = deleteProps(state, children.concat(action.payload.id));
 
             //If box is in sortableContainer, delete from its children aswell

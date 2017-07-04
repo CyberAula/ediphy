@@ -33,7 +33,7 @@ export default function (state = {}, action = {}) {
                 return changeProp(state, action.payload.mark.connection.id, action.payload.mark.connection);
             }
             return state;
-        case DELETE_BOX:
+      /*  case DELETE_BOX:
             let stateWithViewsDeleted = deleteProps(state, action.payload.childrenViews);
             if (isContainedView(action.payload.parent)) {
                 stateWithViewsDeleted = changeProp(
@@ -41,14 +41,14 @@ export default function (state = {}, action = {}) {
                     action.payload.parent,
                     singleContainedViewReducer(stateWithViewsDeleted[action.payload.parent], action));
             }
-            return stateWithViewsDeleted;
+            return stateWithViewsDeleted;*/
         case CHANGE_CONTAINED_VIEW_NAME:
             return changeProp(state, action.payload.id, singleContainedViewReducer(state[action.payload.id], action));
         case DELETE_CONTAINED_VIEW:
             return deleteProps(state, action.payload.ids);
-        case DELETE_NAV_ITEM:
-            return deleteProps(state, action.payload.containedViews);
-        case DELETE_SORTABLE_CONTAINER:
+      /*  case DELETE_NAV_ITEM:
+            return deleteProps(state, action.payload.containedViews);*/
+        /*case DELETE_SORTABLE_CONTAINER:
             let item = findNavItemContainingBox(state,action.payload.parent);
             if(item) {
                 if(item.extraFiles.length !== 0) {
@@ -67,7 +67,7 @@ export default function (state = {}, action = {}) {
                         );
                 }
             }
-            return state;        
+            return state;*/
             // return deleteProps(state, action.payload.childrenViews);
         case TOGGLE_TITLE_MODE:
             if (isContainedView(action.payload.id)) {

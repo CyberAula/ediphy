@@ -180,7 +180,7 @@ export default class RichMarksModal extends Component {
                                     current.connection :
                                     {
                                         id: newId,
-                                        parent: this.props.boxSelected,
+                                        parent: [this.props.boxSelected],
                                         name: i18n.t('contained_view'),
                                         boxes: [],
                                         type: this.state.newSelected,

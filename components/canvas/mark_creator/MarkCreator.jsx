@@ -59,7 +59,7 @@ export default class MarkCreator extends Component {
                 let newId = ID_PREFIX_CONTAINED_VIEW + Date.now();
                 let connection = {
                     id: newId,
-                    parent: this.props.boxSelected,
+                    parent: [this.props.boxSelected],
                     name: i18n.t('contained_view'),
                     boxes: [],
                     type: type,
