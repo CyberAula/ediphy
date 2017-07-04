@@ -66,14 +66,14 @@ export default class DaliNavBar extends Component {
                     <Dropdown.Menu id="topMenu" className="pageMenu super-colors topMenu">
                         <MenuItem disabled={this.props.undoDisabled} eventKey="1">
                             <button className="dropdownButton" title={i18n.t('messages.export_to_HTML')}
-                                    disabled={this.props.undoDisabled}
+                                    disabled={ (this.props.navItemSelected === 0) || this.props.undoDisabled}
                                     onClick={() => this.props.export() }><i className="material-icons">file_download</i>
                                 {i18n.t('messages.export_to_HTML')}
                             </button>
                         </MenuItem>
                         <MenuItem disabled={this.props.undoDisabled} eventKey="2">
                             <button className="dropdownButton" title={i18n.t('messages.export_to_SCORM')}
-                                    disabled={this.props.undoDisabled}
+                                    disabled={(this.props.navItemSelected === 0) || this.props.undoDisabled}
                                     onClick={() => this.props.scorm() }><i className="material-icons">class</i>
                                 {i18n.t('messages.export_to_SCORM')}
                             </button>
@@ -138,7 +138,7 @@ export default class DaliNavBar extends Component {
                     </button>
                     <button className="navButton"
                             title={i18n.t('Preview')}
-                            disabled={(this.props.navItemSelected && !Dali.Config.sections_have_content && isSection(this.props.navItemSelected))}
+                            disabled={((this.props.navItemSelected === 0 || (this.props.navItemSelected && !Dali.Config.sections_have_content && isSection(this.props.navItemSelected))))}
                             onClick={() =>this.props.visor()}><i className="material-icons">visibility</i>
                         <br/>
                         <span className="hideonresize">{i18n.t('Preview')}</span>

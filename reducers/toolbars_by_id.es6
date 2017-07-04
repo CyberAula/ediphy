@@ -124,9 +124,9 @@ function createSizeButtons(controls, state, action, floatingBox) {
             value = 25;
             units = "%";
         }else{
-            displayValue = 100;
-            value = 100;
-            units = "px";
+            displayValue = 25;
+            value = 25;
+            units = "%";
         }
         type = "number";
 
