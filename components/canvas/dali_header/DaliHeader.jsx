@@ -113,7 +113,7 @@ export default class DaliHeader extends Component {
                                         this.props.onBoxSelected(-1);
                                         this.props.onShowTitle();
                                         e.stopPropagation(); }}>
-                    <div style={{backgroundColor:'white', display:(titles.length !== 0)? 'initial' : 'none' }}>
+                    <div style={{backgroundColor:'transparent', display:(titles.length !== 0)? 'initial' : 'none' }}>
                     {/*
                     <div id="daliTitleButtons" style={{height:'40px'}}>
                         <OverlayTrigger placement="bottom" overlay={

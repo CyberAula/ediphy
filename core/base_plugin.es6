@@ -1,6 +1,6 @@
 import Dali from './main';
 import ReactDOM from 'react-dom';
-
+import {isSortableContainer} from './../utils';
 export default function () {
     let descendant, state, id, initialParams = {};
 
@@ -141,11 +141,12 @@ export default function () {
                     }
                 }
                 initialParams = initParams;
+                let floatingBox = !isSortableContainer(initialParams.container);
                 if(descendant.getConfig().initialWidth){
-                    initialParams.width = descendant.getConfig().initialWidth;
+                    initialParams.width = floatingBox && descendant.getConfig().initialWidthSlide ? descendant.getConfig().initialWidthSlide : descendant.getConfig().initialWidth;
                 }
                 if(descendant.getConfig().initialHeight){
-                    initialParams.height = descendant.getConfig().initialHeight;
+                    initialParams.height = floatingBox && descendant.getConfig().initialHeightSlide ? descendant.getConfig().initialHeightSlide : descendant.getConfig().initialHeight; 
                 }
                 if (needsConfigModal) {
                     this.openConfigModal(reason, state);

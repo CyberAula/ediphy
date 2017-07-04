@@ -18,7 +18,9 @@ export function GraficaD3(base) {
 				needsTextEdition: false,
 				icon: "insert_chart",
 				initialWidth: '700px',
-				initialHeight: "300px"
+				initialHeight: "300px",
+				initialWidthSlide: '70%',
+				initialHeightSlide: '60%'
 			};
 		},
 		getToolbar: function () {

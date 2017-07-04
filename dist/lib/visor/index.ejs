@@ -5,8 +5,10 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet" type="text/css">
     <link href='https://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
-    <script src="lib/htmlparser.js"></script>
-    <script src="lib/html2json.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
+    <script src="js/htmlparser.js"></script>
+    <script src="js/html2json.js"></script>
+    <script src="js/ejs_production_visor.js"></script>
     <script>
         var State = <%= JSON.stringify(state) %>
         
@@ -17,7 +19,7 @@
 </head>
 <body style="margin: 0px; height: 100%">
 <div id="root">
-<script src="<%=relativePath%>js/visor-bundle.js"></script>
+<script src="js/visor-bundle.js"></script>
 
 </body> 
 </html>

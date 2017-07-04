@@ -361,6 +361,7 @@ class DaliApp extends Component {
                                onUploadVishResource={(query) => this.dispatchAndSetState(uploadVishResourceAsync(query))}
                                onFetchVishResources={(query) => this.dispatchAndSetState(fetchVishResourcesAsync(query))}
                 />
+
             </Grid>
             /* jshint ignore:end */
         );

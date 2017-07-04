@@ -19,15 +19,16 @@ var titleModifier = function(name){
 };
 
 var parseEJS = function (path, page, state, fromScorm) {
-    if (Object.keys(state.navItemsById[page].extraFiles).length !== 0){
-        let extraFileBox = Object.keys(state.navItemsById[state.navItemSelected].extraFiles)[0];
-        let extraFileContainer = state.toolbarsById[extraFileBox];
-
-        return (new EJS({url: path + "_exercise.ejs"}).render({
-            state: state,
-            relativePath: "../",
-            daliDocumentsPath: "css/",
-        }));
+    if (page !== 0 && state.navItemsById[page]){
+        if (Object.keys(state.navItemsById[page].extraFiles).length !== 0){
+            let extraFileBox = Object.keys(state.navItemsById[state.navItemSelected].extraFiles)[0];
+            let extraFileContainer = state.toolbarsById[extraFileBox];
+            return (new EJS({url: path + "_exercise.ejs"}).render({
+                state: state,
+                relativePath: "../",
+                daliDocumentsPath: "css/",
+            }));
+        }
     }
     return (new EJS({url: path + ".ejs"}).render({
         state: state,
@@ -39,42 +40,81 @@ export default {
     Plugins: Plugins(),
     exports: function (state) {
         var nav_names_used = {};
-        JSZipUtils.getBinaryContent(Dali.Config.visor_zip, function (err, data) {
-            if (err) {
-                throw err; // or handle err
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', "js/visor-bundle.js", true);
+        xhr.responseType = "arraybuffer";
+        xhr.onreadystatechange = function(evt) {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+ 
+                    JSZipUtils.getBinaryContent(Dali.Config.visor_zip, function (err, data) {
+                        if (err) {
+                            throw err; // or handle err
+                        }
+                        JSZip.loadAsync(data).then(function (zip) {
+                            var navs = state.navItemsById;
+                            /*
+                                state.navItemsIds.map(function (page) {
+                                    if(navs[page].hidden){
+                                        return;
+                                    }
+                                    if(page.indexOf(ID_PREFIX_SECTION) !== -1){
+                                        return;
+                                    }
+                                    var name = navs[page].name;
+
+                                    if( nav_names_used[name] === undefined ){
+                                        nav_names_used[name] = 0;
+                                    } else {
+                                        name = getDistinctName(name, nav_names_used);
+                                    }
+
+
+                                    var inner = parseEJS(Dali.Config.visor_ejs, page, state);
+                                    zip.file("dist/" + name + ".html", inner);
+                                    zip.file("js/visor-bundle.js", xhr.response);
+                                });
+                            */
+                            var page = 0;
+                            if (state.navItemsIds && state.navItemsIds.length > 0) {                                
+                                if(!Dali.Config.sections_have_content) {
+                                    var i;
+                                    for (i = 0; i < state.navItemsIds.length; i++) {
+                                        if (state.navItemsIds[i].indexOf('se-') === -1){
+                                            page = state.navItemsIds[i];
+                                            break;
+                                        }
+                                    }
+                                } else {
+                                    page = state.navItemsIds[0];
+                                }
+                            }    
+                            state.navItemSelected = page;
+                            var content = parseEJS(Dali.Config.visor_ejs, page, state);
+                            zip.file("dist/index.html", content);
+                            zip.file("dist/js/visor-bundle.js", xhr.response);
+
+                           
+                            return zip;
+                        }).then(function (zip) {
+                            return zip.generateAsync({type: "blob"});
+                        }).then(function (blob) {
+                            FileSaver.saveAs(blob, "dalivisor.zip");
+                        });
+                    });    
+
+
+                    
+                }
             }
-            JSZip.loadAsync(data).then(function (zip) {
-                var navs = state.navItemsById;
-
-                state.navItemsIds.map(function (page) {
-                    if(navs[page].hidden){
-                        return;
-                    }
-                    if(page.indexOf(ID_PREFIX_SECTION) !== -1){
-                        return;
-                    }
-                    var name = navs[page].name;
-
-                    if( nav_names_used[name] === undefined ){
-                        nav_names_used[name] = 0;
-                    } else {
-                        name = getDistinctName(name, nav_names_used);
-                    }
+        };
+        xhr.send();
 
 
-                    var inner = parseEJS(Dali.Config.visor_ejs, page, state);
-                    zip.file("views/" + name + ".html", inner);
-                });
-                return zip;
-            }).then(function (zip) {
-                return zip.generateAsync({type: "blob"});
-            }).then(function (blob) {
-                FileSaver.saveAs(blob, "dalivisor.zip");
-            });
-        });
+
+
     },
     exportPage: function (state) {
-
         if (Object.keys(state.navItemsById[state.navItemSelected].extraFiles).length !== 0){
             let extraFileBox = Object.keys(state.navItemsById[state.navItemSelected].extraFiles)[0];
             let extraFileContainer = state.toolbarsById[extraFileBox];
@@ -91,6 +131,94 @@ export default {
         });
     },
     exportScorm: function (state) {
+        var zip_title;
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', "js/visor-bundle.js", true);
+        xhr.responseType = "arraybuffer";
+        xhr.onreadystatechange = function(evt) {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+        
+                    JSZipUtils.getBinaryContent(Dali.Config.scorm_zip, function (err, data) {
+                        if (err) {
+                            throw err; // or handle err
+                        }
+                        JSZip.loadAsync(data).then(function (zip) {
+                            var navs = state.navItemsById;
+                            //var sections = [];
+                            state.navItemsIds.map(function (page) {
+                                if(navs[page].hidden){
+                                    return;
+                                }
+
+                                if ( !Dali.Config.sections_have_content && (page.indexOf(ID_PREFIX_SECTION) !== -1)){
+                                    return;
+                                }
+
+                                var nombre = navs[page].id.replace(/\-/g,"\_");
+                                var unit;
+                                if(typeof navs[page].unitNumber === "undefined"){
+                                    unit = "blank";
+                                } else {
+                                    unit = navs[page].unitNumber;
+                                }
+                                var path = "unit" + unit + "/";
+                                
+                                //sections.push(path + nombre);
+                                if(Object.keys(navs[page].extraFiles).length !== 0){
+                                    for(var boxKey in navs[page].extraFiles){
+                                        $.ajax({
+                                            url: navs[page].extraFiles[boxKey],
+                                            async: false,
+                                            success: function (response, status, aj) {
+                                                zip.file(path + nombre + "_ejer.xml", aj.responseText);
+                                                state.toolbarsById[boxKey].state.__xml_path = nombre + "_ejer.xml";
+                                                state.toolbarsById[boxKey].state.isScorm = true;
+                                            },
+                                            error: function (aj, status) {
+                                                console.error("Error while downloading XML file");
+                                            }
+                                        });
+                                    }
+                                }
+                                var inner = parseEJS(Dali.Config.visor_ejs, page, state, true);
+                                //zip.file(path + nombre + ".html", inner);
+                            });
+                            //zip.file("index.html", Dali.Scorm.getIndex(navs));
+                            zip.file("imsmanifest.xml", Dali.Scorm.createimsManifest(state.title, navs));
+                            var page = 0;
+                            if (state.navItemsIds && state.navItemsIds.length > 0) {                                
+                                if(!Dali.Config.sections_have_content) {
+                                    var i;
+                                    for (i = 0; i < state.navItemsIds.length; i++) {
+                                        if (state.navItemsIds[i].indexOf('se-') === -1){
+                                            page = state.navItemsIds[i];
+                                            break;
+                                        }
+                                    }
+                                } else {
+                                    page = state.navItemsIds[0];
+                                }
+                            }    
+                            state.navItemSelected = page;
+                            var content = parseEJS(Dali.Config.visor_ejs, page, state);
+                            zip.file("dist/index.html", content);
+                            zip.file("dist/js/visor-bundle.js", xhr.response);
+                            zip_title = state.title;
+
+                            return zip;
+                        }).then(function (zip) {
+                            return zip.generateAsync({type: "blob"});
+                        }).then(function (blob) {
+                            FileSaver.saveAs(blob, zip_title.toLowerCase().replace(/\s/g,'') + Math.round(+new Date()/1000) +".zip");
+                        });
+                    });
+                }
+            }
+        };
+        xhr.send();
+    },
+    exportSeparateScorm: function (state) {
         var zip_title;
         JSZipUtils.getBinaryContent(Dali.Config.scorm_zip, function (err, data) {
             if (err) {
