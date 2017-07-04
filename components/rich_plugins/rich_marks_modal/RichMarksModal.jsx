@@ -37,7 +37,7 @@ export default class RichMarksModal extends Component {
             richMarkValue = value;
         }
 
-        let navItemsNames = [];
+        let viewNames = [];
         this.props.navItemsIds.map(id => {
             if (id === 0) {
                 return;
@@ -45,8 +45,15 @@ export default class RichMarksModal extends Component {
             if (this.props.navItems[id].hidden) {
                 return;
             }
-            navItemsNames.push({name: this.props.navItems[id].name, id: id});
+            viewNames.push({name: this.props.navItems[id].name, id: id});
         });
+        Object.keys(this.props.containedViews).map(cv=>{
+            if(cv=== 0){
+                return;
+            }
+            viewNames.push({name:this.props.containedViews[cv].name, id: this.props.containedViews[cv].id});
+        });
+
         let current = this.props.currentRichMark;
         return (
             /* jshint ignore:start */
@@ -114,7 +121,7 @@ export default class RichMarksModal extends Component {
                             </span>
                         </FormGroup>
                         <FormGroup style={{display: this.state.connectMode === "existing" ? "initial" : "none"}}>
-                            <Typeahead options={navItemsNames}
+                            <Typeahead options={viewNames}
                                        placeholder="Search view by name"
                                        labelKey="name"
                                        defaultSelected={[this.state.existingSelected]}

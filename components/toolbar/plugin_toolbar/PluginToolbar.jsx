@@ -548,6 +548,7 @@ export default class PluginToolbar extends Component {
                              state={state}
                              box={this.props.box}
                              navItems={this.props.navItems}
+                             containedViews={this.props.containedViews}
                              onContainedViewSelected={this.props.onContainedViewSelected}
                              onNavItemSelected={this.props.onNavItemSelected}
                              onRichMarkDeleted={this.props.onRichMarkDeleted}/>
