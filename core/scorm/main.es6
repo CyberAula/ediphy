@@ -129,7 +129,152 @@ export default {
 
         return (this.beautifyXML(new XMLSerializer().serializeToString(doc)));
     },
+    createSPAimsManifest : function(title, sections) {
+        var doc = document.implementation.createDocument("", "", null);
 
+        ///     ROOT MANIFEST
+        var manifest = doc.createElement("manifest");
+        manifest.setAttribute("identifier", "com.dali.presentation");
+        manifest.setAttribute("version", "1.0");
+        manifest.setAttribute("xmlns", "http://www.imsglobal.org/xsd/imscp_v1p1");
+        manifest.setAttribute("xmlns:adlcp", "http://www.adlnet.org/xsd/adlcp_v1p3");
+        manifest.setAttribute("xmlns:adlseq", "http://www.adlnet.org/xsd/adlseq_v1p3");
+        manifest.setAttribute("xmlns:adlnav", "http://www.adlnet.org/xsd/adlnav_v1p3");
+        manifest.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
+        manifest.setAttribute("xmlns:imsss", "http://www.imsglobal.org/xsd/imsss");
+        manifest.setAttribute("xsi:schemaLocation", "http://www.imsglobal.org/xsd/imscp_v1p1 imscp_v1p1.xsd http://www.adlnet.org/xsd/adlcp_v1p3 adlcp_v1p3.xsd http://www.adlnet.org/xsd/adlseq_v1p3 adlseq_v1p3.xsd http://www.adlnet.org/xsd/adlnav_v1p3 adlnav_v1p3.xsd http://www.imsglobal.org/xsd/imsss imsss_v1p0.xsd");         
+        ///      METADATA
+        var metadata = doc.createElement("metadata");
+        var schema = doc.createElement("schema");
+        var schema_txt = doc.createTextNode("ADL SCORM");
+        schema.appendChild(schema_txt);
+        metadata.appendChild(schema);
+
+        var schemaVersion = doc.createElement("schemaversion");
+        var schema_version_txt = doc.createTextNode("2004 3rd Edition");
+        schemaVersion.appendChild(schema_version_txt);
+        metadata.appendChild(schemaVersion);
+
+
+        ///       ORGANIZATION (USED DEFAULT)
+        var organizations = doc.createElement("organizations");
+        organizations.setAttribute("default", "defaultOrganization");
+        var organization = doc.createElement("organization");
+        organization.setAttribute("identifier", "defaultOrganization");
+
+        //        ORGANIZATION _TITLE
+        var title_org = doc.createElement("title");
+        var title_item_txt = doc.createTextNode(title);
+        title_org.appendChild(title_item_txt);
+        organization.appendChild(title_org);
+
+        // Create Organization Item Tree
+        var root_elements = sections[0].children;
+        // Resource XLM elements array
+        var resource_elements = [];
+        var root_element = doc.createElement("item");
+        root_element.setAttribute("identifierref", "resource_1");
+        root_element.setAttribute("identifier", "item_1");
+        var root_title = doc.createElement("title");
+        var item_title = doc.createTextNode(title);
+        root_title.appendChild(item_title);
+        root_element.appendChild(root_title);
+        organization.appendChild(root_element);
+        //        ORGANIZATION_ITEMS
+        /*for (let n = 0; n < root_elements.length; n ++ ){
+            let root_section = root_elements[n];
+
+            if(!sections[root_section].hidden){
+                let children_elements = [];
+
+                let root_element = doc.createElement("item");
+
+
+                root_element.setAttribute("identifier", this.santinize_id(root_section) + "_item");
+                if (Dali.Config.sections_have_content || root_section.indexOf(ID_PREFIX_SECTION) === -1){
+                     root_element.setAttribute("identifierref", this.santinize_id(sections[root_section].id) + "_resource");
+                }
+
+                let root_element_title = doc.createElement("title");
+                let root_element_text = doc.createTextNode(sections[root_section].name);
+                root_element_title.appendChild(root_element_text);
+                root_element.appendChild(root_element_title);
+
+                let sections_copy = JSON.parse(JSON.stringify(sections));
+                children_elements = sections_copy[root_section].children;
+
+                let unit;
+                if(typeof sections[root_section].unitNumber === "undefined"){
+                    unit = "blank";
+                } else {
+                    unit = sections[root_section].unitNumber;
+                }
+                //Added root element for resource iteration
+                resource_elements.push({
+                    path: "unit"+ unit + "/" + this.santinize_id(sections[root_section].id)+".html",
+                    id: sections[root_section].id
+                });
+
+                //Unit children Tree
+                while (children_elements.length !== 0){
+                    let actual_child = children_elements.shift();
+                    let branch = this.xmlOrganizationBranch(actual_child, actual_child, sections_copy, doc, resource_elements);
+                    if(typeof branch !== "undefined"){
+                        root_element.appendChild(branch);
+                    }
+                }
+
+            //end children Tree
+            organization.appendChild(root_element);
+            }
+
+        }*/
+        //end of Organization Item Tree
+
+        organizations.appendChild(organization);
+
+        ///   RESOURCE ITEMS
+        var resources = doc.createElement("resources");
+        var resource = doc.createElement("resource");
+        resource.setAttribute("identifier", "resource_1");
+        resource.setAttribute("type", "webcontent");
+        resource.setAttribute("adlcp:scormtype", "sco");
+        resource.setAttribute("href", "dist/index.html");
+        var file = doc.createElement("file");
+        file.setAttribute("href", "dist/index.html");
+        resource.appendChild(file);
+        resources.appendChild(resource);
+
+        /*for (var i = 0; i < resource_elements.length; i++) {
+            if ( !Dali.Config.sections_have_content && (resource_elements[i].id.indexOf(ID_PREFIX_SECTION) !== -1)){
+                continue;
+            }
+            var resource = doc.createElement("resource");
+            resource.setAttribute("identifier", this.santinize_id(resource_elements[i].id) + "_resource");
+            resource.setAttribute("type", "webcontent");
+            resource.setAttribute("adlcp:scormtype", "sco");
+            resource.setAttribute("href", resource_elements[i].path);
+
+            var file = doc.createElement("file");
+            file.setAttribute("href", resource_elements[i].path);
+            resource.appendChild(file);
+
+            resources.appendChild(resource);
+            // End of pieze of code to iterate
+        }
+        */
+        // Common DATA
+
+
+        /// APPEND DATA
+        manifest.appendChild(metadata);
+        manifest.appendChild(organizations);
+        manifest.appendChild(resources);
+
+        doc.appendChild(manifest);
+
+        return (this.beautifyXML(new XMLSerializer().serializeToString(doc)));
+    },
     getIndex: function (navs) {
         return (new EJS({url: Dali.Config.scorm_ejs}).render({navs: navs}));
     },

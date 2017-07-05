@@ -146,7 +146,7 @@ export default {
                         JSZip.loadAsync(data).then(function (zip) {
                             var navs = state.navItemsById;
                             //var sections = [];
-                            state.navItemsIds.map(function (page) {
+                           /* state.navItemsIds.map(function (page) {
                                 if(navs[page].hidden){
                                     return;
                                 }
@@ -183,9 +183,9 @@ export default {
                                 }
                                 var inner = parseEJS(Dali.Config.visor_ejs, page, state, true);
                                 //zip.file(path + nombre + ".html", inner);
-                            });
+                            });*/
                             //zip.file("index.html", Dali.Scorm.getIndex(navs));
-                            zip.file("imsmanifest.xml", Dali.Scorm.createimsManifest(state.title, navs));
+                            zip.file("imsmanifest.xml", Dali.Scorm.createSPAimsManifest(state.title, navs));
                             var page = 0;
                             if (state.navItemsIds && state.navItemsIds.length > 0) {                                
                                 if(!Dali.Config.sections_have_content) {
