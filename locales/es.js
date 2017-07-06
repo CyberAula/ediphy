@@ -15,9 +15,10 @@ var es = {
         "col_dist": "Distribución de columnas",
         "col_number": "Nº columnas",
         "contained_view": "Vista Contenida",
+        "CONTAINED_VIEWS": "VISTAS CONTENIDAS",
         "content": "Contenido",
+        "COURSE": "CURSO",
         "course": "Curso",
-
         "course_title": "Título Curso",
         "delete": "Eliminar",
         "delete_contained_canvas": "Eliminar vista contenida.",
@@ -79,6 +80,7 @@ var es = {
             "erase_container": "Borrar contenedor",
             "export_to_HTML": "Exportar a HTML",
             "export_to_SCORM": "Exportar a SCORM",
+            "global_config": "Configuración Global",
             "height_auto_warning": "Sólo si fijas una altura podrán tener alturas relativas las cajas en su interior"
         },
         "Multimedia": "Multimedia",

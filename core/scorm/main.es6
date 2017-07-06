@@ -158,9 +158,9 @@ export default {
 
         ///       ORGANIZATION (USED DEFAULT)
         var organizations = doc.createElement("organizations");
-        organizations.setAttribute("default", "defaultOrganization");
+        organizations.setAttribute("default", "GING");
         var organization = doc.createElement("organization");
-        organization.setAttribute("identifier", "defaultOrganization");
+        organization.setAttribute("identifier", "GING");
 
         //        ORGANIZATION _TITLE
         var title_org = doc.createElement("title");
@@ -238,7 +238,7 @@ export default {
         var resource = doc.createElement("resource");
         resource.setAttribute("identifier", "resource_1");
         resource.setAttribute("type", "webcontent");
-        resource.setAttribute("adlcp:scormtype", "sco");
+        resource.setAttribute("adlcp:scormType", "sco");
         resource.setAttribute("href", "dist/index.html");
         var file = doc.createElement("file");
         file.setAttribute("href", "dist/index.html");

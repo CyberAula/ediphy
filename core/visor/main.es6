@@ -30,9 +30,13 @@ var parseEJS = function (path, page, state, fromScorm) {
             }));
         }
     }
+    if (fromScorm) {
+        state.fromScorm = true;
+    }
     return (new EJS({url: path + ".ejs"}).render({
         state: state,
-        relativePath: "../"
+        relativePath: "../",
+        fromScorm: fromScorm
     }));
 };
 
@@ -90,7 +94,7 @@ export default {
                                 }
                             }    
                             state.navItemSelected = page;
-                            var content = parseEJS(Dali.Config.visor_ejs, page, state);
+                            var content = parseEJS(Dali.Config.visor_ejs, page, state, false);
                             zip.file("dist/index.html", content);
                             zip.file("dist/js/visor-bundle.js", xhr.response);
 
@@ -201,7 +205,7 @@ export default {
                                 }
                             }    
                             state.navItemSelected = page;
-                            var content = parseEJS(Dali.Config.visor_ejs, page, state);
+                            var content = parseEJS(Dali.Config.visor_ejs, page, state, true);
                             zip.file("dist/index.html", content);
                             zip.file("dist/js/visor-bundle.js", xhr.response);
                             zip_title = state.title;

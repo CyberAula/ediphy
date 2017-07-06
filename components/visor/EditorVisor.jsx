@@ -25,8 +25,8 @@ export default class Visor extends Component {
             backupElementStates: {},
             toggledSidebar : true,
             navItemSelected: Dali.State.navItemSelected,
-            containedViewSelected: Dali.State.containedViewSelected
-
+            containedViewSelected: Dali.State.containedViewSelected,
+            fromScorm : Dali.State.fromScorm
 
         };
 
