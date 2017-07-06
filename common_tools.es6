@@ -5,6 +5,7 @@ export function aspectRatio(ratioparam, idEl = "airlayer", idParent = "canvas") 
     let ratio = ratioparam;
     let parent = document.getElementById(idParent);
     let canvas = document.getElementById(idEl);
+    console.log(idParent);
     canvas.style.height = "100%";
     canvas.style.width = "100%";
 
@@ -20,18 +21,16 @@ export function aspectRatio(ratioparam, idEl = "airlayer", idParent = "canvas") 
     let w = canvas.offsetWidth;
     let h = canvas.offsetHeight;
     canvas.style.marginTop = 0 + 'px';
-    if (h < 400 || w < 400){
-        canvas.style.height = 0 + "px";
-        canvas.style.width = 0 + "px";
-    } else if (w > ratio * h) {
+    if (w > ratio * h) {
         canvas.style.width = (ratio * h) + "px";
     } else if (h > w/ratio) {
+
         let newHeight = w/ratio;
+        console.log(newHeight);
         canvas.style.height = newHeight + "px";
         if (parent/* && parent.offsetHeight - newHeight > 0*/){
             canvas.style.marginTop = ((parent.offsetHeight - canvas.offsetHeight)/2 -5)+ 'px';
-        } 
+        }
     }
 
 }
-

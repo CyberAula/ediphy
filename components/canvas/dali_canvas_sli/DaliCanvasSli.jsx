@@ -48,7 +48,7 @@ export default class DaliCanvasSli extends Component {
 
             <Col id={this.props.fromCV ? 'containedCanvas':'canvas'} md={12} xs={12} className="canvasSliClass"
                  style={{display: this.props.containedViewSelected !== 0 && !this.props.fromCV? 'none' : 'initial'}}>
-                
+
 
 
                 <div id={this.props.fromCV ? 'airlayer_cv':'airlayer'}
@@ -138,9 +138,9 @@ export default class DaliCanvasSli extends Component {
 
                         })}
                         {boxes.length === 0 ? (<div className="dragContentHere" style={{backgroundColor: 'transparent', border:0}}>{i18n.t("messages.drag_content")}</div>):(<span></span>)}
-                        
+
                     </div>
-                    <ReactResizeDetector handleWidth handleHeight onResize={(e)=>{aspectRatio(this.props.canvasRatio, this.props.fromCV ? 'airlayer_cv':'airlayer', this.props.fromCV ? 'canvasRow':'canvasRow');
+                    <ReactResizeDetector handleWidth handleHeight onResize={(e)=>{aspectRatio(this.props.canvasRatio, this.props.fromCV ? 'airlayer_cv':'airlayer', 'canvas');
 }} />
                 </div>
                  <DaliShortcuts
@@ -195,8 +195,8 @@ export default class DaliCanvasSli extends Component {
         });
 
 
-        aspectRatio(this.props.canvasRatio, this.props.fromCV ? 'airlayer_cv':'airlayer', this.props.fromCV ? 'canvasRow':'canvasRow');
-       // window.addEventListener("resize", aspectRatio);
+        aspectRatio(this.props.canvasRatio, this.props.fromCV ? 'airlayer_cv':'airlayer', 'canvas');
+        //window.addEventListener("resize", aspectRatio);
     }
 
     componentWillUnmount() {
@@ -209,7 +209,7 @@ export default class DaliCanvasSli extends Component {
         if (this.props.canvasRatio !== nextProps.canvasRatio){
             window.canvasRatio = nextProps.canvasRatio;
             // window.removeEventListener("resize", aspectRatio);
-            aspectRatio(this.props.canvasRatio, this.props.fromCV ? 'airlayer_cv':'airlayer', this.props.fromCV ? 'canvasRow':'canvasRow');
+            aspectRatio(this.props.canvasRatio, this.props.fromCV ? 'airlayer_cv':'airlayer', 'canvas');
             // window.addEventListener("resize", aspectRatio);
         }
 
