@@ -9,22 +9,26 @@ export default class RichMarksModal extends Component {
 
     constructor(props) {
         super(props);
+
         this.state = {
             connectMode: "new",
             displayMode: "navigate",
             newSelected: PAGE_TYPES.SLIDE,
-            existingSelected: ""
+            existingSelected: "",
+            viewNames: this.returnAllViews(this.props)
         };
     }
 
     componentWillReceiveProps(nextProps) {
         let current = nextProps.currentRichMark;
+        let allViews = this.returnAllViews(nextProps);
         if (current) {
             this.setState({
+                viewNames: allViews,
                 connectMode: current.connectMode || "new",
                 displayMode: current.displayMode || "navigate",
                 newSelected: (current.connectMode === "new" ? current.connection : PAGE_TYPES.SLIDE),
-                existingSelected: (current.connectMode === "existing" && nextProps.navItems[current.connection] ? nextProps.navItems[current.connection].name : "")
+                existingSelected: (current.connectMode === "existing" && this.remapInObject(nextProps.navItems,nextProps.containedViews)[current.connection] ? this.remapInObject(nextProps.navItems,nextProps.containedViews)[current.connection].name : "")
             });
         }
 
@@ -36,23 +40,6 @@ export default class RichMarksModal extends Component {
         function getRichMarkInput(value){
             richMarkValue = value;
         }
-
-        let viewNames = [];
-        this.props.navItemsIds.map(id => {
-            if (id === 0) {
-                return;
-            }
-            if (this.props.navItems[id].hidden) {
-                return;
-            }
-            viewNames.push({name: this.props.navItems[id].name, id: id});
-        });
-        Object.keys(this.props.containedViews).map(cv=>{
-            if(cv=== 0){
-                return;
-            }
-            viewNames.push({name:this.props.containedViews[cv].name, id: this.props.containedViews[cv].id});
-        });
 
         let current = this.props.currentRichMark;
         return (
@@ -121,7 +108,7 @@ export default class RichMarksModal extends Component {
                             </span>
                         </FormGroup>
                         <FormGroup style={{display: this.state.connectMode === "existing" ? "initial" : "none"}}>
-                            <Typeahead options={viewNames}
+                            <Typeahead options={this.state.viewNames}
                                        placeholder="Search view by name"
                                        labelKey="name"
                                        defaultSelected={[this.state.existingSelected]}
@@ -229,5 +216,28 @@ export default class RichMarksModal extends Component {
 
     }
 
+    returnAllViews(props){
+        let viewNames = [];
+        props.navItemsIds.map(id => {
+            if (id === 0) {
+                return;
+            }
+            if (props.navItems[id].hidden) {
+                return;
+            }
+            viewNames.push({name: props.navItems[id].name, id: id});
+        });
+        Object.keys(props.containedViews).map(cv=>{
+            if(cv=== 0){
+                return;
+            }
+            viewNames.push({name:props.containedViews[cv].name, id: props.containedViews[cv].id});
+        });
+        return viewNames;
+    }
+
+    remapInObject(...objects){
+        return Object.assign({},...objects);
+    }
 
 }
