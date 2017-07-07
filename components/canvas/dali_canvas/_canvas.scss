@@ -4,7 +4,6 @@
 #canvas, #containedCanvas {
   height: 100%;
   overflow-y: auto;
-  //padding: 10px 8px 8px 8px;
   width: calc(100% - 40px);
   background-color: #9a9a9a;
 }
@@ -22,12 +21,7 @@
 }
 
 .scrollcontainer{
-  //display: table;
   background-color: white;
-}
-
-.outter {
-  //display: table-row;
 }
 
 .margin-left{
@@ -44,7 +38,6 @@
   background-color: transparent;
 }
 
-
 .outter > .sli {
   padding-bottom: 1%;
 }
@@ -54,30 +47,16 @@
   background-color: white;
   overflow: hidden;
 }
-.sli {
-  //position: absolute;
-  //top: 0; bottom: 0; left: 0; right: 0;
-  //text-align: center;
-}
 
 .doc, .sli{
   position: relative;
 }
 
 #airlayer, #airlayer_cv {
-  min-height: 100%;
+  //  min-height: 100%;
   // min-height: calc(100vh - 240px);
   vertical-align: middle;
 }
-
-//.slide_air{
-  //width: 100%;
-  //Aspect Ratio
-  //padding-bottom: calc(56.25% - 212px); /* 16:9 */
-  //padding-top: calc(75% - 212px); /* 4:3 */
-  //background-color: white;
-  //position: relative;
-//}
 
 .doc_air{
   height: 100%;
@@ -121,9 +100,6 @@
     border: 5px dashed $naranjaadams;
   }
 }
-
-
-.drag-handle{}
 
 .rotate {
     -ms-transform: rotate(5deg); /* IE 9 */
