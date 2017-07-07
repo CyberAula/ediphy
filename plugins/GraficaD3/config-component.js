@@ -266,6 +266,8 @@ let ChartOptions = React.createClass({
 	},
 
 	componentDidUpdate(prevProps, prevState) {
+
+
 		if(prevState !== this.state){
 			if (typeof this.props.optionsChanged === 'function') {
 				console.log(this.state);
@@ -546,6 +548,13 @@ let ChartOptions = React.createClass({
 });
 
 let Config = React.createClass({
+
+	componentDidUpdate(nextProps,nextState){
+		if(nextProps.state.editing === false){
+			this.props.base.configModalNeedsUpdate();
+		}
+    },
+
 	componentDidMount(){
 		let { clientWidth } = this.refs.chartContainer;
 		this.setState({chartWidth: clientWidth});
@@ -573,6 +582,7 @@ let Config = React.createClass({
 		this.state.base.setState("data", values.data);
 		this.setOptions(values.data, values.keys);
 		this.updateChart();
+
 	},
 
 	setOptions(data, keys) {

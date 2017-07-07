@@ -72,7 +72,7 @@ export default function () {
             }
         },
         getConfig: function () {
-            var name, displayName, category, callback, needsConfigModal, needsTextEdition, extraTextConfig,
+            var name, displayName, category, callback, needsConfigModal, needsConfirmation, needsTextEdition, extraTextConfig,
             needsXMLEdition, icon, iconFromUrl, aspectRatioButtonConfig, isRich, marksType, flavor, allowFloatingBox;
             if (descendant.getConfig) {
                 let cfg = descendant.getConfig();
@@ -85,6 +85,7 @@ export default function () {
                 flavor = cfg.flavor;
                 marksType= cfg.marksType;
                 needsConfigModal = cfg.needsConfigModal;
+                needsConfirmation =  cfg.needsConfirmation;
                 needsTextEdition = cfg.needsTextEdition;
                 extraTextConfig = cfg.extraTextConfig;
                 needsXMLEdition = cfg.needsXMLEdition;
@@ -102,6 +103,7 @@ export default function () {
             flavor = defaultFor(flavor, 'plain');
             allowFloatingBox = defaultFor(allowFloatingBox, true);
             needsConfigModal = defaultFor(needsConfigModal, false);
+            needsConfirmation = defaultFor(needsConfirmation, false);
             needsTextEdition = defaultFor(needsTextEdition, false);
             needsXMLEdition = defaultFor(needsXMLEdition, false);
 
@@ -161,6 +163,7 @@ export default function () {
                 category: category,
                 callback: callback,
                 needsConfigModal: needsConfigModal,
+                needsConfirmation: needsConfirmation,
                 needsTextEdition: needsTextEdition,
                 extraTextConfig: extraTextConfig,
                 needsXMLEdition: needsXMLEdition,
@@ -248,6 +251,9 @@ export default function () {
                     }
                 }.bind(this));
             }
+        },
+        configModalNeedsUpdate: function(){
+            Dali.API.configModalNeedsUpdate();
         },
         getRichMarkInput: function(setMark){
             if(descendant.getRichMarkInput){
