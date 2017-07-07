@@ -132,6 +132,7 @@ export default {
         return new EJS({url: Dali.Config.visor_ejs + ".ejs"}).render({
             state: state,
             relativePath: "/",
+            fromScorm: false
         });
     },
     exportScorm: function (state) {
@@ -189,7 +190,7 @@ export default {
                                 //zip.file(path + nombre + ".html", inner);
                             });*/
                             //zip.file("index.html", Dali.Scorm.getIndex(navs));
-                            zip.file("imsmanifest.xml", Dali.Scorm.createSPAimsManifest(state.title, navs));
+                            zip.file("imsmanifest.xml", Dali.Scorm.createSPAimsManifest(state.globalConfig.title, navs, state.globalConfig));
                             var page = 0;
                             if (state.navItemsIds && state.navItemsIds.length > 0) {                                
                                 if(!Dali.Config.sections_have_content) {
@@ -208,7 +209,7 @@ export default {
                             var content = parseEJS(Dali.Config.visor_ejs, page, state, true);
                             zip.file("dist/index.html", content);
                             zip.file("dist/js/visor-bundle.js", xhr.response);
-                            zip_title = state.title;
+                            zip_title = state.globalConfig.title;
 
                             return zip;
                         }).then(function (zip) {
@@ -270,8 +271,8 @@ export default {
                     zip.file(path + nombre + ".html", inner);
                 });
                 zip.file("index.html", Dali.Scorm.getIndex(navs));
-                zip.file("imsmanifest.xml", Dali.Scorm.createimsManifest(state.title, navs));
-                zip_title = state.title;
+                zip.file("imsmanifest.xml", Dali.Scorm.createimsManifest(state.globalConfig.title, navs));
+                zip_title = state.globalConfig.title;
 
                 return zip;
             }).then(function (zip) {

@@ -5,4 +5,26 @@
 	height:97%; 
 	padding: 0px;
 	background-color: white;
+	overflow-y: auto;
+	.form-group {
+		/* padding:15px;
+		border-radius: 5px;
+		background: #eee; */
+	}
 }
+
+.inputGroup {
+	display:inline-table;
+	margin-right: 10px;
+	width:30%;
+}
+
+.miniIcon .material-icons{
+	font-size: 18px;
+	vertical-align: middle;
+}
+
+#descTA textarea{
+    resize: none !important;
+}
+

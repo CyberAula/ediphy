@@ -12,12 +12,17 @@ require('./_navBar.scss');
 export default class DaliNavBar extends Component {
 
  
- constructor(props) {
+    constructor(props) {
         super(props);
         this.state = {
             showGlobalConfig: false
         };
     }
+
+    openPlugin(categoria) {
+           this.props.setcat(categoria);
+    }
+
     render() {
 
         let disablePlugins = (this.props.navItemsIds.length === 0 || this.props.navItemSelected === 0);
@@ -30,7 +35,7 @@ export default class DaliNavBar extends Component {
                 <div className="grad1"></div>
                 <div className="navBarSpace">
                     <DaliIndexTitle className="tituloCurso"
-                                    title={this.props.title}
+                                    title={this.props.globalConfig.title}
                                     onNameChanged={this.props.onTitleChanged}/>
                 </div>
 
@@ -87,13 +92,6 @@ export default class DaliNavBar extends Component {
                                     disabled={false}
                                     onClick={() => this.setState({showGlobalConfig: true})}><i className="material-icons">settings</i>
                                 {i18n.t('messages.global_config')}
-                            </button>
-                        </MenuItem>
-                        <MenuItem disabled={this.props.undoDisabled} eventKey="4" style={{display: (isSlide(this.props.navItems[this.props.navItemSelected].type) ? 'block' : 'none')}}>
-                            <button className="dropdownButton" title={i18n.t('messages.Aspect_ratio')}
-                                    disabled={this.props.undoDisabled}
-                                    onClick={() => this.props.canvasRatio === 16/9 ? this.props.changeAspectRatio(4/3) : this.props.changeAspectRatio(16/9) }><i className="material-icons">tv</i>
-                                {this.props.canvasRatio === 16/9 ? i18n.t('4/3') : i18n.t('16/9')}
                             </button>
                         </MenuItem>
                         <MenuItem divider/>
@@ -155,7 +153,10 @@ export default class DaliNavBar extends Component {
                         <span className="hideonresize">{i18n.t('Preview')}</span>
                     </button>
                 </div>
-                <GlobalConfig show={this.state.showGlobalConfig} close={()=>{this.setState({showGlobalConfig:false})}}/>
+                <GlobalConfig show={this.state.showGlobalConfig} 
+                              globalConfig={this.props.globalConfig}
+                              changeGlobalConfig={this.props.changeGlobalConfig} 
+                              close={()=>{this.setState({showGlobalConfig:false})}}/>
             </Col>
             /* jshint ignore:end */
         );

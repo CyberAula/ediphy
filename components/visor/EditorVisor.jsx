@@ -129,8 +129,9 @@ export default class Visor extends Component {
         let containedViews = Dali.State.containedViewsById;
         let containedViewSelected = this.state.containedViewSelected; //Dali.State.containedViewSelected;
         let toolbars = Dali.State.toolbarsById;
-        let title = Dali.State.title;
-        let ratio = Dali.State.canvasRatio;
+        let globalConfig = Dali.State.globalConfig;
+        let title = globalConfig.title;
+        let ratio = globalConfig.canvasRatio;
         let wrapperClasses =  this.state.toggledSidebar ? "visorwrapper toggled" : "visorwrapper";
         let toggleIcon = this.state.toggledSidebar ? "keyboard_arrow_left" : "keyboard_arrow_right";
         let toggleColor = this.state.toggledSidebar ? "toggleColor" : "";
