@@ -12,15 +12,14 @@
     function loadPage() {
         var result = doInitialize();
         doSetValue("cmi.completion_status", "incomplete");
-
-        var id = doGetValue("cmi.launch_data");
-        var title = "Example Content" ; 
-        if (id != "") {
-            //document.getElementById("title").innerHTML = "Example Content (" + id + ")";
-        }
-
         var id = findDataStore("test_data_store");
+        /*Try setting score*/
         doSetValue("adl.data." + id + ".store", "SAMPLE DATA");
+        doSetValue("cmi.score.scaled", 1);
+        doSetValue("cmi.score.raw", 10);
+        doSetValue("cmi.score.min", 0);
+        doSetValue("cmi.score.max", 10);
+
     }
    
 

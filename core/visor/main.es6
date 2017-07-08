@@ -19,6 +19,7 @@ var titleModifier = function(name){
 };
 
 var parseEJS = function (path, page, state, fromScorm) {
+    state.fromScorm = fromScorm;
     if (page !== 0 && state.navItemsById[page]){
         if (Object.keys(state.navItemsById[page].extraFiles).length !== 0){
             let extraFileBox = Object.keys(state.navItemsById[state.navItemSelected].extraFiles)[0];
@@ -30,9 +31,8 @@ var parseEJS = function (path, page, state, fromScorm) {
             }));
         }
     }
-    if (fromScorm) {
-        state.fromScorm = true;
-    }
+    
+    state.fromScorm = fromScorm;
     return (new EJS({url: path + ".ejs"}).render({
         state: state,
         relativePath: "../",
@@ -122,7 +122,7 @@ export default {
         if (Object.keys(state.navItemsById[state.navItemSelected].extraFiles).length !== 0){
             let extraFileBox = Object.keys(state.navItemsById[state.navItemSelected].extraFiles)[0];
             let extraFileContainer = state.toolbarsById[extraFileBox];
-
+            state.fromScorm = false;
             return (new EJS({url: Dali.Config.visor_ejs + "_exercise.ejs"}).render({
                 state: state,
                 relativePath: "../",
@@ -205,6 +205,7 @@ export default {
                                     page = state.navItemsIds[0];
                                 }
                             }    
+                            state.fromScorm = true;
                             state.navItemSelected = page;
                             var content = parseEJS(Dali.Config.visor_ejs, page, state, true);
                             zip.file("dist/index.html", content);
