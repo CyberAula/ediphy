@@ -4,6 +4,7 @@ import {Modal, Button, Row,Col, FormGroup, ControlLabel, FormControl, Radio} fro
 import Typeahead from 'react-bootstrap-typeahead';
 import {ID_PREFIX_RICH_MARK, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_CONTAINED_VIEW, PAGE_TYPES} from '../../../constants';
 import i18n from 'i18next';
+import {isSection} from '../../../utils';
 
 export default class RichMarksModal extends Component {
 
@@ -28,7 +29,8 @@ export default class RichMarksModal extends Component {
                 connectMode: current.connectMode || "new",
                 displayMode: current.displayMode || "navigate",
                 newSelected: (current.connectMode === "new" ? current.connection : PAGE_TYPES.SLIDE),
-                existingSelected: (current.connectMode === "existing" && this.remapInObject(nextProps.navItems,nextProps.containedViews)[current.connection] ? this.remapInObject(nextProps.navItems,nextProps.containedViews)[current.connection].name : "")
+                existingSelected: (current.connectMode === "existing" && this.remapInObject(nextProps.navItems,nextProps.containedViews)[current.connection] ?
+                    this.remapInObject(nextProps.navItems,nextProps.containedViews)[current.connection].name : "")
             });
         }
 
@@ -216,6 +218,10 @@ export default class RichMarksModal extends Component {
 
     }
 
+
+    /*
+    * Maping method that joins cointainedViews and navItems in array but excluding the ones that can't be
+    * */
     returnAllViews(props){
         let viewNames = [];
         props.navItemsIds.map(id => {
@@ -225,19 +231,37 @@ export default class RichMarksModal extends Component {
             if (props.navItems[id].hidden) {
                 return;
             }
+            if(!Dali.Config.sections_have_content && isSection(id)){
+                return;
+            }
+
+            if(props.containedViewSelected === 0 && props.navItemSelected === id){
+                return;
+            }
+
             viewNames.push({name: props.navItems[id].name, id: id});
         });
         Object.keys(props.containedViews).map(cv=>{
             if(cv=== 0){
                 return;
             }
+
+            if(props.containedViewSelected === cv){
+                return;
+            }
+
             viewNames.push({name:props.containedViews[cv].name, id: props.containedViews[cv].id});
         });
         return viewNames;
     }
 
+    /*
+    * Method used to remap navItems and containedViews together
+    * */
     remapInObject(...objects){
         return Object.assign({},...objects);
     }
+
+
 
 }

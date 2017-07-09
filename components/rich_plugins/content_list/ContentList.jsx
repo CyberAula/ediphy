@@ -34,7 +34,7 @@ export default class ContentList extends Component {
                                  }}>
                                 {mark.title}
                                 &nbsp;->&nbsp;
-                                {mark.connectMode === "existing" ?  mark.connection: allViews[mark.connection].name }
+                                {mark.connectMode === "existing" ?  mark.connection: mark.connectMode === "external" ? allViews[mark.connection].connection : allViews[mark.connection].name }
                             </div>
                         );
                     })

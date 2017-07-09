@@ -288,6 +288,8 @@ class DaliApp extends Component {
                                   onVishCatalogToggled={() => this.setState({catalogModal: !this.state.catalogModal})}/>
                 <RichMarksModal boxSelected={boxSelected}
                                 pluginToolbar={toolbars[boxSelected]}
+                                navItemSelected={navItemSelected}
+                                containedViewSelected={containedViewSelected}
                                 containedViews={containedViews}
                                 navItems={navItems}
                                 navItemsIds={navItemsIds}
