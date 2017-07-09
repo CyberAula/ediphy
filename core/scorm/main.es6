@@ -2,133 +2,6 @@ import Dali from './../main';
 import {ID_PREFIX_SECTION} from './../../constants';
 
 export default {
-    createimsManifest: function (title, sections) {
-        var doc = document.implementation.createDocument("", "", null);
-
-        ///     ROOT MANIFEST
-        var manifest = doc.createElement("manifest");
-        manifest.setAttribute("xmlns", "http://www.imsproject.org/xsd/imscp_rootv1p1p2");
-        manifest.setAttribute("xmlns:adlcp", "http://www.adlnet.org/xsd/adlcp_rootv1p2");
-        manifest.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
-        manifest.setAttribute("identifier", "com.dali.presentation");
-        manifest.setAttribute("version", "1.0");
-        manifest.setAttribute("xsi:schemaLocation", "http://www.imsproject.org/xsd/imscp_rootv1p1p2 imscp_rootv1p1p2.xsd http://www.imsglobal.org/xsd/imsmd_rootv1p2p1 imsmd_rootv1p2p1.xsd http://www.adlnet.org/xsd/adlcp_rootv1p2 adlcp_rootv1p2.xsd");
-
-        ///      METADATA
-        var metadata = doc.createElement("metadata");
-        var schema = doc.createElement("schema");
-        var schema_txt = doc.createTextNode("ADL SCORM");
-        schema.appendChild(schema_txt);
-        metadata.appendChild(schema);
-
-        var schemaVersion = doc.createElement("schemaversion");
-        var schema_version_txt = doc.createTextNode("1.2");
-        schemaVersion.appendChild(schema_version_txt);
-        metadata.appendChild(schemaVersion);
-
-
-        ///       ORGANIZATION (USED DEFAULT)
-        var organizations = doc.createElement("organizations");
-        organizations.setAttribute("default", "defaultOrganization");
-        var organization = doc.createElement("organization");
-        organization.setAttribute("identifier", "defaultOrganization");
-
-        //        ORGANIZATION _TITLE
-        var title_org = doc.createElement("title");
-        var title_item_txt = doc.createTextNode(title);
-        title_org.appendChild(title_item_txt);
-        organization.appendChild(title_org);
-
-        // Create Organization Item Tree
-        var root_elements = sections[0].children;
-        // Resource XLM elements array
-        var resource_elements = [];
-
-        //        ORGANIZATION_ITEMS
-        for (let n = 0; n < root_elements.length; n ++ ){
-            let root_section = root_elements[n];
-
-            if(!sections[root_section].hidden){
-                let children_elements = [];
-
-                let root_element = doc.createElement("item");
-
-
-                root_element.setAttribute("identifier", this.santinize_id(root_section) + "_item");
-                if (Dali.Config.sections_have_content || root_section.indexOf(ID_PREFIX_SECTION) === -1){
-                     root_element.setAttribute("identifierref", this.santinize_id(sections[root_section].id) + "_resource");
-                }
-
-                let root_element_title = doc.createElement("title");
-                let root_element_text = doc.createTextNode(sections[root_section].name);
-                root_element_title.appendChild(root_element_text);
-                root_element.appendChild(root_element_title);
-
-                let sections_copy = JSON.parse(JSON.stringify(sections));
-                children_elements = sections_copy[root_section].children;
-
-                let unit;
-                if(typeof sections[root_section].unitNumber === "undefined"){
-                    unit = "blank";
-                } else {
-                    unit = sections[root_section].unitNumber;
-                }
-                //Added root element for resource iteration
-                resource_elements.push({
-                    path: "unit"+ unit + "/" + this.santinize_id(sections[root_section].id)+".html",
-                    id: sections[root_section].id
-                });
-
-                //Unit children Tree
-                while (children_elements.length !== 0){
-                    let actual_child = children_elements.shift();
-                    let branch = this.xmlOrganizationBranch(actual_child, actual_child, sections_copy, doc, resource_elements);
-                    if(typeof branch !== "undefined"){
-                        root_element.appendChild(branch);
-                    }
-                }
-
-            //end children Tree
-            organization.appendChild(root_element);
-            }
-
-        }
-        //end of Organization Item Tree
-
-        organizations.appendChild(organization);
-
-        ///   RESOURCE ITEMS
-        var resources = doc.createElement("resources");
-            for (var i = 0; i < resource_elements.length; i++) {
-            if ( !Dali.Config.sections_have_content && (resource_elements[i].id.indexOf(ID_PREFIX_SECTION) !== -1)){
-                continue;
-            }
-            var resource = doc.createElement("resource");
-            resource.setAttribute("identifier", this.santinize_id(resource_elements[i].id) + "_resource");
-            resource.setAttribute("type", "webcontent");
-            resource.setAttribute("adlcp:scormtype", "sco");
-            resource.setAttribute("href", resource_elements[i].path);
-
-            var file = doc.createElement("file");
-            file.setAttribute("href", resource_elements[i].path);
-            resource.appendChild(file);
-
-            resources.appendChild(resource);
-            // End of pieze of code to iterate
-        }
-
-        // Common DATA
-
-
-        /// APPEND DATA
-        manifest.appendChild(metadata);
-        manifest.appendChild(organizations);
-        manifest.appendChild(resources);
-
-        doc.appendChild(manifest);
-
-        return (this.beautifyXML(new XMLSerializer().serializeToString(doc)));
-    },
     createSPAimsManifest : function(title, sections, globalConfig) {
         var doc = document.implementation.createDocument("", "", null);
 
@@ -408,13 +281,52 @@ export default {
         return str.replace(/\-/g,"\_");
     },
     lomCreator: function(gc, doc, metadata) {
-        var lang = gc.language || 'en';
-        var date = this.currentDate();
         var lom = doc.createElement('lom');
         lom.setAttribute('xmlns',"http://ltsc.ieee.org/xsd/LOM");
         lom.setAttribute('xmlns:xsi', "http://www.w3.org/2001/XMLSchema-instance");
         lom.setAttribute('xsi:schemaLocation', "http://ltsc.ieee.org/xsd/LOM lom.xsd");
         //GENERAL
+        var general = this.generalCreator(gc,doc);
+        lom.appendChild(general);
+
+        //CLASSIFICATION (not implemented)
+        // var classification = doc.createElement('classification');
+        // lom.appendChild(classification);
+
+        //ANNOTATION
+        var annotation = this.annotationCreator(gc, doc);
+        lom.appendChild(annotation);
+
+        //LIFE CYCLE
+        var lifeCycle = this.lifeCycleCreator(gc, doc);     
+        lom.appendChild(lifeCycle);
+
+        //TECHNICAL
+        var technical = this.technicalCreator(gc, doc);
+        lom.appendChild(technical);
+        
+        //METAMETADATA
+        var metaMetadata = this.metaMetadataCreator(gc, doc);
+        lom.appendChild(metaMetadata);
+
+        //EDUCATIONAL
+        var educational = this.educationalCreator(gc, doc);
+        lom.appendChild(educational);
+        
+        //RELATION
+        /*var relation = this.relationCreator(gc,doc);
+        lom.appendChild(relation); */
+
+        //RIGHTS
+        var rights = this.rightsCreator(gc, doc);
+        lom.appendChild(rights);
+
+        metadata.appendChild(lom);
+        return metadata;
+    },
+    generalCreator: function(gc, doc) {
+        var lang = gc.language || 'en';
+        var date = this.currentDate();
         var general = doc.createElement('general');
             var genId = doc.createElement('identifier'); // Identifier
                 var genIdCatalog = doc.createElement('catalog');
@@ -475,13 +387,11 @@ export default {
                     genAggLVal.appendChild(genAggLValTxt);
                 genAggLevel.appendChild(genAggLVal);            
             general.appendChild(genAggLevel);
-        lom.appendChild(general);
-
-        //CLASSIFICATION (not implemented)
-        // var classification = doc.createElement('classification');
-        // lom.appendChild(classification);
-
-        //ANNOTATION
+            return general;
+    },
+    annotationCreator: function(gc, doc) {
+        var lang = gc.language || 'en';
+        var date = this.currentDate();
         var annotation = doc.createElement('annotation');
             var annEntity = doc.createElement('entity'); // Entity
                 var annEntTxt = doc.createTextNode('BEGIN:VCARD&amp;#xD;VERSION:3.0&amp;#xD;N:' + (gc.author || 'anonymous') + '&amp;#xD;FN:' + (gc.author || 'anonymous') + '&amp;#xD;END:VCARD');
@@ -500,9 +410,11 @@ export default {
                     annDateDesc.appendChild(annDateDescString);
                 annDate.appendChild(annDateDesc);
             annotation.appendChild(annDate);
-        lom.appendChild(annotation);
-
-        //LIFE CYCLE
+        return annotation;
+    },
+    lifeCycleCreator: function(gc, doc) {
+        var lang = gc.language || 'en';
+        var date = this.currentDate();
         var lifeCycle = doc.createElement('lifeCycle');
             var lcv = doc.createElement('version');
                 var lcvStr = doc.createElement('string');
@@ -543,9 +455,9 @@ export default {
                     lccDate.appendChild(lccDateTime);
                 lcc.appendChild(lccDate);
             lifeCycle.appendChild(lcc);
-        lom.appendChild(lifeCycle);
-
-        //TECHNICAL
+            return lifeCycle;
+    },
+    technicalCreator: function(gc, doc) {
         var technical = doc.createElement('technical');
             var format = doc.createElement('format');
                 var formatTxt = doc.createTextNode('text/html');
@@ -587,11 +499,13 @@ export default {
                     otherPlatformReqs.appendChild(oprStr);    
                 requirement.appendChild(otherPlatformReqs);
             technical.appendChild(requirement);
-        lom.appendChild(technical);
-        
-        //METAMETADATA
+        return technical;
+    },
+    metaMetadataCreator: function(gc, doc) {
+        var lang = gc.language || 'en';
+        var date = this.currentDate();
         var metaMetadata = doc.createElement('metaMetadata');
-        // identifier data missing
+            // identifier data missing
             var mmc = doc.createElement('contribute');
                 var mmcrole = doc.createElement('role');
                     var mmcrolesource = doc.createElement('source');
@@ -629,9 +543,11 @@ export default {
                 var mmlTxt = doc.createTextNode('en');
                 mml.appendChild(mmlTxt);
             metaMetadata.appendChild(mml);
-        lom.appendChild(metaMetadata);
-
-        //EDUCATIONAL
+        return metaMetadata;
+    },
+    educationalCreator: function(gc, doc) {
+        var lang = gc.language || 'en';
+        var date = this.currentDate();
         var educational = doc.createElement('educational');
             var interactivityType = doc.createElement('interactivityType');
                 var itSource = doc.createElement('source');
@@ -643,7 +559,8 @@ export default {
                     itValue.appendChild(itValueTxt);
                 interactivityType.appendChild(itValue);
             educational.appendChild(interactivityType);
- /*MULTI?*/ /*var learningResourceType = doc.createElement('learningResourceType');
+            /*MULTI?*/ 
+            /*var learningResourceType = doc.createElement('learningResourceType');
                 var lrtSource = doc.createElement('source');
                     var lrtSourceTxt = doc.createTextNode('LOMv1.0');
                     lrtSource.appendChild(lrtSourceTxt);
@@ -733,10 +650,12 @@ export default {
                 var eduLangTxt = doc.createTextNode(lang);
                 eduLanguage.appendChild(eduLangTxt);
             educational.appendChild(eduLanguage);
-        lom.appendChild(educational);
-        
-        //RELATION
-        /*var relation = doc.createElement('relation');
+        return educational;
+    },
+    relationCreator: function(gc, doc) {
+        var lang = gc.language || 'en';
+        var date = this.currentDate();
+        var relation = doc.createElement('relation');
             var relKind = doc.createElement('kind');
                 var relKindSource = doc.createElement('source');
                     var relKindSourceTxt = doc.createTextNode('LOMv1.0');
@@ -766,9 +685,11 @@ export default {
                     relResDesc.appendChild(relResDescStr);
                 relResource.appendChild(relResDesc);
             relation.appendChild(relResource);
-        lom.appendChild(relation); */
-
-        //RIGHTS
+        return relation;
+    },
+    rightsCreator: function(gc, doc) {
+        var lang = gc.language || 'en';
+        var date = this.currentDate();
         var rights = doc.createElement('rights');
             var cost = doc.createElement('cost');
                 var costSource = doc.createElement('source');
@@ -797,14 +718,138 @@ export default {
                     rightsDescStr.appendChild(rightsDescStrTxt);
                 rightsDesc.appendChild(rightsDescStr);
             rights.appendChild(rightsDesc);
-        lom.appendChild(rights);
-
-        metadata.appendChild(lom);
-        return metadata;
+        return rights;
     },
-    currentDate(){
+    currentDate: function(){
         var now = new Date();
         var str = now.getFullYear() + '-' +  ("0" + (now.getMonth()+1)).slice(-2) + '-' +  ("0" + now.getDate()).slice(-2) + 'T' +  ("0" + now.getHours()).slice(-2) + ':' +  ("0" + now.getMinutes()).slice(-2) + ':' +  ("0" + now.getSeconds()).slice(-2) + '+' +  ("0" + now.getTimezoneOffset()/-60).slice(-2) + ':00'; 
         return str;
-    }
+    },
+    createOldimsManifest: function (title, sections) {
+        var doc = document.implementation.createDocument("", "", null);
+
+        ///     ROOT MANIFEST
+        var manifest = doc.createElement("manifest");
+        manifest.setAttribute("xmlns", "http://www.imsproject.org/xsd/imscp_rootv1p1p2");
+        manifest.setAttribute("xmlns:adlcp", "http://www.adlnet.org/xsd/adlcp_rootv1p2");
+        manifest.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
+        manifest.setAttribute("identifier", "com.dali.presentation");
+        manifest.setAttribute("version", "1.0");
+        manifest.setAttribute("xsi:schemaLocation", "http://www.imsproject.org/xsd/imscp_rootv1p1p2 imscp_rootv1p1p2.xsd http://www.imsglobal.org/xsd/imsmd_rootv1p2p1 imsmd_rootv1p2p1.xsd http://www.adlnet.org/xsd/adlcp_rootv1p2 adlcp_rootv1p2.xsd");
+
+        ///      METADATA
+        var metadata = doc.createElement("metadata");
+        var schema = doc.createElement("schema");
+        var schema_txt = doc.createTextNode("ADL SCORM");
+        schema.appendChild(schema_txt);
+        metadata.appendChild(schema);
+
+        var schemaVersion = doc.createElement("schemaversion");
+        var schema_version_txt = doc.createTextNode("1.2");
+        schemaVersion.appendChild(schema_version_txt);
+        metadata.appendChild(schemaVersion);
+
+
+        ///       ORGANIZATION (USED DEFAULT)
+        var organizations = doc.createElement("organizations");
+        organizations.setAttribute("default", "defaultOrganization");
+        var organization = doc.createElement("organization");
+        organization.setAttribute("identifier", "defaultOrganization");
+
+        //        ORGANIZATION _TITLE
+        var title_org = doc.createElement("title");
+        var title_item_txt = doc.createTextNode(title);
+        title_org.appendChild(title_item_txt);
+        organization.appendChild(title_org);
+
+        // Create Organization Item Tree
+        var root_elements = sections[0].children;
+        // Resource XLM elements array
+        var resource_elements = [];
+
+        //        ORGANIZATION_ITEMS
+        for (let n = 0; n < root_elements.length; n ++ ){
+            let root_section = root_elements[n];
+
+            if(!sections[root_section].hidden){
+                let children_elements = [];
+
+                let root_element = doc.createElement("item");
+
+
+                root_element.setAttribute("identifier", this.santinize_id(root_section) + "_item");
+                if (Dali.Config.sections_have_content || root_section.indexOf(ID_PREFIX_SECTION) === -1){
+                     root_element.setAttribute("identifierref", this.santinize_id(sections[root_section].id) + "_resource");
+                }
+
+                let root_element_title = doc.createElement("title");
+                let root_element_text = doc.createTextNode(sections[root_section].name);
+                root_element_title.appendChild(root_element_text);
+                root_element.appendChild(root_element_title);
+
+                let sections_copy = JSON.parse(JSON.stringify(sections));
+                children_elements = sections_copy[root_section].children;
+
+                let unit;
+                if(typeof sections[root_section].unitNumber === "undefined"){
+                    unit = "blank";
+                } else {
+                    unit = sections[root_section].unitNumber;
+                }
+                //Added root element for resource iteration
+                resource_elements.push({
+                    path: "unit"+ unit + "/" + this.santinize_id(sections[root_section].id)+".html",
+                    id: sections[root_section].id
+                });
+
+                //Unit children Tree
+                while (children_elements.length !== 0){
+                    let actual_child = children_elements.shift();
+                    let branch = this.xmlOrganizationBranch(actual_child, actual_child, sections_copy, doc, resource_elements);
+                    if(typeof branch !== "undefined"){
+                        root_element.appendChild(branch);
+                    }
+                }
+
+            //end children Tree
+            organization.appendChild(root_element);
+            }
+
+        }
+        //end of Organization Item Tree
+
+        organizations.appendChild(organization);
+
+        ///   RESOURCE ITEMS
+        var resources = doc.createElement("resources");
+            for (var i = 0; i < resource_elements.length; i++) {
+            if ( !Dali.Config.sections_have_content && (resource_elements[i].id.indexOf(ID_PREFIX_SECTION) !== -1)){
+                continue;
+            }
+            var resource = doc.createElement("resource");
+            resource.setAttribute("identifier", this.santinize_id(resource_elements[i].id) + "_resource");
+            resource.setAttribute("type", "webcontent");
+            resource.setAttribute("adlcp:scormtype", "sco");
+            resource.setAttribute("href", resource_elements[i].path);
+
+            var file = doc.createElement("file");
+            file.setAttribute("href", resource_elements[i].path);
+            resource.appendChild(file);
+
+            resources.appendChild(resource);
+            // End of pieze of code to iterate
+        }
+
+        // Common DATA
+
+
+        /// APPEND DATA
+        manifest.appendChild(metadata);
+        manifest.appendChild(organizations);
+        manifest.appendChild(resources);
+
+        doc.appendChild(manifest);
+
+        return (this.beautifyXML(new XMLSerializer().serializeToString(doc)));
+    },
 };

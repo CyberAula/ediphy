@@ -272,7 +272,7 @@ export default {
                     zip.file(path + nombre + ".html", inner);
                 });
                 zip.file("index.html", Dali.Scorm.getIndex(navs));
-                zip.file("imsmanifest.xml", Dali.Scorm.createimsManifest(state.globalConfig.title, navs));
+                zip.file("imsmanifest.xml", Dali.Scorm.createOldimsManifest(state.globalConfig.title, navs));
                 zip_title = state.globalConfig.title;
 
                 return zip;
