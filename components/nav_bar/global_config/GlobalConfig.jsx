@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import {Modal, Grid, Row, Col, FormGroup, ControlLabel, FormControl, InputGroup, Radio} from 'react-bootstrap';
 import i18n from 'i18next';
 import RangeSlider from './range_slider/RangeSlider';
-import TimePicker from 'yet-another-react-time-picker';
 import Select from 'react-select';
 import { WithContext as ReactTags } from 'react-tag-input';
 import {suggestions, statusOptions, contextOptions, languages, difLevels, rightLevels} from './global_options';
@@ -92,7 +91,7 @@ export default class GlobalConfig extends Component {
                                          <ControlLabel>{i18n.t('global_config.description')}</ControlLabel>
                                          <FormControl id="descTA" componentClass="textarea" placeholder={i18n.t('global_config.description_placeholder')} value={descrip} onInput={e => {this.props.changeGlobalConfig("description",e.target.value)}} />
                                     </FormGroup>
-                                    
+
                                 </Col>
                                 <Col xs={12} md={6} lg={4}><br/>
                                     <FormGroup >
@@ -111,7 +110,7 @@ export default class GlobalConfig extends Component {
                                     </FormGroup>
                                     <FormGroup >
                                       <ControlLabel>{i18n.t('global_config.typicalLearningTime')}</ControlLabel><br/>
-                                      <InputGroup className="inputGroup">      
+                                      <InputGroup className="inputGroup">
                                         <FormControl  type="number"
                                                       value={tlt.h}
                                                       min={0}
@@ -120,7 +119,7 @@ export default class GlobalConfig extends Component {
                                                       onChange={e => {this.props.changeGlobalConfig("typicalLearningTime",{h:e.target.value, m:tlt.m, s:tlt.s})}}/>
                                         <InputGroup.Addon>h</InputGroup.Addon>
                                       </InputGroup>
-                                      <InputGroup className="inputGroup">     
+                                      <InputGroup className="inputGroup">
                                         <FormControl  type="number"
                                                       value={tlt.m}
                                                       min={0}
@@ -129,7 +128,7 @@ export default class GlobalConfig extends Component {
                                                       onChange={e => {this.props.changeGlobalConfig("typicalLearningTime",{h:tlt.h, m:e.target.value, s:tlt.s})}}/>
                                         <InputGroup.Addon>m</InputGroup.Addon>
                                       </InputGroup>
-                                      <InputGroup className="inputGroup">     
+                                      <InputGroup className="inputGroup">
                                         <FormControl  type="number"
                                                       value={tlt.s}
                                                       min={0}
@@ -176,7 +175,7 @@ export default class GlobalConfig extends Component {
                                         name="form-field-name-status"
                                         value={status}
                                         options={statusOptions()}
-                                        onChange={e => {this.props.changeGlobalConfig("status",e.value)}} />       
+                                        onChange={e => {this.props.changeGlobalConfig("status",e.value)}} />
                                     </FormGroup>
                                     <FormGroup >
                                       <ControlLabel>{i18n.t('global_config.context')}</ControlLabel><br/>
@@ -184,7 +183,7 @@ export default class GlobalConfig extends Component {
                                         name="form-field-name-context"
                                         value={context}
                                         options={contextOptions()}
-                                        onChange={e => {this.props.changeGlobalConfig("context",e.value)}} />       
+                                        onChange={e => {this.props.changeGlobalConfig("context",e.value)}} />
                                     </FormGroup>
                                     <FormGroup >
                                       <ControlLabel>{i18n.t('global_config.rights')}<a className="miniIcon" target="_blank" href={"https://creativecommons.org/licenses/?lang="+i18n.t('currentLang')}><i className="material-icons">info</i></a></ControlLabel><br/>
@@ -192,7 +191,7 @@ export default class GlobalConfig extends Component {
                                         name="form-field-name-rights"
                                         value={rights}
                                         options={rightLevels}
-                                        onChange={e => {this.props.changeGlobalConfig("rights",e.value)}} />       
+                                        onChange={e => {this.props.changeGlobalConfig("rights",e.value)}} />
                                     </FormGroup>
 
                                 </Col>
