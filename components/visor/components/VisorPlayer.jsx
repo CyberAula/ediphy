@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import {Button, OverlayTrigger, Tooltip} from 'react-bootstrap';
 import i18n from 'i18next';
 import Dali from './../../../core/main';
+import {isPage} from './../../../utils';
 
 
 import 'bootstrap/dist/css/bootstrap.css';
@@ -20,7 +21,7 @@ export default class VisorPlayer extends Component {
         } 
 
         let navItemsById = this.props.navItemsById;
-        let navItemSelected = this.props.navItemSelected;
+        let navItemSelected = this.getCurrentNavItem(this.props.currentView);
 
         let index = navItemsIds.indexOf(navItemSelected);
         let maxIndex = navItemsIds.length;
@@ -32,7 +33,7 @@ export default class VisorPlayer extends Component {
                     <Button className="playerButton"
                             bsStyle="primary"
                             disabled={maxIndex==0}
-                            onClick={(e)=>{this.props.changePage(navItemsIds[0])}}>
+                            onClick={(e)=>{this.props.changeCurrentView(navItemsIds[0])}}>
                         <i className="material-icons">first_page</i>
                     </Button>
                 </OverlayTrigger>
@@ -41,7 +42,7 @@ export default class VisorPlayer extends Component {
                     <Button className="playerButton"
                             bsStyle="primary"
                             disabled={index==0 || maxIndex==0}
-                            onClick={(e)=>{this.props.changePage(navItemsIds[Math.max(index-1, 0)])}}>
+                            onClick={(e)=>{this.props.changeCurrentView(navItemsIds[Math.max(index-1, 0)])}}>
                         <i className="material-icons">chevron_left</i>
                     </Button>
                 </OverlayTrigger>
@@ -49,7 +50,7 @@ export default class VisorPlayer extends Component {
                     <Button className="playerButton"
                             bsStyle="primary"
                             disabled={index==maxIndex-1 || maxIndex==0}
-                            onClick={(e)=>{this.props.changePage(navItemsIds[Math.min(index+1, maxIndex-1)])}}>
+                            onClick={(e)=>{this.props.changeCurrentView(navItemsIds[Math.min(index+1, maxIndex-1)])}}>
                         <i className="material-icons">chevron_right</i>
                     </Button>
                 </OverlayTrigger>
@@ -57,7 +58,7 @@ export default class VisorPlayer extends Component {
                     <Button className="playerButton"
                             bsStyle="primary"
                             disabled={maxIndex==0}
-                            onClick={(e)=>{this.props.changePage(navItemsIds[maxIndex-1])}}>
+                            onClick={(e)=>{this.props.changeCurrentView(navItemsIds[maxIndex-1])}}>
                         <i className="material-icons">last_page</i>
                     </Button>
                 </OverlayTrigger>
@@ -75,6 +76,14 @@ export default class VisorPlayer extends Component {
         /*Añadir aquí i18n next para traducir el tooltip*/
         return(<Tooltip id={id}>{message}</Tooltip>);
         /* jshint ignore:end */
+    }
+
+    getCurrentNavItem(ids){
+        return ids.reduce(e=>{
+            if (isPage(e)){
+                return e;
+            }
+        });
     }
 
 }

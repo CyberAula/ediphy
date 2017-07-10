@@ -9,42 +9,40 @@ export default class CanvasVisor extends Component {
         let visorContent;
         if (isSlide(this.props.navItemSelected.type)) {
             /* jshint ignore:start */
-            visorContent = <CanvasVisorSli navItemSelected={this.props.navItemSelected}
-                                           navItems={this.props.navItems}
-                                           containedViewSelected={this.props.containedViewSelected}
-                                           containedViews={this.props.containedViews}                                           
+            visorContent = <CanvasVisorSli
                                            boxes={this.props.boxes}
-                                           boxSelected={this.props.boxSelected}
                                            boxLevelSelected={this.props.boxLevelSelected}
-                                           toolbars={this.props.toolbars}
+                                           boxSelected={this.props.boxSelected}
+                                           canvasRatio={this.props.canvasRatio}
+                                           changeCurrentView={this.props.changeCurrentView}
+                                           containedViews={this.props.containedViews}
+                                           currentView={this.props.currentView}
+                                           navItems={this.props.navItems}
                                            removeLastView={this.props.removeLastView}
                                            richElementsState={this.props.richElementsState}
                                            showCanvas={this.props.showCanvas}
-                                           canvasRatio={this.props.canvasRatio}
-                                           changeCurrentView={this.props.changeCurrentView}
                                            title={this.props.title}
+                                           toolbars={this.props.toolbars}
                                            triggeredMarks={this.props.triggeredMarks}
-                                           viewsArray={this.props.viewsArray}
-                                           fromCV={false}/>;
+                                           viewsArray={this.props.viewsArray}/>;
             /* jshint ignore:end */
         }else{
             /* jshint ignore:start */
-            visorContent = <CanvasVisorDoc navItemSelected={this.props.navItemSelected}
-                                           navItems={this.props.navItems}
-                                           containedViewSelected={this.props.containedViewSelected}
-                                           containedViews={this.props.containedViews}
+            visorContent = <CanvasVisorDoc
                                            boxes={this.props.boxes}
-                                           boxSelected={this.props.boxSelected}
                                            boxLevelSelected={this.props.boxLevelSelected}
-                                           toolbars={this.props.toolbars}
+                                           boxSelected={this.props.boxSelected}
+                                           containedViews={this.props.containedViews}
+                                           changeCurrentView={this.props.changeCurrentView}
+                                           currentView={this.props.currentView}
+                                           navItems={this.props.navItems}
                                            removeLastView={this.props.removeLastView}
                                            richElementsState={this.props.richElementsState}
                                            showCanvas={this.props.showCanvas}
-                                           changeCurrentView={this.props.changeCurrentView}
+                                           toolbars={this.props.toolbars}
                                            title={this.props.title}
                                            triggeredMarks={this.props.triggeredMarks}
-                                           viewsArray={this.props.viewsArray}
-                                           fromCV={false}/>;
+                                           viewsArray={this.props.viewsArray}/>;
             /* jshint ignore:end */
         }
 

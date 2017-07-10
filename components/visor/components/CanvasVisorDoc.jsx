@@ -50,8 +50,7 @@ export default class CanvasVisorDoc extends Component {
                                   containedViews={this.props.containedViews}
                                   titleModeToggled={this.props.titleModeToggled}
                                   onUnitNumberChanged={this.props.onUnitNumberChanged}
-                                  showButton={true}
-                                  fromCV={this.props.fromCV}/>
+                                  showButton={true}/>
                 <div className="outter canvasvisor">
                     <div id={this.props.fromCV ? 'airlayer_cv':'airlayer'}
                     className={'doc_air'}

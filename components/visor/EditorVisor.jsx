@@ -24,10 +24,6 @@ export default class Visor extends Component {
             richElementState: {},
             backupElementStates: {},
             toggledSidebar : true,
-            navItemSelected: Dali.State.navItemSelected,
-            containedViewSelected: Dali.State.containedViewSelected
-
-
         };
 
     }
@@ -136,9 +132,7 @@ export default class Visor extends Component {
         let boxSelected = Dali.State.boxSelected;
         let navItems = Dali.State.navItemsById;
         let navItemsIds = Dali.State.navItemsIds;
-        let navItemSelected = this.state.navItemSelected; //Dali.State.navItemSelected;
         let containedViews = Dali.State.containedViewsById;
-        let containedViewSelected = this.state.containedViewSelected; //Dali.State.containedViewSelected;
         let toolbars = Dali.State.toolbarsById;
         let title = Dali.State.title;
         let ratio = Dali.State.canvasRatio;
@@ -151,24 +145,26 @@ export default class Visor extends Component {
             /* jshint ignore:start */
             <div id="app" 
                  className={wrapperClasses} >
-                <SideNavVisor courseTitle={title}
-                              toggled={this.state.toggledSidebar}
-                              changePage={(page)=> {this.changeCurrentView(page)}}
-                              navItemsById={navItems}
-                              navItemsIds={navItemsIds}
-                              navItemSelected={navItemSelected}/>
-                <div id="page-content-wrapper" 
+                <SideNavVisor
+                            changeCurrentView={(page)=> {this.changeCurrentView(page)}}
+                            courseTitle={title}
+                            currentView={this.getLastCurrentViewElement()}
+                            navItemsById={navItems}
+                            navItemsIds={navItemsIds}
+                            toggled={this.state.toggledSidebar}/>
+                <div id="page-content-wrapper"
                      className={isSlide} 
                     style={{height: '100%'}}>
                     <Grid fluid={true} 
                           style={{height: '100%'}}>
                         <Row style={{height: '100%'}}>
                             <Col lg={12} style={{height: '100%'}}>
-                                <VisorPlayer changePage={(page)=> {this.changeCurrentView(page)}} 
-                                             navItemsById={navItems} 
-                                             navItemsIds={navItemsIds} 
-                                             navItemSelected={navItemSelected} />
-                                <Button id="visorNavButton" 
+                                <VisorPlayer
+                                            changePage={(page)=> {this.changeCurrentView(page)}}
+                                            currentView={this.getLastCurrentViewElement()}
+                                            navItemsById={navItems}
+                                            navItemsIds={navItemsIds}/>
+                                <Button id="visorNavButton"
                                         className={toggleColor} 
                                         bsStyle="primary"  
                                         onClick={e => {this.setState({toggledSidebar: !this.state.toggledSidebar})}}>
@@ -176,31 +172,30 @@ export default class Visor extends Component {
                                 </Button>
 
                                 { !isContainedView(this.getLastCurrentViewElement()) ?
-                                    (<CanvasVisor boxes={boxes}
+                                    (<CanvasVisor
+                                                boxes={boxes}
                                                 boxSelected={boxSelected}
                                                 changeCurrentView={(element) => {this.changeCurrentView(element)}}
+                                                canvasRatio={ratio}
                                                 containedViews={containedViews}
-                                                containedViewSelected={containedViews[containedViewSelected]||0}
                                                 currentView={this.getLastCurrentViewElement()}
                                                 navItems={navItems}
-                                                navItemSelected={navItems[navItemSelected]}
-                                                toolbars={toolbars}
-                                                title={title}
-                                                triggeredMarks={this.state.triggeredMarks}
-                                                showCanvas={this.getLastCurrentViewElement().indexOf("cv-") === -1}
                                                 removeLastView={()=>{this.removeLastView()}}
                                                 richElementsState={this.state.richElementState}
+                                                showCanvas={this.getLastCurrentViewElement().indexOf("cv-") === -1}
+                                                title={title}
+                                                toolbars={toolbars}
+                                                triggeredMarks={this.state.triggeredMarks}
                                                 viewsArray={this.state.currentView}
-                                                canvasRatio={ratio}
                                     />) :
-                                    (<ContainedCanvasVisor boxes={boxes}
+                                    (<ContainedCanvasVisor
+                                                boxes={boxes}
                                                 boxSelected={boxSelected}
                                                 changeCurrentView={(element) => {this.changeCurrentView(element)}}
+                                                canvasRatio={ratio}
                                                 containedViews={containedViews}
-                                                containedViewSelected={containedViews[containedViewSelected]||0}
                                                 currentView={this.getLastCurrentViewElement()}
                                                 navItems={navItems}
-                                                navItemSelected={navItems[navItemSelected]}
                                                 toolbars={toolbars}
                                                 title={title}
                                                 triggeredMarks={this.state.triggeredMarks}
@@ -208,7 +203,6 @@ export default class Visor extends Component {
                                                 removeLastView={()=>{this.removeLastView()}}
                                                 richElementsState={this.state.richElementState}
                                                 viewsArray={this.state.currentView}
-                                                canvasRatio={ratio}
                                     />)
                                 }
                             </Col>
@@ -227,13 +221,9 @@ export default class Visor extends Component {
 
     changeCurrentView(element){
         if (isContainedView(element)) {
-            this.setState({ containedViewSelected: element, 
-                            currentView: [this.getCurrentView(this.state.navItemSelected, this.state.containedViewSelected), element]});
+            this.setState({ currentView: [this.getCurrentView(this.state.navItemSelected, this.state.containedViewSelected), element]});
         } else {
-
-             this.setState({ navItemSelected: element, 
-                             containedViewSelected: 0,
-                             currentView: [element] });
+             this.setState({ currentView: [element] });
              if(this.state.currentView.length > 1) {
                 this.setState({ triggeredMarks: this.unTriggerLastMark(this.state.triggeredMarks),
                                 richElementState: this.getActualBoxesStates(this.state.backupElementStates,this.state.richElementState)});
