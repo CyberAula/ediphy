@@ -465,11 +465,15 @@ export default class Visor extends Component {
 
     componentDidMount() {
         if (Dali.State.fromScorm) {
-            window.addEventListener("readyForSCORM", function scormFunction(event){
-                console.log(event.detail);
-                var bookmark = event.detail && event.detail.bookmark && event.detail.bookmark !== '' ? event.detail.bookmark : this.getFirstPage();
+            window.addEventListener("onSCORM", function scormFunction(event){
+                var init = API.init();
+                var bookmark = init && init.bookmark && init.bookmark !== '' ? init.bookmark : this.getFirstPage();
                 this.changeCurrentView(bookmark);
             }.bind(this));
+
+            window.addEventListener("offSCORM", function offScorm(event){
+                API.finish();
+            });
         }
     }
  

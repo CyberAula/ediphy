@@ -1,4 +1,4 @@
-   var terminated = false;
+window.terminated = false;
 
     
     /**********************************************************************
@@ -10,18 +10,8 @@
     **               indicating that the SCO is not yet finished.
     **********************************************************************/
     function loadPage() {
-        var result = doInitialize();
-        var currentStatus = doGetValue("cmi.completion_status");
-        var bookmark = doGetValue("cmi.location");
-        if (currentStatus !== 'completed') {
-            currentStatus = "incomplete";
-            doSetValue("cmi.completion_status", "incomplete");
-            doSetValue("cmi.score.scaled", 1);
-            doSetValue("cmi.score.raw", 10);
-            doSetValue("cmi.score.min", 0);
-            doSetValue("cmi.score.max", 10);
-        }
-        var SCORMevent = new CustomEvent('readyForSCORM',{detail:{ 'currentStatus': currentStatus, 'bookmark': bookmark }});
+
+        var SCORMevent = new CustomEvent('onSCORM');
         window.dispatchEvent(SCORMevent);
  
     }
@@ -39,13 +29,10 @@
     **               away before finishing the SCO.
     **********************************************************************/
     function unloadPage() {
-     
-        if (terminated != true) {
-            doSetValue("cmi.success_status", "passed");
-            doSetValue("cmi.completion_status", "completed");
-            doTerminate();
-            terminated = true;
-        }
+        
+        var SCORMevent = new CustomEvent('offSCORM');
+        window.dispatchEvent(SCORMevent);
+        
     
     }
 
