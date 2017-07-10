@@ -39,7 +39,8 @@ export default class GlobalConfig extends Component {
 
         return (
             /* jshint ignore:start */
-            <Modal className="visor modalVisorContainer"
+            //  visor modalVisorContainer
+            <Modal className="pageModal"
                    show={this.props.show}
                    backdrop={true} bsSize="large"
                    aria-labelledby="contained-modal-title-lg"
