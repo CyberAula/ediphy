@@ -54,7 +54,8 @@ export default {
         root_element.appendChild(root_title);
         organization.appendChild(root_element);
         //        ORGANIZATION_ITEMS
-        /*for (let n = 0; n < root_elements.length; n ++ ){
+        /*
+        for (let n = 0; n < root_elements.length; n ++ ){
             let root_section = root_elements[n];
 
             if(!sections[root_section].hidden){
@@ -84,7 +85,7 @@ export default {
                 }
                 //Added root element for resource iteration
                 resource_elements.push({
-                    path: "unit"+ unit + "/" + this.santinize_id(sections[root_section].id)+".html",
+                    path: "dist/index.html", //"unit"+ unit + "/" + this.santinize_id(sections[root_section].id)+".html",
                     id: sections[root_section].id
                 });
 
@@ -147,138 +148,6 @@ export default {
         doc.appendChild(manifest);
 
         return (this.beautifyXML(new XMLSerializer().serializeToString(doc)));
-    },
-    getIndex: function (navs) {
-        return (new EJS({url: Dali.Config.scorm_ejs}).render({navs: navs}));
-    },
-    xmlOrganizationBranch: function(root_child, actual_child, sections, doc, resource_elements){
-        let branch_elements = [];
-        if(sections[actual_child].children.length !== 0){
-            while(sections[actual_child].children.length > 0){
-                let iteration_child = sections[actual_child].children.shift();
-                if(iteration_child.indexOf(ID_PREFIX_SECTION) !== -1 ){
-                    if(!sections[iteration_child].hidden){
-                        branch_elements.push(this.xmlOrganizationBranch(root_child,iteration_child, sections, doc,resource_elements));
-                    }
-                } else{
-                    if(!sections[iteration_child].hidden){
-                        let actual_section =  iteration_child;
-
-                        let element = doc.createElement("item");
-                        element.setAttribute("identifier", this.santinize_id(sections[actual_section].id) + "_item");
-                        element.setAttribute("identifierref", this.santinize_id(sections[actual_section].id) + "_resource");
-                        let element_title = doc.createElement("title");
-                        let element_text = doc.createTextNode(sections[actual_section].name);
-                        element_title.appendChild(element_text);
-                        element.appendChild(element_title);
-
-                        let unit;
-                        if(typeof sections[actual_section].unitNumber === "undefined"){
-                            unit = "blank";
-                        } else {
-                            unit = sections[actual_section].unitNumber;
-                        }
-
-                        resource_elements.push({
-                            path: "unit"+ unit + "/" + this.santinize_id(sections[actual_section].id)+".html",
-                            id: sections[actual_section].id
-                        });
-
-
-                        branch_elements.push(element);
-                    }
-                }
-            }
-        }
-        if(!sections[actual_child].hidden){
-            let actual_section = actual_child;
-            let element = doc.createElement("item");
-            element.setAttribute("identifier", this.santinize_id(sections[actual_section].id) + "_item");
-            if ( Dali.Config.sections_have_content || (sections[actual_section].id.indexOf(ID_PREFIX_SECTION) === -1)){
-                element.setAttribute("identifierref", this.santinize_id(sections[actual_section].id) + "_resource");
-            }
-            let element_title = doc.createElement("title");
-            let element_text = doc.createTextNode(sections[actual_section].name);
-            element_title.appendChild(element_text);
-
-            element.appendChild(element_title);
-
-            let unit;
-            if(typeof sections[actual_section].unitNumber === "undefined"){
-                unit = "blank";
-            } else {
-                unit = sections[actual_section].unitNumber;
-            }
-
-            resource_elements.push({
-                    path: "unit"+ unit + "/" + this.santinize_id(sections[actual_section].id)+".html",
-                    id: sections[actual_section].id
-                });
-            
-            if(branch_elements.length !== 0){
-                for(let n = 0; n < branch_elements.length; n++){
-                    element.appendChild(branch_elements[n]);
-                }
-            }
-
-            return element;
-        }
-    },
-    beautifyXML:  function (xml) {
-        var reg = /(>)\s*(<)(\/*)/g; // updated Mar 30, 2015
-        var wsexp = / *(.*) +\n/g;
-        var contexp = /(<.+>)(.+\n)/g;
-        xml = xml.replace(reg, '$1\n$2$3').replace(wsexp, '$1\n').replace(contexp, '$1\n$2');
-        var pad = 0;
-        var formatted = '';
-        var lines = xml.split('\n');
-        var indent = 0;
-        var lastType = 'other';
-        // 4 types of tags - single, closing, opening, other (text, doctype, comment) - 4*4 = 16 transitions
-        var transitions = {
-            'single->single': 0,
-            'single->closing': -1,
-            'single->opening': 0,
-            'single->other': 0,
-            'closing->single': 0,
-            'closing->closing': -1,
-            'closing->opening': 0,
-            'closing->other': 0,
-            'opening->single': 1,
-            'opening->closing': 0,
-            'opening->opening': 1,
-            'opening->other': 1,
-            'other->single': 0,
-            'other->closing': -1,
-            'other->opening': 0,
-            'other->other': 0
-        };
-
-        for (var i = 0; i < lines.length; i++) {
-            var ln = lines[i];
-            var single = Boolean(ln.match(/<.+\/>/)); // is this line a single tag? ex. <br />
-            var closing = Boolean(ln.match(/<\/.+>/)); // is this a closing tag? ex. </a>
-            var opening = Boolean(ln.match(/<[^!].*>/)); // is this even a tag (that's not <!something>)
-            var type = single ? 'single' : closing ? 'closing' : opening ? 'opening' : 'other';
-            var fromTo = lastType + '->' + type;
-            lastType = type;
-            var padding = '';
-
-            indent += transitions[fromTo];
-            for (var j = 0; j < indent; j++) {
-                padding += '\t';
-            }
-            if (fromTo === 'opening->closing') {
-                formatted = formatted.substr(0, formatted.length - 1) + ln + '\n'; // substr removes line break (\n) from prev loop
-            }
-            else {
-                formatted += padding + ln + '\n';
-            }
-        }
-        return formatted;
-    },
-    santinize_id: function(str){
-        return str.replace(/\-/g,"\_");
     },
     lomCreator: function(gc, doc, metadata) {
         var lom = doc.createElement('lom');
@@ -724,6 +593,138 @@ export default {
         var now = new Date();
         var str = now.getFullYear() + '-' +  ("0" + (now.getMonth()+1)).slice(-2) + '-' +  ("0" + now.getDate()).slice(-2) + 'T' +  ("0" + now.getHours()).slice(-2) + ':' +  ("0" + now.getMinutes()).slice(-2) + ':' +  ("0" + now.getSeconds()).slice(-2) + '+' +  ("0" + now.getTimezoneOffset()/-60).slice(-2) + ':00'; 
         return str;
+    },
+    getIndex: function (navs) {
+        return (new EJS({url: Dali.Config.scorm_ejs}).render({navs: navs}));
+    },
+    xmlOrganizationBranch: function(root_child, actual_child, sections, doc, resource_elements){
+        let branch_elements = [];
+        if(sections[actual_child].children.length !== 0){
+            while(sections[actual_child].children.length > 0){
+                let iteration_child = sections[actual_child].children.shift();
+                if(iteration_child.indexOf(ID_PREFIX_SECTION) !== -1 ){
+                    if(!sections[iteration_child].hidden){
+                        branch_elements.push(this.xmlOrganizationBranch(root_child,iteration_child, sections, doc,resource_elements));
+                    }
+                } else{
+                    if(!sections[iteration_child].hidden){
+                        let actual_section =  iteration_child;
+
+                        let element = doc.createElement("item");
+                        element.setAttribute("identifier", this.santinize_id(sections[actual_section].id) + "_item");
+                        element.setAttribute("identifierref", this.santinize_id(sections[actual_section].id) + "_resource");
+                        let element_title = doc.createElement("title");
+                        let element_text = doc.createTextNode(sections[actual_section].name);
+                        element_title.appendChild(element_text);
+                        element.appendChild(element_title);
+
+                        let unit;
+                        if(typeof sections[actual_section].unitNumber === "undefined"){
+                            unit = "blank";
+                        } else {
+                            unit = sections[actual_section].unitNumber;
+                        }
+
+                        resource_elements.push({
+                            path: "unit"+ unit + "/" + this.santinize_id(sections[actual_section].id)+".html",
+                            id: sections[actual_section].id
+                        });
+
+
+                        branch_elements.push(element);
+                    }
+                }
+            }
+        }
+        if(!sections[actual_child].hidden){
+            let actual_section = actual_child;
+            let element = doc.createElement("item");
+            element.setAttribute("identifier", this.santinize_id(sections[actual_section].id) + "_item");
+            if ( Dali.Config.sections_have_content || (sections[actual_section].id.indexOf(ID_PREFIX_SECTION) === -1)){
+                element.setAttribute("identifierref", this.santinize_id(sections[actual_section].id) + "_resource");
+            }
+            let element_title = doc.createElement("title");
+            let element_text = doc.createTextNode(sections[actual_section].name);
+            element_title.appendChild(element_text);
+
+            element.appendChild(element_title);
+
+            let unit;
+            if(typeof sections[actual_section].unitNumber === "undefined"){
+                unit = "blank";
+            } else {
+                unit = sections[actual_section].unitNumber;
+            }
+
+            resource_elements.push({
+                    path: "unit"+ unit + "/" + this.santinize_id(sections[actual_section].id)+".html",
+                    id: sections[actual_section].id
+                });
+            
+            if(branch_elements.length !== 0){
+                for(let n = 0; n < branch_elements.length; n++){
+                    element.appendChild(branch_elements[n]);
+                }
+            }
+
+            return element;
+        }
+    },
+    beautifyXML:  function (xml) {
+        var reg = /(>)\s*(<)(\/*)/g; // updated Mar 30, 2015
+        var wsexp = / *(.*) +\n/g;
+        var contexp = /(<.+>)(.+\n)/g;
+        xml = xml.replace(reg, '$1\n$2$3').replace(wsexp, '$1\n').replace(contexp, '$1\n$2');
+        var pad = 0;
+        var formatted = '';
+        var lines = xml.split('\n');
+        var indent = 0;
+        var lastType = 'other';
+        // 4 types of tags - single, closing, opening, other (text, doctype, comment) - 4*4 = 16 transitions
+        var transitions = {
+            'single->single': 0,
+            'single->closing': -1,
+            'single->opening': 0,
+            'single->other': 0,
+            'closing->single': 0,
+            'closing->closing': -1,
+            'closing->opening': 0,
+            'closing->other': 0,
+            'opening->single': 1,
+            'opening->closing': 0,
+            'opening->opening': 1,
+            'opening->other': 1,
+            'other->single': 0,
+            'other->closing': -1,
+            'other->opening': 0,
+            'other->other': 0
+        };
+
+        for (var i = 0; i < lines.length; i++) {
+            var ln = lines[i];
+            var single = Boolean(ln.match(/<.+\/>/)); // is this line a single tag? ex. <br />
+            var closing = Boolean(ln.match(/<\/.+>/)); // is this a closing tag? ex. </a>
+            var opening = Boolean(ln.match(/<[^!].*>/)); // is this even a tag (that's not <!something>)
+            var type = single ? 'single' : closing ? 'closing' : opening ? 'opening' : 'other';
+            var fromTo = lastType + '->' + type;
+            lastType = type;
+            var padding = '';
+
+            indent += transitions[fromTo];
+            for (var j = 0; j < indent; j++) {
+                padding += '\t';
+            }
+            if (fromTo === 'opening->closing') {
+                formatted = formatted.substr(0, formatted.length - 1) + ln + '\n'; // substr removes line break (\n) from prev loop
+            }
+            else {
+                formatted += padding + ln + '\n';
+            }
+        }
+        return formatted;
+    },
+    santinize_id: function(str){
+        return str.replace(/\-/g,"\_");
     },
     createOldimsManifest: function (title, sections) {
         var doc = document.implementation.createDocument("", "", null);

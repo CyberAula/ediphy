@@ -6,9 +6,10 @@ import ContainedCanvasVisor from './components/ContainedCanvasVisor';
 import SideNavVisor from './components/SideNavVisor';
 import VisorPlayer from './components/VisorPlayer';
 import i18n from './../../i18n';
-import {isContainedView} from './../../utils';
+import {isContainedView, isPage, isSection} from './../../utils';
 import {aspectRatio} from '../../common_tools';
-
+import Config from './../../core/config';
+import * as API from './../../core/scorm/scorm_utils';
 require('es6-promise').polyfill();
 require('./../../sass/style.scss');
 require('./../../core/visor_entrypoint');
@@ -228,8 +229,14 @@ export default class Visor extends Component {
                 this.setState({ triggeredMarks: this.unTriggerLastMark(this.state.triggeredMarks),
                                 richElementState: this.getActualBoxesStates(this.state.backupElementStates,this.state.richElementState)});
              }
+
+            if (Dali.State.fromScorm){
+                API.changeLocation(element); 
+            }
         }    
         this.mountFunction();   
+
+        
     }
 
     getCurrentView(NIselected, CVselected){
@@ -442,6 +449,28 @@ export default class Visor extends Component {
             triggeredMarks: this.unTriggerLastMark(this.state.triggeredMarks),
             richElementState: this.getActualBoxesStates(this.state.backupElementStates,this.state.richElementState)
         });
+    }
+
+    getFirstPage() {
+        var navItems = Dali.State.navItemsIds;
+        var bookmark = 0;
+        for (var i = 0; i < navItems.length; i++){
+            if (Config.sections_have_content ? isSection(navItems[i]):isPage(navItems[i])) {
+                bookmark = navItems[i];
+                break;
+            }
+        }
+        return bookmark;
+    }
+
+    componentDidMount() {
+        if (Dali.State.fromScorm) {
+            window.addEventListener("readyForSCORM", function scormFunction(event){
+                console.log(event.detail);
+                var bookmark = event.detail && event.detail.bookmark && event.detail.bookmark !== '' ? event.detail.bookmark : this.getFirstPage();
+                this.changeCurrentView(bookmark);
+            }.bind(this));
+        }
     }
  
 }

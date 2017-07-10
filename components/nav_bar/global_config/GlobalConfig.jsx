@@ -54,21 +54,21 @@ export default class GlobalConfig extends Component {
                         <form>
                             <Row>
                                 <Col xs={12} md={6} lg={4}><br/>
-                                    <FormGroup controlId="courseTitle" >
+                                    <FormGroup >
                                         <ControlLabel>{i18n.t('global_config.course_title')}</ControlLabel>
                                         <FormControl   type="text"
                                                        value={title}
                                                        placeholder=""
                                                        onChange={e => {this.props.changeGlobalConfig("title",e.target.value)}}/>
                                     </FormGroup>
-                                    <FormGroup controlId="author" >
+                                    <FormGroup >
                                         <ControlLabel>{i18n.t('global_config.author')}</ControlLabel>
                                         <FormControl   type="text"
                                                        value={author}
                                                        placeholder={i18n.t('global_config.anonymous')}
                                                        onChange={e => {this.props.changeGlobalConfig("author",e.target.value)}}/>
                                     </FormGroup>
-                                    <FormGroup controlId="aspectRatio" >
+                                    <FormGroup >
                                       <ControlLabel>{i18n.t('global_config.aspect_ratio')}</ControlLabel><br/>
                                       <Radio name="radioGroup" inline checked={ar == 16/9 } onChange={e => {this.props.changeGlobalConfig("canvasRatio",16/9)}}>
                                         16/9
@@ -78,7 +78,7 @@ export default class GlobalConfig extends Component {
                                         4/3
                                       </Radio>
                                     </FormGroup>
-                                    <FormGroup controlId="language" >
+                                    <FormGroup >
                                       <ControlLabel>{i18n.t('global_config.language')}</ControlLabel><br/>
                                       <Select
                                         name="form-field-lang"
@@ -88,14 +88,14 @@ export default class GlobalConfig extends Component {
                                         onChange={e => {this.props.changeGlobalConfig("language",e.value)}}
                                       />
                                     </FormGroup>
-                                    <FormGroup controlId="description" >
+                                    <FormGroup >
                                          <ControlLabel>{i18n.t('global_config.description')}</ControlLabel>
                                          <FormControl id="descTA" componentClass="textarea" placeholder={i18n.t('global_config.description_placeholder')} value={descrip} onInput={e => {this.props.changeGlobalConfig("description",e.target.value)}} />
                                     </FormGroup>
                                     
                                 </Col>
                                 <Col xs={12} md={6} lg={4}><br/>
-                                    <FormGroup controlId="age" >
+                                    <FormGroup >
                                       <ControlLabel>{i18n.t('global_config.recom_age')}</ControlLabel>
                                       <RangeSlider
                                              min={0}
@@ -109,7 +109,7 @@ export default class GlobalConfig extends Component {
                                              step={1}
                                          />
                                     </FormGroup>
-                                    <FormGroup controlId="typicalLearningTime" >
+                                    <FormGroup >
                                       <ControlLabel>{i18n.t('global_config.typicalLearningTime')}</ControlLabel><br/>
                                       <InputGroup className="inputGroup">      
                                         <FormControl  type="number"
@@ -139,7 +139,7 @@ export default class GlobalConfig extends Component {
                                         <InputGroup.Addon>s</InputGroup.Addon>
                                       </InputGroup>
                                     </FormGroup>
-                                    <FormGroup controlId="difficulty" >
+                                    <FormGroup >
                                       <ControlLabel>{i18n.t('global_config.difficulty')}</ControlLabel><br/>
                                       <div className=" W(100%)">
                                         <div className="D(ib) C(#4e5b65)">{i18n.t('global_config.dif.'+dif)}</div>
@@ -152,7 +152,7 @@ export default class GlobalConfig extends Component {
                                         </div>
                                       </div>
                                     </FormGroup>
-                                    <FormGroup controlId="keywords" >
+                                    <FormGroup >
                                       <ControlLabel>{i18n.t('global_config.keywords')}</ControlLabel><br/>
                                       <ReactTags tags={tags}
                                                 suggestions={suggestions()}
@@ -163,14 +163,14 @@ export default class GlobalConfig extends Component {
                                     </FormGroup>
                                 </Col>
                                 <Col xs={12} md={6} lg={4}><br/>
-                                    <FormGroup controlId="version" >
+                                    <FormGroup >
                                         <ControlLabel>{i18n.t('global_config.version')}</ControlLabel>
                                         <FormControl   type="text"
                                                        value={version}
                                                        placeholder=""
                                                        onChange={e => {this.props.changeGlobalConfig("version",e.target.value)}}/>
                                     </FormGroup>
-                                    <FormGroup controlId="status" >
+                                    <FormGroup >
                                       <ControlLabel>{i18n.t('global_config.status')}</ControlLabel><br/>
                                       <Select
                                         name="form-field-name-status"
@@ -178,7 +178,7 @@ export default class GlobalConfig extends Component {
                                         options={statusOptions()}
                                         onChange={e => {this.props.changeGlobalConfig("status",e.value)}} />       
                                     </FormGroup>
-                                    <FormGroup controlId="context" >
+                                    <FormGroup >
                                       <ControlLabel>{i18n.t('global_config.context')}</ControlLabel><br/>
                                       <Select
                                         name="form-field-name-context"
@@ -186,7 +186,7 @@ export default class GlobalConfig extends Component {
                                         options={contextOptions()}
                                         onChange={e => {this.props.changeGlobalConfig("context",e.value)}} />       
                                     </FormGroup>
-                                    <FormGroup controlId="rights" >
+                                    <FormGroup >
                                       <ControlLabel>{i18n.t('global_config.rights')}<a className="miniIcon" target="_blank" href={"https://creativecommons.org/licenses/?lang="+i18n.t('currentLang')}><i className="material-icons">info</i></a></ControlLabel><br/>
                                       <Select
                                         name="form-field-name-rights"

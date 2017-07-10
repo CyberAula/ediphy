@@ -11,15 +11,19 @@
     **********************************************************************/
     function loadPage() {
         var result = doInitialize();
-        doSetValue("cmi.completion_status", "incomplete");
-        var id = findDataStore("test_data_store");
-        /*Try setting score*/
-        doSetValue("adl.data." + id + ".store", "SAMPLE DATA");
-        doSetValue("cmi.score.scaled", 1);
-        doSetValue("cmi.score.raw", 10);
-        doSetValue("cmi.score.min", 0);
-        doSetValue("cmi.score.max", 10);
-
+        var currentStatus = doGetValue("cmi.completion_status");
+        var bookmark = doGetValue("cmi.location");
+        if (currentStatus !== 'completed') {
+            currentStatus = "incomplete";
+            doSetValue("cmi.completion_status", "incomplete");
+            doSetValue("cmi.score.scaled", 1);
+            doSetValue("cmi.score.raw", 10);
+            doSetValue("cmi.score.min", 0);
+            doSetValue("cmi.score.max", 10);
+        }
+        var SCORMevent = new CustomEvent('readyForSCORM',{detail:{ 'currentStatus': currentStatus, 'bookmark': bookmark }});
+        window.dispatchEvent(SCORMevent);
+ 
     }
    
 
@@ -36,12 +40,12 @@
     **********************************************************************/
     function unloadPage() {
      
-    	if (terminated != true) {
+        if (terminated != true) {
             doSetValue("cmi.success_status", "passed");
             doSetValue("cmi.completion_status", "completed");
-    		doTerminate();
+            doTerminate();
             terminated = true;
-    	}
+        }
     
     }
 
