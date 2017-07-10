@@ -6,10 +6,10 @@ import ContainedCanvasVisor from './components/ContainedCanvasVisor';
 import SideNavVisor from './components/SideNavVisor';
 import VisorPlayer from './components/VisorPlayer';
 import i18n from './../../i18n';
-import {isContainedView, isPage, isSection} from './../../utils';
-import {aspectRatio} from '../../common_tools';
-import Config from './../../core/config';
-import * as API from './../../core/scorm/scorm_utils';
+import {isContainedView} from './../../utils';
+import {aspectRatio} from './../../common_tools';
+import ScormComponent from './components/ScormComponent';
+
 require('es6-promise').polyfill();
 require('./../../sass/style.scss');
 require('./../../core/visor_entrypoint');
@@ -206,6 +206,13 @@ export default class Visor extends Component {
                         </Row>
                     </Grid>
                 </div>
+                {this.state.fromScorm ? (
+                    <ScormComponent
+                        navItems={navItems}
+                        navItemsIds={navItemsIds}
+                        currentView={navItemSelected}
+                        changeCurrentView={(el)=>{this.changeCurrentView(el)}}
+                        />):(null)}
             </div>
 
             /* jshint ignore:end */
@@ -216,7 +223,7 @@ export default class Visor extends Component {
         return this.state.currentView[this.state.currentView.length - 1];
     }
 
-    changeCurrentView(element){
+    changeCurrentView(element, init){
         if (isContainedView(element)) {
             this.setState({ containedViewSelected: element, 
                             currentView: [this.getCurrentView(this.state.navItemSelected, this.state.containedViewSelected), element]});
@@ -229,10 +236,6 @@ export default class Visor extends Component {
                 this.setState({ triggeredMarks: this.unTriggerLastMark(this.state.triggeredMarks),
                                 richElementState: this.getActualBoxesStates(this.state.backupElementStates,this.state.richElementState)});
              }
-
-            if (Dali.State.fromScorm){
-                API.changeLocation(element); 
-            }
         }    
         this.mountFunction();   
 
@@ -451,31 +454,8 @@ export default class Visor extends Component {
         });
     }
 
-    getFirstPage() {
-        var navItems = Dali.State.navItemsIds;
-        var bookmark = 0;
-        for (var i = 0; i < navItems.length; i++){
-            if (Config.sections_have_content ? isSection(navItems[i]):isPage(navItems[i])) {
-                bookmark = navItems[i];
-                break;
-            }
-        }
-        return bookmark;
-    }
 
-    componentDidMount() {
-        if (Dali.State.fromScorm) {
-            window.addEventListener("onSCORM", function scormFunction(event){
-                var init = API.init();
-                var bookmark = init && init.bookmark && init.bookmark !== '' ? init.bookmark : this.getFirstPage();
-                this.changeCurrentView(bookmark);
-            }.bind(this));
 
-            window.addEventListener("offSCORM", function offScorm(event){
-                API.finish();
-            });
-        }
-    }
  
 }
 

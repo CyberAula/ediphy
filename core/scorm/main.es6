@@ -1,8 +1,8 @@
 import Dali from './../main';
 import {ID_PREFIX_SECTION} from './../../constants';
-
+import {isSection} from './../../utils';
 export default {
-    createSPAimsManifest : function(title, sections, globalConfig) {
+    createSPAimsManifest : function(navsIds, sections, globalConfig) {
         var doc = document.implementation.createDocument("", "", null);
 
         ///     ROOT MANIFEST
@@ -30,82 +30,8 @@ export default {
         metadata = this.lomCreator(globalConfig, doc, metadata);
 
         ///       ORGANIZATION (USED DEFAULT)
-        var organizations = doc.createElement("organizations");
-        organizations.setAttribute("default", "GING");
-        var organization = doc.createElement("organization");
-        organization.setAttribute("identifier", "GING");
-
-        //        ORGANIZATION _TITLE
-        var title_org = doc.createElement("title");
-        var title_item_txt = doc.createTextNode(title);
-        title_org.appendChild(title_item_txt);
-        organization.appendChild(title_org);
-
-        // Create Organization Item Tree
-        var root_elements = sections[0].children;
-        // Resource XLM elements array
-        var resource_elements = [];
-        var root_element = doc.createElement("item");
-        root_element.setAttribute("identifierref", "resource_1");
-        root_element.setAttribute("identifier", "item_1");
-        var root_title = doc.createElement("title");
-        var item_title = doc.createTextNode(title);
-        root_title.appendChild(item_title);
-        root_element.appendChild(root_title);
-        organization.appendChild(root_element);
-        //        ORGANIZATION_ITEMS
-        /*
-        for (let n = 0; n < root_elements.length; n ++ ){
-            let root_section = root_elements[n];
-
-            if(!sections[root_section].hidden){
-                let children_elements = [];
-
-                let root_element = doc.createElement("item");
-
-
-                root_element.setAttribute("identifier", this.santinize_id(root_section) + "_item");
-                if (Dali.Config.sections_have_content || root_section.indexOf(ID_PREFIX_SECTION) === -1){
-                     root_element.setAttribute("identifierref", this.santinize_id(sections[root_section].id) + "_resource");
-                }
-
-                let root_element_title = doc.createElement("title");
-                let root_element_text = doc.createTextNode(sections[root_section].name);
-                root_element_title.appendChild(root_element_text);
-                root_element.appendChild(root_element_title);
-
-                let sections_copy = JSON.parse(JSON.stringify(sections));
-                children_elements = sections_copy[root_section].children;
-
-                let unit;
-                if(typeof sections[root_section].unitNumber === "undefined"){
-                    unit = "blank";
-                } else {
-                    unit = sections[root_section].unitNumber;
-                }
-                //Added root element for resource iteration
-                resource_elements.push({
-                    path: "dist/index.html", //"unit"+ unit + "/" + this.santinize_id(sections[root_section].id)+".html",
-                    id: sections[root_section].id
-                });
-
-                //Unit children Tree
-                while (children_elements.length !== 0){
-                    let actual_child = children_elements.shift();
-                    let branch = this.xmlOrganizationBranch(actual_child, actual_child, sections_copy, doc, resource_elements);
-                    if(typeof branch !== "undefined"){
-                        root_element.appendChild(branch);
-                    }
-                }
-
-            //end children Tree
-            organization.appendChild(root_element);
-            }
-
-        }*/
-        //end of Organization Item Tree
-
-        organizations.appendChild(organization);
+        var organizations = this.organizationsCreator(globalConfig, navsIds, sections, doc);
+        
 
         ///   RESOURCE ITEMS
         var resources = doc.createElement("resources");
@@ -119,24 +45,7 @@ export default {
         resource.appendChild(file);
         resources.appendChild(resource);
 
-        /*for (var i = 0; i < resource_elements.length; i++) {
-            if ( !Dali.Config.sections_have_content && (resource_elements[i].id.indexOf(ID_PREFIX_SECTION) !== -1)){
-                continue;
-            }
-            var resource = doc.createElement("resource");
-            resource.setAttribute("identifier", this.santinize_id(resource_elements[i].id) + "_resource");
-            resource.setAttribute("type", "webcontent");
-            resource.setAttribute("adlcp:scormtype", "sco");
-            resource.setAttribute("href", resource_elements[i].path);
 
-            var file = doc.createElement("file");
-            file.setAttribute("href", resource_elements[i].path);
-            resource.appendChild(file);
-
-            resources.appendChild(resource);
-            // End of pieze of code to iterate
-        }
-        */
         // Common DATA
 
 
@@ -723,7 +632,66 @@ export default {
         }
         return formatted;
     },
-    santinize_id: function(str){
+    objCreator: function(navsIds, sections, doc) {
+        console.log(sections);
+        var objectives = doc.createElement("imsss:objectives");
+            var primaryObjective = doc.createElement("imsss:primaryObjective");
+            primaryObjective.setAttribute("objectiveID", "PRIMARYOBJ");
+            primaryObjective.setAttribute("satisfiedByMeasure", "true");
+                var minNorMeas = doc.createElement("imsss:minNormalizedMeasure");
+                    var mnmTxt = doc.createTextNode(0.8);
+                    minNorMeas.appendChild(mnmTxt);
+                primaryObjective.appendChild(minNorMeas);
+            objectives.appendChild(primaryObjective);
+            for (var i = 0; i < navsIds.length; i++) {
+                var id = navsIds[i];
+                if (Dali.Config.sections_have_content || (!Dali.Config.sections_have_content && !isSection(id))){
+                    var newObjective = doc.createElement("imsss:objective");
+                    newObjective.setAttribute("objectiveID", id);
+                    objectives.appendChild(newObjective);
+                }
+            }
+         return objectives;
+    },
+    organizationsCreator: function(gc, navsIds, sections, doc) {
+        let title = gc.title;
+        var organizations = doc.createElement("organizations");
+        organizations.setAttribute("default", "GING");
+        var organization = doc.createElement("organization");
+        organization.setAttribute("identifier", "GING");
+
+            //        ORGANIZATION _TITLE
+            var title_org = doc.createElement("title");
+                var title_item_txt = doc.createTextNode(title);
+                title_org.appendChild(title_item_txt);
+            organization.appendChild(title_org);
+
+            var root_element = doc.createElement("item");
+            root_element.setAttribute("identifierref", "resource_1");
+            root_element.setAttribute("identifier", "item_1");
+                var root_title = doc.createElement("title");
+                    var item_title = doc.createTextNode(title);
+                    root_title.appendChild(item_title);
+                root_element.appendChild(root_title);
+                var root_seq = doc.createElement("imsss:sequencing");
+                    var objectives = this.objCreator(navsIds, sections, doc);
+                    root_seq.appendChild(objectives);
+                    var deliveryControls = doc.createElement("imsss:deliveryControls");
+                    deliveryControls.setAttribute("completionSetByContent", "true");
+                    deliveryControls.setAttribute("objectiveSetByContent","true");
+                    root_seq.appendChild(deliveryControls);
+                root_element.appendChild(root_seq);
+            organization.appendChild(root_element);
+            var ims_org = doc.createElement("imsss:sequencing");
+            var ims_controlMode = doc.createElement("imsss:controlMode");
+            ims_controlMode.setAttribute("choice","true");
+            ims_controlMode.setAttribute("flow","true");
+            organization.appendChild(ims_org);
+
+        organizations.appendChild(organization);
+        return organizations;
+    },
+    santinize_id: function(str) {
         return str.replace(/\-/g,"\_");
     },
     createOldimsManifest: function (title, sections) {
