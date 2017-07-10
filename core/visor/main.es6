@@ -150,6 +150,7 @@ export default {
                         }
                         JSZip.loadAsync(data).then(function (zip) {
                             var navs = state.navItemsById;
+                            var navsIds = state.navItemsIds;
                             //var sections = [];
                            /* state.navItemsIds.map(function (page) {
                                 if(navs[page].hidden){
@@ -190,7 +191,7 @@ export default {
                                 //zip.file(path + nombre + ".html", inner);
                             });*/
                             //zip.file("index.html", Dali.Scorm.getIndex(navs));
-                            zip.file("imsmanifest.xml", Dali.Scorm.createSPAimsManifest(state.globalConfig.title, navs, state.globalConfig));
+                            zip.file("imsmanifest.xml", Dali.Scorm.createSPAimsManifest(navsIds, navs, state.globalConfig));
                             var page = 0;
                             if (state.navItemsIds && state.navItemsIds.length > 0) {                                
                                 if(!Dali.Config.sections_have_content) {

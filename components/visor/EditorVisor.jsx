@@ -216,7 +216,8 @@ export default class Visor extends Component {
         return this.state.currentView[this.state.currentView.length - 1];
     }
 
-    changeCurrentView(element){
+    changeCurrentView(element, init){
+        var previousEl = this.getCurrentView(this.state.navItemSelected, this.state.containedViewSelected);
         if (isContainedView(element)) {
             this.setState({ containedViewSelected: element, 
                             currentView: [this.getCurrentView(this.state.navItemSelected, this.state.containedViewSelected), element]});
@@ -232,6 +233,9 @@ export default class Visor extends Component {
 
             if (Dali.State.fromScorm){
                 API.changeLocation(element); 
+                if (!init) {
+                    API.savePreviousResult(previousEl, Dali.State.navItemsIds);
+                }
             }
         }    
         this.mountFunction();   
@@ -468,7 +472,7 @@ export default class Visor extends Component {
             window.addEventListener("onSCORM", function scormFunction(event){
                 var init = API.init();
                 var bookmark = init && init.bookmark && init.bookmark !== '' ? init.bookmark : this.getFirstPage();
-                this.changeCurrentView(bookmark);
+                this.changeCurrentView(bookmark, true);
             }.bind(this));
 
             window.addEventListener("offSCORM", function offScorm(event){
