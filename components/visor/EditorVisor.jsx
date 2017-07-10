@@ -102,6 +102,8 @@ export default class Visor extends Component {
                 return mark;
             });
 
+           if(newMark.connectMode === 'new' || newMark.connectMode === "existing"){
+
             let array_trigger_mark = this.santinizeViewsArray(nextState.triggeredMarks, nextState.currentView.concat([newMark.connection]));
             let newcv =  array_trigger_mark.length > 0 && array_trigger_mark[array_trigger_mark.length-1] && isContainedView(array_trigger_mark[array_trigger_mark.length-1]) ? array_trigger_mark[array_trigger_mark.length-1] : 0;
 
@@ -111,6 +113,15 @@ export default class Visor extends Component {
                 triggeredMarks: nextState.triggeredMarks
             });
 
+           } else if(newMark.connectMode === "external") {
+               var win = window.open(newMark.connection, '_blank');
+               win.focus();
+               let shiftExternal = nextState.triggeredMarks;
+               shiftExternal.shift();
+               this.setState({
+                   triggeredMarks: shiftExternal
+               });
+           }
         }
 
     }
@@ -344,8 +355,9 @@ export default class Visor extends Component {
                         currentState:"PENDING",
                         id: mark_element.id,
                         value: mark_element.value,
-                        connection:mark_element.connection,
-                        box_id: mark_element.box_id
+                        connection: mark_element.connection,
+                        box_id: mark_element.box_id,
+                        connectMode: mark_element.connectMode
                     });
                 }
             });
@@ -366,8 +378,9 @@ export default class Visor extends Component {
                         currentState:"PENDING",
                         id: triggered_mark.id,
                         value: triggered_mark.value,
-                        connection:triggered_mark.connection,
-                        box_id: triggered_mark.box_id
+                        connection: triggered_mark.connection,
+                        box_id: triggered_mark.box_id,
+                        connectMode: triggered_mark.connectMode
                     });
                 }
 
