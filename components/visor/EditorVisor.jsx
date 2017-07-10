@@ -6,9 +6,10 @@ import ContainedCanvasVisor from './components/ContainedCanvasVisor';
 import SideNavVisor from './components/SideNavVisor';
 import VisorPlayer from './components/VisorPlayer';
 import i18n from './../../i18n';
-import {isContainedView} from './../../utils';
+import {isContainedView, isPage, isSection} from './../../utils';
 import {aspectRatio} from '../../common_tools';
-
+import Config from './../../core/config';
+import * as API from './../../core/scorm/scorm_utils';
 require('es6-promise').polyfill();
 require('./../../sass/style.scss');
 require('./../../core/visor_entrypoint');
@@ -25,8 +26,8 @@ export default class Visor extends Component {
             backupElementStates: {},
             toggledSidebar : true,
             navItemSelected: Dali.State.navItemSelected,
-            containedViewSelected: Dali.State.containedViewSelected
-
+            containedViewSelected: Dali.State.containedViewSelected,
+            fromScorm : Dali.State.fromScorm
 
         };
 
@@ -129,8 +130,9 @@ export default class Visor extends Component {
         let containedViews = Dali.State.containedViewsById;
         let containedViewSelected = this.state.containedViewSelected; //Dali.State.containedViewSelected;
         let toolbars = Dali.State.toolbarsById;
-        let title = Dali.State.title;
-        let ratio = Dali.State.canvasRatio;
+        let globalConfig = Dali.State.globalConfig;
+        let title = globalConfig.title;
+        let ratio = globalConfig.canvasRatio;
         let wrapperClasses =  this.state.toggledSidebar ? "visorwrapper toggled" : "visorwrapper";
         let toggleIcon = this.state.toggledSidebar ? "keyboard_arrow_left" : "keyboard_arrow_right";
         let toggleColor = this.state.toggledSidebar ? "toggleColor" : "";
@@ -227,8 +229,14 @@ export default class Visor extends Component {
                 this.setState({ triggeredMarks: this.unTriggerLastMark(this.state.triggeredMarks),
                                 richElementState: this.getActualBoxesStates(this.state.backupElementStates,this.state.richElementState)});
              }
+
+            if (Dali.State.fromScorm){
+                API.changeLocation(element); 
+            }
         }    
         this.mountFunction();   
+
+        
     }
 
     getCurrentView(NIselected, CVselected){
@@ -441,6 +449,32 @@ export default class Visor extends Component {
             triggeredMarks: this.unTriggerLastMark(this.state.triggeredMarks),
             richElementState: this.getActualBoxesStates(this.state.backupElementStates,this.state.richElementState)
         });
+    }
+
+    getFirstPage() {
+        var navItems = Dali.State.navItemsIds;
+        var bookmark = 0;
+        for (var i = 0; i < navItems.length; i++){
+            if (Config.sections_have_content ? isSection(navItems[i]):isPage(navItems[i])) {
+                bookmark = navItems[i];
+                break;
+            }
+        }
+        return bookmark;
+    }
+
+    componentDidMount() {
+        if (Dali.State.fromScorm) {
+            window.addEventListener("onSCORM", function scormFunction(event){
+                var init = API.init();
+                var bookmark = init && init.bookmark && init.bookmark !== '' ? init.bookmark : this.getFirstPage();
+                this.changeCurrentView(bookmark);
+            }.bind(this));
+
+            window.addEventListener("offSCORM", function offScorm(event){
+                API.finish();
+            });
+        }
     }
  
 }

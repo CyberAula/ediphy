@@ -9,6 +9,8 @@
     <script src="js/htmlparser.js"></script>
     <script src="js/html2json.js"></script>
     <script src="js/ejs_production_visor.js"></script>
+    <!--<script src="js/SCORM_2004_APIWrapper.js"></script>-->
+    <script src="js/scormfunctions.js"></script>
     <script>
         var State = <%= JSON.stringify(state) %>
         
@@ -17,10 +19,13 @@
         };
     </script>
 </head>
+<% if (fromScorm) { %>
+<body style="margin: 0px; height: 100%" onLoad="loadPage()" onbeforeunload="unloadPage()">
+<%}else{%>
 <body style="margin: 0px; height: 100%">
+<%}%>
 <div id="root">
 <script src="js/visor-bundle.js"></script>
-
 </body> 
 </html>
 

@@ -1,9 +1,13 @@
 {
-  "name": "todo-redux",
+  "name": "dali_editor",
   "version": "1.0.0",
   "main": "index.js",
   "author": "",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/ging/DALI_EDITOR.git"
+  },
   "scripts": {
     "postinstall": "node ./plugin_install",
     "start": "webpack-dev-server --progress",
@@ -68,6 +72,7 @@
     "react-redux": "^4.4.6",
     "react-resize-detector": "^0.5.0",
     "react-select": "^1.0.0-rc.2",
+    "react-tag-input": "^4.7.2",
     "recharts": "^1.0.0-alpha.1",
     "redux": "^3.6.0",
     "redux-thunk": "^2.1.0",

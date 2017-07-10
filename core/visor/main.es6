@@ -19,6 +19,7 @@ var titleModifier = function(name){
 };
 
 var parseEJS = function (path, page, state, fromScorm) {
+    state.fromScorm = fromScorm;
     if (page !== 0 && state.navItemsById[page]){
         if (Object.keys(state.navItemsById[page].extraFiles).length !== 0){
             let extraFileBox = Object.keys(state.navItemsById[state.navItemSelected].extraFiles)[0];
@@ -30,9 +31,12 @@ var parseEJS = function (path, page, state, fromScorm) {
             }));
         }
     }
+    
+    state.fromScorm = fromScorm;
     return (new EJS({url: path + ".ejs"}).render({
         state: state,
-        relativePath: "../"
+        relativePath: "../",
+        fromScorm: fromScorm
     }));
 };
 
@@ -90,7 +94,7 @@ export default {
                                 }
                             }    
                             state.navItemSelected = page;
-                            var content = parseEJS(Dali.Config.visor_ejs, page, state);
+                            var content = parseEJS(Dali.Config.visor_ejs, page, state, false);
                             zip.file("dist/index.html", content);
                             zip.file("dist/js/visor-bundle.js", xhr.response);
 
@@ -118,7 +122,7 @@ export default {
         if (Object.keys(state.navItemsById[state.navItemSelected].extraFiles).length !== 0){
             let extraFileBox = Object.keys(state.navItemsById[state.navItemSelected].extraFiles)[0];
             let extraFileContainer = state.toolbarsById[extraFileBox];
-
+            state.fromScorm = false;
             return (new EJS({url: Dali.Config.visor_ejs + "_exercise.ejs"}).render({
                 state: state,
                 relativePath: "../",
@@ -128,6 +132,7 @@ export default {
         return new EJS({url: Dali.Config.visor_ejs + ".ejs"}).render({
             state: state,
             relativePath: "/",
+            fromScorm: false
         });
     },
     exportScorm: function (state) {
@@ -146,7 +151,7 @@ export default {
                         JSZip.loadAsync(data).then(function (zip) {
                             var navs = state.navItemsById;
                             //var sections = [];
-                            state.navItemsIds.map(function (page) {
+                           /* state.navItemsIds.map(function (page) {
                                 if(navs[page].hidden){
                                     return;
                                 }
@@ -183,9 +188,9 @@ export default {
                                 }
                                 var inner = parseEJS(Dali.Config.visor_ejs, page, state, true);
                                 //zip.file(path + nombre + ".html", inner);
-                            });
+                            });*/
                             //zip.file("index.html", Dali.Scorm.getIndex(navs));
-                            zip.file("imsmanifest.xml", Dali.Scorm.createimsManifest(state.title, navs));
+                            zip.file("imsmanifest.xml", Dali.Scorm.createSPAimsManifest(state.globalConfig.title, navs, state.globalConfig));
                             var page = 0;
                             if (state.navItemsIds && state.navItemsIds.length > 0) {                                
                                 if(!Dali.Config.sections_have_content) {
@@ -200,11 +205,12 @@ export default {
                                     page = state.navItemsIds[0];
                                 }
                             }    
+                            state.fromScorm = true;
                             state.navItemSelected = page;
-                            var content = parseEJS(Dali.Config.visor_ejs, page, state);
+                            var content = parseEJS(Dali.Config.visor_ejs, page, state, true);
                             zip.file("dist/index.html", content);
                             zip.file("dist/js/visor-bundle.js", xhr.response);
-                            zip_title = state.title;
+                            zip_title = state.globalConfig.title;
 
                             return zip;
                         }).then(function (zip) {
@@ -266,8 +272,8 @@ export default {
                     zip.file(path + nombre + ".html", inner);
                 });
                 zip.file("index.html", Dali.Scorm.getIndex(navs));
-                zip.file("imsmanifest.xml", Dali.Scorm.createimsManifest(state.title, navs));
-                zip_title = state.title;
+                zip.file("imsmanifest.xml", Dali.Scorm.createOldimsManifest(state.globalConfig.title, navs));
+                zip_title = state.globalConfig.title;
 
                 return zip;
             }).then(function (zip) {
