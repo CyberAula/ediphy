@@ -18,7 +18,18 @@ let DataProvider = React.createClass({
 	},
 
 	confirmButton() {
-		if (typeof this.props.dataChanged === 'function') {
+		let empty = false;
+        outerloop:
+        for (let i = 0; i < this.state.data.length; i++) {
+            for (let o = 0; o < this.state.data.length; o++) {
+                if(this.state.data[i][o] === ""){
+                    alert("Todos los campos tienen que estar rellenos");
+                    empty = true;
+                    break outerloop;
+                }
+            }
+        }
+		if (typeof this.props.dataChanged === 'function' && !empty) {
 			this.props.dataChanged({data: this.state.data, keys: this.state.keys, valueKeys: this.state.valueKeys});
 		}
 	},
@@ -261,7 +272,7 @@ let ChartOptions = React.createClass({
 		let options = this.props.options;
 		options.keys = this.props.keys;
 		options.valueKeys = this.props.valueKeys;
-		console.log(options);
+		//console.log(options);
 		return options;
 	},
 
@@ -270,7 +281,7 @@ let ChartOptions = React.createClass({
 
 		if(prevState !== this.state){
 			if (typeof this.props.optionsChanged === 'function') {
-				console.log(this.state);
+				//console.log(this.state);
 				this.props.optionsChanged({
 					type: this.state.type,
 					x: this.state.x,
@@ -567,8 +578,8 @@ let Config = React.createClass({
 	},
 
 	modifyState(){
-		console.log("modifyState");
-		console.log(this.state);
+		//console.log("modifyState");
+		//console.log(this.state);
 		this.state.base.setState("options", this.state.options);
 		this.state.base.setState("data", this.state.data);
 		this.state.base.setState("keys", this.state.keys);
