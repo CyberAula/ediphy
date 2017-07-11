@@ -30,18 +30,17 @@ export default class Visor extends Component {
 
     componentWillMount(){
         //Get the event received check if exist and modify the state
-        // Add a queue of marks fired [{id: value, CurrentState: PENDING, TRIGGERED, DONE}] or array
+        // Add a queue of marks fired [{id: value, CurrentState: PENDING, TRIGGERED, HOLD, DONE}] or array
         // Whenever the mark is ready trigger it
         this.mountFunction();
     }
 
     mountFunction(){
-        
         let richElementsState = this.state.richElementState;
-        let marks = this.getAllMarks();
 
         // Marks Global Listener
         Dali.API_Private.listenEmission(Dali.API_Private.events.markTriggered, e=>{
+            let marks = this.getAllMarks();
             console.log(this.state.triggeredMarks);
             let triggered_event = e.detail;
             let triggered_marks = this.getTriggeredMarks(marks,triggered_event);
@@ -54,6 +53,7 @@ export default class Visor extends Component {
                 //And is triggereable (not pending)
                 let isTriggerable = this.isTriggereableMark(triggered_event, triggered_marks);
                 if(isTriggerable){
+                    triggered_marks = this.putMarksOnHold(triggered_marks, triggered_event);
                     //If mark is storable (if make any sense to store to render something different like a video) do it else, don't
                     if(triggered_event.stateElement){
                         let new_mark = {};
@@ -88,10 +88,11 @@ export default class Visor extends Component {
     }
     
     componentWillUpdate(nextProps, nextState){
-
+        //reset marks when navigating between main sections
         if(this.state.currentView.length !== nextState.currentView.length && isView(nextState.currentView[nextState.currentView.length-1]) ){
             this.setState({triggeredMarks:[]});
         }
+
 
         if(nextState.triggeredMarks.length !== 0 && this.returnTriggereableMark(nextState.triggeredMarks)){
              let newMark = this.returnTriggereableMark(nextState.triggeredMarks);
@@ -99,6 +100,7 @@ export default class Visor extends Component {
            nextState.triggeredMarks.forEach(mark=>{
                 if(newMark.id === mark.id){
                     mark.currentState = 'TRIGGERED';
+                    mark.viewOrigin = this.state.currentView[this.state.currentView.length-1];
                 }
                 return mark;
             });
@@ -146,7 +148,10 @@ export default class Visor extends Component {
         let wrapperClasses =  this.state.toggledSidebar ? "visorwrapper toggled" : "visorwrapper";
         let toggleIcon = this.state.toggledSidebar ? "keyboard_arrow_left" : "keyboard_arrow_right";
         let toggleColor = this.state.toggledSidebar ? "toggleColor" : "";
-        let isSlide = navItems[this.getCurrentView(Dali.State.navItemSelected, Dali.State.containedViewSelected)].type === "slide" ? "pcw_slide":"pcw_doc";
+        let isCV = isContainedView(this.state.currentView);
+        let isSlide  = isCV && containedViews[this.getLastCurrentViewElement()] === "slide"  ||
+                       !isCV && navItems[this.getLastCurrentViewElement()] === "slide" ?
+                        "pcw_slide" : "pcw_doc";
         
         return (
             /* jshint ignore:start */
@@ -222,10 +227,19 @@ export default class Visor extends Component {
         );
     }
 
+    /**
+    * Get actualView REFACTOR: change name
+    * @returns {String} currentView
+    */
     getLastCurrentViewElement(){
         return this.state.currentView[this.state.currentView.length - 1];
     }
 
+
+    /**
+    * Navigation main method
+    * @param {string} element - current Element to go
+    */
     changeCurrentView(element){
         if (isContainedView(element)) {
             this.setState({ currentView: [this.getCurrentView(this.state.navItemSelected, this.state.containedViewSelected), element]});
@@ -239,6 +253,11 @@ export default class Visor extends Component {
         this.mountFunction();   
     }
 
+
+    /**
+     * This is used to get initial view and make sure is either containedView or NavItem
+     * @param {string} NISelected - selected NavItem
+     */
     getCurrentView(NIselected, CVselected){
         let currentView = (CVselected === 0) ? NIselected : CVselected;
         return currentView;
@@ -246,6 +265,12 @@ export default class Visor extends Component {
 
     /*Marks functions*/
 
+    /**
+    * Make sure if mark value exists
+    * @param {Array} - Array of marks
+    * @param {string}
+    * @return {boolean} -  whether the mark exists or not in the array
+    */
     containsMarkValue(marks,mark_value){
         let exists = false;
         marks.forEach(mark_element=>{
@@ -256,6 +281,11 @@ export default class Visor extends Component {
         return exists;
     }
 
+    /**
+     * Returns if any is there any triggerable mark
+     * @param triggeredMarks
+     * @returns {Object, boolean}
+     */
     returnTriggereableMark(triggeredMarks){
         let isAnyTriggereableMark = false;
         let canBeTriggered = true;
@@ -272,7 +302,12 @@ export default class Visor extends Component {
         return isAnyTriggereableMark;
     }
 
-    /*Check if status is PENDING and not TRIGGERED*/
+    /**
+     * Whether if the mark is triggereable or not
+     * @param mark
+     * @param triggerable_marks
+     * @returns {boolean}
+     */
     isTriggereableMark(mark, triggerable_marks){
         let isAnyTriggereableMark = false;
         triggerable_marks.forEach(triggereable_mark=> {
@@ -292,6 +327,11 @@ export default class Visor extends Component {
         return isAnyTriggereableMark;
     }
 
+    /**
+     * Change state of last mark triggered to done, this is used to go back
+     * @param state
+     * @returns {Array}
+     */
     unTriggerLastMark(state){
         let new_array = state;
         new_array.forEach(mark=>{
@@ -302,6 +342,12 @@ export default class Visor extends Component {
         return new_array;
     }
 
+    /**
+     * Cleans Views Array
+     * @param triggeredMarks
+     * @param arrayViews
+     * @returns {*}
+     */
     santinizeViewsArray(triggeredMarks, arrayViews){
         let final_array = arrayViews;
 
@@ -315,7 +361,12 @@ export default class Visor extends Component {
         return final_array;
     }
 
-    /* Cleans */
+    /**
+     * Cleans used 'DONE' values in triggeredMarks array
+     * @param triggered_event
+     * @param triggeredMarks
+     * @returns {Array}
+     */
     clearTriggeredValues(triggered_event, triggeredMarks){
         let clean_array = [];
 
@@ -338,6 +389,12 @@ export default class Visor extends Component {
         return clean_array;
     }
 
+    /**
+     * Get all marks triggered in the same event
+     * @param marks
+     * @param triggered_event
+     * @returns {Array}
+     */
     getTriggeredMarks(marks,triggered_event){
         let state_marks = [];
         let previously_triggered_marks = this.state.triggeredMarks;
@@ -346,6 +403,7 @@ export default class Visor extends Component {
                 if(mark_element.value === triggered_event.value && mark_element.box_id === triggered_event.id){
                     state_marks.push({
                         currentState:"PENDING",
+                        viewOrigin: this.state.currentView[this.state.currentView.length-1],
                         id: mark_element.id,
                         value: mark_element.value,
                         connection: mark_element.connection,
@@ -369,6 +427,7 @@ export default class Visor extends Component {
                 if(is_different && triggered_event.value === triggered_mark.value && triggered_event.id === triggered_mark.box_id){
                     state_marks.push({
                         currentState:"PENDING",
+                        viewOrigin: this.state.currentView[this.state.currentView.length-1],
                         id: triggered_mark.id,
                         value: triggered_mark.value,
                         connection: triggered_mark.connection,
@@ -383,8 +442,12 @@ export default class Visor extends Component {
         return state_marks;
     }
 
+    /**
+     * Get all Mark of currentView
+     * @returns {Array}
+     */
     getAllMarks() {
-        let currentView = /*Dali.State.navItemSelected; */this.state.currentView[0];
+        let currentView = this.state.currentView[this.state.currentView.length - 1];
 
         let boxes = this.getAllRichDescendantBoxes(currentView);
         let marks = [];
@@ -398,6 +461,63 @@ export default class Visor extends Component {
         return marks;
     }
 
+    putMarksOnHold(triggered_marks, mark_event){
+        let anyTriggeredMarks = false;
+        let anyPendingMarks = false;
+
+        triggered_marks.forEach(t_mark=>{
+            if(t_mark.currentState === "PENDING"){
+                anyPendingMarks = true;
+            }
+            if(t_mark.currentState === "TRIGGERED"){
+                anyTriggeredMarks = true;
+            }
+        });
+
+        let origin_marks = [];
+        let markUntriggered = false;
+        if(anyTriggeredMarks && anyPendingMarks) {
+            triggered_marks.forEach(t_mark => {
+                if (t_mark.viewOrigin !== undefined && t_mark.currentState === 'HOLD') {
+                    origin_marks.push(t_mark.viewOrigin);
+                }
+
+                if (t_mark.currentState === 'TRIGGERED' && t_mark.viewOrigin !== undefined && origin_marks.indexOf(t_mark.viewOrigin) === -1) {
+                    origin_marks.push(t_mark.viewOrigin);
+                }
+            });
+
+            triggered_marks.forEach(t_mark=>{
+                if (t_mark.currentState === 'PENDING' && t_mark.viewOrigin !== undefined && origin_marks.indexOf(t_mark.viewOrigin) === -1) {
+                    markUntriggered = true;
+                }
+            });
+
+            if(markUntriggered){
+                let newMarksArray = [];
+                triggered_marks.forEach(t_mark=>{
+                    if(t_mark.currentState === 'TRIGGERED'){
+                        t_mark.currentState = 'HOLD';
+                    }
+                    newMarksArray.push(t_mark);
+                });
+                return newMarksArray;
+            } else {
+                return triggered_marks;
+            }
+
+        }
+
+         else {
+            return triggered_marks;
+        }
+
+    }
+
+    /**
+     * @param navItemID
+     * @returns {Array}
+     */
     getAllRichDescendantBoxes(navItemID){
         let view = Dali.State.navItemsById[navItemID];
         if (isContainedView(navItemID)) {
@@ -427,6 +547,7 @@ export default class Visor extends Component {
         });
         return richBoxes;
     }
+
 
     getActualBoxesStates(backup, current){
         let nextState = backup;
