@@ -6,7 +6,7 @@ import ContainedCanvasVisor from './components/ContainedCanvasVisor';
 import SideNavVisor from './components/SideNavVisor';
 import VisorPlayer from './components/VisorPlayer';
 import i18n from './../../i18n';
-import {isContainedView} from './../../utils';
+import {isContainedView, isView} from './../../utils';
 import {aspectRatio} from '../../common_tools';
 
 require('es6-promise').polyfill();
@@ -42,12 +42,12 @@ export default class Visor extends Component {
 
         // Marks Global Listener
         Dali.API_Private.listenEmission(Dali.API_Private.events.markTriggered, e=>{
-
+            console.log(this.state.triggeredMarks);
             let triggered_event = e.detail;
             let triggered_marks = this.getTriggeredMarks(marks,triggered_event);
 
             //clearMark | If actual Triggered Mark have passed e.detail.value and actual value is different or actual element doesn't need to clear the value
-            this.clearTriggeredValues(triggered_event, triggered_marks);
+            triggered_marks = this.clearTriggeredValues(triggered_event, triggered_marks);
 
             //Just try to trigger if mark exists
             if(this.containsMarkValue(marks,triggered_event.value)){
@@ -88,6 +88,11 @@ export default class Visor extends Component {
     }
     
     componentWillUpdate(nextProps, nextState){
+
+        if(this.state.currentView.length !== nextState.currentView.length && isView(nextState.currentView[nextState.currentView.length-1]) ){
+            this.setState({triggeredMarks:[]});
+        }
+
         if(nextState.triggeredMarks.length !== 0 && this.returnTriggereableMark(nextState.triggeredMarks)){
              let newMark = this.returnTriggereableMark(nextState.triggeredMarks);
 
@@ -316,25 +321,21 @@ export default class Visor extends Component {
 
         if(triggeredMarks.length > 0){
             if(!triggered_event.stateElement){
-                /*triggeredMarks.forEach(element=>{
+                triggeredMarks.forEach(element=>{
                    if(element.currentState !== 'DONE' || triggered_event.id !== element.box_id ){
                        clean_array.push(element);
                    }
                 });
-                if(clean_array.length !== triggeredMarks.length){
-                    this.setState({triggeredMarks: clean_array});
-                }*/
+
             } else {
                 triggeredMarks.forEach(element =>{
                     if(element.currentState !== "DONE" || element.value === triggered_event.value || element.box_id !== triggered_event.id ){
                         clean_array.push(element);
                     }
                 });
-                if(clean_array.length !== triggeredMarks.length){
-                    this.setState({triggeredMarks: clean_array});
-                }
             }
         }
+        return clean_array;
     }
 
     getTriggeredMarks(marks,triggered_event){
