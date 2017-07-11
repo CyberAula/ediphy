@@ -5,6 +5,9 @@ export function api() {
         addMenuButtons: function (json) {
             Dali.API_Private.emit(Dali.API_Private.events.addMenuButtons, json);
         },
+        configModalNeedsUpdate: function(){
+            Dali.API_Private.emit(Dali.API_Private.events.configModalNeedsUpdate,{});
+        },
         openConfig: function (name, reason) {
             var promise = new Promise(function (resolve) {
                 Dali.API_Private.listenAnswer(Dali.API_Private.events.openConfig, resolve);
@@ -52,6 +55,9 @@ export function api_private() {
             //TODO: change into VIEW API?
             changeView:{
                 emit: 'changeView'
+            },
+            configModalNeedsUpdate:{
+              emit: 'needsUpdate'
             },
             openConfig: {
                 emit: 'openConfig',

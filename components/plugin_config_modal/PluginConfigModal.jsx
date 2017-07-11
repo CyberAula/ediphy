@@ -9,8 +9,26 @@ export default class PluginConfigModal extends Component {
         this.state = {
             show: false,
             pluginActive: '',
-            reason: null
+            reason: null,
+            disabledButton: false
         };
+    }
+
+    componentWillUpdate(nextProps, nextState){
+
+        if(this.state.show === false && nextState.show === true &&
+            Dali.Plugins.get(nextState.pluginActive) !== undefined &&
+            Dali.Plugins.get(nextState.pluginActive).getConfig().needsConfirmation &&
+            nextState.disabledButton !== true){
+                this.setState({ disabledButton: true});
+        }
+
+        if (nextState.disabledButton === true &&
+            Dali.Plugins.get(this.state.pluginActive) !== undefined &&
+            (Dali.Plugins.get(this.state.pluginActive).getConfig().needsConfirmation &&
+            !Dali.Plugins.get(this.state.pluginActive).getState().editing)){
+                this.setState({ disabledButton: false});
+        }
     }
 
     render() {
@@ -38,7 +56,8 @@ export default class PluginConfigModal extends Component {
                     <Button onClick={e => {
                         this.setState({show: false, reason: null});
                     }}>Cancel</Button>
-                    <Button bsStyle="primary" id="insert_plugin_config_modal" onClick={e => {
+                    <Button ref="plugin_insertion" bsStyle="primary" id="insert_plugin_config_modal" disabled={this.state.disabledButton}
+                            onClick={e => {
                         Dali.Plugins.get(this.state.pluginActive).render(this.state.reason);
                         this.setState({show: false, reason: null});
                     }}>Insert Plugin</Button>
@@ -52,6 +71,10 @@ export default class PluginConfigModal extends Component {
     componentDidMount() {
         Dali.API_Private.listenEmission(Dali.API_Private.events.openConfig, (e) => {
             this.setState({show: true, pluginActive: e.detail.name, reason: e.detail.reason});
+        });
+
+        Dali.API_Private.listenEmission(Dali.API_Private.events.configModalNeedsUpdate,(e)=>{
+            this.forceUpdate();
         });
     }
 }
