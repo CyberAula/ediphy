@@ -38,7 +38,7 @@ var es = {
             "searching": "Ha ocurrido un error al buscar",
         },
         "global_config":{
-            "aspect_ratio": "Relacion de aspecto",
+            "aspect_ratio": "Relación de aspecto en diapositivas",
             "anonymous": "Anónimo",
             "author":"Autor",
             "context": "Contexto",
@@ -81,11 +81,15 @@ var es = {
                 "Physics":"Física",
                 "Technology":"Tecnología"
             },
-            "keywords": "Keywords",
+            "keywords": "Palabras clave",
+            "keyw":{
+                "Add_tag":"Añadir palabra clave",
+            },
             "language": "Idioma",
             "no_lang": "Sin especificar",
             "recom_age": "Edad recomendada",
             "rights": "Licencia",
+            "rights_short_txt":"Las licencias Creative Commons son una vía simple y estandarizada de otorgar permisos de derechos de autor a sus trabajos.",
             "status": "Estado",
             "status_list":{
                 "draft": "Borrador",
@@ -94,6 +98,8 @@ var es = {
                 "unavailable": "No disponible"
             },
             "title":"Configuración global",
+            "title_advanced":"Avanzado",
+            "title_general":"Datos generales",
             "typicalLearningTime": "Tiempo típico de aprendizaje",
             "version": "Versión"
         },
@@ -144,6 +150,7 @@ var es = {
             "global_config": "Configuración Global",
             "height_auto_warning": "Sólo si fijas una altura podrán tener alturas relativas las cajas en su interior"
         },
+
         "Multimedia": "Multimedia",
         "NavItem_name": "Nombre documento",
         "no_results": "Sin resultados",
@@ -164,6 +171,7 @@ var es = {
         "Preview": "Previsualizar",
         "Properties": "Propiedades",
         "row_number": "Nº filas en col. ",
+        "Read_more":"Saber más",
         "Redone": "Rehacer",
         "Reorder": "Reordenar",
         "Save": "Guardar",

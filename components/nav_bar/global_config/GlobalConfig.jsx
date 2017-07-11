@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
-import {Modal, Grid, Row, Col, FormGroup, ControlLabel, FormControl, InputGroup, Radio} from 'react-bootstrap';
+import {Modal, Grid, Row, Col, FormGroup, ControlLabel, FormControl, InputGroup, Radio, OverlayTrigger, Popover} from 'react-bootstrap';
 import i18n from 'i18next';
 import RangeSlider from './range_slider/RangeSlider';
 import Select from 'react-select';
@@ -53,13 +53,18 @@ export default class GlobalConfig extends Component {
                      <Grid>
                         <form>
                             <Row>
-                                <Col xs={12} md={6} lg={4}><br/>
+                                <Col xs={12} md={7} lg={7}><br/>
+                                    <h4>{i18n.t('global_config.title_general')}</h4>
                                     <FormGroup >
                                         <ControlLabel>{i18n.t('global_config.course_title')}</ControlLabel>
                                         <FormControl   type="text"
                                                        value={title}
                                                        placeholder=""
                                                        onChange={e => {this.props.changeGlobalConfig("title",e.target.value)}}/>
+                                    </FormGroup>
+                                    <FormGroup >
+                                        <ControlLabel>{i18n.t('global_config.description')}</ControlLabel>
+                                        <FormControl id="descTA" componentClass="textarea" placeholder={i18n.t('global_config.description_placeholder')} value={descrip} onInput={e => {this.props.changeGlobalConfig("description",e.target.value)}} />
                                     </FormGroup>
                                     <FormGroup >
                                         <ControlLabel>{i18n.t('global_config.author')}</ControlLabel>
@@ -69,32 +74,61 @@ export default class GlobalConfig extends Component {
                                                        onChange={e => {this.props.changeGlobalConfig("author",e.target.value)}}/>
                                     </FormGroup>
                                     <FormGroup >
-                                      <ControlLabel>{i18n.t('global_config.aspect_ratio')}</ControlLabel><br/>
-                                      <Radio name="radioGroup" inline checked={ar == 16/9 } onChange={e => {this.props.changeGlobalConfig("canvasRatio",16/9)}}>
-                                        16/9
-                                      </Radio>
-                                      {' '}
-                                      <Radio name="radioGroup" inline checked={ar == 4/3 } onChange={e => {this.props.changeGlobalConfig("canvasRatio",4/3)}}>
-                                        4/3
-                                      </Radio>
+                                        <ControlLabel>{i18n.t('global_config.language')}</ControlLabel><br/>
+                                        <Select
+                                            name="form-field-lang"
+                                            value={language}
+                                            options={languages}
+                                            placeholder={i18n.t("global_config.no_lang")}
+                                            onChange={e => {this.props.changeGlobalConfig("language",e.value)}}
+                                        />
                                     </FormGroup>
                                     <FormGroup >
-                                      <ControlLabel>{i18n.t('global_config.language')}</ControlLabel><br/>
-                                      <Select
-                                        name="form-field-lang"
-                                        value={language}
-                                        options={languages}
-                                        placeholder={i18n.t("global_config.no_lang")}
-                                        onChange={e => {this.props.changeGlobalConfig("language",e.value)}}
-                                      />
+                                        <ControlLabel>{i18n.t('global_config.rights')}</ControlLabel>
+                                        <OverlayTrigger trigger="click" rootClose placement="top"
+                                                        overlay={<Popover id="info_licenses" className="advancedPopover" title="Licencias">
+                                                                    {i18n.t('global_config.rights_short_txt')}
+                                                                    <a target="_blank" href={"https://creativecommons.org/licenses/?lang="+i18n.t('currentLang')}> [{i18n.t('Read_more')}] </a>
+                                                                </Popover>}>
+                                            <a className="miniIcon"><i className="material-icons">help</i></a>
+                                        </OverlayTrigger>
+                                        {/*
+                                        <a className="miniIcon" target="_blank" href={"https://creativecommons.org/licenses/?lang="+i18n.t('currentLang')}><i className="material-icons">help</i></a>
+                                         */}
+                                        <br/>
+                                        <Select
+                                            name="form-field-name-rights"
+                                            value={rights}
+                                            options={rightLevels}
+                                            onChange={e => {this.props.changeGlobalConfig("rights",e.value)}} />
                                     </FormGroup>
                                     <FormGroup >
-                                         <ControlLabel>{i18n.t('global_config.description')}</ControlLabel>
-                                         <FormControl id="descTA" componentClass="textarea" placeholder={i18n.t('global_config.description_placeholder')} value={descrip} onInput={e => {this.props.changeGlobalConfig("description",e.target.value)}} />
+                                        <ControlLabel>{i18n.t('global_config.keywords')}</ControlLabel><br/>
+                                        <ReactTags tags={tags}
+                                                   suggestions={suggestions()}
+                                                   placeholder={i18n.t('global_config.keyw.Add_tag')}
+                                                   delimiters={[188,13]}
+                                                   handleDelete={this.handleDelete}
+                                                   handleAddition={this.handleAddition}
+                                                   handleDrag={this.handleDrag} />
                                     </FormGroup>
 
                                 </Col>
-                                <Col xs={12} md={6} lg={4}><br/>
+                                <Col className="advanced-block" xs={12} md={5} lg={5}><br/>
+                                    <h4>{i18n.t('global_config.title_advanced')}</h4>
+                                    <FormGroup >
+                                        <ControlLabel>{i18n.t('global_config.difficulty')}</ControlLabel><br/>
+                                        <div className=" W(100%)">
+                                            <div className="D(ib) C(#4e5b65)">{i18n.t('global_config.dif.'+dif)}</div>
+                                            <div className="D(ib) Fl(end) C(#4e5b65)"></div>
+                                            <div className="range-slider Pos(r) Ta(c) H(35px)">
+                                                <div style={{position: 'absolute', boxSizing: 'border-box', width: difLevels.indexOf(dif)*25+'%', top: '7px'}}>
+                                                    <div style={{marginLeft: '0%', width: '100%', height: '4px', backgroundColor: 'rgb(95, 204, 199)'}}></div>
+                                                </div>
+                                                <input type="range" step="1" min="0" max="4" value={difLevels.indexOf(dif)} onChange={e =>{this.props.changeGlobalConfig("difficulty", difLevels[e.target.value]) }}/>
+                                            </div>
+                                        </div>
+                                    </FormGroup>
                                     <FormGroup >
                                       <ControlLabel>{i18n.t('global_config.recom_age')}</ControlLabel>
                                       <RangeSlider
@@ -128,7 +162,7 @@ export default class GlobalConfig extends Component {
                                                       placeholder="min"
                                                       onChange={e => {this.props.changeGlobalConfig("typicalLearningTime",{h:tlt.h, m:e.target.value, s:tlt.s})}}/>
                                         <InputGroup.Addon>m</InputGroup.Addon>
-                                      </InputGroup>
+                                      </InputGroup>{/*
                                       <InputGroup className="inputGroup">
                                         <FormControl  type="number"
                                                       value={tlt.s}
@@ -137,32 +171,40 @@ export default class GlobalConfig extends Component {
                                                       placeholder="sec"
                                                       onChange={e => {this.props.changeGlobalConfig("typicalLearningTime",{h:tlt.h, m:tlt.m, s:e.target.value})}}/>
                                         <InputGroup.Addon>s</InputGroup.Addon>
-                                      </InputGroup>
+                                      </InputGroup>*/}
                                     </FormGroup>
                                     <FormGroup >
-                                      <ControlLabel>{i18n.t('global_config.difficulty')}</ControlLabel><br/>
-                                      <div className=" W(100%)">
-                                        <div className="D(ib) C(#4e5b65)">{i18n.t('global_config.dif.'+dif)}</div>
-                                        <div className="D(ib) Fl(end) C(#4e5b65)"></div>
-                                        <div className="range-slider Pos(r) Ta(c) H(35px)">
-                                          <div style={{position: 'absolute', boxSizing: 'border-box', width: difLevels.indexOf(dif)*25+'%', top: '7px'}}>
-                                            <div style={{marginLeft: '0%', width: '100%', height: '4px', backgroundColor: 'rgb(95, 204, 199)'}}></div>
-                                          </div>
-                                          <input type="range" step="1" min="0" max="4" value={difLevels.indexOf(dif)} onChange={e =>{this.props.changeGlobalConfig("difficulty", difLevels[e.target.value]) }}/>
-                                        </div>
-                                      </div>
+                                        <ControlLabel>{i18n.t('global_config.context')}</ControlLabel><br/>
+                                        <Select
+                                            name="form-field-name-context"
+                                            value={context}
+                                            options={contextOptions()}
+                                            onChange={e => {this.props.changeGlobalConfig("context",e.value)}} />
                                     </FormGroup>
                                     <FormGroup >
-                                      <ControlLabel>{i18n.t('global_config.keywords')}</ControlLabel><br/>
-                                      <ReactTags tags={tags}
-                                                suggestions={suggestions()}
-                                                delimiters={[188,13]}
-                                                handleDelete={this.handleDelete}
-                                                handleAddition={this.handleAddition}
-                                                handleDrag={this.handleDrag} />
+                                        <ControlLabel>{i18n.t('global_config.aspect_ratio')}</ControlLabel><br/>
+                                        <Radio name="radioGroup" inline checked={ar == 16/9 } onChange={e => {this.props.changeGlobalConfig("canvasRatio",16/9)}}>
+                                            16/9
+                                        </Radio>
+                                        {' '}
+                                        <Radio name="radioGroup" inline checked={ar == 4/3 } onChange={e => {this.props.changeGlobalConfig("canvasRatio",4/3)}}>
+                                            4/3
+                                        </Radio>
                                     </FormGroup>
+                                    <FormGroup >
+                                        <ControlLabel>{i18n.t('global_config.status')}</ControlLabel><br/>
+                                        <Select
+                                            name="form-field-name-status"
+                                            value={status}
+                                            options={statusOptions()}
+                                            onChange={e => {this.props.changeGlobalConfig("status",e.value)}} />
+                                    </FormGroup>
+
+
                                 </Col>
-                                <Col xs={12} md={6} lg={4}><br/>
+                                {/*
+                                <Col xs={12} md={6} lg={6}><br/>
+                                     version commented, transparent for the user
                                     <FormGroup >
                                         <ControlLabel>{i18n.t('global_config.version')}</ControlLabel>
                                         <FormControl   type="text"
@@ -170,32 +212,7 @@ export default class GlobalConfig extends Component {
                                                        placeholder=""
                                                        onChange={e => {this.props.changeGlobalConfig("version",e.target.value)}}/>
                                     </FormGroup>
-                                    <FormGroup >
-                                      <ControlLabel>{i18n.t('global_config.status')}</ControlLabel><br/>
-                                      <Select
-                                        name="form-field-name-status"
-                                        value={status}
-                                        options={statusOptions()}
-                                        onChange={e => {this.props.changeGlobalConfig("status",e.value)}} />
-                                    </FormGroup>
-                                    <FormGroup >
-                                      <ControlLabel>{i18n.t('global_config.context')}</ControlLabel><br/>
-                                      <Select
-                                        name="form-field-name-context"
-                                        value={context}
-                                        options={contextOptions()}
-                                        onChange={e => {this.props.changeGlobalConfig("context",e.value)}} />
-                                    </FormGroup>
-                                    <FormGroup >
-                                      <ControlLabel>{i18n.t('global_config.rights')}<a className="miniIcon" target="_blank" href={"https://creativecommons.org/licenses/?lang="+i18n.t('currentLang')}><i className="material-icons">info</i></a></ControlLabel><br/>
-                                      <Select
-                                        name="form-field-name-rights"
-                                        value={rights}
-                                        options={rightLevels}
-                                        onChange={e => {this.props.changeGlobalConfig("rights",e.value)}} />
-                                    </FormGroup>
-
-                                </Col>
+                                </Col>*/}
                             </Row>
                         </form>
                      </Grid>

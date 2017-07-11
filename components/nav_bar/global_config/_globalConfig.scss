@@ -1,3 +1,6 @@
+@import "../../../sass/general/_variables.scss";
+
+
 .gcModalBody {
 	position: relative;
 	top: -1px;
@@ -11,7 +14,32 @@
 		border-radius: 5px;
 		background: #eee; */
 	}
+	.advanced-block{
+      background-color: $lightestgrey;
+	}
 }
+
+//tags
+div.ReactTags__selected span.ReactTags__tag{
+  border-radius: 0 !important;
+  color: white !important;
+  background-color: $blueprimary !important;
+  border: 0 !important;
+  height: auto !important;
+  padding: 4px 8px !important;
+}
+div.ReactTags__selected a.ReactTags__remove{
+  color: white !important;
+  opacity: 0.5 !important;
+  &:hover{
+    opacity: 1 !important;
+    text-decoration: none !important;
+  }
+}
+div.ReactTags__tagInput{
+  width: 100% !important;
+}
+
 
 .inputGroup {
 	display:inline-table;

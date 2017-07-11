@@ -84,10 +84,14 @@ var en = {
                 "Technology":"Technology"
             },
             "keywords": "Keywords",
+            "keyw":{
+                "Add_tag":"Add keyword",
+            },
             "language": "Language",
             "no_lang": "Not specified",
             "recom_age": "Recommended age",
             "rights": "License",
+            "rights_short_txt":"The Creative Commons copyright licenses are a simple, standardized way to grant copyright permissions to their creative work.",
             "status": "Status",
             "status_list":{
                 "draft": "Draft",
@@ -96,6 +100,8 @@ var en = {
                 "unavailable": "Unavailable"
             },
             "title":"Global Configuration",
+            "title_advanced":"Advanced",
+            "title_general":"General data",
             "typicalLearningTime": "Typical learning time",
             "version": "Version"
         },
@@ -167,6 +173,7 @@ var en = {
         "Position": "Positioning",
         "Preview": "Preview",
         "Properties" : "Properties",
+        "Read_more":"Read more",
         "Redone": "Redone",
         "Reorder": "Reorder",
         "row_number" : "Number of rows in col ",
