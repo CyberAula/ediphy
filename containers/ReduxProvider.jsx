@@ -473,7 +473,7 @@ export default class ReduxProvider extends Component {
                                         }
                                     }
                                 },
-                            config:{"displayName": i18n.t('page')},
+                            config:{"displayName": i18n.t('document')},
                             state:{}
                             },
                     "bs-1497983247797":{
