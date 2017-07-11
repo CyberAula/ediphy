@@ -4,14 +4,15 @@ import BoxVisor from './BoxVisor';
 import BoxSortableVisor from './BoxSortableVisor';
 import {Col} from 'react-bootstrap';
 import HeaderVisor from './HeaderVisor';
-import {isSortableBox} from './../../../utils';
+import {isSortableBox, isSection,isView} from './../../../utils';
 
 export default class CanvasVisorDoc extends Component {
 
     render() {
         let titles = [];
-        let itemSelected = this.props.fromCV ? this.props.containedViewSelected : this.props.navItemSelected;
-        if (itemSelected.id !== 0 && !this.props.fromCV) {
+        let itemSelected = this.props.navItems[this.props.currentView] || this.props.containedViews[this.props.currentView];
+        let isCV = !isView(this.props.currentView);
+        if (itemSelected !== 0 && !isCV) {
             titles.push(itemSelected.name);
             let parent = itemSelected.parent;
             while (parent !== 0) {
@@ -21,7 +22,7 @@ export default class CanvasVisorDoc extends Component {
             titles.reverse();
         }
 
-        let maincontent = this.props.fromCV ? document.getElementById('contained_maincontent'):document.getElementById('maincontent');
+        let maincontent = isCV ? document.getElementById('contained_maincontent') : document.getElementById('maincontent');
         let actualHeight;
         if (maincontent) {
             actualHeight = parseInt(maincontent.scrollHeight, 10);
@@ -29,14 +30,14 @@ export default class CanvasVisorDoc extends Component {
         }
 
         let overlayHeight = actualHeight ? actualHeight : '100%';
-        let boxes = itemSelected.boxes || [];
+        let boxes = isCV ? this.props.containedViews[this.props.currentView].boxes || [] : this.props.navItems[this.props.currentView].boxes || [];
         return (
             /* jshint ignore:start */
 
-            <Col id={this.props.fromCV ? "containedCanvas":"canvas"} md={12} xs={12}
+            <Col id={isCV ? "containedCanvas":"canvas"} md={12} xs={12}
                  style={{display:'initial', padding: '0', width: '100%'}}>
                  <div className="scrollcontainer">
-                 {this.props.fromCV ? ( <a href="#" className="btnOverBar cvBackButton"  style={{pointerEvents: this.props.viewsArray.length > 1 ? 'initial': 'none',  color: this.props.viewsArray.length > 1 ? 'black': 'gray'}} onClick={a => {
+                 {isCV ? ( <a href="#" className="btnOverBar cvBackButton"  style={{pointerEvents: this.props.viewsArray.length > 1 ? 'initial': 'none',  color: this.props.viewsArray.length > 1 ? 'black': 'gray'}} onClick={a => {
                             this.props.removeLastView();
                             a.stopPropagation();
                         }}><i  className="material-icons">undo</i></a>):(<span></span>)}
@@ -44,19 +45,18 @@ export default class CanvasVisorDoc extends Component {
                                   onShowTitle={()=>this.setState({showTitle:true})}
                                   courseTitle={this.props.title}
                                   titleMode={itemSelected.titleMode}
-                                  navItem={this.props.navItemSelected}
                                   navItems={this.props.navItems}
-                                  containedView={this.props.containedViewSelected}
+                                  currentView={this.props.currentView}
                                   containedViews={this.props.containedViews}
                                   titleModeToggled={this.props.titleModeToggled}
                                   onUnitNumberChanged={this.props.onUnitNumberChanged}
                                   showButton={true}/>
                 <div className="outter canvasvisor">
-                    <div id={this.props.fromCV ? 'airlayer_cv':'airlayer'}
+                    <div id={isCV ? 'airlayer_cv':'airlayer'}
                     className={'doc_air'}
                     style={{visibility: (this.props.showCanvas ? 'visible' : 'hidden') }}>
 
-                    <div id={this.props.fromCV ? "contained_maincontent":"maincontent"}
+                    <div id={isCV ? "contained_maincontent":"maincontent"}
                          onClick={e => {
                         this.setState({showTitle:false})
                        }}
@@ -85,7 +85,7 @@ export default class CanvasVisorDoc extends Component {
                                                 boxSelected={this.props.boxSelected}
                                                 boxLevelSelected={this.props.boxLevelSelected}
                                                 changeCurrentView={(element)=>{this.props.changeCurrentView(element)}}
-                                                containedViewSelected={this.props.containedViewSelected}
+                                                currentView={this.props.currentView}
                                                 toolbars={this.props.toolbars}
                                                 richElementsState={this.props.richElementsState}/>
                             } else {
@@ -95,7 +95,7 @@ export default class CanvasVisorDoc extends Component {
                                                 boxSelected={this.props.boxSelected}
                                                 boxLevelSelected={this.props.boxLevelSelected}
                                                 changeCurrentView={this.props.changeCurrentView}
-                                                containedViewSelected={this.props.containedViewSelected}
+                                                currentView={this.props.currentView}
                                                 toolbars={this.props.toolbars}
                                                 richElementsState={this.props.richElementsState}/>
                             }
@@ -113,8 +113,8 @@ export default class CanvasVisorDoc extends Component {
         if (nextProps.boxSelected !== -1) {
             this.setState({showTitle: false});
         }
-        if (this.props.navItemSelected.id !== nextProps.navItemSelected.id) {
-            document.getElementById(this.props.fromCV ? "contained_maincontent":"maincontent").scrollTop = 0;
+        if (this.props.currentView.id !== nextProps.currentView.id) {
+            document.getElementById(!isView(this.props.currentView) ? "contained_maincontent":"maincontent").scrollTop = 0;
         }
     }
 

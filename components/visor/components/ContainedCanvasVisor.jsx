@@ -14,7 +14,7 @@ export default class ContainedCanvasVisor extends Component {
     }
     render() {
         let visorContent;
-        if (isSlide(this.props.containedViewSelected.type)) {
+        if (isSlide(this.props.containedViews[this.props.currentView].type)) {
             /* jshint ignore:start */
             visorContent = <CanvasVisorSli
                                            navItems={this.props.navItems}
@@ -38,6 +38,7 @@ export default class ContainedCanvasVisor extends Component {
             visorContent = <CanvasVisorDoc
                                            navItems={this.props.navItems}
                                            containedViews={this.props.containedViews}
+                                           currentView={this.props.currentView}
                                            boxes={this.props.boxes}
                                            boxSelected={this.props.boxSelected}
                                            boxLevelSelected={this.props.boxLevelSelected}

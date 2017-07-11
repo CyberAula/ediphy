@@ -7,7 +7,7 @@ export default class CanvasVisor extends Component {
 
     render() {
         let visorContent;
-        if (isSlide(this.props.navItemSelected.type)) {
+        if (isSlide(this.props.navItems[this.props.currentView].type)) {
             /* jshint ignore:start */
             visorContent = <CanvasVisorSli
                                            boxes={this.props.boxes}

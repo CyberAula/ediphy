@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import i18n from 'i18next';
 import Dali from './../../../core/main';
-import {isSlide} from './../../../utils';
+import {isSlide, isSection} from './../../../utils';
 
 
 export default class VisorNavSection extends Component {
@@ -27,7 +27,7 @@ export default class VisorNavSection extends Component {
                         } else {
                             this.setState({toggled: !this.state.toggled});
                         }}}>
-                        <a className={this.props.navItemSelected == this.props.pageName ? "indexElementTitle visorNavListEl selectedNavItemVisor":"indexElementTitle visorNavListEl"} style={{paddingLeft: marginUl}} href="#"> 
+                        <a className={this.props.navItemSelected == this.props.pageName ? "indexElementTitle visorNavListEl selectedNavItemVisor":"indexElementTitle visorNavListEl"} style={{paddingLeft: marginUl}} href="#">
                             {this.state.toggled ? 
                                 (<i onClick={(e)=>{this.setState({toggled: !this.state.toggled})}} className="material-icons">keyboard_arrow_down</i>):(<i onClick={(e)=>{this.setState({toggled: !this.state.toggled})}} className="material-icons">keyboard_arrow_right</i>)} 
 
@@ -37,16 +37,16 @@ export default class VisorNavSection extends Component {
 
                     { children.map(page => {
                             let margin = this.props.navItemsById[page].level*10 + 10 + "px";
-                            if (page.indexOf("se") != -1){
+                            if (isSection(page)){
                                 return (<VisorNavSection display={this.state.toggled}
                                                          key={page}
                                                          pageName={page}
                                                          navItemSelected={this.props.navItemSelected}
                                                          navItemsById={this.props.navItemsById}
-                                                         changePage={(page)=> {this.props.changePage(page)}} />);
+                                                         changeCurrentView={(page) => {this.props.changeCurrentView(page)}} />);
                             } else {
                                 return (<li key={page}
-                                            onClick={(e)=>{this.props.changePage(page)}}
+                                            onClick={(e)=>{this.props.changeCurrentView(page)}}
                                             className={this.state.toggled ? "visorNavListEl": "visorNavListEl hiddenNavVisor"}>
                                             <a  style={{paddingLeft: margin}}
                                                 className={this.props.navItemSelected == page ? "indexElementTitle selectedNavItemVisor":"indexElementTitle"}

@@ -223,7 +223,7 @@ export default class BoxVisor extends Component {
                         lastActionDispatched: this.props.lastActionDispatched,
                         onBoxSelected: this.props.onBoxSelected,
                         onBoxLevelIncreased: this.props.onBoxLevelIncreased,
-                        containedViewSelected: this.props.containedViewSelected,
+                        currentViewSelected: this.props.currentViewSelected,
                         onBoxMoved: this.props.onBoxMoved,
                         onBoxResized: this.props.onBoxResized,
                         onSortableContainerResized: this.props.onSortableContainerResized,

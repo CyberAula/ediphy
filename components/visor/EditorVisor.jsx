@@ -110,6 +110,7 @@ export default class Visor extends Component {
             });
 
            } else if(newMark.connectMode === "external") {
+
                var win = window.open(newMark.connection, '_blank');
                win.focus();
                let shiftExternal = nextState.triggeredMarks;
@@ -117,6 +118,7 @@ export default class Visor extends Component {
                this.setState({
                    triggeredMarks: shiftExternal
                });
+
            }
         }
 
@@ -139,7 +141,7 @@ export default class Visor extends Component {
         let wrapperClasses =  this.state.toggledSidebar ? "visorwrapper toggled" : "visorwrapper";
         let toggleIcon = this.state.toggledSidebar ? "keyboard_arrow_left" : "keyboard_arrow_right";
         let toggleColor = this.state.toggledSidebar ? "toggleColor" : "";
-        let isSlide = navItems[navItemSelected].type === "slide" ? "pcw_slide":"pcw_doc";
+        let isSlide = navItems[this.getCurrentView(Dali.State.navItemSelected, Dali.State.containedViewSelected)].type === "slide" ? "pcw_slide":"pcw_doc";
         
         return (
             /* jshint ignore:start */
@@ -148,7 +150,7 @@ export default class Visor extends Component {
                 <SideNavVisor
                             changeCurrentView={(page)=> {this.changeCurrentView(page)}}
                             courseTitle={title}
-                            currentView={this.getLastCurrentViewElement()}
+                            currentViews={this.state.currentView}
                             navItemsById={navItems}
                             navItemsIds={navItemsIds}
                             toggled={this.state.toggledSidebar}/>
@@ -160,8 +162,8 @@ export default class Visor extends Component {
                         <Row style={{height: '100%'}}>
                             <Col lg={12} style={{height: '100%'}}>
                                 <VisorPlayer
-                                            changePage={(page)=> {this.changeCurrentView(page)}}
-                                            currentView={this.getLastCurrentViewElement()}
+                                            changeCurrentView={(page)=> {this.changeCurrentView(page)}}
+                                            currentViews={this.state.currentView}
                                             navItemsById={navItems}
                                             navItemsIds={navItemsIds}/>
                                 <Button id="visorNavButton"

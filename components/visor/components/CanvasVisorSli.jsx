@@ -5,15 +5,17 @@ import {Col} from 'react-bootstrap';
 import HeaderVisor from './HeaderVisor';
 import {aspectRatio} from '../../../common_tools';
 import ReactResizeDetector from 'react-resize-detector';
+import {isView} from './../../../utils';
 
 export default class CanvasVisorSli extends Component {
 
     render() {
 
         let titles = [];
-        let itemSelected = this.props.fromCV ? this.props.containedViewSelected : this.props.navItemSelected;
+        let itemSelected = this.props.navItems[this.props.currentView] || this.props.containedViews[this.props.currentView];
+        let isCV = !isView(this.props.currentView);
 
-        if (itemSelected.id !== 0 && !this.props.fromCV) {
+        if (itemSelected.id !== 0 && !isCV) {
             titles.push(itemSelected.name);
             let parent = itemSelected.parent;
             while (parent !== 0) {
@@ -23,7 +25,7 @@ export default class CanvasVisorSli extends Component {
             titles.reverse();
         }
 
-        let maincontent = this.props.fromCV ? document.getElementById('contained_maincontent'):document.getElementById('maincontent');
+        let maincontent = isCV ? document.getElementById('contained_maincontent'):document.getElementById('maincontent');
         let actualHeight;
         if (maincontent) {
             actualHeight = parseInt(maincontent.scrollHeight, 10);
@@ -36,20 +38,20 @@ export default class CanvasVisorSli extends Component {
         return (
             /* jshint ignore:start */
 
-            <Col id={this.props.fromCV ? "containedCanvas":"canvas"} md={12} xs={12}
+            <Col id={isCV ? "containedCanvas":"canvas"} md={12} xs={12}
                  style={{display:'initial', padding: '0', width: '100%'}}>
 
-                    <div id={this.props.fromCV ? 'airlayer_cv':'airlayer'}
+                    <div id={isCV ? 'airlayer_cv':'airlayer'}
                     className={'slide_air'}
                     style={{margin:'0 auto',visibility: (this.props.showCanvas ? 'visible' : 'hidden') }}>
 
-                    <div id={this.props.fromCV ? "contained_maincontent":"maincontent"}
+                    <div id={isCV ? "contained_maincontent":"maincontent"}
                          onClick={e => {
                         this.setState({showTitle:false})
                        }}
                          className={'innercanvas sli'}
                          style={{visibility: (this.props.showCanvas ? 'visible' : 'hidden')}}>
-                         {this.props.fromCV ? ( <a href="#" className="btnOverBar cvBackButton" style={{pointerEvents: this.props.viewsArray.length > 1 ? 'initial': 'none',  color: this.props.viewsArray.length > 1 ? 'black': 'gray'}} onClick={a => {
+                         {isCV ? ( <a href="#" className="btnOverBar cvBackButton" style={{pointerEvents: this.props.viewsArray.length > 1 ? 'initial': 'none',  color: this.props.viewsArray.length > 1 ? 'black': 'gray'}} onClick={a => {
                                     this.props.removeLastView();
                                     a.stopPropagation();
                                 }}><i className="material-icons">undo</i></a>):(<span></span>)}
@@ -59,12 +61,11 @@ export default class CanvasVisorSli extends Component {
                                                             titleMode={itemSelected.titleMode}
                                                             navItem={this.props.navItemSelected}
                                                             navItems={this.props.navItems}
-                                                            containedView={this.props.containedViewSelected}
+                                                            currentView={this.props.currentView}
                                                             containedViews={this.props.containedViews}
                                                             titleModeToggled={this.props.titleModeToggled}
                                                             onUnitNumberChanged={this.props.onUnitNumberChanged}
-                                                            showButton={true}
-                                                            fromCV={this.props.fromCV}/>
+                                                            showButton={true}/>
 
                         <br/>
 
@@ -88,14 +89,14 @@ export default class CanvasVisorSli extends Component {
                                             boxSelected={this.props.boxSelected}
                                             boxLevelSelected={this.props.boxLevelSelected}
                                             changeCurrentView={(element)=>{this.props.changeCurrentView(element)}}
-                                            containedViewSelected={this.props.containedViewSelected}
+                                            currentView={this.props.currentView}
                                             toolbars={this.props.toolbars}
                                             richElementsState={this.props.richElementsState}/>
 
                         })}
 
 
-                        <ReactResizeDetector handleWidth handleHeight onResize={(e)=>{aspectRatio(this.props.canvasRatio, this.props.fromCV ? 'airlayer_cv':'airlayer', this.props.fromCV ? "containedCanvas":"canvas")}} />
+                        <ReactResizeDetector handleWidth handleHeight onResize={(e)=>{aspectRatio(this.props.canvasRatio, isCV ? 'airlayer_cv':'airlayer', isCV ? "containedCanvas":"canvas")}} />
                     </div>
                 </div>
 
@@ -108,7 +109,8 @@ export default class CanvasVisorSli extends Component {
     }
     
     componentDidMount() {
-        aspectRatio(this.props.canvasRatio, this.props.fromCV ? 'airlayer_cv':'airlayer', this.props.fromCV ? "containedCanvas":"canvas");
+        let isCV = !isView(this.props.currentView);
+        aspectRatio(this.props.canvasRatio, isCV ? 'airlayer_cv':'airlayer', isCV ? "containedCanvas":"canvas");
 
        // window.addEventListener("resize", aspectRatio);
     }
@@ -118,9 +120,10 @@ export default class CanvasVisorSli extends Component {
 
     componentWillUpdate(nextProps){
        if (this.props.canvasRatio !== nextProps.canvasRatio){
+            let isCV = !isView(nextProps.currentView);
             window.canvasRatio = nextProps.canvasRatio;
             //window.removeEventListener("resize", aspectRatio);
-            aspectRatio(nextProps.canvasRatio, this.props.fromCV ? 'airlayer_cv':'airlayer', this.props.fromCV ?"containedCanvas":"canvas");
+            aspectRatio(nextProps.canvasRatio, isCV ? 'airlayer_cv':'airlayer', isCV ? "containedCanvas":"canvas");
             //window.addEventListener("resize", aspectRatio);
         }
 

@@ -21,7 +21,7 @@ export default class VisorPlayer extends Component {
         } 
 
         let navItemsById = this.props.navItemsById;
-        let navItemSelected = this.getCurrentNavItem(this.props.currentView);
+        let navItemSelected = this.getCurrentNavItem(this.props.currentViews);
 
         let index = navItemsIds.indexOf(navItemSelected);
         let maxIndex = navItemsIds.length;
