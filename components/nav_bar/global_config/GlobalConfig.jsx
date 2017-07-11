@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import {Modal, Grid, Row, Col, FormGroup, ControlLabel, FormControl, InputGroup, Radio} from 'react-bootstrap';
 import i18n from 'i18next';
 import RangeSlider from './range_slider/RangeSlider';
-import TimePicker from 'yet-another-react-time-picker';
 import Select from 'react-select';
 import { WithContext as ReactTags } from 'react-tag-input';
 import {suggestions, statusOptions, contextOptions, languages, difLevels, rightLevels} from './global_options';

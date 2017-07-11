@@ -4,9 +4,9 @@ import {isSection} from './../../utils';
 
 
 export function init(){
-	var result = API.doInitialize();
-	var currentStatus = API.doGetValue("cmi.completion_status");
-	var bookmark = API.doGetValue("cmi.location");
+	let result = API.doInitialize();
+	let currentStatus = API.doGetValue("cmi.completion_status");
+	let bookmark = API.doGetValue("cmi.location");
 	if (currentStatus !== 'completed') {
 	    currentStatus = "incomplete";
 	}
@@ -14,14 +14,17 @@ export function init(){
 	return {currentStatus: currentStatus, bookmark: bookmark};
 }
 
-export function changeInitialScores(){
-	var length = API.doGetValue("cmi.objectives._count");
-	var scores = [];
-	for (var i = 1; i < length; i++){
-		var obj = API.doGetValue("cmi.objectives." + i + ".score.raw");
+export function changeInitialState(){
+	let length = API.doGetValue("cmi.objectives._count");
+	let scores = [];
+	let visited = [];
+	for (let i = 1; i < length; i++){
+		let obj = API.doGetValue("cmi.objectives." + i + ".score.raw");
+		let comp = API.doGetValue("cmi.objectives." + i + ".completion_status");
 		scores.push(!obj || isNaN(obj) ? 0:parseFloat(obj));
+		visited.push(comp);
 	}
-	return scores;
+	return {scores: scores, visited: visited};
 }
 
 export function changeLocation(id) {
@@ -29,36 +32,62 @@ export function changeLocation(id) {
 	return API.doCommit();
 }
 
-export function savePreviousResults(el, navsIds) {
-	var num = getPageNum(el, navsIds);
-	setScore("objectives." + num + ".", 0, 1, 1, 1, "completed", "passed");
+export function savePreviousResults(el, navsIds, trackProgress) {
+	let num = getPageNum(el, navsIds);
+	if (trackProgress){
+        setScore("objectives." + num + ".", 0, 0, 0, 0, "completed", "passed");
+	} else {
+        setScore("objectives." + num + ".", 0, 1, 1, 1, "completed", "passed");
+	}
+
 	API.doCommit();
-	return {index: num-1 , score: 1};
+	return {index: num-1 , score: 1, visited: "completed"};
 }
 
-export function setFinalScore(scores) {
-	var size = scores.length || 1;
-	var num = 0;
-	var sum = scores.reduce((a, b) => a + b, 0);
-	var avg = sum/size;
-	var threshold = API.doGetValue("cmi.completion_threshold");
-	var isPassed = avg >= threshold ? "passed":"failed";
-	var isComplete = true ? "completed":"incomplete";
-
-	setScore("objectives." + num + ".", 0, size, sum, avg, isComplete, isPassed);
-	setScore("", 0, size, sum, avg, isComplete, isPassed);
-
+export function setFinalScore(scores, visited, trackProgress) {
+	let sizeSc = scores.length || 1;
+	let sizeV = visited.length || 1;
+	let num = 0;
+	let sumSc = scores.reduce((a, b) => a + b, 0);
+	let sumV = visited.reduce((a, b) => a + (b === "completed" ? 1:0), 0);
+	let avgSc = sumSc/sizeSc;
+	let avgV = sumV/sizeV;
+    let thresholdSc = API.doGetValue("cmi.scaled_passing_score") || 0.8;
+    let thresholdV = API.doGetValue("cmi.completion_threshold") || 0.8;
+    let isPassed = true;
+    let isComplete = true;
+	if (trackProgress) {
+		/*Course is passed when more pages than threshold are viewed*/
+		let completed = avgV >= thresholdV;
+        isPassed = completed ? "passed":"failed";
+        isComplete = completed ? "completed":"incomplete";
+        setScore("objectives." + num + ".", 0, sizeV, sumV, avgV, isComplete, isPassed);
+        setScore("", 0, sizeV, sumV, avgV, isComplete, isPassed);
+	} else {
+		/*Course is passed when the total score is greater than the threshold*/
+		isPassed = avgSc >= thresholdSc ? "passed":"failed";
+        isComplete = avgV >= thresholdV ? "completed":"incomplete";
+		setScore("objectives." + num + ".", 0, sizeSc, sumSc, avgSc, isComplete, isPassed);
+		setScore("", 0, sizeSc, sumSc, avgSc, isComplete, isPassed);
+	}
+	// console.log('setfinal', 'track?' + trackProgress, "sizeV: "+ sizeV,"sumV: "+  sumV, "avgV:" + avgV, "sizeSc" + sizeSc, "sUMSc" + sumSc, "avgSc" + avgSc, isComplete, isPassed);
 	return API.doCommit();
 }
 
 export function finish(){
 
-	if (!window.terminated) {
+	//if (!window.terminated) {
 	    // API.doSetValue("cmi.success_status", "passed");
 	    // API.doSetValue("cmi.completion_status", "completed");
-	    API.doTerminate();
+        //set exit to suspend
+        API.doSetValue("cmi.exit", "suspend");
+        // API.doSetValue("cmi.exit", "");
+        //issue a suspendAll navigation request
+        // API.doSetValue("adl.nav.request", "exitAll");
+        // API.doSetValue("adl.nav.request", "suspendAll");
+    	API.doTerminate();
 	    window.terminated = true;
-	}
+	//}
 }
 
 function countScore(id){
@@ -66,8 +95,8 @@ function countScore(id){
 }
 
 function getPageNum(el, navsIds) {
-	var newIds = navsIds.filter(countScore);
-	var num = newIds.indexOf(el)+1;
+	let newIds = navsIds.filter(countScore);
+	let num = newIds.indexOf(el)+1;
 	return num;
 }
 

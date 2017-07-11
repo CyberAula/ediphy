@@ -211,6 +211,7 @@ export default class Visor extends Component {
                         navItems={navItems}
                         navItemsIds={navItemsIds}
                         currentView={navItemSelected}
+                        globalConfig={globalConfig}
                         changeCurrentView={(el)=>{this.changeCurrentView(el)}}
                         />):(null)}
             </div>

@@ -12,9 +12,9 @@ export default class ReduxProvider extends Component {
     constructor(props) {
         super(props);
 
-        this.initialState = Dali.Config.sections_have_content ? 
+        this.initialState = Dali.Config.sections_have_content ?
             ({present: {
-                globalConfig: {title: i18n.t('course_title'), canvasRatio: 16/9, age: {min:0, max:100}, context: 'school', rights: "Public Domain", keywords: [], typicalLearningTime:{h:0,m:0,s:0},  version:'0.0.0', status: 'draft', structure: 'linear', difficulty:'easy'},
+                globalConfig: {title: i18n.t('course_title'), canvasRatio: 16/9, trackProgress: true, age: {min:0, max:100}, context: 'school', rights: "Public Domain", keywords: [], typicalLearningTime:{h:0,m:0,s:0},  version:'1.0.0', status: 'draft', structure: 'linear', difficulty:'easy'},
                 displayMode: "list",
                 imagesUploaded:[],
                 indexSelected: "se-1467887497411",
@@ -154,7 +154,7 @@ export default class ReduxProvider extends Component {
                                                 "autoManaged":false
                                             },
                                             "display_pagenumber":{
-                                                "__name":"Nº Página",   
+                                                "__name":"Nº Página",
                                                 "type":"checkbox",
                                                 "checked":false,
                                                 "autoManaged":false
@@ -193,31 +193,31 @@ export default class ReduxProvider extends Component {
                 fetchVishResults:{"results":[]}
             }}) :
             ({present:{
-                 globalConfig: {title: i18n.t('course_title'), canvasRatio: 16/9, age: {min:0, max:100}, context: 'school', keywords: [], rights: "Public Domain", status: 'draft', structure: 'linear', version:'0.0.0', typicalLearningTime:{h:0,m:0,s:0}, difficulty:'easy'},
-                 imagesUploaded:[],
-                 indexSelected: 'pa-1497983247795',
-                 boxesById:{
+                globalConfig: {title: i18n.t('course_title'), canvasRatio: 16/9, trackProgress: true, age: {min:0, max:100}, context: 'school', keywords: [], rights: "Public Domain", status: 'draft', structure: 'linear', version:'1.0.0', typicalLearningTime:{h:0,m:0,s:0}, difficulty:'easy'},
+                imagesUploaded:[],
+                indexSelected: 'pa-1497983247795',
+                boxesById:{
                     "bs-1497983247797":
                         { id:"bs-1497983247797",
-                         parent:"pa-1497983247795",
-                         container:0,
-                         level:-1,
-                         col:0,
-                         row:0,
-                         position:{x:0,y:0,type:"relative"},
-                         draggable:false,
-                         resizable:false,
-                         showTextEditor:false,
-                         fragment:{},
-                         children:[],
-                         sortableContainers:{},
-                         containedViews:[]}
-                     },
-                 boxSelected:-1,
-                 boxLevelSelected:0,
-                 navItemsIds:["se-1467887497411","pa-1497983247795"],
-                 navItemSelected:"pa-1497983247795",
-                 navItemsById:{
+                            parent:"pa-1497983247795",
+                            container:0,
+                            level:-1,
+                            col:0,
+                            row:0,
+                            position:{x:0,y:0,type:"relative"},
+                            draggable:false,
+                            resizable:false,
+                            showTextEditor:false,
+                            fragment:{},
+                            children:[],
+                            sortableContainers:{},
+                            containedViews:[]}
+                },
+                boxSelected:-1,
+                boxLevelSelected:0,
+                navItemsIds:["se-1467887497411","pa-1497983247795"],
+                navItemSelected:"pa-1497983247795",
+                navItemsById:{
                     "0":{
                         id: 0,
                         children:["se-1467887497411"],
@@ -229,7 +229,7 @@ export default class ReduxProvider extends Component {
                         id:"se-1467887497411",
                         name: i18n.t('section'),
                         isExpanded:true,
-                        parent:0, 
+                        parent:0,
                         children:["pa-1497983247795"],
                         unitNumber:1,
                         hidden:false,
@@ -278,10 +278,10 @@ export default class ReduxProvider extends Component {
                         }
                     }
                 },
-                 containedViewsById:{},
-                 containedViewSelected:0,
-                 displayMode:"list",
-                 toolbarsById:{
+                containedViewsById:{},
+                containedViewSelected:0,
+                displayMode:"list",
+                toolbarsById:{
                     "se-1467887497411":{
                         "id":"se-1467887497411",
                         "controls":{
@@ -350,7 +350,7 @@ export default class ReduxProvider extends Component {
                                                 "autoManaged":false
                                             },
                                             "display_pagenumber":{
-                                                "__name":"Nº Página",   
+                                                "__name":"Nº Página",
                                                 "type":"checkbox",
                                                 "checked":false,
                                                 "autoManaged":false
@@ -456,26 +456,26 @@ export default class ReduxProvider extends Component {
                                                 "value":"",
                                                 "autoManaged":false,
                                                 "display":true}
-                                            }
-                                        },
-                                        "__extra":{
-                                            "__name":"Alias",
-                                            "icon":"rate_review",
-                                            "buttons":{
-                                                "alias":{
-                                                    "__name":"Alias",
-                                                    "type":"text",
-                                                    "value":"",
-                                                    "autoManaged":true,
-                                                    "isAttribute":true}
-                                                }
-                                            }
+                                        }
+                                    },
+                                    "__extra":{
+                                        "__name":"Alias",
+                                        "icon":"rate_review",
+                                        "buttons":{
+                                            "alias":{
+                                                "__name":"Alias",
+                                                "type":"text",
+                                                "value":"",
+                                                "autoManaged":true,
+                                                "isAttribute":true}
                                         }
                                     }
-                                },
-                            config:{"displayName": i18n.t('page')},
-                            state:{}
-                            },
+                                }
+                            }
+                        },
+                        config:{"displayName": i18n.t('page')},
+                        state:{}
+                    },
                     "bs-1497983247797":{
                         id:"bs-1497983247797",
                         controls:{
@@ -489,9 +489,9 @@ export default class ReduxProvider extends Component {
                         },
                         state:{},
                         showTextEditor:false}
-                    },
-                 isBusy:"",
-                 fetchVishResults:{"results":[]}
+                },
+                isBusy:"",
+                fetchVishResults:{"results":[]}
             }});
 
         this.store = this.configureStore();
