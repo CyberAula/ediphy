@@ -678,9 +678,9 @@ export default class PluginToolbar extends Component {
                     value = button.options[value];
                     if (buttonKey === '__position') {
                         this.props.onToolbarUpdated(id, tabKey, accordionKeys, '__position', value);
-                        this.props.onBoxMoved(id, 0, 0, value);
                         let parentId = this.props.box.parent;
                         let containerId = this.props.box.container;
+                        this.props.onBoxMoved(id, 0, 0, value, parentId, containerId);
                         if (isSortableContainer(containerId)) {
                           let newHeight = parseFloat(document.getElementById(containerId).clientHeight, 10);
                           this.props.onSortableContainerResized(containerId, parentId, newHeight);
