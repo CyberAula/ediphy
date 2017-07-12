@@ -163,7 +163,7 @@ export default class EnrichedPlayerPlugin extends React.Component {
                              onChange={this.onSeekChange.bind(this)}
                              onMouseUp={this.onSeekMouseUp.bind(this)}
                         >
-                            <div className="mainSlider" style={{width:"5px", height: "8px", left: this.state.played*100 +"%", background: "black", position:"absolute" }}></div>
+                            <div className="mainSlider" style={{left: this.state.played*100 +"%"}}></div>
                             {markElements}
                         </div>
                         <input className="volume-player-input " type='range' min={0} max={1} step='any' value={this.state.volume} onChange={this.setVolume.bind(this)} />
