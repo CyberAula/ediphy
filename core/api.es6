@@ -5,12 +5,18 @@ export function api() {
         addMenuButtons: function (json) {
             Dali.API_Private.emit(Dali.API_Private.events.addMenuButtons, json);
         },
+        configModalNeedsUpdate: function(){
+            Dali.API_Private.emit(Dali.API_Private.events.configModalNeedsUpdate,{});
+        },
         openConfig: function (name, reason) {
             var promise = new Promise(function (resolve) {
                 Dali.API_Private.listenAnswer(Dali.API_Private.events.openConfig, resolve);
             });
             Dali.API_Private.emit(Dali.API_Private.events.openConfig, {name: name, reason: reason});
             return promise;
+        },
+        editRichMark: function(id,value){
+            Dali.API_Private.emit(Dali.API_Private.events.editRichMark, {id: id, value: value});
         },
         markTriggered: function(id,value,stateElement){
             Dali.API_Private.emit(Dali.API_Private.events.markTriggered, {id,value,stateElement});
@@ -49,9 +55,14 @@ export function api_private() {
                 emit: 'markTriggered',
                 answer: 'markTriggered_back'
             },
-            //TODO: change into VIEW API?
+            editRichMark:{
+                emit:'editRichMark'
+            },
             changeView:{
                 emit: 'changeView'
+            },
+            configModalNeedsUpdate:{
+              emit: 'needsUpdate'
             },
             openConfig: {
                 emit: 'openConfig',

@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
+import Utils, {isContainedView} from './../../../utils';
 
 export default class ContentList extends Component {
     render() {
@@ -13,11 +14,18 @@ export default class ContentList extends Component {
                         if (mark.connectMode === "new") {
                             alreadyShown.push(mark.connection);
                         }
+
+                        let allViews = Object.assign({},this.props.navItems, this.props.containedViews);
+
                         return (
                             <div key={id}
                                  onClick={() => {
                                     if(mark.connectMode === "existing"){
-                                        this.props.onNavItemSelected(mark.connection);
+                                        if(isContainedView(mark.connection)){
+                                            this.props.onContainedViewSelected(mark.connection);
+                                        } else{
+                                            this.props.onNavItemSelected(mark.connection);
+                                        }
                                     }else if(mark.connectMode === "new"){
                                         this.props.onContainedViewSelected(mark.connection);
                                     }else if(mark.connectMode === "external"){
@@ -26,7 +34,7 @@ export default class ContentList extends Component {
                                  }}>
                                 {mark.title}
                                 &nbsp;->&nbsp;
-                                {mark.connectMode === "existing" ? this.props.navItems[mark.connection].name : mark.connection}
+                                {mark.connectMode === "existing" ?  mark.connection: mark.connectMode === "external" ? allViews[mark.connection].connection : allViews[mark.connection].name }
                             </div>
                         );
                     })

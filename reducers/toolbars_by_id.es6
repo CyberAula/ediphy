@@ -29,13 +29,13 @@ function createRichAccordions(controls) {
                     __name: 'Marks List',
                     icon: 'room',
                     buttons: {}
-                },
+                }/*,
                 __content_list: {
                     key: 'content_list',
                     __name: 'Content List',
                     icon: 'border_all',
                     buttons: {}
-                }
+                }*/
             }
         };
     }
@@ -47,14 +47,14 @@ function createRichAccordions(controls) {
             buttons: {}
         };
     }
-    if (!controls.main.accordions.__content_list) {
+    /*if (!controls.main.accordions.__content_list) {
         controls.main.accordions.__content_list = {
             key: 'content_list',
             __name: 'Content List',
             icon: 'border_all',
             buttons: {}
         };
-    }
+    }*/
 }
 
 function createAliasButton(controls, state) {
@@ -275,8 +275,9 @@ function toolbarCreator(state, action) {
 
 function toolbarSectionCreator(state, action, isContainedView = false) {
     let doc_type;
-    let id = isContainedView ? action.payload.mark.connection.id:action.payload.id;
+    let id = isContainedView ? action.payload.mark.connection.id: action.payload.id;
     let type = isContainedView ? action.payload.mark.connection.type:action.payload.type;
+
     if (isPage(id)) {
       doc_type = i18n.t('page');
     }
@@ -577,14 +578,19 @@ function toolbarReducer(state, action) {
 }
 
 export default function (state = {}, action = {}) {
+    let newState;
     switch (action.type) {
         case ADD_BOX:
             return changeProp(state, action.payload.ids.id, toolbarCreator(state, action));
         case ADD_NAV_ITEM:
             return changeProp(state, action.payload.id, toolbarSectionCreator(state, action));
         case ADD_RICH_MARK:
-            let modState = changeProp(state, action.payload.mark.connection.id, toolbarSectionCreator(state, action, true));
-            return changeProp(modState, action.payload.parent, toolbarReducer(modState[action.payload.parent], action));
+            newState = state;
+            if(action.payload.mark.connectMode === "new"){
+                let modState = changeProp(state, action.payload.mark.connection.id, toolbarSectionCreator(state, action, true));
+                newState = changeProp(modState, action.payload.parent, toolbarReducer(modState[action.payload.parent], action));
+            }
+            return newState;
         case CHANGE_NAV_ITEM_NAME:
             return changeProp(state, action.payload.id, toolbarReducer(state[action.payload.id], action));
             //return state;
@@ -599,7 +605,7 @@ export default function (state = {}, action = {}) {
         case DELETE_SORTABLE_CONTAINER:
             return deleteProps(state, action.payload.children);
         case DUPLICATE_BOX:
-            let newState = Object.assign({}, state);
+            newState = Object.assign({}, state);
             let replaced = Object.assign({}, state);
             let newIds = action.payload.newIds;
             //let count = 0;

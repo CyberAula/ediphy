@@ -30,11 +30,12 @@ export default class MarkCreator extends Component {
 
                 let overlay = document.createElement("div");
                 /* OVERLAY */
-                overlay.style.top = 0;
-                overlay.style.left = 0;
-                overlay.style.width = "100%";
-                overlay.style.height = "100%";
+                overlay.style.top = dropableElement.offsetTop +"px";
+                overlay.style.left = dropableElement.offsetLeft+"px";
+                overlay.style.width = dropableElement.offsetWidth+"px";
+                overlay.style.height = dropableElement.offsetHeight+"px";
                 overlay.style.position = "absolute";
+                overlay.style.pointerEvents = "all";
                 overlay.style.background = 'yellow';
                 overlay.style.opacity = '0.35';
                 overlay.style.zIndex = 999;
@@ -58,7 +59,7 @@ export default class MarkCreator extends Component {
                 let newId = ID_PREFIX_CONTAINED_VIEW + Date.now();
                 let connection = {
                     id: newId,
-                    parent: this.props.boxSelected,
+                    parent: [this.props.boxSelected],
                     name: i18n.t('contained_view'),
                     boxes: [],
                     type: type,
@@ -82,13 +83,15 @@ export default class MarkCreator extends Component {
 
                 overlay.onclick = function(e){
                     let square = this.getClientRects()[0];
-
                     let x = e.clientX - square.left  - cursor_x_offset;//e.offsetX;
                     let y = e.clientY - square.top - cursor_y_offset ;//e.offsetY;
                     let width = square.right - square.left;
                     let height =  square.bottom - square.top;
 
-                    let value = parseRichMarkInput(x,y, width, height);
+                    let richMarkValues = [];
+
+
+                    let value = parseRichMarkInput(x,y, width, height, richMarkValues);
 
                     addMarkShortcut({id: ID_PREFIX_RICH_MARK + Date.now(), title, connectMode, connection, displayMode, value});
                     if(type === PAGE_TYPES.DOCUMENT) {

@@ -18,11 +18,12 @@ export default {
         'BasicText',
         //'RichText',
         'BasicPlayer',
+        'EnrichedPlayer',
         //'BasicVideo',
         //'Youtube',
         'Webpage',
         'GraficaD3',
-        'EnrichedVideo',
+        //'EnrichedVideo',
         'HotspotImages',
     ],
     availableLanguages:[

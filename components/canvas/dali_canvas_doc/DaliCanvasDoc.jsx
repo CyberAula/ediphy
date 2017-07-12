@@ -48,9 +48,10 @@ export default class DaliCanvasDoc extends Component {
         return (
             /* jshint ignore:start */
 
+
             <Col id={this.props.fromCV ? 'containedCanvas':'canvas'} md={12} xs={12} className="canvasDocClass"
                  style={{display: this.props.containedViewSelected !== 0 && !this.props.fromCV ? 'none' : 'initial'}}>
-                 
+
                  <div className="scrollcontainer">
                  <DaliHeader titles={titles}
                         showButtons={this.state.showTitle}

@@ -14,11 +14,11 @@ export default class ContainedCanvasVisor extends Component {
     }
     render() {
         let visorContent;
-        if (isSlide(this.props.containedViewSelected.type)) {
+        if (isSlide(this.props.containedViews[this.props.currentView].type)) {
             /* jshint ignore:start */
-            visorContent = <CanvasVisorSli navItemSelected={this.props.navItemSelected}
+            visorContent = <CanvasVisorSli
                                            navItems={this.props.navItems}
-                                           containedViewSelected={this.props.containedViewSelected}
+                                           currentView={this.props.currentView}
                                            containedViews={this.props.containedViews}                                           
                                            boxes={this.props.boxes}
                                            boxSelected={this.props.boxSelected}
@@ -31,15 +31,14 @@ export default class ContainedCanvasVisor extends Component {
                                            changeCurrentView={this.props.changeCurrentView}
                                            title={this.props.title}
                                            triggeredMarks={this.props.triggeredMarks}
-                                           viewsArray={this.props.viewsArray}
-                                           fromCV={true}/>;
+                                           viewsArray={this.props.viewsArray}/>;
             /* jshint ignore:end */
         }else{
             /* jshint ignore:start */
-            visorContent = <CanvasVisorDoc navItemSelected={this.props.navItemSelected}
+            visorContent = <CanvasVisorDoc
                                            navItems={this.props.navItems}
-                                           containedViewSelected={this.props.containedViewSelected}
                                            containedViews={this.props.containedViews}
+                                           currentView={this.props.currentView}
                                            boxes={this.props.boxes}
                                            boxSelected={this.props.boxSelected}
                                            boxLevelSelected={this.props.boxLevelSelected}
@@ -50,8 +49,7 @@ export default class ContainedCanvasVisor extends Component {
                                            changeCurrentView={this.props.changeCurrentView}
                                            title={this.props.title}
                                            triggeredMarks={this.props.triggeredMarks}
-                                           viewsArray={this.props.viewsArray}
-                                           fromCV={true}/>;
+                                           viewsArray={this.props.viewsArray}/>;
             /* jshint ignore:end */
         }
 

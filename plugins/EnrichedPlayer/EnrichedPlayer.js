@@ -1,19 +1,18 @@
-export function EnrichedVideo(base) {
+import React from "react";
+import EnrichedPlayerPlugin from './components/EnrichedPlayerPluginEditor.js';
+require('./EnrichedPlayer.scss');
+
+export function EnrichedPlayer(base) {
     return {
         getConfig: function () {
             return {
-                name: 'EnrichedVideo',
-                displayName: Dali.i18n.t('EnrichedVideo.PluginName'),
-                category: 'multimedia',
-                aspectRatioButtonConfig: {
-                    name: "Aspect Ratio",
-                    location: ["main", "__sortable"],
-                    defaultValue: true
-                },
+                name: "EnrichedPlayer",
+                flavor: "react",
                 isRich: true,
-                initialWidth: '35%',
-                marksType: [{name: 'Tiempo', key:'time'},{name: 'Valor', key: 'value'}],
-                icon: 'play_arrow'
+                displayName: Dali.i18n.t("EnrichedPlayer.PluginName"),
+                category: "multimedia",
+                initialWidth: '30%',
+                icon: "play_arrow"
             };
         },
         getToolbar: function () {
@@ -22,67 +21,61 @@ export function EnrichedVideo(base) {
                     __name: "Main",
                     accordions: {
                         basic: {
-                            __name: Dali.i18n.t('EnrichedVideo.Video'),
+                            __name: Dali.i18n.t('EnrichedPlayer.Video'),
                             icon: 'link',
                             buttons: {
                                 url: {
-                                    __name: Dali.i18n.t('EnrichedVideo.URL'),
+                                    __name: Dali.i18n.t('EnrichedPlayer.URL'),
                                     type: 'text',
                                     value: base.getState().url,
                                     autoManaged: false
                                 },
                                 controls: {
-                                    __name: Dali.i18n.t('EnrichedVideo.Show_controls'),
+                                    __name: Dali.i18n.t('EnrichedPlayer.Show_controls'),
                                     type: 'checkbox',
                                     checked: base.getState().controls,
                                     autoManaged: false
                                 },
-                                autoplay: {
-                                    __name: Dali.i18n.t('EnrichedVideo.Autoplay'),
-                                    type: 'checkbox',
-                                    checked: base.getState().autoplay,
-                                    autoManaged: false
-                                }
                             }
                         },
                         style: {
-                            __name: Dali.i18n.t('EnrichedVideo.box_style'),
+                            __name: Dali.i18n.t('EnrichedPlayer.box_style'),
                             icon: 'palette',
                             buttons: {
                                 padding: {
-                                    __name: Dali.i18n.t('EnrichedVideo.padding'),
+                                    __name: Dali.i18n.t('EnrichedPlayer.padding'),
                                     type: 'number',
                                     value: 0,
                                     min: 0,
                                     max: 100
                                 },
                                 borderWidth: {
-                                    __name: Dali.i18n.t('EnrichedVideo.border_size'),
+                                    __name: Dali.i18n.t('EnrichedPlayer.border_size'),
                                     type: 'number',
                                     value: 0,
                                     min: 0,
                                     max: 10
                                 },
                                 borderStyle: {
-                                    __name: Dali.i18n.t('EnrichedVideo.border_style'),
+                                    __name: Dali.i18n.t('EnrichedPlayer.border_style'),
                                     type: 'select',
                                     value: 'solid',
-                                    options: ['none', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset', 'initial', 'inherit'],
+                                    options: ['none', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset', 'initial', 'inherit']
                                 },
                                 borderColor: {
-                                    __name: Dali.i18n.t('EnrichedVideo.border_color'),
+                                    __name: Dali.i18n.t('EnrichedPlayer.border_color'),
                                     type: 'color',
                                     value: '#000000'
                                 },
                                 borderRadius: {
-                                    __name: Dali.i18n.t('EnrichedVideo.radius'),
+                                    __name: Dali.i18n.t('EnrichedPlayer.radius'),
                                     type: 'number',
                                     value: 0,
                                     min: 0,
                                     max: 50
                                 },
                                 opacity: {
-                                    __name: Dali.i18n.t('EnrichedVideo.opacity'),
+                                    __name: Dali.i18n.t('EnrichedPlayer.opacity'),
                                     type: 'range',
                                     value: 1,
                                     min: 0,
@@ -96,24 +89,29 @@ export function EnrichedVideo(base) {
                 }
             };
         },
-        // TEST URL http://video.webmfiles.org/big-buck-bunny_trailer.webm
-        // Posibilidad: http://modernizr.com/
         getInitialState: function () {
             return {
-                url: 'http://dl1.webmfiles.org/big-buck-bunny_trailer.webm',
-                controls: true,
-                autoplay: true
+                url: "https://www.youtube.com/watch?v=vTIIMJ9tUc8",
+                controls: true
             };
         },
         getRenderTemplate: function (state) {
-            return "<video " + (state.controls && state.controls !== "on" ? "controls='true' " : "")  + 
-            (state.autoplay ? " autoPlay " : "") + 
-            " style=\"width: 100%; height: 100%; z-index:0;\" src=\"" + 
-            state.url + 
-            "\"></video>";
+
+            return (
+                /* jshint ignore:start */
+                <div style={{width:"100%", height:"100%"}}>
+                    <EnrichedPlayerPlugin style={{width:"100%", height:"100%"}} state={state} postParseRichMarkInput={base.postParseRichMarkInput}></EnrichedPlayerPlugin>
+                </div>
+                /* jshint ignore:end */
+            );
+        },
+        parseRichMarkInput: function(...value){
+            let parsed_value = value[0]*100/value[2];
+            return parsed_value + "%";
         },
         handleToolbar: function (name, value) {
             base.setState(name, value);
         }
+
     };
 }

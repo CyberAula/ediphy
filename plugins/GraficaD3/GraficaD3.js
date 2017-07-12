@@ -15,6 +15,7 @@ export function GraficaD3(base) {
 				displayName: Dali.i18n.t("GraficaD3.PluginName"),
 				category: "image",
 				needsConfigModal: true,
+				needsConfirmation: true,
 				needsTextEdition: false,
 				icon: "insert_chart",
 				initialWidth: '700px',

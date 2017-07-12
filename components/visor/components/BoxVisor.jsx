@@ -104,7 +104,7 @@ export default class BoxVisor extends Component {
         //pass currentState  of component if exists
         if(this.props.richElementsState && this.props.richElementsState[box.id] !== undefined){
             if(toolbar.config.flavor === "react"){
-                box.content.props.currentState = this.props.richElementsState[box.id];
+                toolbar.state.currentState = this.props.richElementsState[box.id];
             } else {
                 toolbar.state.currentState = this.props.richElementsState[box.id];
             }
@@ -227,7 +227,7 @@ export default class BoxVisor extends Component {
                         lastActionDispatched: this.props.lastActionDispatched,
                         onBoxSelected: this.props.onBoxSelected,
                         onBoxLevelIncreased: this.props.onBoxLevelIncreased,
-                        containedViewSelected: this.props.containedViewSelected,
+                        currentViewSelected: this.props.currentViewSelected,
                         onBoxMoved: this.props.onBoxMoved,
                         onBoxResized: this.props.onBoxResized,
                         onSortableContainerResized: this.props.onSortableContainerResized,

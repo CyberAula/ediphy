@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Tooltip, OverlayTrigger,Breadcrumb, BreadcrumbItem, Button} from 'react-bootstrap';
 import i18n from 'i18next';
+import {isView} from './../../../utils';
 
 export default class HeaderVisor extends Component {
 
@@ -50,15 +51,15 @@ export default class HeaderVisor extends Component {
     render() {
 
         let titles = this.props.titles || [];
-        let navItem = this.props.fromCV ? this.props.containedView : this.props.navItem;
-        let currentStatus = navItem.header ? navItem.header.display : undefined;
-        let docTitle =  navItem.name;
+        let element = !isView(this.props.currentView) ? this.props.containedViews[this.props.currentView] : this.props.navItems[this.props.currentView];
+        let currentStatus = element.header ? element.header.display : undefined;
+        let docTitle =  element.name;
         let subTitle = i18n.t('subtitle');
-        let pagenumber = this.props.navItem.unitNumber;
-        if (navItem !== undefined && navItem.header){
-            docTitle = navItem.header.elementContent.documentTitle !== "" && ( navItem.header.elementContent.documentTitle !== navItem.name) ?  navItem.header.elementContent.documentTitle : navItem.name;
-            subTitle = navItem.header.elementContent.documentSubTitle !== "" && (navItem.header.elementContent.documentSubTitle !== i18n.t('subtitle')) ? navItem.header.elementContent.documentSubTitle : i18n.t('subtitle');
-            pagenumber = navItem.header.elementContent.numPage !== "" && (navItem.header.elementContent.numPage !== navItem.unitNumber) ? navItem.header.elementContent.numPage : navItem.unitNumber;
+        let pagenumber = element.unitNumber;
+        if (element !== undefined && element.header){
+            docTitle = element.header.elementContent.documentTitle !== "" && ( element.header.elementContent.documentTitle !== element.name) ?  element.header.elementContent.documentTitle : element.name;
+            subTitle = element.header.elementContent.documentSubTitle !== "" && (element.header.elementContent.documentSubTitle !== i18n.t('subtitle')) ? element.header.elementContent.documentSubTitle : i18n.t('subtitle');
+            pagenumber = element.header.elementContent.numPage !== "" && (element.header.elementContent.numPage !== element.unitNumber) ? element.header.elementContent.numPage : element.unitNumber;
         }
 
         let content;
