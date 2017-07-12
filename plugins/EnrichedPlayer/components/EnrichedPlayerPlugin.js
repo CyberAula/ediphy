@@ -4,23 +4,23 @@ import ReactPlayer from 'react-player';
 import screenfull from 'screenfull';
 
 export default class EnrichedPlayerPlugin extends React.Component {
-   constructor(props){
-    super(props);
-    this.state = {
-        volume: 0.8,
-        duration: 0,
-        played: 0,
-        seeking: false,
-        fullscreen: false,
-        controls: true,
-        toBeTriggered: [],
-        triggering: false
-    };
-   }
+    constructor(props){
+        super(props);
+        this.state = {
+            volume: 0.8,
+            duration: 0,
+            played: 0,
+            seeking: false,
+            fullscreen: false,
+            controls: true,
+            toBeTriggered: [],
+            triggering: false
+        };
+    }
 
     componentWillUpdate(nextProps, nextState){
-       console.log(nextState);
-       console.log(nextProps);
+        console.log(nextState);
+        console.log(nextProps);
         if(nextState.played !== this.state.played){
             let sudo = this;
 
@@ -30,7 +30,7 @@ export default class EnrichedPlayerPlugin extends React.Component {
             triggerArray.forEach(function(e){
                 if ((parseFloat(e.value)/100).toFixed(3) < parseFloat(nextState.played).toFixed(3) ){
                     let toBeTriggered = triggerArray;
-                    triggerMark(e.box_id, e.value, true);
+                    triggerMark(sudo.props.box_id, e.value, true);
                     toBeTriggered.splice(e,1);
                     sudo.setState({toBeTriggered: toBeTriggered});
                 }
@@ -54,30 +54,30 @@ export default class EnrichedPlayerPlugin extends React.Component {
         }
     }
 
-   componentWillMount(){
-       if(this.props.state.currentState !== undefined){
-           this.setState({initialPoint: parseFloat(this.props.state.currentState)/100});
-       }
-   }
+    componentWillMount(){
+        if(this.props.state.currentState !== undefined){
+            this.setState({initialPoint: parseFloat(this.props.state.currentState)/100});
+        }
+    }
 
-   playPause(){
-       this.setState({playing: !this.state.playing});
-   }
+    playPause(){
+        this.setState({playing: !this.state.playing});
+    }
 
-   onClickFullscreen(){
+    onClickFullscreen(){
         if(!this.state.fullscreen){
             screenfull.request(findDOMNode(this.player_wrapper));
         } else {
             screenfull.exit();
         }
         this.setState({fullscreen: !this.state.fullscreen});
-   }
+    }
 
-   setVolume(e){
-       this.setState({volume: parseFloat(e.target.value)});
-   }
+    setVolume(e){
+        this.setState({volume: parseFloat(e.target.value)});
+    }
 
-   setPlaybackRate(e){
+    setPlaybackRate(e){
         console.log(parseFloat(e.target.value));
         this.setState({ playbackRate: parseFloat(e.target.value) });
     }
@@ -133,8 +133,8 @@ export default class EnrichedPlayerPlugin extends React.Component {
             let value = marks[id].value;
 
             return(<a key={id} style={{position: 'absolute', left: value, position:"absolute"}} href="#">
-                    <div style={{width:"5px", height: "8px", background: "red" }}></div>
-                </a>);
+                <div style={{width:"5px", height: "8px", background: "red" }}></div>
+            </a>);
         });
 
         /* jshint ignore:start */

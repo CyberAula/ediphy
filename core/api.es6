@@ -91,6 +91,9 @@ export function api_private() {
         cleanupAndResolve: function (event, resolve, customEvent) {
             window.removeEventListener(event.answer, answerCallback);
             resolve(customEvent.detail);
+        },
+        cleanListener: function(event){
+            window.removeEventListener(event.emit);
         }
     };
 }
