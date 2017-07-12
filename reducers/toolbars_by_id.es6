@@ -388,7 +388,7 @@ function toolbarSectionCreator(state, action, isContainedView = false) {
           display: true
       };
     }
-    toolbar.config.displayName = doc_type;
+    toolbar.config.displayName = isContainedView ?  doc_type + ': ' + i18n.t("contained_view") :doc_type;
 
     createAliasButton(toolbar.controls, null);
 

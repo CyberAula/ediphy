@@ -40,7 +40,7 @@ export const SET_BUSY = 'SET_BUSY';
 export const UPDATE_TOOLBAR = 'UPDATE_TOOLBAR';
 
 export const IMPORT_STATE = 'IMPORT_STATE';
-export const CHANGE_TITLE = 'CHANGE_TITLE';
+export const CHANGE_GLOBAL_CONFIG = 'CHANGE_GLOBAL_CONFIG';
 
 export const FETCH_VISH_RESOURCES_SUCCESS = "FETCH_VISH_RESOURCES_SUCCESS";
 
@@ -59,12 +59,6 @@ export const DELETE_RICH_MARK = 'DELETE_RICH_MARK';
 export const EDIT_PLUGIN_TEXT = 'EDIT_PLUGIN_TEXT';
 
 
-//aspect ratio
-export const TOGGLE_ASPECT_RATIO = 'TOGGLE_ASPECT_RATIO';
-
-export function toggleAspectRatio(ratio) {
-    return {type: TOGGLE_ASPECT_RATIO, payload: {ratio}};
-}
 
 export function selectIndex(id) {
     return {type: INDEX_SELECT, payload: {id}};
@@ -213,9 +207,10 @@ export function setBusy(value, msg) {
     return {type: SET_BUSY, payload: {value, msg}};
 }
 
-export function changeTitle(title) {
-    return {type: CHANGE_TITLE, payload: title};
+export function changeGlobalConfig(prop, value) {
+    return  {type: CHANGE_GLOBAL_CONFIG, payload: {prop, value}};
 }
+
 
 export function importState(state) {
     return {type: IMPORT_STATE, payload: state};

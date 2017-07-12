@@ -6,8 +6,11 @@ import ContainedCanvasVisor from './components/ContainedCanvasVisor';
 import SideNavVisor from './components/SideNavVisor';
 import VisorPlayer from './components/VisorPlayer';
 import i18n from './../../i18n';
-import {isContainedView, isView} from './../../utils';
+
 import {aspectRatio} from '../../common_tools';
+import {isContainedView, isView} from './../../utils';
+import ScormComponent from './components/ScormComponent';
+
 
 require('es6-promise').polyfill();
 require('./../../sass/style.scss');
@@ -24,6 +27,7 @@ export default class Visor extends Component {
             richElementState: {},
             backupElementStates: {},
             toggledSidebar : true,
+            fromScorm : Dali.State.fromScorm
         };
 
     }
@@ -143,8 +147,9 @@ export default class Visor extends Component {
         let navItemsIds = Dali.State.navItemsIds;
         let containedViews = Dali.State.containedViewsById;
         let toolbars = Dali.State.toolbarsById;
-        let title = Dali.State.title;
-        let ratio = Dali.State.canvasRatio;
+        let globalConfig = Dali.State.globalConfig;
+        let title = globalConfig.title;
+        let ratio = globalConfig.canvasRatio;
         let wrapperClasses =  this.state.toggledSidebar ? "visorwrapper toggled" : "visorwrapper";
         let toggleIcon = this.state.toggledSidebar ? "keyboard_arrow_left" : "keyboard_arrow_right";
         let toggleColor = this.state.toggledSidebar ? "toggleColor" : "";
@@ -221,6 +226,13 @@ export default class Visor extends Component {
                         </Row>
                     </Grid>
                 </div>
+                {this.state.fromScorm ? (
+                    <ScormComponent
+                        navItems={navItems}
+                        navItemsIds={navItemsIds}
+                        currentView={navItemSelected}
+                        changeCurrentView={(el)=>{this.changeCurrentView(el)}}
+                        />):(null)}
             </div>
 
             /* jshint ignore:end */
@@ -251,6 +263,8 @@ export default class Visor extends Component {
              }
         }    
         this.mountFunction();   
+
+        
     }
 
 
@@ -569,6 +583,9 @@ export default class Visor extends Component {
             richElementState: this.getActualBoxesStates(this.state.backupElementStates,this.state.richElementState)
         });
     }
+
+
+
  
 }
 

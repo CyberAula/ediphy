@@ -8,7 +8,11 @@ export default class BoxVisor extends Component {
         super(props);
         this.borderSize = 2;
     }
-
+    componentDidUpdate(prevProps, prevState) {
+        if(this.props.toolbars[this.props.id].config.needsTextEdition){
+            window.MathJax.Hub.Queue(["Typeset",window.MathJax.Hub]);
+        }
+    }
     render() {
         let cornerSize = 15;
         let box = this.props.boxes[this.props.id];
@@ -199,7 +203,7 @@ export default class BoxVisor extends Component {
         return markKeys;
     }
 
-     renderChildren(markup, key) {
+    renderChildren(markup, key) {
         let component;
         let props = {};
         let children = null;

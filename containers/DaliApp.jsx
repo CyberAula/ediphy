@@ -4,11 +4,11 @@ import {ActionCreators} from 'redux-undo';
 import {Grid, Col, Row, Button, OverlayTrigger, Popover} from 'react-bootstrap';
 import {addNavItem, selectNavItem, expandNavItem, deleteNavItem, reorderNavItem, toggleNavItem, updateNavItemExtraFiles,
     changeNavItemName, changeUnitNumber, selectIndex,
-    addBox, changeTitle, selectBox, moveBox, resizeBox, updateBox, duplicateBox, deleteBox, reorderSortableContainer, dropBox, increaseBoxLevel,
+    addBox, selectBox, moveBox, resizeBox, updateBox, duplicateBox, deleteBox, reorderSortableContainer, dropBox, increaseBoxLevel,
     resizeSortableContainer, deleteSortableContainer, changeCols, changeRows, changeSortableProps, reorderBoxes, verticallyAlignBox,
     toggleTextEditor, toggleTitleMode, toggleMarkCreator, toggleAspectRatio,
     changeDisplayMode, expandContainedViewList, updateToolbar,
-    exportStateAsync, importStateAsync,
+    exportStateAsync, importStateAsync, changeGlobalConfig,
     fetchVishResourcesSuccess, fetchVishResourcesAsync, uploadVishResourceAsync,
     deleteContainedView, selectContainedView, changeContainedViewName,
     ADD_BOX, ADD_RICH_MARK, addRichMark, EDIT_RICH_MARK, editRichMark, EDIT_PLUGIN_TEXT, DELETE_RICH_MARK, UPDATE_BOX, UPDATE_TOOLBAR} from '../actions';
@@ -56,8 +56,10 @@ class DaliApp extends Component {
 
         const { dispatch, boxes, boxesIds, boxSelected, boxLevelSelected, navItemsIds, navItems, navItemSelected,
             containedViews, containedViewSelected, imagesUploaded, indexSelected,
-            undoDisabled, redoDisabled, displayMode, isBusy, toolbars, title, fetchVishResults, canvasRatio} = this.props;
+            undoDisabled, redoDisabled, displayMode, isBusy, toolbars, globalConfig, fetchVishResults} = this.props;
         let ribbonHeight = this.state.hideTab === 'hide' ? 0 : 47;
+        let title = globalConfig.title || '---';
+        let canvasRatio = globalConfig.canvasRatio;
         return (
             /* jshint ignore:start */
 
@@ -66,14 +68,13 @@ class DaliApp extends Component {
 
                 <Row className="navBar">
                     <DaliNavBar hideTab={this.state.hideTab}
-                                canvasRatio={this.props.store.getState().present.canvasRatio}
-                                changeAspectRatio={(canvasRatio) => {this.dispatchAndSetState(toggleAspectRatio(canvasRatio))}}
+                                globalConfig={globalConfig}
+                                changeGlobalConfig={(prop,value) => {this.dispatchAndSetState(changeGlobalConfig(prop, value))}}
                                 undoDisabled={undoDisabled}
                                 redoDisabled={redoDisabled}
                                 navItemsIds={navItemsIds}
                                 navItems={navItems}
-                                title={title}
-                                onTitleChanged={(id, title) => {this.dispatchAndSetState(changeTitle(title))}}
+                                onTitleChanged={(id, title) => {this.dispatchAndSetState(changeGlobalConfig('title',title))}}
                                 navItemSelected={navItemSelected}
                                 boxSelected={boxSelected}
                                 undo={() => {this.dispatchAndSetState(ActionCreators.undo())}}
@@ -175,7 +176,7 @@ class DaliApp extends Component {
                         </Row>
                         <Row id="canvasRow" style={{height: 'calc(100% - '+ribbonHeight+'px)'}}>
                             <DaliCanvas boxes={boxes}
-                                        canvasRatio={this.props.store.getState().present.canvasRatio}
+                                        canvasRatio={canvasRatio}
                                         boxSelected={boxSelected}
                                         boxLevelSelected={boxLevelSelected}
                                         navItems={navItems}
@@ -222,7 +223,7 @@ class DaliApp extends Component {
                                         onMarkCreatorToggled={(id) => this.setState({markCreatorVisible: id})}/>
                             <ContainedCanvas boxes={boxes}
                                              boxSelected={boxSelected}
-                                             canvasRatio={this.props.store.getState().present.canvasRatio}
+                                             canvasRatio={canvasRatio}
                                              boxLevelSelected={boxLevelSelected}
                                              navItems={navItems}
                                              navItemSelected={navItems[navItemSelected]}
@@ -719,7 +720,7 @@ class DaliApp extends Component {
 
 function mapStateToProps(state) {
     return {
-        title: state.present.title,
+        globalConfig: state.present.globalConfig,
         imagesUploaded: state.present.imagesUploaded,
         boxes: state.present.boxesById,
         boxSelected: state.present.boxSelected,

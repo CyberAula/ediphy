@@ -14,8 +14,7 @@ export default class ReduxProvider extends Component {
 
         this.initialState = Dali.Config.sections_have_content ? 
             ({present: {
-                title: i18n.t('course_title'),
-                canvasRatio: 16/9,
+                globalConfig: {title: i18n.t('course_title'), canvasRatio: 16/9, age: {min:0, max:100}, context: 'school', rights: "Public Domain", keywords: [], typicalLearningTime:{h:0,m:0,s:0},  version:'0.0.0', status: 'draft', structure: 'linear', difficulty:'easy'},
                 displayMode: "list",
                 imagesUploaded:[],
                 indexSelected: "se-1467887497411",
@@ -194,8 +193,7 @@ export default class ReduxProvider extends Component {
                 fetchVishResults:{"results":[]}
             }}) :
             ({present:{
-                 title: i18n.t('course_title'),
-                 canvasRatio: 16/9,
+                 globalConfig: {title: i18n.t('course_title'), canvasRatio: 16/9, age: {min:0, max:100}, context: 'school', keywords: [], rights: "Public Domain", status: 'draft', structure: 'linear', version:'0.0.0', typicalLearningTime:{h:0,m:0,s:0}, difficulty:'easy'},
                  imagesUploaded:[],
                  indexSelected: 'pa-1497983247795',
                  boxesById:{
@@ -475,7 +473,7 @@ export default class ReduxProvider extends Component {
                                         }
                                     }
                                 },
-                            config:{"displayName": i18n.t('page')},
+                            config:{"displayName": i18n.t('document')},
                             state:{}
                             },
                     "bs-1497983247797":{
