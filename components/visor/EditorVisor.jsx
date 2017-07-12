@@ -32,6 +32,10 @@ export default class Visor extends Component {
 
     }
 
+
+    componentWillUnmount(){
+        Dali.API_Private.cleanListener(Dali.API_Private.events.markTriggered);
+    }
     componentWillMount(){
         //Get the event received check if exist and modify the state
         // Add a queue of marks fired [{id: value, CurrentState: PENDING, TRIGGERED, HOLD, DONE}] or array
