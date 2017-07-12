@@ -230,7 +230,7 @@ export default class Visor extends Component {
                     <ScormComponent
                         navItems={navItems}
                         navItemsIds={navItemsIds}
-                        currentView={navItemSelected}
+                        currentView={this.getLastCurrentViewElement()}
                         globalConfig={globalConfig}
                         changeCurrentView={(el)=>{this.changeCurrentView(el)}}
                         />):(null)}
