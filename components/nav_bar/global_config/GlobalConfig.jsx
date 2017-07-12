@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
-import {Modal, Grid, Row, Col, FormGroup, ControlLabel, FormControl, InputGroup, Radio, OverlayTrigger, Popover} from 'react-bootstrap';
+import {Modal, Grid, Row, Col, FormGroup, ControlLabel, FormControl, InputGroup, Radio, OverlayTrigger, Popover, Button} from 'react-bootstrap';
 import i18n from 'i18next';
 import RangeSlider from './range_slider/RangeSlider';
 import Select from 'react-select';
 import { WithContext as ReactTags } from 'react-tag-input';
-import {suggestions, statusOptions, contextOptions, languages, difLevels, rightLevels} from './global_options';
+import {suggestions, statusOptions, contextOptions, languages, difLevels, rightsOptions} from './global_options';
 
 //Styles
 import 'react-select/dist/react-select.css';
@@ -15,6 +15,23 @@ require('./_reactTags.scss');
 export default class GlobalConfig extends Component {
     constructor(props) {
         super(props);
+        /*State from props is an anti-pattern*/
+        this.state = {
+          title: this.props.globalConfig.title || "",
+          author: this.props.globalConfig.author || "",
+          canvasRatio: this.props.globalConfig.canvasRatio || 16/9,
+          age: this.props.globalConfig.age || {min:0, max:100},
+          typicalLearningTime: this.props.globalConfig.typicalLearningTime || {h:0, m:0, s:0},
+          difficulty: this.props.globalConfig.difficulty || 'easy',
+          rights: this.props.globalConfig.rights || 1,
+          description: this.props.globalConfig.description ||  '',
+          language: this.props.globalConfig.language || undefined,
+          keywords: this.props.globalConfig.keywords || [],
+          version: this.props.globalConfig.version || '0.0.0',
+          status: this.props.globalConfig.status || 'draft',
+          context: this.props.globalConfig.context || 'school',
+          modifiedState: false
+        };
         //Tag handling functions
         this.handleDelete = this.handleDelete.bind(this);
         this.handleAddition = this.handleAddition.bind(this);
@@ -22,29 +39,19 @@ export default class GlobalConfig extends Component {
     }
 
     render() {
-        let gc = this.props.globalConfig;
-        let title = gc.title || "";
-        let author = gc.author || "";
-        let ar = gc.canvasRatio || 16/9;
-        let age = gc.age || {min:0, max:100};
-        let tlt = gc.typicalLearningTime || {h:0, m:0, s:0};
-        let dif = gc.difficulty || 'easy';
-        let rights = gc.rights || 1;
-        let descrip = gc.description ||  '';
-        let language = gc.language || undefined;
-        let tags = gc.keywords || [];
-        let version = gc.version || '0.0.0';
-        let status = gc.status || 'draft';
-        let context = gc.context || 'school';
-
+        const {title, author, canvasRatio, age, typicalLearningTime, difficulty, rights, description, language, keywords, version, status, context} = this.state;
         return (
             /* jshint ignore:start */
             //  visor modalVisorContainer
             <Modal className="pageModal"
                    show={this.props.show}
-                   backdrop={true} bsSize="large"
+                   backdrop={'static'} bsSize="large"
                    aria-labelledby="contained-modal-title-lg"
-                   onHide={e => {this.props.close()}}>
+                   onHide={e => {
+                    if (this.state.modifiedState) {
+                      confirm(i18n.t("global_config.prompt")) ? this.saveState():this.cancel();
+                    }
+                    this.props.close(); }}>
                 <Modal.Header closeButton>
                     <Modal.Title><span id="previewTitle">{i18n.t('global_config.title')}</span></Modal.Title>
                 </Modal.Header>
@@ -60,18 +67,18 @@ export default class GlobalConfig extends Component {
                                         <FormControl   type="text"
                                                        value={title}
                                                        placeholder=""
-                                                       onChange={e => {this.props.changeGlobalConfig("title",e.target.value)}}/>
+                                                       onChange={e => {this.setState({modifiedState: true, title: e.target.value})}}/>
                                     </FormGroup>
                                     <FormGroup >
                                         <ControlLabel>{i18n.t('global_config.description')}</ControlLabel>
-                                        <FormControl id="descTA" componentClass="textarea" placeholder={i18n.t('global_config.description_placeholder')} value={descrip} onInput={e => {this.props.changeGlobalConfig("description",e.target.value)}} />
+                                        <FormControl id="descTA" componentClass="textarea" placeholder={i18n.t('global_config.description_placeholder')} value={description} onInput={e => {this.setState({description: e.target.value})}} />
                                     </FormGroup>
                                     <FormGroup >
                                         <ControlLabel>{i18n.t('global_config.author')}</ControlLabel>
                                         <FormControl   type="text"
                                                        value={author}
                                                        placeholder={i18n.t('global_config.anonymous')}
-                                                       onChange={e => {this.props.changeGlobalConfig("author",e.target.value)}}/>
+                                                       onChange={e => {this.setState({modifiedState: true, author: e.target.value})}}/>
                                     </FormGroup>
                                     <FormGroup >
                                         <ControlLabel>{i18n.t('global_config.language')}</ControlLabel><br/>
@@ -80,7 +87,7 @@ export default class GlobalConfig extends Component {
                                             value={language}
                                             options={languages}
                                             placeholder={i18n.t("global_config.no_lang")}
-                                            onChange={e => {this.props.changeGlobalConfig("language",e.value)}}
+                                            onChange={e => {this.setState({modifiedState: true, language: e.value})}}
                                         />
                                     </FormGroup>
                                     <FormGroup >
@@ -99,12 +106,12 @@ export default class GlobalConfig extends Component {
                                         <Select
                                             name="form-field-name-rights"
                                             value={rights}
-                                            options={rightLevels}
-                                            onChange={e => {this.props.changeGlobalConfig("rights",e.value)}} />
+                                            options={rightsOptions()}
+                                            onChange={e => {this.setState({rights: e.value})}} />
                                     </FormGroup>
                                     <FormGroup >
                                         <ControlLabel>{i18n.t('global_config.keywords')}</ControlLabel><br/>
-                                        <ReactTags tags={tags}
+                                        <ReactTags tags={keywords}
                                                    suggestions={suggestions()}
                                                    placeholder={i18n.t('global_config.keyw.Add_tag')}
                                                    delimiters={[188,13]}
@@ -119,13 +126,13 @@ export default class GlobalConfig extends Component {
                                     <FormGroup >
                                         <ControlLabel>{i18n.t('global_config.difficulty')}</ControlLabel><br/>
                                         <div className=" W(100%)">
-                                            <div className="D(ib) C(#4e5b65)">{i18n.t('global_config.dif.'+dif)}</div>
+                                            <div className="D(ib) C(#4e5b65)">{i18n.t('global_config.dif.'+difficulty)}</div>
                                             <div className="D(ib) Fl(end) C(#4e5b65)"></div>
                                             <div className="range-slider Pos(r) Ta(c) H(35px)">
-                                                <div style={{position: 'absolute', boxSizing: 'border-box', width: difLevels.indexOf(dif)*25+'%', top: '7px'}}>
-                                                    <div style={{marginLeft: '0%', width: '100%', height: '4px', backgroundColor: 'rgb(95, 204, 199)'}}></div>
+                                                <div id="outsideInputBox" style={{position: 'absolute', boxSizing: 'border-box', width: '100%'}}>
+                                                    <div id="insideInputBox" style={{marginLeft: '0%', width: difLevels.indexOf(difficulty)*25+'%', backgroundColor: 'rgb(95, 204, 199)'}}></div>
                                                 </div>
-                                                <input type="range" step="1" min="0" max="4" value={difLevels.indexOf(dif)} onChange={e =>{this.props.changeGlobalConfig("difficulty", difLevels[e.target.value]) }}/>
+                                                <input type="range" step="1" min="0" max="4" value={difLevels.indexOf(difficulty)} onChange={e =>{this.setState({modifiedState: true, difficulty: difLevels[e.target.value]}) }}/>
                                             </div>
                                         </div>
                                     </FormGroup>
@@ -138,7 +145,7 @@ export default class GlobalConfig extends Component {
                                              minValue={age.min}
                                              maxValue={age.max}
                                              onChange={(state)=>{
-                                                  this.props.changeGlobalConfig("age", {max: state.max, min: state.min})
+                                                  this.setState({modifiedState: true, age: {max: state.max, min: state.min}})
                                              }}
                                              step={1}
                                          />
@@ -147,29 +154,29 @@ export default class GlobalConfig extends Component {
                                       <ControlLabel>{i18n.t('global_config.typicalLearningTime')}</ControlLabel><br/>
                                       <InputGroup className="inputGroup">
                                         <FormControl  type="number"
-                                                      value={tlt.h}
+                                                      value={typicalLearningTime.h}
                                                       min={0}
                                                       max={100}
                                                       placeholder="hour"
-                                                      onChange={e => {this.props.changeGlobalConfig("typicalLearningTime",{h:e.target.value, m:tlt.m, s:tlt.s})}}/>
+                                                      onChange={e => {this.setState({modifiedState: true, typicalLearningTime: {h:e.target.value, m:typicalLearningTime.m, s:typicalLearningTime.s}})}}/>
                                         <InputGroup.Addon>h</InputGroup.Addon>
                                       </InputGroup>
                                       <InputGroup className="inputGroup">
                                         <FormControl  type="number"
-                                                      value={tlt.m}
+                                                      value={typicalLearningTime.m}
                                                       min={0}
                                                       max={59}
                                                       placeholder="min"
-                                                      onChange={e => {this.props.changeGlobalConfig("typicalLearningTime",{h:tlt.h, m:e.target.value, s:tlt.s})}}/>
+                                                      onChange={e => {this.setState({modifiedState: true, typicalLearningTime: {h:typicalLearningTime.h, m:e.target.value, s:typicalLearningTime.s}})}}/>
                                         <InputGroup.Addon>m</InputGroup.Addon>
                                       </InputGroup>{/*
                                       <InputGroup className="inputGroup">
                                         <FormControl  type="number"
-                                                      value={tlt.s}
+                                                      value={typicalLearningTime.s}
                                                       min={0}
                                                       max={59}
                                                       placeholder="sec"
-                                                      onChange={e => {this.props.changeGlobalConfig("typicalLearningTime",{h:tlt.h, m:tlt.m, s:e.target.value})}}/>
+                                                      onChange={e => {this.setState({typicalLearningTime: {h:typicalLearningTime.h, m:typicalLearningTime.m, s:e.target.value}})}}/>
                                         <InputGroup.Addon>s</InputGroup.Addon>
                                       </InputGroup>*/}
                                     </FormGroup>
@@ -179,15 +186,15 @@ export default class GlobalConfig extends Component {
                                             name="form-field-name-context"
                                             value={context}
                                             options={contextOptions()}
-                                            onChange={e => {this.props.changeGlobalConfig("context",e.value)}} />
+                                            onChange={e => {this.setState({modifiedState: true, context: e.value})}} />
                                     </FormGroup>
                                     <FormGroup >
                                         <ControlLabel>{i18n.t('global_config.aspect_ratio')}</ControlLabel><br/>
-                                        <Radio name="radioGroup" inline checked={ar == 16/9 } onChange={e => {this.props.changeGlobalConfig("canvasRatio",16/9)}}>
+                                        <Radio name="radioGroup" inline checked={canvasRatio == 16/9 } onChange={e => {this.setState({modifiedState: true, canvasRatio: 4/3})}}>
                                             16/9
                                         </Radio>
                                         {' '}
-                                        <Radio name="radioGroup" inline checked={ar == 4/3 } onChange={e => {this.props.changeGlobalConfig("canvasRatio",4/3)}}>
+                                        <Radio name="radioGroup" inline checked={canvasRatio == 4/3 } onChange={e => {this.setState({modifiedState: true, canvasRatio: 4/3})}}>
                                             4/3
                                         </Radio>
                                     </FormGroup>
@@ -197,10 +204,9 @@ export default class GlobalConfig extends Component {
                                             name="form-field-name-status"
                                             value={status}
                                             options={statusOptions()}
-                                            onChange={e => {this.props.changeGlobalConfig("status",e.value)}} />
+                                            onChange={e => {this.setState({modifiedState: true, status: e.value}) }} />
                                     </FormGroup>
-
-
+                                    
                                 </Col>
                                 {/*
                                 <Col xs={12} md={6} lg={6}><br/>
@@ -210,9 +216,17 @@ export default class GlobalConfig extends Component {
                                         <FormControl   type="text"
                                                        value={version}
                                                        placeholder=""
-                                                       onChange={e => {this.props.changeGlobalConfig("version",e.target.value)}}/>
+                                                       onChange={e => {this.setState({version: e.target.value})}}/>
                                     </FormGroup>
                                 </Col>*/}
+                                <div style={{'textAlign': 'right'}}>
+                                  <Button bsStyle="primary" id="insert_plugin_config_modal" onClick={e => {
+                                      this.saveState();
+                                  }}>{i18n.t("global_config.Accept")}</Button>{'   '}   
+                                  <Button bsStyle="primary" id="insert_plugin_config_modal" onClick={e => {
+                                    this.cancel();
+                                  }}>{i18n.t("global_config.Discard")}</Button>
+                                </div>
                             </Row>
                         </form>
                      </Grid>
@@ -223,28 +237,69 @@ export default class GlobalConfig extends Component {
     }
 
     handleDelete(i) {
-        let tags = this.props.globalConfig.keywords;
+        let tags = Object.assign([],this.state.keywords);
         tags.splice(i, 1);
-        this.props.changeGlobalConfig("keywords", tags);
+        this.setState({modifiedState: true, keywords: tags});
      }
 
     handleAddition(tag) {
-        let tags = this.props.globalConfig.keywords;
+        let tags = Object.assign([],this.state.keywords);
         tags.push({
             id: tags.length + 1,
             text: tag
         });
-        this.props.changeGlobalConfig("keywords", tags);
+        this.setState({modifiedState: true, keywords: tags});
     }
 
     handleDrag(tag, currPos, newPos) {
-        let tags = this.props.globalConfig.keywords;
+        let tags = Object.assign([],this.state.keywords);
 
         // mutate array
         tags.splice(currPos, 1);
         tags.splice(newPos, 0, tag);
 
         // re-render
-        this.props.changeGlobalConfig("keywords", tags);
+        this.setState({modifiedState: true, keywords: tags});
     }
+
+
+    // Guardar cambios
+    saveState(){
+      this.setState({modifiedState: false});
+      this.props.changeGlobalConfig("STATE", this.state);
+      this.props.close();
+    }
+    // Descartar cambios
+    cancel(){
+      this.setState({
+        title: this.props.globalConfig.title || "",
+        author: this.props.globalConfig.author || "",
+        canvasRatio: this.props.globalConfig.canvasRatio || 16/9,
+        age: this.props.globalConfig.age || {min:0, max:100},
+        typicalLearningTime: this.props.globalConfig.typicalLearningTime || {h:0, m:0, s:0},
+        difficulty: this.props.globalConfig.difficulty || 'easy',
+        rights: this.props.globalConfig.rights || 1,
+        description: this.props.globalConfig.description ||  '',
+        language: this.props.globalConfig.language || undefined,
+        keywords: this.props.globalConfig.keywords || [],
+        version: this.props.globalConfig.version || '0.0.0',
+        status: this.props.globalConfig.status || 'draft',
+        context: this.props.globalConfig.context || 'school',
+        modifiedState: false
+      });
+
+      //Descomentar para salir al descartar
+      this.props.close();
+
+    }
+
+    // Si se modifica el título desde fuera
+    componentWillReceiveProps(nextProps) {
+      if (this.props.globalConfig.title !== nextProps.globalConfig.title) {
+        this.setState({
+            title: nextProps.globalConfig.title || ""
+        });
+      }
+    }
+
 }

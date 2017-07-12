@@ -38,6 +38,7 @@ var es = {
             "searching": "Ha ocurrido un error al buscar",
         },
         "global_config":{
+            "Accept": "Guardar cambios",
             "aspect_ratio": "Relación de aspecto en diapositivas",
             "anonymous": "Anónimo",
             "author":"Autor",
@@ -59,6 +60,7 @@ var es = {
                 'very difficult':'muy difícil'
             },
             "difficulty": "Dificultad",
+            "Discard": "Cancelar",
             "keylist":{
                 "Art": "Arte",
                 "Biology":"Biología",
@@ -87,6 +89,8 @@ var es = {
             },
             "language": "Idioma",
             "no_lang": "Sin especificar",
+            "prompt": "¿Desea guardar los cambios antes de salir?",
+            "public_domain": "Dominio público",
             "recom_age": "Edad recomendada",
             "rights": "Licencia",
             "rights_short_txt":"Las licencias Creative Commons son una vía simple y estandarizada de otorgar permisos de derechos de autor a sus trabajos.",

@@ -1,5 +1,55 @@
 import i18n from 'i18next';
 
+export function suggestions() {
+  return [i18n.t("global_config.keylist.Art"),
+          i18n.t("global_config.keylist.Biology"),
+          i18n.t("global_config.keylist.Chemistry"),
+          i18n.t("global_config.keylist.Citizenship"),
+          i18n.t("global_config.keylist.Computerscience"),
+          i18n.t("global_config.keylist.Economics"),
+          i18n.t("global_config.keylist.Education"),
+          i18n.t("global_config.keylist.Engineering"),
+          i18n.t("global_config.keylist.Foreignlanguages"),
+          i18n.t("global_config.keylist.Generalculture"),
+          i18n.t("global_config.keylist.Geography"),
+          i18n.t("global_config.keylist.Geology"),
+          i18n.t("global_config.keylist.History"),
+          i18n.t("global_config.keylist.Humanities"),
+          i18n.t("global_config.keylist.Literature"),
+          i18n.t("global_config.keylist.Maths"),
+          i18n.t("global_config.keylist.Music"),
+          i18n.t("global_config.keylist.Naturalscience"),
+          i18n.t("global_config.keylist.Physics"),
+          i18n.t("global_config.keylist.Technology")];
+}
+
+export function statusOptions() {
+  return [{label: i18n.t("global_config.status_list.draft"),       value: 'draft'}, 
+          {label: i18n.t("global_config.status_list.final"),       value: 'final'}, 
+          {label: i18n.t("global_config.status_list.revised"),     value: 'revised'}, 
+          {label: i18n.t("global_config.status_list.unavailable"), value: 'unavailable'}];
+}  
+
+export function contextOptions() {
+  return [{label: i18n.t("global_config.context_list.school"), value: 'school'},
+          {label: i18n.t("global_config.context_list.high_education"), value: 'higher education'},
+          {label: i18n.t("global_config.context_list.training"), value: 'training'},
+          {label: i18n.t("global_config.context_list.other"), value: 'other'}];
+}
+
+export function rightsOptions() {
+  return [{value: "Public Domain", label: i18n.t("global_config.public_domain")},
+          {value: "CreativeCommons BY", label: "CreativeCommons BY"},
+          {value: "CreativeCommons BY-SA", label: "CreativeCommons BY-SA"},
+          {value: "CreativeCommons BY-ND", label: "CreativeCommons BY-ND"},
+          {value: "CreativeCommons BY-NC", label: "CreativeCommons BY-NC"},
+          {value: "CreativeCommons BY-NC-SA", label: "CreativeCommons BY-NC-SA"},
+          {value: "CreativeCommons BY-NC-ND", label: "CreativeCommons BY-NC-ND"}];
+}
+
+export const difLevels = ['very easy', 'easy', 'medium', 'difficult', 'very difficult'];
+
+
 export const languages =
  [{ value:"af", label: "Afrikanns"},
   { value:"sq", label: "Albanian"},
@@ -73,50 +123,3 @@ export const languages =
   { value:"vi", label: "Vietnamese"},
   { value:"cy", label: "Welsh"},
   { value:"xh", label: "Xhosa"}];
-
-export function suggestions() {
-  return [i18n.t("global_config.keylist.Art"),
-          i18n.t("global_config.keylist.Biology"),
-          i18n.t("global_config.keylist.Chemistry"),
-          i18n.t("global_config.keylist.Citizenship"),
-          i18n.t("global_config.keylist.Computerscience"),
-          i18n.t("global_config.keylist.Economics"),
-          i18n.t("global_config.keylist.Education"),
-          i18n.t("global_config.keylist.Engineering"),
-          i18n.t("global_config.keylist.Foreignlanguages"),
-          i18n.t("global_config.keylist.Generalculture"),
-          i18n.t("global_config.keylist.Geography"),
-          i18n.t("global_config.keylist.Geology"),
-          i18n.t("global_config.keylist.History"),
-          i18n.t("global_config.keylist.Humanities"),
-          i18n.t("global_config.keylist.Literature"),
-          i18n.t("global_config.keylist.Maths"),
-          i18n.t("global_config.keylist.Music"),
-          i18n.t("global_config.keylist.Naturalscience"),
-          i18n.t("global_config.keylist.Physics"),
-          i18n.t("global_config.keylist.Technology")];
-}
-
-export function statusOptions() {
-  return [{label: i18n.t("global_config.status_list.draft"),       value: 'draft'}, 
-          {label: i18n.t("global_config.status_list.final"),       value: 'final'}, 
-          {label: i18n.t("global_config.status_list.revised"),     value: 'revised'}, 
-          {label: i18n.t("global_config.status_list.unavailable"), value: 'unavailable'}];
-}  
-
-export function contextOptions() {
-  return [{label: i18n.t("global_config.context_list.school"), value: 'school'},
-          {label: i18n.t("global_config.context_list.high_education"), value: 'higher education'},
-          {label: i18n.t("global_config.context_list.training"), value: 'training'},
-          {label: i18n.t("global_config.context_list.other"), value: 'other'}];
-}
-export const difLevels = ['very easy', 'easy', 'medium', 'difficult', 'very difficult'];
-
-export const rightLevels = [{value: "Public Domain", label: "Public Domain"},
-                            {value: "CreativeCommons BY", label: "CreativeCommons BY"},
-                            {value: "CreativeCommons BY-SA", label: "CreativeCommons BY-SA"},
-                            {value: "CreativeCommons BY-ND", label: "CreativeCommons BY-ND"},
-                            {value: "CreativeCommons BY-NC", label: "CreativeCommons BY-NC"},
-                            {value: "CreativeCommons BY-NC-SA", label: "CreativeCommons BY-NC-SA"},
-                            {value: "CreativeCommons BY-NC-ND", label: "CreativeCommons BY-NC-ND"}];
-

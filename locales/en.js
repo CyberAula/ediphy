@@ -40,6 +40,7 @@ var en = {
         "Exercises": "Exercises",
         "Exporting": "Exporting...",
         "global_config":{
+            "Accept": "Save changes",
             "aspect_ratio": "Aspect Ratio",
             "anonymous": "Anonymous",
             "author": "Author",
@@ -61,6 +62,7 @@ var en = {
                 'very difficult':'very difficult'
             },
             "difficulty": "Difficulty",
+            "Discard":"Cancel",
             "keylist":{
                 "Art": "Art",
                 "Biology":"Biology",
@@ -89,6 +91,8 @@ var en = {
             },
             "language": "Language",
             "no_lang": "Not specified",
+            "prompt": "Would you like to save your changes?",
+            "public_domain": "Public domain",
             "recom_age": "Recommended age",
             "rights": "License",
             "rights_short_txt":"The Creative Commons copyright licenses are a simple, standardized way to grant copyright permissions to their creative work.",
