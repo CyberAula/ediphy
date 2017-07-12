@@ -85,7 +85,7 @@ export default class GlobalConfig extends Component {
                                         <Select
                                             name="form-field-lang"
                                             value={language}
-                                            options={languages}
+                                            options={languages()}
                                             placeholder={i18n.t("global_config.no_lang")}
                                             onChange={e => {this.setState({modifiedState: true, language: e.value})}}
                                         />
