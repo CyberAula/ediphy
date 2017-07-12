@@ -16,7 +16,6 @@ export default class ScormComponent extends Component {
         this.onUnload = this.onUnload.bind(this);
         this.onLoad = this.onLoad.bind(this);
     }
-
 	getFirstPage() {
         var navItems = this.props.navItemsIds || [];
         var bookmark = 0;
@@ -28,7 +27,6 @@ export default class ScormComponent extends Component {
         }
         return bookmark;
     }
-
     componentWillReceiveProps(nextProps) {
      	if (this.props.currentView !== nextProps.currentView && !isContainedView(this.props.currentView)){
     		this.savePreviousAndUpdateState();
@@ -36,7 +34,6 @@ export default class ScormComponent extends Component {
     		API.setFinalScore(this.state.scores, this.state.visited, this.props.globalConfig.trackProgress || false);
     	}
     }
-
     savePreviousAndUpdateState(){
         let score = API.savePreviousResults(this.props.currentView, this.props.navItemsIds, this.props.globalConfig.trackProgress || false);
         let previousScores = Object.assign([],this.state.scores);
@@ -45,18 +42,13 @@ export default class ScormComponent extends Component {
         previousVisited[score.index] = score.visited;
         this.setState({scores: previousScores, visited: previousVisited}); //Careful with this pattern
     }
-
     render() {
     	return null;
     }
-
     componentDidMount() {
         window.addEventListener("load", this.onLoad);
         window.addEventListener("beforeunload", this.onUnload);
-
     }
-
-
     onLoad(event){
         var init = API.init();
         var bookmark = (init && init.bookmark && init.bookmark !== '') ? init.bookmark : this.getFirstPage();
@@ -72,8 +64,6 @@ export default class ScormComponent extends Component {
         API.setFinalScore(this.state.scores, this.state.visited, this.props.globalConfig.trackProgress || false);
         API.finish();
     }
-
-
     componentWillUnmount() {
         window.removeEventListener("beforeunload", this.onUnload);
         window.removeEventListener("onload", this.onLoad);
