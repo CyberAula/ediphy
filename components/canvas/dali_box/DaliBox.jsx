@@ -211,9 +211,17 @@ export default class DaliBox extends Component {
                     }
                  }}
                  onDoubleClick={(e)=> {
-                    if(toolbar.config && toolbar.config.needsTextEdition && this.props.id == this.props.boxSelected){
+                    if(toolbar.config && toolbar.config.needsTextEdition && this.props.id === this.props.boxSelected){
                         this.props.onTextEditorToggled(this.props.id, true);
                         this.refs.textarea.focus();
+                        // Elimina el placeholder "Introduzca texto aquí" cuando se va a editar
+                        // Código duplicado en DaliBox, DaliShortcuts y PluginToolbar. Extraer a common_tools?
+                        let CKstring = CKEDITOR.instances[this.props.id].getData();
+                        let initString = "<p>" + i18n.t("text_here") + "</p>\n";
+                        console.log(CKstring,initString, initString === CKstring);
+                        if( CKstring === initString) {
+                            CKEDITOR.instances[this.props.id].setData("");
+                        }
                     }
                  }}
                  style={{
