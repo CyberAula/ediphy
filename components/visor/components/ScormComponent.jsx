@@ -28,12 +28,16 @@ export default class ScormComponent extends Component {
 
     componentWillReceiveProps(nextProps) {
      	if (this.props.currentView !== nextProps.currentView){
-    		let score = API.savePreviousResults(this.props.currentView, this.props.navItemsIds);
-    		let previous = Object.assign([],this.state.scores);
-    		previous[score.index] = score.score;
-    		this.setState({scores: previous}); //Careful with this pattern
-    		API.changeLocation(nextProps.currentView); 
+            if(!isContainedView(this.props.currentView)){
+        		let score = API.savePreviousResults(this.props.currentView, this.props.navItemsIds);
+        		let previous = Object.assign([],this.state.scores);
+        		previous[score.index] = score.score;
+        		this.setState({scores: previous}); //Careful with this pattern
+            }
     		API.setFinalScore(this.state.scores);
+            if (!isContainedView(nextProps.currentView)){
+              API.changeLocation(nextProps.currentView); 
+            }
     	}
     }
 
