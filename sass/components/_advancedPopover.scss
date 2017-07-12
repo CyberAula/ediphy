@@ -3,7 +3,7 @@
   color: white;
   .popover-title {
     background-color: $darkest;
-    color: $brand_orange;
+    color: $blueprimary;
     border: 0;
     border-radius: 0;
   }
@@ -26,5 +26,14 @@
   }
   .arrow::after {
     border-bottom-color: $darkest;
+    border-top-color: $darkest !important;
+  }
+  a{
+    color: $grismedio;
+    opacity: 0.5;
+    &:hover{
+      opacity: 1;
+      text-decoration: none;
+    }
   }
 }
