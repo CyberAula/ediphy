@@ -77,6 +77,7 @@ class DaliApp extends Component {
                                 onTitleChanged={(id, title) => {this.dispatchAndSetState(changeGlobalConfig('title',title))}}
                                 navItemSelected={navItemSelected}
                                 boxSelected={boxSelected}
+                                onTextEditorToggled={(caller, value) => this.dispatchAndSetState(toggleTextEditor(caller, value))}
                                 undo={() => {this.dispatchAndSetState(ActionCreators.undo())}}
                                 redo={() => {this.dispatchAndSetState(ActionCreators.redo())}}
                                 visor={() =>{this.setState({visorVisible: true })}}
