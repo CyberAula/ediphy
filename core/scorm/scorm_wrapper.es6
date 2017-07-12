@@ -83,7 +83,7 @@ With the understanding that:
 **
 **    javascript:
 **          var result = doInitialize();
-**          if (result != true) 
+**          if (result != true)
 **          {
 **             // handle error
 **          }
@@ -127,7 +127,7 @@ var apiHandle = null;
 export function doInitialize()
 {
    if (initialized) return "true";
-   
+
    var api = getAPIHandle();
    if (api == null)
    {
@@ -163,9 +163,9 @@ export function doInitialize()
 **
 *******************************************************************************/
 export function doTerminate()
-{  
+{
    if (! initialized) return "true";
-   
+
    var api = getAPIHandle();
    if (api == null)
    {
@@ -182,7 +182,7 @@ export function doTerminate()
          message("Terminate failed with error code: " + err.code);
       }
    }
-   
+
    initialized = false;
 
    return result.toString();
@@ -217,7 +217,7 @@ export function doGetValue(name)
    else
    {
       result = api.GetValue(name);
-      
+
       var error = ErrorHandler();
       if (error.code != _NoError.code)
       {
@@ -275,7 +275,7 @@ export function doSetValue(name, value)
 **          false if failed
 **
 ** Description:
-** Commits the data to the LMS. 
+** Commits the data to the LMS.
 **
 *******************************************************************************/
 export function doCommit()
@@ -311,7 +311,7 @@ export function doCommit()
 ** Return:  The error code that was set by the last LMS function call
 **
 ** Description:
-** Call the GetLastError function 
+** Call the GetLastError function
 **
 *******************************************************************************/
 export function doGetLastError()
@@ -334,7 +334,7 @@ export function doGetLastError()
 ** Return:  The textual description that corresponds to the input error code
 **
 ** Description:
-** Call the GetErrorString function 
+** Call the GetErrorString function
 **
 ********************************************************************************/
 export function doGetErrorString(errorCode)
@@ -353,7 +353,7 @@ export function doGetErrorString(errorCode)
 **
 ** Function doGetDiagnostic(errorCode)
 ** Inputs:  errorCode - Error Code(integer format), or null
-** Return:  The vendor specific textual description that corresponds to the 
+** Return:  The vendor specific textual description that corresponds to the
 **          input error code
 **
 ** Description:
@@ -386,7 +386,7 @@ export function doGetDiagnostic(errorCode)
 ** var last_error = ErrorHandler();
 ** if (last_error.code != _NoError.code)
 ** {
-**    message("Encountered an error. Code: " + last_error.code + 
+**    message("Encountered an error. Code: " + last_error.code +
 **                                "\nMessage: " + last_error.string +
 **                                "\nDiagnostics: " + last_error.diagnostic);
 ** }
@@ -455,13 +455,13 @@ export function findAPI(win)
    while ((win.API_1484_11 == null) && (win.parent != null) && (win.parent != win))
    {
       findAPITries++;
-      
-      if (findAPITries > 500) 
+
+      if (findAPITries > 500)
       {
          message("Error finding API -- too deeply nested.");
          return null;
       }
-      
+
       win = win.parent;
 
    }
@@ -475,7 +475,7 @@ export function findAPI(win)
 ** Return:  If an API object is found, it's returned, otherwise null is returned
 **
 ** Description:
-** This function looks for an object named API_1484_11, first in the current window's 
+** This function looks for an object named API_1484_11, first in the current window's
 ** frame hierarchy and then, if necessary, in the current window's opener window
 ** hierarchy (if there is an opener window).
 **
@@ -498,15 +498,15 @@ export function getAPI()
 **
 ** Function findObjective(objId)
 ** Inputs:  objId - the id of the objective
-** Return:  the index where this objective is located 
+** Return:  the index where this objective is located
 **
 ** Description:
-** This function looks for the objective within the objective array and returns 
-** the index where it was found or it will create the objective for you and return 
+** This function looks for the objective within the objective array and returns
+** the index where it was found or it will create the objective for you and return
 ** the new index.
 **
 *******************************************************************************/
-export function findObjective(objId) 
+export function findObjective(objId)
 {
     var num = doGetValue("cmi.objectives._count");
     var objIndex = -1;
@@ -535,8 +535,8 @@ export function findObjective(objId)
 ** Return:  the index where this data store is located or -1 if the id wasn't found
 **
 ** Description:
-** This function looks for the data store within the data array and returns 
-** the index where it was found or returns -1 to indicate the id wasn't found 
+** This function looks for the data store within the data array and returns
+** the index where it was found or returns -1 to indicate the id wasn't found
 ** in the collection.
 **
 ** Usage:
@@ -551,25 +551,25 @@ export function findObjective(objId)
 **    doSetValue("cmi.suspend_data", appending_data + "myds:save this info");
 ** }
 *******************************************************************************/
-export function findDataStore(id) 
+export function findDataStore(id)
 {
     var num = doGetValue("adl.data._count");
     var index = -1;
-    
-    // if the get value was not null and is a number 
+
+    // if the get value was not null and is a number
     // in other words, we got an index in the adl.data array
     if (num != null && ! isNaN(num))
-    { 
-       for (var i=0; i < num; ++i) 
+    {
+       for (var i=0; i < num; ++i)
        {
-           if (doGetValue("adl.data." + i + ".id") == id) 
+           if (doGetValue("adl.data." + i + ".id") == id)
            {
                index = i;
                break;
            }
        }
-   
-       if (index == -1) 
+
+       if (index == -1)
        {
            message("Data store " + id + " not found.");
        }
