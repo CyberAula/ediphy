@@ -378,7 +378,7 @@ let ChartOptions = React.createClass({
 		return (
 			/* jshint ignore:start */
 			<div>
-				<h4 style={{color:'#1fc8db'}}>Opciones del gráfico</h4>
+				<h4>Opciones del gráfico</h4>
 				<div className="content-block">
 					<Form horizontal={true}>
 						<FormGroup>
@@ -672,8 +672,8 @@ let Config = React.createClass({
 
 							{!this.state.editing &&
 
-								<div style={{ height: '300px'}}>
-									<h4 style={{color:'#1fc8db'}}>Previsualización</h4>
+								<div style={{ height: '300px', width: '95%'}}>
+									<h4>Previsualización</h4>
 									<Chart data={this.state.data} options={this.state.options} width={this.state.chartWidth} key={this.state.key} ></Chart>
 								</div>
 							}

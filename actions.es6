@@ -120,8 +120,8 @@ export function selectBox(id) {
     return {type: SELECT_BOX, payload: {id}};
 }
 
-export function moveBox(id, x, y, position) {
-    return {type: MOVE_BOX, payload: {id, x, y, position}};
+export function moveBox(id, x, y, position, parent, container) {
+    return {type: MOVE_BOX, payload: {id, x, y, position, parent, container}};
 }
 
 export function duplicateBox(id, parent, container, children, newIds, newId) {

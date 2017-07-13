@@ -300,7 +300,9 @@ export default class CarrouselList extends Component {
             let thisPage = this.props.containedViews[id];
             let boxes = this.props.boxes;
             let parent = thisPage.parent;
-            return parent && boxes[parent] && boxes[parent].containedViews && !boxes[parent].containedViews.includes(id);
+            let boxDoesntExistAnyMore = parent && !boxes[parent];
+            let deletedMark = parent && boxes[parent] && boxes[parent].containedViews && boxes[parent].containedViews.indexOf(id) === -1;
+            return  boxDoesntExistAnyMore || deletedMark;
     
         }
         

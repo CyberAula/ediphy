@@ -10,7 +10,7 @@ function singleContainedViewReducer(state = {}, action = {}) {
         case TOGGLE_TITLE_MODE:
             return changeProp(state, "header", action.payload.titles);
         case CHANGE_CONTAINED_VIEW_NAME:
-            return changeProp(state, "name", action.payload.title);            
+            return changeProp(state, "name", action.payload.title);
         default:
             return state;
     }

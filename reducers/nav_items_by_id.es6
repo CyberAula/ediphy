@@ -1,4 +1,4 @@
-import {ADD_BOX, ADD_NAV_ITEM, CHANGE_NAV_ITEM_NAME, CHANGE_UNIT_NUMBER, DELETE_BOX, DUPLICATE_BOX, EXPAND_NAV_ITEM,
+import {ADD_BOX, MOVE_BOX, ADD_NAV_ITEM, CHANGE_NAV_ITEM_NAME, CHANGE_UNIT_NUMBER, DELETE_BOX, DUPLICATE_BOX, EXPAND_NAV_ITEM,
     REORDER_NAV_ITEM, DELETE_NAV_ITEM, TOGGLE_NAV_ITEM, TOGGLE_TITLE_MODE, UPDATE_NAV_ITEM_EXTRA_FILES, DELETE_SORTABLE_CONTAINER,
     IMPORT_STATE} from './../actions';
 import {ID_PREFIX_BOX} from './../constants';
@@ -31,6 +31,14 @@ function singleNavItemReducer(state = {}, action = {}) {
     switch (action.type) {
         case ADD_BOX:
             return changeProp(state, "boxes", [...state.boxes, action.payload.ids.id]);
+        case MOVE_BOX:
+            let children = Object.assign([],state.boxes);
+            for(var x in children) {
+                if (children[x] === action.payload.id) {
+                    children.push(children.splice(x,1)[0]);
+                }
+            }
+            return changeProp(state, "boxes", children);
         case ADD_NAV_ITEM:
             return changeProps(
                 state,
@@ -117,6 +125,11 @@ export default function (state = {}, action = {}) {
         case ADD_BOX:
             if (isView(action.payload.ids.parent)) {
                 return changeProp(state, action.payload.ids.parent, singleNavItemReducer(state[action.payload.ids.parent], action));
+            }
+            return state;
+        case MOVE_BOX:
+            if (action.payload.container === 0 && action.payload.position === 'absolute') {
+                return changeProp(state, action.payload.parent, singleNavItemReducer(state[action.payload.parent], action));
             }
             return state;
         case ADD_NAV_ITEM:

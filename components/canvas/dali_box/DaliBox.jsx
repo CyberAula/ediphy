@@ -108,7 +108,6 @@ export default class DaliBox extends Component {
                 }
             }
         }
-
         let content = toolbar.config.flavor === "react" ? (
             /* jshint ignore:start */
             <div style={style} {...attrs} className={"boxStyle " + classNames} ref={"content"}>
@@ -211,9 +210,17 @@ export default class DaliBox extends Component {
                     }
                  }}
                  onDoubleClick={(e)=> {
-                    if(toolbar.config && toolbar.config.needsTextEdition && this.props.id == this.props.boxSelected){
+                    if(toolbar.config && toolbar.config.needsTextEdition && this.props.id === this.props.boxSelected){
                         this.props.onTextEditorToggled(this.props.id, true);
                         this.refs.textarea.focus();
+                        // Elimina el placeholder "Introduzca texto aquí" cuando se va a editar
+                        // Código duplicado en DaliBox, DaliShortcuts y PluginToolbar. Extraer a common_tools?
+                        let CKstring = CKEDITOR.instances[this.props.id].getData();
+                        let initString = "<p>" + i18n.t("text_here") + "</p>\n";
+                        console.log(CKstring,initString, initString === CKstring);
+                        if( CKstring === initString) {
+                            CKEDITOR.instances[this.props.id].setData("");
+                        }
                     }
                  }}
                  style={{
@@ -584,7 +591,9 @@ export default class DaliBox extends Component {
                         this.props.id,
                         isSortableContainer(box.container) ? left : absoluteLeft,
                         isSortableContainer(box.container) ? top : absoluteTop,
-                        this.props.boxes[this.props.id].position.type
+                        this.props.boxes[this.props.id].position.type,
+                        box.parent,
+                        box.container
                     );
 
                     // Stuff to reorder boxes when position is relative
@@ -731,7 +740,7 @@ export default class DaliBox extends Component {
                     if (box.position.x !== target.style.left || box.position.y !== target.style.top) {
                         target.style.left = (parseFloat(target.style.left)/100*target.parentElement.offsetWidth+ parseFloat(target.getAttribute('data-x')))*100/target.parentElement.offsetWidth + '%';
                         target.style.top  = (parseFloat(target.style.top)/100*target.parentElement.offsetHeight+ parseFloat(target.getAttribute('data-y')))*100/target.parentElement.offsetHeight + '%';
-                        this.props.onBoxMoved(this.props.id, target.style.left, target.style.top, this.props.boxes[this.props.id].position.type);
+                        this.props.onBoxMoved(this.props.id, target.style.left, target.style.top, this.props.boxes[this.props.id].position.type, this.props.parent, this.props.container);
                     }
                     target.style.webkitTransform = target.style.transform =
                         'translate(0px, 0px)';

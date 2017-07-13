@@ -19,113 +19,121 @@ export default class DaliShortcuts extends Component {
         let box = this.props.box;
         let toolbar = this.props.toolbar;
 
-        if (!box && !toolbar) {
+        if (!box || (box && !toolbar)) {
             return null;
         }
 
-        return (
-            /* jshint ignore:start */
-            <div id={this.props.isContained ? "contained_daliBoxIcons" : "daliBoxIcons"}
-                 className=""
-                 ref="container"
-                 style={{
-                    display: isSortableBox(box.id) ? 'none' : 'block',
-                    position: 'absolute',
-                    left: this.state.left + 10,
-                    top: this.state.top
-                    //width: this.state.width !== 0 ? this.state.width : "auto"
-                 }}>
-                <div ref="innerContainer" style={{display: "inline-block", minWidth: "150px" }}>
-                    <span className="namePlugin">{toolbar.config.displayName || ""}</span>
-                    {
-                        toolbar.config.isRich ?
-                            (<OverlayTrigger placement="top"
-                                             overlay={
-                                                 <Tooltip id="richMark">{i18n.t('messages.add_new_mark')}</Tooltip>
-                                             }><button className="daliTitleButton" onClick={(e)=>{
-                                                this.props.onMarkCreatorToggled(box.id);
-                            }}><i className="material-icons">room</i></button></OverlayTrigger>)
-                            : <span></span>
-                    }
-                    {
-                        isSortableContainer(box.container) ? (
-                            <OverlayTrigger placement="top"
-                                            overlay={
-                                            <Tooltip id="ajustaradocumento">
-                                                {i18n.t('messages.adjust_to_document')}
-                                            </Tooltip>
-                                        }>
-                                <button className="daliTitleButton"
-                                        onClick={(e) => {
-                                            let widthButton = Object.assign({}, toolbar.controls.main.accordions.__sortable.buttons.__width);
-                                            if(widthButton.displayValue === 100 && widthButton.units === "%"){
-                                                if(toolbar.config.needsTextEdition){
-                                                    widthButton.displayValue = "auto";
-                                                    widthButton.type = "text";
-                                                    widthButton.auto = true;
+            return (
+                /* jshint ignore:start */
+                <div id={this.props.isContained ? "contained_daliBoxIcons" : "daliBoxIcons"}
+                     className=""
+                     ref="container"
+                     style={{
+                        display: isSortableBox(box.id) ? 'none' : 'block',
+                        position: 'absolute',
+                        left: this.state.left + 10,
+                        top: this.state.top
+                        //width: this.state.width !== 0 ? this.state.width : "auto"
+                     }}>
+                    <div ref="innerContainer" style={{display: "inline-block", minWidth: "150px" }}>
+                        <span className="namePlugin">{toolbar.config.displayName || ""}</span>
+                        {
+                            toolbar.config.isRich ?
+                                (<OverlayTrigger placement="top"
+                                                 overlay={
+                                                     <Tooltip id="richMark">{i18n.t('messages.add_new_mark')}</Tooltip>
+                                                 }><button className="daliTitleButton" onClick={(e)=>{
+                                                    this.props.onMarkCreatorToggled(box.id);
+                                }}><i className="material-icons">room</i></button></OverlayTrigger>)
+                                : <span></span>
+                        }
+                        {
+                            isSortableContainer(box.container) ? (
+                                <OverlayTrigger placement="top"
+                                                overlay={
+                                                <Tooltip id="ajustaradocumento">
+                                                    {i18n.t('messages.adjust_to_document')}
+                                                </Tooltip>
+                                            }>
+                                    <button className="daliTitleButton"
+                                            onClick={(e) => {
+                                                let widthButton = Object.assign({}, toolbar.controls.main.accordions.__sortable.buttons.__width);
+                                                if(widthButton.displayValue === 100 && widthButton.units === "%"){
+                                                    if(toolbar.config.needsTextEdition){
+                                                        widthButton.displayValue = "auto";
+                                                        widthButton.type = "text";
+                                                        widthButton.auto = true;
+                                                    }else{
+                                                        widthButton.value = 20;
+                                                        widthButton.displayValue = 20;
+                                                        widthButton.type = "number";
+                                                        widthButton.units = "%";
+                                                        widthButton.auto = false;
+                                                    }
                                                 }else{
-                                                    widthButton.value = 20;
-                                                    widthButton.displayValue = 20;
+                                                    widthButton.value = 100;
+                                                    widthButton.displayValue = 100;
                                                     widthButton.type = "number";
                                                     widthButton.units = "%";
                                                     widthButton.auto = false;
                                                 }
-                                            }else{
-                                                widthButton.value = 100;
-                                                widthButton.displayValue = 100;
-                                                widthButton.type = "number";
-                                                widthButton.units = "%";
-                                                widthButton.auto = false;
-                                            }
 
-                                        this.props.onBoxResized(toolbar.id, widthButton);
+                                            this.props.onBoxResized(toolbar.id, widthButton);
 
-                                    }}>
-                                    <i className="material-icons">code</i>
-                                </button>
-                            </OverlayTrigger>
-                        ) : (
-                            <span></span>
-                        )
-                    }
-                    {
-                        (toolbar && toolbar.config && toolbar.config.needsTextEdition) ? (
-                            <OverlayTrigger placement="top"
-                                            overlay={
-                                            <Tooltip id="editartexto">
-                                                {i18n.t('messages.edit_text')}
+                                        }}>
+                                        <i className="material-icons">code</i>
+                                    </button>
+                                </OverlayTrigger>
+                            ) : (
+                                <span></span>
+                            )
+                        }
+                        {
+                            (toolbar && toolbar.config && toolbar.config.needsTextEdition) ? (
+                                <OverlayTrigger placement="top"
+                                                overlay={
+                                                <Tooltip id="editartexto">
+                                                    {i18n.t('messages.edit_text')}
+                                                </Tooltip>
+                                            }>
+                                    <button className="daliTitleButton"
+                                            onClick={(e) => {
+                                            this.props.onTextEditorToggled(toolbar.id, !toolbar.showTextEditor);
+                                                if(this.props.box && this.props.box.id) {
+                                                    // TODO: Código duplicado en DaliBox, DaliShortcuts y PluginToolbar. Extraer a common_tools?
+                                                    let CKstring = CKEDITOR.instances[this.props.box.id].getData();
+                                                    let initString = "<p>" + i18n.t("text_here") + "</p>\n";
+                                                    if (CKstring === initString) {
+                                                        CKEDITOR.instances[this.props.box.id].setData("");
+                                                    }
+                                                }
+                                            e.stopPropagation();
+                                        }}>
+                                        <i className="material-icons">mode_edit</i>
+                                    </button>
+                                </OverlayTrigger>
+                            ) : (
+                                <span></span>
+                            )
+                        }
+                        <OverlayTrigger placement="top"
+                                        overlay={
+                                            <Tooltip id="borrarcaja">
+                                                {i18n.t('messages.erase_plugin')}
                                             </Tooltip>
                                         }>
-                                <button className="daliTitleButton"
-                                        onClick={(e) => {
-                                        this.props.onTextEditorToggled(toolbar.id, !toolbar.showTextEditor);
+                            <button className="daliTitleButton"
+                                    onClick={(e) => {
+                                        this.props.onBoxDeleted(box.id, box.parent, box.container);
                                         e.stopPropagation();
                                     }}>
-                                    <i className="material-icons">mode_edit</i>
-                                </button>
-                            </OverlayTrigger>
-                        ) : (
-                            <span></span>
-                        )
-                    }
-                    <OverlayTrigger placement="top"
-                                    overlay={
-                                        <Tooltip id="borrarcaja">
-                                            {i18n.t('messages.erase_plugin')}
-                                        </Tooltip>
-                                    }>
-                        <button className="daliTitleButton"
-                                onClick={(e) => {
-                                    this.props.onBoxDeleted(box.id, box.parent, box.container);
-                                    e.stopPropagation();
-                                }}>
-                            <i className="material-icons">delete</i>
-                        </button>
-                    </OverlayTrigger>
+                                <i className="material-icons">delete</i>
+                            </button>
+                        </OverlayTrigger>
+                    </div>
                 </div>
-            </div>
-            /* jshint ignore:end */
-        );
+                /* jshint ignore:end */
+            );
     }
 
     resize(fromUpdate, newProps) {
