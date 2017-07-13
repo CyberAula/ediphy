@@ -103,7 +103,6 @@ export default class DaliShortcuts extends Component {
                                                     // TODO: Código duplicado en DaliBox, DaliShortcuts y PluginToolbar. Extraer a common_tools?
                                                     let CKstring = CKEDITOR.instances[this.props.box.id].getData();
                                                     let initString = "<p>" + i18n.t("text_here") + "</p>\n";
-                                                    console.log(CKstring, initString, initString === CKstring);
                                                     if (CKstring === initString) {
                                                         CKEDITOR.instances[this.props.box.id].setData("");
                                                     }

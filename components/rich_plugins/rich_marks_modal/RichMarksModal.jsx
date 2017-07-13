@@ -88,6 +88,7 @@ export default class RichMarksModal extends Component {
                                    onChange={e => {
                                         this.setState({connectMode: "external"});
                                    }}>{i18n.t("marks.external_url")}</Radio>
+
                             </Col>
                         </FormGroup>
                         <Col xs={5} md={3}>
@@ -110,9 +111,9 @@ export default class RichMarksModal extends Component {
                             </span>
                         </FormGroup>
                         <FormGroup style={{display: this.state.connectMode === "existing" ? "initial" : "none"}}>
-                            <Typeahead options={this.state.viewNames}
+                            <Typeahead options={this.returnAllViews(this.props)}
                                        placeholder="Search view by name"
-                                       labelKey="name"
+                                       ignoreDiacritics={false}
                                        defaultSelected={[this.state.existingSelected]}
                                        onChange={items => {
                                            this.setState({existingSelected: items.length !== 0 ? items[0].id : ""});
@@ -209,6 +210,9 @@ export default class RichMarksModal extends Component {
                         if(connectMode === 'new' && this.state.newSelected === PAGE_TYPES.DOCUMENT) {
                             this.props.onBoxAdded({parent: newId, container: 0, id: ID_PREFIX_SORTABLE_BOX + Date.now()}, false, false);
                         }
+                        if(connectMode === 'existing' && isContainedView(this.state.existingSelected)){
+
+                        }
                         this.props.onRichMarksModalToggled();
                     }}>Save changes</Button>
                 </Modal.Footer>
@@ -239,7 +243,7 @@ export default class RichMarksModal extends Component {
                 return;
             }
 
-            viewNames.push({name: props.navItems[id].name, id: id});
+            viewNames.push({label: props.navItems[id].name, id: id});
         });
         Object.keys(props.containedViews).map(cv=>{
             if(cv=== 0){
@@ -250,7 +254,7 @@ export default class RichMarksModal extends Component {
                 return;
             }
 
-            viewNames.push({name:props.containedViews[cv].name, id: props.containedViews[cv].id});
+            viewNames.push({label:props.containedViews[cv].name, id: props.containedViews[cv].id});
         });
         return viewNames;
     }
