@@ -12,7 +12,7 @@ module.exports = {
         "box_style": "Estilo caja",
         "opacity": "Opacidad",
         "padding": "Padding",
-        "PluginName": "Reproductor con puntos de interés",
+        "PluginName": "Reproductor enriquecido",
         "radius": "Radio",
         "source": "Origen"
     }

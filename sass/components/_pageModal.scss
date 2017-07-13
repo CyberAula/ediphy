@@ -67,6 +67,12 @@
 				background-color: darken($blueprimary, 7%) !important;
 			}
 		}
+        .btn-secondary{
+          background-color: $grisadams;
+          &:hover{
+            background-color: darken($grisadams, 10%) !important;
+          }
+        }
 		.btn-default{
 			background-color: $greyPanelHeadings;
 			&:hover{
