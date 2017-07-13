@@ -25,7 +25,7 @@ $track-radius: 5px !default;
 $contrast: 5% !default;
 
 $blueprimary: #1fc8db;
-$bluelight: #d8f2f5;
+
 
 @mixin shadow($shadow-size, $shadow-blur, $shadow-color) {
   box-shadow: $shadow-size $shadow-size $shadow-blur $shadow-color, 0 0 $shadow-size lighten($shadow-color, 5%);
@@ -49,13 +49,11 @@ $bluelight: #d8f2f5;
 }
 
 .player-wrapper{
-  opacity: .9;
-
   .player-media-controls{
-    position: relative;
+
     padding: 5px;
-    margin: -4px 0 0;
-    background-color: $bluelight;
+    margin: 0;
+    background-color: $blueprimary;
     height: 34px;
 
     -webkit-transition: opacity .3s;
@@ -70,6 +68,7 @@ $bluelight: #d8f2f5;
     color: #EEE;
     &:hover{
       cursor: pointer;
+      background-color: darken($blueprimary, 10%);
     }
   }
 

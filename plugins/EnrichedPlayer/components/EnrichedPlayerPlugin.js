@@ -132,18 +132,18 @@ export default class EnrichedPlayerPlugin extends React.Component {
         let markElements = Object.keys(marks).map((id) =>{
             let value = marks[id].value;
 
-            return(<a key={id} style={{position: 'absolute', left: value, position:"absolute"}} href="#">
-                    <div style={{width:"5px", height: "8px", background: "red" }}></div>
+            return(<a key={id} style={{left: value, position:"absolute"}} href="#">
+                    <div style={{width:"4px", height: "8px", background: "gray" }}><i className="material-icons" style={{color:"white", position:"relative", top: "-24px", left: "-10px" }}>room</i></div>
                 </a>);
         });
 
         /* jshint ignore:start */
         return (
-            <div ref={player_wrapper => {this.player_wrapper = player_wrapper}} style={{width:"100%",height:"100%"}} className="player-wrapper">
+            <div ref={player_wrapper => {this.player_wrapper = player_wrapper}} style={{width:"100%",height:"100%"}} className="enriched-player-wrapper">
                 <ReactPlayer
                     ref={player => { this.player = player }}
-                    style={{width: "100%", height:"100%"}}
-                    height="100%"
+                    style={{width: "100%", height:"calc(100% - 34px)"}}
+                    height="calc(100% - 34px)"
                     width="100%"
                     url={this.props.state.url}
                     playing={this.state.playing}
@@ -155,7 +155,7 @@ export default class EnrichedPlayerPlugin extends React.Component {
                     onDuration={duration => this.setState({ duration })}
                 />
                 {(this.state.controls) && (
-                    <div className="player-media-controls" style={{opacity:1, pointerEvents: 'all'}}>
+                    <div className="player-media-controls" style={{ pointerEvents: 'all'}}>
                         <button className="play-player-button" onClick={this.playPause.bind(this)}>{this.state.playing ? <i className="material-icons">pause</i> : <i className="material-icons">play_arrow</i>}</button>
                         <div className="progress-player-input dropableRichZone" style={{background: "white", height: "8px", position: "relative"}}
                             // value={this.state.played}
@@ -163,7 +163,7 @@ export default class EnrichedPlayerPlugin extends React.Component {
                              onChange={this.onSeekChange.bind(this)}
                              onMouseUp={this.onSeekMouseUp.bind(this)}
                         >
-                            <div className="mainSlider" style={{left: this.state.played*100 +"%"}}></div>
+                            <div className="mainSlider" style={{position:"absolute",left: this.state.played*100 +"%"}}></div>
                             {markElements}
                         </div>
                         <input className="volume-player-input " type='range' min={0} max={1} step='any' value={this.state.volume} onChange={this.setVolume.bind(this)} />
