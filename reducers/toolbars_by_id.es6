@@ -1,4 +1,4 @@
-import {ADD_BOX, ADD_RICH_MARK, CHANGE_NAV_ITEM_NAME, DELETE_BOX,DELETE_CONTAINED_VIEWS, ADD_NAV_ITEM, DELETE_NAV_ITEM, DELETE_SORTABLE_CONTAINER, DUPLICATE_BOX,
+import {ADD_BOX, ADD_RICH_MARK, CHANGE_NAV_ITEM_NAME, DELETE_BOX, DELETE_RICH_MARK, DELETE_CONTAINED_VIEW, ADD_NAV_ITEM, DELETE_NAV_ITEM, DELETE_SORTABLE_CONTAINER, DUPLICATE_BOX,
     EDIT_RICH_MARK, RESIZE_BOX, RESIZE_SORTABLE_CONTAINER, TOGGLE_TEXT_EDITOR, UPDATE_BOX, UPDATE_TOOLBAR,
     VERTICALLY_ALIGN_BOX, IMPORT_STATE} from './../actions';
 import Utils, {changeProp, changeProps, deleteProps, isSortableBox, isSortableContainer, isPage, isSection, isSlide, isDocument} from './../utils';
@@ -544,6 +544,8 @@ function toolbarReducer(state, action) {
              }
 
             return newState;
+        case DELETE_RICH_MARK:
+            return changeProp(state, "state", action.payload.state);
         case VERTICALLY_ALIGN_BOX:
             newState = Utils.deepClone(state);
             newState.controls.main.accordions.__sortable.buttons.__verticalAlign.value = action.payload.verticalAlign;
@@ -597,11 +599,24 @@ export default function (state = {}, action = {}) {
         case DELETE_BOX:
             let children = action.payload.children ? action.payload.children : [];
             return deleteProps(state, children.concat(action.payload.id));
-        case DELETE_CONTAINED_VIEWS:
-            return 0;
-        case DELETE_NAV_ITEM:
+        case DELETE_CONTAINED_VIEW:
             let boxes = action.payload.boxes ? action.payload.boxes : [];
-            return deleteProps(state, boxes.concat(action.payload.id));
+            let newToolbar = Object.assign({},state);
+            //Delete all related marks
+            action.payload.parent.forEach((el)=>{
+                if (newToolbar[el].state && newToolbar[el].state.__marks) {
+                    for (var mark in newToolbar[el].state.__marks){
+                        if (newToolbar[el].state.__marks[mark].connection === action.payload.ids[0]){
+                            delete newToolbar[el].state.__marks[mark];
+
+                        }
+                    }
+                }
+            });
+            return deleteProps(newToolbar, boxes.concat(action.payload.ids[0]));
+        case DELETE_NAV_ITEM:
+            let boxesCV = action.payload.boxes ? action.payload.boxes : [];
+            return deleteProps(state, boxesCV.concat(action.payload.id));
         case DELETE_SORTABLE_CONTAINER:
             return deleteProps(state, action.payload.children);
         case DUPLICATE_BOX:
@@ -616,6 +631,11 @@ export default function (state = {}, action = {}) {
             return Object.assign({}, newState, replaced);
         case EDIT_RICH_MARK:
             return changeProp(state, action.payload.parent, toolbarReducer(state[action.payload.parent], action));
+        case DELETE_RICH_MARK:
+            // if (state[action.payload.parent] && state[action.payload.parent].state.__marks && state[action.payload.parent].state.__marks[action.payload.id]) {
+            return changeProp(state, action.payload.parent, toolbarReducer(state[action.payload.parent], action));
+            // }
+            // return state;
         case RESIZE_BOX:
             return changeProp(state, action.payload.id, toolbarReducer(state[action.payload.id], action));
         case RESIZE_SORTABLE_CONTAINER:

@@ -143,7 +143,7 @@ var en = {
             "align_right": "Align right",
             "align_top": "The top of the element is aligned with the top of the tallest element on the line",
             "columns_distribution": "Columns distribution",
-            "delete_busy_cv": "This contained view is being used by some plugin. First delete the corresponding mark.",
+            "delete_busy_cv": "All the marks that link to this view will be deleted.",
             "delete_container": "This action will erase all the content in this block.",
             "delete_contained_canvas": "This action will erase this contained view",
             "delete_page": "This action will erase all the content in this page.",

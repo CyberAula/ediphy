@@ -141,7 +141,7 @@ var es = {
             "align_right": "Alinear a la derecha",
             "align_top": "La parte superior del elemento se alinea con la parte superior del elemento más alto de la línea",
             "columns_distribution": "Distribución de columnas",
-            "delete_busy_cv": "Está vista contenida está siendo usada por algún plugin. Elimine la marca correspondiente primero.",
+            "delete_busy_cv": "Todas las marcas que enlazan a esta vista serán eliminadas",
             "delete_container": "Esta acción borrará todo el contenido que ha incluído en este bloque.",
             "delete_page": "Esta acción borrará todo el contenido de la página.",
             "delete_section": "Esta acción borrará todo el contenido de la sección y de sus descendientes.",

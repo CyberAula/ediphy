@@ -101,6 +101,7 @@ export function HotspotImages(base) {
         },
         getRenderTemplate: function (state) {
             /* jshint ignore:start */
+            console.log('getrendertemplate');
             let marks = state.__marks;
             let markElements = Object.keys(marks).map((id) =>{
                 let value = marks[id].value;
@@ -110,6 +111,7 @@ export function HotspotImages(base) {
                 } else{
                     position = [0,0];
                 }
+
 
                 return(<a key={id} style={{position: 'absolute', top: position[0] + "%",left: position[1] + "%"}} href="#"><i style={{width:"100%",height:"100%"}} className="material-icons">room</i></a>)
             });

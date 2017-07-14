@@ -210,9 +210,6 @@ export default class RichMarksModal extends Component {
                         if(connectMode === 'new' && this.state.newSelected === PAGE_TYPES.DOCUMENT) {
                             this.props.onBoxAdded({parent: newId, container: 0, id: ID_PREFIX_SORTABLE_BOX + Date.now()}, false, false);
                         }
-                        if(connectMode === 'existing' && isContainedView(this.state.existingSelected)){
-
-                        }
                         this.props.onRichMarksModalToggled();
                     }}>Save changes</Button>
                 </Modal.Footer>

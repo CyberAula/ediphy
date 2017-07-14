@@ -140,9 +140,9 @@ export default function () {
             }
         },
         triggerMark: function(element, value, stateElement){
-            if (stateElement === undefined) {
+             if (stateElement === undefined) {
                 stateElement = true;
-            }
+             }
 
             if(!element){
                 console.error("Invalid argument -> need parent with correct id @ triggerMark");

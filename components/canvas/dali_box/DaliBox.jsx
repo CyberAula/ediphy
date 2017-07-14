@@ -4,7 +4,7 @@ import MarkCreator from '../mark_creator/MarkCreator';
 import {Button} from 'react-bootstrap';
 import interact from 'interact.js';
 import PluginPlaceholder from '../plugin_placeholder/PluginPlaceholder';
-import {ADD_BOX, UPDATE_BOX, RESIZE_BOX, EDIT_PLUGIN_TEXT, IMPORT_STATE} from '../../../actions';
+import {ADD_BOX, UPDATE_BOX, RESIZE_BOX, ADD_RICH_MARK, DELETE_RICH_MARK, DELETE_CONTAINED_VIEW, EDIT_PLUGIN_TEXT, IMPORT_STATE} from '../../../actions';
 import Dali from './../../../core/main';
 import i18n from 'i18next';
 import {isBox, isSortableBox, isSlide, isView, isSortableContainer, isAncestorOrSibling, isContainedView} from './../../../utils';
@@ -428,11 +428,22 @@ export default class DaliBox extends Component {
         if(this.props.toolbars[this.props.id].config.needsTextEdition){
             window.MathJax.Hub.Queue(["Typeset",window.MathJax.Hub]);
         }
+        if  (action.type ==="@@redux-undo/UNDO") {
+            Dali.Plugins.get(toolbar.config.name).afterRender(this.refs.content, toolbar.state);
 
-        if ((action.type === ADD_BOX || action.type === UPDATE_BOX || action.type === RESIZE_BOX || action.type === IMPORT_STATE) &&
-            ((action.payload.id || action.payload.ids.id) === this.props.id)) {
+        }
+        if ((action.type === ADD_BOX || action.type === UPDATE_BOX  || action.type === RESIZE_BOX ||  action.type === IMPORT_STATE) &&
+            ((action.payload.id || action.payload.ids.id ) === this.props.id)) {
             Dali.Plugins.get(toolbar.config.name).afterRender(this.refs.content, toolbar.state);
         }
+
+/*        if ((action.type === ADD_RICH_MARK || action.type === DELETE_RICH_MARK) && (action.payload.parent === this.props.id)){
+            console.log('here')
+            Dali.Plugins.get(toolbar.config.name).afterRender(this.refs.content, toolbar.state);
+            Dali.Plugins.get(toolbar.config.name).render(action.type);
+
+        }*/
+
     }
 
     componentDidMount() {
@@ -764,7 +775,6 @@ export default class DaliBox extends Component {
 
             
     }
-
 
     getElementPositionFromLeft(left, width){
         if(left.indexOf("px") !== -1){
