@@ -12,7 +12,7 @@ import {addNavItem, selectNavItem, expandNavItem, deleteNavItem, reorderNavItem,
     fetchVishResourcesSuccess, fetchVishResourcesAsync, uploadVishResourceAsync,
     deleteContainedView, selectContainedView, changeContainedViewName,
     addRichMark, editRichMark, deleteRichMark,
-    ADD_BOX, ADD_RICH_MARK, EDIT_RICH_MARK, EDIT_PLUGIN_TEXT, DELETE_CONTAINED_VIEW, DELETE_RICH_MARK, UPDATE_BOX, UPDATE_TOOLBAR} from '../actions';
+    ADD_BOX, ADD_RICH_MARK, EDIT_RICH_MARK, EDIT_PLUGIN_TEXT, DELETE_CONTAINED_VIEW, DELETE_NAV_ITEM,  DELETE_RICH_MARK, UPDATE_BOX, UPDATE_TOOLBAR} from '../actions';
 import {ID_PREFIX_BOX, ID_PREFIX_SORTABLE_CONTAINER} from '../constants';
 import DaliCanvas from '../components/canvas/dali_canvas/DaliCanvas';
 import ContainedCanvas from '../components/rich_plugins/contained_canvas/ContainedCanvas';
@@ -117,9 +117,13 @@ class DaliApp extends Component {
                                       });
 
                                       this.dispatchAndSetState(deleteContainedView([cvid], boxesRemoving, containedViews[cvid].parent));
-                                      let toolbar = toolbars[boxSelected];
-
-                                      Dali.Plugins.get(toolbar.config.name).render(DELETE_CONTAINED_VIEW);
+                                      containedViews[cvid].parent.forEach((box) => {
+                                          if(toolbars[box]) {
+                                              console.log(toolbars[box].config.name)
+                                              Dali.Plugins.get(toolbars[box].config.name).render(DELETE_CONTAINED_VIEW);
+                                          }
+                                      });
+                                      // Dali.Plugins.get(toolbars[containedViews[cvid].parent[0]].config.name).render(DELETE_CONTAINED_VIEW);
 
                                   }}
                                   onNavItemNameChanged={(id, title) => this.dispatchAndSetState(changeNavItemName(id,title))}
@@ -137,7 +141,14 @@ class DaliApp extends Component {
                                             //containedRemoving = containedRemoving.concat(this.getDescendantContainedViews(boxes[boxId]));
                                         });
                                     });
-                                    this.dispatchAndSetState(deleteNavItem(viewRemoving, navItems[navsel].parent, boxesRemoving, containedRemoving))
+                                    let marksRemoving = this.getDescendantLinkedBoxes(viewRemoving, navItems) || [];
+                                    this.dispatchAndSetState(deleteNavItem(viewRemoving, navItems[navsel].parent, boxesRemoving, containedRemoving, marksRemoving));
+
+                                    marksRemoving.forEach((box) => {
+                                        if(toolbars[box]) {
+                                            Dali.Plugins.get(toolbars[box].config.name).render(DELETE_NAV_ITEM);
+                                        }
+                                    });
                                   }}
                                   onNavItemReordered={(id, newParent, oldParent, idsInOrder, childrenInOrder) => this.dispatchAndSetState(reorderNavItem(id, newParent, oldParent, idsInOrder, childrenInOrder))}
                                   onNavItemToggled={ id => this.dispatchAndSetState(toggleNavItem(id)) }
@@ -459,10 +470,12 @@ class DaliApp extends Component {
                     ));
                     break;
                 case DELETE_RICH_MARK:
+                case DELETE_NAV_ITEM:
                 case DELETE_CONTAINED_VIEW:
                 case EDIT_PLUGIN_TEXT:
                 case UPDATE_BOX:
                 case UPDATE_TOOLBAR:
+                    console.log('render',e.detail)
                      this.dispatchAndSetState(updateBox(
                         e.detail.ids.id,
                         e.detail.content,
@@ -618,6 +631,15 @@ class DaliApp extends Component {
         }
 
         return selected;
+    }
+
+    getDescendantLinkedBoxes(ids, navs) {
+        let boxes = [];
+        ids.forEach((nav) => {
+            boxes = [...new Set([...boxes ,...navs[nav].linkedBoxes])];
+            // boxes.concat(navs[nav].linkedBoxes);
+        });
+        return boxes;
     }
 
     getDescendantContainedViewsFromContainer(box, container) {

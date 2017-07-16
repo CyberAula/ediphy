@@ -439,7 +439,7 @@ export default class DaliBox extends Component {
 
 /*        if ((action.type === ADD_RICH_MARK || action.type === DELETE_RICH_MARK) && (action.payload.parent === this.props.id)){
             console.log('here')
-            Dali.Plugins.get(toolbar.config.name).afterRender(this.refs.content, toolbar.state);
+            */Dali.Plugins.get(toolbar.config.name).afterRender(this.refs.content, toolbar.state);/*
             Dali.Plugins.get(toolbar.config.name).render(action.type);
 
         }*/

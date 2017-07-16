@@ -385,7 +385,7 @@ export default function (state = {}, action = {}) {
                     }
                 }
             });
-
+            console.log(newBoxes)
             return deleteProps(newBoxes, action.payload.boxes);
         case DELETE_SORTABLE_CONTAINER:
             temp = deleteProps(state, action.payload.children);

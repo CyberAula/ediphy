@@ -481,6 +481,7 @@ function toolbarReducer(state, action) {
         case TOGGLE_TEXT_EDITOR:
             return changeProp(state, "showTextEditor", action.payload.value);
         case UPDATE_BOX:
+            console.log(state)
             let controls = action.payload.toolbar;
             if (!isSortableBox(action.payload.id)) {
                 createSizeButtons(controls, state, action);
@@ -600,23 +601,40 @@ export default function (state = {}, action = {}) {
             let children = action.payload.children ? action.payload.children : [];
             return deleteProps(state, children.concat(action.payload.id));
         case DELETE_CONTAINED_VIEW:
-            let boxes = action.payload.boxes ? action.payload.boxes : [];
-            let newToolbar = Object.assign({},state);
+            let boxesCV = action.payload.boxes ? action.payload.boxes : [];
+            let newToolbarCV = Object.assign({},state);
+            let parents = action.payload.parent ? action.payload.parent : [];
             //Delete all related marks
-            action.payload.parent.forEach((el)=>{
-                if (newToolbar[el].state && newToolbar[el].state.__marks) {
-                    for (var mark in newToolbar[el].state.__marks){
-                        if (newToolbar[el].state.__marks[mark].connection === action.payload.ids[0]){
-                            delete newToolbar[el].state.__marks[mark];
-
+            parents.forEach((el)=>{
+                if (newToolbarCV[el].state && newToolbarCV[el].state.__marks) {
+                    for (var mark in newToolbarCV[el].state.__marks){
+                        if (newToolbarCV[el].state.__marks[mark].connection === action.payload.ids[0]){
+                            delete newToolbarCV[el].state.__marks[mark];
                         }
                     }
                 }
             });
-            return deleteProps(newToolbar, boxes.concat(action.payload.ids[0]));
+            console.log(newToolbarCV)
+            return deleteProps(newToolbarCV, boxesCV.concat(action.payload.ids[0]));
         case DELETE_NAV_ITEM:
-            let boxesCV = action.payload.boxes ? action.payload.boxes : [];
-            return deleteProps(state, boxesCV.concat(action.payload.id));
+            let boxes = action.payload.boxes ? action.payload.boxes : [];
+            let linkedBoxes = action.payload.linkedBoxes ? action.payload.linkedBoxes : [];
+            let newToolbar = Object.assign({},state);
+            console.log(action.payload)
+            linkedBoxes.forEach((el)=>{
+                if (newToolbar[el].state && newToolbar[el].state.__marks) {
+                    for (var mark in newToolbar[el].state.__marks){
+                        action.payload.ids.forEach((id)=>{
+                            if (newToolbar[el].state.__marks[mark] && newToolbar[el].state.__marks[mark].connection === id){
+                                delete newToolbar[el].state.__marks[mark];
+                            }
+                        });
+
+                    }
+                }
+            });
+            console.log(newToolbar)
+            return deleteProps(newToolbar, boxes.concat(action.payload.ids));
         case DELETE_SORTABLE_CONTAINER:
             return deleteProps(state, action.payload.children);
         case DUPLICATE_BOX:
@@ -630,12 +648,13 @@ export default function (state = {}, action = {}) {
             replaced = Object.assign({}, Object.replaceAll(replaced, action.payload.id.substr(3), action.payload.newId));
             return Object.assign({}, newState, replaced);
         case EDIT_RICH_MARK:
-            return changeProp(state, action.payload.parent, toolbarReducer(state[action.payload.parent], action));
+            return state;
+            // return changeProp(state, action.payload.parent, toolbarReducer(state[action.payload.parent], action));
         case DELETE_RICH_MARK:
             // if (state[action.payload.parent] && state[action.payload.parent].state.__marks && state[action.payload.parent].state.__marks[action.payload.id]) {
-            return changeProp(state, action.payload.parent, toolbarReducer(state[action.payload.parent], action));
+            // return changeProp(state, action.payload.parent, toolbarReducer(state[action.payload.parent], action));
             // }
-            // return state;
+            return state;
         case RESIZE_BOX:
             return changeProp(state, action.payload.id, toolbarReducer(state[action.payload.id], action));
         case RESIZE_SORTABLE_CONTAINER:

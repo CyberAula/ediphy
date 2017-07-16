@@ -1,5 +1,6 @@
 import {ADD_BOX, MOVE_BOX, ADD_NAV_ITEM, CHANGE_NAV_ITEM_NAME, CHANGE_UNIT_NUMBER, DELETE_BOX, DUPLICATE_BOX, EXPAND_NAV_ITEM,
     REORDER_NAV_ITEM, DELETE_NAV_ITEM, TOGGLE_NAV_ITEM, TOGGLE_TITLE_MODE, UPDATE_NAV_ITEM_EXTRA_FILES, DELETE_SORTABLE_CONTAINER,
+    ADD_RICH_MARK, EDIT_RICH_MARK, DELETE_RICH_MARK,
     IMPORT_STATE} from './../actions';
 import {ID_PREFIX_BOX} from './../constants';
 import {changeProp, changeProps, deleteProp, deleteProps, isView, isSlide, isDocument, findNavItemContainingBox, findDescendantNavItems, isContainedView} from './../utils';
@@ -12,6 +13,7 @@ function navItemCreator(state = {}, action = {}) {
         parent: action.payload.parent,
         children: [],
         boxes: [],
+        linkedBoxes: [],
         level: state[action.payload.parent].level + 1,
         type: action.payload.type,
         unitNumber: (action.payload.parent === 0 ?
@@ -109,6 +111,8 @@ function singleNavItemReducer(state = {}, action = {}) {
             return changeProp(state, "hidden", action.payload.value);
         case TOGGLE_TITLE_MODE:
             return changeProp(state, "header", action.payload.titles);
+        case ADD_RICH_MARK:
+            return changeProp(state, "linkedBoxes", [...state.linkedBoxes,action.payload.parent]);
         case UPDATE_NAV_ITEM_EXTRA_FILES:
             return changeProp(
                 state,
@@ -287,6 +291,18 @@ export default function (state = {}, action = {}) {
             return changeProps(state, itemsToToggle, itemsToggled);
         case TOGGLE_TITLE_MODE:
             return changeProp(state, action.payload.id, singleNavItemReducer(state[action.payload.id], action));
+        case ADD_RICH_MARK:
+            console.log(action.payload)
+            if (action.payload && action.payload.mark && action.payload.mark.connectMode === 'existing' && action.payload.mark.connection) {
+                if (!isContainedView(action.payload.mark.connection)){
+                    return changeProp(state, action.payload.mark.connection, singleNavItemReducer(state[action.payload.mark.connection], action));
+
+                }
+            }
+            return state;
+        case DELETE_RICH_MARK:
+            //Problema: no se puede eliminar la box parent por si acaso hay 2 marcas en la misma box que enlazan a la misma página
+            return state;
         case UPDATE_NAV_ITEM_EXTRA_FILES:
             return changeProp(state, action.payload.id, singleNavItemReducer(state[action.payload.id], action));
         case IMPORT_STATE:

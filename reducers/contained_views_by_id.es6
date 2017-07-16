@@ -60,8 +60,7 @@ export default function (state = {}, action = {}) {
             return changeProp(state, action.payload.id, singleContainedViewReducer(state[action.payload.id], action));
         case DELETE_CONTAINED_VIEW:
             return deleteProps(state, action.payload.ids);
-      /*  case DELETE_NAV_ITEM:
-            return deleteProps(state, action.payload.containedViews);*/
+
         /*case DELETE_SORTABLE_CONTAINER:
             let item = findNavItemContainingBox(state,action.payload.parent);
             if(item) {

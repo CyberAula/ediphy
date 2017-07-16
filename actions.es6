@@ -84,8 +84,8 @@ export function expandNavItem(id, value) {
     return {type: EXPAND_NAV_ITEM, payload: {id, value}};
 }
 
-export function deleteNavItem(ids, parent, boxes, containedViews) {
-    return {type: DELETE_NAV_ITEM, payload: {ids, parent, boxes, containedViews}};
+export function deleteNavItem(ids, parent, boxes, containedViews, linkedBoxes) {
+    return {type: DELETE_NAV_ITEM, payload: {ids, parent, boxes, containedViews, linkedBoxes}};
 }
 
 export function reorderNavItem(id, newParent, oldParent, idsInOrder, childrenInOrder) {
