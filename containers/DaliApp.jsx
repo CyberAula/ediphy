@@ -27,6 +27,7 @@ import DaliNavBar from '../components/nav_bar/dali_nav_bar/DaliNavBar';
 import ServerFeedback from '../components/server_feedback/ServerFeedback';
 import RichMarksModal from '../components/rich_plugins/rich_marks_modal/RichMarksModal';
 import AutoSave from '../components/autosave/AutoSave';
+import i18n from 'i18next';
 import Dali from './../core/main';
 import {isSortableBox, isSection, isContainedView, isSortableContainer} from './../utils';
 
@@ -392,10 +393,25 @@ class DaliApp extends Component {
                                         state,
                                         boxSelected,
                                         DELETE_RICH_MARK);
-                                   /*if (isContainedView(cvid)){
+
+                                   // This checks if the deleted mark leaves an orphan contained view, and displays a message asking if the user would like to delete it as well
+                                   if (isContainedView(cvid)){
                                        let thiscv = containedViews[cvid];
-                                       if(thiscv && thiscv.parent.length == 1 && thiscv.parent.indexOf(boxSelected) !== -1 ){
-                                           if (confirm("Esta es la única marca que enlaza a --. Desea eliminar la vista también?")) {
+                                       if(thiscv && thiscv.parent.indexOf(boxSelected) !== -1 ){
+                                           let remainingMarks = [];
+                                           thiscv.parent.forEach((linkedbox)=>{
+                                               if (toolbars[linkedbox]&& toolbars[linkedbox].state && toolbars[linkedbox].state.__marks) {
+                                                   for (var i in toolbars[linkedbox].state.__marks){
+                                                       var mark = toolbars[linkedbox].state.__marks[i];
+                                                        if (mark.connection === cvid) {
+                                                           remainingMarks.push(cvid);
+                                                       }
+                                                   }
+                                               }
+                                           });
+                                           let confirmText = i18n.t("messages.confirm_delete_CV_also_1") + containedViews[cvid].name + i18n.t("messages.confirm_delete_CV_also_2");
+                                           console.log(confirmText)
+                                           if (remainingMarks.length ===1 && confirm(confirmText)) {
                                                let boxesRemoving = [];
                                                containedViews[cvid].boxes.map(boxId => {
                                                    boxesRemoving.push(boxId);
@@ -405,7 +421,7 @@ class DaliApp extends Component {
                                                this.dispatchAndSetState(deleteContainedView([cvid], boxesRemoving, thiscv.parent));
                                            }
                                        }
-                                   }*/
+                                   }
 
                                }}
                                onUploadVishResource={(query) => this.dispatchAndSetState(uploadVishResourceAsync(query))}
