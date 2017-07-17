@@ -54,10 +54,13 @@ export default class SideNavVisor extends Component {
         );
     }
     getCurrentNavItem(ids){
-        return ids.reduce(e=>{
+        let navs = ids.filter(isPage);
+        return navs.length > 0 ? navs[navs.length-1] : 0;
+        /*return ids.reduce(e=>{
             if (isPage(e)){
+                console.log(e)
                 return e;
             }
-        });
+        });*/
     }
 }
