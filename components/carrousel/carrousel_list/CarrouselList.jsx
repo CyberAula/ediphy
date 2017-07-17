@@ -262,7 +262,6 @@ export default class CarrouselList extends Component {
                                         {
                                             if(this.props.indexSelected !== 0 ){
                                                 if (isContainedView(this.props.indexSelected) /*&& this.canDeleteContainedView(this.props.indexSelected)*/) {
-                                                    console.log(this.props.containedViews[this.props.indexSelected])
                                                     this.props.onContainedViewDeleted(this.props.indexSelected);
                                                 } else {
                                                     this.props.onNavItemDeleted(this.props.indexSelected);

@@ -117,14 +117,16 @@ class DaliApp extends Component {
                                       });
 
                                       this.dispatchAndSetState(deleteContainedView([cvid], boxesRemoving, containedViews[cvid].parent));
-                                      containedViews[cvid].parent.forEach((box) => {
-                                          if(toolbars[box]) {
-                                              console.log(toolbars[box].config.name)
-                                              Dali.Plugins.get(toolbars[box].config.name).render(DELETE_CONTAINED_VIEW);
+
+                                      containedViews[cvid].parent.forEach((el)=>{
+                                          if (toolbars[el].state && toolbars[el].state.__marks) {
+                                              Dali.Plugins.get(toolbars[el].config.name).forceUpdate(
+                                                  toolbars[el].state,
+                                                  el,
+                                                  DELETE_CONTAINED_VIEW
+                                              );
                                           }
                                       });
-                                      // Dali.Plugins.get(toolbars[containedViews[cvid].parent[0]].config.name).render(DELETE_CONTAINED_VIEW);
-
                                   }}
                                   onNavItemNameChanged={(id, title) => this.dispatchAndSetState(changeNavItemName(id,title))}
                                   onNavItemAdded={(id, name, parent, type, position) => this.dispatchAndSetState(addNavItem(id, name, parent, type, position, (type !== 'section' || (type === 'section' && Dali.Config.sections_have_content)) ))}
@@ -144,9 +146,16 @@ class DaliApp extends Component {
                                     let marksRemoving = this.getDescendantLinkedBoxes(viewRemoving, navItems) || [];
                                     this.dispatchAndSetState(deleteNavItem(viewRemoving, navItems[navsel].parent, boxesRemoving, containedRemoving, marksRemoving));
 
-                                    marksRemoving.forEach((box) => {
-                                        if(toolbars[box]) {
-                                            Dali.Plugins.get(toolbars[box].config.name).render(DELETE_NAV_ITEM);
+                                    marksRemoving.forEach((el) => {
+                                        if(toolbars[el]) {
+                                            if (toolbars[el].state && toolbars[el].state.__marks) {
+                                                Dali.Plugins.get(toolbars[el].config.name).forceUpdate(
+                                                    toolbars[el].state,
+                                                    el,
+                                                    DELETE_NAV_ITEM
+                                                );
+                                            }
+
                                         }
                                     });
                                   }}
@@ -475,7 +484,6 @@ class DaliApp extends Component {
                 case EDIT_PLUGIN_TEXT:
                 case UPDATE_BOX:
                 case UPDATE_TOOLBAR:
-                    console.log('render',e.detail)
                      this.dispatchAndSetState(updateBox(
                         e.detail.ids.id,
                         e.detail.content,

@@ -481,7 +481,6 @@ function toolbarReducer(state, action) {
         case TOGGLE_TEXT_EDITOR:
             return changeProp(state, "showTextEditor", action.payload.value);
         case UPDATE_BOX:
-            console.log(state)
             let controls = action.payload.toolbar;
             if (!isSortableBox(action.payload.id)) {
                 createSizeButtons(controls, state, action);
@@ -614,13 +613,11 @@ export default function (state = {}, action = {}) {
                     }
                 }
             });
-            console.log(newToolbarCV)
             return deleteProps(newToolbarCV, boxesCV.concat(action.payload.ids[0]));
         case DELETE_NAV_ITEM:
             let boxes = action.payload.boxes ? action.payload.boxes : [];
             let linkedBoxes = action.payload.linkedBoxes ? action.payload.linkedBoxes : [];
             let newToolbar = Object.assign({},state);
-            console.log(action.payload)
             linkedBoxes.forEach((el)=>{
                 if (newToolbar[el].state && newToolbar[el].state.__marks) {
                     for (var mark in newToolbar[el].state.__marks){
@@ -633,7 +630,6 @@ export default function (state = {}, action = {}) {
                     }
                 }
             });
-            console.log(newToolbar)
             return deleteProps(newToolbar, boxes.concat(action.payload.ids));
         case DELETE_SORTABLE_CONTAINER:
             return deleteProps(state, action.payload.children);

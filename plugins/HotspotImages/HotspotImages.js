@@ -101,7 +101,6 @@ export function HotspotImages(base) {
         },
         getRenderTemplate: function (state) {
             /* jshint ignore:start */
-            console.log('getrendertemplate');
             let marks = state.__marks;
             let markElements = Object.keys(marks).map((id) =>{
                 let value = marks[id].value;

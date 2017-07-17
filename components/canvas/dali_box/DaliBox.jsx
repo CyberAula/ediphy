@@ -217,7 +217,6 @@ export default class DaliBox extends Component {
                         // Código duplicado en DaliBox, DaliShortcuts y PluginToolbar. Extraer a common_tools?
                         let CKstring = CKEDITOR.instances[this.props.id].getData();
                         let initString = "<p>" + i18n.t("text_here") + "</p>\n";
-                        console.log(CKstring,initString, initString === CKstring);
                         if( CKstring === initString) {
                             CKEDITOR.instances[this.props.id].setData("");
                         }
@@ -437,12 +436,6 @@ export default class DaliBox extends Component {
             Dali.Plugins.get(toolbar.config.name).afterRender(this.refs.content, toolbar.state);
         }
 
-/*        if ((action.type === ADD_RICH_MARK || action.type === DELETE_RICH_MARK) && (action.payload.parent === this.props.id)){
-            console.log('here')
-            */Dali.Plugins.get(toolbar.config.name).afterRender(this.refs.content, toolbar.state);/*
-            Dali.Plugins.get(toolbar.config.name).render(action.type);
-
-        }*/
 
     }
 

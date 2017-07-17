@@ -292,7 +292,6 @@ export default function (state = {}, action = {}) {
         case TOGGLE_TITLE_MODE:
             return changeProp(state, action.payload.id, singleNavItemReducer(state[action.payload.id], action));
         case ADD_RICH_MARK:
-            console.log(action.payload)
             if (action.payload && action.payload.mark && action.payload.mark.connectMode === 'existing' && action.payload.mark.connection) {
                 if (!isContainedView(action.payload.mark.connection)){
                     return changeProp(state, action.payload.mark.connection, singleNavItemReducer(state[action.payload.mark.connection], action));
