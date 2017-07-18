@@ -1,5 +1,5 @@
 import {ADD_BOX, ADD_RICH_MARK, CHANGE_NAV_ITEM_NAME, DELETE_BOX, DELETE_RICH_MARK, DELETE_CONTAINED_VIEW, ADD_NAV_ITEM, DELETE_NAV_ITEM, DELETE_SORTABLE_CONTAINER, DUPLICATE_BOX,
-    EDIT_RICH_MARK, RESIZE_BOX, RESIZE_SORTABLE_CONTAINER, TOGGLE_TEXT_EDITOR, UPDATE_BOX, UPDATE_TOOLBAR,
+    EDIT_RICH_MARK, RESIZE_BOX, RESIZE_SORTABLE_CONTAINER, TOGGLE_TEXT_EDITOR, UPDATE_BOX, UPDATE_TOOLBAR, CHANGE_CONTAINED_VIEW_NAME,
     VERTICALLY_ALIGN_BOX, IMPORT_STATE} from './../actions';
 import Utils, {changeProp, changeProps, deleteProps, isSortableBox, isSortableContainer, isPage, isSection, isSlide, isDocument} from './../utils';
 import i18n from 'i18next';
@@ -26,7 +26,7 @@ function createRichAccordions(controls) {
             accordions: {
                 __marks_list: {
                     key: 'marks_list',
-                    __name: 'Marks List',
+                    __name: i18n.t("marks.marks_list"),
                     icon: 'room',
                     buttons: {}
                 }/*,
@@ -42,7 +42,7 @@ function createRichAccordions(controls) {
     if (!controls.main.accordions.__marks_list) {
         controls.main.accordions.__marks_list = {
             key: 'marks_list',
-            __name: 'Marks List',
+            __name: i18n.t("marks.marks_list"),
             icon: 'room',
             buttons: {}
         };
@@ -404,6 +404,10 @@ function toolbarReducer(state, action) {
             newState = Utils.deepClone(state);
             newState.controls.main.accordions.basic.buttons.navitem_name.value = action.payload.title;
             return newState;
+        case CHANGE_CONTAINED_VIEW_NAME:
+            newState = Utils.deepClone(state);
+            newState.controls.main.accordions.basic.buttons.navitem_name.value = action.payload.title;
+            return newState;
         case EDIT_RICH_MARK:
             return changeProp(state, "state", action.payload.state);
         case RESIZE_BOX:
@@ -596,6 +600,8 @@ export default function (state = {}, action = {}) {
         case CHANGE_NAV_ITEM_NAME:
             return changeProp(state, action.payload.id, toolbarReducer(state[action.payload.id], action));
             //return state;
+        case CHANGE_CONTAINED_VIEW_NAME:
+            return changeProp(state, action.payload.id, toolbarReducer(state[action.payload.id], action));
         case DELETE_BOX:
             let children = action.payload.children ? action.payload.children : [];
             return deleteProps(state, children.concat(action.payload.id));

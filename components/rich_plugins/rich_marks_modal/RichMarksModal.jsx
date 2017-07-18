@@ -187,7 +187,7 @@ export default class RichMarksModal extends Component {
                         let connection;
                          switch (connectMode){
                             case "new":
-                                connection = current ?
+                                connection = current && current.connection && current.connection.connectMode === 'new' ?
                                     current.connection :
                                     {
                                         id: newId,
@@ -212,7 +212,7 @@ export default class RichMarksModal extends Component {
 
                                 break;
                             case "existing":
-                                connection = this.state.existingSelected;
+                                connection = selected;
                                 break;
                             case "external":
                                 connection = ReactDOM.findDOMNode(this.refs.externalSelected).value;
@@ -222,24 +222,24 @@ export default class RichMarksModal extends Component {
                         let value = ReactDOM.findDOMNode(this.refs.value).value;
                         // If it is an Enriched Video, the value should be a percentage
                         if (this.props.pluginToolbar.config.category === 'multimedia'){
-                            let regex =  /(^\d+(?:\.\d*)?%$)/g;
-                            let match = regex.exec(value);
-                            if (match && match.length == 2){
+                             let regex =  /(^\d+(?:\.\d*)?%$)/g;
+                             let match = regex.exec(value);
+                             if (match && match.length == 2){
                                 let val = Math.round(parseFloat(match[1]) * 100) / 100;
                                 if (isNaN(val) || val > 100) {
                                     alert(i18n.t("messages.mark_percentage"));
                                     return;
                                 }
                                 value = val + '%'
-                            } else {
+                             } else {
                                 alert(i18n.t("messages.mark_percentage"));
                                 return;
-                            }
+                             }
                         // If it is an image, the value should be 2 coordinates
                         } else if (this.props.pluginToolbar.config.category === 'image'){
-                            let regex =  /(^\d+(?:\.\d*)?),(\d+(?:\.\d*)?$)/g ;
-                            let match = regex.exec(value);
-                            if(match && match.length === 3) {
+                              let regex =  /(^\d+(?:\.\d*)?),(\d+(?:\.\d*)?$)/g ;
+                              let match = regex.exec(value);
+                              if(match && match.length === 3) {
                                 let x = Math.round(parseFloat(match[1]) * 100) / 100;
                                 let y = Math.round(parseFloat(match[2]) * 100) / 100;
                                 if (isNaN(x) || isNaN(y) || x > 100 || y > 100) {
@@ -247,10 +247,10 @@ export default class RichMarksModal extends Component {
                                     return;
                                 }
                                 value = x + ',' + y;
-                            } else {
+                              } else {
                                 alert(i18n.t("messages.mark_xy"));
                                 return;
-                            }
+                              }
                         }
 
                         this.props.onRichMarkUpdated({id: (current ? current.id : ID_PREFIX_RICH_MARK + Date.now()), title, connectMode, connection, displayMode, value});
@@ -284,7 +284,7 @@ export default class RichMarksModal extends Component {
             if(!Dali.Config.sections_have_content && isSection(id)){
                 return;
             }
-
+            //We need to turn off this requisite in case there is no more pages available and we need to link to the same page the box is in
             /*if(props.containedViewSelected === 0 && props.navItemSelected === id){
                 return;
             }*/

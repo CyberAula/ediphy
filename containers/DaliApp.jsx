@@ -335,7 +335,7 @@ class DaliApp extends Component {
                                     Dali.Plugins.get(toolbar.config.name).forceUpdate(
                                         state,
                                         boxSelected,
-                                        this.state.currentRichMark ? EDIT_RICH_MARK : addRichMark(boxSelected, mark, state)
+                                        this.state.currentRichMark && mark.connectMode !== 'new' ? EDIT_RICH_MARK : addRichMark(boxSelected, mark, state)
                                     );
                                 }}
                                 onRichMarksModalToggled={() => {
@@ -410,7 +410,6 @@ class DaliApp extends Component {
                                                }
                                            });
                                            let confirmText = i18n.t("messages.confirm_delete_CV_also_1") + containedViews[cvid].name + i18n.t("messages.confirm_delete_CV_also_2");
-                                           console.log(confirmText)
                                            if (remainingMarks.length ===1 && confirm(confirmText)) {
                                                let boxesRemoving = [];
                                                containedViews[cvid].boxes.map(boxId => {
