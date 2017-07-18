@@ -131,7 +131,8 @@ var en = {
             "mark_name": "Mark name",
             "new_content": "New content",
             "new_document": "New document",
-            "new_slide": "New slide"
+            "new_slide": "New slide",
+            "new_mark": "Nueva marca",
         },
         "messages": {
             "add_new_mark": "Add new mark",
@@ -157,7 +158,9 @@ var en = {
             "export_to_HTML": "Export to HTML",
             "export_to_SCORM": "Export to SCORM",
             "global_config": "Global Config",
-            "height_auto_warning": "The boxes inside can only have a relative height if you fix the container height"
+            "height_auto_warning": "The boxes inside can only have a relative height if you fix the container height",
+            "mark_percentage": "You've chosen an incorrect value. You must introduce a percentage between 0 and 100. E.g.. 45.66%",
+            "mark_xy": "You've chosen an incorrect value. You must introduce two numbers between 0 and 100 separated by a comma. E.g. 4.56,90.76"
         },
         "Multimedia": "Multimedia",
         "NavItem_name": "Document name",

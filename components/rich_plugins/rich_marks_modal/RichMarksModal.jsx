@@ -4,7 +4,7 @@ import {Modal, Button, Row,Col, FormGroup, ControlLabel, FormControl, Radio} fro
 import Typeahead from 'react-bootstrap-typeahead';
 import {ID_PREFIX_RICH_MARK, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_CONTAINED_VIEW, PAGE_TYPES} from '../../../constants';
 import i18n from 'i18next';
-import {isSection} from '../../../utils';
+import {isSection, isContainedView} from '../../../utils';
 
 export default class RichMarksModal extends Component {
 
@@ -30,7 +30,7 @@ export default class RichMarksModal extends Component {
                 displayMode: current.displayMode || "navigate",
                 newSelected: (current.connectMode === "new" ? current.connection : PAGE_TYPES.SLIDE),
                 existingSelected: (current.connectMode === "existing" && this.remapInObject(nextProps.navItems,nextProps.containedViews)[current.connection] ?
-                    this.remapInObject(nextProps.navItems,nextProps.containedViews)[current.connection].name : "")
+                    this.remapInObject(nextProps.navItems,nextProps.containedViews)[current.connection].id : "")
             });
         }
 
@@ -44,6 +44,12 @@ export default class RichMarksModal extends Component {
         }
 
         let current = this.props.currentRichMark;
+        // Por defecto la página actual si no hay ninguna seleccionada
+        let currentView = this.props.containedViewSelected && this.props.containedViewSelected !== 0 ?  {label: this.props.containedViews[this.props.containedViewSelected].name, id: this.props.containedViewSelected}:
+                                                                                                        {label: this.props.navItems[this.props.navItemSelected].name, id: this.props.navItemSelected};
+
+        let selected = this.state.existingSelected ? (isContainedView(this.state.existingSelected) ? {label: this.props.containedViews[this.state.existingSelected].name, id: this.state.existingSelected}:
+                                                                                                     {label: this.props.navItems[this.state.existingSelected].name, id: this.state.existingSelected}): currentView;
         return (
             /* jshint ignore:start */
             <Modal className="pageModal" backdrop={true} bsSize="large" show={this.props.visible}>
@@ -60,7 +66,7 @@ export default class RichMarksModal extends Component {
                             <Col xs={8} md={6}>
                             <FormControl ref="title"
                                          type="text"
-                                         defaultValue={current ? current.title : ""}/>
+                                         defaultValue={current ? current.title : i18n.t("marks.new_mark")}/>
                             </Col>
                         </FormGroup>
                     </Row>
@@ -114,7 +120,7 @@ export default class RichMarksModal extends Component {
                             <Typeahead options={this.returnAllViews(this.props)}
                                        placeholder="Search view by name"
                                        ignoreDiacritics={false}
-                                       defaultSelected={[this.state.existingSelected]}
+                                       selected={[selected]}
                                        onChange={items => {
                                            this.setState({existingSelected: items.length !== 0 ? items[0].id : ""});
                                        }}/>
@@ -156,7 +162,7 @@ export default class RichMarksModal extends Component {
                                 <FormControl
                                          ref="value"
                                          type={this.state.actualMarkType}
-                                         defaultValue={current ? current.value : ""}/>
+                                         defaultValue={current ? current.value : "0,0"}/>
                             </Col>
                         </FormGroup>
                         </Row>
@@ -206,11 +212,46 @@ export default class RichMarksModal extends Component {
                         }
                         let displayMode = this.state.displayMode;
                         let value = ReactDOM.findDOMNode(this.refs.value).value;
+                        // If it is an Enriched Video, the value should be a percentage
+                        if (this.props.pluginToolbar.config.category === 'multimedia'){
+                            let regex =  /(^\d+(?:\.\d*)?%$)/g;
+                            let match = regex.exec(value);
+                            if (match && match.length == 2){
+                                let val = Math.round(parseFloat(match[1]) * 100) / 100;
+                                if (isNaN(val) || val > 100) {
+                                    alert(i18n.t("messages.mark_percentage"));
+                                    return;
+                                }
+                                value = val + '%'
+                            } else {
+                                alert(i18n.t("messages.mark_percentage"));
+                                return;
+                            }
+                        // If it is an image, the value should be 2 coordinates
+                        } else if (this.props.pluginToolbar.config.category === 'image'){
+                            let regex =  /(^\d+(?:\.\d*)?),(\d+(?:\.\d*)?$)/g ;
+                            let match = regex.exec(value);
+                            if(match && match.length === 3) {
+                                let x = Math.round(parseFloat(match[1]) * 100) / 100;
+                                let y = Math.round(parseFloat(match[2]) * 100) / 100;
+                                if (isNaN(x) || isNaN(y) || x > 100 || y > 100) {
+                                    alert(i18n.t("messages.mark_xy"));
+                                    return;
+                                }
+                                value = x + ',' + y;
+                            } else {
+                                alert(i18n.t("messages.mark_xy"));
+                                return;
+                            }
+                        }
+
                         this.props.onRichMarkUpdated({id: (current ? current.id : ID_PREFIX_RICH_MARK + Date.now()), title, connectMode, connection, displayMode, value});
                         if(connectMode === 'new' && this.state.newSelected === PAGE_TYPES.DOCUMENT) {
                             this.props.onBoxAdded({parent: newId, container: 0, id: ID_PREFIX_SORTABLE_BOX + Date.now()}, false, false);
                         }
                         this.props.onRichMarksModalToggled();
+
+
                     }}>Save changes</Button>
                 </Modal.Footer>
             </Modal>

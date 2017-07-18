@@ -54,7 +54,7 @@ export default class MarkCreator extends Component {
                 let boxSelected = this.props.boxSelected;
                  /* NEW MARK DEFAULT PARAMS*/
                 let connectMode = 'new';
-                let title = i18n.t('new_mark');
+                let title = i18n.t('marks.new_mark');
                 let type = this.props.pageType;
                 let newId = ID_PREFIX_CONTAINED_VIEW + Date.now();
                 let connection = {

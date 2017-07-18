@@ -129,7 +129,7 @@ export function HotspotImages(base) {
         parseRichMarkInput: function(...value){
             let x = value[0]*100/value[2];
             let y = value [1]*100/value[3];
-            let finalValue = y.toFixed(3)+","+x.toFixed(3);
+            let finalValue = y.toFixed(2)+","+x.toFixed(2);
 
             return finalValue;
         }
