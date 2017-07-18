@@ -127,6 +127,7 @@ var en = {
             "edit_mark_to": "Edit mark to",
             "existing_content": "Existing content",
             "external_url": "External URL",
+            "hover_message": "Enlaza con ",
             "link_to": "Link to",
             "mark_name": "Mark name",
             "new_content": "New content",

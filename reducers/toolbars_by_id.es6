@@ -605,7 +605,7 @@ export default function (state = {}, action = {}) {
             let parents = action.payload.parent ? action.payload.parent : [];
             //Delete all related marks
             parents.forEach((el)=>{
-                if (newToolbarCV[el].state && newToolbarCV[el].state.__marks) {
+                if (newToolbarCV[el] && newToolbarCV[el].state && newToolbarCV[el].state.__marks) {
                     for (var mark in newToolbarCV[el].state.__marks){
                         if (newToolbarCV[el].state.__marks[mark].connection === action.payload.ids[0]){
                             delete newToolbarCV[el].state.__marks[mark];
@@ -619,7 +619,7 @@ export default function (state = {}, action = {}) {
             let linkedBoxes = action.payload.linkedBoxes ? action.payload.linkedBoxes : [];
             let newToolbar = Object.assign({},state);
             linkedBoxes.forEach((el)=>{
-                if (newToolbar[el].state && newToolbar[el].state.__marks) {
+                if (newToolbar[el] && newToolbar[el].state && newToolbar[el].state.__marks) {
                     for (var mark in newToolbar[el].state.__marks){
                         action.payload.ids.forEach((id)=>{
                             if (newToolbar[el].state.__marks[mark] && newToolbar[el].state.__marks[mark].connection === id){

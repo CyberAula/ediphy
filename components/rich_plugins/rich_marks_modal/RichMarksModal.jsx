@@ -48,8 +48,16 @@ export default class RichMarksModal extends Component {
         let currentView = this.props.containedViewSelected && this.props.containedViewSelected !== 0 ?  {label: this.props.containedViews[this.props.containedViewSelected].name, id: this.props.containedViewSelected}:
                                                                                                         {label: this.props.navItems[this.props.navItemSelected].name, id: this.props.navItemSelected};
 
-        let selected = this.state.existingSelected ? (isContainedView(this.state.existingSelected) ? {label: this.props.containedViews[this.state.existingSelected].name, id: this.state.existingSelected}:
-                                                                                                     {label: this.props.navItems[this.state.existingSelected].name, id: this.state.existingSelected}): currentView;
+        let selected = this.state.existingSelected && (this.props.containedViews[this.state.existingSelected] || this.props.navItems[this.state.existingSelected]) ? (isContainedView(this.state.existingSelected) ? {label: this.props.containedViews[this.state.existingSelected].name, id: this.state.existingSelected}:
+                                                                                                                                                                                                                     {label: this.props.navItems[this.state.existingSelected].name, id: this.state.existingSelected}): currentView;
+        let newSelected = "";
+        if (this.state.newSelected){
+            if (this.props.containedViews[this.state.newSelected]){
+                newSelected = this.props.containedViews[this.state.newSelected].name;
+            } else if (this.props.navItems[this.state.newSelected]) {
+                newSelected = this.props.navItems[this.state.newSelected].name;
+            }
+        }
         return (
             /* jshint ignore:start */
             <Modal className="pageModal" backdrop={true} bsSize="large" show={this.props.visible}>
@@ -113,7 +121,7 @@ export default class RichMarksModal extends Component {
                             <span style={{
                                 display: this.state.newSelected === PAGE_TYPES.SLIDE || this.state.newSelected === PAGE_TYPES.DOCUMENT ? "none" : "initial"
                                 }}>
-                                Connected to {this.state.newSelected}
+                                {i18n.t("marks.hover_message")} {newSelected}
                             </span>
                         </FormGroup>
                         <FormGroup style={{display: this.state.connectMode === "existing" ? "initial" : "none"}}>
@@ -128,7 +136,7 @@ export default class RichMarksModal extends Component {
                         <FormGroup style={{display: this.state.connectMode === "external" ? "initial" : "none"}}>
                             <FormControl ref="externalSelected"
                                          type="text"
-                                         defaultValue={current && this.state.connectMode === "external" ? current.connection : ""}
+                                         defaultValue={current && this.state.connectMode === "external" ? current.connection : "http://vishub.org/"}
                                          placeholder="URL"/>
                         </FormGroup>
                         </Col>
@@ -277,9 +285,9 @@ export default class RichMarksModal extends Component {
                 return;
             }
 
-            if(props.containedViewSelected === 0 && props.navItemSelected === id){
+            /*if(props.containedViewSelected === 0 && props.navItemSelected === id){
                 return;
-            }
+            }*/
 
             viewNames.push({label: props.navItems[id].name, id: id});
         });

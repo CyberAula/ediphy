@@ -120,7 +120,7 @@ class DaliApp extends Component {
                                       this.dispatchAndSetState(deleteContainedView([cvid], boxesRemoving, containedViews[cvid].parent));
 
                                       containedViews[cvid].parent.forEach((el)=>{
-                                          if (toolbars[el].state && toolbars[el].state.__marks) {
+                                          if (toolbars[el] && toolbars[el].state && toolbars[el].state.__marks) {
                                               Dali.Plugins.get(toolbars[el].config.name).forceUpdate(
                                                   toolbars[el].state,
                                                   el,

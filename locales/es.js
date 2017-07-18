@@ -125,6 +125,7 @@ var es = {
           "edit_mark_to": "Editar marca a",
           "existing_content": "Contenido Existente",
           "external_url": "Url externa",
+          "hover_message": "Enlaza con ",
           "link_to": "Enlazar con",
           "mark_name": "Nombre marca",
           "new_content": "Nuevo contenido",
