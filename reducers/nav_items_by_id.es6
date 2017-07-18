@@ -112,7 +112,7 @@ function singleNavItemReducer(state = {}, action = {}) {
         case TOGGLE_TITLE_MODE:
             return changeProp(state, "header", action.payload.titles);
         case ADD_RICH_MARK:
-            return changeProp(state, "linkedBoxes", [...state.linkedBoxes,action.payload.parent]);
+            return changeProp(state, "linkedBoxes", [...(state.linkedBoxes||[]),action.payload.parent]);
         case UPDATE_NAV_ITEM_EXTRA_FILES:
             return changeProp(
                 state,

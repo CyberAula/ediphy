@@ -277,7 +277,6 @@ function toolbarSectionCreator(state, action, isContainedView = false) {
     let doc_type;
     let id = isContainedView ? action.payload.mark.connection.id: action.payload.id;
     let type = isContainedView ? action.payload.mark.connection.type:action.payload.type;
-
     if (isPage(id)) {
       doc_type = i18n.t('page');
     }
@@ -593,7 +592,7 @@ export default function (state = {}, action = {}) {
         case ADD_RICH_MARK:
             newState = state;
             if(action.payload.mark.connectMode === "new"){
-                let modState = changeProp(state, action.payload.mark.connection.id, toolbarSectionCreator(state, action, true));
+                let modState = changeProp(state, action.payload.mark.connection.id || action.payload.mark.connection , toolbarSectionCreator(state, action, true));
                 newState = changeProp(modState, action.payload.parent, toolbarReducer(modState[action.payload.parent], action));
             }
             return newState;

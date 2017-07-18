@@ -22,11 +22,11 @@ export default class MarksList extends Component {
                         let mark = this.props.state.__marks[id];
                         let name = mark.connection;
                         try {
-                            name = this.props.toolbars[mark.connection] ? this.props.toolbars[mark.connection].controls.main.accordions.basic.buttons.navitem_name.value :  mark.connection;
+                            name = this.props.toolbars[mark.connection.id || mark.connection] ? this.props.toolbars[mark.connection.id || mark.connection].controls.main.accordions.basic.buttons.navitem_name.value :  mark.connection;
                         } catch(e){ }
                         return (
                             <div style={{display:"block", backgroundColor: '#444', padding: '2px', marginTop: '3px'}} key={id}>
-                                {mark.connection ? (<OverlayTrigger placement="top" overlay={(<Tooltip  id={"markToolTip-"+id}>{i18n.t('marks.hover_message' )+ name}</Tooltip>)}>
+                                {mark.connection ? (<OverlayTrigger placement="top" overlay={(<Tooltip  id={"markToolTip-"+id}>{i18n.t('marks.hover_message' )+ "\"" + name + "\""}</Tooltip>)}>
                                     <i className="material-icons marklist">room</i>
                                 </OverlayTrigger>):
                                     (<i className="material-icons marklist">room</i>)}

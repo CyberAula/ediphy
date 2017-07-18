@@ -318,6 +318,7 @@ class DaliApp extends Component {
                 <RichMarksModal boxSelected={boxSelected}
                                 pluginToolbar={toolbars[boxSelected]}
                                 navItemSelected={navItemSelected}
+                                toolbars={toolbars}
                                 containedViewSelected={containedViewSelected}
                                 containedViews={containedViews}
                                 navItems={navItems}
@@ -332,10 +333,11 @@ class DaliApp extends Component {
                                     if(mark.connection.id){
                                         state.__marks[mark.id].connection = mark.connection.id;
                                     }
+                                    let dontCreateNew = toolbars[mark.connection.id] ? true: false;
                                     Dali.Plugins.get(toolbar.config.name).forceUpdate(
                                         state,
                                         boxSelected,
-                                        this.state.currentRichMark && mark.connectMode !== 'new' ? EDIT_RICH_MARK : addRichMark(boxSelected, mark, state)
+                                        this.state.currentRichMark && dontCreateNew ? EDIT_RICH_MARK : addRichMark(boxSelected, mark, state)
                                     );
                                 }}
                                 onRichMarksModalToggled={() => {
