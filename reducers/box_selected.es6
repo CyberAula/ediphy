@@ -8,6 +8,9 @@ export default function (state = -1, action = {}) {
         case ADD_BOX:
             // When we create a new document, new DaliBoxSortable is created aswell; we don't want it to be selected
             if (isSortableBox(action.payload.ids.id)) {
+                if (isContainedView(action.payload.ids.parent)){
+                    return state;
+                }
                 return -1;
             }
             // When we create a new box with default plugins, we don't want them to be selected
@@ -16,6 +19,7 @@ export default function (state = -1, action = {}) {
             }
             // Just normal situation
             return action.payload.ids.id;
+
         case ADD_NAV_ITEM:
             return -1;
         case DELETE_BOX:

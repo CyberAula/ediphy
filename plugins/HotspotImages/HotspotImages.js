@@ -111,6 +111,7 @@ export function HotspotImages(base) {
                     position = [0,0];
                 }
 
+
                 return(<a key={id} style={{position: 'absolute', top: position[0] + "%",left: position[1] + "%"}} href="#"><i style={{width:"100%",height:"100%"}} className="material-icons">room</i></a>)
             });
 
@@ -128,7 +129,7 @@ export function HotspotImages(base) {
         parseRichMarkInput: function(...value){
             let x = value[0]*100/value[2];
             let y = value [1]*100/value[3];
-            let finalValue = y.toFixed(3)+","+x.toFixed(3);
+            let finalValue = y.toFixed(2)+","+x.toFixed(2);
 
             return finalValue;
         }

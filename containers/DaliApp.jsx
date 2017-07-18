@@ -11,8 +11,8 @@ import {addNavItem, selectNavItem, expandNavItem, deleteNavItem, reorderNavItem,
     exportStateAsync, importStateAsync, changeGlobalConfig,
     fetchVishResourcesSuccess, fetchVishResourcesAsync, uploadVishResourceAsync,
     deleteContainedView, selectContainedView, changeContainedViewName,
-    addRichMark, editRichMark,
-    ADD_BOX, ADD_RICH_MARK, EDIT_RICH_MARK, EDIT_PLUGIN_TEXT, DELETE_RICH_MARK, UPDATE_BOX, UPDATE_TOOLBAR} from '../actions';
+    addRichMark, editRichMark, deleteRichMark,
+    ADD_BOX, ADD_RICH_MARK, EDIT_RICH_MARK, EDIT_PLUGIN_TEXT, DELETE_CONTAINED_VIEW, DELETE_NAV_ITEM,  DELETE_RICH_MARK, UPDATE_BOX, UPDATE_TOOLBAR} from '../actions';
 import {ID_PREFIX_BOX, ID_PREFIX_SORTABLE_CONTAINER} from '../constants';
 import DaliCanvas from '../components/canvas/dali_canvas/DaliCanvas';
 import ContainedCanvas from '../components/rich_plugins/contained_canvas/ContainedCanvas';
@@ -27,8 +27,9 @@ import DaliNavBar from '../components/nav_bar/dali_nav_bar/DaliNavBar';
 import ServerFeedback from '../components/server_feedback/ServerFeedback';
 import RichMarksModal from '../components/rich_plugins/rich_marks_modal/RichMarksModal';
 import AutoSave from '../components/autosave/AutoSave';
+import i18n from 'i18next';
 import Dali from './../core/main';
-import {isSortableBox, isSection, isSortableContainer} from './../utils';
+import {isSortableBox, isSection, isContainedView, isSortableContainer} from './../utils';
 
 
 class DaliApp extends Component {
@@ -115,7 +116,18 @@ class DaliApp extends Component {
                                           boxesRemoving.push(boxId);
                                           boxesRemoving = boxesRemoving.concat(this.getDescendantBoxes(boxes[boxId]));
                                       });
-                                      this.dispatchAndSetState(deleteContainedView([cvid], boxesRemoving));
+
+                                      this.dispatchAndSetState(deleteContainedView([cvid], boxesRemoving, containedViews[cvid].parent));
+
+                                      containedViews[cvid].parent.forEach((el)=>{
+                                          if (toolbars[el] && toolbars[el].state && toolbars[el].state.__marks) {
+                                              Dali.Plugins.get(toolbars[el].config.name).forceUpdate(
+                                                  toolbars[el].state,
+                                                  el,
+                                                  DELETE_CONTAINED_VIEW
+                                              );
+                                          }
+                                      });
                                   }}
                                   onNavItemNameChanged={(id, title) => this.dispatchAndSetState(changeNavItemName(id,title))}
                                   onNavItemAdded={(id, name, parent, type, position) => this.dispatchAndSetState(addNavItem(id, name, parent, type, position, (type !== 'section' || (type === 'section' && Dali.Config.sections_have_content)) ))}
@@ -132,7 +144,21 @@ class DaliApp extends Component {
                                             //containedRemoving = containedRemoving.concat(this.getDescendantContainedViews(boxes[boxId]));
                                         });
                                     });
-                                    this.dispatchAndSetState(deleteNavItem(viewRemoving, navItems[navsel].parent, boxesRemoving, containedRemoving))
+                                    let marksRemoving = this.getDescendantLinkedBoxes(viewRemoving, navItems) || [];
+                                    this.dispatchAndSetState(deleteNavItem(viewRemoving, navItems[navsel].parent, boxesRemoving, containedRemoving, marksRemoving));
+
+                                    marksRemoving.forEach((el) => {
+                                        if(toolbars[el]) {
+                                            if (toolbars[el].state && toolbars[el].state.__marks) {
+                                                Dali.Plugins.get(toolbars[el].config.name).forceUpdate(
+                                                    toolbars[el].state,
+                                                    el,
+                                                    DELETE_NAV_ITEM
+                                                );
+                                            }
+
+                                        }
+                                    });
                                   }}
                                   onNavItemReordered={(id, newParent, oldParent, idsInOrder, childrenInOrder) => this.dispatchAndSetState(reorderNavItem(id, newParent, oldParent, idsInOrder, childrenInOrder))}
                                   onNavItemToggled={ id => this.dispatchAndSetState(toggleNavItem(id)) }
@@ -197,7 +223,7 @@ class DaliApp extends Component {
                                             if(mark.connection.id){
                                                 state.__marks[mark.id].connection = mark.connection.id;
                                             }
-
+                                            // this.dispatchAndSetState(addRichMark(boxSelected, mark, state));
 
                                             Dali.Plugins.get(toolbar.config.name).forceUpdate(
                                                 state,
@@ -292,6 +318,7 @@ class DaliApp extends Component {
                 <RichMarksModal boxSelected={boxSelected}
                                 pluginToolbar={toolbars[boxSelected]}
                                 navItemSelected={navItemSelected}
+                                toolbars={toolbars}
                                 containedViewSelected={containedViewSelected}
                                 containedViews={containedViews}
                                 navItems={navItems}
@@ -306,10 +333,11 @@ class DaliApp extends Component {
                                     if(mark.connection.id){
                                         state.__marks[mark.id].connection = mark.connection.id;
                                     }
+                                    let dontCreateNew = toolbars[mark.connection.id] ? true: false;
                                     Dali.Plugins.get(toolbar.config.name).forceUpdate(
                                         state,
                                         boxSelected,
-                                        this.state.currentRichMark ? EDIT_RICH_MARK : addRichMark(boxSelected, mark, state)
+                                        this.state.currentRichMark && dontCreateNew ? EDIT_RICH_MARK : addRichMark(boxSelected, mark, state)
                                     );
                                 }}
                                 onRichMarksModalToggled={() => {
@@ -359,11 +387,43 @@ class DaliApp extends Component {
                                onRichMarkDeleted={id => {
                                     let toolbar = toolbars[boxSelected];
                                     let state = JSON.parse(JSON.stringify(toolbar.state));
+                                    let cvid = state.__marks[id].connection;
+
                                     delete state.__marks[id];
+                                    this.dispatchAndSetState(deleteRichMark(id, boxSelected, state));
                                     Dali.Plugins.get(toolbar.config.name).forceUpdate(
                                         state,
                                         boxSelected,
                                         DELETE_RICH_MARK);
+
+                                   // This checks if the deleted mark leaves an orphan contained view, and displays a message asking if the user would like to delete it as well
+                                   if (isContainedView(cvid)){
+                                       let thiscv = containedViews[cvid];
+                                       if(thiscv && thiscv.parent.indexOf(boxSelected) !== -1 ){
+                                           let remainingMarks = [];
+                                           thiscv.parent.forEach((linkedbox)=>{
+                                               if (toolbars[linkedbox]&& toolbars[linkedbox].state && toolbars[linkedbox].state.__marks) {
+                                                   for (var i in toolbars[linkedbox].state.__marks){
+                                                       var mark = toolbars[linkedbox].state.__marks[i];
+                                                        if (mark.connection === cvid) {
+                                                           remainingMarks.push(cvid);
+                                                       }
+                                                   }
+                                               }
+                                           });
+                                           let confirmText = i18n.t("messages.confirm_delete_CV_also_1") + containedViews[cvid].name + i18n.t("messages.confirm_delete_CV_also_2");
+                                           if (remainingMarks.length ===1 && confirm(confirmText)) {
+                                               let boxesRemoving = [];
+                                               containedViews[cvid].boxes.map(boxId => {
+                                                   boxesRemoving.push(boxId);
+                                                   boxesRemoving = boxesRemoving.concat(this.getDescendantBoxes(boxes[boxId]));
+                                               });
+
+                                               this.dispatchAndSetState(deleteContainedView([cvid], boxesRemoving, thiscv.parent));
+                                           }
+                                       }
+                                   }
+
                                }}
                                onUploadVishResource={(query) => this.dispatchAndSetState(uploadVishResourceAsync(query))}
                                onFetchVishResources={(query) => this.dispatchAndSetState(fetchVishResourcesAsync(query))}
@@ -436,10 +496,12 @@ class DaliApp extends Component {
                     ));
                     break;
                 case DELETE_RICH_MARK:
+                case DELETE_NAV_ITEM:
+                case DELETE_CONTAINED_VIEW:
                 case EDIT_PLUGIN_TEXT:
                 case UPDATE_BOX:
                 case UPDATE_TOOLBAR:
-                    this.dispatchAndSetState(updateBox(
+                     this.dispatchAndSetState(updateBox(
                         e.detail.ids.id,
                         e.detail.content,
                         e.detail.toolbar,
@@ -594,6 +656,15 @@ class DaliApp extends Component {
         }
 
         return selected;
+    }
+
+    getDescendantLinkedBoxes(ids, navs) {
+        let boxes = [];
+        ids.forEach((nav) => {
+            boxes = [...new Set([...boxes ,...navs[nav].linkedBoxes])];
+            // boxes.concat(navs[nav].linkedBoxes);
+        });
+        return boxes;
     }
 
     getDescendantContainedViewsFromContainer(box, container) {

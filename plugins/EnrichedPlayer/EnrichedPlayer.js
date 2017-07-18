@@ -107,7 +107,7 @@ export function EnrichedPlayer(base) {
         },
         parseRichMarkInput: function(...value){
             let parsed_value = value[0]*100/value[2];
-            return parsed_value + "%";
+            return parsed_value.toFixed(2) + "%";
         },
         handleToolbar: function (name, value) {
             base.setState(name, value);

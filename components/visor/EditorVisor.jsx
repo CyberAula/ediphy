@@ -49,7 +49,6 @@ export default class Visor extends Component {
         // Marks Global Listener
         Dali.API_Private.listenEmission(Dali.API_Private.events.markTriggered, e=>{
             let marks = this.getAllMarks();
-            console.log(this.state.triggeredMarks);
             let triggered_event = e.detail;
             let triggered_marks = this.getTriggeredMarks(marks,triggered_event);
 

@@ -1,5 +1,5 @@
-import {ADD_BOX, ADD_RICH_MARK, CHANGE_NAV_ITEM_NAME, DELETE_BOX,DELETE_CONTAINED_VIEWS, ADD_NAV_ITEM, DELETE_NAV_ITEM, DELETE_SORTABLE_CONTAINER, DUPLICATE_BOX,
-    EDIT_RICH_MARK, RESIZE_BOX, RESIZE_SORTABLE_CONTAINER, TOGGLE_TEXT_EDITOR, UPDATE_BOX, UPDATE_TOOLBAR,
+import {ADD_BOX, ADD_RICH_MARK, CHANGE_NAV_ITEM_NAME, DELETE_BOX, DELETE_RICH_MARK, DELETE_CONTAINED_VIEW, ADD_NAV_ITEM, DELETE_NAV_ITEM, DELETE_SORTABLE_CONTAINER, DUPLICATE_BOX,
+    EDIT_RICH_MARK, RESIZE_BOX, RESIZE_SORTABLE_CONTAINER, TOGGLE_TEXT_EDITOR, UPDATE_BOX, UPDATE_TOOLBAR, CHANGE_CONTAINED_VIEW_NAME,
     VERTICALLY_ALIGN_BOX, IMPORT_STATE} from './../actions';
 import Utils, {changeProp, changeProps, deleteProps, isSortableBox, isSortableContainer, isPage, isSection, isSlide, isDocument} from './../utils';
 import i18n from 'i18next';
@@ -26,7 +26,7 @@ function createRichAccordions(controls) {
             accordions: {
                 __marks_list: {
                     key: 'marks_list',
-                    __name: 'Marks List',
+                    __name: i18n.t("marks.marks_list"),
                     icon: 'room',
                     buttons: {}
                 }/*,
@@ -42,7 +42,7 @@ function createRichAccordions(controls) {
     if (!controls.main.accordions.__marks_list) {
         controls.main.accordions.__marks_list = {
             key: 'marks_list',
-            __name: 'Marks List',
+            __name: i18n.t("marks.marks_list"),
             icon: 'room',
             buttons: {}
         };
@@ -277,7 +277,6 @@ function toolbarSectionCreator(state, action, isContainedView = false) {
     let doc_type;
     let id = isContainedView ? action.payload.mark.connection.id: action.payload.id;
     let type = isContainedView ? action.payload.mark.connection.type:action.payload.type;
-
     if (isPage(id)) {
       doc_type = i18n.t('page');
     }
@@ -401,6 +400,10 @@ function toolbarReducer(state, action) {
         case ADD_RICH_MARK:
             return changeProp(state, "state", action.payload.state);
         case CHANGE_NAV_ITEM_NAME:
+            newState = Utils.deepClone(state);
+            newState.controls.main.accordions.basic.buttons.navitem_name.value = action.payload.title;
+            return newState;
+        case CHANGE_CONTAINED_VIEW_NAME:
             newState = Utils.deepClone(state);
             newState.controls.main.accordions.basic.buttons.navitem_name.value = action.payload.title;
             return newState;
@@ -544,6 +547,8 @@ function toolbarReducer(state, action) {
              }
 
             return newState;
+        case DELETE_RICH_MARK:
+            return changeProp(state, "state", action.payload.state);
         case VERTICALLY_ALIGN_BOX:
             newState = Utils.deepClone(state);
             newState.controls.main.accordions.__sortable.buttons.__verticalAlign.value = action.payload.verticalAlign;
@@ -587,21 +592,50 @@ export default function (state = {}, action = {}) {
         case ADD_RICH_MARK:
             newState = state;
             if(action.payload.mark.connectMode === "new"){
-                let modState = changeProp(state, action.payload.mark.connection.id, toolbarSectionCreator(state, action, true));
+                let modState = changeProp(state, action.payload.mark.connection.id || action.payload.mark.connection , toolbarSectionCreator(state, action, true));
                 newState = changeProp(modState, action.payload.parent, toolbarReducer(modState[action.payload.parent], action));
             }
             return newState;
         case CHANGE_NAV_ITEM_NAME:
             return changeProp(state, action.payload.id, toolbarReducer(state[action.payload.id], action));
             //return state;
+        case CHANGE_CONTAINED_VIEW_NAME:
+            return changeProp(state, action.payload.id, toolbarReducer(state[action.payload.id], action));
         case DELETE_BOX:
             let children = action.payload.children ? action.payload.children : [];
             return deleteProps(state, children.concat(action.payload.id));
-        case DELETE_CONTAINED_VIEWS:
-            return 0;
+        case DELETE_CONTAINED_VIEW:
+            let boxesCV = action.payload.boxes ? action.payload.boxes : [];
+            let newToolbarCV = Object.assign({},state);
+            let parents = action.payload.parent ? action.payload.parent : [];
+            //Delete all related marks
+            parents.forEach((el)=>{
+                if (newToolbarCV[el] && newToolbarCV[el].state && newToolbarCV[el].state.__marks) {
+                    for (var mark in newToolbarCV[el].state.__marks){
+                        if (newToolbarCV[el].state.__marks[mark].connection === action.payload.ids[0]){
+                            delete newToolbarCV[el].state.__marks[mark];
+                        }
+                    }
+                }
+            });
+            return deleteProps(newToolbarCV, boxesCV.concat(action.payload.ids[0]));
         case DELETE_NAV_ITEM:
             let boxes = action.payload.boxes ? action.payload.boxes : [];
-            return deleteProps(state, boxes.concat(action.payload.id));
+            let linkedBoxes = action.payload.linkedBoxes ? action.payload.linkedBoxes : [];
+            let newToolbar = Object.assign({},state);
+            linkedBoxes.forEach((el)=>{
+                if (newToolbar[el] && newToolbar[el].state && newToolbar[el].state.__marks) {
+                    for (var mark in newToolbar[el].state.__marks){
+                        action.payload.ids.forEach((id)=>{
+                            if (newToolbar[el].state.__marks[mark] && newToolbar[el].state.__marks[mark].connection === id){
+                                delete newToolbar[el].state.__marks[mark];
+                            }
+                        });
+
+                    }
+                }
+            });
+            return deleteProps(newToolbar, boxes.concat(action.payload.ids));
         case DELETE_SORTABLE_CONTAINER:
             return deleteProps(state, action.payload.children);
         case DUPLICATE_BOX:
@@ -615,7 +649,13 @@ export default function (state = {}, action = {}) {
             replaced = Object.assign({}, Object.replaceAll(replaced, action.payload.id.substr(3), action.payload.newId));
             return Object.assign({}, newState, replaced);
         case EDIT_RICH_MARK:
-            return changeProp(state, action.payload.parent, toolbarReducer(state[action.payload.parent], action));
+            return state;
+            // return changeProp(state, action.payload.parent, toolbarReducer(state[action.payload.parent], action));
+        case DELETE_RICH_MARK:
+            // if (state[action.payload.parent] && state[action.payload.parent].state.__marks && state[action.payload.parent].state.__marks[action.payload.id]) {
+            // return changeProp(state, action.payload.parent, toolbarReducer(state[action.payload.parent], action));
+            // }
+            return state;
         case RESIZE_BOX:
             return changeProp(state, action.payload.id, toolbarReducer(state[action.payload.id], action));
         case RESIZE_SORTABLE_CONTAINER:

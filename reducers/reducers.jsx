@@ -1,6 +1,7 @@
 import {combineReducers} from 'redux';
 import undoable from 'redux-undo';
 import {ADD_BOX, SELECT_BOX, INCREASE_LEVEL, INDEX_SELECT, SELECT_NAV_ITEM, EXPAND_NAV_ITEM, UPDATE_NAV_ITEM_EXTRA_FILES, TOGGLE_TEXT_EDITOR,
+    DELETE_RICH_MARK, ADD_RICH_MARK,DELETE_CONTAINED_VIEW,
     TOGGLE_TITLE_MODE, CHANGE_DISPLAY_MODE, SET_BUSY, IMPORT_STATE, FETCH_VISH_RESOURCES_SUCCESS, UPDATE_BOX, UPLOAD_IMAGE} from './../actions';
 import {isSortableBox} from './../utils';
 import boxesById from './boxes_by_id';
@@ -77,17 +78,20 @@ const GlobalState = undoable(combineReducers({
 }), {
     filter: (action, currentState, previousState) => {
          switch (action.type) {
-            case CHANGE_DISPLAY_MODE:
-            case EXPAND_NAV_ITEM:
-            case IMPORT_STATE:
-            case INCREASE_LEVEL:
-            case INDEX_SELECT:
-            case SELECT_BOX:
-            case SELECT_NAV_ITEM:
-            case SET_BUSY:
-            case TOGGLE_TEXT_EDITOR:
-            case TOGGLE_TITLE_MODE:
-            case UPDATE_NAV_ITEM_EXTRA_FILES:
+             case CHANGE_DISPLAY_MODE:
+             case EXPAND_NAV_ITEM:
+             case IMPORT_STATE:
+             case INCREASE_LEVEL:
+             case INDEX_SELECT:
+             case SELECT_BOX:
+             case SELECT_NAV_ITEM:
+             case SET_BUSY:
+             case TOGGLE_TEXT_EDITOR:
+             case TOGGLE_TITLE_MODE:
+             case UPDATE_NAV_ITEM_EXTRA_FILES:
+             case UPDATE_BOX:
+             /*case DELETE_RICH_MARK:
+             case ADD_RICH_MARK:*/
                 return false;
         }
 

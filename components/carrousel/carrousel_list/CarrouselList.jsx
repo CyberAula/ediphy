@@ -256,12 +256,12 @@ export default class CarrouselList extends Component {
                             <br/>
                             <br/>
                             <Button className="popoverButton"
-                                    disabled={(isContainedView(this.props.indexSelected) && !this.canDeleteContainedView(this.props.indexSelected)) || this.props.indexSelected === 0}
+                                    disabled={/*(isContainedView(this.props.indexSelected) && !this.canDeleteContainedView(this.props.indexSelected)) || */this.props.indexSelected === 0}
                                     style={{float: 'right'}}
                                     onClick={(e) =>
                                         {
                                             if(this.props.indexSelected !== 0 ){
-                                                if (isContainedView(this.props.indexSelected) && this.canDeleteContainedView(this.props.indexSelected)) {
+                                                if (isContainedView(this.props.indexSelected) /*&& this.canDeleteContainedView(this.props.indexSelected)*/) {
                                                     this.props.onContainedViewDeleted(this.props.indexSelected);
                                                 } else {
                                                     this.props.onNavItemDeleted(this.props.indexSelected);

@@ -121,15 +121,19 @@ var es = {
         "Indice" : "Índice",
         "currentLang": "es",
         "marks":{
+          "add_mark": "Añadir marca",
           "add_mark_to": "Añadir marca a",
           "edit_mark_to": "Editar marca a",
           "existing_content": "Contenido Existente",
           "external_url": "Url externa",
+          "hover_message": "Enlaza con ",
           "link_to": "Enlazar con",
+          "marks_list": "Lista de marcas",
           "mark_name": "Nombre marca",
           "new_content": "Nuevo contenido",
           "new_document": "Nuevo documento",
-          "new_slide": "Nueva diapositiva"
+          "new_slide": "Nueva diapositiva",
+          "new_mark": "Nueva marca",
         },
         "messages": {
             "add_new_mark": "Añadir nueva marca",
@@ -141,10 +145,13 @@ var es = {
             "align_right": "Alinear a la derecha",
             "align_top": "La parte superior del elemento se alinea con la parte superior del elemento más alto de la línea",
             "columns_distribution": "Distribución de columnas",
-            "delete_busy_cv": "Está vista contenida está siendo usada por algún plugin. Elimine la marca correspondiente primero.",
+            "confirm_delete_CV_also_1": "Esta es la única marca que enlaza a \"",
+            "confirm_delete_CV_also_2": "\". Desea eliminar la vista también?",
+            "delete_busy_cv": "Todas las marcas que enlazan a esta vista serán eliminadas",
+            "delete_contained_canvas": "Esta acción borrará esta vista y todo su contenido, incluyendo las marcas que enlazan a ella",
             "delete_container": "Esta acción borrará todo el contenido que ha incluído en este bloque.",
-            "delete_page": "Esta acción borrará todo el contenido de la página.",
-            "delete_section": "Esta acción borrará todo el contenido de la sección y de sus descendientes.",
+            "delete_page": "Esta acción borrará todo el contenido de la página y las marcas que enlacen a ella.",
+            "delete_section": "Esta acción borrará todo el contenido de la sección y de sus descendientes y las marcas que enlacen a ellos.",
             "drag_content": "Arrastra aquí tu contenido",
             "edit_text": "Editar texto",
             "erase_plugin": "Borrar plugin",
@@ -152,7 +159,9 @@ var es = {
             "export_to_HTML": "Exportar a HTML",
             "export_to_SCORM": "Exportar a SCORM",
             "global_config": "Configuración Global",
-            "height_auto_warning": "Sólo si fijas una altura podrán tener alturas relativas las cajas en su interior"
+            "height_auto_warning": "Sólo si fijas una altura podrán tener alturas relativas las cajas en su interior",
+            "mark_percentage": "Ha introducido un valor incorrecto. Debe introducir un porcentaje entre 0 y 100. Ej. 45.66%",
+            "mark_xy": "Ha introducido un valor incorrecto. Debe introducir dos números entre 0 y 100 separados por coma. Ej. 4.56,90.76"
         },
 
         "Multimedia": "Multimedia",

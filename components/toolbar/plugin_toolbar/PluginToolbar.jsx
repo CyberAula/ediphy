@@ -544,6 +544,7 @@ export default class PluginToolbar extends Component {
                 /* jshint ignore:start */
                 <MarksList key="marks_list"
                            state={state}
+                           toolbars={this.props.toolbars}
                            onRichMarksModalToggled={this.props.onRichMarksModalToggled}
                            onRichMarkEditPressed={this.props.onRichMarkEditPressed}
                            onRichMarkDeleted={this.props.onRichMarkDeleted}/>

@@ -301,7 +301,7 @@ export default function (state = {}, action = {}) {
     let temp;
     switch (action.type) {
         case ADD_BOX:
-            // if box is contained in sortableContainer, add it aswell to its children
+            // if box is contained in sortableContainer, add it as well to its children
             if (isSortableContainer(action.payload.ids.container)) {
                 return changeProps(
                     state,
@@ -376,7 +376,16 @@ export default function (state = {}, action = {}) {
             }
             return temp;
         case DELETE_CONTAINED_VIEW:
-            return deleteProps(state, action.payload.boxes);
+            let newBoxes = Object.assign({},state);
+             action.payload.parent.forEach((el)=>{
+                if(newBoxes[el] && newBoxes[el].containedViews){
+                    var index = newBoxes[el].containedViews.indexOf(action.payload.ids[0]);
+                    if(index > -1){
+                        newBoxes[el].containedViews.splice(index,1);
+                    }
+                }
+            });
+            return deleteProps(newBoxes, action.payload.boxes);
         case DELETE_SORTABLE_CONTAINER:
             temp = deleteProps(state, action.payload.children);
             return changeProp(temp, action.payload.parent, boxReducer(state[action.payload.parent], action));

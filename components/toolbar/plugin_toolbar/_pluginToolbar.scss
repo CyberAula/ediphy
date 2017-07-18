@@ -366,5 +366,15 @@
 }
 
 i.marklist{
-    font-size: 15px;
+    font-size: 16px;
+}
+.markNameInToolbar {
+    line-height: 0.9em;
+    margin-left: 10px;
+    display: inline-block;
+    vertical-align: super;
+    width: 120px !important;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 }

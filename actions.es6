@@ -72,8 +72,8 @@ export function addContainedView(id, name, container){
     return {type: ADD_CONTAINED_VIEW, payload: {id, name, container}};
 }
 
-export function deleteContainedView(ids, boxes) {
-    return {type: DELETE_CONTAINED_VIEW, payload: {ids, boxes}};
+export function deleteContainedView(ids, boxes, parent) {
+    return {type: DELETE_CONTAINED_VIEW, payload: {ids, boxes, parent}};
 }
 
 export function addNavItem(id, name, parent, type, position, hasContent) {
@@ -84,8 +84,8 @@ export function expandNavItem(id, value) {
     return {type: EXPAND_NAV_ITEM, payload: {id, value}};
 }
 
-export function deleteNavItem(ids, parent, boxes, containedViews) {
-    return {type: DELETE_NAV_ITEM, payload: {ids, parent, boxes, containedViews}};
+export function deleteNavItem(ids, parent, boxes, containedViews, linkedBoxes) {
+    return {type: DELETE_NAV_ITEM, payload: {ids, parent, boxes, containedViews, linkedBoxes}};
 }
 
 export function reorderNavItem(id, newParent, oldParent, idsInOrder, childrenInOrder) {
@@ -185,6 +185,10 @@ export function addRichMark(parent, mark, state) {
 
 export function editRichMark(parent, state) {
     return {type: EDIT_RICH_MARK, payload: {parent, state}};
+}
+
+export function deleteRichMark(id, parent, state) {
+    return {type: DELETE_RICH_MARK, payload: {id, parent, state}};
 }
 
 export function selectContainedView(id) {
