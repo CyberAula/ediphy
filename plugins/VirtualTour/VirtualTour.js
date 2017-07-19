@@ -125,7 +125,7 @@ export function VirtualTour(base) {
         },
         getRenderTemplate: function (state) {
             /* jshint ignore:start */
-            const AnyReactComponent = ({ text }) => <i style={{width:"100%",height:"100%"}} className="material-icons">room</i>;
+            const Mark = ({ text }) => <i style={{width:"100%",height:"100%"}} className="material-icons">room</i>;
             let marks = state.__marks;
             let markElements = Object.keys(marks).map((id) =>{
                 let value = marks[id].value;
@@ -136,11 +136,11 @@ export function VirtualTour(base) {
                     position = [0,0];
                 }
 
-                return ( <AnyReactComponent
+                return ( <Mark
                             key={id}
                             lat={position[0] /*40.452*/}
                             lng={position[1] /*-3.726848*/}
-                            text={'Kreyser Avrora'}
+                            text={id}
                         />)
                 // return(<a key={id} style={{position: 'absolute', top: position[0] + "%",left: position[1] + "%"}} href="#"><i style={{width:"100%",height:"100%"}} className="material-icons">room</i></a>)
             });
@@ -153,16 +153,13 @@ export function VirtualTour(base) {
             return (
                 <div className="virtualMap" >
                     <div className="dropableRichZone" style={{width:'100%', height:'100%'}}>
-                    <GoogleMapReact
-                        center={center}
-                        zoom={zoom}
-                        resetBoundsOnResize = {true}
-                        onClick={(obj)=>{ console.log(obj.x, obj.y, obj.lat, obj.lng, obj.event);}}
-                    >
-                        {markElements}
-
-                    </GoogleMapReact>
-
+                        <GoogleMapReact
+                            center={center}
+                            zoom={zoom}
+                            resetBoundsOnResize = {true}
+                            onClick={(obj)=>{ console.log(obj.x, obj.y, obj.lat, obj.lng, obj.event);}}>
+                            {markElements}
+                        </GoogleMapReact>
                     </div>
                 </div>
             );
