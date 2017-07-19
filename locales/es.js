@@ -160,8 +160,7 @@ var es = {
             "export_to_SCORM": "Exportar a SCORM",
             "global_config": "Configuración Global",
             "height_auto_warning": "Sólo si fijas una altura podrán tener alturas relativas las cajas en su interior",
-            "mark_percentage": "Ha introducido un valor incorrecto. Debe introducir un porcentaje entre 0 y 100. Ej. 45.66%",
-            "mark_xy": "Ha introducido un valor incorrecto. Debe introducir dos números separados por coma. Ej. 4.56,90.76"
+            "mark_input": "Hay un error en el valor introducido"
         },
 
         "Multimedia": "Multimedia",

@@ -1,5 +1,6 @@
 import React from "react";
 import EnrichedPlayerPlugin from './components/EnrichedPlayerPluginEditor.js';
+import i18n from 'i18next';
 require('./EnrichedPlayer.scss');
 
 export function EnrichedPlayer(base) {
@@ -12,7 +13,8 @@ export function EnrichedPlayer(base) {
                 displayName: Dali.i18n.t("EnrichedPlayer.PluginName"),
                 category: "multimedia",
                 initialWidth: '30%',
-                icon: "play_arrow"
+                icon: "play_arrow",
+                defaultMarkValue: '50%'
             };
         },
         getToolbar: function () {
@@ -111,6 +113,21 @@ export function EnrichedPlayer(base) {
         },
         handleToolbar: function (name, value) {
             base.setState(name, value);
+        },
+        validateValueInput: function(value){
+            let regex =  /(^\d+(?:\.\d*)?%$)/g;
+            let match = regex.exec(value);
+            if (match && match.length === 2){
+                let val = Math.round(parseFloat(match[1]) * 100) / 100;
+                if (isNaN(val) || val > 100) {
+                    return {isWrong: true, message: i18n.t("EnrichedPlayer.message_mark_percentage")};
+                }
+                value = val + '%';
+            } else {
+                return {isWrong: true, message: i18n.t("EnrichedPlayer.message_mark_percentage")};
+            }
+            return {isWrong: false, value: value};
+
         }
 
     };

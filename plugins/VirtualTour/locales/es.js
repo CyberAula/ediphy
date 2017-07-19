@@ -11,6 +11,7 @@ module.exports = {
         "radius": "Radio",
         "map": "Mapa",
         "center": "Centro",
-        "Zoom": "Zoom"
+        "Zoom": "Zoom",
+        "message_mark_xy":"Ha introducido un valor incorrecto. Debe introducir dos números separados por coma. Ej. 4.56,90.76"
     }
 };

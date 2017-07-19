@@ -11,6 +11,7 @@ module.exports = {
         "radius": "Radius",
         "center": "Center",
         "Zoom": "Zoom",
-        "map": "Mapa"
+        "map": "Mapa",
+        "message_mark_xy": "You've chosen an incorrect value. You must introduce two numbers separated by a comma. E.g. 4.56,90.76"
     }
 };

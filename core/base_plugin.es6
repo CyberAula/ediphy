@@ -73,7 +73,7 @@ export default function () {
         },
         getConfig: function () {
             var name, displayName, category, callback, needsConfigModal, needsConfirmation, needsTextEdition, extraTextConfig,
-            needsXMLEdition, icon, iconFromUrl, aspectRatioButtonConfig, isRich, marksType, flavor, allowFloatingBox;
+            needsXMLEdition, icon, iconFromUrl, aspectRatioButtonConfig, isRich, marksType, defaultMarkValue, flavor, allowFloatingBox;
             if (descendant.getConfig) {
                 let cfg = descendant.getConfig();
                 name = cfg.name;
@@ -84,6 +84,7 @@ export default function () {
                 isRich = cfg.isRich;
                 flavor = cfg.flavor;
                 marksType= cfg.marksType;
+                defaultMarkValue = cfg.defaultMarkValue;
                 needsConfigModal = cfg.needsConfigModal;
                 needsConfirmation =  cfg.needsConfirmation;
                 needsTextEdition = cfg.needsTextEdition;
@@ -100,12 +101,14 @@ export default function () {
             iconFromUrl = defaultFor(iconFromUrl, false);
             isRich = defaultFor(isRich, false);
             marksType = defaultFor(marksType, [{name:'value',key:'value'}]);
+            defaultMarkValue = defaultFor(defaultMarkValue, 0);
             flavor = defaultFor(flavor, 'plain');
             allowFloatingBox = defaultFor(allowFloatingBox, true);
             needsConfigModal = defaultFor(needsConfigModal, false);
             needsConfirmation = defaultFor(needsConfirmation, false);
             needsTextEdition = defaultFor(needsTextEdition, false);
             needsXMLEdition = defaultFor(needsXMLEdition, false);
+
 
             if (aspectRatioButtonConfig) {
                 aspectRatioButtonConfig.name = Dali.i18n.t("Aspect_ratio");
@@ -172,6 +175,7 @@ export default function () {
                 icon: icon,
                 iconFromUrl: iconFromUrl,
                 isRich: isRich,
+                defaultMarkValue: defaultMarkValue,
                 marksType: marksType,
                 flavor: flavor
             };
@@ -263,6 +267,12 @@ export default function () {
         parseRichMarkInput: function(...values){
             if(descendant.parseRichMarkInput){
                return descendant.parseRichMarkInput(...values);
+            }
+        },
+        /*Esta función es para poder comprobar si los valores introducidos por el usuario al crear marcas son correctos*/
+        validateValueInput: function(value){
+            if(descendant.validateValueInput){
+                return descendant.validateValueInput(value);
             }
         },
         postParseRichMarkInput(mark_id,value){

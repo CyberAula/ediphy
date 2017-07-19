@@ -9,6 +9,8 @@ module.exports = {
         "padding": "Padding",
         "PluginName": "Hotspot Images",
         "radius": "Radius",
-        "source": "Source"
+        "source": "Source",
+        "message_mark_xy": "You've chosen an incorrect value. You must introduce two numbers separated by a comma. E.g. 4.56,90.76"
+
     }
 };

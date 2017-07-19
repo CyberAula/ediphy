@@ -1,5 +1,5 @@
 import React from "react";
-
+import i18n from 'i18next';
 export function HotspotImages(base) {
     return {
         getConfig: function () {
@@ -13,7 +13,8 @@ export function HotspotImages(base) {
                 icon: 'image',
                 // initialWidth: '25%',
                 isRich: true,
-                marksType: [{name: 'Valor', key: 'value'}]
+                marksType: [{name: 'Valor', key: 'value'}],
+                defaultMarkValue: '0,0'
             };
         },
         getToolbar: function () {
@@ -132,6 +133,25 @@ export function HotspotImages(base) {
             let finalValue = y.toFixed(2)+","+x.toFixed(2);
 
             return finalValue;
+        },
+        validateValueInput: function(value){
+            let regex =  /(^-*\d+(?:\.\d*)?),(-*\d+(?:\.\d*)?$)/g ;
+            let match = regex.exec(value);
+            if(match && match.length === 3) {
+                let x = Math.round(parseFloat(match[1]) * 100) / 100;
+                let y = Math.round(parseFloat(match[2]) * 100) / 100;
+                if (isNaN(x) || isNaN(y)/* || x > 100 || y > 100 || x < -100 || y < -100*/) {
+                    return {isWrong: true, message: i18n.t("HotspotImages.message_mark_xy")};
+                }
+                value = x + ',' + y;
+            } else {
+                return {isWrong: true, message: i18n.t("HotspotImages.message_mark_xy")};
+            }
+            return {isWrong: false, value: value};
         }
+
+
+
+
     };
 }

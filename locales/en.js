@@ -162,8 +162,8 @@ var en = {
             "export_to_SCORM": "Export to SCORM",
             "global_config": "Global Config",
             "height_auto_warning": "The boxes inside can only have a relative height if you fix the container height",
-            "mark_percentage": "You've chosen an incorrect value. You must introduce a percentage between 0 and 100. E.g.. 45.66%",
-            "mark_xy": "You've chosen an incorrect value. You must introduce two numbers separated by a comma. E.g. 4.56,90.76"
+            "mark_input": "Something is wrong with your input"
+
         },
         "Multimedia": "Multimedia",
         "NavItem_name": "Document name",

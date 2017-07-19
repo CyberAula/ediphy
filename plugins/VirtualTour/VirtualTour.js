@@ -1,6 +1,6 @@
 import React from "react";
 import GoogleMapReact from 'google-map-react';
-
+import i18n from 'i18next';
 require('./_virtualTour.scss');
 
 export function VirtualTour(base) {
@@ -18,7 +18,8 @@ export function VirtualTour(base) {
                 initialHeight: '200px',
                 initialHeightSlide: '60%',
                 isRich: true,
-                marksType: [{name: 'Posición', key: 'value'}]
+                marksType: [{name: 'Posición', key: 'value'}],
+                defaultMarkValue: '40.452,-3.727'
             };
         },
         getToolbar: function () {
@@ -174,6 +175,22 @@ export function VirtualTour(base) {
             let finalValue = y.toFixed(2)+","+x.toFixed(2);
 
             return finalValue;
+        },
+        validateValueInput: function(value){
+            let regex =  /(^-*\d+(?:\.\d*)?),(-*\d+(?:\.\d*)?$)/g ;
+            let match = regex.exec(value);
+            if(match && match.length === 3) {
+                let x = Math.round(parseFloat(match[1]) * 100) / 100;
+                let y = Math.round(parseFloat(match[2]) * 100) / 100;
+                if (isNaN(x) || isNaN(y) ) {
+                    return {isWrong: true, message: i18n.t("VirtualTour.message_mark_xy")};
+                }
+                value = x + ',' + y;
+            } else {
+                return {isWrong: true, message: i18n.t("VirtualTour.message_mark_xy")};
+            }
+            return {isWrong: false, value: value};
         }
+
     };
 }

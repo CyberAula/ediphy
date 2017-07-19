@@ -174,7 +174,7 @@ export default class RichMarksModal extends Component {
                                 <FormControl
                                          ref="value"
                                          type={this.state.actualMarkType}
-                                         defaultValue={current ? current.value : "0,0"}/>
+                                         defaultValue={current ? current.value : (this.props.defaultValueMark ? this.props.defaultValueMark : 0)}/>
                             </Col>
                         </FormGroup>
                         </Row>
@@ -224,53 +224,19 @@ export default class RichMarksModal extends Component {
                         }
                         let displayMode = this.state.displayMode;
                         let value = ReactDOM.findDOMNode(this.refs.value).value;
-                        // If it is an Enriched Video, the value should be a percentage
-                        if (this.props.pluginToolbar.config.name === 'EnrichedPlayer'){
-                             let regex =  /(^\d+(?:\.\d*)?%$)/g;
-                             let match = regex.exec(value);
-                             if (match && match.length == 2){
-                                let val = Math.round(parseFloat(match[1]) * 100) / 100;
-                                if (isNaN(val) || val > 100) {
-                                    alert(i18n.t("messages.mark_percentage"));
-                                    return;
-                                }
-                                value = val + '%'
-                             } else {
-                                alert(i18n.t("messages.mark_percentage"));
+                        //First of all we need to check if the plugin creator has provided a function to check if the input value is allowed
+                        if( this.props.validateValueInput){
+                            let val = this.props.validateValueInput(value);
+                            // If the value is not allowed, we show an alert with the predefined message and we abort the Save operation
+                            if (val && val.isWrong){
+                                alert(val.message ? val.message : i18n.t("mark_input"));
                                 return;
-                             }
-                        // If it is an image, the value should be 2 coordinates
-                        } else if (this.props.pluginToolbar.config.name === 'HotspotsImage'){
-                              let regex =  /(^-*\d+(?:\.\d*)?),(-*\d+(?:\.\d*)?$)/g ;
-                              let match = regex.exec(value);
-                              if(match && match.length === 3) {
-                                let x = Math.round(parseFloat(match[1]) * 100) / 100;
-                                let y = Math.round(parseFloat(match[2]) * 100) / 100;
-                                if (isNaN(x) || isNaN(y)/* || x > 100 || y > 100 || x < -100 || y < -100*/) {
-                                    alert(i18n.t("messages.mark_xy"));
-                                    return;
-                                }
-                                value = x + ',' + y;
-                              } else {
-                                alert(i18n.t("messages.mark_xy"));
-                                return;
-                              }
-                        } else if (this.props.pluginToolbar.config.name === 'VirtualTour'){
-                            let regex =  /(^-*\d+(?:\.\d*)?),(-*\d+(?:\.\d*)?$)/g ;
-                            let match = regex.exec(value);
-                            if(match && match.length === 3) {
-                                let x = Math.round(parseFloat(match[1]) * 100) / 100;
-                                let y = Math.round(parseFloat(match[2]) * 100) / 100;
-                                if (isNaN(x) || isNaN(y) ) {
-                                    alert(i18n.t("messages.mark_xy"));
-                                    return;
-                                }
-                                value = x + ',' + y;
-                            } else {
-                                alert(i18n.t("messages.mark_xy"));
-                                return;
+                            // If the value is allowed we check if it has been modified (like rounded decimals) and we assign it to value
+                            } else if (val && val.value){
+                                value = val.value;
                             }
                         }
+
                         this.props.onRichMarkUpdated({id: (current ? current.id : ID_PREFIX_RICH_MARK + Date.now()), title, connectMode, connection, displayMode, value}, this.state.newSelected === "" );
                         if(connectMode === 'new' && !this.props.toolbars[connection.id] && this.state.newType === PAGE_TYPES.DOCUMENT) {
                             this.props.onBoxAdded({parent: newId, container: 0, id: ID_PREFIX_SORTABLE_BOX + Date.now()}, false, false);
