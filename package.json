@@ -10,6 +10,7 @@
   },
   "scripts": {
     "postinstall": "node ./plugin_install",
+    "build-production": "webpack -p --define process.env.NODE_ENV='\"production\"' --progress --colors",
     "start": "webpack-dev-server --progress",
     "bundle": "webpack && node bundle_script.js",
     "both": "npm run start-webpack & npm run watch-sass",
