@@ -666,10 +666,14 @@ export default class PluginToolbar extends Component {
                 }
                 if (button.type === 'number') {
                     //If there's any problem when parsing (NaN) -> take min value if defined; otherwise take 0
-                    value = parseInt(value, 10) || button.min || 0;
-                    if (button.max && value > button.max) {
-                        value = button.max;
+                    if (value && value.length >= 1 && (value.charAt(value.length - 1) === '.' || value.charAt(value.length - 1) === ',' || value === 0)) {
+                    } else {
+                        value = parseFloat(value) || button.min || 0;
+                        if (button.max && value > button.max) {
+                            value = button.max;
+                        }
                     }
+
                 }
 
                 if (button.type === 'checkbox') {

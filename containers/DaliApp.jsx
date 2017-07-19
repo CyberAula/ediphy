@@ -326,18 +326,17 @@ class DaliApp extends Component {
                                 visible={this.state.richMarksVisible}
                                 currentRichMark={this.state.currentRichMark}
                                 onBoxAdded={(ids, draggable, resizable, content, toolbar, config, state) => this.dispatchAndSetState(addBox(ids, draggable, resizable, content, toolbar, config, state))}
-                                onRichMarkUpdated={(mark) => {
+                                onRichMarkUpdated={(mark, createNew) => {
                                     let toolbar = toolbars[boxSelected];
                                     let state = JSON.parse(JSON.stringify(toolbar.state));
                                     state.__marks[mark.id] = JSON.parse(JSON.stringify(mark));
                                     if(mark.connection.id){
                                         state.__marks[mark.id].connection = mark.connection.id;
                                     }
-                                    let dontCreateNew = toolbars[mark.connection.id] ? true: false;
                                     Dali.Plugins.get(toolbar.config.name).forceUpdate(
                                         state,
                                         boxSelected,
-                                        this.state.currentRichMark && dontCreateNew ? EDIT_RICH_MARK : addRichMark(boxSelected, mark, state)
+                                        this.state.currentRichMark && !createNew ? EDIT_RICH_MARK : addRichMark(boxSelected, mark, state)
                                     );
                                 }}
                                 onRichMarksModalToggled={() => {

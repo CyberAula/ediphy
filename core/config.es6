@@ -25,6 +25,7 @@ export default {
         'GraficaD3',
         //'EnrichedVideo',
         'HotspotImages',
+        'VirtualTour',
     ],
     availableLanguages:[
         'en',

@@ -30,6 +30,7 @@ export default class MarkCreator extends Component {
 
                 let overlay = document.createElement("div");
                 /* OVERLAY */
+                dropableElement.classList.add("rich_overlay");
                 overlay.style.top = dropableElement.offsetTop +"px";
                 overlay.style.left = dropableElement.offsetLeft+"px";
                 overlay.style.width = dropableElement.offsetWidth+"px";
@@ -99,6 +100,8 @@ export default class MarkCreator extends Component {
                     }
                     /* This is to delete all elements involved */
                     overlay.remove();
+                    dropableElement.classList.remove("rich_overlay");
+
                     e.preventDefault();
                     deleteMarkCreator();
 

@@ -225,7 +225,7 @@ export default class RichMarksModal extends Component {
                         let displayMode = this.state.displayMode;
                         let value = ReactDOM.findDOMNode(this.refs.value).value;
                         // If it is an Enriched Video, the value should be a percentage
-                        if (this.props.pluginToolbar.config.category === 'multimedia'){
+                        if (this.props.pluginToolbar.config.name === 'EnrichedPlayer'){
                              let regex =  /(^\d+(?:\.\d*)?%$)/g;
                              let match = regex.exec(value);
                              if (match && match.length == 2){
@@ -240,13 +240,13 @@ export default class RichMarksModal extends Component {
                                 return;
                              }
                         // If it is an image, the value should be 2 coordinates
-                        } else if (this.props.pluginToolbar.config.category === 'image'){
-                              let regex =  /(^\d+(?:\.\d*)?),(\d+(?:\.\d*)?$)/g ;
+                        } else if (this.props.pluginToolbar.config.name === 'HotspotsImage'){
+                              let regex =  /(^-*\d+(?:\.\d*)?),(-*\d+(?:\.\d*)?$)/g ;
                               let match = regex.exec(value);
                               if(match && match.length === 3) {
                                 let x = Math.round(parseFloat(match[1]) * 100) / 100;
                                 let y = Math.round(parseFloat(match[2]) * 100) / 100;
-                                if (isNaN(x) || isNaN(y) || x > 100 || y > 100) {
+                                if (isNaN(x) || isNaN(y)/* || x > 100 || y > 100 || x < -100 || y < -100*/) {
                                     alert(i18n.t("messages.mark_xy"));
                                     return;
                                 }
@@ -255,8 +255,23 @@ export default class RichMarksModal extends Component {
                                 alert(i18n.t("messages.mark_xy"));
                                 return;
                               }
+                        } else if (this.props.pluginToolbar.config.name === 'VirtualTour'){
+                            let regex =  /(^-*\d+(?:\.\d*)?),(-*\d+(?:\.\d*)?$)/g ;
+                            let match = regex.exec(value);
+                            if(match && match.length === 3) {
+                                let x = Math.round(parseFloat(match[1]) * 100) / 100;
+                                let y = Math.round(parseFloat(match[2]) * 100) / 100;
+                                if (isNaN(x) || isNaN(y) ) {
+                                    alert(i18n.t("messages.mark_xy"));
+                                    return;
+                                }
+                                value = x + ',' + y;
+                            } else {
+                                alert(i18n.t("messages.mark_xy"));
+                                return;
+                            }
                         }
-                        this.props.onRichMarkUpdated({id: (current ? current.id : ID_PREFIX_RICH_MARK + Date.now()), title, connectMode, connection, displayMode, value});
+                        this.props.onRichMarkUpdated({id: (current ? current.id : ID_PREFIX_RICH_MARK + Date.now()), title, connectMode, connection, displayMode, value}, this.state.newSelected === "" );
                         if(connectMode === 'new' && !this.props.toolbars[connection.id] && this.state.newType === PAGE_TYPES.DOCUMENT) {
                             this.props.onBoxAdded({parent: newId, container: 0, id: ID_PREFIX_SORTABLE_BOX + Date.now()}, false, false);
                         }
