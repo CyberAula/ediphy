@@ -13,7 +13,7 @@ export function VirtualTour(base) {
             let markElements = Object.keys(marks).map((e) =>{
                 let position = marks[e].value.split(',');
                 return ( <Mark
-                    key={id}
+                    key={e}
                     lat={position[0] /*40.452*/}
                     lng={position[1] /*-3.726848*/}
                     text={e}

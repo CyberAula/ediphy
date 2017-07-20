@@ -1,8 +1,9 @@
 import React from "react";
 import GoogleMapReact from 'google-map-react';
 import i18n from 'i18next';
+import Geo from 'google-map-react/lib/utils/geo.js';
 require('./_virtualTour.scss');
-
+const scale = 591657550.5;
 export function VirtualTour(base) {
     return {
         getConfig: function () {
@@ -121,7 +122,8 @@ export function VirtualTour(base) {
             return {
                 lat: 40.452,
                 lng: -3.727,
-                zoom: 11
+                zoom: 11,
+                identifier: ("map-"+Date.now())
             };
         },
         getRenderTemplate: function (state) {
@@ -136,7 +138,7 @@ export function VirtualTour(base) {
                 } else{
                     position = [0,0];
                 }
-
+                console.log(id)
                 return ( <Mark
                             key={id}
                             lat={position[0] /*40.452*/}
@@ -155,6 +157,7 @@ export function VirtualTour(base) {
                 <div className="virtualMap" >
                     <div className="dropableRichZone" style={{width:'100%', height:'100%'}}>
                         <GoogleMapReact
+                            id={state.identifier}
                             center={center}
                             zoom={zoom}
                             resetBoundsOnResize = {true}
@@ -170,9 +173,12 @@ export function VirtualTour(base) {
             base.setState(name, value);
         },
         parseRichMarkInput: function(...value){
-            let x = value[0]*100/value[2];
-            let y = value [1]*100/value[3];
-            let finalValue = y.toFixed(2)+","+x.toFixed(2);
+            let x = value[0]-value[2]/2;
+            let y = value[3]/2 - value[1];
+            let lat = Math.round((value[5].lat + y/Math.pow(2,(value[5].zoom))) * 1000) / 1000;
+            let lng = Math.round((value[5].lng + x/Math.pow(2,(value[5].zoom))) * 1000) / 1000;
+            // console.log(...value, '-', x,y,lat,lng)
+            let finalValue = lat+","+lng;
 
             return finalValue;
         },

@@ -51,6 +51,7 @@ export default class MarkCreator extends Component {
                 let deleteMarkCreator = this.props.deleteMarkCreator;
                 let addMarkShortcut = this.props.addMarkShortcut;
                 let parseRichMarkInput = this.props.parseRichMarkInput;
+                let toolbarState = this.props.toolbarState;
                 let onBoxAdded = this.props.onBoxAdded;
                 let boxSelected = this.props.boxSelected;
                  /* NEW MARK DEFAULT PARAMS*/
@@ -92,7 +93,7 @@ export default class MarkCreator extends Component {
                     let richMarkValues = [];
 
 
-                    let value = parseRichMarkInput(x,y, width, height, richMarkValues);
+                    let value = parseRichMarkInput(x,y, width, height, richMarkValues, toolbarState );
 
                     addMarkShortcut({id: ID_PREFIX_RICH_MARK + Date.now(), title, connectMode, connection, displayMode, value});
                     if(type === PAGE_TYPES.DOCUMENT) {
@@ -101,8 +102,7 @@ export default class MarkCreator extends Component {
                     /* This is to delete all elements involved */
                     overlay.remove();
                     dropableElement.classList.remove("rich_overlay");
-
-                    e.preventDefault();
+                    // e.preventDefault();
                     deleteMarkCreator();
 
                     component.setState({onCreation: false});
@@ -111,6 +111,7 @@ export default class MarkCreator extends Component {
 
                 dropableElement.parentElement.appendChild(overlay);
                 this.setState({onCreation: true});
+
             }
         }
     }
