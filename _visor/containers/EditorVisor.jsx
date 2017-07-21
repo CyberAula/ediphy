@@ -8,7 +8,7 @@ import VisorPlayer from './../components/navigation/VisorPlayer';
 
 import {isContainedView, isView} from './../../utils';
 import ScormComponent from './../components/scorm/ScormComponent';
-
+import i18n from './../../i18n';
 
 require('es6-promise').polyfill();
 require('./../../sass/style.scss');
