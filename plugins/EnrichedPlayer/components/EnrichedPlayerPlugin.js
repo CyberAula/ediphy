@@ -134,7 +134,9 @@ export default class EnrichedPlayerPlugin extends React.Component {
 
 
             return(<a key={id} style={{left: value, position:"absolute"}} href="#">
-                    <div style={{width:"4px", height: "8px", background: "gray" }}><i className="material-icons" style={{color:"white", position:"relative", top: "-24px", left: "-10px" }}>room</i></div>
+                    <div style={{width:"4px", height: "8px", background: "#1fc8db" }}>
+                        <i className="material-icons" style={{color:"#1fc8db", position:"relative", top: "-24px", left: "-10px" }}>room</i>
+                    </div>
                 </a>);
         });
 
@@ -143,8 +145,8 @@ export default class EnrichedPlayerPlugin extends React.Component {
             <div ref={player_wrapper => {this.player_wrapper = player_wrapper}} style={{width:"100%",height:"100%"}} className="enriched-player-wrapper">
                 <ReactPlayer
                     ref={player => { this.player = player }}
-                    style={{width: "100%", height:"calc(100% - 34px)"}}
-                    height="calc(100% - 34px)"
+                    style={{width: "100%", height:"100%"}}
+                    height="100%"
                     width="100%"
                     url={this.props.state.url}
                     playing={this.state.playing}
@@ -158,12 +160,13 @@ export default class EnrichedPlayerPlugin extends React.Component {
                 {(this.state.controls) && (
                     <div className="player-media-controls" style={{ pointerEvents: 'all'}}>
                         <button className="play-player-button" onClick={this.playPause.bind(this)}>{this.state.playing ? <i className="material-icons">pause</i> : <i className="material-icons">play_arrow</i>}</button>
-                        <div className="progress-player-input dropableRichZone" style={{background: "white", height: "8px", position: "relative"}}
+                        <div className="progress-player-input dropableRichZone" style={{ height: "10px", position: "relative"}}
                             // value={this.state.played}
                              onMouseDown={this.onSeekMouseDown.bind(this)}
                              onChange={this.onSeekChange.bind(this)}
                              onMouseUp={this.onSeekMouseUp.bind(this)}
                         >
+                            <div className="fakeProgress"></div>
                             <div className="mainSlider" style={{position:"absolute",left: this.state.played*100 +"%"}}></div>
                             {markElements}
                         </div>

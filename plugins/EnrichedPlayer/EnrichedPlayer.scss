@@ -3,7 +3,27 @@
 $blueprimary: #1fc8db;
 $track-width: 54% !default;
 
+@mixin gradient {
+  background: black; /* For browsers that do not support gradients */
+  background: -webkit-linear-gradient(transparent, black); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(transparent, black); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(transparent, black); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(transparent, black); /* Standard syntax */
+}
 
+@mixin shadow{
+  -moz-box-shadow: inset 0 4px 6px rgba(0,0,0,.5);
+  -webkit-box-shadow: inset 0 4px 6px rgba(0,0,0,.5);
+  box-shadow: inset 0 4px 6px rgba(0,0,0,.5);
+}
+
+@mixin transition {
+  -webkit-transition: all ease .3s;
+  -moz-transition: all ease .3s;
+  -o-transition: all ease .3s;
+  -ms-transition: all ease .3s;
+  transition: all ease .3s;
+}
 @mixin custom_range {
   input[type=range] {
     -webkit-appearance: none;
@@ -88,10 +108,10 @@ $track-width: 54% !default;
     height: 2px;
   }
   input[type=range]:focus::-ms-fill-lower {
-    background: rgba(0, 0, 0, 0.52);
+    background: rgba(0, 0, 0, 0.82);
   }
   input[type=range]:focus::-ms-fill-upper {
-    background: rgba(89, 89, 89, 0.52);
+    background: rgba(89, 89, 89, 0.82);
   }
 
 
@@ -111,10 +131,13 @@ $track-width: 54% !default;
     margin-bottom: -4px;
   }
   .player-media-controls{
-
+    position: absolute;
+    bottom: 0;
+    width: 100%;
     padding: 5px;
     margin: 0;
-    background-color: $blueprimary;
+    //background-color: $blueprimary;
+    @include gradient;
     height: 34px;
     opacity: 0.7;
     -webkit-transition: opacity .3s;
@@ -129,21 +152,23 @@ $track-width: 54% !default;
 
   button {
     border: 0;
-    color: #EEE;
+    color: white;
+    @include transition;
     &:hover{
       cursor: pointer;
-      background-color: darken($blueprimary, 10%);
+      color: white;
+      background-color: $blueprimary;
     }
   }
 
   .play-player-button {
-    background-color: $blueprimary;
+    background-color: transparent;
     float:left;
     height:100%;
     width:10%;
   }
   .fullscreen-player-button{
-    background-color: $blueprimary;
+    background-color: transparent;
     float:right;
     height:100%;
     width:10%;
@@ -156,7 +181,7 @@ $track-width: 54% !default;
   @include custom_range;
 
   .progress-player-input {
-    background: white;
+    background: transparent;
     float:left;
     -webkit-appearance: none;
     margin: 7px 2.5%;
@@ -166,10 +191,16 @@ $track-width: 54% !default;
     .mainSlider{
       width: 4px;
       height: 14px;
-      background: #0E2231;
+      background: white;
       position: absolute;
       margin-top: -3px;
       z-index: 9999;
+    }
+    .fakeProgress{
+      border: 1px solid #ccc;
+      margin: 3px;
+      position: absolute;
+      width: 100%;
     }
 
   }
