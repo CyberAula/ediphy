@@ -20,7 +20,7 @@ export function VirtualTour(base) {
                 initialHeight: '200px',
                 initialHeightSlide: '60%',
                 isRich: true,
-                marksType: [{name: 'Posición', key: 'value'}],
+                marksType: [{name: i18n.t('VirtualTour.Coords'), key: 'value', format: '[Lat,Lng]'}],
                 defaultMarkValue: '40.452,-3.727'
             };
         },
@@ -188,8 +188,8 @@ export function VirtualTour(base) {
             let scale = Math.pow(2, map.getZoom());
             let worldPoint = new VirtualTour.maps.Point((clickX) / scale + bottomLeft.x, (clickY)/ scale + topRight.y);
             let latLng = map.getProjection().fromPointToLatLng(worldPoint);
-            let lat =  Math.round(latLng.lat() * 100) / 100;
-            let lng =  Math.round(latLng.lng() * 100) / 100;
+            let lat =  Math.round(latLng.lat() * 100000) / 100000;
+            let lng =  Math.round(latLng.lng() * 100000) / 100000;
 
             return lat + ',' + lng;
         },
@@ -198,8 +198,8 @@ export function VirtualTour(base) {
             let regex =  /(^-*\d+(?:\.\d*)?),(-*\d+(?:\.\d*)?$)/g ;
             let match = regex.exec(value);
             if(match && match.length === 3) {
-                let x = Math.round(parseFloat(match[1]) * 100) / 100;
-                let y = Math.round(parseFloat(match[2]) * 100) / 100;
+                let x = Math.round(parseFloat(match[1]) * 100000) / 100000;
+                let y = Math.round(parseFloat(match[2]) * 100000) / 100000;
                 if (isNaN(x) || isNaN(y) ) {
                     return {isWrong: true, message: i18n.t("VirtualTour.message_mark_xy")};
                 }

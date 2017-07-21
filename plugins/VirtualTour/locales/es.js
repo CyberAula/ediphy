@@ -6,6 +6,7 @@ module.exports = {
         "border_size": "Grosor de borde",
         "border_style": "Estilo de borde",
         "box_style": "Estilo caja",
+        "Coords": "Coordenadas",
         "opacity": "Opacidad",
         "padding": "Padding",
         "radius": "Radio",

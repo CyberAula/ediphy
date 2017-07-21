@@ -8,6 +8,7 @@ module.exports = {
         "box_style": "Estilo caja",
         "opacity": "Opacidad",
         "padding": "Padding",
+        "pos": "Posición",
         "radius": "Radio",
         "source": "Fuente",
         "message_mark_xy":"Ha introducido un valor incorrecto. Debe introducir dos números separados por coma. Ej. 4.56,90.76"

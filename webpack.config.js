@@ -12,7 +12,7 @@ module.exports = {
             'bootstrap-loader', //Loads Twitter Bootstrap
             './index.jsx' // Appʼs entry point
             ],
-        'js/visor': './components/visor/EditorVisor.jsx',
+        'js/visor': './_visor/containers/EditorVisor.jsx',
     },
     module: {
         preLoaders: [

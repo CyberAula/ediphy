@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import sortable from 'jquery-ui/ui/widgets/sortable';
-import ReduxProvider from './containers/ReduxProvider';
+import ReduxProvider from './_editor/containers/ReduxProvider';
 import i18n from './i18n';
 
 require('es6-promise').polyfill();

@@ -5,6 +5,7 @@ module.exports = {
         "border_size": "Border Size",
         "border_style": "Border Style",
         "box_style": "Box style",
+        "Coords": "Coordinates",
         "opacity": "Opacity",
         "padding": "Padding",
         "PluginName": "Virtual Tour",

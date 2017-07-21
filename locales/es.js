@@ -122,10 +122,10 @@ var es = {
         "currentLang": "es",
         "marks":{
           "add_mark": "Añadir marca",
-          "add_mark_to": "Añadir marca a",
-          "edit_mark_to": "Editar marca a",
-          "existing_content": "Contenido Existente",
-          "external_url": "Url externa",
+          "add_mark_to": "Añadir marca a ",
+          "edit_mark_to": "Editar marca de ",
+          "existing_content": "Contenido existente",
+          "external_url": "Contenido externo",
           "hover_message": "Enlaza con ",
           "link_to": "Enlazar con",
           "marks_list": "Lista de marcas",
@@ -134,6 +134,7 @@ var es = {
           "new_document": "Nuevo documento",
           "new_slide": "Nueva diapositiva",
           "new_mark": "Nueva marca",
+          "value": "Valor"
         },
         "messages": {
             "add_new_mark": "Añadir nueva marca",

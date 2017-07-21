@@ -12,12 +12,11 @@ export default class SearchBox extends React.Component {
         return (
         <FormGroup  className="searchBox">
             <InputGroup>
+                <FormControl type="text" ref={"input-"+this.props.id} placeholder={this.props.placeholder}/>
                 <InputGroup.Addon style={{padding: "2px 7px"}}>
                     <i className="material-icons">search</i>
                     {/*<Glyphicon glyph="search" />*/}
-                </InputGroup.Addon>
-                <FormControl type="text" ref={"input-"+this.props.id} placeholder={this.props.placeholder}/>
-            </InputGroup>
+                </InputGroup.Addon>            </InputGroup>
         </FormGroup>
          );
         /* jshint ignore:end */

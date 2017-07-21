@@ -10,7 +10,9 @@ export function HotspotImages(base) {
             let markElements = Object.keys(marks).map((e) =>{
                 let position = marks[e].value.split(',');
                return(
-                   <a key={marks[e].id} style={{position: 'absolute', top : position[0] + "%", left:  position[1] + "%"}} href="#" onClick={()=>{this.onMarkClicked(box_id, marks[e].value)}}><i style={{width:"100%",height:"100%"}} className="material-icons">room</i></a>
+                   <a key={marks[e].id} style={{position: 'absolute', top : position[0] + "%", left:  position[1] + "%"}} href="#" onClick={()=>{this.onMarkClicked(box_id, marks[e].value)}}>
+                       <i style={{width:"100%",height:"100%", position: 'absolute', top:'-26px',left:'-12px'}} className="material-icons">room</i>
+                   </a>
                );
             });
 

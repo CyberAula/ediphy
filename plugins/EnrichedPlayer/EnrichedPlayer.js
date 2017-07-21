@@ -14,6 +14,7 @@ export function EnrichedPlayer(base) {
                 category: "multimedia",
                 initialWidth: '30%',
                 icon: "play_arrow",
+                marksType: [{name: i18n.t("EnrichedPlayer.pos"), key: 'value', format: '[x%]'}],
                 defaultMarkValue: '50%'
             };
         },

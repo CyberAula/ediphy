@@ -6,8 +6,10 @@ import Config from './config';
 require('../sass/style.scss');
 
 // This requires dynamically all scss' kept in component's folders
-var scss_context = require.context('../components', true, /\.scss$/);
+var scss_context = require.context('../_editor', true, /\.scss$/);
 scss_context.keys().map(scss_context);
+var scss_visor_context = require.context('../_visor', true, /\.scss$/);
+scss_visor_context.keys().map(scss_visor_context);
 
 window.ReactDOM = require('react-dom');
 

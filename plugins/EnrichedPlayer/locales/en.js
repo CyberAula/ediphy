@@ -12,6 +12,7 @@ module.exports = {
         "box_style": "Box style",
         "opacity": "Opacity",
         "padding": "Padding",
+        "pos": "Moment",
         "PluginName": "Enriched Player",
         "radius": "Radius",
         "source": "Source",

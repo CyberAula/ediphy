@@ -7,6 +7,7 @@ module.exports = {
         "box_style": "Box style",
         "opacity": "Opacity",
         "padding": "Padding",
+        "pos": "Position",
         "PluginName": "Hotspot Images",
         "radius": "Radius",
         "source": "Source",

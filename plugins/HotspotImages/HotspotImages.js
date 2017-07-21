@@ -13,7 +13,7 @@ export function HotspotImages(base) {
                 icon: 'image',
                 // initialWidth: '25%',
                 isRich: true,
-                marksType: [{name: 'Valor', key: 'value'}],
+                marksType: [{name: i18n.t("HotspotImages.pos"), key: 'value', format: '[x,y]'}],
                 defaultMarkValue: '0,0'
             };
         },
@@ -113,7 +113,7 @@ export function HotspotImages(base) {
                 }
 
 
-                return(<a key={id} style={{position: 'absolute', top: position[0] + "%",left: position[1] + "%"}} href="#"><i style={{width:"100%",height:"100%"}} className="material-icons">room</i></a>)
+                return(<a key={id} style={{position: 'absolute', top: position[0] + "%",left: position[1] + "%"}} href="#"><i style={{width:"100%",height:"100%", top:'-26px',position:'absolute',left:'-12px'}} className="material-icons">room</i></a>)
             });
 
             return (
@@ -128,8 +128,8 @@ export function HotspotImages(base) {
             base.setState(name, value);
         },
         parseRichMarkInput: function(...value){
-            let x = value[0]*100/value[2];
-            let y = value [1]*100/value[3];
+            let x = (value[0]+12)*100/value[2];
+            let y = (value [1]+26)*100/value[3];
             let finalValue = y.toFixed(2)+","+x.toFixed(2);
 
             return finalValue;
