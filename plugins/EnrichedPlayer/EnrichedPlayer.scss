@@ -11,12 +11,6 @@ $track-width: 54% !default;
   background: linear-gradient(transparent, black); /* Standard syntax */
 }
 
-@mixin shadow{
-  -moz-box-shadow: inset 0 4px 6px rgba(0,0,0,.5);
-  -webkit-box-shadow: inset 0 4px 6px rgba(0,0,0,.5);
-  box-shadow: inset 0 4px 6px rgba(0,0,0,.5);
-}
-
 @mixin transition {
   -webkit-transition: all ease .3s;
   -moz-transition: all ease .3s;
@@ -122,9 +116,6 @@ $track-width: 54% !default;
 //player
 //**************************************
 
-.player-wrapper:hover .player-media-controls{
-  //opacity:0.9;
-}
 .enriched-player-wrapper{
   overflow: hidden;
   iframe{
@@ -136,7 +127,6 @@ $track-width: 54% !default;
     width: 100%;
     padding: 5px;
     margin: 0;
-    //background-color: $blueprimary;
     @include gradient;
     height: 34px;
     opacity: 0.7;
