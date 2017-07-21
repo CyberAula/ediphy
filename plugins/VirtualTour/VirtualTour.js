@@ -1,6 +1,8 @@
 import React from "react";
 import GoogleMapReact from 'google-map-react';
 import i18n from 'i18next';
+import SearchBox from './components/SearchBox';
+// require('./components/SearchBox')
 require('./_virtualTour.scss');
 var map,maps;
 export function VirtualTour(base) {
@@ -127,7 +129,11 @@ export function VirtualTour(base) {
         },
         getRenderTemplate: function (state) {
             /* jshint ignore:start */
-            const Mark = ({ text }) => <i style={{width:"100%",height:"100%"}} className="material-icons">room</i>;
+            const Mark = ({ text }) => (
+                <a style={{position: 'absolute'}}
+                   href="#">
+                    <i style={{width:"100%", height:"100%", position: 'absolute', top:'-26px', left:'-12px'}} className="material-icons">room</i>
+                </a>);
             let marks = state.__marks;
             let markElements = Object.keys(marks).map((id) =>{
                 let value = marks[id].value;
@@ -137,20 +143,13 @@ export function VirtualTour(base) {
                 } else{
                     position = [0,0];
                 }
-                return ( <Mark
-                            key={id}
-                            lat={position[0] /*40.452*/}
-                            lng={position[1] /*-3.726848*/}
-                            text={id}
-                        />)
-                // return(<a key={id} style={{position: 'absolute', top: position[0] + "%",left: position[1] + "%"}} href="#"><i style={{width:"100%",height:"100%"}} className="material-icons">room</i></a>)
-            });
+                return (<Mark  key={id} text={id} lat={position[0]} lng={position[1]}/>);
+             });
 
             let lat = state.lat && parseFloat(state.lat) ? parseFloat(state.lat):0;
             let lng = state.lng && parseFloat(state.lng) ? parseFloat(state.lng):0;
             let zoom = state.zoom && !isNaN(parseFloat(state.zoom)) ? parseFloat(state.zoom):10;
             let center = {lat: lat, lng: lng};
-
             return (
                 <div className="virtualMap" >
                     <div id={state.identifier} className="dropableRichZone" style={{width:'100%', height:'100%'}}>
@@ -162,6 +161,14 @@ export function VirtualTour(base) {
                             yesIWantToUseGoogleMapApiInternals={true}>
                             {markElements}
                         </GoogleMapReact>
+                        <SearchBox
+                            placeholder={i18n.t("VirtualTour.Search")}
+                            onPlacesChanged={(places)=>{
+                                base.setState("lat",places.lat);base.setState("lng",places.lng);
+                                base.forceUpdate(state, undefined, "UPDATE_TOOLBAR")
+
+                                // console.log(base);console.log(places);
+                            }} />
                     </div>
                 </div>
             );
@@ -171,18 +178,20 @@ export function VirtualTour(base) {
             base.setState(name, value);
         },
         parseRichMarkInput: function(...value){
-
-            var map = VirtualTour.map;
-            var topRight = map.getProjection().fromLatLngToPoint(map.getBounds().getNorthEast());
-            var bottomLeft = map.getProjection().fromLatLngToPoint(map.getBounds().getSouthWest());
-            var scale = Math.pow(2, map.getZoom());
-            var worldPoint = new VirtualTour.maps.Point(value[0] / scale + bottomLeft.x, value[1] / scale + topRight.y);
-            var latLng = map.getProjection().fromPointToLatLng(worldPoint);
+            // Mouse position relative to the box + offset for the bottom-center of the marker
+            let clickX = value[0] + 12;
+            let clickY = value[1] + 26;
+            let map = VirtualTour.map;
+            let topRight = map.getProjection().fromLatLngToPoint(map.getBounds().getNorthEast());
+            let bottomLeft = map.getProjection().fromLatLngToPoint(map.getBounds().getSouthWest());
+            let scale = Math.pow(2, map.getZoom());
+            let worldPoint = new VirtualTour.maps.Point((clickX) / scale + bottomLeft.x, (clickY)/ scale + topRight.y);
+            let latLng = map.getProjection().fromPointToLatLng(worldPoint);
 
             return latLng.lat()+','+latLng.lng();
         },
-        validateValueInput: function(value){
 
+        validateValueInput: function(value){
             let regex =  /(^-*\d+(?:\.\d*)?),(-*\d+(?:\.\d*)?$)/g ;
             let match = regex.exec(value);
             if(match && match.length === 3) {

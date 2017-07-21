@@ -325,8 +325,8 @@ class DaliApp extends Component {
                                 navItemsIds={navItemsIds}
                                 visible={this.state.richMarksVisible}
                                 currentRichMark={this.state.currentRichMark}
-                                defaultValueMark={toolbars[boxSelected]  ? Dali.Plugins.get(toolbars[boxSelected].config.name).getConfig().defaultMarkValue : 0}
-                                validateValueInput={toolbars[boxSelected] && toolbars[boxSelected].config ? Dali.Plugins.get(toolbars[boxSelected].config.name).validateValueInput:null}
+                                defaultValueMark={toolbars[boxSelected] && Dali.Plugins.get(toolbars[boxSelected].config.name) ? Dali.Plugins.get(toolbars[boxSelected].config.name).getConfig().defaultMarkValue : 0}
+                                validateValueInput={toolbars[boxSelected] && toolbars[boxSelected].config && Dali.Plugins.get(toolbars[boxSelected].config.name) ? Dali.Plugins.get(toolbars[boxSelected].config.name).validateValueInput:null}
                                 onBoxAdded={(ids, draggable, resizable, content, toolbar, config, state) => this.dispatchAndSetState(addBox(ids, draggable, resizable, content, toolbar, config, state))}
                                 onRichMarkUpdated={(mark, createNew) => {
                                     let toolbar = toolbars[boxSelected];
@@ -456,6 +456,7 @@ class DaliApp extends Component {
             if (reason.type) {
                 reason = reason.type;
             }
+
             switch (reason) {
                 case ADD_RICH_MARK:
                     this.dispatchAndSetState(e.detail.reason); //The action was created previously //TODO: here is the problem we need to trigger update box as well
@@ -503,7 +504,7 @@ class DaliApp extends Component {
                 case UPDATE_BOX:
                 case UPDATE_TOOLBAR:
                      this.dispatchAndSetState(updateBox(
-                        e.detail.ids.id,
+                        e.detail.ids.id|| this.props.boxSelected,
                         e.detail.content,
                         e.detail.toolbar,
                         e.detail.state

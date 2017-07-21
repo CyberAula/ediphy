@@ -9,15 +9,15 @@ export function VirtualTour(base) {
             let marks = state.__marks;
             let box_id = id;
             /* jshint ignore:start */
-            const Mark = ({ text }) => (<i style={{width:"100%",height:"100%"}} className="material-icons">room</i>);
             let markElements = Object.keys(marks).map((e) =>{
+                let Mark = ({ text }) => (<a style={{position: 'absolute'}}
+                                             onClick={()=>{this.onMarkClicked(box_id, marks[e].value)}}
+                                             href="#">
+                                                <i style={{width:"100%",height:"100%", cursor: 'pointer', position: 'absolute', top:'-26px', left:'-12px'}}  className="material-icons">room</i>
+                </a>);
                 let position = marks[e].value.split(',');
-                return ( <Mark
-                    key={e}
-                    lat={position[0] /*40.452*/}
-                    lng={position[1] /*-3.726848*/}
-                    text={e}
-                />)
+                return (<Mark text={e} lat={position[0]} lng={position[1]}/>);
+
             });
             let lat = state.lat && parseFloat(state.lat) ? parseFloat(state.lat):0;
             let lng = state.lng && parseFloat(state.lng) ? parseFloat(state.lng):0;

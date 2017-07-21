@@ -484,6 +484,7 @@ function toolbarReducer(state, action) {
         case TOGGLE_TEXT_EDITOR:
             return changeProp(state, "showTextEditor", action.payload.value);
         case UPDATE_BOX:
+            console.log(action.payload)
             let controls = action.payload.toolbar;
             if (!isSortableBox(action.payload.id)) {
                 createSizeButtons(controls, state, action);

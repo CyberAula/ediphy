@@ -16,3 +16,13 @@
 .virtualMap > .rich_overlay {
   pointer-events: all !important;
 }
+.searchBox {
+  pointer-events: all !important;
+  max-width:99%;
+  width: 200px;
+  position:absolute;
+  top:2px;
+  left:2px;
+  //height:30px;
+  border-radius: 0;
+}

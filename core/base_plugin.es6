@@ -280,7 +280,7 @@ export default function () {
         },
         forceUpdate: function (oldState, sender, reason) {
             state = oldState;
-            id = sender;
+            id = sender ? sender : id;
             this.render(reason);
         },
         render: function (reason) {
