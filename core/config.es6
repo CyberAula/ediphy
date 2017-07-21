@@ -17,6 +17,7 @@ export default {
         'BasicImage',
         'BasicText',
         //'RichText',
+        'VirtualTour',
         'BasicPlayer',
         'EnrichedPlayer',
         //'BasicVideo',
@@ -24,8 +25,8 @@ export default {
         'Webpage',
         'GraficaD3',
         //'EnrichedVideo',
-        'HotspotImages',
-        'VirtualTour',
+        'HotspotImages'
+
     ],
     availableLanguages:[
         'en',
