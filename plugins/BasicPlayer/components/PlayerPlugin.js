@@ -96,7 +96,7 @@ export default class PlayerPlugin extends React.Component {
                         onMouseUp={this.onSeekMouseUp.bind(this)}
                     />
                     {/*<progress className="progress-player-bar" max={1} value={this.state.played} />*/}
-                    <input className="volume-player-input" type='range' min={0} max={1} step='any' value={this.state.volume} onChange={this.setVolume.bind(this)} />
+                    <input className="volume-player-input " type='range' min={0} max={1} step='any' value={this.state.volume} onChange={this.setVolume.bind(this)} />
                     <button className="fullscreen-player-button" onClick={this.onClickFullscreen.bind(this)}>{(!this.state.fullscreen)?<i className="material-icons">fullscreen</i>:<i className="material-icons">fullscreen_exit</i>}</button>
                 </div>)}
             </div>

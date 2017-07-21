@@ -24,7 +24,7 @@ let DataProvider = React.createClass({
             for (let o = 0; o < this.state.data.length; o++) {
                 if(this.state.data[i][o] === ""){
                 	//TODO: change alert for common-alert system
-                    alert("Todos los campos tienen que estar rellenos");
+                    alert("Rellena todos los campos de la tabla");
                     empty = true;
                     break outerloop;
                 }

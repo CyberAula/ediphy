@@ -53,7 +53,7 @@ export default class PluginConfigModal extends Component {
                 </Modal.Body>
 
                 <Modal.Footer>
-                    <Button onClick={e => {
+                    <Button bsStyle="secondary" onClick={e => {
                         this.setState({show: false, reason: null});
                     }}>Cancel</Button>
                     <Button ref="plugin_insertion" bsStyle="primary" id="insert_plugin_config_modal" disabled={this.state.disabledButton}
