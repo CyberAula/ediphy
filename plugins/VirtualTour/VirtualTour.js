@@ -29,9 +29,9 @@ export function VirtualTour(base) {
                 main: {
                     __name: "Main",
                     accordions: {
-                        _basic: {
+                        __basic: {
                             __name: Dali.i18n.t('VirtualTour.map'),
-                            icon: 'link',
+                            icon: 'zoom_out_map',
                             buttons: {
                                  lat: {
                                     __name: 'Center Latitude',
@@ -162,6 +162,7 @@ export function VirtualTour(base) {
                             {markElements}
                         </GoogleMapReact>
                         <SearchBox
+                            id={state.identifier}
                             placeholder={i18n.t("VirtualTour.Search")}
                             onPlacesChanged={(places)=>{
                                 base.setState("lat",places.lat);base.setState("lng",places.lng);

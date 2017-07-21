@@ -16,7 +16,7 @@ export function VirtualTour(base) {
                                                 <i style={{width:"100%",height:"100%", cursor: 'pointer', position: 'absolute', top:'-26px', left:'-12px'}}  className="material-icons">room</i>
                 </a>);
                 let position = marks[e].value.split(',');
-                return (<Mark text={e} lat={position[0]} lng={position[1]}/>);
+                return (<Mark key={e} text={e} lat={position[0]} lng={position[1]}/>);
 
             });
             let lat = state.lat && parseFloat(state.lat) ? parseFloat(state.lat):0;

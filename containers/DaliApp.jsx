@@ -325,7 +325,7 @@ class DaliApp extends Component {
                                 navItemsIds={navItemsIds}
                                 visible={this.state.richMarksVisible}
                                 currentRichMark={this.state.currentRichMark}
-                                defaultValueMark={toolbars[boxSelected] && Dali.Plugins.get(toolbars[boxSelected].config.name) ? Dali.Plugins.get(toolbars[boxSelected].config.name).getConfig().defaultMarkValue : 0}
+                                defaultValueMark={toolbars[boxSelected] && toolbars[boxSelected].config && Dali.Plugins.get(toolbars[boxSelected].config.name) ? Dali.Plugins.get(toolbars[boxSelected].config.name).getConfig().defaultMarkValue : 0}
                                 validateValueInput={toolbars[boxSelected] && toolbars[boxSelected].config && Dali.Plugins.get(toolbars[boxSelected].config.name) ? Dali.Plugins.get(toolbars[boxSelected].config.name).validateValueInput:null}
                                 onBoxAdded={(ids, draggable, resizable, content, toolbar, config, state) => this.dispatchAndSetState(addBox(ids, draggable, resizable, content, toolbar, config, state))}
                                 onRichMarkUpdated={(mark, createNew) => {

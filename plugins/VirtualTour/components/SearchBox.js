@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-
+import {FormGroup, InputGroup, Glyphicon, FormControl} from 'react-bootstrap';
 export default class SearchBox extends React.Component {
     constructor(props) {
         super(props);
@@ -9,23 +9,31 @@ export default class SearchBox extends React.Component {
     }
     render() {
         /* jshint ignore:start */
-        return (<input className="form-control searchBox" ref="input" placeholder={this.props.placeholder} type="text"/>);
+        return (
+        <FormGroup  className="searchBox">
+            <InputGroup>
+                <InputGroup.Addon style={{padding: "2px 7px"}}>
+                    <i className="material-icons">search</i>
+                    {/*<Glyphicon glyph="search" />*/}
+                </InputGroup.Addon>
+                <FormControl type="text" ref={"input-"+this.props.id} placeholder={this.props.placeholder}/>
+            </InputGroup>
+        </FormGroup>
+         );
         /* jshint ignore:end */
     }
     onPlacesChanged() {
         if (this.props.onPlacesChanged) {
             let places = this.searchBox.getPlaces();
-            console.log(places);
-            if (places && places.length > 0){
-                let geom = places[0].geometry.location;
-                let coords= {lat: geom.lat(), lng: geom.lng()};
-                this.props.onPlacesChanged(coords);
+             if (places && places.length > 0){
+                 let geom = places[0].geometry.location;
+                 this.props.onPlacesChanged({lat: geom.lat(), lng: geom.lng()});
             }
         }
     }
     componentDidMount() {
         /* jshint ignore:start */
-        var input = ReactDOM.findDOMNode(this.refs.input);
+        var input = ReactDOM.findDOMNode(this.refs["input-"+this.props.id]);
         this.searchBox = new google.maps.places.SearchBox(input);
         this.searchBox.addListener('places_changed', this.onPlacesChanged);
         /* jshint ignore:end */
@@ -33,6 +41,12 @@ export default class SearchBox extends React.Component {
     }
 
     componentWillUnmount() {
-        this.searchBox.removeListener('places_changed', this.onPlacesChanged);
+        if (this.searchBox) {
+            try {
+                this.searchBox.removeListener('places_changed', this.onPlacesChanged);
+            } catch(e){
+
+            }
+        }
     }
 }
