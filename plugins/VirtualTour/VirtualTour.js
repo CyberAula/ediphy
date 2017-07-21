@@ -1,9 +1,8 @@
 import React from "react";
 import GoogleMapReact from 'google-map-react';
 import i18n from 'i18next';
-import Geo from 'google-map-react/lib/utils/geo.js';
 require('./_virtualTour.scss');
-const scale = 591657550.5;
+var map,maps;
 export function VirtualTour(base) {
     return {
         getConfig: function () {
@@ -138,7 +137,6 @@ export function VirtualTour(base) {
                 } else{
                     position = [0,0];
                 }
-                console.log(id)
                 return ( <Mark
                             key={id}
                             lat={position[0] /*40.452*/}
@@ -155,13 +153,13 @@ export function VirtualTour(base) {
 
             return (
                 <div className="virtualMap" >
-                    <div className="dropableRichZone" style={{width:'100%', height:'100%'}}>
+                    <div id={state.identifier} className="dropableRichZone" style={{width:'100%', height:'100%'}}>
                         <GoogleMapReact
-                            id={state.identifier}
                             center={center}
                             zoom={zoom}
+                            onGoogleApiLoaded={({map, maps}) => {VirtualTour.map = map; VirtualTour.maps = maps;}}
                             resetBoundsOnResize = {true}
-                            onClick={(obj)=>{ console.log(obj.x, obj.y, obj.lat, obj.lng, obj.event);}}>
+                            yesIWantToUseGoogleMapApiInternals={true}>
                             {markElements}
                         </GoogleMapReact>
                     </div>
@@ -173,16 +171,18 @@ export function VirtualTour(base) {
             base.setState(name, value);
         },
         parseRichMarkInput: function(...value){
-            let x = value[0]-value[2]/2;
-            let y = value[3]/2 - value[1];
-            let lat = Math.round((value[5].lat + y/Math.pow(2,(value[5].zoom))) * 1000) / 1000;
-            let lng = Math.round((value[5].lng + x/Math.pow(2,(value[5].zoom))) * 1000) / 1000;
-            // console.log(...value, '-', x,y,lat,lng)
-            let finalValue = lat+","+lng;
 
-            return finalValue;
+            var map = VirtualTour.map;
+            var topRight = map.getProjection().fromLatLngToPoint(map.getBounds().getNorthEast());
+            var bottomLeft = map.getProjection().fromLatLngToPoint(map.getBounds().getSouthWest());
+            var scale = Math.pow(2, map.getZoom());
+            var worldPoint = new VirtualTour.maps.Point(value[0] / scale + bottomLeft.x, value[1] / scale + topRight.y);
+            var latLng = map.getProjection().fromPointToLatLng(worldPoint);
+
+            return latLng.lat()+','+latLng.lng();
         },
         validateValueInput: function(value){
+
             let regex =  /(^-*\d+(?:\.\d*)?),(-*\d+(?:\.\d*)?$)/g ;
             let match = regex.exec(value);
             if(match && match.length === 3) {
