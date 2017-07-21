@@ -44,7 +44,7 @@ export default class MarkCreator extends Component {
                 let cursor_x_offset = 12;
                 let cursor_y_offset = 20;
 
-                overlay.style.cursor = 'url("https://storage.googleapis.com/material-icons/external-assets/v4/icons/svg/ic_room_black_24px.svg") ' + cursor_x_offset + ' ' + cursor_y_offset + ', pointer';
+                overlay.style.cursor = 'url("https://storage.googleapis.com/material-icons/external-assets/v4/icons/svg/ic_room_white_24px.svg") ' + cursor_x_offset + ' ' + cursor_y_offset + ', pointer';
                 /* OVERLAY */
 
                 let component = this;

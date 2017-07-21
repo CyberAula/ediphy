@@ -108,7 +108,7 @@ export function EnrichedPlayer(base) {
             );
         },
         parseRichMarkInput: function(...value){
-            let parsed_value = value[0]*100/value[2];
+            let parsed_value = (value[0]+10)*100/value[2];
             return parsed_value.toFixed(2) + "%";
         },
         handleToolbar: function (name, value) {

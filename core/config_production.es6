@@ -2,9 +2,6 @@ export default {
     xml_path: "dali_documents/add_xml", //"http://lamas.dit.upm.es:3000/dali_documents/add_xml",
     xml_fake_path: "exercises/ua2_ue10_ejer7.xml",
     exercise_render_template_iframe_src: "./exercises/index.html",
-    dist_index: "dist/index.html",
-    dist_visor_bundle: "dist/js/visor-bundle.js",
-    visor_bundle: "js/visor-bundle.js",
     scorm_ejs: "/lib/scorm/scorm_nav.ejs",
     visor_ejs: "./lib/visor/index",
     scorm_zip: "./lib/scorm/scorm.zip",
@@ -21,11 +18,9 @@ export default {
         'BasicText',
         'BasicPlayer',
         'EnrichedPlayer',
-        'VirtualTour',
         'Webpage',
         'GraficaD3',
-        'HotspotImages'
-
+        'HotspotImages',
     ],
     availableLanguages:[
         'en',

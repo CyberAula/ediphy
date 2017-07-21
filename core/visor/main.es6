@@ -45,7 +45,7 @@ export default {
     exports: function (state) {
         var nav_names_used = {};
         var xhr = new XMLHttpRequest();
-        xhr.open('GET', "js/visor-bundle.js", true);
+        xhr.open('GET', Dali.Config.visor_bundle, true);
         xhr.responseType = "arraybuffer";
         xhr.onreadystatechange = function(evt) {
             if (xhr.readyState === 4) {
@@ -56,8 +56,8 @@ export default {
                             throw err; // or handle err
                         }
                         JSZip.loadAsync(data).then(function (zip) {
-                            var navs = state.navItemsById;
-                            /*
+                            /* var navs = state.navItemsById;
+
                                 state.navItemsIds.map(function (page) {
                                     if(navs[page].hidden){
                                         return;
@@ -95,8 +95,8 @@ export default {
                             }    
                             state.navItemSelected = page;
                             var content = parseEJS(Dali.Config.visor_ejs, page, state, false);
-                            zip.file("dist/index.html", content);
-                            zip.file("dist/js/visor-bundle.js", xhr.response);
+                            zip.file( Dali.Config.dist_index, content);
+                            zip.file( Dali.Config.dist_visor_bundle, xhr.response);
 
                            
                             return zip;
@@ -108,7 +108,7 @@ export default {
                     });    
 
 
-                    
+
                 }
             }
         };
@@ -138,7 +138,7 @@ export default {
     exportScorm: function (state) {
         var zip_title;
         var xhr = new XMLHttpRequest();
-        xhr.open('GET', "js/visor-bundle.js", true);
+        xhr.open('GET', Dali.Config.visor_bundle, true);
         xhr.responseType = "arraybuffer";
         xhr.onreadystatechange = function(evt) {
             if (xhr.readyState === 4) {
@@ -169,7 +169,7 @@ export default {
                                     unit = navs[page].unitNumber;
                                 }
                                 var path = "unit" + unit + "/";
-                                
+
                                 //sections.push(path + nombre);
                                 if(Object.keys(navs[page].extraFiles).length !== 0){
                                     for(var boxKey in navs[page].extraFiles){
@@ -209,8 +209,8 @@ export default {
                             state.fromScorm = true;
                             state.navItemSelected = page;
                             var content = parseEJS(Dali.Config.visor_ejs, page, state, true);
-                            zip.file("dist/index.html", content);
-                            zip.file("dist/js/visor-bundle.js", xhr.response);
+                            zip.file( Dali.Config.dist_index, content);
+                            zip.file( Dali.Config.dist_visor_bundle, xhr.response);
                             zip_title = state.globalConfig.title;
 
                             return zip;

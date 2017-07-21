@@ -165,7 +165,7 @@ export function VirtualTour(base) {
                             id={state.identifier}
                             placeholder={i18n.t("VirtualTour.Search")}
                             onPlacesChanged={(places)=>{
-                                base.setState("lat",places.lat);base.setState("lng",places.lng);
+                                base.setState("lat",places.lat);base.setState("lng",places.lng);base.setState("zoom",15);
                                 base.forceUpdate(state, undefined, "UPDATE_TOOLBAR")
 
                                 // console.log(base);console.log(places);
@@ -188,8 +188,10 @@ export function VirtualTour(base) {
             let scale = Math.pow(2, map.getZoom());
             let worldPoint = new VirtualTour.maps.Point((clickX) / scale + bottomLeft.x, (clickY)/ scale + topRight.y);
             let latLng = map.getProjection().fromPointToLatLng(worldPoint);
+            let lat =  Math.round(latLng.lat() * 100) / 100;
+            let lng =  Math.round(latLng.lng() * 100) / 100;
 
-            return latLng.lat()+','+latLng.lng();
+            return lat + ',' + lng;
         },
 
         validateValueInput: function(value){

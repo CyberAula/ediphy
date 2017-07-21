@@ -223,7 +223,7 @@ export default class GlobalConfig extends Component {
                                   <Button bsStyle="primary" id="insert_plugin_config_modal" onClick={e => {
                                       this.saveState();
                                   }}>{i18n.t("global_config.Accept")}</Button>{'   '}   
-                                  <Button bsStyle="primary" id="insert_plugin_config_modal" onClick={e => {
+                                  <Button bsStyle="secondary" id="insert_plugin_config_modal" onClick={e => {
                                     this.cancel();
                                   }}>{i18n.t("global_config.Discard")}</Button>
                                 </div>
