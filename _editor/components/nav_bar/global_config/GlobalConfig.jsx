@@ -52,7 +52,7 @@ export default class GlobalConfig extends Component {
                       confirm(i18n.t("global_config.prompt")) ? this.saveState():this.cancel();
                     }
                     this.props.close(); }}>
-                <Modal.Header closeButton>
+                <Modal.Header close>
                     <Modal.Title><span id="previewTitle">{i18n.t('global_config.title')}</span></Modal.Title>
                 </Modal.Header>
 
@@ -221,11 +221,11 @@ export default class GlobalConfig extends Component {
                                 </Col>*/}
                                 <div style={{'textAlign': 'right'}}>
                                   <Button bsStyle="primary" id="insert_plugin_config_modal" onClick={e => {
-                                      this.saveState();
+                                      this.saveState();e.preventDefault();
                                   }}>{i18n.t("global_config.Accept")}</Button>{'   '}   
-                                  <Button bsStyle="secondary" id="insert_plugin_config_modal" onClick={e => {
-                                    this.cancel();
-                                  }}>{i18n.t("global_config.Discard")}</Button>
+                                  <button className="btn" id="insert_plugin_config_modal" onClick={e => {
+                                    this.cancel(); e.preventDefault();
+                                  }}>{i18n.t("global_config.Discard")}</button>
                                 </div>
                             </Row>
                         </form>

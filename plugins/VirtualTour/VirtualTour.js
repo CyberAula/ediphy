@@ -5,6 +5,7 @@ import SearchBox from './components/SearchBox';
 // require('./components/SearchBox')
 require('./_virtualTour.scss');
 var map,maps;
+window.mapList = [];
 export function VirtualTour(base) {
     return {
         getConfig: function () {
@@ -21,7 +22,8 @@ export function VirtualTour(base) {
                 initialHeightSlide: '60%',
                 isRich: true,
                 marksType: [{name: i18n.t('VirtualTour.Coords'), key: 'value', format: '[Lat,Lng]'}],
-                defaultMarkValue: '40.452,-3.727'
+                defaultMarkValue: '40.452,-3.727',
+                needsPointerEventsAllowed: true
             };
         },
         getToolbar: function () {
@@ -29,7 +31,7 @@ export function VirtualTour(base) {
                 main: {
                     __name: "Main",
                     accordions: {
-                        __basic: {
+                        /*__basic: {
                             __name: Dali.i18n.t('VirtualTour.map'),
                             icon: 'zoom_out_map',
                             buttons: {
@@ -57,7 +59,7 @@ export function VirtualTour(base) {
                                     autoManaged: false
                                 }
                             }
-                        },
+                        },*/
                         style: {
                             __name: Dali.i18n.t('VirtualTour.box_style'),
                             icon: 'palette',
@@ -124,11 +126,12 @@ export function VirtualTour(base) {
                 lat: 40.452,
                 lng: -3.727,
                 zoom: 11,
-                identifier: ("map-"+Date.now())
+                num: window.mapList.length
             };
         },
         getRenderTemplate: function (state) {
             /* jshint ignore:start */
+            let id = "map-"+Date.now();
             const Mark = ({ text }) => (
                 <a style={{position: 'absolute'}}
                    href="#">
@@ -152,23 +155,43 @@ export function VirtualTour(base) {
             let center = {lat: lat, lng: lng};
             return (
                 <div className="virtualMap" >
-                    <div id={state.identifier} className="dropableRichZone" style={{width:'100%', height:'100%'}}>
+                    <div id={id} className="dropableRichZone" style={{width:'100%', height:'100%'}}>
                         <GoogleMapReact
                             center={center}
                             zoom={zoom}
-                            onGoogleApiLoaded={({map, maps}) => {VirtualTour.map = map; VirtualTour.maps = maps;}}
+                            options={{
+                                zoomControlOptions: {
+                                    position: google.maps.ControlPosition.RIGHT_CENTER,
+                                    style: google.maps.ZoomControlStyle.SMALL
+                                }
+                            }}
+                            onClick={e=>{console.log(e)}}
+                            onChange={e=>{
+                                base.setState('lat', e.center.lat);
+                                base.setState('lng', e.center.lng);
+                                base.setState('zoom', e.zoom);
+                                base.render("UPDATE_TOOLBAR");
+                                console.log(e)
+                            }}
+                            onGoogleApiLoaded={({map, maps}) => {
+                                VirtualTour.map = map;
+                                window.mapList[base.getState().num] = window.mapList[base.getState().num]  ? window.mapList[base.getState().num]  : map;
+                                VirtualTour.maps = maps;
+                            }}
                             resetBoundsOnResize = {true}
                             yesIWantToUseGoogleMapApiInternals={true}>
                             {markElements}
                         </GoogleMapReact>
                         <SearchBox
-                            id={state.identifier}
+                            id={id}
                             placeholder={i18n.t("VirtualTour.Search")}
                             onPlacesChanged={(places)=>{
-                                base.setState("lat",places.lat);base.setState("lng",places.lng);base.setState("zoom",15);
-                                base.forceUpdate(state, undefined, "UPDATE_TOOLBAR")
+                                base.setState("lat",Math.round(places.lat * 100000) / 100000);
+                                base.setState("lng",Math.round(places.lng * 100000) / 100000);
+                                base.setState("zoom",15);
+                                base.render("UPDATE_TOOLBAR");
 
-                                // console.log(base);console.log(places);
+
                             }} />
                     </div>
                 </div>
@@ -182,7 +205,7 @@ export function VirtualTour(base) {
             // Mouse position relative to the box + offset for the bottom-center of the marker
             let clickX = value[0] + 12;
             let clickY = value[1] + 26;
-            let map = VirtualTour.map;
+            let map = window.mapList[base.getState().num] || VirtualTour.map;
             let topRight = map.getProjection().fromLatLngToPoint(map.getBounds().getNorthEast());
             let bottomLeft = map.getProjection().fromLatLngToPoint(map.getBounds().getSouthWest());
             let scale = Math.pow(2, map.getZoom());

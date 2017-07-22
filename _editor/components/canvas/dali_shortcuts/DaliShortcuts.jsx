@@ -116,6 +116,27 @@ export default class DaliShortcuts extends Component {
                                 <span></span>
                             )
                         }
+                        {
+                            (toolbar && toolbar.config && toolbar.config.needsPointerEventsAllowed) ? (
+                                <OverlayTrigger placement="top"
+                                                overlay={
+                                                    <Tooltip id="editartexto">
+                                                        {i18n.t('messages.edit_text')}
+                                                    </Tooltip>
+                                                }>
+                                    <button className="daliTitleButton"
+                                            onClick={(e) => {
+                                                let box = document.getElementById('box-' + this.props.box.id);
+                                                box.classList.toggle('pointerEventsEnabled');
+                                                e.stopPropagation();
+                                            }}>
+                                        <i className="material-icons">mode_edit</i>
+                                    </button>
+                                </OverlayTrigger>
+                            ) : (
+                                <span></span>
+                            )
+                        }
                         <OverlayTrigger placement="top"
                                         overlay={
                                             <Tooltip id="borrarcaja">

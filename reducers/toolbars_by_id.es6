@@ -63,22 +63,22 @@ function createAliasButton(controls, state) {
             __name: "Alias",
             icon: 'rate_review',
             accordions: {
-                __extra: {
+                z__extra: {
                     __name: "Alias",
                     buttons: {}
                 }
             }
         };
-    } else if (!controls.main.accordions.__extra) {
-        controls.main.accordions.__extra = {
+    } else if (!controls.main.accordions.z__extra) {
+        controls.main.accordions.z__extra = {
             __name: "Alias",
             icon: 'rate_review',
             buttons: {}
         };
     }
-    if (!controls.main.accordions.__extra.buttons.alias) {
+    if (!controls.main.accordions.z__extra.buttons.alias) {
         if(state === null){
-            controls.main.accordions.__extra.buttons.alias = {
+            controls.main.accordions.z__extra.buttons.alias = {
                 __name: 'Alias',
                 type: 'text',
                 value: "",
@@ -86,7 +86,7 @@ function createAliasButton(controls, state) {
                 isAttribute: true
             };
         }else{
-            controls.main.accordions.__extra.buttons.alias = Object.assign({}, state.controls.main.accordions.__extra.buttons.alias);
+            controls.main.accordions.z__extra.buttons.alias = Object.assign({}, state.controls.main.accordions.z__extra.buttons.alias);
         }
     }
 }
@@ -119,11 +119,11 @@ function createSizeButtons(controls, state, action, floatingBox) {
 
     // It means we are creating a new one, initial params can come
     if (state === null) {
-        if(floatingBox) {
+        if (floatingBox) {
             displayValue = 25;
             value = 25;
             units = "%";
-        }else{
+        } else {
             displayValue = 25;
             value = 25;
             units = "%";
@@ -149,7 +149,7 @@ function createSizeButtons(controls, state, action, floatingBox) {
                 value = parseInt(initialWidth, 10);
                 if (initialWidth.indexOf("px") !== -1) {
                     units = "px";
-                }else{
+                } else {
                     units = "%";
                 }
             }
@@ -172,41 +172,45 @@ function createSizeButtons(controls, state, action, floatingBox) {
         auto: displayValue === "auto",
         autoManaged: true
     };
-    if(state === null){
-      let initialHeight = action.payload.initialParams.height;
-      if (initialHeight) {
-          if (initialHeight === "auto") {
-              displayValue = "auto";
-              units = "%";
-              type = "text";
-          } else {
-              displayValue = parseInt(initialHeight, 10);
-              value = parseInt(initialHeight, 10);
-              if (initialHeight.indexOf("px") !== -1) {
-                  units = "px";
-              }else{
-                  units = "%";
-              }
-          }
-      }else{
-          value = "20";
-          displayValue = "auto";
-          units = "%";
-          type = "text";
-      }
+    if (state === null) {
+        let initialHeight = action.payload.initialParams.height;
+        if (initialHeight) {
+            if (initialHeight === "auto") {
+                displayValue = "auto";
+                units = "%";
+                type = "text";
+            } else {
+                displayValue = parseInt(initialHeight, 10);
+                value = parseInt(initialHeight, 10);
+                if (initialHeight.indexOf("px") !== -1) {
+                    units = "px";
+                } else {
+                    units = "%";
+                }
+            }
+        } else {
+            value = "20";
+            displayValue = "auto";
+            units = "%";
+            type = "text";
+        }
 
-    }else {
+    } else {
         let height = state.controls.main.accordions.__sortable.buttons.__height;
-        controls.main.accordions.__sortable.buttons.__height = {
-            __name: i18n.t('Height'),
-            type: height.type,
-            displayValue: height.displayValue,
-            value: height.value,
-            step: 5,
-            units: height.units,
-            auto: height.displayValue === "auto",
-            autoManaged: true
-        };
+        type = height.type;
+        displayValue = height.displayValue;
+        value = height.value;
+        units = height.units;
+        /*controls.main.accordions.__sortable.buttons.__height = {
+         __name: i18n.t('Height'),
+         type: height.type,
+         displayValue: height.displayValue,
+         value: height.value,
+         step: 5,
+         units: height.units,
+         auto: height.displayValue === "auto",
+         autoManaged: true
+         };*/
     }
     controls.main.accordions.__sortable.buttons.__height = {
         __name: i18n.t('Height'),
@@ -220,14 +224,33 @@ function createSizeButtons(controls, state, action, floatingBox) {
     };
 
     //This will be commented until it's working correctly
-      if (!floatingBox) {
-        controls.main.accordions.__sortable.buttons.__position = {
-        __name: i18n.t('Position'),
-        type: 'radio',
-        value: 'relative',
-        options: ['absolute', 'relative'],
-        autoManaged: true
-      };
+    if (state === null) {
+        if (!floatingBox) {
+            controls.main.accordions.__sortable.buttons.__position = {
+                __name: i18n.t('Position'),
+                type: 'radio',
+                value: 'relative',
+                options: ['absolute', 'relative'],
+                autoManaged: true
+            };
+        }
+
+    } else {
+        // let hasPositionButton = action.payload.toolbar && action.payload.toolbar.main && action.payload.toolbar.main.accordions && action.payload.toolbar.main.accordions.__sortable && action.payload.toolbar.main.accordions.__sortable.buttons && action.payload.toolbar.main.accordions.__sortable.buttons.__position;
+        let hasPositionButton = state.controls && state.controls.main && state.controls.main.accordions && state.controls.main.accordions.__sortable && state.controls.main.accordions.__sortable.buttons && state.controls.main.accordions.__sortable.buttons.__position;
+
+        if (!floatingBox && hasPositionButton) {
+            controls.main.accordions.__sortable.buttons.__position = {
+                __name: i18n.t('Position'),
+                type: 'radio',
+                value: state.controls.main.accordions.__sortable.buttons.__position.value,
+                options: ['absolute', 'relative'],
+                autoManaged: true
+            };
+        }
+
+    }
+
 
       /*
        controls.main.accordions.__sortable.buttons.__verticalAlign = {
@@ -240,7 +263,7 @@ function createSizeButtons(controls, state, action, floatingBox) {
        autoManaged: true
        };
        */
-    }
+
 }
 
 function toolbarCreator(state, action) {
@@ -493,7 +516,9 @@ function toolbarReducer(state, action) {
             if (state.config && state.config.isRich) {
                 createRichAccordions(controls);
             }
-
+            if (state.config && state.config.aspectRatioButtonConfig) {
+                createAspectRatioButton(controls, state.config);
+            }
             return changeProps(
                 state,
                 [
@@ -507,6 +532,7 @@ function toolbarReducer(state, action) {
         case UPDATE_TOOLBAR:
             newState = Utils.deepClone(state);
             let pl = action.payload;
+
             if (pl.value.__name) {
                 if (pl.accordions.length > 1) {
                     newState.controls[pl.tab].accordions[pl.accordions[0]].accordions[pl.accordions[1]].buttons[pl.name] = pl.value;

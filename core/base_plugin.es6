@@ -72,7 +72,7 @@ export default function () {
             }
         },
         getConfig: function () {
-            var name, displayName, category, callback, needsConfigModal, needsConfirmation, needsTextEdition, extraTextConfig,
+            var name, displayName, category, callback, needsConfigModal, needsConfirmation, needsTextEdition, extraTextConfig, needsPointerEventsAllowed,
             needsXMLEdition, icon, iconFromUrl, aspectRatioButtonConfig, isRich, marksType, defaultMarkValue, flavor, allowFloatingBox;
             if (descendant.getConfig) {
                 let cfg = descendant.getConfig();
@@ -92,6 +92,7 @@ export default function () {
                 needsXMLEdition = cfg.needsXMLEdition;
                 allowFloatingBox = cfg.allowFloatingBox;
                 aspectRatioButtonConfig = cfg.aspectRatioButtonConfig;
+                needsPointerEventsAllowed = cfg.needsPointerEventsAllowed;
             }
 
             name = defaultFor(name, 'PluginName', "Plugin name not assigned");
@@ -108,11 +109,11 @@ export default function () {
             needsConfirmation = defaultFor(needsConfirmation, false);
             needsTextEdition = defaultFor(needsTextEdition, false);
             needsXMLEdition = defaultFor(needsXMLEdition, false);
-
+            needsPointerEventsAllowed = defaultFor(needsPointerEventsAllowed, false);
 
             if (aspectRatioButtonConfig) {
                 aspectRatioButtonConfig.name = Dali.i18n.t("Aspect_ratio");
-                aspectRatioButtonConfig.location = defaultFor(aspectRatioButtonConfig.location, ["main", "__extra"], "Aspect ratio button location not defined");
+                aspectRatioButtonConfig.location = defaultFor(aspectRatioButtonConfig.location, ["main", "z__extra"], "Aspect ratio button location not defined");
                 if (!Array.isArray(aspectRatioButtonConfig.location) || aspectRatioButtonConfig.location.length < 2 || aspectRatioButtonConfig.location.length > 3) {
                     console.error("Aspect ratio button location malformed");
                 }
@@ -177,7 +178,8 @@ export default function () {
                 isRich: isRich,
                 defaultMarkValue: defaultMarkValue,
                 marksType: marksType,
-                flavor: flavor
+                flavor: flavor,
+                needsPointerEventsAllowed: needsPointerEventsAllowed
             };
         },
         getToolbar: function () {
@@ -303,6 +305,7 @@ export default function () {
                     template = html2json(template);
                     assignPluginContainerIds(template);
                 }
+                console.log(this.getToolbar())
                 if (template !== null){
                     Dali.API.renderPlugin(
                         template,
@@ -335,7 +338,7 @@ export default function () {
         },
         update: function (oldState, name, value, sender, reason) {
             state = oldState;
-            id = sender;
+            id = sender || id;
             if (descendant.handleToolbar) {
                 descendant.handleToolbar(name, value);
             }

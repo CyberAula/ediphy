@@ -53,9 +53,9 @@ export default class PluginConfigModal extends Component {
                 </Modal.Body>
 
                 <Modal.Footer>
-                    <Button bsStyle="secondary" onClick={e => {
-                        this.setState({show: false, reason: null});
-                    }}>Cancel</Button>
+                    <button className="btn" onClick={e => {
+                        this.setState({show: false, reason: null});e.preventDefault();
+                    }}>Cancel</button>
                     <Button ref="plugin_insertion" bsStyle="primary" id="insert_plugin_config_modal" disabled={this.state.disabledButton}
                             onClick={e => {
                         Dali.Plugins.get(this.state.pluginActive).render(this.state.reason);

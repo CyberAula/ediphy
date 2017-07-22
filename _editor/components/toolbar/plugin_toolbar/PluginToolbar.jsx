@@ -40,6 +40,7 @@ export default class PluginToolbar extends Component {
         //when no plugin selected, but new navitem
         if (this.props.boxSelected === -1 && isCanvasElement(this.props.navItemSelected, Dali.Config.sections_have_content)) {
           let toolbar = this.props.toolbars[this.props.navItemSelected];
+
           return (
               /* jshint ignore:start */
               <div id="wrap"
@@ -122,7 +123,6 @@ export default class PluginToolbar extends Component {
                                 // Código duplicado en DaliBox, DaliShortcuts y PluginToolbar. Extraer a common_tools?
                                 let CKstring = CKEDITOR.instances[this.props.box.id].getData();
                                 let initString = "<p>" + i18n.t("text_here") + "</p>\n";
-                                console.log(CKstring, initString, initString === CKstring);
                                 if (CKstring === initString) {
                                     CKEDITOR.instances[this.props.box.id].setData("");
                                 }
@@ -581,6 +581,7 @@ export default class PluginToolbar extends Component {
 
         let props = {
             key: ('child_' + key),
+            id: ('page' + '_' + buttonKey),
             type: button.type,
             value: button.value,
             checked: button.checked,
@@ -949,4 +950,5 @@ export default class PluginToolbar extends Component {
             /* jshint ignore:end */
         );
     }
+
 }
