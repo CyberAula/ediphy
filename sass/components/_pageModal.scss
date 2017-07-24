@@ -88,9 +88,10 @@
           }
         }
 		.btn-default{
-			background-color: $greyPanelHeadings;
+			background-color: #555;
 			&:hover{
-				background-color: darken($greyPanelHeadings, 50%) !important;
+				//background-color: darken($greyPanelHeadings, 50%) !important;
+              background-color: darken(#555, 10%) !important;
 			}
 		}
 		button{

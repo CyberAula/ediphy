@@ -68,12 +68,13 @@ export default class DaliCanvasDoc extends Component {
                         showButton={true}
                         />
                 <div className="outter canvaseditor">
-
+                    {/*
                     {this.props.fromCV ?  (<button className="btnOverBar cvBackButton" style={{margin: "10px 0px 0px 10px"}}
                              onClick={e => {
                                  this.props.onContainedViewSelected(0);
                                  e.stopPropagation();
                              }}><i className="material-icons">undo</i></button>):(<br/>)}
+                     */}
 
                     <div id={this.props.fromCV ? 'airlayer_cv':'airlayer'}
                     className={'doc_air'}

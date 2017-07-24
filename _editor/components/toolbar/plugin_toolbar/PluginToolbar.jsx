@@ -114,24 +114,26 @@ export default class PluginToolbar extends Component {
         if (toolbar.config.needsTextEdition) {
             textButton = (
                 /* jshint ignore:start */
-                <Button key={'text'}
-                        className={toolbar.showTextEditor ? 'toolbarButton textediting' : 'toolbarButton'}
-                        onClick={() => {
-                            this.props.onTextEditorToggled(toolbar.id, !toolbar.showTextEditor);
-                            if(!toolbar.showTextEditor && this.props.box && this.props.box.id) {
-                                // Código duplicado en DaliBox, DaliShortcuts y PluginToolbar. Extraer a common_tools?
-                                let CKstring = CKEDITOR.instances[this.props.box.id].getData();
-                                let initString = "<p>" + i18n.t("text_here") + "</p>\n";
-                                console.log(CKstring, initString, initString === CKstring);
-                                if (CKstring === initString) {
-                                    CKEDITOR.instances[this.props.box.id].setData("");
+                <div className="panel-body">
+                    <Button key={'text'}
+                            className={toolbar.showTextEditor ? 'toolbarButton textediting' : 'toolbarButton'}
+                            onClick={() => {
+                                this.props.onTextEditorToggled(toolbar.id, !toolbar.showTextEditor);
+                                if(!toolbar.showTextEditor && this.props.box && this.props.box.id) {
+                                    // Código duplicado en DaliBox, DaliShortcuts y PluginToolbar. Extraer a common_tools?
+                                    let CKstring = CKEDITOR.instances[this.props.box.id].getData();
+                                    let initString = "<p>" + i18n.t("text_here") + "</p>\n";
+                                    console.log(CKstring, initString, initString === CKstring);
+                                    if (CKstring === initString) {
+                                        CKEDITOR.instances[this.props.box.id].setData("");
+                                    }
                                 }
-                            }
 
-                        }}>
-                        <i className="toolbarIcons material-icons">mode_edit</i>
-                    {i18n.t("edit_text")}
-                </Button>
+                            }}>
+                            <i className="toolbarIcons material-icons">mode_edit</i>
+                        {i18n.t("edit_text")}
+                    </Button>
+                </div>
                 /* jshint ignore:end */
             );
         }
@@ -153,14 +155,16 @@ export default class PluginToolbar extends Component {
         if (toolbar.config && toolbar.config.needsConfigModal) {
             configButton = (
                 /* jshint ignore:start */
-                <Button key={'config'}
-                        className='toolbarButton'
-                        onClick={() => {
-                            Dali.Plugins.get(toolbar.config.name).openConfigModal(UPDATE_BOX, toolbar.state, toolbar.id);
-                        }}>
-                        <i className="toolbarIcons material-icons">build</i>
-                    {i18n.t('open_conf')}
-                </Button>
+                <div className="panel-body">
+                    <Button key={'config'}
+                            className='toolbarButton'
+                            onClick={() => {
+                                Dali.Plugins.get(toolbar.config.name).openConfigModal(UPDATE_BOX, toolbar.state, toolbar.id);
+                            }}>
+                            <i className="toolbarIcons material-icons">build</i>
+                        {i18n.t('open_conf')}
+                    </Button>
+                </div>
                 /* jshint ignore:end */
             );
         }

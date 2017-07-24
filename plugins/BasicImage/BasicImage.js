@@ -20,18 +20,7 @@ export function BasicImage(base) {
                 main: {
                     __name: "Main",
                     accordions: {
-                        basic: {
-                            __name: Dali.i18n.t('BasicImage.source'),
-                            icon: 'link',
-                            buttons: {
-                                url: {
-                                    __name: 'URL',
-                                    type: 'vish_provider',
-                                    value: base.getState().url,
-                                    autoManaged: false
-                                }
-                            }
-                        },
+
                         style: {
                             __name: Dali.i18n.t('BasicImage.box_style'),
                             icon: 'palette',
@@ -82,6 +71,18 @@ export function BasicImage(base) {
                                     step: 0.01
                                 }
                             }
+                        },
+                        basic: {
+                            __name: Dali.i18n.t('BasicImage.source'),
+                            icon: 'link',
+                            buttons: {
+                                url: {
+                                    __name: 'URL',
+                                    type: 'vish_provider',
+                                    value: base.getState().url,
+                                    autoManaged: false
+                                }
+                            }
                         }
                     }
                 }
@@ -89,7 +90,9 @@ export function BasicImage(base) {
         },
         getInitialState: function () {
             return {
-                url: 'http://nemanjakovacevic.net/wp-content/uploads/2013/07/placeholder.png'
+                //url: 'http://nemanjakovacevic.net/wp-content/uploads/2013/07/placeholder.png'
+                //url: 'http://www.amicus.nieruchomosci.pl/grafika/no-image.png'
+                url:'https://bytesizemoments.com/wp-content/uploads/2014/04/placeholder.png'
             };
         },
         getRenderTemplate: function (state) {

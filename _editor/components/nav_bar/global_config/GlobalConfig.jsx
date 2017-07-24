@@ -219,18 +219,19 @@ export default class GlobalConfig extends Component {
                                                        onChange={e => {this.setState({version: e.target.value})}}/>
                                     </FormGroup>
                                 </Col>*/}
-                                <div style={{'textAlign': 'right'}}>
-                                  <Button bsStyle="primary" id="insert_plugin_config_modal" onClick={e => {
-                                      this.saveState();
-                                  }}>{i18n.t("global_config.Accept")}</Button>{'   '}   
-                                  <Button bsStyle="secondary" id="insert_plugin_config_modal" onClick={e => {
-                                    this.cancel();
-                                  }}>{i18n.t("global_config.Discard")}</Button>
-                                </div>
+
                             </Row>
                         </form>
                      </Grid>
                  </Modal.Body>
+                <Modal.Footer>
+                    <Button bsStyle="default" id="insert_plugin_config_modal" onClick={e => {
+                        this.cancel();
+                    }}>{i18n.t("global_config.Discard")}</Button>
+                    <Button bsStyle="primary" id="insert_plugin_config_modal" onClick={e => {
+                        this.saveState();
+                    }}>{i18n.t("global_config.Accept")}</Button>{'   '}
+                </Modal.Footer>
             </Modal>
             /* jshint ignore:end */
         );
