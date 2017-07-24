@@ -73,7 +73,7 @@ export default function () {
         },
         getConfig: function () {
             var name, displayName, category, callback, needsConfigModal, needsConfirmation, needsTextEdition, extraTextConfig, needsPointerEventsAllowed,
-            needsXMLEdition, icon, iconFromUrl, aspectRatioButtonConfig, isRich, marksType, defaultMarkValue, flavor, allowFloatingBox;
+            needsXMLEdition, icon, iconFromUrl, aspectRatioButtonConfig, isRich, marksType, flavor, allowFloatingBox;
             if (descendant.getConfig) {
                 let cfg = descendant.getConfig();
                 name = cfg.name;
@@ -84,7 +84,6 @@ export default function () {
                 isRich = cfg.isRich;
                 flavor = cfg.flavor;
                 marksType= cfg.marksType;
-                defaultMarkValue = cfg.defaultMarkValue;
                 needsConfigModal = cfg.needsConfigModal;
                 needsConfirmation =  cfg.needsConfirmation;
                 needsTextEdition = cfg.needsTextEdition;
@@ -102,7 +101,6 @@ export default function () {
             iconFromUrl = defaultFor(iconFromUrl, false);
             isRich = defaultFor(isRich, false);
             marksType = defaultFor(marksType, [{name:'value',key:'value'}]);
-            defaultMarkValue = defaultFor(defaultMarkValue, 0);
             flavor = defaultFor(flavor, 'plain');
             allowFloatingBox = defaultFor(allowFloatingBox, true);
             needsConfigModal = defaultFor(needsConfigModal, false);
@@ -176,7 +174,6 @@ export default function () {
                 icon: icon,
                 iconFromUrl: iconFromUrl,
                 isRich: isRich,
-                defaultMarkValue: defaultMarkValue,
                 marksType: marksType,
                 flavor: flavor,
                 needsPointerEventsAllowed: needsPointerEventsAllowed

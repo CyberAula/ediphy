@@ -22,6 +22,7 @@ export default class DaliShortcuts extends Component {
         if (!box || (box && !toolbar)) {
             return null;
         }
+        let boxEl = document.getElementById('box-' + this.props.box.id);
 
             return (
                 /* jshint ignore:start */
@@ -124,11 +125,12 @@ export default class DaliShortcuts extends Component {
                                                         {i18n.t('messages.pointer_events')}
                                                     </Tooltip>
                                                 }>
-                                    <button className="daliTitleButton"
+                                    <button id="pebutton" className={boxEl.classList.contains('pointerEventsEnabled') ? "daliTitleButton dtbSelected":"daliTitleButton"}
                                             onClick={(e) => {
-                                                let box = document.getElementById('box-' + this.props.box.id);
-                                                box.classList.toggle('pointerEventsEnabled');
+                                                boxEl.classList.toggle('pointerEventsEnabled');
+                                                let but = document.getElementById('pebutton');
                                                 e.stopPropagation();
+                                                boxEl.classList.contains('pointerEventsEnabled') && but ? but.classList.add('dtbSelected') : but.classList.remove('dtbSelected');
                                             }}>
                                         <i className="material-icons">touch_app</i>
                                     </button>
@@ -229,6 +231,8 @@ export default class DaliShortcuts extends Component {
     }
 
     componentWillUnmount() {
+      let boxEl = document.getElementById('box-' + this.props.box.id);
+      boxEl.classList.remove('pointerEventsEnabled');
       window.removeEventListener('resize', this.resize.bind(this));
       if (this.props && this.props.box) {
         let boxObj = document.getElementById('box-' + this.props.box.id);

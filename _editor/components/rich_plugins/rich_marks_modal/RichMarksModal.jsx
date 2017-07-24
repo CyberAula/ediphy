@@ -24,6 +24,7 @@ export default class RichMarksModal extends Component {
     componentWillReceiveProps(nextProps) {
         let current = nextProps.currentRichMark;
         let allViews = this.returnAllViews(nextProps);
+
         if (current) {
             this.setState({
                 viewNames: allViews,
@@ -40,7 +41,7 @@ export default class RichMarksModal extends Component {
 
     render() {
         let richMarkValue = null;
-
+        let marksType = this.props.pluginToolbar && this.props.pluginToolbar.config && this.props.pluginToolbar.config.marksType && this.props.pluginToolbar.config.marksType[0] ? this.props.pluginToolbar.config.marksType[0] : {};
         function getRichMarkInput(value){
             richMarkValue = value;
         }
@@ -168,7 +169,7 @@ export default class RichMarksModal extends Component {
                         <FormGroup>
                             {/*Input need to have certain label like richValue*/}
                             <Col xs={4} md={2}>
-                                <ControlLabel>{this.props.pluginToolbar && this.props.pluginToolbar.config && this.props.pluginToolbar.config.marksType && this.props.pluginToolbar.config.marksType[0] && this.props.pluginToolbar.config.marksType[0].name ? this.props.pluginToolbar.config.marksType[0].name : i18n.t("marks.value")}</ControlLabel><br/>
+                                <ControlLabel>{marksType.name ? marksType.name : i18n.t("marks.value")}</ControlLabel><br/>
                                 <ControlLabel style={{color: 'grey', fontWeight: 'lighter', marginTop: '-5px'}}>{this.props.pluginToolbar  && this.props.pluginToolbar.config && this.props.pluginToolbar.config.marksType && this.props.pluginToolbar.config.marksType[0] && this.props.pluginToolbar.config.marksType[0].format ? this.props.pluginToolbar.config.marksType[0].format : "x,y"}</ControlLabel>
 
                             </Col>
@@ -176,7 +177,7 @@ export default class RichMarksModal extends Component {
                                 <FormControl
                                          ref="value"
                                          type={this.state.actualMarkType}
-                                         defaultValue={current ? current.value : (this.props.defaultValueMark ? this.props.defaultValueMark : 0)}/>
+                                         defaultValue={current ? current.value : (marksType.default ? marksType.default : 0)}/>
                             </Col>
                         </FormGroup>
                         </Row>

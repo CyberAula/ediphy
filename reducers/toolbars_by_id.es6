@@ -504,6 +504,7 @@ function toolbarReducer(state, action) {
              }
 
             return newState;
+
         case TOGGLE_TEXT_EDITOR:
             return changeProp(state, "showTextEditor", action.payload.value);
         case UPDATE_BOX:

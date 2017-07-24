@@ -645,7 +645,7 @@ export default class DaliBox extends Component {
                     event.stopPropagation();
                 }
             })
-            .ignoreFrom('input, textarea, .textAreaStyle,  a')
+            .ignoreFrom('input, textarea, .textAreaStyle,  a, .pointerEventsEnabled')
             .resizable({
                 /*snap: {targets: [gridTarget]},*/
                 preserveAspectRatio: this.checkAspectRatioValue(),

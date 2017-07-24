@@ -21,8 +21,7 @@ export function VirtualTour(base) {
                 initialHeight: '200px',
                 initialHeightSlide: '60%',
                 isRich: true,
-                marksType: [{name: i18n.t('VirtualTour.Coords'), key: 'value', format: '[Lat,Lng]'}],
-                defaultMarkValue: '40.452,-3.727',
+                marksType: [{name: i18n.t('VirtualTour.Coords'), key: 'value', format: '[Lat,Lng]', default: '40.452,-3.727'}],
                 needsPointerEventsAllowed: true
             };
         },
@@ -160,11 +159,17 @@ export function VirtualTour(base) {
                             center={center}
                             zoom={zoom}
                             options={{
+                                panControl: true,
+                                mapTypeControl: true,
+                                scrollwheel: true,
+                                gestureHandling: 'greedy'
+                            }
+                                /*{
                                 zoomControlOptions: {
                                     position: google.maps.ControlPosition.RIGHT_CENTER,
                                     style: google.maps.ZoomControlStyle.SMALL
                                 }
-                            }}
+                            }*/}
                             onClick={e=>{console.log(e)}}
                             onChange={e=>{
                                 base.setState('lat', e.center.lat);

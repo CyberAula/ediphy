@@ -29,6 +29,12 @@ export function VirtualTour(base) {
                         <GoogleMapReact
                             center={center}
                             zoom={zoom}
+                            options={{
+                                panControl: true,
+                                mapTypeControl: true,
+                                scrollwheel: true,
+                                gestureHandling: 'greedy'
+                            }}
                             resetBoundsOnResize = {true}>
                             {markElements}
                         </GoogleMapReact>
