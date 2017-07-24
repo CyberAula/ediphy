@@ -32,16 +32,17 @@ export default class MarksList extends Component {
                                     </OverlayTrigger>):
                                     (<i className="material-icons marklist">room</i>)}
                                      <div className="markNameInToolbar">{mark.title}</div>
-                                     <span className="markValueInToolbar">{mark.value}</span>
-                                     <i className="material-icons marklist" style={{float:'right'}}
-                                       onClick={() => {
-                                            this.props.onRichMarkEditPressed(mark);
-                                            this.props.onRichMarksModalToggled();
-                                        }}>edit</i>
+                                    {/*<span className="markValueInToolbar">{mark.value}</span>*/}
+
                                      <i className="material-icons marklist" style={{float:'right'}}
                                         onClick={() => {
                                             this.props.onRichMarkDeleted(id);
-                                        }}>delete</i><br/>
+                                        }}>delete</i>
+                                    <i className="material-icons marklist" style={{float:'right'}}
+                                       onClick={() => {
+                                           this.props.onRichMarkEditPressed(mark);
+                                           this.props.onRichMarksModalToggled();
+                                       }}>edit</i><br/>
 
                             </div>
                         );

@@ -105,7 +105,12 @@ var es = {
             "title_advanced":"Avanzado",
             "title_general":"Datos generales",
             "typicalLearningTime": "Tiempo típico de aprendizaje",
-            "version": "Versión"
+            "version": "Versión",
+            "visor_nav":{
+                "player": "Botones",
+                "sidebar": "Barra lateral",
+                "title": "Navegación en visualizacion"
+            }
         },
         "Header": "Cabecera",
         "Height": "Altura",

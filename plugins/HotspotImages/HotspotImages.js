@@ -96,7 +96,10 @@ export function HotspotImages(base) {
         },
         getInitialState: function () {
             return {
-                url: 'http://nemanjakovacevic.net/wp-content/uploads/2013/07/placeholder.png'
+                //url: 'http://nemanjakovacevic.net/wp-content/uploads/2013/07/placeholder.png'
+                //url:'http://www.amicus.nieruchomosci.pl/grafika/no-image.png'
+                url:'https://bytesizemoments.com/wp-content/uploads/2014/04/placeholder.png'
+
             };
         },
         getRenderTemplate: function (state) {
@@ -117,7 +120,7 @@ export function HotspotImages(base) {
 
             return (
                 <div >
-                        <img className="dropableRichZone" style={{height:"100%",width:"100%"}} src={state.url}/>
+                        <img className="dropableRichZone basicImageClass" style={{height:"100%",width:"100%"}} src={state.url}/>
                         {markElements}
                 </div>
             );

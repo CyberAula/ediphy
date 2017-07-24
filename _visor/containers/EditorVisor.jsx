@@ -24,7 +24,7 @@ export default class Visor extends Component {
             triggeredMarks: [],
             richElementState: {},
             backupElementStates: {},
-            toggledSidebar : true,
+            toggledSidebar : Dali.State.globalConfig.visorNav.sidebar ? Dali.State.globalConfig.visorNav.sidebar : (Dali.State.globalConfig.visorNav.sidebar === undefined ),
             fromScorm : Dali.State.fromScorm
         };
 
@@ -151,6 +151,7 @@ export default class Visor extends Component {
         let globalConfig = Dali.State.globalConfig;
         let title = globalConfig.title;
         let ratio = globalConfig.canvasRatio;
+        let visorNav = globalConfig.visorNav;
         let wrapperClasses =  this.state.toggledSidebar ? "visorwrapper toggled" : "visorwrapper";
         let toggleIcon = this.state.toggledSidebar ? "keyboard_arrow_left" : "keyboard_arrow_right";
         let toggleColor = this.state.toggledSidebar ? "toggleColor" : "";
@@ -166,6 +167,7 @@ export default class Visor extends Component {
                 <SideNavVisor
                             changeCurrentView={(page)=> {this.changeCurrentView(page)}}
                             courseTitle={title}
+                            show={visorNav.sidebar}
                             currentViews={this.state.currentView}
                             navItemsById={navItems}
                             navItemsIds={navItemsIds}
@@ -177,17 +179,17 @@ export default class Visor extends Component {
                           style={{height: '100%'}}>
                         <Row style={{height: '100%'}}>
                             <Col lg={12} style={{height: '100%'}}>
-                                <VisorPlayer
-                                            changeCurrentView={(page)=> {this.changeCurrentView(page)}}
-                                            currentViews={this.state.currentView}
-                                            navItemsById={navItems}
-                                            navItemsIds={navItemsIds}/>
-                                <Button id="visorNavButton"
-                                        className={toggleColor} 
+                                {visorNav.player ? (<VisorPlayer show={visorNav.player}
+                                             changeCurrentView={(page)=> {this.changeCurrentView(page)}}
+                                             currentViews={this.state.currentView}
+                                             navItemsById={navItems}
+                                             navItemsIds={navItemsIds}/>): null}
+                                {visorNav.sidebar ? (<Button id="visorNavButton"
+                                        className={toggleColor}
                                         bsStyle="primary"  
                                         onClick={e => {this.setState({toggledSidebar: !this.state.toggledSidebar})}}>
                                     <i className="material-icons">{toggleIcon}</i>
-                                </Button>
+                                </Button>):null}
 
                                 { !isContainedView(this.getLastCurrentViewElement()) ?
                                     (<CanvasVisor

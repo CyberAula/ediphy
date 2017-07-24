@@ -77,7 +77,7 @@
         color: white;
         border: 0;
         width: 100%;
-        //margin: 5px;
+
         /*Edit text button when CKEditor is active */
         &.textediting {
             background-color: darken($blueprimary,20%);
@@ -364,44 +364,40 @@
         border: 0;
     }
 }
-/*MarksList*/
-i.marklist{
-    font-size: 14px;
-    color:rgb(204,204,204);
-    cursor: pointer;
 
-}
-i.marklist.main {
-    color: #222;
-    cursor: help;
-}
-.markNameInToolbar {
-    /*line-height: 0.9em;
-    margin-left: 10px;
-    vertical-align: super;*/
-    margin-left: 2px;
-    font-size: 12px;
-    display: inline-block;
-    width: 85px !important;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-    color:rgb(204,204,204);
-}
+/*MarksList*/
 
 .markListBox {
     cursor: default;
-    display: block;
-    padding: 2px;
-    margin: 2px -16px;
-
-}
-.markValueInToolbar{
-    font-size: 8px;
-    margin-left: 2px;
-    vertical-align: super;
-    color:#222;
+    padding: 5px;
+    line-height: 1em;
+    .marklist{
+        font-size: 16px;
+        margin-right: 5px;
+        color:rgb(204,204,204);
+        cursor: pointer;
+    }
+    .main {
+        color: #222;
+        cursor: help;
+    }
+    .markNameInToolbar {
+        //margin-left: 5px;
+        display: inline-block;
+        width: 85px !important;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        color:rgb(204,204,204);
+    }
 }
 .marksListButton {
     margin-bottom: 7px;
 }
+
+//.markValueInToolbar{
+  //  font-size: 8px;
+  //  margin-left: 2px;
+  //  vertical-align: super;
+  //  color:#222;
+//}

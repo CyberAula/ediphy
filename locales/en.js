@@ -107,7 +107,12 @@ var en = {
             "title_advanced":"Advanced",
             "title_general":"General data",
             "typicalLearningTime": "Typical learning time",
-            "version": "Version"
+            "version": "Version",
+            "visor_nav":{
+                "player": "Buttons",
+                "sidebar": "Side navbar",
+                "title": "Visualization navigation"
+            }
         },
         "Header": "Page header",
         "Height": "Height",

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
-import {Modal, Grid, Row, Col, FormGroup, ControlLabel, FormControl, InputGroup, Radio, OverlayTrigger, Popover, Button} from 'react-bootstrap';
+import {Modal, Grid, Row, Col, FormGroup, Checkbox, ControlLabel, FormControl, InputGroup, Radio, OverlayTrigger, Popover, Button} from 'react-bootstrap';
 import i18n from 'i18next';
 import RangeSlider from './range_slider/RangeSlider';
 import Select from 'react-select';
@@ -30,6 +30,7 @@ export default class GlobalConfig extends Component {
           version: this.props.globalConfig.version || '0.0.0',
           status: this.props.globalConfig.status || 'draft',
           context: this.props.globalConfig.context || 'school',
+          visorNav: this.props.globalConfig.visorNav || {player: true, sidebar: true},
           modifiedState: false
         };
         //Tag handling functions
@@ -39,7 +40,7 @@ export default class GlobalConfig extends Component {
     }
 
     render() {
-        const {title, author, canvasRatio, age, typicalLearningTime, difficulty, rights, description, language, keywords, version, status, context} = this.state;
+        const {title, author, canvasRatio, age, typicalLearningTime, difficulty, rights, visorNav, description, language, keywords, version, status, context} = this.state;
         return (
             /* jshint ignore:start */
             //  visor modalVisorContainer
@@ -52,7 +53,7 @@ export default class GlobalConfig extends Component {
                       confirm(i18n.t("global_config.prompt")) ? this.saveState():this.cancel();
                     }
                     this.props.close(); }}>
-                <Modal.Header close>
+                <Modal.Header closeButton>
                     <Modal.Title><span id="previewTitle">{i18n.t('global_config.title')}</span></Modal.Title>
                 </Modal.Header>
 
@@ -119,7 +120,6 @@ export default class GlobalConfig extends Component {
                                                    handleAddition={this.handleAddition}
                                                    handleDrag={this.handleDrag} />
                                     </FormGroup>
-
                                 </Col>
                                 <Col className="advanced-block" xs={12} md={5} lg={5}><br/>
                                     <h4>{i18n.t('global_config.title_advanced')}</h4>
@@ -198,6 +198,15 @@ export default class GlobalConfig extends Component {
                                             4/3
                                         </Radio>
                                     </FormGroup>
+                                    <FormGroup>
+                                        <ControlLabel>{i18n.t('global_config.visor_nav.title')}</ControlLabel><br/>
+                                        <Checkbox inline onClick={(e)=>{this.setState({visorNav:{player: !visorNav.player, sidebar: visorNav.sidebar}})}} checked={visorNav.player}>
+                                            {i18n.t('global_config.visor_nav.player')}
+                                        </Checkbox>
+                                        <Checkbox inline onClick={(e)=>{this.setState({visorNav:{player: visorNav.player, sidebar: !visorNav.sidebar}})}} checked={visorNav.sidebar}>
+                                            {i18n.t('global_config.visor_nav.sidebar')}
+                                        </Checkbox>
+                                    </FormGroup>
                                     <FormGroup >
                                         <ControlLabel>{i18n.t('global_config.status')}</ControlLabel><br/>
                                         <Select
@@ -219,18 +228,19 @@ export default class GlobalConfig extends Component {
                                                        onChange={e => {this.setState({version: e.target.value})}}/>
                                     </FormGroup>
                                 </Col>*/}
-                                <div style={{'textAlign': 'right'}}>
-                                  <Button bsStyle="primary" id="insert_plugin_config_modal" onClick={e => {
-                                      this.saveState();e.preventDefault();
-                                  }}>{i18n.t("global_config.Accept")}</Button>{'   '}   
-                                  <button className="btn" id="insert_plugin_config_modal" onClick={e => {
-                                    this.cancel(); e.preventDefault();
-                                  }}>{i18n.t("global_config.Discard")}</button>
-                                </div>
+
                             </Row>
                         </form>
                      </Grid>
                  </Modal.Body>
+                <Modal.Footer>
+                    <Button bsStyle="default" id="insert_plugin_config_modal" onClick={e => {
+                        this.cancel();e.preventDefault();
+                    }}>{i18n.t("global_config.Discard")}</Button>
+                    <Button bsStyle="primary" id="insert_plugin_config_modal" onClick={e => {
+                        this.saveState();e.preventDefault();
+                    }}>{i18n.t("global_config.Accept")}</Button>{'   '}
+                </Modal.Footer>
             </Modal>
             /* jshint ignore:end */
         );
@@ -285,6 +295,7 @@ export default class GlobalConfig extends Component {
         version: this.props.globalConfig.version || '0.0.0',
         status: this.props.globalConfig.status || 'draft',
         context: this.props.globalConfig.context || 'school',
+        visorNav: this.props.globalConfig.visorNav || {player: true, sidebar: true},
         modifiedState: false
       });
 

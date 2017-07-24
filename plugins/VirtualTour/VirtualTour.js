@@ -21,7 +21,12 @@ export function VirtualTour(base) {
                 initialHeight: '200px',
                 initialHeightSlide: '60%',
                 isRich: true,
-                marksType: [{name: i18n.t('VirtualTour.Coords'), key: 'value', format: '[Lat,Lng]', default: '40.452,-3.727'}],
+                marksType: [{
+                    name: i18n.t('VirtualTour.Coords'),
+                    key: 'value',
+                    format: '[Lat,Lng]',
+                    default: '40.452,-3.727'
+                }],
                 needsPointerEventsAllowed: true
             };
         },
@@ -31,34 +36,34 @@ export function VirtualTour(base) {
                     __name: "Main",
                     accordions: {
                         /*__basic: {
-                            __name: Dali.i18n.t('VirtualTour.map'),
-                            icon: 'zoom_out_map',
-                            buttons: {
-                                 lat: {
-                                    __name: 'Center Latitude',
-                                    type: 'number',
-                                    step:".001",
-                                    value: base.getState().lat,
-                                    autoManaged: false
-                                },
-                                lng: {
-                                    __name: 'Center Longitude',
-                                    type: 'number',
-                                    step:".001",
-                                    value: base.getState().lng,
-                                    autoManaged: false
-                                },
-                                zoom: {
-                                    __name: 'Zoom',
-                                    type: 'number',
-                                    step:"any",
-                                    min:0,
-                                    max:100,
-                                    value: base.getState().zoom,
-                                    autoManaged: false
-                                }
-                            }
-                        },*/
+                         __name: Dali.i18n.t('VirtualTour.map'),
+                         icon: 'zoom_out_map',
+                         buttons: {
+                         lat: {
+                         __name: 'Center Latitude',
+                         type: 'number',
+                         step:".001",
+                         value: base.getState().lat,
+                         autoManaged: false
+                         },
+                         lng: {
+                         __name: 'Center Longitude',
+                         type: 'number',
+                         step:".001",
+                         value: base.getState().lng,
+                         autoManaged: false
+                         },
+                         zoom: {
+                         __name: 'Zoom',
+                         type: 'number',
+                         step:"any",
+                         min:0,
+                         max:100,
+                         value: base.getState().zoom,
+                         autoManaged: false
+                         }
+                         }
+                         },*/
                         style: {
                             __name: Dali.i18n.t('VirtualTour.box_style'),
                             icon: 'palette',
@@ -94,7 +99,7 @@ export function VirtualTour(base) {
                                     value: '#000000'
                                 },
                                 borderRadius: {
-                                    __name:  Dali.i18n.t('VirtualTour.radius'),
+                                    __name: Dali.i18n.t('VirtualTour.radius'),
                                     type: 'number',
                                     value: 0,
                                     min: 0,
@@ -114,9 +119,11 @@ export function VirtualTour(base) {
                 }
             };
         },
-        getRichMarkInput :function(state,MarkInput){
+        getRichMarkInput: function (state, MarkInput) {
             /* jshint ignore:start */
-            let div = <div><span>x,y</span><input onChange={(event)=>{MarkInput(event.target.value);}}></input></div>;
+            let div = <div><span>x,y</span><input onChange={(event) => {
+                MarkInput(event.target.value);
+            }}></input></div>;
             return div;
             /* jshint ignore:end */
         },
@@ -130,31 +137,32 @@ export function VirtualTour(base) {
         },
         getRenderTemplate: function (state) {
             /* jshint ignore:start */
-            let id = "map-"+Date.now();
-            const Mark = ({ text }) => (
+            let id = "map-" + Date.now();
+            const Mark = ({text}) => (
                 <a style={{position: 'absolute'}}
                    href="#">
-                    <i style={{width:"100%", height:"100%", position: 'absolute', top:'-26px', left:'-12px'}} className="material-icons">room</i>
+                    <i style={{width: "100%", height: "100%", position: 'absolute', top: '-26px', left: '-12px'}}
+                       className="material-icons">room</i>
                 </a>);
             let marks = state.__marks;
-            let markElements = Object.keys(marks).map((id) =>{
+            let markElements = Object.keys(marks).map((id) => {
                 let value = marks[id].value;
                 let position;
-                if (value && value.split(',').length === 2){
+                if (value && value.split(',').length === 2) {
                     position = value.split(',');
-                } else{
-                    position = [0,0];
+                } else {
+                    position = [0, 0];
                 }
-                return (<Mark  key={id} text={id} lat={position[0]} lng={position[1]}/>);
-             });
+                return (<Mark key={id} text={id} lat={position[0]} lng={position[1]}/>);
+            });
 
-            let lat = state.lat && parseFloat(state.lat) ? parseFloat(state.lat):0;
-            let lng = state.lng && parseFloat(state.lng) ? parseFloat(state.lng):0;
-            let zoom = state.zoom && !isNaN(parseFloat(state.zoom)) ? parseFloat(state.zoom):10;
+            let lat = state.lat && parseFloat(state.lat) ? parseFloat(state.lat) : 0;
+            let lng = state.lng && parseFloat(state.lng) ? parseFloat(state.lng) : 0;
+            let zoom = state.zoom && !isNaN(parseFloat(state.zoom)) ? parseFloat(state.zoom) : 10;
             let center = {lat: lat, lng: lng};
             return (
-                <div className="virtualMap" >
-                    <div id={id} className="dropableRichZone" style={{width:'100%', height:'100%'}}>
+                <div className="virtualMap">
+                    <div id={id} className="dropableRichZone" style={{width: '100%', height: '100%'}}>
                         <GoogleMapReact
                             center={center}
                             zoom={zoom}
@@ -162,51 +170,44 @@ export function VirtualTour(base) {
                                 panControl: true,
                                 mapTypeControl: true,
                                 scrollwheel: true,
-                                gestureHandling: 'greedy'
-                            }
-                                /*{
+                                gestureHandling: 'greedy',
                                 zoomControlOptions: {
                                     position: google.maps.ControlPosition.RIGHT_CENTER,
                                     style: google.maps.ZoomControlStyle.SMALL
                                 }
-                            }*/}
-                            onClick={e=>{console.log(e)}}
-                            onChange={e=>{
+                            }}
+                            onChange={e => {
                                 base.setState('lat', e.center.lat);
                                 base.setState('lng', e.center.lng);
                                 base.setState('zoom', e.zoom);
                                 base.render("UPDATE_TOOLBAR");
-                                console.log(e)
                             }}
                             onGoogleApiLoaded={({map, maps}) => {
                                 VirtualTour.map = map;
-                                window.mapList[base.getState().num] = window.mapList[base.getState().num]  ? window.mapList[base.getState().num]  : map;
+                                window.mapList[base.getState().num] = window.mapList[base.getState().num] ? window.mapList[base.getState().num] : map;
                                 VirtualTour.maps = maps;
                             }}
-                            resetBoundsOnResize = {true}
+                            resetBoundsOnResize={true}
                             yesIWantToUseGoogleMapApiInternals={true}>
                             {markElements}
                         </GoogleMapReact>
                         <SearchBox
                             id={id}
                             placeholder={i18n.t("VirtualTour.Search")}
-                            onPlacesChanged={(places)=>{
-                                base.setState("lat",Math.round(places.lat * 100000) / 100000);
-                                base.setState("lng",Math.round(places.lng * 100000) / 100000);
-                                base.setState("zoom",15);
+                            onPlacesChanged={(places) => {
+                                base.setState("lat", Math.round(places.lat * 100000) / 100000);
+                                base.setState("lng", Math.round(places.lng * 100000) / 100000);
+                                base.setState("zoom", 15);
                                 base.render("UPDATE_TOOLBAR");
-
-
-                            }} />
+                            }}/>
                     </div>
-                </div>
-            );
+                </div>);
             /* jshint ignore:end */
         },
         handleToolbar: function (name, value) {
             base.setState(name, value);
         },
-        parseRichMarkInput: function(...value){
+        parseRichMarkInput: function (...value) {
             // Mouse position relative to the box + offset for the bottom-center of the marker
             let clickX = value[0] + 12;
             let clickY = value[1] + 26;
@@ -214,21 +215,21 @@ export function VirtualTour(base) {
             let topRight = map.getProjection().fromLatLngToPoint(map.getBounds().getNorthEast());
             let bottomLeft = map.getProjection().fromLatLngToPoint(map.getBounds().getSouthWest());
             let scale = Math.pow(2, map.getZoom());
-            let worldPoint = new VirtualTour.maps.Point((clickX) / scale + bottomLeft.x, (clickY)/ scale + topRight.y);
+            let worldPoint = new VirtualTour.maps.Point((clickX) / scale + bottomLeft.x, (clickY) / scale + topRight.y);
             let latLng = map.getProjection().fromPointToLatLng(worldPoint);
-            let lat =  Math.round(latLng.lat() * 100000) / 100000;
-            let lng =  Math.round(latLng.lng() * 100000) / 100000;
+            let lat = Math.round(latLng.lat() * 100000) / 100000;
+            let lng = Math.round(latLng.lng() * 100000) / 100000;
 
             return lat + ',' + lng;
         },
 
-        validateValueInput: function(value){
-            let regex =  /(^-*\d+(?:\.\d*)?),(-*\d+(?:\.\d*)?$)/g ;
+        validateValueInput: function (value) {
+            let regex = /(^-*\d+(?:\.\d*)?),(-*\d+(?:\.\d*)?$)/g;
             let match = regex.exec(value);
-            if(match && match.length === 3) {
+            if (match && match.length === 3) {
                 let x = Math.round(parseFloat(match[1]) * 100000) / 100000;
                 let y = Math.round(parseFloat(match[2]) * 100000) / 100000;
-                if (isNaN(x) || isNaN(y) ) {
+                if (isNaN(x) || isNaN(y)) {
                     return {isWrong: true, message: i18n.t("VirtualTour.message_mark_xy")};
                 }
                 value = x + ',' + y;

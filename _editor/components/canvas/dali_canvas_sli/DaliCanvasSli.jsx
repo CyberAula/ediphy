@@ -91,11 +91,11 @@ export default class DaliCanvasSli extends Component {
                                     showButton={true}
                                     />
 
-                        {this.props.fromCV ?  (<button className="btnOverBar cvBackButton" style={{margin: "10px 0px 0px 10px"}}
+                        {/*{this.props.fromCV ?  (<button className="btnOverBar cvBackButton" style={{margin: "10px 0px 0px 10px"}}
                                  onClick={e => {
                                      this.props.onContainedViewSelected(0);
                                      e.stopPropagation();
-                                 }}><i className="material-icons">undo</i></button>):(<br/>)}
+                                 }}><i className="material-icons">undo</i></button>):(<br/>)}*/}
                         <br/>
 
                         <div style={{
@@ -137,8 +137,9 @@ export default class DaliCanvasSli extends Component {
                             />
 
                         })}
+                        {/* A JSX comment
                         {boxes.length === 0 ? (<div className="dragContentHere" style={{backgroundColor: 'transparent', border:0}}>{i18n.t("messages.drag_content")}</div>):(<span></span>)}
-
+                        */}
                     </div>
                     <ReactResizeDetector handleWidth handleHeight onResize={(e)=>{aspectRatio(this.props.canvasRatio, this.props.fromCV ? 'airlayer_cv':'airlayer', 'canvas');
 }} />
