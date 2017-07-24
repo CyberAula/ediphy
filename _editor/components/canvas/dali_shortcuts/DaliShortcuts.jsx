@@ -121,7 +121,7 @@ export default class DaliShortcuts extends Component {
                                 <OverlayTrigger placement="top"
                                                 overlay={
                                                     <Tooltip id="editartexto">
-                                                        {i18n.t('messages.edit_text')}
+                                                        {i18n.t('messages.pointer_events')}
                                                     </Tooltip>
                                                 }>
                                     <button className="daliTitleButton"
@@ -130,7 +130,7 @@ export default class DaliShortcuts extends Component {
                                                 box.classList.toggle('pointerEventsEnabled');
                                                 e.stopPropagation();
                                             }}>
-                                        <i className="material-icons">mode_edit</i>
+                                        <i className="material-icons">touch_app</i>
                                     </button>
                                 </OverlayTrigger>
                             ) : (

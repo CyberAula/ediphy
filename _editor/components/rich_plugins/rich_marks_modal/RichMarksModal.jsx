@@ -61,7 +61,7 @@ export default class RichMarksModal extends Component {
                 newSelected = this.props.navItems[this.state.newSelected].name;
             }
         // }
-        let pluginType = this.props.pluginToolbar ? this.props.pluginToolbar.config.displayName : 'Plugin';
+        let pluginType = this.props.pluginToolbar && this.props.pluginToolbar.config ? this.props.pluginToolbar.config.displayName : 'Plugin';
         return (
             /* jshint ignore:start */
             <Modal className="pageModal richMarksModal" backdrop={true} bsSize="large" show={this.props.visible}>
@@ -168,8 +168,8 @@ export default class RichMarksModal extends Component {
                         <FormGroup>
                             {/*Input need to have certain label like richValue*/}
                             <Col xs={4} md={2}>
-                                <ControlLabel>{this.props.pluginToolbar && this.props.pluginToolbar.config.marksType && this.props.pluginToolbar.config.marksType[0] && this.props.pluginToolbar.config.marksType[0].name ? this.props.pluginToolbar.config.marksType[0].name : i18n.t("marks.value")}</ControlLabel><br/>
-                                <ControlLabel style={{color: 'grey', fontWeight: 'lighter', marginTop: '-5px'}}>{this.props.pluginToolbar && this.props.pluginToolbar.config.marksType && this.props.pluginToolbar.config.marksType[0] && this.props.pluginToolbar.config.marksType[0].format ? this.props.pluginToolbar.config.marksType[0].format : "x,y"}</ControlLabel>
+                                <ControlLabel>{this.props.pluginToolbar && this.props.pluginToolbar.config && this.props.pluginToolbar.config.marksType && this.props.pluginToolbar.config.marksType[0] && this.props.pluginToolbar.config.marksType[0].name ? this.props.pluginToolbar.config.marksType[0].name : i18n.t("marks.value")}</ControlLabel><br/>
+                                <ControlLabel style={{color: 'grey', fontWeight: 'lighter', marginTop: '-5px'}}>{this.props.pluginToolbar  && this.props.pluginToolbar.config && this.props.pluginToolbar.config.marksType && this.props.pluginToolbar.config.marksType[0] && this.props.pluginToolbar.config.marksType[0].format ? this.props.pluginToolbar.config.marksType[0].format : "x,y"}</ControlLabel>
 
                             </Col>
                             <Col xs={8} md={6}>

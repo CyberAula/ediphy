@@ -163,7 +163,8 @@ var en = {
             "export_to_SCORM": "Export to SCORM",
             "global_config": "Global Config",
             "height_auto_warning": "The boxes inside can only have a relative height if you fix the container height",
-            "mark_input": "Something is wrong with your input"
+            "mark_input": "Something is wrong with your input",
+            "pointer_events": "Allow pointer events in the plugin in order to edit it"
 
         },
         "Multimedia": "Multimedia",

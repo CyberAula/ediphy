@@ -1,4 +1,4 @@
-import {ADD_BOX, ADD_NAV_ITEM, DELETE_BOX, DELETE_SORTABLE_CONTAINER, DUPLICATE_BOX, DELETE_NAV_ITEM, SELECT_BOX,
+import {ADD_BOX, ADD_NAV_ITEM, DELETE_BOX, DELETE_SORTABLE_CONTAINER, DUPLICATE_BOX, DELETE_NAV_ITEM, SELECT_BOX, DELETE_CONTAINED_VIEW,
     SELECT_CONTAINED_VIEW, SELECT_NAV_ITEM, IMPORT_STATE} from './../actions';
 import {ID_PREFIX_BOX} from './../constants';
 import {isBox, isSortableBox, isContainedView} from './../utils';
@@ -37,6 +37,8 @@ export default function (state = -1, action = {}) {
         case DUPLICATE_BOX:
             return ID_PREFIX_BOX + action.payload.newId;
         case DELETE_NAV_ITEM:
+            return -1;
+        case DELETE_CONTAINED_VIEW:
             return -1;
         case SELECT_BOX:
             return action.payload.id;

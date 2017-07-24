@@ -161,7 +161,8 @@ var es = {
             "export_to_SCORM": "Exportar a SCORM",
             "global_config": "Configuración Global",
             "height_auto_warning": "Sólo si fijas una altura podrán tener alturas relativas las cajas en su interior",
-            "mark_input": "Hay un error en el valor introducido"
+            "mark_input": "Hay un error en el valor introducido",
+            "pointer_events": "Permitir manipular con el ratón el plugin"
         },
 
         "Multimedia": "Multimedia",
