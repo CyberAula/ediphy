@@ -10,9 +10,9 @@ export default class SearchBox extends React.Component {
     render() {
         /* jshint ignore:start */
         return (
-        <FormGroup  className="searchBox">
+        <FormGroup className="searchBox">
             <InputGroup>
-                <FormControl type="text" ref={"input-"+this.props.id}  placeholder={this.props.placeholder}/>
+                <FormControl type="text" ref={"input-" + this.props.id}  placeholder={this.props.placeholder}/>
                 <InputGroup.Addon style={{padding: "2px 7px"}}>
                     <i className="material-icons">search</i>
                     {/*<Glyphicon glyph="search" />*/}
@@ -35,7 +35,7 @@ export default class SearchBox extends React.Component {
         /* jshint ignore:start */
         console.log(this.props.id)
         var input = ReactDOM.findDOMNode(this.refs["input-"+this.props.id]);
-        this.searchBox = new google.maps.places.SearchBox(input);
+        this.searchBox = new this.props.maps.places.SearchBox(input);
         this.searchBox.addListener('places_changed', this.onPlacesChanged);
         /* jshint ignore:end */
 

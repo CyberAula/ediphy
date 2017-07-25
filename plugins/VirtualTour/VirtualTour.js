@@ -2,10 +2,12 @@ import React from "react";
 import GoogleMapReact from 'google-map-react';
 import i18n from 'i18next';
 import SearchBox from './components/SearchBox';
-// require('./components/SearchBox')
+import googleMapLoader from './googleMapLoader';
 require('./_virtualTour.scss');
 var map,maps;
+window.mapKeys={};
 window.mapList = [];
+window.mapsList = [];
 export function VirtualTour(base) {
     return {
         getConfig: function () {
@@ -160,12 +162,14 @@ export function VirtualTour(base) {
             let lng = state.lng && parseFloat(state.lng) ? parseFloat(state.lng) : 0;
             let zoom = state.zoom && !isNaN(parseFloat(state.zoom)) ? parseFloat(state.zoom) : 10;
             let center = {lat: lat, lng: lng};
+            window.num = state.num;
             return (
                 <div className="virtualMap" onClick={e=>{e.stopPropagation()}} onDragLeave={e=>{e.stopPropagation()}}>
                     <div id={id} className="dropableRichZone" style={{width: '100%', height: '100%'}}>
                         <GoogleMapReact
                             center={center}
                             zoom={zoom}
+
                             options={{
                                 // panControl: true,
                                 mapTypeControl: true,
@@ -177,22 +181,26 @@ export function VirtualTour(base) {
                                 }
                             }}
                             onChange={e => {
+                                console.log(e)
                                 base.setState('lat', e.center.lat);
                                 base.setState('lng', e.center.lng);
                                 base.setState('zoom', e.zoom);
-                                base.render("UPDATE_TOOLBAR");
+                                // base.render("UPDATE_TOOLBAR");
                             }}
                             onGoogleApiLoaded={({map, maps}) => {
                                 VirtualTour.map = map;
                                 window.mapList[base.getState().num] = window.mapList[base.getState().num] ? window.mapList[base.getState().num] : map;
+                                window.mapsList[base.getState().num] = window.mapsList[base.getState().num] ? window.mapsList[base.getState().num] : maps;
                                 VirtualTour.maps = maps;
                             }}
+                            googleMapLoader={googleMapLoader}
                             resetBoundsOnResize={true}
                             yesIWantToUseGoogleMapApiInternals={true}>
                             {markElements}
                         </GoogleMapReact>
                         <SearchBox
                             id={id}
+                            maps={window.mapsList[state.num] || google.maps}
                             placeholder={i18n.t("VirtualTour.Search")}
                             onPlacesChanged={(places) => {
                                 base.setState("lat", Math.round(places.lat * 100000) / 100000);
@@ -208,14 +216,22 @@ export function VirtualTour(base) {
             base.setState(name, value);
         },
         parseRichMarkInput: function (...value) {
+
             // Mouse position relative to the box + offset for the bottom-center of the marker
             let clickX = value[0] + 12;
             let clickY = value[1] + 26;
+            let latCenter = value[5].lat;
+            let lngCenter = value[5].lng;
+            let zoom = value[5].zoom;
             let map = window.mapList[base.getState().num] || VirtualTour.map;
+            let maps = window.mapsList[value[5].num] || VirtualTour.maps;
+
+            /*map.setCenter(new maps.LatLng(latCenter, lngCenter));
+            map.setZoom(zoom);*/
             let topRight = map.getProjection().fromLatLngToPoint(map.getBounds().getNorthEast());
             let bottomLeft = map.getProjection().fromLatLngToPoint(map.getBounds().getSouthWest());
             let scale = Math.pow(2, map.getZoom());
-            let worldPoint = new VirtualTour.maps.Point((clickX) / scale + bottomLeft.x, (clickY) / scale + topRight.y);
+            let worldPoint = new maps.Point((clickX) / scale + bottomLeft.x, (clickY) / scale + topRight.y);
             let latLng = map.getProjection().fromPointToLatLng(worldPoint);
             let lat = Math.round(latLng.lat() * 100000) / 100000;
             let lng = Math.round(latLng.lng() * 100000) / 100000;

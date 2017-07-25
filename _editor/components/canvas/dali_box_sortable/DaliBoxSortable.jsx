@@ -16,7 +16,6 @@ export default class DaliBoxSortable extends Component {
         return (
             /* jshint ignore:start */
             <div className="daliBoxSortable"
-                 onMouseUp={e=>console.log(e)}
                  onClick={e => {
                 if(box.children.length != 0) {
                     this.props.onBoxSelected(this.props.id);

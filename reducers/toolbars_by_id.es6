@@ -156,7 +156,6 @@ function createSizeButtons(controls, state, action, floatingBox) {
         }
 
     } else {
-        console.log(state,controls,action.payload)
         let width = state.controls.main.accordions.__sortable.buttons.__width;
         displayValue = width.displayValue;
         value = width.value;
