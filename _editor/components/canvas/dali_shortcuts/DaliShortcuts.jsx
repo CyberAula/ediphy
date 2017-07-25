@@ -22,7 +22,7 @@ export default class DaliShortcuts extends Component {
         if (!box || (box && !toolbar)) {
             return null;
         }
-        let boxEl = document.getElementById('box-' + this.props.box.id);
+        let boxEl = document.getElementById('box-' + (box ? box.id:''));
 
             return (
                 /* jshint ignore:start */
@@ -125,7 +125,7 @@ export default class DaliShortcuts extends Component {
                                                         {i18n.t('messages.pointer_events')}
                                                     </Tooltip>
                                                 }>
-                                    <button id="pebutton" className={boxEl.classList.contains('pointerEventsEnabled') ? "daliTitleButton dtbSelected":"daliTitleButton"}
+                                    <button id="pebutton" className={boxEl && boxEl.classList.contains('pointerEventsEnabled') ? "daliTitleButton dtbSelected":"daliTitleButton"}
                                             onClick={(e) => {
                                                 boxEl.classList.toggle('pointerEventsEnabled');
                                                 let but = document.getElementById('pebutton');
@@ -231,8 +231,10 @@ export default class DaliShortcuts extends Component {
     }
 
     componentWillUnmount() {
-      let boxEl = document.getElementById('box-' + this.props.box.id);
-      boxEl.classList.remove('pointerEventsEnabled');
+      let boxEl = document.getElementById('box-' + (this.props.box ? this.props.box.id:''));
+      if (boxEl) {
+          boxEl.classList.remove('pointerEventsEnabled');
+      }
       window.removeEventListener('resize', this.resize.bind(this));
       if (this.props && this.props.box) {
         let boxObj = document.getElementById('box-' + this.props.box.id);

@@ -156,6 +156,7 @@ function createSizeButtons(controls, state, action, floatingBox) {
         }
 
     } else {
+        console.log(state,controls,action.payload)
         let width = state.controls.main.accordions.__sortable.buttons.__width;
         displayValue = width.displayValue;
         value = width.value;
@@ -508,7 +509,7 @@ function toolbarReducer(state, action) {
         case TOGGLE_TEXT_EDITOR:
             return changeProp(state, "showTextEditor", action.payload.value);
         case UPDATE_BOX:
-            let controls = action.payload.toolbar;
+            /*let controls = action.payload.toolbar;
             if (!isSortableBox(action.payload.id)) {
                 createSizeButtons(controls, state, action);
                 createAliasButton(controls, state);
@@ -519,15 +520,13 @@ function toolbarReducer(state, action) {
             }
             if (state.config && state.config.aspectRatioButtonConfig) {
                 createAspectRatioButton(controls, state.config);
-            }
+            }*/
             return changeProps(
                 state,
                 [
                     "state",
-                    "controls"
                 ], [
                     action.payload.state,
-                    state.controls
                 ]
             );
         case UPDATE_TOOLBAR:

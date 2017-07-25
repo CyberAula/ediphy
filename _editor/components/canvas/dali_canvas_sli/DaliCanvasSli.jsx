@@ -59,7 +59,8 @@ export default class DaliCanvasSli extends Component {
                          ref="slideDropZone"
                          onClick={e => {
                         this.props.onBoxSelected(-1);
-                        this.setState({showTitle:false})
+                        this.setState({showTitle:false});
+                        e.stopPropagation();
                        }}
                          className={'innercanvas sli'}
                          style={{visibility: (this.props.showCanvas ? 'visible' : 'hidden')}}>

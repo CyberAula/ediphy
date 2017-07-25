@@ -83,7 +83,8 @@ export default class DaliCanvasDoc extends Component {
                         <div id={this.props.fromCV ? "contained_maincontent":"maincontent"}
                              onClick={e => {
                             this.props.onBoxSelected(-1);
-                            this.setState({showTitle:false})
+                            this.setState({showTitle:false});
+                            e.stopPropagation();
                            }}
                              className={'innercanvas doc'}
                              style={{visibility: (this.props.showCanvas ? 'visible' : 'hidden')}}>
@@ -177,7 +178,7 @@ export default class DaliCanvasDoc extends Component {
     }
 
     componentWillUnmount(){
-        interact(ReactDOM.findDOMNode(this)).unset();
+        // interact(ReactDOM.findDOMNode(this)).unset();
     }
 
     componentDidMount() {

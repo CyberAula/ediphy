@@ -18,7 +18,7 @@ export function VirtualTour(base) {
                 needsTextEdition: false,
                 icon: 'map',
                 initialWidth: '25%',
-                initialHeight: '200px',
+                initialHeight: '250px',
                 initialHeightSlide: '60%',
                 isRich: true,
                 marksType: [{
@@ -161,16 +161,16 @@ export function VirtualTour(base) {
             let zoom = state.zoom && !isNaN(parseFloat(state.zoom)) ? parseFloat(state.zoom) : 10;
             let center = {lat: lat, lng: lng};
             return (
-                <div className="virtualMap">
+                <div className="virtualMap" onClick={e=>{e.stopPropagation()}} onDragLeave={e=>{e.stopPropagation()}}>
                     <div id={id} className="dropableRichZone" style={{width: '100%', height: '100%'}}>
                         <GoogleMapReact
                             center={center}
                             zoom={zoom}
                             options={{
-                                panControl: true,
+                                // panControl: true,
                                 mapTypeControl: true,
-                                scrollwheel: true,
-                                gestureHandling: 'greedy',
+                                // scrollwheel: true,
+                                // gestureHandling: 'greedy',
                                 zoomControlOptions: {
                                     position: google.maps.ControlPosition.RIGHT_CENTER,
                                     style: google.maps.ZoomControlStyle.SMALL

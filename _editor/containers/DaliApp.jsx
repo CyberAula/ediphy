@@ -64,10 +64,7 @@ class DaliApp extends Component {
         let canvasRatio = globalConfig.canvasRatio;
         return (
             /* jshint ignore:start */
-
-
             <Grid id="app" fluid={true} style={{height: '100%'}}>
-
                 <Row className="navBar">
                     <DaliNavBar hideTab={this.state.hideTab}
                                 globalConfig={globalConfig}
@@ -265,8 +262,6 @@ class DaliApp extends Component {
                                                  if(mark.connection.id){
                                                      state.__marks[mark.id].connection = mark.connection.id;
                                                  }
-
-
                                                  Dali.Plugins.get(toolbar.config.name).forceUpdate(
                                                      state,
                                                      boxSelected,

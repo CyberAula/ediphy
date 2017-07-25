@@ -302,7 +302,6 @@ export default function () {
                     template = html2json(template);
                     assignPluginContainerIds(template);
                 }
-                console.log(this.getToolbar())
                 if (template !== null){
                     Dali.API.renderPlugin(
                         template,
