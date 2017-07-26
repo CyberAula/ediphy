@@ -19,8 +19,8 @@
   pointer-events: all !important;
 }
 .searchBox {
-
-  max-width:99%;
+  max-width:98%;
+  max-width:calc(99% - 4px);
   width: 200px;
   position: absolute;
   top:2px;

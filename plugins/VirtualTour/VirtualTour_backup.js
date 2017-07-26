@@ -1,6 +1,8 @@
 import React from "react";
+import GoogleMapReact from 'google-map-react';
 import i18n from 'i18next';
-import Map from './components/Map';
+import SearchBox from './components/SearchBox';
+import googleMapLoader from './googleMapLoader';
 require('./_virtualTour.scss');
 var map,maps;
 window.mapKeys={};
@@ -8,9 +10,6 @@ window.mapList = [];
 window.mapsList = [];
 export function VirtualTour(base) {
     return {
-        init: function (A,B,C) {
-            console.log('INIT')
-        },
         getConfig: function () {
             return {
                 name: 'VirtualTour',
@@ -171,46 +170,62 @@ export function VirtualTour(base) {
                 return (<Mark key={id} text={id} lat={position[0]} lng={position[1]}/>);
             });
 
-
+            let lat = state.lat && parseFloat(state.lat) ? parseFloat(state.lat) : 0;
+            let lng = state.lng && parseFloat(state.lng) ? parseFloat(state.lng) : 0;
+            let zoom = state.zoom && !isNaN(parseFloat(state.zoom)) ? parseFloat(state.zoom) : 10;
+            let center = {lat: lat, lng: lng};
             window.num = state.num;
             return (
                 <div className="virtualMap" onClick={e=>{e.stopPropagation()}} onDragLeave={e=>{e.stopPropagation()}}>
-                        <Map placeholder={i18n.t("VirtualTour.Search")}
-                             setState={(key,value)=>{base.setState(key,value)}}
-                             state={state}
-                             id={id}
-                             onChange={(e,num) => {
-                                 console.log('onChange', num, e)
-                                 let lat = e.center.lat;
-                                 let lng = e.center.lng;
-                                 let zoom = e.zoom;
-                                 base.setState('lat', lat);
-                                 base.setState('lng', lng);
-                                 base.setState('zoom', zoom);
-                                 let map = window.mapList[num];
-                                 if (map) {
-                                     map.setCenter(new google.maps.LatLng(lat, lng));
-                                     map.setZoom(zoom);
-                                 }
+                    <div id={id} className="dropableRichZone" style={{width: '100%', height: '100%'}}>
+                        <GoogleMapReact
+                            center={center}
+                            zoom={zoom}
+                            options={{
+                                panControl: true,
+                                mapTypeControl: true,
+                                scrollwheel: true,
+                                gestureHandling: 'greedy',
+                                zoomControlOptions: {
+                                    position: google.maps.ControlPosition.RIGHT_CENTER,
+                                    style: google.maps.ZoomControlStyle.SMALL
+                                }
+                            }}
+                            onChange={e => {
+                                console.log(e)
+                                console.log('onchange',state.num)
+                                base.setState('lat', e.center.lat);
+                                base.setState('lng', e.center.lng);
+                                base.setState('zoom', e.zoom);
                                 // base.render("UPDATE_TOOLBAR");
-                             }}
-                             onPlacesChanged={(places) => {
-                                 console.log('onplaceschanged', id, places.map)
-                                 let lat = Math.round(places.lat * 100000) / 100000;
-                                 let lng = Math.round(places.lng * 100000) / 100000;
-                                 let zoom = 15;
-                                 base.setState("lat", lat);
-                                 base.setState("lng", lng);
-                                 base.setState("zoom", zoom);
-                                 let map = window.mapList[num];
-                                 if (map) {
-                                     map.setCenter(new google.maps.LatLng(lat, lng));
-                                     map.setZoom(zoom);
-                                 }
-                                 // base.render("UPDATE_TOOLBAR");
-                             }}>
+                            }}
+                            onGoogleApiLoaded={({map, maps}) => {
+                                console.log('loaded')
+                                VirtualTour.map = map;
+                                VirtualTour.maps = maps;
+                                window.mapList[base.getState().num] = window.mapList[base.getState().num] ? window.mapList[base.getState().num] : map;
+                                // window.mapsList[base.getState().num] = window.mapsList[base.getState().num] ? window.mapsList[base.getState().num] : maps;
+                            }}
+                            googleMapLoader={googleMapLoader}
+                            resetBoundsOnResize={true}
+                            yesIWantToUseGoogleMapApiInternals={true}>
                             {markElements}
-                        </Map>
+                        </GoogleMapReact>
+                        <SearchBox
+                            id={state.num}
+                            maps={window.mapsList[state.num] || google.maps}
+                            placeholder={i18n.t("VirtualTour.Search")}
+                            onPlacesChanged={(places) => {
+                                console.log('onplaceschanged', places, state.num)
+                                if(places.map == state.num){
+                                    base.setState("lat", Math.round(places.lat * 100000) / 100000);
+                                    base.setState("lng", Math.round(places.lng * 100000) / 100000);
+                                    base.setState("zoom", 15);
+                                    base.render("UPDATE_TOOLBAR");
+                                }
+
+                            }}/>
+                    </div>
                 </div>);
             /* jshint ignore:end */
         },
@@ -226,9 +241,9 @@ export function VirtualTour(base) {
             let lngCenter = base.getState().lng;
             console.log(base.getState());
             let zoom = base.getState().zoom;
+            let map = window.mapList[base.getState().num] || VirtualTour.map;
+            let maps = /*window.mapsList[base.getState().num] ||*/ VirtualTour.maps;
 
-            let maps = /*window.mapsList[base.getState().num] ||*/ google.maps;
-            let map = window.mapList[base.getState().num];
             map.setCenter(new maps.LatLng(latCenter, lngCenter));
             map.setZoom(zoom);
             console.log(map, map === window.mapList[base.getState().num])

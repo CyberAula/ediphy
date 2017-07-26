@@ -17,10 +17,12 @@ export default function googleMapLoader(bootstrapURLKeys) {
     // call from outside google-map-react
     // will be as soon as loadPromise_ resolved
     if (!bootstrapURLKeys) {
+        console.log('hello')
         return _customPromise;
     }
 
     if (loadPromise_) {
+        console.log('bbye')
         return loadPromise_;
     }
 
@@ -29,13 +31,14 @@ export default function googleMapLoader(bootstrapURLKeys) {
             reject(new Error('google map cannot be loaded outside browser env'));
             return;
         }
-
+        /*
         if(window.mapsList && window.mapsList[window.num]){
             resolve(window.mapsList[window.num]);
             return;
-        }
+        }*/
 
         if (window.google && window.google.maps) {
+            // window.mapsList[window.num] = window.google.maps
             resolve(window.google.maps);
             return;
         }

@@ -132,7 +132,7 @@ export default class DaliShortcuts extends Component {
                                                 e.stopPropagation();
                                                 boxEl.classList.contains('pointerEventsEnabled') && but ? but.classList.add('dtbSelected') : but.classList.remove('dtbSelected');
                                             }}>
-                                        <i className="material-icons">touch_app</i>
+                                        <i className="material-icons">pan_tool</i>
                                     </button>
                                 </OverlayTrigger>
                             ) : (
@@ -192,6 +192,8 @@ export default class DaliShortcuts extends Component {
         if (nextProps !== this.props){
            if (nextProps.box) {
                 this.resize("fromUpdate", nextProps);
+               let boxEl = document.getElementById('box-' + (this.props.box ? this.props.box.id:''));
+               if(boxEl) {boxEl.classList.remove('pointerEventsEnabled');}
             /*
                 let box = document.getElementById('box-' + nextProps.box.id);
                 let element = ReactDOM.findDOMNode(this.refs.innerContainer);
