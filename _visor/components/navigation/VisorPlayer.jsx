@@ -4,13 +4,15 @@ import {Button, OverlayTrigger, Tooltip} from 'react-bootstrap';
 import i18n from 'i18next';
 import Dali from './../../../core/main';
 import {isPage} from './../../../utils';
-
-
+import {toggleFullScreen, isFullScreenOn} from './../../../common_tools';
 import 'bootstrap/dist/css/bootstrap.css';
 
 export default class VisorPlayer extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            isFullScreenOn: isFullScreenOn()
+        };
     }
 
     render() {
@@ -60,6 +62,15 @@ export default class VisorPlayer extends Component {
                             disabled={maxIndex==0}
                             onClick={(e)=>{this.props.changeCurrentView(navItemsIds[maxIndex-1])}}>
                         <i className="material-icons">last_page</i>
+                    </Button>
+                </OverlayTrigger>
+                <OverlayTrigger placement="bottom" delay={0} trigger={['hover']} rootClose={true} overlay={this.createTooltip("fullscreen", i18n.t("messages.fullscreen"))}>
+                    <Button className="playerButton"
+                            bsStyle="primary"
+                            onClick={(e)=>{toggleFullScreen(); this.setState({isFullScreenOn: isFullScreenOn()})}}>
+                        {this.state.isFullScreenOn ?
+                            (<i className="material-icons">fullscreen_exit</i>):
+                            (<i className="material-icons">fullscreen</i>)}
                     </Button>
                 </OverlayTrigger>
             </div>

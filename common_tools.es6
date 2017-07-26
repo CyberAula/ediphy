@@ -32,3 +32,85 @@ export function aspectRatio(ratioparam, idEl = "airlayer", idParent = "canvas") 
     }
 
 }
+
+export function requestFullScreen(element) {
+    // Supports most browsers and their versions.
+    /* jshint ignore:start */
+
+    var requestMethod = element.requestFullScreen || element.webkitRequestFullScreen || element.mozRequestFullScreen || element.msRequestFullScreen;
+    if (requestMethod) { // Native full screen.
+        requestMethod.call(element);
+    } else if (typeof window.ActiveXObject !== "undefined") { // Older IE.
+        var wscript = new ActiveXObject("WScript.Shell");
+        if (wscript !== null) {
+            wscript.SendKeys("{F11}");
+        }
+    }
+
+     if(!element){
+         element = document.body;
+      }
+
+    /* jshint ignore:end */
+
+}
+
+export function exitFullScreen(element){
+    if (document.exitFullscreen) {
+        document.exitFullscreen();
+    } else if (document.exitFullscreen) {
+        document.msExitFullscreen();
+    } else if (document.exitFullscreen) {
+        document.mozCancelFullScreen();
+    } else if (document.webkitExitFullscreen) {
+        document.webkitExitFullscreen();
+    }
+    /* jshint ignore:start */
+
+    var requestMethod = element.exitFullscreen || element.webkitExitFullscreen || element.mozCancelFullScreen || element.msExitFullscreen;
+    if (requestMethod) { // Native full screen.
+        requestMethod.call(element);
+    } else if (typeof window.ActiveXObject !== "undefined") { // Older IE.
+        var wscript = new ActiveXObject("WScript.Shell");
+        if (wscript !== null) {
+            wscript.SendKeys("{F11}");
+        }
+    }
+
+    if(!element){
+        element = document.body;
+    }
+
+    /* jshint ignore:end */
+}
+
+export function toggleFullScreen() {
+    if (!document.fullscreenElement &&    // alternative standard method
+        !document.mozFullScreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement ) {  // current working methods
+        if (document.documentElement.requestFullscreen) {
+            document.documentElement.requestFullscreen();
+        } else if (document.documentElement.msRequestFullscreen) {
+            document.documentElement.msRequestFullscreen();
+        } else if (document.documentElement.mozRequestFullScreen) {
+            document.documentElement.mozRequestFullScreen();
+        } else if (document.documentElement.webkitRequestFullscreen) {
+            document.documentElement.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+        }
+    } else {
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        } else if (document.msExitFullscreen) {
+            document.msExitFullscreen();
+        } else if (document.mozCancelFullScreen) {
+            document.mozCancelFullScreen();
+        } else if (document.webkitExitFullscreen) {
+            document.webkitExitFullscreen();
+        }
+    }
+}
+
+export  function isFullScreenOn(){
+    console.log(document.fullscreenElement  , document.mozFullScreenElement , document.webkitFullscreenElement , document.msFullscreenElement);
+
+    return (document.fullscreenElement  || document.mozFullScreenElement || document.webkitFullscreenElement || document.msFullscreenElement);
+}

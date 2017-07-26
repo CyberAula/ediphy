@@ -114,6 +114,7 @@ var en = {
                 "title": "Visualization navigation"
             }
         },
+        "fullscreen": "Fullscreen",
         "Header": "Page header",
         "Height": "Height",
         "Height_auto": "Height Auto",
@@ -166,6 +167,7 @@ var en = {
             "erase_container": "Erase container",
             "export_to_HTML": "Export to HTML",
             "export_to_SCORM": "Export to SCORM",
+            "fullscreen" : "Activate full screen mode",
             "global_config": "Global Config",
             "height_auto_warning": "The boxes inside can only have a relative height if you fix the container height",
             "mark_input": "Something is wrong with your input",

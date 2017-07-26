@@ -37,6 +37,7 @@ var es = {
             "importing": "Ha ocurrido un error al importar",
             "searching": "Ha ocurrido un error al buscar",
         },
+        "fullscreen": "Fullscreen",
         "global_config":{
             "Accept": "Guardar cambios",
             "aspect_ratio": "Relación de aspecto en diapositivas",
@@ -164,6 +165,7 @@ var es = {
             "erase_container": "Borrar contenedor",
             "export_to_HTML": "Exportar a HTML",
             "export_to_SCORM": "Exportar a SCORM",
+            "fullscreen" : "Ampliar a pantalla completa",
             "global_config": "Configuración Global",
             "height_auto_warning": "Sólo si fijas una altura podrán tener alturas relativas las cajas en su interior",
             "mark_input": "Hay un error en el valor introducido",
