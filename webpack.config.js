@@ -22,6 +22,7 @@ module.exports = {
                 loader: 'jshint-loader'
             }
         ],
+
         loaders: [
             {
                 test: /\.es6$/,

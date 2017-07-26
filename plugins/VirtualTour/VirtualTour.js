@@ -139,6 +139,15 @@ export function VirtualTour(base) {
         },
         getRenderTemplate: function (state) {
             /* jshint ignore:start */
+            if(window.mapList[state.num] && window.mapsList[state.num]){
+                let map = window.mapList[state.num];
+                let maps = window.mapsList[state.num];
+                let lati = state.lat;
+                let lngi = state.lng;
+                map.setCenter(new maps.LatLng(lati, lngi));
+                map.setZoom(state.zoom);
+            }
+
             let id = "map-" + Date.now();
             const Mark = ({text}) => (
                 <a style={{position: 'absolute'}}
@@ -226,8 +235,8 @@ export function VirtualTour(base) {
             let map = window.mapList[base.getState().num] || VirtualTour.map;
             let maps = window.mapsList[value[5].num] || VirtualTour.maps;
 
-            /*map.setCenter(new maps.LatLng(latCenter, lngCenter));
-            map.setZoom(zoom);*/
+            map.setCenter(new maps.LatLng(latCenter, lngCenter));
+            map.setZoom(zoom);
             let topRight = map.getProjection().fromLatLngToPoint(map.getBounds().getNorthEast());
             let bottomLeft = map.getProjection().fromLatLngToPoint(map.getBounds().getSouthWest());
             let scale = Math.pow(2, map.getZoom());
