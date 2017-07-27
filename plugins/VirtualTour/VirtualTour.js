@@ -8,9 +8,6 @@ window.mapList = [];
 window.mapsList = [];
 export function VirtualTour(base) {
     return {
-        init: function (A,B,C) {
-            console.log('INIT')
-        },
         getConfig: function () {
             return {
                 name: 'VirtualTour',
@@ -140,7 +137,7 @@ export function VirtualTour(base) {
         },
         getRenderTemplate: function (state) {
             /* jshint ignore:start */
-            if(window.mapList[state.num] /*&& window.mapsList[state.num]*/){
+            /*if(window.mapList[state.num] ){
                 let map = window.mapList[state.num];
                 let maps = window.google.maps; //window.mapsList[state.num];
                 let lati = state.lat;
@@ -150,11 +147,11 @@ export function VirtualTour(base) {
                 console.log('existing', map.center.lat(), map.center.lng());
             } else {
                 console.log('didntexist');
-            }
+            }*/
 
             let id = "map-" + Date.now();
             const Mark = ({text}) => (
-                <a style={{position: 'absolute'}}
+                <a style={{position: 'absolute', pointerEvents: 'all'}}
                    href="#">
                     <i style={{width: "100%", height: "100%", position: 'absolute', top: '-26px', left: '-12px'}}
                        className="material-icons">room</i>
@@ -173,41 +170,35 @@ export function VirtualTour(base) {
 
 
             window.num = state.num;
+            let num = state.num;
+            console.log(num,'num')
             return (
                 <div className="virtualMap" onClick={e=>{e.stopPropagation()}} onDragLeave={e=>{e.stopPropagation()}}>
                         <Map placeholder={i18n.t("VirtualTour.Search")}
                              setState={(key,value)=>{base.setState(key,value)}}
                              state={state}
                              id={id}
-                             onChange={(e,num) => {
-                                 console.log('onChange', num, e)
-                                 let lat = e.center.lat;
-                                 let lng = e.center.lng;
-                                 let zoom = e.zoom;
-                                 base.setState('lat', lat);
-                                 base.setState('lng', lng);
-                                 base.setState('zoom', zoom);
-                                 let map = window.mapList[num];
-                                 if (map) {
+                             update={(lat, lng, zoom, render)=>{
+                                 console.log('BEGIN***************'+num+'**************************', render ? 'PLACES':'CHANGE');
+                                 console.log('PRE-UPDATE STATE', render ? 'PLACES':'CHANGE', base.getState().lat, base.getState().lng, num);
+                                 console.log('PRE-UPDATE STATE', render ? 'PLACES':'CHANGE', window.mapList[num] ? (window.mapList[num].center.lat() + ' ' + window.mapList[num].center.lng()):'');
+                                 if(render && window.mapList[num]){
+                                     //Place changed on searchbox
+                                     let map = window.mapList[num];
                                      map.setCenter(new google.maps.LatLng(lat, lng));
-                                     map.setZoom(zoom);
+                                     // map.setZoom(zoom);
+
+                                 } else {
+                                     base.setState('lat', lat, num);
+                                     base.setState('lng', lng, num);
+                                     base.setState('zoom', zoom, num);
+
+
                                  }
-                                // base.render("UPDATE_TOOLBAR");
-                             }}
-                             onPlacesChanged={(places) => {
-                                 console.log('onplaceschanged', id, places.map)
-                                 let lat = Math.round(places.lat * 100000) / 100000;
-                                 let lng = Math.round(places.lng * 100000) / 100000;
-                                 let zoom = 15;
-                                 base.setState("lat", lat);
-                                 base.setState("lng", lng);
-                                 base.setState("zoom", zoom);
-                                 let map = window.mapList[num];
-                                 if (map) {
-                                     map.setCenter(new google.maps.LatLng(lat, lng));
-                                     map.setZoom(zoom);
-                                 }
-                                 // base.render("UPDATE_TOOLBAR");
+                                 console.log('POST-UPDATE STATE', render ? 'PLACES':'CHANGE', base.getState().lat, base.getState().lng, num);
+                                 console.log('POST-UPDATE STATE', render ? 'PLACES':'CHANGE',window.mapList[num] ? (window.mapList[num].center.lat() + ' ' + window.mapList[num].center.lng()):'');
+                                 console.log('END***************'+num+'**************************', render ? 'PLACES':'CHANGE');
+
                              }}>
                             {markElements}
                         </Map>
@@ -224,14 +215,21 @@ export function VirtualTour(base) {
             let clickY = value[1] + 26;
             let latCenter = base.getState().lat;
             let lngCenter = base.getState().lng;
-            console.log(base.getState());
+            console.log('state', base.getState());
             let zoom = base.getState().zoom;
+            let num = base.getState().num;
 
-            let maps = /*window.mapsList[base.getState().num] ||*/ google.maps;
+            let maps = google.maps;
+            console.log('%cBEGIN***************'+num+'**************************','background: #red; color: #bada55', 'MARKER PLACE');
+            console.log('PRE-UPDATE STATE',  'MARKER PLACE', base.getState().lat, base.getState().lng, num);
+            console.log('PRE-UPDATE STATE',  'MARKER PLACE', window.mapList[num] ? (window.mapList[num].center.lat() + ' ' + window.mapList[num].center.lng()):'');
+
             let map = window.mapList[base.getState().num];
             map.setCenter(new maps.LatLng(latCenter, lngCenter));
             map.setZoom(zoom);
-            console.log(map, map === window.mapList[base.getState().num])
+            console.log('POST-UPDATE STATE',  'MARKER PLACE', base.getState().lat, base.getState().lng, num);
+            console.log('POST-UPDATE STATE',  'MARKER PLACE', window.mapList[num] ? (window.mapList[num].center.lat() + ' ' + window.mapList[num].center.lng()):'');
+
             let topRight = map.getProjection().fromLatLngToPoint(map.getBounds().getNorthEast());
             let bottomLeft = map.getProjection().fromLatLngToPoint(map.getBounds().getSouthWest());
             let scale = Math.pow(2, map.getZoom());
@@ -239,6 +237,7 @@ export function VirtualTour(base) {
             let latLng = map.getProjection().fromPointToLatLng(worldPoint);
             let lat = Math.round(latLng.lat() * 100000) / 100000;
             let lng = Math.round(latLng.lng() * 100000) / 100000;
+            console.log('%cEND***************'+num+'**************************', 'background: #orange; color: #bada55', 'MARKER PLACE');
 
             return lat + ',' + lng;
         },
@@ -258,6 +257,7 @@ export function VirtualTour(base) {
             }
             return {isWrong: false, value: value};
         }
+
 
     };
 }

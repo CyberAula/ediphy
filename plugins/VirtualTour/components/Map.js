@@ -8,22 +8,15 @@ import googleMapLoader from './../googleMapLoader';
 export default class Map extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            map:null
-        }
-        // This binding is necessary to make `this` work in the callback
-        // this.onPlacesChanged = this.onPlacesChanged.bind(this);
     }
+
     render(){
         const {lat, lng, zoom, num} = this.props.state;
         let center = {lat: lat, lng: lng};
-
-        console.log(this.props)
         return(
             /* jshint ignore:start */
             <div id={this.props.id} className="dropableRichZone" style={{width: '100%', height: '100%'}}>
             <GoogleMapReact
-                id="jdugdfugfd"
                 center={center}
                 zoom={zoom}
                 options={{
@@ -37,35 +30,31 @@ export default class Map extends React.Component {
                     }
                 }}
                 onChange={e => {
-                    this.props.onChange(e, num);
+                    this.props.update(e.center.lat, e.center.lng, e.zoom, false)
+
                 }}
                 onGoogleApiLoaded={({map, maps}) => {
-                    console.log('onGoogleApiLoaded', map.center.lat(), map.center.lng())
-                    console.log('loaded')
-
-                    window.mapList[num] = window.mapList[num] ? window.mapList[num] : map;
-
-                    /*
-                    if (!this.state.map){
-                        this.setState({map: window.mapList[num] ? window.mapList[num] : map});
-                        window.mapList[num] = map;
-
-                    }*/
-                    // this.state.map = window.mapList[num] ? window.mapList[num] : map; //window.mapList[num] ? window.mapList[num] : this.state.map;
+                    window.mapList[num] = /*window.mapList[num] ? window.mapList[num] : */map;
                 }}
                 googleMapLoader={googleMapLoader}
                 resetBoundsOnResize={true}
                 yesIWantToUseGoogleMapApiInternals={true}>
-                {this.props.children}
+                    {this.props.children}
             </GoogleMapReact>
             <SearchBox
+                num={num}
                 id={this.props.id}
                 placeholder={this.props.placeholder}
                 onPlacesChanged={(places) => {
-                    this.props.onPlacesChanged(places);
-                }}/></div>
+                    places.lat = Math.round(places.lat * 100000) / 100000;
+                    places.lng = Math.round(places.lng * 100000) / 100000;
+                    this.props.update(places.lat, places.lng ,15, true)
+
+                }}/>
+            </div>
             /* jshint ignore:end */
 
         );
     }
+
 }
