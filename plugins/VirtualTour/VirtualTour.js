@@ -2,6 +2,7 @@ import React from "react";
 import i18n from 'i18next';
 import Map from './components/Map';
 import {  Marker } from 'react-gmaps';
+import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 require('./_virtualTour.scss');
 window.mapList = [];
 export function VirtualTour(base) {
@@ -150,13 +151,16 @@ export function VirtualTour(base) {
             }
 
             let id = "map-" + Date.now();
-            const Mark = ({text}) => (
-                <a style={{position: 'absolute', pointerEvents: 'all'}} href="#">
-                    <i key="i" style={{width: "100%", height: "100%", position: 'absolute', top: '-26px', left: '-12px'}} className="material-icons">room</i>
-                </a>);
+            const Mark = ({key, text}) => (
+                <OverlayTrigger placement="top"  overlay={<Tooltip id={key}>{text}</Tooltip>}>
+                    <a className="mapMarker" href="#">
+                        <i key="i"  className="material-icons">room</i>
+                    </a>
+                </OverlayTrigger>);
             let marks = state.__marks;
             let markElements = Object.keys(marks).map((id) => {
                 let value = marks[id].value;
+                let title = marks[id].title;
                 let position;
                 if (value && value.split(',').length === 2) {
                     position = value.split(',');
@@ -164,7 +168,7 @@ export function VirtualTour(base) {
                     position = [0, 0];
                 }
 
-                 return (<Mark key={id} text={id} lat={position[0]} lng={position[1]}/>);
+                 return (<Mark key={id} text={title} lat={position[0]} lng={position[1]}/>);
             });
 
 
@@ -197,6 +201,7 @@ export function VirtualTour(base) {
             base.setState(name, value);
         },
         parseRichMarkInput: function (...value) {
+            /* jshint ignore:start */
             // base.render("UPDATE_BOX");
             // Mouse position relative to the box + offset for the bottom-center of the marker
             let state = value[5];
@@ -208,9 +213,7 @@ export function VirtualTour(base) {
             let zoom = state.config.zoom;
             let num = state.num;
 
-            /* jshint ignore:start */
             let maps = google.maps;
-            /* jshint ignore:end */
             console.log('HHHHHHHHHHHHHHHHHHHHH');
             console.log(window.mapList[num].center.lat(), latCenter )
             console.log('%cBEGIN***************'+num+'**************************','color: #bada55', 'MARKER PLACE');
@@ -227,15 +230,16 @@ export function VirtualTour(base) {
             let topRight = map.getProjection().fromLatLngToPoint(map.getBounds().getNorthEast());
             let bottomLeft = map.getProjection().fromLatLngToPoint(map.getBounds().getSouthWest());
             let scale = Math.pow(2, map.getZoom());
-            /* jshint ignore:start */
+
             let worldPoint = new maps.Point((clickX) / scale + bottomLeft.x, (clickY) / scale + topRight.y);
-            /* jshint ignore:end */
             let latLng = map.getProjection().fromPointToLatLng(worldPoint);
             let lat = Math.round(latLng.lat() * 100000) / 100000;
             let lng = Math.round(latLng.lng() * 100000) / 100000;
             console.log('%cEND***************'+num+'**************************', 'color: #bada55', 'MARKER PLACE');
 
             return lat + ',' + lng;
+            /* jshint ignore:end */
+
         },
 
         validateValueInput: function (value) {

@@ -35,3 +35,18 @@
 .wholeboxvisor .virtualMap {
   pointer-events: all !important;
 }
+
+a.mapMarker {
+  position: absolute;
+  pointerEvents: all !important;
+  top: -26px;
+  left: -12px;
+  width: 24px;
+  height: 26px;
+  i{
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    pointer-events: all;
+  }
+}

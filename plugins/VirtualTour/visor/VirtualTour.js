@@ -1,5 +1,6 @@
 import React from "react";
 import GoogleMapReact from 'google-map-react';
+import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 
 require('./../_virtualTour.scss');
 window.mapsVisor = [];
@@ -9,14 +10,17 @@ export function VirtualTour(base) {
             let marks = state.__marks;
             let box_id = id;
             /* jshint ignore:start */
+
             let markElements = Object.keys(marks).map((e) =>{
-                let Mark = ({ text }) => (<a style={{position: 'absolute'}}
-                                             onClick={()=>{this.onMarkClicked(box_id, marks[e].value)}}
-                                             href="#">
-                                                <i style={{width:"100%",height:"100%", cursor: 'pointer', position: 'absolute', top:'-26px', left:'-12px'}}  className="material-icons">room</i>
-                </a>);
+                let Mark = ({key, text}) => (
+                    <OverlayTrigger placement="top" overlay={<Tooltip id={key}>{text}</Tooltip>}>
+                        <a className="mapMarker" onClick={()=>{this.onMarkClicked(box_id, marks[e].value)}}href="#">
+                                <i key="i" className="material-icons">room</i>
+                        </a>
+                    </OverlayTrigger>);
+
                 let position = marks[e].value.split(',');
-                return (<Mark key={e} text={e} lat={position[0]} lng={position[1]}/>);
+                return (<Mark key={e} text={marks[e].title} lat={position[0]} lng={position[1]}/>);
 
             });
             let lat = state.config.lat && parseFloat(state.config.lat) ? parseFloat(state.config.lat):0;
