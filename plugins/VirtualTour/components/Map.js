@@ -23,27 +23,27 @@ export default class Map extends React.Component {
             <div id={this.props.id} className="dropableRichZone" style={{width: '100%', height: '100%'}}>
                 <GoogleMapReact center={center}
                                 zoom={zoom}
-                options={{
-                panControl: true,
-                mapTypeControl: true,
-                scrollwheel: true,
-                gestureHandling: 'greedy',
-                zoomControlOptions: {
-                    position: google.maps.ControlPosition.RIGHT_CENTER,
-                    style: google.maps.ZoomControlStyle.SMALL
-                }
-            }}
-                onChange={e => {
-                this.props.update(e.center.lat, e.center.lng, e.zoom, false)
+                                options={{
+                                panControl: true,
+                                mapTypeControl: true,
+                                scrollwheel: true,
+                                gestureHandling: 'greedy',
+                                zoomControlOptions: {
+                                    position: google.maps.ControlPosition.RIGHT_CENTER,
+                                    style: google.maps.ZoomControlStyle.SMALL
+                                }
+                            }}
+                                onChange={e => {
+                                this.props.update(e.center.lat, e.center.lng, e.zoom, false)
 
-            }}
-                onGoogleApiLoaded={({map, maps}) => {
-                    window.mapList[num] = map;
-            }}
-                resetBoundsOnResize={true}
-                yesIWantToUseGoogleMapApiInternals={true}>
-                {this.props.children}
-            </GoogleMapReact>
+                            }}
+                                onGoogleApiLoaded={({map, maps}) => {
+                                    window.mapList[num] = map;
+                            }}
+                                resetBoundsOnResize={true}
+                                yesIWantToUseGoogleMapApiInternals={true}>
+                    {this.props.children}
+                </GoogleMapReact>
             <SearchBox
                 num={num}
                 center={center}

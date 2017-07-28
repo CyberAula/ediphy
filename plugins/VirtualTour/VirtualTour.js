@@ -1,8 +1,8 @@
 import React from "react";
 import i18n from 'i18next';
 import Map from './components/Map';
-import {  Marker } from 'react-gmaps';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
+import ClickNHold from '../../_editor/components/rich_plugins/click_n_hold/ClickNHold';
 require('./_virtualTour.scss');
 window.mapList = [];
 export function VirtualTour(base) {
@@ -151,12 +151,6 @@ export function VirtualTour(base) {
             }
 
             let id = "map-" + Date.now();
-            const Mark = ({key, text}) => (
-                <OverlayTrigger placement="top"  overlay={<Tooltip id={key}>{text}</Tooltip>}>
-                    <a className="mapMarker" href="#">
-                        <i key="i"  className="material-icons">room</i>
-                    </a>
-                </OverlayTrigger>);
             let marks = state.__marks;
             let markElements = Object.keys(marks).map((id) => {
                 let value = marks[id].value;
@@ -168,7 +162,15 @@ export function VirtualTour(base) {
                     position = [0, 0];
                 }
 
-                 return (<Mark key={id} text={title} lat={position[0]} lng={position[1]}/>);
+                 return (<div lat={position[0]} lng={position[1]} draggable={false}>
+                             <ClickNHold onClickNHold={e=>{console.log('clicked and held')}}  time={3} mark={id} base={base}>
+                                 <OverlayTrigger key={id} text={title}   placement="top"  overlay={<Tooltip id={id}>{title}</Tooltip>}>
+                                     <a className="mapMarker" href="#">
+                                        <i key="i"  className="material-icons">room</i>
+                                     </a>
+                                 </OverlayTrigger>
+                             </ClickNHold>
+                        </div>);
             });
 
 
@@ -176,7 +178,7 @@ export function VirtualTour(base) {
             let num = state.num;
             console.log(num,'num')
             return (
-                <div className="virtualMap" onClick={e=>{e.stopPropagation()}} onDragLeave={e=>{e.stopPropagation()}}>
+                <div className="virtualMap"  onDragLeave={e=>{e.stopPropagation()}}>
                         <Map placeholder={i18n.t("VirtualTour.Search")}
                              state={state}
                              id={id}
