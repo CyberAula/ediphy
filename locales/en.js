@@ -131,6 +131,7 @@ var en = {
         "marks":{
             "add_mark": "Add mark",
             "add_mark_to": "Add mark to ",
+            "create_mark": "You are creating a new mark that links to a contained view. What would you like to name it?",
             "edit_mark_to": "Edit mark from ",
             "existing_content": "Existing content",
             "external_url": "External content",
@@ -142,7 +143,7 @@ var en = {
             "new_document": "New document",
             "new_slide": "New slide",
             "new_mark": "Nueva marca",
-            "value": "Value"
+            "value": "Value",
         },
         "messages": {
             "add_new_mark": "Add new mark",

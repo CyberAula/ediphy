@@ -24,37 +24,40 @@ export default class SearchBox extends React.Component {
     }
     onPlacesChanged() {
         if (this.props.onPlacesChanged) {
-            console.log(this.searchBox)
             let places = this.searchBox.getPlaces();
-            console.log(places)
              if (places && places.length > 0){
                  let geom = places[0].geometry.location;
-                 this.props.onPlacesChanged({map: this.props.id, lat: geom.lat(), lng: geom.lng()});
+                 let lat = Math.round(geom.lat() * 100000) / 100000;
+                 let lng = Math.round(geom.lng() * 100000) / 100000;
+                 let center = this.props.center;
+                 let num = this.props.num;
+                 let map = window.mapList[num];
+
+                 console.log('%cBEGIN***************'+num+'**************************', 'color: blue', 'PLACES');
+                 console.log('PRE-UPDATE STATE', 'PLACES', center.lat, center.lng, num);
+                 console.log('PRE-UPDATE STATE', 'PLACES', window.mapList[num] ? (window.mapList[num].center.lat() + ' ' + window.mapList[num].center.lng()):'');
+                 /* jshint ignore:start */
+                 map.setCenter(new google.maps.LatLng( lat, lng));
+                 /* jshint ignore:end*/
+                 console.log('POST-UPDATE STATE', 'PLACES', center.lat, center.lng, num);
+                 console.log('POST-UPDATE STATE', 'PLACES', window.mapList[num] ? (window.mapList[num].center.lat() + ' ' + window.mapList[num].center.lng()):'');
+                 console.log('%cEND***************'+num+'**************************', 'color: blue', 'PLACES');
+                 this.props.onPlacesChanged({map: this.props.id, lat: lat, lng: lng});
             }
         }
     }
     componentDidMount() {
         /* jshint ignore:start */
-        console.log(this.props.id, 'searchboxid')
         var input = ReactDOM.findDOMNode(this.refs["input-"+this.props.id]);
         this.searchBox = new google.maps.places.SearchBox(input);
         this.searchBoxListener = this.searchBox.addListener('places_changed', this.onPlacesChanged);
-        console.log(this.searchBox)
-        // this.searchBox.addListener('places_changed', this.onPlacesChanged);
         /* jshint ignore:end */
 
     }
 
     componentWillUnmount() {
+        /* jshint ignore:start */
         google.maps.event.removeListener(this.searchBoxListener);
-
-        if (this.searchBoxListener) {
-            try {
-                // this.props.maps.event.removeListener(this.searchBoxListener);
-                // this.searchBox.removeListener('places_changed', this.onPlacesChanged);
-            } catch(e){
-                console.error(e)
-            }
-        }
+        /* jshint ignore:end */
     }
 }

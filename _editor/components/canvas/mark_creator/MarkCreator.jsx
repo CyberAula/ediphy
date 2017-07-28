@@ -91,9 +91,12 @@ export default class MarkCreator extends Component {
                     let height =  square.bottom - square.top;
 
                     let richMarkValues = [];
-
-
-                    let value = parseRichMarkInput(x,y, width, height, richMarkValues, toolbarState );
+                    let promptRes = prompt(i18n.t("marks.create_mark"));
+                    if (promptRes === null) {
+                        return;
+                    }
+                     title = promptRes || title;
+                    let value = parseRichMarkInput(x,y, width, height, richMarkValues, toolbarState);
 
                     addMarkShortcut({id: ID_PREFIX_RICH_MARK + Date.now(), title, connectMode, connection, displayMode, value});
                     if(type === PAGE_TYPES.DOCUMENT) {

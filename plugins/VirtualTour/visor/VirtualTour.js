@@ -2,7 +2,7 @@ import React from "react";
 import GoogleMapReact from 'google-map-react';
 
 require('./../_virtualTour.scss');
-
+window.mapsVisor = [];
 export function VirtualTour(base) {
     return {
         getRenderTemplate: function (state,id) {
@@ -19,9 +19,9 @@ export function VirtualTour(base) {
                 return (<Mark key={e} text={e} lat={position[0]} lng={position[1]}/>);
 
             });
-            let lat = state.lat && parseFloat(state.lat) ? parseFloat(state.lat):0;
-            let lng = state.lng && parseFloat(state.lng) ? parseFloat(state.lng):0;
-            let zoom = state.zoom && !isNaN(parseFloat(state.zoom)) ? parseFloat(state.zoom):10;
+            let lat = state.config.lat && parseFloat(state.config.lat) ? parseFloat(state.config.lat):0;
+            let lng = state.config.lng && parseFloat(state.config.lng) ? parseFloat(state.config.lng):0;
+            let zoom = state.config.zoom && !isNaN(parseFloat(state.config.zoom)) ? parseFloat(state.config.zoom):10;
             let center = {lat: lat, lng: lng};
             return(
                 <div className="virtualMap" >
@@ -35,7 +35,11 @@ export function VirtualTour(base) {
                                 scrollwheel: true,
                                 gestureHandling: 'greedy'
                             }}
-                            resetBoundsOnResize = {true}>
+                            onGoogleApiLoaded={({map, maps}) => {
+                                window.mapsVisor[state.num] = map;
+                            }}
+                            resetBoundsOnResize={true}
+                            yesIWantToUseGoogleMapApiInternals={true}>
                             {markElements}
                         </GoogleMapReact>
                     </div>

@@ -129,6 +129,7 @@ var es = {
         "marks":{
           "add_mark": "Añadir marca",
           "add_mark_to": "Añadir marca a ",
+          "create_mark": "Estás creando una nueva marca que enlaza a una vista contenida. Cómo quieres llamarla?",
           "edit_mark_to": "Editar marca de ",
           "existing_content": "Contenido existente",
           "external_url": "Contenido externo",

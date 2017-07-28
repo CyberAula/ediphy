@@ -192,8 +192,18 @@ export default class DaliShortcuts extends Component {
         if (nextProps !== this.props){
            if (nextProps.box) {
                 this.resize("fromUpdate", nextProps);
-               let boxEl = document.getElementById('box-' + (this.props.box ? this.props.box.id:''));
-               if(boxEl) {boxEl.classList.remove('pointerEventsEnabled');}
+
+                // Removes pointer events allowance when box is changed
+                if (nextProps.box !== this.props.box){
+                    let boxEl = document.getElementById('box-' + (this.props.box ? this.props.box.id:''));
+                    if (boxEl) {
+                        boxEl.classList.remove('pointerEventsEnabled');
+                    }
+                    let pebutton = document.getElementById('pebutton');
+                    if (pebutton){
+                        pebutton.classList.remove('dtbSelected');
+                    }
+                }
             /*
                 let box = document.getElementById('box-' + nextProps.box.id);
                 let element = ReactDOM.findDOMNode(this.refs.innerContainer);
