@@ -1,13 +1,13 @@
 import React from "react";
 import i18n from 'i18next';
 import Map from './components/Map';
-import {OverlayTrigger, Tooltip} from 'react-bootstrap';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import ClickNHold from '../../_editor/components/rich_plugins/click_n_hold/ClickNHold';
 require('./_virtualTour.scss');
 window.mapList = [];
 export function VirtualTour(base) {
     return {
-        getConfig: function () {
+        getConfig: function() {
             return {
                 name: 'VirtualTour',
                 displayName: Dali.i18n.t('VirtualTour.PluginName'),
@@ -24,17 +24,17 @@ export function VirtualTour(base) {
                     name: i18n.t('VirtualTour.Coords'),
                     key: 'value',
                     format: '[Lat,Lng]',
-                    default: '40.452,-3.727'
+                    default: '40.452,-3.727',
                 }],
-                needsPointerEventsAllowed: true
+                needsPointerEventsAllowed: true,
             };
         },
-        getToolbar: function () {
+        getToolbar: function() {
             return {
                 main: {
                     __name: "Main",
                     accordions: {
-                        /*__basic: {
+                        /* __basic: {
                          __name: Dali.i18n.t('VirtualTour.map'),
                          icon: 'zoom_out_map',
                          buttons: {
@@ -72,30 +72,30 @@ export function VirtualTour(base) {
                                     type: 'number',
                                     value: 0,
                                     min: 0,
-                                    max: 100
+                                    max: 100,
                                 },
                                 backgroundColor: {
                                     __name: Dali.i18n.t('VirtualTour.background_color'),
                                     type: 'color',
-                                    value: '#ffffff'
+                                    value: '#ffffff',
                                 },
                                 borderWidth: {
                                     __name: Dali.i18n.t('VirtualTour.border_size'),
                                     type: 'number',
                                     value: 0,
                                     min: 0,
-                                    max: 10
+                                    max: 10,
                                 },
                                 borderStyle: {
                                     __name: Dali.i18n.t('VirtualTour.border_style'),
                                     type: 'radio',
                                     value: 'solid',
-                                    options: ['none', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset', 'initial', 'inherit']
+                                    options: ['none', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset', 'initial', 'inherit'],
                                 },
                                 borderColor: {
                                     __name: Dali.i18n.t('VirtualTour.border_color'),
                                     type: 'color',
-                                    value: '#000000'
+                                    value: '#000000',
                                 },
                                 borderRadius: {
                                     __name: Dali.i18n.t('VirtualTour.radius'),
@@ -110,51 +110,51 @@ export function VirtualTour(base) {
                                     value: 1,
                                     min: 0,
                                     max: 1,
-                                    step: 0.01
-                                }
-                            }
-                        }
-                    }
-                }
+                                    step: 0.01,
+                                },
+                            },
+                        },
+                    },
+                },
             };
         },
-        getRichMarkInput: function (state, MarkInput) {
+        getRichMarkInput: function(state, MarkInput) {
             /* jshint ignore:start */
             let div = <div><span>x,y</span><input onChange={(event) => {
                 MarkInput(event.target.value);
-            }}></input></div>;
+            }} /></div>;
             return div;
             /* jshint ignore:end */
         },
-        getInitialState: function () {
+        getInitialState: function() {
             return {
-                config:{
+                config: {
                     lat: 40.452,
                     lng: -3.727,
-                    zoom: 11
+                    zoom: 11,
                 },
-                num: window.mapList.length
+                num: window.mapList.length,
             };
         },
-        getRenderTemplate: function (state) {
+        getRenderTemplate: function(state) {
             /* jshint ignore:start */
-            if(window.mapList[state.num] ){
+            if(window.mapList[state.num]) {
                 let map = window.mapList[state.num];
                 let maps = window.google.maps;
                 let lati = state.lat;
                 let lngi = state.lng;
                 // map.setCenter(new maps.LatLng(lati, lngi));
                 // map.setZoom(state.zoom);
-                console.log('existing','map', map.center.lat(), map.center.lng(), 'state', lati,  lngi);
+                console.log('existing', 'map', map.center.lat(), map.center.lng(), 'state', lati, lngi);
             } else {
                 console.log('didntexist');
             }
 
             let id = "map-" + Date.now();
             let marks = state.__marks;
-            let markElements = Object.keys(marks).map((id) => {
-                let value = marks[id].value;
-                let title = marks[id].title;
+            let markElements = Object.keys(marks).map((idKey) => {
+                let value = marks[idKey].value;
+                let title = marks[idKey].title;
                 let position;
                 if (value && value.split(',').length === 2) {
                     position = value.split(',');
@@ -162,47 +162,46 @@ export function VirtualTour(base) {
                     position = [0, 0];
                 }
 
-                 return (<div lat={position[0]} lng={position[1]} draggable={false}>
-                             <ClickNHold onClickNHold={e=>{console.log('clicked and held')}}  time={3} mark={id} base={base}>
-                                 <OverlayTrigger key={id} text={title}   placement="top"  overlay={<Tooltip id={id}>{title}</Tooltip>}>
-                                     <a className="mapMarker" href="#">
-                                        <i key="i"  className="material-icons">room</i>
-                                     </a>
-                                 </OverlayTrigger>
-                             </ClickNHold>
-                        </div>);
+                return (<div lat={position[0]} lng={position[1]} draggable={false}>
+                    <ClickNHold onClickNHold={e=>{console.log('clicked and held');}} time={3} mark={idKey} base={base}>
+                        <OverlayTrigger key={idKey} text={title} placement="top" overlay={<Tooltip id={idKey}>{title}</Tooltip>}>
+                            <a className="mapMarker" href="#">
+                                <i key="i" className="material-icons">room</i>
+                            </a>
+                        </OverlayTrigger>
+                    </ClickNHold>
+                </div>);
             });
-
 
             window.num = state.num;
             let num = state.num;
-            console.log(num,'num')
+            console.log(num, 'num');
             return (
-                <div className="virtualMap"  onDragLeave={e=>{e.stopPropagation()}}>
-                        <Map placeholder={i18n.t("VirtualTour.Search")}
-                             state={state}
-                             id={id}
-                             update={(lat, lng, zoom, render)=>{
-                                 console.log('%cBEGIN***************'+num+'**************************', 'color: green','CHANGE');
-                                 console.log('PRE-UPDATE STATE', 'CHANGE', base.getState().config.lat, base.getState().config.lng, num);
-                                 console.log(state.config.lat, state.config.lng)
-                                 console.log('PRE-UPDATE STATE',  'CHANGE', window.mapList[num] ? (window.mapList[num].center.lat() + ' ' + window.mapList[num].center.lng()):'');
-                                 base.setState('config', {lat: lat, lng: lng, zoom: zoom} );
-                                 // if (render) base.render("UPDATE_TOOLBAR");
-                                 console.log('POST-UPDATE STATE',  'CHANGE', base.getState().config.lat, base.getState().config.lng, num);
-                                 console.log('POST-UPDATE STATE',  'CHANGE', window.mapList[num] ? (window.mapList[num].center.lat() + ' ' + window.mapList[num].center.lng()):'');
-                                 console.log('%cEND***************'+num+'**************************', 'color: green', 'CHANGE');
+                <div className="virtualMap" onDragLeave={e=>{e.stopPropagation();}}>
+                    <Map placeholder={i18n.t("VirtualTour.Search")}
+                        state={state}
+                        id={id}
+                        update={(lat, lng, zoom, render)=>{
+                            console.log('%cBEGIN***************' + num + '**************************', 'color: green', 'CHANGE');
+                            console.log('PRE-UPDATE STATE', 'CHANGE', base.getState().config.lat, base.getState().config.lng, num);
+                            console.log(state.config.lat, state.config.lng);
+                            console.log('PRE-UPDATE STATE', 'CHANGE', window.mapList[num] ? (window.mapList[num].center.lat() + ' ' + window.mapList[num].center.lng()) : '');
+                            base.setState('config', { lat: lat, lng: lng, zoom: zoom });
+                            // if (render) base.render("UPDATE_TOOLBAR");
+                            console.log('POST-UPDATE STATE', 'CHANGE', base.getState().config.lat, base.getState().config.lng, num);
+                            console.log('POST-UPDATE STATE', 'CHANGE', window.mapList[num] ? (window.mapList[num].center.lat() + ' ' + window.mapList[num].center.lng()) : '');
+                            console.log('%cEND***************' + num + '**************************', 'color: green', 'CHANGE');
 
-                             }}>
-                            {markElements}
-                        </Map>
+                        }}>
+                        {markElements}
+                    </Map>
                 </div>);
             /* jshint ignore:end */
         },
-        handleToolbar: function (name, value) {
+        handleToolbar: function(name, value) {
             base.setState(name, value);
         },
-        parseRichMarkInput: function (...value) {
+        parseRichMarkInput: function(...value) {
             /* jshint ignore:start */
             // base.render("UPDATE_BOX");
             // Mouse position relative to the box + offset for the bottom-center of the marker
@@ -217,17 +216,17 @@ export function VirtualTour(base) {
 
             let maps = google.maps;
             console.log('HHHHHHHHHHHHHHHHHHHHH');
-            console.log(window.mapList[num].center.lat(), latCenter )
-            console.log('%cBEGIN***************'+num+'**************************','color: #bada55', 'MARKER PLACE');
-            console.log('PRE-UPDATE STATE',  'MARKER PLACE', base.getState().config.lat, base.getState().config.lng, num);
-            console.log('PRE-UPDATE STATE',  'MARKER PLACE', window.mapList[num] ? (window.mapList[num].center.lat() + ' ' + window.mapList[num].center.lng()):'');
+            console.log(window.mapList[num].center.lat(), latCenter);
+            console.log('%cBEGIN***************' + num + '**************************', 'color: #bada55', 'MARKER PLACE');
+            console.log('PRE-UPDATE STATE', 'MARKER PLACE', base.getState().config.lat, base.getState().config.lng, num);
+            console.log('PRE-UPDATE STATE', 'MARKER PLACE', window.mapList[num] ? (window.mapList[num].center.lat() + ' ' + window.mapList[num].center.lng()) : '');
             let map = window.mapList[state.num];
             // base.setState('config',{lat: window.mapList[num].center.lat(), lng: window.mapList[num].center.lng(), zoom: window.mapList[num].getZoom()});
 
             // map.setCenter(new maps.LatLng(latCenter, lngCenter));
             // map.setZoom(zoom);
-            console.log('POST-UPDATE STATE',  'MARKER PLACE', base.getState().config.lat, base.getState().config.lng, num);
-            console.log('POST-UPDATE STATE',  'MARKER PLACE', window.mapList[num] ? (window.mapList[num].center.lat() + ' ' + window.mapList[num].center.lng()):'');
+            console.log('POST-UPDATE STATE', 'MARKER PLACE', base.getState().config.lat, base.getState().config.lng, num);
+            console.log('POST-UPDATE STATE', 'MARKER PLACE', window.mapList[num] ? (window.mapList[num].center.lat() + ' ' + window.mapList[num].center.lng()) : '');
 
             let topRight = map.getProjection().fromLatLngToPoint(map.getBounds().getNorthEast());
             let bottomLeft = map.getProjection().fromLatLngToPoint(map.getBounds().getSouthWest());
@@ -237,29 +236,28 @@ export function VirtualTour(base) {
             let latLng = map.getProjection().fromPointToLatLng(worldPoint);
             let lat = Math.round(latLng.lat() * 100000) / 100000;
             let lng = Math.round(latLng.lng() * 100000) / 100000;
-            console.log('%cEND***************'+num+'**************************', 'color: #bada55', 'MARKER PLACE');
+            console.log('%cEND***************' + num + '**************************', 'color: #bada55', 'MARKER PLACE');
 
             return lat + ',' + lng;
             /* jshint ignore:end */
 
         },
 
-        validateValueInput: function (value) {
+        validateValueInput: function(value) {
             let regex = /(^-*\d+(?:\.\d*)?),(-*\d+(?:\.\d*)?$)/g;
             let match = regex.exec(value);
             if (match && match.length === 3) {
                 let x = Math.round(parseFloat(match[1]) * 100000) / 100000;
                 let y = Math.round(parseFloat(match[2]) * 100000) / 100000;
                 if (isNaN(x) || isNaN(y)) {
-                    return {isWrong: true, message: i18n.t("VirtualTour.message_mark_xy")};
+                    return { isWrong: true, message: i18n.t("VirtualTour.message_mark_xy") };
                 }
                 value = x + ',' + y;
             } else {
-                return {isWrong: true, message: i18n.t("VirtualTour.message_mark_xy")};
+                return { isWrong: true, message: i18n.t("VirtualTour.message_mark_xy") };
             }
-            return {isWrong: false, value: value};
-        }
-
+            return { isWrong: false, value: value };
+        },
 
     };
 }

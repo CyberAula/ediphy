@@ -1,13 +1,13 @@
-import React, {Component} from 'react';
-import {Modal, Button, Row} from 'react-bootstrap';
+import React, { Component } from 'react';
+import { Modal, Button, Row } from 'react-bootstrap';
 import Dali from './../../../core/main';
-import {UPDATE_NAV_ITEM_EXTRA_FILES} from '../../../actions';
+import { UPDATE_NAV_ITEM_EXTRA_FILES } from '../../../actions';
 
 export default class XMLConfigModal extends Component {
     render() {
         return (
             /* jshint ignore:start */
-            <Modal className="pageModal pluginconfig" backdrop={true} bsSize="large" show={this.props.visible}>
+            <Modal className="pageModal pluginconfig" backdrop bsSize="large" show={this.props.visible}>
                 <Modal.Header>
                     <Modal.Title>XML Configuration</Modal.Title>
                 </Modal.Header>
@@ -28,14 +28,14 @@ export default class XMLConfigModal extends Component {
                         let state = Object.assign({}, this.props.toolbar.state);
                         let xml = this.generateXMLFromView(state);
                         $.ajax({
-                            url: state["__xml_path"] ? state["__xml_path"] : Dali.Config.xml_path,
-                            type: state["__xml_path"] ? 'PUT' : 'POST',
+                            url: state.__xml_path ? state.__xml_path : Dali.Config.xml_path,
+                            type: state.__xml_path ? 'PUT' : 'POST',
                             data: {
                                 url: window.location.pathname,
-                                xml: new XMLSerializer().serializeToString(xml)
+                                xml: new XMLSerializer().serializeToString(xml),
                             },
                             success: function(response, status, xhr) {
-                                if(!state.__xml_path){
+                                if(!state.__xml_path) {
                                     window.history.pushState({}, "", response.dali_document_path);
                                 }
                                 state.__xml_path = response.dali_exercise_path;
@@ -44,12 +44,12 @@ export default class XMLConfigModal extends Component {
                                 console.error("Could not save");
                             },
                             complete: function(xhr, status) {
-                                if(status === "error"){
+                                if(status === "error") {
                                     state.__xml_path = Dali.Config.xml_fake_path;
                                 }
                                 Dali.Plugins.get(this.props.toolbar.config.name).forceUpdate(state, this.props.id, UPDATE_NAV_ITEM_EXTRA_FILES);
                                 this.props.onXMLEditorToggled();
-                            }.bind(this)
+                            }.bind(this),
                         });
                     }}>Save changes</Button>
                 </Modal.Footer>
@@ -71,16 +71,16 @@ export default class XMLConfigModal extends Component {
     }
 
     generateViewFromXML(xml) {
-        var i, j, n;
-        //Esto es por si se quiere hacer diccionarios de palabras
-        var scormWords = ['tries', 'notaCorteGlobal', 'scoreBase', 'recordScore'];
+        let i, j, n;
+        // Esto es por si se quiere hacer diccionarios de palabras
+        let scormWords = ['tries', 'notaCorteGlobal', 'scoreBase', 'recordScore'];
 
-        var tipo = '', scorm = '', stuffItems = '', stuffItem = '', moreStuff = '', enunciado = '', preguntas = '', respuestas = '', preguntasArray = [], respuestasArray = [], solArr = [], feedBack = '';
+        let tipo = '', scorm = '', stuffItems = '', stuffItem = '', moreStuff = '', enunciado = '', preguntas = '', respuestas = '', preguntasArray = [], respuestasArray = [], solArr = [], feedBack = '';
 
         const colX12 = '<div class="col-xs-12">', colX6 = '<div class="col-xs-6">', colX4 = '<div class="col-xs-4">', colX3 = '<div class="col-xs-3">', close = '</div>', raw = '<div class="raw">';
-        var auxName = '', auxValue = '', auxTemplate = '';
+        let auxName = '', auxValue = '', auxTemplate = '';
 
-        var x = xml.getElementsByTagName('ITEMS');
+        let x = xml.getElementsByTagName('ITEMS');
 
         for (i = 0; i < x.length; i++) {
             for (j = 0; j < x[i].attributes.length; j++) {
@@ -98,11 +98,11 @@ export default class XMLConfigModal extends Component {
             }
         }
 
-        var y = xml.getElementsByTagName('ITEM');
+        let y = xml.getElementsByTagName('ITEM');
 
         for (i = 0; i < y.length; i++) {
 
-            for (var a = 0; a < y[i].attributes.length; a++) {
+            for (let a = 0; a < y[i].attributes.length; a++) {
                 auxName = y[i].attributes[a].name;
                 auxValue = y[i].attributes[a].value;
                 if (auxName === 'tipo') {
@@ -119,8 +119,8 @@ export default class XMLConfigModal extends Component {
                 }
             }
 
-            var numQuest = 0;
-            var numAns = 0;
+            let numQuest = 0;
+            let numAns = 0;
 
             for (n = 0; n < y[i].childNodes.length; n++) {
                 if (y[i].childNodes[n].tagName) {
@@ -153,16 +153,16 @@ export default class XMLConfigModal extends Component {
     }
 
     generateXMLFromView(state) {
-        var auxXml = state.__xml;
-        var inputs = this.refs.container.getElementsByTagName('input');
-        var x = auxXml.getElementsByTagName('ITEMS');
-        var y = auxXml.getElementsByTagName('ITEM');
-        var i;
+        let auxXml = state.__xml;
+        let inputs = this.refs.container.getElementsByTagName('input');
+        let x = auxXml.getElementsByTagName('ITEMS');
+        let y = auxXml.getElementsByTagName('ITEM');
+        let i;
 
-        var auxVisitado = '';
-        var numVisitado = 0;
-        var nameValue = '';
-        var payloadIndex = 0;
+        let auxVisitado = '';
+        let numVisitado = 0;
+        let nameValue = '';
+        let payloadIndex = 0;
 
         for (i = 0; i < inputs.length; i++) {
 

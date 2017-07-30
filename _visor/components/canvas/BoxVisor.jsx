@@ -1,7 +1,7 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import PluginPlaceholderVisor from './PluginPlaceholderVisor';
-import {isBox, isSortableBox, isView, isSortableContainer, isAncestorOrSibling} from './../../../utils';
+import { isBox, isSortableBox, isView, isSortableContainer, isAncestorOrSibling } from './../../../utils';
 
 export default class BoxVisor extends Component {
     constructor(props) {
@@ -9,8 +9,8 @@ export default class BoxVisor extends Component {
         this.borderSize = 2;
     }
     componentDidUpdate(prevProps, prevState) {
-        if(this.props.toolbars[this.props.id].config.needsTextEdition){
-            window.MathJax.Hub.Queue(["Typeset",window.MathJax.Hub]);
+        if(this.props.toolbars[this.props.id].config.needsTextEdition) {
+            window.MathJax.Hub.Queue(["Typeset", window.MathJax.Hub]);
         }
     }
     render() {
@@ -23,7 +23,7 @@ export default class BoxVisor extends Component {
         let textareaStyle = {
             position: 'absolute',
             resize: 'none',
-            //top: '0%', ** there is an error here
+            // top: '0%', ** there is an error here
             color: 'black',
             backgroundColor: 'white',
             padding: 0,
@@ -31,7 +31,7 @@ export default class BoxVisor extends Component {
             height: (toolbar.showTextEditor ? '' : '100%'),
             border: 'dashed black 1px',
             zIndex: 99999,
-            visibility: (toolbar.showTextEditor ? 'visible' : 'hidden')
+            visibility: (toolbar.showTextEditor ? 'visible' : 'hidden'),
         };
         let attrs = {};
         let width;
@@ -101,43 +101,38 @@ export default class BoxVisor extends Component {
             }
         }
 
-        //pass currentState  of component if exists
-        if(this.props.richElementsState && this.props.richElementsState[box.id] !== undefined){
-            if(toolbar.config.flavor === "react"){
+        // pass currentState  of component if exists
+        if(this.props.richElementsState && this.props.richElementsState[box.id] !== undefined) {
+            if(toolbar.config.flavor === "react") {
                 toolbar.state.currentState = this.props.richElementsState[box.id];
             } else {
                 toolbar.state.currentState = this.props.richElementsState[box.id];
             }
         }
+
+        /* TODO: Reasign object if is rich to have marks as property box.content.props*/
+
         let content = toolbar.config.flavor === "react" ? (
-            /* jshint ignore:start */
-            <div style={style} {...attrs} className={"boxStyle " + classNames} ref={"content"}>
-                {Dali.Visor.Plugins[toolbar.config.name].getRenderTemplate(toolbar.state, box.id)}  {/*TODO: Reasign object if is rich to have marks as property box.content.props*/}
-            </div>
-            /* jshint ignore:end */
+            <div style={style} {...attrs} className={"boxStyle " + classNames} ref={"content"}>{Dali.Visor.Plugins[toolbar.config.name].getRenderTemplate(toolbar.state, box.id)}</div>
         ) : (
-            /* jshint ignore:start */
             <div style={style} {...attrs} className={"boxStyle " + classNames} ref={"content"}>
-                {this.renderChildren(Dali.Visor.Plugins.get(toolbar.config.name).export(toolbar.state, toolbar.config.name, box.children.length !== 0, this.props.id),0)}
+                {this.renderChildren(Dali.Visor.Plugins.get(toolbar.config.name).export(toolbar.state, toolbar.config.name, box.children.length !== 0, this.props.id), 0)}
             </div>
-            /* jshint ignore:end */
         );
         let border = (
-                /* jshint ignore:start */
-                <div style={{visibility: (vis ? 'visible' : 'hidden')}}>
-                    <div style={{
+            /* jshint ignore:start */
+            <div style={{ visibility: (vis ? 'visible' : 'hidden') }}>
+                <div style={{
                     position: 'absolute',
                     top: -(this.borderSize),
                     left: -(this.borderSize),
                     width: '100%',
                     height: '100%',
-                    boxSizing: 'content-box'
-                }}>
-                    </div>
-                </div>
-                /* jshint ignore:end */
-            );
-
+                    boxSizing: 'content-box',
+                }} />
+            </div>
+            /* jshint ignore:end */
+        );
 
         let classes = "wholeboxvisor";
         if (box.container) {
@@ -169,22 +164,22 @@ export default class BoxVisor extends Component {
         return (
             /* jshint ignore:start */
             <div className={classes} id={'box-' + this.props.id}
-                 style={{
+                style={{
                     position: box.position.type,
                     left: box.position.x ? box.position.x : "",
                     top: box.position.y ? box.position.y : "",
                     width: width,
                     height: height,
-                    verticalAlign: verticalAlign
+                    verticalAlign: verticalAlign,
                 }}>
                 {border}
                 {content}
                 {toolbar.state.__text ?
                     <div id={box.id}
-                         ref={"textarea"}
-                         className={classNames + " textAreaStyle"}
-                         contentEditable={true}
-                         style={textareaStyle}></div> :
+                        ref={"textarea"}
+                        className={classNames + " textAreaStyle"}
+                        contentEditable
+                        style={textareaStyle} /> :
                     null
                 }
             </div>
@@ -192,8 +187,8 @@ export default class BoxVisor extends Component {
         );
     }
 
-    __getMarkKeys(marks){
-        var markKeys = {};
+    __getMarkKeys(marks) {
+        let markKeys = {};
         Object.keys(marks).map((mark) =>{
             let inner_mark = marks[mark];
             let value = inner_mark.value.toString();
@@ -207,58 +202,57 @@ export default class BoxVisor extends Component {
         let props = {};
         let children = null;
         switch (markup.node) {
-            case 'element':
-                if (markup.attr) {
-                    props = markup.attr;
-                }
-                props.key = key;
-                if (markup.tag === 'plugin') {
-                    component = PluginPlaceholderVisor;
-                    let resizable = markup.attr.hasOwnProperty("plugin-data-resizable");
-                    props = Object.assign({}, props, {
-                        pluginContainer: markup.attr["plugin-data-id"],
-                        resizable: resizable,
-                        parentBox: this.props.boxes[this.props.id],
-                        boxes: this.props.boxes,
-                        boxSelected: this.props.boxSelected,
-                        boxLevelSelected: this.props.boxLevelSelected,
-                        toolbars: this.props.toolbars,
-                        lastActionDispatched: this.props.lastActionDispatched,
-                        onBoxSelected: this.props.onBoxSelected,
-                        onBoxLevelIncreased: this.props.onBoxLevelIncreased,
-                        currentViewSelected: this.props.currentViewSelected,
-                        onBoxMoved: this.props.onBoxMoved,
-                        onBoxResized: this.props.onBoxResized,
-                        onSortableContainerResized: this.props.onSortableContainerResized,
-                        onBoxDeleted: this.props.onBoxDeleted,
-                        onBoxDropped: this.props.onBoxDropped,
-                        onVerticallyAlignBox: this.props.onVerticallyAlignBox,
-                        onBoxModalToggled: this.props.onBoxModalToggled,
-                        onBoxesInsideSortableReorder: this.props.onBoxesInsideSortableReorder,
-                        onTextEditorToggled: this.props.onTextEditorToggled
-                    });
-                } else {
-                    component = markup.tag;
-                }
-                break;
-            case 'text':
-                component = "span";
-                props = {key: key};
-                children = [decodeURI(markup.text)];
-                break;
-            case 'root':
-                component = "div";
-                props = {style: {width: '100%', height: '100%'}};
-                break;
+        case 'element':
+            if (markup.attr) {
+                props = markup.attr;
+            }
+            props.key = key;
+            if (markup.tag === 'plugin') {
+                component = PluginPlaceholderVisor;
+                let resizable = markup.attr.hasOwnProperty("plugin-data-resizable");
+                props = Object.assign({}, props, {
+                    pluginContainer: markup.attr["plugin-data-id"],
+                    resizable: resizable,
+                    parentBox: this.props.boxes[this.props.id],
+                    boxes: this.props.boxes,
+                    boxSelected: this.props.boxSelected,
+                    boxLevelSelected: this.props.boxLevelSelected,
+                    toolbars: this.props.toolbars,
+                    lastActionDispatched: this.props.lastActionDispatched,
+                    onBoxSelected: this.props.onBoxSelected,
+                    onBoxLevelIncreased: this.props.onBoxLevelIncreased,
+                    currentViewSelected: this.props.currentViewSelected,
+                    onBoxMoved: this.props.onBoxMoved,
+                    onBoxResized: this.props.onBoxResized,
+                    onSortableContainerResized: this.props.onSortableContainerResized,
+                    onBoxDeleted: this.props.onBoxDeleted,
+                    onBoxDropped: this.props.onBoxDropped,
+                    onVerticallyAlignBox: this.props.onVerticallyAlignBox,
+                    onBoxModalToggled: this.props.onBoxModalToggled,
+                    onBoxesInsideSortableReorder: this.props.onBoxesInsideSortableReorder,
+                    onTextEditorToggled: this.props.onTextEditorToggled,
+                });
+            } else {
+                component = markup.tag;
+            }
+            break;
+        case 'text':
+            component = "span";
+            props = { key: key };
+            children = [decodeURI(markup.text)];
+            break;
+        case 'root':
+            component = "div";
+            props = { style: { width: '100%', height: '100%' } };
+            break;
         }
 
         Object.keys(props).forEach(prop => {
             if (prop.startsWith("on")) {
                 let value = props[prop];
                 if (typeof value === "string") {
-                    /* jshint ignore:start */
+                    // eslint-disable-next-line
                     props[prop] = new Function(value);
-                    /* jshint ignore:end */
                 }
             }
         });
@@ -266,7 +260,7 @@ export default class BoxVisor extends Component {
         if (markup.child) {
             if (markup.child.length === 1 && markup.child[0].node === "text") {
                 props.dangerouslySetInnerHTML = {
-                    __html: decodeURI(markup.child[0].text)
+                    __html: decodeURI(markup.child[0].text),
                 };
             } else {
                 children = [];

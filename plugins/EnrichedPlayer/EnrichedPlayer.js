@@ -5,7 +5,7 @@ require('./EnrichedPlayer.scss');
 
 export function EnrichedPlayer(base) {
     return {
-        getConfig: function () {
+        getConfig: function() {
             return {
                 name: "EnrichedPlayer",
                 flavor: "react",
@@ -14,10 +14,10 @@ export function EnrichedPlayer(base) {
                 category: "multimedia",
                 initialWidth: '30%',
                 icon: "play_arrow",
-                marksType: [{name: i18n.t("EnrichedPlayer.pos"), key: 'value', format: '[x%]', default: '50%'}]
+                marksType: [{ name: i18n.t("EnrichedPlayer.pos"), key: 'value', format: '[x%]', default: '50%' }],
             };
         },
-        getToolbar: function () {
+        getToolbar: function() {
             return {
                 main: {
                     __name: "Main",
@@ -30,15 +30,15 @@ export function EnrichedPlayer(base) {
                                     __name: Dali.i18n.t('EnrichedPlayer.URL'),
                                     type: 'text',
                                     value: base.getState().url,
-                                    autoManaged: false
+                                    autoManaged: false,
                                 },
                                 controls: {
                                     __name: Dali.i18n.t('EnrichedPlayer.Show_controls'),
                                     type: 'checkbox',
                                     checked: base.getState().controls,
-                                    autoManaged: false
+                                    autoManaged: false,
                                 },
-                            }
+                            },
                         },
                         style: {
                             __name: Dali.i18n.t('EnrichedPlayer.box_style'),
@@ -49,32 +49,32 @@ export function EnrichedPlayer(base) {
                                     type: 'number',
                                     value: 0,
                                     min: 0,
-                                    max: 100
+                                    max: 100,
                                 },
                                 borderWidth: {
                                     __name: Dali.i18n.t('EnrichedPlayer.border_size'),
                                     type: 'number',
                                     value: 0,
                                     min: 0,
-                                    max: 10
+                                    max: 10,
                                 },
                                 borderStyle: {
                                     __name: Dali.i18n.t('EnrichedPlayer.border_style'),
                                     type: 'select',
                                     value: 'solid',
-                                    options: ['none', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset', 'initial', 'inherit']
+                                    options: ['none', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset', 'initial', 'inherit'],
                                 },
                                 borderColor: {
                                     __name: Dali.i18n.t('EnrichedPlayer.border_color'),
                                     type: 'color',
-                                    value: '#000000'
+                                    value: '#000000',
                                 },
                                 borderRadius: {
                                     __name: Dali.i18n.t('EnrichedPlayer.radius'),
                                     type: 'number',
                                     value: 0,
                                     min: 0,
-                                    max: 50
+                                    max: 50,
                                 },
                                 opacity: {
                                     __name: Dali.i18n.t('EnrichedPlayer.opacity'),
@@ -82,53 +82,53 @@ export function EnrichedPlayer(base) {
                                     value: 1,
                                     min: 0,
                                     max: 1,
-                                    step: 0.05
-                                }
+                                    step: 0.05,
+                                },
 
-                            }
-                        }
-                    }
-                }
+                            },
+                        },
+                    },
+                },
             };
         },
-        getInitialState: function () {
+        getInitialState: function() {
             return {
                 url: "https://www.youtube.com/watch?v=vTIIMJ9tUc8",
-                controls: true
+                controls: true,
             };
         },
-        getRenderTemplate: function (state) {
+        getRenderTemplate: function(state) {
 
             return (
                 /* jshint ignore:start */
-                <div style={{width:"100%", height:"100%"}}>
-                    <EnrichedPlayerPlugin style={{width:"100%", height:"100%"}} state={state} postParseRichMarkInput={base.postParseRichMarkInput}></EnrichedPlayerPlugin>
+                <div style={{ width: "100%", height: "100%" }}>
+                    <EnrichedPlayerPlugin style={{ width: "100%", height: "100%" }} state={state} postParseRichMarkInput={base.postParseRichMarkInput} />
                 </div>
                 /* jshint ignore:end */
             );
         },
-        parseRichMarkInput: function(...value){
-            let parsed_value = (value[0]+10)*100/value[2];
+        parseRichMarkInput: function(...value) {
+            let parsed_value = (value[0] + 10) * 100 / value[2];
             return parsed_value.toFixed(2) + "%";
         },
-        handleToolbar: function (name, value) {
+        handleToolbar: function(name, value) {
             base.setState(name, value);
         },
-        validateValueInput: function(value){
-            let regex =  /(^\d+(?:\.\d*)?%$)/g;
+        validateValueInput: function(value) {
+            let regex = /(^\d+(?:\.\d*)?%$)/g;
             let match = regex.exec(value);
-            if (match && match.length === 2){
+            if (match && match.length === 2) {
                 let val = Math.round(parseFloat(match[1]) * 100) / 100;
                 if (isNaN(val) || val > 100) {
-                    return {isWrong: true, message: i18n.t("EnrichedPlayer.message_mark_percentage")};
+                    return { isWrong: true, message: i18n.t("EnrichedPlayer.message_mark_percentage") };
                 }
                 value = val + '%';
             } else {
-                return {isWrong: true, message: i18n.t("EnrichedPlayer.message_mark_percentage")};
+                return { isWrong: true, message: i18n.t("EnrichedPlayer.message_mark_percentage") };
             }
-            return {isWrong: false, value: value};
+            return { isWrong: false, value: value };
 
-        }
+        },
 
     };
 }

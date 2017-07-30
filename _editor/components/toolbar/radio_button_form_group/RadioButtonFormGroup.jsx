@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import { FormGroup, ControlLabel, Tooltip, OverlayTrigger} from 'react-bootstrap';
+import React, { Component } from 'react';
+import { FormGroup, ControlLabel, Tooltip, OverlayTrigger } from 'react-bootstrap';
 
 /*
 Radio Button that displays material icons instead of plain text options
@@ -17,39 +17,37 @@ Example usage:
 export default class RadioButtonFormGroup extends Component {
     constructor(props) {
         super(props);
-        
 
     }
-    tooltip(text){
-      return (
+    tooltip(text) {
+        return (
         /* jshint ignore:start */ 
-         <Tooltip id="tooltip_radio">{text}</Tooltip>
+            <Tooltip id="tooltip_radio">{text}</Tooltip>
         /* jshint ignore:end */ 
-      );
+        );
     }
     render() {
-       /* jshint ignore:start */ 
-      return  React.createElement(FormGroup, {},
-                    React.createElement(ControlLabel, {key: 'label'}, this.props.title), <br key="space"/>,
-                        this.props.options
-                            .map((option, index) => {
-                                return (<OverlayTrigger placement="top" key={'item_' + index} overlay={this.props.tooltips ? this.tooltip(this.props.tooltips[index]) :  this.tooltip(option)}>
-                                          {React.createElement('button', 
-                                            {value: option, 
-                                             className: (this.props.selected === option ? 'ribShortcut selectedAlignment' : 'ribShortcut unselectedAlignment'), 
-                                             onClick: e => {this.props.click(option); e.stopPropagation();}
-                                            }, 
-                                            <i className="material-icons">{this.props.icons[index]}</i>)}
-                                        </OverlayTrigger>)
-                            })
-                    )
-                
-       /* jshint ignore:end */
+        /* jshint ignore:start */ 
+        return React.createElement(FormGroup, {},
+            React.createElement(ControlLabel, { key: 'label' }, this.props.title), <br key="space"/>,
+            this.props.options
+                .map((option, index) => {
+                    return (<OverlayTrigger placement="top" key={'item_' + index} overlay={this.props.tooltips ? this.tooltip(this.props.tooltips[index]) : this.tooltip(option)}>
+                        {React.createElement('button',
+                            { value: option,
+                                className: (this.props.selected === option ? 'ribShortcut selectedAlignment' : 'ribShortcut unselectedAlignment'),
+                                onClick: e => {this.props.click(option); e.stopPropagation();},
+                            },
+                            <i className="material-icons">{this.props.icons[index]}</i>)}
+                    </OverlayTrigger>);
+                })
+        );
+
+        /* jshint ignore:end */
     }
 
     componentWillUpdate(nextProps, nextState) {
-          return true;
+        return true;
     }
 }
 
- 

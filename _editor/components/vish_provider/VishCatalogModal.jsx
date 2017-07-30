@@ -1,6 +1,6 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import {Modal, FormControl, Col, Form, FormGroup, ControlLabel, Button} from 'react-bootstrap';
+import { Modal, FormControl, Col, Form, FormGroup, ControlLabel, Button } from 'react-bootstrap';
 
 export default class VishCatalogModal extends Component {
     constructor(props) {
@@ -10,23 +10,23 @@ export default class VishCatalogModal extends Component {
     render() {
         return (
             /* jshint ignore:start */
-            <Modal className="pageModal" backdrop={true} bsSize="large" show={this.props.visible}>
+            <Modal className="pageModal" backdrop bsSize="large" show={this.props.visible}>
                 <Modal.Header>
                     <Modal.Title>IMÁGENES SUBIDAS</Modal.Title>
                 </Modal.Header>
 
                 <Modal.Body>
-                    <Form style={{minHeight: 250}}>
+                    <Form style={{ minHeight: 250 }}>
                         <FormGroup>
                             {(this.props.state || this.props.images.length !== 0) ? this.props.images.map((item, index) => {
                                 return (
                                     <img key={index}
-                                         src={item}
-                                         style={{
+                                        src={item}
+                                        style={{
                                             width: 160,
                                             height: 160,
-                                            border: "solid transparent 3px"
-                                         }} />
+                                            border: "solid transparent 3px",
+                                        }} />
                                 );
                             }) : <div className="alert alert-info">No has subido ninguna imagen a este proyecto</div>}
                         </FormGroup>

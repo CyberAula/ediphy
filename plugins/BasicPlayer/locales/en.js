@@ -14,6 +14,6 @@ module.exports = {
         "padding": "Padding",
         "PluginName": "Basic Player",
         "radius": "Radius",
-        "source": "Source"
-    }
+        "source": "Source",
+    },
 };

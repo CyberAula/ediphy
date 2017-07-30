@@ -1,9 +1,9 @@
-import {combineReducers} from 'redux';
+import { combineReducers } from 'redux';
 import undoable from 'redux-undo';
-import {ADD_BOX, SELECT_BOX, INCREASE_LEVEL, INDEX_SELECT, SELECT_NAV_ITEM, EXPAND_NAV_ITEM, UPDATE_NAV_ITEM_EXTRA_FILES, TOGGLE_TEXT_EDITOR,
-    DELETE_RICH_MARK, ADD_RICH_MARK,DELETE_CONTAINED_VIEW,
-    TOGGLE_TITLE_MODE, CHANGE_DISPLAY_MODE, SET_BUSY, IMPORT_STATE, FETCH_VISH_RESOURCES_SUCCESS, UPDATE_BOX, UPLOAD_IMAGE} from './../actions';
-import {isSortableBox} from './../utils';
+import { ADD_BOX, SELECT_BOX, INCREASE_LEVEL, INDEX_SELECT, SELECT_NAV_ITEM, EXPAND_NAV_ITEM, UPDATE_NAV_ITEM_EXTRA_FILES, TOGGLE_TEXT_EDITOR,
+    DELETE_RICH_MARK, ADD_RICH_MARK, DELETE_CONTAINED_VIEW,
+    TOGGLE_TITLE_MODE, CHANGE_DISPLAY_MODE, SET_BUSY, IMPORT_STATE, FETCH_VISH_RESOURCES_SUCCESS, UPDATE_BOX, UPLOAD_IMAGE } from './../actions';
+import { isSortableBox } from './../utils';
 import boxesById from './boxes_by_id';
 import boxLevelSelected from './box_level_selected';
 import boxSelected from './box_selected';
@@ -16,95 +16,92 @@ import navItemSelected from './nav_item_selected';
 import toolbarsById from './toolbars_by_id';
 import globalConfig from './global_config';
 
-
 function changeDisplayMode(state = "", action = {}) {
     switch (action.type) {
-        case CHANGE_DISPLAY_MODE:
-            return action.payload.mode;
-        case IMPORT_STATE:
-            return action.payload.present.displayMode || state;
-        default:
-            return state;
+    case CHANGE_DISPLAY_MODE:
+        return action.payload.mode;
+    case IMPORT_STATE:
+        return action.payload.present.displayMode || state;
+    default:
+        return state;
     }
 }
 
 function isBusy(state = "", action = {}) {
     switch (action.type) {
-        case SET_BUSY:
-            return action.payload;
-        case IMPORT_STATE:
-            return action.payload.present.isBusy || state;
-        default:
-            return state;
+    case SET_BUSY:
+        return action.payload;
+    case IMPORT_STATE:
+        return action.payload.present.isBusy || state;
+    default:
+        return state;
     }
 }
 
-
-function fetchVishResults(state = {results: []}, action = {}) {
+function fetchVishResults(state = { results: [] }, action = {}) {
     switch (action.type) {
-        case FETCH_VISH_RESOURCES_SUCCESS:
-            return action.payload.result;
-        default:
-            return state;
+    case FETCH_VISH_RESOURCES_SUCCESS:
+        return action.payload.result;
+    default:
+        return state;
     }
 }
 
-function imagesUploaded(state = [], action = {}){
-    switch(action.type){
-        case UPLOAD_IMAGE:
-            return state.concat(action.payload.url);
-        default:
-            return state;
+function imagesUploaded(state = [], action = {}) {
+    switch(action.type) {
+    case UPLOAD_IMAGE:
+        return state.concat(action.payload.url);
+    default:
+        return state;
     }
 }
-
 
 const GlobalState = undoable(combineReducers({
     globalConfig: globalConfig,
     imagesUploaded: imagesUploaded, // [img0, img1]
-    boxesById: boxesById, //{0: box0, 1: box1}
-    boxSelected: boxSelected, //0
-    boxLevelSelected: boxLevelSelected, //0
+    boxesById: boxesById, // {0: box0, 1: box1}
+    boxSelected: boxSelected, // 0
+    boxLevelSelected: boxLevelSelected, // 0
     indexSelected: indexSelected,
-    navItemsIds: navItemsIds, //[0, 1]
+    navItemsIds: navItemsIds, // [0, 1]
     navItemSelected: navItemSelected, // 0
     navItemsById: navItemsById, // {0: navItem0, 1: navItem1}
     containedViewsById: containedViewsById, // {0: containedView0, 1: containedView1}
-    containedViewSelected: containedViewSelected, //0
-    displayMode: changeDisplayMode, //"list",
+    containedViewSelected: containedViewSelected, // 0
+    displayMode: changeDisplayMode, // "list",
     toolbarsById: toolbarsById, // {0: toolbar0, 1: toolbar1}
     isBusy: isBusy,
-    fetchVishResults: fetchVishResults
+    fetchVishResults: fetchVishResults,
 }), {
     filter: (action, currentState, previousState) => {
-         switch (action.type) {
-             case CHANGE_DISPLAY_MODE:
-             case EXPAND_NAV_ITEM:
-             case IMPORT_STATE:
-             case INCREASE_LEVEL:
-             case INDEX_SELECT:
-             case SELECT_BOX:
-             case SELECT_NAV_ITEM:
-             case SET_BUSY:
-             case TOGGLE_TEXT_EDITOR:
-             case TOGGLE_TITLE_MODE:
-             case UPDATE_NAV_ITEM_EXTRA_FILES:
-             case UPDATE_BOX:
-             /*case DELETE_RICH_MARK:
+        switch (action.type) {
+        case CHANGE_DISPLAY_MODE:
+        case EXPAND_NAV_ITEM:
+        case IMPORT_STATE:
+        case INCREASE_LEVEL:
+        case INDEX_SELECT:
+        case SELECT_BOX:
+        case SELECT_NAV_ITEM:
+        case SET_BUSY:
+        case TOGGLE_TEXT_EDITOR:
+        case TOGGLE_TITLE_MODE:
+        case UPDATE_NAV_ITEM_EXTRA_FILES:
+        case UPDATE_BOX:
+            /* case DELETE_RICH_MARK:
              case ADD_RICH_MARK:*/
-                return false;
+            return false;
         }
 
-        if(action.type === ADD_BOX){
+        if(action.type === ADD_BOX) {
             if(action.payload.initialParams && action.payload.initialParams.isDefaultPlugin) {
                 return false;
-            }else if (isSortableBox(action.payload.ids.id)){
+            }else if (isSortableBox(action.payload.ids.id)) {
                 return false;
             }
         }
 
         return currentState !== previousState; // only add to history if state changed
-    }
+    },
 });
 
 export default GlobalState;

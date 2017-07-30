@@ -16,7 +16,7 @@
     "both": "npm run start-webpack & npm run watch-sass",
     "start-webpack": "webpack-dev-server --progress",
     "watch-sass": "node-sass -w sass/style.scss -o dist/css/compiledsass.css",
-    "eslint": "eslint ./"
+    "eslint": "eslint  --fix  --ext .jsx --ext .js --ext .es6 "
   },
   "devDependencies": {
     "async": "^2.1.2",

@@ -1,10 +1,10 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import DaliCanvasSli from '../dali_canvas_sli/DaliCanvasSli';
 import DaliCanvasDoc from '../dali_canvas_doc/DaliCanvasDoc';
-import {ADD_BOX,REORDER_SORTABLE_CONTAINER} from '../../../../actions';
+import { ADD_BOX, REORDER_SORTABLE_CONTAINER } from '../../../../actions';
 import Dali from './../../../../core/main';
-import {isSlide, isSection} from './../../../../utils';
+import { isSlide, isSection } from './../../../../utils';
 
 require('./_canvas.scss');
 
@@ -12,7 +12,7 @@ export default class DaliCanvas extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            showTitle: false
+            showTitle: false,
         };
     }
 
@@ -50,7 +50,6 @@ export default class DaliCanvas extends Component {
                 toolbars={this.props.toolbars}
                 showCanvas={this.props.showCanvas}
             />;
-
 
             /* jshint ignore:end */
         }else{
@@ -100,27 +99,26 @@ export default class DaliCanvas extends Component {
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.boxSelected !== -1) {
-            this.setState({showTitle: false});
+            this.setState({ showTitle: false });
         }
         if (this.props.navItemSelected.id !== nextProps.navItemSelected.id) {
             document.getElementById('maincontent').scrollTop = 0;
         }
     }
     componentDidUpdate(prevProps, prevState) {
-        //Fixes bug when reordering dalibox sortable CKEDITOR doesn't update otherwise
-        if(this.props.lastActionDispatched.type === REORDER_SORTABLE_CONTAINER){
+        // Fixes bug when reordering dalibox sortable CKEDITOR doesn't update otherwise
+        if(this.props.lastActionDispatched.type === REORDER_SORTABLE_CONTAINER) {
             for (let instance in CKEDITOR.instances) {
                 CKEDITOR.instances[instance].destroy();
             }
             CKEDITOR.inlineAll();
-            for (let editor in CKEDITOR.instances){
+            for (let editor in CKEDITOR.instances) {
                 if (this.props.toolbars[editor].state.__text) {
                     CKEDITOR.instances[editor].setData(decodeURI(this.props.toolbars[editor].state.__text));
                 }
             }
         }
     }
-
 
 }
 

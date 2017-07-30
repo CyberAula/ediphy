@@ -3,6 +3,6 @@ module.exports = {
         "box_style": "Estilo caja",
         "classname": "Nombres de clases",
         "padding": "Padding",
-        "PluginName": "Texto básico"
-    }
+        "PluginName": "Texto básico",
+    },
 };

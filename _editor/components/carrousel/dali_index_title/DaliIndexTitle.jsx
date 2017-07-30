@@ -1,30 +1,29 @@
-import React, {Component} from 'react';
-import {isPage, isSection} from './../../../../utils';
-import {FormGroup, ControlLabel, FormControl} from 'react-bootstrap';
+import React, { Component } from 'react';
+import { isPage, isSection } from './../../../../utils';
+import { FormGroup, ControlLabel, FormControl } from 'react-bootstrap';
 import ReactDOM from 'react-dom';
 import Dali from './../../../../core/main';
 import i18n from 'i18next';
-
 
 require('./_daliIndexTitle.scss');
 
 export default class DaliIndexTitle extends Component {
 
-    getDefaultValue(){
-        if (isPage(this.props.id)){
+    getDefaultValue() {
+        if (isPage(this.props.id)) {
             return i18n.t("page");
-        } else if(isSection(this.props.id)){
+        } else if(isSection(this.props.id)) {
             return i18n.t("section");
-        } else {
-            return "Blank";
         }
+        return "Blank";
+
     }
 
     constructor(props) {
         super(props);
         this.state = {
             editing: false,
-            currentValue: this.props.title
+            currentValue: this.props.title,
         };
     }
 
@@ -32,55 +31,55 @@ export default class DaliIndexTitle extends Component {
         return (
             /* jshint ignore:start */
             <span>
-            {!this.state.editing ?
-                (<div className="actualSectionTitle"
-                        style={{textDecoration: this.props.hidden ? "line-through" : "initial"}}
+                {!this.state.editing ?
+                    (<div className="actualSectionTitle"
+                        style={{ textDecoration: this.props.hidden ? "line-through" : "initial" }}
                         onDoubleClick={e => {
                             this.setState({ editing: !this.state.editing });
-                            if (this.state.editing) { /*Save changes to Redux state*/
+                            if (this.state.editing) { /* Save changes to Redux state*/
                                 this.props.onNameChanged(this.props.id, this.state.currentValue);
 
                             // Synchronize current component state with Redux state when entering edition mode
                             } else {
-                                this.setState({currentValue: this.props.title});
+                                this.setState({ currentValue: this.props.title });
                             }
                             e.stopPropagation();
-                     }}>
-                    {Dali.Config.show_numbers_before_navitems ? this.props.index : ""} {this.props.title}
-                </div>) :
-                (<FormControl
-                    type="text"
-                    ref="titleIndex"
-                    className={this.props.id ? "editSectionTitle" : "editTitle"}
-                    value={this.state.currentValue}
-                    autoFocus
-                    onKeyDown={e=> {
-                        if (e.keyCode == 13) { // Enter Key
+                        }}>
+                        {Dali.Config.show_numbers_before_navitems ? this.props.index : ""} {this.props.title}
+                    </div>) :
+                    (<FormControl
+                        type="text"
+                        ref="titleIndex"
+                        className={this.props.id ? "editSectionTitle" : "editTitle"}
+                        value={this.state.currentValue}
+                        autoFocus
+                        onKeyDown={e=> {
+                            if (e.keyCode === 13) { // Enter Key
+                                this.setState({ editing: !this.state.editing });
+                                this.props.onNameChanged(this.props.id, (this.state.currentValue.length > 0) ? this.state.currentValue : this.getDefaultValue());
+                            }
+                            if (e.keyCode === 27) { // Escape key
+                                this.setState({ editing: !this.state.editing });
+                            }
+                        }}
+                        onFocus={e => {
+                        /* Select all the content when enter edition mode*/
+                            e.target.setSelectionRange(0, e.target.value.length);
+
+                        }}
+                        onChange={e => {
+                        /* Save it on component state, not Redux*/
+                            this.setState({ currentValue: e.target.value });
+                        }}
+                        onBlur={e => {
+                        /* Change to non-edition mode*/
                             this.setState({ editing: !this.state.editing });
                             this.props.onNameChanged(this.props.id, (this.state.currentValue.length > 0) ? this.state.currentValue : this.getDefaultValue());
-                        }
-                        if (e.keyCode == 27) { // Escape key
-                            this.setState({editing: !this.state.editing});
-                        }
-                    }}
-                    onFocus={e => {
-                        /*Select all the content when enter edition mode*/
-                        e.target.setSelectionRange(0, e.target.value.length);
-
-                    }}
-                    onChange={e => {
-                        /*Save it on component state, not Redux*/
-                        this.setState({currentValue: e.target.value});
-                    }}
-                    onBlur={e => {
-                        /*Change to non-edition mode*/
-                        this.setState({editing: !this.state.editing});
-                        this.props.onNameChanged(this.props.id, (this.state.currentValue.length > 0) ? this.state.currentValue : this.getDefaultValue());
-                    }} />
-                )
-            }
-            <i className="material-icons"
-              style={{position: "absolute", right: "0", color: this.props.hidden ? "gray" : "white"}}>{this.props.hidden ? "visibility_off" : ""}</i>
+                        }} />
+                    )
+                }
+                <i className="material-icons"
+                    style={{ position: "absolute", right: "0", color: this.props.hidden ? "gray" : "white" }}>{this.props.hidden ? "visibility_off" : ""}</i>
             </span>
             /* jshint ignore:end */
         );

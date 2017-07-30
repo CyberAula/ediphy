@@ -20,7 +20,7 @@
     "no-dupe-keys": 1,
     "no-duplicate-case": 0,
     "no-empty-character-class": 1,
-    "no-empty": 1,
+//    "no-empty": 1,
     "no-ex-assign": 1,
     "no-extra-boolean-cast": 1,
     "no-extra-parens": 0,
@@ -37,7 +37,7 @@
     "no-unexpected-multiline": 1,
     "no-unreachable": 1,
     "use-isnan": 1,
-    "valid-jsdoc": 1,
+//    "valid-jsdoc": 1,                            !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     "valid-typeof": 1,
 
     /* Best Practices */
@@ -51,7 +51,7 @@
     "dot-location": [1, "property"],
     "eqeqeq": 1,
     "guard-for-in": 0,
-    "no-alert": 1,
+//    "no-alert": 1,
     "no-caller": 1,
     "no-div-regex": 1,
     "no-else-return": 1,
@@ -66,7 +66,7 @@
     "no-iterator": 1,
 //    "no-labels": 1,
     "no-lone-blocks": 1,
-    "no-loop-func": 1,
+//    "no-loop-func": 1,
     "no-multi-spaces": 1,
     "no-multi-str": 1,
     "no-native-reassign": 1,
@@ -104,9 +104,9 @@
     "no-shadow": 1,
     "no-undef-init": 1,
 //    "no-undef": 1,
-    "no-undefined": 1,
+//    "no-undefined": 1,
 //    "no-unused-vars": [1, { "vars": "local", "args": "after-used" }],
-    "no-use-before-define": 1,
+//    "no-use-before-define": 1,
 
     /* Node.js */
     "handle-callback-err": 1,
@@ -131,7 +131,7 @@
     "key-spacing": [1, { "beforeColon": false, "afterColon": true }],
     "linebreak-style": 0,
     "max-nested-callbacks": [0, 3],
-    "new-cap": 0, // see Babel section
+//    "new-cap": 0, // see Babel section
     "new-parens": 1,
     "newline-after-var": 0,
     "no-array-constructor": 1,
@@ -148,7 +148,7 @@
     "no-underscore-dangle": 0,
     "no-unneeded-ternary": 1,
     "object-curly-spacing": 0, // see Babel section
-    "one-var": [1, "never"],
+//    "one-var": [1, "never"],
 //    "operator-assignment": [1, "never"],
     "padded-blocks": [0, "never"],
     "quote-props": [0, "as-needed"],
@@ -181,12 +181,12 @@
 //    "babel/object-shorthand": [1, "always"],
     // "babel/generator-star": 1, // deprecated
 //    "babel/generator-star-spacing": [1, "after"],
-    "babel/new-cap": 1,
+//    "babel/new-cap": 1,
     "babel/object-curly-spacing": [1, "always"],
     // "babel/space-in-brackets": 1, // deprecated
 
     /* React */
-    "react/display-name": 1,
+//    "react/display-name": 1,
     "react/jsx-boolean-value": 1,
     "react/jsx-no-duplicate-props": 1,
 //    "react/jsx-no-undef": 1,
@@ -197,7 +197,7 @@
     "react/no-danger": 1,
     "react/no-did-mount-set-state": 1,
     "react/no-did-update-set-state": 1,
-    "react/no-multi-comp": 1,
+//    "react/no-multi-comp": 1,
     "react/no-unknown-property": 1,
 //    "react/prop-types": 1,
     "react/react-in-jsx-scope": 1,

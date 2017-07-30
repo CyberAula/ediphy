@@ -1,5 +1,5 @@
 export default {
-    xml_path: "dali_documents/add_xml", //"http://lamas.dit.upm.es:3000/dali_documents/add_xml",
+    xml_path: "dali_documents/add_xml", // "http://lamas.dit.upm.es:3000/dali_documents/add_xml",
     xml_fake_path: "exercises/ua2_ue10_ejer7.xml",
     exercise_render_template_iframe_src: "./exercises/index.html",
     dist_index: "dist/index.html",
@@ -24,11 +24,11 @@ export default {
         'VirtualTour',
         'Webpage',
         'GraficaD3',
-        'HotspotImages'
+        'HotspotImages',
 
     ],
-    availableLanguages:[
+    availableLanguages: [
         'en',
-        'es'
-    ]
+        'es',
+    ],
 };

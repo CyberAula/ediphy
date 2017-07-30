@@ -1,22 +1,20 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import DaliBox from '../dali_box/DaliBox';
 import DaliBoxSortable from '../dali_box_sortable/DaliBoxSortable';
 import DaliShortcuts from '../dali_shortcuts/DaliShortcuts';
-import {Col, Button} from 'react-bootstrap';
+import { Col, Button } from 'react-bootstrap';
 import DaliHeader from '../dali_header/DaliHeader';
 import interact from 'interact.js';
-import {ADD_BOX} from '../../../../actions';
+import { ADD_BOX } from '../../../../actions';
 import Dali from './../../../../core/main';
-import {isSortableBox} from './../../../../utils';
-
-
+import { isSortableBox } from './../../../../utils';
 
 export default class DaliCanvasDoc extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            showTitle: false
+            showTitle: false,
         };
     }
 
@@ -32,7 +30,7 @@ export default class DaliCanvasDoc extends Component {
             titles.reverse();
         }
 
-        let maincontent = document.getElementById(this.props.fromCV ? "contained_maincontent":"maincontent");
+        let maincontent = document.getElementById(this.props.fromCV ? "contained_maincontent" : "maincontent");
         let actualHeight;
         if (maincontent) {
             actualHeight = parseInt(maincontent.scrollHeight, 10);
@@ -40,7 +38,7 @@ export default class DaliCanvasDoc extends Component {
         }
 
         let overlayHeight = actualHeight ? actualHeight : '100%';
-        /*let isSection = this.props.navItemSelected.id.toString().indexOf('se') !== -1;
+        /* let isSection = this.props.navItemSelected.id.toString().indexOf('se') !== -1;
         let contentAllowedInSections = Dali.Config.sections_have_content;
         let showCanvas = (!isSection || (isSection && contentAllowedInSections));*/
         let itemSelected = this.props.fromCV ? this.props.containedViewSelected : this.props.navItemSelected;
@@ -48,14 +46,13 @@ export default class DaliCanvasDoc extends Component {
         return (
             /* jshint ignore:start */
 
+            <Col id={this.props.fromCV ? 'containedCanvas' : 'canvas'} md={12} xs={12} className="canvasDocClass"
+                style={{ display: this.props.containedViewSelected !== 0 && !this.props.fromCV ? 'none' : 'initial' }}>
 
-            <Col id={this.props.fromCV ? 'containedCanvas':'canvas'} md={12} xs={12} className="canvasDocClass"
-                 style={{display: this.props.containedViewSelected !== 0 && !this.props.fromCV ? 'none' : 'initial'}}>
-
-                 <div className="scrollcontainer" style={{backgroundColor: !this.props.navItemSelected || this.props.navItemSelected.id === 0 ? 'transparent' : 'white'}}>
-                 <DaliHeader titles={titles}
+                <div className="scrollcontainer" style={{ backgroundColor: !this.props.navItemSelected || this.props.navItemSelected.id === 0 ? 'transparent' : 'white' }}>
+                    <DaliHeader titles={titles}
                         showButtons={this.state.showTitle}
-                        onShowTitle={()=>this.setState({showTitle:true})}
+                        onShowTitle={()=>this.setState({ showTitle: true })}
                         onBoxSelected={this.props.onBoxSelected}
                         courseTitle={this.props.title}
                         title={this.props.navItemSelected.name}
@@ -65,10 +62,10 @@ export default class DaliCanvasDoc extends Component {
                         containedViews={this.props.containedViews}
                         titleModeToggled={this.props.titleModeToggled}
                         onUnitNumberChanged={this.props.onUnitNumberChanged}
-                        showButton={true}
-                        />
-                <div className="outter canvaseditor">
-                    {/*
+                        showButton
+                    />
+                    <div className="outter canvaseditor">
+                        {/*
                     {this.props.fromCV ?  (<button className="btnOverBar cvBackButton" style={{margin: "10px 0px 0px 10px"}}
                              onClick={e => {
                                  this.props.onContainedViewSelected(0);
@@ -76,108 +73,106 @@ export default class DaliCanvasDoc extends Component {
                              }}><i className="material-icons">undo</i></button>):(<br/>)}
                      */}
 
-                    <div id={this.props.fromCV ? 'airlayer_cv':'airlayer'}
-                    className={'doc_air'}
-                    style={{visibility: (this.props.showCanvas ? 'visible' : 'hidden') }}>
+                        <div id={this.props.fromCV ? 'airlayer_cv' : 'airlayer'}
+                            className={'doc_air'}
+                            style={{ visibility: (this.props.showCanvas ? 'visible' : 'hidden') }}>
 
-                        <div id={this.props.fromCV ? "contained_maincontent":"maincontent"}
-                             onClick={e => {
-                            this.props.onBoxSelected(-1);
-                            this.setState({showTitle:false});
-                            e.stopPropagation();
-                           }}
-                             className={'innercanvas doc'}
-                             style={{visibility: (this.props.showCanvas ? 'visible' : 'hidden')}}>
+                            <div id={this.props.fromCV ? "contained_maincontent" : "maincontent"}
+                                onClick={e => {
+                                    this.props.onBoxSelected(-1);
+                                    this.setState({ showTitle: false });
+                                    e.stopPropagation();
+                                }}
+                                className={'innercanvas doc'}
+                                style={{ visibility: (this.props.showCanvas ? 'visible' : 'hidden') }}>
 
-                            <br/>
+                                <br/>
 
-
-                            <div id={this.props.fromCV ? "contained_canvas_boxes":"canvas_boxes"}
-                                 style={{
-                                    width: "100%",
-                                    background: "black",
-                                    height: overlayHeight,
-                                    position: "absolute",
-                                    top: 0,
-                                    opacity: 0.4,
-                                    display:(this.props.boxLevelSelected > 0) ? "block" : "none",
-                                    visibility: (this.props.boxLevelSelected > 0) ? "visible" : "collapse"
-                                }}></div>
-
+                                <div id={this.props.fromCV ? "contained_canvas_boxes" : "canvas_boxes"}
+                                    style={{
+                                        width: "100%",
+                                        background: "black",
+                                        height: overlayHeight,
+                                        position: "absolute",
+                                        top: 0,
+                                        opacity: 0.4,
+                                        display: (this.props.boxLevelSelected > 0) ? "block" : "none",
+                                        visibility: (this.props.boxLevelSelected > 0) ? "visible" : "collapse",
+                                    }} />
 
                                 {boxes.map(id => {
                                     let box = boxes[id];
                                     if (!isSortableBox(id)) {
                                         return <DaliBox key={id}
-                                                        id={id}
-                                                        addMarkShortcut={this.props.addMarkShortcut}
-                                                        boxes={this.props.boxes}
-                                                        boxSelected={this.props.boxSelected}
-                                                        boxLevelSelected={this.props.boxLevelSelected}
-                                                        containedViewSelected={this.props.containedViewSelected}
-                                                        deleteMarkCreator={this.props.deleteMarkCreator}
-                                                        lastActionDispatched={this.props.lastActionDispatched}
-                                                        markCreatorId={this.props.markCreatorId}
-                                                        onBoxAdded={this.props.onBoxAdded}
-                                                        onBoxSelected={this.props.onBoxSelected}
-                                                        onBoxLevelIncreased={this.props.onBoxLevelIncreased}
-                                                        onBoxMoved={this.props.onBoxMoved}
-                                                        onBoxResized={this.props.onBoxResized}
-                                                        onSortableContainerResized={this.props.onSortableContainerResized}
-                                                        onBoxesInsideSortableReorder={this.props.onBoxesInsideSortableReorder}
-                                                        onBoxDropped={this.props.onBoxDropped}
-                                                        onVerticallyAlignBox={this.props.onVerticallyAlignBox}
-                                                        onBoxModalToggled={this.props.onBoxModalToggled}
-                                                        onTextEditorToggled={this.props.onTextEditorToggled}
-                                                        toolbars={this.props.toolbars}
-                                                        pageType={itemSelected.type||0}/>
-                                    } else {
-                                        return <DaliBoxSortable key={id}
-                                                                id={id}
-                                                                addMarkShortcut={this.props.addMarkShortcut}
-                                                                boxes={this.props.boxes}
-                                                                boxSelected={this.props.boxSelected}
-                                                                boxLevelSelected={this.props.boxLevelSelected}
-                                                                containedViewSelected={this.props.containedViewSelected}
-                                                                toolbars={this.props.toolbars}
-                                                                lastActionDispatched={this.props.lastActionDispatched}
-                                                                deleteMarkCreator={this.props.deleteMarkCreator}
-                                                                markCreatorId={this.props.markCreatorId}
-                                                                onBoxAdded={this.props.onBoxAdded}
-                                                                onBoxSelected={this.props.onBoxSelected}
-                                                                onBoxLevelIncreased={this.props.onBoxLevelIncreased}
-                                                                onBoxMoved={this.props.onBoxMoved}
-                                                                onBoxResized={this.props.onBoxResized}
-                                                                onBoxesInsideSortableReorder={this.props.onBoxesInsideSortableReorder}
-                                                                onSortableContainerResized={this.props.onSortableContainerResized}
-                                                                onSortableContainerDeleted={this.props.onSortableContainerDeleted}
-                                                                onSortableContainerReordered={this.props.onSortableContainerReordered}
-                                                                onBoxDropped={this.props.onBoxDropped}
-                                                                onVerticallyAlignBox={this.props.onVerticallyAlignBox}
-                                                                onBoxModalToggled={this.props.onBoxModalToggled}
-                                                                onTextEditorToggled={this.props.onTextEditorToggled}
-                                                                pageType={itemSelected.type||0}/>
+                                            id={id}
+                                            addMarkShortcut={this.props.addMarkShortcut}
+                                            boxes={this.props.boxes}
+                                            boxSelected={this.props.boxSelected}
+                                            boxLevelSelected={this.props.boxLevelSelected}
+                                            containedViewSelected={this.props.containedViewSelected}
+                                            deleteMarkCreator={this.props.deleteMarkCreator}
+                                            lastActionDispatched={this.props.lastActionDispatched}
+                                            markCreatorId={this.props.markCreatorId}
+                                            onBoxAdded={this.props.onBoxAdded}
+                                            onBoxSelected={this.props.onBoxSelected}
+                                            onBoxLevelIncreased={this.props.onBoxLevelIncreased}
+                                            onBoxMoved={this.props.onBoxMoved}
+                                            onBoxResized={this.props.onBoxResized}
+                                            onSortableContainerResized={this.props.onSortableContainerResized}
+                                            onBoxesInsideSortableReorder={this.props.onBoxesInsideSortableReorder}
+                                            onBoxDropped={this.props.onBoxDropped}
+                                            onVerticallyAlignBox={this.props.onVerticallyAlignBox}
+                                            onBoxModalToggled={this.props.onBoxModalToggled}
+                                            onTextEditorToggled={this.props.onTextEditorToggled}
+                                            toolbars={this.props.toolbars}
+                                            pageType={itemSelected.type || 0}/>;
                                     }
+                                    return <DaliBoxSortable key={id}
+                                        id={id}
+                                        addMarkShortcut={this.props.addMarkShortcut}
+                                        boxes={this.props.boxes}
+                                        boxSelected={this.props.boxSelected}
+                                        boxLevelSelected={this.props.boxLevelSelected}
+                                        containedViewSelected={this.props.containedViewSelected}
+                                        toolbars={this.props.toolbars}
+                                        lastActionDispatched={this.props.lastActionDispatched}
+                                        deleteMarkCreator={this.props.deleteMarkCreator}
+                                        markCreatorId={this.props.markCreatorId}
+                                        onBoxAdded={this.props.onBoxAdded}
+                                        onBoxSelected={this.props.onBoxSelected}
+                                        onBoxLevelIncreased={this.props.onBoxLevelIncreased}
+                                        onBoxMoved={this.props.onBoxMoved}
+                                        onBoxResized={this.props.onBoxResized}
+                                        onBoxesInsideSortableReorder={this.props.onBoxesInsideSortableReorder}
+                                        onSortableContainerResized={this.props.onSortableContainerResized}
+                                        onSortableContainerDeleted={this.props.onSortableContainerDeleted}
+                                        onSortableContainerReordered={this.props.onSortableContainerReordered}
+                                        onBoxDropped={this.props.onBoxDropped}
+                                        onVerticallyAlignBox={this.props.onVerticallyAlignBox}
+                                        onBoxModalToggled={this.props.onBoxModalToggled}
+                                        onTextEditorToggled={this.props.onTextEditorToggled}
+                                        pageType={itemSelected.type || 0}/>;
+
                                 })}
+                            </div>
                         </div>
                     </div>
                 </div>
-                </div>
                 <DaliShortcuts
-                     box={this.props.boxes[this.props.boxSelected]}
-                     containedViewSelected={this.props.containedViewSelected}
-                     isContained={this.props.fromCV}
-                     onTextEditorToggled={this.props.onTextEditorToggled}
-                     onBoxResized={this.props.onBoxResized}
-                     onBoxDeleted={this.props.onBoxDeleted}
-                     onMarkCreatorToggled={this.props.onMarkCreatorToggled}
-                     toolbar={this.props.toolbars[this.props.boxSelected]}/>
+                    box={this.props.boxes[this.props.boxSelected]}
+                    containedViewSelected={this.props.containedViewSelected}
+                    isContained={this.props.fromCV}
+                    onTextEditorToggled={this.props.onTextEditorToggled}
+                    onBoxResized={this.props.onBoxResized}
+                    onBoxDeleted={this.props.onBoxDeleted}
+                    onMarkCreatorToggled={this.props.onMarkCreatorToggled}
+                    toolbar={this.props.toolbars[this.props.boxSelected]}/>
             </Col>
             /* jshint ignore:end */
         );
     }
 
-    componentWillUnmount(){
+    componentWillUnmount() {
         // interact(ReactDOM.findDOMNode(this)).unset();
     }
 

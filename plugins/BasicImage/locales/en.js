@@ -9,6 +9,6 @@ module.exports = {
         "padding": "Padding",
         "PluginName": "Basic Image",
         "radius": "Radius",
-        "source": "Source"
-    }
+        "source": "Source",
+    },
 };
