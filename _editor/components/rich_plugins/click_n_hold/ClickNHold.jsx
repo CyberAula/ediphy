@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
-require('./_click_n_hold.scss')
+require('./_click_n_hold.scss');
 /*
 * <ClickNHold onClickNHold={e=>{...}} // callback
 *             time={2}>   // time to hold (secs)
@@ -14,7 +14,7 @@ export default class ClickNHold extends Component {
             holding: false,
             start: 0,
             ended: false
-        }
+        };
         this.start = this.start.bind(this);
         this.end = this.end.bind(this);
         this.timeout = this.timeout.bind(this);
@@ -22,7 +22,6 @@ export default class ClickNHold extends Component {
     }
 
     start(e){
-        console.log('start')
         let ended = this.state.ended;
         this.setState({start: Date.now(), holding: true, ended: false});
         if(!ended) {
@@ -59,7 +58,10 @@ export default class ClickNHold extends Component {
         classList += this.state.holding ? 'holding ':'';
         classList += this.state.ended ? 'ended ':'';
         classList += this.state.editing ? 'editing':'';
+
         return (
+            /* jshint ignore:start */
+
             <div className={classList}
                      onMouseDown={this.start}
                      onTouchStart={this.start}
@@ -67,7 +69,10 @@ export default class ClickNHold extends Component {
                      onTouchCancel={this.end}
                      onTouchEnd={this.end}>
                 {this.props.children}
-            </div>);
+            </div>
+            /* jshint ignore:end */
+
+        );
     }
     overlay(e) {
         let myself = ReactDOM.findDOMNode(this);
@@ -121,7 +126,9 @@ export default class ClickNHold extends Component {
 
      collectionHas(a, b) { //helper function (see below)
         for(var i = 0, len = a.length; i < len; i ++) {
-            if(a[i] == b) return true;
+            if(a[i] === b) {
+                return true;
+            }
         }
         return false;
     }

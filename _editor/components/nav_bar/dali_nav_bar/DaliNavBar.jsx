@@ -7,7 +7,6 @@ import i18n from 'i18next';
 import {isSection, isSlide} from './../../../../utils';
 import Dali from './../../../../core/main';
 import {toggleFullScreen, isFullScreenOn} from './../../../../common_tools';
-
 require('./_navBar.scss');
 
 export default class DaliNavBar extends Component {
