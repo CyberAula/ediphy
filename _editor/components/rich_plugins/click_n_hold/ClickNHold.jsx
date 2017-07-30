@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 require('./_click_n_hold.scss');
 /*
@@ -13,7 +13,7 @@ export default class ClickNHold extends Component {
         this.state = {
             holding: false,
             start: 0,
-            ended: false
+            ended: false,
         };
         this.start = this.start.bind(this);
         this.end = this.end.bind(this);
@@ -21,60 +21,51 @@ export default class ClickNHold extends Component {
         this.overlay = this.overlay.bind(this);
     }
 
-    start(e){
+    start() {
         let ended = this.state.ended;
-        this.setState({start: Date.now(), holding: true, ended: false});
-        if(!ended) {
-            setTimeout(this.timeout, this.props.time*1000+1);
+        this.setState({ start: Date.now(), holding: true, ended: false });
+        if (!ended) {
+            setTimeout(this.timeout, this.props.time * 1000 + 1);
         }
     }
-    end(e) {
-       /* console.log('end')
-        let endTime = Date.now();
-        let minDiff = this.props.time*1000; // In seconds
-        let startTime = this.state.start;
-        let diff = endTime - startTime;
-        let isEnough = diff >= minDiff; // It has been held for enough time*/
-        this.setState({start: 0, holding: false, ended: true});
-            /*if (isEnough) {
-                this.props.onClickNHold(e);
-            }*/
+
+    end() {
+        this.setState({ start: 0, holding: false, ended: true });
         // e.stopPropagation()
     }
-    timeout(e){
-        if (!this.state.ended){
-            if(this.props.onClickNHold){
+
+    timeout(e) {
+        if (!this.state.ended) {
+            if (this.props.onClickNHold) {
                 this.props.onClickNHold(e);
-                this.setState({ended: false, holding: false, editing: true});
-                this.overlay(e);
+                this.setState({ ended: false, holding: false, editing: true });
+                this.overlay();
                 return;
             }
         }
-        this.setState({ended: false, editing: false});
+        this.setState({ ended: false, editing: false });
 
     }
+
     render() {
         let classList = '';
-        classList += this.state.holding ? 'holding ':'';
-        classList += this.state.ended ? 'ended ':'';
-        classList += this.state.editing ? 'editing':'';
+        classList += this.state.holding ? 'holding ' : '';
+        classList += this.state.ended ? 'ended ' : '';
+        classList += this.state.editing ? 'editing' : '';
 
         return (
-            /* jshint ignore:start */
-
             <div className={classList}
-                     onMouseDown={this.start}
-                     onTouchStart={this.start}
-                     onMouseUp={this.end}
-                     onTouchCancel={this.end}
-                     onTouchEnd={this.end}>
+                onMouseDown={this.start}
+                onTouchStart={this.start}
+                onMouseUp={this.end}
+                onTouchCancel={this.end}
+                onTouchEnd={this.end}>
                 {this.props.children}
             </div>
-            /* jshint ignore:end */
-
         );
     }
-    overlay(e) {
+
+    overlay() {
         let myself = ReactDOM.findDOMNode(this);
         let dropableElement = this.findParentBySelector(myself, '.dropableRichZone');
         let overlay = document.createElement("div");
@@ -98,35 +89,32 @@ export default class ClickNHold extends Component {
         let base = this.props.base;
         let toolbarState = base.getState();
         let parseRichMarkInput = this.props.base.parseRichMarkInput;
-        let id = this.props.mark;
-        overlay.onclick = function(e){
-            let square = this.getClientRects()[0];
+        const id = this.props.mark;
+        overlay.onclick = function(event) {
+            const square = this.getClientRects()[0];
             let marks = Object.assign({}, toolbarState.__marks);
-            let x = e.clientX - square.left  - cursor_x_offset;//e.offsetX;
-            let y = e.clientY - square.top - cursor_y_offset ;//e.offsetY;
-            let width = square.right - square.left;
-            let height =  square.bottom - square.top;
-
-
-            let value = parseRichMarkInput(x, y, width, height, [], toolbarState);
+            const x = event.clientX - square.left - cursor_x_offset;// event.offsetX;
+            const y = event.clientY - square.top - cursor_y_offset;// event.offsetY;
+            const width = square.right - square.left;
+            const height = square.bottom - square.top;
+            const value = parseRichMarkInput(x, y, width, height, [], toolbarState);
             if (marks[id]) {
                 marks[id].value = value;
             }
             overlay.remove();
-            dropableElement.classList.remove("rich_overlay");
-            component.setState({editing: false});
+            dropableElement.classList.remove('rich_overlay');
+            component.setState({ editing: false });
             base.setState('__marks', marks);
-            base.render("UPDATE_BOX");
+            base.render('UPDATE_BOX');
         };
         dropableElement.parentElement.appendChild(overlay);
         /* OVERLAY */
 
     }
 
-
-     collectionHas(a, b) { //helper function (see below)
-        for(var i = 0, len = a.length; i < len; i ++) {
-            if(a[i] === b) {
+    collectionHas(a, b) { // helper function (see below)
+        for (let i = 0, len = a.length; i < len; i++) {
+            if (a[i] === b) {
                 return true;
             }
         }
@@ -134,11 +122,12 @@ export default class ClickNHold extends Component {
     }
 
     findParentBySelector(elm, selector) {
-        var all = document.querySelectorAll(selector);
-        var cur = elm.parentNode;
-        while(cur && !this.collectionHas(all, cur)) { //keep going up until you find a match
-            cur = cur.parentNode; //go up
+        const all = document.querySelectorAll(selector);
+        let cur = elm.parentNode;
+        while (cur && !this.collectionHas(all, cur)) {// keep going up until you find a match
+            cur = cur.parentNode;// go up
         }
-        return cur; //will return null if not found
+        return cur;// will return null if not found
     }
 }
+

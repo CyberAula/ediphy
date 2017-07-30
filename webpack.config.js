@@ -15,14 +15,20 @@ module.exports = {
         'js/visor': './_visor/containers/EditorVisor.jsx',
     },
     module: {
-        preLoaders: [
+        /*preLoaders: [
             {
                 test: /\.(es6|jsx|js)$/,
                 exclude: [/node_modules/],
                 loader: 'jshint-loader'
             }
+        ],*/
+        preLoaders: [
+            {
+                test: /\.(es6|jsx|js)$/,
+                exclude: [/node_modules/],
+                loader: 'eslint-loader'
+            }
         ],
-
         loaders: [
             {
                 test: /\.es6$/,
@@ -81,6 +87,8 @@ module.exports = {
         contentBase: './dist',
         hot: true
     },
+
+    eslint: { configFile: './.eslintrc' },
     jshint: {
         // http://www.jshint.com/docs/options/
 
