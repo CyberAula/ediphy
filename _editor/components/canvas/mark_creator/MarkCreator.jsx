@@ -82,7 +82,12 @@ export default class MarkCreator extends Component {
 
                 let displayMode = 'navigate';
                 /* NEW MARK DEFAULT PARAMS*/
-
+                overlay.oncontextmenu = function(event) {
+                    overlay.remove();
+                    dropableElement.classList.remove('rich_overlay');
+                    deleteMarkCreator();
+                    component.setState({ onCreation: false });
+                };
                 overlay.onclick = function(e) {
                     let square = this.getClientRects()[0];
                     let x = e.clientX - square.left - cursor_x_offset;// e.offsetX;

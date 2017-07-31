@@ -94,6 +94,12 @@ export default class ClickNHold extends Component {
         let toolbarState = base.getState();
         let parseRichMarkInput = this.props.base.parseRichMarkInput;
         const id = this.props.mark;
+        overlay.oncontextmenu = function(event) {
+            overlay.remove();
+            dropableElement.classList.remove('rich_overlay');
+            component.setState({ editing: false });
+            base.render('UPDATE_BOX');
+        };
         overlay.onclick = function(event) {
             const square = this.getClientRects()[0];
             let marks = Object.assign({}, toolbarState.__marks);
