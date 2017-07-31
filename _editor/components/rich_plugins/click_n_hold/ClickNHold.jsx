@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+
 require('./_click_n_hold.scss');
 /*
 * <ClickNHold onClickNHold={e=>{...}} // callback

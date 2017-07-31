@@ -62,7 +62,7 @@ export default class MarkCreator extends Component {
                 let connection = {
                     id: newId,
                     parent: [this.props.boxSelected],
-                    name: i18n.t('contained_view'),
+                    name: this.nextAvailName(),
                     boxes: [],
                     type: type,
                     extraFiles: {},
@@ -124,6 +124,23 @@ export default class MarkCreator extends Component {
         }
     }
 
+    nextAvailName() {
+        let names = [];
+        for (let view in this.props.containedViews) {
+            if (this.props.containedViews[view].name && this.props.containedViews[view].name.indexOf(i18n.t('contained_view')) !== -1) {
+                let replaced = this.props.containedViews[view].name.replace(i18n.t('contained_view') + " ", "");
+                let num = parseInt(replaced, 10);
+                if (!isNaN(num)) {
+                    names.push(num);
+                }
+            }
+        }
+        if (names.length > 0) {
+            return i18n.t('contained_view') + " " + (Math.max(...names) + 1);
+        }
+        return i18n.t('contained_view') + " " + 1;
+
+    }
     componentDidUpdate(nextProps) {
 
     }

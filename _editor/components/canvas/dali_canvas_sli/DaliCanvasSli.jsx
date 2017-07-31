@@ -116,6 +116,7 @@ export default class DaliCanvasSli extends Component {
                                 boxes={this.props.boxes}
                                 boxSelected={this.props.boxSelected}
                                 boxLevelSelected={this.props.boxLevelSelected}
+                                containedViews={this.props.containedViews}
                                 containedViewSelected={this.props.containedViewSelected}
                                 toolbars={this.props.toolbars}
                                 lastActionDispatched={this.props.lastActionDispatched}
