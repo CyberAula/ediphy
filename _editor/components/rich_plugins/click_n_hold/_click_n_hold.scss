@@ -58,6 +58,10 @@
   -webkit-background-clip: text;
   mix-blend-mode: multiply;
   background-size:  100% 0;
-  -webkit-animation: stripes 3s forwards infinite;
-  animation: stripes 3s forward infinite;
+  -webkit-animation: stripes 3s forwards ;
+  animation: stripes 3s forwards;
+}
+
+.editing {
+ cursor : url("https://storage.googleapis.com/material-icons/external-assets/v4/icons/svg/ic_room_white_24px.svg") 12 20, crosshair;
 }

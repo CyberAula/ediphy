@@ -30,8 +30,9 @@ export default class ClickNHold extends Component {
         setTimeout(function() {this.timeout(start);}.bind(this), time * 1000 + 1);
     }
 
-    end() {
+    end(event) {
         this.setState({ start: 0, holding: false, ended: true });
+
         // e.stopPropagation()
     }
 
@@ -40,12 +41,12 @@ export default class ClickNHold extends Component {
             if (this.props.onClickNHold) {
                 this.props.onClickNHold(start);
             }
-            this.setState({ ended: false, holding: false, editing: true });
+            this.setState({ ended: true, holding: false, editing: true });
             this.overlay();
             return;
 
         }
-        this.setState({ ended: false, editing: false });
+        this.setState({ ended: true, editing: false });
 
     }
 
@@ -60,7 +61,7 @@ export default class ClickNHold extends Component {
                 onMouseDown={this.start}
                 onTouchStart={this.start}
                 onMouseUp={this.end}
-                onMouseLeave={this.end}
+                // onMouseLeave={this.end}
                 onTouchCancel={this.end}
                 onTouchEnd={this.end}
                 onDoubleClick={(e)=>e.stopPropagation()}
@@ -75,6 +76,7 @@ export default class ClickNHold extends Component {
         let dropableElement = this.findParentBySelector(myself, '.dropableRichZone');
         let overlay = document.createElement("div");
         overlay.classList.add('overlay');
+        overlay.id = 'overlay';
 
         /* OVERLAY */
         dropableElement.classList.add("rich_overlay");
@@ -89,7 +91,7 @@ export default class ClickNHold extends Component {
         overlay.style.cursor = 'url("https://storage.googleapis.com/material-icons/external-assets/v4/icons/svg/ic_room_white_24px.svg") ' + cursor_x_offset + ' ' + cursor_y_offset + ', crosshair';
         let base = this.props.base;
         let toolbarState = base.getState();
-        let parseRichMarkInput = this.props.base.parseRichMarkInput;
+        let parseRichMarkInput = base.parseRichMarkInput;
         let editing = this.state.editing;
         const id = this.props.mark;
 
@@ -114,7 +116,7 @@ export default class ClickNHold extends Component {
             exitFunction();
             event.preventDefault();
         };
-        overlay.onclick = function(event) {
+        overlay.onmouseup = function(event) {
             const square = this.getClientRects()[0];
             let marks = Object.assign({}, toolbarState.__marks);
             const x = event.clientX - square.left - cursor_x_offset;// event.offsetX;
