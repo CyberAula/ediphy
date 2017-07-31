@@ -82,15 +82,31 @@ export default class MarkCreator extends Component {
                 };
 
                 let displayMode = 'navigate';
-                /* NEW MARK DEFAULT PARAMS*/
-                overlay.oncontextmenu = function(event) {
+
+                let keyListener = function(e) {
+                    const ESCAPE_KEY_CODE = 27;
+                    if (event.keyCode === ESCAPE_KEY_CODE) {
+                        exitFunction();
+                    }
+                };
+
+                let exitFunction = function() {
+                    window.removeEventListener('keyup', keyListener);
                     overlay.remove();
                     dropableElement.classList.remove('rich_overlay');
                     deleteMarkCreator();
                     component.setState({ onCreation: false });
-                    event.stopPropagation();
                 };
+
+                window.addEventListener('keyup', keyListener);
+
+                overlay.oncontextmenu = function(event) {
+                    exitFunction();
+                    event.preventDefault();
+                };
+
                 overlay.onclick = function(e) {
+
                     let square = this.getClientRects()[0];
                     let x = e.clientX - square.left - cursor_x_offset;// e.offsetX;
                     let y = e.clientY - square.top - cursor_y_offset;// e.offsetY;
@@ -110,12 +126,7 @@ export default class MarkCreator extends Component {
                         onBoxAdded({ parent: newId, container: 0, id: ID_PREFIX_SORTABLE_BOX + Date.now() }, false, false);
                     }
                     /* This is to delete all elements involved */
-                    overlay.remove();
-                    dropableElement.classList.remove("rich_overlay");
-                    // e.preventDefault();
-                    deleteMarkCreator();
-
-                    component.setState({ onCreation: false });
+                    exitFunction();
                 };
                 // document.documentElement.style.cursor = 'url("https://storage.googleapis.com/material-icons/external-assets/v4/icons/svg/ic_room_black_24px.svg"), default';
 

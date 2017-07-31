@@ -39,10 +39,11 @@ export default class ClickNHold extends Component {
         if (this.state.holding && this.state.start === start) {
             if (this.props.onClickNHold) {
                 this.props.onClickNHold(start);
-                this.setState({ ended: false, holding: false, editing: true });
-                this.overlay();
-                return;
             }
+            this.setState({ ended: false, holding: false, editing: true });
+            this.overlay();
+            return;
+
         }
         this.setState({ ended: false, editing: false });
 
@@ -93,13 +94,29 @@ export default class ClickNHold extends Component {
         let base = this.props.base;
         let toolbarState = base.getState();
         let parseRichMarkInput = this.props.base.parseRichMarkInput;
+        let editing = this.state.editing;
         const id = this.props.mark;
-        overlay.oncontextmenu = function(event) {
+
+        let keyListener = function(e) {
+            const ESCAPE_KEY_CODE = 27;
+            if (event.keyCode === ESCAPE_KEY_CODE) {
+                exitFunction();
+            }
+        };
+
+        let exitFunction = function() {
+            window.removeEventListener('keyup', keyListener);
             overlay.remove();
             dropableElement.classList.remove('rich_overlay');
             component.setState({ editing: false });
             base.render('UPDATE_BOX');
-            event.stopPropagation();
+        };
+
+        window.addEventListener('keyup', keyListener);
+
+        overlay.oncontextmenu = function(event) {
+            exitFunction();
+            event.preventDefault();
         };
         overlay.onclick = function(event) {
             const square = this.getClientRects()[0];
@@ -112,6 +129,7 @@ export default class ClickNHold extends Component {
             if (marks[id]) {
                 marks[id].value = value;
             }
+            window.removeEventListener('keyup', keyListener);
             overlay.remove();
             dropableElement.classList.remove('rich_overlay');
             component.setState({ editing: false });

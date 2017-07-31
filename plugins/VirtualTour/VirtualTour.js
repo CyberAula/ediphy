@@ -151,7 +151,7 @@ export function VirtualTour(base) {
             let marks = state.__marks;
 
             let Mark = ({ idKey, title }) => (
-                <ClickNHold onClickNHold={e=>{console.log('clicked and held');}} time={1.5} mark={idKey} base={base}>
+                <ClickNHold time={1.5} mark={idKey} base={base}>
                     <OverlayTrigger key={idKey} text={title} placement="top" overlay={<Tooltip id={idKey}>{title}</Tooltip>}>
                         <a className="mapMarker" href="#">
                             <i key="i" className="material-icons">room</i>
