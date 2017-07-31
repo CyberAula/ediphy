@@ -97,7 +97,7 @@ export default class ClickNHold extends Component {
 
         let keyListener = function(e) {
             const ESCAPE_KEY_CODE = 27;
-            if (event.keyCode === ESCAPE_KEY_CODE) {
+            if (e.keyCode === ESCAPE_KEY_CODE) {
                 exitFunction();
             }
         };
@@ -116,6 +116,7 @@ export default class ClickNHold extends Component {
             exitFunction();
             event.preventDefault();
         };
+
         overlay.onmouseup = function(event) {
             const square = this.getClientRects()[0];
             let marks = Object.assign({}, toolbarState.__marks);

@@ -108,7 +108,5 @@ export function toggleFullScreen() {
 }
 
 export function isFullScreenOn() {
-    console.log(document.fullscreenElement, document.mozFullScreenElement, document.webkitFullscreenElement, document.msFullscreenElement);
-
     return (document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement || document.msFullscreenElement);
 }

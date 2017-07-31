@@ -24,7 +24,7 @@ export default class Map extends React.Component {
             /* jshint ignore:start */
             <div id={this.props.id} className="dropableRichZone" style={{ width: '100%', height: '100%' }}>
                 <GoogleMapReact center={center}
-                    draggable={this.state.draggable}
+                    draggable={false}
                     zoom={zoom}
                     options={{
                         panControl: true,

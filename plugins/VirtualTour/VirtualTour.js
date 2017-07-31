@@ -256,7 +256,7 @@ export function VirtualTour(base) {
             return { isWrong: false, value: value };
         },
         pointerEventsCallback: function(bool, toolbarState) {
-            window.mapList[toolbarState.state.num].setOptions({ mapTypeControl: bool, zoomControl: bool });
+            window.mapList[toolbarState.state.num].setOptions({ draggable: bool, mapTypeControl: bool, zoomControl: bool });
         },
 
     };

@@ -152,7 +152,7 @@
 //    "operator-assignment": [1, "never"],
     "padded-blocks": [0, "never"],
     "quote-props": [0, "as-needed"],
-//    "quotes": [1, "single"],
+//  "quotes": [1, "single"],
     "semi-spacing": [1, { "before": false, "after": true }],
     "semi": [1, "always"],
     "sort-vars": 0,
