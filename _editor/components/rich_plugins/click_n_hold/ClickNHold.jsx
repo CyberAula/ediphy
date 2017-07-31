@@ -21,12 +21,13 @@ export default class ClickNHold extends Component {
         this.overlay = this.overlay.bind(this);
     }
 
-    start() {
+    start(e) {
         let ended = this.state.ended;
-        this.setState({ start: Date.now(), holding: true, ended: false });
-        if (!ended) {
-            setTimeout(this.timeout, this.props.time * 1000 + 1);
-        }
+        let start = Date.now();
+        this.setState({ start: start, holding: true, ended: false });
+        let time = this.props.time;
+        setTimeout(function() {this.timeout(start);}.bind(this), time * 1000 + 1);
+        console.log(e);
     }
 
     end() {
@@ -34,10 +35,10 @@ export default class ClickNHold extends Component {
         // e.stopPropagation()
     }
 
-    timeout(e) {
-        if (!this.state.ended) {
+    timeout(start) {
+        if (this.state.holding && this.state.start === start) {
             if (this.props.onClickNHold) {
-                this.props.onClickNHold(e);
+                this.props.onClickNHold(start);
                 this.setState({ ended: false, holding: false, editing: true });
                 this.overlay();
                 return;
@@ -58,8 +59,11 @@ export default class ClickNHold extends Component {
                 onMouseDown={this.start}
                 onTouchStart={this.start}
                 onMouseUp={this.end}
+                onMouseLeave={this.end}
                 onTouchCancel={this.end}
-                onTouchEnd={this.end}>
+                onTouchEnd={this.end}
+                onDoubleClick={(e)=>e.stopPropagation()}
+                onDrag={(e)=>e.stopPropagation()} >
                 {this.props.children}
             </div>
         );

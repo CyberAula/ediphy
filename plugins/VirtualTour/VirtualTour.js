@@ -163,7 +163,7 @@ export function VirtualTour(base) {
                 }
 
                 return (<div lat={position[0]} lng={position[1]} draggable={false}>
-                    <ClickNHold onClickNHold={e=>{console.log('clicked and held');}} time={3} mark={idKey} base={base}>
+                    <ClickNHold onClickNHold={e=>{console.log('clicked and held');}} time={1.5} mark={idKey} base={base}>
                         <OverlayTrigger key={idKey} text={title} placement="top" overlay={<Tooltip id={idKey}>{title}</Tooltip>}>
                             <a className="mapMarker" href="#">
                                 <i key="i" className="material-icons">room</i>

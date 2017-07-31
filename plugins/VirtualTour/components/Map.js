@@ -9,6 +9,10 @@ const params = { v: '3.exp'/* , key: 'YOUR_API_KEY'*/ };
 export default class Map extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            draggable: true,
+            disableDoubleClickZoom: false,
+        };
         // this.onMapCreated = this.onMapCreated.bind(this);
     }
 
@@ -20,10 +24,12 @@ export default class Map extends React.Component {
             /* jshint ignore:start */
             <div id={this.props.id} className="dropableRichZone" style={{ width: '100%', height: '100%' }}>
                 <GoogleMapReact center={center}
+                    draggable={this.state.draggable}
                     zoom={zoom}
                     options={{
                         panControl: true,
                         mapTypeControl: true,
+                        disableDoubleClickZoom: this.state.disableDoubleClickZoom,
                         scrollwheel: true,
                         gestureHandling: 'greedy',
                         zoomControlOptions: {
@@ -31,6 +37,11 @@ export default class Map extends React.Component {
                             style: google.maps.ZoomControlStyle.SMALL,
                         },
                     }}
+                    onChildMouseUp={() => {this.setState({ draggable: true });}}
+                    onChildMouseDown={() => {this.setState({ draggable: false });}}
+                    onChildMouseEnter={() => {this.setState({ disableDoubleClickZoom: true });}}
+                    onChildMouseLeave={() => {this.setState({ disableDoubleClickZoom: false });}}
+                    onClick={() => console.log('mapClick')}
                     onChange={e => {
                         this.props.update(e.center.lat, e.center.lng, e.zoom, false);
 
