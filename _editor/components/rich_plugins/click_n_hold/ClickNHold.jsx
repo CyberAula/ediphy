@@ -74,6 +74,7 @@ export default class ClickNHold extends Component {
         let myself = ReactDOM.findDOMNode(this);
         let dropableElement = this.findParentBySelector(myself, '.dropableRichZone');
         let overlay = document.createElement("div");
+        overlay.classList.add('overlay');
 
         /* OVERLAY */
         dropableElement.classList.add("rich_overlay");
@@ -81,11 +82,6 @@ export default class ClickNHold extends Component {
         overlay.style.left = dropableElement.offsetLeft + "px";
         overlay.style.width = dropableElement.offsetWidth + "px";
         overlay.style.height = dropableElement.offsetHeight + "px";
-        overlay.style.position = "absolute";
-        overlay.style.pointerEvents = "all";
-        overlay.style.background = 'yellow';
-        overlay.style.opacity = '0.35';
-        overlay.style.zIndex = 999;
 
         let cursor_x_offset = 12;
         let cursor_y_offset = 20;

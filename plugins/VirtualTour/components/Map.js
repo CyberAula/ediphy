@@ -28,10 +28,11 @@ export default class Map extends React.Component {
                     zoom={zoom}
                     options={{
                         panControl: true,
-                        mapTypeControl: true,
+                        mapTypeControl: false,
                         disableDoubleClickZoom: this.state.disableDoubleClickZoom,
                         scrollwheel: true,
                         gestureHandling: 'greedy',
+                        zoomControl: false,
                         zoomControlOptions: {
                             position: google.maps.ControlPosition.RIGHT_CENTER,
                             style: google.maps.ZoomControlStyle.SMALL,

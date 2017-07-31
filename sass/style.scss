@@ -15,6 +15,7 @@
 @import 'components/advancedPopover';
 
 @import 'events/draganddrop';
+@import 'events/overlay';
 
 @include selection {
     color: white;

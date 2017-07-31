@@ -267,6 +267,12 @@ export default function() {
             }
             return undefined;
         },
+        pointerEventsCallback: function(bool, toolbarState) {
+            if(descendant.pointerEventsCallback) {
+                return descendant.pointerEventsCallback(bool, toolbarState);
+            }
+            return undefined;
+        },
         /* Esta función es para poder comprobar si los valores introducidos por el usuario al crear marcas son correctos*/
         validateValueInput: function(value) {
             if(descendant.validateValueInput) {

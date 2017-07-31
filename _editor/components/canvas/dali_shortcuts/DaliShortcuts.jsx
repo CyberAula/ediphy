@@ -129,7 +129,11 @@ export default class DaliShortcuts extends Component {
                                         boxEl.classList.toggle('pointerEventsEnabled');
                                         let but = document.getElementById('pebutton');
                                         e.stopPropagation();
-                                        boxEl.classList.contains('pointerEventsEnabled') && but ? but.classList.add('dtbSelected') : but.classList.remove('dtbSelected');
+                                        let bool = boxEl.classList.contains('pointerEventsEnabled');
+                                        if (this.props.pointerEventsCallback) {
+                                            this.props.pointerEventsCallback(bool, this.props.toolbar);
+                                        }
+                                        bool && but ? but.classList.add('dtbSelected') : but.classList.remove('dtbSelected');
                                     }}>
                                     <i className="material-icons">pan_tool</i>
                                 </button>

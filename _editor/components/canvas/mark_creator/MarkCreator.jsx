@@ -14,9 +14,7 @@ export default class MarkCreator extends Component {
     }
 
     render() {
-        /* jshint ignore:start */
         return (null);
-        /* jshint ignore:end */
     }
 
     componentWillUpdate(nextProps, nextState) {
@@ -29,22 +27,19 @@ export default class MarkCreator extends Component {
                 /* find dropableRichZone*/
 
                 let overlay = document.createElement("div");
+                overlay.classList.add('overlay');
+
                 /* OVERLAY */
                 dropableElement.classList.add("rich_overlay");
                 overlay.style.top = dropableElement.offsetTop + "px";
                 overlay.style.left = dropableElement.offsetLeft + "px";
                 overlay.style.width = dropableElement.offsetWidth + "px";
                 overlay.style.height = dropableElement.offsetHeight + "px";
-                overlay.style.position = "absolute";
-                overlay.style.pointerEvents = "all";
-                overlay.style.background = 'yellow';
-                overlay.style.opacity = '0.35';
-                overlay.style.zIndex = 999;
 
                 let cursor_x_offset = 12;
                 let cursor_y_offset = 20;
 
-                overlay.style.cursor = 'url("https://storage.googleapis.com/material-icons/external-assets/v4/icons/svg/ic_room_white_24px.svg") ' + cursor_x_offset + ' ' + cursor_y_offset + ', pointer';
+                overlay.style.cursor = 'url("https://storage.googleapis.com/material-icons/external-assets/v4/icons/svg/ic_room_white_24px.svg") ' + cursor_x_offset + ' ' + cursor_y_offset + ', crosshair';
                 /* OVERLAY */
 
                 let component = this;
@@ -106,7 +101,6 @@ export default class MarkCreator extends Component {
                 };
 
                 overlay.onclick = function(e) {
-
                     let square = this.getClientRects()[0];
                     let x = e.clientX - square.left - cursor_x_offset;// e.offsetX;
                     let y = e.clientY - square.top - cursor_y_offset;// e.offsetY;

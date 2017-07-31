@@ -201,7 +201,6 @@ export function VirtualTour(base) {
             base.setState(name, value);
         },
         parseRichMarkInput: function(...value) {
-            /* jshint ignore:start */
             // base.render("UPDATE_BOX");
             // Mouse position relative to the box + offset for the bottom-center of the marker
             let state = value[5];
@@ -238,7 +237,6 @@ export function VirtualTour(base) {
             // console.log('%cEND***************' + num + '**************************', 'color: #bada55', 'MARKER PLACE');
 
             return lat + ',' + lng;
-            /* jshint ignore:end */
 
         },
 
@@ -256,6 +254,9 @@ export function VirtualTour(base) {
                 return { isWrong: true, message: i18n.t("VirtualTour.message_mark_xy") };
             }
             return { isWrong: false, value: value };
+        },
+        pointerEventsCallback: function(bool, toolbarState) {
+            window.mapList[toolbarState.state.num].setOptions({ mapTypeControl: bool, zoomControl: bool });
         },
 
     };
