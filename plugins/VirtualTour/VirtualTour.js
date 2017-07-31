@@ -119,12 +119,10 @@ export function VirtualTour(base) {
             };
         },
         getRichMarkInput: function(state, MarkInput) {
-            /* jshint ignore:start */
             let div = <div><span>x,y</span><input onChange={(event) => {
                 MarkInput(event.target.value);
             }} /></div>;
             return div;
-            /* jshint ignore:end */
         },
         getInitialState: function() {
             return {
@@ -137,7 +135,6 @@ export function VirtualTour(base) {
             };
         },
         getRenderTemplate: function(state) {
-            /* jshint ignore:start */
             if(window.mapList[state.num]) {
                 let map = window.mapList[state.num];
                 let maps = window.google.maps;
@@ -145,13 +142,23 @@ export function VirtualTour(base) {
                 let lngi = state.lng;
                 // map.setCenter(new maps.LatLng(lati, lngi));
                 // map.setZoom(state.zoom);
-                console.log('existing', 'map', map.center.lat(), map.center.lng(), 'state', lati, lngi);
+                // console.log('existing', 'map', map.center.lat(), map.center.lng(), 'state', lati, lngi);
             } else {
-                console.log('didntexist');
+                // console.log('didntexist');
             }
 
             let id = "map-" + Date.now();
             let marks = state.__marks;
+
+            let Mark = ({ idKey, title }) => (
+                <ClickNHold onClickNHold={e=>{console.log('clicked and held');}} time={1.5} mark={idKey} base={base}>
+                    <OverlayTrigger key={idKey} text={title} placement="top" overlay={<Tooltip id={idKey}>{title}</Tooltip>}>
+                        <a className="mapMarker" href="#">
+                            <i key="i" className="material-icons">room</i>
+                        </a>
+                    </OverlayTrigger>
+                </ClickNHold>);
+
             let markElements = Object.keys(marks).map((idKey) => {
                 let value = marks[idKey].value;
                 let title = marks[idKey].title;
@@ -161,42 +168,34 @@ export function VirtualTour(base) {
                 } else {
                     position = [0, 0];
                 }
+                return (<Mark key={idKey} idKey={idKey} title={title} lat={position[0]} lng={position[1]}/>);
 
-                return (<div lat={position[0]} lng={position[1]} draggable={false}>
-                    <ClickNHold onClickNHold={e=>{console.log('clicked and held');}} time={1.5} mark={idKey} base={base}>
-                        <OverlayTrigger key={idKey} text={title} placement="top" overlay={<Tooltip id={idKey}>{title}</Tooltip>}>
-                            <a className="mapMarker" href="#">
-                                <i key="i" className="material-icons">room</i>
-                            </a>
-                        </OverlayTrigger>
-                    </ClickNHold>
-                </div>);
             });
 
             window.num = state.num;
             let num = state.num;
-            console.log(num, 'num');
+            // console.log(num, 'num');
             return (
                 <div className="virtualMap" onDragLeave={e=>{e.stopPropagation();}}>
                     <Map placeholder={i18n.t("VirtualTour.Search")}
                         state={state}
                         id={id}
+                        searchBox
                         update={(lat, lng, zoom, render)=>{
-                            console.log('%cBEGIN***************' + num + '**************************', 'color: green', 'CHANGE');
-                            console.log('PRE-UPDATE STATE', 'CHANGE', base.getState().config.lat, base.getState().config.lng, num);
-                            console.log(state.config.lat, state.config.lng);
-                            console.log('PRE-UPDATE STATE', 'CHANGE', window.mapList[num] ? (window.mapList[num].center.lat() + ' ' + window.mapList[num].center.lng()) : '');
+                            // console.log('%cBEGIN***************' + num + '**************************', 'color: green', 'CHANGE');
+                            // console.log('PRE-UPDATE STATE', 'CHANGE', base.getState().config.lat, base.getState().config.lng, num);
+                            // console.log(state.config.lat, state.config.lng);
+                            // console.log('PRE-UPDATE STATE', 'CHANGE', window.mapList[num] ? (window.mapList[num].center.lat() + ' ' + window.mapList[num].center.lng()) : '');
                             base.setState('config', { lat: lat, lng: lng, zoom: zoom });
                             // if (render) base.render("UPDATE_TOOLBAR");
-                            console.log('POST-UPDATE STATE', 'CHANGE', base.getState().config.lat, base.getState().config.lng, num);
-                            console.log('POST-UPDATE STATE', 'CHANGE', window.mapList[num] ? (window.mapList[num].center.lat() + ' ' + window.mapList[num].center.lng()) : '');
-                            console.log('%cEND***************' + num + '**************************', 'color: green', 'CHANGE');
+                            // console.log('POST-UPDATE STATE', 'CHANGE', base.getState().config.lat, base.getState().config.lng, num);
+                            // console.log('POST-UPDATE STATE', 'CHANGE', window.mapList[num] ? (window.mapList[num].center.lat() + ' ' + window.mapList[num].center.lng()) : '');
+                            // console.log('%cEND***************' + num + '**************************', 'color: green', 'CHANGE');
 
                         }}>
                         {markElements}
                     </Map>
                 </div>);
-            /* jshint ignore:end */
         },
         handleToolbar: function(name, value) {
             base.setState(name, value);
@@ -210,23 +209,23 @@ export function VirtualTour(base) {
             let clickY = value[1] + 26;
             let latCenter = state.config.lat;
             let lngCenter = state.config.lng;
-            console.log('state', state);
+            // console.log('state', state);
             let zoom = state.config.zoom;
             let num = state.num;
 
             let maps = google.maps;
-            console.log('HHHHHHHHHHHHHHHHHHHHH');
-            console.log(window.mapList[num].center.lat(), latCenter);
-            console.log('%cBEGIN***************' + num + '**************************', 'color: #bada55', 'MARKER PLACE');
-            console.log('PRE-UPDATE STATE', 'MARKER PLACE', base.getState().config.lat, base.getState().config.lng, num);
-            console.log('PRE-UPDATE STATE', 'MARKER PLACE', window.mapList[num] ? (window.mapList[num].center.lat() + ' ' + window.mapList[num].center.lng()) : '');
+            // console.log('HHHHHHHHHHHHHHHHHHHHH');
+            // console.log(window.mapList[num].center.lat(), latCenter);
+            // console.log('%cBEGIN***************' + num + '**************************', 'color: #bada55', 'MARKER PLACE');
+            // console.log('PRE-UPDATE STATE', 'MARKER PLACE', base.getState().config.lat, base.getState().config.lng, num);
+            // console.log('PRE-UPDATE STATE', 'MARKER PLACE', window.mapList[num] ? (window.mapList[num].center.lat() + ' ' + window.mapList[num].center.lng()) : '');
             let map = window.mapList[state.num];
             // base.setState('config',{lat: window.mapList[num].center.lat(), lng: window.mapList[num].center.lng(), zoom: window.mapList[num].getZoom()});
 
             // map.setCenter(new maps.LatLng(latCenter, lngCenter));
             // map.setZoom(zoom);
-            console.log('POST-UPDATE STATE', 'MARKER PLACE', base.getState().config.lat, base.getState().config.lng, num);
-            console.log('POST-UPDATE STATE', 'MARKER PLACE', window.mapList[num] ? (window.mapList[num].center.lat() + ' ' + window.mapList[num].center.lng()) : '');
+            // console.log('POST-UPDATE STATE', 'MARKER PLACE', base.getState().config.lat, base.getState().config.lng, num);
+            // console.log('POST-UPDATE STATE', 'MARKER PLACE', window.mapList[num] ? (window.mapList[num].center.lat() + ' ' + window.mapList[num].center.lng()) : '');
 
             let topRight = map.getProjection().fromLatLngToPoint(map.getBounds().getNorthEast());
             let bottomLeft = map.getProjection().fromLatLngToPoint(map.getBounds().getSouthWest());
@@ -236,7 +235,7 @@ export function VirtualTour(base) {
             let latLng = map.getProjection().fromPointToLatLng(worldPoint);
             let lat = Math.round(latLng.lat() * 100000) / 100000;
             let lng = Math.round(latLng.lng() * 100000) / 100000;
-            console.log('%cEND***************' + num + '**************************', 'color: #bada55', 'MARKER PLACE');
+            // console.log('%cEND***************' + num + '**************************', 'color: #bada55', 'MARKER PLACE');
 
             return lat + ',' + lng;
             /* jshint ignore:end */

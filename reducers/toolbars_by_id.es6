@@ -1,7 +1,7 @@
 import { ADD_BOX, ADD_RICH_MARK, CHANGE_NAV_ITEM_NAME, DELETE_BOX, DELETE_RICH_MARK, DELETE_CONTAINED_VIEW, ADD_NAV_ITEM, DELETE_NAV_ITEM, DELETE_SORTABLE_CONTAINER, DUPLICATE_BOX,
     EDIT_RICH_MARK, RESIZE_BOX, RESIZE_SORTABLE_CONTAINER, TOGGLE_TEXT_EDITOR, UPDATE_BOX, UPDATE_TOOLBAR, CHANGE_CONTAINED_VIEW_NAME,
     VERTICALLY_ALIGN_BOX, IMPORT_STATE } from './../actions';
-import Utils, { changeProp, changeProps, deleteProps, isSortableBox, isSortableContainer, isPage, isSection, isSlide, isDocument } from './../utils';
+import Utils, { changeProp, changeProps, deleteProps, isSortableBox, isSortableContainer, isPage, isSlide, isDocument, nextToolbarAvailName } from './../utils';
 import i18n from 'i18next';
 
 function createAspectRatioButton(controls, config) {
@@ -309,7 +309,6 @@ function toolbarSectionCreator(state, action, isContainedView = false) {
     if(isDocument(type)) {
         doc_type = i18n.t('document');
     }
-
     let pagetitle = i18n.t('Title') + doc_type;
     let toolbar = {
         id: id,
@@ -330,7 +329,7 @@ function toolbarSectionCreator(state, action, isContainedView = false) {
                             navitem_name: {
                                 __name: i18n.t('NavItem_name'),
                                 type: 'text',
-                                value: isContainedView ? i18n.t('contained_view') : doc_type,
+                                value: isContainedView ? nextToolbarAvailName(i18n.t('contained_view'), state) : doc_type,
                                 autoManaged: false,
                             },
                         },

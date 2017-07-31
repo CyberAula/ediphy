@@ -41,7 +41,6 @@ export default class Map extends React.Component {
                     onChildMouseDown={() => {this.setState({ draggable: false });}}
                     onChildMouseEnter={() => {this.setState({ disableDoubleClickZoom: true });}}
                     onChildMouseLeave={() => {this.setState({ disableDoubleClickZoom: false });}}
-                    onClick={() => console.log('mapClick')}
                     onChange={e => {
                         this.props.update(e.center.lat, e.center.lng, e.zoom, false);
 
@@ -53,7 +52,7 @@ export default class Map extends React.Component {
                     yesIWantToUseGoogleMapApiInternals>
                     {this.props.children}
                 </GoogleMapReact>
-                <SearchBox
+                {this.props.searchBox ? <SearchBox
                     num={num}
                     center={center}
                     id={this.props.id}
@@ -65,7 +64,7 @@ export default class Map extends React.Component {
                     map.setCenter(new google.maps.LatLng( places.lat, places.lng));*/
                         this.props.update(places.lat, places.lng, 15, true);
 
-                    }}/>
+                    }}/> : null}
 
             </div>
             /* jshint ignore:end */

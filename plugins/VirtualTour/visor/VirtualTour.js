@@ -9,7 +9,6 @@ export function VirtualTour(base) {
         getRenderTemplate: function(state, id) {
             let marks = state.__marks;
             let box_id = id;
-            /* jshint ignore:start */
 
             let markElements = Object.keys(marks).map((e) =>{
                 let Mark = ({ key, text }) => (
@@ -48,7 +47,6 @@ export function VirtualTour(base) {
                         </GoogleMapReact>
                     </div>
                 </div>);
-            /* jshint ignore:end */
         },
         onMarkClicked(element, value) {
             base.triggerMark(element, value, false);

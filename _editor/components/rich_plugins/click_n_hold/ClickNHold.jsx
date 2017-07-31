@@ -28,7 +28,6 @@ export default class ClickNHold extends Component {
         this.setState({ start: start, holding: true, ended: false });
         let time = this.props.time;
         setTimeout(function() {this.timeout(start);}.bind(this), time * 1000 + 1);
-        console.log(e);
     }
 
     end() {
@@ -100,6 +99,7 @@ export default class ClickNHold extends Component {
             dropableElement.classList.remove('rich_overlay');
             component.setState({ editing: false });
             base.render('UPDATE_BOX');
+            event.stopPropagation();
         };
         overlay.onclick = function(event) {
             const square = this.getClientRects()[0];

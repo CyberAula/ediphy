@@ -188,7 +188,58 @@ export function isAncestorOrSibling(searchingId, actualId, boxes) {
 
     return isAncestorOrSibling(searchingId, parentId, boxes);
 }
-
+/**
+ * Calculates next available name for a view
+ * @param key Common part of name to look for. Example: "Page ", "Contained view "..
+ * @param views containedviewsbyid or navitemsbyid
+ * @returns next name available. Example: "Contained view 7"
+ */
+export function nextAvailName(key, views) {
+    let names = [];
+    for (let view in views) {
+        if (views[view].name && views[view].name.indexOf(key) !== -1) {
+            let replaced = views[view].name.replace(key + " ", "");
+            let num = parseInt(replaced, 10);
+            if (!isNaN(num)) {
+                names.push(num);
+            }
+        }
+    }
+    if (names.length > 0) {
+        return key + " " + (Math.max(...names) + 1);
+    }
+    return key + " " + 1;
+}
+/**
+ * Same as previous but with toolbar
+ * @param key Common part of name to look for. Example: "Page ", "Contained view "..
+ * @param views toolbarsbyid
+ * @returns next name available. Example: "Contained view 7"
+ */
+export function nextToolbarAvailName(key, views) {
+    let names = [];
+    for (let view in views) {
+        if (views[view] &&
+            views[view].controls &&
+            views[view].controls.main &&
+            views[view].controls.main.accordions &&
+            views[view].controls.main.accordions.basic &&
+            views[view].controls.main.accordions.basic.buttons &&
+            views[view].controls.main.accordions.basic.buttons.navitem_name &&
+            views[view].controls.main.accordions.basic.buttons.navitem_name.value &&
+            views[view].controls.main.accordions.basic.buttons.navitem_name.value.indexOf(key) !== -1) {
+            let replaced = views[view].controls.main.accordions.basic.buttons.navitem_name.value.replace(key + " ", "");
+            let num = parseInt(replaced, 10);
+            if (!isNaN(num)) {
+                names.push(num);
+            }
+        }
+    }
+    if (names.length > 0) {
+        return key + " " + (Math.max(...names) + 1);
+    }
+    return key + " " + 1;
+}
 /**
  * Replaces all occurences of needle (interpreted as a regular expression with replacement and returns the new object.
  *

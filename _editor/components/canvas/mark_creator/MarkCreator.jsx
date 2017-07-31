@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import i18n from 'i18next';
 import { ID_PREFIX_RICH_MARK, ID_PREFIX_CONTAINED_VIEW, ID_PREFIX_SORTABLE_BOX, PAGE_TYPES } from '../../../../constants';
-
+import { nextAvailName } from './../../../../utils';
 export default class MarkCreator extends Component {
 
     constructor(props) {
@@ -59,16 +59,17 @@ export default class MarkCreator extends Component {
                 let title = i18n.t('marks.new_mark');
                 let type = this.props.pageType;
                 let newId = ID_PREFIX_CONTAINED_VIEW + Date.now();
+                let pageName = nextAvailName(i18n.t('contained_view'), this.props.containedViews);
                 let connection = {
                     id: newId,
                     parent: [this.props.boxSelected],
-                    name: this.nextAvailName(),
+                    name: pageName,
                     boxes: [],
                     type: type,
                     extraFiles: {},
                     header: {
                         elementContent: {
-                            documentTitle: '',
+                            documentTitle: pageName,
                             documentSubTitle: '',
                             numPage: '' },
                         display: {
@@ -87,6 +88,7 @@ export default class MarkCreator extends Component {
                     dropableElement.classList.remove('rich_overlay');
                     deleteMarkCreator();
                     component.setState({ onCreation: false });
+                    event.stopPropagation();
                 };
                 overlay.onclick = function(e) {
                     let square = this.getClientRects()[0];
@@ -124,23 +126,6 @@ export default class MarkCreator extends Component {
         }
     }
 
-    nextAvailName() {
-        let names = [];
-        for (let view in this.props.containedViews) {
-            if (this.props.containedViews[view].name && this.props.containedViews[view].name.indexOf(i18n.t('contained_view')) !== -1) {
-                let replaced = this.props.containedViews[view].name.replace(i18n.t('contained_view') + " ", "");
-                let num = parseInt(replaced, 10);
-                if (!isNaN(num)) {
-                    names.push(num);
-                }
-            }
-        }
-        if (names.length > 0) {
-            return i18n.t('contained_view') + " " + (Math.max(...names) + 1);
-        }
-        return i18n.t('contained_view') + " " + 1;
-
-    }
     componentDidUpdate(nextProps) {
 
     }

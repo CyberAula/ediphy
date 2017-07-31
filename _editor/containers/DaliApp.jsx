@@ -504,6 +504,7 @@ class DaliApp extends Component {
                 ));
                 break;
             default:
+                // eslint-disable-next-line no-console
                 console.error("I don't know how to manage this");
             }
 
@@ -692,6 +693,7 @@ class DaliApp extends Component {
             for (let i = 0; i < obj.child.length; i++) {
                 if (obj.child[i].tag && obj.child[i].tag === "plugin") {
                     if (obj.child.length > 1) {
+                        // eslint-disable-next-line no-console
                         console.error("A plugin tag must not have siblings. Please check renderTemplate method");
                     }
                     let height = "auto";
@@ -766,6 +768,7 @@ class DaliApp extends Component {
             if (plug_children && plug_children.children && plug_children.children.length === 0) {
                 obj.attr['plugin-data-default'].split(" ").map(name => {
                     if (!Dali.Plugins.get(name)) {
+                        // eslint-disable-next-line no-console
                         console.error("Plugin " + name + " does not exist");
                         return;
                     }

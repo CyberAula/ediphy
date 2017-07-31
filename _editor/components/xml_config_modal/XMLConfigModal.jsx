@@ -6,7 +6,6 @@ import { UPDATE_NAV_ITEM_EXTRA_FILES } from '../../../actions';
 export default class XMLConfigModal extends Component {
     render() {
         return (
-            /* jshint ignore:start */
             <Modal className="pageModal pluginconfig" backdrop bsSize="large" show={this.props.visible}>
                 <Modal.Header>
                     <Modal.Title>XML Configuration</Modal.Title>
@@ -41,6 +40,7 @@ export default class XMLConfigModal extends Component {
                                 state.__xml_path = response.dali_exercise_path;
                             },
                             error: function(xhr, status, error) {
+                                // eslint-disable-next-line no-console
                                 console.error("Could not save");
                             },
                             complete: function(xhr, status) {
@@ -54,7 +54,6 @@ export default class XMLConfigModal extends Component {
                     }}>Save changes</Button>
                 </Modal.Footer>
             </Modal>
-            /* jshint ignore:end */
         );
     }
 

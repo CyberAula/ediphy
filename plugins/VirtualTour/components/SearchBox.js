@@ -33,31 +33,25 @@ export default class SearchBox extends React.Component {
                 let num = this.props.num;
                 let map = window.mapList[num];
 
-                console.log('%cBEGIN***************' + num + '**************************', 'color: blue', 'PLACES');
-                console.log('PRE-UPDATE STATE', 'PLACES', center.lat, center.lng, num);
-                console.log('PRE-UPDATE STATE', 'PLACES', window.mapList[num] ? (window.mapList[num].center.lat() + ' ' + window.mapList[num].center.lng()) : '');
-                /* jshint ignore:start */
+                // console.log('%cBEGIN***************' + num + '**************************', 'color: blue', 'PLACES');
+                // console.log('PRE-UPDATE STATE', 'PLACES', center.lat, center.lng, num);
+                // console.log('PRE-UPDATE STATE', 'PLACES', window.mapList[num] ? (window.mapList[num].center.lat() + ' ' + window.mapList[num].center.lng()) : '');
                 map.setCenter(new google.maps.LatLng(lat, lng));
-                /* jshint ignore:end*/
-                console.log('POST-UPDATE STATE', 'PLACES', center.lat, center.lng, num);
-                console.log('POST-UPDATE STATE', 'PLACES', window.mapList[num] ? (window.mapList[num].center.lat() + ' ' + window.mapList[num].center.lng()) : '');
-                console.log('%cEND***************' + num + '**************************', 'color: blue', 'PLACES');
+                // console.log('POST-UPDATE STATE', 'PLACES', center.lat, center.lng, num);
+                // console.log('POST-UPDATE STATE', 'PLACES', window.mapList[num] ? (window.mapList[num].center.lat() + ' ' + window.mapList[num].center.lng()) : '');
+                // console.log('%cEND***************' + num + '**************************', 'color: blue', 'PLACES');
                 this.props.onPlacesChanged({ map: this.props.id, lat: lat, lng: lng });
             }
         }
     }
     componentDidMount() {
-        /* jshint ignore:start */
         let input = ReactDOM.findDOMNode(this.refs["input-" + this.props.id]);
         this.searchBox = new google.maps.places.SearchBox(input);
         this.searchBoxListener = this.searchBox.addListener('places_changed', this.onPlacesChanged);
-        /* jshint ignore:end */
 
     }
 
     componentWillUnmount() {
-        /* jshint ignore:start */
         google.maps.event.removeListener(this.searchBoxListener);
-        /* jshint ignore:end */
     }
 }

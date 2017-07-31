@@ -25,7 +25,6 @@ export default class PluginToolbar extends Component {
     render() {
         if (!isCanvasElement(this.props.navItemSelected, Dali.Config.sections_have_content)) {
             return (
-                /* jshint ignore:start */
                 <div id="wrap"
                     className="wrapper hiddenWrapper"
                     style={{
@@ -33,7 +32,6 @@ export default class PluginToolbar extends Component {
                     }}>
                     <div id="tools" className="toolbox" />
                 </div>
-                /* jshint ignore:end */
             );
         }
         // when no plugin selected, but new navitem
@@ -41,7 +39,6 @@ export default class PluginToolbar extends Component {
             let toolbar = this.props.toolbars[this.props.navItemSelected];
 
             return (
-            /* jshint ignore:start */
                 <div id="wrap"
                     className="wrapper"
                     style={{
@@ -104,7 +101,6 @@ export default class PluginToolbar extends Component {
                         </div>
                     </div>
                 </div>
-            /* jshint ignore:end */
             );
         }
         let toolbar = this.props.toolbars[this.props.box.id];
@@ -112,7 +108,6 @@ export default class PluginToolbar extends Component {
         let textButton;
         if (toolbar.config.needsTextEdition) {
             textButton = (
-                /* jshint ignore:start */
                 <div className="panel-body">
                     <Button key={'text'}
                         className={toolbar.showTextEditor ? 'toolbarButton textediting' : 'toolbarButton'}
@@ -132,13 +127,11 @@ export default class PluginToolbar extends Component {
                         {i18n.t("edit_text")}
                     </Button>
                 </div>
-                /* jshint ignore:end */
             );
         }
         let xmlButton;
         if (toolbar.config.needsXMLEdition) {
             xmlButton = (
-                /* jshint ignore:start */
                 <Button key={'xml'}
                     className={toolbar.showXMLEditor ? 'toolbarButton textediting' : 'toolbarButton'}
                     onClick={() => {
@@ -146,13 +139,11 @@ export default class PluginToolbar extends Component {
                     }}>
                     Edit XML
                 </Button>
-                /* jshint ignore:end */
             );
         }
         let configButton;
         if (toolbar.config && toolbar.config.needsConfigModal) {
             configButton = (
-                /* jshint ignore:start */
                 <div className="panel-body">
                     <Button key={'config'}
                         className='toolbarButton'
@@ -163,13 +154,11 @@ export default class PluginToolbar extends Component {
                         {i18n.t('open_conf')}
                     </Button>
                 </div>
-                /* jshint ignore:end */
             );
         }
         let duplicateButton;
         if (this.props.box.id[1] !== 's') {
             duplicateButton = (
-                /* jshint ignore:start */
                 <Button key={'duplicate'}
                     className="pluginToolbarMainButton"
                     onClick={e => {
@@ -178,12 +167,10 @@ export default class PluginToolbar extends Component {
                     }}>
                     <i className="material-icons">content_copy</i>
                 </Button>
-                /* jshint ignore:end */
             );
         }
 
         return (
-            /* jshint ignore:start */
             <div id="wrap"
                 className="wrapper"
                 style={{
@@ -284,7 +271,6 @@ export default class PluginToolbar extends Component {
                     </div>
                 </div>
             </div>
-            /* jshint ignore:end */
         );
     }
 
@@ -499,13 +485,11 @@ export default class PluginToolbar extends Component {
                 panel.parentNode.classList.remove("extendedPanel");
             },
             header: (
-                /* jshint ignore:start */
                 <span key={'span' + key}>
                     <i className="toolbarIcons material-icons">
                         {accordion.icon ? accordion.icon : <span className="toolbarIcons"/>}
                     </i>{accordion.__name}
                 </span>
-                /* jshint ignore:end */
             ),
         };
         let children = [];
@@ -516,6 +500,7 @@ export default class PluginToolbar extends Component {
                 } else if (accordion.buttons[accordion.order[i]]) {
                     children.push(this.renderButton(accordion, tabKey, accordionKeys, accordion.order[i], state, i));
                 } else {
+                    // eslint-disable-next-line no-console
                     console.error("Element %s not defined", accordion.order[i]);
                 }
             }
@@ -525,7 +510,6 @@ export default class PluginToolbar extends Component {
                 let buttonWidth = (buttonKeys[i] === '__width' || buttonKeys[i] === '__height') ? '60%' : '100%';
                 let buttonMargin = (buttonKeys[i] === '__width' || buttonKeys[i] === '__height') ? '5%' : '0px';
                 children.push(
-                    /* jshint ignore:start */
                     <div key={'div_' + i }
                         style={{
                             width: buttonWidth,
@@ -534,7 +518,6 @@ export default class PluginToolbar extends Component {
                         {this.renderButton(accordion, tabKey, accordionKeys, buttonKeys[i], state, i)}
 
                     </div>
-                    /* jshint ignore:end */
                 );
             }
 
@@ -542,20 +525,17 @@ export default class PluginToolbar extends Component {
 
         if (accordion.key === 'marks_list') {
             children.push(
-                /* jshint ignore:start */
                 <MarksList key="marks_list"
                     state={state}
                     toolbars={this.props.toolbars}
                     onRichMarksModalToggled={this.props.onRichMarksModalToggled}
                     onRichMarkEditPressed={this.props.onRichMarkEditPressed}
                     onRichMarkDeleted={this.props.onRichMarkDeleted}/>
-                /* jshint ignore:end */
             );
         }
 
         if (accordion.key === 'content_list') {
             children.push(
-                /* jshint ignore:start */
                 <ContentList key="content_list"
                     state={state}
                     box={this.props.box}
@@ -564,7 +544,6 @@ export default class PluginToolbar extends Component {
                     onContainedViewSelected={this.props.onContainedViewSelected}
                     onNavItemSelected={this.props.onNavItemSelected}
                     onRichMarkDeleted={this.props.onRichMarkDeleted}/>
-                /* jshint ignore:end */
             );
         }
         return React.createElement(Panel, props, children);
@@ -863,7 +842,6 @@ export default class PluginToolbar extends Component {
         // If it's none of previous types (number, text, color, range, ...)
         if (buttonKey === '__width' || buttonKey === '__height') {
             let advancedPanel = (
-                /* jshint ignore:start */
                 <FormGroup>
                     <Checkbox label={i18n.t("Auto")}
                         checked={button.auto}
@@ -881,14 +859,12 @@ export default class PluginToolbar extends Component {
                                 <option value="%">{i18n.t("Percentage")}</option>
                             </FormControl></div>)}
                 </FormGroup>
-                /* jshint ignore:end */
             );
 
             props.value = button.auto ? 'auto' : button.value;
             props.type = button.auto ? 'text' : 'number';
             props.disabled = button.auto;
             return (
-                /* jshint ignore:start */
                 <FormGroup key={button.__name}>
                     <ControlLabel key={"label_" + button.__name}>
                         {button.__name + (!button.auto ? " (" + button.units + ")" : "")}
@@ -911,7 +887,6 @@ export default class PluginToolbar extends Component {
                         </OverlayTrigger>
                     </InputGroup>
                 </FormGroup>
-                /* jshint ignore:end */
             );
         }
 
@@ -937,17 +912,13 @@ export default class PluginToolbar extends Component {
 
     renderOption(option) {
         return (
-            /* jshint ignore:start */
             <span>{option.label}<i style={{ color: option.color, float: 'right' }} className="fa fa-stop" /></span>
-            /* jshint ignore:end */
         );
     }
 
     renderValue(option) {
         return (
-            /* jshint ignore:start */
             <span>{option.label}</span>
-            /* jshint ignore:end */
         );
     }
 
