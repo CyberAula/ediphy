@@ -6,6 +6,7 @@ import GlobalConfig from '../global_config/GlobalConfig';
 import i18n from 'i18next';
 import {isSection, isSlide} from './../../../../utils';
 import Dali from './../../../../core/main';
+import {toggleFullScreen, isFullScreenOn} from './../../../../common_tools';
 
 require('./_navBar.scss');
 
@@ -15,8 +16,11 @@ export default class DaliNavBar extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            showGlobalConfig: false
+            showGlobalConfig: false,
+            isFullScreenOn: isFullScreenOn()
+
         };
+
     }
 
     openPlugin(categoria) {
@@ -118,6 +122,15 @@ export default class DaliNavBar extends Component {
                 </Dropdown>
 
                 <div className="navButtons">
+                    <button className="navButton"
+                            title={i18n.t("messages.fullscreen")}
+                            onClick={() => {toggleFullScreen();this.setState({isFullScreenOn: isFullScreenOn()})}}>
+                        {this.state.isFullScreenOn ?
+                            (<i className="material-icons">fullscreen_exit</i>):
+                            (<i className="material-icons">fullscreen</i>)}
+                        <br/>
+                        <span className="hideonresize">{i18n.t('fullscreen')}</span>
+                    </button>
                     <button className="navButton"
                             title="Undo"
                             disabled={this.props.undoDisabled}

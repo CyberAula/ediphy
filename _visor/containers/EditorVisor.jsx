@@ -91,7 +91,7 @@ export default class Visor extends Component {
 
         });
     }
-    
+
     componentWillUpdate(nextProps, nextState){
         //reset marks when navigating between main sections
         if(this.state.currentView.length !== nextState.currentView.length && isView(nextState.currentView[nextState.currentView.length-1]) ){
@@ -158,10 +158,10 @@ export default class Visor extends Component {
         let isSlide  = isCV && containedViews[this.getLastCurrentViewElement()] === "slide"  ||
                        !isCV && navItems[this.getLastCurrentViewElement()] === "slide" ?
                         "pcw_slide" : "pcw_doc";
-        
+
         return (
             /* jshint ignore:start */
-            <div id="app" 
+            <div id="app"
                  className={wrapperClasses} >
                 <SideNavVisor
                             changeCurrentView={(page)=> {this.changeCurrentView(page)}}
@@ -171,9 +171,9 @@ export default class Visor extends Component {
                             navItemsIds={navItemsIds}
                             toggled={this.state.toggledSidebar}/>
                 <div id="page-content-wrapper"
-                     className={isSlide} 
+                     className={isSlide}
                     style={{height: '100%'}}>
-                    <Grid fluid={true} 
+                    <Grid fluid={true}
                           style={{height: '100%'}}>
                         <Row style={{height: '100%'}}>
                             <Col lg={12} style={{height: '100%'}}>
@@ -183,8 +183,8 @@ export default class Visor extends Component {
                                             navItemsById={navItems}
                                             navItemsIds={navItemsIds}/>
                                 <Button id="visorNavButton"
-                                        className={toggleColor} 
-                                        bsStyle="primary"  
+                                        className={toggleColor}
+                                        bsStyle="primary"
                                         onClick={e => {this.setState({toggledSidebar: !this.state.toggledSidebar})}}>
                                     <i className="material-icons">{toggleIcon}</i>
                                 </Button>
@@ -263,10 +263,10 @@ export default class Visor extends Component {
                 this.setState({ triggeredMarks: this.unTriggerLastMark(this.state.triggeredMarks),
                                 richElementState: this.getActualBoxesStates(this.state.backupElementStates,this.state.richElementState)});
              }
-        }    
-        this.mountFunction();   
+        }
+        this.mountFunction();
 
-        
+
     }
 
 
@@ -588,7 +588,7 @@ export default class Visor extends Component {
 
 
 
- 
+
 }
 
 /* jshint ignore:start */
