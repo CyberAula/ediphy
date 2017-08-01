@@ -111,12 +111,10 @@ export default class BoxVisor extends Component {
         }
 
         let rotate = 'rotate(0deg)';
-         if (toolbar.controls.main.accordions.__sortable.buttons.__rotate && toolbar.controls.main.accordions.__sortable.buttons.__rotate.value) {
+        if (toolbar.controls.main.accordions.__sortable.buttons.__rotate && toolbar.controls.main.accordions.__sortable.buttons.__rotate.value) {
             rotate = 'rotate(' + toolbar.controls.main.accordions.__sortable.buttons.__rotate.value + 'deg)';
         }
-         style.transform = rotate;
-        style.webkitTransform = rotate;
-        style.msTransform = rotate;
+        style.transform = style.WebkitTransform = style.MsTransform = rotate;
 
         /* TODO: Reasign object if is rich to have marks as property box.content.props*/
 

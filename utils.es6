@@ -194,11 +194,11 @@ export function isAncestorOrSibling(searchingId, actualId, boxes) {
  * @param views containedviewsbyid or navitemsbyid
  * @returns next name available. Example: "Contained view 7"
  */
-export function nextAvailName(key, views) {
+export function nextAvailName(key, views, name = 'name') {
     let names = [];
     for (let view in views) {
-        if (views[view].name && views[view].name.indexOf(key) !== -1) {
-            let replaced = views[view].name.replace(key + " ", "");
+        if (views[view][name] && views[view][name].indexOf(key) !== -1) {
+            let replaced = views[view][name].replace(key /* + " "*/, "");
             let num = parseInt(replaced, 10);
             if (!isNaN(num)) {
                 names.push(num);
@@ -228,7 +228,7 @@ export function nextToolbarAvailName(key, views) {
             views[view].controls.main.accordions.basic.buttons.navitem_name &&
             views[view].controls.main.accordions.basic.buttons.navitem_name.value &&
             views[view].controls.main.accordions.basic.buttons.navitem_name.value.indexOf(key) !== -1) {
-            let replaced = views[view].controls.main.accordions.basic.buttons.navitem_name.value.replace(key + " ", "");
+            let replaced = views[view].controls.main.accordions.basic.buttons.navitem_name.value.replace(key /* + " "*/, "");
             let num = parseInt(replaced, 10);
             if (!isNaN(num)) {
                 names.push(num);

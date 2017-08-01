@@ -114,7 +114,14 @@ export default class MarkCreator extends Component {
                         exitFunction();
                         return;
                     }
-                    title = promptRes || title;
+                    if(toolbarState.__marks) {
+                        title = promptRes || nextAvailName(title, toolbarState.__marks, 'title');
+                    }
+
+                    pageName = promptRes || pageName;
+                    connection.name = pageName;
+                    connection.header.elementContent.documentTitle = pageName;
+
                     let value = parseRichMarkInput(x, y, width, height, richMarkValues, toolbarState);
 
                     addMarkShortcut({ id: ID_PREFIX_RICH_MARK + Date.now(), title, connectMode, connection, displayMode, value });

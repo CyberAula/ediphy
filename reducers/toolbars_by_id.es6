@@ -244,13 +244,11 @@ function createSizeButtons(controls, state, action, floatingBox) {
                 value: state.controls.main.accordions.__sortable.buttons.__rotate.value,
                 min: 0,
                 max: 360,
-                autoManaged: true
+                autoManaged: true,
             };
         }
 
     }
-
-
 
     // This will be commented until it's working correctly
     if (state === null) {

@@ -113,9 +113,7 @@ export default class DaliBox extends Component {
                 rotate = 'rotate(' + toolbar.controls.main.accordions.__sortable.buttons.__rotate.value + 'deg)';
             }
         }
-        style.transform = rotate;
-        style.webkitTransform = rotate;
-        style.msTransform = rotate;
+        style.transform = style.WebkitTransform = style.MsTransform = rotate;
         let content = toolbar.config.flavor === "react" ? (
             /* jshint ignore:start */
             <div style={style} {...attrs} className={"boxStyle " + classNames} ref={"content"}>
@@ -500,7 +498,7 @@ export default class DaliBox extends Component {
                         original.setAttribute('data-y', y);
                         clone.style.position = 'absolute';
                         parent.appendChild(clone);
-                        clone.style.webkitTransform = clone.style.transform = 'translate(' + (x) + 'px, ' + (y) + 'px)';
+                        clone.style.WebkitTransform = clone.style.transform = 'translate(' + (x) + 'px, ' + (y) + 'px)';
                         clone.style.height = originalRect.height + "px";
                         clone.style.width = originalRect.width + "px";
                         clone.style.border = "1px dashed #555";
