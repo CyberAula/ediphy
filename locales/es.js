@@ -31,6 +31,9 @@ var es = {
         "edit_text": "Editar texto",
         "Exercises": "Ejercicios",
         "Exporting": "Se está exportando...",
+        "empty":{
+          "cv_empty": "Todavía no has creado ninguna vista contenida."
+        },
         "error": {
             "exporting": "Ha ocurrido un error al exportar",
             "generic": "Ha ocurrido un error",
@@ -54,10 +57,10 @@ var es = {
             "description": "Descripción",
             "description_placeholder": "Describa brevemente de qué trata el curso",
             "dif":{
-                'very easy':'muy fácil', 
+                'very easy':'muy fácil',
                 'easy':'fácil',
                 'medium':'medio',
-                'difficult':'difícil', 
+                'difficult':'difícil',
                 'very difficult':'muy difícil'
             },
             "difficulty": "Dificultad",

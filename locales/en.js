@@ -31,6 +31,9 @@ var en = {
         "display": "Display",
         "display_page": "Preview / Export",
         "document": "Document",
+        "empty":{
+          "cv_empty": "You have not created any contained view yet."
+        },
         "error": {
             "exporting": "There was an error when exporting",
             "generic": "There was an error",
@@ -55,10 +58,10 @@ var en = {
             "description": "Description",
             "description_placeholder": "Briefly describe what the course is about",
             "dif":{
-                'very easy':'very easy', 
+                'very easy':'very easy',
                 'easy':'easy',
                 'medium':'medium',
-                'difficult':'difficult', 
+                'difficult':'difficult',
                 'very difficult':'very difficult'
             },
             "difficulty": "Difficulty",

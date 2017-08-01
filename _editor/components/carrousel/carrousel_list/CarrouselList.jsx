@@ -16,7 +16,7 @@ export default class CarrouselList extends Component {
         super(props);
         this.state = {
             showSortableItems: true,
-            showContainedViews: false
+            showContainedViews: true
         };
     }
 
@@ -87,7 +87,7 @@ export default class CarrouselList extends Component {
                                         onClick={e => {
                                             this.props.onIndexSelected(id);
                                             e.stopPropagation();
-                                        }}  
+                                        }}
                                         onDoubleClick={e => {
                                             this.props.onNavItemSelected(id);
                                             e.stopPropagation();
@@ -121,19 +121,23 @@ export default class CarrouselList extends Component {
 
                 <div className="containedViewsList" style={{ height: (this.state.showContainedViews) ? "calc(50% - 122px)":"0px",
                                                              display: 'block', overflowY: 'auto', overflowX: 'hidden'}}>
+                  <div className="empty-info" style={{display: (containedViewsIncluded) ? "none" : "block"}}>{i18n.t("empty.cv_empty")}</div>
+
                     {
+
                         Object.keys(this.props.containedViews).map((id, key)=>{
-                            return (<div key={id} 
+
+                            return (<div key={id}
                                          className={id == this.props.indexSelected ? 'navItemBlock classIndexSelected':'navItemBlock'}
                                          style={{
-                                            width: "100%", 
-                                            height: "20px", 
-                                            paddingTop: "10px", 
-                                            paddingLeft: "10px", 
+                                            width: "100%",
+                                            height: "20px",
+                                            paddingTop: "10px",
+                                            paddingLeft: "10px",
                                             paddingBottom: "25px",
                                             color: (this.props.containedViewSelected === id) ? "white" : "#9A9A9A",
                                             backgroundColor: (this.props.containedViewSelected === id) ? "#545454" : "transparent"
-                                          }}  
+                                          }}
                                           onDoubleClick={e => {
                                             this.props.onContainedViewSelected(id);
                                             e.stopPropagation();
@@ -143,6 +147,7 @@ export default class CarrouselList extends Component {
                                             this.props.onIndexSelected(id);
                                             e.stopPropagation();
                                           }}>
+
                                         <span className="" style={{marginLeft: '10px'}}>
 
                                             <i style={{marginRight: '10px'}} className="material-icons">{isSlide(this.props.containedViews[id].type) ? "slideshow" : "insert_drive_file"}</i>
@@ -186,7 +191,7 @@ export default class CarrouselList extends Component {
                                               false
                                           );
                                       }
-                                     
+
                                       e.stopPropagation();
 
                                 }}><i className="material-icons">create_new_folder</i>
@@ -221,7 +226,7 @@ export default class CarrouselList extends Component {
                             <Button className="carrouselButton"
                                     disabled={isContainedView(this.props.indexSelected)}
                                     onClick={e => {
-                                    var newId = ID_PREFIX_PAGE + Date.now(); 
+                                    var newId = ID_PREFIX_PAGE + Date.now();
                                     this.props.onNavItemAdded(
                                         newId,
                                         i18n.t("slide"),
@@ -251,7 +256,7 @@ export default class CarrouselList extends Component {
                                 isContainedView(this.props.indexSelected) ? i18n.t('delete_contained_canvas') :
                                     i18n.t("delete_page")}>
                             <i style={{color: 'yellow', fontSize: '13px', padding: '0 5px'}} className="material-icons">warning</i>
-                            {isSection(this.props.indexSelected) ? i18n.t("messages.delete_section") : 
+                            {isSection(this.props.indexSelected) ? i18n.t("messages.delete_section") :
                                 (isContainedView(this.props.indexSelected) && !this.canDeleteContainedView(this.props.indexSelected)) ? i18n.t("messages.delete_busy_cv"):i18n.t("messages.delete_page")}
                             <br/>
                             <br/>
@@ -267,7 +272,7 @@ export default class CarrouselList extends Component {
                                                     this.props.onNavItemDeleted(this.props.indexSelected);
                                                 }
                                             }
-                                        
+
                                         this.props.onIndexSelected(0);
                                         }
                                     }>
@@ -303,9 +308,9 @@ export default class CarrouselList extends Component {
             let boxDoesntExistAnyMore = parent && !boxes[parent];
             let deletedMark = parent && boxes[parent] && boxes[parent].containedViews && boxes[parent].containedViews.indexOf(id) === -1;
             return  boxDoesntExistAnyMore || deletedMark;
-    
+
         }
-        
+
         return false;
     }
     getParent() {
