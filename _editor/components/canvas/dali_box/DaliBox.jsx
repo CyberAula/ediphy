@@ -108,11 +108,9 @@ export default class DaliBox extends Component {
             }
         }
         let rotate = 'rotate(0deg)';
-        console.log(this.props)
-        if  (!(this.props.markCreatorId && this.props.id === this.props.boxSelected)) {
+        if (!(this.props.markCreatorId && this.props.id === this.props.boxSelected)) {
             if (toolbar.controls.main.accordions.__sortable.buttons.__rotate && toolbar.controls.main.accordions.__sortable.buttons.__rotate.value) {
                 rotate = 'rotate(' + toolbar.controls.main.accordions.__sortable.buttons.__rotate.value + 'deg)';
-
             }
         }
         style.transform = rotate;
@@ -185,7 +183,7 @@ export default class DaliBox extends Component {
                 verticalAlign = 'top';
             }
         }
-        
+
         /* <MarkCreator/>*/
         return (
             /* jshint ignore:start */
@@ -234,7 +232,6 @@ export default class DaliBox extends Component {
                     top: box.position.y ? box.position.y : "",
                     width: width,
                     height: height,
-                    /*transform: rotate,*/
                     verticalAlign: verticalAlign,
                     touchAction: 'none',
                     msTouchAction: 'none',

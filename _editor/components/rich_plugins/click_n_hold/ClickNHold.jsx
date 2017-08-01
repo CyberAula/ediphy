@@ -28,7 +28,7 @@ export default class ClickNHold extends Component {
         let start = Date.now();
         this.setState({ start: start, holding: true, ended: false });
         let time = this.props.time;
-        setTimeout(function() {this.timeout(start);}.bind(this), time * 1000 + 1);
+        setTimeout(function() {this.timeout(start);}.bind(this), time * 100 + 1);
     }
 
     end(event) {
@@ -79,6 +79,8 @@ export default class ClickNHold extends Component {
     overlay() {
         let myself = ReactDOM.findDOMNode(this);
         let dropableElement = this.findParentBySelector(myself, '.dropableRichZone');
+        let boxStyle = this.findParentBySelector(myself, '.boxStyle');
+        boxStyle.classList.add('norotate');
         let overlay = document.createElement("div");
         overlay.classList.add('overlay');
         overlay.id = 'overlay';
@@ -110,6 +112,7 @@ export default class ClickNHold extends Component {
 
         let exitFunction = function() {
             document.body.style.cursor = 'default';
+            boxStyle.classList.remove('norotate');
             window.removeEventListener('keyup', keyListener);
             overlay.remove();
             dropableElement.classList.remove('rich_overlay');
@@ -140,6 +143,7 @@ export default class ClickNHold extends Component {
                 marks[id].value = value;
             }
             document.body.style.cursor = 'default';
+            boxStyle.classList.remove('norotate');
             window.removeEventListener('keyup', keyListener);
             overlay.remove();
             dropableElement.classList.remove('rich_overlay');
