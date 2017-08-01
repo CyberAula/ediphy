@@ -76,7 +76,7 @@ export default function() {
                 pluginObj = Dali.Visor.Plugins[name];
                 hasVisorTemplate = true;
             }
-            if (!plupluginObjgin.getRenderTemplate) {
+            if (!pluginObj.getRenderTemplate) {
                 if (state.__text) {
                     template = state.__text;
                 } else {
@@ -84,7 +84,7 @@ export default function() {
                     console.error("Plugin %s has not defined getRenderTemplate", name);
                 }
             } else {
-                template = plugin.getRenderTemplate(state);
+                template = pluginObj.getRenderTemplate(state);
             }
 
             let regexp = new RegExp(/[$]dali[$][.][\w\s]+[(]([^)]*)/g);
