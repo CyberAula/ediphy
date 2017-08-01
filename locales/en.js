@@ -198,6 +198,7 @@ let en = {
         "Read_more": "Read more",
         "Redone": "Redone",
         "Reorder": "Reorder",
+        "Rotate": "Rotate (deg)",
         "row_number": "Number of rows in col ",
         "Save": "Save",
         "Search_in_ViSH": "Search in ViSH",

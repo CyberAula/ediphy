@@ -111,6 +111,7 @@ export default class MarkCreator extends Component {
                     let richMarkValues = [];
                     let promptRes = prompt(i18n.t("marks.create_mark"));
                     if (promptRes === null) {
+                        exitFunction();
                         return;
                     }
                     title = promptRes || title;

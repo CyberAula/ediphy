@@ -107,6 +107,15 @@ export default class DaliBox extends Component {
                 }
             }
         }
+        let rotate = 'rotate(0deg)';
+        if (!(this.props.markCreatorId && this.props.id === this.props.boxSelected)) {
+            if (toolbar.controls.main.accordions.__sortable.buttons.__rotate && toolbar.controls.main.accordions.__sortable.buttons.__rotate.value) {
+                rotate = 'rotate(' + toolbar.controls.main.accordions.__sortable.buttons.__rotate.value + 'deg)';
+            }
+        }
+        style.transform = rotate;
+        style.webkitTransform = rotate;
+        style.msTransform = rotate;
         let content = toolbar.config.flavor === "react" ? (
             /* jshint ignore:start */
             <div style={style} {...attrs} className={"boxStyle " + classNames} ref={"content"}>
@@ -168,7 +177,7 @@ export default class DaliBox extends Component {
         }
         let verticalAlign = "top";
         if (isSortableBox(box.container)) {
-            if (toolbar.controls.main.accordions.__sortable.buttons.__verticalAlign.value) {
+            if (toolbar.controls.main.accordions.__sortable.buttons.__verticalAlign && toolbar.controls.main.accordions.__sortable.buttons.__verticalAlign.value) {
                 verticalAlign = toolbar.controls.main.accordions.__sortable.buttons.__verticalAlign.value;
             } else {
                 verticalAlign = 'top';

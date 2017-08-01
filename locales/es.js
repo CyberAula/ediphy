@@ -196,6 +196,7 @@ let es = {
         "Read_more": "Saber más",
         "Redone": "Rehacer",
         "Reorder": "Reordenar",
+        "Rotate": "Rotar (º)",
         "Save": "Guardar",
         "Search_in_ViSH": "Buscar en ViSH",
         "Searching": "Buscando...",

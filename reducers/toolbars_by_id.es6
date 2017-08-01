@@ -223,6 +223,35 @@ function createSizeButtons(controls, state, action, floatingBox) {
         autoManaged: true,
     };
 
+    if (state === null) {
+        controls.main.accordions.__sortable.buttons.__rotate = {
+            __name: i18n.t('Rotate'),
+            type: 'range',
+            value: 0,
+            min: 0,
+            max: 360,
+            autoManaged: false,
+        };
+
+    } else {
+        // let hasPositionButton = action.payload.toolbar && action.payload.toolbar.main && action.payload.toolbar.main.accordions && action.payload.toolbar.main.accordions.__sortable && action.payload.toolbar.main.accordions.__sortable.buttons && action.payload.toolbar.main.accordions.__sortable.buttons.__position;
+        let hasButton = state.controls && state.controls.main && state.controls.main.accordions && state.controls.main.accordions.__sortable && state.controls.main.accordions.__sortable.buttons && state.controls.main.accordions.__sortable.buttons.__rotate;
+
+        if (hasButton) {
+            controls.main.accordions.__sortable.buttons.__rotate = {
+                __name: i18n.t('Rotate'),
+                type: 'range',
+                value: state.controls.main.accordions.__sortable.buttons.__rotate.value,
+                min: 0,
+                max: 360,
+                autoManaged: true
+            };
+        }
+
+    }
+
+
+
     // This will be commented until it's working correctly
     if (state === null) {
         if (!floatingBox) {
