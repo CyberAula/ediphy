@@ -4,13 +4,12 @@ import { Modal, Button, Row, Col, FormGroup, ControlLabel, FormControl, Radio } 
 import Typeahead from 'react-bootstrap-typeahead';
 import { ID_PREFIX_RICH_MARK, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_CONTAINED_VIEW, PAGE_TYPES } from '../../../../constants';
 import i18n from 'i18next';
-import { isSection, isContainedView } from '../../../../utils';
+import { isSection, isContainedView, nextAvailName } from '../../../../utils';
 require('./_richMarksModal.scss');
 export default class RichMarksModal extends Component {
 
     constructor(props) {
         super(props);
-
         this.state = {
             connectMode: "new",
             displayMode: "navigate",
@@ -193,6 +192,7 @@ export default class RichMarksModal extends Component {
                         let newId = ID_PREFIX_CONTAINED_VIEW + Date.now();
                         let connectMode = this.state.connectMode;
                         let connection;
+                        let name = nextAvailName(i18n.t('contained_view'), this.props.containedViews);
                         switch (connectMode) {
                         case "new":
                             connection = current && current.connection && current.connectMode === 'new' ?
@@ -200,13 +200,13 @@ export default class RichMarksModal extends Component {
                                 {
                                     id: newId,
                                     parent: [this.props.boxSelected],
-                                    name: i18n.t('contained_view'),
+                                    name: name,
                                     boxes: [],
                                     type: this.state.newType,
                                     extraFiles: {},
                                     header: {
                                         elementContent: {
-                                            documentTitle: '',
+                                            documentTitle: name,
                                             documentSubTitle: '',
                                             numPage: '' },
                                         display: {
