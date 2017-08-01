@@ -40,8 +40,8 @@ export default class Map extends React.Component {
                     }}
                     onChildMouseUp={() => {this.setState({ draggable: true });}}
                     onChildMouseDown={() => {this.setState({ draggable: false });}}
-                    onChildMouseEnter={() => {this.setState({ disableDoubleClickZoom: true });}}
-                    onChildMouseLeave={() => {this.setState({ disableDoubleClickZoom: false });}}
+                    onChildMouseEnter={() => {this.setState({ draggable: false, disableDoubleClickZoom: true });}}
+                    onChildMouseLeave={() => {this.setState({ draggable: true, disableDoubleClickZoom: false });}}
                     onChange={e => {
                         this.props.update(e.center.lat, e.center.lng, e.zoom, false);
 

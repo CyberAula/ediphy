@@ -246,10 +246,17 @@ export default class DaliShortcuts extends Component {
     }
 
     componentWillUnmount() {
+
         let boxEl = document.getElementById('box-' + (this.props.box ? this.props.box.id : ''));
+
         if (boxEl) {
+            let bool = boxEl.classList.contains('pointerEventsEnabled');
+            if (this.props.pointerEventsCallback) {
+                this.props.pointerEventsCallback(bool, this.props.toolbar);
+            }
             boxEl.classList.remove('pointerEventsEnabled');
         }
+
         window.removeEventListener('resize', this.resize.bind(this));
         if (this.props && this.props.box) {
             let boxObj = document.getElementById('box-' + this.props.box.id);

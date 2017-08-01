@@ -20,6 +20,7 @@ export default class ClickNHold extends Component {
         this.end = this.end.bind(this);
         this.timeout = this.timeout.bind(this);
         this.overlay = this.overlay.bind(this);
+        this.mouseLeave = this.mouseLeave.bind(this);
     }
 
     start(e) {
@@ -49,7 +50,11 @@ export default class ClickNHold extends Component {
         this.setState({ ended: true, editing: false });
 
     }
-
+    mouseLeave(e) {
+        if (this.state.holding) {
+            this.end(e);
+        }
+    }
     render() {
         let classList = '';
         classList += this.state.holding ? 'holding ' : '';
@@ -61,7 +66,7 @@ export default class ClickNHold extends Component {
                 onMouseDown={this.start}
                 onTouchStart={this.start}
                 onMouseUp={this.end}
-                // onMouseLeave={this.end}
+                onMouseLeave={this.mouseLeave}
                 onTouchCancel={this.end}
                 onTouchEnd={this.end}
                 onDoubleClick={(e)=>e.stopPropagation()}
@@ -88,7 +93,8 @@ export default class ClickNHold extends Component {
         let cursor_x_offset = 12;
         let cursor_y_offset = 20;
         let component = this;
-        overlay.style.cursor = 'url("https://storage.googleapis.com/material-icons/external-assets/v4/icons/svg/ic_room_white_24px.svg") ' + cursor_x_offset + ' ' + cursor_y_offset + ', crosshair';
+        // overlay.style.cursor = 'url("https://storage.googleapis.com/material-icons/external-assets/v4/icons/svg/ic_room_white_24px.svg") ' + cursor_x_offset + ' ' + cursor_y_offset + ', crosshair';
+        document.body.style.cursor = 'url("https://storage.googleapis.com/material-icons/external-assets/v4/icons/svg/ic_room_white_24px.svg") ' + cursor_x_offset + ' ' + cursor_y_offset + ', crosshair';
         let base = this.props.base;
         let toolbarState = base.getState();
         let parseRichMarkInput = base.parseRichMarkInput;
@@ -103,6 +109,7 @@ export default class ClickNHold extends Component {
         };
 
         let exitFunction = function() {
+            document.body.style.cursor = 'default';
             window.removeEventListener('keyup', keyListener);
             overlay.remove();
             dropableElement.classList.remove('rich_overlay');
@@ -118,6 +125,10 @@ export default class ClickNHold extends Component {
         };
 
         overlay.onmouseup = function(event) {
+            if (event.which === 3) {
+                exitFunction();
+                return;
+            }
             const square = this.getClientRects()[0];
             let marks = Object.assign({}, toolbarState.__marks);
             const x = event.clientX - square.left - cursor_x_offset;// event.offsetX;
@@ -128,6 +139,7 @@ export default class ClickNHold extends Component {
             if (marks[id]) {
                 marks[id].value = value;
             }
+            document.body.style.cursor = 'default';
             window.removeEventListener('keyup', keyListener);
             overlay.remove();
             dropableElement.classList.remove('rich_overlay');
