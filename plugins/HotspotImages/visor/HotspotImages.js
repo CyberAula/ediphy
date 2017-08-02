@@ -1,4 +1,5 @@
 import React from "react";
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 
 export function HotspotImages(base) {
     return {
@@ -8,11 +9,16 @@ export function HotspotImages(base) {
 
             /* jshint ignore:start */
             let markElements = Object.keys(marks).map((e) =>{
+
                 let position = marks[e].value.split(',');
+                let title = marks[e].title;
+
                 return(
-                    <a key={marks[e].id} style={{ position: 'absolute', top: position[0] + "%", left: position[1] + "%" }} href="#" onClick={()=>{this.onMarkClicked(box_id, marks[e].value);}}>
-                        <i style={{ width: "100%", height: "100%", position: 'absolute', top: '-26px', left: '-12px' }} className="material-icons">room</i>
-                    </a>
+                    <OverlayTrigger placement="top" overlay={<Tooltip id={e}>{title}</Tooltip>}>
+                        <a key={e} style={{ position: 'absolute', top: position[0] + "%", left: position[1] + "%" }} onClick={()=>{this.onMarkClicked(box_id, marks[e].value);}} href="#">
+                            <i key="i" style={{ width: "100%", height: "100%", position: 'absolute', top: '-26px', left: '-12px' }} className="material-icons">room</i>
+                        </a>
+                    </OverlayTrigger>
                 );
             });
 

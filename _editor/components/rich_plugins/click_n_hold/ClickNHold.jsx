@@ -63,6 +63,7 @@ export default class ClickNHold extends Component {
         classList += this.state.editing ? 'editing' : '';
         return (
             <div className={classList}
+                style={this.props.style}
                 onMouseDown={this.start}
                 onTouchStart={this.start}
                 onMouseUp={this.end}

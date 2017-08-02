@@ -12,6 +12,7 @@ export default class Map extends React.Component {
         super(props);
         this.state = {
             draggable: false,
+            controls: false,
             disableDoubleClickZoom: true,
         };
         // this.onMapCreated = this.onMapCreated.bind(this);
@@ -28,21 +29,21 @@ export default class Map extends React.Component {
                     zoom={zoom}
                     options={{
                         panControl: true,
-                        mapTypeControl: ReactDOM.findDOMNode(this) ? this.findParentBySelector(ReactDOM.findDOMNode(this), '.pointerEventsEnabled') : this.state.draggable,
+                        mapTypeControl: this.state.controls, // ReactDOM.findDOMNode(this) ? this.findParentBySelector(ReactDOM.findDOMNode(this), '.pointerEventsEnabled') : this.state.draggable,
                         disableDoubleClickZoom: this.state.disableDoubleClickZoom,
                         scrollwheel: true,
                         gestureHandling: 'greedy',
-                        zoomControl: ReactDOM.findDOMNode(this) ? this.findParentBySelector(ReactDOM.findDOMNode(this), '.pointerEventsEnabled') : this.state.draggable,
-                        zoomControlOptions: {
+                        zoomControl: this.state.controls, // ReactDOM.findDOMNode(this) ? this.findParentBySelector(ReactDOM.findDOMNode(this), '.pointerEventsEnabled') : this.state.draggable,
+                        zoomControlOptions: this.state.controls ? {
                             position: google.maps.ControlPosition.RIGHT_CENTER,
                             style: google.maps.ZoomControlStyle.SMALL,
-                        },
+                        } : null,
                     }}
                     // onChildMouseUp={() => {this.setState({ draggable: true });}}
                     // onChildMouseDown={() => {this.setState({ draggable: false });}}
-                    onChildMouseMove={() => {this.setState({ draggable: false, disableDoubleClickZoom: true });}}
-                    onChildMouseEnter={() => {this.setState({ draggable: false, disableDoubleClickZoom: true });}}
-                    onChildMouseLeave={() => {let bool = this.findParentBySelector(ReactDOM.findDOMNode(this), '.pointerEventsEnabled'); this.setState({ draggable: !!bool, disableDoubleClickZoom: !bool });}}
+                    onChildMouseMove={() => {let bool = this.findParentBySelector(ReactDOM.findDOMNode(this), '.pointerEventsEnabled'); this.setState({ draggable: false, disableDoubleClickZoom: true, controls: bool });}}
+                    onChildMouseEnter={() => {let bool = this.findParentBySelector(ReactDOM.findDOMNode(this), '.pointerEventsEnabled'); this.setState({ draggable: false, disableDoubleClickZoom: true, controls: bool });}}
+                    onChildMouseLeave={() => {let bool = this.findParentBySelector(ReactDOM.findDOMNode(this), '.pointerEventsEnabled'); this.setState({ draggable: bool, disableDoubleClickZoom: !bool, controls: bool });}}
                     onChange={e => {
                         this.props.update(e.center.lat, e.center.lng, e.zoom, false);
 
@@ -71,6 +72,9 @@ export default class Map extends React.Component {
             </div>
 
         );
+    }
+    componentWillUpdate() {
+
     }
 
     collectionHas(a, b) { // helper function (see below)

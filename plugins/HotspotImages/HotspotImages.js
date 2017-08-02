@@ -1,5 +1,8 @@
 import React from "react";
 import i18n from 'i18next';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import ClickNHold from '../../_editor/components/rich_plugins/click_n_hold/ClickNHold';
+
 export function HotspotImages(base) {
     return {
         getConfig: function() {
@@ -105,8 +108,19 @@ export function HotspotImages(base) {
         getRenderTemplate: function(state) {
             /* jshint ignore:start */
             let marks = state.__marks;
+            let Mark = ({ idKey, title, style }) => (
+                <ClickNHold style={style} time={1.5} mark={idKey} base={base}>
+                    <OverlayTrigger key={idKey} text={title} placement="top" overlay={<Tooltip id={idKey}>{title}</Tooltip>}>
+                        <a className="mapMarker" href="#">
+                            <i key="i" className="material-icons">room</i>
+                        </a>
+                    </OverlayTrigger>
+                </ClickNHold>);
+
             let markElements = Object.keys(marks).map((id) =>{
                 let value = marks[id].value;
+                let title = marks[id].title;
+
                 let position;
                 if (value && value.split(',').length === 2) {
                     position = value.split(',');
@@ -114,12 +128,14 @@ export function HotspotImages(base) {
                     position = [0, 0];
                 }
 
-                return(<a key={id} style={{ position: 'absolute', top: position[0] + "%", left: position[1] + "%" }} href="#"><i style={{ width: "100%", height: "100%", top: '-26px', position: 'absolute', left: '-12px' }} className="material-icons">room</i></a>);
+                return (<Mark key={id} style={{ position: 'absolute', top: position[0] + "%", left: position[1] + "%" }} idKey={id} title={title} />);
+
+                // return(<a key={id} style={{ position: 'absolute', top: position[0] + "%", left: position[1] + "%" }} href="#"><i style={{ width: "100%", height: "100%", top: '-26px', position: 'absolute', left: '-12px' }} className="material-icons">room</i></a>);
             });
 
             return (
-                <div >
-                    <img className="dropableRichZone basicImageClass" style={{ height: "100%", width: "100%" }} src={state.url}/>
+                <div className="dropableRichZone">
+                    <img className="basicImageClass" style={{ height: "100%", width: "100%" }} src={state.url}/>
                     {markElements}
                 </div>
             );
