@@ -11,7 +11,7 @@ export default class Map extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            draggable: false,
+            draggable: true,
             controls: false,
             disableDoubleClickZoom: true,
         };
@@ -25,15 +25,16 @@ export default class Map extends React.Component {
         return(
             <div id={this.props.id} className="dropableRichZone" style={{ width: '100%', height: '100%' }}>
                 <GoogleMapReact center={center}
-                    draggable={false}
+                    draggable
                     zoom={zoom}
                     options={{
+                        draggable: true,
                         panControl: true,
-                        mapTypeControl: this.state.controls, // ReactDOM.findDOMNode(this) ? this.findParentBySelector(ReactDOM.findDOMNode(this), '.pointerEventsEnabled') : this.state.draggable,
+                        // mapTypeControl: this.state.controls, // ReactDOM.findDOMNode(this) ? this.findParentBySelector(ReactDOM.findDOMNode(this), '.pointerEventsEnabled') : this.state.draggable,
                         disableDoubleClickZoom: this.state.disableDoubleClickZoom,
                         scrollwheel: true,
                         gestureHandling: 'greedy',
-                        zoomControl: this.state.controls, // ReactDOM.findDOMNode(this) ? this.findParentBySelector(ReactDOM.findDOMNode(this), '.pointerEventsEnabled') : this.state.draggable,
+                        // zoomControl: this.state.controls, // ReactDOM.findDOMNode(this) ? this.findParentBySelector(ReactDOM.findDOMNode(this), '.pointerEventsEnabled') : this.state.draggable,
                         zoomControlOptions: this.state.controls ? {
                             position: google.maps.ControlPosition.RIGHT_CENTER,
                             style: google.maps.ZoomControlStyle.SMALL,
@@ -49,7 +50,9 @@ export default class Map extends React.Component {
 
                     }}
                     onGoogleApiLoaded={({ map, maps }) => {
+                        map.setOptions({ draggable: false, mapTypeControl: false, zoomControl: false });
                         window.mapList[num] = map;
+
                     }}
                     resetBoundsOnResize
                     yesIWantToUseGoogleMapApiInternals>

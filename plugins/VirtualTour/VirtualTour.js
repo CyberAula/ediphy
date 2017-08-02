@@ -256,16 +256,24 @@ export function VirtualTour(base) {
             return { isWrong: false, value: value };
         },
         pointerEventsCallback: function(bool, toolbarState) {
-            if (bool === 'mouseenter') {
-                window.mapList[toolbarState.num].setOptions({ draggable: false });
-            } else if (bool === 'mouseleave_true') {
-                window.mapList[toolbarState.num].setOptions({ draggable: true, mapTypeControl: true, zoomControl: true });
-            } else if (bool === 'mouseleave_false') {
-                window.mapList[toolbarState.num].setOptions({ draggable: false });
-            } else if (bool === 'disableAll') {
-                window.mapList[toolbarState.state.num].setOptions({ draggable: false, mapTypeControl: false, zoomControl: false });
-            } else if (bool === 'enableAll') {
-                window.mapList[toolbarState.state.num].setOptions({ draggable: true, mapTypeControl: true, zoomControl: true });
+            if (window.mapList[toolbarState.num || (toolbarState.state ? toolbarState.state.num : 9999)]) {
+                switch(bool) {
+                case 'mouseenter':
+                    window.mapList[toolbarState.num].setOptions({ draggable: false });
+                    return;
+                case 'mouseleave_true':
+                    window.mapList[toolbarState.num].setOptions({ draggable: true, mapTypeControl: true, zoomControl: true });
+                    return;
+                case 'mouseleave_false':
+                    window.mapList[toolbarState.num].setOptions({ draggable: false });
+                    return;
+                case 'disableAll':
+                    window.mapList[toolbarState.state.num].setOptions({ draggable: false, mapTypeControl: false, zoomControl: false });
+                    return;
+                case 'enableAll':
+                    window.mapList[toolbarState.state.num].setOptions({ draggable: true, mapTypeControl: true, zoomControl: true });
+                    return;
+                }
             }
         },
 
