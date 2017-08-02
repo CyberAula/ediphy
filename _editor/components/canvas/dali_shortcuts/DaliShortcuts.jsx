@@ -198,7 +198,6 @@ export default class DaliShortcuts extends Component {
 
                 // Removes pointer events allowance when box is changed
                 if (!this.props.box || nextProps.box.id !== this.props.box.id) {
-                    console.log(this.props.box, nextProps.box);
                     let boxEl = document.getElementById('box-' + (this.props.box ? this.props.box.id : ''));
                     if (boxEl) {
                         if (this.props.pointerEventsCallback) {

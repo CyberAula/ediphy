@@ -102,7 +102,7 @@ export function EnrichedPlayer(base) {
             return (
                 /* jshint ignore:start */
                 <div style={{ width: "100%", height: "100%" }}>
-                    <EnrichedPlayerPlugin style={{ width: "100%", height: "100%" }} state={state} postParseRichMarkInput={base.postParseRichMarkInput} />
+                    <EnrichedPlayerPlugin style={{ width: "100%", height: "100%" }} state={state} base={base} />
                 </div>
                 /* jshint ignore:end */
             );

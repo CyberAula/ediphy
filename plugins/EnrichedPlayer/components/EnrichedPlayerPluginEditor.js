@@ -2,6 +2,8 @@ import React from 'react';
 import { findDOMNode } from 'react-dom';
 import ReactPlayer from 'react-player';
 import screenfull from 'screenfull';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import ClickNHold from '../../../_editor/components/rich_plugins/click_n_hold/ClickNHold';
 
 export default class EnrichedPlayerPlugin extends React.Component {
     constructor(props) {
@@ -79,12 +81,17 @@ export default class EnrichedPlayerPlugin extends React.Component {
 
         let markElements = Object.keys(marks).map((id) =>{
             let value = marks[id].value;
-
-            return(<a key={id} style={{ left: value, position: "absolute" }} href="#">
-                <div style={{ width: "4px", height: "8px", background: "#1fc8db" }}>
-                    <i style={{ color: "#1fc8db", position: "relative", top: "-24px", left: "-10px" }} className="material-icons">room</i>
-                </div>
-            </a>);
+            let title = marks[id].title;
+            return(
+                <ClickNHold key={id} style={{ left: value, position: "absolute" }} time={1.5} mark={id} base={this.props.base}>
+                    <a key={id} href="#">
+                        <div style={{ width: "4px", height: "8px", background: "#1fc8db" }}>
+                            <OverlayTrigger key={id} text={title} placement="top" overlay={<Tooltip id={id}>{title}</Tooltip>}>
+                                <i style={{ color: "#1fc8db", position: "relative", top: "-24px", left: "-10px" }} className="material-icons">room</i>
+                            </OverlayTrigger>
+                        </div>
+                    </a>
+                </ClickNHold>);
         });
         /* jshint ignore:start */
         return (

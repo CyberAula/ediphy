@@ -2,6 +2,7 @@ import React from 'react';
 import { findDOMNode } from 'react-dom';
 import ReactPlayer from 'react-player';
 import screenfull from 'screenfull';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 
 export default class EnrichedPlayerPlugin extends React.Component {
     constructor(props) {
@@ -130,12 +131,16 @@ export default class EnrichedPlayerPlugin extends React.Component {
 
         let markElements = Object.keys(marks).map((id) =>{
             let value = marks[id].value;
+            let title = marks[id].title;
 
-            return(<a key={id} style={{ left: value, position: "absolute" }} href="#">
-                <div style={{ width: "4px", height: "8px", background: "#1fc8db" }}>
-                    <i className="material-icons" style={{ color: "#1fc8db", position: "relative", top: "-24px", left: "-10px" }}>room</i>
-                </div>
-            </a>);
+            return(
+                <OverlayTrigger key={id} text={title} placement="top" overlay={<Tooltip id={id}>{title}</Tooltip>}>
+                    <a key={id} style={{ left: value, position: "absolute" }} href="#">
+                        <div style={{ width: "4px", height: "8px", background: "#1fc8db" }}>
+                            <i className="material-icons" style={{ color: "#1fc8db", position: "relative", top: "-24px", left: "-10px" }}>room</i>
+                        </div>
+                    </a>
+                </OverlayTrigger>);
         });
 
         /* jshint ignore:start */
