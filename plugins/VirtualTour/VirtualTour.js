@@ -256,7 +256,17 @@ export function VirtualTour(base) {
             return { isWrong: false, value: value };
         },
         pointerEventsCallback: function(bool, toolbarState) {
-            window.mapList[toolbarState.state.num].setOptions({ draggable: bool, mapTypeControl: bool, zoomControl: bool });
+            if (bool === 'mouseenter') {
+                window.mapList[toolbarState.num].setOptions({ draggable: false });
+            } else if (bool === 'mouseleave_true') {
+                window.mapList[toolbarState.num].setOptions({ draggable: true, mapTypeControl: true, zoomControl: true });
+            } else if (bool === 'mouseleave_false') {
+                window.mapList[toolbarState.num].setOptions({ draggable: false });
+            } else if (bool === 'disableAll') {
+                window.mapList[toolbarState.state.num].setOptions({ draggable: false, mapTypeControl: false, zoomControl: false });
+            } else if (bool === 'enableAll') {
+                window.mapList[toolbarState.state.num].setOptions({ draggable: true, mapTypeControl: true, zoomControl: true });
+            }
         },
 
     };

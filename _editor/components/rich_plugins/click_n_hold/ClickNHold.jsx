@@ -29,6 +29,7 @@ export default class ClickNHold extends Component {
         this.setState({ start: start, holding: true, ended: false });
         let time = this.props.time;
         setTimeout(function() {this.timeout(start);}.bind(this), time * 100 + 1);
+        e.stopPropagation();
     }
 
     end(event) {
@@ -60,16 +61,22 @@ export default class ClickNHold extends Component {
         classList += this.state.holding ? 'holding ' : '';
         classList += this.state.ended ? 'ended ' : '';
         classList += this.state.editing ? 'editing' : '';
-
         return (
             <div className={classList}
                 onMouseDown={this.start}
                 onTouchStart={this.start}
                 onMouseUp={this.end}
-                onMouseLeave={this.mouseLeave}
+                onMouseEnter={(e)=>{
+                    this.props.base.pointerEventsCallback('mouseenter', this.props.base.getState());
+                }}
+                onMouseLeave={(e)=>{
+                    let bool = this.findParentBySelector(ReactDOM.findDOMNode(this), '.pointerEventsEnabled');
+                    this.props.base.pointerEventsCallback('mouseleave_' + (bool ? 'true' : 'false'), this.props.base.getState());
+                    this.mouseLeave(e);
+                }}
                 onTouchCancel={this.end}
                 onTouchEnd={this.end}
-                onDoubleClick={(e)=>e.stopPropagation()}
+                onDoubleClick={(e) => e.stopPropagation()}
                 onDrag={(e)=>e.stopPropagation()} >
                 {this.props.children}
             </div>

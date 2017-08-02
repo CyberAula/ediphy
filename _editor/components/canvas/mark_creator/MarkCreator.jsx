@@ -101,7 +101,7 @@ export default class MarkCreator extends Component {
                     event.preventDefault();
                 };
 
-                overlay.onclick = function(e) {
+                overlay.onmouseup = function(e) {
                     let square = this.getClientRects()[0];
                     let x = e.clientX - square.left - cursor_x_offset;// e.offsetX;
                     let y = e.clientY - square.top - cursor_y_offset;// e.offsetY;

@@ -42,7 +42,7 @@ export default class DaliShortcuts extends Component {
                             (<OverlayTrigger placement="top"
                                 overlay={
                                     <Tooltip id="richMark">{i18n.t('messages.add_new_mark')}</Tooltip>
-                                }><button className="daliTitleButton" onClick={(e)=>{
+                                }><button className="daliTitleButton" onMouseDown={(e)=>{
                                     this.props.onMarkCreatorToggled(box.id);
                                 }}><i className="material-icons">room</i></button></OverlayTrigger>)
                             : <span />
@@ -131,7 +131,7 @@ export default class DaliShortcuts extends Component {
                                         e.stopPropagation();
                                         let bool = boxEl.classList.contains('pointerEventsEnabled');
                                         if (this.props.pointerEventsCallback) {
-                                            this.props.pointerEventsCallback(bool, this.props.toolbar);
+                                            this.props.pointerEventsCallback(bool ? 'enableAll' : 'disableAll', this.props.toolbar);
                                         }
                                         bool && but ? but.classList.add('dtbSelected') : but.classList.remove('dtbSelected');
                                     }}>
@@ -197,9 +197,13 @@ export default class DaliShortcuts extends Component {
                 this.resize("fromUpdate", nextProps);
 
                 // Removes pointer events allowance when box is changed
-                if (nextProps.box !== this.props.box) {
+                if (!this.props.box || nextProps.box.id !== this.props.box.id) {
+                    console.log(this.props.box, nextProps.box);
                     let boxEl = document.getElementById('box-' + (this.props.box ? this.props.box.id : ''));
                     if (boxEl) {
+                        if (this.props.pointerEventsCallback) {
+                            this.props.pointerEventsCallback('disableAll', this.props.toolbar);
+                        }
                         boxEl.classList.remove('pointerEventsEnabled');
                     }
                     let pebutton = document.getElementById('pebutton');
@@ -242,6 +246,7 @@ export default class DaliShortcuts extends Component {
             if(boxObj) {
                 boxObj.addEventListener('resize', this.resize.bind(this));
             }
+
         }
     }
 
@@ -252,7 +257,7 @@ export default class DaliShortcuts extends Component {
         if (boxEl) {
             let bool = boxEl.classList.contains('pointerEventsEnabled');
             if (this.props.pointerEventsCallback) {
-                this.props.pointerEventsCallback(bool, this.props.toolbar);
+                this.props.pointerEventsCallback('disableAll', this.props.toolbar);
             }
             boxEl.classList.remove('pointerEventsEnabled');
         }
