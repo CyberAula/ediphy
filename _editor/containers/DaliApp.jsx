@@ -30,6 +30,8 @@ import AutoSave from '../components/autosave/AutoSave';
 import i18n from 'i18next';
 import Dali from '../../core/main';
 import { isSortableBox, isSection, isContainedView, isSortableContainer } from '../../utils';
+require('typeface-ubuntu');
+require('typeface-source-sans-pro');
 
 class DaliApp extends Component {
     constructor(props) {

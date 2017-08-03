@@ -16,6 +16,8 @@
 
 @import 'events/draganddrop';
 @import 'events/overlay';
+$material-font-path:  '../node_modules/material-design-icons-font/iconfont/';
+@import '../node_modules/material-design-icons-font/iconfont/material-icons';
 
 @include selection {
     color: white;

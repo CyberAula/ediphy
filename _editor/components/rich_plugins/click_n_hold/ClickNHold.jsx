@@ -104,8 +104,8 @@ export default class ClickNHold extends Component {
         let cursor_x_offset = 12;
         let cursor_y_offset = 20;
         let component = this;
-        overlay.style.cursor = 'url("https://storage.googleapis.com/material-icons/external-assets/v4/icons/svg/ic_room_white_24px.svg") ' + cursor_x_offset + ' ' + cursor_y_offset + ', crosshair';
-        document.body.style.cursor = 'url("https://storage.googleapis.com/material-icons/external-assets/v4/icons/svg/ic_room_white_24px.svg") ' + cursor_x_offset + ' ' + cursor_y_offset + ', crosshair !important';
+        overlay.style.cursor = 'url("/images/mark.svg") ' + cursor_x_offset + ' ' + cursor_y_offset + ', crosshair !important';
+        document.body.style.cursor = 'url("/images/mark.svg") ' + cursor_x_offset + ' ' + cursor_y_offset + ', crosshair !important';
         let base = this.props.base;
         let toolbarState = base.getState();
         let parseRichMarkInput = base.parseRichMarkInput;
