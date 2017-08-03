@@ -178,6 +178,7 @@ export default function() {
         },
         getToolbar: function() {
             let toolbar;
+            var buttonKey;
             if (descendant.getToolbar) {
                 toolbar = descendant.getToolbar();
             }
@@ -192,7 +193,7 @@ export default function() {
                     accordions[accordionKey].__name = defaultFor(accordions[accordionKey].__name, accordionKey, "Property __name in accordion '" + accordionKey + "' not found");
                     let buttons = defaultFor(accordions[accordionKey].buttons, {}, "Property buttons in accordion '" + accordionKey + "' not found");
                     accordions[accordionKey].buttons = buttons;
-                    for (let buttonKey in buttons) {
+                    for (buttonKey in buttons) {
                         button = buttons[buttonKey];
                         button.__name = defaultFor(button.__name, buttonKey, "Property __name in button '" + buttonKey + "' not found");
                         button.autoManaged = defaultFor(button.autoManaged, true);

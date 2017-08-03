@@ -29,14 +29,16 @@ let es = {
         "display_page": "Previsualizar / exportar",
         "document": "Documento",
         "edit_text": "Editar texto",
-        "Exercises": "Ejercicios",
-        "Exporting": "Se está exportando...",
         "error": {
             "exporting": "Ha ocurrido un error al exportar",
             "generic": "Ha ocurrido un error",
             "importing": "Ha ocurrido un error al importar",
             "searching": "Ha ocurrido un error al buscar",
         },
+        "Exercises": "Ejercicios",
+        "Exporting": "Se está exportando...",
+        "FileDialog": "Buscar...",
+        "FileInput": "Arrastra aquí tu fichero",
         "fullscreen": "Fullscreen",
         "global_config": {
             "Accept": "Guardar cambios",

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import Dali from './../../../../core/main';
 import { Button, Tooltip, OverlayTrigger } from 'react-bootstrap';
+import { UPDATE_BOX } from '../../../../actions';
 import i18n from 'i18next';
 import { isSortableBox, isSortableContainer } from './../../../../utils';
 
@@ -110,6 +112,25 @@ export default class DaliShortcuts extends Component {
                                         e.stopPropagation();
                                     }}>
                                     <i className="material-icons">mode_edit</i>
+                                </button>
+                            </OverlayTrigger>
+                        ) : (
+                            <span />
+                        )
+                    }
+                    {
+                        (toolbar && toolbar.config && toolbar.config.needsConfigModal) ? (
+                            <OverlayTrigger placement="top"
+                                overlay={
+                                    <Tooltip id="config">
+                                        {i18n.t('open_conf')}
+                                    </Tooltip>
+                                }>
+                                <button id="open_conf" className={"daliTitleButton"}
+                                    onClick={(e) => {
+                                        Dali.Plugins.get(toolbar.config.name).openConfigModal(UPDATE_BOX, toolbar.state, toolbar.id);
+                                    }}>
+                                    <i className="material-icons">build</i>
                                 </button>
                             </OverlayTrigger>
                         ) : (

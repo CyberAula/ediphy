@@ -1,5 +1,6 @@
 import React from "react";
 import { Form, Button, FormGroup, FormControl, ControlLabel, Col, Grid, Row, Table, Checkbox, Radio } from "react-bootstrap";
+import FileInput from '@ranyefet/react-file-input';
 
 let Chart = require("./chart-component");
 
@@ -164,6 +165,7 @@ let DataProvider = React.createClass({
             } else if(file.name.split('.').pop() === "json") {
                 data = JSON.parse(data);
             }
+            this.setState({ name: file.name });
             this.validateJson(data);
         };
         reader.readAsText(file);
@@ -188,9 +190,12 @@ let DataProvider = React.createClass({
             <div>
                 <Form horizontal style={{ padding: "16px" }}>
                     <FormGroup>
-                        <FormControl.Static>
-                            <FormControl type="file" onChange={this.fileChanged} />
-                        </FormControl.Static>
+                        <FileInput onChange={this.fileChanged} className="fileInput">
+                            <Button className="btn btn-primary" style={{ marginTop: '0px' }}>{ Dali.i18n.t('FileDialog') }</Button><span style={{ marginLeft: '10px' }}>{ this.state.name || '' }</span>
+                            <div style={{ display: this.state.name ? 'none' : 'block' }} className="dragContentHere">
+                                { Dali.i18n.t('FileInput') }
+                            </div>
+                        </FileInput>
                     </FormGroup>
                     <FormGroup>
                         <Col componentClass={ControlLabel} xs={4}>
@@ -311,7 +316,7 @@ let ChartOptions = React.createClass({
             for (let i = yAxis.length; i < number; i++) {
                 yAxis[i] = {
                     key: "",
-                    color: "#ff7f0e",
+                    color: "#1FC8DB",
                 };
             }
         } else {
@@ -346,7 +351,7 @@ let ChartOptions = React.createClass({
                 rings[i] = {
                     name: this.state.keys[0],
                     value: this.state.valueKeys[0],
-                    color: "#ff7f0e",
+                    color: "#1FC8DB",
                 };
             }
         } else {
@@ -623,8 +628,8 @@ let Config = React.createClass({
             }
         }
         let options = this.state.options;
-        options.y = [{ key: valueKeys[0], color: "#ff7f0e" }];
-        options.rings = [{ name: keys[0], value: valueKeys[0], color: "#ff7f0e" }];
+        options.y = [{ key: valueKeys[0], color: "#1FC8DB" }];
+        options.rings = [{ name: keys[0], value: valueKeys[0], color: "#1FC8DB" }];
         this.setState({ data: data, keys: keys, valueKeys: valueKeys, options: options });
     },
 

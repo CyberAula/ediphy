@@ -57,6 +57,7 @@
     "webpack-dev-server": "^1.16.2"
   },
   "dependencies": {
+    "@ranyefet/react-file-input": "^1.0.1",
     "BasicPlayer": "file:plugins/BasicPlayer",
     "EnrichedPlayer": "file:plugins/EnrichedPlayer",
     "GraficaD3": "file:plugins/GraficaD3",
