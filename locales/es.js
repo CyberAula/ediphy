@@ -170,7 +170,7 @@ let es = {
             "global_config": "Configuración Global",
             "height_auto_warning": "Sólo si fijas una altura podrán tener alturas relativas las cajas en su interior",
             "mark_input": "Hay un error en el valor introducido",
-            "pointer_events": "Permitir manipular con el ratón el plugin",
+            "pointer_events": "Activar el modo de edición manual del contenido",
         },
 
         "Multimedia": "Multimedia",

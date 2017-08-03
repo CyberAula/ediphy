@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import i18n from 'i18next';
 import { ID_PREFIX_RICH_MARK, ID_PREFIX_CONTAINED_VIEW, ID_PREFIX_SORTABLE_BOX, PAGE_TYPES } from '../../../../constants';
-import { nextAvailName } from './../../../../utils';
+import { nextAvailName } from '../../../../utils';
 export default class MarkCreator extends Component {
 
     constructor(props) {
@@ -102,6 +102,10 @@ export default class MarkCreator extends Component {
                 };
 
                 overlay.onmouseup = function(e) {
+                    if (e.which === 3) {
+                        exitFunction();
+                        return;
+                    }
                     let square = this.getClientRects()[0];
                     let x = e.clientX - square.left - cursor_x_offset;// e.offsetX;
                     let y = e.clientY - square.top - cursor_y_offset;// e.offsetY;
@@ -132,7 +136,6 @@ export default class MarkCreator extends Component {
                     exitFunction();
                 };
                 // document.documentElement.style.cursor = 'url("https://storage.googleapis.com/material-icons/external-assets/v4/icons/svg/ic_room_black_24px.svg"), default';
-
                 dropableElement.parentElement.appendChild(overlay);
                 this.setState({ onCreation: true });
 

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import MarkCreator from '../mark_creator/MarkCreator';
-import { Button } from 'react-bootstrap';
+import MarkCreator from '../../rich_plugins/mark_creator/MarkCreator';
 import interact from 'interact.js';
 import PluginPlaceholder from '../plugin_placeholder/PluginPlaceholder';
 import { ADD_BOX, UPDATE_BOX, RESIZE_BOX, ADD_RICH_MARK, DELETE_RICH_MARK, DELETE_CONTAINED_VIEW, EDIT_PLUGIN_TEXT, IMPORT_STATE } from '../../../../actions';

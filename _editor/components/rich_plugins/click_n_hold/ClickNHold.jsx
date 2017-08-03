@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-
+import { findParentBySelector } from './../../../../utils';
 require('./_click_n_hold.scss');
 /*
 * <ClickNHold onClickNHold={e=>{...}} // callback
@@ -66,13 +66,13 @@ export default class ClickNHold extends Component {
                 style={this.props.style}
                 onMouseDown={this.start}
                 onTouchStart={this.start}
-                onMouseUp={this.end}
+                onMouseUp={()=>{console.log(0); this.end();}}
                 onMouseEnter={(e)=>{
                     this.props.base.pointerEventsCallback('mouseenter', this.props.base.getState());
                 }}
                 onMouseLeave={(e)=>{
-                    let bool = this.findParentBySelector(ReactDOM.findDOMNode(this), '.pointerEventsEnabled');
-                    this.props.base.pointerEventsCallback('mouseleave_' + (bool ? 'true' : 'false'), this.props.base.getState());
+                    let bool = findParentBySelector(ReactDOM.findDOMNode(this), '.pointerEventsEnabled');
+                    this.props.base.pointerEventsCallback('mouseleave_' + (bool && !this.state.editing ? 'true' : 'false'), this.props.base.getState());
                     this.mouseLeave(e);
                 }}
                 onTouchCancel={this.end}
@@ -86,8 +86,8 @@ export default class ClickNHold extends Component {
 
     overlay() {
         let myself = ReactDOM.findDOMNode(this);
-        let dropableElement = this.findParentBySelector(myself, '.dropableRichZone');
-        let boxStyle = this.findParentBySelector(myself, '.boxStyle');
+        let dropableElement = findParentBySelector(myself, '.dropableRichZone');
+        let boxStyle = findParentBySelector(myself, '.boxStyle');
         boxStyle.classList.add('norotate');
         let overlay = document.createElement("div");
         overlay.classList.add('overlay');
@@ -103,7 +103,7 @@ export default class ClickNHold extends Component {
         let cursor_x_offset = 12;
         let cursor_y_offset = 20;
         let component = this;
-        // overlay.style.cursor = 'url("https://storage.googleapis.com/material-icons/external-assets/v4/icons/svg/ic_room_white_24px.svg") ' + cursor_x_offset + ' ' + cursor_y_offset + ', crosshair';
+        overlay.style.cursor = 'url("https://storage.googleapis.com/material-icons/external-assets/v4/icons/svg/ic_room_white_24px.svg") ' + cursor_x_offset + ' ' + cursor_y_offset + ', crosshair';
         document.body.style.cursor = 'url("https://storage.googleapis.com/material-icons/external-assets/v4/icons/svg/ic_room_white_24px.svg") ' + cursor_x_offset + ' ' + cursor_y_offset + ', crosshair';
         let base = this.props.base;
         let toolbarState = base.getState();
@@ -164,22 +164,5 @@ export default class ClickNHold extends Component {
 
     }
 
-    collectionHas(a, b) { // helper function (see below)
-        for (let i = 0, len = a.length; i < len; i++) {
-            if (a[i] === b) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    findParentBySelector(elm, selector) {
-        const all = document.querySelectorAll(selector);
-        let cur = elm.parentNode;
-        while (cur && !this.collectionHas(all, cur)) {// keep going up until you find a match
-            cur = cur.parentNode;// go up
-        }
-        return cur;// will return null if not found
-    }
 }
 
