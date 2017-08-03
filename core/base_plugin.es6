@@ -178,6 +178,7 @@ export default function() {
         },
         getToolbar: function() {
             let toolbar;
+            // eslint-disable-next-line no-var
             var buttonKey;
             if (descendant.getToolbar) {
                 toolbar = descendant.getToolbar();

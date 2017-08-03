@@ -5,7 +5,6 @@ import GoogleMapReact from 'google-map-react';
 import SearchBox from './SearchBox';
 import { Gmaps } from 'react-gmaps';
 import { findParentBySelector } from './../../../utils';
-const params = { v: '3.exp'/* , key: 'YOUR_API_KEY'*/ };
 
 export default class Map extends React.Component {
     constructor(props) {
@@ -25,7 +24,7 @@ export default class Map extends React.Component {
         return(
             <div id={this.props.id} className="dropableRichZone" style={{ width: '100%', height: '100%' }}>
                 <GoogleMapReact center={center}
-                    draggable={this.state.draggable}
+                    draggable={Boolean(this.state.draggable)}
                     zoom={zoom}
                     options={{
                         draggable: this.state.draggable,

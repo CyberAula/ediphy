@@ -62,7 +62,8 @@ export default class ClickNHold extends Component {
         classList += this.state.ended ? 'ended ' : '';
         classList += this.state.editing ? 'editing' : '';
         return (
-            <div className={classList}
+            <div draggable="true"
+                className={classList}
                 style={this.props.style}
                 onMouseDown={this.start}
                 onTouchStart={this.start}
@@ -104,7 +105,7 @@ export default class ClickNHold extends Component {
         let cursor_y_offset = 20;
         let component = this;
         overlay.style.cursor = 'url("https://storage.googleapis.com/material-icons/external-assets/v4/icons/svg/ic_room_white_24px.svg") ' + cursor_x_offset + ' ' + cursor_y_offset + ', crosshair';
-        document.body.style.cursor = 'url("https://storage.googleapis.com/material-icons/external-assets/v4/icons/svg/ic_room_white_24px.svg") ' + cursor_x_offset + ' ' + cursor_y_offset + ', crosshair';
+        document.body.style.cursor = 'url("https://storage.googleapis.com/material-icons/external-assets/v4/icons/svg/ic_room_white_24px.svg") ' + cursor_x_offset + ' ' + cursor_y_offset + ', crosshair !important';
         let base = this.props.base;
         let toolbarState = base.getState();
         let parseRichMarkInput = base.parseRichMarkInput;
