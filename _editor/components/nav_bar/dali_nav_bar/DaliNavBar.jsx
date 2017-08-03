@@ -21,8 +21,8 @@ export default class DaliNavBar extends Component {
 
     }
 
-    openPlugin(categoria) {
-        this.props.setcat(categoria);
+    openPlugin(category) {
+        this.props.setcat(category);
     }
 
     render() {
@@ -42,29 +42,31 @@ export default class DaliNavBar extends Component {
                 </div>
 
                 <button
-                    className={ this.props.hideTab === 'show' && this.props.categoria === 'text' ? 'navButtonPlug active' : 'navButtonPlug' }
+                    className={ this.props.hideTab === 'show' && this.props.category === 'text' ? 'navButtonPlug active' : 'navButtonPlug' }
                     title='Text' disabled={false /* disablePlugins*/}
                     onClick={() => {this.openPlugin('text');}}><i
                         className="material-icons">text_fields</i><br/> <span
                         className="hideonresize">{i18n.t("Text")}</span></button>
                 <button
-                    className={ this.props.hideTab === 'show' && this.props.categoria === 'image' ? 'navButtonPlug active' : 'navButtonPlug' }
+                    className={ this.props.hideTab === 'show' && this.props.category === 'image' ? 'navButtonPlug active' : 'navButtonPlug' }
                     title='Images' disabled={false /* disablePlugins*/}
                     onClick={() => { this.openPlugin('image');}}><i className="material-icons">image</i><br/><span
                         className="hideonresize"> {i18n.t("Images")}</span></button>
                 <button
-                    className={ this.props.hideTab === 'show' && this.props.categoria === 'multimedia' ? 'navButtonPlug active' : 'navButtonPlug' }
+                    className={ this.props.hideTab === 'show' && this.props.category === 'multimedia' ? 'navButtonPlug active' : 'navButtonPlug' }
                     title={i18n.t("Multimedia")} disabled={false /* disablePlugins*/}
                     onClick={() => {this.openPlugin('multimedia');}}><i className="material-icons">play_circle_filled</i><br/> <span
                         className="hideonresize">{i18n.t("Multimedia")}</span></button>
                 <button
-                    className={ this.props.hideTab === 'show' && this.props.categoria === 'animations' ? ' navButtonPlug active' : 'navButtonPlug' }
+                    className={ this.props.hideTab === 'show' && this.props.category === 'animations' ? ' navButtonPlug active' : 'navButtonPlug' }
                     title={i18n.t("Animations")} disabled={false /* disablePlugins*/}
+                    style={{ display: 'none' }}
                     onClick={() => {this.openPlugin('animations');}}><i className="material-icons">toys</i><br/> <span
                         className="hideonresize">{i18n.t("Animations")}</span></button>
                 <button
-                    className={ this.props.hideTab === 'show' && this.props.categoria === 'exercises' ? 'navButtonPlug active' : 'navButtonPlug' }
+                    className={ this.props.hideTab === 'show' && this.props.category === 'exercises' ? 'navButtonPlug active' : 'navButtonPlug' }
                     title={i18n.t("Exercises")} disabled={false /* disablePlugins*/}
+                    style={{ display: 'none' }}
                     onClick={() => {this.openPlugin('exercises'); }}><i className="material-icons">school</i><br/> <span
                         className="hideonresize">{i18n.t("Exercises")}</span></button>
 

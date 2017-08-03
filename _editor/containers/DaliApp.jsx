@@ -82,11 +82,11 @@ class DaliApp extends Component {
                         export={() => {Dali.Visor.exports(this.props.store.getState().present);}}
                         scorm={() => {Dali.Visor.exportScorm(this.props.store.getState().present);}}
                         save={() => {this.dispatchAndSetState(exportStateAsync({ present: this.props.store.getState().present }));}}
-                        categoria={this.state.pluginTab}
+                        category={this.state.pluginTab}
                         opens={() => {this.dispatchAndSetState(importStateAsync());}}
                         serverModalOpen={()=>{this.setState({ serverModal: true });}}
                         onVishCatalogToggled={() => this.setState({ catalogModal: true })}
-                        setcat={(categoria) => {this.setState({ pluginTab: categoria, hideTab: 'show' });}}/>
+                        setcat={(category) => {this.setState({ pluginTab: category, hideTab: 'show' });}}/>
                     <AutoSave save={() => {this.dispatchAndSetState(exportStateAsync({ present: this.props.store.getState().present }));}}
                         serverModalOpen={()=>{this.setState({ serverModal: true });}}
                         isBusy={isBusy}
