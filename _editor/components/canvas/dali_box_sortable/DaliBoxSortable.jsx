@@ -1,10 +1,10 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import {Button, OverlayTrigger, Popover, Tooltip} from 'react-bootstrap';
+import { Button, OverlayTrigger, Popover, Tooltip } from 'react-bootstrap';
 import interact from 'interact.js';
 import DaliBox from '../dali_box/DaliBox';
-import {ID_PREFIX_SORTABLE_CONTAINER} from '../../../../constants';
-import {ADD_BOX} from '../../../../actions';
+import { ID_PREFIX_SORTABLE_CONTAINER } from '../../../../constants';
+import { ADD_BOX } from '../../../../actions';
 import Dali from './../../../../core/main';
 import i18n from 'i18next';
 
@@ -15,88 +15,92 @@ export default class DaliBoxSortable extends Component {
         let box = this.props.boxes[this.props.id];
         return (
             /* jshint ignore:start */
-            <div className="daliBoxSortable" onClick={e => {
-                if(box.children.length != 0) {
-                    this.props.onBoxSelected(this.props.id);
-                }
-                e.stopPropagation();
-            }}>
-                <div ref="sortableContainer"
-                     className={(this.props.id === this.props.boxSelected && box.children.length > 0) ? ' selectedBox':' '}
-                     style={{
-                     position: 'relative',
-                     boxSizing: 'border-box'
+            <div className="daliBoxSortable"
+                onClick={e => {
+                    if(box.children.length !== 0) {
+                        this.props.onBoxSelected(this.props.id);
+                    }
+                    e.stopPropagation();
                 }}>
+                <div ref="sortableContainer"
+                    className={(this.props.id === this.props.boxSelected && box.children.length > 0) ? ' selectedBox' : ' '}
+                    style={{
+                        position: 'relative',
+                        boxSizing: 'border-box',
+                    }}>
                     {box.children.map((idContainer, index)=> {
                         let container = box.sortableContainers[idContainer];
                         return (<div key={index}
-                                     className={"daliBoxSortableContainer pos_relative " + container.style.className}
-                                     data-id={idContainer}
-                                     id={idContainer}
-                                     ref={idContainer}
-                                     style={
-                                        Object.assign({},{
-                                            height: container.height == 'auto' ? container.height : container.height + 'px',
-                                        },container.style)
-                                     }>
+                            className={"daliBoxSortableContainer pos_relative " + container.style.className}
+                            data-id={idContainer}
+                            id={idContainer}
+                            ref={idContainer}
+                            style={
+                                Object.assign({}, {
+                                    height: container.height === 'auto' ? container.height : container.height + 'px',
+                                }, container.style)
+                            }>
                             <div className="disp_table width100 height100">
                                 {container.colDistribution.map((col, i) => {
                                     if (container.cols[i]) {
                                         return (<div key={i}
-                                                     className="colDist-i height100 disp_table_cell vert_al_top"
-                                                     style={{width: col + "%"}}>
+                                            className="colDist-i height100 disp_table_cell vert_al_top"
+                                            style={{ width: col + "%" }}>
                                             {container.cols[i].map((row, j) => {
                                                 return (<div key={j}
-                                                             className="colDist-j width100 pos_relative"
-                                                             style={{height: row + "%"}}
-                                                             ref={e => {
-                                                                    if(e !== null){
-                                                                        this.configureDropZone(
-                                                                            ReactDOM.findDOMNode(e),
-                                                                            "cell",
-                                                                            ".rib, .dnd" + idContainer,
-                                                                            {
-                                                                                idContainer: idContainer,
-                                                                                i: i,
-                                                                                j: j
-                                                                            }
-                                                                        );
-                                                                    }
-                                                              }}>
-                                                    {container.children.map((idBox, index) => {
+                                                    className="colDist-j width100 pos_relative"
+                                                    style={{ height: row + "%" }}
+                                                    ref={e => {
+                                                        if(e !== null) {
+                                                            this.configureDropZone(
+                                                                ReactDOM.findDOMNode(e),
+                                                                "cell",
+                                                                ".rib, .dnd" + idContainer,
+                                                                {
+                                                                    idContainer: idContainer,
+                                                                    i: i,
+                                                                    j: j,
+                                                                }
+                                                            );
+                                                        }
+                                                    }}>
+                                                    {container.children.map((idBox, ind) => {
                                                         if (this.props.boxes[idBox].col === i && this.props.boxes[idBox].row === j) {
                                                             return (<DaliBox id={idBox}
-                                                                             key={index}
-                                                                             boxes={this.props.boxes}
-                                                                             boxSelected={this.props.boxSelected}
-                                                                             boxLevelSelected={this.props.boxLevelSelected}
-                                                                             containedViewSelected={this.props.containedViewSelected}
-                                                                             toolbars={this.props.toolbars}
-                                                                             lastActionDispatched={this.props.lastActionDispatched}
-                                                                             addMarkShortcut={this.props.addMarkShortcut}
-                                                                             deleteMarkCreator={this.props.deleteMarkCreator}
-                                                                             markCreatorId={this.props.markCreatorId}
-                                                                             onBoxAdded={this.props.onBoxAdded}
-                                                                             onBoxSelected={this.props.onBoxSelected}
-                                                                             onBoxLevelIncreased={this.props.onBoxLevelIncreased}
-                                                                             onBoxMoved={this.props.onBoxMoved}
-                                                                             onBoxResized={this.props.onBoxResized}
-                                                                             onBoxDropped={this.props.onBoxDropped}
-                                                                             onVerticallyAlignBox={this.props.onVerticallyAlignBox}
-                                                                             onBoxModalToggled={this.props.onBoxModalToggled}
-                                                                             onBoxesInsideSortableReorder={this.props.onBoxesInsideSortableReorder}
-                                                                             onSortableContainerResized={this.props.onSortableContainerResized}
-                                                                             onTextEditorToggled={this.props.onTextEditorToggled}
-                                                                             pageType={this.props.pageType}/>);
+                                                                key={ind}
+                                                                boxes={this.props.boxes}
+                                                                boxSelected={this.props.boxSelected}
+                                                                boxLevelSelected={this.props.boxLevelSelected}
+                                                                containedViews={this.props.containedViews}
+                                                                containedViewSelected={this.props.containedViewSelected}
+                                                                toolbars={this.props.toolbars}
+                                                                lastActionDispatched={this.props.lastActionDispatched}
+                                                                addMarkShortcut={this.props.addMarkShortcut}
+                                                                deleteMarkCreator={this.props.deleteMarkCreator}
+                                                                markCreatorId={this.props.markCreatorId}
+                                                                onBoxAdded={this.props.onBoxAdded}
+                                                                onBoxSelected={this.props.onBoxSelected}
+                                                                onBoxLevelIncreased={this.props.onBoxLevelIncreased}
+                                                                onBoxMoved={this.props.onBoxMoved}
+                                                                onBoxResized={this.props.onBoxResized}
+                                                                onBoxDropped={this.props.onBoxDropped}
+                                                                onVerticallyAlignBox={this.props.onVerticallyAlignBox}
+                                                                onBoxModalToggled={this.props.onBoxModalToggled}
+                                                                onBoxesInsideSortableReorder={this.props.onBoxesInsideSortableReorder}
+                                                                onSortableContainerResized={this.props.onSortableContainerResized}
+                                                                onTextEditorToggled={this.props.onTextEditorToggled}
+                                                                pageType={this.props.pageType}/>);
 
-                                                        } else if (index == container.children.length - 1) {
-                                                            return (<span key={index}><br/><br/></span>);
+                                                        } else if (ind === container.children.length - 1) {
+                                                            return (<span key={ind}><br/><br/></span>);
                                                         }
+                                                        return null;
                                                     })}
                                                 </div>);
                                             })}
                                         </div>);
                                     }
+                                    return null;
                                 })}
                             </div>
 
@@ -110,22 +114,22 @@ export default class DaliBoxSortable extends Component {
 
                                     <OverlayTrigger trigger={["focus"]} placement="top" overlay={
                                         <Popover id="popov" title={i18n.t("delete_container")}>
-                                            <i style={{color: 'yellow', fontSize: '13px', padding: '0 5px'}} className="material-icons">warning</i>
+                                            <i style={{ color: 'yellow', fontSize: '13px', padding: '0 5px' }} className="material-icons">warning</i>
                                             {
                                                 i18n.t("messages.delete_container")
                                             }
                                             <br/>
                                             <br/>
                                             <Button className="popoverButton"
-                                                    style={{float: 'right'}}
-                                                    onClick={e => {
-                                                        this.props.onSortableContainerDeleted(idContainer, box.id);
-                                                        e.stopPropagation();
-                                                    }}>
+                                                style={{ float: 'right' }}
+                                                onClick={e => {
+                                                    this.props.onSortableContainerDeleted(idContainer, box.id);
+                                                    e.stopPropagation();
+                                                }}>
                                                 {i18n.t("Accept")}
                                             </Button>
                                             <Button className="popoverButton"
-                                                    style={{float: 'right'}}  >
+                                                style={{ float: 'right' }} >
                                                 {i18n.t("Cancel")}
                                             </Button>
                                         </Popover>}>
@@ -136,10 +140,7 @@ export default class DaliBoxSortable extends Component {
                                         </OverlayTrigger>
                                     </OverlayTrigger>
 
-
-
                                 </div>
-
 
                             </div>
                         </div>);
@@ -147,9 +148,9 @@ export default class DaliBoxSortable extends Component {
                 </div>
 
                 <div className="dragContentHere"
-                     onClick={e => {
-                    this.props.onBoxSelected(-1);
-                    e.stopPropagation();}}>{i18n.t("messages.drag_content")}
+                    onClick={e => {
+                        this.props.onBoxSelected(-1);
+                        e.stopPropagation();}}>{i18n.t("messages.drag_content")}
                 </div>
 
             </div>
@@ -184,26 +185,26 @@ export default class DaliBoxSortable extends Component {
                     this.props.onSortableContainerReordered(indexes, this.props.id);
                 }
                 list.sortable('cancel');
-            }
+            },
         });
     }
 
     configureResizable(item) {
         interact(item).resizable({
             enabled: this.props.id === this.props.boxSelected && item.style.height !== "auto",
-            edges: {left: false, right: false, bottom: true, top: false},
+            edges: { left: false, right: false, bottom: true, top: false },
             autoScroll: {
-              container: document.getElementById('canvas'),
-              margin: 50,
-              distance: 0,
-              interval: 0
+                container: document.getElementById('canvas'),
+                margin: 50,
+                distance: 0,
+                interval: 0,
             },
             onmove: (event) => {
                 event.target.style.height = event.rect.height + 'px';
             },
             onend: (event) => {
                 this.props.onSortableContainerResized(event.target.getAttribute("data-id"), this.props.id, parseInt(event.target.style.height, 10));
-            }
+            },
         });
     }
 
@@ -211,16 +212,16 @@ export default class DaliBoxSortable extends Component {
         interact(node).dropzone({
             accept: selector,
             overlap: 'pointer',
-            ondropactivate: function (e) {
+            ondropactivate: function(e) {
                 e.target.classList.add('drop-active');
             },
-            ondragenter: function (e) {
+            ondragenter: function(e) {
                 e.target.classList.add("drop-target");
             },
-            ondragleave: function (e) {
+            ondragleave: function(e) {
                 e.target.classList.remove("drop-target");
             },
-            ondrop: function (e) {
+            ondrop: function(e) {
                 if (dropArea === 'cell') {
                     // If element dragged is coming from PluginRibbon, create a new DaliBox
                     if (e.relatedTarget.className.indexOf("rib") !== -1) {
@@ -228,7 +229,7 @@ export default class DaliBoxSortable extends Component {
                             parent: this.props.id,
                             container: extraParams.idContainer,
                             col: extraParams.i,
-                            row: extraParams.j
+                            row: extraParams.j,
                         };
                         Dali.Plugins.get(e.relatedTarget.getAttribute("name")).getConfig().callback(initialParams, ADD_BOX);
                     } else {
@@ -246,22 +247,22 @@ export default class DaliBoxSortable extends Component {
                     if (dropArea === 'existingContainer') {
                         initialParams = {
                             parent: this.props.id,
-                            container: e.target.getAttribute("data-id")
+                            container: e.target.getAttribute("data-id"),
                         };
                     } else if (dropArea === 'newContainer') {
                         initialParams = {
                             parent: this.props.id,
-                            container: ID_PREFIX_SORTABLE_CONTAINER + Date.now()
+                            container: ID_PREFIX_SORTABLE_CONTAINER + Date.now(),
                         };
                     }
                     Dali.Plugins.get(e.relatedTarget.getAttribute("name")).getConfig().callback(initialParams, ADD_BOX);
                     e.dragEvent.stopPropagation();
                 }
             }.bind(this),
-            ondropdeactivate: function (e) {
+            ondropdeactivate: function(e) {
                 e.target.classList.remove('drop-active');
                 e.target.classList.remove("drop-target");
-            }
+            },
         });
     }
 }

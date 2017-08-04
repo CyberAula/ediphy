@@ -1,6 +1,6 @@
 export function BasicImage(base) {
     return {
-        getConfig: function () {
+        getConfig: function() {
             return {
                 name: 'BasicImage',
                 displayName: Dali.i18n.t('BasicImage.PluginName'),
@@ -10,12 +10,12 @@ export function BasicImage(base) {
                 initialWidth: '25%',
                 aspectRatioButtonConfig: {
                     location: ["main", "__sortable"],
-                    defaultValue: true
+                    defaultValue: true,
                 },
-                icon: 'image'
+                icon: 'image',
             };
         },
-        getToolbar: function () {
+        getToolbar: function() {
             return {
                 main: {
                     __name: "Main",
@@ -30,33 +30,33 @@ export function BasicImage(base) {
                                     type: 'number',
                                     value: 0,
                                     min: 0,
-                                    max: 100
+                                    max: 100,
                                 },
                                 backgroundColor: {
                                     __name: Dali.i18n.t('BasicImage.background_color'),
                                     type: 'color',
-                                    value: '#ffffff'
+                                    value: '#ffffff',
                                 },
                                 borderWidth: {
                                     __name: Dali.i18n.t('BasicImage.border_size'),
                                     type: 'number',
                                     value: 0,
                                     min: 0,
-                                    max: 10
+                                    max: 10,
                                 },
                                 borderStyle: {
                                     __name: Dali.i18n.t('BasicImage.border_style'),
                                     type: 'radio',
                                     value: 'solid',
-                                    options: ['none', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset', 'initial', 'inherit']
+                                    options: ['none', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset', 'initial', 'inherit'],
                                 },
                                 borderColor: {
                                     __name: Dali.i18n.t('BasicImage.border_color'),
                                     type: 'color',
-                                    value: '#000000'
+                                    value: '#000000',
                                 },
                                 borderRadius: {
-                                    __name:  Dali.i18n.t('BasicImage.radius'),
+                                    __name: Dali.i18n.t('BasicImage.radius'),
                                     type: 'number',
                                     value: 0,
                                     min: 0,
@@ -68,9 +68,9 @@ export function BasicImage(base) {
                                     value: 1,
                                     min: 0,
                                     max: 1,
-                                    step: 0.01
-                                }
-                            }
+                                    step: 0.01,
+                                },
+                            },
                         },
                         basic: {
                             __name: Dali.i18n.t('BasicImage.source'),
@@ -80,30 +80,30 @@ export function BasicImage(base) {
                                     __name: 'URL',
                                     type: 'vish_provider',
                                     value: base.getState().url,
-                                    autoManaged: false
-                                }
-                            }
-                        }
-                    }
-                }
+                                    autoManaged: false,
+                                },
+                            },
+                        },
+                    },
+                },
             };
         },
-        getInitialState: function () {
+        getInitialState: function() {
             return {
-                //url: 'http://nemanjakovacevic.net/wp-content/uploads/2013/07/placeholder.png'
-                //url: 'http://www.amicus.nieruchomosci.pl/grafika/no-image.png'
-                url:'https://bytesizemoments.com/wp-content/uploads/2014/04/placeholder.png'
+                // url: 'http://nemanjakovacevic.net/wp-content/uploads/2013/07/placeholder.png'
+                // url: 'http://www.amicus.nieruchomosci.pl/grafika/no-image.png'
+                url: 'https://bytesizemoments.com/wp-content/uploads/2014/04/placeholder.png',
             };
         },
-        getRenderTemplate: function (state) {
+        getRenderTemplate: function(state) {
             return "<div style=\"width: 100%; margin: 0px; height: 100%; \"><img onclick=\"$dali$.showPreview()\" className=\"basicImageClass\" style=\"width: 100%; height: 100%; \" src='" + state.url + "' /></div>";
 
         },
-        handleToolbar: function (name, value) {
+        handleToolbar: function(name, value) {
             base.setState(name, value);
         },
-        imageClick: function () {
-            /*alert("Miaua!");*/
-        }
+        imageClick: function() {
+            /* alert("Miaua!");*/
+        },
     };
 }

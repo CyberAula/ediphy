@@ -14,6 +14,6 @@ module.exports = {
         "padding": "Padding",
         "PluginName": "Video Básico",
         "radius": "Radio",
-        "source": "Origen"
-    }
+        "source": "Origen",
+    },
 };

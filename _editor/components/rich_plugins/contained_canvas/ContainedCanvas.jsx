@@ -1,27 +1,27 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import DaliBox from '../../canvas/dali_box/DaliBox';
 import DaliBoxSortable from '../../canvas/dali_box_sortable/DaliBoxSortable';
 import DaliShortcuts from '../../canvas/dali_shortcuts/DaliShortcuts';
-import {Col, Button} from 'react-bootstrap';
+import { Col, Button } from 'react-bootstrap';
 import DaliCanvasSli from '../../canvas/dali_canvas_sli/DaliCanvasSli';
 import DaliCanvasDoc from '../../canvas/dali_canvas_doc/DaliCanvasDoc';
-import {ADD_BOX} from '../../../../actions';
+import { ADD_BOX } from '../../../../actions';
 import Dali from '../../../../core/main';
-import {isSortableBox, isSlide} from './../../../../utils';
+import { isSortableBox, isSlide } from './../../../../utils';
 
 export default class ContainedCanvas extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            showTitle: false
+            showTitle: false,
         };
     }
 
     render() {
         let canvasContent;
         let containedViewSelected = this.props.containedViewSelected;
-        if (containedViewSelected && containedViewSelected !== 0){
+        if (containedViewSelected && containedViewSelected !== 0) {
             if (isSlide(containedViewSelected.type)) {
                 /* jshint ignore:start */
                 canvasContent = (<DaliCanvasSli
@@ -33,7 +33,7 @@ export default class ContainedCanvas extends Component {
                     containedViews={this.props.containedViews}
                     containedViewSelected={this.props.containedViewSelected}
                     deleteMarkCreator={this.props.deleteMarkCreator}
-                    fromCV={true}
+                    fromCV
                     lastActionDispatched={this.props.lastActionDispatched}
                     markCreatorId={this.props.markCreatorId}
                     onBoxAdded={this.props.onBoxAdded}
@@ -55,7 +55,6 @@ export default class ContainedCanvas extends Component {
                     showCanvas={this.props.showCanvas}
                 />);
 
-
                 /* jshint ignore:end */
             }else{
                 /* jshint ignore:start */
@@ -67,7 +66,7 @@ export default class ContainedCanvas extends Component {
                     containedViews={this.props.containedViews}
                     containedViewSelected={this.props.containedViewSelected}
                     deleteMarkCreator={this.props.deleteMarkCreator}
-                    fromCV={true}
+                    fromCV
                     lastActionDispatched={this.props.lastActionDispatched}
                     markCreatorId={this.props.markCreatorId}
                     onMarkCreatorToggled={this.props.onMarkCreatorToggled}
@@ -96,16 +95,16 @@ export default class ContainedCanvas extends Component {
             }
         } else {
             /* jshint ignore:start */
-            canvasContent =   (<Col id="containedCanvas"
-                                    md={12}
-                                    xs={12}
-                                    style={{
-                                        height:"100%",
-                                        padding: 0,
-                                        display: this.props.containedViewSelected !== 0 ? 'initial' : 'none'
-                                     }}></Col>);
+            canvasContent = (<Col id="containedCanvas"
+                md={12}
+                xs={12}
+                style={{
+                    height: "100%",
+                    padding: 0,
+                    display: this.props.containedViewSelected !== 0 ? 'initial' : 'none',
+                }} />);
             /* jshint ignore:end */
-                
+
         }
         return (
             /* jshint ignore:start */
@@ -116,16 +115,14 @@ export default class ContainedCanvas extends Component {
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.boxSelected !== -1) {
-            this.setState({showTitle: false});
+            this.setState({ showTitle: false });
         }
-        /*if (this.props.navItemSelected.id !== nextProps.navItemSelected.id) {
+        /* if (this.props.navItemSelected.id !== nextProps.navItemSelected.id) {
             document.getElementById('contained_maincontent').scrollTop = 0;
         }*/
     }
 
-
-
-    /*componentDidMount() {
+    /* componentDidMount() {
         interact(ReactDOM.findDOMNode(this)).dropzone({
             accept: '.floatingDaliBox',
             //overlap: 'pointer',

@@ -1,18 +1,18 @@
 export function BasicVideo(base) {
     return {
-        getConfig: function () {
+        getConfig: function() {
             return {
                 name: 'BasicVideo',
                 displayName: Dali.i18n.t('BasicVideo.PluginName'),
                 category: 'multimedia',
                 aspectRatioButtonConfig: {
                     location: ["main", "__sortable"],
-                    defaultValue: true
+                    defaultValue: true,
                 },
-                icon: 'play_arrow'
+                icon: 'play_arrow',
             };
         },
-        getToolbar: function () {
+        getToolbar: function() {
             return {
                 main: {
                     __name: "Main",
@@ -25,21 +25,21 @@ export function BasicVideo(base) {
                                     __name: Dali.i18n.t('BasicVideo.URL'),
                                     type: 'text',
                                     value: base.getState().url,
-                                    autoManaged: false
+                                    autoManaged: false,
                                 },
                                 controls: {
                                     __name: Dali.i18n.t('BasicVideo.Show_controls'),
                                     type: 'checkbox',
                                     checked: base.getState().controls,
-                                    autoManaged: false
+                                    autoManaged: false,
                                 },
                                 autoplay: {
                                     __name: Dali.i18n.t('BasicVideo.Autoplay'),
                                     type: 'checkbox',
                                     checked: base.getState().autoplay,
-                                    autoManaged: false
-                                }
-                            }
+                                    autoManaged: false,
+                                },
+                            },
                         },
                         style: {
                             __name: Dali.i18n.t('BasicVideo.box_style'),
@@ -50,32 +50,32 @@ export function BasicVideo(base) {
                                     type: 'number',
                                     value: 0,
                                     min: 0,
-                                    max: 100
+                                    max: 100,
                                 },
                                 borderWidth: {
                                     __name: Dali.i18n.t('BasicVideo.border_size'),
                                     type: 'number',
                                     value: 0,
                                     min: 0,
-                                    max: 10
+                                    max: 10,
                                 },
                                 borderStyle: {
                                     __name: Dali.i18n.t('BasicVideo.border_style'),
                                     type: 'select',
                                     value: 'solid',
-                                    options: ['none', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset', 'initial', 'inherit']
+                                    options: ['none', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset', 'initial', 'inherit'],
                                 },
                                 borderColor: {
                                     __name: Dali.i18n.t('BasicVideo.border_color'),
                                     type: 'color',
-                                    value: '#000000'
+                                    value: '#000000',
                                 },
                                 borderRadius: {
                                     __name: Dali.i18n.t('BasicVideo.radius'),
                                     type: 'number',
                                     value: 0,
                                     min: 0,
-                                    max: 50
+                                    max: 50,
                                 },
                                 opacity: {
                                     __name: Dali.i18n.t('BasicVideo.opacity'),
@@ -83,30 +83,30 @@ export function BasicVideo(base) {
                                     value: 1,
                                     min: 0,
                                     max: 1,
-                                    step: 0.05
-                                }
+                                    step: 0.05,
+                                },
 
-                            }
-                        }
-                    }
-                }
+                            },
+                        },
+                    },
+                },
             };
         },
         // TEST URL http://video.webmfiles.org/big-buck-bunny_trailer.webm
         // Posibilidad: http://modernizr.com/
-        getInitialState: function () {
+        getInitialState: function() {
             return {
                 url: 'http://dl1.webmfiles.org/big-buck-bunny_trailer.webm',
                 controls: true,
-                autoplay: false
+                autoplay: false,
             };
         },
-        getRenderTemplate: function (state) {
+        getRenderTemplate: function(state) {
             return "<video " + (state.controls && state.controls !== "on" ? "controls='true' " : "") + (state.autoplay ? " autoPlay='true' " : "") + " style=\"width: 100%; height: 100%; z-index:0;\" src=\"" + state.url + "\"  class=\"basicVideoClass\"></video>";
 
         },
-        handleToolbar: function (name, value) {
+        handleToolbar: function(name, value) {
             base.setState(name, value);
-        }
+        },
     };
 }

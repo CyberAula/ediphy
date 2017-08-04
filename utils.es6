@@ -1,11 +1,11 @@
-import {ID_PREFIX_BOX, ID_PREFIX_PAGE, ID_PREFIX_SECTION, ID_PREFIX_SORTABLE_BOX,
-    ID_PREFIX_CONTAINED_VIEW, ID_PREFIX_SORTABLE_CONTAINER, PAGE_TYPES} from './constants';
+import { ID_PREFIX_BOX, ID_PREFIX_PAGE, ID_PREFIX_SECTION, ID_PREFIX_SORTABLE_BOX,
+    ID_PREFIX_CONTAINED_VIEW, ID_PREFIX_SORTABLE_CONTAINER, PAGE_TYPES } from './constants';
 
 export default {
-    //This would be a good post to explore if we don't want to use JSON Stringify: http://stackoverflow.com/questions/728360/how-do-i-correctly-clone-a-javascript-object
-    deepClone: function (myObj) {
-        return myObj ? JSON.parse(JSON.stringify(myObj)):myObj;
-    }
+    // This would be a good post to explore if we don't want to use JSON Stringify: http://stackoverflow.com/questions/728360/how-do-i-correctly-clone-a-javascript-object
+    deepClone: function(myObj) {
+        return myObj ? JSON.parse(JSON.stringify(myObj)) : myObj;
+    },
 };
 
 export function isView(id) {
@@ -28,7 +28,7 @@ export function isSection(id) {
     return id.length && id.indexOf(ID_PREFIX_SECTION) !== -1;
 }
 
-export function isCanvasElement(id, config){
+export function isCanvasElement(id, config) {
     return isPage(id) || (isSection(id) && config) || isContainedView(id);
 }
 
@@ -44,14 +44,14 @@ export function isContainedView(id) {
     return id.length && id.indexOf(ID_PREFIX_CONTAINED_VIEW) !== -1;
 }
 
-export function isSortableContainer(id){
+export function isSortableContainer(id) {
     return id.length && id.indexOf(ID_PREFIX_SORTABLE_CONTAINER) !== -1;
 }
 
 export function changeProps(object, keys, values) {
     if (Array.isArray(keys) && Array.isArray(values) && keys.length === values.length) {
         /* jshint ignore:start */
-        let temp = {...object};
+        let temp = { ...object };
         for (let i = 0; i < keys.length; i++) {
             temp = changeProp(temp, keys[i], values[i]);
         }
@@ -60,7 +60,7 @@ export function changeProps(object, keys, values) {
     }
 
     console.error("Incorrect parameters");
-    return;
+    return undefined;
 }
 
 export function changeProp(object, key, value) {
@@ -79,7 +79,7 @@ export function changeProp(object, key, value) {
     /* jshint ignore:start */
     return {
         ...object,
-        [key]: value
+        [key]: value,
     };
     /* jshint ignore:end */
 }
@@ -87,7 +87,7 @@ export function changeProp(object, key, value) {
 export function deleteProps(object, keys) {
     if (Array.isArray(keys)) {
         /* jshint ignore:start */
-        let temp = {...object};
+        let temp = { ...object };
         for (let i = 0; i < keys.length; i++) {
             temp = deleteProp(temp, keys[i]);
         }
@@ -95,7 +95,7 @@ export function deleteProps(object, keys) {
         /* jshint ignore:end */
     }
     console.error("Parameter is not an array");
-    return;
+    return undefined;
 }
 
 export function deleteProp(object, key) {
@@ -108,7 +108,7 @@ export function deleteProp(object, key) {
     let {
         [key]: omit,
         ...rest
-        } = object;
+    } = object;
     return rest;
 }
 
@@ -123,7 +123,7 @@ export function findDescendantNavItems(state, element) {
 export function findNavItemContainingBox(state, element) {
     let containerNav;
     Object.keys(state).forEach(child => {
-        if(state[child].boxes.indexOf(element) !== -1){
+        if(state[child].boxes.indexOf(element) !== -1) {
             containerNav = state[child];
         }
     });
@@ -145,8 +145,8 @@ export function calculateNewIdOrder(oldArray, newChildren, newParent, itemMoved,
     // We have to look for the next item that has a lower or equal level
     // If none is found, it means we were dragging to last position, so default value for splitIndex is not changed
     } else {
-        for(let i = oldArrayFiltered.indexOf(newParent) + 1; i < oldArrayFiltered.length; i++){
-            if(navItems[oldArrayFiltered[i]].level <= navItems[newParent].level){
+        for(let i = oldArrayFiltered.indexOf(newParent) + 1; i < oldArrayFiltered.length; i++) {
+            if(navItems[oldArrayFiltered[i]].level <= navItems[newParent].level) {
                 splitIndex = i;
                 break;
             }
@@ -188,6 +188,86 @@ export function isAncestorOrSibling(searchingId, actualId, boxes) {
 
     return isAncestorOrSibling(searchingId, parentId, boxes);
 }
+/**
+ * Calculates next available name for a view
+ * @param key Common part of name to look for. Example: "Page ", "Contained view "..
+ * @param views containedviewsbyid or navitemsbyid
+ * @returns next name available. Example: "Contained view 7"
+ */
+export function nextAvailName(key, views, name = 'name') {
+    let names = [];
+    for (let view in views) {
+        if (views[view][name] && views[view][name].indexOf(key) !== -1) {
+            let replaced = views[view][name].replace(key /* + " "*/, "");
+            let num = parseInt(replaced, 10);
+            if (!isNaN(num)) {
+                names.push(num);
+            }
+        }
+    }
+    if (names.length > 0) {
+        return key + " " + (Math.max(...names) + 1);
+    }
+    return key + " " + 1;
+}
+/**
+ * Same as previous but with toolbar
+ * @param key Common part of name to look for. Example: "Page ", "Contained view "..
+ * @param views toolbarsbyid
+ * @returns next name available. Example: "Contained view 7"
+ */
+export function nextToolbarAvailName(key, views) {
+    let names = [];
+    for (let view in views) {
+        if (views[view] &&
+            views[view].controls &&
+            views[view].controls.main &&
+            views[view].controls.main.accordions &&
+            views[view].controls.main.accordions.basic &&
+            views[view].controls.main.accordions.basic.buttons &&
+            views[view].controls.main.accordions.basic.buttons.navitem_name &&
+            views[view].controls.main.accordions.basic.buttons.navitem_name.value &&
+            views[view].controls.main.accordions.basic.buttons.navitem_name.value.indexOf(key) !== -1) {
+            let replaced = views[view].controls.main.accordions.basic.buttons.navitem_name.value.replace(key /* + " "*/, "");
+            let num = parseInt(replaced, 10);
+            if (!isNaN(num)) {
+                names.push(num);
+            }
+        }
+    }
+    if (names.length > 0) {
+        return key + " " + (Math.max(...names) + 1);
+    }
+    return key + " " + 1;
+}
+/** **
+ * Check if item is in collection
+ * @param a: Collection
+ * @param b: Item
+ * @returns {boolean} true is it is, false if it is not
+ */
+function collectionHas(a, b) { // helper function (see below)
+    for (let i = 0, len = a.length; i < len; i++) {
+        if (a[i] === b) {
+            return true;
+        }
+    }
+    return false;
+}
+/** *
+ * Find closest ancestor with a given selector
+ * @param elm  Origin DOM element
+ * @param selector  Selector to search
+ * @returns {*|Node} DOM node found of null
+ */
+export function findParentBySelector(elm, selector) {
+    const all = document.querySelectorAll(selector);
+    let cur = elm.parentNode;
+    while (cur && !collectionHas(all, cur)) {// keep going up until you find a match
+        cur = cur.parentNode;// go up
+    }
+    return cur;// will return null if not found
+}
 
 /**
  * Replaces all occurences of needle (interpreted as a regular expression with replacement and returns the new object.
@@ -199,18 +279,18 @@ export function isAncestorOrSibling(searchingId, actualId, boxes) {
  * @param affectsValues[optional=true] Whether values should be replaced
  */
 
-Object.replaceAll = function (entity, needle, replacement, affectsKeys, affectsValues) {
+Object.replaceAll = function(entity, needle, replacement, affectsKeys, affectsValues) {
     affectsKeys = typeof affectsKeys === "undefined" ? true : affectsKeys;
     affectsValues = typeof affectsValues === "undefined" ? true : affectsValues;
 
-    var newEntity = {},
+    let newEntity = {},
         regExp = new RegExp(needle, 'g');
-    for (var property in entity) {
+    for (let property in entity) {
         if (!entity.hasOwnProperty(property)) {
-            continue;
+
         }
 
-        var value = entity[property],
+        let value = entity[property],
             newProperty = property;
 
         if (affectsKeys) {
@@ -218,10 +298,10 @@ Object.replaceAll = function (entity, needle, replacement, affectsKeys, affectsV
         }
 
         if (affectsValues) {
-            if (value === null || (value instanceof Array && value.length === 0) || ( value instanceof Object && Object.keys(value).length === 0)) {
+            if (value === null || (value instanceof Array && value.length === 0) || (value instanceof Object && Object.keys(value).length === 0)) {
             } else if (value instanceof Array) {
-                var obj = Object.replaceAll(value, needle, replacement, affectsKeys, affectsValues);
-                value = Object.keys(obj).map(function (k) {
+                let obj = Object.replaceAll(value, needle, replacement, affectsKeys, affectsValues);
+                value = Object.keys(obj).map(function(k) {
                     return obj[k];
                 });
 
@@ -237,5 +317,4 @@ Object.replaceAll = function (entity, needle, replacement, affectsKeys, affectsV
 
     return newEntity;
 };
-
 

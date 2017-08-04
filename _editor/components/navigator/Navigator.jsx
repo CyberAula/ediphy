@@ -1,20 +1,19 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import {Modal, FormControl, Col, Form, FormGroup, ControlLabel, Button} from 'react-bootstrap';
+import { Modal, FormControl, Col, Form, FormGroup, ControlLabel, Button } from 'react-bootstrap';
 import Dali from './../../../core/main';
 
 export default class Navigator extends Component {
 
-    render(){
+    render() {
         return(
             <Modal>
-                <ModalHeader>
-                </ModalHeader>
+                <ModalHeader />
                 <Modal>
                     <DaliCanvasNavigation/>
                 </Modal>
             </Modal>
-        )
+        );
     }
 
 }

@@ -1,95 +1,95 @@
-import React, {Component} from 'react';
-import {Button} from 'react-bootstrap';
-import {ID_PREFIX_PAGE, ID_PREFIX_SECTION} from '../../../../constants';
+import React, { Component } from 'react';
+import { Button } from 'react-bootstrap';
+import { ID_PREFIX_PAGE, ID_PREFIX_SECTION } from '../../../../constants';
 import DaliIndexTitle from '../dali_index_title/DaliIndexTitle';
-import {isPage, isSection, isSlide, calculateNewIdOrder} from './../../../../utils';
+import { isPage, isSection, isSlide, calculateNewIdOrder } from './../../../../utils';
 import Dali from './../../../../core/main';
 
 export default class Section extends Component {
     render() {
         let navItem = this.props.navItems[this.props.id];
         let classSelected = this.props.navItemSelected === navItem.id ? 'selected' : 'notSelected';
-        let classIndexSelected = this.props.indexSelected === navItem.id ? ' classIndexSelected':'';
+        let classIndexSelected = this.props.indexSelected === navItem.id ? ' classIndexSelected' : '';
         return (
             /* jshint ignore:start */
             <div id={this.props.id}
-                 onMouseDown={e => {
+                onMouseDown={e => {
                     this.props.onIndexSelected(navItem.id);
-                    e.stopPropagation(); 
-                 }}
-                 onClick={e => {
-                   
+                    e.stopPropagation();
+                }}
+                onClick={e => {
+
                     this.props.onNavItemExpanded(navItem.id, !navItem.isExpanded);
                     this.props.onIndexSelected(navItem.id);
                     e.stopPropagation();
-                 }}
-                 onDoubleClick={e => {
-                    if (Dali.Config.sections_have_content) { 
+                }}
+                onDoubleClick={e => {
+                    if (Dali.Config.sections_have_content) {
                         this.props.onNavItemSelected(navItem.id);
                         this.props.onNavItemExpanded(navItem.id, !navItem.isExpanded);
                     }
                     this.props.onIndexSelected(navItem.id);
                     e.stopPropagation();
-                    
-                 }}>
+
+                }}>
                 <div className={"navItemBlock " + classSelected + classIndexSelected}>
-                    <span style={{marginLeft: 20 * (this.props.navItems[this.props.id].level - 1)}}>
-                        <button className="expandir" 
-                                onClick={e => {
-                                    this.props.onNavItemExpanded(navItem.id, !navItem.isExpanded);
-                                    this.props.onIndexSelected(navItem.id);
-                                    e.stopPropagation();
-                                }}>
+                    <span style={{ marginLeft: 20 * (this.props.navItems[this.props.id].level - 1) }}>
+                        <button className="expandir"
+                            onClick={e => {
+                                this.props.onNavItemExpanded(navItem.id, !navItem.isExpanded);
+                                this.props.onIndexSelected(navItem.id);
+                                e.stopPropagation();
+                            }}>
                             <i onClick={e => {
-                                    this.props.onIndexSelected(navItem.id); // Confirmar
-                                    this.props.onNavItemExpanded(navItem.id, !navItem.isExpanded);
-                                    e.stopPropagation();
-                               }}
-                               className={classSelected + '  material-icons'}>
+                                this.props.onIndexSelected(navItem.id); // Confirmar
+                                this.props.onNavItemExpanded(navItem.id, !navItem.isExpanded);
+                                e.stopPropagation();
+                            }}
+                            className={classSelected + '  material-icons'}>
                                 {navItem.isExpanded ? "keyboard_arrow_down" : "keyboard_arrow_right"}
                             </i>
                         </button>
-                        <span className={classSelected} style={{display: 'inline'}}>
+                        <span className={classSelected} style={{ display: 'inline' }}>
                             <DaliIndexTitle id={this.props.id}
-                                            title={navItem.name}
-                                            index={navItem.level === 1 ?
-                                                navItem.unitNumber + ". " :
-                                                this.props.navItems[navItem.parent].children.indexOf(this.props.id) + 1 + '. '}
-                                            hidden={navItem.hidden}
-                                            onNameChanged={this.props.onNavItemNameChanged}
-                                            onNavItemToggled={this.props.onNavItemToggled}/>
+                                title={navItem.name}
+                                index={navItem.level === 1 ?
+                                    navItem.unitNumber + ". " :
+                                    this.props.navItems[navItem.parent].children.indexOf(this.props.id) + 1 + '. '}
+                                hidden={navItem.hidden}
+                                onNameChanged={this.props.onNavItemNameChanged}
+                                onNavItemToggled={this.props.onNavItemToggled}/>
                         </span>
                     </span>
                 </div>
                 <div ref="sortableList"
-                     style={{
+                    style={{
                         paddingTop: 0,
-                        display: (navItem.isExpanded ? 'block' : 'none')
-                     }}
-                     className="sectionList connectedSortables">
+                        display: (navItem.isExpanded ? 'block' : 'none'),
+                    }}
+                    className="sectionList connectedSortables">
                     {navItem.children.map((id, index) => {
                         if (isSection(id)) {
                             return <Section id={id}
-                                            key={index}
-                                            indexSelected={this.props.indexSelected}
-                                            navItemsIds={this.props.navItemsIds}
-                                            navItems={this.props.navItems}
-                                            navItemSelected={this.props.navItemSelected}
-                                            onBoxAdded={this.props.onBoxAdded}
-                                            onIndexSelected={this.props.onIndexSelected}
-                                            onNavItemAdded={this.props.onNavItemAdded}
-                                            onNavItemNameChanged={this.props.onNavItemNameChanged}
-                                            onNavItemSelected={this.props.onNavItemSelected}
-                                            onNavItemExpanded={this.props.onNavItemExpanded}
-                                            onNavItemReordered={this.props.onNavItemReordered}
-                                            onNavItemToggled={this.props.onNavItemToggled}/>;
+                                key={index}
+                                indexSelected={this.props.indexSelected}
+                                navItemsIds={this.props.navItemsIds}
+                                navItems={this.props.navItems}
+                                navItemSelected={this.props.navItemSelected}
+                                onBoxAdded={this.props.onBoxAdded}
+                                onIndexSelected={this.props.onIndexSelected}
+                                onNavItemAdded={this.props.onNavItemAdded}
+                                onNavItemNameChanged={this.props.onNavItemNameChanged}
+                                onNavItemSelected={this.props.onNavItemSelected}
+                                onNavItemExpanded={this.props.onNavItemExpanded}
+                                onNavItemReordered={this.props.onNavItemReordered}
+                                onNavItemToggled={this.props.onNavItemToggled}/>;
                         } else if (isPage(id)) {
-                            let classSelected = this.props.navItemSelected === id ? 'selected dragS' : 'notSelected dragS';
-                            let classIndexSelected = this.props.indexSelected === id ? ' classIndexSelected':'';
+                            let classSelectedD = this.props.navItemSelected === id ? 'selected dragS' : 'notSelected dragS';
+                            let classIndexSelectedD = this.props.indexSelected === id ? ' classIndexSelected' : '';
                             return (
                                 <div key={index}
                                     id={id}
-                                    className={'navItemBlock ' + classSelected + classIndexSelected}
+                                    className={'navItemBlock ' + classSelectedD + classIndexSelectedD}
                                     onMouseDown={e => {
                                         this.props.onIndexSelected(id);
                                         e.stopPropagation();
@@ -97,25 +97,26 @@ export default class Section extends Component {
                                     onClick={e => {
                                         this.props.onIndexSelected(id);
                                         e.stopPropagation();
-                                    }}  
+                                    }}
                                     onDoubleClick={e => {
                                         this.props.onNavItemSelected(id);
                                         e.stopPropagation();
                                     }}>
-                                        <span style={{marginLeft: 20 * (this.props.navItems[id].level - 1)}}>
-                                            <i className="material-icons fileIcon">
-                                                {isSlide(this.props.navItems[id].type) ? "slideshow" : "insert_drive_file"}
-                                            </i>
-                                            <DaliIndexTitle id={id}
-                                                            index={this.props.navItems[this.props.navItems[id].parent].children.indexOf(id)+1+'.'}
-                                                            title={this.props.navItems[id].name}
-                                                            hidden={this.props.navItems[id].hidden}
-                                                            onNameChanged={this.props.onNavItemNameChanged}
-                                                            onNavItemToggled={this.props.onNavItemToggled}/>
-                                        </span>
+                                    <span style={{ marginLeft: 20 * (this.props.navItems[id].level - 1) }}>
+                                        <i className="material-icons fileIcon">
+                                            {isSlide(this.props.navItems[id].type) ? "slideshow" : "insert_drive_file"}
+                                        </i>
+                                        <DaliIndexTitle id={id}
+                                            index={this.props.navItems[this.props.navItems[id].parent].children.indexOf(id) + 1 + '.'}
+                                            title={this.props.navItems[id].name}
+                                            hidden={this.props.navItems[id].hidden}
+                                            onNameChanged={this.props.onNavItemNameChanged}
+                                            onNavItemToggled={this.props.onNavItemToggled}/>
+                                    </span>
                                 </div>
                             );
                         }
+                        return null;
                     })}
                 </div>
             </div>
@@ -146,10 +147,10 @@ export default class Section extends Component {
                 // - A direct child changes it position at the same level
 
                 // If this item was dragged to another item, its sortable instance has been destroyed already
-                if(!list.sortable('instance')){
+                if(!list.sortable('instance')) {
                     return;
                 }
-                let newChildren = list.sortable('toArray', {attribute: 'id'});
+                let newChildren = list.sortable('toArray', { attribute: 'id' });
 
                 // If item moved is still in this element's children (wasn't moved away) -> update
                 if (newChildren.indexOf(this.props.indexSelected) !== -1) {
@@ -169,7 +170,7 @@ export default class Section extends Component {
             },
             receive: (event, ui) => {
                 // This is called when an item is dragged from another item's children to this element's children
-                let newChildren = list.sortable('toArray', {attribute: 'id'});
+                let newChildren = list.sortable('toArray', { attribute: 'id' });
 
                 // This is necessary in order to avoid that JQuery touches the DOM
                 // It has to be BEFORE action is dispatched and React tries to repaint
@@ -182,11 +183,11 @@ export default class Section extends Component {
                     calculateNewIdOrder(this.props.navItemsIds, newChildren, this.props.id, this.props.indexSelected, this.props.navItems),
                     newChildren
                 );
-            }
+            },
         });
     }
 
-    componentWillUnmount(){
+    componentWillUnmount() {
         jQuery(this.refs.sortableList).sortable("destroy");
     }
 }

@@ -9,14 +9,11 @@ require('es6-promise').polyfill();
 require('expose?Dali!./core/temp_hack');
 require('./plugins/plugin_dependencies_loader').requireAll();
 
-//Require CSS files
+// Require CSS files
 require('./sass/style.scss');
 
 // We make sure JQuery UI Sortable Widget is initialized
+// eslint-disable-next-line
 new sortable();
 
-
-
-/* jshint ignore:start */
 ReactDOM.render((<ReduxProvider />), document.getElementById('root'));
-/* jshint ignore:end */

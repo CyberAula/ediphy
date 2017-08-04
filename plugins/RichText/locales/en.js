@@ -9,6 +9,6 @@ module.exports = {
         "padding": "Padding",
         "PluginName": "Rich Text",
         "radius": "Radius",
-        "source": "Source"
-    }
+        "source": "Source",
+    },
 };

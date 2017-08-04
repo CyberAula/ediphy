@@ -13,6 +13,6 @@ module.exports = {
         "padding": "Padding",
         "PluginName": "Youtube",
         "radius": "Radius",
-        "source": "Source"
-    }
+        "source": "Source",
+    },
 };

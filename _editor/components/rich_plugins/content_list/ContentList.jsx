@@ -1,6 +1,6 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import Utils, {isContainedView} from './../../../../utils';
+import Utils, { isContainedView } from './../../../../utils';
 
 export default class ContentList extends Component {
     render() {
@@ -15,26 +15,26 @@ export default class ContentList extends Component {
                             alreadyShown.push(mark.connection);
                         }
 
-                        let allViews = Object.assign({},this.props.navItems, this.props.containedViews);
+                        let allViews = Object.assign({}, this.props.navItems, this.props.containedViews);
 
                         return (
                             <div key={id}
-                                 onClick={() => {
-                                    if(mark.connectMode === "existing"){
-                                        if(isContainedView(mark.connection)){
+                                onClick={() => {
+                                    if(mark.connectMode === "existing") {
+                                        if(isContainedView(mark.connection)) {
                                             this.props.onContainedViewSelected(mark.connection);
                                         } else{
                                             this.props.onNavItemSelected(mark.connection);
                                         }
-                                    }else if(mark.connectMode === "new"){
+                                    }else if(mark.connectMode === "new") {
                                         this.props.onContainedViewSelected(mark.connection);
-                                    }else if(mark.connectMode === "external"){
+                                    }else if(mark.connectMode === "external") {
                                         window.open(mark.connection, '_blank');
                                     }
-                                 }}>
+                                }}>
                                 {mark.title}
                                 &nbsp;->&nbsp;
-                                {mark.connectMode === "existing" ?  mark.connection: mark.connectMode === "external" ? allViews[mark.connection].connection : allViews[mark.connection].name }
+                                {mark.connectMode === "existing" ? mark.connection : mark.connectMode === "external" ? allViews[mark.connection].connection : allViews[mark.connection].name }
                             </div>
                         );
                     })
@@ -44,13 +44,14 @@ export default class ContentList extends Component {
                         if (alreadyShown.indexOf(id) === -1) {
                             return (
                                 <div key={id}
-                                     onClick={() => {
+                                    onClick={() => {
                                         this.props.onContainedViewSelected(id);
-                                     }}>
+                                    }}>
                                     UNASSIGNED&nbsp;->&nbsp;{id}
                                 </div>
                             );
                         }
+                        return null;
                     })
                 }
             </div>

@@ -14,6 +14,6 @@ module.exports = {
         "padding": "Padding",
         "PluginName": "Reproductor Básico",
         "radius": "Radio",
-        "source": "Origen"
-    }
+        "source": "Origen",
+    },
 };

@@ -1,30 +1,36 @@
 import React from "react";
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 
 export function HotspotImages(base) {
     return {
-        getRenderTemplate: function (state,id) {
+        getRenderTemplate: function(state, id) {
             let marks = state.__marks;
             let box_id = id;
 
             /* jshint ignore:start */
             let markElements = Object.keys(marks).map((e) =>{
+
                 let position = marks[e].value.split(',');
-               return(
-                   <a key={marks[e].id} style={{position: 'absolute', top : position[0] + "%", left:  position[1] + "%"}} href="#" onClick={()=>{this.onMarkClicked(box_id, marks[e].value)}}>
-                       <i style={{width:"100%",height:"100%", position: 'absolute', top:'-26px',left:'-12px'}} className="material-icons">room</i>
-                   </a>
-               );
+                let title = marks[e].title;
+
+                return(
+                    <OverlayTrigger placement="top" overlay={<Tooltip id={e}>{title}</Tooltip>}>
+                        <a key={e} style={{ position: 'absolute', top: position[0] + "%", left: position[1] + "%" }} onClick={()=>{this.onMarkClicked(box_id, marks[e].value);}} href="#">
+                            <i key="i" style={{ width: "100%", height: "100%", position: 'absolute', top: '-26px', left: '-12px' }} className="material-icons">room</i>
+                        </a>
+                    </OverlayTrigger>
+                );
             });
 
             return(
-            <div>
-                <img style={{height:"100%",width:"100%"}} src={state.url}/>
-                {markElements}
-            </div>);
+                <div>
+                    <img style={{ height: "100%", width: "100%" }} src={state.url}/>
+                    {markElements}
+                </div>);
             /* jshint ignore:end */
         },
-        onMarkClicked(element,value){
-            base.triggerMark(element,value, false);
-        }
+        onMarkClicked(element, value) {
+            base.triggerMark(element, value, false);
+        },
     };
 }
