@@ -39,8 +39,13 @@ let en = {
         },
         "Exercises": "Exercises",
         "Exporting": "Exporting...",
-        "FileDialog": "Browse...",
-        "FileInput": "Drag your file here",
+        "FileDialog": "File",
+        "FileInput": {
+            "Drag": "Drag",
+            "Drag_2": " your file here or ",
+            "Click": "click",
+            "Click_2": " to browse"
+        },
         "global_config": {
             "Accept": "Save changes",
             "aspect_ratio": "Aspect Ratio",

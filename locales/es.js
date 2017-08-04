@@ -37,8 +37,13 @@ let es = {
         },
         "Exercises": "Ejercicios",
         "Exporting": "Se está exportando...",
-        "FileDialog": "Buscar...",
-        "FileInput": "Arrastra aquí tu fichero",
+        "FileDialog": "Fichero",
+        "FileInput": {
+            "Drag": "Arrastra",
+            "Drag_2": " aquí tu fichero o ",
+            "Click": "haz click",
+            "Click_2": " para buscar"
+        },
         "fullscreen": "Fullscreen",
         "global_config": {
             "Accept": "Guardar cambios",

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import Dropzone from 'react-dropzone';
-import ReactDOM from 'react-dom';
+import FileInput from '@ranyefet/react-file-input'; import ReactDOM from 'react-dom';
 import { Modal, FormControl, Col, Form, FormGroup, ControlLabel, Button, Glyphicon } from 'react-bootstrap';
 
 export default class VishUploaderModal extends Component {
@@ -102,20 +101,26 @@ let VishDropzone = React.createClass({
         } else {
             dropStyle.background = "#FFFFFF";
         }
-
+        /* <Dropzone onDrop={this.onDrop} multiple={false} style={dropStyle}>
+         {(file) ?
+         (<div
+         style={{ verticalAlign: "middle", textAlign: "center", display: "table-cell" }}>{file.name}</div>) :
+         (<div style={{ verticalAlign: "middle", textAlign: "center", display: "table-cell" }}>
+         <div><Glyphicon glyph="hdd"/></div>
+         <span><strong>Choose a file</strong> or drag it here</span>
+         </div>)
+         }
+         </Dropzone>*/
         return (
-            /* jshint ignore:start */
-            <Dropzone onDrop={this.onDrop} multiple={false} style={dropStyle}>
-                {(file) ?
-                    (<div
-                        style={{ verticalAlign: "middle", textAlign: "center", display: "table-cell" }}>{file.name}</div>) :
-                    (<div style={{ verticalAlign: "middle", textAlign: "center", display: "table-cell" }}>
-                        <div><Glyphicon glyph="hdd"/></div>
-                        <span><strong>Choose a file</strong> or drag it here</span>
-                    </div>)
-                }
-            </Dropzone>
-            /* jshint ignore:end */
+            <FileInput onChange={this.onDrop} className="fileInput">
+                {/* <Button className="btn btn-primary" style={{ marginTop: '0px' }}>{ Dali.i18n.t('FileDialog') }</Button>*/}
+                {/* <span style={{ marginLeft: '10px' }}>*/}
+                {/* <label className="control-label">{ Dali.i18n.t('FileDialog') + ':   ' } </label> { this.state.name || '' }</span>*/}
+                <div className="fileDrag">
+                    <span style={{ display: this.state.name ? 'none' : 'block' }}><i className="material-icons">ic_file_upload</i><b>{ Dali.i18n.t('FileInput.Drag') }</b>{ Dali.i18n.t('FileInput.Drag_2') }<b>{ Dali.i18n.t('FileInput.Click') }</b>{ Dali.i18n.t('FileInput.Click_2') }</span>
+                    <span className="fileUploaded" style={{ display: this.state.name ? 'block' : 'none' }}><i className="material-icons">insert_drive_file</i> { this.state.name || '' }</span>
+                </div>
+            </FileInput>
         );
     },
 });
