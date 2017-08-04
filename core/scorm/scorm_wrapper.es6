@@ -1,5 +1,5 @@
-/* jshint ignore:start */
-/****************************************************************************
+/*eslint-disable */
+/** **************************************************************************
 SCORM_2004_APIwrapper.js
 © 2000, 2011 Advanced Distributed Learning (ADL). Some Rights Reserved.
 *****************************************************************************
@@ -77,7 +77,7 @@ With the understanding that:
                license terms of this work.
 
 ****************************************************************************/
-/*******************************************************************************
+/** *****************************************************************************
 ** Usage: Executable course content can call the API Wrapper
 **      functions as follows:
 **
@@ -97,22 +97,22 @@ With the understanding that:
 **
 *******************************************************************************/
 
-var debug = true;  // set this to false to turn debugging off
+let debug = true; // set this to false to turn debugging off
 
-var output = window.console; // output can be set to any object that has a log(string) function
-                             // such as: var output = { log: function(str){alert(str);} };
+let output = window.console; // output can be set to any object that has a log(string) function
+// such as: var output = { log: function(str){alert(str);} };
 
 // Define exception/error codes
-var _NoError = {"code":"0","string":"No Error","diagnostic":"No Error"};;
-var _GeneralException = {"code":"101","string":"General Exception","diagnostic":"General Exception"};
-var _AlreadyInitialized = {"code":"103","string":"Already Initialized","diagnostic":"Already Initialized"};
+let _NoError = { "code": "0", "string": "No Error", "diagnostic": "No Error" };
+let _GeneralException = { "code": "101", "string": "General Exception", "diagnostic": "General Exception" };
+let _AlreadyInitialized = { "code": "103", "string": "Already Initialized", "diagnostic": "Already Initialized" };
 
-var initialized = false;
+let initialized = false;
 
 // local variable definitions
-var apiHandle = null;
+let apiHandle = null;
 
-/*******************************************************************************
+/** *****************************************************************************
 **
 ** Function: doInitialize()
 ** Inputs:  None
@@ -126,31 +126,31 @@ var apiHandle = null;
 *******************************************************************************/
 export function doInitialize()
 {
-   if (initialized) return "true";
+    if (initialized) {return "true";}
 
-   var api = getAPIHandle();
-   if (api == null)
-   {
-      message("Unable to locate the LMS's API Implementation.\nInitialize was not successful.");
-      return "false";
-   }
+    let api = getAPIHandle();
+    if (api == null)
+    {
+        message("Unable to locate the LMS's API Implementation.\nInitialize was not successful.");
+        return "false";
+    }
 
-   var result = api.Initialize("");
+    let result = api.Initialize("");
 
-   if (result.toString() != "true")
-   {
-      var err = ErrorHandler();
-      message("Initialize failed with error code: " + err.code);
-   }
-   else
-   {
-      initialized = true;
-   }
+    if (result.toString() != "true")
+    {
+        let err = ErrorHandler();
+        message("Initialize failed with error code: " + err.code);
+    }
+    else
+    {
+        initialized = true;
+    }
 
-   return result.toString();
+    return result.toString();
 }
 
-/*******************************************************************************
+/** *****************************************************************************
 **
 ** Function doTerminate()
 ** Inputs:  None
@@ -164,31 +164,29 @@ export function doInitialize()
 *******************************************************************************/
 export function doTerminate()
 {
-   if (! initialized) return "true";
+    if (! initialized) {return "true";}
 
-   var api = getAPIHandle();
-   if (api == null)
-   {
-      message("Unable to locate the LMS's API Implementation.\nTerminate was not successful.");
-      return "false";
-   }
-   else
-   {
-      // call the Terminate function that should be implemented by the API
-      var result = api.Terminate("");
-      if (result.toString() != "true")
-      {
-         var err = ErrorHandler();
-         message("Terminate failed with error code: " + err.code);
-      }
-   }
+    let api = getAPIHandle();
+    if (api == null)
+    {
+        message("Unable to locate the LMS's API Implementation.\nTerminate was not successful.");
+        return "false";
+    }
 
-   initialized = false;
+    // call the Terminate function that should be implemented by the API
+    let result = api.Terminate("");
+    if (result.toString() != "true")
+    {
+        let err = ErrorHandler();
+        message("Terminate failed with error code: " + err.code);
+    }
 
-   return result.toString();
+    initialized = false;
+
+    return result.toString();
 }
 
-/*******************************************************************************
+/** *****************************************************************************
 **
 ** Function doGetValue(name)
 ** Inputs:  name - string representing the cmi data model defined category or
@@ -203,33 +201,33 @@ export function doTerminate()
 *******************************************************************************/
 export function doGetValue(name)
 {
-   var api = getAPIHandle();
-   var result = "";
-   if (api == null)
-   {
-      message("Unable to locate the LMS's API Implementation.\nGetValue was not successful.");
-   }
-   else if (!initialized && ! doInitialize())
-   {
-      var err = ErrorHandler();
-      message("GetValue failed - Could not initialize communication with the LMS - error code: " + err.code);
-   }
-   else
-   {
-      result = api.GetValue(name);
+    let api = getAPIHandle();
+    let result = "";
+    if (api == null)
+    {
+        message("Unable to locate the LMS's API Implementation.\nGetValue was not successful.");
+    }
+    else if (!initialized && ! doInitialize())
+    {
+        let err = ErrorHandler();
+        message("GetValue failed - Could not initialize communication with the LMS - error code: " + err.code);
+    }
+    else
+    {
+        result = api.GetValue(name);
 
-      var error = ErrorHandler();
-      if (error.code != _NoError.code)
-      {
-         // an error was encountered so display the error description
-         message("GetValue("+name+") failed. \n"+ error.code + ": " + error.string);
-         result = "";
-      }
-   }
-   return result.toString();
+        let error = ErrorHandler();
+        if (error.code != _NoError.code)
+        {
+            // an error was encountered so display the error description
+            message("GetValue(" + name + ") failed. \n" + error.code + ": " + error.string);
+            result = "";
+        }
+    }
+    return result.toString();
 }
 
-/*******************************************************************************
+/** *****************************************************************************
 **
 ** Function doSetValue(name, value)
 ** Inputs:  name -string representing the data model defined category or element
@@ -243,31 +241,31 @@ export function doGetValue(name)
 *******************************************************************************/
 export function doSetValue(name, value)
 {
-   var api = getAPIHandle();
-   var result = "false";
-   if (api == null)
-   {
-      message("Unable to locate the LMS's API Implementation.\nSetValue was not successful.");
-   }
-   else if (!initialized && !doInitialize())
-   {
-      var error = ErrorHandler();
-      message("SetValue failed - Could not initialize communication with the LMS - error code: " + error.code);
-   }
-   else
-   {
-      result = api.SetValue(name, value);
-      if (result.toString() != "true")
-      {
-         var err = ErrorHandler();
-         message("SetValue("+name+", "+value+") failed. \n"+ err.code + ": " + err.string);
-      }
-   }
+    let api = getAPIHandle();
+    let result = "false";
+    if (api == null)
+    {
+        message("Unable to locate the LMS's API Implementation.\nSetValue was not successful.");
+    }
+    else if (!initialized && !doInitialize())
+    {
+        let error = ErrorHandler();
+        message("SetValue failed - Could not initialize communication with the LMS - error code: " + error.code);
+    }
+    else
+    {
+        result = api.SetValue(name, value);
+        if (result.toString() != "true")
+        {
+            let err = ErrorHandler();
+            message("SetValue(" + name + ", " + value + ") failed. \n" + err.code + ": " + err.string);
+        }
+    }
 
-   return result.toString();
+    return result.toString();
 }
 
-/*******************************************************************************
+/** *****************************************************************************
 **
 ** Function doCommit()
 ** Inputs:  None
@@ -280,31 +278,31 @@ export function doSetValue(name, value)
 *******************************************************************************/
 export function doCommit()
 {
-   var api = getAPIHandle();
-   var result = "false";
-   if (api == null)
-   {
-      message("Unable to locate the LMS's API Implementation.\nCommit was not successful.");
-   }
-   else if (!initialized && ! doInitialize())
-   {
-      var error = ErrorHandler();
-      message("Commit failed - Could not initialize communication with the LMS - error code: " + error.code);
-   }
-   else
-   {
-      result = api.Commit("");
-      if (result != "true")
-      {
-         var err = ErrorHandler();
-         message("Commit failed - error code: " + err.code);
-      }
-   }
+    let api = getAPIHandle();
+    let result = "false";
+    if (api == null)
+    {
+        message("Unable to locate the LMS's API Implementation.\nCommit was not successful.");
+    }
+    else if (!initialized && ! doInitialize())
+    {
+        let error = ErrorHandler();
+        message("Commit failed - Could not initialize communication with the LMS - error code: " + error.code);
+    }
+    else
+    {
+        result = api.Commit("");
+        if (result != "true")
+        {
+            let err = ErrorHandler();
+            message("Commit failed - error code: " + err.code);
+        }
+    }
 
-   return result.toString();
+    return result.toString();
 }
 
-/*******************************************************************************
+/** *****************************************************************************
 **
 ** Function doGetLastError()
 ** Inputs:  None
@@ -316,18 +314,18 @@ export function doCommit()
 *******************************************************************************/
 export function doGetLastError()
 {
-   var api = getAPIHandle();
-   if (api == null)
-   {
-      message("Unable to locate the LMS's API Implementation.\nGetLastError was not successful.");
-      //since we can't get the error code from the LMS, return a general error
-      return _GeneralException.code;
-   }
+    let api = getAPIHandle();
+    if (api == null)
+    {
+        message("Unable to locate the LMS's API Implementation.\nGetLastError was not successful.");
+        // since we can't get the error code from the LMS, return a general error
+        return _GeneralException.code;
+    }
 
-   return api.GetLastError().toString();
+    return api.GetLastError().toString();
 }
 
-/*******************************************************************************
+/** *****************************************************************************
 **
 ** Function doGetErrorString(errorCode)
 ** Inputs:  errorCode - Error Code
@@ -339,17 +337,17 @@ export function doGetLastError()
 ********************************************************************************/
 export function doGetErrorString(errorCode)
 {
-   var api = getAPIHandle();
-   if (api == null)
-   {
-      message("Unable to locate the LMS's API Implementation.\nGetErrorString was not successful.");
-      return _GeneralException.string;
-   }
+    let api = getAPIHandle();
+    if (api == null)
+    {
+        message("Unable to locate the LMS's API Implementation.\nGetErrorString was not successful.");
+        return _GeneralException.string;
+    }
 
-   return api.GetErrorString(errorCode).toString();
+    return api.GetErrorString(errorCode).toString();
 }
 
-/*******************************************************************************
+/** *****************************************************************************
 **
 ** Function doGetDiagnostic(errorCode)
 ** Inputs:  errorCode - Error Code(integer format), or null
@@ -362,17 +360,17 @@ export function doGetErrorString(errorCode)
 *******************************************************************************/
 export function doGetDiagnostic(errorCode)
 {
-   var api = getAPIHandle();
-   if (api == null)
-   {
-      message("Unable to locate the LMS's API Implementation.\nGetDiagnostic was not successful.");
-      return "Unable to locate the LMS's API Implementation. GetDiagnostic was not successful.";
-   }
+    let api = getAPIHandle();
+    if (api == null)
+    {
+        message("Unable to locate the LMS's API Implementation.\nGetDiagnostic was not successful.");
+        return "Unable to locate the LMS's API Implementation. GetDiagnostic was not successful.";
+    }
 
-   return api.GetDiagnostic(errorCode).toString();
+    return api.GetDiagnostic(errorCode).toString();
 }
 
-/*******************************************************************************
+/** *****************************************************************************
 **
 ** Function ErrorHandler()
 ** Inputs:  None
@@ -393,30 +391,30 @@ export function doGetDiagnostic(errorCode)
 *******************************************************************************/
 export function ErrorHandler()
 {
-   var error = {"code":_NoError.code, "string":_NoError.string, "diagnostic":_NoError.diagnostic};
-   var api = getAPIHandle();
-   if (api == null)
-   {
-      message("Unable to locate the LMS's API Implementation.\nCannot determine LMS error code.");
-      error.code = _GeneralException.code;
-      error.string = _GeneralException.string;
-      error.diagnostic = "Unable to locate the LMS's API Implementation. Cannot determine LMS error code.";
-      return error;
-   }
+    let error = { "code": _NoError.code, "string": _NoError.string, "diagnostic": _NoError.diagnostic };
+    let api = getAPIHandle();
+    if (api == null)
+    {
+        message("Unable to locate the LMS's API Implementation.\nCannot determine LMS error code.");
+        error.code = _GeneralException.code;
+        error.string = _GeneralException.string;
+        error.diagnostic = "Unable to locate the LMS's API Implementation. Cannot determine LMS error code.";
+        return error;
+    }
 
-   // check for errors caused by or from the LMS
-   error.code = api.GetLastError().toString();
-   if (error.code != _NoError.code)
-   {
-      // an error was encountered so display the error description
-      error.string = api.GetErrorString(error.code);
-      error.diagnostic = api.GetDiagnostic("");
-   }
+    // check for errors caused by or from the LMS
+    error.code = api.GetLastError().toString();
+    if (error.code != _NoError.code)
+    {
+        // an error was encountered so display the error description
+        error.string = api.GetErrorString(error.code);
+        error.diagnostic = api.GetDiagnostic("");
+    }
 
-   return error;
+    return error;
 }
 
-/******************************************************************************
+/** ****************************************************************************
 **
 ** Function getAPIHandle()
 ** Inputs:  None
@@ -429,16 +427,15 @@ export function ErrorHandler()
 *******************************************************************************/
 export function getAPIHandle()
 {
-   if (apiHandle == null)
-   {
-      apiHandle = getAPI();
-   }
+    if (apiHandle == null)
+    {
+        apiHandle = getAPI();
+    }
 
-   return apiHandle;
+    return apiHandle;
 }
 
-
-/*******************************************************************************
+/** *****************************************************************************
 **
 ** Function findAPI(win)
 ** Inputs:  win - a Window Object
@@ -451,24 +448,24 @@ export function getAPIHandle()
 *******************************************************************************/
 export function findAPI(win)
 {
-   var findAPITries = 0;
-   while ((win.API_1484_11 == null) && (win.parent != null) && (win.parent != win))
-   {
-      findAPITries++;
+    let findAPITries = 0;
+    while ((win.API_1484_11 == null) && (win.parent != null) && (win.parent != win))
+    {
+        findAPITries++;
 
-      if (findAPITries > 500)
-      {
-         message("Error finding API -- too deeply nested.");
-         return null;
-      }
+        if (findAPITries > 500)
+        {
+            message("Error finding API -- too deeply nested.");
+            return null;
+        }
 
-      win = win.parent;
+        win = win.parent;
 
-   }
-   return win.API_1484_11;
+    }
+    return win.API_1484_11;
 }
 
-/*******************************************************************************
+/** *****************************************************************************
 **
 ** Function getAPI()
 ** Inputs:  none
@@ -482,19 +479,19 @@ export function findAPI(win)
 *******************************************************************************/
 export function getAPI()
 {
-   var theAPI = findAPI(window);
-   if ((theAPI == null) && (window.opener != null) && (typeof(window.opener) != "undefined"))
-   {
-      theAPI = findAPI(window.opener);
-   }
-   if (theAPI == null)
-   {
-      message("Unable to find an API adapter");
-   }
-   return theAPI
+    let theAPI = findAPI(window);
+    if ((theAPI == null) && (window.opener != null) && (typeof(window.opener) !== "undefined"))
+    {
+        theAPI = findAPI(window.opener);
+    }
+    if (theAPI == null)
+    {
+        message("Unable to find an API adapter");
+    }
+    return theAPI;
 }
 
-/*******************************************************************************
+/** *****************************************************************************
 **
 ** Function findObjective(objId)
 ** Inputs:  objId - the id of the objective
@@ -508,10 +505,10 @@ export function getAPI()
 *******************************************************************************/
 export function findObjective(objId)
 {
-    var num = doGetValue("cmi.objectives._count");
-    var objIndex = -1;
+    let num = doGetValue("cmi.objectives._count");
+    let objIndex = -1;
 
-    for (var i=0; i < num; ++i) {
+    for (let i = 0; i < num; ++i) {
         if (doGetValue("cmi.objectives." + i + ".id") == objId) {
             objIndex = i;
             break;
@@ -527,7 +524,7 @@ export function findObjective(objId)
     return objIndex;
 }
 
-/*******************************************************************************
+/** *****************************************************************************
 ** NOTE: This is a SCORM 2004 4th Edition feature.
 *
 ** Function findDataStore(id)
@@ -553,32 +550,32 @@ export function findObjective(objId)
 *******************************************************************************/
 export function findDataStore(id)
 {
-    var num = doGetValue("adl.data._count");
-    var index = -1;
+    let num = doGetValue("adl.data._count");
+    let index = -1;
 
     // if the get value was not null and is a number
     // in other words, we got an index in the adl.data array
     if (num != null && ! isNaN(num))
     {
-       for (var i=0; i < num; ++i)
-       {
-           if (doGetValue("adl.data." + i + ".id") == id)
-           {
-               index = i;
-               break;
-           }
-       }
+        for (let i = 0; i < num; ++i)
+        {
+            if (doGetValue("adl.data." + i + ".id") == id)
+            {
+                index = i;
+                break;
+            }
+        }
 
-       if (index == -1)
-       {
-           message("Data store " + id + " not found.");
-       }
+        if (index == -1)
+        {
+            message("Data store " + id + " not found.");
+        }
     }
-    
+
     return index;
 }
 
-/*******************************************************************************
+/** *****************************************************************************
 **
 ** Function message(str)
 ** Inputs:  String - message you want to send to the designated output
@@ -594,9 +591,9 @@ export function findDataStore(id)
 *******************************************************************************/
 export function message(str)
 {
-   if(debug)
-   {
-      output.log(str);
-   }
+    if(debug)
+    {
+        output.log(str);
+    }
 }
-/* jshint ignore:end */
+/*eslint-enable */

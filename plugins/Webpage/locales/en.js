@@ -10,6 +10,6 @@ module.exports = {
         "PluginName": "Web Page",
         "radius": "Radius",
         "source": "Source",
-        "URL": "URL"
-    }
+        "URL": "URL",
+    },
 };

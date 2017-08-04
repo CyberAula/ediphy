@@ -9,6 +9,6 @@ module.exports = {
         "opacity": "Opacidad",
         "padding": "Padding",
         "radius": "Radio",
-        "source": "Fuente"
-    }
+        "source": "Fuente",
+    },
 };

@@ -1,8 +1,8 @@
-import React, {Component} from 'react';
-import {Modal, Button, Tabs, Tab, Col} from 'react-bootstrap';
+import React, { Component } from 'react';
+import { Modal, Button, Tabs, Tab, Col } from 'react-bootstrap';
 import interact from 'interact.js';
 import Dali from './../../../../core/main';
-import {isSortableBox, isSlide} from './../../../../utils';
+import { isSortableBox, isSlide } from './../../../../utils';
 import ReactDOM from 'react-dom';
 
 require('./_pluginRibbon.scss');
@@ -11,7 +11,7 @@ export default class PluginRibbon extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            buttons: []
+            buttons: [],
         };
     }
 
@@ -19,37 +19,38 @@ export default class PluginRibbon extends Component {
         return (
             /* jshint ignore:start */
             <Col id="ribbon"
-                 md={12}
-                 xs={12}
-                 style={{
-                     height: this.props.ribbonHeight,
-                     overflowY:'hidden'
-                 }} ref="holder">
+                md={12}
+                xs={12}
+                style={{
+                    height: this.props.ribbonHeight,
+                    overflowY: 'hidden',
+                }} ref="holder">
                 <div id="insideribbon" className="row">
                     <div id="ribbonList">
                         {this.state.buttons.map((item, index) => {
                             let button = this.state.buttons[index];
-                            if (button.category === this.props.category || this.props.category == 'all') {
-                                var clase = "" + button.icon;
+                            if (button.category === this.props.category || this.props.category === 'all') {
+                                let clase = "" + button.icon;
                                 return (<div key={index} className="buttonPlace">
                                     <Button className={"rib " + (button.allowFloatingBox ? "floatingDaliBox" : "")}
-                                            disabled={this.props.disabled}
-                                            key={index}
-                                            name={item.name}
-                                            bsSize="large"
-                                            draggable="false"
-                                            style={(button.iconFromUrl) ? {
-                                                padding: '8px 8px 8px 45px',
-                                                backgroundImage: 'url('+ clase +')',
-                                                backgroundSize: '32px',
-                                                backgroundPosition: '8px',
-                                                backgroundRepeat: 'no-repeat'
-                                            }:{}
-                                            }>
-                                        <i className="material-icons" style={(button.iconFromUrl)?{display:'none'}:{}}>{clase}</i> {button.displayName}
+                                        disabled={this.props.disabled}
+                                        key={index}
+                                        name={item.name}
+                                        bsSize="large"
+                                        draggable="false"
+                                        style={(button.iconFromUrl) ? {
+                                            padding: '8px 8px 8px 45px',
+                                            backgroundImage: 'url(' + clase + ')',
+                                            backgroundSize: '32px',
+                                            backgroundPosition: '8px',
+                                            backgroundRepeat: 'no-repeat',
+                                        } : {}
+                                        }>
+                                        <i className="material-icons" style={(button.iconFromUrl) ? { display: 'none' } : {}}>{clase}</i> {button.displayName}
                                     </Button>
                                 </div>);
                             }
+                            return null;
                         })}
                     </div>
                 </div>
@@ -59,10 +60,10 @@ export default class PluginRibbon extends Component {
         );
     }
     handleScroll(e) {
-        var element = this.props.containedViewSelected !== 0 ? document.getElementById("containedCanvas") : document.getElementById("canvas");
-        if (e.deltaY > 0){ //scroll-down
+        let element = this.props.containedViewSelected !== 0 ? document.getElementById("containedCanvas") : document.getElementById("canvas");
+        if (e.deltaY > 0) { // scroll-down
             element.scrollTop = element.scrollTop + 20;
-        }else{ //scroll-up
+        }else{ // scroll-up
             element.scrollTop = element.scrollTop - 20;
         }
     }
@@ -71,16 +72,16 @@ export default class PluginRibbon extends Component {
         holder.removeEventListener('mousewheel', this.handleScroll);
     }
 
-    componentWillUpdate(nextProps,nextState){
-        //unset interactable and put it back with autoscroll false this is mandatory when changing between containecanvas and canvas
+    componentWillUpdate(nextProps, nextState) {
+        // unset interactable and put it back with autoscroll false this is mandatory when changing between containecanvas and canvas
         let container;
 
-        if(this.props.containedViewSelected !== nextProps.containedViewSelected){
+        if(this.props.containedViewSelected !== nextProps.containedViewSelected) {
             if(nextProps.containedViewSelected !== 0) {
                 container = "containedCanvas";
             }
         }else{
-                container = "canvas";
+            container = "canvas";
         }
 
         // !isSlide(this.props.navItemSelected) && isSlide(nextProps.navitemselected) -> Aplicar interact para slide
@@ -95,9 +96,9 @@ export default class PluginRibbon extends Component {
                     margin: 50,
                     speed: 400,
                     distance: 0,
-                    interval: 0
+                    interval: 0,
                 },
-                onstart: function (event) {
+                onstart: function(event) {
                     changeOverflow(true);
                     let original = event.target;
                     let parent = original.parentNode;
@@ -134,7 +135,7 @@ export default class PluginRibbon extends Component {
                     target.setAttribute('data-x', x);
                     target.setAttribute('data-y', y);
 
-                    //console.log(y);
+                    // console.log(y);
                 },
                 onend: (event) => {
                     changeOverflow(false);
@@ -143,8 +144,7 @@ export default class PluginRibbon extends Component {
                     let dw = original.offsetWidth;
                     let clone = document.getElementById('clone');
 
-
-                    var target = clone,
+                    let target = clone,
                         x = 0,
                         y = 0;
                     target.style.webkitTransform =
@@ -160,14 +160,14 @@ export default class PluginRibbon extends Component {
 
                     parent.removeChild(clone);
                     event.stopPropagation();
-                }
+                },
             });
 
     }
 
     componentDidMount() {
         Dali.API_Private.listenEmission(Dali.API_Private.events.addMenuButtons, e => {
-            this.setState({buttons: this.state.buttons.concat(e.detail)});
+            this.setState({ buttons: this.state.buttons.concat(e.detail) });
         });
 
         const holder = ReactDOM.findDOMNode(this.refs.holder);
@@ -175,13 +175,12 @@ export default class PluginRibbon extends Component {
 
         let container;
 
-
-            if(this.props.containedViewSelected !== 0) {
-                container = "containedCanvas";
+        if(this.props.containedViewSelected !== 0) {
+            container = "containedCanvas";
 
         }else{
 
-                container = "canvas";
+            container = "canvas";
 
         }
         let elContainer = document.getElementById(container);
@@ -190,13 +189,13 @@ export default class PluginRibbon extends Component {
             .draggable({
                 inertia: true,
                 autoScroll: {
-                    container: elContainer ? elContainer:window,
+                    container: elContainer ? elContainer : window,
                     margin: 50,
                     speed: 400,
                     distance: 0,
-                    interval: 0
+                    interval: 0,
                 },
-                onstart: function (event) {
+                onstart: function(event) {
                     changeOverflow(true);
                     let original = event.target;
                     let parent = original.parentNode;
@@ -233,7 +232,7 @@ export default class PluginRibbon extends Component {
                     target.setAttribute('data-x', x);
                     target.setAttribute('data-y', y);
 
-                 },
+                },
                 onend: (event) => {
                     changeOverflow(false);
                     let original = event.target;
@@ -241,8 +240,7 @@ export default class PluginRibbon extends Component {
                     let dw = original.offsetWidth;
                     let clone = document.getElementById('clone');
 
-
-                    var target = clone,
+                    let target = clone,
                         x = 0,
                         y = 0;
                     target.style.webkitTransform =
@@ -258,12 +256,11 @@ export default class PluginRibbon extends Component {
 
                     parent.removeChild(clone);
                     event.stopPropagation();
-                }
+                },
             });
 
     }
 }
-
 
 function changeOverflow(bool) {
     document.getElementById('ribbonRow').style.overflowX = bool ? 'visible' : 'auto';

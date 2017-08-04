@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import {Tooltip, OverlayTrigger,Breadcrumb, BreadcrumbItem, Button} from 'react-bootstrap';
+import React, { Component } from 'react';
+import { Tooltip, OverlayTrigger, Breadcrumb, BreadcrumbItem, Button } from 'react-bootstrap';
 import i18n from 'i18next';
 
 require('./_daliHeader.scss');
@@ -14,24 +14,23 @@ export default class DaliHeader extends Component {
         // Default values are stored in this variables
         let actual_parent = this.props.navItems[this.props.navItem.parent];
         let actual_level = this.props.navItem;
-        //Equal size to the index of level
+        // Equal size to the index of level
         size = size - 1;
 
-
         if (size === undefined || level === undefined || this.props.titles.length === 0) {
-            //This happens when you are in a root element
+            // This happens when you are in a root element
 
             return "";
 
         } else if (size === level) {
-            //This happens when you are in the first level
+            // This happens when you are in the first level
             let actual_index = (actual_parent.children.indexOf(actual_level.id));
             if (actual_index !== -1) {
                 return (actual_index + 1) + ". ";
             }
         } else {
-            //This happens when you have several sections in the array
-            //You iterate inversely in the array until you get to the level stored in nav properties
+            // This happens when you have several sections in the array
+            // You iterate inversely in the array until you get to the level stored in nav properties
             let actual_index;
             let interating_level = level + 1;
 
@@ -43,43 +42,44 @@ export default class DaliHeader extends Component {
             let final_level = actual_parent.children.indexOf(actual_level.id) + 1;
             if (actual_parent !== undefined && actual_parent.children !== undefined) {
                 return final_level + ". ";
-            } else {
-                return "";
             }
+            return "";
+
         }
+        return "";
     }
 
     render() {
         let titles = this.props.titles || [];
         let navItem = this.props.containedView !== 0 ? this.props.containedView : this.props.navItem;
         let currentStatus = (navItem.header) ? navItem.header.display : undefined;
-        let docTitle =  navItem.name;
+        let docTitle = navItem.name;
         let subTitle = i18n.t('subtitle');
         let pagenumber = this.props.navItem.unitNumber;
-        
 
         if (navItem !== undefined && navItem.id !== 0 && navItem.header) {
-                docTitle = navItem.header.elementContent.documentTitle !== "" && ( navItem.header.elementContent.documentTitle !== navItem.name) ?  navItem.header.elementContent.documentTitle : navItem.name;
-                subTitle = navItem.header.elementContent.documentSubTitle !== "" && (navItem.header.elementContent.documentSubTitle !== i18n.t('subtitle')) ? navItem.header.elementContent.documentSubTitle : i18n.t('subtitle');
-                pagenumber = navItem.header.elementContent.numPage !== "" && (navItem.header.elementContent.numPage !== navItem.unitNumber) ? navItem.header.elementContent.numPage : navItem.unitNumber;
+            docTitle = navItem.header.elementContent.documentTitle !== "" && (navItem.header.elementContent.documentTitle !== navItem.name) ? navItem.header.elementContent.documentTitle : navItem.name;
+            subTitle = navItem.header.elementContent.documentSubTitle !== "" && (navItem.header.elementContent.documentSubTitle !== i18n.t('subtitle')) ? navItem.header.elementContent.documentSubTitle : i18n.t('subtitle');
+            pagenumber = navItem.header.elementContent.numPage !== "" && (navItem.header.elementContent.numPage !== navItem.unitNumber) ? navItem.header.elementContent.numPage : navItem.unitNumber;
         }
 
         let content;
         let unidad = "";
         // breadcrumb
-        if(this.props.containedView === 0){
+        if(this.props.containedView === 0) {
             if (currentStatus !== undefined) {
                 if (currentStatus.breadcrumb === 'reduced') {
-                    let titles = this.props.titles;
+                    let titleList = this.props.titles;
 
-                    let actualTitle = titles[titles.length - 1];
-                    unidad = titles[0];
-                    content = React.createElement("div", {className: "subheader"},
-                        React.createElement(Breadcrumb, {style: {margin: 0, backgroundColor: 'inherit'}},
-                            titles.map((item, index) => {
-                                if (index !== titles.length) {
-                                    return React.createElement(BreadcrumbItem, {key: index}, item);
+                    let actualTitle = titleList[titleList.length - 1];
+                    unidad = titleList[0];
+                    content = React.createElement("div", { className: "subheader" },
+                        React.createElement(Breadcrumb, { style: { margin: 0, backgroundColor: 'inherit' } },
+                            titleList.map((item, index) => {
+                                if (index !== titleList.length) {
+                                    return React.createElement(BreadcrumbItem, { key: index }, item);
                                 }
+                                return null;
                             })
                         )
                     );
@@ -87,34 +87,35 @@ export default class DaliHeader extends Component {
                 } else if (currentStatus.breadcrumb === 'expanded') {
                     let titlesComponents = "";
                     let titles_length = this.props.titles.length;
-                    content = React.createElement("div", {className: "subheader"},
+                    content = React.createElement("div", { className: "subheader" },
                         this.props.titles.map((text, index) => {
                             if (index === 0) {
                                 unidad = text;
                             } else {
-                                let nivel = (index > 4 ) ? 6 : index + 2;
+                                let nivel = (index > 4) ? 6 : index + 2;
                                 return React.createElement("h" + nivel, {
                                     key: index,
-                                    style: {marginTop: '0px'}
-                                }, /*this.getActualIndex(titles_length, index) + */text);
+                                    style: { marginTop: '0px' },
+                                }, /* this.getActualIndex(titles_length, index) + */text);
                             }
+                            return null;
                         })
                     );
                 }
 
             }
         }
- 
-        if(navItem.id !== 0){
-        return (
+
+        if(navItem.id !== 0) {
+            return (
             /* jshint ignore:start */
 
                 <div className="title" onClick={(e) => {
-                                        this.props.onBoxSelected(-1);
-                                        this.props.onShowTitle();
-                                        e.stopPropagation(); }}>
-                    <div style={{backgroundColor:'transparent', display:(titles.length !== 0)? 'initial' : 'none' }}>
-                    {/*
+                    this.props.onBoxSelected(-1);
+                    this.props.onShowTitle();
+                    e.stopPropagation(); }}>
+                    <div style={{ backgroundColor: 'transparent', display: (titles.length !== 0) ? 'initial' : 'none' }}>
+                        {/*
                     <div id="daliTitleButtons" style={{height:'40px'}}>
                         <OverlayTrigger placement="bottom" overlay={
                             <Tooltip id="verticTooltip">{i18n.t('vertical')}
@@ -190,49 +191,46 @@ export default class DaliHeader extends Component {
                     </div>
                     */}
 
+                        <div className={this.props.showButtons ? "caja selectedTitle selectedBox" : "caja"} >
+                            <div className="cab">
 
-                    <div className={this.props.showButtons ?  "caja selectedTitle selectedBox":"caja"} >
-                        <div className="cab">
-
-                            <div className="cabtabla_numero"
-                                contentEditable={false}
-                                suppressContentEditableWarning
-                                style={{display:(currentStatus.pageNumber == 'hidden') ? 'none' : 'block'}}
-                                onBlur={e => {
+                                <div className="cabtabla_numero"
+                                    contentEditable={false}
+                                    suppressContentEditableWarning
+                                    style={{ display: (currentStatus.pageNumber === 'hidden') ? 'none' : 'block' }}
+                                    onBlur={e => {
                                         this.props.onUnitNumberChanged(navItem.id, parseInt(e.target.innerText, 10));
 
-                                }}
-                            >{pagenumber}</div>
+                                    }}
+                                >{pagenumber}</div>
 
-                            <div className="tit_ud_cap">
-                                {/* Course title*/}
-                                <h1 style={{display:(currentStatus.courseTitle == 'hidden') ? 'none' : 'block'}}>{this.props.courseTitle}</h1>
-                                {/* NavItem title */}
-                                <h2 style={{display:(currentStatus.documentTitle == 'hidden') ? 'none' : 'block'}}>{docTitle}</h2>
-                                {/* NavItem subtitle */}
-                                <h3 style={{display:(currentStatus.documentSubTitle == 'hidden') ? 'none' : 'block'}}>{subTitle}</h3>
+                                <div className="tit_ud_cap">
+                                    {/* Course title*/}
+                                    <h1 style={{ display: (currentStatus.courseTitle === 'hidden') ? 'none' : 'block' }}>{this.props.courseTitle}</h1>
+                                    {/* NavItem title */}
+                                    <h2 style={{ display: (currentStatus.documentTitle === 'hidden') ? 'none' : 'block' }}>{docTitle}</h2>
+                                    {/* NavItem subtitle */}
+                                    <h3 style={{ display: (currentStatus.documentSubTitle === 'hidden') ? 'none' : 'block' }}>{subTitle}</h3>
 
-                                {/* breadcrumb */}
-                                <div className="contenido" style={{display:(currentStatus.breadcrumb == 'hidden') ? 'none' : 'block'}}>
-                                    { content }
+                                    {/* breadcrumb */}
+                                    <div className="contenido" style={{ display: (currentStatus.breadcrumb === 'hidden') ? 'none' : 'block' }}>
+                                        { content }
+                                    </div>
                                 </div>
+
+                                <div style={{ display: 'none' }} className="clear" />
                             </div>
-
-                            <div style={{display: 'none'}} className="clear"></div>
                         </div>
+
+                        {/* <br style={{clear:'both',  visibility: 'inherit'}}/> */}
                     </div>
-
-
-                    {/* <br style={{clear:'both',  visibility: 'inherit'}}/> */}
                 </div>
-            </div>
             /* jshint ignore:end */
-        );
+            );
         }
-        else
-        {
-            return null;
-        }
+
+        return null;
+
     }
 
 }

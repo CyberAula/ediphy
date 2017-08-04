@@ -1,18 +1,18 @@
 export function BasicText(base) {
     return {
-        getConfig: function () {
+        getConfig: function() {
             return {
                 name: 'BasicText',
                 displayName: Dali.i18n.t('BasicText.PluginName'),
                 category: 'text',
                 needsConfigModal: false,
                 needsTextEdition: true,
-                /*initialWidth: '300px',
+                /* initialWidth: '300px',
                 initialHeight: '100px',*/
-                icon: 'short_text'
+                icon: 'short_text',
             };
         },
-        getToolbar: function () {
+        getToolbar: function() {
             return {
                 main: {
                     __name: "Main",
@@ -26,17 +26,17 @@ export function BasicText(base) {
                                     type: 'number',
                                     value: 10,
                                     min: 0,
-                                    max: 100
+                                    max: 100,
                                 },
                                 className: {
                                     __name: Dali.i18n.t('BasicText.classname'),
-                                    type: 'text'
-                                }
-                            }
-                        }
-                    }
-                }
+                                    type: 'text',
+                                },
+                            },
+                        },
+                    },
+                },
             };
-        }
+        },
     };
 }

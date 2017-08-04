@@ -377,3 +377,7 @@ li > .selectedNavItemVisor {
 // .visorwrapper #containedCanvas {
 //   min-height: 100%;  
 // }
+
+.doc, .sli, #maincontent, #airlayer {
+  overflow: visible;
+}

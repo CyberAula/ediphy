@@ -2,30 +2,30 @@ import Dali from './main';
 
 export function api() {
     return {
-        addMenuButtons: function (json) {
+        addMenuButtons: function(json) {
             Dali.API_Private.emit(Dali.API_Private.events.addMenuButtons, json);
         },
-        configModalNeedsUpdate: function(){
-            Dali.API_Private.emit(Dali.API_Private.events.configModalNeedsUpdate,{});
+        configModalNeedsUpdate: function() {
+            Dali.API_Private.emit(Dali.API_Private.events.configModalNeedsUpdate, {});
         },
-        openConfig: function (name, reason) {
-            var promise = new Promise(function (resolve) {
+        openConfig: function(name, reason) {
+            let promise = new Promise(function(resolve) {
                 Dali.API_Private.listenAnswer(Dali.API_Private.events.openConfig, resolve);
             });
-            Dali.API_Private.emit(Dali.API_Private.events.openConfig, {name: name, reason: reason});
+            Dali.API_Private.emit(Dali.API_Private.events.openConfig, { name: name, reason: reason });
             return promise;
         },
-        editRichMark: function(id,value){
-            Dali.API_Private.emit(Dali.API_Private.events.editRichMark, {id: id, value: value});
+        editRichMark: function(id, value) {
+            Dali.API_Private.emit(Dali.API_Private.events.editRichMark, { id: id, value: value });
         },
-        markTriggered: function(id,value,stateElement){
-            Dali.API_Private.emit(Dali.API_Private.events.markTriggered, {id,value,stateElement});
+        markTriggered: function(id, value, stateElement) {
+            Dali.API_Private.emit(Dali.API_Private.events.markTriggered, { id, value, stateElement });
         },
-        changeView: function(id){
-            Dali.API_Private.emit(Dali.API_Private.events.changeView, {id: id});
+        changeView: function(id) {
+            Dali.API_Private.emit(Dali.API_Private.events.changeView, { id: id });
         },
-        renderPlugin: function (html, toolbar, config, state, ids, initialParams, reason) {
-            if(!reason){
+        renderPlugin: function(html, toolbar, config, state, ids, initialParams, reason) {
+            if(!reason) {
                 console.warn("No reason given");
             }
             Dali.API_Private.emit(Dali.API_Private.events.render, {
@@ -35,65 +35,65 @@ export function api() {
                 state: state,
                 ids: ids,
                 initialParams: initialParams,
-                reason: reason
+                reason: reason,
             });
-        }
+        },
     };
 }
 
 export function api_private() {
-    var answerCallback;
+    let answerCallback;
     return {
         events: {
             addMenuButtons: {
-                emit: 'addMenuButtons'
+                emit: 'addMenuButtons',
             },
             render: {
-                emit: 'render'
+                emit: 'render',
             },
-            markTriggered:{
+            markTriggered: {
                 emit: 'markTriggered',
-                answer: 'markTriggered_back'
+                answer: 'markTriggered_back',
             },
-            editRichMark:{
-                emit:'editRichMark'
+            editRichMark: {
+                emit: 'editRichMark',
             },
-            changeView:{
-                emit: 'changeView'
+            changeView: {
+                emit: 'changeView',
             },
-            configModalNeedsUpdate:{
-              emit: 'needsUpdate'
+            configModalNeedsUpdate: {
+                emit: 'needsUpdate',
             },
             openConfig: {
                 emit: 'openConfig',
-                answer: 'openConfig_back'
+                answer: 'openConfig_back',
             },
             getPluginsInView: {
                 emit: 'getPluginsInView',
-                answer: 'getPluginsInView_back'
-            }
+                answer: 'getPluginsInView_back',
+            },
         },
-        emit: function (name, params) {
-            var event = new CustomEvent(name.emit, {'detail': params});
+        emit: function(name, params) {
+            let event = new CustomEvent(name.emit, { 'detail': params });
             window.dispatchEvent(event);
         },
-        listenEmission: function (event, callback) {
+        listenEmission: function(event, callback) {
             window.addEventListener(event.emit, callback);
         },
-        answer: function (name, params) {
-            var event = new CustomEvent(name.answer, {'detail': params});
+        answer: function(name, params) {
+            let event = new CustomEvent(name.answer, { 'detail': params });
             window.dispatchEvent(event);
         },
-        listenAnswer: function (event, resolve) {
+        listenAnswer: function(event, resolve) {
             answerCallback = this.cleanupAndResolve.bind(this, event, resolve);
             window.addEventListener(event.answer, answerCallback);
         },
-        cleanupAndResolve: function (event, resolve, customEvent) {
+        cleanupAndResolve: function(event, resolve, customEvent) {
             window.removeEventListener(event.answer, answerCallback);
             resolve(customEvent.detail);
         },
-        cleanListener: function(event){
+        cleanListener: function(event) {
             window.removeEventListener(event.emit);
-        }
+        },
     };
 }

@@ -26,6 +26,6 @@ module.exports = {
         "order_by": "Ordenar Por",
         "data_rows": "Filas",
         "data_cols": "Columnas",
-        "key": "Key"
-    }
+        "key": "Key",
+    },
 };

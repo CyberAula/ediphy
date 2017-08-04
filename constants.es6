@@ -10,6 +10,6 @@ export const SECTIONS_HAVE_CONTENT = false;
 export const PAGE_TYPES = {
     SLIDE: "slide",
     DOCUMENT: "document",
-    SECTION: "section"
+    SECTION: "section",
 };
 

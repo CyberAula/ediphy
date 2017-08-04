@@ -9,6 +9,6 @@ module.exports = {
         "padding": "Padding",
         "PluginName": "Texto Enriquecido",
         "radius": "Radio",
-        "source": "Origen"
-    }
+        "source": "Origen",
+    },
 };

@@ -1,6 +1,6 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import {Modal, FormControl, Col, Form, FormGroup, ControlLabel, Button} from 'react-bootstrap';
+import { Modal, FormControl, Col, Form, FormGroup, ControlLabel, Button } from 'react-bootstrap';
 import Dali from './../../../../core/main';
 
 export default class VishSearcherModal extends Component {
@@ -9,14 +9,14 @@ export default class VishSearcherModal extends Component {
         this.index = 0;
         this.state = {
             itemSelected: 0,
-            resourceUrl: ""
+            resourceUrl: "",
         };
     }
 
     render() {
         return (
             /* jshint ignore:start */
-            <Modal className="pageModal" backdrop={true} bsSize="large" show={this.props.visible}>
+            <Modal className="pageModal" backdrop bsSize="large" show={this.props.visible}>
                 <Modal.Header>
                     <Modal.Title>BUSCADOR VISH</Modal.Title>
                 </Modal.Header>
@@ -63,20 +63,20 @@ export default class VishSearcherModal extends Component {
                             </Col>
                             <Col md={2}>
                                 <Button onClick={(e) => {
-                                     let url = encodeURI(Dali.Config.search_vish_url +
+                                    let url = encodeURI(Dali.Config.search_vish_url +
                                         "?q=" + ReactDOM.findDOMNode(this.refs.query).value +
                                         "&type=" + ReactDOM.findDOMNode(this.refs.type).value +
                                         "&sort_by=" + ReactDOM.findDOMNode(this.refs.sort_by).value
-                                     );
+                                    );
 
-                                     this.props.onFetchVishResources(url);
+                                    this.props.onFetchVishResources(url);
                                 }}>Search
                                 </Button>
                             </Col>
                         </FormGroup>
 
                     </Form>
-                    <Form style={{minHeight: 250}}>
+                    <Form style={{ minHeight: 250 }}>
                         {this.props.fetchResults.total_results ?
                             (
                                 <FormGroup>
@@ -86,20 +86,20 @@ export default class VishSearcherModal extends Component {
                                         let border = this.state.itemSelected === index ? "solid orange 3px" : "solid transparent 3px";
                                         return (
                                             <img key={index}
-                                                 src={item.file_url}
-                                                 style={{
+                                                src={item.file_url}
+                                                style={{
                                                     width: 160,
                                                     height: 160,
-                                                    border: border
-                                                 }}
-                                                 onClick={e => {
+                                                    border: border,
+                                                }}
+                                                onClick={e => {
                                                     this.setState({
                                                         itemSelected: index,
-                                                        resourceUrl: item.file_url
+                                                        resourceUrl: item.file_url,
                                                     });
-                                                 }}
+                                                }}
                                             />
-                                        )
+                                        );
                                     })}
                                 </FormGroup>
                             ) :
