@@ -399,6 +399,8 @@
         left: 0%;
         width: 100%;
         color:rgb(204,204,204);
+        -webkit-transition-timing-function: linear; /* Safari and Chrome */
+        transition-timing-function: linear;
         //-webkit-transition: left 3s, width 3s;
         //-moz-transition: left 3s, width 3s;
         //transition: left 3s, width 3s;

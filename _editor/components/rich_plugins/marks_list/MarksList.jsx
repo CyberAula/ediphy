@@ -36,7 +36,7 @@ export default class MarksList extends Component {
                                 <div className="markNameInToolbarContainer"
                                      onMouseOver={() =>{
                                          let markEl = document.getElementById('mark_' + id);
-                                         markEl.style.transitionDuration  = widthScroll * 2 / 100 + 's';
+                                         markEl.style.transitionDuration  = widthScroll / 100 + 's';
                                          markEl.style.width = widthScroll + '%';
                                          markEl.style.left = '-' + (widthScroll - 100) + '%';
                                      }}
