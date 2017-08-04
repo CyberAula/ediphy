@@ -42,7 +42,7 @@ export default class CarrouselList extends Component {
         return (
             /* jshint ignore:start */
             <div style={{ height: "100%" }}>
-                <div style={{ height: "20px", backgroundColor: "black", marginBottom: "2px", paddingLeft: "10px" }} onClick={()=> {
+                <div style={{ height: "20px", backgroundColor: "black", marginBottom: "2px", paddingLeft: "10px", cursor: 'pointer' }} onClick={()=> {
                     this.setState({ showSortableItems: !this.state.showSortableItems });
                 }}>
                     {(this.state.showSortableItems) ?
@@ -110,7 +110,7 @@ export default class CarrouselList extends Component {
                     })}
                 </div>
 
-                <div style={{ height: "20px", backgroundColor: "black", marginBottom: "2px", paddingLeft: "10px" }} onClick={()=> {
+                <div style={{ height: "20px", backgroundColor: "black", marginBottom: "2px", paddingLeft: "10px", cursor: 'pointer' }} onClick={()=> {
                     this.setState({ showContainedViews: !this.state.showContainedViews });
                 }}>
                     {(this.state.showContainedViews) ?
