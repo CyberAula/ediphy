@@ -56,30 +56,38 @@
 //transition code
 //-------------------------------
 
-.example-enter {
+.enter {
   opacity: 0.01;
 }
 
-.example-enter.example-enter-active {
+.enter.enter-active {
   opacity: 1;
-  transition: opacity 500ms ease-in;
+  //transition: opacity 500ms ease-in;
+  transition-property: left, top, height;
+  transition-duration: .5s;
+  transition-timing-function: ease-in;
 }
 
-.example-leave {
+.leave {
   opacity: 1;
 }
 
-.example-leave.example-leave-active {
+.leave.leave-active {
   opacity: 0.01;
-  transition: opacity 300ms ease-in;
+  //transition: opacity 300ms ease-in;
+  transition-property: left, top, height;
+  transition-duration: .5s;
+  transition-timing-function: ease-in;
 }
-.example-appear {
+.appear {
   opacity: 0.01;
 }
 
-.example-appear.example-appear-active {
+.appear.appear-active {
   opacity: 1;
-  transition: opacity .5s ease-in;
+  transition-property: left, top, height;
+  transition-duration: .5s;
+  transition-timing-function: ease-in;
 }
 
 

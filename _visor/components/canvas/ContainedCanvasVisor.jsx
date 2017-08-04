@@ -57,7 +57,11 @@ export default class ContainedCanvasVisor extends Component {
         return (
             /* jshint ignore:start */
           <CSSTransitionGroup
-          transitionName="example"
+          transitionName={{
+            enter: 'enter',
+            leave: 'leave',
+            appear: 'appear'
+          }}
           transitionAppear={true}
           transitionAppearTimeout={500}
           transitionEnterTimeout={500}
