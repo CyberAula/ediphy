@@ -115,7 +115,10 @@
   border:0;
   padding:0;
   position: absolute;
-  top:0;
-  left:0;
-  margin: 3px;
+  top: 15px;
+  right: 15px;
+  i{
+    color: white;
+    background-color: $blueprimary;
+  }
 }

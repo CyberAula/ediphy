@@ -176,7 +176,7 @@ export default class Visor extends Component {
                         style={{ height: '100%' }}>
                         <Row style={{ height: '100%' }}>
                             <Col lg={12} style={{ height: '100%' }}>
-                                {visorNav.player ? (<VisorPlayer show={visorNav.player}
+                                {visorNav.player && !isContainedView(this.getLastCurrentViewElement()) ? (<VisorPlayer show={visorNav.player}
                                     changeCurrentView={(page)=> {this.changeCurrentView(page);}}
                                     currentViews={this.state.currentView}
                                     navItemsById={navItems}

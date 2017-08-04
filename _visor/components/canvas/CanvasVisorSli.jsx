@@ -54,7 +54,7 @@ export default class CanvasVisorSli extends Component {
                         {isCV ? (<a href="#" className="btnOverBar cvBackButton" style={{ pointerEvents: this.props.viewsArray.length > 1 ? 'initial' : 'none', color: this.props.viewsArray.length > 1 ? 'black' : 'gray' }} onClick={a => {
                             this.props.removeLastView();
                             a.stopPropagation();
-                        }}><i className="material-icons">undo</i></a>) : (<span />)}
+                        }}><i className="material-icons">close</i></a>) : (<span />)}
                         <HeaderVisor titles={titles}
                             onShowTitle={()=>this.setState({ showTitle: true })}
                             courseTitle={this.props.title}

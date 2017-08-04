@@ -62,10 +62,8 @@
 
 .enter.enter-active {
   opacity: 1;
-  //transition: opacity 500ms ease-in;
-  transition-property: left, top, height;
-  transition-duration: .5s;
-  transition-timing-function: ease-in;
+  transition: opacity 500ms ease-in;
+ 
 }
 
 .leave {
@@ -74,10 +72,7 @@
 
 .leave.leave-active {
   opacity: 0.01;
-  //transition: opacity 300ms ease-in;
-  transition-property: left, top, height;
-  transition-duration: .5s;
-  transition-timing-function: ease-in;
+  transition: opacity 300ms ease-in;
 }
 .appear {
   opacity: 0.01;
@@ -85,9 +80,7 @@
 
 .appear.appear-active {
   opacity: 1;
-  transition-property: left, top, height;
-  transition-duration: .5s;
-  transition-timing-function: ease-in;
+  transition: opacity .5s ease-in;
 }
 
 
