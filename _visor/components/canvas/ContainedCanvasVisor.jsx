@@ -6,6 +6,7 @@ import {Col, Button} from 'react-bootstrap';
 import {isSortableBox, isSlide} from './../../../utils';
 import CanvasVisorDoc from './CanvasVisorDoc';
 import CanvasVisorSli from './CanvasVisorSli';
+import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 
 export default class ContainedCanvasVisor extends Component {
 
@@ -16,7 +17,7 @@ export default class ContainedCanvasVisor extends Component {
         let visorContent;
         if (isSlide(this.props.containedViews[this.props.currentView].type)) {
             /* jshint ignore:start */
-            visorContent = <CanvasVisorSli
+            visorContent =  <CanvasVisorSli
                                            navItems={this.props.navItems}
                                            currentView={this.props.currentView}
                                            containedViews={this.props.containedViews}                                           
@@ -55,7 +56,15 @@ export default class ContainedCanvasVisor extends Component {
 
         return (
             /* jshint ignore:start */
-            visorContent
+          <CSSTransitionGroup
+          transitionName="example"
+          transitionAppear={true}
+          transitionAppearTimeout={500}
+          transitionEnterTimeout={500}
+          transitionLeaveTimeout={300}>
+            {visorContent}
+            </CSSTransitionGroup>
+
             /* jshint ignore:end */
         );
     }
