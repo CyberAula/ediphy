@@ -127,7 +127,9 @@
         display: flex;
         flex-grow: 1;
         overflow-x: hidden;
+        cursor: pointer;
     }
+    cursor: pointer;
 }
 
 /*Wrapper for the whole component including tab*/
@@ -327,7 +329,8 @@
     transition: height .25s  ease-in-out;
     background-color: #444;
     .empty-info{
-      margin: 20px;
+      margin: 15%;
+        text-align: center;
       color: $grismedio;
       background-color: transparent;
     }
