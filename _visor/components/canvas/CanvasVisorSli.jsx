@@ -52,7 +52,11 @@ export default class CanvasVisorSli extends Component {
                         className={'innercanvas sli'}
                         style={{ visibility: (this.props.showCanvas ? 'visible' : 'hidden') }}>
                         {isCV ? (<a href="#" className="btnOverBar cvBackButton" style={{ pointerEvents: this.props.viewsArray.length > 1 ? 'initial' : 'none', color: this.props.viewsArray.length > 1 ? 'black' : 'gray' }} onClick={a => {
-                            this.props.removeLastView();
+                            document.getElementById("containedCanvas").classList.add("exitCanvas");
+                            setTimeout(function() {
+                                this.props.removeLastView();
+                            }.bind(this), 500);
+
                             a.stopPropagation();
                         }}><i className="material-icons">close</i></a>) : (<span />)}
                         <HeaderVisor titles={titles}

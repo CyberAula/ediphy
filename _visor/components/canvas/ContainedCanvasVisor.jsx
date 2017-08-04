@@ -57,7 +57,7 @@ export default class ContainedCanvasVisor extends Component {
                     leave: 'leave',
                     appear: 'appear',
                 }}
-                transitionAppear={true}
+                transitionAppear
                 transitionAppearTimeout={500}
                 transitionEnterTimeout={500}
                 transitionLeaveTimeout={300}>
