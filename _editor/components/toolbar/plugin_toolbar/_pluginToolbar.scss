@@ -381,15 +381,29 @@
         color: #222;
         cursor: help;
     }
-    .markNameInToolbar {
-        //margin-left: 5px;
+    .markNameInToolbarContainer{
         display: inline-block;
         width: 85px !important;
-        text-overflow: ellipsis;
         overflow: hidden;
-        white-space: nowrap;
-        color:rgb(204,204,204);
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
     }
+
+    .markNameInToolbar {
+        //margin-left: 5px;
+        text-overflow: ellipsis;
+        position: relative;
+        white-space: nowrap;
+        overflow: hidden;
+        left: 0%;
+        width: 100%;
+        color:rgb(204,204,204);
+        //-webkit-transition: left 3s, width 3s;
+        //-moz-transition: left 3s, width 3s;
+        //transition: left 3s, width 3s;
+    }
+
 }
 .marksListButton {
     margin-bottom: 7px;
