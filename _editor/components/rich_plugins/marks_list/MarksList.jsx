@@ -22,7 +22,6 @@ export default class MarksList extends Component {
                         let mark = this.props.state.__marks[id];
                         let name = mark.connection;
                         let widthScroll = Math.max(mark.title.length/11*100,100);
-                        console.log(widthScroll)
                         try {
                             name = this.props.toolbars[mark.connection.id || mark.connection] ? this.props.toolbars[mark.connection.id || mark.connection].controls.main.accordions.basic.buttons.navitem_name.value : mark.connection;
                         } catch(e) { }

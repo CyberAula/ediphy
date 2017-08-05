@@ -87,6 +87,8 @@ export default class DaliCanvasSli extends Component {
                             containedViews={this.props.containedViews}
                             titleModeToggled={this.props.titleModeToggled}
                             onUnitNumberChanged={this.props.onUnitNumberChanged}
+                            toolbars={this.props.toolbars}
+                            boxes={this.props.boxes}
                             showButton
                         />
 

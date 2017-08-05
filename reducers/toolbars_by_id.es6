@@ -352,11 +352,11 @@ function toolbarSectionCreator(state, action, isContainedView = false) {
                                 type: 'checkbox',
                                 checked: true,
                                 autoManaged: false,
-                            }, // Por qué hay dos títulos y por qué están en secciones distintas?
+                            },
                             navitem_name: {
                                 __name: i18n.t('NavItem_name'),
                                 type: 'text',
-                                value: isContainedView ? nextToolbarAvailName(i18n.t('contained_view'), state) : doc_type,
+                                value: isContainedView ? action.payload.mark.connection.name /*nextToolbarAvailName(i18n.t('contained_view'), state)*/ : doc_type,
                                 autoManaged: false,
                             },
                         },

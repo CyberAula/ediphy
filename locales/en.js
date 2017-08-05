@@ -31,6 +31,7 @@ let en = {
         "display": "Display",
         "display_page": "Preview / Export",
         "document": "Document",
+        "edit_text": "Edit text",
         "empty": {
             "cv_empty": "You have not created any contained view yet.",
         },
@@ -141,7 +142,7 @@ let en = {
         "marks": {
             "add_mark": "Add mark",
             "add_mark_to": "Add mark to ",
-            "create_mark": "You are creating a new mark that links to a contained view. What would you like to name it?",
+            "create_mark": "You are creating a new mark that links to a contained view. What would you like to name them?",
             "edit_mark_to": "Edit mark from ",
             "existing_content": "Existing content",
             "external_url": "External content",

@@ -29,6 +29,9 @@ let es = {
         "display_page": "Previsualizar / exportar",
         "document": "Documento",
         "edit_text": "Editar texto",
+        "empty": {
+            "cv_empty": "Aún no has creado ninguna vista contenida.",
+        },
         "error": {
             "exporting": "Ha ocurrido un error al exportar",
             "generic": "Ha ocurrido un error",
@@ -136,7 +139,7 @@ let es = {
         "marks": {
             "add_mark": "Añadir marca",
             "add_mark_to": "Añadir marca a ",
-            "create_mark": "Estás creando una nueva marca que enlaza a una vista contenida. Cómo quieres llamarla?",
+            "create_mark": "Estás creando una nueva marca que enlaza a una vista contenida. ¿Cómo quieres llamarlas?",
             "edit_mark_to": "Editar marca de ",
             "existing_content": "Contenido existente",
             "external_url": "Contenido externo",
