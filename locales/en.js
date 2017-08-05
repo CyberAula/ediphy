@@ -156,6 +156,7 @@ let en = {
             "new_slide": "New slide",
             "new_mark": "Nueva marca",
             "value": "Value",
+            "wrong_value": "Wrong value",
         },
         "messages": {
             "add_new_mark": "Add new mark",
@@ -166,6 +167,7 @@ let en = {
             "align_middle": "The element is placed in the middle of the parent element",
             "align_right": "Align right",
             "align_top": "The top of the element is aligned with the top of the tallest element on the line",
+            "Cancel": "Cancel",
             "columns_distribution": "Columns distribution",
             "confirm_delete_CV_also_1": "This is the only mark that links to \"",
             "confirm_delete_CV_also_2": "\". Would you like to delete that view as well?",
@@ -186,7 +188,9 @@ let en = {
             "go_back_to": "Go back to ",
             "height_auto_warning": "The boxes inside can only have a relative height if you fix the container height",
             "mark_input": "Something is wrong with your input",
+            "OK": "Accept",
             "pointer_events": "Activate manual edition of the content mode",
+            "save_changes": "Save changes",
 
         },
         "Multimedia": "Multimedia",

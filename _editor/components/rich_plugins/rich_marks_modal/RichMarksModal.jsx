@@ -237,7 +237,7 @@ export default class RichMarksModal extends Component {
                             let val = this.props.validateValueInput(value);
                             // If the value is not allowed, we show an alert with the predefined message and we abort the Save operation
                             if (val && val.isWrong) {
-                                this.setState({ showAlert: true, alertMsg: (val.message ? val.message : i18n.t("mark_input"))  });
+                                this.setState({ showAlert: true, alertMsg: (val.message ? val.message : i18n.t("mark_input")) });
                                 return;
                             // If the value is allowed we check if it has been modified (like rounded decimals) and we assign it to value
                             } else if (val && val.value) {
@@ -253,7 +253,11 @@ export default class RichMarksModal extends Component {
 
                     }}>Save changes</Button>
                 </Modal.Footer>
-                <Alert show={this.state.showAlert} hasHeader title={"Wrong value"} closeButton acceptButtonText={'OK'} onClose={()=>{this.setState({ showAlert: false })}}>
+                <Alert className="pageModal"
+                    show={this.state.showAlert}
+                    hasHeader
+                    title={i18n.t("marks.wrong_value")}
+                    closeButton onClose={()=>{this.setState({ showAlert: false });}}>
                     <span> {this.state.alertMsg} </span>
                 </Alert>
             </Modal>

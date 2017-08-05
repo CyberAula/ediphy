@@ -153,6 +153,8 @@ let es = {
             "new_slide": "Nueva diapositiva",
             "new_mark": "Nueva marca",
             "value": "Valor",
+            "wrong_value": "Valor incorrecto",
+
         },
         "messages": {
             "add_new_mark": "Añadir nueva marca",
@@ -163,6 +165,7 @@ let es = {
             "align_middle": "El elemento se alinea al medio de la línea",
             "align_right": "Alinear a la derecha",
             "align_top": "La parte superior del elemento se alinea con la parte superior del elemento más alto de la línea",
+            "Cancel": "Cancelar",
             "columns_distribution": "Distribución de columnas",
             "confirm_delete_CV_also_1": "Esta es la única marca que enlaza a \"",
             "confirm_delete_CV_also_2": "\". Desea eliminar la vista también?",
@@ -183,7 +186,9 @@ let es = {
             "go_back_to": "Volver a ",
             "height_auto_warning": "Sólo si fijas una altura podrán tener alturas relativas las cajas en su interior",
             "mark_input": "Hay un error en el valor introducido",
+            "OK": "Aceptar",
             "pointer_events": "Activar el modo de edición manual del contenido",
+            "save_changes": "Guardar cambios",
         },
 
         "Multimedia": "Multimedia",

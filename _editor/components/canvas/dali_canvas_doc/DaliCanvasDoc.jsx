@@ -49,7 +49,7 @@ export default class DaliCanvasDoc extends Component {
             <Col id={this.props.fromCV ? 'containedCanvas' : 'canvas'} md={12} xs={12} className="canvasDocClass"
                 style={{ display: this.props.containedViewSelected !== 0 && !this.props.fromCV ? 'none' : 'initial' }}>
 
-                <div className="scrollcontainer" style={{ backgroundColor: !this.props.navItemSelected || this.props.navItemSelected.id === 0 ? 'transparent' : 'white' }}>
+                <div className="scrollcontainer" style={{ backgroundColor: !this.props.navItemSelected || this.props.navItemSelected.id === 0 ? 'transparent' : 'white', display: this.props.navItemSelected && this.props.navItemSelected.id !== 0 ? 'block' : 'none' }}>
                     <DaliHeader titles={titles}
                         showButtons={this.state.showTitle}
                         onShowTitle={()=>this.setState({ showTitle: true })}
@@ -66,7 +66,7 @@ export default class DaliCanvasDoc extends Component {
                         boxes={this.props.boxes}
                         showButton
                     />
-                    <div className="outter canvaseditor" style={{display: this.props.navItemSelected !== 0  ? 'block' : 'none'}}>
+                    <div className="outter canvaseditor" style={{ display: this.props.navItemSelected && this.props.navItemSelected.id !== 0 ? 'block' : 'none' }}>
                         {/*
                     {this.props.fromCV ?  (<button className="btnOverBar cvBackButton" style={{margin: "10px 0px 0px 10px"}}
                              onClick={e => {

@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import { Modal, Grid, Row, Col, FormGroup, Checkbox, ControlLabel, FormControl, InputGroup, Radio, OverlayTrigger, Popover, Button } from 'react-bootstrap';
 import i18n from 'i18next';
 import RangeSlider from './range_slider/RangeSlider';
 import Select from 'react-select';
 import { WithContext as ReactTags } from 'react-tag-input';
 import { suggestions, statusOptions, contextOptions, languages, difLevels, rightsOptions } from './global_options';
+import Alert from './../../alerts/alert/Alert';
 
 // Styles
 import 'react-select/dist/react-select.css';
@@ -32,6 +32,7 @@ export default class GlobalConfig extends Component {
             context: this.props.globalConfig.context || 'school',
             visorNav: this.props.globalConfig.visorNav || { player: true, sidebar: true },
             modifiedState: false,
+            showAlert: false,
         };
         // Tag handling functions
         this.handleDelete = this.handleDelete.bind(this);
@@ -50,13 +51,22 @@ export default class GlobalConfig extends Component {
                 aria-labelledby="contained-modal-title-lg"
                 onHide={e => {
                     if (this.state.modifiedState) {
-                        confirm(i18n.t("global_config.prompt")) ? this.saveState() : this.cancel();
+                        this.setState({ showAlert: true });
                     }
-                    this.props.close(); }}>
+                }}>
                 <Modal.Header closeButton>
                     <Modal.Title><span id="previewTitle">{i18n.t('global_config.title')}</span></Modal.Title>
                 </Modal.Header>
-
+                <Alert className="pageModal"
+                    show={this.state.showAlert}
+                    hasHeader
+                    title={i18n.t("messages.save_changes")}
+                    closeButton
+                    cancelButton
+                    acceptButtonText={'OK'}
+                    onClose={(bool)=>{bool ? this.saveState() : this.cancel(); this.setState({ showAlert: false }); this.props.close();}}>
+                    {i18n.t("global_config.prompt")}
+                </Alert>
                 <Modal.Body className="gcModalBody" style={{ overFlowY: 'auto' }}>
                     <Grid>
                         <form>

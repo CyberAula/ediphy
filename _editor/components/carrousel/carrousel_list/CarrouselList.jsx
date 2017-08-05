@@ -280,7 +280,7 @@ export default class CarrouselList extends Component {
                                 }>
                                 {i18n.t("Accept")}
                             </Button>
-                            
+
                         </Popover>}>
                         <OverlayTrigger placement="top" overlay={
                             <Tooltip id="deleteTooltip">{i18n.t('delete')}
