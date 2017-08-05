@@ -63,29 +63,26 @@ export default class DaliHeader extends Component {
             pagenumber = navItem.header.elementContent.numPage !== "" && (navItem.header.elementContent.numPage !== navItem.unitNumber) ? navItem.header.elementContent.numPage : navItem.unitNumber;
         }
         let cvList = [];
-        if (this.props.containedView ){
-            for (let id in this.props.containedView.parent){
+        if (this.props.containedView) {
+            for (let id in this.props.containedView.parent) {
                 let par = this.props.containedView.parent[id];
-                if(this.props.toolbars[par]) {
+                if (this.props.toolbars[par]) {
                     let el = this.props.boxes[par];
-                    console.log(el)
-                    let from = "unknown"
-                    if(isSortableBox(el.parent)) {
+                    let from = "unknown";
+                    if (isSortableBox(el.parent)) {
                         let origin = this.props.boxes[el.parent].parent;
-                        console.log(origin)
-                        from = isContainedView(origin) ? this.props.containedViews[origin].name : this.props.navItems[origin].name
+                        from = isContainedView(origin) ? this.props.containedViews[origin].name : this.props.navItems[origin].name;
                     } else if (isCanvasElement(el.parent)) {
-                        from = isContainedView(el.parent) ? this.props.containedViews[el.parent].name : this.props.navItems[el.parent].name
+                        from = isContainedView(el.parent) ? this.props.containedViews[el.parent].name : this.props.navItems[el.parent].name;
                     } else {
                         return;
                     }
-                    cvList.push(<span>{'From ' + this.props.toolbars[par].config.displayName + ' in ' + from}</span>);
+                    cvList.push(<span className="cvList" key={id}><b>{this.props.toolbars[par].config.displayName}</b> { ' (' + from + ')'}</span>);
                     // return this.props.toolbars[parent].config.displayName + " from " + this.props.navItems[this.props.boxes[parent]] || this.props.containedViews[this.props.boxes[parent]] || this.props.boxes[parent];
 
                 }
             }
         }
-        console.log(cvList)
         let content;
         let unidad = "";
         // breadcrumb
@@ -129,10 +126,8 @@ export default class DaliHeader extends Component {
             }
         }
 
-        if(navItem.id !== 0) {
+        if (navItem.id !== 0) {
             return (
-            /* jshint ignore:start */
-
                 <div className="title" onClick={(e) => {
                     this.props.onBoxSelected(-1);
                     this.props.onShowTitle();
@@ -232,12 +227,12 @@ export default class DaliHeader extends Component {
                                     <h1 style={{ display: (currentStatus.courseTitle === 'hidden') ? 'none' : 'block' }}>{this.props.courseTitle}</h1>
                                     {/* NavItem title */}
                                     <h2 style={{ display: (currentStatus.documentTitle === 'hidden') ? 'none' : 'block' }}>{docTitle}{this.props.containedView !== 0 ? (<OverlayTrigger placement="bottom" overlay={
-                                        <Popover id="popover-positioned-bottom" title={"About " + docTitle }>
-                                            {cvList.map(it => {return it})}
+                                        <Popover className="cvPopover" id="popover-positioned-bottom" title={ i18n.t("contained_view_popover") }>
+                                            { cvList.map(it => { return it; }) }
                                         </Popover>
-                                    }><i className="material-icons infoIcon" style={{fontSize: '14px'}}>info</i></OverlayTrigger>) : null}</h2>
+                                    }><i className="material-icons infoIcon" style={{ fontSize: '16px' }}>info</i></OverlayTrigger>) : null }</h2>
                                     {/* NavItem subtitle */}
-                                    <h3 style={{ display: (currentStatus.documentSubTitle === 'hidden') ? 'none' : 'block' }}>{subTitle}</h3>
+                                    <h3 style={{ display: (currentStatus.documentSubTitle === 'hidden') ? 'none' : 'block' }}>{ subTitle }</h3>
 
                                     {/* breadcrumb */}
                                     <div className="contenido" style={{ display: (currentStatus.breadcrumb === 'hidden') ? 'none' : 'block' }}>
@@ -252,11 +247,10 @@ export default class DaliHeader extends Component {
                         {/* <br style={{clear:'both',  visibility: 'inherit'}}/> */}
                     </div>
                 </div>
-            /* jshint ignore:end */
             );
         }
 
-        return null;
+        // return null;
 
     }
 

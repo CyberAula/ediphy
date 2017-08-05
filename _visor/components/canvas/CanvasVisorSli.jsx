@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import BoxVisor from './BoxVisor';
-import { Col } from 'react-bootstrap';
+import { Col, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import HeaderVisor from './HeaderVisor';
 import { aspectRatio } from '../../../common_tools';
 import ReactResizeDetector from 'react-resize-detector';
-import { isView } from './../../../utils';
+import { isContainedView, isView } from './../../../utils';
+import i18n from 'i18next';
 
 export default class CanvasVisorSli extends Component {
 
@@ -35,8 +36,12 @@ export default class CanvasVisorSli extends Component {
         let overlayHeight = actualHeight ? actualHeight : '100%';
         // aspectRatio(this.props.aspectRatio);
         let boxes = itemSelected.boxes || [];
+        let thisView = this.props.viewsArray && this.props.viewsArray.length > 1 ? (i18n.t('messages.go_back_to') + (isContainedView(this.props.viewsArray[this.props.viewsArray.length - 2]) ? this.props.containedViews[this.props.viewsArray[this.props.viewsArray.length - 2]].name : this.props.navItems[this.props.viewsArray[this.props.viewsArray.length - 2]].name)) : i18n.t('messages.go_back');
+        
+        const tooltip = (
+          <Tooltip id="tooltip">{thisView}</Tooltip>
+        );
         return (
-            /* jshint ignore:start */
 
             <Col id={isCV ? "containedCanvas" : "canvas"} md={12} xs={12}
                 style={{ display: 'initial', padding: '0', width: '100%' }}>
@@ -51,14 +56,15 @@ export default class CanvasVisorSli extends Component {
                         }}
                         className={'innercanvas sli'}
                         style={{ visibility: (this.props.showCanvas ? 'visible' : 'hidden') }}>
-                        {isCV ? (<a href="#" className="btnOverBar cvBackButton" style={{ pointerEvents: this.props.viewsArray.length > 1 ? 'initial' : 'none', color: this.props.viewsArray.length > 1 ? 'black' : 'gray' }} onClick={a => {
+                        {isCV ? (< OverlayTrigger  placement="bottom" overlay={tooltip}> 
+                            <a href="#" className="btnOverBar cvBackButton" style={{ pointerEvents: this.props.viewsArray.length > 1 ? 'initial' : 'none', color: this.props.viewsArray.length > 1 ? 'black' : 'gray' }} onClick={a => {
                             document.getElementById("containedCanvas").classList.add("exitCanvas");
                             setTimeout(function() {
                                 this.props.removeLastView();
                             }.bind(this), 500);
 
                             a.stopPropagation();
-                        }}><i className="material-icons">close</i></a>) : (<span />)}
+                        }}><i className="material-icons">close</i></a></OverlayTrigger>) : (<span />)}
                         <HeaderVisor titles={titles}
                             onShowTitle={()=>this.setState({ showTitle: true })}
                             courseTitle={this.props.title}

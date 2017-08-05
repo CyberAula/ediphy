@@ -66,7 +66,7 @@ export default class DaliCanvasDoc extends Component {
                         boxes={this.props.boxes}
                         showButton
                     />
-                    <div className="outter canvaseditor">
+                    <div className="outter canvaseditor" style={{display: this.props.navItemSelected !== 0  ? 'block' : 'none'}}>
                         {/*
                     {this.props.fromCV ?  (<button className="btnOverBar cvBackButton" style={{margin: "10px 0px 0px 10px"}}
                              onClick={e => {

@@ -7,7 +7,7 @@ export default class Alert extends Component {
     }
     render() {
         return(
-            <Modal className={this.props.className || 'popupAlert'} backdrop={this.props.backdrop === undefined ? true : this.props.backdrop} show={this.props.show} onHide={e=>{this.props.onClose(e);}}>
+            <Modal className={this.props.className || 'popupAlert pageModal'} backdrop={this.props.backdrop === undefined ? true : this.props.backdrop} show={this.props.show} onHide={e=>{this.props.onClose(e);}}>
                 {this.props.hasHeader ?
                     (this.props.closeButton ?
                         (<Modal.Header closeButton>

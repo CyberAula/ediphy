@@ -11,6 +11,7 @@ export default class MarkCreator extends Component {
             onCreation: false,
             triggeredMarkCreator: false,
         };
+        this.exitFunction = this.exitFunction.bind(this);
     }
 
     render() {
@@ -28,6 +29,7 @@ export default class MarkCreator extends Component {
 
                 let overlay = document.createElement("div");
                 overlay.classList.add('overlay');
+                overlay.id = 'markOverlay';
 
                 /* OVERLAY */
                 dropableElement.classList.add("rich_overlay");
@@ -78,23 +80,7 @@ export default class MarkCreator extends Component {
 
                 let displayMode = 'navigate';
 
-                let keyListener = function(e) {
-                    const ESCAPE_KEY_CODE = 27;
-                    if (event.keyCode === ESCAPE_KEY_CODE) {
-                        exitFunction();
-                    }
-                };
-
-                let exitFunction = function() {
-                    document.body.style.cursor = 'default';
-                    window.removeEventListener('keyup', keyListener);
-                    overlay.remove();
-                    dropableElement.classList.remove('rich_overlay');
-                    deleteMarkCreator();
-                    component.setState({ onCreation: false });
-                };
-
-                window.addEventListener('keyup', keyListener);
+                window.addEventListener('keyup', component.keyListener);
 
                 overlay.oncontextmenu = function(event) {
                     exitFunction();
@@ -115,7 +101,7 @@ export default class MarkCreator extends Component {
                     let richMarkValues = [];
                     let promptRes = prompt(i18n.t("marks.create_mark"));
                     if (promptRes === null) {
-                        exitFunction();
+                        component.exitFunction();
                         return;
                     }
                     if(toolbarState.__marks) {
@@ -133,7 +119,7 @@ export default class MarkCreator extends Component {
                         onBoxAdded({ parent: newId, container: 0, id: ID_PREFIX_SORTABLE_BOX + Date.now() }, false, false);
                     }
                     /* This is to delete all elements involved */
-                    exitFunction();
+                    component.exitFunction();
                 };
                 // document.documentElement.style.cursor = 'url("https://storage.googleapis.com/material-icons/external-assets/v4/icons/svg/ic_room_black_24px.svg"), default';
                 dropableElement.parentElement.appendChild(overlay);
@@ -147,4 +133,25 @@ export default class MarkCreator extends Component {
 
     }
 
+    exitFunction() {
+        let element = this.props.content;
+        let dom_element = ReactDOM.findDOMNode(element);
+        let dropableElement = dom_element.getElementsByClassName('dropableRichZone')[0];
+        let overlay = document.getElementById('markOverlay');
+        document.body.style.cursor = 'default';
+        window.removeEventListener('keyup', this.keyListener);
+        overlay.remove();
+        dropableElement.classList.remove('rich_overlay');
+        this.props.deleteMarkCreator();
+        this.setState({ onCreation: false });
+    }
+
+    keyListener(event) {
+        const ESCAPE_KEY_CODE = 27;
+        if (event.keyCode === ESCAPE_KEY_CODE) {
+            this.exitFunction();
+        }
+    }
+
 }
+

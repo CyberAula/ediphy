@@ -258,6 +258,11 @@ export default class CarrouselList extends Component {
                             <br/>
                             <br/>
                             <Button className="popoverButton"
+                                disabled={this.props.indexSelected === 0}
+                                style={{ float: 'right' }} >
+                                {i18n.t("Cancel")}
+                            </Button>
+                            <Button className="popoverButton"
                                 disabled={/* (isContainedView(this.props.indexSelected) && !this.canDeleteContainedView(this.props.indexSelected)) || */this.props.indexSelected === 0}
                                 style={{ float: 'right' }}
                                 onClick={(e) =>
@@ -275,11 +280,7 @@ export default class CarrouselList extends Component {
                                 }>
                                 {i18n.t("Accept")}
                             </Button>
-                            <Button className="popoverButton"
-                                disabled={this.props.indexSelected === 0}
-                                style={{ float: 'right' }} >
-                                {i18n.t("Cancel")}
-                            </Button>
+                            
                         </Popover>}>
                         <OverlayTrigger placement="top" overlay={
                             <Tooltip id="deleteTooltip">{i18n.t('delete')}

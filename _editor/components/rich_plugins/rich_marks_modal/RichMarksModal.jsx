@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import Alert from './../../alerts/alert/Alert';
 import { Modal, Button, Row, Col, FormGroup, ControlLabel, FormControl, Radio } from 'react-bootstrap';
 import Typeahead from 'react-bootstrap-typeahead';
 import { ID_PREFIX_RICH_MARK, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_CONTAINED_VIEW, PAGE_TYPES } from '../../../../constants';
 import i18n from 'i18next';
 import { isSection, isContainedView, nextAvailName } from '../../../../utils';
 require('./_richMarksModal.scss');
+
 export default class RichMarksModal extends Component {
 
     constructor(props) {
@@ -17,6 +19,7 @@ export default class RichMarksModal extends Component {
             existingSelected: "",
             newType: PAGE_TYPES.SLIDE,
             viewNames: this.returnAllViews(this.props),
+            showAlert: false,
         };
     }
 
@@ -234,7 +237,7 @@ export default class RichMarksModal extends Component {
                             let val = this.props.validateValueInput(value);
                             // If the value is not allowed, we show an alert with the predefined message and we abort the Save operation
                             if (val && val.isWrong) {
-                                alert(val.message ? val.message : i18n.t("mark_input"));
+                                this.setState({ showAlert: true, alertMsg: (val.message ? val.message : i18n.t("mark_input"))  });
                                 return;
                             // If the value is allowed we check if it has been modified (like rounded decimals) and we assign it to value
                             } else if (val && val.value) {
@@ -250,6 +253,9 @@ export default class RichMarksModal extends Component {
 
                     }}>Save changes</Button>
                 </Modal.Footer>
+                <Alert show={this.state.showAlert} hasHeader title={"Wrong value"} closeButton acceptButtonText={'OK'} onClose={()=>{this.setState({ showAlert: false })}}>
+                    <span> {this.state.alertMsg} </span>
+                </Alert>
             </Modal>
             /* jshint ignore:end */
         );
