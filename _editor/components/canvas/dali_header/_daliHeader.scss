@@ -91,12 +91,50 @@
     }
   }
 }
+/* Information about contained view origin*/
+
+.cvPopover {
+  font-size: 12px;
+  font-family: 'Ubuntu';
+  border-radius: 0;
+  border-left: none !important;
+  border-right: none !important;
+  border-top: none !important;
+  border-bottom: none !important;
+  outline: none;
+  padding: 0;
+
+
+  .popover-title {
+    font-size: 13px;
+    background-color: #ddd;
+    color: #777;//$blueprimary;
+    border: none;
+    border-radius: 0;
+
+  }
+  .arrow {
+    border-bottom: none;
+    border-color: transparent !important;
+    top: -10px !important;
+  }
+  .arrow:after{
+    border-bottom-color: #ddd !important;
+    opacity: 1;
+    //border-bottom: none ;
+  }
+  .popover-content{
+    border: none !important;
+  }
+}
 
 .cvList {
   display: block;
   font-size: 11px;
+  font-family: 'Ubuntu' !important;
 }
 
-.cvPopover {
-   font-size: 12px;
+.infoIcon {
+  cursor: help;
 }
+

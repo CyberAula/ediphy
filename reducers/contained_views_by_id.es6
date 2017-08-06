@@ -52,9 +52,10 @@ export default function(state = {}, action = {}) {
         }
         return state;
     case DELETE_RICH_MARK:
-        return changeProp(state, action.payload.cvid, singleContainedViewReducer(state[action.payload.cvid], action));
-        // Problema: no se puede eliminar la box parent por si acaso hay 2 marcas en la misma box que enlazan a la misma cv
-        // return state;
+        if(isContainedView(action.payload.cvid)){
+            return changeProp(state, action.payload.cvid, singleContainedViewReducer(state[action.payload.cvid], action));
+        }
+        return state;
     case ADD_RICH_MARK:
         // If rich mark is connected to a new contained view, mark.connection will include this information;
         // otherwise, it's just the id/url and we're not interested

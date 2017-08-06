@@ -72,6 +72,20 @@ function singleNavItemReducer(state = {}, action = {}) {
             );
         }
         return stateWithoutBox;
+    case DELETE_RICH_MARK:
+        let previousParents = Object.assign({}, state.linkedBoxes);
+        let oldMarks = previousParents[action.payload.parent];
+        let ind = oldMarks.indexOf(action.payload.id);
+        if (ind > -1) {
+            oldMarks.splice(ind, 1);
+            console.log(oldMarks);
+            if (oldMarks.length === 0) {
+                delete previousParents[action.payload.parent];
+            } else {
+                previousParents[action.payload.parent] = oldMarks;
+            }
+        }
+        return changeProp(state, "linkedBoxes", previousParents);
     case EXPAND_NAV_ITEM:
         return changeProp(state, "isExpanded", action.payload.value);
     case DELETE_NAV_ITEM:
@@ -307,7 +321,9 @@ export default function(state = {}, action = {}) {
         }
         return state;
     case DELETE_RICH_MARK:
-        // Problema: no se puede eliminar la box parent por si acaso hay 2 marcas en la misma box que enlazan a la misma página
+        if(!isContainedView(action.payload.cvid)){
+            return changeProp(state, action.payload.cvid, singleNavItemReducer(state[action.payload.cvid], action));
+        }
         return state;
     case UPDATE_NAV_ITEM_EXTRA_FILES:
         return changeProp(state, action.payload.id, singleNavItemReducer(state[action.payload.id], action));

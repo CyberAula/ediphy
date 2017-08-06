@@ -389,6 +389,7 @@ export default function(state = {}, action = {}) {
         temp = deleteProps(state, action.payload.children);
         return changeProp(temp, action.payload.parent, boxReducer(state[action.payload.parent], action));
     case DELETE_NAV_ITEM:
+        // TODO: Delete linked marks
         return deleteProps(state, action.payload.boxes);
     case REORDER_SORTABLE_CONTAINER:
         return changeProp(state, action.payload.parent, boxReducer(state[action.payload.parent], action));
