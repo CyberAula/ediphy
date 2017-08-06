@@ -136,7 +136,7 @@ export default class CarrouselList extends Component {
                                     paddingLeft: "10px",
                                     paddingBottom: "25px",
                                     color: (this.props.containedViewSelected === id) ? "white" : "#9A9A9A",
-                                    backgroundColor: (this.props.containedViewSelected === id) ? "#545454" : "transparent",
+                                    backgroundColor: (this.props.containedViewSelected === id) ? "#222" : "transparent",
                                 }}
                                 onDoubleClick={e => {
                                     this.props.onContainedViewSelected(id);

@@ -193,6 +193,9 @@ export default class RichMarksModal extends Component {
                     <Button bsStyle="primary" onClick={e => {
                         let title = ReactDOM.findDOMNode(this.refs.title).value;
                         let newId = ID_PREFIX_CONTAINED_VIEW + Date.now();
+                        let newMark = ID_PREFIX_RICH_MARK + Date.now();
+                        let emptyObject = {};
+                        emptyObject[this.props.boxSelected] = [newMark];
                         let connectMode = this.state.connectMode;
                         let connection;
                         let name = title || nextAvailName(i18n.t('contained_view'), this.props.containedViews);
@@ -203,7 +206,7 @@ export default class RichMarksModal extends Component {
                                 current.connection :
                                 {
                                     id: newId,
-                                    parent: [this.props.boxSelected],
+                                    parent: emptyObject,
                                     name: name,
                                     boxes: [],
                                     type: this.state.newType,
@@ -245,7 +248,7 @@ export default class RichMarksModal extends Component {
                             }
                         }
 
-                        this.props.onRichMarkUpdated({ id: (current ? current.id : ID_PREFIX_RICH_MARK + Date.now()), title, connectMode, connection, displayMode, value }, this.state.newSelected === "");
+                        this.props.onRichMarkUpdated({ id: (current ? current.id : newMark), title, connectMode, connection, displayMode, value }, this.state.newSelected === "");
                         if(connectMode === 'new' && !this.props.toolbars[connection.id] && this.state.newType === PAGE_TYPES.DOCUMENT) {
                             this.props.onBoxAdded({ parent: newId, container: 0, id: ID_PREFIX_SORTABLE_BOX + Date.now() }, false, false);
                         }

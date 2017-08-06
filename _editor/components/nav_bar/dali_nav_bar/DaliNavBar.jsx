@@ -26,8 +26,7 @@ export default class DaliNavBar extends Component {
     }
 
     render() {
-
-        let disablePlugins = (this.props.navItemsIds.length === 0 || this.props.navItemSelected === 0);
+        let disablePlugins = (this.props.navItemsIds.length === 0 || (this.props.navItemSelected === 0 && this.props.containedViewSelected === 0));
         let modalTitle = "";
         let modalShow = false;
 

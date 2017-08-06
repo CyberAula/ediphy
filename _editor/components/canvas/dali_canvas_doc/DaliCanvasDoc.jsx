@@ -20,12 +20,15 @@ export default class DaliCanvasDoc extends Component {
 
     render() {
         let titles = [];
-        if (this.props.navItemSelected.id !== 0) {
-            titles.push(this.props.navItemSelected.name);
-            let parent = this.props.navItemSelected.parent;
-            while (parent !== 0) {
-                titles.push(this.props.navItems[parent].name);
-                parent = this.props.navItems[parent].parent;
+        let itemSelected = this.props.fromCV ? this.props.containedViewSelected : this.props.navItemSelected;
+        if (itemSelected.id !== 0) {
+            titles.push(itemSelected.name);
+            if (!this.props.fromCV) {
+                let parent = itemSelected.parent;
+                while (parent !== 0) {
+                    titles.push(this.props.navItems[parent].name);
+                    parent = this.props.navItems[parent].parent;
+                }
             }
             titles.reverse();
         }
@@ -41,21 +44,21 @@ export default class DaliCanvasDoc extends Component {
         /* let isSection = this.props.navItemSelected.id.toString().indexOf('se') !== -1;
         let contentAllowedInSections = Dali.Config.sections_have_content;
         let showCanvas = (!isSection || (isSection && contentAllowedInSections));*/
-        let itemSelected = this.props.fromCV ? this.props.containedViewSelected : this.props.navItemSelected;
         let boxes = itemSelected ? itemSelected.boxes : [];
+        let show = itemSelected && itemSelected.id !== 0;
         return (
             /* jshint ignore:start */
 
             <Col id={this.props.fromCV ? 'containedCanvas' : 'canvas'} md={12} xs={12} className="canvasDocClass"
                 style={{ display: this.props.containedViewSelected !== 0 && !this.props.fromCV ? 'none' : 'initial' }}>
 
-                <div className="scrollcontainer" style={{ backgroundColor: !this.props.navItemSelected || this.props.navItemSelected.id === 0 ? 'transparent' : 'white', display: this.props.navItemSelected && this.props.navItemSelected.id !== 0 ? 'block' : 'none' }}>
+                <div className="scrollcontainer" style={{ backgroundColor: show ? 'white' : 'transparent', display: show ? 'block' : 'none' }}>
                     <DaliHeader titles={titles}
                         showButtons={this.state.showTitle}
                         onShowTitle={()=>this.setState({ showTitle: true })}
                         onBoxSelected={this.props.onBoxSelected}
                         courseTitle={this.props.title}
-                        title={this.props.navItemSelected.name}
+                        title={itemSelected.name}
                         navItem={this.props.navItemSelected}
                         navItems={this.props.navItems}
                         containedView={this.props.containedViewSelected}
@@ -66,7 +69,7 @@ export default class DaliCanvasDoc extends Component {
                         boxes={this.props.boxes}
                         showButton
                     />
-                    <div className="outter canvaseditor" style={{ display: this.props.navItemSelected && this.props.navItemSelected.id !== 0 ? 'block' : 'none' }}>
+                    <div className="outter canvaseditor" style={{ display: show ? 'block' : 'none' }}>
                         {/*
                     {this.props.fromCV ?  (<button className="btnOverBar cvBackButton" style={{margin: "10px 0px 0px 10px"}}
                              onClick={e => {
@@ -77,7 +80,7 @@ export default class DaliCanvasDoc extends Component {
 
                         <div id={this.props.fromCV ? 'airlayer_cv' : 'airlayer'}
                             className={'doc_air'}
-                            style={{ visibility: (this.props.showCanvas ? 'visible' : 'hidden') }}>
+                            style={{ visibility: (show ? 'visible' : 'hidden') }}>
 
                             <div id={this.props.fromCV ? "contained_maincontent" : "maincontent"}
                                 onClick={e => {
@@ -86,7 +89,7 @@ export default class DaliCanvasDoc extends Component {
                                     e.stopPropagation();
                                 }}
                                 className={'innercanvas doc'}
-                                style={{ visibility: (this.props.showCanvas ? 'visible' : 'hidden') }}>
+                                style={{ visibility: (show ? 'visible' : 'hidden') }}>
 
                                 <br/>
 

@@ -128,10 +128,13 @@ export default class MarkCreator extends Component {
         let title = i18n.t('marks.new_mark');
         let type = this.props.pageType;
         let newId = ID_PREFIX_CONTAINED_VIEW + Date.now();
+        let markId = ID_PREFIX_RICH_MARK + Date.now();
         let pageName = nextAvailName(i18n.t('contained_view'), this.props.containedViews);
+        let emptyObject = {};
+        emptyObject[this.props.boxSelected] = [markId];
         let connection = {
             id: newId,
-            parent: [this.props.boxSelected],
+            parent: emptyObject,
             name: pageName,
             boxes: [],
             type: type,
@@ -153,7 +156,6 @@ export default class MarkCreator extends Component {
         let displayMode = 'navigate';
 
         let promptRes = this.state.promptRes;// prompt(i18n.t("marks.create_mark"));
-        console.log(promptRes);
         if (promptRes === null || !exit) {
             this.exitFunction();
             return;
@@ -167,7 +169,7 @@ export default class MarkCreator extends Component {
         connection.header.elementContent.documentTitle = pageName;
 
         let value = this.state.value;
-        this.props.addMarkShortcut({ id: ID_PREFIX_RICH_MARK + Date.now(), title, connectMode, connection, displayMode, value });
+        this.props.addMarkShortcut({ id: markId, title, connectMode, connection, displayMode, value });
         if(type === PAGE_TYPES.DOCUMENT) {
             this.props.onBoxAdded({ parent: newId, container: 0, id: ID_PREFIX_SORTABLE_BOX + Date.now() }, false, false);
         }

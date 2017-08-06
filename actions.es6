@@ -185,8 +185,8 @@ export function editRichMark(parent, state) {
     return { type: EDIT_RICH_MARK, payload: { parent, state } };
 }
 
-export function deleteRichMark(id, parent, state) {
-    return { type: DELETE_RICH_MARK, payload: { id, parent, state } };
+export function deleteRichMark(id, parent, cvid, state) {
+    return { type: DELETE_RICH_MARK, payload: { id, parent, cvid, state } };
 }
 
 export function selectContainedView(id) {

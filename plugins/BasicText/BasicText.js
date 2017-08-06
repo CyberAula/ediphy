@@ -27,7 +27,7 @@ export function BasicText(base) {
                                     value: 10,
                                     min: 0,
                                     max: 100,
-                                }/*,
+                                }, /* ,
                                 className: {
                                     __name: Dali.i18n.t('BasicText.classname'),
                                     type: 'text',

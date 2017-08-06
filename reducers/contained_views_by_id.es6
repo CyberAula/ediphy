@@ -7,13 +7,30 @@ function singleContainedViewReducer(state = {}, action = {}) {
         return changeProp(state, "boxes", [...state.boxes, action.payload.ids.id]);
     case ADD_RICH_MARK:
         // only fired when new mark is connected to existing cv
-        let oldParents = Object.assign([], state.parent);
-        if(oldParents.indexOf(action.payload.parent) === -1) {
-            oldParents.push(action.payload.parent);
-            return changeProp(state, "parent", oldParents);
+        let oldParents = Object.assign({}, state.parent);
+        if (!oldParents || Object.keys(oldParents).indexOf(action.payload.parent) === -1) {
+            oldParents[action.payload.parent] = [action.payload.mark.id];
+        } else {
+            oldParents[action.payload.parent].push(action.payload.mark.id);
         }
-        return state;
+        return changeProp(state, "parent", oldParents);
+        // return state;
+    case DELETE_RICH_MARK:
+        let previousParents = Object.assign({}, state.parent);
+        let oldMarks = previousParents[action.payload.parent];
+        let ind = oldMarks.indexOf(action.payload.id);
+        if (ind > -1) {
+            oldMarks.splice(ind, 1);
+            console.log(oldMarks);
+            if (oldMarks.length === 0) {
+                delete previousParents[action.payload.parent];
+            } else {
+                previousParents[action.payload.parent] = oldMarks;
+            }
+        }
+        return changeProp(state, "parent", previousParents);
     case DELETE_BOX:
+        // TODO: Borrar parent boxes borradas
         return changeProp(state, "boxes", state.boxes.filter(id => action.payload.id !== id));
     case TOGGLE_TITLE_MODE:
         return changeProp(state, "header", action.payload.titles);
@@ -35,8 +52,9 @@ export default function(state = {}, action = {}) {
         }
         return state;
     case DELETE_RICH_MARK:
+        return changeProp(state, action.payload.cvid, singleContainedViewReducer(state[action.payload.cvid], action));
         // Problema: no se puede eliminar la box parent por si acaso hay 2 marcas en la misma box que enlazan a la misma cv
-        return state;
+        // return state;
     case ADD_RICH_MARK:
         // If rich mark is connected to a new contained view, mark.connection will include this information;
         // otherwise, it's just the id/url and we're not interested

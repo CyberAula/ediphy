@@ -376,7 +376,7 @@ export default function(state = {}, action = {}) {
         return temp;
     case DELETE_CONTAINED_VIEW:
         let newBoxes = Object.assign({}, state);
-        action.payload.parent.forEach((el)=>{
+        Object.keys(action.payload.parent).forEach((el)=>{
             if(newBoxes[el] && newBoxes[el].containedViews) {
                 let index = newBoxes[el].containedViews.indexOf(action.payload.ids[0]);
                 if(index > -1) {

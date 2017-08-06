@@ -112,7 +112,14 @@ function singleNavItemReducer(state = {}, action = {}) {
     case TOGGLE_TITLE_MODE:
         return changeProp(state, "header", action.payload.titles);
     case ADD_RICH_MARK:
-        return changeProp(state, "linkedBoxes", [...(state.linkedBoxes || []), action.payload.parent]);
+        let oldParents = Object.assign({}, state.linkedBoxes);
+        if(Object.keys(oldParents).indexOf(action.payload.parent) === -1) {
+            oldParents[action.payload.parent] = [action.payload.mark.id];
+        } else {
+            oldParents[action.payload.parent].push(action.payload.mark.id);
+        }
+        return changeProp(state, "linkedBoxes", oldParents);
+        // return changeProp(state, "linkedBoxes", [...(state.linkedBoxes || []), action.payload.parent]);
     case UPDATE_NAV_ITEM_EXTRA_FILES:
         return changeProp(
             state,

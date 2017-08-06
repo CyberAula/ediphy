@@ -75,6 +75,7 @@ class DaliApp extends Component {
                         navItemsIds={navItemsIds}
                         navItems={navItems}
                         onTitleChanged={(id, titleStr) => {this.dispatchAndSetState(changeGlobalConfig('title', titleStr));}}
+                        containedViewSelected={containedViewSelected}
                         navItemSelected={navItemSelected}
                         boxSelected={boxSelected}
                         onTextEditorToggled={(caller, value) => this.dispatchAndSetState(toggleTextEditor(caller, value))}
@@ -117,7 +118,7 @@ class DaliApp extends Component {
 
                             this.dispatchAndSetState(deleteContainedView([cvid], boxesRemoving, containedViews[cvid].parent));
 
-                            containedViews[cvid].parent.forEach((el)=>{
+                            Object.keys(containedViews[cvid].parent).forEach((el)=>{
                                 if (toolbars[el] && toolbars[el].state && toolbars[el].state.__marks) {
                                     Dali.Plugins.get(toolbars[el].config.name).forceUpdate(
                                         toolbars[el].state,
@@ -386,7 +387,7 @@ class DaliApp extends Component {
                         let cvid = state.__marks[id].connection;
 
                         delete state.__marks[id];
-                        this.dispatchAndSetState(deleteRichMark(id, boxSelected, state));
+                        this.dispatchAndSetState(deleteRichMark(id, boxSelected, cvid, state));
                         Dali.Plugins.get(toolbar.config.name).forceUpdate(
                             state,
                             boxSelected,
@@ -395,9 +396,9 @@ class DaliApp extends Component {
                         // This checks if the deleted mark leaves an orphan contained view, and displays a message asking if the user would like to delete it as well
                         if (isContainedView(cvid)) {
                             let thiscv = containedViews[cvid];
-                            if(thiscv && thiscv.parent.indexOf(boxSelected) !== -1) {
+                            if(thiscv && Object.keys(thiscv.parent).indexOf(boxSelected) !== -1) {
                                 let remainingMarks = [];
-                                thiscv.parent.forEach((linkedbox)=>{
+                                for (let linkedbox in thiscv.parent) {
                                     if (toolbars[linkedbox] && toolbars[linkedbox].state && toolbars[linkedbox].state.__marks) {
                                         for (let i in toolbars[linkedbox].state.__marks) {
                                             let mark = toolbars[linkedbox].state.__marks[i];
@@ -406,7 +407,7 @@ class DaliApp extends Component {
                                             }
                                         }
                                     }
-                                });
+                                }
                                 let confirmText = i18n.t("messages.confirm_delete_CV_also_1") + containedViews[cvid].name + i18n.t("messages.confirm_delete_CV_also_2");
                                 if (remainingMarks.length === 1 && confirm(confirmText)) {
                                     let boxesRemoving = [];

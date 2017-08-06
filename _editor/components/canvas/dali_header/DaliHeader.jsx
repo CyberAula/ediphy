@@ -65,9 +65,9 @@ export default class DaliHeader extends Component {
         let cvList = [];
         if (this.props.containedView) {
             for (let id in this.props.containedView.parent) {
-                let par = this.props.containedView.parent[id];
-                if (this.props.toolbars[par]) {
-                    let el = this.props.boxes[par];
+                // let par = this.props.containedView.parent[id];
+                if (this.props.toolbars[id]) {
+                    let el = this.props.boxes[id];
                     let from = "unknown";
                     if (isSortableBox(el.parent)) {
                         let origin = this.props.boxes[el.parent].parent;
@@ -77,7 +77,7 @@ export default class DaliHeader extends Component {
                     } else {
                         break;
                     }
-                    cvList.push(<span className="cvList" key={id}><b>{this.props.toolbars[par].config.displayName}</b> { ' (' + from + ')'}</span>);
+                    cvList.push(<span className="cvList" key={id}><b>{this.props.toolbars[id].config.displayName}</b> { ' (' + from + ')'}</span>);
                     // return this.props.toolbars[parent].config.displayName + " from " + this.props.navItems[this.props.boxes[parent]] || this.props.containedViews[this.props.boxes[parent]] || this.props.boxes[parent];
 
                 }
@@ -125,8 +125,8 @@ export default class DaliHeader extends Component {
 
             }
         }
-
         if (navItem.id !== 0) {
+
             return (
                 <div className="title" onClick={(e) => {
                     this.props.onBoxSelected(-1);

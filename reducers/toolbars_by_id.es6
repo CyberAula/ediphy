@@ -356,7 +356,7 @@ function toolbarSectionCreator(state, action, isContainedView = false) {
                             navitem_name: {
                                 __name: i18n.t('NavItem_name'),
                                 type: 'text',
-                                value: isContainedView ? action.payload.mark.connection.name /*nextToolbarAvailName(i18n.t('contained_view'), state)*/ : doc_type,
+                                value: isContainedView ? action.payload.mark.connection.name /* nextToolbarAvailName(i18n.t('contained_view'), state)*/ : doc_type,
                                 autoManaged: false,
                             },
                         },
@@ -655,14 +655,24 @@ export default function(state = {}, action = {}) {
         let newToolbarCV = Object.assign({}, state);
         let parents = action.payload.parent ? action.payload.parent : [];
         // Delete all related marks
-        parents.forEach((el)=>{
+        console.log(parents);
+        Object.keys(parents).forEach((el)=>{
             if (newToolbarCV[el] && newToolbarCV[el].state && newToolbarCV[el].state.__marks) {
+                parents[el].forEach((mark)=>{
+                    console.log(el, newToolbarCV[el]);
+                    if (newToolbarCV[el].state.__marks[mark] && newToolbarCV[el].state.__marks[mark].connection === action.payload.ids[0]) {
+                        delete newToolbarCV[el].state.__marks[mark];
+                    }
+                });
+            }
+
+            /* if (newToolbarCV[el] && newToolbarCV[el].state && newToolbarCV[el].state.__marks) {
                 for (let mark in newToolbarCV[el].state.__marks) {
                     if (newToolbarCV[el].state.__marks[mark].connection === action.payload.ids[0]) {
                         delete newToolbarCV[el].state.__marks[mark];
                     }
                 }
-            }
+            }*/
         });
         return deleteProps(newToolbarCV, boxesCV.concat(action.payload.ids[0]));
     case DELETE_NAV_ITEM:

@@ -1,1 +1,1 @@
-module.exports = {requireAll: function(){}};
+module.exports = { requireAll: function() {} };
