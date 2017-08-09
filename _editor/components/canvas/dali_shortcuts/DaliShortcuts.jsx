@@ -211,12 +211,18 @@ export default class DaliShortcuts extends Component {
             this.setState({ left: left, top: top, width: width });
         }
     }
+    componentWillReceiveProps(nextProps) {
+        if (nextProps !== this.props) {
+            if (nextProps.box) {
+                this.resize("fromUpdate", nextProps);
+            }
+        }
+    }
 
     componentWillUpdate(nextProps) {
         if (nextProps !== this.props) {
             if (nextProps.box) {
-                this.resize("fromUpdate", nextProps);
-
+                // this.resize("fromUpdate", nextProps);
                 // Removes pointer events allowance when box is changed
                 if (!this.props.box || nextProps.box.id !== this.props.box.id) {
                     let boxEl = document.getElementById('box-' + (this.props.box ? this.props.box.id : ''));
