@@ -27,6 +27,7 @@ import DaliNavBar from '../components/nav_bar/dali_nav_bar/DaliNavBar';
 import ServerFeedback from '../components/server_feedback/ServerFeedback';
 import RichMarksModal from '../components/rich_plugins/rich_marks_modal/RichMarksModal';
 import AutoSave from '../components/autosave/AutoSave';
+import Alert from '../components/alerts/alert/Alert';
 import i18n from 'i18next';
 import Dali from '../../core/main';
 import { isSortableBox, isSection, isContainedView, isSortableContainer } from '../../utils';
@@ -39,6 +40,7 @@ class DaliApp extends Component {
         this.index = 0;
         this.severalBoxes = 0;
         this.state = {
+            alert: null,
             pluginTab: 'text',
             hideTab: 'show',
             visorVisible: false,
@@ -67,6 +69,7 @@ class DaliApp extends Component {
             /* jshint ignore:start */
             <Grid id="app" fluid style={{ height: '100%' }}>
                 <Row className="navBar">
+                    {this.state.alert}
                     <DaliNavBar hideTab={this.state.hideTab}
                         globalConfig={globalConfig}
                         changeGlobalConfig={(prop, value) => {this.dispatchAndSetState(changeGlobalConfig(prop, value));}}
@@ -415,15 +418,30 @@ class DaliApp extends Component {
                                         }
                                     }
                                 }
-                                let confirmText = i18n.t("messages.confirm_delete_CV_also_1") + containedViews[cvid].name + i18n.t("messages.confirm_delete_CV_also_2");
-                                if (remainingMarks.length === 1 && confirm(confirmText)) {
-                                    let boxesRemoving = [];
-                                    containedViews[cvid].boxes.map(boxId => {
-                                        boxesRemoving.push(boxId);
-                                        boxesRemoving = boxesRemoving.concat(this.getDescendantBoxes(boxes[boxId]));
-                                    });
 
-                                    this.dispatchAndSetState(deleteContainedView([cvid], boxesRemoving, thiscv.parent));
+                                if (remainingMarks.length === 1 ) {
+                                    let confirmText = i18n.t("messages.confirm_delete_CV_also_1") + containedViews[cvid].name + i18n.t("messages.confirm_delete_CV_also_2");
+                                    let alertComponent = (<Alert className="pageModal"
+                                     show={true}
+                                     hasHeader
+                                     title={i18n.t("messages.confirm_delete_cv")}
+                                     acceptButtonText={i18n.t("messages.confirm_delete_cv_as_well")}
+                                     cancelButton
+                                     cancelButtonText={i18n.t("messages.confirm_delete_cv_not")}
+                                     closeButton onClose={(bool)=>{
+                                        if (bool){
+                                            let boxesRemoving = [];
+                                            containedViews[cvid].boxes.map(boxId => {
+                                                boxesRemoving.push(boxId);
+                                                boxesRemoving = boxesRemoving.concat(this.getDescendantBoxes(boxes[boxId]));
+                                            });
+
+                                            this.dispatchAndSetState(deleteContainedView([cvid], boxesRemoving, thiscv.parent));
+                                        }
+                                        this.setState({ alert: null });}}>
+                                            <span> {confirmText} </span>
+                                    </Alert>);
+                                    this.setState({ alert: alertComponent });
                                 }
                             }
                         }
