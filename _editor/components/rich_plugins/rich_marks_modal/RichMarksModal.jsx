@@ -193,7 +193,7 @@ export default class RichMarksModal extends Component {
                     <Button bsStyle="primary" onClick={e => {
                         let title = ReactDOM.findDOMNode(this.refs.title).value;
                         let newId = ID_PREFIX_CONTAINED_VIEW + Date.now();
-                        let newMark = current && current.id  ? current.id : ID_PREFIX_RICH_MARK + Date.now();
+                        let newMark = current && current.id ? current.id : ID_PREFIX_RICH_MARK + Date.now();
                         let connectMode = this.state.connectMode;
                         let connection;
                         // CV name

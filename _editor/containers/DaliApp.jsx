@@ -340,7 +340,6 @@ class DaliApp extends Component {
                             state.__marks[mark.id].connection = mark.connection.id;
                         }
                         this.dispatchAndSetState(editRichMark(boxSelected, state, mark.id, oldConnection, newConnection));
-                        console.log(mark, this.state.currentRichMark)
                         Dali.Plugins.get(toolbar.config.name).forceUpdate(
                             state,
                             boxSelected,
@@ -419,27 +418,27 @@ class DaliApp extends Component {
                                     }
                                 }
 
-                                if (remainingMarks.length === 1 ) {
+                                if (remainingMarks.length === 1) {
                                     let confirmText = i18n.t("messages.confirm_delete_CV_also_1") + containedViews[cvid].name + i18n.t("messages.confirm_delete_CV_also_2");
                                     let alertComponent = (<Alert className="pageModal"
-                                     show={true}
-                                     hasHeader
-                                     title={i18n.t("messages.confirm_delete_cv")}
-                                     acceptButtonText={i18n.t("messages.confirm_delete_cv_as_well")}
-                                     cancelButton
-                                     cancelButtonText={i18n.t("messages.confirm_delete_cv_not")}
-                                     closeButton onClose={(bool)=>{
-                                        if (bool){
-                                            let boxesRemoving = [];
-                                            containedViews[cvid].boxes.map(boxId => {
-                                                boxesRemoving.push(boxId);
-                                                boxesRemoving = boxesRemoving.concat(this.getDescendantBoxes(boxes[boxId]));
-                                            });
+                                        show
+                                        hasHeader
+                                        title={<span><i style={{ fontSize: '14px', marginRight: '5px' }} className="material-icons">delete</i>{i18n.t("messages.confirm_delete_cv")}</span>}
+                                        acceptButtonText={i18n.t("messages.confirm_delete_cv_as_well")}
+                                        cancelButton
+                                        cancelButtonText={i18n.t("messages.confirm_delete_cv_not")}
+                                        closeButton onClose={(bool)=>{
+                                            if (bool) {
+                                                let boxesRemoving = [];
+                                                containedViews[cvid].boxes.map(boxId => {
+                                                    boxesRemoving.push(boxId);
+                                                    boxesRemoving = boxesRemoving.concat(this.getDescendantBoxes(boxes[boxId]));
+                                                });
 
-                                            this.dispatchAndSetState(deleteContainedView([cvid], boxesRemoving, thiscv.parent));
-                                        }
-                                        this.setState({ alert: null });}}>
-                                            <span> {confirmText} </span>
+                                                this.dispatchAndSetState(deleteContainedView([cvid], boxesRemoving, thiscv.parent));
+                                            }
+                                            this.setState({ alert: null });}}>
+                                        <span> {confirmText} </span>
                                     </Alert>);
                                     this.setState({ alert: alertComponent });
                                 }
