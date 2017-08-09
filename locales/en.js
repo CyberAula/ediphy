@@ -15,6 +15,7 @@ let en = {
         "contained_view": "Contained View",
         "CONTAINED_VIEWS": "CONTAINED VIEWS",
         "contained_view_popover": "This view links from:",
+        "contained_view_nowhere": "Nowhere",
         "col_dist": "Column distribution",
         "col_number": "Number of columns",
         "content": "Content",

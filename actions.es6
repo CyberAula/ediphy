@@ -181,8 +181,8 @@ export function addRichMark(parent, mark, state) {
     return { type: ADD_RICH_MARK, payload: { parent, mark, state } };
 }
 
-export function editRichMark(parent, state) {
-    return { type: EDIT_RICH_MARK, payload: { parent, state } };
+export function editRichMark(parent, state, mark, oldConnection, newConnection) {
+    return { type: EDIT_RICH_MARK, payload: { parent, state, mark, oldConnection, newConnection } };
 }
 
 export function deleteRichMark(id, parent, cvid, state) {

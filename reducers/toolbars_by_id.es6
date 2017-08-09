@@ -411,20 +411,20 @@ function toolbarSectionCreator(state, action, isContainedView = false) {
 
     };
 
-    if (!isContainedView && toolbar.controls && toolbar.controls.main && toolbar.controls.main.header && toolbar.controls.main.header.buttons) {
-        toolbar.controls.main.header.buttons.display_breadcrumb = {
+    if (!isContainedView && toolbar.controls && toolbar.controls.main && toolbar.controls.main.accordions.header && toolbar.controls.main.accordions.header.buttons) {
+        toolbar.controls.main.accordions.header.buttons.display_breadcrumb = {
             __name: i18n.t('Breadcrumb'),
             type: 'checkbox',
             checked: true,
             autoManaged: false,
         };
-        toolbar.controls.main.header.buttons.display_pagenumber = {
+        toolbar.controls.main.accordions.header.buttons.display_pagenumber = {
             __name: i18n.t('pagenumber'),
             type: 'checkbox',
             checked: false,
             autoManaged: false,
         };
-        toolbar.controls.main.header.buttons.pagenumber_name = {
+        toolbar.controls.main.accordions.header.buttons.pagenumber_name = {
             __name: "custom_pagenum",
             type: 'conditionalText',
             associatedKey: 'display_pagenumber',
@@ -655,33 +655,24 @@ export default function(state = {}, action = {}) {
         let newToolbarCV = Object.assign({}, state);
         let parents = action.payload.parent ? action.payload.parent : [];
         // Delete all related marks
-        console.log(parents);
         Object.keys(parents).forEach((el)=>{
             if (newToolbarCV[el] && newToolbarCV[el].state && newToolbarCV[el].state.__marks) {
                 parents[el].forEach((mark)=>{
-                    console.log(el, newToolbarCV[el]);
                     if (newToolbarCV[el].state.__marks[mark] && newToolbarCV[el].state.__marks[mark].connection === action.payload.ids[0]) {
                         delete newToolbarCV[el].state.__marks[mark];
                     }
                 });
             }
-
-            /* if (newToolbarCV[el] && newToolbarCV[el].state && newToolbarCV[el].state.__marks) {
-                for (let mark in newToolbarCV[el].state.__marks) {
-                    if (newToolbarCV[el].state.__marks[mark].connection === action.payload.ids[0]) {
-                        delete newToolbarCV[el].state.__marks[mark];
-                    }
-                }
-            }*/
         });
         return deleteProps(newToolbarCV, boxesCV.concat(action.payload.ids[0]));
     case DELETE_NAV_ITEM:
         let boxes = action.payload.boxes ? action.payload.boxes : [];
-        let linkedBoxes = action.payload.linkedBoxes ? action.payload.linkedBoxes : [];
+        let linkedBoxes = action.payload.linkedBoxes ? action.payload.linkedBoxes : {};
         let newToolbar = Object.assign({}, state);
-        linkedBoxes.forEach((el)=>{s;
+        Object.keys(linkedBoxes).forEach((el)=>{
             if (newToolbar[el] && newToolbar[el].state && newToolbar[el].state.__marks) {
-                for (let mark in newToolbar[el].state.__marks) {
+                for (let markId in linkedBoxes[el]) {
+                    let mark = linkedBoxes[el][markId];
                     action.payload.ids.forEach((id)=>{
                         if (newToolbar[el].state.__marks[mark] && newToolbar[el].state.__marks[mark].connection === id) {
                             delete newToolbar[el].state.__marks[mark];

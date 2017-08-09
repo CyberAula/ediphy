@@ -153,6 +153,7 @@ export default class DaliHeader extends Component {
                                     <h2 style={{ display: (currentStatus.documentTitle === 'hidden') ? 'none' : 'block' }}>{docTitle}{this.props.containedView !== 0 ? (<OverlayTrigger placement="bottom" overlay={
                                         <Popover className="cvPopover" id="popover-positioned-bottom" title={ i18n.t("contained_view_popover") }>
                                             {cvList && cvList.length > 0 && cvList.map(it => { return it; }) }
+                                            {!cvList || cvList.length === 0 ? (<span className="cvList">{i18n.t("contained_view_nowhere")}</span>) : null}
                                         </Popover>
                                     }><i className="material-icons infoIcon" style={{ fontSize: '16px' }}>info</i></OverlayTrigger>) : null }</h2>
                                     {/* NavItem subtitle */}

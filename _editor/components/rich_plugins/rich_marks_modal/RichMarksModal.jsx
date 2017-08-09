@@ -193,12 +193,12 @@ export default class RichMarksModal extends Component {
                     <Button bsStyle="primary" onClick={e => {
                         let title = ReactDOM.findDOMNode(this.refs.title).value;
                         let newId = ID_PREFIX_CONTAINED_VIEW + Date.now();
-                        let newMark = ID_PREFIX_RICH_MARK + Date.now();
-                        let emptyObject = {};
-                        emptyObject[this.props.boxSelected] = [newMark];
+                        let newMark = current && current.id  ? current.id : ID_PREFIX_RICH_MARK + Date.now();
                         let connectMode = this.state.connectMode;
                         let connection;
+                        // CV name
                         let name = title || nextAvailName(i18n.t('contained_view'), this.props.containedViews);
+                        // Mark name
                         title = title || nextAvailName(i18n.t("marks.new_mark"), this.props.pluginToolbar.state.__marks, 'title');
                         switch (connectMode) {
                         case "new":
@@ -206,7 +206,7 @@ export default class RichMarksModal extends Component {
                                 current.connection :
                                 {
                                     id: newId,
-                                    parent: emptyObject,
+                                    parent: { [this.props.boxSelected]: [newMark] },
                                     name: name,
                                     boxes: [],
                                     type: this.state.newType,

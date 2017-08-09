@@ -1,4 +1,4 @@
-import { ADD_BOX, ADD_CONTAINED_VIEW, ADD_RICH_MARK, DELETE_RICH_MARK, DELETE_BOX, DELETE_CONTAINED_VIEW, CHANGE_CONTAINED_VIEW_NAME, TOGGLE_TITLE_MODE, DELETE_NAV_ITEM, DELETE_SORTABLE_CONTAINER, IMPORT_STATE } from './../actions';
+import { ADD_BOX, ADD_CONTAINED_VIEW, ADD_RICH_MARK, DELETE_RICH_MARK, EDIT_RICH_MARK, DELETE_BOX, DELETE_CONTAINED_VIEW, CHANGE_CONTAINED_VIEW_NAME, TOGGLE_TITLE_MODE, DELETE_NAV_ITEM, DELETE_SORTABLE_CONTAINER, IMPORT_STATE } from './../actions';
 import { changeProp, deleteProps, isContainedView, findNavItemContainingBox } from './../utils';
 
 function singleContainedViewReducer(state = {}, action = {}) {
@@ -21,7 +21,6 @@ function singleContainedViewReducer(state = {}, action = {}) {
         let ind = oldMarks.indexOf(action.payload.id);
         if (ind > -1) {
             oldMarks.splice(ind, 1);
-            console.log(oldMarks);
             if (oldMarks.length === 0) {
                 delete previousParents[action.payload.parent];
             } else {
@@ -51,8 +50,32 @@ export default function(state = {}, action = {}) {
                 singleContainedViewReducer(state[action.payload.ids.parent], action));
         }
         return state;
+    case EDIT_RICH_MARK:
+        let editState = Object.assign({}, state);
+        if (isContainedView(action.payload.oldConnection)) {
+            if (editState[action.payload.oldConnection] && editState[action.payload.oldConnection].parent[action.payload.parent]) {
+                let ind = editState[action.payload.oldConnection].parent[action.payload.parent].indexOf(action.payload.mark);
+                if (ind > -1) {
+                    editState[action.payload.oldConnection].parent[action.payload.parent].splice(ind, 1);
+                    if (editState[action.payload.oldConnection].parent[action.payload.parent].length === 0) {
+                        delete editState[action.payload.oldConnection].parent[action.payload.parent];
+                    }
+
+                }
+            }
+        }
+        if (isContainedView(action.payload.newConnection)) {
+            if (editState[action.payload.newConnection]) {
+                if(Object.keys(editState[action.payload.newConnection].parent).indexOf(action.payload.parent) === -1) {
+                    editState[action.payload.newConnection].parent[action.payload.parent] = [action.payload.mark];
+                } else {
+                    editState[action.payload.newConnection].parent[action.payload.parent].push(action.payload.mark);
+                }
+            }
+        }
+        return editState;
     case DELETE_RICH_MARK:
-        if(isContainedView(action.payload.cvid)){
+        if(isContainedView(action.payload.cvid)) {
             return changeProp(state, action.payload.cvid, singleContainedViewReducer(state[action.payload.cvid], action));
         }
         return state;

@@ -28,7 +28,7 @@ export default class ReduxProvider extends Component {
                         children: [],
                         unitNumber: 1,
                         hidden: false,
-                        linkedBoxes: [],
+                        linkedBoxes: {},
                         boxes: Dali.Config.sections_have_content ? ['bs-1467887497412'] : [],
                         level: 1,
                         type: "section",
@@ -231,7 +231,7 @@ export default class ReduxProvider extends Component {
                         name: i18n.t('section'),
                         isExpanded: true,
                         parent: 0,
-                        linkedBoxes: [],
+                        linkedBoxes: {},
                         children: ["pa-1497983247795"],
                         unitNumber: 1,
                         hidden: false,
@@ -257,7 +257,7 @@ export default class ReduxProvider extends Component {
                         name: i18n.t('page'),
                         isExpanded: true,
                         parent: "se-1467887497411",
-                        linkedBoxes: [],
+                        linkedBoxes: {},
                         children: [],
                         boxes: ["bs-1497983247797"],
                         level: 2,
@@ -507,7 +507,7 @@ export default class ReduxProvider extends Component {
             <Provider store={this.store}>
                 <div style={{ height: '100%' }}>
                     <DaliApp id="app" store={this.store}/>
-                    {/*<DevTools/>*/}
+                    <DevTools/>
                 </div>
             </Provider>
             /* jshint ignore:end */

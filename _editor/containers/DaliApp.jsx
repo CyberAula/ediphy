@@ -135,18 +135,20 @@ class DaliApp extends Component {
                         onNavItemDeleted={(navsel) => {
                             let viewRemoving = [navsel].concat(this.getDescendantViews(navItems[navsel]));
                             let boxesRemoving = [];
-                            let containedRemoving = [];
+                            let containedRemoving = {};
                             viewRemoving.map(id => {
                                 navItems[id].boxes.map(boxId => {
                                     boxesRemoving.push(boxId);
                                     boxesRemoving = boxesRemoving.concat(this.getDescendantBoxes(boxes[boxId]));
                                     // containedRemoving = containedRemoving.concat(this.getDescendantContainedViews(boxes[boxId]));
+
                                 });
+
                             });
                             let marksRemoving = this.getDescendantLinkedBoxes(viewRemoving, navItems) || [];
                             this.dispatchAndSetState(deleteNavItem(viewRemoving, navItems[navsel].parent, boxesRemoving, containedRemoving, marksRemoving));
 
-                            marksRemoving.forEach((el) => {
+                            Object.keys(marksRemoving).forEach((el) => {
                                 if(toolbars[el]) {
                                     if (toolbars[el].state && toolbars[el].state.__marks) {
                                         Dali.Plugins.get(toolbars[el].config.name).forceUpdate(
@@ -327,14 +329,19 @@ class DaliApp extends Component {
                     onRichMarkUpdated={(mark, createNew) => {
                         let toolbar = toolbars[boxSelected];
                         let state = JSON.parse(JSON.stringify(toolbar.state));
+                        let oldConnection = state.__marks[mark.id] ? state.__marks[mark.id].connection : 0;
                         state.__marks[mark.id] = JSON.parse(JSON.stringify(mark));
+                        let newConnection = mark.connection;
                         if(mark.connection.id) {
+                            newConnection = mark.connection.id;
                             state.__marks[mark.id].connection = mark.connection.id;
                         }
+                        this.dispatchAndSetState(editRichMark(boxSelected, state, mark.id, oldConnection, newConnection));
+                        console.log(mark, this.state.currentRichMark)
                         Dali.Plugins.get(toolbar.config.name).forceUpdate(
                             state,
                             boxSelected,
-                            this.state.currentRichMark && !createNew ? EDIT_RICH_MARK : addRichMark(boxSelected, mark, state)
+                            this.state.currentRichMark && !createNew ? UPDATE_TOOLBAR : addRichMark(boxSelected, mark, state)
                         );
                     }}
                     onRichMarksModalToggled={() => {
@@ -464,7 +471,7 @@ class DaliApp extends Component {
                 ));
                 break;
             case EDIT_RICH_MARK:
-                this.dispatchAndSetState(editRichMark(e.detail.ids.id, e.detail.state));
+                // this.dispatchAndSetState(editRichMark(e.detail.ids.id, e.detail.state));
                 this.dispatchAndSetState(updateBox(
                     e.detail.ids.id,
                     e.detail.content,
@@ -656,9 +663,13 @@ class DaliApp extends Component {
     }
 
     getDescendantLinkedBoxes(ids, navs) {
-        let boxes = [];
+        let boxes = {};
+
         ids.forEach((nav) => {
-            boxes = [...new Set([...boxes, ...navs[nav].linkedBoxes])];
+            for (let lb in navs[nav].linkedBoxes) {
+                boxes[lb] = [(boxes[lb] || []), ...navs[nav].linkedBoxes[lb]];
+            }
+            // boxes = [...new Set([...boxes, ...navs[nav].linkedBoxes])];
             // boxes.concat(navs[nav].linkedBoxes);
         });
         return boxes;

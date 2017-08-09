@@ -13,7 +13,7 @@ function navItemCreator(state = {}, action = {}) {
         parent: action.payload.parent,
         children: [],
         boxes: [],
-        linkedBoxes: [],
+        linkedBoxes: {},
         level: state[action.payload.parent].level + 1,
         type: action.payload.type,
         unitNumber: (action.payload.parent === 0 ?
@@ -78,7 +78,6 @@ function singleNavItemReducer(state = {}, action = {}) {
         let ind = oldMarks.indexOf(action.payload.id);
         if (ind > -1) {
             oldMarks.splice(ind, 1);
-            console.log(oldMarks);
             if (oldMarks.length === 0) {
                 delete previousParents[action.payload.parent];
             } else {
@@ -320,8 +319,32 @@ export default function(state = {}, action = {}) {
             }
         }
         return state;
+    case EDIT_RICH_MARK:
+        let editState = Object.assign({}, state);
+        if (!isContainedView(action.payload.oldConnection) && action.payload.oldConnection !== 0) {
+            if (editState[action.payload.oldConnection] && editState[action.payload.oldConnection].linkedBoxes[action.payload.parent]) {
+                let ind = editState[action.payload.oldConnection].linkedBoxes[action.payload.parent].indexOf(action.payload.mark);
+                if (ind > -1) {
+                    editState[action.payload.oldConnection].linkedBoxes[action.payload.parent].splice(ind, 1);
+                    if (editState[action.payload.oldConnection].linkedBoxes[action.payload.parent].length === 0) {
+                        delete editState[action.payload.oldConnection].linkedBoxes[action.payload.parent];
+                    }
+
+                }
+            }
+        }
+        if (!isContainedView(action.payload.newConnection) && action.payload.oldConnection !== 0) {
+            if (editState[action.payload.newConnection]) {
+                if(Object.keys(editState[action.payload.newConnection].linkedBoxes).indexOf(action.payload.parent) === -1) {
+                    editState[action.payload.newConnection].linkedBoxes[action.payload.parent] = [action.payload.mark];
+                } else {
+                    editState[action.payload.newConnection].linkedBoxes[action.payload.parent].push(action.payload.mark);
+                }
+            }
+        }
+        return editState;
     case DELETE_RICH_MARK:
-        if(!isContainedView(action.payload.cvid)){
+        if(!isContainedView(action.payload.cvid)) {
             return changeProp(state, action.payload.cvid, singleNavItemReducer(state[action.payload.cvid], action));
         }
         return state;

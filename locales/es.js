@@ -17,6 +17,7 @@ let es = {
         "contained_view": "Vista Contenida",
         "CONTAINED_VIEWS": "VISTAS CONTENIDAS",
         "contained_view_popover": "Esta vista enlaza desde:",
+        "contained_view_nowhere": "Ningún sitio",
         "content": "Contenido",
         "COURSE": "CURSO",
         "course": "Curso",

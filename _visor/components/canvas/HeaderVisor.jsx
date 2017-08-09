@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Tooltip, OverlayTrigger, Breadcrumb, BreadcrumbItem, Button } from 'react-bootstrap';
 import i18n from 'i18next';
-import { isView } from './../../../utils';
+import { isView, isContainedView } from './../../../utils';
 
 export default class HeaderVisor extends Component {
 
@@ -66,7 +66,7 @@ export default class HeaderVisor extends Component {
         let unidad = "";
 
         // breadcrumb
-        if(this.props.containedView === 0) {
+        if(!isContainedView(this.props.currentView)) {
             if (currentStatus !== undefined) {
                 if (currentStatus.breadcrumb === 'reduced') {
                     let titleList = this.props.titles;
