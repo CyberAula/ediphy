@@ -21,6 +21,7 @@ export default class MarksList extends Component {
                     Object.keys(this.props.state.__marks).map(id => {
                         let mark = this.props.state.__marks[id];
                         let name = mark.connection;
+                        let color = mark.color || '#337ab7';
                         let widthScroll = Math.max(mark.title.length / 11 * 100, 100);
                         try {
                             name = this.props.toolbars[mark.connection.id || mark.connection] ? this.props.toolbars[mark.connection.id || mark.connection].controls.main.accordions.basic.buttons.navitem_name.value : mark.connection;
@@ -29,9 +30,9 @@ export default class MarksList extends Component {
                             <div className="markListBox" key={id}>
                                 {mark.connection ? (
                                     <OverlayTrigger placement="top" overlay={(<Tooltip id={"markToolTip-" + id}>{i18n.t('marks.hover_message') + "\"" + name + "\""}</Tooltip>)}>
-                                        <i className="material-icons marklist main">room</i>
+                                        <i style={{ color: color }} className="material-icons marklist main">room</i>
                                     </OverlayTrigger>) :
-                                    (<i className="material-icons marklist">room</i>)}
+                                    (<i style={{ color: color }} className="material-icons marklist">room</i>)}
                                 <div className="markNameInToolbarContainer"
                                     onMouseOver={() =>{
                                         let markEl = document.getElementById('mark_' + id);

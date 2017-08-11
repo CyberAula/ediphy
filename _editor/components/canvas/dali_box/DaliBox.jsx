@@ -251,7 +251,7 @@ export default class DaliBox extends Component {
                     boxSelected={this.props.boxSelected}
                     content={this.refs.content}
                     containedViews={this.props.containedViews}
-                    toolbarState={toolbar ? toolbar.state : {}}
+                    toolbar={toolbar ? toolbar : {}}
                     deleteMarkCreator={this.props.deleteMarkCreator}
                     parseRichMarkInput={Dali.Plugins.get(toolbar.config.name).parseRichMarkInput}
                     markCreatorId={this.props.markCreatorId}

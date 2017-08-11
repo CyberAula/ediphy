@@ -14,7 +14,7 @@ export function VirtualTour(base) {
                 let Mark = ({ key, text }) => (
                     <OverlayTrigger placement="top" overlay={<Tooltip id={e}>{text}</Tooltip>}>
                         <a className="mapMarker" onClick={()=>{this.onMarkClicked(box_id, marks[e].value);}}href="#">
-                            <i key="i" className="material-icons">room</i>
+                            <i style={{ color: marks[e].color }} key="i" className="material-icons">room</i>
                         </a>
                     </OverlayTrigger>);
 

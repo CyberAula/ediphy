@@ -30,6 +30,7 @@ export default class RichMarksModal extends Component {
         if (current) {
             this.setState({
                 viewNames: allViews,
+                color: current.color,
                 connectMode: current.connectMode || "new",
                 displayMode: current.displayMode || "navigate",
                 newSelected: (current.connectMode === "new" ? current.connection : ""),
@@ -81,7 +82,21 @@ export default class RichMarksModal extends Component {
                             <Col xs={8} md={6}>
                                 <FormControl ref="title"
                                     type="text"
-                                    defaultValue={current ? current.title : ''}/>
+                                    defaultValue={current ? current.title : ''}/><br/>
+                            </Col>
+                        </FormGroup>
+                    </Row>
+                    <Row>
+                        <FormGroup>
+                            <Col xs={4} md={2}>
+                                <ControlLabel>{i18n.t("marks.mark_color")}</ControlLabel>
+                            </Col>
+                            <Col xs={8} md={6}>
+                                <FormControl ref="color"
+                                    type="color"
+                                    value={this.state.color || marksType.defaultColor}
+                                    onChange={e=>{this.setState({ color: e.target.value });}}
+                                /><br/>
                             </Col>
                         </FormGroup>
                     </Row>
@@ -195,6 +210,7 @@ export default class RichMarksModal extends Component {
                         let newId = ID_PREFIX_CONTAINED_VIEW + Date.now();
                         let newMark = current && current.id ? current.id : ID_PREFIX_RICH_MARK + Date.now();
                         let connectMode = this.state.connectMode;
+                        let color = this.state.color || marksType.defaultColor || '#222';
                         let connection;
                         // CV name
                         let name = title || nextAvailName(i18n.t('contained_view'), this.props.containedViews);
@@ -247,8 +263,7 @@ export default class RichMarksModal extends Component {
                                 value = val.value;
                             }
                         }
-
-                        this.props.onRichMarkUpdated({ id: (current ? current.id : newMark), title, connectMode, connection, displayMode, value }, this.state.newSelected === "");
+                        this.props.onRichMarkUpdated({ id: (current ? current.id : newMark), title, connectMode, connection, displayMode, value, color }, this.state.newSelected === "");
                         if(connectMode === 'new' && !this.props.toolbars[connection.id] && this.state.newType === PAGE_TYPES.DOCUMENT) {
                             this.props.onBoxAdded({ parent: newId, container: 0, id: ID_PREFIX_SORTABLE_BOX + Date.now() }, false, false);
                         }
