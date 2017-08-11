@@ -20,6 +20,7 @@ export default {
         'BasicImage',
         'BasicText',
         'BasicPlayer',
+        'DataTable',
         'EnrichedPlayer',
         'VirtualTour',
         'Webpage',
