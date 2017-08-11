@@ -33,7 +33,7 @@ export default class MarkCreator extends Component {
                 acceptButtonText={'OK'}
                 onClose={(bool)=>{this.setState({ showAlert: false, promptRes: bool ? this.state.promptRes : null }); this.processPrompt(bool);}}>
                 {i18n.t("marks.create_mark")}<br/><br/>
-                <FormControl placeholder={i18n.t("marks.new_mark")} onChange={(e)=>{this.setState({ promptRes: e.target.value });}} type="text"/>
+                <FormControl type="text" autoFocus placeholder={i18n.t("marks.new_mark")} onChange={(e)=>{this.setState({ promptRes: e.target.value });}} />
             </Alert>);
     }
 

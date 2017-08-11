@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import { Button, Modal } from 'react-bootstrap';
 import i18n from 'i18next';
 /** *
@@ -20,9 +21,15 @@ export default class Alert extends Component {
     constructor(props) {
         super(props);
     }
+
     render() {
         return(
-            <Modal className={this.props.className || 'popupAlert'}
+            <Modal id="alertModal" className={this.props.className || 'popupAlert'}
+                onKeyUp={(e)=>{
+                    if (e.keyCode === 13) {
+                        this.props.onClose(true);
+                    }
+                }}
                 backdrop={this.props.backdrop === undefined ? true : this.props.backdrop}
                 show={this.props.show}
                 onHide={e=>{this.props.onClose(false);}}>
@@ -50,4 +57,5 @@ export default class Alert extends Component {
             </Modal>
         );
     }
+
 }
