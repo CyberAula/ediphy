@@ -35,7 +35,18 @@ let DataProvider = React.createClass({
             this.props.dataChanged({ data: this.state.data, keys: this.state.keys, valueKeys: this.state.valueKeys });
         }
     },
+    deleteCols(col) {
+        let pre = this.state.cols - 1;
+        let keys = this.state.keys;
+        let data = this.state.data;
 
+        for (let i = 0; i < data.length; i++) {
+            delete data[i][keys[col]];
+        }
+        keys.splice(col, 1);
+
+        this.setState({ cols: pre, data: data, keys: keys });
+    },
     colsChanged(event) {
         let pre = this.state.cols;
         let value = parseInt(event.target.value, 10);
@@ -63,7 +74,13 @@ let DataProvider = React.createClass({
         }
         this.setState({ cols: parseInt(value, 10), data: data, keys: keys });
     },
+    deleteRows(row) {
+        let pre = this.state.rows - 1;
+        let data = this.state.data;
+        data.splice(row, 1);
 
+        this.setState({ rows: pre, data: data });
+    },
     rowsChanged(event) {
         let pre = this.state.rows;
         let value = parseInt(event.target.value, 10);
@@ -225,13 +242,11 @@ let DataProvider = React.createClass({
                             <Button className="btn btn-primary" onClick={this.confirmButton} style={{ marginTop: '0px' }}>Confirmar</Button>
                         </Col>
                     </FormGroup>
-                    <div style={{ marginTop: '10px' }}>
+                    <div style={{ marginTop: '10px', overflowX: 'auto' }}>
                         <div style={{ display: 'table', tableLayout: 'fixed', width: '100%' }}>
                             {Array.apply(0, Array(this.state.cols)).map((x, i) => {
                                 return(
-                                    <FormControl.Static key={i + 1} style={{ display: 'table-cell', padding: '8px', textAlign: 'center' }}>
-                                        {'ID Columna'}
-                                    </FormControl.Static>
+                                    <FormControl.Static key={i + 1} style={{ display: 'table-cell', padding: '8px', textAlign: 'center' }} />
                                 );
                             })}
                         </div>
@@ -241,6 +256,7 @@ let DataProvider = React.createClass({
                                     {Array.apply(0, Array(this.state.cols)).map((x, i) => {
                                         return(
                                             <th key={i + 1}>
+                                                <i className="material-icons clearCol" onClick={(e)=>{this.deleteCols(i);}}>clear</i>
                                                 <FormControl type="text" name={i} value={this.state.keys[i]} style={{ margin: '0px' }} onChange={this.keyChanged}/>
                                             </th>
                                         );
@@ -257,6 +273,8 @@ let DataProvider = React.createClass({
                                             {Array.apply(0, Array(this.state.cols)).map((q, o) => {
                                                 return(
                                                     <td key={o + 1}>
+                                                        {o === 0 ? (<i className="material-icons clearRow" onClick={()=>{this.deleteRows(i);}}>clear</i>) : null}
+
                                                         <FormControl type="text" name={i + " " + this.state.keys[o]} value={this.state.data[i][this.state.keys[o]]} onChange={this.dataChanged}/>
 
                                                     </td>

@@ -38,6 +38,16 @@ export default class RichMarksModal extends Component {
                 existingSelected: (current.connectMode === "existing" && this.remapInObject(nextProps.navItems, nextProps.containedViews)[current.connection] ?
                     this.remapInObject(nextProps.navItems, nextProps.containedViews)[current.connection].id : ""),
             });
+        } else {
+            this.setState({
+                viewNames: allViews,
+                color: null,
+                connectMode: "new",
+                displayMode: "navigate",
+                newSelected: "",
+                newType: PAGE_TYPES.SLIDE,
+                existingSelected: "",
+            });
         }
 
     }
