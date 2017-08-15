@@ -1,7 +1,7 @@
 import React from "react";
 import { Form, Button, FormGroup, FormControl, ControlLabel, Col, Grid, Row, Table, Checkbox, Radio } from "react-bootstrap";
 import Typeahead from 'react-bootstrap-typeahead';
-
+import i18n from 'i18next';
 let Chart = require("./chart-component");
 let Config = require("./config-component");
 require('./_graficaD3.scss');

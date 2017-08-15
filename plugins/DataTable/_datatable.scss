@@ -21,6 +21,10 @@ $fa-font-path:"../../node_modules/font-awesome/fonts";
     width:100% !important
 }
 
+.tableContainer > .container > .row > div > div {
+    text-align: left;
+}
+
 .tableContainer {
     overflow: auto;
 
@@ -35,6 +39,9 @@ $fa-font-path:"../../node_modules/font-awesome/fonts";
     .pagination > .active > a, .pagination > .active > a:hover, .pagination > .active > a:focus, .pagination > .active > span, .pagination > .active > span:hover, .pagination > .active > span:focus {
         border-color: #ddd;
     }
+    .pagination li {
+        margin-left: 0px;
+    }
 }
 
     .pluginconfig .modal-body {
@@ -43,4 +50,10 @@ $fa-font-path:"../../node_modules/font-awesome/fonts";
 
     .wholebox * {
         pointer-events: none !important;
+    }
+
+    .form-horizontal .checkbox.mycb{
+        min-height: 20px;
+        padding-top:0px;
+        vertical-align: middle;
     }

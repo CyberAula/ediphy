@@ -19,6 +19,18 @@ module.exports = {
         "y_grid": "Y axis grid",
         "line_color": "Line color",
         "file": "Choose File",
+        "options": {
+            "disableFilter": "Search",
+            "disableRowChoice": "Page size",
+            "disablePagination": "Pagination",
+            "initialPageLength": "Initial page size",
+            "pageSizeLabel": 'Page size label',
+            "pageSizeLabel_txt": 'Page size',
+            "searchLabel": 'Search label',
+            "searchLabel_txt": 'Search',
+            "searchPlaceholder": 'Search placeholder',
+            "searchPlaceholder_txt": '',
+        },
         "or": "Or",
         "x_axis": "X Axis",
         "y_axis": "Y Axis",
@@ -27,5 +39,6 @@ module.exports = {
         "data_rows": "Rows",
         "data_cols": "Columns",
         "key": "Key",
+
     },
 };

@@ -3,6 +3,6 @@
     "version" : "0.1.1",
     "dependencies": {
         "recharts": "^0.21.2",
-        "react-data-components": "^1.1.1"
+        "react-datatable-bs": "^1.0.1"
     }
 }
