@@ -12,11 +12,12 @@ export function HotspotImages(base) {
 
                 let position = marks[e].value.split(',');
                 let title = marks[e].title;
+                let color = marks[e].color;
 
                 return(
                     <a key={e} style={{ position: 'absolute', top: position[0] + "%", left: position[1] + "%", width: '24px', height: '26px' }} onClick={()=>{this.onMarkClicked(box_id, marks[e].value);}} href="#">
                         <OverlayTrigger placement="top" overlay={<Tooltip positionLeft="-12" id={e}>{title}</Tooltip>}>
-                            <i key="i" style={{ width: "100%", height: "100%", position: 'absolute', top: '-26px', left: '-12px' }} className="material-icons">room</i>
+                            <i key="i" style={{ width: "100%", height: "100%", position: 'absolute', top: '-26px', left: '-12px', color: color }} className="material-icons">room</i>
                         </OverlayTrigger>
                     </a>
                 );

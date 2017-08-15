@@ -53,7 +53,7 @@ let Chart = React.createClass({
                                 );
                             })}
                         </defs>
-                        <XAxis dataKey={options.x} name={options.x}/>
+                        <XAxis dataKey={options.x} name={options.x} />
                         <YAxis/>
                         <CartesianGrid horizontal={options.gridX} vertical={options.gridY} />
                         <Tooltip />

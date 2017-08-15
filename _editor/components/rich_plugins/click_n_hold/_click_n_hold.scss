@@ -52,8 +52,8 @@
 
 .holding i {
   margin: auto;
-  background: -webkit-linear-gradient( white , white) #23527c no-repeat 0 0;
-  background: linear-gradient( white , white) #23527c no-repeat 0 0;
+  background: -webkit-linear-gradient( white , white) transparent no-repeat 0 0;
+  background: linear-gradient( white , white) transparent no-repeat 0 0;
   -webkit-text-fill-color: transparent;
   -webkit-background-clip: text;
   mix-blend-mode: multiply;

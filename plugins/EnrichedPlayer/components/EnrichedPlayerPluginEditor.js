@@ -82,12 +82,14 @@ export default class EnrichedPlayerPlugin extends React.Component {
         let markElements = Object.keys(marks).map((id) =>{
             let value = marks[id].value;
             let title = marks[id].title;
+            let color = marks[id].color;
+
             return(
                 <ClickNHold key={id} style={{ left: value, position: "absolute" }} time={1.5} mark={id} base={this.props.base}>
                     <a key={id} href="#">
-                        <div style={{ width: "4px", height: "8px", background: "#1fc8db" }}>
+                        <div style={{ width: "4px", height: "8px", background: color || "#1fc8db" }}>
                             <OverlayTrigger key={id} text={title} placement="top" overlay={<Tooltip id={id}>{title}</Tooltip>}>
-                                <i style={{ color: "#1fc8db", position: "relative", top: "-24px", left: "-10px" }} className="material-icons">room</i>
+                                <i style={{ color: color || "#1fc8db", position: "relative", top: "-24px", left: "-10px" }} className="material-icons">room</i>
                             </OverlayTrigger>
                         </div>
                     </a>

@@ -1,7 +1,7 @@
 import React from "react";
 import { Form, Button, FormGroup, FormControl, ControlLabel, Col, Grid, Row, Table, Checkbox, Radio } from "react-bootstrap";
 import FileInput from '@ranyefet/react-file-input';
-
+import Alert from './../../_editor/components/alerts/alert/Alert';
 let Chart = require("./chart-component");
 
 let DataProvider = React.createClass({
@@ -25,7 +25,10 @@ let DataProvider = React.createClass({
             for (let o = 0; o < this.state.data.length; o++) {
                 if(this.state.data[i][o] === "") {
                     // TODO: change alert for common-alert system
-                    alert("Rellena todos los campos de la tabla");
+                    let alertComp = (<Alert className="pageModal" show hasHeader closeButton onClose={()=>{this.setState({ alert: null });}}>
+                        <span> {"Rellena todos los campos de la tabla"} </span>
+                    </Alert>);
+                    this.setState({ alert: alertComp });
                     empty = true;
                     break outerloop;
                 }
@@ -35,7 +38,18 @@ let DataProvider = React.createClass({
             this.props.dataChanged({ data: this.state.data, keys: this.state.keys, valueKeys: this.state.valueKeys });
         }
     },
+    deleteCols(col) {
+        let pre = this.state.cols - 1;
+        let keys = this.state.keys;
+        let data = this.state.data;
 
+        for (let i = 0; i < data.length; i++) {
+            delete data[i][keys[col]];
+        }
+        keys.splice(col, 1);
+
+        this.setState({ cols: pre, data: data, keys: keys });
+    },
     colsChanged(event) {
         let pre = this.state.cols;
         let value = parseInt(event.target.value, 10);
@@ -63,7 +77,13 @@ let DataProvider = React.createClass({
         }
         this.setState({ cols: parseInt(value, 10), data: data, keys: keys });
     },
+    deleteRows(row) {
+        let pre = this.state.rows - 1;
+        let data = this.state.data;
+        data.splice(row, 1);
 
+        this.setState({ rows: pre, data: data });
+    },
     rowsChanged(event) {
         let pre = this.state.rows;
         let value = parseInt(event.target.value, 10);
@@ -188,6 +208,7 @@ let DataProvider = React.createClass({
         return (
         /* jshint ignore:start */
             <div>
+                { this.state.alert }
                 <Form horizontal style={{ padding: "16px" }}>
                     <FormGroup>
                         <FileInput onChange={this.fileChanged} className="fileInput">
@@ -225,13 +246,11 @@ let DataProvider = React.createClass({
                             <Button className="btn btn-primary" onClick={this.confirmButton} style={{ marginTop: '0px' }}>Confirmar</Button>
                         </Col>
                     </FormGroup>
-                    <div style={{ marginTop: '10px' }}>
+                    <div style={{ marginTop: '10px', overflowX: 'auto' }}>
                         <div style={{ display: 'table', tableLayout: 'fixed', width: '100%' }}>
                             {Array.apply(0, Array(this.state.cols)).map((x, i) => {
                                 return(
-                                    <FormControl.Static key={i + 1} style={{ display: 'table-cell', padding: '8px', textAlign: 'center' }}>
-                                        {'ID Columna'}
-                                    </FormControl.Static>
+                                    <FormControl.Static key={i + 1} style={{ display: 'table-cell', padding: '8px', textAlign: 'center' }} />
                                 );
                             })}
                         </div>
@@ -241,6 +260,7 @@ let DataProvider = React.createClass({
                                     {Array.apply(0, Array(this.state.cols)).map((x, i) => {
                                         return(
                                             <th key={i + 1}>
+                                                <i className="material-icons clearCol" onClick={(e)=>{this.deleteCols(i);}}>clear</i>
                                                 <FormControl type="text" name={i} value={this.state.keys[i]} style={{ margin: '0px' }} onChange={this.keyChanged}/>
                                             </th>
                                         );
@@ -257,6 +277,8 @@ let DataProvider = React.createClass({
                                             {Array.apply(0, Array(this.state.cols)).map((q, o) => {
                                                 return(
                                                     <td key={o + 1}>
+                                                        {o === 0 ? (<i className="material-icons clearRow" onClick={()=>{this.deleteRows(i);}}>clear</i>) : null}
+
                                                         <FormControl type="text" name={i + " " + this.state.keys[o]} value={this.state.data[i][this.state.keys[o]]} onChange={this.dataChanged}/>
 
                                                     </td>

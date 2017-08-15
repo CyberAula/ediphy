@@ -16,7 +16,7 @@ export function HotspotImages(base) {
                 icon: 'image',
                 // initialWidth: '25%',
                 isRich: true,
-                marksType: [{ name: i18n.t("HotspotImages.pos"), key: 'value', format: '[x,y]', default: '0,0' }],
+                marksType: [{ name: i18n.t("HotspotImages.pos"), key: 'value', format: '[x,y]', default: '0,0', defaultColor: '#222' }],
             };
         },
         getToolbar: function() {
@@ -109,11 +109,11 @@ export function HotspotImages(base) {
         getRenderTemplate: function(state) {
             /* jshint ignore:start */
             let marks = state.__marks;
-            let Mark = ({ idKey, title, style }) => (
+            let Mark = ({ idKey, title, style, color }) => (
                 <ClickNHold style={style} time={1.5} mark={idKey} base={base}>
                     <OverlayTrigger key={idKey} text={title} placement="top" overlay={<Tooltip id={idKey}>{title}</Tooltip>}>
                         <a className="mapMarker" href="#">
-                            <i key="i" className="material-icons">room</i>
+                            <i key="i" style={{ color: color }} className="material-icons">room</i>
                         </a>
                     </OverlayTrigger>
                 </ClickNHold>);
@@ -121,6 +121,7 @@ export function HotspotImages(base) {
             let markElements = Object.keys(marks).map((id) =>{
                 let value = marks[id].value;
                 let title = marks[id].title;
+                let color = marks[id].color;
 
                 let position;
                 if (value && value.split(',').length === 2) {
@@ -129,7 +130,7 @@ export function HotspotImages(base) {
                     position = [0, 0];
                 }
 
-                return (<Mark key={id} style={{ position: 'absolute', top: position[0] + "%", left: position[1] + "%" }} idKey={id} title={title} />);
+                return (<Mark key={id} style={{ position: 'absolute', top: position[0] + "%", left: position[1] + "%" }} color={color} idKey={id} title={title} />);
 
                 // return(<a key={id} style={{ position: 'absolute', top: position[0] + "%", left: position[1] + "%" }} href="#"><i style={{ width: "100%", height: "100%", top: '-26px', position: 'absolute', left: '-12px' }} className="material-icons">room</i></a>);
             });

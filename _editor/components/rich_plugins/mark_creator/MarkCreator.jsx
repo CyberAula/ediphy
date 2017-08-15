@@ -33,7 +33,7 @@ export default class MarkCreator extends Component {
                 acceptButtonText={'OK'}
                 onClose={(bool)=>{this.setState({ showAlert: false, promptRes: bool ? this.state.promptRes : null }); this.processPrompt(bool);}}>
                 {i18n.t("marks.create_mark")}<br/><br/>
-                <FormControl placeholder={i18n.t("marks.new_mark")} onChange={(e)=>{this.setState({ promptRes: e.target.value });}} type="text"/>
+                <FormControl type="text" autoFocus placeholder={i18n.t("marks.new_mark")} onChange={(e)=>{this.setState({ promptRes: e.target.value });}} />
             </Alert>);
     }
 
@@ -65,7 +65,8 @@ export default class MarkCreator extends Component {
 
                 let component = this;
                 let parseRichMarkInput = this.props.parseRichMarkInput;
-                let toolbarState = this.props.toolbarState;
+                let toolbarState = this.props.toolbar.state;
+
                 /* NEW MARK DEFAULT PARAMS*/
 
                 window.addEventListener('keyup', component.keyListener);
@@ -129,6 +130,8 @@ export default class MarkCreator extends Component {
         let type = this.props.pageType;
         let newId = ID_PREFIX_CONTAINED_VIEW + Date.now();
         let markId = ID_PREFIX_RICH_MARK + Date.now();
+        let marksType = this.props.toolbar && this.props.toolbar.config && this.props.toolbar.config.marksType && this.props.toolbar.config.marksType[0] ? this.props.toolbar.config.marksType[0] : {};
+        let color = marksType.defaultColor || '#222'; // default blue
         let pageName = nextAvailName(i18n.t('contained_view'), this.props.containedViews);
         let connection = {
             id: newId,
@@ -158,8 +161,8 @@ export default class MarkCreator extends Component {
             this.exitFunction();
             return;
         }
-        if(this.props.toolbarState.__marks) {
-            title = promptRes || nextAvailName(title, this.props.toolbarState.__marks, 'title');
+        if(this.props.toolbar && this.props.toolbar.state && this.props.toolbar.state.__marks) {
+            title = promptRes || nextAvailName(title, this.props.toolbar.state.__marks, 'title');
         }
 
         pageName = promptRes || pageName;
@@ -167,7 +170,7 @@ export default class MarkCreator extends Component {
         connection.header.elementContent.documentTitle = pageName;
 
         let value = this.state.value;
-        this.props.addMarkShortcut({ id: markId, title, connectMode, connection, displayMode, value });
+        this.props.addMarkShortcut({ id: markId, title, connectMode, connection, displayMode, value, color });
         if(type === PAGE_TYPES.DOCUMENT) {
             this.props.onBoxAdded({ parent: newId, container: 0, id: ID_PREFIX_SORTABLE_BOX + Date.now() }, false, false);
         }

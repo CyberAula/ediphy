@@ -25,6 +25,7 @@ export function VirtualTour(base) {
                     key: 'value',
                     format: '[Lat,Lng]',
                     default: '40.452,-3.727',
+                    defaultColor: '#222',
                 }],
                 needsPointerEventsAllowed: true,
             };
@@ -150,11 +151,11 @@ export function VirtualTour(base) {
             let id = "map-" + Date.now();
             let marks = state.__marks;
 
-            let Mark = ({ idKey, title }) => (
+            let Mark = ({ idKey, title, color }) => (
                 <ClickNHold time={1.5} mark={idKey} base={base}>
                     <OverlayTrigger key={idKey} text={title} placement="top" overlay={<Tooltip id={idKey}>{title}</Tooltip>}>
                         <a className="mapMarker" href="#">
-                            <i key="i" className="material-icons">room</i>
+                            <i style={{ color: color }} key="i" className="material-icons">room</i>
                         </a>
                     </OverlayTrigger>
                 </ClickNHold>);
@@ -162,13 +163,14 @@ export function VirtualTour(base) {
             let markElements = Object.keys(marks).map((idKey) => {
                 let value = marks[idKey].value;
                 let title = marks[idKey].title;
+                let color = marks[idKey].color;
                 let position;
                 if (value && value.split(',').length === 2) {
                     position = value.split(',');
                 } else {
                     position = [0, 0];
                 }
-                return (<Mark key={idKey} idKey={idKey} title={title} lat={position[0]} lng={position[1]}/>);
+                return (<Mark key={idKey} idKey={idKey} title={title} color={color} lat={position[0]} lng={position[1]}/>);
 
             });
 
