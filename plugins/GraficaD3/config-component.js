@@ -1,7 +1,7 @@
 import React from "react";
 import { Form, Button, FormGroup, FormControl, ControlLabel, Col, Grid, Row, Table, Checkbox, Radio } from "react-bootstrap";
 import FileInput from '@ranyefet/react-file-input';
-
+import Alert from './../../_editor/components/alerts/alert/Alert';
 let Chart = require("./chart-component");
 
 let DataProvider = React.createClass({
@@ -25,7 +25,10 @@ let DataProvider = React.createClass({
             for (let o = 0; o < this.state.data.length; o++) {
                 if(this.state.data[i][o] === "") {
                     // TODO: change alert for common-alert system
-                    alert("Rellena todos los campos de la tabla");
+                    let alertComp = (<Alert className="pageModal" show hasHeader closeButton onClose={()=>{this.setState({ alert: null });}}>
+                        <span> {"Rellena todos los campos de la tabla"} </span>
+                    </Alert>);
+                    this.setState({ alert: alertComp });
                     empty = true;
                     break outerloop;
                 }
@@ -205,6 +208,7 @@ let DataProvider = React.createClass({
         return (
         /* jshint ignore:start */
             <div>
+                { this.state.alert }
                 <Form horizontal style={{ padding: "16px" }}>
                     <FormGroup>
                         <FileInput onChange={this.fileChanged} className="fileInput">

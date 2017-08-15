@@ -452,17 +452,23 @@ export default class DaliBox extends Component {
                 editor.setData(decodeURI(toolbar.state.__text));
             }
         }
-        /* var gridTarget = interact.createSnapGrid({
-              x: 10, 
-              y: 10, 
-              range: 10,
-              offset: { x: 0, y: 0 }
-            });*/
+        let offsetEl = document.getElementById('maincontent') ? document.getElementById('maincontent').getBoundingClientRect() : {};
+        let leftO = offsetEl.left || 0;
+        let topO = offsetEl.top || 0;
+        offsetEl;
+        let gridTarget = interact.createSnapGrid({ x: 10, y: 10, range: 7.1, offset: { x: leftO, y: topO } });
         Dali.Plugins.get(toolbar.config.name).afterRender(this.refs.content, toolbar.state);
         let dragRestrictionSelector = isSortableContainer(box.container) ? ".daliBoxSortableContainer, .drg" + box.container : "parent";
         interact(ReactDOM.findDOMNode(this))
+            /* .snap({
+                actions     : ['resizex', 'resizey', 'resizexy', 'resize', 'drag'],
+                mode        : 'grid'
+            })*/
             .draggable({
-                /* snap: {targets: [gridTarget]},*/
+                /* snap: {
+                    targets: [gridTarget],
+                    relativePoints: [{ x: 0, y: 0 }]
+                },*/
                 enabled: box.draggable,
                 restrict: {
                     restriction: dragRestrictionSelector,
@@ -645,7 +651,7 @@ export default class DaliBox extends Component {
             })
             .ignoreFrom('input, textarea, .textAreaStyle,  a, .pointerEventsEnabled')
             .resizable({
-                /* snap: {targets: [gridTarget]},*/
+                /* snap: { targets: [gridTarget] },*/
                 preserveAspectRatio: this.checkAspectRatioValue(),
                 enabled: (box.resizable),
                 restrict: {
