@@ -6,14 +6,14 @@ export default class TableComponent extends React.Component {
     render() {
         let data = this.props.data;
         let options = this.props.options;
-        console.log(this.props)
+        console.log(this.props);
         let keys = Object.keys(this.props.data[0]);
         let cols = [];
         keys.map(key =>{
-            cols.push({ title: key, prop: key  });
+            cols.push({ title: key, prop: key });
         });
 
-        console.log(cols)
+        console.log(cols);
         return (
             <div className="tableContainer">
                 <DataTable
@@ -21,7 +21,7 @@ export default class TableComponent extends React.Component {
                     columns={cols}
                     initialData={data}
                     initialPageLength={5}
-                    initialSortBy={{ prop: 'name', order: 'descending' }}
+                    initialSortBy={{ prop: cols[0].title, order: 'descending' }}
                 />
             </div>
 

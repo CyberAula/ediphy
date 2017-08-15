@@ -192,7 +192,7 @@ export function DataTable(base) {
             };
         },
         getRenderTemplate: function(state) {
-            console.log(state.data)
+            console.log(state.data);
             return (
             /* jshint ignore:start */
                 <TableComponent data={state.data} options={state.options} />

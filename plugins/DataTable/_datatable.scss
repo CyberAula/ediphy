@@ -20,3 +20,27 @@ $fa-font-path:"../../node_modules/font-awesome/fonts";
 .tableContainer > .container {
     width:100% !important
 }
+
+.tableContainer {
+    overflow: auto;
+
+    .pagination > .active > a, .pagination > .active > a:hover, .pagination > .active > a:focus, .pagination > .active > span, .pagination > .active > span:hover, .pagination > .active > span:focus {
+        background-color: #eee;
+        color: #222;
+    }
+    .pagination > li > a, .pagination > li > span {
+        color: #222;
+        border-color: #ddd;
+    }
+    .pagination > .active > a, .pagination > .active > a:hover, .pagination > .active > a:focus, .pagination > .active > span, .pagination > .active > span:hover, .pagination > .active > span:focus {
+        border-color: #ddd;
+    }
+}
+
+    .pluginconfig .modal-body {
+        overflow-y: auto;
+    }
+
+    .wholebox * {
+        pointer-events: none !important;
+    }

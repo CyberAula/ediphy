@@ -1,8 +1,8 @@
 import React from "react";
 import { Form, Button, FormGroup, FormControl, ControlLabel, Col, Grid, Row, Table, Checkbox, Radio } from "react-bootstrap";
 import FileInput from '@ranyefet/react-file-input';
+import Alert from './../../_editor/components/alerts/alert/Alert';
 import TableComponent from './table-component';
-
 
 let DataProvider = React.createClass({
     getInitialState() {
@@ -25,7 +25,10 @@ let DataProvider = React.createClass({
             for (let o = 0; o < this.state.data.length; o++) {
                 if(this.state.data[i][o] === "") {
                     // TODO: change alert for common-alert system
-                    alert("Rellena todos los campos de la tabla");
+                    let alertComp = (<Alert className="pageModal" show hasHeader closeButton onClose={()=>{this.setState({ alert: null });}}>
+                        <span> {"Rellena todos los campos de la tabla"} </span>
+                    </Alert>);
+                    this.setState({ alert: alertComp });
                     empty = true;
                     break outerloop;
                 }
@@ -35,7 +38,18 @@ let DataProvider = React.createClass({
             this.props.dataChanged({ data: this.state.data, keys: this.state.keys, valueKeys: this.state.valueKeys });
         }
     },
+    deleteCols(col) {
+        let pre = this.state.cols - 1;
+        let keys = this.state.keys;
+        let data = this.state.data;
 
+        for (let i = 0; i < data.length; i++) {
+            delete data[i][keys[col]];
+        }
+        keys.splice(col, 1);
+
+        this.setState({ cols: pre, data: data, keys: keys });
+    },
     colsChanged(event) {
         let pre = this.state.cols;
         let value = parseInt(event.target.value, 10);
@@ -63,7 +77,13 @@ let DataProvider = React.createClass({
         }
         this.setState({ cols: parseInt(value, 10), data: data, keys: keys });
     },
+    deleteRows(row) {
+        let pre = this.state.rows - 1;
+        let data = this.state.data;
+        data.splice(row, 1);
 
+        this.setState({ rows: pre, data: data });
+    },
     rowsChanged(event) {
         let pre = this.state.rows;
         let value = parseInt(event.target.value, 10);
@@ -186,8 +206,9 @@ let DataProvider = React.createClass({
 
     render: function() {
         return (
-        /* jshint ignore:start */
-            <div>
+            /* jshint ignore:start */
+            <div id="datatable_config_modal">
+                { this.state.alert }
                 <Form horizontal style={{ padding: "16px" }}>
                     <FormGroup>
                         <FileInput onChange={this.fileChanged} className="fileInput">
@@ -225,13 +246,11 @@ let DataProvider = React.createClass({
                             <Button className="btn btn-primary" onClick={this.confirmButton} style={{ marginTop: '0px' }}>Confirmar</Button>
                         </Col>
                     </FormGroup>
-                    <div style={{ marginTop: '10px' }}>
+                    <div style={{ marginTop: '10px', overflowX: 'auto' }}>
                         <div style={{ display: 'table', tableLayout: 'fixed', width: '100%' }}>
                             {Array.apply(0, Array(this.state.cols)).map((x, i) => {
                                 return(
-                                    <FormControl.Static key={i + 1} style={{ display: 'table-cell', padding: '8px', textAlign: 'center' }}>
-                                        {'ID Columna'}
-                                    </FormControl.Static>
+                                    <FormControl.Static key={i + 1} style={{ display: 'table-cell', padding: '8px', textAlign: 'center' }} />
                                 );
                             })}
                         </div>
@@ -241,6 +260,7 @@ let DataProvider = React.createClass({
                                     {Array.apply(0, Array(this.state.cols)).map((x, i) => {
                                         return(
                                             <th key={i + 1}>
+                                                <i className="material-icons clearCol" onClick={(e)=>{this.deleteCols(i);}}>clear</i>
                                                 <FormControl type="text" name={i} value={this.state.keys[i]} style={{ margin: '0px' }} onChange={this.keyChanged}/>
                                             </th>
                                         );
@@ -257,6 +277,8 @@ let DataProvider = React.createClass({
                                             {Array.apply(0, Array(this.state.cols)).map((q, o) => {
                                                 return(
                                                     <td key={o + 1}>
+                                                        {o === 0 ? (<i className="material-icons clearRow" onClick={()=>{this.deleteRows(i);}}>clear</i>) : null}
+
                                                         <FormControl type="text" name={i + " " + this.state.keys[o]} value={this.state.data[i][this.state.keys[o]]} onChange={this.dataChanged}/>
 
                                                     </td>
@@ -270,7 +292,7 @@ let DataProvider = React.createClass({
                     </div>
                 </Form>
             </div>
-        /* jshint ignore:end */
+            /* jshint ignore:end */
         );
     },
 });
@@ -383,9 +405,9 @@ let ChartOptions = React.createClass({
 
     render: function() {
         return (
-        /* jshint ignore:start */
+            /* jshint ignore:start */
             <div>
-                <h4>Opciones del gráfico</h4>
+                <h4>Opciones de la tabla</h4>
                 <div className="content-block">
                     <Form horizontal>
                         <FormGroup>
@@ -420,148 +442,148 @@ let ChartOptions = React.createClass({
                         </FormGroup>
                     </Form>
                     {this.state.type !== 'pie' &&
-      <Form horizontal>
-          <FormGroup>
-              <Col xs={5}>
-                  <FormControl.Static>
-                      {'Eje Horizontal'}
-                  </FormControl.Static>
-              </Col>
-              <Col xs={7}>
-                  <FormControl componentClass="select" placeholder={this.state.keys[0]} value={this.state.x} onChange={this.xKeyChanged}>
-                      {this.state.keys.map((x, i) => {
-                          return(
-                              <option key={i + 1} value={x}>{x}</option>
-                          );
-                      })}
-                  </FormControl>
-              </Col>
-          </FormGroup>
-          <FormGroup>
-              <Col xs={5}>
-                  <FormControl.Static>
-                      {'Ejes Verticales'}
-                  </FormControl.Static>
-              </Col>
-              <Col xs={7}>
-                  <FormControl type="number" value={this.state.y.length} onChange={this.yAxisChanged}/>
-              </Col>
-          </FormGroup>
+                    <Form horizontal>
+                        <FormGroup>
+                            <Col xs={5}>
+                                <FormControl.Static>
+                                    {'Eje Horizontal'}
+                                </FormControl.Static>
+                            </Col>
+                            <Col xs={7}>
+                                <FormControl componentClass="select" placeholder={this.state.keys[0]} value={this.state.x} onChange={this.xKeyChanged}>
+                                    {this.state.keys.map((x, i) => {
+                                        return(
+                                            <option key={i + 1} value={x}>{x}</option>
+                                        );
+                                    })}
+                                </FormControl>
+                            </Col>
+                        </FormGroup>
+                        <FormGroup>
+                            <Col xs={5}>
+                                <FormControl.Static>
+                                    {'Ejes Verticales'}
+                                </FormControl.Static>
+                            </Col>
+                            <Col xs={7}>
+                                <FormControl type="number" value={this.state.y.length} onChange={this.yAxisChanged}/>
+                            </Col>
+                        </FormGroup>
 
-          {this.state.y.map((y, i) => {
-              return(
+                        {this.state.y.map((y, i) => {
+                            return(
 
-                  <div key={i + 1}>
-                      <hr />
-                      <FormGroup>
-                          <Col xs={12}>
-                              <h5>
-                                  {'Eje ' + i}
-                              </h5>
-                          </Col>
-                      </FormGroup>
-                      <FormGroup>
-                          <Col xs={5}>
-                              <FormControl.Static>
-                                  {'Clave '}
-                              </FormControl.Static>
-                          </Col>
-                          <Col xs={7}>
-                              <FormControl componentClass="select" placeholder={this.state.valueKeys[0]} name={i} value={y.key} onChange={this.yKeyChanged}>
-                                  {this.state.valueKeys.map((x, w) => {
-                                      return(
-                                          <option key={w + 1} value={x}>{x}</option>
-                                      );
-                                  })}
-                              </FormControl>
-                          </Col>
-                      </FormGroup>
-                      <FormGroup>
-                          <Col xs={5}>
-                              <FormControl.Static>
-                                  {"Color"}
-                              </FormControl.Static>
-                          </Col>
-                          <Col xs={7}>
-                              <FormControl type="color" name={i} value={y.color} onChange={this.colorChanged}/>
-                          </Col>
-                      </FormGroup>
-                  </div>
-              );
-          })}
+                                <div key={i + 1}>
+                                    <hr />
+                                    <FormGroup>
+                                        <Col xs={12}>
+                                            <h5>
+                                                {'Eje ' + i}
+                                            </h5>
+                                        </Col>
+                                    </FormGroup>
+                                    <FormGroup>
+                                        <Col xs={5}>
+                                            <FormControl.Static>
+                                                {'Clave '}
+                                            </FormControl.Static>
+                                        </Col>
+                                        <Col xs={7}>
+                                            <FormControl componentClass="select" placeholder={this.state.valueKeys[0]} name={i} value={y.key} onChange={this.yKeyChanged}>
+                                                {this.state.valueKeys.map((x, w) => {
+                                                    return(
+                                                        <option key={w + 1} value={x}>{x}</option>
+                                                    );
+                                                })}
+                                            </FormControl>
+                                        </Col>
+                                    </FormGroup>
+                                    <FormGroup>
+                                        <Col xs={5}>
+                                            <FormControl.Static>
+                                                {"Color"}
+                                            </FormControl.Static>
+                                        </Col>
+                                        <Col xs={7}>
+                                            <FormControl type="color" name={i} value={y.color} onChange={this.colorChanged}/>
+                                        </Col>
+                                    </FormGroup>
+                                </div>
+                            );
+                        })}
 
-      </Form>
+                    </Form>
                     }
                     {this.state.type === 'pie' &&
-      <Form horizontal>
-          <FormGroup>
-              <Col componentClass={ControlLabel} xs={4}>
-                  <FormControl.Static>
-                      {'Anillos'}
-                  </FormControl.Static>
-              </Col>
-              <Col xs={6}>
-                  <FormControl type="number" value={this.state.rings.length} onChange={this.ringsNumberChanged}/>
-              </Col>
+                    <Form horizontal>
+                        <FormGroup>
+                            <Col componentClass={ControlLabel} xs={4}>
+                                <FormControl.Static>
+                                    {'Anillos'}
+                                </FormControl.Static>
+                            </Col>
+                            <Col xs={6}>
+                                <FormControl type="number" value={this.state.rings.length} onChange={this.ringsNumberChanged}/>
+                            </Col>
 
-          </FormGroup>
+                        </FormGroup>
 
-          {this.state.rings.map((ring, i) => {
-              return(
-                  <div key={i + 1}>
-                      <FormGroup>
-                          <Col componentClass={ControlLabel} xs={6}>
-                              <FormControl.Static>
-                                  {'Anillo ' + i}
-                              </FormControl.Static>
-                          </Col>
-                      </FormGroup>
+                        {this.state.rings.map((ring, i) => {
+                            return(
+                                <div key={i + 1}>
+                                    <FormGroup>
+                                        <Col componentClass={ControlLabel} xs={6}>
+                                            <FormControl.Static>
+                                                {'Anillo ' + i}
+                                            </FormControl.Static>
+                                        </Col>
+                                    </FormGroup>
 
-                      <FormGroup>
-                          <Col componentClass={ControlLabel} xs={6} xsOffset={3}>
-                              {'Nombre'}
-                          </Col>
-                          <Col xs={6}>
-                              <FormControl componentClass="select" placeholder="select" name={i} value={ring.name} onChange={this.ringNameChanged}>
-                                  {this.state.keys.map((key, n) => {
-                                      return(
-                                          <option key={n + 1} value={key}>{key}</option>
-                                      );
-                                  })}
-                              </FormControl>
-                          </Col>
-                      </FormGroup>
-                      <FormGroup>
-                          <Col componentClass={ControlLabel} xs={6} xsOffset={3}>
-                              {'Valor'}
-                          </Col>
-                          <Col xs={6}>
-                              <FormControl componentClass="select" placeholder={this.state.valueKeys[0]} name={i} value={ring.value} onChange={this.ringValueChanged}>
-                                  {this.state.valueKeys.map((key, r) => {
-                                      return(
-                                          <option key={r + 1} value={key}>{key}</option>
-                                      );
-                                  })}
-                              </FormControl>
-                          </Col>
-                      </FormGroup>
-                      <FormGroup>
-                          <Col componentClass={ControlLabel} xs={6} xsOffset={3}>
-                              {"Color"}
-                          </Col>
-                          <Col xs={6}>
-                              <FormControl type="color" name={i} value={ring.color} onChange={this.ringColorChanged}/>
-                          </Col>
-                      </FormGroup>
-                  </div>
-              );
-          })}
-      </Form>
+                                    <FormGroup>
+                                        <Col componentClass={ControlLabel} xs={6} xsOffset={3}>
+                                            {'Nombre'}
+                                        </Col>
+                                        <Col xs={6}>
+                                            <FormControl componentClass="select" placeholder="select" name={i} value={ring.name} onChange={this.ringNameChanged}>
+                                                {this.state.keys.map((key, n) => {
+                                                    return(
+                                                        <option key={n + 1} value={key}>{key}</option>
+                                                    );
+                                                })}
+                                            </FormControl>
+                                        </Col>
+                                    </FormGroup>
+                                    <FormGroup>
+                                        <Col componentClass={ControlLabel} xs={6} xsOffset={3}>
+                                            {'Valor'}
+                                        </Col>
+                                        <Col xs={6}>
+                                            <FormControl componentClass="select" placeholder={this.state.valueKeys[0]} name={i} value={ring.value} onChange={this.ringValueChanged}>
+                                                {this.state.valueKeys.map((key, r) => {
+                                                    return(
+                                                        <option key={r + 1} value={key}>{key}</option>
+                                                    );
+                                                })}
+                                            </FormControl>
+                                        </Col>
+                                    </FormGroup>
+                                    <FormGroup>
+                                        <Col componentClass={ControlLabel} xs={6} xsOffset={3}>
+                                            {"Color"}
+                                        </Col>
+                                        <Col xs={6}>
+                                            <FormControl type="color" name={i} value={ring.color} onChange={this.ringColorChanged}/>
+                                        </Col>
+                                    </FormGroup>
+                                </div>
+                            );
+                        })}
+                    </Form>
 
                     }
                 </div>
             </div>
-        /* jshint ignore:end */
+            /* jshint ignore:end */
         );
     },
 });
@@ -658,40 +680,47 @@ let Config = React.createClass({
 
         this.modifyState();
         return (
-        /* jshint ignore:start */
+            /* jshint ignore:start */
             <Grid>
                 <Row>
 
-                    <Col lg={this.state.editing ? 12 : 5} xs={12}>
+                    <Col lg={this.state.editing ? 12 : 12} xs={12}>
                         <h4> Orígen de los datos </h4>
                         {!this.state.editing &&
-        <Button onClick={this.editButtonClicked} style={{ marginTop: '0px' }} className="btn-primary">Editar</Button>
+                        <Button onClick={this.editButtonClicked} style={{ marginTop: '0px' }} className="btn-primary">Editar</Button>
                         }
                         {this.state.editing &&
-        <DataProvider data={this.state.data} dataChanged={this.dataChanged} keys={this.state.keys} valueKeys={this.state.valueKeys} />
+                        <DataProvider data={this.state.data} dataChanged={this.dataChanged} keys={this.state.keys} valueKeys={this.state.valueKeys} />
                         }
+                        {/* {!this.state.editing &&
+                        <ChartOptions options={this.state.options} optionsChanged={this.optionsChanged} keys={this.state.keys} valueKeys={this.state.valueKeys} />
+                        }*/}
                         {!this.state.editing &&
-        <ChartOptions options={this.state.options} optionsChanged={this.optionsChanged} keys={this.state.keys} valueKeys={this.state.valueKeys} />
+
+                        <div style={{ height: '300px', width: '95%' }}>
+                            <br/>
+                            <h4>Previsualización</h4>
+                            <TableComponent data={this.state.data} options={this.state.options} width={this.state.chartWidth} key={this.state.key} />
+                        </div>
                         }
                     </Col>
 
-                    <div className="col-xs-12 col-lg-7" ref="chartContainer" style={{ padding: '0px' }}>
+                    {/* <div className="col-xs-12 col-lg-7" ref="chartContainer" style={{ padding: '0px' }}>
 
                         {!this.state.editing &&
 
-                        (<div style={{ height: '300px', width: '95%' }}>
+                        <div style={{ height: '300px', width: '95%' }}>
                             <h4>Previsualización</h4>
-
                             <TableComponent data={this.state.data} options={this.state.options} width={this.state.chartWidth} key={this.state.key} />
-                        </div>)
+                        </div>
                         }
 
-                    </div>
+                    </div>*/}
                 </Row>
 
             </Grid>
 
-        /* jshint ignore:end */
+            /* jshint ignore:end */
         );
     },
 });
