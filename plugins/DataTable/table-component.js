@@ -27,7 +27,7 @@ export default class TableComponent extends React.Component {
                     pageSizeLabel={options.pageSizeLabel}
                     searchLabel={options.searchLabel}
                     searchPlaceholder={options.searchPlaceholder}
-                    initialSortBy={{ prop: cols[0].title, order: 'descending' }}
+                    initialSortBy={{ prop: options.initialSort, order: options.initialOrder } /* { prop: cols[0].title, order: 'descending' }*/}
                 />
             </div>
 

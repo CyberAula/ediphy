@@ -418,7 +418,7 @@ let ChartOptions = React.createClass({
                             </Col>
                             <Col xs={7}>
                                 <FormControl componentClass="select" placeholder="line" value={this.state.type} onChange={this.typeChanged}>
-                                    <option value="line"> {i18n.t("GraficaD3.types.line")}</option>
+                                    <option value="line">{i18n.t("GraficaD3.types.line")}</option>
                                     <option value="area">{i18n.t("GraficaD3.types.area")}</option>
                                     <option value="bar">{i18n.t("GraficaD3.types.bar")}</option>
                                     <option value="pie">{i18n.t("GraficaD3.types.pie")}</option>
@@ -555,7 +555,7 @@ let ChartOptions = React.createClass({
                       </FormGroup>
                       <FormGroup>
                           <Col componentClass={ControlLabel} xs={6} xsOffset={3}>
-                              {i18n.t("GraficaD3.value")}                                    </Col>
+                              {i18n.t("GraficaD3.value")}                                              </Col>
                           <Col xs={6}>
                               <FormControl componentClass="select" placeholder={this.state.valueKeys[0]} name={i} value={ring.value} onChange={this.ringValueChanged}>
                                   {this.state.valueKeys.map((key, r) => {
@@ -652,22 +652,23 @@ let Config = React.createClass({
             }
         }
         let options = this.state.options;
+        options.x = keys[0];
         options.y = [{ key: valueKeys[0], color: "#1FC8DB" }];
         options.rings = [{ name: keys[0], value: valueKeys[0], color: "#1FC8DB" }];
         this.setState({ data: data, keys: keys, valueKeys: valueKeys, options: options });
     },
 
     optionsChanged(options) {
-        console.log("optionshanged");
-        console.log(options);
+        // console.log("optionshanged");
+        // console.log(options);
         this.setState({ options: options });
         this.state.base.setState("options", options);
         this.updateChart();
     },
 
     editButtonClicked() {
-        console.log("editButton");
-        console.log(this.state);
+        // console.log("editButton");
+        // console.log(this.state);
         this.setState({ editing: true });
     },
 

@@ -173,7 +173,6 @@ export function DataTable(base) {
             return {
                 data: data,
                 keys: keys,
-                valueKeys: keys,
                 editing: true,
                 options: {
                     disableFilter: false,
@@ -183,6 +182,8 @@ export function DataTable(base) {
                     searchLabel: i18n.t('DataTable.options.searchLabel_txt'),
                     searchPlaceholder: '',
                     initialPageLength: 5,
+                    initialSort: 0,
+                    initialOrder: 'descending',
                 },
             };
         },

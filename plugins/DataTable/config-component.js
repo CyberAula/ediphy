@@ -14,7 +14,6 @@ let DataProvider = React.createClass({
             rows: rows,
             data: this.props.data,
             keys: this.props.keys,
-            valueKeys: this.props.valueKeys,
             error: false,
         };
     },
@@ -35,7 +34,7 @@ let DataProvider = React.createClass({
             }
         }
         if (typeof this.props.dataChanged === 'function' && !empty) {
-            this.props.dataChanged({ data: this.state.data, keys: this.state.keys, valueKeys: this.state.valueKeys });
+            this.props.dataChanged({ data: this.state.data, keys: this.state.keys });
         }
     },
     deleteCols(col) {
@@ -302,8 +301,6 @@ let ChartOptions = React.createClass({
 
         let options = this.props.options;
         options.keys = this.props.keys;
-        options.valueKeys = this.props.valueKeys;
-        // console.log(options);
         return options;
     },
 
@@ -320,6 +317,8 @@ let ChartOptions = React.createClass({
                     searchLabel: this.state.searchLabel,
                     searchPlaceholder: this.state.searchPlaceholder,
                     initialPageLength: this.state.initialPageLength,
+                    initialSort: this.state.initialSort,
+                    initialOrder: this.state.initialOrder,
                 });
             }
         }
@@ -331,7 +330,7 @@ let ChartOptions = React.createClass({
                 <div className="content-block">
                     <Form horizontal>
                         <FormGroup>
-                            <Col xs={6}>
+                            <Col xs={12}>
                                 <FormControl.Static>
                                     {i18n.t("DataTable.show")}
                                 </FormControl.Static>
@@ -346,30 +345,48 @@ let ChartOptions = React.createClass({
                                 <Col xs={12} >
                                     <Checkbox className="mycb" checked={!this.state.disableRowChoice}
                                         onChange={()=>{this.setState({ disableRowChoice: !this.state.disableRowChoice });}} />
-                                    {i18n.t('DataTable.options.disableRowChoice')}</Col><br/><br/>
-                                <Col xs={8}>
-                                    <label htmlFor="">{i18n.t("DataTable.options.initialPageLength")}</label>
-                                    <FormControl type="number" value={this.state.initialPageLength}
-                                        onChange={(e)=>{this.setState({ initialPageLength: e.target.value });}}/>
-                                </Col>
-                            </Col>
-                            <Col xs={6}>
-                                <Col xs={12}>
-                                    <label htmlFor="">{i18n.t("DataTable.options.pageSizeLabel")}</label>
-                                    <FormControl type="text" value={this.state.pageSizeLabel}
-                                        onChange={(e)=>{this.setState({ pageSizeLabel: e.target.value });}}/>
-                                </Col>
-                                <Col xs={12}>
-                                    <label htmlFor="">{i18n.t("DataTable.options.searchLabel")}</label>
-                                    <FormControl type="text" value={this.state.searchLabel}
-                                        onChange={(e)=>{this.setState({ searchLabel: e.target.value });}}/>
-                                </Col>
-                                <Col xs={12}>
-                                    <label htmlFor="">{i18n.t("DataTable.options.searchPlaceholder")}</label>
-                                    <FormControl type="text" value={this.state.searchPlaceholder}
-                                        onChange={(e)=>{this.setState({ searchPlaceholder: e.target.value });}}/>
+                                    {i18n.t('DataTable.options.disableRowChoice')}</Col><br/><br/><br/>
 
-                                </Col>
+                                <label htmlFor="">{i18n.t("DataTable.options.initialPageLength")}</label>
+                                <FormControl type="number" value={this.state.initialPageLength}
+                                    onChange={(e)=>{this.setState({ initialPageLength: e.target.value });}}/>
+                                <label htmlFor="">{i18n.t("DataTable.options.initialSortProp")}</label>
+                                <FormControl componentClass="select" placeholder="line"
+                                    value={this.state.initialSort}
+                                    onChange={(e)=>{this.setState({ initialSort: e.target.value });}}>
+                                    <option key={"DEFAULT_0"} value={0}>{" "}</option>
+                                    {this.state.keys.map(key=>{
+                                        return(<option key={key} value={key}>{key}</option>);
+                                    })}
+
+                                </FormControl>
+                                <label htmlFor="">{i18n.t("DataTable.options.initialOrderProp")}</label>
+                                <FormGroup>
+                                    <Radio name="radioGroup" inline style={{ marginLeft: '15px' }}
+                                        onChange={e=>{this.setState({ initialOrder: 'ascending' });}}
+                                        checked={this.state.initialOrder === 'ascending'}>
+                                        {i18n.t("DataTable.options.ascending")}
+                                    </Radio>
+
+                                    <Radio name="radioGroup" inline style={{ marginLeft: '15px' }}
+                                        onChange={e=>{this.setState({ initialOrder: 'descending' });}}
+                                        checked={this.state.initialOrder === 'descending'}>
+                                        {i18n.t("DataTable.options.descending")}
+                                    </Radio>
+                                </FormGroup>
+
+                            </Col>
+                            <Col xs={12}>
+                                <label htmlFor="">{i18n.t("DataTable.options.pageSizeLabel")}</label>
+                                <FormControl type="text" value={this.state.pageSizeLabel}
+                                    onChange={(e)=>{this.setState({ pageSizeLabel: e.target.value });}}/>
+                                <label htmlFor="">{i18n.t("DataTable.options.searchLabel")}</label>
+                                <FormControl type="text" value={this.state.searchLabel}
+                                    onChange={(e)=>{this.setState({ searchLabel: e.target.value });}}/>
+                                <label htmlFor="">{i18n.t("DataTable.options.searchPlaceholder")}</label>
+                                <FormControl type="text" value={this.state.searchPlaceholder}
+                                    onChange={(e)=>{this.setState({ searchPlaceholder: e.target.value });}}/>
+
                             </Col>
                         </FormGroup>
                         <FormGroup />
@@ -401,7 +418,6 @@ let Config = React.createClass({
         this.state.base.setState("options", this.state.options);
         this.state.base.setState("data", this.state.data);
         this.state.base.setState("keys", this.state.keys);
-        this.state.base.setState("valueKeys", this.state.valueKeys);
         this.state.base.setState("editing", this.state.editing);
     },
 
@@ -434,16 +450,8 @@ let Config = React.createClass({
             }
         }
 
-        let valueKeys = [];
-        for (let key of nKeys) {
-            if(!key.notNumber) {
-                valueKeys.push(key.value);
-            }
-        }
         let options = this.state.options;
-        options.y = [{ key: valueKeys[0], color: "#1FC8DB" }];
-        options.rings = [{ name: keys[0], value: valueKeys[0], color: "#1FC8DB" }];
-        this.setState({ data: data, keys: keys, valueKeys: valueKeys, options: options });
+        this.setState({ data: data, keys: keys, options: options });
     },
 
     optionsChanged(options) {
@@ -471,22 +479,23 @@ let Config = React.createClass({
             <Grid>
                 <Row>
 
-                    <Col lg={this.state.editing ? 12 : 12} xs={12}>
+                    <Col lg={this.state.editing ? 12 : 3} xs={12}>
                         <h4> {i18n.t("DataTable.header.origin")} </h4>
                         {!this.state.editing &&
                         <Button onClick={this.editButtonClicked} style={{ marginTop: '0px' }} className="btn-primary">{i18n.t("DataTable.edit")} </Button>
                         }
                         {this.state.editing &&
-                        <DataProvider data={this.state.data} dataChanged={this.dataChanged} keys={this.state.keys} valueKeys={this.state.valueKeys} />
+                        <DataProvider data={this.state.data} dataChanged={this.dataChanged} keys={this.state.keys} />
                         }
                         {!this.state.editing &&
-                        <ChartOptions options={this.state.options} optionsChanged={this.optionsChanged} keys={this.state.keys} valueKeys={this.state.valueKeys} />
+                        <ChartOptions options={this.state.options} optionsChanged={this.optionsChanged} keys={this.state.keys} />
                         }
-
+                    </Col>
+                    <Col lg={9} xs={12}>
                         {!this.state.editing && <div>
-                            <h4>{i18n.t("DataTable.header.preview")}</h4>
-                            <div style={{ height: '300px', width: '95%' }} ref="chartContainer">
-                                <TableComponent data={this.state.data} options={this.state.options} width={this.state.chartWidth} key={this.state.key} />
+                            <h4>{i18n.t("DataTable.header.preview")}</h4><br/>
+                            <div style={{ marginRight: '-10px', marginLeft: '0px' }} ref="chartContainer">
+                                <TableComponent data={this.state.data} options={this.state.options} key={this.state.key} />
                             </div>
                         </div>}
                     </Col>
