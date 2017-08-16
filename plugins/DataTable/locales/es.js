@@ -19,6 +19,7 @@ module.exports = {
         "y_grid": "Rejilla eje y",
         "line_color": "Color de línea",
         "file": "Elegir Archivo",
+        "edit": "Editar",
         "or": "O rellenar la tabla",
         "x_axis": "Eje X",
         "y_axis": "Eje Y",
@@ -39,5 +40,14 @@ module.exports = {
         "data_rows": "Filas",
         "data_cols": "Columnas",
         "key": "Key",
+        "alert_msg": "Rellena todos los campos de la tabla",
+        "confirm": "Confirmar",
+        "fill_in": "O rellena una tabla",
+        "show": "Mostrar",
+        "header": {
+            "options": "Opciones de la tabla",
+            "origin": "Orígen de los datos",
+            "preview": "Previsualización",
+        },
     },
 };

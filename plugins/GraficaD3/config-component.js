@@ -1,6 +1,7 @@
 import React from "react";
 import { Form, Button, FormGroup, FormControl, ControlLabel, Col, Grid, Row, Table, Checkbox, Radio } from "react-bootstrap";
 import FileInput from '@ranyefet/react-file-input';
+import i18n from 'i18next';
 import Alert from './../../_editor/components/alerts/alert/Alert';
 let Chart = require("./chart-component");
 
@@ -24,9 +25,8 @@ let DataProvider = React.createClass({
         for (let i = 0; i < this.state.data.length; i++) {
             for (let o = 0; o < this.state.data.length; o++) {
                 if(this.state.data[i][o] === "") {
-                    // TODO: change alert for common-alert system
                     let alertComp = (<Alert className="pageModal" show hasHeader closeButton onClose={()=>{this.setState({ alert: null });}}>
-                        <span> {"Rellena todos los campos de la tabla"} </span>
+                        <span> {i18n.t("GraficaD3.alert_msg")} </span>
                     </Alert>);
                     this.setState({ alert: alertComp });
                     empty = true;
@@ -216,7 +216,7 @@ let DataProvider = React.createClass({
                             {/* <span style={{ marginLeft: '10px' }}>*/}
                             {/* <label className="control-label">{ Dali.i18n.t('FileDialog') + ':   ' } </label> { this.state.name || '' }</span>*/}
                             <div className="fileDrag">
-                                <span style={{ display: this.state.name ? 'none' : 'block' }}><i className="material-icons">ic_file_upload</i><b>{ Dali.i18n.t('FileInput.Drag') }</b>{ Dali.i18n.t('FileInput.Drag_2') }<b>{ Dali.i18n.t('FileInput.Click') }</b>{ Dali.i18n.t('FileInput.Click_2') }</span>
+                                <span style={{ display: this.state.name ? 'none' : 'block' }}><i className="material-icons">ic_file_upload</i><b>{ i18n.t('FileInput.Drag') }</b>{ i18n.t('FileInput.Drag_2') }<b>{ i18n.t('FileInput.Click') }</b>{ i18n.t('FileInput.Click_2') }</span>
                                 <span className="fileUploaded" style={{ display: this.state.name ? 'block' : 'none' }}><i className="material-icons">insert_drive_file</i>{ this.state.name || '' }</span>
                             </div>
                         </FileInput>
@@ -224,26 +224,26 @@ let DataProvider = React.createClass({
                     <FormGroup>
                         <Col componentClass={ControlLabel} xs={4}>
                             <FormControl.Static>
-                                {'O Rellena una tabla'}
+                                {i18n.t("GraficaD3.fill_in")}
                             </FormControl.Static>
                         </Col>
                     </FormGroup>
                     <FormGroup>
                         <Col componentClass={ControlLabel} xs={2}>
-                            {Dali.i18n.t("GraficaD3.data_cols")}
+                            {i18n.t("GraficaD3.data_cols")}
                         </Col>
                         <Col xs={3}>
                             <FormControl type="number" name="cols" value={this.state.cols} onChange={this.colsChanged}/>
                         </Col>
 
                         <Col componentClass={ControlLabel} xs={1}>
-                            {Dali.i18n.t("GraficaD3.data_rows")}
+                            {i18n.t("GraficaD3.data_rows")}
                         </Col>
                         <Col xs={3}>
                             <FormControl type="number" name="rows" value={this.state.rows} onChange={this.rowsChanged}/>
                         </Col>
                         <Col xs={3}>
-                            <Button className="btn btn-primary" onClick={this.confirmButton} style={{ marginTop: '0px' }}>Confirmar</Button>
+                            <Button className="btn btn-primary" onClick={this.confirmButton} style={{ marginTop: '0px' }}>{i18n.t("GraficaD3.confirm")}</Button>
                         </Col>
                     </FormGroup>
                     <div style={{ marginTop: '10px', overflowX: 'auto' }}>
@@ -407,37 +407,37 @@ let ChartOptions = React.createClass({
         return (
         /* jshint ignore:start */
             <div>
-                <h4>Opciones del gráfico</h4>
+                <h4>{i18n.t("GraficaD3.header.options")}</h4>
                 <div className="content-block">
                     <Form horizontal>
                         <FormGroup>
                             <Col xs={5}>
                                 <FormControl.Static>
-                                    {Dali.i18n.t("GraficaD3.chart_type")}
+                                    {i18n.t("GraficaD3.chart_type")}
                                 </FormControl.Static>
                             </Col>
                             <Col xs={7}>
                                 <FormControl componentClass="select" placeholder="line" value={this.state.type} onChange={this.typeChanged}>
-                                    <option value="line">Línea</option>
-                                    <option value="area">Área</option>
-                                    <option value="bar">Barras</option>
-                                    <option value="pie">Tarta</option>
+                                    <option value="line"> {i18n.t("GraficaD3.types.line")}</option>
+                                    <option value="area">{i18n.t("GraficaD3.types.area")}</option>
+                                    <option value="bar">{i18n.t("GraficaD3.types.bar")}</option>
+                                    <option value="pie">{i18n.t("GraficaD3.types.pie")}</option>
                                 </FormControl>
                             </Col>
                         </FormGroup>
                         <FormGroup>
                             <Col xs={12}>
                                 <FormControl.Static>
-                                    {'Ver rejilla'}
+                                    {i18n.t("GraficaD3.see_grid")}
                                 </FormControl.Static>
                             </Col>
                             <Col xs={6}>
                                 <Checkbox checked={this.state.gridX} onChange={this.xGridChanged} />
-                                {'Horizontal'}
+                                {i18n.t("GraficaD3.horizontal")}
                             </Col>
                             <Col xs={6}>
                                 <Checkbox checked={this.state.gridY} onChange={this.yGridChanged} />
-                                {'Vertical'}
+                                {i18n.t("GraficaD3.vertical")}
                             </Col>
                         </FormGroup>
                     </Form>
@@ -446,7 +446,7 @@ let ChartOptions = React.createClass({
           <FormGroup>
               <Col xs={5}>
                   <FormControl.Static>
-                      {'Eje Horizontal'}
+                      {i18n.t("GraficaD3.axes_h")}
                   </FormControl.Static>
               </Col>
               <Col xs={7}>
@@ -462,7 +462,7 @@ let ChartOptions = React.createClass({
           <FormGroup>
               <Col xs={5}>
                   <FormControl.Static>
-                      {'Ejes Verticales'}
+                      {i18n.t("GraficaD3.axes_v")}
                   </FormControl.Static>
               </Col>
               <Col xs={7}>
@@ -478,14 +478,14 @@ let ChartOptions = React.createClass({
                       <FormGroup>
                           <Col xs={12}>
                               <h5>
-                                  {'Eje ' + i}
+                                  {i18n.t("GraficaD3.axis") + ' ' + i}
                               </h5>
                           </Col>
                       </FormGroup>
                       <FormGroup>
                           <Col xs={5}>
                               <FormControl.Static>
-                                  {'Clave '}
+                                  {i18n.t("GraficaD3.key") + ' ' }
                               </FormControl.Static>
                           </Col>
                           <Col xs={7}>
@@ -519,7 +519,7 @@ let ChartOptions = React.createClass({
           <FormGroup>
               <Col componentClass={ControlLabel} xs={4}>
                   <FormControl.Static>
-                      {'Anillos'}
+                      {i18n.t("GraficaD3.rings")}
                   </FormControl.Static>
               </Col>
               <Col xs={6}>
@@ -534,14 +534,14 @@ let ChartOptions = React.createClass({
                       <FormGroup>
                           <Col componentClass={ControlLabel} xs={6}>
                               <FormControl.Static>
-                                  {'Anillo ' + i}
+                                  {i18n.t("GraficaD3.ring") + ' ' + i}
                               </FormControl.Static>
                           </Col>
                       </FormGroup>
 
                       <FormGroup>
                           <Col componentClass={ControlLabel} xs={6} xsOffset={3}>
-                              {'Nombre'}
+                              {i18n.t("GraficaD3.name")}
                           </Col>
                           <Col xs={6}>
                               <FormControl componentClass="select" placeholder="select" name={i} value={ring.name} onChange={this.ringNameChanged}>
@@ -555,8 +555,7 @@ let ChartOptions = React.createClass({
                       </FormGroup>
                       <FormGroup>
                           <Col componentClass={ControlLabel} xs={6} xsOffset={3}>
-                              {'Valor'}
-                          </Col>
+                              {i18n.t("GraficaD3.value")}                                    </Col>
                           <Col xs={6}>
                               <FormControl componentClass="select" placeholder={this.state.valueKeys[0]} name={i} value={ring.value} onChange={this.ringValueChanged}>
                                   {this.state.valueKeys.map((key, r) => {
@@ -569,7 +568,7 @@ let ChartOptions = React.createClass({
                       </FormGroup>
                       <FormGroup>
                           <Col componentClass={ControlLabel} xs={6} xsOffset={3}>
-                              {"Color"}
+                              {i18n.t("GraficaD3.color")}
                           </Col>
                           <Col xs={6}>
                               <FormControl type="color" name={i} value={ring.color} onChange={this.ringColorChanged}/>
@@ -680,14 +679,12 @@ let Config = React.createClass({
 
         this.modifyState();
         return (
-        /* jshint ignore:start */
             <Grid>
                 <Row>
-
                     <Col lg={this.state.editing ? 12 : 5} xs={12}>
-                        <h4> Orígen de los datos </h4>
+                        <h4> {i18n.t("GraficaD3.header.origin")} </h4>
                         {!this.state.editing &&
-        <Button onClick={this.editButtonClicked} style={{ marginTop: '0px' }} className="btn-primary">Editar</Button>
+        <Button onClick={this.editButtonClicked} style={{ marginTop: '0px' }} className="btn-primary">{i18n.t("GraficaD3.edit")}</Button>
                         }
                         {this.state.editing &&
         <DataProvider data={this.state.data} dataChanged={this.dataChanged} keys={this.state.keys} valueKeys={this.state.valueKeys} />
@@ -696,23 +693,16 @@ let Config = React.createClass({
         <ChartOptions options={this.state.options} optionsChanged={this.optionsChanged} keys={this.state.keys} valueKeys={this.state.valueKeys} />
                         }
                     </Col>
-
                     <div className="col-xs-12 col-lg-7" ref="chartContainer" style={{ padding: '0px' }}>
-
                         {!this.state.editing &&
-
         <div style={{ height: '300px', width: '95%' }}>
             <h4>Previsualización</h4>
             <Chart data={this.state.data} options={this.state.options} width={this.state.chartWidth} key={this.state.key} />
         </div>
                         }
-
                     </div>
                 </Row>
-
             </Grid>
-
-        /* jshint ignore:end */
         );
     },
 });
