@@ -389,10 +389,6 @@ let Config = React.createClass({
         }
     },
 
-    componentDidMount() {
-        let { clientWidth } = this.refs.chartContainer;
-        this.setState({ chartWidth: clientWidth });
-    },
     getInitialState() {
 
         let state = this.props.state;
