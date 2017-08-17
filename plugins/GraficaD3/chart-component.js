@@ -17,13 +17,14 @@ let Chart = React.createClass({
         let data = this.props.data;
         let options = this.props.options;
         let width = this.props.width;
+        console.log(this.props);
         switch (options.type) {
         case "line":
             return (
                 <ResponsiveContainer width="100%" height="100%">
                     <LineChart
                         data={data}>
-                        <XAxis dataKey={options.x} name={options.x}/>
+                        <XAxis dataKey={options.x} name={options.x} tickCount={data ? data.length : 5}/>
                         <YAxis/>
                         <CartesianGrid horizontal={options.gridX} vertical={options.gridY} />
                         {options.y.map((y, o) => {
@@ -104,7 +105,7 @@ let Chart = React.createClass({
                         <Tooltip />
                         {rings.map((ring, o) => {
                             return(
-                                <Pie key={o + 1} data={ring.data} cx="50%" cy="50%" innerRadius={o * 50} outerRadius={(o + 1) * 50 - 10} nameKey="name" fill={ring.color} dataKey={ring.name} label={o === rings.length - 1} />
+                                <Pie key={o + 1} data={ring.data} cx="50%" cy="50%" innerRadius={o * 50} outerRadius={(o + 1) * 50 - 10} nameKey="name" fill={ring.color} dataKey={ring.value} label={o === rings.length - 1} />
                             );
                         })}
                     </PieChart>

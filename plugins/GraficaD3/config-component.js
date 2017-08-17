@@ -50,6 +50,28 @@ let DataProvider = React.createClass({
 
         this.setState({ cols: pre, data: data, keys: keys });
     },
+    colLeft(col) {
+        let pre = this.state.cols;
+        let keys = this.state.keys;
+        let left = keys[col - 1];
+        let current = keys[col];
+        keys[col - 1] = current;
+        keys[col] = left;
+        console.log(keys);
+
+        this.setState({ keys: keys });
+    },
+    colRight(col) {
+        let pre = this.state.cols;
+        let keys = this.state.keys;
+        let right = keys[col + 1];
+        let current = keys[col];
+        keys[col + 1] = current;
+        keys[col] = right;
+        console.log(keys);
+
+        this.setState({ keys: keys });
+    },
     colsChanged(event) {
         let pre = this.state.cols;
         let value = parseInt(event.target.value, 10);
@@ -197,7 +219,7 @@ let DataProvider = React.createClass({
         let row = pos[0];
         let col = pos[1];
         let data = this.state.data;
-        let newvalue = isNaN(event.target.value) || event.target.value === "" || event.target.value === null ? event.target.value : parseInt(event.target.value, 10);
+        let newvalue = isNaN(event.target.value) || event.target.value === "" || event.target.value === null ? event.target.value : parseFloat(event.target.value, 10);
         let newRow = {};
         newRow[col] = newvalue;
         data[row] = Object.assign({}, data[row], newRow);
@@ -256,11 +278,13 @@ let DataProvider = React.createClass({
                         </div>
                         <table className="table bordered hover" >
                             <thead>
-                                <tr>
+                                <tr>{console.log(this.state.keys)}
                                     {Array.apply(0, Array(this.state.cols)).map((x, i) => {
                                         return(
                                             <th key={i + 1}>
+                                                {/* i !== 0 ? <i className="material-icons clearCol" onClick={(e)=>{this.colLeft(i);}}>chevron_left</i> : null */}
                                                 <i className="material-icons clearCol" onClick={(e)=>{this.deleteCols(i);}}>clear</i>
+                                                {/* i !== (this.state.keys.length - 1) ? <i className="material-icons clearCol" onClick={(e)=>{this.colRight(i);}}>chevron_right</i> : null*/ }
                                                 <FormControl type="text" name={i} value={this.state.keys[i]} style={{ margin: '0px' }} onChange={this.keyChanged}/>
                                             </th>
                                         );
@@ -639,7 +663,7 @@ let Config = React.createClass({
             let row = data[o];
             for (let i = 0; i < keys.length; i++) {
                 let key = nKeys[i];
-                data[o][keys[i]] = isNaN(data[o][keys[i]]) || typeof(data[o][keys[i]]) === "boolean" || data[o][keys[i]] === "" || data[o][keys[i]] === null ? data[o][keys[i]] : parseInt(data[o][keys[i]], 10);
+                data[o][keys[i]] = isNaN(data[o][keys[i]]) || typeof(data[o][keys[i]]) === "boolean" || data[o][keys[i]] === "" || data[o][keys[i]] === null ? data[o][keys[i]] : parseFloat(data[o][keys[i]], 10);
                 if(key.notNumber) {
                     nKeys[i].notNumber = isNaN(row[key.value]) || typeof(row[key.value]) === "boolean" || row[key.value] === "";
                 }
