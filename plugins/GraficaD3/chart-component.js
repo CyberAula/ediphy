@@ -17,7 +17,6 @@ let Chart = React.createClass({
         let data = this.props.data;
         let options = this.props.options;
         let width = this.props.width;
-        console.log(data);
         switch (options.type) {
         case "line":
             return (
@@ -102,10 +101,10 @@ let Chart = React.createClass({
             return (
                 <ResponsiveContainer width="100%" height="100%">
                     <PieChart>
-                        <Tooltip/>
+                        <Tooltip />
                         {rings.map((ring, o) => {
                             return(
-                                <Pie key={o + 1} data={ring.data} cx="50%" cy="50%" innerRadius={o * 50} outerRadius={(o + 1) * 50 - 10} fill={ring.color} label/>
+                                <Pie key={o + 1} data={ring.data} cx="50%" cy="50%" innerRadius={o * 50} outerRadius={(o + 1) * 50 - 10} nameKey="name" fill={ring.color} dataKey={ring.name} label={o === rings.length - 1} />
                             );
                         })}
                     </PieChart>

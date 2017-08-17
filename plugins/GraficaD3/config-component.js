@@ -534,7 +534,7 @@ let ChartOptions = React.createClass({
                       <FormGroup>
                           <Col componentClass={ControlLabel} xs={6}>
                               <FormControl.Static>
-                                  {i18n.t("GraficaD3.ring") + ' ' + i}
+                                  {i18n.t("GraficaD3.ring") + ' ' + (i + 1)}
                               </FormControl.Static>
                           </Col>
                       </FormGroup>

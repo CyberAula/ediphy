@@ -204,8 +204,8 @@ let DataProvider = React.createClass({
     },
 
     render: function() {
+        // console.log(this.state.cols, this.state.keys)
         return (
-            /* jshint ignore:start */
             <div id="datatable_config_modal">
                 { this.state.alert }
                 <Form horizontal style={{ padding: "16px" }}>
@@ -291,7 +291,6 @@ let DataProvider = React.createClass({
                     </div>
                 </Form>
             </div>
-            /* jshint ignore:end */
         );
     },
 });
@@ -349,7 +348,7 @@ let ChartOptions = React.createClass({
 
                                 <label htmlFor="">{i18n.t("DataTable.options.initialPageLength")}</label>
                                 <FormControl type="number" value={this.state.initialPageLength}
-                                    onChange={(e)=>{this.setState({ initialPageLength: e.target.value });}}/>
+                                    onChange={(e)=>{this.setState({ initialPageLength: parseInt(e.target.value, 10) });}}/>
                                 <label htmlFor="">{i18n.t("DataTable.options.initialSortProp")}</label>
                                 <FormControl componentClass="select" placeholder="line"
                                     value={this.state.initialSort}
@@ -474,6 +473,7 @@ let Config = React.createClass({
     },
 
     updateChart() {
+        // this.forceUpdate();
         this.setState({ key: Math.random() });
     },
 
@@ -499,7 +499,7 @@ let Config = React.createClass({
                     <Col lg={9} xs={12}>
                         {!this.state.editing && <div>
                             <h4>{i18n.t("DataTable.header.preview")}</h4><br/>
-                            <div style={{ marginRight: '-10px', marginLeft: '0px' }} ref="chartContainer">
+                            <div style={{ marginRight: '-10px', marginLeft: '0px' }} ref="chartContainer" id="chartContainer">
                                 <TableComponent data={this.state.data} options={this.state.options} key={this.state.key} />
                             </div>
                         </div>}
