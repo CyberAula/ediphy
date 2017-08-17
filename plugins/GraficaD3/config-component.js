@@ -555,7 +555,8 @@ let ChartOptions = React.createClass({
                       </FormGroup>
                       <FormGroup>
                           <Col componentClass={ControlLabel} xs={6} xsOffset={3}>
-                              {i18n.t("GraficaD3.value")}                                              </Col>
+                              {i18n.t("GraficaD3.value")}
+                          </Col>
                           <Col xs={6}>
                               <FormControl componentClass="select" placeholder={this.state.valueKeys[0]} name={i} value={ring.value} onChange={this.ringValueChanged}>
                                   {this.state.valueKeys.map((key, r) => {

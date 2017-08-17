@@ -377,16 +377,21 @@ let ChartOptions = React.createClass({
 
                             </Col>
                             <Col xs={12}>
-                                <label htmlFor="">{i18n.t("DataTable.options.pageSizeLabel")}</label>
-                                <FormControl type="text" value={this.state.pageSizeLabel}
-                                    onChange={(e)=>{this.setState({ pageSizeLabel: e.target.value });}}/>
-                                <label htmlFor="">{i18n.t("DataTable.options.searchLabel")}</label>
-                                <FormControl type="text" value={this.state.searchLabel}
-                                    onChange={(e)=>{this.setState({ searchLabel: e.target.value });}}/>
-                                <label htmlFor="">{i18n.t("DataTable.options.searchPlaceholder")}</label>
-                                <FormControl type="text" value={this.state.searchPlaceholder}
-                                    onChange={(e)=>{this.setState({ searchPlaceholder: e.target.value });}}/>
-
+                                <div style={{ display: this.state.disableRowChoice ? 'none' : 'block' }}>
+                                    <label htmlFor="">{i18n.t("DataTable.options.pageSizeLabel")}</label>
+                                    <FormControl type="text" value={this.state.pageSizeLabel}
+                                        onChange={(e)=>{this.setState({ pageSizeLabel: e.target.value });}}/>
+                                </div>
+                                <div style={{ display: this.state.disableFilter ? 'none' : 'block' }}>
+                                    <label htmlFor="">{i18n.t("DataTable.options.searchLabel")}</label>
+                                    <FormControl type="text" value={this.state.searchLabel}
+                                        onChange={(e)=>{this.setState({ searchLabel: e.target.value });}}/>
+                                </div>
+                                <div style={{ display: this.state.disableFilter ? 'none' : 'block' }}>
+                                    <label htmlFor="">{i18n.t("DataTable.options.searchPlaceholder")}</label>
+                                    <FormControl type="text" value={this.state.searchPlaceholder}
+                                        onChange={(e)=>{this.setState({ searchPlaceholder: e.target.value });}}/>
+                                </div>
                             </Col>
                         </FormGroup>
                         <FormGroup />
