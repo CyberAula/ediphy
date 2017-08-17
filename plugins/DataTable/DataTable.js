@@ -1,27 +1,25 @@
 import React from "react";
-import { Form, Button, FormGroup, FormControl, ControlLabel, Col, Grid, Row, Table, Checkbox, Radio } from "react-bootstrap";
-import Typeahead from 'react-bootstrap-typeahead';
+import TableComponent from './table-component';
 import i18n from 'i18next';
-let Chart = require("./chart-component");
 let Config = require("./config-component");
-require('./_graficaD3.scss');
+require('./_datatable.scss');
 
-export function GraficaD3(base) {
+export function DataTable(base) {
     return {
         getConfig: function() {
             return {
-                name: "GraficaD3",
+                name: "DataTable",
                 flavor: "react",
-                displayName: Dali.i18n.t("GraficaD3.PluginName"),
-                category: "image",
+                displayName: i18n.t("DataTable.PluginName"),
+                category: "text",
                 needsConfigModal: true,
                 needsConfirmation: true,
                 needsTextEdition: false,
-                icon: "insert_chart",
-                initialWidth: '700px',
-                initialHeight: "300px",
-                initialWidthSlide: '70%',
-                initialHeightSlide: '60%',
+                icon: "view_stream",
+                initialWidth: '100%',
+                initialHeight: "auto",
+                initialWidthSlide: '100%',
+                initialHeightSlide: '100%',
             };
         },
         getToolbar: function() {
@@ -30,7 +28,7 @@ export function GraficaD3(base) {
                     __name: "Main",
                     accordions: {
                         style: {
-                            __name: Dali.i18n.t("GraficaD3.style"),
+                            __name: i18n.t("DataTable.style"),
                             icon: "palette",
                             order: [
                                 "margins",
@@ -43,10 +41,10 @@ export function GraficaD3(base) {
                             ],
                             accordions: {
                                 margins: {
-                                    __name: Dali.i18n.t("GraficaD3.margin"),
+                                    __name: i18n.t("DataTable.margin"),
                                     buttons: {
                                         left: {
-                                            __name: Dali.i18n.t("GraficaD3.left"),
+                                            __name: i18n.t("DataTable.left"),
                                             type: "number",
                                             value: "0px",
                                             min: 0,
@@ -54,7 +52,7 @@ export function GraficaD3(base) {
                                             units: "px",
                                         },
                                         right: {
-                                            __name: Dali.i18n.t("GraficaD3.right"),
+                                            __name: i18n.t("DataTable.right"),
                                             type: "number",
                                             value: "0px",
                                             min: 0,
@@ -62,7 +60,7 @@ export function GraficaD3(base) {
                                             units: "px",
                                         },
                                         top: {
-                                            __name: Dali.i18n.t("GraficaD3.top"),
+                                            __name: i18n.t("DataTable.top"),
                                             type: "number",
                                             value: "0px",
                                             min: 0,
@@ -70,7 +68,7 @@ export function GraficaD3(base) {
                                             units: "px",
                                         },
                                         bottom: {
-                                            __name: Dali.i18n.t("GraficaD3.bottom"),
+                                            __name: i18n.t("DataTable.bottom"),
                                             type: "number",
                                             value: "0px",
                                             min: 0,
@@ -80,10 +78,10 @@ export function GraficaD3(base) {
                                     },
                                 },
                                 paddings: {
-                                    __name: Dali.i18n.t("GraficaD3.padding"),
+                                    __name: i18n.t("DataTable.padding"),
                                     buttons: {
                                         left: {
-                                            __name: Dali.i18n.t("GraficaD3.left"),
+                                            __name: i18n.t("DataTable.left"),
                                             type: "number",
                                             value: "0px",
                                             min: 0,
@@ -91,7 +89,7 @@ export function GraficaD3(base) {
                                             units: "px",
                                         },
                                         right: {
-                                            __name: Dali.i18n.t("GraficaD3.right"),
+                                            __name: i18n.t("DataTable.right"),
                                             type: "number",
                                             value: "0px",
                                             min: 0,
@@ -99,7 +97,7 @@ export function GraficaD3(base) {
                                             units: "px",
                                         },
                                         top: {
-                                            __name: Dali.i18n.t("GraficaD3.top"),
+                                            __name: i18n.t("DataTable.top"),
                                             type: "number",
                                             value: "0px",
                                             min: 0,
@@ -107,7 +105,7 @@ export function GraficaD3(base) {
                                             units: "px",
                                         },
                                         bottom: {
-                                            __name: Dali.i18n.t("GraficaD3.bottom"),
+                                            __name: i18n.t("DataTable.bottom"),
                                             type: "number",
                                             value: "0px",
                                             min: 0,
@@ -119,7 +117,7 @@ export function GraficaD3(base) {
                             },
                             buttons: {
                                 borderWidth: {
-                                    __name: Dali.i18n.t("GraficaD3.border_width"),
+                                    __name: i18n.t("DataTable.border_width"),
                                     type: "number",
                                     value: "0px",
                                     min: 0,
@@ -127,18 +125,18 @@ export function GraficaD3(base) {
                                     units: "px",
                                 },
                                 borderStyle: {
-                                    __name: Dali.i18n.t("GraficaD3.border_style"),
+                                    __name: i18n.t("DataTable.border_style"),
                                     type: "select",
                                     value: "solid",
                                     options: ["none", "hidden", "dotted", "dashed", "solid", "double", "groove", "ridge", "inset", "outset", "initial", "inherit"],
                                 },
                                 borderColor: {
-                                    __name: Dali.i18n.t("GraficaD3.border_color"),
+                                    __name: i18n.t("DataTable.border_color"),
                                     type: "color",
                                     value: "#000000",
                                 },
                                 borderRadius: {
-                                    __name: Dali.i18n.t("GraficaD3.border_radius"),
+                                    __name: i18n.t("DataTable.border_radius"),
                                     type: "number",
                                     value: "0%",
                                     min: "0",
@@ -147,7 +145,7 @@ export function GraficaD3(base) {
                                     units: "%",
                                 },
                                 opacity: {
-                                    __name: Dali.i18n.t("GraficaD3.opacity"),
+                                    __name: i18n.t("DataTable.opacity"),
                                     type: "range",
                                     value: 1,
                                     min: 0,
@@ -175,39 +173,29 @@ export function GraficaD3(base) {
             return {
                 data: data,
                 keys: keys,
-                valueKeys: keys,
                 editing: true,
                 options: {
-                    type: "line",
-                    x: "",
-                    y: [{
-                        key: "",
-                        color: "#ff7f0e",
-                    }],
-                    gridX: true,
-                    gridY: true,
-                    rings: [{
-                        name: "",
-                        value: "",
-                        color: "#ff7f0e",
-                    }],
+                    disableFilter: false,
+                    disableRowChoice: false,
+                    disablePagination: false,
+                    pageSizeLabel: i18n.t('DataTable.options.pageSizeLabel_txt'),
+                    searchLabel: i18n.t('DataTable.options.searchLabel_txt'),
+                    searchPlaceholder: '',
+                    initialPageLength: 5,
+                    initialSort: 0,
+                    initialOrder: 'descending',
                 },
             };
         },
         getRenderTemplate: function(state) {
-
             return (
-            /* jshint ignore:start */
-                <Chart data={state.data} options={state.options} />
-            /* jshint ignore:end */
+                <TableComponent data={state.data} options={state.options} />
             );
 
         },
         getConfigTemplate: function(extState) {
             return (
-            /* jshint ignore:start */
                 <Config state={extState} base={base} />
-            /* jshint ignore:end */
             );
         },
         fileChanged: function(event) {

@@ -1,0 +1,59 @@
+$fa-font-path:"../../node_modules/font-awesome/fonts";
+@import "../../node_modules/font-awesome/scss/font-awesome";
+.icon-user {
+    @extend .fa;
+    @extend .fa-user;
+}
+
+.d3Options, .d3Axes{
+    padding-left: 32px;
+}
+.form-group div p{
+    font-weight: bold;
+}
+.svgContainer{
+    padding: 0px;
+    position: fixed;
+    right: 36px;
+    z-index: 10px;
+}
+.tableContainer > .container {
+    width:100% !important
+}
+
+.tableContainer > .container > .row > div > div {
+    text-align: left;
+}
+
+.tableContainer {
+    overflow: auto;
+
+    .pagination > .active > a, .pagination > .active > a:hover, .pagination > .active > a:focus, .pagination > .active > span, .pagination > .active > span:hover, .pagination > .active > span:focus {
+        background-color: #eee;
+        color: #222;
+    }
+    .pagination > li > a, .pagination > li > span {
+        color: #222;
+        border-color: #ddd;
+    }
+    .pagination > .active > a, .pagination > .active > a:hover, .pagination > .active > a:focus, .pagination > .active > span, .pagination > .active > span:hover, .pagination > .active > span:focus {
+        border-color: #ddd;
+    }
+    .pagination li {
+        margin-left: 0px;
+    }
+}
+
+    .pluginconfig .modal-body {
+        overflow-y: auto;
+    }
+
+    .wholebox .tableContainer * {
+        pointer-events: none !important;
+    }
+
+    .form-horizontal .checkbox.mycb{
+        min-height: 20px;
+        padding-top:0px;
+        vertical-align: middle;
+    }

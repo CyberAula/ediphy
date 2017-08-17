@@ -1,9 +1,9 @@
 import React from "react";
 import { Form, Button, FormGroup, FormControl, ControlLabel, Col, Grid, Row, Table, Checkbox, Radio } from "react-bootstrap";
 import FileInput from '@ranyefet/react-file-input';
-import i18n from 'i18next';
 import Alert from './../../_editor/components/alerts/alert/Alert';
-let Chart = require("./chart-component");
+import TableComponent from './table-component';
+import i18n from 'i18next';
 
 let DataProvider = React.createClass({
     getInitialState() {
@@ -14,7 +14,6 @@ let DataProvider = React.createClass({
             rows: rows,
             data: this.props.data,
             keys: this.props.keys,
-            valueKeys: this.props.valueKeys,
             error: false,
         };
     },
@@ -26,7 +25,7 @@ let DataProvider = React.createClass({
             for (let o = 0; o < this.state.data.length; o++) {
                 if(this.state.data[i][o] === "") {
                     let alertComp = (<Alert className="pageModal" show hasHeader closeButton onClose={()=>{this.setState({ alert: null });}}>
-                        <span> {i18n.t("GraficaD3.alert_msg")} </span>
+                        <span> {i18n.t("DataTable.alert_msg")} </span>
                     </Alert>);
                     this.setState({ alert: alertComp });
                     empty = true;
@@ -35,7 +34,7 @@ let DataProvider = React.createClass({
             }
         }
         if (typeof this.props.dataChanged === 'function' && !empty) {
-            this.props.dataChanged({ data: this.state.data, keys: this.state.keys, valueKeys: this.state.valueKeys });
+            this.props.dataChanged({ data: this.state.data, keys: this.state.keys });
         }
     },
     deleteCols(col) {
@@ -206,8 +205,8 @@ let DataProvider = React.createClass({
 
     render: function() {
         return (
-        /* jshint ignore:start */
-            <div>
+            /* jshint ignore:start */
+            <div id="datatable_config_modal">
                 { this.state.alert }
                 <Form horizontal style={{ padding: "16px" }}>
                     <FormGroup>
@@ -224,26 +223,26 @@ let DataProvider = React.createClass({
                     <FormGroup>
                         <Col componentClass={ControlLabel} xs={4}>
                             <FormControl.Static>
-                                {i18n.t("GraficaD3.fill_in")}
+                                {i18n.t("DataTable.fill_in")}
                             </FormControl.Static>
                         </Col>
                     </FormGroup>
                     <FormGroup>
                         <Col componentClass={ControlLabel} xs={2}>
-                            {i18n.t("GraficaD3.data_cols")}
+                            {i18n.t("DataTable.data_cols")}
                         </Col>
                         <Col xs={3}>
                             <FormControl type="number" name="cols" value={this.state.cols} onChange={this.colsChanged}/>
                         </Col>
 
                         <Col componentClass={ControlLabel} xs={1}>
-                            {i18n.t("GraficaD3.data_rows")}
+                            {i18n.t("DataTable.data_rows")}
                         </Col>
                         <Col xs={3}>
                             <FormControl type="number" name="rows" value={this.state.rows} onChange={this.rowsChanged}/>
                         </Col>
                         <Col xs={3}>
-                            <Button className="btn btn-primary" onClick={this.confirmButton} style={{ marginTop: '0px' }}>{i18n.t("GraficaD3.confirm")}</Button>
+                            <Button className="btn btn-primary" onClick={this.confirmButton} style={{ marginTop: '0px' }}>{i18n.t("DataTable.confirm")}</Button>
                         </Col>
                     </FormGroup>
                     <div style={{ marginTop: '10px', overflowX: 'auto' }}>
@@ -292,7 +291,7 @@ let DataProvider = React.createClass({
                     </div>
                 </Form>
             </div>
-        /* jshint ignore:end */
+            /* jshint ignore:end */
         );
     },
 });
@@ -302,8 +301,6 @@ let ChartOptions = React.createClass({
 
         let options = this.props.options;
         options.keys = this.props.keys;
-        options.valueKeys = this.props.valueKeys;
-        // console.log(options);
         return options;
     },
 
@@ -313,277 +310,94 @@ let ChartOptions = React.createClass({
             if (typeof this.props.optionsChanged === 'function') {
                 // console.log(this.state);
                 this.props.optionsChanged({
-                    type: this.state.type,
-                    x: this.state.x,
-                    y: this.state.y,
-                    gridX: this.state.gridX,
-                    gridY: this.state.gridY,
-                    rings: this.state.rings,
+                    disableFilter: this.state.disableFilter,
+                    disableRowChoice: this.state.disableRowChoice,
+                    disablePagination: this.state.disablePagination,
+                    pageSizeLabel: this.state.pageSizeLabel,
+                    searchLabel: this.state.searchLabel,
+                    searchPlaceholder: this.state.searchPlaceholder,
+                    initialPageLength: this.state.initialPageLength,
+                    initialSort: this.state.initialSort,
+                    initialOrder: this.state.initialOrder,
                 });
             }
         }
     },
-
-    typeChanged(event) {
-        this.setState({ type: event.target.value });
-    },
-
-    colorChanged(event) {
-        let y = this.state.y;
-        y[event.target.name].color = event.target.value;
-        this.setState({ y: y });
-    },
-
-    yAxisChanged(event) {
-        let yAxis = this.state.y;
-        let number = event.target.value;
-        if(number > yAxis.length) {
-            for (let i = yAxis.length; i < number; i++) {
-                yAxis[i] = {
-                    key: "",
-                    color: "#1FC8DB",
-                };
-            }
-        } else {
-            yAxis = yAxis.slice(0, number);
-        }
-        this.setState({ y: yAxis });
-    },
-
-    xKeyChanged(event) {
-        this.setState({ x: event.target.value });
-    },
-
-    xGridChanged(event) {
-        this.setState({ gridX: event.target.checked });
-    },
-
-    yKeyChanged(event) {
-        let y = this.state.y;
-        y[event.target.name].key = event.target.value;
-        this.setState({ y: y });
-    },
-
-    yGridChanged(event) {
-        this.setState({ gridY: event.target.checked });
-    },
-
-    ringsNumberChanged(event) {
-        let rings = this.state.rings;
-        let number = event.target.value;
-        if(number > rings.length) {
-            for (let i = rings.length; i < number; i++) {
-                rings[i] = {
-                    name: this.state.keys[0],
-                    value: this.state.valueKeys[0],
-                    color: "#1FC8DB",
-                };
-            }
-        } else {
-            rings = rings.slice(0, number);
-        }
-        this.setState({ rings: rings });
-    },
-
-    ringNameChanged(event) {
-        let rings = this.state.rings;
-        rings[event.target.name].name = event.target.value;
-        this.setState({ rings: rings });
-    },
-
-    ringValueChanged(event) {
-        let rings = this.state.rings;
-        rings[event.target.name].value = event.target.value;
-        this.setState({ rings: rings });
-    },
-
-    ringColorChanged(event) {
-        let rings = this.state.rings;
-        rings[event.target.name].color = event.target.value;
-        this.setState({ rings: rings });
-    },
-
     render: function() {
         return (
-        /* jshint ignore:start */
             <div>
-                <h4>{i18n.t("GraficaD3.header.options")}</h4>
+                <h4>{i18n.t("DataTable.header.options")}</h4>
                 <div className="content-block">
                     <Form horizontal>
                         <FormGroup>
-                            <Col xs={5}>
-                                <FormControl.Static>
-                                    {i18n.t("GraficaD3.chart_type")}
-                                </FormControl.Static>
-                            </Col>
-                            <Col xs={7}>
-                                <FormControl componentClass="select" placeholder="line" value={this.state.type} onChange={this.typeChanged}>
-                                    <option value="line">{i18n.t("GraficaD3.types.line")}</option>
-                                    <option value="area">{i18n.t("GraficaD3.types.area")}</option>
-                                    <option value="bar">{i18n.t("GraficaD3.types.bar")}</option>
-                                    <option value="pie">{i18n.t("GraficaD3.types.pie")}</option>
-                                </FormControl>
-                            </Col>
-                        </FormGroup>
-                        <FormGroup>
                             <Col xs={12}>
                                 <FormControl.Static>
-                                    {i18n.t("GraficaD3.see_grid")}
+                                    {i18n.t("DataTable.show")}
                                 </FormControl.Static>
+                                <Col xs={12} >
+                                    <Checkbox className="mycb" checked={!this.state.disableFilter}
+                                        onChange={()=>{this.setState({ disableFilter: !this.state.disableFilter });}} />
+                                    {i18n.t('DataTable.options.disableFilter')}</Col>
+                                <Col xs={12} >
+                                    <Checkbox className="mycb" checked={!this.state.disablePagination}
+                                        onChange={()=>{this.setState({ disablePagination: !this.state.disablePagination });}} />
+                                    {i18n.t('DataTable.options.disablePagination')}</Col>
+                                <Col xs={12} >
+                                    <Checkbox className="mycb" checked={!this.state.disableRowChoice}
+                                        onChange={()=>{this.setState({ disableRowChoice: !this.state.disableRowChoice });}} />
+                                    {i18n.t('DataTable.options.disableRowChoice')}</Col><br/><br/><br/>
+
+                                <label htmlFor="">{i18n.t("DataTable.options.initialPageLength")}</label>
+                                <FormControl type="number" value={this.state.initialPageLength}
+                                    onChange={(e)=>{this.setState({ initialPageLength: e.target.value });}}/>
+                                <label htmlFor="">{i18n.t("DataTable.options.initialSortProp")}</label>
+                                <FormControl componentClass="select" placeholder="line"
+                                    value={this.state.initialSort}
+                                    onChange={(e)=>{this.setState({ initialSort: e.target.value });}}>
+                                    <option key={"DEFAULT_0"} value={0}>{" "}</option>
+                                    {this.state.keys.map(key=>{
+                                        return(<option key={key} value={key}>{key}</option>);
+                                    })}
+
+                                </FormControl>
+                                <label htmlFor="">{i18n.t("DataTable.options.initialOrderProp")}</label>
+                                <FormGroup>
+                                    <Radio name="radioGroup" inline style={{ marginLeft: '15px' }}
+                                        onChange={e=>{this.setState({ initialOrder: 'ascending' });}}
+                                        checked={this.state.initialOrder === 'ascending'}>
+                                        {i18n.t("DataTable.options.ascending")}
+                                    </Radio>
+
+                                    <Radio name="radioGroup" inline style={{ marginLeft: '15px' }}
+                                        onChange={e=>{this.setState({ initialOrder: 'descending' });}}
+                                        checked={this.state.initialOrder === 'descending'}>
+                                        {i18n.t("DataTable.options.descending")}
+                                    </Radio>
+                                </FormGroup>
+
                             </Col>
-                            <Col xs={6}>
-                                <Checkbox checked={this.state.gridX} onChange={this.xGridChanged} />
-                                {i18n.t("GraficaD3.horizontal")}
-                            </Col>
-                            <Col xs={6}>
-                                <Checkbox checked={this.state.gridY} onChange={this.yGridChanged} />
-                                {i18n.t("GraficaD3.vertical")}
+                            <Col xs={12}>
+                                <div style={{ display: this.state.disableRowChoice ? 'none' : 'block' }}>
+                                    <label htmlFor="">{i18n.t("DataTable.options.pageSizeLabel")}</label>
+                                    <FormControl type="text" value={this.state.pageSizeLabel}
+                                        onChange={(e)=>{this.setState({ pageSizeLabel: e.target.value });}}/>
+                                </div>
+                                <div style={{ display: this.state.disableFilter ? 'none' : 'block' }}>
+                                    <label htmlFor="">{i18n.t("DataTable.options.searchLabel")}</label>
+                                    <FormControl type="text" value={this.state.searchLabel}
+                                        onChange={(e)=>{this.setState({ searchLabel: e.target.value });}}/>
+                                </div>
+                                <div style={{ display: this.state.disableFilter ? 'none' : 'block' }}>
+                                    <label htmlFor="">{i18n.t("DataTable.options.searchPlaceholder")}</label>
+                                    <FormControl type="text" value={this.state.searchPlaceholder}
+                                        onChange={(e)=>{this.setState({ searchPlaceholder: e.target.value });}}/>
+                                </div>
                             </Col>
                         </FormGroup>
+                        <FormGroup />
                     </Form>
-                    {this.state.type !== 'pie' &&
-      <Form horizontal>
-          <FormGroup>
-              <Col xs={5}>
-                  <FormControl.Static>
-                      {i18n.t("GraficaD3.axes_h")}
-                  </FormControl.Static>
-              </Col>
-              <Col xs={7}>
-                  <FormControl componentClass="select" placeholder={this.state.keys[0]} value={this.state.x} onChange={this.xKeyChanged}>
-                      {this.state.keys.map((x, i) => {
-                          return(
-                              <option key={i + 1} value={x}>{x}</option>
-                          );
-                      })}
-                  </FormControl>
-              </Col>
-          </FormGroup>
-          <FormGroup>
-              <Col xs={5}>
-                  <FormControl.Static>
-                      {i18n.t("GraficaD3.axes_v")}
-                  </FormControl.Static>
-              </Col>
-              <Col xs={7}>
-                  <FormControl type="number" value={this.state.y.length} onChange={this.yAxisChanged}/>
-              </Col>
-          </FormGroup>
-
-          {this.state.y.map((y, i) => {
-              return(
-
-                  <div key={i + 1}>
-                      <hr />
-                      <FormGroup>
-                          <Col xs={12}>
-                              <h5>
-                                  {i18n.t("GraficaD3.axis") + ' ' + i}
-                              </h5>
-                          </Col>
-                      </FormGroup>
-                      <FormGroup>
-                          <Col xs={5}>
-                              <FormControl.Static>
-                                  {i18n.t("GraficaD3.key") + ' ' }
-                              </FormControl.Static>
-                          </Col>
-                          <Col xs={7}>
-                              <FormControl componentClass="select" placeholder={this.state.valueKeys[0]} name={i} value={y.key} onChange={this.yKeyChanged}>
-                                  {this.state.valueKeys.map((x, w) => {
-                                      return(
-                                          <option key={w + 1} value={x}>{x}</option>
-                                      );
-                                  })}
-                              </FormControl>
-                          </Col>
-                      </FormGroup>
-                      <FormGroup>
-                          <Col xs={5}>
-                              <FormControl.Static>
-                                  {"Color"}
-                              </FormControl.Static>
-                          </Col>
-                          <Col xs={7}>
-                              <FormControl type="color" name={i} value={y.color} onChange={this.colorChanged}/>
-                          </Col>
-                      </FormGroup>
-                  </div>
-              );
-          })}
-
-      </Form>
-                    }
-                    {this.state.type === 'pie' &&
-      <Form horizontal>
-          <FormGroup>
-              <Col componentClass={ControlLabel} xs={4}>
-                  <FormControl.Static>
-                      {i18n.t("GraficaD3.rings")}
-                  </FormControl.Static>
-              </Col>
-              <Col xs={6}>
-                  <FormControl type="number" value={this.state.rings.length} onChange={this.ringsNumberChanged}/>
-              </Col>
-
-          </FormGroup>
-
-          {this.state.rings.map((ring, i) => {
-              return(
-                  <div key={i + 1}>
-                      <FormGroup>
-                          <Col componentClass={ControlLabel} xs={6}>
-                              <FormControl.Static>
-                                  {i18n.t("GraficaD3.ring") + ' ' + i}
-                              </FormControl.Static>
-                          </Col>
-                      </FormGroup>
-
-                      <FormGroup>
-                          <Col componentClass={ControlLabel} xs={6} xsOffset={3}>
-                              {i18n.t("GraficaD3.name")}
-                          </Col>
-                          <Col xs={6}>
-                              <FormControl componentClass="select" placeholder="select" name={i} value={ring.name} onChange={this.ringNameChanged}>
-                                  {this.state.keys.map((key, n) => {
-                                      return(
-                                          <option key={n + 1} value={key}>{key}</option>
-                                      );
-                                  })}
-                              </FormControl>
-                          </Col>
-                      </FormGroup>
-                      <FormGroup>
-                          <Col componentClass={ControlLabel} xs={6} xsOffset={3}>
-                              {i18n.t("GraficaD3.value")}
-                          </Col>
-                          <Col xs={6}>
-                              <FormControl componentClass="select" placeholder={this.state.valueKeys[0]} name={i} value={ring.value} onChange={this.ringValueChanged}>
-                                  {this.state.valueKeys.map((key, r) => {
-                                      return(
-                                          <option key={r + 1} value={key}>{key}</option>
-                                      );
-                                  })}
-                              </FormControl>
-                          </Col>
-                      </FormGroup>
-                      <FormGroup>
-                          <Col componentClass={ControlLabel} xs={6} xsOffset={3}>
-                              {i18n.t("GraficaD3.color")}
-                          </Col>
-                          <Col xs={6}>
-                              <FormControl type="color" name={i} value={ring.color} onChange={this.ringColorChanged}/>
-                          </Col>
-                      </FormGroup>
-                  </div>
-              );
-          })}
-      </Form>
-
-                    }
                 </div>
             </div>
-        /* jshint ignore:end */
         );
     },
 });
@@ -596,10 +410,6 @@ let Config = React.createClass({
         }
     },
 
-    componentDidMount() {
-        let { clientWidth } = this.refs.chartContainer;
-        this.setState({ chartWidth: clientWidth });
-    },
     getInitialState() {
 
         let state = this.props.state;
@@ -613,7 +423,6 @@ let Config = React.createClass({
         this.state.base.setState("options", this.state.options);
         this.state.base.setState("data", this.state.data);
         this.state.base.setState("keys", this.state.keys);
-        this.state.base.setState("valueKeys", this.state.valueKeys);
         this.state.base.setState("editing", this.state.editing);
     },
 
@@ -646,17 +455,8 @@ let Config = React.createClass({
             }
         }
 
-        let valueKeys = [];
-        for (let key of nKeys) {
-            if(!key.notNumber) {
-                valueKeys.push(key.value);
-            }
-        }
         let options = this.state.options;
-        options.x = keys[0];
-        options.y = [{ key: valueKeys[0], color: "#1FC8DB" }];
-        options.rings = [{ name: keys[0], value: valueKeys[0], color: "#1FC8DB" }];
-        this.setState({ data: data, keys: keys, valueKeys: valueKeys, options: options });
+        this.setState({ data: data, keys: keys, options: options });
     },
 
     optionsChanged(options) {
@@ -683,28 +483,32 @@ let Config = React.createClass({
         return (
             <Grid>
                 <Row>
-                    <Col lg={this.state.editing ? 12 : 5} xs={12}>
-                        <h4> {i18n.t("GraficaD3.header.origin")} </h4>
+
+                    <Col lg={this.state.editing ? 12 : 3} xs={12}>
+                        <h4> {i18n.t("DataTable.header.origin")} </h4>
                         {!this.state.editing &&
-        <Button onClick={this.editButtonClicked} style={{ marginTop: '0px' }} className="btn-primary">{i18n.t("GraficaD3.edit")}</Button>
+                        <Button onClick={this.editButtonClicked} style={{ marginTop: '0px' }} className="btn-primary">{i18n.t("DataTable.edit")} </Button>
                         }
                         {this.state.editing &&
-        <DataProvider data={this.state.data} dataChanged={this.dataChanged} keys={this.state.keys} valueKeys={this.state.valueKeys} />
+                        <DataProvider data={this.state.data} dataChanged={this.dataChanged} keys={this.state.keys} />
                         }
                         {!this.state.editing &&
-        <ChartOptions options={this.state.options} optionsChanged={this.optionsChanged} keys={this.state.keys} valueKeys={this.state.valueKeys} />
+                        <ChartOptions options={this.state.options} optionsChanged={this.optionsChanged} keys={this.state.keys} />
                         }
                     </Col>
-                    <div className="col-xs-12 col-lg-7" ref="chartContainer" style={{ padding: '0px' }}>
-                        {!this.state.editing &&
-        <div style={{ height: '300px', width: '95%' }}>
-            <h4>Previsualización</h4>
-            <Chart data={this.state.data} options={this.state.options} width={this.state.chartWidth} key={this.state.key} />
-        </div>
-                        }
-                    </div>
+                    <Col lg={9} xs={12}>
+                        {!this.state.editing && <div>
+                            <h4>{i18n.t("DataTable.header.preview")}</h4><br/>
+                            <div style={{ marginRight: '-10px', marginLeft: '0px' }} ref="chartContainer">
+                                <TableComponent data={this.state.data} options={this.state.options} key={this.state.key} />
+                            </div>
+                        </div>}
+                    </Col>
+
                 </Row>
+
             </Grid>
+
         );
     },
 });

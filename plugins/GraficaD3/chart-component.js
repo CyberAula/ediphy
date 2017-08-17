@@ -17,7 +17,7 @@ let Chart = React.createClass({
         let data = this.props.data;
         let options = this.props.options;
         let width = this.props.width;
-
+        console.log(data);
         switch (options.type) {
         case "line":
             return (
