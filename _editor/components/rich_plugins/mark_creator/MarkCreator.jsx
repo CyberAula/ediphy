@@ -131,7 +131,7 @@ export default class MarkCreator extends Component {
         let newId = ID_PREFIX_CONTAINED_VIEW + Date.now();
         let markId = ID_PREFIX_RICH_MARK + Date.now();
         let marksType = this.props.toolbar && this.props.toolbar.config && this.props.toolbar.config.marksType && this.props.toolbar.config.marksType[0] ? this.props.toolbar.config.marksType[0] : {};
-        let color = marksType.defaultColor || '#222'; // default blue
+        let color = marksType.defaultColor || '#222222'; // default dark grey
         let pageName = nextAvailName(i18n.t('contained_view'), this.props.containedViews);
         let connection = {
             id: newId,

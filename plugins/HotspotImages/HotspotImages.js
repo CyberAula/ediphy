@@ -16,7 +16,7 @@ export function HotspotImages(base) {
                 icon: 'image',
                 // initialWidth: '25%',
                 isRich: true,
-                marksType: [{ name: i18n.t("HotspotImages.pos"), key: 'value', format: '[x,y]', default: '0,0', defaultColor: '#222' }],
+                marksType: [{ name: i18n.t("HotspotImages.pos"), key: 'value', format: '[x,y]', default: '0,0', defaultColor: '#222222' }],
             };
         },
         getToolbar: function() {

@@ -1,3 +1,4 @@
+import React from 'react';
 export function BasicImage(base) {
     return {
         getConfig: function() {
@@ -5,6 +6,7 @@ export function BasicImage(base) {
                 name: 'BasicImage',
                 displayName: Dali.i18n.t('BasicImage.PluginName'),
                 category: 'image',
+                flavor: 'react',
                 needsConfigModal: false,
                 needsTextEdition: false,
                 initialWidth: '25%',
@@ -97,7 +99,7 @@ export function BasicImage(base) {
             };
         },
         getRenderTemplate: function(state) {
-            return "<div style=\"width: 100%; margin: 0px; height: 100%; \"><img onclick=\"$dali$.showPreview()\" className=\"basicImageClass\" style=\"width: 100%; height: 100%; \" src='" + state.url + "' /></div>";
+            return (<div style={{ width: '100%', margin: '0px', height: '100%' }} ><img onClick={()=>{$dali$.showPreview();}} className="basicImageClass" style={{ width: '100%', height: '100%' }} src={state.url} /></div>);
 
         },
         handleToolbar: function(name, value) {

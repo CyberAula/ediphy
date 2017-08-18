@@ -70,7 +70,7 @@ export default class DataProvider extends React.Component {
         let current = keys[col];
         keys[col - 1] = current;
         keys[col] = left;
-        console.log(keys);
+        // console.log(keys);
 
         this.setState({ keys: keys });
     }
@@ -81,7 +81,7 @@ export default class DataProvider extends React.Component {
         let current = keys[col];
         keys[col + 1] = current;
         keys[col] = right;
-        console.log(keys);
+        // console.log(keys);
 
         this.setState({ keys: keys });
     }
@@ -284,7 +284,7 @@ export default class DataProvider extends React.Component {
                         </div>
                         <table className="table bordered hover" >
                             <thead>
-                                <tr>{console.log(this.state.keys)}
+                                <tr>
                                     {Array.apply(0, Array(this.state.cols)).map((x, i) => {
                                         return(
                                             <th key={i + 1}>

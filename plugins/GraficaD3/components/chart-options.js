@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, FormGroup, FormControl, Col, Checkbox, Radio } from "react-bootstrap";
+import { Form, FormGroup, FormControl, ControlLabel, Col, Checkbox, Radio } from "react-bootstrap";
 
 import i18n from 'i18next';
 
@@ -121,7 +121,6 @@ export default class ChartOptions extends React.Component {
 
     render() {
         return (
-            /* jshint ignore:start */
             <div>
                 <h4>{i18n.t("GraficaD3.header.options")}</h4>
                 <div className="content-block">
@@ -299,7 +298,6 @@ export default class ChartOptions extends React.Component {
                     }
                 </div>
             </div>
-            /* jshint ignore:end */
         );
     }
 }

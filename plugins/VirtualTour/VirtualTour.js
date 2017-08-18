@@ -25,7 +25,7 @@ export function VirtualTour(base) {
                     key: 'value',
                     format: '[Lat,Lng]',
                     default: '40.452,-3.727',
-                    defaultColor: '#222',
+                    defaultColor: '#222222',
                 }],
                 needsPointerEventsAllowed: true,
             };

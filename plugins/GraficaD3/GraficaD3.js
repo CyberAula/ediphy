@@ -46,7 +46,7 @@ export function GraficaD3(base) {
                                         left: {
                                             __name: Dali.i18n.t("GraficaD3.left"),
                                             type: "number",
-                                            value: "0px",
+                                            value: 0,
                                             min: 0,
                                             max: 500,
                                             units: "px",
@@ -54,7 +54,7 @@ export function GraficaD3(base) {
                                         right: {
                                             __name: Dali.i18n.t("GraficaD3.right"),
                                             type: "number",
-                                            value: "0px",
+                                            value: 0,
                                             min: 0,
                                             max: 500,
                                             units: "px",
@@ -62,7 +62,7 @@ export function GraficaD3(base) {
                                         top: {
                                             __name: Dali.i18n.t("GraficaD3.top"),
                                             type: "number",
-                                            value: "0px",
+                                            value: 0,
                                             min: 0,
                                             max: 500,
                                             units: "px",
@@ -70,7 +70,7 @@ export function GraficaD3(base) {
                                         bottom: {
                                             __name: Dali.i18n.t("GraficaD3.bottom"),
                                             type: "number",
-                                            value: "0px",
+                                            value: 0,
                                             min: 0,
                                             max: 500,
                                             units: "px",
@@ -83,7 +83,7 @@ export function GraficaD3(base) {
                                         left: {
                                             __name: Dali.i18n.t("GraficaD3.left"),
                                             type: "number",
-                                            value: "0px",
+                                            value: 0,
                                             min: 0,
                                             max: 500,
                                             units: "px",
@@ -91,7 +91,7 @@ export function GraficaD3(base) {
                                         right: {
                                             __name: Dali.i18n.t("GraficaD3.right"),
                                             type: "number",
-                                            value: "0px",
+                                            value: 0,
                                             min: 0,
                                             max: 500,
                                             units: "px",
@@ -99,7 +99,7 @@ export function GraficaD3(base) {
                                         top: {
                                             __name: Dali.i18n.t("GraficaD3.top"),
                                             type: "number",
-                                            value: "0px",
+                                            value: 0,
                                             min: 0,
                                             max: 500,
                                             units: "px",
@@ -107,7 +107,7 @@ export function GraficaD3(base) {
                                         bottom: {
                                             __name: Dali.i18n.t("GraficaD3.bottom"),
                                             type: "number",
-                                            value: "0px",
+                                            value: 0,
                                             min: 0,
                                             max: 500,
                                             units: "px",
@@ -119,7 +119,7 @@ export function GraficaD3(base) {
                                 borderWidth: {
                                     __name: Dali.i18n.t("GraficaD3.border_width"),
                                     type: "number",
-                                    value: "0px",
+                                    value: 0,
                                     min: 0,
                                     max: 10,
                                     units: "px",
@@ -138,10 +138,10 @@ export function GraficaD3(base) {
                                 borderRadius: {
                                     __name: Dali.i18n.t("GraficaD3.border_radius"),
                                     type: "number",
-                                    value: "0%",
-                                    min: "0",
-                                    max: "50",
-                                    step: "5",
+                                    value: 0,
+                                    min: 0,
+                                    max: 50,
+                                    step: 5,
                                     units: "%",
                                 },
                                 opacity: {

@@ -4,11 +4,9 @@ import { ResponsiveContainer, PieChart, AreaChart, BarChart, LineChart, Pie, Are
 export default class Chart extends React.Component {
 
     render() {
-        /* jshint ignore:start */
         let data = this.props.data;
         let options = this.props.options;
         let width = this.props.width;
-        console.log(this.props);
         switch (options.type) {
         case "line":
             return (
@@ -103,7 +101,7 @@ export default class Chart extends React.Component {
                 </ResponsiveContainer>
             );
         default:
-            console.log("default");
+
             return (
                 <ResponsiveContainer width="100%" height="100%">
                     <LineChart
@@ -128,6 +126,5 @@ export default class Chart extends React.Component {
             );
 
         }
-        /* jshint ignore:end */
     }
 }

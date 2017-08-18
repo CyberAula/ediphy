@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import Alert from './../../common/alert/Alert';
 import { Modal, Button, Row, Col, FormGroup, ControlLabel, FormControl, Radio } from 'react-bootstrap';
-import Typeahead from 'react-bootstrap-typeahead';
+import { Typeahead } from 'react-bootstrap-typeahead';
 import { ID_PREFIX_RICH_MARK, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_CONTAINED_VIEW, PAGE_TYPES } from '../../../../constants';
 import i18n from 'i18next';
 import { isSection, isContainedView, nextAvailName } from '../../../../utils';
@@ -220,7 +220,7 @@ export default class RichMarksModal extends Component {
                         let newId = ID_PREFIX_CONTAINED_VIEW + Date.now();
                         let newMark = current && current.id ? current.id : ID_PREFIX_RICH_MARK + Date.now();
                         let connectMode = this.state.connectMode;
-                        let color = this.state.color || marksType.defaultColor || '#222';
+                        let color = this.state.color || marksType.defaultColor || '#222222';
                         let connection;
                         // CV name
                         let name = title || nextAvailName(i18n.t('contained_view'), this.props.containedViews);

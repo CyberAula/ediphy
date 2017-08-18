@@ -82,7 +82,7 @@
     "material-design-icons-font": "^2.2.3",
     "react": "^15.4.1",
     "react-bootstrap": "^0.31.2",
-    "react-bootstrap-typeahead": "^0.10.4",
+    "react-bootstrap-typeahead": "^1.4.2",
     "react-dom": "^15.4.1",
     "react-dropzone": "^3.7.3",
     "react-redux": "^4.4.6",
