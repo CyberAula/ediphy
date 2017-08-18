@@ -1,22 +1,36 @@
 import React from "react";
-import { Form, Button, FormGroup, FormControl, ControlLabel, Col, Grid, Row, Table, Checkbox, Radio } from "react-bootstrap";
+import { Form, Button, FormGroup, FormControl, ControlLabel, Col } from "react-bootstrap";
 import FileInput from '@ranyefet/react-file-input';
-import Alert from './../../_editor/components/alerts/alert/Alert';
-import TableComponent from './table-component';
+import Alert from '../../../_editor/components/alerts/alert/Alert';
 import i18n from 'i18next';
 
-let DataProvider = React.createClass({
-    getInitialState() {
+export default class DataProvider extends React.Component {
+
+    constructor(props) {
+        super(props);
         let rows = this.props.data.length;
         let cols = this.props.data.length === 0 ? 2 : Object.keys(this.props.data[0]).length;
-        return {
+        this.confirmButton = this.confirmButton.bind(this);
+        this.colLeft = this.colLeft.bind(this);
+        this.colLeft = this.colLeft.bind(this);
+        this.colRight = this.colRight.bind(this);
+        this.deleteCols = this.deleteCols.bind(this);
+        this.colsChanged = this.colsChanged.bind(this);
+        this.deleteRows = this.deleteRows.bind(this);
+        this.rowsChanged = this.rowsChanged.bind(this);
+        this.keyChanged = this.keyChanged.bind(this);
+        this.validateJson = this.validateJson.bind(this);
+        this.fileChanged = this.fileChanged.bind(this);
+        this.dataChanged = this.dataChanged.bind(this);
+
+        this.state = {
             cols: cols,
             rows: rows,
             data: this.props.data,
             keys: this.props.keys,
             error: false,
         };
-    },
+    }
 
     confirmButton() {
         let empty = false;
@@ -36,7 +50,7 @@ let DataProvider = React.createClass({
         if (typeof this.props.dataChanged === 'function' && !empty) {
             this.props.dataChanged({ data: this.state.data, keys: this.state.keys });
         }
-    },
+    }
     colLeft(col) {
         let pre = this.state.cols;
         let keys = this.state.keys;
@@ -47,7 +61,7 @@ let DataProvider = React.createClass({
         console.log(keys);
 
         this.setState({ keys: keys });
-    },
+    }
     colRight(col) {
         let pre = this.state.cols;
         let keys = this.state.keys;
@@ -55,10 +69,8 @@ let DataProvider = React.createClass({
         let current = keys[col];
         keys[col + 1] = current;
         keys[col] = right;
-        console.log(keys);
-
         this.setState({ keys: keys });
-    },
+    }
     deleteCols(col) {
         let pre = this.state.cols - 1;
         let keys = this.state.keys;
@@ -70,7 +82,7 @@ let DataProvider = React.createClass({
         keys.splice(col, 1);
 
         this.setState({ cols: pre, data: data, keys: keys });
-    },
+    }
     colsChanged(event) {
         let pre = this.state.cols;
         let value = parseInt(event.target.value, 10);
@@ -97,14 +109,14 @@ let DataProvider = React.createClass({
             keys = keys.slice(0, value);
         }
         this.setState({ cols: parseInt(value, 10), data: data, keys: keys });
-    },
+    }
     deleteRows(row) {
         let pre = this.state.rows - 1;
         let data = this.state.data;
         data.splice(row, 1);
 
         this.setState({ rows: pre, data: data });
-    },
+    }
     rowsChanged(event) {
         let pre = this.state.rows;
         let value = parseInt(event.target.value, 10);
@@ -124,8 +136,7 @@ let DataProvider = React.createClass({
             data = data.slice(0, value);
         }
         this.setState({ rows: parseInt(value, 10), data: data });
-    },
-
+    }
     keyChanged(event) {
         let keys = this.state.keys;
         let pre = keys[event.target.name];
@@ -138,8 +149,7 @@ let DataProvider = React.createClass({
         }
         this.setState({ keys: keys, data: data });
 
-    },
-
+    }
     csvToJSON(csv) {
 
         let lines = csv.split("\n");
@@ -160,8 +170,7 @@ let DataProvider = React.createClass({
         }
 
         return result;
-    },
-
+    }
     validateJson(json) {
 
         let data = {};
@@ -186,14 +195,12 @@ let DataProvider = React.createClass({
 
         this.setState({ error: false });
         return true;
-    },
-
+    }
     compareKeys(a, b) {
         a = a.sort().toString();
         b = b.sort().toString();
         return a === b;
-    },
-
+    }
     fileChanged(event) {
         let files = event.target.files;
         let file = files[0];
@@ -210,10 +217,8 @@ let DataProvider = React.createClass({
             this.validateJson(data);
         };
         reader.readAsText(file);
-    },
-
+    }
     dataChanged(event) {
-
         let pos = event.target.name.split(" ");
         let row = pos[0];
         let col = pos[1];
@@ -223,10 +228,9 @@ let DataProvider = React.createClass({
         newRow[col] = newvalue;
         data[row] = Object.assign({}, data[row], newRow);
         this.setState({ data: data });
-    },
+    }
 
-    render: function() {
-        // console.log(this.state.cols, this.state.keys)
+    render() {
         return (
             <div id="datatable_config_modal">
                 { this.state.alert }
@@ -316,225 +320,5 @@ let DataProvider = React.createClass({
                 </Form>
             </div>
         );
-    },
-});
-
-let ChartOptions = React.createClass({
-    getInitialState() {
-
-        let options = this.props.options;
-        options.keys = this.props.keys;
-        return options;
-    },
-
-    componentDidUpdate(prevProps, prevState) {
-
-        if(prevState !== this.state) {
-            if (typeof this.props.optionsChanged === 'function') {
-                // console.log(this.state);
-                this.props.optionsChanged({
-                    disableFilter: this.state.disableFilter,
-                    disableRowChoice: this.state.disableRowChoice,
-                    disablePagination: this.state.disablePagination,
-                    pageSizeLabel: this.state.pageSizeLabel,
-                    searchLabel: this.state.searchLabel,
-                    searchPlaceholder: this.state.searchPlaceholder,
-                    initialPageLength: this.state.initialPageLength,
-                    initialSort: this.state.initialSort,
-                    initialOrder: this.state.initialOrder,
-                });
-            }
-        }
-    },
-    render: function() {
-        return (
-            <div>
-                <h4>{i18n.t("DataTable.header.options")}</h4>
-                <div className="content-block">
-                    <Form horizontal>
-                        <FormGroup>
-                            <Col xs={12}>
-                                <FormControl.Static>
-                                    {i18n.t("DataTable.show")}
-                                </FormControl.Static>
-                                <Col xs={12} >
-                                    <Checkbox className="mycb" checked={!this.state.disableFilter}
-                                        onChange={()=>{this.setState({ disableFilter: !this.state.disableFilter });}} />
-                                    {i18n.t('DataTable.options.disableFilter')}</Col>
-                                <Col xs={12} >
-                                    <Checkbox className="mycb" checked={!this.state.disablePagination}
-                                        onChange={()=>{this.setState({ disablePagination: !this.state.disablePagination });}} />
-                                    {i18n.t('DataTable.options.disablePagination')}</Col>
-                                <Col xs={12} >
-                                    <Checkbox className="mycb" checked={!this.state.disableRowChoice}
-                                        onChange={()=>{this.setState({ disableRowChoice: !this.state.disableRowChoice });}} />
-                                    {i18n.t('DataTable.options.disableRowChoice')}</Col><br/><br/><br/>
-
-                                <label htmlFor="">{i18n.t("DataTable.options.initialPageLength")}</label>
-                                <FormControl type="number" value={this.state.initialPageLength}
-                                    onChange={(e)=>{if (!isNaN(parseInt(e.target.value, 10))) { this.setState({ initialPageLength: parseInt(e.target.value, 10) });}}}/>
-                                <label htmlFor="">{i18n.t("DataTable.options.initialSortProp")}</label>
-                                <FormControl componentClass="select" placeholder="line"
-                                    value={this.state.initialSort}
-                                    onChange={(e)=>{this.setState({ initialSort: e.target.value });}}>
-                                    <option key={"DEFAULT_0"} value={0}>{" "}</option>
-                                    {this.state.keys.map(key=>{
-                                        return(<option key={key} value={key}>{key}</option>);
-                                    })}
-
-                                </FormControl>
-                                <label htmlFor="">{i18n.t("DataTable.options.initialOrderProp")}</label>
-                                <FormGroup>
-                                    <Radio name="radioGroup" inline style={{ marginLeft: '15px' }}
-                                        onChange={e=>{this.setState({ initialOrder: 'ascending' });}}
-                                        checked={this.state.initialOrder === 'ascending'}>
-                                        {i18n.t("DataTable.options.ascending")}
-                                    </Radio>
-
-                                    <Radio name="radioGroup" inline style={{ marginLeft: '15px' }}
-                                        onChange={e=>{this.setState({ initialOrder: 'descending' });}}
-                                        checked={this.state.initialOrder === 'descending'}>
-                                        {i18n.t("DataTable.options.descending")}
-                                    </Radio>
-                                </FormGroup>
-
-                            </Col>
-                            <Col xs={12}>
-                                <div style={{ display: this.state.disableRowChoice ? 'none' : 'block' }}>
-                                    <label htmlFor="">{i18n.t("DataTable.options.pageSizeLabel")}</label>
-                                    <FormControl type="text" value={this.state.pageSizeLabel}
-                                        onChange={(e)=>{this.setState({ pageSizeLabel: e.target.value });}}/>
-                                </div>
-                                <div style={{ display: this.state.disableFilter ? 'none' : 'block' }}>
-                                    <label htmlFor="">{i18n.t("DataTable.options.searchLabel")}</label>
-                                    <FormControl type="text" value={this.state.searchLabel}
-                                        onChange={(e)=>{this.setState({ searchLabel: e.target.value });}}/>
-                                </div>
-                                <div style={{ display: this.state.disableFilter ? 'none' : 'block' }}>
-                                    <label htmlFor="">{i18n.t("DataTable.options.searchPlaceholder")}</label>
-                                    <FormControl type="text" value={this.state.searchPlaceholder}
-                                        onChange={(e)=>{this.setState({ searchPlaceholder: e.target.value });}}/>
-                                </div>
-                            </Col>
-                        </FormGroup>
-                        <FormGroup />
-                    </Form>
-                </div>
-            </div>
-        );
-    },
-});
-
-let Config = React.createClass({
-
-    componentDidUpdate(nextProps, nextState) {
-        if(nextProps.state.editing === false) {
-            this.props.base.configModalNeedsUpdate();
-        }
-    },
-
-    getInitialState() {
-
-        let state = this.props.state;
-        state.base = this.props.base;
-        return state;
-    },
-
-    modifyState() {
-        // console.log("modifyState");
-        // console.log(this.state);
-        this.state.base.setState("options", this.state.options);
-        this.state.base.setState("data", this.state.data);
-        this.state.base.setState("keys", this.state.keys);
-        this.state.base.setState("editing", this.state.editing);
-    },
-
-    dataChanged(values) {
-
-        this.setState({ editing: false });
-        this.state.base.setState("data", values.data);
-        this.setOptions(values.data, values.keys);
-        this.updateChart();
-
-    },
-
-    setOptions(data, keys) {
-        let nKeys = [];
-        for (let i = 0; i < keys.length; i++) {
-            let value = keys[i];
-            nKeys[i] = {};
-            nKeys[i].value = value;
-            nKeys[i].notNumber = true;
-        }
-
-        for (let o = 0; o < data.length; o++) {
-            let row = data[o];
-            for (let i = 0; i < keys.length; i++) {
-                let key = nKeys[i];
-                data[o][keys[i]] = isNaN(data[o][keys[i]]) || typeof(data[o][keys[i]]) === "boolean" || data[o][keys[i]] === "" || data[o][keys[i]] === null ? data[o][keys[i]] : parseFloat(data[o][keys[i]]);
-                if(key.notNumber) {
-                    nKeys[i].notNumber = isNaN(row[key.value]) || typeof(row[key.value]) === "boolean" || row[key.value] === "";
-                }
-            }
-        }
-
-        let options = this.state.options;
-        this.setState({ data: data, keys: keys, options: options });
-    },
-
-    optionsChanged(options) {
-        // console.log("optionshanged");
-        // console.log(options);
-        this.setState({ options: options });
-        this.state.base.setState("options", options);
-        this.updateChart();
-    },
-
-    editButtonClicked() {
-        // console.log("editButton");
-        // console.log(this.state);
-        this.setState({ editing: true });
-    },
-
-    updateChart() {
-        // this.forceUpdate();
-        this.setState({ key: Math.random() });
-    },
-
-    render() {
-
-        this.modifyState();
-        return (
-            <Grid>
-                <Row>
-
-                    <Col lg={this.state.editing ? 12 : 3} xs={12}>
-                        <h4> {i18n.t("DataTable.header.origin")} </h4>
-                        {!this.state.editing &&
-                        <Button onClick={this.editButtonClicked} style={{ marginTop: '0px' }} className="btn-primary">{i18n.t("DataTable.edit")} </Button>
-                        }
-                        {this.state.editing &&
-                        <DataProvider data={this.state.data} dataChanged={this.dataChanged} keys={this.state.keys} />
-                        }
-                        {!this.state.editing &&
-                        <ChartOptions options={this.state.options} optionsChanged={this.optionsChanged} keys={this.state.keys} />
-                        }
-                    </Col>
-                    <Col lg={9} xs={12}>
-                        {!this.state.editing && <div>
-                            <h4>{i18n.t("DataTable.header.preview")}</h4><br/>
-                            <div style={{ marginRight: '-10px', marginLeft: '0px' }} ref="chartContainer" id="chartContainer">
-                                <TableComponent data={this.state.data} options={this.state.options} key={this.state.key} />
-                            </div>
-                        </div>}
-                    </Col>
-
-                </Row>
-
-            </Grid>
-
-        );
-    },
-});
-
-module.exports = Config;
+    }
+}

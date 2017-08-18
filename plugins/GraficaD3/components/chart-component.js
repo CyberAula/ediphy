@@ -1,18 +1,9 @@
 import React from "react";
 import { ResponsiveContainer, PieChart, AreaChart, BarChart, LineChart, Pie, Area, Bar, Line, XAxis, YAxis, CartesianGrid, Legend, Tooltip } from "recharts";
 
-let Chart = React.createClass({
-    getInitialState() {
+export default class Chart extends React.Component {
 
-        return {
-        };
-    },
-
-    dateFormat: function() {
-        // console.log(arguments);
-    },
-
-    render: function() {
+    render() {
         /* jshint ignore:start */
         let data = this.props.data;
         let options = this.props.options;
@@ -138,6 +129,5 @@ let Chart = React.createClass({
 
         }
         /* jshint ignore:end */
-    },
-});
-module.exports = Chart;
+    }
+}
