@@ -6,7 +6,6 @@ export default class TableComponent extends React.Component {
     render() {
         let data = this.props.data;
         let options = this.props.options;
-        // console.log(this.props);
         let keys = Object.keys(this.props.data[0]);
         let cols = [];
         keys.map(key =>{
@@ -17,7 +16,6 @@ export default class TableComponent extends React.Component {
         if (!isNaN(options.initialPageLength) && options.pageLengthOptions.indexOf(options.initialPageLength) === -1) {
             options.pageLengthOptions = this.insert(options.initialPageLength, options.pageLengthOptions);
         }
-        console.log(data);
         return (
             <div className="tableContainer">
                 <DataTable

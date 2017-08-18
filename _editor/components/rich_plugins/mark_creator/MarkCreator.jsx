@@ -4,7 +4,7 @@ import i18n from 'i18next';
 import { FormControl } from 'react-bootstrap';
 import { ID_PREFIX_RICH_MARK, ID_PREFIX_CONTAINED_VIEW, ID_PREFIX_SORTABLE_BOX, PAGE_TYPES } from '../../../../constants';
 import { nextAvailName } from '../../../../utils';
-import Alert from './../../alerts/alert/Alert';
+import Alert from './../../common/alert/Alert';
 
 export default class MarkCreator extends Component {
 

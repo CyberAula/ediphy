@@ -1,7 +1,7 @@
 import React from "react";
 import { Form, Button, FormGroup, FormControl, ControlLabel, Col } from "react-bootstrap";
-import FileInput from '@ranyefet/react-file-input';
-import Alert from '../../../_editor/components/alerts/alert/Alert';
+import FileInput from '../../../_editor/components/common/file-input/FileInput';
+import Alert from '../../../_editor/components/common/alert/Alert';
 import i18n from 'i18next';
 
 export default class DataProvider extends React.Component {

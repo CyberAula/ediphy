@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import FileInput from '@ranyefet/react-file-input'; import ReactDOM from 'react-dom';
+import FileInput from './../../common/file-input/FileInput';
+import ReactDOM from 'react-dom';
 import { Modal, FormControl, Col, Form, FormGroup, ControlLabel, Button, Glyphicon } from 'react-bootstrap';
 
 export default class VishUploaderModal extends Component {

@@ -27,7 +27,7 @@ import DaliNavBar from '../components/nav_bar/dali_nav_bar/DaliNavBar';
 import ServerFeedback from '../components/server_feedback/ServerFeedback';
 import RichMarksModal from '../components/rich_plugins/rich_marks_modal/RichMarksModal';
 import AutoSave from '../components/autosave/AutoSave';
-import Alert from '../components/alerts/alert/Alert';
+import Alert from '../components/common/alert/Alert';
 import i18n from 'i18next';
 import Dali from '../../core/main';
 import { isSortableBox, isSection, isContainedView, isSortableContainer } from '../../utils';

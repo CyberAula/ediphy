@@ -5,7 +5,7 @@ import RangeSlider from './range_slider/RangeSlider';
 import Select from 'react-select';
 import { WithContext as ReactTags } from 'react-tag-input';
 import { suggestions, statusOptions, contextOptions, languages, difLevels, rightsOptions } from './global_options';
-import Alert from './../../alerts/alert/Alert';
+import Alert from './../../common/alert/Alert';
 
 // Styles
 import 'react-select/dist/react-select.css';

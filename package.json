@@ -57,7 +57,6 @@
     "webpack-dev-server": "^1.16.2"
   },
   "dependencies": {
-    "@ranyefet/react-file-input": "^1.0.1",
     "BasicPlayer": "file:plugins/BasicPlayer",
     "EnrichedPlayer": "file:plugins/EnrichedPlayer",
     "GraficaD3": "file:plugins/GraficaD3",
@@ -82,7 +81,7 @@
     "jszip-utils": "^0.0.2",
     "material-design-icons-font": "^2.2.3",
     "react": "^15.4.1",
-    "react-bootstrap": "^0.30.7",
+    "react-bootstrap": "^0.31.2",
     "react-bootstrap-typeahead": "^0.10.4",
     "react-dom": "^15.4.1",
     "react-dropzone": "^3.7.3",
