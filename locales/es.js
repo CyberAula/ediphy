@@ -161,6 +161,7 @@ let es = {
         "messages": {
             "add_new_mark": "Añadir nueva marca",
             "adjust_to_document": "Ajustar al documento",
+            "alert": "Alerta",
             "align_bottom": "La parte inferior del elemento se alinea con la parte inferior del elemento más bajo de la línea",
             "align_center": "Alinear al centro",
             "align_left": "Alinear a la izquierda",
@@ -189,8 +190,10 @@ let es = {
             "global_config": "Configuración Global",
             "go_back": "Volver",
             "go_back_to": "Volver a ",
+            "instance_limit": "Este plugin sólo permite una instancia por página",
             "height_auto_warning": "Sólo si fijas una altura podrán tener alturas relativas las cajas en su interior",
             "mark_input": "Hay un error en el valor introducido",
+            "no_internet": "Este plugin necesita conexión a Internet",
             "OK": "Aceptar",
             "pointer_events": "Activar el modo de edición manual del contenido",
             "save_changes": "Guardar cambios",

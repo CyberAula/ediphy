@@ -28,6 +28,7 @@ export function VirtualTour(base) {
                     defaultColor: '#222222',
                 }],
                 needsPointerEventsAllowed: true,
+                limitToOneInstance: true,
             };
         },
         getToolbar: function() {
@@ -35,35 +36,6 @@ export function VirtualTour(base) {
                 main: {
                     __name: "Main",
                     accordions: {
-                        /* __basic: {
-                         __name: Dali.i18n.t('VirtualTour.map'),
-                         icon: 'zoom_out_map',
-                         buttons: {
-                         lat: {
-                         __name: 'Center Latitude',
-                         type: 'number',
-                         step:".001",
-                         value: base.getState().lat,
-                         autoManaged: false
-                         },
-                         lng: {
-                         __name: 'Center Longitude',
-                         type: 'number',
-                         step:".001",
-                         value: base.getState().lng,
-                         autoManaged: false
-                         },
-                         zoom: {
-                         __name: 'Zoom',
-                         type: 'number',
-                         step:"any",
-                         min:0,
-                         max:100,
-                         value: base.getState().zoom,
-                         autoManaged: false
-                         }
-                         }
-                         },*/
                         style: {
                             __name: Dali.i18n.t('VirtualTour.box_style'),
                             icon: 'palette',
@@ -136,20 +108,18 @@ export function VirtualTour(base) {
             };
         },
         getRenderTemplate: function(state) {
-            if(window.mapList[state.num]) {
-                let map = window.mapList[state.num];
-                let maps = window.google.maps;
-                let lati = state.lat;
-                let lngi = state.lng;
-                // map.setCenter(new maps.LatLng(lati, lngi));
-                // map.setZoom(state.zoom);
-                // console.log('existing', 'map', map.center.lat(), map.center.lng(), 'state', lati, lngi);
-            } else {
-                // console.log('didntexist');
-            }
 
             let id = "map-" + Date.now();
             let marks = state.__marks;
+
+            if (!google) {
+                return (<div className="dropableRichZone noInternetConnectionBox" style={{ width: '100%', height: '100%' }}>
+                    <div className="middleAlign">
+                        <i className="material-icons dark">signal_wifi_off</i><br/>
+                        {i18n.t('messages.no_internet')}
+                    </div>
+                </div>);
+            }
 
             let Mark = ({ idKey, title, color }) => (
                 <ClickNHold time={1.5} mark={idKey} base={base}>
@@ -176,7 +146,6 @@ export function VirtualTour(base) {
 
             window.num = state.num;
             let num = state.num;
-            // console.log(num, 'num');
             return (
                 <div className="virtualMap" onDragLeave={e=>{e.stopPropagation();}}>
                     <Map placeholder={i18n.t("VirtualTour.Search")}
@@ -184,16 +153,7 @@ export function VirtualTour(base) {
                         id={id}
                         searchBox
                         update={(lat, lng, zoom, render)=>{
-                            // console.log('%cBEGIN***************' + num + '**************************', 'color: green', 'CHANGE');
-                            // console.log('PRE-UPDATE STATE', 'CHANGE', base.getState().config.lat, base.getState().config.lng, num);
-                            // console.log(state.config.lat, state.config.lng);
-                            // console.log('PRE-UPDATE STATE', 'CHANGE', window.mapList[num] ? (window.mapList[num].center.lat() + ' ' + window.mapList[num].center.lng()) : '');
                             base.setState('config', { lat: lat, lng: lng, zoom: zoom });
-                            // if (render) base.render("UPDATE_TOOLBAR");
-                            // console.log('POST-UPDATE STATE', 'CHANGE', base.getState().config.lat, base.getState().config.lng, num);
-                            // console.log('POST-UPDATE STATE', 'CHANGE', window.mapList[num] ? (window.mapList[num].center.lat() + ' ' + window.mapList[num].center.lng()) : '');
-                            // console.log('%cEND***************' + num + '**************************', 'color: green', 'CHANGE');
-
                         }}>
                         {markElements}
                     </Map>
@@ -203,31 +163,19 @@ export function VirtualTour(base) {
             base.setState(name, value);
         },
         parseRichMarkInput: function(...value) {
-            // base.render("UPDATE_BOX");
-            // Mouse position relative to the box + offset for the bottom-center of the marker
+            if (!google) {
+                return '0,0';
+            }
             let state = value[5];
             let clickX = value[0] + 12;
             let clickY = value[1] + 26;
             let latCenter = state.config.lat;
             let lngCenter = state.config.lng;
-            // console.log('state', state);
             let zoom = state.config.zoom;
             let num = state.num;
 
             let maps = google.maps;
-            // console.log('HHHHHHHHHHHHHHHHHHHHH');
-            // console.log(window.mapList[num].center.lat(), latCenter);
-            // console.log('%cBEGIN***************' + num + '**************************', 'color: #bada55', 'MARKER PLACE');
-            // console.log('PRE-UPDATE STATE', 'MARKER PLACE', base.getState().config.lat, base.getState().config.lng, num);
-            // console.log('PRE-UPDATE STATE', 'MARKER PLACE', window.mapList[num] ? (window.mapList[num].center.lat() + ' ' + window.mapList[num].center.lng()) : '');
             let map = window.mapList[state.num];
-            // base.setState('config',{lat: window.mapList[num].center.lat(), lng: window.mapList[num].center.lng(), zoom: window.mapList[num].getZoom()});
-
-            // map.setCenter(new maps.LatLng(latCenter, lngCenter));
-            // map.setZoom(zoom);
-            // console.log('POST-UPDATE STATE', 'MARKER PLACE', base.getState().config.lat, base.getState().config.lng, num);
-            // console.log('POST-UPDATE STATE', 'MARKER PLACE', window.mapList[num] ? (window.mapList[num].center.lat() + ' ' + window.mapList[num].center.lng()) : '');
-
             let topRight = map.getProjection().fromLatLngToPoint(map.getBounds().getNorthEast());
             let bottomLeft = map.getProjection().fromLatLngToPoint(map.getBounds().getSouthWest());
             let scale = Math.pow(2, map.getZoom());
@@ -236,7 +184,6 @@ export function VirtualTour(base) {
             let latLng = map.getProjection().fromPointToLatLng(worldPoint);
             let lat = Math.round(latLng.lat() * 100000) / 100000;
             let lng = Math.round(latLng.lng() * 100000) / 100000;
-            // console.log('%cEND***************' + num + '**************************', 'color: #bada55', 'MARKER PLACE');
 
             return lat + ',' + lng;
 
@@ -258,6 +205,7 @@ export function VirtualTour(base) {
             return { isWrong: false, value: value };
         },
         pointerEventsCallback: function(bool, toolbarState) {
+            if (!google) {return;}
             if (window.mapList[toolbarState.num || (toolbarState.state ? toolbarState.state.num : 9999)]) {
                 switch(bool) {
                 case 'mouseenter':

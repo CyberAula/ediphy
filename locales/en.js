@@ -163,6 +163,7 @@ let en = {
         "messages": {
             "add_new_mark": "Add new mark",
             "adjust_to_document": "Adjust to document",
+            "alert": "Alert",
             "align_bottom": "The bottom of the element is aligned with the lowest element on the line",
             "align_center": "Align center",
             "align_left": "Align left",
@@ -191,8 +192,10 @@ let en = {
             "global_config": "Global Config",
             "go_back": "Go back",
             "go_back_to": "Go back to ",
+            "instance_limit": "This plugin only allows one instance per page",
             "height_auto_warning": "The boxes inside can only have a relative height if you fix the container height",
             "mark_input": "Something is wrong with your input",
+            "no_internet": "This plugin needs Internet connection",
             "OK": "Accept",
             "pointer_events": "Activate manual edition of the content mode",
             "save_changes": "Save changes",

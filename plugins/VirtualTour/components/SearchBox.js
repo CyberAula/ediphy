@@ -45,6 +45,9 @@ export default class SearchBox extends React.Component {
         }
     }
     componentDidMount() {
+        if(!google) {
+            return;
+        }
         let input = ReactDOM.findDOMNode(this.refs["input-" + this.props.id]);
         this.searchBox = new google.maps.places.SearchBox(input);
         this.searchBoxListener = this.searchBox.addListener('places_changed', this.onPlacesChanged);

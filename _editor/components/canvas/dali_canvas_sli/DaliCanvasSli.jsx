@@ -2,10 +2,12 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import DaliBox from '../dali_box/DaliBox';
 import DaliShortcuts from '../dali_shortcuts/DaliShortcuts';
+import Alert from './../../common/alert/Alert';
 import { Col, Button } from 'react-bootstrap';
 import DaliHeader from '../dali_header/DaliHeader';
 import interact from 'interact.js';
 import { ADD_BOX } from '../../../../actions';
+import { isSortableBox } from '../../../../utils';
 import { aspectRatio } from '../../../../common_tools';
 import Dali from './../../../../core/main';
 import ReactResizeDetector from 'react-resize-detector';
@@ -16,6 +18,7 @@ export default class DaliCanvasSli extends Component {
         super(props);
         this.state = {
             showTitle: false,
+            alert: null,
         };
     }
 
@@ -62,6 +65,7 @@ export default class DaliCanvasSli extends Component {
                         }}
                         className={'innercanvas sli'}
                         style={{ visibility: (this.props.showCanvas ? 'visible' : 'hidden') }}>
+                        {this.state.alert}
                         {/* <svg width="100%" height="100%" style={{position:'absolute', top:0, zIndex: 0}} xmlns="http://www.w3.org/2000/svg">
                            <defs>
                              <pattern id="smallGrid" width="10" height="10" patternUnits="userSpaceOnUse">
@@ -176,6 +180,23 @@ export default class DaliCanvasSli extends Component {
                 event.target.classList.remove("drop-target");
             },
             ondrop: function(event) {
+                if (Dali.Plugins.get(event.relatedTarget.getAttribute("name")).getConfig().limitToOneInstance) {
+                    for (let child in this.props.boxes) {
+                        if (!isSortableBox(child) && this.props.boxes[child].parent === this.props.navItemSelected.id && this.props.toolbars[child].config.name === event.relatedTarget.getAttribute("name")) {
+                            let alert = (<Alert className="pageModal"
+                                show
+                                hasHeader
+                                backdrop={false}
+                                title={ <span><i className="material-icons" style={{ fontSize: '14px', marginRight: '5px' }}>warning</i>{ i18n.t("messages.alert") }</span> }
+                                closeButton onClose={()=>{this.setState({ alert: null });}}>
+                                <span> {i18n.t('messages.instance_limit')} </span>
+                            </Alert>);
+                            this.setState({ alert: alert });
+                            event.dragEvent.stopPropagation();
+                            return;
+                        }
+                    }
+                }
                 let mc = this.props.fromCV ? document.getElementById("contained_maincontent") : document.getElementById('maincontent');
                 let al = this.props.fromCV ? document.getElementById('airlayer_cv') : document.getElementById('airlayer');
                 let position = {

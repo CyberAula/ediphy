@@ -2,19 +2,26 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { Button, OverlayTrigger, Popover, Tooltip } from 'react-bootstrap';
 import interact from 'interact.js';
+import Alert from './../../common/alert/Alert';
 import DaliBox from '../dali_box/DaliBox';
 import { ID_PREFIX_SORTABLE_CONTAINER } from '../../../../constants';
 import { ADD_BOX } from '../../../../actions';
+import { isSortableBox } from '../../../../utils';
 import Dali from './../../../../core/main';
 import i18n from 'i18next';
 
 require('./_daliBoxSortable.scss');
 
 export default class DaliBoxSortable extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            alert: null,
+        };
+    }
     render() {
         let box = this.props.boxes[this.props.id];
         return (
-            /* jshint ignore:start */
             <div className="daliBoxSortable"
                 onClick={e => {
                     if(box.children.length !== 0) {
@@ -28,6 +35,7 @@ export default class DaliBoxSortable extends Component {
                         position: 'relative',
                         boxSizing: 'border-box',
                     }}>
+                    {this.state.alert}
                     {box.children.map((idContainer, index)=> {
                         let container = box.sortableContainers[idContainer];
                         return (<div key={index}
@@ -100,6 +108,7 @@ export default class DaliBoxSortable extends Component {
                                             })}
                                         </div>);
                                     }
+
                                     return null;
                                 })}
                             </div>
@@ -154,7 +163,6 @@ export default class DaliBoxSortable extends Component {
                 </div>
 
             </div>
-            /* jshint ignore:end */
         );
     }
 
@@ -222,9 +230,28 @@ export default class DaliBoxSortable extends Component {
                 e.target.classList.remove("drop-target");
             },
             ondrop: function(e) {
+
                 if (dropArea === 'cell') {
                     // If element dragged is coming from PluginRibbon, create a new DaliBox
                     if (e.relatedTarget.className.indexOf("rib") !== -1) {
+                        //Check if there is a limit in the number of plugin instances
+                        if (isSortableBox(this.props.id) && Dali.Plugins.get(e.relatedTarget.getAttribute("name")).getConfig().limitToOneInstance) {
+                            for (let child in this.props.boxes) {
+                                if (!isSortableBox(child) && this.props.boxes[child].parent === this.props.id && this.props.toolbars[child].config.name === e.relatedTarget.getAttribute("name")) {
+                                    let alert = (<Alert className="pageModal"
+                                                        show
+                                                        hasHeader
+                                                        backdrop={false}
+                                                        title={ <span><i className="material-icons" style={{ fontSize: '14px', marginRight: '5px' }}>warning</i>{ i18n.t("messages.alert") }</span> }
+                                                        closeButton onClose={()=>{this.setState({ alert: null });}}>
+                                        <span> {i18n.t('messages.instance_limit')} </span>
+                                    </Alert>);
+                                    this.setState({ alert: alert });
+                                    e.dragEvent.stopPropagation();
+                                    return;
+                                }
+                            }
+                        }
                         let initialParams = {
                             parent: this.props.id,
                             container: extraParams.idContainer,
@@ -255,6 +282,7 @@ export default class DaliBoxSortable extends Component {
                             container: ID_PREFIX_SORTABLE_CONTAINER + Date.now(),
                         };
                     }
+
                     Dali.Plugins.get(e.relatedTarget.getAttribute("name")).getConfig().callback(initialParams, ADD_BOX);
                     e.dragEvent.stopPropagation();
                 }

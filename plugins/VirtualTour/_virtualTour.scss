@@ -50,3 +50,27 @@ a.mapMarker {
     pointer-events: all;
   }
 }
+
+.noInternetConnectionBox{
+  font-size: 20px;
+  color: white;
+  text-align: center;
+  background-color: #c4c4c4;
+
+  .middleAlign{
+    vertical-align: middle;
+    position: absolute;
+    display:block;
+    top:50%;
+    left: 50%;
+    -webkit-transform: translate(-50%,-50%);
+    -moz-transform: translate(-50%,-50%);
+    -ms-transform: translate(-50%,-50%);
+    -o-transform: translate(-50%,-50%);
+    transform: translate(-50%,-50%);
+    margin:auto;
+    .dark{
+      color:#555555;
+    }
+  }
+}

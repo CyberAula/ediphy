@@ -1,12 +1,21 @@
 import React from "react";
 import GoogleMapReact from 'google-map-react';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
-
+import i18n from 'i18next';
 require('./../_virtualTour.scss');
 window.mapsVisor = [];
 export function VirtualTour(base) {
     return {
         getRenderTemplate: function(state, id) {
+            if (!google) {
+                return (<div className="dropableRichZone noInternetConnectionBox" style={{ width: '100%', height: '100%' }}>
+                    <div className="middleAlign">
+                        <i className="material-icons dark">signal_wifi_off</i><br/>
+                        {i18n.t('messages.no_internet')}
+                    </div>
+                </div>);
+            }
+
             let marks = state.__marks;
             let box_id = id;
 

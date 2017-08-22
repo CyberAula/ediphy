@@ -70,7 +70,7 @@ export default function() {
         },
         getConfig: function() {
             let name, displayName, category, callback, needsConfigModal, needsConfirmation, needsTextEdition, extraTextConfig, needsPointerEventsAllowed,
-                needsXMLEdition, icon, iconFromUrl, aspectRatioButtonConfig, isRich, marksType, flavor, allowFloatingBox;
+                needsXMLEdition, icon, iconFromUrl, aspectRatioButtonConfig, isRich, marksType, flavor, allowFloatingBox, limitToOneInstance;
             if (descendant.getConfig) {
                 let cfg = descendant.getConfig();
                 name = cfg.name;
@@ -89,6 +89,7 @@ export default function() {
                 allowFloatingBox = cfg.allowFloatingBox;
                 aspectRatioButtonConfig = cfg.aspectRatioButtonConfig;
                 needsPointerEventsAllowed = cfg.needsPointerEventsAllowed;
+                limitToOneInstance = cfg.limitToOneInstance;
             }
 
             name = defaultFor(name, 'PluginName', "Plugin name not assigned");
@@ -105,6 +106,7 @@ export default function() {
             needsTextEdition = defaultFor(needsTextEdition, false);
             needsXMLEdition = defaultFor(needsXMLEdition, false);
             needsPointerEventsAllowed = defaultFor(needsPointerEventsAllowed, false);
+            limitToOneInstance = defaultFor(limitToOneInstance, false);
 
             if (aspectRatioButtonConfig) {
                 aspectRatioButtonConfig.name = Dali.i18n.t("Aspect_ratio");
@@ -174,6 +176,7 @@ export default function() {
                 marksType: marksType,
                 flavor: flavor,
                 needsPointerEventsAllowed: needsPointerEventsAllowed,
+                limitToOneInstance: limitToOneInstance,
             };
         },
         getToolbar: function() {
