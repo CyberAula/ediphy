@@ -234,16 +234,16 @@ export default class DaliBoxSortable extends Component {
                 if (dropArea === 'cell') {
                     // If element dragged is coming from PluginRibbon, create a new DaliBox
                     if (e.relatedTarget.className.indexOf("rib") !== -1) {
-                        //Check if there is a limit in the number of plugin instances
+                        // Check if there is a limit in the number of plugin instances
                         if (isSortableBox(this.props.id) && Dali.Plugins.get(e.relatedTarget.getAttribute("name")).getConfig().limitToOneInstance) {
                             for (let child in this.props.boxes) {
                                 if (!isSortableBox(child) && this.props.boxes[child].parent === this.props.id && this.props.toolbars[child].config.name === e.relatedTarget.getAttribute("name")) {
                                     let alert = (<Alert className="pageModal"
-                                                        show
-                                                        hasHeader
-                                                        backdrop={false}
-                                                        title={ <span><i className="material-icons" style={{ fontSize: '14px', marginRight: '5px' }}>warning</i>{ i18n.t("messages.alert") }</span> }
-                                                        closeButton onClose={()=>{this.setState({ alert: null });}}>
+                                        show
+                                        hasHeader
+                                        backdrop={false}
+                                        title={ <span><i className="material-icons" style={{ fontSize: '14px', marginRight: '5px' }}>warning</i>{ i18n.t("messages.alert") }</span> }
+                                        closeButton onClose={()=>{this.setState({ alert: null });}}>
                                         <span> {i18n.t('messages.instance_limit')} </span>
                                     </Alert>);
                                     this.setState({ alert: alert });

@@ -7,7 +7,6 @@ export function HotspotImages(base) {
             let marks = state.__marks;
             let box_id = id;
 
-            /* jshint ignore:start */
             let markElements = Object.keys(marks).map((e) =>{
 
                 let position = marks[e].value.split(',');
@@ -28,7 +27,6 @@ export function HotspotImages(base) {
                     <img style={{ height: "100%", width: "100%" }} src={state.url}/>
                     {markElements}
                 </div>);
-            /* jshint ignore:end */
         },
         onMarkClicked(element, value) {
             base.triggerMark(element, value, false);

@@ -8,6 +8,7 @@ import VishProvider from './../../vish_provider/vish_provider/VishProvider';
 import MarksList from './../../rich_plugins/marks_list/MarksList.jsx';
 import ContentList from './../../rich_plugins/content_list/ContentList.jsx';
 import Dali from './../../../../core/main';
+import ColorPicker from './../../common/color-picker/ColorPicker';
 import { UPDATE_TOOLBAR, UPDATE_BOX, TOGGLE_NAV_ITEM, CHANGE_NAV_ITEM_NAME, TOGGLE_TITLE_MODE } from '../../../../actions';
 import { isSortableContainer, isCanvasElement, isContainedView, isSlide } from '../../../../utils';
 import i18n from 'i18next';
@@ -679,9 +680,14 @@ export default class PluginToolbar extends Component {
                     value = e; // [...e.target.options].filter(o => o.selected).map(o => o.value);
                 }
 
-                if (button.type === 'colorPicker') {
+                if (button.type === 'colorOptions') {
                     value = e.value;
                 }
+                if (button.type === 'color') {
+                    value = e.color;
+                    if (!value) {return;}
+                }
+
                 this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, value);
 
                 if (!button.autoManaged) {
@@ -696,8 +702,28 @@ export default class PluginToolbar extends Component {
 
         };
 
+        if (button.type === "color") {
+            return React.createElement(
+                FormGroup,
+                { key: button.__name },
+                [
+                    React.createElement(
+                        ControlLabel,
+                        { key: 'label_' + button.__name },
+                        button.__name),
+                    /* React.createElement(
+                      FormControl,
+                        props,
+                        null
+                    ),*/
+                    React.createElement(
+                        ColorPicker, { key: props.label, value: props.value, onChange: props.onChange, mode: 'RGB' },
+                        []),
+                ]);
+
+        }
         if (button.options) {
-            if (button.type === "colorPicker") {
+            if (button.type === "colorOptions") {
                 props.options = button.options;
                 props.optionRenderer = this.renderOption;
                 props.valueRenderer = this.renderValue;

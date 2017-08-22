@@ -6,12 +6,15 @@ export function BasicImage(base) {
             base.registerExtraFunction(this.imageClick, "click");
         },
         getRenderTemplate: function(state) {
-            return <div style={{ width: '100%', height: '100%' }}>
-                <img className="basicImageClass"
-                    style={{ width: '100%', height: '100%', left: '0px', top: '0px' }}
-                    src={state.url}
-                    onClick={()=>{$dali$.imageClick();}} />
-            </div>;
+
+            let ImageComponent = () => {
+                return <div style={{ width: '100%', height: '100%' }}>
+                    <img style={{ width: '100%', height: '100%', left: '0px', top: '0px' }}
+                        src={state.url}
+                        onClick={()=>{ this.imageClick();}} />
+                </div>;
+            };
+            return <ImageComponent/>;
 
         },
         imageClick: function(e) {
