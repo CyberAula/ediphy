@@ -1,7 +1,7 @@
 import { ADD_BOX, ADD_NAV_ITEM, DELETE_BOX, DELETE_SORTABLE_CONTAINER, DUPLICATE_BOX, DELETE_NAV_ITEM, SELECT_BOX, DELETE_CONTAINED_VIEW,
-    SELECT_CONTAINED_VIEW, SELECT_NAV_ITEM, IMPORT_STATE } from './../actions';
-import { ID_PREFIX_BOX } from './../constants';
-import { isBox, isSortableBox, isContainedView } from './../utils';
+    SELECT_CONTAINED_VIEW, SELECT_NAV_ITEM, IMPORT_STATE } from '../common/actions';
+import { ID_PREFIX_BOX } from '../common/constants';
+import { isBox, isSortableBox, isContainedView } from '../common/utils';
 
 export default function(state = -1, action = {}) {
     switch (action.type) {

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
-import { ID_PREFIX_PAGE, ID_PREFIX_SECTION } from '../../../../constants';
+import { ID_PREFIX_PAGE, ID_PREFIX_SECTION } from '../../../../common/constants';
 import DaliIndexTitle from '../dali_index_title/DaliIndexTitle';
-import { isPage, isSection, isSlide, calculateNewIdOrder } from './../../../../utils';
+import { isPage, isSection, isSlide, calculateNewIdOrder } from '../../../../common/utils';
 import Dali from './../../../../core/main';
 
 export default class Section extends Component {

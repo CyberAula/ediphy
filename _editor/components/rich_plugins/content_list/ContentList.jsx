@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import Utils, { isContainedView } from './../../../../utils';
+import Utils, { isContainedView } from '../../../../common/utils';
 
 export default class ContentList extends Component {
     render() {

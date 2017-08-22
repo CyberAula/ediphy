@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Tooltip, OverlayTrigger, Popover, Breadcrumb, BreadcrumbItem, Button } from 'react-bootstrap';
 import i18n from 'i18next';
-import { isSortableBox, isCanvasElement, isContainedView } from './../../../../utils';
+import { isSortableBox, isCanvasElement, isContainedView } from '../../../../common/utils';
 require('./_daliHeader.scss');
 
 export default class DaliHeader extends Component {

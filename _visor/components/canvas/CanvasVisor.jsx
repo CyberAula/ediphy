@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import CanvasVisorDoc from './CanvasVisorDoc';
 import CanvasVisorSli from './CanvasVisorSli';
-import { isSlide } from './../../../utils';
+import { isSlide } from '../../../common/utils';
 
 export default class CanvasVisor extends Component {
 

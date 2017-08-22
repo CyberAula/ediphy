@@ -1,5 +1,5 @@
-import { ADD_BOX, INCREASE_LEVEL, SELECT_BOX, SELECT_NAV_ITEM, DELETE_NAV_ITEM } from './../actions';
-import { isSortableBox } from './../utils';
+import { ADD_BOX, INCREASE_LEVEL, SELECT_BOX, SELECT_NAV_ITEM, DELETE_NAV_ITEM } from '../common/actions';
+import { isSortableBox } from '../common/utils';
 
 export default function(state = 0, action = {}) {
     switch (action.type) {

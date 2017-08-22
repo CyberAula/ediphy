@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
 import VisorNavSection from './VisorNavSection';
-import { isSlide, isPage, isSection } from './../../../utils';
+import { isSlide, isPage, isSection } from '../../../common/utils';
 
 export default class SideNavVisor extends Component {
     constructor(props) {

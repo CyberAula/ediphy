@@ -6,9 +6,9 @@ import DaliShortcuts from '../dali_shortcuts/DaliShortcuts';
 import { Col, Button } from 'react-bootstrap';
 import DaliHeader from '../dali_header/DaliHeader';
 import interact from 'interact.js';
-import { ADD_BOX } from '../../../../actions';
+import { ADD_BOX } from '../../../../common/actions';
 import Dali from './../../../../core/main';
-import { isSortableBox } from './../../../../utils';
+import { isSortableBox } from '../../../../common/utils';
 
 export default class DaliCanvasDoc extends Component {
     constructor(props) {

@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { MenuItem, Dropdown } from 'react-bootstrap';
-import { ID_PREFIX_PAGE } from '../../../../constants';
-import { ID_PREFIX_SORTABLE_BOX, PAGE_TYPES } from '../../../../constants';
+import { ID_PREFIX_PAGE } from '../../../../common/constants';
+import { ID_PREFIX_SORTABLE_BOX, PAGE_TYPES } from '../../../../common/constants';
 import i18n from 'i18next';
-import { isSection } from './../../../../utils';
+import { isSection } from '../../../../common/utils';
 
 export default class PageMenu extends Component {
     render() {

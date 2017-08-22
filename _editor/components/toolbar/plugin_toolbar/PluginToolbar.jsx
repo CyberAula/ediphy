@@ -9,8 +9,8 @@ import MarksList from './../../rich_plugins/marks_list/MarksList.jsx';
 import ContentList from './../../rich_plugins/content_list/ContentList.jsx';
 import Dali from './../../../../core/main';
 import ColorPicker from './../../common/color-picker/ColorPicker';
-import { UPDATE_TOOLBAR, UPDATE_BOX, TOGGLE_NAV_ITEM, CHANGE_NAV_ITEM_NAME, TOGGLE_TITLE_MODE } from '../../../../actions';
-import { isSortableContainer, isCanvasElement, isContainedView, isSlide } from '../../../../utils';
+import { UPDATE_TOOLBAR, UPDATE_BOX, TOGGLE_NAV_ITEM, CHANGE_NAV_ITEM_NAME, TOGGLE_TITLE_MODE } from '../../../../common/actions';
+import { isSortableContainer, isCanvasElement, isContainedView, isSlide } from '../../../../common/utils';
 import i18n from 'i18next';
 
 require('./_pluginToolbar.scss');

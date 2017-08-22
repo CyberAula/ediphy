@@ -1,6 +1,6 @@
 import Dali from './../main';
-import { ID_PREFIX_SECTION } from './../../constants';
-import { isSection } from './../../utils';
+import { ID_PREFIX_SECTION } from '../../common/constants';
+import { isSection } from '../../common/utils';
 export default {
     createSPAimsManifest: function(navsIds, sections, globalConfig) {
         let doc = document.implementation.createDocument("", "", null);

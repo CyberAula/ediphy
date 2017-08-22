@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import GoogleMapReact from 'google-map-react';
 import SearchBox from './SearchBox';
 import { Gmaps } from 'react-gmaps';
-import { findParentBySelector } from './../../../utils';
+import { findParentBySelector } from '../../../common/utils';
 
 export default class Map extends React.Component {
     constructor(props) {

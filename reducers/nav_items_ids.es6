@@ -1,4 +1,4 @@
-import { ADD_NAV_ITEM, REORDER_NAV_ITEM, DELETE_NAV_ITEM, IMPORT_STATE } from './../actions';
+import { ADD_NAV_ITEM, REORDER_NAV_ITEM, DELETE_NAV_ITEM, IMPORT_STATE } from '../common/actions';
 
 export default function(state = [], action = {}) {
     switch (action.type) {

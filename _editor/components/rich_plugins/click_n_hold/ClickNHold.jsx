@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { findParentBySelector } from './../../../../utils';
+import { findParentBySelector } from '../../../../common/utils';
 require('./_click_n_hold.scss');
 /*
 * <ClickNHold onClickNHold={e=>{...}} // callback

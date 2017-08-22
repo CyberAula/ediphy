@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { Tooltip, Button, ButtonGroup, Col, OverlayTrigger, Popover } from 'react-bootstrap';
 
-import { ID_PREFIX_PAGE, ID_PREFIX_SECTION, ID_PREFIX_SORTABLE_BOX, PAGE_TYPES } from './../../../../constants';
+import { ID_PREFIX_PAGE, ID_PREFIX_SECTION, ID_PREFIX_SORTABLE_BOX, PAGE_TYPES } from '../../../../common/constants';
 import Section from './../section/Section';
 import PageMenu from './../page_menu/PageMenu';
 import DaliIndexTitle from './../dali_index_title/DaliIndexTitle';
-import { isPage, isSection, isSlide, isContainedView, calculateNewIdOrder } from './../../../../utils';
+import { isPage, isSection, isSlide, isContainedView, calculateNewIdOrder } from '../../../../common/utils';
 import i18n from 'i18next';
 import Dali from './../../../../core/main';
 

@@ -1,6 +1,6 @@
 import Dali from './main';
 import ReactDOM from 'react-dom';
-import { isSortableContainer } from './../utils';
+import { isSortableContainer } from '../common/utils';
 export default function() {
     let descendant, state, id, initialParams = {};
 

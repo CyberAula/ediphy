@@ -1,8 +1,8 @@
-import Utils, { changeProp, changeProps, deleteProp, deleteProps, isSortableBox, isContainedView, isSortableContainer } from './../utils';
+import Utils, { changeProp, changeProps, deleteProp, deleteProps, isSortableBox, isContainedView, isSortableContainer } from '../common/utils';
 import { ADD_BOX, MOVE_BOX, DUPLICATE_BOX, UPDATE_BOX, DELETE_BOX, REORDER_SORTABLE_CONTAINER, DROP_BOX, ADD_RICH_MARK,
     RESIZE_SORTABLE_CONTAINER, DELETE_SORTABLE_CONTAINER, CHANGE_COLS, CHANGE_ROWS, CHANGE_SORTABLE_PROPS, REORDER_BOXES,
-    DELETE_NAV_ITEM, DELETE_CONTAINED_VIEW, IMPORT_STATE } from './../actions';
-import { ID_PREFIX_BOX } from './../constants';
+    DELETE_NAV_ITEM, DELETE_CONTAINED_VIEW, IMPORT_STATE } from '../common/actions';
+import { ID_PREFIX_BOX } from '../common/constants';
 
 function boxCreator(state, action) {
     let position;

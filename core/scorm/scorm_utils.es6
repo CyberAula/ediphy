@@ -1,6 +1,6 @@
 import * as API from './scorm_wrapper';
 import Config from './../config';
-import { isSection } from './../../utils';
+import { isSection } from '../../common/utils';
 
 export function init() {
     let result = API.doInitialize();

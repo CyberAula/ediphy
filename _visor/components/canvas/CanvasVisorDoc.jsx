@@ -4,7 +4,7 @@ import BoxVisor from './BoxVisor';
 import BoxSortableVisor from './BoxSortableVisor';
 import { Col, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import HeaderVisor from './HeaderVisor';
-import { isContainedView, isSortableBox, isSection, isView } from './../../../utils';
+import { isContainedView, isSortableBox, isSection, isView } from '../../../common/utils';
 import i18n from 'i18next';
 
 export default class CanvasVisorDoc extends Component {

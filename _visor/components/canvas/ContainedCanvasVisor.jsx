@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import BoxVisor from './BoxVisor';
 import BoxSortableVisor from './BoxSortableVisor';
 import { Col, Button } from 'react-bootstrap';
-import { isSortableBox, isSlide } from './../../../utils';
+import { isSortableBox, isSlide } from '../../../common/utils';
 import CanvasVisorDoc from './CanvasVisorDoc';
 import CanvasVisorSli from './CanvasVisorSli';
 import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';

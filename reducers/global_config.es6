@@ -1,5 +1,5 @@
-import { CHANGE_GLOBAL_CONFIG } from './../actions';
-import { changeProp } from './../utils';
+import { CHANGE_GLOBAL_CONFIG } from '../common/actions';
+import { changeProp } from '../common/utils';
 
 export default function(state = 0, action = {}) {
     switch (action.type) {

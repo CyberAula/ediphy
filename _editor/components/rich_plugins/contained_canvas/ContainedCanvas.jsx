@@ -6,9 +6,9 @@ import DaliShortcuts from '../../canvas/dali_shortcuts/DaliShortcuts';
 import { Col, Button } from 'react-bootstrap';
 import DaliCanvasSli from '../../canvas/dali_canvas_sli/DaliCanvasSli';
 import DaliCanvasDoc from '../../canvas/dali_canvas_doc/DaliCanvasDoc';
-import { ADD_BOX } from '../../../../actions';
+import { ADD_BOX } from '../../../../common/actions';
 import Dali from '../../../../core/main';
-import { isSortableBox, isSlide } from './../../../../utils';
+import { isSortableBox, isSlide } from '../../../../common/utils';
 
 export default class ContainedCanvas extends Component {
     constructor(props) {

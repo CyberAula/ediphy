@@ -1,7 +1,7 @@
 import { ADD_BOX, ADD_RICH_MARK, CHANGE_NAV_ITEM_NAME, DELETE_BOX, DELETE_RICH_MARK, DELETE_CONTAINED_VIEW, ADD_NAV_ITEM, DELETE_NAV_ITEM, DELETE_SORTABLE_CONTAINER, DUPLICATE_BOX,
     EDIT_RICH_MARK, RESIZE_BOX, RESIZE_SORTABLE_CONTAINER, TOGGLE_TEXT_EDITOR, UPDATE_BOX, UPDATE_TOOLBAR, CHANGE_CONTAINED_VIEW_NAME,
-    VERTICALLY_ALIGN_BOX, IMPORT_STATE } from './../actions';
-import Utils, { changeProp, changeProps, deleteProps, isSortableBox, isSortableContainer, isPage, isSlide, isDocument, nextToolbarAvailName } from './../utils';
+    VERTICALLY_ALIGN_BOX, IMPORT_STATE } from '../common/actions';
+import Utils, { changeProp, changeProps, deleteProps, isSortableBox, isSortableContainer, isPage, isSlide, isDocument, nextToolbarAvailName } from '../common/utils';
 import i18n from 'i18next';
 
 function createAspectRatioButton(controls, config) {

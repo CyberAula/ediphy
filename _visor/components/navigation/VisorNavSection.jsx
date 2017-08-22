@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import i18n from 'i18next';
 import Dali from './../../../core/main';
-import { isSlide, isSection } from './../../../utils';
+import { isSlide, isSection } from '../../../common/utils';
 
 export default class VisorNavSection extends Component {
     constructor(props) {

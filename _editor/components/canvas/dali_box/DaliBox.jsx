@@ -3,10 +3,10 @@ import ReactDOM from 'react-dom';
 import MarkCreator from '../../rich_plugins/mark_creator/MarkCreator';
 import interact from 'interact.js';
 import PluginPlaceholder from '../plugin_placeholder/PluginPlaceholder';
-import { ADD_BOX, UPDATE_BOX, RESIZE_BOX, ADD_RICH_MARK, DELETE_RICH_MARK, DELETE_CONTAINED_VIEW, EDIT_PLUGIN_TEXT, IMPORT_STATE } from '../../../../actions';
+import { ADD_BOX, UPDATE_BOX, RESIZE_BOX, ADD_RICH_MARK, DELETE_RICH_MARK, DELETE_CONTAINED_VIEW, EDIT_PLUGIN_TEXT, IMPORT_STATE } from '../../../../common/actions';
 import Dali from './../../../../core/main';
 import i18n from 'i18next';
-import { isBox, isSortableBox, isSlide, isView, isSortableContainer, isAncestorOrSibling, isContainedView } from './../../../../utils';
+import { isBox, isSortableBox, isSlide, isView, isSortableContainer, isAncestorOrSibling, isContainedView } from '../../../../common/utils';
 
 require('./_daliBox.scss');
 

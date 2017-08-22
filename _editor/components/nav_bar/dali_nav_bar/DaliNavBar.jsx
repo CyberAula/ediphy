@@ -4,9 +4,9 @@ import { Col, Row, Input, Button, OverlayTrigger, Popover, Dropdown, Tooltip, Me
 import DaliIndexTitle from '../../carrousel/dali_index_title/DaliIndexTitle';
 import GlobalConfig from '../global_config/GlobalConfig';
 import i18n from 'i18next';
-import { isSection, isSlide } from './../../../../utils';
+import { isSection, isSlide } from '../../../../common/utils';
 import Dali from './../../../../core/main';
-import { toggleFullScreen, isFullScreenOn } from './../../../../common_tools';
+import { toggleFullScreen, isFullScreenOn } from '../../../../common/common_tools';
 require('./_navBar.scss');
 
 export default class DaliNavBar extends Component {

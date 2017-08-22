@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Modal, Button, Tabs, Tab, Col } from 'react-bootstrap';
 import interact from 'interact.js';
 import Dali from './../../../../core/main';
-import { isSortableBox, isSlide } from './../../../../utils';
+import { isSortableBox, isSlide } from '../../../../common/utils';
 import ReactDOM from 'react-dom';
 
 require('./_pluginRibbon.scss');

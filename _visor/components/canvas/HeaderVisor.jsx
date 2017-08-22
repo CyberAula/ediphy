@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Tooltip, OverlayTrigger, Breadcrumb, BreadcrumbItem, Button } from 'react-bootstrap';
 import i18n from 'i18next';
-import { isView, isContainedView } from './../../../utils';
+import { isView, isContainedView } from '../../../common/utils';
 
 export default class HeaderVisor extends Component {
 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import PluginPlaceholderVisor from './PluginPlaceholderVisor';
-import { isBox, isSortableBox, isView, isSortableContainer, isAncestorOrSibling } from './../../../utils';
+import { isBox, isSortableBox, isView, isSortableContainer, isAncestorOrSibling } from '../../../common/utils';
 
 export default class BoxVisor extends Component {
     constructor(props) {

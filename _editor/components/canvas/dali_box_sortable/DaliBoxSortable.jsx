@@ -4,9 +4,9 @@ import { Button, OverlayTrigger, Popover, Tooltip } from 'react-bootstrap';
 import interact from 'interact.js';
 import Alert from './../../common/alert/Alert';
 import DaliBox from '../dali_box/DaliBox';
-import { ID_PREFIX_SORTABLE_CONTAINER } from '../../../../constants';
-import { ADD_BOX } from '../../../../actions';
-import { isSortableBox } from '../../../../utils';
+import { ID_PREFIX_SORTABLE_CONTAINER } from '../../../../common/constants';
+import { ADD_BOX } from '../../../../common/actions';
+import { isSortableBox } from '../../../../common/utils';
 import Dali from './../../../../core/main';
 import i18n from 'i18next';
 

@@ -6,9 +6,9 @@ import ContainedCanvasVisor from './../components/canvas/ContainedCanvasVisor';
 import SideNavVisor from './../components/navigation/SideNavVisor';
 import VisorPlayer from './../components/navigation/VisorPlayer';
 
-import { isContainedView, isView } from './../../utils';
+import { isContainedView, isView } from '../../common/utils';
 import ScormComponent from './../components/scorm/ScormComponent';
-import i18n from './../../i18n';
+import i18n from '../../common/i18n';
 
 require('es6-promise').polyfill();
 require('typeface-ubuntu');

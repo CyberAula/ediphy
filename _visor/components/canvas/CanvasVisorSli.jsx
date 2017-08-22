@@ -3,9 +3,9 @@ import ReactDOM from 'react-dom';
 import BoxVisor from './BoxVisor';
 import { Col, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import HeaderVisor from './HeaderVisor';
-import { aspectRatio } from '../../../common_tools';
+import { aspectRatio } from '../../../common/common_tools';
 import ReactResizeDetector from 'react-resize-detector';
-import { isContainedView, isView } from './../../../utils';
+import { isContainedView, isView } from '../../../common/utils';
 import i18n from 'i18next';
 
 export default class CanvasVisorSli extends Component {

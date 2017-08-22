@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom';
 import { Button, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import i18n from 'i18next';
 import Dali from './../../../core/main';
-import { isPage } from './../../../utils';
-import { toggleFullScreen, isFullScreenOn } from './../../../common_tools';
+import { isPage } from '../../../common/utils';
+import { toggleFullScreen, isFullScreenOn } from '../../../common/common_tools';
 import 'bootstrap/dist/css/bootstrap.css';
 
 export default class VisorPlayer extends Component {

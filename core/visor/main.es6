@@ -4,7 +4,7 @@ import FileSaver from 'file-saver';
 
 import Dali from './../main';
 import Plugins from './plugins';
-import { ID_PREFIX_SECTION } from './../../constants';
+import { ID_PREFIX_SECTION } from '../../common/constants';
 
 let getDistinctName = function(name, namesUsed) {
     namesUsed[name] = namesUsed[name] + 1;

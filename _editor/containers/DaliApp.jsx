@@ -12,8 +12,8 @@ import { addNavItem, selectNavItem, expandNavItem, deleteNavItem, reorderNavItem
     fetchVishResourcesSuccess, fetchVishResourcesAsync, uploadVishResourceAsync,
     deleteContainedView, selectContainedView, changeContainedViewName,
     addRichMark, editRichMark, deleteRichMark,
-    ADD_BOX, ADD_RICH_MARK, EDIT_RICH_MARK, EDIT_PLUGIN_TEXT, DELETE_CONTAINED_VIEW, DELETE_NAV_ITEM, DELETE_RICH_MARK, UPDATE_BOX, UPDATE_TOOLBAR } from '../../actions';
-import { ID_PREFIX_BOX, ID_PREFIX_SORTABLE_CONTAINER } from '../../constants';
+    ADD_BOX, ADD_RICH_MARK, EDIT_RICH_MARK, EDIT_PLUGIN_TEXT, DELETE_CONTAINED_VIEW, DELETE_NAV_ITEM, DELETE_RICH_MARK, UPDATE_BOX, UPDATE_TOOLBAR } from '../../common/actions';
+import { ID_PREFIX_BOX, ID_PREFIX_SORTABLE_CONTAINER } from '../../common/constants';
 import DaliCanvas from '../components/canvas/dali_canvas/DaliCanvas';
 import ContainedCanvas from '../components/rich_plugins/contained_canvas/ContainedCanvas';
 import DaliCarousel from '../components/carrousel/dali_carrousel/DaliCarousel';
@@ -30,10 +30,13 @@ import AutoSave from '../components/autosave/AutoSave';
 import Alert from '../components/common/alert/Alert';
 import i18n from 'i18next';
 import Dali from '../../core/main';
-import { isSortableBox, isSection, isContainedView, isSortableContainer } from '../../utils';
+import { isSortableBox, isSection, isContainedView, isSortableContainer } from '../../common/utils';
 require('typeface-ubuntu');
 require('typeface-source-sans-pro');
 
+/**
+ * DaliApp
+ */
 class DaliApp extends Component {
     constructor(props) {
         super(props);

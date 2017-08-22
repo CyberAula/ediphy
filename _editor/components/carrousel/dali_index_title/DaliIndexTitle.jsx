@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { isPage, isSection } from './../../../../utils';
+import { isPage, isSection } from '../../../../common/utils';
 import { FormGroup, ControlLabel, FormControl } from 'react-bootstrap';
 import ReactDOM from 'react-dom';
 import Dali from './../../../../core/main';

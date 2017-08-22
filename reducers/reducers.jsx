@@ -2,8 +2,8 @@ import { combineReducers } from 'redux';
 import undoable from 'redux-undo';
 import { ADD_BOX, SELECT_BOX, INCREASE_LEVEL, INDEX_SELECT, SELECT_NAV_ITEM, EXPAND_NAV_ITEM, UPDATE_NAV_ITEM_EXTRA_FILES, TOGGLE_TEXT_EDITOR,
     DELETE_RICH_MARK, ADD_RICH_MARK, DELETE_CONTAINED_VIEW,
-    TOGGLE_TITLE_MODE, CHANGE_DISPLAY_MODE, SET_BUSY, IMPORT_STATE, FETCH_VISH_RESOURCES_SUCCESS, UPDATE_BOX, UPLOAD_IMAGE } from './../actions';
-import { isSortableBox } from './../utils';
+    TOGGLE_TITLE_MODE, CHANGE_DISPLAY_MODE, SET_BUSY, IMPORT_STATE, FETCH_VISH_RESOURCES_SUCCESS, UPDATE_BOX, UPLOAD_IMAGE } from '../common/actions';
+import { isSortableBox } from '../common/utils';
 import boxesById from './boxes_by_id';
 import boxLevelSelected from './box_level_selected';
 import boxSelected from './box_selected';

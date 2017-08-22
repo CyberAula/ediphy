@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom';
 import { Button } from 'react-bootstrap';
 import interact from 'interact.js';
 import DaliBox from '../dali_box/DaliBox';
-import { RESIZE_SORTABLE_CONTAINER, ADD_BOX } from '../../../../actions';
-import { isAncestorOrSibling } from './../../../../utils';
+import { RESIZE_SORTABLE_CONTAINER, ADD_BOX } from '../../../../common/actions';
+import { isAncestorOrSibling } from '../../../../common/utils';
 import Dali from './../../../../core/main';
 
 require('./_pluginPlaceHolder.scss');

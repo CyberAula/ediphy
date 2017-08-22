@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import Dali from './../../../../core/main';
 import { Button, Tooltip, OverlayTrigger } from 'react-bootstrap';
-import { UPDATE_BOX } from '../../../../actions';
+import { UPDATE_BOX } from '../../../../common/actions';
 import i18n from 'i18next';
-import { isSortableBox, isSortableContainer } from './../../../../utils';
+import { isSortableBox, isSortableContainer } from '../../../../common/utils';
 
 export default class DaliShortcuts extends Component {
     constructor(props) {

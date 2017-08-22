@@ -1,4 +1,5 @@
 node_modules
+esdoc
 nbproject
 .idea
 dist/*bundle.js
