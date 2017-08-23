@@ -11,7 +11,7 @@ import { isSortableBox, isSortableContainer, isAncestorOrSibling, isContainedVie
 
 require('./_daliBox.scss');
 
-/***
+/** *
  * Dali Box component
  */
 export default class DaliBox extends Component {
@@ -29,7 +29,7 @@ export default class DaliBox extends Component {
      * @returns {code} React rendered component
      */
     render() {
-
+        console.log(2);
         let cornerSize = 15;
         let box = this.props.boxes[this.props.id];
         let toolbar = this.props.toolbars[this.props.id];
@@ -43,10 +43,10 @@ export default class DaliBox extends Component {
             resize: 'none',
             top: '0%',
             color: 'black',
-            backgroundColor: 'white',
+            backgroundColor: 'transparent',
             padding: 10,
             width: '100%',
-            height: (toolbar.showTextEditor ? '' : '100%'),
+            height: (toolbar.showTextEditor ? '100%' : '100%'),
             // border: 'dashed black 1px',
             zIndex: 99999,
             visibility: (toolbar.showTextEditor ? 'visible' : 'hidden'),
@@ -825,7 +825,7 @@ export default class DaliBox extends Component {
         return 0;
     }
 
-    /***
+    /** *
      * Before component unmounts
      * Unset interact listeners and destroy current CKEditor instances
      */
@@ -843,7 +843,7 @@ export default class DaliBox extends Component {
 
 DaliBox.defaultProps = {
     id: PropTypes.string.isRequired,
-    key: PropTypes.string.isRequired,
+    // key: PropTypes.string.isRequired,
     boxes: PropTypes.object,
     boxSelected: PropTypes.string,
     boxLevelSelected: PropTypes.number,
@@ -865,5 +865,5 @@ DaliBox.defaultProps = {
     onBoxesInsideSortableReorder: PropTypes.func,
     onSortableContainerResized: PropTypes.func,
     onTextEditorToggled: PropTypes.func,
-    pageType: PropTypes.string
-} ;
+    pageType: PropTypes.string,
+};

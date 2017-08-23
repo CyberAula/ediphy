@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import DaliCanvasSli from '../dali_canvas_sli/DaliCanvasSli';
 import DaliCanvasDoc from '../dali_canvas_doc/DaliCanvasDoc';
-import { ADD_BOX, REORDER_SORTABLE_CONTAINER } from '../../../../common/actions';
-import Dali from './../../../../core/main';
-import { isSlide, isSection } from '../../../../common/utils';
+import { REORDER_SORTABLE_CONTAINER } from '../../../../common/actions';
+import { isSlide } from '../../../../common/utils';
 
 require('./_canvas.scss');
 
@@ -19,7 +17,6 @@ export default class DaliCanvas extends Component {
     render() {
         let canvasContent;
         if (isSlide(this.props.navItemSelected.type)) {
-            /* jshint ignore:start */
             canvasContent = <DaliCanvasSli
                 addMarkShortcut={this.props.addMarkShortcut}
                 boxes={this.props.boxes}
@@ -87,13 +84,10 @@ export default class DaliCanvas extends Component {
                 titleModeToggled={this.props.titleModeToggled}
                 title={this.props.title}
             />;
-            /* jshint ignore:end */
         }
 
         return (
-            /* jshint ignore:start */
             canvasContent
-            /* jshint ignore:end */
         );
     }
 

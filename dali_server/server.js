@@ -1,59 +1,59 @@
-var express = require('express');
-var bodyParser = require("body-parser");
-var fs = require("fs");
-var cors = require("cors");
+let express = require('express');
+let bodyParser = require("body-parser");
+let fs = require("fs");
+let cors = require("cors");
 
-var app = express();
-app.use(bodyParser.json({limit: '10mb'}));
+let app = express();
+app.use(bodyParser.json({ limit: '10mb' }));
 app.use(bodyParser.urlencoded({ extended: true }));
 
-var whitelist = [
-    'http://localhost:8080'
+let whitelist = [
+    'http://localhost:8080',
 ];
-var corsOptions = {
-    origin: function(origin, callback){
-        var originIsWhitelisted = whitelist.indexOf(origin) !== -1;
+let corsOptions = {
+    origin: function(origin, callback) {
+        let originIsWhitelisted = whitelist.indexOf(origin) !== -1;
         callback(null, originIsWhitelisted);
     },
-    credentials: true
+    credentials: true,
 };
 app.use(cors(corsOptions));
 
-app.get('/getConfig', function (req, res) {
-   fs.readFile( __dirname + "/" + "config.json", 'utf8', function (err, data) {
+app.get('/getConfig', function(req, res) {
+    fs.readFile(__dirname + "/" + "config.json", 'utf8', function(err, data) {
 	   if(err)
-			res.end(err);
-		else
-			res.end(data);
-   });
-})
+        {res.end(err);}
+        else
+        {res.end(data);}
+    });
+});
 
-app.post('/saveConfig', function (req, res) {
-   var data = req.body;
-   //Print data
-   //console.log(JSON.stringify(data));
-   fs.writeFile( __dirname + "/" + "config.json", JSON.stringify(data), 'utf8', function (err) {
-		if(err)
-			res.end("Write error");
-		else
-			res.end("Success");
-   });
-})
+app.post('/saveConfig', function(req, res) {
+    let data = req.body;
+    // Print data
+    // console.log(JSON.stringify(data));
+    fs.writeFile(__dirname + "/" + "config.json", JSON.stringify(data), 'utf8', function(err) {
+        if(err)
+        {res.end("Write error");}
+        else
+        {res.end("Success");}
+    });
+});
 
-app.post('/upload', function (req, res) {
-    var data = req.body;
+app.post('/upload', function(req, res) {
+    let data = req.body;
     console.log(data);
 
-    setTimeout(function(){
+    setTimeout(function() {
         res.end("https://upload.wikimedia.org/wikipedia/commons/6/66/Polar_Bear_-_Alaska_(cropped).jpg");
     }, 3000);
-})
+});
 
-var server = app.listen(8081, function () {
+var server = app.listen(8081, function() {
 
-  var host = server.address().address
-  var port = server.address().port
+    let host = server.address().address;
+    let port = server.address().port;
 
-  console.log("Example app listening at http://%s:%s", host, port)
+    console.log("Example app listening at http://%s:%s", host, port);
 
-})
+});

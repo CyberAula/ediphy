@@ -38,7 +38,7 @@
 .gc_rows {
   border: 2px solid white;
   width: 100%;
-  background-color: $naranjaadams;
+  background-color: $blueprimary;
 }
 
 /*Titles that group inputs*/
@@ -49,17 +49,4 @@
   padding: 0px;
 }
 
-/*Alignment*/
-.selectedAlignment {
-  color: $naranjaadams;
-  &:hover {
-    color: #bbb;
-  }
-}
 
-.unselectedAlignment {
-  color: grey;
-  &:hover {
-    color: #bbb;
-  }
-}

@@ -80,6 +80,8 @@ CKEDITOR.editorConfig = function (config) {
         'pastetext,' +
         'pbckcode,' +
         'removeformat,' +
+        'lineheight,' +
+        'codesnippet,' +
         'showborders,' +
         /*'stylescombo,' +*/
         'tab,' +

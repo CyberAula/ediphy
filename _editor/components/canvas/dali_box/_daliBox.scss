@@ -25,6 +25,7 @@
 .textareaStyle {
     position: absolute !important;
     top: 0;
+    background-color: transparent;
 }
 
 /*Box overlay*/
@@ -47,7 +48,7 @@
   .daliTitleButton {
       background-color: #bababa !important;
       &:hover {
-          background-color: $naranjaadams !important;
+          background-color: $blueprimary !important;
       }
   }
 }
@@ -83,8 +84,8 @@
 } */
 
 .selectedBox {
-    background-color: $naranjaclaro;
-    border: 1px dashed $naranjaadams;
+    background-color: #eeeeee;
+    border: 1px dashed $blueprimary;
     color: $fondo;
 }
 

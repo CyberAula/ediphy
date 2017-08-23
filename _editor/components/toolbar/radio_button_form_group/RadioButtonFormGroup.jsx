@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormGroup, ControlLabel, Tooltip, OverlayTrigger } from 'react-bootstrap';
-
-/***
+require('./_radiobuttonformgroup.scss');
+/** *
  * Radio Button component that displays material icons instead of plain text options
  * @example <RadioButtonFormGroup
  *    key="alignment"
@@ -35,7 +35,7 @@ export default class RadioButtonFormGroup extends Component {
         );
     }
 
-    /***
+    /** *
      * Renders React Component
      * @returns {ccde} Rendered React component
      */
@@ -47,7 +47,7 @@ export default class RadioButtonFormGroup extends Component {
                     return (<OverlayTrigger placement="top" key={'item_' + index} overlay={this.props.tooltips ? this.tooltip(this.props.tooltips[index]) : this.tooltip(option)}>
                         {React.createElement('button',
                             { value: option,
-                                className: (this.props.selected === option ? 'ribShortcut selectedAlignment' : 'ribShortcut unselectedAlignment'),
+                                className: (this.props.selected === option ? 'radioButtonCustom selectedAlignment' : 'radioButtonCustom unselectedAlignment'),
                                 onClick: e => {this.props.click(option); e.stopPropagation();},
                             },
                             <i className="material-icons">{this.props.icons[index]}</i>)}
@@ -68,20 +68,18 @@ export default class RadioButtonFormGroup extends Component {
         return true;
     }
 
-
 }
-/***
+/** *
  *
  * @type {{key: shim, title: shim, options: shim, selected: shim, click: shim, tooltips: *, icons: *}}
  */
 RadioButtonFormGroup.defaultProps = {
-    key: PropTypes.string,
+    // key: PropTypes.string,
     title: PropTypes.string,
     options: PropTypes.object,
     selected: PropTypes.string,
     click: PropTypes.func,
     tooltips: PropTypes.arrayOf(PropTypes.string),
-    icons: PropTypes.arrayOf(PropTypes.string)
+    icons: PropTypes.arrayOf(PropTypes.string),
 };
-
 

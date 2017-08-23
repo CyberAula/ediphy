@@ -15,7 +15,7 @@
     "both": "npm run start-webpack & npm run watch-sass",
     "start-webpack": "webpack-dev-server --progress",
     "watch-sass": "node-sass -w sass/style.scss -o dist/css/compiledsass.css",
-    "eslint": "eslint  --fix  --ext .jsx --ext .js --ext .es6 ",
+    "eslint": "eslint  --fix  **/*.js **/*.jsx **/*.es6 --ignore-pattern node_modules/ --ignore-pattern dist --ignore-pattern esdoc --ignore-pattern sass --ignore-pattern dali_server --ignore-pattern webpack_plugins",
     "doc": "esdoc -c esdoc.json",
     "postinstall": "node ./plugin_install && npm run doc"
   },
@@ -89,7 +89,7 @@
     "material-design-icons-font": "^2.2.3",
     "prop-types": "^15.5.10",
     "rc-color-picker": "^1.1.7",
-    "react": "^15.4.1",
+    "react": "^15.5.0",
     "react-bootstrap": "^0.31.2",
     "react-bootstrap-typeahead": "^1.4.2",
     "react-dom": "^15.4.1",
