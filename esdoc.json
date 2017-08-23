@@ -9,7 +9,7 @@
         "lint": {"enable": true},
         "brand": {
           "title": "Dali Editor",
-          "description": "E-learning authoring tool",
+          "description": "e-learning authoring tool",
           "repository": "https://github.com/ging/dali_editor",
           "author": "@GING"
         }

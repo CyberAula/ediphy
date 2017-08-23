@@ -1,21 +1,33 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
 import MarkCreator from '../../rich_plugins/mark_creator/MarkCreator';
 import interact from 'interact.js';
 import PluginPlaceholder from '../plugin_placeholder/PluginPlaceholder';
-import { ADD_BOX, UPDATE_BOX, RESIZE_BOX, ADD_RICH_MARK, DELETE_RICH_MARK, DELETE_CONTAINED_VIEW, EDIT_PLUGIN_TEXT, IMPORT_STATE } from '../../../../common/actions';
+import { ADD_BOX, UPDATE_BOX, RESIZE_BOX, EDIT_PLUGIN_TEXT, IMPORT_STATE } from '../../../../common/actions';
 import Dali from './../../../../core/main';
 import i18n from 'i18next';
-import { isBox, isSortableBox, isSlide, isView, isSortableContainer, isAncestorOrSibling, isContainedView } from '../../../../common/utils';
+import { isSortableBox, isSortableContainer, isAncestorOrSibling, isContainedView } from '../../../../common/utils';
 
 require('./_daliBox.scss');
 
+/***
+ * Dali Box component
+ */
 export default class DaliBox extends Component {
+    /**
+     * Constructor
+     * @param props React component props
+     */
     constructor(props) {
         super(props);
         this.borderSize = 2;
     }
 
+    /**
+     * Renders React Component
+     * @returns {code} React rendered component
+     */
     render() {
 
         let cornerSize = 15;
@@ -263,6 +275,11 @@ export default class DaliBox extends Component {
         );
     }
 
+    /**
+     * Renders box children
+     * @param markup Content
+     * @param key Unique React key
+     */
     renderChildren(markup, key) {
         let component;
         let props = {};
@@ -338,6 +355,9 @@ export default class DaliBox extends Component {
         return React.createElement(component, props, children);
     }
 
+    /**
+     * Blurs text area and saves data
+     */
     blurTextarea() {
         this.props.onTextEditorToggled(this.props.id, false);
         let toolbar = this.props.toolbars[this.props.id];
@@ -351,6 +371,12 @@ export default class DaliBox extends Component {
         }), this.props.id, EDIT_PLUGIN_TEXT);
     }
 
+    /**
+     * Before component updates
+     * Blurs CKEditor area
+     * @param nextProps React next props
+     * @param nextState React next state
+     */
     componentWillUpdate(nextProps, nextState) {
         if ((this.props.boxSelected === this.props.id) && (nextProps.boxSelected !== this.props.id) && this.props.toolbars[this.props.id].showTextEditor) {
             CKEDITOR.instances[this.props.id].focusManager.blur(true);
@@ -358,6 +384,10 @@ export default class DaliBox extends Component {
         }
     }
 
+    /**
+     * Checks if aspect ratio should be kept when resizing the box
+     * @returns {boolean} true if aspect ratio shoud be kept, false otherwise
+     */
     checkAspectRatioValue() {
         let toolbar = this.props.toolbars[this.props.id];
         let box = this.props.boxes[this.props.id];
@@ -385,6 +415,12 @@ export default class DaliBox extends Component {
         return false;
     }
 
+    /**
+     * After component updates
+     * Update CKEditor and interact objects bases on updates
+     * @param prevProps React previous props
+     * @param prevState React previous state
+     */
     componentDidUpdate(prevProps, prevState) {
         let toolbar = this.props.toolbars[this.props.id];
         let box = this.props.boxes[this.props.id];
@@ -439,6 +475,10 @@ export default class DaliBox extends Component {
 
     }
 
+    /**
+     * After component mounts
+     * Get CKEditor instances and set interact listeners for box manipulation
+     */
     componentDidMount() {
         let toolbar = this.props.toolbars[this.props.id];
         let box = this.props.boxes[this.props.id];
@@ -770,6 +810,12 @@ export default class DaliBox extends Component {
 
     }
 
+    /**
+     * Calculate element position from left
+     * @param left element's left
+     * @param width element's width
+     * @returns {position} Position from left
+     */
     getElementPositionFromLeft(left, width) {
         if(left.indexOf("px") !== -1) {
             return left;
@@ -779,6 +825,10 @@ export default class DaliBox extends Component {
         return 0;
     }
 
+    /***
+     * Before component unmounts
+     * Unset interact listeners and destroy current CKEditor instances
+     */
     componentWillUnmount() {
         interact(ReactDOM.findDOMNode(this)).unset();
         if (CKEDITOR.instances[this.props.id]) {
@@ -790,3 +840,30 @@ export default class DaliBox extends Component {
     }
 
 }
+
+DaliBox.defaultProps = {
+    id: PropTypes.string.isRequired,
+    key: PropTypes.string.isRequired,
+    boxes: PropTypes.object,
+    boxSelected: PropTypes.string,
+    boxLevelSelected: PropTypes.number,
+    containedViews: PropTypes.object,
+    containedViewSelected: PropTypes.string,
+    toolbars: PropTypes.object,
+    lastActionDispatched: PropTypes.string,
+    addMarkShortcut: PropTypes.func,
+    deleteMarkCreator: PropTypes.func,
+    markCreatorId: PropTypes.string,
+    onBoxAdded: PropTypes.func,
+    onBoxSelected: PropTypes.func,
+    onBoxLevelIncreased: PropTypes.func,
+    onBoxMoved: PropTypes.func,
+    onBoxResized: PropTypes.func,
+    onBoxDropped: PropTypes.func,
+    onVerticallyAlignBox: PropTypes.func,
+    onBoxModalToggled: PropTypes.func,
+    onBoxesInsideSortableReorder: PropTypes.func,
+    onSortableContainerResized: PropTypes.func,
+    onTextEditorToggled: PropTypes.func,
+    pageType: PropTypes.string
+} ;

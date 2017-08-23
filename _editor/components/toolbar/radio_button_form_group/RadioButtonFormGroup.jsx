@@ -1,33 +1,45 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { FormGroup, ControlLabel, Tooltip, OverlayTrigger } from 'react-bootstrap';
 
-/*
-Radio Button that displays material icons instead of plain text options
-Example usage:
+/***
+ * Radio Button component that displays material icons instead of plain text options
+ * @example <RadioButtonFormGroup
+ *    key="alignment"
+ *    title='Alineación'       // Label for Input
+ *    options={['left', 'center', 'right']}      // The actual value of the option
+ *    selected={this.props.box.textAlign}        // Current value
+ *    tooltips={['Alinear a la izquierda', 'Alinear al centro','Alinear a la derecha']} // Optional: Help message for the user. Default: option value
+ *    icons={['format_align_left', 'format_align_center', 'format_align_right']}   // Material icon code in the same order as the options
+ *    click={(option) => {this.props.onChangeSortableProps(this.props.id, this.props.parentId, 'textAlign', option)}} /> // Change handler
+ */
 
- <RadioButtonFormGroup  key="alignment"         
-                        title='Alineación'       // Label for Input
-                        options={['left', 'center', 'right']}      // The actual value of the option
-                        selected={this.props.box.textAlign}        // Current value               
-                        click={(option) => {this.props.onChangeSortableProps(this.props.id, this.props.parentId, 'textAlign', option)}}  // Change handler
-                        tooltips={['Alinear a la izquierda', 'Alinear al centro','Alinear a la derecha']} // Optional: Help message for the user. Default: option value
-                        icons={['format_align_left', 'format_align_center', 'format_align_right']} />  // Material icon code in the same order as the options
-
-*/
 export default class RadioButtonFormGroup extends Component {
+    /**
+     * Constructor
+     * @param props React component properties
+     */
     constructor(props) {
         super(props);
 
     }
+
+    /**
+     * Tooltip creator
+     * @param text Tooltip Content
+     * @returns {Tooltip} React Tooltip component
+     */
     tooltip(text) {
         return (
-        /* jshint ignore:start */ 
             <Tooltip id="tooltip_radio">{text}</Tooltip>
-        /* jshint ignore:end */ 
         );
     }
+
+    /***
+     * Renders React Component
+     * @returns {ccde} Rendered React component
+     */
     render() {
-        /* jshint ignore:start */ 
         return React.createElement(FormGroup, {},
             React.createElement(ControlLabel, { key: 'label' }, this.props.title), <br key="space"/>,
             this.props.options
@@ -46,8 +58,30 @@ export default class RadioButtonFormGroup extends Component {
         /* jshint ignore:end */
     }
 
+    /**
+     * Before component updates
+     * @param nextProps React next props
+     * @param nextState React next state
+     * @returns {boolean} True
+     */
     componentWillUpdate(nextProps, nextState) {
         return true;
     }
+
+
 }
+/***
+ *
+ * @type {{key: shim, title: shim, options: shim, selected: shim, click: shim, tooltips: *, icons: *}}
+ */
+RadioButtonFormGroup.defaultProps = {
+    key: PropTypes.string,
+    title: PropTypes.string,
+    options: PropTypes.object,
+    selected: PropTypes.string,
+    click: PropTypes.func,
+    tooltips: PropTypes.arrayOf(PropTypes.string),
+    icons: PropTypes.arrayOf(PropTypes.string)
+};
+
 
