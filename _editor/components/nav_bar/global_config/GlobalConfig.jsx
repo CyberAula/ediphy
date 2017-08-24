@@ -169,7 +169,7 @@ export default class GlobalConfig extends Component {
                                                 max={100}
                                                 placeholder="hour"
                                                 onChange={e => {this.setState({ modifiedState: true, typicalLearningTime: { h: e.target.value, m: typicalLearningTime.m, s: typicalLearningTime.s } });}}/>
-                                            <InputGroup.Addon>h</InputGroup.Addon>
+                                            <InputGroup.Addon style={{ height: '34.5px' }}>h</InputGroup.Addon>
                                         </InputGroup>
                                         <InputGroup className="inputGroup">
                                             <FormControl type="number"
@@ -178,7 +178,7 @@ export default class GlobalConfig extends Component {
                                                 max={59}
                                                 placeholder="min"
                                                 onChange={e => {this.setState({ modifiedState: true, typicalLearningTime: { h: typicalLearningTime.h, m: e.target.value, s: typicalLearningTime.s } });}}/>
-                                            <InputGroup.Addon>m</InputGroup.Addon>
+                                            <InputGroup.Addon style={{ height: '34.5px' }}>m</InputGroup.Addon>
                                         </InputGroup>{/*
                                       <InputGroup className="inputGroup">
                                         <FormControl  type="number"
