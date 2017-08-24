@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Button, FormControl, InputGroup, FormGroup, ControlLabel, OverlayTrigger, Popover, Tooltip } from 'react-bootstrap';
+import ColorPicker from './../../common/color-picker/ColorPicker';
 import i18n from 'i18next';
 import RadioButtonFormGroup from '../radio_button_form_group/RadioButtonFormGroup';
 
@@ -198,13 +199,13 @@ export default class GridConfigurator extends Component {
                 </FormGroup>
                 <FormGroup>
                     <ControlLabel>{i18n.t('styles.border_color')}</ControlLabel>
-                    <FormControl type="color"
+                    <ColorPicker
                         value={this.props.container.style ? this.props.container.style.borderColor : '#ffffff'}
                         label={"Color del borde"}
-                        style={{ width: '100%' }}
                         onChange={e => {
-                            this.props.onSortablePropsChanged(this.props.id, this.props.parentId, 'borderColor', e.target.value);
-                        }}/>
+                            this.props.onSortablePropsChanged(this.props.id, this.props.parentId, 'borderColor', e.color);
+                        }}
+                        mode='RGB' />
                 </FormGroup>
                 <FormGroup>
                     <ControlLabel>{i18n.t('styles.border_size')}</ControlLabel>

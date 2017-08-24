@@ -29,7 +29,6 @@ export default class DaliBox extends Component {
      * @returns {code} React rendered component
      */
     render() {
-        console.log(2);
         let cornerSize = 15;
         let box = this.props.boxes[this.props.id];
         let toolbar = this.props.toolbars[this.props.id];

@@ -504,7 +504,6 @@ class DaliApp extends Component {
                     this.severalBoxes = Date.now() + this.index++;
                 }
                 e.detail.ids.id = (this.severalBoxes !== 0) ? ID_PREFIX_BOX + this.severalBoxes++ : ID_PREFIX_BOX + Date.now() + this.index++;
-
                 this.dispatchAndSetState(addBox(
                     {
                         parent: e.detail.ids.parent,

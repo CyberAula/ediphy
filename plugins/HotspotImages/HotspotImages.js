@@ -107,7 +107,6 @@ export function HotspotImages(base) {
             };
         },
         getRenderTemplate: function(state) {
-            /* jshint ignore:start */
             let marks = state.__marks;
             let Mark = ({ idKey, title, style, color }) => (
                 <ClickNHold style={style} time={1.5} mark={idKey} base={base}>
@@ -141,7 +140,6 @@ export function HotspotImages(base) {
                     {markElements}
                 </div>
             );
-            /* jshint ignore:end */
         },
         handleToolbar: function(name, value) {
             base.setState(name, value);

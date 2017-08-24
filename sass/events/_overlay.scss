@@ -1,9 +1,10 @@
+
 .overlay {
   position: absolute;
   pointer-events: all;
-  background: yellow;
+  background: $blueprimary;
   opacity: 0.35;
   z-index: 999;
-  cursor: url("https://storage.googleapis.com/material-icons/external-assets/v4/icons/svg/ic_room_white_24px.svg") 12 20 , crosshair !important;
+  cursor: url("/images/mark.svg") 12 20 , crosshair !important;
 
 }
