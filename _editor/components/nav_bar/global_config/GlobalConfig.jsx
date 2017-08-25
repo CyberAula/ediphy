@@ -12,7 +12,14 @@ import 'react-select/dist/react-select.css';
 require('./_globalConfig.scss');
 require('./_reactTags.scss');
 
+/**
+ * Global course configuration modal
+ */
 export default class GlobalConfig extends Component {
+    /**
+     * Constructor
+     * @param props
+     */
     constructor(props) {
         super(props);
         /* State from props is an anti-pattern*/
@@ -40,18 +47,23 @@ export default class GlobalConfig extends Component {
         this.handleDrag = this.handleDrag.bind(this);
     }
 
+    /**
+     * Renders React component
+     * @returns {code}
+     */
     render() {
         const { title, author, canvasRatio, age, typicalLearningTime, difficulty, rights, visorNav, description, language, keywords, version, status, context } = this.state;
         return (
-            /* jshint ignore:start */
-            //  visor modalVisorContainer
             <Modal className="pageModal"
                 show={this.props.show}
                 backdrop={'static'} bsSize="large"
                 aria-labelledby="contained-modal-title-lg"
                 onHide={e => {
+                    // If anything has changed after last save show an alert, otherwise just leave
                     if (this.state.modifiedState) {
                         this.setState({ showAlert: true });
+                    } else {
+                        this.cancel();
                     }
                 }}>
                 <Modal.Header closeButton>
@@ -64,7 +76,13 @@ export default class GlobalConfig extends Component {
                     closeButton
                     cancelButton
                     acceptButtonText={'OK'}
-                    onClose={(bool)=>{bool ? this.saveState() : this.cancel(); this.setState({ showAlert: false }); this.props.close();}}>
+                    onClose={(bool) => {
+                        // If Accept button clicked, state is saved, otherwise close without saving
+                        bool ? this.saveState() : this.cancel();
+                        // Anyway close the alert
+                        this.setState({ showAlert: false });
+                        this.props.close();
+                    }}>
                     {i18n.t("global_config.prompt")}
                 </Alert>
                 <Modal.Body className="gcModalBody" style={{ overFlowY: 'auto' }}>
@@ -252,16 +270,23 @@ export default class GlobalConfig extends Component {
                     }}>{i18n.t("global_config.Accept")}</Button>{'   '}
                 </Modal.Footer>
             </Modal>
-            /* jshint ignore:end */
         );
     }
 
+    /** *
+     * Keyword deleted callback
+     * @param i position of the keyword
+     */
     handleDelete(i) {
         let tags = Object.assign([], this.state.keywords);
         tags.splice(i, 1);
         this.setState({ modifiedState: true, keywords: tags });
     }
 
+    /**
+     * Keyword added callback
+     * @param tag Keyword name
+     */
     handleAddition(tag) {
         let tags = Object.assign([], this.state.keywords);
         tags.push({
@@ -271,6 +296,12 @@ export default class GlobalConfig extends Component {
         this.setState({ modifiedState: true, keywords: tags });
     }
 
+    /**
+     * Keyword moved callback
+     * @param tag Tag moving
+     * @param currPos Current position
+     * @param newPos New position
+     */
     handleDrag(tag, currPos, newPos) {
         let tags = Object.assign([], this.state.keywords);
 
@@ -282,13 +313,18 @@ export default class GlobalConfig extends Component {
         this.setState({ modifiedState: true, keywords: tags });
     }
 
-    // Guardar cambios
+    /**
+     * Save configuration changes
+     */
     saveState() {
         this.setState({ modifiedState: false });
         this.props.changeGlobalConfig("STATE", this.state);
         this.props.close();
     }
-    // Descartar cambios
+
+    /**
+     * Discard configuration changes
+     */
     cancel() {
         this.setState({
             title: this.props.globalConfig.title || "",
@@ -308,12 +344,15 @@ export default class GlobalConfig extends Component {
             modifiedState: false,
         });
 
-        // Descomentar para salir al descartar
+        //  Comment the following line if you don't want to exit when changes are discarded
         this.props.close();
 
     }
 
-    // Si se modifica el título desde fuera
+    /**
+     * If title is changed from outside
+     * @param nextProps
+     */
     componentWillReceiveProps(nextProps) {
         if (this.props.globalConfig.title !== nextProps.globalConfig.title) {
             this.setState({

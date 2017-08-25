@@ -1,54 +1,17 @@
 import React, { Component } from 'react';
-import { Tooltip, OverlayTrigger, Popover, Breadcrumb, BreadcrumbItem, Button } from 'react-bootstrap';
+import { OverlayTrigger, Popover, Breadcrumb, BreadcrumbItem } from 'react-bootstrap';
 import i18n from 'i18next';
 import { isSortableBox, isCanvasElement, isContainedView } from '../../../../common/utils';
 require('./_daliHeader.scss');
-
+/**
+ *  DaliHeaderComponent
+ *  It shows the current page's title
+ */
 export default class DaliHeader extends Component {
-
-    /*
-     * This method is used to calculate actual position for title indexes
-     * It is used the array of titles, the actual position in the iteration, and the level stored in nav properties
+    /**
+     * Renders React Component
+     * @returns {code}
      */
-    getActualIndex(size = 1, level = 0) {
-        // Default values are stored in this variables
-        let actual_parent = this.props.navItems[this.props.navItem.parent];
-        let actual_level = this.props.navItem;
-        // Equal size to the index of level
-        size = size - 1;
-
-        if (size === undefined || level === undefined || this.props.titles.length === 0) {
-            // This happens when you are in a root element
-
-            return "";
-
-        } else if (size === level) {
-            // This happens when you are in the first level
-            let actual_index = (actual_parent.children.indexOf(actual_level.id));
-            if (actual_index !== -1) {
-                return (actual_index + 1) + ". ";
-            }
-        } else {
-            // This happens when you have several sections in the array
-            // You iterate inversely in the array until you get to the level stored in nav properties
-            let actual_index;
-            let interating_level = level + 1;
-
-            for (let n = actual_level.level; interating_level < n; n--) {
-                actual_level = actual_parent;
-                actual_parent = this.props.navItems[actual_level.parent];
-            }
-
-            let final_level = actual_parent.children.indexOf(actual_level.id) + 1;
-            if (actual_parent !== undefined && actual_parent.children !== undefined) {
-                return final_level + ". ";
-            }
-            return "";
-
-        }
-        return "";
-    }
-
     render() {
         let titles = this.props.titles || [];
         let navItem = this.props.containedView !== 0 ? this.props.containedView : this.props.navItem;
@@ -176,6 +139,52 @@ export default class DaliHeader extends Component {
 
         return null;
 
+    }
+
+    /** *
+     * This method is used to calculate actual position for title indexes
+     * It makes use of the array of titles, the current position in the iteration, and the level stored in nav properties
+     * @param size
+     * @param level
+     * @returns {*} Index
+     */
+    getActualIndex(size = 1, level = 0) {
+        // Default values are stored in this variables
+        let actual_parent = this.props.navItems[this.props.navItem.parent];
+        let actual_level = this.props.navItem;
+        // Equal size to the index of level
+        size = size - 1;
+
+        if (size === undefined || level === undefined || this.props.titles.length === 0) {
+            // This happens when you are in a root element
+
+            return "";
+
+        } else if (size === level) {
+            // This happens when you are in the first level
+            let actual_index = (actual_parent.children.indexOf(actual_level.id));
+            if (actual_index !== -1) {
+                return (actual_index + 1) + ". ";
+            }
+        } else {
+            // This happens when you have several sections in the array
+            // You iterate inversely in the array until you get to the level stored in nav properties
+            let actual_index;
+            let interating_level = level + 1;
+
+            for (let n = actual_level.level; interating_level < n; n--) {
+                actual_level = actual_parent;
+                actual_parent = this.props.navItems[actual_level.parent];
+            }
+
+            let final_level = actual_parent.children.indexOf(actual_level.id) + 1;
+            if (actual_parent !== undefined && actual_parent.children !== undefined) {
+                return final_level + ". ";
+            }
+            return "";
+
+        }
+        return "";
     }
 
 }

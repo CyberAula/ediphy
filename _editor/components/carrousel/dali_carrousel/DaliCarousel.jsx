@@ -1,19 +1,27 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-import { Button, Col } from 'react-bootstrap';
 import CarrouselList from '../carrousel_list/CarrouselList';
 import i18n from 'i18next';
 
+/**
+ * Index wrapper container
+ */
 export default class DaliCarousel extends Component {
+    /**
+     * Constructor
+     * @param props
+     */
     constructor(props) {
         super(props);
     }
 
+    /**
+     * Renders React Component
+     * @returns {code}
+     */
     render() {
         let displayModeClassName = "";
         let carrouselContent;
         if (this.props.displayMode === "list") {
-            /* jshint ignore:start */
             carrouselContent = <CarrouselList id={0}
                 containedViews={this.props.containedViews}
                 containedViewsVisible={this.props.containedViewsVisible}
@@ -36,10 +44,8 @@ export default class DaliCarousel extends Component {
                 onNavItemDeleted={this.props.onNavItemDeleted}
                 onNavItemToggled={this.props.onNavItemToggled}
                 onNavItemReordered={this.props.onNavItemReordered}/>;
-            /* jshint ignore:end */
         }
         return (
-            /* jshint ignore:start */
             <div style={{
                 minWidth: this.props.carouselShow ? (this.props.carouselFull ? '100%' : '212px') : '80px',
                 maxWidth: this.props.carouselFull ? '100%' : '212px',
@@ -73,7 +79,6 @@ export default class DaliCarousel extends Component {
                     </div>
                 </div>
             </div>
-            /* jshint ignore:end */
         );
     }
 

@@ -1,14 +1,24 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import { FormGroup, FormControl, ControlLabel, Button } from 'react-bootstrap';
 import VishSearcherModal from './../vish_searcher_modal/VishSearcherModal';
 import VishUploaderModal from './../vish_uploader_modal/VishUploaderModal';
-import Dali from './../../../../core/main';
+import i18n from 'i18next';
 
+/**
+ * VishProvider Component
+ */
 export default class VishProvider extends Component {
+    /**
+     * Constructor
+     * @param props
+     */
     constructor(props) {
         super(props);
         this.index = 0;
+        /**
+         * Component's initial state
+         * @type {{searching: boolean, uploading: boolean, resourceUrl: string}}
+         */
         this.state = {
             searching: false,
             uploading: false,
@@ -16,9 +26,12 @@ export default class VishProvider extends Component {
         };
     }
 
+    /**
+     * Render React Component
+     * @returns {XML}
+     */
     render() {
         return (
-            /* jshint ignore:start */
             <FormGroup>
                 <ControlLabel>{this.props.formControlProps.label}</ControlLabel>
                 <FormControl {...this.props.formControlProps} onChange={e => {
@@ -28,13 +41,13 @@ export default class VishProvider extends Component {
                 <Button className={'toolbarButton'}
                     onClick={() => {
                         this.setState({ searching: true });
-                    }}>{Dali.i18n.t('Search_in_ViSH')}</Button>
+                    }}>{i18n.t('Search_in_ViSH')}</Button>
                 <br />
                 <br />
                 <Button className={'toolbarButton'}
                     onClick={() => {
                         this.setState({ uploading: true });
-                    }}>{Dali.i18n.t('Upload_to_ViSH')}</Button>
+                    }}>{i18n.t('Upload_to_ViSH')}</Button>
                 <VishSearcherModal visible={this.state.searching}
                     isBusy={this.props.isBusy}
                     fetchResults={this.props.fetchResults}
@@ -55,7 +68,6 @@ export default class VishProvider extends Component {
                     }}
                     onUploadVishResource={this.props.onUploadVishResource}/>
             </FormGroup>
-            /* jshint ignore:end */
         );
     }
 }

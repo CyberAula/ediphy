@@ -1,5 +1,8 @@
 import i18n from 'i18next';
-
+/**
+ * Gets a translated array of suggested keywords
+ * @returns {[*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*]} Array of keywords
+ */
 export function suggestions() {
     return [
         i18n.t("global_config.keylist.Art"),
@@ -25,6 +28,10 @@ export function suggestions() {
     ];
 }
 
+/**
+ * Gets the translated array of course status options
+ * @returns {[*,*,*,*]} Array of options
+ */
 export function statusOptions() {
     return [
         { label: i18n.t("global_config.status_list.draft"), value: 'draft' },
@@ -33,6 +40,10 @@ export function statusOptions() {
         { label: i18n.t("global_config.status_list.unavailable"), value: 'unavailable' }];
 }
 
+/**
+ * Gets the translated array of course context options
+ * @returns {[*,*,*,*]} Array of options
+ */
 export function contextOptions() {
     return [
         { label: i18n.t("global_config.context_list.school"), value: 'school' },
@@ -41,6 +52,10 @@ export function contextOptions() {
         { label: i18n.t("global_config.context_list.other"), value: 'other' }];
 }
 
+/**
+ * Gets the translated array of course license options
+ * @returns {[*,*,*,*]} Array of options
+ */
 export function rightsOptions() {
     return [
         { value: "Public Domain", label: i18n.t("global_config.public_domain") },
@@ -52,12 +67,24 @@ export function rightsOptions() {
         { value: "CreativeCommons BY-NC-ND", label: "CreativeCommons BY-NC-ND" }];
 }
 
+/**
+ * Array of difficulty levels
+ */
 export const difLevels = ['very easy', 'easy', 'medium', 'difficult', 'very difficult'];
 
+/**
+ * Sort an array of objects alphabetically by value of parameter key
+ * @param arr Arary to order
+ * @param key Key by which to order the array
+ */
 function sortByKey(arr, key) {
     return arr.sort((a, b) => a[key].localeCompare(b[key]));
 }
 
+/**
+ * Returns the alphabetically sorted list of available languages
+ * @returns {*}
+ */
 export function languages() {
     return sortByKey([
         { value: "af", label: i18n.t("languages.Afrikanns") },

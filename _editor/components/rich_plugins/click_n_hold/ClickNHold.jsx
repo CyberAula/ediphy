@@ -3,26 +3,55 @@ import ReactDOM from 'react-dom';
 import { findParentBySelector } from '../../../../common/utils';
 require('./_click_n_hold.scss');
 /*
-* <ClickNHold onClickNHold={e=>{...}} // callback
+* Component wrapper for editing marks by dragging them
+* @example <ClickNHold onClickNHold={e=>{...}} // callback
 *             time={2}>   // time to hold (secs)
 *           <Component1/><Component2/>...  //Children
 *  </ClickNHold>
-* */
+*
+*/
 export default class ClickNHold extends Component {
+    /**
+     * Constructor
+     * @param props
+     */
     constructor(props) {
         super(props);
+        /**
+         * Component's initial state
+         * @type {{holding: boolean, start: number, ended: boolean}}
+         */
         this.state = {
             holding: false,
             start: 0,
             ended: false,
         };
+        /**
+         * Binded function
+         */
         this.start = this.start.bind(this);
+        /**
+         * Binded function
+         */
         this.end = this.end.bind(this);
+        /**
+         * Binded function
+         */
         this.timeout = this.timeout.bind(this);
+        /**
+         * Binded function
+         */
         this.overlay = this.overlay.bind(this);
+        /**
+         * Binded function
+         */
         this.mouseLeave = this.mouseLeave.bind(this);
     }
 
+    /**
+     * Drag start callback
+     * @param e Event
+     */
     start(e) {
         let ended = this.state.ended;
         let start = Date.now();
@@ -32,13 +61,21 @@ export default class ClickNHold extends Component {
         e.stopPropagation();
     }
 
-    end(event) {
+    /**
+     * Drag end callback
+     * @param e Event
+     */
+    end(e) {
         this.setState({ start: 0, holding: false, ended: true });
-
         // e.stopPropagation()
     }
 
+    /**
+     * Timeout callback
+     * @param start
+     */
     timeout(start) {
+        // Only edit mark if enough time has passed
         if (this.state.holding && this.state.start === start) {
             if (this.props.onClickNHold) {
                 this.props.onClickNHold(start);
@@ -51,11 +88,21 @@ export default class ClickNHold extends Component {
         this.setState({ ended: true, editing: false });
 
     }
+
+    /**
+     * Mouse leave callback
+     * @param e Event
+     */
     mouseLeave(e) {
         if (this.state.holding) {
             this.end(e);
         }
     }
+
+    /**
+     * Render React Component
+     * @returns {code}
+     */
     render() {
         let classList = '';
         classList += this.state.holding ? 'holding ' : '';
@@ -85,6 +132,9 @@ export default class ClickNHold extends Component {
         );
     }
 
+    /**
+     * Overlay creation
+     */
     overlay() {
         let myself = ReactDOM.findDOMNode(this);
         let dropableElement = findParentBySelector(myself, '.dropableRichZone');
@@ -161,7 +211,6 @@ export default class ClickNHold extends Component {
             base.render('UPDATE_BOX');
         };
         dropableElement.parentElement.appendChild(overlay);
-        /* OVERLAY */
 
     }
 

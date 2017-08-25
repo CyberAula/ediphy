@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { Button } from 'react-bootstrap';
 import interact from 'interact.js';
 import DaliBox from '../dali_box/DaliBox';
 import { RESIZE_SORTABLE_CONTAINER, ADD_BOX } from '../../../../common/actions';
@@ -9,6 +8,9 @@ import Dali from './../../../../core/main';
 
 require('./_pluginPlaceHolder.scss');
 
+/**
+ * @deprecated
+ */
 export default class PluginPlaceholder extends Component {
     render() {
         let container = this.props.parentBox.sortableContainers[this.props.pluginContainer];
@@ -18,7 +20,6 @@ export default class PluginPlaceholder extends Component {
             className += " childBoxSelected";
         }
         return (
-            /* jshint ignore:start */
             <div style={
                 Object.assign({}, {
                     width: "100%",
@@ -86,7 +87,6 @@ export default class PluginPlaceholder extends Component {
                     return null;
                 })}
             </div>
-            /* jshint ignore:end */
         );
     }
 

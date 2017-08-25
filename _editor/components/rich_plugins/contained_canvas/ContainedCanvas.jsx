@@ -1,29 +1,38 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-import DaliBox from '../../canvas/dali_box/DaliBox';
-import DaliBoxSortable from '../../canvas/dali_box_sortable/DaliBoxSortable';
-import DaliShortcuts from '../../canvas/dali_shortcuts/DaliShortcuts';
-import { Col, Button } from 'react-bootstrap';
+import { Col } from 'react-bootstrap';
 import DaliCanvasSli from '../../canvas/dali_canvas_sli/DaliCanvasSli';
 import DaliCanvasDoc from '../../canvas/dali_canvas_doc/DaliCanvasDoc';
-import { ADD_BOX } from '../../../../common/actions';
-import Dali from '../../../../core/main';
-import { isSortableBox, isSlide } from '../../../../common/utils';
+import { isSlide } from '../../../../common/utils';
 
+/**
+ * Container component to render contained views
+ *
+ */
 export default class ContainedCanvas extends Component {
+    /**
+     * Constructor
+     * @param props
+     */
     constructor(props) {
         super(props);
+        /**
+         * Component's initial state
+         * @type {{showTitle: boolean}}
+         */
         this.state = {
             showTitle: false,
         };
     }
 
+    /**
+     * Render React Component
+     * @returns {*}
+     */
     render() {
         let canvasContent;
         let containedViewSelected = this.props.containedViewSelected;
         if (containedViewSelected && containedViewSelected !== 0) {
             if (isSlide(containedViewSelected.type)) {
-                /* jshint ignore:start */
                 canvasContent = (<DaliCanvasSli
                     addMarkShortcut={this.props.addMarkShortcut}
                     boxes={this.props.boxes}
@@ -54,10 +63,7 @@ export default class ContainedCanvas extends Component {
                     toolbars={this.props.toolbars}
                     showCanvas={this.props.showCanvas}
                 />);
-
-                /* jshint ignore:end */
-            }else{
-                /* jshint ignore:start */
+            } else {
                 canvasContent = (<DaliCanvasDoc
                     addMarkShortcut={this.props.addMarkShortcut}
                     boxes={this.props.boxes}
@@ -91,10 +97,8 @@ export default class ContainedCanvas extends Component {
                     titleModeToggled={this.props.titleModeToggled}
                     title={this.props.title}
                 />);
-                /* jshint ignore:end */
             }
         } else {
-            /* jshint ignore:start */
             canvasContent = (<Col id="containedCanvas"
                 md={12}
                 xs={12}
@@ -103,56 +107,21 @@ export default class ContainedCanvas extends Component {
                     padding: 0,
                     display: this.props.containedViewSelected !== 0 ? 'initial' : 'none',
                 }} />);
-            /* jshint ignore:end */
 
         }
         return (
-            /* jshint ignore:start */
             canvasContent
-            /* jshint ignore:end */
         );
     }
 
+    /**
+     * Before component receives props
+     * @param nextProps
+     */
     componentWillReceiveProps(nextProps) {
         if (nextProps.boxSelected !== -1) {
             this.setState({ showTitle: false });
         }
-        /* if (this.props.navItemSelected.id !== nextProps.navItemSelected.id) {
-            document.getElementById('contained_maincontent').scrollTop = 0;
-        }*/
     }
 
-    /* componentDidMount() {
-        interact(ReactDOM.findDOMNode(this)).dropzone({
-            accept: '.floatingDaliBox',
-            //overlap: 'pointer',
-            ondropactivate: function (event) {
-                event.target.classList.add('drop-active');
-            },
-            ondragenter: function (event) {
-                event.target.classList.add("drop-target");
-            },
-            ondragleave: function (event) {
-                event.target.classList.remove("drop-target");
-            },
-            ondrop: function (event) {
-                let position = {
-                    x: (event.dragEvent.clientX - event.target.getBoundingClientRect().left - document.getElementById('contained_maincontent').offsetLeft)/document.getElementById('containedCanvas').offsetWidth*100 + '%',
-                    y: (event.dragEvent.clientY - event.target.getBoundingClientRect().top + document.getElementById('contained_maincontent').scrollTop)/document.getElementById('containedCanvas').offsetHeight*100 + '%',
-                    type: 'absolute'
-                };
-                let initialParams = {
-                    parent: this.props.containedViews[this.props.containedViewSelected].parent,
-                    container: this.props.containedViewSelected,
-                    position: position
-                };
-                Dali.Plugins.get(event.relatedTarget.getAttribute("name")).getConfig().callback(initialParams, ADD_BOX);
-                event.dragEvent.stopPropagation();
-            }.bind(this),
-            ondropdeactivate: function (event) {
-                event.target.classList.remove('drop-active');
-                event.target.classList.remove("drop-target");
-            }
-        });
-    }*/
 }

@@ -3,7 +3,8 @@ import ReactDOM from 'react-dom';
 import { Button, Modal } from 'react-bootstrap';
 import i18n from 'i18next';
 /** *
- *  <Alert show={this.state.showAlert}      | true : displays alert / false: hides alert
+ * Custom alert component
+ * @example  <Alert show={this.state.showAlert}      | true : displays alert / false: hides alert
  *          className="myAlert"             | custom css class (default: popupAlert)
  *          bsStyle="default"               | bootstrap style (default: default)
  *          hasHeader                       | whether modal has a header (default: false)
@@ -18,10 +19,18 @@ import i18n from 'i18next';
  *  </Alert>
  */
 export default class Alert extends Component {
+    /**
+     * Constructor
+     * @param props React Component props
+     */
     constructor(props) {
         super(props);
     }
 
+    /**
+     * Renders React component
+     * @returns {code}
+     */
     render() {
         return(
             <Modal id="alertModal" className={this.props.className || 'popupAlert'}

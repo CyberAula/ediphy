@@ -2,10 +2,20 @@ import React, { Component } from 'react';
 import { Modal, Button, Row } from 'react-bootstrap';
 import Dali from './../../../core/main';
 
+/**
+ * Configuration modal for plugins that require it
+ */
 export default class PluginConfigModal extends Component {
-
+    /**
+     * Constructor
+     * @param props
+     */
     constructor(props) {
         super(props);
+        /**
+         * Component's initial state
+         * @type {{show: boolean, pluginActive: string, reason: null, disabledButton: boolean}}
+         */
         this.state = {
             show: false,
             pluginActive: '',
@@ -14,6 +24,12 @@ export default class PluginConfigModal extends Component {
         };
     }
 
+    /**
+     * Before component updates
+     * Gets config updates from Plugin API
+     * @param nextProps
+     * @param nextState
+     */
     componentWillUpdate(nextProps, nextState) {
 
         if(this.state.show === false && nextState.show === true &&
@@ -31,9 +47,12 @@ export default class PluginConfigModal extends Component {
         }
     }
 
+    /**
+     * Render React Component
+     * @returns {code}
+     */
     render() {
         return (
-            /* jshint ignore:start */
             <Modal className="pageModal pluginconfig" backdrop bsSize="large" show={this.state.show} onHide={()=>{ this.setState({ show: false, reason: null }); }}>
                 <Modal.Header closeButton>
                     <Modal.Title>Plugin Configuration</Modal.Title>
@@ -63,10 +82,13 @@ export default class PluginConfigModal extends Component {
                 </Modal.Footer>
 
             </Modal>
-            /* jshint ignore:end */
         );
     }
 
+    /**
+     * After component mounts.
+     * Gets configuration from Plugin API
+     */
     componentDidMount() {
         Dali.API_Private.listenEmission(Dali.API_Private.events.openConfig, (e) => {
             this.setState({ show: true, pluginActive: e.detail.name, reason: e.detail.reason });

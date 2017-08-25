@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import { Tooltip, Button, ButtonGroup, Col, OverlayTrigger, Popover } from 'react-bootstrap';
+import { Tooltip, Button, OverlayTrigger, Popover } from 'react-bootstrap';
 
 import { ID_PREFIX_PAGE, ID_PREFIX_SECTION, ID_PREFIX_SORTABLE_BOX, PAGE_TYPES } from '../../../../common/constants';
 import Section from './../section/Section';
-import PageMenu from './../page_menu/PageMenu';
 import DaliIndexTitle from './../dali_index_title/DaliIndexTitle';
 import { isPage, isSection, isSlide, isContainedView, calculateNewIdOrder } from '../../../../common/utils';
 import i18n from 'i18next';
@@ -11,15 +10,31 @@ import Dali from './../../../../core/main';
 
 require('./_carrouselList.scss');
 
+/**
+ * Dali CarrouselList Component
+ * List of all the course's views and contained views
+ */
 export default class CarrouselList extends Component {
+    /**
+     * Constructor
+     * @param props
+     */
     constructor(props) {
         super(props);
+        /**
+         * Component's initial state
+         * @type {{showSortableItems: boolean, showContainedViews: boolean}}
+         */
         this.state = {
             showSortableItems: true,
             showContainedViews: true,
         };
     }
 
+    /**
+     * Calculates how much height is available for the view list, depending on the expanded sections
+     * @returns {*}
+     */
     getContentHeight() {
         if(!this.state.showSortableItems && !this.state.showContainedViews) {
             return("50px");
@@ -32,15 +47,14 @@ export default class CarrouselList extends Component {
 
     }
 
-    getContainedViewHeight() {
-
-    }
-
+    /**
+     * Renders React Component
+     * @returns {code}
+     */
     render() {
         let containedViewsIncluded = Object.keys(this.props.containedViews).length > 0;
 
         return (
-            /* jshint ignore:start */
             <div style={{ height: "100%" }}>
                 <div style={{ height: "20px", backgroundColor: "black", marginBottom: "2px", paddingLeft: "10px", cursor: 'pointer' }} onClick={()=> {
                     this.setState({ showSortableItems: !this.state.showSortableItems });
@@ -297,6 +311,11 @@ export default class CarrouselList extends Component {
         );
     }
 
+    /**
+     * Checks if contained view leaves orphan marks
+     * @param id Contained view id
+     * @returns {*}
+     */
     canDeleteContainedView(id) {
         if (id !== 0 && isContainedView(id)) {
             let thisPage = this.props.containedViews[id];
@@ -310,6 +329,11 @@ export default class CarrouselList extends Component {
 
         return false;
     }
+
+    /** *
+     * Get navItem's parent
+     * @returns {*}
+     */
     getParent() {
         // If the selected navItem is not a section, it cannot have children -> we return it's parent
         if (isSection(this.props.indexSelected)) {
@@ -318,6 +342,10 @@ export default class CarrouselList extends Component {
         return this.props.navItems[this.props.navItems[this.props.indexSelected].parent] || this.props.navItems[0];
     }
 
+    /**
+     * Calculate navItem's position on index
+     * @returns {*}
+     */
     calculatePosition() {
         let parent = this.getParent();
         let ids = this.props.navItemsIds;
@@ -339,6 +367,10 @@ export default class CarrouselList extends Component {
         return ids.length;
     }
 
+    /**
+     * After component mounts
+     * Sets up jQuery sortable features on the index
+     */
     componentDidMount() {
         let list = jQuery(this.refs.sortableList);
         let props = this.props;
@@ -400,6 +432,10 @@ export default class CarrouselList extends Component {
         });
     }
 
+    /**
+     * Before the component unmounts
+     * Unset jQuery sortable features
+     */
     componentWillUnmount() {
         jQuery(this.refs.sortableList).sortable("destroy");
     }

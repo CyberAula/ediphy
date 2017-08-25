@@ -1,13 +1,19 @@
 import React, { Component } from 'react';
-import { Modal, Button, Tabs, Tab, Col } from 'react-bootstrap';
+import { Button, Col } from 'react-bootstrap';
 import interact from 'interact.js';
 import Dali from './../../../../core/main';
-import { isSortableBox, isSlide } from '../../../../common/utils';
 import ReactDOM from 'react-dom';
 
 require('./_pluginRibbon.scss');
 
+/**
+ * Plugin ribbon inside toolbar
+ */
 export default class PluginRibbon extends Component {
+    /**
+     * Constructor
+     * @param props
+     */
     constructor(props) {
         super(props);
         this.state = {
@@ -15,9 +21,12 @@ export default class PluginRibbon extends Component {
         };
     }
 
+    /**
+     * Render React Component
+     * @returns {code}
+     */
     render() {
         return (
-            /* jshint ignore:start */
             <Col id="ribbon"
                 md={12}
                 xs={12}
@@ -54,11 +63,14 @@ export default class PluginRibbon extends Component {
                         })}
                     </div>
                 </div>
-
             </Col>
-            /* jshint ignore:end */
         );
     }
+
+    /**
+     * Scroll handler
+     * @param e
+     */
     handleScroll(e) {
         let element = this.props.containedViewSelected !== 0 ? document.getElementById("containedCanvas") : document.getElementById("canvas");
         if (e.deltaY > 0) { // scroll-down
@@ -67,13 +79,21 @@ export default class PluginRibbon extends Component {
             element.scrollTop = element.scrollTop - 20;
         }
     }
+
+    /**
+     * Before component unmounts
+     */
     componentWillUnmount() {
         const holder = ReactDOM.findDOMNode(this.refs.holder);
         holder.removeEventListener('mousewheel', this.handleScroll);
     }
 
+    /**
+     * Unset interactable and put it back with autoscroll false this is mandatory when changing between containecanvas and canvas
+     * @param nextProps
+     * @param nextState
+     */
     componentWillUpdate(nextProps, nextState) {
-        // unset interactable and put it back with autoscroll false this is mandatory when changing between containecanvas and canvas
         let container;
 
         if(this.props.containedViewSelected !== nextProps.containedViewSelected) {
@@ -165,6 +185,11 @@ export default class PluginRibbon extends Component {
 
     }
 
+    /**
+     * After component mounts
+     * Load available plugins from API
+     * Set interact and other listeners
+     */
     componentDidMount() {
         Dali.API_Private.listenEmission(Dali.API_Private.events.addMenuButtons, e => {
             this.setState({ buttons: this.state.buttons.concat(e.detail) });
@@ -262,6 +287,10 @@ export default class PluginRibbon extends Component {
     }
 }
 
+/** *
+ * Change ribbon CSS while dragging plugin in order to avoid overflow and scroll bug
+ * @param bool
+ */
 function changeOverflow(bool) {
     document.getElementById('ribbonRow').style.overflowX = bool ? 'visible' : 'auto';
     document.getElementById('ribbon').style.overflowX = bool ? 'visible' : 'hidden';

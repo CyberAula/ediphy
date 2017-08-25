@@ -1,8 +1,22 @@
 import React from 'react';
 
+/**
+ * FileInput component for dragging and dropping files
+ */
 export default class FileInput extends React.Component {
+    /**
+     * Render React Component
+     * @returns {code}
+     */
     render() {
-        let { name = 'file', disabled, accept, onChange = function() { return null; }, style = {}, className = '', children } = this.props;
+        let { name = 'file',
+            disabled,
+            accept,
+            onChange = function() { return null; },
+            style = {},
+            className = '',
+            children } = this.props;
+
         style.position = "relative";
         style.display = 'inline-block';
         return (

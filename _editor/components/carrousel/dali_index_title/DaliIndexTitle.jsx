@@ -1,35 +1,36 @@
 import React, { Component } from 'react';
 import { isPage, isSection } from '../../../../common/utils';
-import { FormGroup, ControlLabel, FormControl } from 'react-bootstrap';
-import ReactDOM from 'react-dom';
+import { FormControl } from 'react-bootstrap';
 import Dali from './../../../../core/main';
 import i18n from 'i18next';
 
 require('./_daliIndexTitle.scss');
 
+/**
+ * Component for editing index elements in situ
+ */
 export default class DaliIndexTitle extends Component {
-
-    getDefaultValue() {
-        if (isPage(this.props.id)) {
-            return i18n.t("page");
-        } else if(isSection(this.props.id)) {
-            return i18n.t("section");
-        }
-        return "Blank";
-
-    }
-
+    /**
+     * Constructor
+     * @param props
+     */
     constructor(props) {
         super(props);
+        /**
+         * Component's initial state
+         */
         this.state = {
             editing: false,
             currentValue: this.props.title,
         };
     }
 
+    /**
+     * Renders React Component
+     * @returns {code}
+     */
     render() {
         return (
-            /* jshint ignore:start */
             <span>
                 {!this.state.editing ?
                     (<div className="actualSectionTitle"
@@ -81,7 +82,21 @@ export default class DaliIndexTitle extends Component {
                 <i className="material-icons"
                     style={{ position: "absolute", right: "0", color: this.props.hidden ? "gray" : "white" }}>{this.props.hidden ? "visibility_off" : ""}</i>
             </span>
-            /* jshint ignore:end */
         );
     }
+
+    /**
+     * Get default value if left empty
+     * @returns {string}
+     */
+    getDefaultValue() {
+        if (isPage(this.props.id)) {
+            return i18n.t("page");
+        } else if(isSection(this.props.id)) {
+            return i18n.t("section");
+        }
+        return "Blank";
+
+    }
+
 }

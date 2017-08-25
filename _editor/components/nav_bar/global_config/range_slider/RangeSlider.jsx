@@ -1,14 +1,21 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 
 require('./_rangeslider.scss');
-
+/**
+ * Range slider component with min and max draggable values
+ */
 export default class RangeSlider extends Component {
-
+    /**
+     * Constructor
+     * @param props
+     */
     constructor(props) {
         super();
         let min = props.minValue || props.min;
         let max = props.maxValue || props.max;
+        /**
+         * Component's initial state
+         */
         this.state = {
             min: props.min,
             max: props.max,
@@ -17,22 +24,23 @@ export default class RangeSlider extends Component {
             minRange: props.minRange || 500,
         };
     }
-    componentDidMount() {
-        /* let min = this.props.minValue || this.props.min;
-        let max = this.props.maxValue || this.props.max;
-        this.state.minElement.value = min;
-        this.state.maxElement.value = max;
-        this.setState({ min: min, max: max }); */
-    }
+
+    /**
+     * Keep state in sync if we get new props
+     * @param props
+     */
     componentWillReceiveProps(props) {
-        // keep state in sync if we get new props
-        // TODO: consolidate with CDM
         let min = this.props.minValue || this.props.min;
         let max = this.props.maxValue || this.props.max;
         this.state.minElement.value = min;
         this.state.maxElement.value = max;
         this.setState({ min: min, max: max });
     }
+
+    /**
+     * Render React Component
+     * @returns {code}
+     */
     render() {
         let classN = (this.props.className ? this.props.className : '') + ' W(100%)';
         return (

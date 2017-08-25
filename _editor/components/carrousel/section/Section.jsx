@@ -1,17 +1,21 @@
 import React, { Component } from 'react';
-import { Button } from 'react-bootstrap';
-import { ID_PREFIX_PAGE, ID_PREFIX_SECTION } from '../../../../common/constants';
 import DaliIndexTitle from '../dali_index_title/DaliIndexTitle';
 import { isPage, isSection, isSlide, calculateNewIdOrder } from '../../../../common/utils';
 import Dali from './../../../../core/main';
 
+/**
+ * Section element in index
+ */
 export default class Section extends Component {
+    /**
+     * Render React Component
+     * @returns {code}
+     */
     render() {
         let navItem = this.props.navItems[this.props.id];
         let classSelected = this.props.navItemSelected === navItem.id ? 'selected' : 'notSelected';
         let classIndexSelected = this.props.indexSelected === navItem.id ? ' classIndexSelected' : '';
         return (
-            /* jshint ignore:start */
             <div id={this.props.id}
                 onMouseDown={e => {
                     this.props.onIndexSelected(navItem.id);
@@ -120,10 +124,13 @@ export default class Section extends Component {
                     })}
                 </div>
             </div>
-            /* jshint ignore:end */
         );
     }
 
+    /**
+     * After component mounts
+     * Set sortable functions
+     */
     componentDidMount() {
         let list = jQuery(this.refs.sortableList);
         list.sortable({
@@ -187,6 +194,10 @@ export default class Section extends Component {
         });
     }
 
+    /**
+     * Before component unmounts
+     * Unset sortable functions
+     */
     componentWillUnmount() {
         jQuery(this.refs.sortableList).sortable("destroy");
     }

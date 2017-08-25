@@ -1,21 +1,35 @@
 import React, { Component } from 'react';
-import { Button, FormControl, InputGroup, FormGroup, ControlLabel, OverlayTrigger, Popover, Tooltip } from 'react-bootstrap';
+import { FormControl, InputGroup, FormGroup, ControlLabel, OverlayTrigger, Popover, Tooltip } from 'react-bootstrap';
 import ColorPicker from './../../common/color-picker/ColorPicker';
 import i18n from 'i18next';
 import RadioButtonFormGroup from '../radio_button_form_group/RadioButtonFormGroup';
 
 require('./_gridConfigurator.scss');
 
+/**
+ * Toolbar structure component for Sortable Containers
+ */
 export default class GridConfigurator extends Component {
+    /**
+     * Constructor
+     * @param props
+     */
     constructor(props) {
         super(props);
+        /**
+         * Default height
+         * @type {number}
+         */
         this.height = 200;
     }
 
+    /**
+     * Render React Component
+     * @returns {XML}
+     */
     render() {
         let alignment = this.props.container.style ? (this.props.container.style.textAlign ? this.props.container.style.textAlign : 'center') : 'center';
         let advancedColumns = (
-            /* jshint ignore:start */
             <FormGroup>
                 <ControlLabel>{i18n.t('messages.columns_distribution')}</ControlLabel>
                 <FormControl type="text"
@@ -34,19 +48,15 @@ export default class GridConfigurator extends Component {
                         this.props.onColsChanged(this.props.id, this.props.parentId, dist, this.props.container.children);
                     }}/>
             </FormGroup>
-            /* jshint ignore:end */
         );
         let tooltip = (
-            /* jshint ignore:start */
             <Tooltip id="tooltipHeight">
                 {i18n.t('messages.height_auto_warning')}
             </Tooltip>
-            /* jshint ignore:end */
         );
         let height = this.props.sortableProps.height;
 
         return (
-            /* jshint ignore:start */
             <div style={{ width: '100%' }}>
                 <h4 className="sortableToolbarTitle">{i18n.t('Structure')}</h4>
                 <FormGroup>
@@ -251,7 +261,6 @@ export default class GridConfigurator extends Component {
                             }))])
                 }
             </div>
-            /* jshint ignore:end */
         );
     }
 }

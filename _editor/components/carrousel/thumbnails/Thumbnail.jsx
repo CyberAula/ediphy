@@ -3,6 +3,9 @@ import { Button, ButtonGroup } from 'react-bootstrap';
 
 require('./_thumbnails.scss');
 
+/**
+ * @deprecated
+ */
 export default class Thumbnail extends Component {
     render() {
         let border = (this.props.isSelected) ? "2px solid #f87060" : "";

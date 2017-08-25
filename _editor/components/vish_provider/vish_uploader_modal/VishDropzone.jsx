@@ -1,18 +1,35 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import FileInput from './../../common/file-input/FileInput';
 
-export default class VishDropzone extends React.Component {
-
+/**
+ * VISH Dropzone component
+ */
+export default class VishDropzone extends Component {
+    /**
+     * Constructor
+     * @param props
+     */
     constructor(props) {
         super(props);
+        /**
+         * Component's initial state
+         * @type {{hover: boolean, file: null}}
+         */
         this.state = {
             hover: false,
             file: null,
         };
+        /**
+         * Binded function
+         */
         this.onDrop = this.onDrop.bind(this);
     }
 
+    /**
+     * Dropped file callback
+     * @param acceptedFile
+     * @param rejectedFile
+     */
     onDrop(acceptedFile, rejectedFile) {
 
         if (acceptedFile.length === 1) {
@@ -30,6 +47,10 @@ export default class VishDropzone extends React.Component {
         this.setState({ hover: false });
     }*/
 
+    /**
+     * Render React Component
+     * @returns {code}
+     */
     render() {
         let file = this.state.file;
 

@@ -8,10 +8,20 @@ import i18n from 'i18next';
 import { isSection, isContainedView, nextAvailName } from '../../../../common/utils';
 require('./_richMarksModal.scss');
 
+/**
+ * Modal component to edit marks' configuration
+ */
 export default class RichMarksModal extends Component {
-
+    /**
+     * Constructor
+     * @param props
+     */
     constructor(props) {
         super(props);
+        /**
+         * Component's initial state
+         * @type {{connectMode: string, displayMode: string, newSelected: string, existingSelected: string, newType: string, viewNames: *, showAlert: boolean}}
+         */
         this.state = {
             connectMode: "new",
             displayMode: "navigate",
@@ -23,6 +33,11 @@ export default class RichMarksModal extends Component {
         };
     }
 
+    /**
+     * Before component receives props
+     * Updates component's state with toolbar's state info
+     * @param nextProps
+     */
     componentWillReceiveProps(nextProps) {
         let current = nextProps.currentRichMark;
         let allViews = this.returnAllViews(nextProps);
@@ -52,6 +67,10 @@ export default class RichMarksModal extends Component {
 
     }
 
+    /**
+     * Render React Component
+     * @returns {code}
+     */
     render() {
         let richMarkValue = null;
         let marksType = this.props.pluginToolbar && this.props.pluginToolbar.config && this.props.pluginToolbar.config.marksType && this.props.pluginToolbar.config.marksType[0] ? this.props.pluginToolbar.config.marksType[0] : {};
@@ -80,7 +99,7 @@ export default class RichMarksModal extends Component {
             /* jshint ignore:start */
             <Modal className="pageModal richMarksModal" backdrop bsSize="large" show={this.props.visible}>
                 <Modal.Header>
-                    <Modal.Title>{(current ? i18n.t("marks.edit_mark_to") : i18n.t("marks.add_mark_to")) + pluginType }</Modal.Title>
+                    <Modal.Title><i style={{ fontSize: '18px' }} className="material-icons">room</i> {(current ? i18n.t("marks.edit_mark_to") : i18n.t("marks.add_mark_to")) + pluginType }</Modal.Title>
                 </Modal.Header>
 
                 <Modal.Body>
@@ -102,6 +121,11 @@ export default class RichMarksModal extends Component {
                                 <ControlLabel>{i18n.t("marks.mark_color")}</ControlLabel>
                             </Col>
                             <Col xs={8} md={6}>
+                                {/* <ColorPicker
+                                    value={this.state.color || marksType.defaultColor}
+                                    label={i18n.t("marks.mark_color")}
+                                    onChange={e=>{this.setState({ color: e.color });}}
+                                    mode='RGB' />*/}
                                 <FormControl ref="color"
                                     type="color"
                                     value={this.state.color || marksType.defaultColor}
@@ -294,9 +318,11 @@ export default class RichMarksModal extends Component {
 
     }
 
-    /*
-    * Maping method that joins cointainedViews and navItems in array but excluding the ones that can't be
-    * */
+    /**
+     * Mapping method that joins cointained views and navItems in array but excluding the ones that can't be
+     * @param props Component's props
+     * @returns {Array} Array of views
+     */
     returnAllViews(props) {
         let viewNames = [];
         props.navItemsIds.map(id => {
@@ -330,9 +356,11 @@ export default class RichMarksModal extends Component {
         return viewNames;
     }
 
-    /*
-    * Method used to remap navItems and containedViews together
-    * */
+    /**
+     * Method used to remap navItems and containedViews together
+     * @param objects
+     * @returns {*}
+     */
     remapInObject(...objects) {
         return Object.assign({}, ...objects);
     }

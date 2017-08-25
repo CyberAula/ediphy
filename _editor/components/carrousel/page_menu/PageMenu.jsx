@@ -5,7 +5,14 @@ import { ID_PREFIX_SORTABLE_BOX, PAGE_TYPES } from '../../../../common/constants
 import i18n from 'i18next';
 import { isSection } from '../../../../common/utils';
 
+/** *
+ * Index edition buttons
+ */
 export default class PageMenu extends Component {
+    /**
+     *  Renders React Component
+     * @returns {code}
+     */
     render() {
         return (
             <Dropdown role="menuitem"
@@ -55,6 +62,10 @@ export default class PageMenu extends Component {
         );
     }
 
+    /**
+     * Get selected element's parent
+     * @returns {*}
+     */
     getParent() {
         // If the selected navItem is not a section, it cannot have children -> we return it's parent
         if (isSection(this.props.navItemSelected)) {
@@ -63,6 +74,10 @@ export default class PageMenu extends Component {
         return this.props.navItems[this.props.navItems[this.props.navItemSelected].parent];
     }
 
+    /**
+     * Calculate element's position in index
+     * @returns {*}
+     */
     calculatePosition() {
         let parent = this.getParent();
         let ids = this.props.navItemsIds;

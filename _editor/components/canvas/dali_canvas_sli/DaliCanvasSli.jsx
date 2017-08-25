@@ -13,15 +13,31 @@ import Dali from './../../../../core/main';
 import ReactResizeDetector from 'react-resize-detector';
 import i18n from 'i18next';
 
+/**
+ * DaliCanvasSli component
+ * Canvas component to display slides
+ */
 export default class DaliCanvasSli extends Component {
+    /**
+     * Constructor
+     * @param props
+     */
     constructor(props) {
         super(props);
+        /**
+         * Component's initial state
+         * @type {{showTitle: boolean, alert: null}}
+         */
         this.state = {
             showTitle: false,
             alert: null,
         };
     }
 
+    /**
+     * Renders React component
+     * @returns {code}
+     */
     render() {
         let itemSelected = this.props.fromCV ? this.props.containedViewSelected : this.props.navItemSelected;
         let titles = [];
@@ -166,6 +182,10 @@ export default class DaliCanvasSli extends Component {
         );
     }
 
+    /**
+     * After component mounts
+     * Set up interact in order to enable dragging boxes
+     */
     componentDidMount() {
         interact(ReactDOM.findDOMNode(this.refs.slideDropZone)).dropzone({
             accept: '.floatingDaliBox',
@@ -222,11 +242,20 @@ export default class DaliCanvasSli extends Component {
         // window.addEventListener("resize", aspectRatio);
     }
 
+    /**
+     * Before component unmounts
+     * Unset interact
+     */
     componentWillUnmount() {
         // window.removeEventListener("resize", aspectRatio);
         interact(ReactDOM.findDOMNode(this.refs.slideDropZone)).unset();
     }
 
+    /**
+     * Before component updates
+     * Set aspect ratio acccording to current window size
+     * @param nextProps
+     */
     componentWillUpdate(nextProps) {
         if (this.props.canvasRatio !== nextProps.canvasRatio) {
             window.canvasRatio = nextProps.canvasRatio;

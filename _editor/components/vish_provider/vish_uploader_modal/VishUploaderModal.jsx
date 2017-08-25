@@ -1,24 +1,32 @@
 import React, { Component } from 'react';
 import VishDropzone from './VishDropzone';
 import ReactDOM from 'react-dom';
-import { Modal, FormControl, Col, Form, FormGroup, ControlLabel, Button, Glyphicon } from 'react-bootstrap';
+import { Modal, FormControl, Form, FormGroup, ControlLabel, Button } from 'react-bootstrap';
+import i18n from 'i18next';
 
+/**
+ * VISH Uploader Component
+ */
 export default class VishUploaderModal extends Component {
+    /**
+     * Renders React Component
+     * @returns {code}
+     */
     render() {
         return (
             <Modal className="pageModal" backdrop bsSize="large" show={this.props.visible}>
                 <Modal.Header>
-                    <Modal.Title>Upload pictures, videos and other resources</Modal.Title>
+                    <Modal.Title>{i18n.t("vish_upload_other")}</Modal.Title>
                 </Modal.Header>
 
                 <Modal.Body>
                     <Form>
                         <FormGroup>
-                            <ControlLabel>Title</ControlLabel>
+                            <ControlLabel>{i18n.t("vish_upload_title")}</ControlLabel>
                             <FormControl ref="title" type="text"/>
                         </FormGroup>
                         <FormGroup>
-                            <ControlLabel>Description</ControlLabel>
+                            <ControlLabel>{i18n.t("vish_upload_desc")}</ControlLabel>
                             <FormControl ref="desc" componentClass="textarea" style={{ resize: 'none' }}/>
                         </FormGroup>
                         <FormGroup>
@@ -45,13 +53,18 @@ export default class VishUploaderModal extends Component {
                                 }
                             );
                         }}>
-                        Upload
+                        {i18n.t("vish_upload")}
                     </Button>
                 </Modal.Footer>
             </Modal>
         );
     }
 
+    /**
+     * Before component receives props
+     * Displays busy message
+     * @param nextProps
+     */
     componentWillReceiveProps(nextProps) {
         if (!nextProps.isBusy.value && this.props.isBusy.value && this.props.visible) {
             this.props.onVishUploaderToggled(nextProps.isBusy.msg);

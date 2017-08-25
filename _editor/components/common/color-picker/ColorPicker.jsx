@@ -1,25 +1,43 @@
 import React, { Component } from 'react';
 import Picker from 'rc-color-picker';
+
 require('./../../../../node_modules/rc-color-picker/assets/index.css');
 require('./color_picker_input.scss');
-/** *
+
+/**
  * React input color component
  */
 export default class ColorPicker extends Component {
+    /**
+     *
+     * @param {object} props Inherited props
+     */
     constructor(props) {
         super(props);
         let { newColor, alpha } = this.internalFormat(this.props.value || '#000000');
+        /**
+         * Component's initial state
+         */
         this.state = {
             color: newColor,
             alpha: alpha,
         };
     }
 
+    /**
+     * Before component receives new props
+     * Sets state to new color
+     * @param nextProps
+     */
     componentWillReceiveProps(nextProps) {
         let { newColor, alpha } = this.internalFormat(nextProps.value);
         this.setState({ color: newColor, alpha: alpha });
     }
 
+    /**
+     * Render React component
+     * @returns {code}
+     */
     render() {
         return(
             <div className="colorPickerContainer" >
@@ -36,10 +54,10 @@ export default class ColorPicker extends Component {
 
     }
 
-    /** *
+    /**
      * Splits rgba value into rgb and alpha values
      * @param rgba
-     * @returns {newColor, alpha} newColor = rgb color, alpha = transparency value}
+     * @returns {newColor, alpha}
      */
     internalFormat(rgba) {
         let regex = /rgba\((\d+),(\d+),(\d+),(.+)\)/;
@@ -48,10 +66,15 @@ export default class ColorPicker extends Component {
             let newColor = '#' + this.rgbtoHex(oldColor[1]) + this.rgbtoHex(oldColor[2]) + this.rgbtoHex(oldColor[3]);
             return { newColor: newColor, alpha: oldColor[4] * 100 };
         }
-
         return { newColor: rgba, alpha: 100 };
     }
 
+    /**
+     * Converts hex color + alpha transparency to rgba value
+     * @param color
+     * @param alpha
+     * @returns {string}
+     */
     hexToRgba(color, alpha) {
         let cutHex = (color.charAt(0) === "#") ? color.substring(1, 7) : color;
         let r = parseInt(cutHex.substring(0, 2), 16);
@@ -63,6 +86,11 @@ export default class ColorPicker extends Component {
         return str;
     }
 
+    /**
+     * Converts rgb color to hex
+     * @param n R, G or B part or the color
+     * @returns {*} Two digits corresponding to the hex value of the color part
+     */
     rgbtoHex(n) {
         n = parseInt(n, 10);
         if (isNaN(n)) {return "00";}

@@ -6,14 +6,23 @@ import { isSlide } from '../../../../common/utils';
 
 require('./_canvas.scss');
 
+/**
+ * Container component to render documents or slides
+ *
+ */
 export default class DaliCanvas extends Component {
+    /**
+     * Constructor
+     * @param props React component props
+     */
     constructor(props) {
         super(props);
-        this.state = {
-            showTitle: false,
-        };
     }
 
+    /**
+     * Renders React Component
+     * @returns {code} React rendered component
+     */
     render() {
         let canvasContent;
         if (isSlide(this.props.navItemSelected.type)) {
@@ -47,10 +56,7 @@ export default class DaliCanvas extends Component {
                 toolbars={this.props.toolbars}
                 showCanvas={this.props.showCanvas}
             />;
-
-            /* jshint ignore:end */
         }else{
-            /* jshint ignore:start */
             canvasContent = <DaliCanvasDoc
                 addMarkShortcut={this.props.addMarkShortcut}
                 boxes={this.props.boxes}
@@ -91,16 +97,24 @@ export default class DaliCanvas extends Component {
         );
     }
 
+    /**
+     * Before component receives props
+     * Scrolls to top when the user changes to a different page
+     * @param nextProps
+     */
     componentWillReceiveProps(nextProps) {
-        if (nextProps.boxSelected !== -1) {
-            this.setState({ showTitle: false });
-        }
         if (this.props.navItemSelected.id !== nextProps.navItemSelected.id) {
             document.getElementById('maincontent').scrollTop = 0;
         }
     }
+
+    /**
+     * After component updates
+     * Fixes bug when reordering dalibox sortable CKEDITOR doesn't update otherwise
+     * @param prevProps React previous props
+     * @param prevState React previous state
+     */
     componentDidUpdate(prevProps, prevState) {
-        // Fixes bug when reordering dalibox sortable CKEDITOR doesn't update otherwise
         if(this.props.lastActionDispatched.type === REORDER_SORTABLE_CONTAINER) {
             for (let instance in CKEDITOR.instances) {
                 CKEDITOR.instances[instance].destroy();

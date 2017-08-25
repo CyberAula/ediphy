@@ -1,18 +1,28 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-import { Modal, FormControl, Col, Form, FormGroup, ControlLabel, Button } from 'react-bootstrap';
+import { Modal, Form, FormGroup, Button } from 'react-bootstrap';
+import i18n from 'i18next';
 
+/**
+ * VISH Catalog Modal
+ */
 export default class VishCatalogModal extends Component {
+    /**
+     * Constructor
+     * @param props
+     */
     constructor(props) {
         super(props);
     }
 
+    /**
+     * Render React Component
+     * @returns {code}
+     */
     render() {
         return (
-            /* jshint ignore:start */
             <Modal className="pageModal" backdrop bsSize="large" show={this.props.visible}>
                 <Modal.Header>
-                    <Modal.Title>IMÁGENES SUBIDAS</Modal.Title>
+                    <Modal.Title>{i18n.t("Uploaded_Images")}</Modal.Title>
                 </Modal.Header>
 
                 <Modal.Body>
@@ -28,7 +38,7 @@ export default class VishCatalogModal extends Component {
                                             border: "solid transparent 3px",
                                         }} />
                                 );
-                            }) : <div className="alert alert-info">No has subido ninguna imagen a este proyecto</div>}
+                            }) : <div className="alert alert-info">{i18n.t("Uploaded_Images_No")}</div>}
                         </FormGroup>
                     </Form>
                 </Modal.Body>
@@ -36,10 +46,9 @@ export default class VishCatalogModal extends Component {
                 <Modal.Footer>
                     <Button onClick={e => {
                         this.props.onVishCatalogToggled();
-                    }}>OK</Button>
+                    }}>{i18n.t("OK")}</Button>
                 </Modal.Footer>
             </Modal>
-            /* jshint ignore:end */
         );
     }
 }

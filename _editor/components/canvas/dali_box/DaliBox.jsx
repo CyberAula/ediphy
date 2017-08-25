@@ -11,8 +11,9 @@ import { isSortableBox, isSortableContainer, isAncestorOrSibling, isContainedVie
 
 require('./_daliBox.scss');
 
-/** *
- * Dali Box component
+/**
+ * Dali Box component.
+ * @desc It is the main and more complex component by far. It is the one in charge of painting a plugin's template and therefore it has many parts conditioned to the type of plugin.
  */
 export default class DaliBox extends Component {
     /**
@@ -21,6 +22,10 @@ export default class DaliBox extends Component {
      */
     constructor(props) {
         super(props);
+        /**
+         * Box border size
+         * @type {number}
+         */
         this.borderSize = 2;
     }
 
@@ -125,20 +130,15 @@ export default class DaliBox extends Component {
         }
         style.transform = style.WebkitTransform = style.MsTransform = rotate;
         let content = toolbar.config.flavor === "react" ? (
-            /* jshint ignore:start */
             <div style={style} {...attrs} className={"boxStyle " + classNames} ref={"content"}>
                 {box.content}
             </div>
-            /* jshint ignore:end */
         ) : (
-            /* jshint ignore:start */
             <div style={style} {...attrs} className={"boxStyle " + classNames} ref={"content"}>
                 {this.renderChildren(box.content)}
             </div>
-            /* jshint ignore:end */
         );
         let border = (
-            /* jshint ignore:start */
             <div style={{ visibility: (vis ? 'visible' : 'hidden') }}>
                 <div style={{
                     position: 'absolute',
@@ -159,7 +159,6 @@ export default class DaliBox extends Component {
                         style={{ right: -cornerSize / 2, bottom: -cornerSize / 2, width: cornerSize, height: cornerSize, cursor: (!isSortableContainer(box.container) ? 'se-resize' : 'move') }} />
                 </div>
             </div>
-            /* jshint ignore:end */
         );
 
         let classes = "wholebox";
@@ -194,7 +193,6 @@ export default class DaliBox extends Component {
 
         /* <MarkCreator/>*/
         return (
-            /* jshint ignore:start */
             <div className={classes} id={'box-' + this.props.id}
                 onClick={e => {
                     // If there's no box selected and current's level is 0 (otherwise, it would select a deeper box)
@@ -270,7 +268,6 @@ export default class DaliBox extends Component {
                     pageType={this.props.pageType}
                 />
             </div>
-            /* jshint ignore:end */
         );
     }
 
@@ -278,6 +275,7 @@ export default class DaliBox extends Component {
      * Renders box children
      * @param markup Content
      * @param key Unique React key
+     * @returns {children} React components for the box children
      */
     renderChildren(markup, key) {
         let component;
@@ -824,7 +822,7 @@ export default class DaliBox extends Component {
         return 0;
     }
 
-    /** *
+    /**
      * Before component unmounts
      * Unset interact listeners and destroy current CKEditor instances
      */
@@ -839,7 +837,10 @@ export default class DaliBox extends Component {
     }
 
 }
-
+/**
+ * Default props
+ * @type {{id: (*), boxes: shim, boxSelected: shim, boxLevelSelected: shim, containedViews: shim, containedViewSelected: shim, toolbars: shim, lastActionDispatched: shim, addMarkShortcut: shim, deleteMarkCreator: shim, markCreatorId: shim, onBoxAdded: shim, onBoxSelected: shim, onBoxLevelIncreased: shim, onBoxMoved: shim, onBoxResized: shim, onBoxDropped: shim, onVerticallyAlignBox: shim, onBoxModalToggled: shim, onBoxesInsideSortableReorder: shim, onSortableContainerResized: shim, onTextEditorToggled: shim, pageType: shim}}
+ */
 DaliBox.defaultProps = {
     id: PropTypes.string.isRequired,
     // key: PropTypes.string.isRequired,

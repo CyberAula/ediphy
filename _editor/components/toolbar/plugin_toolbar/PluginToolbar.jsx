@@ -1,28 +1,41 @@
 import React, { Component } from 'react';
-import { Tooltip, FormControl, OverlayTrigger, Popover, InputGroup, FormGroup, Radio, ControlLabel, Checkbox, Button, ButtonGroup, PanelGroup, Accordion, Panel, Tabs, Tab } from 'react-bootstrap';
-import ReactDOM from 'react-dom';
+import { Tooltip, FormControl, OverlayTrigger, Popover, InputGroup, FormGroup, Radio, ControlLabel, Checkbox, Button, PanelGroup, Panel } from 'react-bootstrap';
 import GridConfigurator from '../grid_configurator/GridConfigurator.jsx';
 import RadioButtonFormGroup from '../radio_button_form_group/RadioButtonFormGroup.jsx';
 import Select from 'react-select';
 import VishProvider from './../../vish_provider/vish_provider/VishProvider';
 import MarksList from './../../rich_plugins/marks_list/MarksList.jsx';
-import ContentList from './../../rich_plugins/content_list/ContentList.jsx';
 import Dali from './../../../../core/main';
 import ColorPicker from './../../common/color-picker/ColorPicker';
-import { UPDATE_TOOLBAR, UPDATE_BOX, TOGGLE_NAV_ITEM, CHANGE_NAV_ITEM_NAME, TOGGLE_TITLE_MODE } from '../../../../common/actions';
+import { UPDATE_TOOLBAR, UPDATE_BOX } from '../../../../common/actions';
 import { isSortableContainer, isCanvasElement, isContainedView, isSlide } from '../../../../common/utils';
 import i18n from 'i18next';
 
 require('./_pluginToolbar.scss');
 
+/**
+ * Toolbar component for configuring boxes or pages
+ */
 export default class PluginToolbar extends Component {
+    /**
+     * Constructor
+     * @param props
+     */
     constructor(props) {
         super(props);
+        /**
+         * Component's initial state
+         * @type {{open: boolean}}
+         */
         this.state = {
             open: false,
         };
     }
 
+    /**
+     * Render React component
+     * @returns {code}
+     */
     render() {
         if (!isCanvasElement(this.props.navItemSelected, Dali.Config.sections_have_content)) {
             return (
@@ -275,6 +288,11 @@ export default class PluginToolbar extends Component {
         );
     }
 
+    /**
+     * Header configuration
+     * @param name type of title
+     * @param value value of the field
+     */
     handlecanvasToolbar(name, value) {
         let navitem = this.props.navItems[this.props.navItemSelected];
         let toolbar = this.props.toolbars[this.props.navItemSelected].controls.main.accordions;
@@ -474,6 +492,15 @@ export default class PluginToolbar extends Component {
         }
 
     }
+
+    /**
+     * Render toolbar accordion
+     * @param accordion Name of the accordion
+     * @param tabKey Unique key of the tab
+     * @param accordionKeys Unique keys of the accordion
+     * @param state Toolbar state
+     * @param key Current key
+     */
     renderAccordion(accordion, tabKey, accordionKeys, state, key) {
         let props = {
             key: key,
@@ -535,21 +562,19 @@ export default class PluginToolbar extends Component {
             );
         }
 
-        if (accordion.key === 'content_list') {
-            children.push(
-                <ContentList key="content_list"
-                    state={state}
-                    box={this.props.box}
-                    navItems={this.props.navItems}
-                    containedViews={this.props.containedViews}
-                    onContainedViewSelected={this.props.onContainedViewSelected}
-                    onNavItemSelected={this.props.onNavItemSelected}
-                    onRichMarkDeleted={this.props.onRichMarkDeleted}/>
-            );
-        }
         return React.createElement(Panel, props, children);
     }
 
+    /**
+     * Render toolbar button
+     * @param accordion Name of the accordion
+     * @param tabKey Unique key of the tab
+     * @param accordionKeys Unique keys of the accordion
+     * @param buttonKey Unique key of the button
+     * @param state Toolbar state
+     * @param key Current key
+     * @returns {code} Button code
+     */
     renderButton(accordion, tabKey, accordionKeys, buttonKey, state, key) {
         let button = accordion.buttons[buttonKey];
         let children = null;
@@ -936,12 +961,22 @@ export default class PluginToolbar extends Component {
         );
     }
 
+    /**
+     * Renders options or multiple select inputs
+     * @param option Option object wihth its label
+     * @returns {code}
+     */
     renderOption(option) {
         return (
             <span>{option.label}<i style={{ color: option.color, float: 'right' }} className="fa fa-stop" /></span>
         );
     }
 
+    /**
+     * Rende option value
+     * @param option Option object wihth its label
+     * @returns {code}
+     */
     renderValue(option) {
         return (
             <span>{option.label}</span>

@@ -3,6 +3,9 @@ import { Modal, Button, Row } from 'react-bootstrap';
 import Dali from './../../../core/main';
 import { UPDATE_NAV_ITEM_EXTRA_FILES } from '../../../common/actions';
 
+/**
+ * @deprecated
+ */
 export default class XMLConfigModal extends Component {
     render() {
         return (

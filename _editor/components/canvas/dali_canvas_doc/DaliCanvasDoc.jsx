@@ -1,23 +1,36 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import DaliBox from '../dali_box/DaliBox';
 import DaliBoxSortable from '../dali_box_sortable/DaliBoxSortable';
 import DaliShortcuts from '../dali_shortcuts/DaliShortcuts';
-import { Col, Button } from 'react-bootstrap';
+import { Col } from 'react-bootstrap';
 import DaliHeader from '../dali_header/DaliHeader';
-import interact from 'interact.js';
-import { ADD_BOX } from '../../../../common/actions';
 import Dali from './../../../../core/main';
 import { isSortableBox } from '../../../../common/utils';
 
+/**
+ * DaliCanvasDoc component
+ * Canvas component to display documents
+ */
 export default class DaliCanvasDoc extends Component {
+    /**
+     * Constructor
+     * @param props React component props
+     */
     constructor(props) {
         super(props);
+        /**
+         * Component's initial state
+         * @type {{showTitle: boolean Whether the header should be shown or not}}
+         */
         this.state = {
             showTitle: false,
         };
     }
 
+    /**
+     * Renders React Component
+     * @returns {code}
+     */
     render() {
         let titles = [];
         let itemSelected = this.props.fromCV ? this.props.containedViewSelected : this.props.navItemSelected;
@@ -47,8 +60,6 @@ export default class DaliCanvasDoc extends Component {
         let boxes = itemSelected ? itemSelected.boxes : [];
         let show = itemSelected && itemSelected.id !== 0;
         return (
-            /* jshint ignore:start */
-
             <Col id={this.props.fromCV ? 'containedCanvas' : 'canvas'} md={12} xs={12} className="canvasDocClass"
                 style={{ display: this.props.containedViewSelected !== 0 && !this.props.fromCV ? 'none' : 'initial' }}>
 
@@ -176,16 +187,15 @@ export default class DaliCanvasDoc extends Component {
                     onMarkCreatorToggled={this.props.onMarkCreatorToggled}
                     toolbar={this.props.toolbars[this.props.boxSelected]}/>
             </Col>
-            /* jshint ignore:end */
         );
     }
-
+/*
     componentWillUnmount() {
-        // interact(ReactDOM.findDOMNode(this)).unset();
+        interact(ReactDOM.findDOMNode(this)).unset();
     }
 
     componentDidMount() {
-        /*
+
         interact(ReactDOM.findDOMNode(this)).dropzone({
             accept: '.floatingDaliBox',
             overlap: 'pointer',
@@ -216,7 +226,7 @@ export default class DaliCanvasDoc extends Component {
                 event.target.classList.remove('drop-active');
                 event.target.classList.remove("drop-target");
             }
-        });*/
+        });
     }
-
+*/
 }

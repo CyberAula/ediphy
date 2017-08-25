@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import { Button, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import i18n from 'i18next';
 export default class MarksList extends Component {
     render() {
-
         return (
-            /* jshint ignore: start */
             <div>
                 <Button
                     className='toolbarButton marksListButton'

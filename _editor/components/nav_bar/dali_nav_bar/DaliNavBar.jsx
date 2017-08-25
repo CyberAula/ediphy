@@ -1,18 +1,26 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-import { Col, Row, Input, Button, OverlayTrigger, Popover, Dropdown, Tooltip, MenuItem } from 'react-bootstrap';
+import { Col, Input, Dropdown, MenuItem } from 'react-bootstrap';
 import DaliIndexTitle from '../../carrousel/dali_index_title/DaliIndexTitle';
 import GlobalConfig from '../global_config/GlobalConfig';
 import i18n from 'i18next';
-import { isSection, isSlide } from '../../../../common/utils';
+import { isSection } from '../../../../common/utils';
 import Dali from './../../../../core/main';
 import { toggleFullScreen, isFullScreenOn } from '../../../../common/common_tools';
 require('./_navBar.scss');
 
+/**
+ * Upper navigation bar component
+ */
 export default class DaliNavBar extends Component {
-
+    /**
+     * Constructor
+     */
     constructor(props) {
         super(props);
+
+        /**
+         * Component's initial state
+         */
         this.state = {
             showGlobalConfig: false,
             isFullScreenOn: isFullScreenOn(),
@@ -20,11 +28,17 @@ export default class DaliNavBar extends Component {
         };
 
     }
-
+    /**
+     * Click on plugin category callback
+     */
     openPlugin(category) {
         this.props.setcat(category);
     }
 
+    /**
+     * Render React Component
+     * @returns {code}
+     */
     render() {
         let disablePlugins = (this.props.navItemsIds.length === 0 || (this.props.navItemSelected === 0 && this.props.containedViewSelected === 0));
         let modalTitle = "";

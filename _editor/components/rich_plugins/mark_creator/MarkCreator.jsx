@@ -6,10 +6,20 @@ import { ID_PREFIX_RICH_MARK, ID_PREFIX_CONTAINED_VIEW, ID_PREFIX_SORTABLE_BOX, 
 import { nextAvailName } from '../../../../common/utils';
 import Alert from './../../common/alert/Alert';
 
+/**
+ * Mark Creator overlay component
+ */
 export default class MarkCreator extends Component {
-
+    /**
+     * Constructor
+     * @param props
+     */
     constructor(props) {
         super(props);
+        /**
+         * Component's initial state
+         * @type {{onCreation: boolean, triggeredMarkCreator: boolean, showAlert: boolean, value: number, promptRes: string}}
+         */
         this.state = {
             onCreation: false,
             triggeredMarkCreator: false,
@@ -18,11 +28,25 @@ export default class MarkCreator extends Component {
             promptRes: "",
 
         };
+        /**
+         * Binded function
+         */
         this.exitFunction = this.exitFunction.bind(this);
+
+        /**
+         * Binded function
+         */
         this.processPrompt = this.processPrompt.bind(this);
+        /**
+         * Binded function
+         */
         this.keyListener = this.keyListener.bind(this);
     }
 
+    /**
+     * React render component
+     * @returns {code}
+     */
     render() {
         return (
             <Alert className="pageModal"
@@ -37,6 +61,11 @@ export default class MarkCreator extends Component {
             </Alert>);
     }
 
+    /**
+     * Before component updates
+     * @param nextProps
+     * @param nextState
+     */
     componentWillUpdate(nextProps, nextState) {
         if(this.props.content !== undefined) {
             let element = this.props.content;
@@ -100,10 +129,9 @@ export default class MarkCreator extends Component {
         }
     }
 
-    componentDidUpdate(nextProps) {
-
-    }
-
+    /**
+     * After mark is created, overlay disappears
+     */
     exitFunction() {
         let element = this.props.content;
         let dom_element = ReactDOM.findDOMNode(element);
@@ -117,6 +145,10 @@ export default class MarkCreator extends Component {
         this.setState({ onCreation: false, promptRes: "" });
     }
 
+    /**
+     * Key pressed callback
+     * @param event
+     */
     keyListener(event) {
         const ESCAPE_KEY_CODE = 27;
         if (event.keyCode === ESCAPE_KEY_CODE) {
@@ -124,6 +156,10 @@ export default class MarkCreator extends Component {
         }
     }
 
+    /**
+     * Mark name entered callback
+     * @param exit
+     */
     processPrompt(exit) {
         let connectMode = 'new';
         let title = i18n.t('marks.new_mark');

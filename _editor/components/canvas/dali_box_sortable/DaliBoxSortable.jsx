@@ -12,13 +12,29 @@ import i18n from 'i18next';
 
 require('./_daliBoxSortable.scss');
 
+/**
+ * DaliBoxSortabe Component
+ * @desc It is a special kind of DaliBox that is automatically added when a document is created. It cannot be moved or resized and it takes up the whole width of the page. It has different 'rows', named SortableContainers, where plugins are displayed, that can be sorted.
+ */
 export default class DaliBoxSortable extends Component {
+    /**
+     * Constructor
+     * @param props React component props
+     */
     constructor(props) {
         super(props);
+        /**
+         * Component's initial state
+         * @type {{alert: null}}
+         */
         this.state = {
             alert: null,
         };
     }
+    /**
+     * Renders React Component
+     * @returns {code} React rendered component
+     */
     render() {
         let box = this.props.boxes[this.props.id];
         return (
@@ -166,12 +182,21 @@ export default class DaliBoxSortable extends Component {
         );
     }
 
+    /**
+     * After component updates
+     * Sets up interact resizable features
+     * @param prevProps React previous props
+     * @param prevState React previous state
+     */
     componentDidUpdate(prevProps, prevState) {
         this.props.boxes[this.props.id].children.map(id => {
             this.configureResizable(this.refs[id]);
         });
     }
-
+    /**
+     * After component mounts
+     * Sets up interact sortable and resizable features
+     */
     componentDidMount() {
         this.configureDropZone(ReactDOM.findDOMNode(this), "newContainer", ".rib");
         this.configureDropZone(".daliBoxSortableContainer", "existingContainer", ".rib");
@@ -197,6 +222,10 @@ export default class DaliBoxSortable extends Component {
         });
     }
 
+    /**
+     * Sets up interact resizable features.
+     * @param item Node that will be made resizable
+     */
     configureResizable(item) {
         interact(item).resizable({
             enabled: this.props.id === this.props.boxSelected && item.style.height !== "auto",
@@ -216,6 +245,13 @@ export default class DaliBoxSortable extends Component {
         });
     }
 
+    /**
+     * Sets up interact dropzone features
+     * @param node Node that accepts dragged items
+     * @param dropArea Denomination of the dropArea (cell, newContainer, existingContainer)
+     * @param selector Selector of the elements accepted in the dropzone
+     * @param extraParams Additional info, such as row and column
+     */
     configureDropZone(node, dropArea, selector, extraParams) {
         interact(node).dropzone({
             accept: selector,
@@ -293,6 +329,11 @@ export default class DaliBoxSortable extends Component {
             },
         });
     }
+
+    /**
+     * Before component unmounts
+     * Unset interact listeners
+     */
     componentWillUnmount() {
         interact(ReactDOM.findDOMNode(this)).unset();
     }

@@ -35,7 +35,7 @@ export default class RadioButtonFormGroup extends Component {
         );
     }
 
-    /** *
+    /**
      * Renders React Component
      * @returns {ccde} Rendered React component
      */
@@ -55,7 +55,6 @@ export default class RadioButtonFormGroup extends Component {
                 })
         );
 
-        /* jshint ignore:end */
     }
 
     /**
@@ -69,8 +68,8 @@ export default class RadioButtonFormGroup extends Component {
     }
 
 }
-/** *
- *
+/**
+ * Prop Types
  * @type {{key: shim, title: shim, options: shim, selected: shim, click: shim, tooltips: *, icons: *}}
  */
 RadioButtonFormGroup.defaultProps = {

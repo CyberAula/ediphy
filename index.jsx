@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 
 import sortable from 'jquery-ui/ui/widgets/sortable';
 import ReduxProvider from './_editor/containers/ReduxProvider';
+// It appears as unused, but it IS used.
 import i18n from './common/i18n';
 
 require('es6-promise').polyfill();

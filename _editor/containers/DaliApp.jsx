@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { ActionCreators } from 'redux-undo';
-import { Grid, Col, Row, Button, OverlayTrigger, Popover } from 'react-bootstrap';
+import { Grid, Col, Row } from 'react-bootstrap';
 import { addNavItem, selectNavItem, expandNavItem, deleteNavItem, reorderNavItem, toggleNavItem, updateNavItemExtraFiles,
     changeNavItemName, changeUnitNumber, selectIndex,
     addBox, selectBox, moveBox, resizeBox, updateBox, duplicateBox, deleteBox, reorderSortableContainer, dropBox, increaseBoxLevel,
@@ -35,13 +35,29 @@ require('typeface-ubuntu');
 require('typeface-source-sans-pro');
 
 /**
- * DaliApp
+ * DaliApp. Main application component that renders everything else
  */
 class DaliApp extends Component {
+    /**
+     * Constructor
+     * @param props
+     */
     constructor(props) {
         super(props);
+        /**
+         * Plugin index. It means that it will start in the first category available (text)
+         * @type {number}
+         */
         this.index = 0;
+        /**
+         * @TODO
+         * @type {number}
+         */
         this.severalBoxes = 0;
+        /**
+         * Component's initial state
+         * @type {{alert: null, pluginTab: string, hideTab: string, visorVisible: boolean, xmlEditorVisible: boolean, richMarksVisible: boolean, markCreatorVisible: boolean, containedViewsVisible: boolean, currentRichMark: null, carouselShow: boolean, carouselFull: boolean, serverModal: boolean, catalogModal: boolean, lastAction: string}}
+         */
         this.state = {
             alert: null,
             pluginTab: 'text',
@@ -60,8 +76,11 @@ class DaliApp extends Component {
         };
     }
 
+    /**
+     * Renders React Component
+     * @returns {code}
+     */
     render() {
-
         const { dispatch, boxes, boxesIds, boxSelected, boxLevelSelected, navItemsIds, navItems, navItemSelected,
             containedViews, containedViewSelected, imagesUploaded, indexSelected,
             undoDisabled, redoDisabled, displayMode, isBusy, toolbars, globalConfig, fetchVishResults } = this.props;
@@ -458,11 +477,19 @@ class DaliApp extends Component {
         );
     }
 
+    /**
+     * Dispatches Redux action and records it in React state as well
+     * @param actionCreator
+     */
     dispatchAndSetState(actionCreator) {
         let lastAction = this.props.dispatch(actionCreator);
         this.setState({ lastAction: lastAction });
     }
 
+    /**
+     * After component mounts
+     * Loads plugin API and sets listeners for plugin events, marks and keyboard keys pressed
+     */
     componentDidMount() {
         Dali.Plugins.loadAll();
         Dali.API_Private.listenEmission(Dali.API_Private.events.render, e => {
@@ -587,15 +614,21 @@ class DaliApp extends Component {
 
         window.onkeyup = function(e) {
             let key = e.keyCode ? e.keyCode : e.which;
+            // Ctrl + Z
             if (key === 90 && e.ctrlKey) {
                 this.dispatchAndSetState(ActionCreators.undo());
             }
+            // Ctrl + Y
             if (key === 89 && e.ctrlKey) {
                 this.dispatchAndSetState(ActionCreators.redo());
             }
+
+            // Supr
             else if (key === 46) {
+                // Checks what element has the cursor focus currently
                 let focus = document.activeElement.className;
                 if (this.props.boxSelected !== -1 && !isSortableBox(this.props.boxSelected)) {
+                    // If it is not an input or any other kind of text edition AND there is a box selected, it deletes said box
                     if (focus.indexOf('form-control') === -1 && focus.indexOf('tituloCurso') === -1 && focus.indexOf('cke_editable') === -1) {
                         let box = this.props.boxes[this.props.boxSelected];
                         let toolbar = this.props.toolbars[this.props.boxSelected];
@@ -608,6 +641,11 @@ class DaliApp extends Component {
         }.bind(this);
     }
 
+    /**
+     * Views that hang from the given view
+     * @param view
+     * @returns {Array}
+     */
     getDescendantViews(view) {
         let selected = [];
 
@@ -620,6 +658,11 @@ class DaliApp extends Component {
         return selected;
     }
 
+    /**
+     * Children boxes of a given box
+     * @param box
+     * @returns {Array}
+     */
     getDescendantBoxes(box) {
         let selected = [];
 
@@ -641,6 +684,12 @@ class DaliApp extends Component {
         return selected;
     }
 
+    /**
+     * Children boxes of a given container
+     * @param box
+     * @param container
+     * @returns {Array}
+     */
     getDescendantBoxesFromContainer(box, container) {
         let selected = [];
 
@@ -661,6 +710,11 @@ class DaliApp extends Component {
         return selected;
     }
 
+    /**
+     * Get descendant contained views from a given box
+     * @param box
+     * @returns {Array}
+     */
     getDescendantContainedViews(box) {
         let selected = [];
 
@@ -681,6 +735,12 @@ class DaliApp extends Component {
         return selected;
     }
 
+    /**
+     * Boxes that link to the given views
+     * @param ids Views ids
+     * @param navs navItemsById
+     * @returns {{}}
+     */
     getDescendantLinkedBoxes(ids, navs) {
         let boxes = {};
 
@@ -694,6 +754,12 @@ class DaliApp extends Component {
         return boxes;
     }
 
+    /**
+     * Container's linked contained views
+     * @param box DaliBoxSortable
+     * @param container SortableContainer
+     * @returns {Array}
+     */
     getDescendantContainedViewsFromContainer(box, container) {
         let selected = [];
 
@@ -712,6 +778,11 @@ class DaliApp extends Component {
         return selected;
     }
 
+    /**
+     * Get descendants of duplicated boxes
+     * @param descendants
+     * @returns {{}}
+     */
     getDuplicatedBoxesIds(descendants) {
         let newIds = {};
         let date = Date.now();
@@ -721,6 +792,11 @@ class DaliApp extends Component {
         return newIds;
     }
 
+    /**
+     *
+     * @param obj
+     * @param state
+     */
     parsePluginContainers(obj, state) {
         if (obj.child) {
             for (let i = 0; i < obj.child.length; i++) {

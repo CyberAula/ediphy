@@ -2,36 +2,51 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { Modal, FormControl, Col, Form, FormGroup, ControlLabel, Button } from 'react-bootstrap';
 import Dali from './../../../../core/main';
-
+import i18n from 'i18next';
+/**
+ * VISH Search Component
+ */
 export default class VishSearcherModal extends Component {
+    /**
+     * Constructor
+     */
     constructor(props) {
         super(props);
+        /**
+         * Index
+         * @type {number}
+         */
         this.index = 0;
+        /**
+         * Component's initial state
+         */
         this.state = {
             itemSelected: 0,
             resourceUrl: "",
         };
     }
-
+    /**
+     * Render React Component
+     *
+     */
     render() {
         return (
-            /* jshint ignore:start */
             <Modal className="pageModal" backdrop bsSize="large" show={this.props.visible}>
                 <Modal.Header>
-                    <Modal.Title>BUSCADOR VISH</Modal.Title>
+                    <Modal.Title>{i18n.t("vish_search")}</Modal.Title>
                 </Modal.Header>
 
                 <Modal.Body>
                     <Form horizontal>
                         <FormGroup>
                             <Col md={4}>
-                                <ControlLabel>Términos de búsqueda</ControlLabel>
+                                <ControlLabel>{i18n.t("vish_search_terms")}</ControlLabel>
                                 <FormControl ref="query" type="text"/>
                             </Col>
                             <Col md={3}>
-                                <ControlLabel>Búsqueda por tipo</ControlLabel>
+                                <ControlLabel>{i18n.t("vish_search_by_type")}</ControlLabel>
                                 <FormControl ref="type" componentClass="select">
-                                    <option value="Picture">Picture</option>
+                                    <option value="Picture">{i18n.t("vish_search_types.Picture")}</option>
                                     {/*
                                      <option value="Resource">All</option>
                                      <option value="Audio">Audio</option>
@@ -50,19 +65,19 @@ export default class VishSearcherModal extends Component {
                                 </FormControl>
                             </Col>
                             <Col md={3}>
-                                <ControlLabel>Ordenar por</ControlLabel>
+                                <ControlLabel>{i18n.t("vish_search_by")}</ControlLabel>
                                 <FormControl ref="sort_by" componentClass="select">
-                                    <option value="ranking">Ranking</option>
-                                    <option value="popularity">Popularity</option>
-                                    <option value="modification">Modification</option>
-                                    <option value="creation">Creation</option>
-                                    <option value="visits">Visits</option>
-                                    <option value="favorites">Likes</option>
-                                    <option value="quality">Quality</option>
+                                    <option value="ranking">{i18n.t("vish_search_filters.ranking")}</option>
+                                    <option value="popularity">{i18n.t("vish_search_filters.popularity")}</option>
+                                    <option value="modification">{i18n.t("vish_search_filters.modification")}</option>
+                                    <option value="creation">{i18n.t("vish_search_filters.creation")}</option>
+                                    <option value="visits">{i18n.t("vish_search_filters.visits")}</option>
+                                    <option value="favorites">{i18n.t("vish_search_filters.favorites")}</option>
+                                    <option value="quality">{i18n.t("vish_search_filters.quality")}</option>
                                 </FormControl>
                             </Col>
                             <Col md={2}>
-                                <Button onClick={(e) => {
+                                <Button className="btn-primary" onClick={(e) => {
                                     let url = encodeURI(Dali.Config.search_vish_url +
                                         "?q=" + ReactDOM.findDOMNode(this.refs.query).value +
                                         "&type=" + ReactDOM.findDOMNode(this.refs.type).value +
@@ -70,7 +85,8 @@ export default class VishSearcherModal extends Component {
                                     );
 
                                     this.props.onFetchVishResources(url);
-                                }}>Search
+                                    e.preventDefault();
+                                }}>{i18n.t("vish_search_button")}
                                 </Button>
                             </Col>
                         </FormGroup>
@@ -115,13 +131,12 @@ export default class VishSearcherModal extends Component {
                 <Modal.Footer>
                     <Button onClick={e => {
                         this.props.onVishSearcherToggled();
-                    }}>Cancel</Button>
+                    }}>{i18n.t("Cancel")}</Button>
                     <Button bsStyle="primary" onClick={e => {
                         this.props.onVishSearcherToggled(this.state.resourceUrl);
-                    }}>Save changes</Button>
+                    }}>{i18n.t("global_config.Accept")}</Button>
                 </Modal.Footer>
             </Modal>
-            /* jshint ignore:end */
         );
     }
 }

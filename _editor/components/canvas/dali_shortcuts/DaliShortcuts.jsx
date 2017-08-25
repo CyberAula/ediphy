@@ -1,21 +1,40 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import Dali from './../../../../core/main';
-import { Button, Tooltip, OverlayTrigger } from 'react-bootstrap';
+import { Tooltip, OverlayTrigger } from 'react-bootstrap';
 import { UPDATE_BOX } from '../../../../common/actions';
 import i18n from 'i18next';
 import { isSortableBox, isSortableContainer } from '../../../../common/utils';
 
+/**
+ * DaliShortcuts component
+ * Floating tools that help edit DaliBoxes more easily
+ */
 export default class DaliShortcuts extends Component {
+    /**
+     * Constructor
+     * @param props
+     */
     constructor(props) {
         super(props);
+        /**
+         * Component's initial state
+         */
         this.state = {
             left: 0,
             top: 0,
             width: 0,
         };
+        /**
+         * Resize function binded
+         */
+        this.resize = this.resize.bind(this);
     }
 
+    /**
+     * Renders react component
+     * @returns {code}
+     */
     render() {
         let box = this.props.box;
         let toolbar = this.props.toolbar;
@@ -179,10 +198,14 @@ export default class DaliShortcuts extends Component {
                     </OverlayTrigger>
                 </div>
             </div>
-        /* jshint ignore:end */
         );
     }
 
+    /**
+     * Resize callback for when either the window or the parent container change their size
+     * @param fromUpdate
+     * @param newProps
+     */
     resize(fromUpdate, newProps) {
         let nextProps = (fromUpdate === 'fromUpdate') ? newProps : this.props;
         if (nextProps && nextProps.box) {
@@ -208,9 +231,16 @@ export default class DaliShortcuts extends Component {
                     width = box.getBoundingClientRect().width;
                 }
             }
-            this.setState({ left: left, top: top, width: width });
+            if (this) {
+                this.setState({ left: left, top: top, width: width });
+            }
         }
     }
+
+    /**
+     * Before component receives props
+     * @param nextProps
+     */
     componentWillReceiveProps(nextProps) {
         if (nextProps !== this.props) {
             if (nextProps.box) {
@@ -219,6 +249,11 @@ export default class DaliShortcuts extends Component {
         }
     }
 
+    /** *
+     * Before component updates
+     * Removes pointer events allowance when box is changed
+     * @param nextProps
+     */
     componentWillUpdate(nextProps) {
         if (nextProps !== this.props) {
             if (nextProps.box) {
@@ -237,49 +272,31 @@ export default class DaliShortcuts extends Component {
                         pebutton.classList.remove('dtbSelected');
                     }
                 }
-            /*
-                let box = document.getElementById('box-' + nextProps.box.id);
-                let element = ReactDOM.findDOMNode(this.refs.innerContainer);
-                let left = 0;
-                let top = 0;
-                let width = 0;
-                if (box) {
-                  var boxRect = box.getBoundingClientRect();
-                  var canvas = this.props.containedViewSelected === 0 ?
-                      document.getElementById('canvas') :
-                      document.getElementById('contained_maincontent');
-                  var canvasRect = canvas.getBoundingClientRect();
-
-                  left = (boxRect.left - canvasRect.left);
-                  top = (boxRect.top - canvasRect.top + canvas.scrollTop);
-
-                  if (element) {
-                      var elementRect = element.getBoundingClientRect();
-                      width = boxRect.width < elementRect.width ? elementRect.width : boxRect.width;
-                  } else {
-                      width = box.getBoundingClientRect().width;
-                  }
-                }
-                this.setState({left: left, top: top, width: width});*/
             }
         }
     }
 
+    /**
+     * After component is mounted
+     * Sets resize listeners
+     */
     componentDidMount() {
-        window.addEventListener('resize', this.resize.bind(this));
+        window.addEventListener('resize', this.resize);
         if (this.props && this.props.box) {
             let boxObj = document.getElementById('box-' + this.props.box.id);
             if(boxObj) {
-                boxObj.addEventListener('resize', this.resize.bind(this));
+                boxObj.addEventListener('resize', this.resize);
             }
 
         }
     }
 
+    /**
+     * Before component unmounts
+     * Remove resize listeners
+     */
     componentWillUnmount() {
-
         let boxEl = document.getElementById('box-' + (this.props.box ? this.props.box.id : ''));
-
         if (boxEl) {
             let bool = boxEl.classList.contains('pointerEventsEnabled');
             if (this.props.pointerEventsCallback) {
@@ -288,11 +305,11 @@ export default class DaliShortcuts extends Component {
             boxEl.classList.remove('pointerEventsEnabled');
         }
 
-        window.removeEventListener('resize', this.resize.bind(this));
+        window.removeEventListener('resize', this.resize);
         if (this.props && this.props.box) {
             let boxObj = document.getElementById('box-' + this.props.box.id);
             if(boxObj) {
-                boxObj.removeEventListener('resize', this.resize.bind(this));
+                boxObj.removeEventListener('resize', this.resize);
             }
         }
     }
