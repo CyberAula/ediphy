@@ -42,7 +42,9 @@
         -moz-box-shadow: none;
         box-shadow: none;
         border-radius: 0;
+        height:auto;
         border: 0;
+        padding: 10px 12px;
         background-color: $darkinput;
         color: black;
         &:active, &:focus {
@@ -58,6 +60,7 @@
         background-color: white;
         line-height: 5px;
         margin-right: 10px;
+        height: 15px;
     }
 
     label, .label {
@@ -237,7 +240,7 @@
     float: right;
     margin-right: 12px;
     position: relative;
-    top: 56px;
+    top: 36px;
     right: 4px;
     font-size: 0.9em;
 }
@@ -420,3 +423,7 @@
   //  vertical-align: super;
   //  color:#222;
 //}
+
+.advancedPopover popover.bottom > .arrow:after {
+    border-bottom-color: inherit;
+}

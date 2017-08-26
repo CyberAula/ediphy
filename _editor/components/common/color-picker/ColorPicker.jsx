@@ -57,7 +57,7 @@ export default class ColorPicker extends Component {
     /**
      * Splits rgba value into rgb and alpha values
      * @param rgba
-     * @returns {newColor, alpha}
+     * @returns {object}
      */
     internalFormat(rgba) {
         let regex = /rgba\((\d+),(\d+),(\d+),(.+)\)/;

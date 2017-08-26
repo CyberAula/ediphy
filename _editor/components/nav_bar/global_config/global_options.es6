@@ -1,7 +1,7 @@
 import i18n from 'i18next';
 /**
  * Gets a translated array of suggested keywords
- * @returns {[*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*]} Array of keywords
+ * @returns {array} Array of keywords
  */
 export function suggestions() {
     return [
@@ -30,7 +30,7 @@ export function suggestions() {
 
 /**
  * Gets the translated array of course status options
- * @returns {[*,*,*,*]} Array of options
+ * @returns {array} Options
  */
 export function statusOptions() {
     return [
@@ -42,7 +42,7 @@ export function statusOptions() {
 
 /**
  * Gets the translated array of course context options
- * @returns {[*,*,*,*]} Array of options
+ * @returns {array} Array of options
  */
 export function contextOptions() {
     return [
@@ -54,7 +54,7 @@ export function contextOptions() {
 
 /**
  * Gets the translated array of course license options
- * @returns {[*,*,*,*]} Array of options
+ * @returns {array} Array of options
  */
 export function rightsOptions() {
     return [

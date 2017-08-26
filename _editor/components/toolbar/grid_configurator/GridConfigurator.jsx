@@ -83,7 +83,6 @@ export default class GridConfigurator extends Component {
                             key="height"
                             disabled={height === 'auto'}
                             value={height === 'auto' ? 'auto' : parseFloat(height, 10) /* parseFloat(document.getElementById(this.props.id).style.height)*/}
-                            label="Block Height"
                             style={{ width: '100%' }}
                             min={1}
                             step={1}
@@ -117,7 +116,6 @@ export default class GridConfigurator extends Component {
                         <FormControl type="number"
                             key="grid"
                             value={this.props.container.colDistribution.length}
-                            label="Nº columnas"
                             style={{ width: '100%' }}
                             min={1}
                             step={1}
@@ -187,14 +185,14 @@ export default class GridConfigurator extends Component {
                 })
                 }
                 <h4 className="sortableToolbarTitle">{i18n.t('Style')}</h4>
-                <FormGroup>
+                {/* <FormGroup>
                     <ControlLabel>{"ClassName"}</ControlLabel>
                     <FormControl type="text"
                         value={this.props.container.style.className}
                         onChange={e => {
                             this.props.onSortablePropsChanged(this.props.id, this.props.parentId, 'className', e.target.value || "");
                         }}/>
-                </FormGroup>
+                </FormGroup>*/}
                 <FormGroup>
                     <ControlLabel>{i18n.t('styles.padding') + ' (px)'}</ControlLabel>
                     <FormControl type="number"
@@ -211,7 +209,6 @@ export default class GridConfigurator extends Component {
                     <ControlLabel>{i18n.t('styles.border_color')}</ControlLabel>
                     <ColorPicker
                         value={this.props.container.style ? this.props.container.style.borderColor : '#ffffff'}
-                        label={"Color del borde"}
                         onChange={e => {
                             this.props.onSortablePropsChanged(this.props.id, this.props.parentId, 'borderColor', e.color);
                         }}
@@ -221,7 +218,6 @@ export default class GridConfigurator extends Component {
                     <ControlLabel>{i18n.t('styles.border_size')}</ControlLabel>
                     <FormControl type="number"
                         value={this.props.container.style ? parseFloat(this.props.container.style.borderWidth, 10) : 0}
-                        label={"Grosor del borde"}
                         min={0}
                         style={{ width: '100%' }}
                         onChange={e => {
@@ -235,7 +231,6 @@ export default class GridConfigurator extends Component {
                     </span>
                     <FormControl type="range"
                         value={this.props.container.style ? this.props.container.style.opacity : 1 + '%'}
-                        label={"Op"}
                         style={{ width: '100%' }}
                         min={0}
                         step={0.05}

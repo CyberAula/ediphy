@@ -16,6 +16,7 @@
     "start-webpack": "webpack-dev-server --progress",
     "watch-sass": "node-sass -w sass/style.scss -o dist/css/compiledsass.css",
     "eslint": "eslint  --fix  **/*.js **/*.jsx **/*.es6 --ignore-pattern node_modules/ --ignore-pattern dist --ignore-pattern esdoc --ignore-pattern sass --ignore-pattern dali_server --ignore-pattern webpack_plugins",
+    "jsdoc": "jsdoc -c jsdoc.json",
     "doc": "esdoc -c esdoc.json",
     "postinstall": "node ./plugin_install && npm run doc"
   },
@@ -38,6 +39,7 @@
     "file-loader": "^0.9.0",
     "glob": "^7.1.1",
     "imports-loader": "^0.6.5",
+    "jsdoc": "^3.5.4",
     "jshint": "^2.9.4",
     "jshint-loader": "^0.8.3",
     "json-loader": "^0.5.4",

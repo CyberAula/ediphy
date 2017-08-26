@@ -862,6 +862,9 @@ export default class PluginToolbar extends Component {
         }
 
         if (button.type === 'conditionalText') {
+            props.style.marginTop = '5px';
+            props.style.marginBottom = '15px';
+
             return React.createElement(
                 FormGroup,
                 { key: button.__name, style: { display: accordion.buttons[button.associatedKey].checked ? "block" : "none" } },

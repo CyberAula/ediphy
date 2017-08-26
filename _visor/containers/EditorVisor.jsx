@@ -16,8 +16,9 @@ require('typeface-source-sans-pro');
 require('./../../sass/style.scss');
 require('./../../core/visor_entrypoint');
 
-// TODO: define actions for visor?
-
+/**
+ * Visor app main component
+ */
 export default class Visor extends Component {
     constructor(props) {
         super(props);
@@ -158,7 +159,6 @@ export default class Visor extends Component {
             "pcw_slide" : "pcw_doc";
 
         return (
-            /* jshint ignore:start */
             <div id="app"
                 className={wrapperClasses} >
                 <SideNavVisor
@@ -236,7 +236,6 @@ export default class Visor extends Component {
                     />) : (null)}
             </div>
 
-            /* jshint ignore:end */
         );
     }
 
@@ -296,7 +295,7 @@ export default class Visor extends Component {
     /**
      * Returns if any is there any triggerable mark
      * @param triggeredMarks
-     * @returns {Object, boolean}
+     * @returns Object Marks that are triggered
      */
     returnTriggereableMark(triggeredMarks) {
         let isAnyTriggereableMark = false;
@@ -557,12 +556,21 @@ export default class Visor extends Component {
         return richBoxes;
     }
 
+    /**
+     * Get the current state for selected box
+     * @param backup
+     * @param current
+     * @returns {*}
+     */
     getActualBoxesStates(backup, current) {
         let nextState = backup;
         nextState[this.state.triggeredMarks[0].box_id] = current[this.state.triggeredMarks[0].box_id];
         return nextState;
     }
 
+    /**
+     * Remove last view from queue of views
+     */
     removeLastView() {
         let newViews = this.state.currentView.slice(0, -1);
         if (newViews.length > 0) {

@@ -50,7 +50,7 @@ class DaliApp extends Component {
          */
         this.index = 0;
         /**
-         * @TODO
+         * @TODO Comment
          * @type {number}
          */
         this.severalBoxes = 0;
