@@ -43,7 +43,8 @@ export default class DaliBox extends Component {
         };
 
         let textareaStyle = {
-            position: 'absolute',
+            position: 'relative',
+            float: 'left',
             resize: 'none',
             top: '0%',
             color: 'black',
@@ -53,7 +54,7 @@ export default class DaliBox extends Component {
             height: (toolbar.showTextEditor ? '100%' : '100%'),
             // border: 'dashed black 1px',
             zIndex: 99999,
-            visibility: (toolbar.showTextEditor ? 'visible' : 'hidden'),
+            display: (toolbar.showTextEditor ? 'block' : 'none'),
         };
         let attrs = {};
         let width;
@@ -244,7 +245,10 @@ export default class DaliBox extends Component {
                     cursor: vis ? 'inherit' : 'default', // esto evita que aparezcan los cursores de move y resize cuando la caja no está seleccionada
                 }}>
                 {border}
-                {content}
+                {/* content */}
+                {/* The previous line was changed for the next one in order to make the box grow when text grows while editing.
+                 To disable this, you also have to change the textareastyle to an absolute position div, and remove the float property*/}
+                {toolbar.showTextEditor ? null : content }
                 {toolbar.state.__text ?
                     <div id={box.id}
                         ref={"textarea"}
