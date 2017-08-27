@@ -123,6 +123,9 @@ export default class DaliBox extends Component {
                 }
             }
         }
+
+        Object.assign(textareaStyle, style);
+        textareaStyle.visibility = 'visible';
         let rotate = 'rotate(0deg)';
         if (!(this.props.markCreatorId && this.props.id === this.props.boxSelected)) {
             if (toolbar.controls.main.accordions.__sortable.buttons.__rotate && toolbar.controls.main.accordions.__sortable.buttons.__rotate.value) {
@@ -254,6 +257,7 @@ export default class DaliBox extends Component {
                         ref={"textarea"}
                         className={classNames + " textAreaStyle"}
                         contentEditable
+                        onBlur={()=>console.log(e)}
                         style={textareaStyle} /> :
                     null
                 }
