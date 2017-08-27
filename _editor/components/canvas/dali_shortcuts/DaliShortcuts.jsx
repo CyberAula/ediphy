@@ -39,13 +39,12 @@ export default class DaliShortcuts extends Component {
         let box = this.props.box;
         let toolbar = this.props.toolbar;
 
-        if (!box || (box && !toolbar)) {
+        if (!box || !toolbar) {
             return null;
         }
         let boxEl = document.getElementById('box-' + (box ? box.id : ''));
 
         return (
-        /* jshint ignore:start */
             <div id={this.props.isContained ? "contained_daliBoxIcons" : "daliBoxIcons"}
                 className=""
                 ref="container"
@@ -230,8 +229,7 @@ export default class DaliShortcuts extends Component {
                 } else {
                     width = box.getBoundingClientRect().width;
                 }
-            }
-            if (this) {
+
                 this.setState({ left: left, top: top, width: width });
             }
         }

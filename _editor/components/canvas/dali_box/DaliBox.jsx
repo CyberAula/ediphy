@@ -86,6 +86,8 @@ export default class DaliBox extends Component {
                     } else {
                         attrs['data-' + buttonKey] = button.value;
                     }
+
+                    /* Unused */
                     if (buttonKey === 'fontSize') {
                         textareaStyle.fontSize = button.value;
                         if (button.units) {
@@ -257,7 +259,6 @@ export default class DaliBox extends Component {
                         ref={"textarea"}
                         className={classNames + " textAreaStyle"}
                         contentEditable
-                        onBlur={()=>console.log(e)}
                         style={textareaStyle} /> :
                     null
                 }
