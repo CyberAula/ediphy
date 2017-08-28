@@ -5,7 +5,7 @@ import GlobalConfig from '../global_config/GlobalConfig';
 import i18n from 'i18next';
 import { isSection } from '../../../../common/utils';
 import Dali from './../../../../core/main';
-import { toggleFullScreen, isFullScreenOn } from '../../../../common/common_tools';
+import { toggleFullScreen, isFullScreenOn, fullScreenListener } from '../../../../common/common_tools';
 require('./_navBar.scss');
 
 /**
@@ -27,6 +27,8 @@ export default class DaliNavBar extends Component {
 
         };
 
+        this.checkFullScreen = this.checkFullScreen.bind(this);
+
     }
     /**
      * Click on plugin category callback
@@ -43,7 +45,6 @@ export default class DaliNavBar extends Component {
         let disablePlugins = (this.props.navItemsIds.length === 0 || (this.props.navItemSelected === 0 && this.props.containedViewSelected === 0));
         let modalTitle = "";
         let modalShow = false;
-
         return (
             <Col id="iconBar">
                 <div className="grad1" />
@@ -135,7 +136,10 @@ export default class DaliNavBar extends Component {
                 <div className="navButtons">
                     <button className="navButton"
                         title={i18n.t("messages.fullscreen")}
-                        onClick={() => {toggleFullScreen(); this.setState({ isFullScreenOn: isFullScreenOn() });}}>
+                        onClick={() => {
+                            toggleFullScreen();
+                            this.setState({ isFullScreenOn: isFullScreenOn() });
+                        }}>
                         {this.state.isFullScreenOn ?
                             (<i className="material-icons">fullscreen_exit</i>) :
                             (<i className="material-icons">fullscreen</i>)}
@@ -188,5 +192,16 @@ export default class DaliNavBar extends Component {
                     close={()=>{this.setState({ showGlobalConfig: false });}}/>
             </Col>
         );
+    }
+
+    componentDidMount() {
+        fullScreenListener(this.checkFullScreen, true);
+    }
+    componentWillUnmount() {
+        fullScreenListener(this.checkFullScreen, false);
+    }
+
+    checkFullScreen() {
+        this.setState({ isFullScreenOn: isFullScreenOn() });
     }
 }

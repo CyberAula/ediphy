@@ -88,7 +88,7 @@ export default class PluginRibbon extends Component {
     }
 
     /**
-     * Unset interactable and put it back with autoscroll false this is mandatory when changing between containecanvas and canvas
+     * Reset interact container
      * @param nextProps
      * @param nextState
      */

@@ -4,7 +4,7 @@ import { Button, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import i18n from 'i18next';
 import Dali from './../../../core/main';
 import { isPage } from '../../../common/utils';
-import { toggleFullScreen, isFullScreenOn } from '../../../common/common_tools';
+import { toggleFullScreen, isFullScreenOn, fullScreenListener } from '../../../common/common_tools';
 import 'bootstrap/dist/css/bootstrap.css';
 
 export default class VisorPlayer extends Component {
@@ -13,6 +13,7 @@ export default class VisorPlayer extends Component {
         this.state = {
             isFullScreenOn: isFullScreenOn(),
         };
+        this.checkFullScreen = this.checkFullScreen.bind(this);
     }
 
     render() {
@@ -96,6 +97,17 @@ export default class VisorPlayer extends Component {
             }
             return null;
         });
+    }
+    componentDidMount() {
+        fullScreenListener(this.checkFullScreen, true);
+
+    }
+    componentWillUnmount() {
+        fullScreenListener(this.checkFullScreen, false);
+    }
+
+    checkFullScreen() {
+        this.setState({ isFullScreenOn: isFullScreenOn() });
     }
 
 }
