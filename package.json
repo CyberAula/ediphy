@@ -10,7 +10,8 @@
   },
   "scripts": {
     "build-production": "webpack -p --define process.env.NODE_ENV='\"production\"' --progress --colors",
-    "start": "webpack-dev-server --progress --colors",
+    "build": "webpack --config webpack.prod.js",
+    "start": "webpack-dev-server --open --config webpack.dev.js",
     "bundle": "webpack && node bundle_script.js",
     "both": "npm run start-webpack & npm run watch-sass",
     "start-webpack": "webpack-dev-server --progress",
@@ -80,7 +81,8 @@
     "uglify-js": "^2.7.4",
     "url-loader": "^0.5.9",
     "webpack": "^3.5.5",
-    "webpack-dev-server": "^1.16.2"
+    "webpack-dev-server": "^1.16.2",
+    "webpack-merge": "^4.1.0"
   },
   "dependencies": {
     "BasicPlayer": "file:plugins/BasicPlayer",
