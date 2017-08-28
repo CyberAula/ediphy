@@ -5,3 +5,13 @@
 .cke_editable {
   background-color: transparent;
 }
+.cke_panel_listItem.cke_selected a{
+  background-color:$blueprimary;
+}
+.cke_button_on{
+  background-color: #CCCCCC !important;
+  border-radius: 0px !important;
+}
+a.cke_button, .cke_toolgroup, .cke_combo_button {
+  border-radius: 0px !important;
+}
