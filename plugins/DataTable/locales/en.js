@@ -29,6 +29,8 @@ module.exports = {
             "initialPageLength": "Initial page size",
             "initialSortProp": "Initial order",
             "initialOrder": "Sort type",
+            "noDataLabel": "Empty table message",
+            "noDataLabel_txt": "No data",
             "pageSizeLabel": 'Page size label',
             "pageSizeLabel_txt": 'Page size',
             "searchLabel": 'Search label',

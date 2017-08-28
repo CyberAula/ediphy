@@ -33,6 +33,8 @@ module.exports = {
             "initialPageLength": "Tamaño de página inicial",
             "initialSortProp": "Orden inicial",
             "initialOrderProp": "Ordenar de forma",
+            "noDataLabel": "Texto tabla vacía",
+            "noDataLabel_txt": "No hay datos",
             "pageSizeLabel": 'Etiqueta Filas/pág',
             "pageSizeLabel_txt": 'Filas/pág',
             "searchLabel": 'Etiqueta búsqueda',

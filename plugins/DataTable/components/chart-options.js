@@ -24,6 +24,7 @@ export default class ChartOptions extends React.Component {
                     searchLabel: this.state.searchLabel,
                     searchPlaceholder: this.state.searchPlaceholder,
                     initialPageLength: this.state.initialPageLength,
+                    noDataLabel: this.state.noDataLabel,
                     initialSort: this.state.initialSort,
                     initialOrder: this.state.initialOrder,
                 });
@@ -98,6 +99,11 @@ export default class ChartOptions extends React.Component {
                                     <label htmlFor="">{i18n.t("DataTable.options.searchPlaceholder")}</label>
                                     <FormControl type="text" value={this.state.searchPlaceholder}
                                         onChange={(e)=>{this.setState({ searchPlaceholder: e.target.value });}}/>
+                                </div>
+                                <div>
+                                    <label htmlFor="">{i18n.t("DataTable.options.noDataLabel")}</label>
+                                    <FormControl type="text" value={this.state.noDataLabel}
+                                        onChange={(e)=>{this.setState({ noDataLabel: e.target.value });}}/>
                                 </div>
                             </Col>
                         </FormGroup>

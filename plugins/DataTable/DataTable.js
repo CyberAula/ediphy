@@ -181,6 +181,7 @@ export function DataTable(base) {
                     pageSizeLabel: i18n.t('DataTable.options.pageSizeLabel_txt'),
                     searchLabel: i18n.t('DataTable.options.searchLabel_txt'),
                     searchPlaceholder: '',
+                    noDataLabel: i18n.t("DataTable.options.noDataLabel_txt"),
                     initialPageLength: 5,
                     initialSort: 0,
                     initialOrder: 'descending',

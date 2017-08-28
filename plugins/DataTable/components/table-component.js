@@ -27,6 +27,7 @@ export default class TableComponent extends React.Component {
                     disableFilter={options.disableFilter}
                     disableRowChoice={options.disableRowChoice}
                     pageSizeLabel={options.pageSizeLabel}
+                    noDataLabel={options.noDataLabel}
                     searchLabel={options.searchLabel}
                     searchPlaceholder={options.searchPlaceholder}
                     pageLengthOptions={options.pageLengthOptions}
