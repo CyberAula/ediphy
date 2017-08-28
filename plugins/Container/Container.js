@@ -1,14 +1,14 @@
 export function Container(base) {
     return {
-        getConfig: function () {
+        getConfig: function() {
             return {
                 name: 'Container',
                 displayName: Dali.i18n.t('Container.PluginName'),
                 category: 'multimedia',
-                icon: 'view_agenda'
+                icon: 'view_agenda',
             };
         },
-        getToolbar: function () {
+        getToolbar: function() {
             return {
                 main: {
                     __name: "Main",
@@ -22,18 +22,18 @@ export function Container(base) {
                                     type: 'number',
                                     value: base.getState().boxes,
                                     min: 1,
-                                    autoManaged: false
-                                }
-                            }
-                        }
-                    }
-                }
+                                    autoManaged: false,
+                                },
+                            },
+                        },
+                    },
+                },
             };
         },
-        getInitialState: function(){
-            return {boxes: 1};
+        getInitialState: function() {
+            return { boxes: 1 };
         },
-        getRenderTemplate: function (state) {
+        getRenderTemplate: function(state) {
             let template = "<div>";
             for (let i = 0; i < state.boxes; i++) {
                 template += "<div><plugin plugin-data-key='" + i + "' /></div>";
@@ -42,8 +42,8 @@ export function Container(base) {
 
             return template;
         },
-        handleToolbar: function(name, value){
+        handleToolbar: function(name, value) {
             base.setState(name, value);
-        }
+        },
     };
 }

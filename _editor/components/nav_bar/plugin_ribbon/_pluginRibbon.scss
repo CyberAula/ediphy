@@ -1,0 +1,119 @@
+@import "../../../../sass/general/_variables.scss";
+
+/*Ribbon column*/
+#ribbonRow {
+  overflow-x: auto;
+  overflow-y: hidden;
+  .btn-group.open .dropdown-toggle {
+    -webkit-box-shadow: none;
+    box-shadow: none;
+  }
+}
+
+/*Ribbon Column*/
+#ribbon {
+  background-color: $grisclaro;
+  -webkit-box-shadow: inset 0px 3px 5px 0px rgba(179,179,179,1);
+  -moz-box-shadow: inset 0px 3px 5px 0px rgba(179,179,179,1);
+  box-shadow: inset 0px 3px 5px 0px rgba(179,179,179,1);
+  height: 60px;
+  padding: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+
+/************Plugin list***************/
+
+#insideribbon {
+  margin-top: 0px;
+  right: 0;
+  overflow-y: hidden;
+  height: 100%;
+  width: calc(100% - 20px);
+}
+
+#ribbonList {
+  white-space: nowrap !important;
+  margin-left: 16px;
+  height: 100%;
+}
+
+/***************************************/
+
+/*Plugin name placeholder for dnd*/
+.buttonPlace {
+  position: relative;
+  display: inline-block;
+  width: auto;
+  z-index: 0;
+  height: 100%;
+}
+
+/*Ribbon buttons*/
+.rib {
+  position: relative;
+  padding: 0 9px;
+  font-size: 14px !important;
+  border-radius: 0;
+  border: 1px solid lightgray;
+  background-color: transparent !important;
+  color: $grismedio;
+  height: 70%;
+  margin: 8px 4px;
+  &:hover {
+    background-color: white !important;
+    color: $grisoscuro;
+    box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+    -moz-box-shadow: none !important;
+  }
+  .material-icons {
+    vertical-align: text-bottom;
+    font-size: 18px;
+  }
+}
+
+/*Plugin class while dragging*/
+.ribdrag {
+  color: $darkest;
+  &:hover {
+    color: $darkest !important;
+  }
+}
+
+/*****************Shortcut buttons*******************/
+/*Shortcut buttons container*/
+.mainButtons {
+  display: inline-block;
+  position: absolute;
+  height: 100%;
+  margin-top: 0px;
+  width: 128px;
+  right: 0px;
+  top: 0;
+  padding: 4px;
+  background-color: $grismedio;
+}
+
+/*Shortcut button*/
+.ribShortcut {
+  width: 32px;
+  height: 32px;
+  margin: 4px;
+  padding: 8px;
+  border: 0;
+  color: $verdeoscurogrisaceo;
+  background-color: $lightestgrey;
+  display: inline-block;
+  &:hover {
+    color: $detailgreen;
+  }
+  .material-icons {
+    font-size: 16px;
+  }
+}
+
+/*Disabled button*/
+button[disabled].ribShortcut {
+  color: #ccc;
+}

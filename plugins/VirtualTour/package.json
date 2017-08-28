@@ -1,0 +1,8 @@
+{
+  "name" : "VirtualTour",
+  "version" : "0.1.0",
+  "dependencies": {
+    "google-map-react": "^0.24.0",
+    "react-gmaps": "^1.6.0"
+  }
+}

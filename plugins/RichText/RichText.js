@@ -1,6 +1,6 @@
 export function RichText(base) {
     return {
-        getConfig: function () {
+        getConfig: function() {
             return {
                 name: 'RichText',
                 displayName: Dali.i18n.t('RichText.PluginName'),
@@ -10,12 +10,12 @@ export function RichText(base) {
                 initialWidth: 'auto',
                 initialHeight: 'auto',
                 extraTextConfig: {
-                    extraPlugins: "daliplugin"
+                    extraPlugins: "daliplugin",
                 },
-                icon: 'format_indent_increase'
+                icon: 'format_indent_increase',
             };
         },
-        getToolbar: function () {
+        getToolbar: function() {
             return {
                 main: {
                     __name: "Main",
@@ -29,32 +29,32 @@ export function RichText(base) {
                                     type: 'number',
                                     value: 0,
                                     min: 0,
-                                    max: 100
+                                    max: 100,
                                 },
                                 borderWidth: {
                                     __name: Dali.i18n.t('RichText.border_size'),
                                     type: 'number',
                                     value: 0,
                                     min: 0,
-                                    max: 10
+                                    max: 10,
                                 },
                                 borderStyle: {
                                     __name: Dali.i18n.t('RichText.border_style'),
                                     type: 'select',
                                     value: 'solid',
-                                    options: ['none', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset', 'initial', 'inherit']
+                                    options: ['none', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset', 'initial', 'inherit'],
                                 },
                                 borderColor: {
                                     __name: Dali.i18n.t('RichText.border_color'),
                                     type: 'color',
-                                    value: '#000000'
+                                    value: '#000000',
                                 },
                                 borderRadius: {
                                     __name: Dali.i18n.t('RichText.radius'),
                                     type: 'number',
                                     value: 0,
                                     min: 0,
-                                    max: 50
+                                    max: 50,
                                 },
                                 opacity: {
                                     __name: Dali.i18n.t('RichText.opacity'),
@@ -62,13 +62,13 @@ export function RichText(base) {
                                     value: 1,
                                     min: 0,
                                     max: 1,
-                                    step: 0.01
-                                }
-                            }
-                        }
-                    }
-                }
+                                    step: 0.01,
+                                },
+                            },
+                        },
+                    },
+                },
             };
-        }
+        },
     };
 }

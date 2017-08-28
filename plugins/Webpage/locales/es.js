@@ -10,6 +10,6 @@ module.exports = {
         "PluginName": "Página Web",
         "radius": "Radio",
         "source": "Origen",
-        "URL": "URL"
-    }
+        "URL": "URL",
+    },
 };

@@ -15,6 +15,9 @@
 @import 'components/advancedPopover';
 
 @import 'events/draganddrop';
+@import 'events/overlay';
+$material-font-path:  '../node_modules/material-design-icons-font/iconfont/';
+@import '../node_modules/material-design-icons-font/iconfont/material-icons';
 
 @include selection {
     color: white;
@@ -168,4 +171,12 @@ button, i{
     right: 15px;
     top: 75px;
     z-index: 999;
+}
+*:-webkit-full-screen {
+    width: 100%;
+    height: 100%;
+}
+
+.fileInput {
+    width:100%;
 }

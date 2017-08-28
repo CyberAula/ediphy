@@ -1,5 +1,5 @@
 module.exports = {
     "Container": {
-        "PluginName": "Contenedor"
-    }
+        "PluginName": "Contenedor",
+    },
 };

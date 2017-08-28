@@ -13,6 +13,6 @@ module.exports = {
         "padding": "Padding",
         "PluginName": "Youtube",
         "radius": "Radio",
-        "source": "Origen"
-    }
+        "source": "Origen",
+    },
 };

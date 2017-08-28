@@ -1,0 +1,29 @@
+{
+  "plugins": [],
+  "recurseDepth": 12,
+  "source": {
+    "include": ["./_editor", "./_visor", "./common", "./core", "./plugins", "./reducers"],
+    "exclude": ["node_modules", "sass", "webpack_plugins"],
+    "includePattern": ".+\\.(es6|js(doc|x)?)$",
+    "excludePattern": "(^|\\/|\\\\)_private"
+  },
+  "sourceType": "module",
+  "tags": {
+    "allowUnknownTags": true,
+    "dictionaries": ["jsdoc","closure"]
+  },
+  "templates": {
+    "cleverLinks": false,
+    "monospaceLinks": false,
+    "default": {
+      "outputSourceFiles": false
+    }
+  },
+  "opts": {
+    "template": "templates/default",  // same as -t templates/default
+    "encoding": "utf8",               // same as -e utf8
+    "destination": "./jsdoc/",          // same as -d ./out/
+    "recurse": true                  // same as -r
+  }
+}
+

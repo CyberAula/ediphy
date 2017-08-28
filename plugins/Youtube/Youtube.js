@@ -1,6 +1,6 @@
 export function Youtube(base) {
     return {
-        getConfig: function () {
+        getConfig: function() {
             return {
                 name: 'Youtube',
                 displayName: Dali.i18n.t('Youtube.PluginName'),
@@ -9,12 +9,12 @@ export function Youtube(base) {
                 initialHeight: '200px',
                 aspectRatioButtonConfig: {
                     location: ["main", "__sortable"],
-                    defaultValue: true
+                    defaultValue: true,
                 },
-                icon: 'slideshow'
+                icon: 'slideshow',
             };
         },
-        getToolbar: function () {
+        getToolbar: function() {
             return {
                 main: {
                     __name: "Main",
@@ -27,9 +27,9 @@ export function Youtube(base) {
                                     __name: Dali.i18n.t('Youtube.URL'),
                                     type: 'text',
                                     value: base.getState().url,
-                                    autoManaged: false
-                                }
-                            }
+                                    autoManaged: false,
+                                },
+                            },
                         },
                         style: {
                             __name: Dali.i18n.t('Youtube.box_style'),
@@ -40,32 +40,32 @@ export function Youtube(base) {
                                     type: 'number',
                                     value: 0,
                                     min: 0,
-                                    max: 100
+                                    max: 100,
                                 },
                                 borderWidth: {
                                     __name: Dali.i18n.t('Youtube.border_size'),
                                     type: 'number',
                                     value: 0,
                                     min: 0,
-                                    max: 10
+                                    max: 10,
                                 },
                                 borderStyle: {
                                     __name: Dali.i18n.t('Youtube.border_style'),
                                     type: 'select',
                                     value: 'solid',
-                                    options: ['none', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset', 'initial', 'inherit']
+                                    options: ['none', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset', 'initial', 'inherit'],
                                 },
                                 borderColor: {
                                     __name: Dali.i18n.t('Youtube.border_color'),
                                     type: 'color',
-                                    value: '#000000'
+                                    value: '#000000',
                                 },
                                 borderRadius: {
                                     __name: Dali.i18n.t('Youtube.radius'),
                                     type: 'number',
                                     value: 0,
                                     min: 0,
-                                    max: 50
+                                    max: 50,
                                 },
                                 opacity: {
                                     __name: Dali.i18n.t('Youtube.opacity'),
@@ -73,50 +73,50 @@ export function Youtube(base) {
                                     value: 1,
                                     min: 0,
                                     max: 1,
-                                    step: 0.05
-                                }
+                                    step: 0.05,
+                                },
 
-                            }
-                        }
-                    }
-                }
+                            },
+                        },
+                    },
+                },
             };
         },
-        getInitialState: function () {
+        getInitialState: function() {
             return {
-                url: 'https://www.youtube.com/watch?v=3zUvnRg3zao'
+                url: 'https://www.youtube.com/watch?v=3zUvnRg3zao',
             };
         },
-        getRenderTemplate: function (state) {
+        getRenderTemplate: function(state) {
             return "<iframe  class=\"basicImageClass\"  style=\"width: 100%; height: 100%; z-index:0;\" src=\"" + this.parseURL(state.url) + "\" frameBorder=\"0\" allowFullScreen ></iframe>";
         },
-        handleToolbar: function (name, value) {
+        handleToolbar: function(name, value) {
             if (name === 'url') {
                 base.setState(name, base.parseURL(value));
             } else {
                 base.setState(name, value);
             }
         },
-        parseURL: function (url) {
+        parseURL: function(url) {
             if (url === '') {
                 return url;
             }
-            var patt1 = /youtube.com\/watch\?v=(.*)/;
-            var patt2 = /youtube.com\/embed\/(.*)/;
-            var patt3 = /youtu.be\/(.*)/;
+            let patt1 = /youtube.com\/watch\?v=(.*)/;
+            let patt2 = /youtube.com\/embed\/(.*)/;
+            let patt3 = /youtu.be\/(.*)/;
             if (patt2.exec(url)) {
                 return url;
             }
-            var code = patt1.exec(url);
+            let code = patt1.exec(url);
             if (code) {
                 return 'https://www.youtube.com/embed/' + code[1];
             }
-            var code2 = patt3.exec(url);
+            let code2 = patt3.exec(url);
             if (code2) {
                 return 'https://www.youtube.com/embed/' + code2[1];
             }
             alert('No es un video de youtube.');
             return '';
-        }
+        },
     };
 }

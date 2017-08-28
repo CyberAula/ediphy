@@ -12,8 +12,11 @@ module.exports = {
         "box_style": "Estilo caja",
         "opacity": "Opacidad",
         "padding": "Padding",
-        "PluginName": "Reproductor con puntos de interés",
+        "PluginName": "Reproductor enriquecido",
+        "pos": "Momento",
         "radius": "Radio",
-        "source": "Origen"
-    }
+        "source": "Origen",
+        "message_mark_percentage": "Ha introducido un valor incorrecto. Debe introducir un porcentaje entre 0 y 100. Ej. 45.66%",
+
+    },
 };

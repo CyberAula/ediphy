@@ -1,28 +1,28 @@
 import Dali from './main';
 import BasePlugin from './base_plugin';
 
-export default function () {
-    var pluginInstancesList = {};
+export default function() {
+    let pluginInstancesList = {};
 
     return {
-        get: function (name) {
+        get: function(name) {
             return pluginInstancesList[name];
         },
-        getAll: function () {
+        getAll: function() {
             return pluginInstancesList;
         },
-        getPluginsInCurrentView: function (getAliasedPlugins) {
+        getPluginsInCurrentView: function(getAliasedPlugins) {
             return this.getPluginsInView(null, getAliasedPlugins);
         },
-        getPluginsInView: function (view, getAliasedPlugins) {
-            var promise = new Promise(function (resolve) {
+        getPluginsInView: function(view, getAliasedPlugins) {
+            let promise = new Promise(function(resolve) {
                 Dali.API_Private.listenAnswer(Dali.API_Private.events.getPluginsInView, resolve);
             });
-            Dali.API_Private.emit(Dali.API_Private.events.getPluginsInView, {view, getAliasedPlugins});
+            Dali.API_Private.emit(Dali.API_Private.events.getPluginsInView, { view, getAliasedPlugins });
 
             return promise;
         },
-        loadAll: function () {
+        loadAll: function() {
             let pluginConfigs = [];
 
             Dali.Config.pluginList.map(id => {
@@ -41,6 +41,6 @@ export default function () {
             });
 
             Dali.API.addMenuButtons(pluginConfigs);
-        }
+        },
     };
 }

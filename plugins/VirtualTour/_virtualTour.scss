@@ -1,0 +1,76 @@
+.virtualMap {
+  pointer-events: none;
+  width: 100%;
+  height:100%;
+
+    .dropableRichZone {
+      width: 100%;
+      height:100%;
+    }
+}
+.pointerEventsEnabled .virtualMap {
+  pointer-events: all !important ;
+}
+
+.dropableRichZone.rich_overlay  {
+  pointer-events: all !important;
+}
+.virtualMap > .rich_overlay {
+  pointer-events: all !important;
+}
+.searchBox {
+  max-width:98%;
+  max-width:calc(99% - 4px);
+  width: 200px;
+  position: absolute;
+  top:2px;
+  right:2px;
+  //height:30px;
+  border-radius: 0;
+}
+.selectedBox .searchBox {
+  pointer-events: all !important;
+}
+
+.wholeboxvisor .virtualMap {
+  pointer-events: all !important;
+}
+
+a.mapMarker {
+  position: absolute;
+  pointerEvents: all !important;
+  top: -26px;
+  left: -12px;
+  width: 24px;
+  height: 26px;
+  i{
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    pointer-events: all;
+  }
+}
+
+.noInternetConnectionBox{
+  font-size: 20px;
+  color: white;
+  text-align: center;
+  background-color: #c4c4c4;
+
+  .middleAlign{
+    vertical-align: middle;
+    position: absolute;
+    display:block;
+    top:50%;
+    left: 50%;
+    -webkit-transform: translate(-50%,-50%);
+    -moz-transform: translate(-50%,-50%);
+    -ms-transform: translate(-50%,-50%);
+    -o-transform: translate(-50%,-50%);
+    transform: translate(-50%,-50%);
+    margin:auto;
+    .dark{
+      color:#555555;
+    }
+  }
+}

@@ -1,6 +1,6 @@
 export function Webpage(base) {
     return {
-        getConfig: function () {
+        getConfig: function() {
             return {
                 name: 'Webpage',
                 displayName: Dali.i18n.t('Webpage.PluginName'),
@@ -9,10 +9,10 @@ export function Webpage(base) {
                 initialWidth: '70%',
                 initialHeight: "300px",
                 initialWidthSlide: '70%',
-                initialHeightSlide: '60%'
+                initialHeightSlide: '60%',
             };
         },
-        getToolbar: function () {
+        getToolbar: function() {
             return {
                 main: {
                     __name: "Main",
@@ -25,9 +25,9 @@ export function Webpage(base) {
                                     __name: '',
                                     type: 'text',
                                     value: base.getState().url,
-                                    autoManaged: false
-                                }
-                            }
+                                    autoManaged: false,
+                                },
+                            },
                         },
                         style: {
                             __name: Dali.i18n.t('Webpage.box_style'),
@@ -38,32 +38,32 @@ export function Webpage(base) {
                                     type: 'number',
                                     value: 0,
                                     min: 0,
-                                    max: 100
+                                    max: 100,
                                 },
                                 borderWidth: {
                                     __name: Dali.i18n.t('Webpage.border_size'),
                                     type: 'number',
                                     value: 0,
                                     min: 0,
-                                    max: 10
+                                    max: 10,
                                 },
                                 borderStyle: {
                                     __name: Dali.i18n.t('Webpage.border_style'),
                                     type: 'select',
                                     value: 'solid',
-                                    options: ['none', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset', 'initial', 'inherit']
+                                    options: ['none', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset', 'initial', 'inherit'],
                                 },
                                 borderColor: {
                                     __name: Dali.i18n.t('Webpage.border_color'),
                                     type: 'color',
-                                    value: '#000000'
+                                    value: '#000000',
                                 },
                                 borderRadius: {
                                     __name: Dali.i18n.t('Webpage.radius'),
                                     type: 'number',
                                     value: 0,
                                     min: 0,
-                                    max: 50
+                                    max: 50,
                                 },
                                 opacity: {
                                     __name: Dali.i18n.t('Webpage.opacity'),
@@ -71,25 +71,25 @@ export function Webpage(base) {
                                     value: 1,
                                     min: 0,
                                     max: 1,
-                                    step: 0.05
-                                }
+                                    step: 0.05,
+                                },
 
-                            }
-                        }
-                    }
-                }
+                            },
+                        },
+                    },
+                },
             };
         },
-        getInitialState: function () {
+        getInitialState: function() {
             return {
-                url: 'http://apps.thecodepost.org/trex/trex.html'
+                url: 'http://apps.thecodepost.org/trex/trex.html',
             };
         },
-        getRenderTemplate: function (state) {
+        getRenderTemplate: function(state) {
             return "<iframe  class=\"basicImageClass\"  style=\"width: 100%; height: 100%; z-index:0;\" src=\"" + state.url + "\"></iframe>";
         },
-        handleToolbar: function (name, value) {
+        handleToolbar: function(name, value) {
             base.setState(name, value);
-        }
+        },
     };
 }

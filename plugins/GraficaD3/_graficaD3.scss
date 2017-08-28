@@ -10,3 +10,15 @@
     right: 36px;
     z-index: 10px;
 }
+
+.clearCol{
+    color: #bbb;
+    text-align: center;
+    cursor: pointer;
+}
+.clearRow{
+     color: #bbb;
+     position: absolute;
+    right: 0;
+    cursor: pointer;
+ }
