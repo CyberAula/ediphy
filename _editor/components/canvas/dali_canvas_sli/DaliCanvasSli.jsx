@@ -63,8 +63,6 @@ export default class DaliCanvasSli extends Component {
         let overlayHeight = actualHeight ? actualHeight : '100%';
         let boxes = itemSelected.boxes;
         return (
-            /* jshint ignore:start */
-
             <Col id={this.props.fromCV ? 'containedCanvas' : 'canvas'} md={12} xs={12} className="canvasSliClass"
                 style={{ display: this.props.containedViewSelected !== 0 && !this.props.fromCV ? 'none' : 'initial' }}>
 
@@ -178,7 +176,6 @@ export default class DaliCanvasSli extends Component {
                     toolbar={this.props.toolbars[this.props.boxSelected]}/>
 
             </Col>
-            /* jshint ignore:end */
         );
     }
 

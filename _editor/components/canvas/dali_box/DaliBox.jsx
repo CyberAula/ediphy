@@ -34,8 +34,10 @@ export default class DaliBox extends Component {
      * @returns {code} React rendered component
      */
     render() {
+
         let cornerSize = 15;
         let box = this.props.boxes[this.props.id];
+
         let toolbar = this.props.toolbars[this.props.id];
         let vis = this.props.boxSelected === this.props.id;
         let style = {
@@ -559,11 +561,11 @@ export default class DaliBox extends Component {
                         let target = event.target;
                         target.style.left = this.getElementPositionFromLeft(target.style.left, target.parentElement.offsetWidth) + "px";
                         target.style.top = target.parentElement.offsetHeight * (parseFloat(target.style.top) / 100) + "px";
-                        // target.style.top = 
                     } else {
                         let target = event.target;
                         let topInPix = target.parentElement.offsetHeight * (parseFloat(target.style.top) / 100);
                         let leftInPix = target.parentElement.offsetWidth * (parseFloat(target.style.left) / 100);
+
                         target.style.top = topInPix + "px";
                         target.style.left = leftInPix + "px";
 
@@ -588,6 +590,7 @@ export default class DaliBox extends Component {
                             target.style.left = (parseInt(target.style.left, 10) || 0) + event.dx + 'px';
                             target.style.top = (parseInt(target.style.top, 10) || 0) + event.dy + 'px';
                             target.style.zIndex = '9999';
+
                             // Else, drag the clone and update values in attributes in both elements
                         } else {
                             let target = document.getElementById('clone');
@@ -620,17 +623,24 @@ export default class DaliBox extends Component {
                     let pos = this.props.boxes[this.props.id].position.type;
                     let actualLeft = pos === 'relative' ? target.style.left : target.getAttribute('data-x');
                     let actualTop = pos === 'relative' ? target.style.top : target.getAttribute('data-y');
-                    let absoluteLeft = (((parseInt(target.style.left, 10) * 100) / target.parentElement.offsetWidth) > 100) ?
-                        ((target.parentElement.offsetWidth - (parseInt(target.style.width, 10))) / target.parentElement.offsetWidth) * 100 + "%" :
-                        ((parseInt(target.style.left, 10) * 100) / target.parentElement.offsetWidth) + "%";
-                    /* let absoluteTop = target.getAttribute('data-y') + Math.max(parseInt(target.style.top, 10), 0) >0 ? 
-                        (target.getAttribute('data-y') + Math.max(parseInt(target.style.top, 10), 0))/ target.parentElement.offsetHeight * 100 + "%" : 
+                    let absoluteLeft = (((parseFloat(target.style.left) * 100) / target.parentElement.offsetWidth) > 100) ?
+                        ((target.parentElement.offsetWidth - (parseFloat(target.style.width))) / target.parentElement.offsetWidth) * 100 + "%" :
+                        ((parseFloat(target.style.left) * 100) / target.parentElement.offsetWidth) + "%";
+                    /* let absoluteTop = target.getAttribute('data-y') + Math.max(parseInt(target.style.top, 10), 0) >0 ?
+                        (target.getAttribute('data-y') + Math.max(parseInt(target.style.top, 10), 0))/ target.parentElement.offsetHeight * 100 + "%" :
                         "0%";*/
-                    let absoluteTop = (parseInt(target.style.top, 10) * 100) / target.parentElement.offsetHeight + "%";
-                    let left = Math.max(Math.min(Math.floor(parseInt(actualLeft, 10) / target.parentElement.offsetWidth * 100), 100), 0) + '%';
-                    let top = Math.max(Math.min(Math.floor(parseInt(actualTop, 10) / target.parentElement.offsetHeight * 100), 100), 0) + '%';
-                    target.style.left = isSortableContainer(box.container) ? left : target.style.left;
-                    target.style.top = isSortableContainer(box.container) ? top : target.style.top;
+                    let absoluteTop = (parseFloat(target.style.top) * 100) / target.parentElement.offsetHeight + "%";
+                    let left = Math.max(Math.min(Math.floor(parseFloat(actualLeft) / target.parentElement.offsetWidth * 100), 100), 0) + '%';
+                    let top = Math.max(Math.min(Math.floor(parseFloat(actualTop) / target.parentElement.offsetHeight * 100), 100), 0) + '%';
+
+                    if (isSortableContainer(box.container)) {
+                        target.style.left = left;
+                        target.style.top = top;
+                    } else {
+                        target.style.left = absoluteLeft;
+                        target.style.top = absoluteTop;
+                    }
+
                     target.style.zIndex = 'initial';
 
                     // Delete clone and unhide original
@@ -655,8 +665,10 @@ export default class DaliBox extends Component {
                     // TODO: learn how it works
                     let releaseClick = document.elementFromPoint(event.clientX, event.clientY);
                     if (releaseClick) {
+                        // Get element that has been clicked
                         let release = releaseClick.getAttribute('id') || "noid";
-                        let counter = 5;
+                        let counter = 7;
+                        // Check recursively the parent of the element clicked to check if any of them is a box
                         while (release && release.indexOf('box-bo') === -1 && counter > 0 && releaseClick.parentNode) {
                             releaseClick = releaseClick.parentNode;
                             if (releaseClick) {

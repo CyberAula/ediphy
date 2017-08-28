@@ -7,15 +7,29 @@ import { isPage } from '../../../common/utils';
 import { toggleFullScreen, isFullScreenOn, fullScreenListener } from '../../../common/common_tools';
 import 'bootstrap/dist/css/bootstrap.css';
 
+/**
+ * Visor's navigation buttons
+ */
 export default class VisorPlayer extends Component {
     constructor(props) {
         super(props);
+        /**
+         * Component's initial state
+         * @type {{isFullScreenOn: *}}
+         */
         this.state = {
             isFullScreenOn: isFullScreenOn(),
         };
+        /**
+         * Binded function
+         */
         this.checkFullScreen = this.checkFullScreen.bind(this);
     }
 
+    /**
+     * Render React Component
+     * @returns {code}
+     */
     render() {
 
         let navItemsIds = this.props.navItemsIds;
@@ -30,7 +44,6 @@ export default class VisorPlayer extends Component {
         let maxIndex = navItemsIds.length;
 
         return(
-            /* jshint ignore:start */
             <div id="player">
                 <OverlayTrigger placement="bottom" delayShow={50} trigger={['hover']} overlay={this.createTooltip("first", i18n.t("player.First"))}>
                     <Button className="playerButton"
@@ -75,7 +88,6 @@ export default class VisorPlayer extends Component {
                     </Button>
                 </OverlayTrigger>
             </div>
-            /* jshint ignore:end */
         );
     }
 
@@ -84,10 +96,7 @@ export default class VisorPlayer extends Component {
     }
 
     createTooltip(id, message) {
-        /* jshint ignore:start */
-        /* Añadir aquí i18n next para traducir el tooltip*/
         return(<Tooltip id={id}>{message}</Tooltip>);
-        /* jshint ignore:end */
     }
 
     getCurrentNavItem(ids) {
@@ -98,14 +107,25 @@ export default class VisorPlayer extends Component {
             return null;
         });
     }
+
+    /**
+     * Adds fullscreen listener
+     */
     componentDidMount() {
         fullScreenListener(this.checkFullScreen, true);
 
     }
+
+    /**
+     * Removes fullscreen listener
+     */
     componentWillUnmount() {
         fullScreenListener(this.checkFullScreen, false);
     }
 
+    /**
+     * Checks if browser's in fullscreen mode and updates state
+     */
     checkFullScreen() {
         this.setState({ isFullScreenOn: isFullScreenOn() });
     }
