@@ -70,7 +70,7 @@ module.exports = {
 		var final_array = [];
 		for(package in files){
 			var final_string = "";
-			var expose_string = "expose?"
+			var expose_string = "expose-loader?"
 			var json = require("../" + files[package]);
 			var dependencies = json.dependencies;
 			var config = json.config;
