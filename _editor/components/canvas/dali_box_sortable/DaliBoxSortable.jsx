@@ -336,5 +336,7 @@ export default class DaliBoxSortable extends Component {
      */
     componentWillUnmount() {
         interact(ReactDOM.findDOMNode(this)).unset();
+        interact(".daliBoxSortableContainer").unset();
+
     }
 }

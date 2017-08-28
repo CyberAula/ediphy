@@ -2,4 +2,6 @@
   border-radius: 0 !important;
 }
 
-.cke_contents{margin:5px;background-color:blue;}
+.cke_contents{margin:5px;background-color:$blueprimary;}
+.cke_panel_listItem.cke_selected a{background-color:$blueprimary;}
+.cke_button_on{background-color:$blueprimary;}
