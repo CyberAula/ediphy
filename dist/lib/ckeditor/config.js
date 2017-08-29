@@ -51,6 +51,7 @@ CKEDITOR.editorConfig = function (config) {
         'basicstyles,' +
         'blockquote,' +
         'clipboard,' +
+        'codesnippet,' +
         'colorbutton,' +
         'contextmenu,' +
         'dialog,' +
@@ -68,6 +69,7 @@ CKEDITOR.editorConfig = function (config) {
         'indentlist,' +
         'indentblock,' +
         'justify,' +
+        'lineheight,' +
         'lineutils,' +
         'link,' +
         'list,' +
@@ -80,8 +82,6 @@ CKEDITOR.editorConfig = function (config) {
         'pastetext,' +
         'pbckcode,' +
         'removeformat,' +
-        'lineheight,' +
-        'codesnippet,' +
         'showborders,' +
         /*'stylescombo,' +*/
         'tab,' +
