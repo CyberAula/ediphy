@@ -2,13 +2,13 @@
 
 **Dali Editor** is an open source e-learning authoring tool to create different types of resources (web documents, slides and more coming up soon).
 
-This software is written in Javascript (ES6), making se of React and Redux.
+This software is written in Javascript (ES6), making use of React and Redux.
 
 ## Installation and manual
 
 Visit our wiki to see all the available Dali Editor instructions.
 
-In order to install this project you will need `node` 6.*.* (latest), `npm` and  git.
+In order to install this project you will need `node` 6.x.x (latest), `npm` and  git.
 First clone the repo and then install the dependencies like so:
 
 ```bash
