@@ -4,6 +4,7 @@ jsdoc
 nbproject
 .idea
 dist/*bundle.js
+dist/js/*bundle.js
 *.log
 webpack.config.js~
 *.orig

@@ -2,8 +2,9 @@ let webpack = require('webpack');
 const merge = require('webpack-merge');
 const common = require('./webpack.common.js');
 
-module.exports = merge(common, {
-    devtool: 'source-map',
+module.exports = merge.smart( common, {
+    devtool: 'cheap-module-eval-source-map', 
+    watch: true,
     plugins: [
         new webpack.HotModuleReplacementPlugin(),
         new webpack.LoaderOptionsPlugin({
@@ -12,7 +13,7 @@ module.exports = merge(common, {
     ],
     devServer: {
         contentBase: __dirname + "/dist",
-        compress: true,
+        inline:true,
         port: 8080
     }
 });
