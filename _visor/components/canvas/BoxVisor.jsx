@@ -180,14 +180,14 @@ export default class BoxVisor extends Component {
                 }}>
                 {border}
                 {content}
-                {toolbar.state.__text ?
+                {/* {toolbar.state.__text ?
                     <div id={box.id}
                         ref={"textarea"}
                         className={classNames + " textAreaStyle"}
                         contentEditable
                         style={textareaStyle} /> :
                     null
-                }
+                }*/}
             </div>
             /* jshint ignore:end */
         );

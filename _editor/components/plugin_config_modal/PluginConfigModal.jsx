@@ -53,7 +53,11 @@ export default class PluginConfigModal extends Component {
      */
     render() {
         return (
-            <Modal className="pageModal pluginconfig" backdrop bsSize="large" show={this.state.show} onHide={()=>{ this.setState({ show: false, reason: null }); }}>
+            <Modal className="pageModal pluginconfig"
+                backdrop="static"
+                bsSize="large"
+                show={this.state.show}
+                onHide={()=>{ this.setState({ show: false, reason: null }); }}>
                 <Modal.Header closeButton>
                     <Modal.Title>Plugin Configuration</Modal.Title>
                 </Modal.Header>

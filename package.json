@@ -20,8 +20,10 @@
     "eslint": "eslint  --fix  **/*.js **/*.jsx **/*.es6 --ignore-pattern node_modules/ --ignore-pattern dist --ignore-pattern esdoc --ignore-pattern sass --ignore-pattern dali_server --ignore-pattern webpack_plugins",
     "jsdoc": "jsdoc -c jsdoc.json",
     "doc": "esdoc -c esdoc.json",
+    "addall": "git add .",
     "postinstall": "node ./plugin_install"
   },
+  "pre-commit": ["eslint", "addall"],
   "jest": {
     "transform": {
       ".*": "./node_modules/babel-jest"
@@ -68,6 +70,7 @@
     "node-dir": "^0.1.16",
     "node-sass": "^3.13.1",
     "package-json-validator": "^0.6.1",
+    "pre-commit": "^1.2.2",
     "react-hot-loader": "^3.0.0-beta.6",
     "react-test-renderer": "^15.6.1",
     "redux-devtools": "^3.3.1",

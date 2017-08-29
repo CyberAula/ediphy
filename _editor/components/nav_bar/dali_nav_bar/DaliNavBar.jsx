@@ -26,7 +26,9 @@ export default class DaliNavBar extends Component {
             isFullScreenOn: isFullScreenOn(),
 
         };
-
+        /**
+         * Binded function
+         */
         this.checkFullScreen = this.checkFullScreen.bind(this);
 
     }
@@ -194,13 +196,23 @@ export default class DaliNavBar extends Component {
         );
     }
 
+    /**
+     * Add fullscreen listeners
+     */
     componentDidMount() {
         fullScreenListener(this.checkFullScreen, true);
     }
+
+    /**
+     * Remove fullscreen listeners
+     */
     componentWillUnmount() {
         fullScreenListener(this.checkFullScreen, false);
     }
 
+    /**
+     * Check if browser is in fullscreen mode and update state
+     */
     checkFullScreen() {
         this.setState({ isFullScreenOn: isFullScreenOn() });
     }
