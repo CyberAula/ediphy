@@ -136,7 +136,7 @@ export default class GlobalConfig extends Component {
                                             name="form-field-name-rights"
                                             value={rights}
                                             options={rightsOptions()}
-                                            onChange={e => {this.setState({ rights: e.value });}} />
+                                            onChange={e => {this.setState({ modifiedState: true, rights: e.value });}} />
                                     </FormGroup>
                                     <FormGroup >
                                         <ControlLabel>{i18n.t('global_config.keywords')}</ControlLabel><br/>
@@ -228,10 +228,10 @@ export default class GlobalConfig extends Component {
                                     </FormGroup>
                                     <FormGroup>
                                         <ControlLabel>{i18n.t('global_config.visor_nav.title')}</ControlLabel><br/>
-                                        <Checkbox inline onClick={(e)=>{this.setState({ visorNav: { player: !visorNav.player, sidebar: visorNav.sidebar } });}} checked={visorNav.player}>
+                                        <Checkbox inline onChange={(e)=>{this.setState({ modifiedState: true, visorNav: { player: !visorNav.player, sidebar: visorNav.sidebar } });}} checked={visorNav.player}>
                                             {i18n.t('global_config.visor_nav.player')}
                                         </Checkbox>
-                                        <Checkbox inline onClick={(e)=>{this.setState({ visorNav: { player: visorNav.player, sidebar: !visorNav.sidebar } });}} checked={visorNav.sidebar}>
+                                        <Checkbox inline onChange={(e)=>{this.setState({ modifiedState: true, visorNav: { player: visorNav.player, sidebar: !visorNav.sidebar } });}} checked={visorNav.sidebar}>
                                             {i18n.t('global_config.visor_nav.sidebar')}
                                         </Checkbox>
                                     </FormGroup>
