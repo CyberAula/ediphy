@@ -134,6 +134,7 @@
     "redux": "^3.6.0",
     "redux-thunk": "^2.1.0",
     "redux-undo": "^0.6.1",
+    "resolve-url-loader": "^1.6.1",
     "typeface-source-sans-pro": "0.0.31",
     "typeface-ubuntu": "0.0.31",
     "url-loader": "^0.5.9"

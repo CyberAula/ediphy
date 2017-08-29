@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import 'bootstrap/dist/css/bootstrap.css'
+
 import sortable from 'jquery-ui/ui/widgets/sortable';
 import ReduxProvider from './_editor/containers/ReduxProvider';
 // It appears as unused, but it IS used.

@@ -6,9 +6,6 @@ let path = require('path');
 module.exports = {
     entry: {
         'app': [
-            'webpack-dev-server/client?http://localhost:8080', // WebpackDevServer host and port
-            'webpack/hot/only-dev-server', // "only" prevents reload on syntax errors
-            'bootstrap-loader', // Loads Twitter Bootstrap
             path.join(__dirname, '/index.jsx')], // Appʼs entry point
         'js/visor': path.join(__dirname, '/_visor/containers/EditorVisor.jsx'),
     },
@@ -96,3 +93,7 @@ module.exports = {
         new ZipBundlePlugin(), // Compile automatically zips
     ],
 };
+
+//'webpack-dev-server/client?http://localhost:8080', // WebpackDevServer host and port
+//'webpack/hot/only-dev-server', // "only" prevents reload on syntax errors
+//'bootstrap-loader', // Loads Twitter Bootstrap

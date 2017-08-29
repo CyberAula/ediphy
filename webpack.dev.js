@@ -6,9 +6,13 @@ module.exports = merge(common, {
     devtool: 'source-map',
     plugins: [
         new webpack.HotModuleReplacementPlugin(),
+        new webpack.LoaderOptionsPlugin({
+            debug: true
+        })
     ],
     devServer: {
-        contentBase: './dist',
-        hot: true,
+        contentBase: __dirname + "/dist",
+        compress: true,
+        port: 8080
     }
 });
