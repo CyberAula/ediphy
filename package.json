@@ -23,7 +23,10 @@
     "addall": "git add .",
     "postinstall": "node ./plugin_install"
   },
-  "pre-commit": ["eslint", "addall"],
+  "pre-commit": [
+    "eslint",
+    "addall"
+  ],
   "jest": {
     "transform": {
       ".*": "./node_modules/babel-jest"
@@ -71,6 +74,7 @@
     "node-sass": "^3.13.1",
     "package-json-validator": "^0.6.1",
     "pre-commit": "^1.2.2",
+    "progress-bar-webpack-plugin": "^1.10.0",
     "react-hot-loader": "^3.0.0-beta.6",
     "react-test-renderer": "^15.6.1",
     "redux-devtools": "^3.3.1",

@@ -2,6 +2,7 @@ let webpack = require('webpack');
 let ZipBundlePlugin = require('./webpack_plugins/bundle_zip_plugin.js');
 let dependency_loader = require('./webpack_plugins/dependencies_loader.js');
 let path = require('path');
+var ProgressBarPlugin = require('progress-bar-webpack-plugin');
 
 module.exports = {
     entry: {
@@ -88,6 +89,7 @@ module.exports = {
         extensions: ['.js', '.jsx', '.es6'],
     },
     plugins: [
+        new ProgressBarPlugin({}),
         new webpack.ContextReplacementPlugin(/package\.json$/, "./plugins/"),
         new webpack.ProvidePlugin(Object.assign({
             '$': 'jquery',
