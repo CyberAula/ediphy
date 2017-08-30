@@ -5,6 +5,13 @@ const common = require('./webpack.common.js');
 let path = require('path');
 
 module.exports = merge.smart(common, {
+    entry: {
+        'app': [
+            'bootstrap-loader', // Loads Twitter Bootstrap
+            './index.jsx'
+        ], // Appʼs entry point
+        'js/visor': path.join(__dirname, '/_visor/containers/EditorVisor.jsx'),
+    },
     output: {
         path: path.join(__dirname, '/dist'),
         publicPath: '/', // This is used to generate URLs to e.g. images
