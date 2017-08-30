@@ -5,20 +5,6 @@ let path = require('path');
 let ProgressBarPlugin = require('progress-bar-webpack-plugin');
 
 module.exports = {
-    entry: {
-        'app': [
-            'webpack-dev-server/client?http://localhost:8080', // WebpackDevServer host and port
-            'webpack/hot/only-dev-server', // "only" prevents reload on syntax errors
-            'bootstrap-loader', // Loads Twitter Bootstrap
-            './index.jsx',
-        ], // Appʼs entry point
-        'js/visor': path.join(__dirname, '/_visor/containers/EditorVisor.jsx'),
-    },
-    output: {
-        path: path.join(__dirname, '/dist'),
-        publicPath: '/', // This is used to generate URLs to e.g. images
-        filename: '[name]-bundle.js',
-    },
     module: {
         rules: [
             {
