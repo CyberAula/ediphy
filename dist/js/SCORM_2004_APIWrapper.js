@@ -1,6 +1,6 @@
 /****************************************************************************
 SCORM_2004_APIwrapper.js
-© 2000, 2011 Advanced Distributed Learning (ADL). Some Rights Reserved.
+Â© 2000, 2011 Advanced Distributed Learning (ADL). Some Rights Reserved.
 *****************************************************************************
 
 Advanced Distributed Learning ("ADL") grants you ("Licensee") a  non-exclusive, 
