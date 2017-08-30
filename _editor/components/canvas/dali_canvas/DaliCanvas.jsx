@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import DaliCanvasSli from '../dali_canvas_sli/DaliCanvasSli';
 import DaliCanvasDoc from '../dali_canvas_doc/DaliCanvasDoc';
-import { REORDER_SORTABLE_CONTAINER } from '../../../../common/actions';
+import { REORDER_SORTABLE_CONTAINER, REORDER_BOXES } from '../../../../common/actions';
 import { isSlide } from '../../../../common/utils';
 
 require('./_canvas.scss');
@@ -115,7 +115,7 @@ export default class DaliCanvas extends Component {
      * @param prevState React previous state
      */
     componentDidUpdate(prevProps, prevState) {
-        if(this.props.lastActionDispatched.type === REORDER_SORTABLE_CONTAINER) {
+        if(this.props.lastActionDispatched.type === REORDER_SORTABLE_CONTAINER || this.props.lastActionDispatched.type === REORDER_BOXES) {
             for (let instance in CKEDITOR.instances) {
                 CKEDITOR.instances[instance].destroy();
             }
