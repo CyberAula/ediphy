@@ -5,6 +5,7 @@ nbproject
 .idea
 dist/*bundle.js
 dist/js/*bundle.js
+dist/prod/*
 *.log
 webpack.config.js~
 *.orig
