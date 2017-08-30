@@ -60,7 +60,7 @@ async.series({
     });
   }
   },function(err, results){
-    var loader_string = "module.exports = {requireAll: function(){";
+    var loader_string = "module.exports = { requireAll: function() { ";
     async.each(results.dependencies, function(file, call){
       var require_string = "require('!script-loader!./..";
       var require_close = "');";
@@ -73,7 +73,7 @@ async.series({
         loader_string += require_string + file + require_close;
         call();
       }, function(err){
-        loader_string += "}};";
+        loader_string += "} };\n";
         fs.writeFile("./plugins/plugin_dependencies_loader.js", loader_string);
       });
     });

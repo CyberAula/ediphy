@@ -2,7 +2,7 @@ let webpack = require('webpack');
 let ZipBundlePlugin = require('./webpack_plugins/bundle_zip_plugin.js');
 let dependency_loader = require('./webpack_plugins/dependencies_loader.js');
 let path = require('path');
-var ProgressBarPlugin = require('progress-bar-webpack-plugin');
+let ProgressBarPlugin = require('progress-bar-webpack-plugin');
 
 module.exports = {
     entry: {
@@ -10,7 +10,7 @@ module.exports = {
             'webpack-dev-server/client?http://localhost:8080', // WebpackDevServer host and port
             'webpack/hot/only-dev-server', // "only" prevents reload on syntax errors
             'bootstrap-loader', // Loads Twitter Bootstrap
-            './index.jsx'
+            './index.jsx',
         ], // Appʼs entry point
         'js/visor': path.join(__dirname, '/_visor/containers/EditorVisor.jsx'),
     },
@@ -100,6 +100,6 @@ module.exports = {
     ],
 };
 
-//'webpack-dev-server/client?http://localhost:8080', // WebpackDevServer host and port
-//'webpack/hot/only-dev-server', // "only" prevents reload on syntax errors
-//'bootstrap-loader', // Loads Twitter Bootstrap
+// 'webpack-dev-server/client?http://localhost:8080', // WebpackDevServer host and port
+// 'webpack/hot/only-dev-server', // "only" prevents reload on syntax errors
+// 'bootstrap-loader', // Loads Twitter Bootstrap

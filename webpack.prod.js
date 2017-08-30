@@ -9,13 +9,13 @@ module.exports = merge.smart(common, {
         new webpack.optimize.OccurrenceOrderPlugin(),
         new webpack.optimize.UglifyJsPlugin({
             compressor: {
-                warnings: false
-            }
+                warnings: false,
+            },
         }),
         new webpack.DefinePlugin({
             'process.env': {
-                'NODE_ENV': JSON.stringify('production')
-            }
-        })
-    ]
+                'NODE_ENV': JSON.stringify('production'),
+            },
+        }),
+    ],
 });
