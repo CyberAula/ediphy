@@ -29,6 +29,7 @@ module.exports = merge.smart( common, {
     devServer: {
         contentBase: __dirname + "/dist",
         inline:true,
+        hot: true,
         port: 8080
     }
 });
