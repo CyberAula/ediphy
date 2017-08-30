@@ -226,7 +226,7 @@ export default class DataProvider extends React.Component {
         let row = pos[0];
         let col = pos[1];
         let data = this.state.data;
-        let newvalue = isNaN(event.target.value) || event.target.value === "" || event.target.value === null ? event.target.value : parseFloat(event.target.value);
+        let newvalue = isNaN(event.target.value) || (isNaN(parseFloat(event.target.value))) || event.target.value === "" || event.target.value === null ? event.target.value : parseFloat(event.target.value);
         let newRow = {};
         newRow[col] = newvalue;
         data[row] = Object.assign({}, data[row], newRow);

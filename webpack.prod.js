@@ -8,7 +8,7 @@ module.exports = merge.smart(common, {
     entry: {
         'app': [
             'bootstrap-loader', // Loads Twitter Bootstrap
-            './index.jsx'
+            './index.jsx',
         ], // Appʼs entry point
         'js/visor': path.join(__dirname, '/_visor/containers/EditorVisor.jsx'),
     },
@@ -22,13 +22,13 @@ module.exports = merge.smart(common, {
         new webpack.optimize.OccurrenceOrderPlugin(),
         new webpack.optimize.UglifyJsPlugin({
             compressor: {
-                warnings: false
-            }
+                warnings: false,
+            },
         }),
         new webpack.DefinePlugin({
             'process.env': {
-                'NODE_ENV': JSON.stringify('production')
-            }
-        })
-    ]
+                'NODE_ENV': JSON.stringify('production'),
+            },
+        }),
+    ],
 });
