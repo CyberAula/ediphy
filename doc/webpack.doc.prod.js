@@ -12,7 +12,7 @@ module.exports = merge.smart(common, {
 
     },
     output: {
-        path: path.join(__dirname, '/'),
+        path: path.join(__dirname, '/dist'),
         publicPath: '/', // This is used to generate URLs to e.g. images
         filename: '[name]-bundle.js',
     },
