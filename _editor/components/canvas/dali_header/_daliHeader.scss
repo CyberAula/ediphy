@@ -48,13 +48,15 @@
 }
 /*Added transparent margin to avoid small shift when title is selected*/
 .caja {
-  //border: 1px solid transparent;
+  border: 1px solid transparent;
+  box-sizing: border-box;
 }
 
 /*DaliTitle is on config mode*/
 .selectedTitle {
   // border: 1px dashed grey;
 }
+
 
 .title {
   display: block;

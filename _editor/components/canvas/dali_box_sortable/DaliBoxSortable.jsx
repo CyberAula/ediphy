@@ -46,7 +46,7 @@ export default class DaliBoxSortable extends Component {
                     e.stopPropagation();
                 }}>
                 <div ref="sortableContainer"
-                    className={(this.props.id === this.props.boxSelected && box.children.length > 0) ? ' selectedBox' : ' '}
+                    className={(this.props.id === this.props.boxSelected && box.children.length > 0) ? ' selectedBox sortableContainerBox' : ' sortableContainerBox'}
                     style={{
                         position: 'relative',
                         boxSizing: 'border-box',

@@ -108,14 +108,16 @@
 } */
 
 .selectedBox {
-    background-color: #eeeeee;
-    border: 1px dashed $blueprimary;
-    color: $fondo;
+    background-color: #eeeeee !important;
+    border: 1px dashed $blueprimary !important;
+    color: $fondo !important;
 }
 
 .wholebox, .wholeboxvisor{
     display: inline-block;
     word-break: break-word;
+    border: 1px solid transparent;
+
 }
 
 .canvaseditor {
