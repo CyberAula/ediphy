@@ -67,6 +67,11 @@ module.exports = {
                     loader: 'expose-loader',
                     options: '$',
                 }],
+            },{
+                test: /\.ejs$/,
+                use: [{
+                    loader: 'ejs-compiled-loader'
+                }]
             },
         ].concat(dependency_loader.getExposeString()),
     },

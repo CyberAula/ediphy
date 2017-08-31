@@ -11,7 +11,7 @@
   "scripts": {
     "build-production": "webpack -p --define process.env.NODE_ENV='\"production\"' --progress --colors",
     "build": "webpack --config webpack.prod.js",
-    "start": "webpack-dev-server --open --progress --colors --config webpack.dev.js",
+    "start": "webpack-dev-server --open --colors --config webpack.dev.js",
     "bundle": "webpack && node bundle_script.js",
     "both": "npm run start-webpack & npm run watch-sass",
     "start-webpack": "webpack-dev-server --progress",
@@ -102,6 +102,7 @@
     "bootstrap": "^3.3.7",
     "bootstrap-loader": "^2.2.0",
     "chokidar": "^1.7.0",
+    "ejs-compiled-loader": "^1.1.0",
     "es6-promise": "^4.0.5",
     "esdoc-ecmascript-proposal-plugin": "^1.0.0",
     "esdoc-jsx-plugin": "^1.0.0",
