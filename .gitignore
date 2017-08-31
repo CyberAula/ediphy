@@ -1,6 +1,7 @@
 node_modules
-esdoc
-jsdoc
+doc/esdoc
+doc/jsdoc
+doc/*bundle.js
 nbproject
 .idea
 dist/*bundle.js
