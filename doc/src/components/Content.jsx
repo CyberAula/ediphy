@@ -67,7 +67,7 @@ export default class Content extends Component {
                     </ListGroup>
                 </Col>
                 <Col xs={12} sm={big ? 12 : 9 } >
-                    {(this.state.self || !pages || !pages[currentPage] || (pages[currentPage] && pages[currentPage].hideTitle)) ? null : (<h1> {pages[currentPage].title}</h1>)}
+                    {(this.state.self || !pages || !pages[currentPage] || (pages[currentPage] && pages[currentPage].hideTitle)) ? null : (<h1> {this.state.title}</h1>)}
                     {this.state.md ?
                         <div className="markdownContainer" style={{ padding: !big ? '0px' : '0px 50px' }}>
                             <Markdown>
@@ -90,9 +90,9 @@ export default class Content extends Component {
             content = content.children[subsection];
 
         }
-        let title = content.title;
+
         if (content.self) {
-            this.setState({ title, self: true, content: "", md: false, pages: {} });
+            this.setState({ title: content.title, self: true, content: "", md: false, pages: {} });
             return;
         }
         let pages = content.pages || {};
@@ -104,6 +104,7 @@ export default class Content extends Component {
             }
 
         }
+        let title = content.title;
         if (content.fromURL && content.src) {
             url = content.src;
 
