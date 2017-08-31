@@ -14,20 +14,44 @@
     height: 100%;
     line-height: normal;
 
+
 }
 
 .boxStyle {
     position: relative;
     word-wrap: break-word;
     overflow: visible;
+  pre, pre * {
+    word-break: break-all !important;
+
+    white-space: pre-wrap;
+  }
 }
 
-.textareaStyle {
-    position: absolute !important;
-    top: 0;
+.textAreaStyle {
+    z-index: 99999;
+    //position: absolute !important;
+    position: relative;
+    float: left;
+    resize: none;
+    top: 0%;
+    color: black;
     background-color: transparent;
-}
+    padding: 10px;
+    width: 100%;
+    background-color: transparent;
+    word-wrap: break-word !important;
+    pre {
+      word-break: break-all !important;
+    }
+    //word-break: normal;
 
+}
+@supports (-ms-ime-align:auto) {
+  .textAreaStyle, .boxStyle {
+    word-break: break-all;
+  }
+}
 /*Box overlay*/
 .boxOverlay {
     width: 100%;
@@ -84,13 +108,16 @@
 } */
 
 .selectedBox {
-    background-color: #eeeeee;
-    border: 1px dashed $blueprimary;
-    color: $fondo;
+    background-color: #eeeeee !important;
+    border: 1px dashed $blueprimary !important;
+    color: $fondo !important;
 }
 
 .wholebox, .wholeboxvisor{
     display: inline-block;
+    word-break: break-word;
+    border: 1px solid transparent;
+
 }
 
 .canvaseditor {

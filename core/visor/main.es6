@@ -27,18 +27,16 @@ let parseEJS = function(path, page, state, fromScorm) {
             let extraFileBox = Object.keys(state.navItemsById[state.navItemSelected].extraFiles)[0];
             let extraFileContainer = state.toolbarsById[extraFileBox];
             return (visor_template({
+                visor_bundle_path: Dali.Config.visor_bundle,
                 state: state,
-                relativePath: "../",
-                daliDocumentsPath: "css/",
             }));
         }
     }
 
     state.fromScorm = fromScorm;
     return (visor_template({
+        visor_bundle_path: Dali.Config.visor_bundle,
         state: state,
-        relativePath: "../",
-        fromScorm: fromScorm,
     }));
 };
 
@@ -119,14 +117,13 @@ export default {
             let extraFileContainer = state.toolbarsById[extraFileBox];
             state.fromScorm = false;
             return (visor_template({
+                visor_bundle_path: Dali.Config.visor_bundle,
                 state: state,
-                relativePath: "../",
-                daliDocumentsPath: "css/",
             }));
         }
         return visor_template({
             state: state,
-            relativePath: "/",
+            visor_bundle_path: Dali.Config.visor_bundle,
             fromScorm: false,
         });
     },

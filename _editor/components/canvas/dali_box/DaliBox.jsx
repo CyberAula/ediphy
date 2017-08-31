@@ -45,17 +45,8 @@ export default class DaliBox extends Component {
         };
 
         let textareaStyle = {
-            position: 'relative',
-            float: 'left',
-            resize: 'none',
-            top: '0%',
-            color: 'black',
-            backgroundColor: 'transparent',
-            padding: 10,
-            width: '100%',
             height: (toolbar.showTextEditor ? '100%' : '100%'),
             // border: 'dashed black 1px',
-            zIndex: 99999,
             display: (toolbar.showTextEditor ? 'block' : 'none'),
         };
         let attrs = {};

@@ -10,7 +10,7 @@ module.exports = merge.smart(common, {
             'bootstrap-loader', // Loads Twitter Bootstrap
             './index.jsx',
         ], // Appʼs entry point
-        'js/visor': path.join(__dirname, '/_visor/containers/EditorVisor.jsx'),
+        'visor': path.join(__dirname, '/_visor/containers/EditorVisor.jsx'),
     },
     output: {
         path: path.join(__dirname, '/dist'),
