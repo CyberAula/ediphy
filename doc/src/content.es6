@@ -13,8 +13,21 @@ export const tree = {
     3: {
         title: "Manual de usuario",
         children: {},
-        pages: {},
-        self: true,
+        pages: {
+            1: {
+                title: "Introducción",
+                md: true,
+                fromURL: true,
+                src: (WIKI_BASE_URL + "Manual_Intro.md"),
+                hideTitle: true,
+            },
+            2: {
+                title: "Plugins",
+                md: true,
+                fromURL: true,
+                src: (WIKI_BASE_URL + "Manual_Plugins.md"),
+            }
+        }
     },
     4: {
         title: "Docs",
@@ -28,14 +41,14 @@ export const tree = {
                             title: "Introducción",
                             md: true,
                             fromURL: true,
-                            src: (WIKI_BASE_URL + "Home.md"),
+                            src: (WIKI_BASE_URL + "Dali_Doc.md"),
                             hideTitle: true,
                         },
                         2: {
-                            title: "Herramientas",
+                            title: "Estructura del proyecto",
                             md: true,
                             fromURL: true,
-                            src: (WIKI_BASE_URL + "Herramientas.md"),
+                            src: (WIKI_BASE_URL + "Estructura.md"),
                         },
                         3: {
                             title: "React",
@@ -79,12 +92,18 @@ export const tree = {
                             },
                         },
                         5: {
+                            title: "Core",
+                            md: true,
+                            fromURL: true,
+                            src: (WIKI_BASE_URL + "Core.md"),
+                        },
+                        6: {
                             title: "Configuración global",
                             md: true,
                             fromURL: true,
                             src: (WIKI_BASE_URL + "GlobalConfig.md"),
                         },
-                        6: {
+                        7: {
                             title: "Plugins",
                             md: true,
                             fromURL: true,
