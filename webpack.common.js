@@ -67,6 +67,11 @@ module.exports = {
                     loader: 'expose-loader',
                     options: '$',
                 }],
+            }, {
+                test: /\.ejs$/,
+                use: [{
+                    loader: 'ejs-compiled-loader',
+                }],
             },
         ].concat(dependency_loader.getExposeString()),
     },
@@ -74,6 +79,7 @@ module.exports = {
         // resolve.alias could be useful for resolving certain modules easily
         extensions: ['.js', '.jsx', '.es6'],
     },
+
     plugins: [
         new ProgressBarPlugin({}),
         new webpack.ContextReplacementPlugin(/package\.json$/, "./plugins/"),

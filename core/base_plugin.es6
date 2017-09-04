@@ -1,6 +1,8 @@
 import Dali from './main';
 import ReactDOM from 'react-dom';
 import { isSortableContainer } from '../common/utils';
+let html2json = require('html2json').html2json;
+
 export default function() {
     let descendant, state, id, initialParams = {};
 
