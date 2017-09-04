@@ -41,7 +41,7 @@ export const tree = {
                             title: "Introducción",
                             md: true,
                             fromURL: true,
-                            src: (WIKI_BASE_URL + "Dali_Doc.md"),
+                            src: (WIKI_BASE_URL + "DaliDoc.md"),
                             hideTitle: true,
                         },
                         2: {

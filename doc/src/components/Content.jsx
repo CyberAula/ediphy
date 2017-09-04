@@ -21,7 +21,7 @@ export default class Content extends Component {
     }
 
     changePage(page, subpage) {
-        this.setState({ page, subpage });
+        // this.setState({ page, subpage });
         this.reload(this.props.section, this.props.subsection, page, subpage);
 
     }
@@ -44,11 +44,18 @@ export default class Content extends Component {
                 break;
             }
         }
+
+        let sideBarTitle = tree[this.props.section].title;
+        if (tree[this.props.section].children && tree[this.props.section].children[this.props.subsection]) {
+            sideBarTitle = tree[this.props.section].children[this.props.subsection].title
+        }
+        sideBarTitle = sideBarTitle || this.state.title;
+
         let big = this.state.self || Object.keys(this.state.pages).length === 0;
         return (
             <Row>
                 <Col xs={12} sm={3} style={{ display: big ? 'none' : 'block' }}>
-                    <h4 className="sidebarTitle">{this.state.title}</h4>
+                    <h4 className="sidebarTitle">{sideBarTitle}</h4>
                     <ListGroup>
                         {Object.keys(pages).map(function(key) {
                             let item = pages[key];
@@ -124,7 +131,7 @@ export default class Content extends Component {
         } else {
             this.setState({ content: "" });
         }
-        this.setState({ title: title, content: loader, /* md: content.md,*/ pages: pages, self: false });
+        this.setState({ title: title, content: loader, /* md: content.md,*/ pages: pages, self: false, page, subpage });
     }
 
     componentWillReceiveProps(nextProps) {
