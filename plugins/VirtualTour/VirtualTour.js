@@ -112,7 +112,7 @@ export function VirtualTour(base) {
             let id = "map-" + Date.now();
             let marks = state.__marks;
 
-            if (!google) {
+            if (!google || !navigator.onLine) {
                 return (<div className="dropableRichZone noInternetConnectionBox" style={{ width: '100%', height: '100%' }}>
                     <div className="middleAlign">
                         <i className="material-icons dark">signal_wifi_off</i><br/>
@@ -163,7 +163,7 @@ export function VirtualTour(base) {
             base.setState(name, value);
         },
         parseRichMarkInput: function(...value) {
-            if (!google) {
+            if (!google || !navigator.onLine) {
                 return '0,0';
             }
             let state = value[5];
@@ -205,7 +205,7 @@ export function VirtualTour(base) {
             return { isWrong: false, value: value };
         },
         pointerEventsCallback: function(bool, toolbarState) {
-            if (!google) {return;}
+            if (!google || !navigator.onLine) {return;}
             if (window.mapList[toolbarState.num || (toolbarState.state ? toolbarState.state.num : 9999)]) {
                 switch(bool) {
                 case 'mouseenter':

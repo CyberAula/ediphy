@@ -47,7 +47,7 @@ export default class Content extends Component {
 
         let sideBarTitle = tree[this.props.section].title;
         if (tree[this.props.section].children && tree[this.props.section].children[this.props.subsection]) {
-            sideBarTitle = tree[this.props.section].children[this.props.subsection].title
+            sideBarTitle = tree[this.props.section].children[this.props.subsection].title;
         }
         sideBarTitle = sideBarTitle || this.state.title;
 

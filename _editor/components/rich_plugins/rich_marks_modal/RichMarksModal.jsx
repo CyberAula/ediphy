@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import Alert from './../../common/alert/Alert';
+import Picker from 'rc-color-picker';
 import { Modal, Button, Row, Col, FormGroup, ControlLabel, FormControl, Radio } from 'react-bootstrap';
 import { Typeahead } from 'react-bootstrap-typeahead';
 import { ID_PREFIX_RICH_MARK, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_CONTAINED_VIEW, PAGE_TYPES } from '../../../../common/constants';
@@ -8,6 +9,7 @@ import i18n from 'i18next';
 import { isSection, isContainedView, nextAvailName } from '../../../../common/utils';
 require('./_richMarksModal.scss');
 
+require('./../../../../node_modules/rc-color-picker/assets/index.css');
 /**
  * Modal component to edit marks' configuration
  */
@@ -41,28 +43,29 @@ export default class RichMarksModal extends Component {
     componentWillReceiveProps(nextProps) {
         let current = nextProps.currentRichMark;
         let allViews = this.returnAllViews(nextProps);
-
-        if (current) {
-            this.setState({
-                viewNames: allViews,
-                color: current.color,
-                connectMode: current.connectMode || "new",
-                displayMode: current.displayMode || "navigate",
-                newSelected: (current.connectMode === "new" ? current.connection : ""),
-                newType: PAGE_TYPES.SLIDE,
-                existingSelected: (current.connectMode === "existing" && this.remapInObject(nextProps.navItems, nextProps.containedViews)[current.connection] ?
-                    this.remapInObject(nextProps.navItems, nextProps.containedViews)[current.connection].id : ""),
-            });
-        } else {
-            this.setState({
-                viewNames: allViews,
-                color: null,
-                connectMode: "new",
-                displayMode: "navigate",
-                newSelected: "",
-                newType: PAGE_TYPES.SLIDE,
-                existingSelected: "",
-            });
+        if (!this.props.visible) {
+            if (current) {
+                this.setState({
+                    viewNames: allViews,
+                    color: current.color,
+                    connectMode: current.connectMode || "new",
+                    displayMode: current.displayMode || "navigate",
+                    newSelected: (current.connectMode === "new" ? current.connection : ""),
+                    newType: PAGE_TYPES.SLIDE,
+                    existingSelected: (current.connectMode === "existing" && this.remapInObject(nextProps.navItems, nextProps.containedViews)[current.connection] ?
+                        this.remapInObject(nextProps.navItems, nextProps.containedViews)[current.connection].id : ""),
+                });
+            } else {
+                this.setState({
+                    viewNames: allViews,
+                    color: null,
+                    connectMode: "new",
+                    displayMode: "navigate",
+                    newSelected: "",
+                    newType: PAGE_TYPES.SLIDE,
+                    existingSelected: "",
+                });
+            }
         }
 
     }
@@ -121,16 +124,20 @@ export default class RichMarksModal extends Component {
                                 <ControlLabel>{i18n.t("marks.mark_color")}</ControlLabel>
                             </Col>
                             <Col xs={8} md={6}>
-                                {/* <ColorPicker
-                                    value={this.state.color || marksType.defaultColor}
-                                    label={i18n.t("marks.mark_color")}
+
+                                <Picker.Panel className="colorPanel"
+                                    placement="bottomLeft"
+                                    animation="slide-up"
+                                    enableAlpha={false}
+                                    color={this.state.color || marksType.defaultColor}
                                     onChange={e=>{this.setState({ color: e.color });}}
-                                    mode='RGB' />*/}
-                                <FormControl ref="color"
+                                    mode="RGB" />
+
+                                {/* <FormControl ref="color"
                                     type="color"
                                     value={this.state.color || marksType.defaultColor}
                                     onChange={e=>{this.setState({ color: e.target.value });}}
-                                /><br/>
+                                />*/}<br/>
                             </Col>
                         </FormGroup>
                     </Row>

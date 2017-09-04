@@ -16,12 +16,11 @@
     "both": "npm run start-webpack & npm run watch-sass",
     "start-webpack": "webpack-dev-server --progress",
     "watch-sass": "node-sass -w sass/style.scss -o dist/css/compiledsass.css",
-
     "test": "jest --colors",
     "eslint": "eslint  --fix  **/*.js **/*.jsx **/*.es6 --ignore-pattern node_modules/ --ignore-pattern dist --ignore-pattern doc --ignore-pattern sass --ignore-pattern dali_server --ignore-pattern webpack_plugins",
     "doc": "webpack --config doc/webpack.doc.prod.js",
     "all-doc": "esdoc -c doc/esdoc.json && npm run doc",
-    "dev-doc":"webpack-dev-server --open --progress --colors --config doc/webpack.doc.dev.js",
+    "dev-doc": "webpack-dev-server --open --progress --colors --config doc/webpack.doc.dev.js",
     "add-all": "git add .",
     "postinstall": "node ./plugin_install"
   },

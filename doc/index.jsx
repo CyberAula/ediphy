@@ -23,7 +23,7 @@ export default class DaliDocs extends Component {
                     <Navbar collapseOnSelect>
                         <Navbar.Header>
                             <Navbar.Brand>
-                                <a href="#">Dali Editor Docs</a>
+                                <a href="#">Dalí Editor Docs</a>
                             </Navbar.Brand>
                         </Navbar.Header>
                         <Navbar.Toggle style={{ top: '0px', right: '0px', position: 'absolute' }}/>

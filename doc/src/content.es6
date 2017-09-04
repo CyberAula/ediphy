@@ -26,8 +26,8 @@ export const tree = {
                 md: true,
                 fromURL: true,
                 src: (WIKI_BASE_URL + "Manual_Plugins.md"),
-            }
-        }
+            },
+        },
     },
     4: {
         title: "Docs",

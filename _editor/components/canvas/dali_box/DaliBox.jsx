@@ -121,13 +121,28 @@ export default class DaliBox extends Component {
 
         Object.assign(textareaStyle, style);
         textareaStyle.visibility = 'visible';
+
+        let wholeBoxStyle = {
+            position: box.position.type,
+            left: box.position.x ? box.position.x : "",
+            top: box.position.y ? box.position.y : "",
+            width: width,
+            height: height,
+            verticalAlign: verticalAlign,
+            touchAction: 'none',
+            msTouchAction: 'none',
+            cursor: vis ? 'inherit' : 'default', // esto evita que aparezcan los cursores de move y resize cuando la caja no está seleccionada
+        };
+
         let rotate = 'rotate(0deg)';
         if (!(this.props.markCreatorId && this.props.id === this.props.boxSelected)) {
             if (toolbar.controls.main.accordions.__sortable.buttons.__rotate && toolbar.controls.main.accordions.__sortable.buttons.__rotate.value) {
                 rotate = 'rotate(' + toolbar.controls.main.accordions.__sortable.buttons.__rotate.value + 'deg)';
             }
         }
-        style.transform = style.WebkitTransform = style.MsTransform = rotate;
+        wholeBoxStyle.transform = wholeBoxStyle.WebkitTransform = wholeBoxStyle.MsTransform = rotate;
+        // style.transform = style.WebkitTransform = style.MsTransform = rotate;
+
         let content = toolbar.config.flavor === "react" ? (
             <div style={style} {...attrs} className={"boxStyle " + classNames} ref={"content"}>
                 {box.content}
@@ -231,17 +246,7 @@ export default class DaliBox extends Component {
                         }
                     }
                 }}
-                style={{
-                    position: box.position.type,
-                    left: box.position.x ? box.position.x : "",
-                    top: box.position.y ? box.position.y : "",
-                    width: width,
-                    height: height,
-                    verticalAlign: verticalAlign,
-                    touchAction: 'none',
-                    msTouchAction: 'none',
-                    cursor: vis ? 'inherit' : 'default', // esto evita que aparezcan los cursores de move y resize cuando la caja no está seleccionada
-                }}>
+                style={wholeBoxStyle}>
                 {border}
                 {/* content */}
                 {/* The previous line was changed for the next one in order to make the box grow when text grows while editing.
