@@ -1,7 +1,7 @@
 import i18n from 'i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
-import { es } from '../locales/es.js';
-import { en } from '../locales/en.js';
+import { es } from './es.js';
+import { en } from './en.js';
 
 let translations = { en: en, es: es };
 
