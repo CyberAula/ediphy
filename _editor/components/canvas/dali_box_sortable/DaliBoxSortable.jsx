@@ -306,6 +306,23 @@ export default class DaliBoxSortable extends Component {
                         clone.parentElement.removeChild(clone);
                     }
                 } else {
+                    if (isSortableBox(this.props.id) && Dali.Plugins.get(e.relatedTarget.getAttribute("name")).getConfig().limitToOneInstance) {
+                        for (let child in this.props.boxes) {
+                            if (!isSortableBox(child) && this.props.boxes[child].parent === this.props.id && this.props.toolbars[child].config.name === e.relatedTarget.getAttribute("name")) {
+                                let alert = (<Alert className="pageModal"
+                                    show
+                                    hasHeader
+                                    backdrop={false}
+                                    title={ <span><i className="material-icons" style={{ fontSize: '14px', marginRight: '5px' }}>warning</i>{ i18n.t("messages.alert") }</span> }
+                                    closeButton onClose={()=>{this.setState({ alert: null });}}>
+                                    <span> {i18n.t('messages.instance_limit')} </span>
+                                </Alert>);
+                                this.setState({ alert: alert });
+                                e.dragEvent.stopPropagation();
+                                return;
+                            }
+                        }
+                    }
                     let initialParams = {};
                     if (dropArea === 'existingContainer') {
                         initialParams = {
