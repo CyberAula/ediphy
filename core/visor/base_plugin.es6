@@ -1,4 +1,5 @@
 import Dali from './../main';
+let html2json = require('html2json').html2json;
 
 export default function() {
     let descendant;

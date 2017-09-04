@@ -67,20 +67,26 @@ module.exports = {
                     loader: 'expose-loader',
                     options: '$',
                 }],
-            },
+            },{
+                test: /\.ejs$/,
+                use: [{
+                    loader: 'ejs-compiled-loader'
+                }]
+            }
         ].concat(dependency_loader.getExposeString()),
     },
     resolve: {
         // resolve.alias could be useful for resolving certain modules easily
-        extensions: ['.js', '.jsx', '.es6'],
+        extensions: ['.js', '.jsx', '.es6']
     },
+
     plugins: [
         new ProgressBarPlugin({}),
         new webpack.ContextReplacementPlugin(/package\.json$/, "./plugins/"),
         new webpack.ProvidePlugin(Object.assign({
             '$': 'jquery',
             'jQuery': 'jquery',
-            'window.jQuery': 'jquery',
+            'window.jQuery': 'jquery'
         }, dependency_loader.getPluginProvider())), // Wraps module with variable and injects wherever it's needed
         new ZipBundlePlugin(), // Compile automatically zips
     ],

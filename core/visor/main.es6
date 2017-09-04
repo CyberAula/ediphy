@@ -6,6 +6,8 @@ import Dali from './../main';
 import Plugins from './plugins';
 import { ID_PREFIX_SECTION } from '../../common/constants';
 
+const visor_template = require("../../dist/lib/visor/index.ejs");
+
 let getDistinctName = function(name, namesUsed) {
     namesUsed[name] = namesUsed[name] + 1;
     return name + namesUsed[name];
@@ -24,19 +26,17 @@ let parseEJS = function(path, page, state, fromScorm) {
         if (Object.keys(state.navItemsById[page].extraFiles).length !== 0) {
             let extraFileBox = Object.keys(state.navItemsById[state.navItemSelected].extraFiles)[0];
             let extraFileContainer = state.toolbarsById[extraFileBox];
-            return (new EJS({ url: path + "_exercise.ejs" }).render({
+            return (visor_template({
+                visor_bundle_path: Dali.Config.visor_bundle,
                 state: state,
-                relativePath: "../",
-                daliDocumentsPath: "css/",
             }));
         }
     }
 
     state.fromScorm = fromScorm;
-    return (new EJS({ url: path + ".ejs" }).render({
+    return (visor_template({
+        visor_bundle_path: Dali.Config.visor_bundle,
         state: state,
-        relativePath: "../",
-        fromScorm: fromScorm,
     }));
 };
 
@@ -116,15 +116,14 @@ export default {
             let extraFileBox = Object.keys(state.navItemsById[state.navItemSelected].extraFiles)[0];
             let extraFileContainer = state.toolbarsById[extraFileBox];
             state.fromScorm = false;
-            return (new EJS({ url: Dali.Config.visor_ejs + "_exercise.ejs" }).render({
+            return (visor_template({
+                visor_bundle_path: Dali.Config.visor_bundle,
                 state: state,
-                relativePath: "../",
-                daliDocumentsPath: "css/",
             }));
         }
-        return new EJS({ url: Dali.Config.visor_ejs + ".ejs" }).render({
+        return visor_template({
             state: state,
-            relativePath: "/",
+            visor_bundle_path: Dali.Config.visor_bundle,
             fromScorm: false,
         });
     },
