@@ -114,7 +114,7 @@ export default class BoxVisor extends Component {
         if (toolbar.controls.main.accordions.__sortable.buttons.__rotate && toolbar.controls.main.accordions.__sortable.buttons.__rotate.value) {
             rotate = 'rotate(' + toolbar.controls.main.accordions.__sortable.buttons.__rotate.value + 'deg)';
         }
-        style.transform = style.WebkitTransform = style.MsTransform = rotate;
+        // style.transform = style.WebkitTransform = style.MsTransform = rotate;
 
         /* TODO: Reasign object if is rich to have marks as property box.content.props*/
 
@@ -167,17 +167,21 @@ export default class BoxVisor extends Component {
                 verticalAlign = 'top';
             }
         }
+
+        let wholeBoxVisorStyle = {
+            position: box.position.type,
+            left: box.position.x ? box.position.x : "",
+            top: box.position.y ? box.position.y : "",
+            width: width,
+            height: height,
+            verticalAlign: verticalAlign,
+        };
+        wholeBoxVisorStyle.transform = wholeBoxVisorStyle.WebkitTransform = wholeBoxVisorStyle.MsTransform = rotate;
+
         return (
             /* jshint ignore:start */
             <div className={classes} id={'box-' + this.props.id}
-                style={{
-                    position: box.position.type,
-                    left: box.position.x ? box.position.x : "",
-                    top: box.position.y ? box.position.y : "",
-                    width: width,
-                    height: height,
-                    verticalAlign: verticalAlign,
-                }}>
+                style={wholeBoxVisorStyle}>
                 {border}
                 {content}
                 {/* {toolbar.state.__text ?

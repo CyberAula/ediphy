@@ -128,7 +128,6 @@ export default class DaliBox extends Component {
             top: box.position.y ? box.position.y : "",
             width: width,
             height: height,
-            verticalAlign: verticalAlign,
             touchAction: 'none',
             msTouchAction: 'none',
             cursor: vis ? 'inherit' : 'default', // esto evita que aparezcan los cursores de move y resize cuando la caja no está seleccionada
@@ -204,6 +203,7 @@ export default class DaliBox extends Component {
                 verticalAlign = 'top';
             }
         }
+        wholeBoxStyle.verticalAlign = verticalAlign;
 
         /* <MarkCreator/>*/
         return (
