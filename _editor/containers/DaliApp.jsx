@@ -8,7 +8,7 @@ import { addNavItem, selectNavItem, expandNavItem, deleteNavItem, reorderNavItem
     resizeSortableContainer, deleteSortableContainer, changeCols, changeRows, changeSortableProps, reorderBoxes, verticallyAlignBox,
     toggleTextEditor, toggleTitleMode,
     changeDisplayMode, updateToolbar,
-    exportStateAsync, importStateAsync, changeGlobalConfig,
+    exportStateAsync, importStateAsync, importState, changeGlobalConfig,
     fetchVishResourcesSuccess, fetchVishResourcesAsync, uploadVishResourceAsync,
     deleteContainedView, selectContainedView, changeContainedViewName,
     addRichMark, editRichMark, deleteRichMark,
@@ -491,6 +491,10 @@ class DaliApp extends Component {
      * Loads plugin API and sets listeners for plugin events, marks and keyboard keys pressed
      */
     componentDidMount() {
+        if (process.env.NODE_ENV === 'production' && dali_editor_json && dali_editor_json !== 'undefined') {
+            this.props.dispatch(importState(JSON.parse(dali_editor_json)));
+        }
+
         Dali.Plugins.loadAll();
         Dali.API_Private.listenEmission(Dali.API_Private.events.render, e => {
             this.index = 0;

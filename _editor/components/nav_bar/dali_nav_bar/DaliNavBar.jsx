@@ -121,17 +121,18 @@ export default class DaliNavBar extends Component {
                                 {i18n.t('Open_Catalog')}
                             </button>
                         </MenuItem>
-                        <MenuItem divider/>
-                        <MenuItem eventKey="5">
-                            <button className="dropdownButton"
-                                onClick={(e) => {
-                                    this.props.serverModalOpen();
-                                    this.props.opens();
-                                }}>
-                                <i className="material-icons">folder_open</i>
-                                {i18n.t('Open')}
-                            </button>
-                        </MenuItem>
+                        {(Dali.Config.open_button_enabled === undefined || Dali.Config.open_button_enabled) &&
+                        [<MenuItem divider/>,
+                            <MenuItem eventKey="5">
+                                <button className="dropdownButton"
+                                    onClick={(e) => {
+                                        this.props.serverModalOpen();
+                                        this.props.opens();
+                                    }}>
+                                    <i className="material-icons">folder_open</i>
+                                    {i18n.t('Open')}
+                                </button>
+                            </MenuItem>]}
                     </Dropdown.Menu>
                 </Dropdown>
 
