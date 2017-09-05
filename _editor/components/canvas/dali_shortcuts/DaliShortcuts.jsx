@@ -62,9 +62,9 @@ export default class DaliShortcuts extends Component {
                             (<OverlayTrigger placement="top"
                                 overlay={
                                     <Tooltip id="richMark">{i18n.t('messages.add_new_mark')}</Tooltip>
-                                }><button className="daliTitleButton" onMouseDown={(e)=>{
+                                }><button id="markCreatorButton" className="daliTitleButton" onMouseDown={(e)=>{
                                     this.props.onMarkCreatorToggled(box.id);
-                                }}><i className="material-icons">room</i></button></OverlayTrigger>)
+                                }}><i id="markCreatorButton" className="material-icons">room</i></button></OverlayTrigger>)
                             : <span />
                     }
                     {
@@ -209,11 +209,16 @@ export default class DaliShortcuts extends Component {
         let nextProps = (fromUpdate === 'fromUpdate') ? newProps : this.props;
         if (nextProps && nextProps.box) {
             let box = document.getElementById('box-' + nextProps.box.id);
+            // box = box && box.parentNode ? box.parentNode : box;
             let element = ReactDOM.findDOMNode(this.refs.innerContainer);
             let left = 0;
             let top = 0;
             let width = 0;
             if (box) {
+                // This is added so the position of the box is calculated on the non-rotated box, preventing the shortcuts from moving when the box is rotated.
+                // Do not forget to remove this class later
+
+                box.classList.add('norotate');
                 let boxRect = box.getBoundingClientRect();
                 let canvas = this.props.containedViewSelected === 0 ?
                     document.getElementById('canvas') :
@@ -222,7 +227,6 @@ export default class DaliShortcuts extends Component {
 
                 left = (boxRect.left - canvasRect.left);
                 top = (boxRect.top - canvasRect.top + canvas.scrollTop);
-
                 if (element) {
                     let elementRect = element.getBoundingClientRect();
                     width = boxRect.width < elementRect.width ? elementRect.width : boxRect.width;
@@ -231,6 +235,8 @@ export default class DaliShortcuts extends Component {
                 }
 
                 this.setState({ left: left, top: top, width: width });
+                box.classList.remove('norotate');
+
             }
         }
     }

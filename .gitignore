@@ -1,6 +1,4 @@
 node_modules
-esdoc
-jsdoc
 nbproject
 .idea
 dist/*bundle.js
@@ -12,6 +10,9 @@ webpack.config.js~
 .sass-cache
 dali_server/config.json
 dali_server/node_modules
+doc/esdoc
+doc/jsdoc
+doc/dist/*bundle.js
 *.map
 nbproject
 dist/lib/scorm/scorm.zip

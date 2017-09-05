@@ -37,10 +37,16 @@ export default class MarkCreator extends Component {
          * Binded function
          */
         this.processPrompt = this.processPrompt.bind(this);
+
         /**
          * Binded function
          */
         this.keyListener = this.keyListener.bind(this);
+
+        /**
+         * Binded function
+         */
+        this.clickOutside = this.clickOutside.bind(this);
     }
 
     /**
@@ -97,7 +103,7 @@ export default class MarkCreator extends Component {
                 let toolbarState = this.props.toolbar.state;
 
                 /* NEW MARK DEFAULT PARAMS*/
-
+                window.addEventListener('mouseup', this.clickOutside);
                 window.addEventListener('keyup', component.keyListener);
 
                 overlay.oncontextmenu = function(event) {
@@ -129,6 +135,16 @@ export default class MarkCreator extends Component {
         }
     }
 
+    clickOutside(e) {
+        // this function will be always called if a click happens,
+        // even if stopImmediatePropagation is used on the event target
+        if (e.target && (e.target.id === 'overlay' || e.target.id === 'markCreatorButton')) {
+            return;
+        }
+        this.exitFunction();
+
+    }
+
     /**
      * After mark is created, overlay disappears
      */
@@ -139,7 +155,10 @@ export default class MarkCreator extends Component {
         let overlay = document.getElementById('markOverlay');
         document.body.style.cursor = 'default';
         window.removeEventListener('keyup', this.keyListener);
-        overlay.remove();
+        document.documentElement.removeEventListener('mouseup', this.clickOutside, true);
+        if (overlay) {
+            overlay.remove();
+        }
         dropableElement.classList.remove('rich_overlay');
         this.props.deleteMarkCreator();
         this.setState({ onCreation: false, promptRes: "" });

@@ -45,7 +45,7 @@ export default class SearchBox extends React.Component {
         }
     }
     componentDidMount() {
-        if(!google) {
+        if(!google || !navigator.onLine) {
             return;
         }
         let input = ReactDOM.findDOMNode(this.refs["input-" + this.props.id]);

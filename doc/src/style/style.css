@@ -1,0 +1,54 @@
+.selectedNav {
+    background-color: #ccc;
+    border: none !important;
+
+}
+
+.selectedNav.list-group-item:hover,
+.selectedNav.list-group-item:active,
+.selectedNav.list-group-item:focus {
+    background-color: #ccc;
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+
+}
+
+.navListItem {
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+    font-weight: bold;
+}
+
+.subItem{
+    font-weight: normal;
+}
+
+.sidebarTitle {
+    font-weight: bold;
+}
+
+
+.row-eq-height {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display:         flex;
+    background-color: #ff0033;
+    border: 1px solid black;
+}
+
+.mainPageBlock {
+    text-align: center;
+}
+
+.loader {
+    margin-top: 100px;
+    height: 100%;
+    text-align: center;
+}
+
+.loader img {
+    vertical-align: middle;
+}

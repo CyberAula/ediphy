@@ -8,7 +8,7 @@ import VisorPlayer from './../components/navigation/VisorPlayer';
 
 import { isContainedView, isView } from '../../common/utils';
 import ScormComponent from './../components/scorm/ScormComponent';
-import i18n from '../../common/i18n';
+import i18n from '../../locales/i18n';
 
 require('es6-promise').polyfill();
 require('typeface-ubuntu');

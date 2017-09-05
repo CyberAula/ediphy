@@ -57,7 +57,7 @@ export default class ClickNHold extends Component {
         let start = Date.now();
         this.setState({ start: start, holding: true, ended: false });
         let time = this.props.time;
-        setTimeout(function() {this.timeout(start);}.bind(this), time * 100 + 1);
+        setTimeout(function() {this.timeout(start);}.bind(this), 1 /* time * 100 + 1 */);
         e.stopPropagation();
     }
 
@@ -173,12 +173,25 @@ export default class ClickNHold extends Component {
             document.body.style.cursor = 'default';
             boxStyle.classList.remove('norotate');
             window.removeEventListener('keyup', keyListener);
-            overlay.remove();
+            window.removeEventListener('mouseup', clickOutside);
+            if (overlay) {
+                overlay.remove();
+            }
             dropableElement.classList.remove('rich_overlay');
             component.setState({ editing: false });
             base.render('UPDATE_BOX');
         };
 
+        let clickOutside = function(e) {
+            // this function will be always called if a click happens,
+            // even if stopImmediatePropagation is used on the event target
+            if (e.target && e.target.id === 'overlay') {
+                return;
+            }
+            exitFunction();
+
+        };
+        document.documentElement.addEventListener('mouseup', clickOutside, true);
         window.addEventListener('keyup', keyListener);
 
         overlay.oncontextmenu = function(event) {
@@ -206,7 +219,9 @@ export default class ClickNHold extends Component {
             window.removeEventListener('keyup', keyListener);
             overlay.remove();
             dropableElement.classList.remove('rich_overlay');
-            component.setState({ editing: false });
+            if (component) {
+                component.setState({ editing: false });
+            }
             base.setState('__marks', marks);
             base.render('UPDATE_BOX');
         };

@@ -1,3 +1,35 @@
 .richMarksModal .modal-body .control-label {
   color: #444 !important;
 }
+
+.colorPanel.rc-color-picker-panel {
+  border-radius: 0%;
+  box-shadow: none;
+  -webkit-transform: translate(0px, 0px);
+  -moz-transform: translate(0px, 0px);
+  -ms-transform: translate(0px, 0px);
+  -o-transform: translate(0px, 0px);
+  transform: translate(0px, 0px);
+
+  .rc-color-picker-panel-board-hsv {
+    height: 50px;
+  }
+  .rc-color-picker-panel-inner {
+    border-radius: 0px;
+    box-shadow: none;
+  }
+  .rc-color-picker-panel-board-handler {
+    border-radius: 0px;
+  }
+  .rc-color-picker-panel-ribbon {
+    border-radius: 0px;
+  }
+  .rc-color-picker-panel-preview {
+    span {
+      border-radius: 0px;
+    }
+    input {
+      pointer-events:none;
+    }
+  }
+}

@@ -17,15 +17,16 @@
     "start-webpack": "webpack-dev-server --progress",
     "watch-sass": "node-sass -w sass/style.scss -o dist/css/compiledsass.css",
     "test": "jest --colors",
-    "eslint": "eslint  --fix  **/*.js **/*.jsx **/*.es6 --ignore-pattern node_modules/ --ignore-pattern dist --ignore-pattern esdoc --ignore-pattern sass --ignore-pattern dali_server --ignore-pattern webpack_plugins",
-    "jsdoc": "jsdoc -c jsdoc.json",
-    "doc": "esdoc -c esdoc.json",
-    "addall": "git add .",
+    "eslint": "eslint  --fix  **/*.js **/*.jsx **/*.es6 --ignore-pattern node_modules/ --ignore-pattern dist --ignore-pattern doc --ignore-pattern sass --ignore-pattern dali_server --ignore-pattern webpack_plugins",
+    "doc": "webpack --config doc/webpack.doc.prod.js",
+    "all-doc": "esdoc -c doc/esdoc.json && npm run doc",
+    "dev-doc": "webpack-dev-server --open --progress --colors --config doc/webpack.doc.dev.js",
+    "add-all": "git add .",
     "postinstall": "node ./plugin_install"
   },
   "pre-commit": [
     "eslint",
-    "addall"
+    "add-all"
   ],
   "jest": {
     "transform": {
@@ -134,6 +135,7 @@
     "react-dom": "^15.4.1",
     "react-dropzone": "^4.1.0",
     "react-redux": "^5.0.6",
+    "react-remarkable": "^1.1.1",
     "react-resize-detector": "^0.6.0",
     "react-select": "^1.0.0-rc.2",
     "react-tag-input": "^4.7.2",

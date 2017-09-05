@@ -32,6 +32,16 @@ export default class DaliHeader extends Component {
                 if (this.props.toolbars[id]) {
                     let el = this.props.boxes[id];
                     let from = "unknown";
+                    let markName = "";
+                    if (this.props.toolbars[id].state && this.props.toolbars[id].state.__marks) {
+                        let at = '@';
+                        for (let mark in this.props.toolbars[id].state.__marks) {
+                            markName += this.props.toolbars[id].state.__marks[mark].title + ', ';
+                        }
+                        markName = markName.slice(0, markName.length - 2) + " " + at + " ";
+
+                    }
+
                     if (isSortableBox(el.parent)) {
                         let origin = this.props.boxes[el.parent].parent;
                         from = isContainedView(origin) ? this.props.containedViews[origin].name : this.props.navItems[origin].name;
@@ -40,7 +50,7 @@ export default class DaliHeader extends Component {
                     } else {
                         break;
                     }
-                    cvList.push(<span className="cvList" key={id}><b>{this.props.toolbars[id].config.displayName}</b> { ' (' + from + ')'}</span>);
+                    cvList.push(<span className="cvList" key={id}>{markName}<b>{this.props.toolbars[id].config.displayName}</b> { ' (' + from + ')'}</span>);
                     // return this.props.toolbars[parent].config.displayName + " from " + this.props.navItems[this.props.boxes[parent]] || this.props.containedViews[this.props.boxes[parent]] || this.props.boxes[parent];
 
                 }
