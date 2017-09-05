@@ -91,29 +91,29 @@ export default class DaliNavBar extends Component {
                         <span className="hideonresize" style={{ fontSize: '12px' }}>Menu</span>
                     </Dropdown.Toggle>
                     <Dropdown.Menu id="topMenu" className="pageMenu super-colors topMenu">
-                        <MenuItem disabled={this.props.undoDisabled} eventKey="1">
+                        <MenuItem disabled={this.props.undoDisabled} eventKey="1" key="1">
                             <button className="dropdownButton" title={i18n.t('messages.export_to_HTML')}
                                 disabled={ (this.props.navItemSelected === 0) || this.props.undoDisabled}
                                 onClick={() => this.props.export() }><i className="material-icons">file_download</i>
                                 {i18n.t('messages.export_to_HTML')}
                             </button>
                         </MenuItem>
-                        <MenuItem disabled={this.props.undoDisabled} eventKey="2">
+                        <MenuItem disabled={this.props.undoDisabled} eventKey="2" key="2">
                             <button className="dropdownButton" title={i18n.t('messages.export_to_SCORM')}
                                 disabled={(this.props.navItemSelected === 0) || this.props.undoDisabled}
                                 onClick={() => this.props.scorm() }><i className="material-icons">class</i>
                                 {i18n.t('messages.export_to_SCORM')}
                             </button>
                         </MenuItem>
-                        <MenuItem disabled={false} eventKey="3">
+                        <MenuItem disabled={false} eventKey="3" key="3">
                             <button className="dropdownButton" title={i18n.t('messages.global_config')}
                                 disabled={false}
                                 onClick={() => this.setState({ showGlobalConfig: true })}><i className="material-icons">settings</i>
                                 {i18n.t('messages.global_config')}
                             </button>
                         </MenuItem>
-                        <MenuItem divider/>
-                        <MenuItem eventKey="5">
+                        <MenuItem divider key="div_4"/>
+                        <MenuItem eventKey="4" key="4">
                             <button className="dropdownButton" title={i18n.t('Open_Catalog')}
                                 onClick={() => {
                                     this.props.onVishCatalogToggled();
@@ -122,8 +122,8 @@ export default class DaliNavBar extends Component {
                             </button>
                         </MenuItem>
                         {(Dali.Config.open_button_enabled === undefined || Dali.Config.open_button_enabled) &&
-                        [<MenuItem divider/>,
-                            <MenuItem eventKey="5">
+                        [<MenuItem divider key="div_5"/>,
+                            <MenuItem eventKey="5" key="5">
                                 <button className="dropdownButton"
                                     onClick={(e) => {
                                         this.props.serverModalOpen();

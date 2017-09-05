@@ -208,6 +208,13 @@ export default class DaliBoxSortable extends Component {
         let list = jQuery(this.refs.sortableContainer);
         list.sortable({
             handle: '.drag-handle',
+            start: (event, ui) => {
+                // Hide DaliShortcuts
+                let bar = this.props.containedViewSelected === 0 ?
+                    document.getElementById('daliBoxIcons') :
+                    document.getElementById('contained_daliBoxIcons');
+                bar.classList.add('hidden');
+            },
             stop: (event, ui) => {
                 let indexes = [];
                 let children = list[0].children;
@@ -216,8 +223,16 @@ export default class DaliBoxSortable extends Component {
                 }
                 if (indexes.length !== 0) {
                     this.props.onSortableContainerReordered(indexes, this.props.id);
+
                 }
                 list.sortable('cancel');
+                // Unhide DaliShortcuts
+                let bar = this.props.containedViewSelected === 0 ?
+                    document.getElementById('daliBoxIcons') :
+                    document.getElementById('contained_daliBoxIcons');
+                bar.classList.remove('hidden');
+                window.dispatchEvent(new Event('resize'));
+
             },
         });
     }
