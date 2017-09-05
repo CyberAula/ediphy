@@ -12,7 +12,7 @@ dali_server/config.json
 dali_server/node_modules
 doc/esdoc
 doc/jsdoc
-doc/dist/*bundle.js
+doc/dist/doc-bundle.js
 *.map
 nbproject
 dist/lib/scorm/scorm.zip
