@@ -95,7 +95,7 @@ export function BasicImage(base) {
                 // url: 'http://nemanjakovacevic.net/wp-content/uploads/2013/07/placeholder.png'
                 // url: 'http://www.amicus.nieruchomosci.pl/grafika/no-image.png'
                 // url: 'https://bytesizemoments.com/wp-content/uploads/2014/04/placeholder.png',
-                url: '/images/placeholder.png',
+                url: Dali.Config.image_placeholder,
             };
         },
         getRenderTemplate: function(state) {

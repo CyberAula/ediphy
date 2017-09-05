@@ -243,26 +243,63 @@ export function exportStateAsync(state) {
 
         // In this case, we return a promise to wait for.
         // This is not required by thunk middleware, but it is convenient for us.
-        return fetch(Dali.Config.export_url, {
+        if (process.env.NODE_ENV !== 'production' || dali_editor_params === undefined) {
+            return fetch(Dali.Config.export_url, {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(state),
+            })
+                .then(response => {
+                    if (response.status >= 400) {
+                        throw new Error(i18n.t("error.exporting"));
+                    }
+                    return true;
+                })
+                .then(() => {
+                    dispatch(setBusy(false, i18n.t("success_transaction")));
+                })
+                .catch(e => {
+                    dispatch(setBusy(false, e.message));
+                });
+        }
+
+        let data = {
+            authenticity_token: dali_editor_params.authenticity_token,
+            dali_document: { user: { name: dali_editor_params.name, id: dali_editor_params.id }, json: state },
+        };
+
+        return fetch(dali_editor_params.export_url, { // return fetch(Dali.Config.export_url, {
+            credentials: 'same-origin',
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(state),
+            body: JSON.stringify(data),
         })
             .then(response => {
                 if (response.status >= 400) {
                     throw new Error(i18n.t("error.exporting"));
                 }
-                return true;
+                return response.text();
             })
-            .then(() => {
+            .then(result => {
+                let dali_resource_id = JSON.parse(result).dali_id;
+
+                if (Dali.Config.api_editor_url_change) {
+                    window.parent.history.replaceState("", "", Dali.Config.export_url + dali_resource_id + dali_editor_params.edit_prefix);
+                    dali_editor_params.export_url = Dali.Config.export_url + dali_resource_id;
+                    dali_editor_params.dali_resource_id = dali_resource_id;
+                }
                 dispatch(setBusy(false, i18n.t("success_transaction")));
             })
-            .catch(e => {
+            .catch(e =>{
                 dispatch(setBusy(false, e.message));
             });
+
     };
 }
 

@@ -18,6 +18,10 @@ module.exports = merge.smart(common, {
         filename: 'prod/[name]-bundle.min.js',
     },
     devtool: 'source-map',
+    externals: {
+        dali_editor_params: 'dali_editor_params',
+        dali_editor_json: 'dali_editor_json',
+    },
     plugins: [
         new webpack.optimize.OccurrenceOrderPlugin(),
         new webpack.optimize.UglifyJsPlugin({
