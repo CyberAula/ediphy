@@ -1,3 +1,11 @@
+.bsGrid {
+    padding-top: 90px;
+}
+
+#nbRow{
+    position: fixed;
+    width: 100%;
+}
 .selectedNav {
     background-color: #ccc;
     border: none !important;
@@ -37,6 +45,10 @@
     display:         flex;
     background-color: #ff0033;
     border: 1px solid black;
+}
+
+.mainCol {
+    padding-top: 60px;
 }
 
 .mainPageBlock {
