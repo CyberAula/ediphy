@@ -19,7 +19,7 @@ export default class DaliDocs extends Component {
     render() {
         return (
             <Grid fluid>
-                <Row>
+                <Row id="nbRow">
                     <Navbar collapseOnSelect>
                         <Navbar.Header>
                             <Navbar.Brand>

@@ -13,7 +13,7 @@ export default class About extends Component {
     render() {
         let content = this.state.content || "";
         return (
-            <Grid>
+            <Grid className="bsGrid">
                 <div className="markdownContainer">
                     <Markdown>
                         { content }

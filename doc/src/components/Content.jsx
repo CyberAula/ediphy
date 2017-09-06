@@ -54,7 +54,7 @@ export default class Content extends Component {
         let big = this.state.self || Object.keys(this.state.pages).length === 0;
         return (
             <Row>
-                <Col xs={12} sm={3} style={{ display: big ? 'none' : 'block' }}>
+                <Col xs={12} sm={3} className="mainCol" style={{ display: big ? 'none' : 'block' }}>
                     <h4 className="sidebarTitle">{sideBarTitle}</h4>
                     <ListGroup>
                         {Object.keys(pages).map(function(key) {
@@ -73,7 +73,7 @@ export default class Content extends Component {
 
                     </ListGroup>
                 </Col>
-                <Col xs={12} sm={big ? 12 : 9 } >
+                <Col xs={12} className="mainCol" sm={big ? 12 : 9 } >
                     {(this.state.self || !pages || !pages[currentPage] || (pages[currentPage] && pages[currentPage].hideTitle)) ? null : (<h1> {this.state.title}</h1>)}
                     {this.state.md ?
                         <div className="markdownContainer" style={{ padding: !big ? '0px' : '0px 50px' }}>
