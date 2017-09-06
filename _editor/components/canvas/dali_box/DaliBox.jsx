@@ -472,6 +472,7 @@ export default class DaliBox extends Component {
             Dali.Plugins.get(toolbar.config.name).afterRender(this.refs.content, toolbar.state);
 
         }
+
         if ((action.type === ADD_BOX || action.type === UPDATE_BOX || action.type === RESIZE_BOX || action.type === IMPORT_STATE) &&
             ((action.payload.id || action.payload.ids.id) === this.props.id)) {
             Dali.Plugins.get(toolbar.config.name).afterRender(this.refs.content, toolbar.state);
@@ -484,6 +485,7 @@ export default class DaliBox extends Component {
      * Get CKEditor instances and set interact listeners for box manipulation
      */
     componentDidMount() {
+        console.log(this.props);
         let toolbar = this.props.toolbars[this.props.id];
         let box = this.props.boxes[this.props.id];
         if (toolbar.config && toolbar.config.needsTextEdition) {

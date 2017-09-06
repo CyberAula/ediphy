@@ -1,4 +1,4 @@
-import { ADD_BOX, INCREASE_LEVEL, SELECT_BOX, SELECT_NAV_ITEM, DELETE_NAV_ITEM } from '../common/actions';
+import { ADD_BOX, INCREASE_LEVEL, SELECT_BOX, SELECT_NAV_ITEM, DELETE_NAV_ITEM, IMPORT_STATE } from '../common/actions';
 import { isSortableBox } from '../common/utils';
 
 export default function(state = 0, action = {}) {
@@ -18,6 +18,8 @@ export default function(state = 0, action = {}) {
         }
         // If level is -1 because a DaliBoxSortable was selected previously, we want to return 0, otherwise, return current
         return Math.max(state, 0);
+    case IMPORT_STATE:
+        return 0;
     case SELECT_NAV_ITEM:
         return 0;
     default:

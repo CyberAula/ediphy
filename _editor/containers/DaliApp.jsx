@@ -109,7 +109,7 @@ class DaliApp extends Component {
                         visor={() =>{this.setState({ visorVisible: true });}}
                         export={() => {Dali.Visor.exports(this.props.store.getState().present);}}
                         scorm={() => {Dali.Visor.exportScorm(this.props.store.getState().present);}}
-                        save={() => {this.dispatchAndSetState(exportStateAsync({ present: this.props.store.getState().present }));}}
+                        save={() => {this.dispatchAndSetState(exportStateAsync({ present: this.props.store.getState().present }));console.log(this.props.store.getState());}}
                         category={this.state.pluginTab}
                         opens={() => {this.dispatchAndSetState(importStateAsync());}}
                         serverModalOpen={()=>{this.setState({ serverModal: true });}}

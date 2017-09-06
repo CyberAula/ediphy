@@ -15,7 +15,7 @@ export default function(state = 0, action = {}) {
     case SELECT_NAV_ITEM:
         return action.payload.id;
     case IMPORT_STATE:
-        return action.payload.present.navItemSelected || state;
+        return 0;
     default:
         return state;
     }

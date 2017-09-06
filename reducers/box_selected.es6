@@ -47,7 +47,7 @@ export default function(state = -1, action = {}) {
     case SELECT_NAV_ITEM:
         return -1;
     case IMPORT_STATE:
-        return action.payload.present.boxSelected || state;
+        return -1;
     default:
         return state;
     }

@@ -130,6 +130,7 @@
     "prop-types": "^15.5.10",
     "rc-color-picker": "^1.1.7",
     "react": "^15.5.0",
+    "react-addons-create-fragment": "^15.6.0",
     "react-bootstrap": "^0.31.2",
     "react-bootstrap-typeahead": "^2.0.0-alpha.3",
     "react-dom": "^15.4.1",

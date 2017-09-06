@@ -1,4 +1,4 @@
-import { CHANGE_GLOBAL_CONFIG } from '../common/actions';
+import { CHANGE_GLOBAL_CONFIG, IMPORT_STATE } from '../common/actions';
 import { changeProp } from '../common/utils';
 
 export default function(state = 0, action = {}) {
@@ -8,6 +8,8 @@ export default function(state = 0, action = {}) {
             return action.payload.value;
         }
         return changeProp(state, action.payload.prop, action.payload.value);
+    case IMPORT_STATE:
+        return action.payload.present.globalConfig || state;
     default:
         return state;
     }

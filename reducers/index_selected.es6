@@ -11,7 +11,7 @@ export default function(state = 0, action = {}) {
     case INDEX_SELECT:
         return action.payload.id;
     case IMPORT_STATE:
-        return action.payload.present.indexSelected || state;
+        return 0;
     default:
         return state;
     }
