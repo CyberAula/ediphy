@@ -139,7 +139,7 @@
     "react-resize-detector": "^0.6.0",
     "react-select": "^1.0.0-rc.2",
     "react-tag-input": "^4.7.2",
-    "react-transition-group": "^1.2.0",
+    "react-transition-group": "^2.2.0",
     "recharts": "^1.0.0-alpha.1",
     "redux": "^3.6.0",
     "redux-thunk": "^2.1.0",
