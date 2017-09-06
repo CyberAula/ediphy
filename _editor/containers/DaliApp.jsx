@@ -118,6 +118,7 @@ class DaliApp extends Component {
                     <AutoSave save={() => {this.dispatchAndSetState(exportStateAsync({ present: this.props.store.getState().present }));}}
                         serverModalOpen={()=>{this.setState({ serverModal: true });}}
                         isBusy={isBusy}
+                        lastAction={this.state.lastAction}
                         visorVisible={this.state.visorVisible}/>
                 </Row>
                 <Row style={{ height: 'calc(100% - 60px)' }} id="mainRow">
