@@ -181,6 +181,9 @@ export default function() {
                 limitToOneInstance: limitToOneInstance,
             };
         },
+        getRenderTemplate: function(render_state) {
+            return descendant.getRenderTemplate(render_state);
+        },
         getToolbar: function() {
             let toolbar;
             // eslint-disable-next-line no-var
@@ -310,10 +313,13 @@ export default function() {
             if (!descendant.getRenderTemplate) {
                 console.error(this.getConfig().name + " has not defined getRenderTemplate method");
             } else {
+
                 let template = descendant.getRenderTemplate(state);
                 if(template !== null && this.getConfig().flavor !== "react") {
                     template = html2json(template);
                     assignPluginContainerIds(template);
+                } else{
+                    template = '';
                 }
                 if (template !== null) {
                     Dali.API.renderPlugin(

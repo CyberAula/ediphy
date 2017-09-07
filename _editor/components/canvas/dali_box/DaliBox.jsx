@@ -142,9 +142,10 @@ export default class DaliBox extends Component {
         wholeBoxStyle.transform = wholeBoxStyle.WebkitTransform = wholeBoxStyle.MsTransform = rotate;
         // style.transform = style.WebkitTransform = style.MsTransform = rotate;
 
+        console.log(box);
         let content = toolbar.config.flavor === "react" ? (
             <div style={style} {...attrs} className={"boxStyle " + classNames} ref={"content"}>
-                {box.content}
+                {Dali.Plugins.get(toolbar.config.name).getRenderTemplate(toolbar.state)}
             </div>
         ) : (
             <div style={style} {...attrs} className={"boxStyle " + classNames} ref={"content"}>
