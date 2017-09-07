@@ -8,8 +8,7 @@ import { ADD_BOX, UPDATE_BOX, RESIZE_BOX, EDIT_PLUGIN_TEXT, IMPORT_STATE } from 
 import Dali from './../../../../core/main';
 import i18n from 'i18next';
 import { isSortableBox, isSortableContainer, isAncestorOrSibling, isContainedView } from '../../../../common/utils';
-
-require('./_daliBox.scss');
+import './_daliBox.scss';
 
 /**
  * Dali Box component.

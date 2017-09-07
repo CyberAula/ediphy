@@ -4,7 +4,7 @@ import DaliCanvasDoc from '../dali_canvas_doc/DaliCanvasDoc';
 import { REORDER_SORTABLE_CONTAINER, REORDER_BOXES } from '../../../../common/actions';
 import { isSlide } from '../../../../common/utils';
 
-require('./_canvas.scss');
+import './_canvas.scss';
 
 /**
  * Container component to render documents or slides

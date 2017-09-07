@@ -4,7 +4,7 @@ import { FormControl } from 'react-bootstrap';
 import Dali from './../../../../core/main';
 import i18n from 'i18next';
 
-require('./_daliIndexTitle.scss');
+import './_daliIndexTitle.scss';
 
 /**
  * Component for editing index elements in situ

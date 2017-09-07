@@ -3,8 +3,9 @@ import { FormControl, InputGroup, FormGroup, ControlLabel, OverlayTrigger, Popov
 import ColorPicker from './../../common/color-picker/ColorPicker';
 import i18n from 'i18next';
 import RadioButtonFormGroup from '../radio_button_form_group/RadioButtonFormGroup';
-
-require('./_gridConfigurator.scss');
+import ToggleSwitch from '@trendmicro/react-toggle-switch';
+import '@trendmicro/react-toggle-switch/dist/react-toggle-switch.css';
+import './_gridConfigurator.scss';
 
 /**
  * Toolbar structure component for Sortable Containers
@@ -64,12 +65,20 @@ export default class GridConfigurator extends Component {
                         overlay={height !== 'auto' ? tooltip : <Tooltip id="none" style={{ display: 'none' }}/>}>
                         <InputGroup style={{ width: '10%', float: 'right' }}>
                             <ControlLabel> auto</ControlLabel>
-                            <FormControl type="checkbox"
+                            {/*<FormControl type="checkbox"
                                 key="height"
                                 value={height === 'auto' ? "checked" : "unchecked"}
                                 checked={height === 'auto'}
                                 label="auto"
                                 style={{ width: '100%' }}
+                                onChange={e => {
+                                    let current = height === 'auto';
+                                    let newHeight = current ? parseFloat(document.getElementById(this.props.id).clientHeight, 10) : 'auto';
+                                    this.props.onSortableContainerResized(this.props.id, this.props.parentId, newHeight);
+                                }}/>*/}
+                            <ToggleSwitch
+                                key="height"
+                                checked={height === 'auto'}
                                 onChange={e => {
                                     let current = height === 'auto';
                                     let newHeight = current ? parseFloat(document.getElementById(this.props.id).clientHeight, 10) : 'auto';
@@ -229,7 +238,7 @@ export default class GridConfigurator extends Component {
                     <span className='rangeOutput'>
                         {this.props.container.style ? this.props.container.style.opacity : 1 + '%'}
                     </span>
-                    <FormControl type="range"
+                    <FormControl type="range" className="rangeInput"
                         value={this.props.container.style ? this.props.container.style.opacity : 1 + '%'}
                         style={{ width: '100%' }}
                         min={0}

@@ -3,7 +3,7 @@ import { Button, Col } from 'react-bootstrap';
 import interact from 'interact.js';
 import Dali from './../../../../core/main';
 import ReactDOM from 'react-dom';
-require('./_pluginRibbon.scss');
+import './_pluginRibbon.scss';
 
 /**
  * Plugin ribbon inside toolbar

@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import Picker from 'rc-color-picker';
 
-require('./../../../../node_modules/rc-color-picker/assets/index.css');
-require('./color_picker_input.scss');
-
+import './../../../../node_modules/rc-color-picker/assets/index.css';
+import './color_picker_input.scss';
 /**
  * React input color component
  */

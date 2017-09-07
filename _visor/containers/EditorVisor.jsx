@@ -11,10 +11,10 @@ import ScormComponent from './../components/scorm/ScormComponent';
 import i18n from '../../locales/i18n';
 
 require('es6-promise').polyfill();
-require('typeface-ubuntu');
-require('typeface-source-sans-pro');
-require('./../../sass/style.scss');
-require('./../../core/visor_entrypoint');
+import 'typeface-ubuntu';
+import 'typeface-source-sans-pro';
+import './../../sass/style.scss';
+import './../../core/visor_entrypoint';
 
 /**
  * Visor app main component

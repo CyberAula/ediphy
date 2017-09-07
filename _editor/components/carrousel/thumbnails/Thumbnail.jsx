@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Button, ButtonGroup } from 'react-bootstrap';
 
-require('./_thumbnails.scss');
+import './_thumbnails.scss';
 
 /**
  * @deprecated

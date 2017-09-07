@@ -31,7 +31,7 @@ let en = {
         "delete_section": "Delete Section",
         "delete": "Delete",
         "display": "Display",
-        "display_page": "Preview / Export",
+        "display_page": "Include in course",
         "document": "Document",
         "edit_text": "Edit text",
         "empty": {

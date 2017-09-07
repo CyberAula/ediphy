@@ -28,7 +28,7 @@ let es = {
         "delete_page": "Eliminar página",
         "delete_section": "Eliminar sección",
         "display": "Visualización",
-        "display_page": "Previsualizar / exportar",
+        "display_page": "Incluir en curso",
         "document": "Documento",
         "edit_text": "Editar texto",
         "empty": {

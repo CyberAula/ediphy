@@ -7,11 +7,12 @@ import VishProvider from './../../vish_provider/vish_provider/VishProvider';
 import MarksList from './../../rich_plugins/marks_list/MarksList.jsx';
 import Dali from './../../../../core/main';
 import ColorPicker from './../../common/color-picker/ColorPicker';
+import ToggleSwitch from '@trendmicro/react-toggle-switch';
+import '@trendmicro/react-toggle-switch/dist/react-toggle-switch.css';
 import { UPDATE_TOOLBAR, UPDATE_BOX } from '../../../../common/actions';
 import { isSortableContainer, isCanvasElement, isContainedView, isSlide } from '../../../../common/utils';
 import i18n from 'i18next';
-
-require('./_pluginToolbar.scss');
+import './_pluginToolbar.scss';
 
 /**
  * Toolbar component for configuring boxes or pages
@@ -502,6 +503,9 @@ export default class PluginToolbar extends Component {
      * @param key Current key
      */
     renderAccordion(accordion, tabKey, accordionKeys, state, key) {
+        if (accordionKeys[0] === '__extra') {
+            return;
+        }
         let props = {
             key: key,
             className: "panelPluginToolbar",
@@ -619,10 +623,14 @@ export default class PluginToolbar extends Component {
                 if (buttonKey === '__width' || buttonKey === '__height') {
                     let newButton = Object.assign({}, (buttonKey === '__width' ? accordion.buttons.__width : accordion.buttons.__height));
                     let otherButton = Object.assign({}, (buttonKey === '__height' ? accordion.buttons.__width : accordion.buttons.__height));
-
-                    switch (e.target.type) {
+                    let type = e.target.type;
+                    console.log(e.target)
+                    if (!type && e.target.classList.contains('toggle-switch---toggle---mncCu')) {
+                        type = 'checkbox';
+                    }
+                    switch (type) {
                     case "checkbox":
-                        newButton.auto = e.target.checked;
+                        newButton.auto = !newButton.auto;
                         newButton.displayValue = newButton.auto ? 'auto' : button.value;
                         newButton.type = newButton.auto ? 'text' : 'number';
                         newButton.disabled = newButton.auto;
@@ -630,6 +638,7 @@ export default class PluginToolbar extends Component {
                     case "select-one":
                         newButton.units = value;
                         break;
+
                     default:
                         if (isNaN(parseInt(value, 10))) {
                             if (value === "") {
@@ -670,6 +679,7 @@ export default class PluginToolbar extends Component {
                         this.props.onBoxResized(id, otherButton, newButton);
                     }
                     return;
+
                 }
                 if (button.type === 'number') {
                     // If there's any problem when parsing (NaN) -> take min value if defined; otherwise take 0
@@ -683,7 +693,7 @@ export default class PluginToolbar extends Component {
                 }
 
                 if (button.type === 'checkbox') {
-                    value = e.target.checked;
+                    value = !button.checked;
                 }
                 if (button.type === 'radio') {
                     value = button.options[value];
@@ -851,13 +861,14 @@ export default class PluginToolbar extends Component {
         }
 
         if (button.type === 'checkbox') {
+            delete props.style.width;
             return React.createElement(
                 FormGroup,
                 { key: (button.__name) },
-                React.createElement(
-                    Checkbox,
+                [React.createElement(
+                    ToggleSwitch,
                     props,
-                    button.__name)
+                    button.__name), <label style={{display: 'inline-block'}}>{props.label}</label>]
             );
         }
 
@@ -897,11 +908,11 @@ export default class PluginToolbar extends Component {
         if (buttonKey === '__width' || buttonKey === '__height') {
             let advancedPanel = (
                 <FormGroup>
-                    <Checkbox label={i18n.t("Auto")}
+                    <ToggleSwitch label={i18n.t("Auto")}
                         checked={button.auto}
                         onChange={props.onChange}>
                         {i18n.t("Auto")}
-                    </Checkbox>
+                    </ToggleSwitch>
                     {/* Disable px size in slides*/}
                     {isSlide(this.props.navItems[this.props.navItemSelected].type) ?
                         (<span />) :
@@ -943,7 +954,27 @@ export default class PluginToolbar extends Component {
                 </FormGroup>
             );
         }
-
+        if(button.type === 'range') {
+            props.className = "rangeInput";
+            return React.createElement(
+                FormGroup,
+                { key: button.__name },
+                [
+                    React.createElement(
+                        ControlLabel,
+                        { key: 'label_' + button.__name },
+                        button.__name),
+                    React.createElement(
+                    "span",
+                    { key: 'output_span' + button.__name, className: 'rangeOutput' },
+                    button.type === "range" ? button.value : null),
+                    React.createElement(
+                        FormControl,
+                        props,
+                        null),
+                ]
+            );
+        }
         return React.createElement(
             FormGroup,
             { key: button.__name },
@@ -952,10 +983,6 @@ export default class PluginToolbar extends Component {
                     ControlLabel,
                     { key: 'label_' + button.__name },
                     button.__name),
-                React.createElement(
-                    "span",
-                    { key: 'output_span' + button.__name, className: 'rangeOutput' },
-                    button.type === "range" ? button.value : null),
                 React.createElement(
                     FormControl,
                     props,
