@@ -180,3 +180,16 @@ button, i{
 .fileInput {
     width:100%;
 }
+
+body {
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-selectelect: none;
+    textarea {
+        user-select: text;
+        -moz-user-select: text;
+        -webkit-user-select: text;
+        -ms-user-selectelect: text;
+    }
+}
