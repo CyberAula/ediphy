@@ -6,11 +6,13 @@ import Select from 'react-select';
 import { WithContext as ReactTags } from 'react-tag-input';
 import { suggestions, statusOptions, contextOptions, languages, difLevels, rightsOptions } from './global_options';
 import Alert from './../../common/alert/Alert';
+import ToggleSwitch from '@trendmicro/react-toggle-switch';
+import '@trendmicro/react-toggle-switch/dist/react-toggle-switch.css';
 
 // Styles
 import 'react-select/dist/react-select.css';
-require('./_globalConfig.scss');
-require('./_reactTags.scss');
+import './_globalConfig.scss';
+import './_reactTags.scss';
 
 /**
  * Global course configuration modal
@@ -228,12 +230,10 @@ export default class GlobalConfig extends Component {
                                     </FormGroup>
                                     <FormGroup>
                                         <ControlLabel>{i18n.t('global_config.visor_nav.title')}</ControlLabel><br/>
-                                        <Checkbox inline onChange={(e)=>{this.setState({ modifiedState: true, visorNav: { player: !visorNav.player, sidebar: visorNav.sidebar } });}} checked={visorNav.player}>
-                                            {i18n.t('global_config.visor_nav.player')}
-                                        </Checkbox>
-                                        <Checkbox inline onChange={(e)=>{this.setState({ modifiedState: true, visorNav: { player: visorNav.player, sidebar: !visorNav.sidebar } });}} checked={visorNav.sidebar}>
-                                            {i18n.t('global_config.visor_nav.sidebar')}
-                                        </Checkbox>
+                                        <ToggleSwitch onChange={(e)=>{this.setState({ modifiedState: true, visorNav: { player: !visorNav.player, sidebar: visorNav.sidebar } });}} checked={visorNav.player}/>
+                                        {i18n.t('global_config.visor_nav.player')}&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <ToggleSwitch onChange={(e)=>{this.setState({ modifiedState: true, visorNav: { player: visorNav.player, sidebar: !visorNav.sidebar } });}} checked={visorNav.sidebar}/>
+                                        {i18n.t('global_config.visor_nav.sidebar')}
                                     </FormGroup>
                                     <FormGroup >
                                         <ControlLabel>{i18n.t('global_config.status')}</ControlLabel><br/>

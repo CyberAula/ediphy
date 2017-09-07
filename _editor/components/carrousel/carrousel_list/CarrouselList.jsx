@@ -7,8 +7,7 @@ import DaliIndexTitle from './../dali_index_title/DaliIndexTitle';
 import { isPage, isSection, isSlide, isContainedView, calculateNewIdOrder } from '../../../../common/utils';
 import i18n from 'i18next';
 import Dali from './../../../../core/main';
-
-require('./_carrouselList.scss');
+import './_carrouselList.scss';
 
 /**
  * Dali CarrouselList Component

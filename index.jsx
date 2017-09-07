@@ -11,7 +11,7 @@ require('expose-loader?Dali!./core/temp_hack');
 require('./plugins/plugin_dependencies_loader').requireAll();
 
 // Require CSS files
-require('./sass/style.scss');
+import './sass/style.scss';
 
 // We make sure JQuery UI Sortable Widget is initialized
 // eslint-disable-next-line

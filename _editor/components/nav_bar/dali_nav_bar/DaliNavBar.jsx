@@ -6,7 +6,7 @@ import i18n from 'i18next';
 import { isSection } from '../../../../common/utils';
 import Dali from './../../../../core/main';
 import { toggleFullScreen, isFullScreenOn, fullScreenListener } from '../../../../common/common_tools';
-require('./_navBar.scss');
+import './_navBar.scss';
 
 /**
  * Upper navigation bar component

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { findParentBySelector } from '../../../../common/utils';
-require('./_click_n_hold.scss');
+import './_click_n_hold.scss';
 /*
 * Component wrapper for editing marks by dragging them
 * @example <ClickNHold onClickNHold={e=>{...}} // callback

@@ -43,7 +43,7 @@ export function BasicText(base) {
                                 },
                                 borderStyle: {
                                     __name: Dali.i18n.t('BasicImage.border_style'),
-                                    type: 'radio',
+                                    type: 'select',
                                     value: 'solid',
                                     options: ['none', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset', 'initial', 'inherit'],
                                 },

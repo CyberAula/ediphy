@@ -98,30 +98,30 @@ export default class ReduxProvider extends Component {
                                         "icon": "settings",
                                         "buttons": {
                                             "page_display": {
-                                                "__name": "Previsualizar / exportar",
+                                                "__name": i18n.t('display_page'),
                                                 "type": "checkbox",
                                                 "checked": true,
                                                 "autoManaged": false,
                                             },
                                             "navitem_name": {
-                                                "__name": "Nombre documento",
+                                                "__name": i18n.t('NavItem_name'),
                                                 "type": "text",
                                                 "autoManaged": false,
                                             },
                                         },
                                     },
                                     "header": {
-                                        "__name": "Cabecera",
+                                        "__name": i18n.t('Header'),
                                         "icon": "format_color_text",
                                         "buttons": {
                                             "display_title": {
-                                                "__name": "Título Curso",
+                                                "__name": i18n.t('course_title'),
                                                 "type": "checkbox",
                                                 "checked": false,
                                                 "autoManaged": false,
                                             },
                                             "display_pagetitle": {
-                                                "__name": "Título undefined",
+                                                "__name": i18n.t('page'),
                                                 "type": "checkbox",
                                                 "checked": true,
                                                 "autoManaged": false,
@@ -135,7 +135,7 @@ export default class ReduxProvider extends Component {
                                                 "display": true,
                                             },
                                             "display_pagesubtitle": {
-                                                "__name": "Subtítulo",
+                                                "__name": i18n.t('subtitle'),
                                                 "type": "checkbox",
                                                 "checked": false,
                                                 "autoManaged": false,
@@ -149,13 +149,13 @@ export default class ReduxProvider extends Component {
                                                 "display": true,
                                             },
                                             "display_breadcrumb": {
-                                                "__name": "Breadcrumb",
+                                                "__name": i18n.t('Breadcrumb'),
                                                 "type": "checkbox",
                                                 "checked": true,
                                                 "autoManaged": false,
                                             },
                                             "display_pagenumber": {
-                                                "__name": "Nº Página",
+                                                "__name": i18n.t('pagenumber'),
                                                 "type": "checkbox",
                                                 "checked": false,
                                                 "autoManaged": false,
@@ -170,7 +170,7 @@ export default class ReduxProvider extends Component {
                                             },
                                         },
                                     },
-                                    "__extra": {
+                                    "z__extra": {
                                         "__name": "Alias",
                                         "icon": "rate_review",
                                         "buttons": {
@@ -296,30 +296,30 @@ export default class ReduxProvider extends Component {
                                         "icon": "settings",
                                         "buttons": {
                                             "page_display": {
-                                                "__name": "Previsualizar / exportar",
+                                                "__name": i18n.t('display_page'),
                                                 "type": "checkbox",
                                                 "checked": true,
                                                 "autoManaged": false,
                                             },
                                             "navitem_name": {
-                                                "__name": "Nombre documento",
+                                                "__name": i18n.t('NavItem_name'),
                                                 "type": "text",
                                                 "autoManaged": false,
                                             },
                                         },
                                     },
                                     "header": {
-                                        "__name": "Cabecera",
+                                        "__name": i18n.t('Header'),
                                         "icon": "format_color_text",
                                         "buttons": {
                                             "display_title": {
-                                                "__name": "Título Curso",
+                                                "__name": i18n.t('course_title'),
                                                 "type": "checkbox",
                                                 "checked": false,
                                                 "autoManaged": false,
                                             },
                                             "display_pagetitle": {
-                                                "__name": "Título undefined",
+                                                "__name": i18n.t('page'),
                                                 "type": "checkbox",
                                                 "checked": true,
                                                 "autoManaged": false,
@@ -333,7 +333,7 @@ export default class ReduxProvider extends Component {
                                                 "display": true,
                                             },
                                             "display_pagesubtitle": {
-                                                "__name": "Subtítulo",
+                                                "__name": i18n.t('subtitle'),
                                                 "type": "checkbox",
                                                 "checked": false,
                                                 "autoManaged": false,
@@ -347,13 +347,13 @@ export default class ReduxProvider extends Component {
                                                 "display": true,
                                             },
                                             "display_breadcrumb": {
-                                                "__name": "Breadcrumb",
+                                                "__name": i18n.t('Breadcrumb'),
                                                 "type": "checkbox",
                                                 "checked": true,
                                                 "autoManaged": false,
                                             },
                                             "display_pagenumber": {
-                                                "__name": "Nº Página",
+                                                "__name": i18n.t('pagenumber'),
                                                 "type": "checkbox",
                                                 "checked": false,
                                                 "autoManaged": false,
@@ -368,7 +368,7 @@ export default class ReduxProvider extends Component {
                                             },
                                         },
                                     },
-                                    "__extra": {
+                                    "z__extra": {
                                         "__name": "Alias",
                                         "icon": "rate_review",
                                         "buttons": {
@@ -393,75 +393,84 @@ export default class ReduxProvider extends Component {
                             main: {
                                 "__name": "Main",
                                 "accordions": {
-                                    basic: {
+                                    "basic": {
                                         "__name": "Generales",
                                         "icon": "settings",
                                         "buttons": {
                                             "page_display": {
-                                                "__name": "Previsualizar / exportar",
+                                                "__name": i18n.t('display_page'),
                                                 "type": "checkbox",
                                                 "checked": true,
-                                                "autoManaged": false },
+                                                "autoManaged": false,
+                                            },
                                             "navitem_name": {
-                                                "__name": "Nombre documento",
+                                                "__name": i18n.t('NavItem_name'),
                                                 "type": "text",
-                                                "value": "Página",
-                                                "autoManaged": false },
+                                                "autoManaged": false,
+                                            },
                                         },
                                     },
-                                    header: {
-                                        "__name": "Cabecera",
+                                    "header": {
+                                        "__name": i18n.t('Header'),
                                         "icon": "format_color_text",
                                         "buttons": {
-                                            display_title: {
-                                                "__name": "Título Curso",
+                                            "display_title": {
+                                                "__name": i18n.t('course_title'),
                                                 "type": "checkbox",
                                                 "checked": false,
-                                                "autoManaged": false },
-                                            display_pagetitle: {
-                                                "__name": "Título Página",
+                                                "autoManaged": false,
+                                            },
+                                            "display_pagetitle": {
+                                                "__name": i18n.t('page'),
                                                 "type": "checkbox",
                                                 "checked": true,
-                                                "autoManaged": false },
-                                            pagetitle_name: {
+                                                "autoManaged": false,
+                                            },
+                                            "pagetitle_name": {
                                                 "__name": "custom_title",
                                                 "type": "conditionalText",
                                                 "associatedKey": "display_pagetitle",
                                                 "value": "",
                                                 "autoManaged": false,
-                                                "display": true },
-                                            display_pagesubtitle: {
-                                                "__name": "Subtítulo",
+                                                "display": true,
+                                            },
+                                            "display_pagesubtitle": {
+                                                "__name": i18n.t('subtitle'),
                                                 "type": "checkbox",
                                                 "checked": false,
-                                                "autoManaged": false },
-                                            pagesubtitle_name: {
+                                                "autoManaged": false,
+                                            },
+                                            "pagesubtitle_name": {
                                                 "__name": "custom_subtitle",
                                                 "type": "conditionalText",
                                                 "associatedKey": "display_pagesubtitle",
                                                 "value": "",
                                                 "autoManaged": false,
-                                                "display": true },
-                                            display_breadcrumb: {
-                                                "__name": "Breadcrumb",
+                                                "display": true,
+                                            },
+                                            "display_breadcrumb": {
+                                                "__name": i18n.t('Breadcrumb'),
                                                 "type": "checkbox",
                                                 "checked": true,
-                                                "autoManaged": false },
-                                            display_pagenumber: {
-                                                "__name": "Nº Página",
+                                                "autoManaged": false,
+                                            },
+                                            "display_pagenumber": {
+                                                "__name": i18n.t('pagenumber'),
                                                 "type": "checkbox",
                                                 "checked": false,
-                                                "autoManaged": false },
-                                            pagenumber_name: {
+                                                "autoManaged": false,
+                                            },
+                                            "pagenumber_name": {
                                                 "__name": "custom_pagenum",
                                                 "type": "conditionalText",
                                                 "associatedKey": "display_pagenumber",
                                                 "value": "",
                                                 "autoManaged": false,
-                                                "display": true },
+                                                "display": true,
+                                            },
                                         },
                                     },
-                                    "__extra": {
+                                    "z__extra": {
                                         "__name": "Alias",
                                         "icon": "rate_review",
                                         "buttons": {

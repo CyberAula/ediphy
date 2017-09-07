@@ -63,7 +63,13 @@ export default class DaliCanvasDoc extends Component {
             <Col id={this.props.fromCV ? 'containedCanvas' : 'canvas'} md={12} xs={12} className="canvasDocClass"
                 style={{ display: this.props.containedViewSelected !== 0 && !this.props.fromCV ? 'none' : 'initial' }}>
 
-                <div className="scrollcontainer" style={{ backgroundColor: show ? 'white' : 'transparent', display: show ? 'block' : 'none' }}>
+                <div className="scrollcontainer"
+                    style={{ backgroundColor: show ? 'white' : 'transparent', display: show ? 'block' : 'none' }}
+                    onClick={e => {
+                        this.props.onBoxSelected(-1);
+                        this.setState({ showTitle: false });
+                        e.stopPropagation();
+                    }}>
                     <DaliHeader titles={titles}
                         showButtons={this.state.showTitle}
                         onShowTitle={()=>this.setState({ showTitle: true })}
@@ -94,11 +100,6 @@ export default class DaliCanvasDoc extends Component {
                             style={{ visibility: (show ? 'visible' : 'hidden') }}>
 
                             <div id={this.props.fromCV ? "contained_maincontent" : "maincontent"}
-                                onClick={e => {
-                                    this.props.onBoxSelected(-1);
-                                    this.setState({ showTitle: false });
-                                    e.stopPropagation();
-                                }}
                                 className={'innercanvas doc'}
                                 style={{ visibility: (show ? 'visible' : 'hidden') }}>
 

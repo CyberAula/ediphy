@@ -7,9 +7,8 @@ import { Typeahead } from 'react-bootstrap-typeahead';
 import { ID_PREFIX_RICH_MARK, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_CONTAINED_VIEW, PAGE_TYPES } from '../../../../common/constants';
 import i18n from 'i18next';
 import { isSection, isContainedView, nextAvailName } from '../../../../common/utils';
-require('./_richMarksModal.scss');
-
-require('./../../../../node_modules/rc-color-picker/assets/index.css');
+import './_richMarksModal.scss';
+import './../../../../node_modules/rc-color-picker/assets/index.css';
 /**
  * Modal component to edit marks' configuration
  */

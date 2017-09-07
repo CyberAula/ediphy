@@ -10,7 +10,7 @@ import { isSortableBox } from '../../../../common/utils';
 import Dali from './../../../../core/main';
 import i18n from 'i18next';
 
-require('./_daliBoxSortable.scss');
+import './_daliBoxSortable.scss';
 
 /**
  * DaliBoxSortabe Component

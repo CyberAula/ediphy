@@ -6,7 +6,7 @@ import { RESIZE_SORTABLE_CONTAINER, ADD_BOX } from '../../../../common/actions';
 import { isAncestorOrSibling } from '../../../../common/utils';
 import Dali from './../../../../core/main';
 
-require('./_pluginPlaceHolder.scss');
+import './_pluginPlaceHolder.scss';
 
 /**
  * @deprecated

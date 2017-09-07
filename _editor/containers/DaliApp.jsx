@@ -31,8 +31,8 @@ import Alert from '../components/common/alert/Alert';
 import i18n from 'i18next';
 import Dali from '../../core/main';
 import { isSortableBox, isSection, isContainedView, isSortableContainer } from '../../common/utils';
-require('typeface-ubuntu');
-require('typeface-source-sans-pro');
+import 'typeface-ubuntu';
+import 'typeface-source-sans-pro';
 
 /**
  * DaliApp. Main application component that renders everything else
@@ -118,6 +118,7 @@ class DaliApp extends Component {
                     <AutoSave save={() => {this.dispatchAndSetState(exportStateAsync({ present: this.props.store.getState().present }));}}
                         serverModalOpen={()=>{this.setState({ serverModal: true });}}
                         isBusy={isBusy}
+                        lastAction={this.state.lastAction}
                         visorVisible={this.state.visorVisible}/>
                 </Row>
                 <Row style={{ height: 'calc(100% - 60px)' }} id="mainRow">

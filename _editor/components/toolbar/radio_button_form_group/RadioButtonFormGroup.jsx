@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormGroup, ControlLabel, Tooltip, OverlayTrigger } from 'react-bootstrap';
-require('./_radiobuttonformgroup.scss');
+import './_radiobuttonformgroup.scss';
 /** *
  * Radio Button component that displays material icons instead of plain text options
  * @example <RadioButtonFormGroup

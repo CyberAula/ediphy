@@ -67,7 +67,7 @@
         margin: 0 !important;
         padding: 0 0 5px 0 !important;
         font-size: inherit;
-        font-weight: normal;
+        font-weight: bold;
     }
 
     .radio {
@@ -173,6 +173,16 @@
         border-radius: 0;
         border: 0;
     }
+
+    .rangeInput {
+        margin-bottom: 18px;
+        margin-top: 10px;
+    }
+}
+
+a.toggle-switch---switch---3EchW {
+    display:inline-block;
+    opacity: 1 !important;
 }
 
 .extendedPanel .panel-heading {
@@ -240,7 +250,7 @@
     float: right;
     margin-right: 12px;
     position: relative;
-    top: 36px;
+    top: 50px;
     right: 4px;
     font-size: 0.9em;
 }
@@ -425,5 +435,9 @@
 //}
 
 .advancedPopover popover.bottom > .arrow:after {
+    border-bottom-color: #2c2c2c;
+}
+
+.popover.bottom > .arrow::after {
     border-bottom-color: inherit;
 }

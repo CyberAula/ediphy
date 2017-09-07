@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-
-require('./_rangeslider.scss');
+import './_rangeslider.scss';
 /**
  * Range slider component with min and max draggable values
  */

@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import Dali from './../../../core/main';
+import { CHANGE_DISPLAY_MODE, EXPAND_NAV_ITEM, IMPORT_STATE, INCREASE_LEVEL, INDEX_SELECT, SELECT_BOX, SELECT_NAV_ITEM, SET_BUSY, TOGGLE_TEXT_EDITOR, TOGGLE_TITLE_MODE, UPDATE_NAV_ITEM_EXTRA_FILES, UPDATE_BOX } from './../../../common/actions';
+
 /** *
  * Component for auto-saving the state of the application periodically and avoid losing changes
  */
@@ -14,7 +16,10 @@ export default class AutoSave extends Component {
          * Component's initial state
          * @type {{displaySave: boolean Info displayed to user}}
          */
-        this.state = { displaySave: false };
+        this.state = {
+            displaySave: false,
+            modifiedState: false,
+        };
     }
 
     /**
@@ -50,13 +55,33 @@ export default class AutoSave extends Component {
                 this.setState({ displaySave: false });
             }, 2000);
         }
+
+        if (this.state.modifiedState === false) {
+            switch(nextProps.lastAction) {
+            case CHANGE_DISPLAY_MODE:
+            case EXPAND_NAV_ITEM:
+            case IMPORT_STATE:
+            case INCREASE_LEVEL:
+            case INDEX_SELECT:
+            case SELECT_BOX:
+            case SELECT_NAV_ITEM:
+            case SET_BUSY:
+            case TOGGLE_TEXT_EDITOR:
+            case TOGGLE_TITLE_MODE:
+            case UPDATE_NAV_ITEM_EXTRA_FILES:
+            case UPDATE_BOX:
+                return;
+            default:
+                this.setState({ modifiedState: true });
+            }
+        }
     }
 
     /**
      * Function run when time is up. It saves changes.
      */
     timer() {
-        if(!this.props.visorVisible) {
+        if(!this.props.visorVisible && this.state.modifiedState) {
             this.props.save();
         }
     }
