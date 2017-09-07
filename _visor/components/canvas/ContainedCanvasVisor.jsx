@@ -6,7 +6,7 @@ import { Col, Button } from 'react-bootstrap';
 import { isSortableBox, isSlide } from '../../../common/utils';
 import CanvasVisorDoc from './CanvasVisorDoc';
 import CanvasVisorSli from './CanvasVisorSli';
-import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
+import { CSSTransition } from 'react-transition-group';
 
 export default class ContainedCanvasVisor extends Component {
 
@@ -50,19 +50,19 @@ export default class ContainedCanvasVisor extends Component {
                 viewsArray={this.props.viewsArray}/>;
         }
         return (
-            /* jshint ignore:start */
-            <CSSTransitionGroup
-                transitionName={{
-                    enter: 'enter',
-                    leave: 'leave',
+            <CSSTransition
+                key="anim"
+                classNames={{
                     appear: 'appear',
+                    appearActive: 'active-appear',
+                    enter: 'enter',
+                    enterActive: 'active-enter',
+                    exit: 'exit',
+                    exitActive: 'active-exit',
                 }}
-                transitionAppear
-                transitionAppearTimeout={500}
-                transitionEnterTimeout={500}
-                transitionLeaveTimeout={300}>
+                timeout={{ enter: 500, exit: 300 }}>
                 {visorContent}
-            </CSSTransitionGroup>
+            </CSSTransition>
         );
     }
 
