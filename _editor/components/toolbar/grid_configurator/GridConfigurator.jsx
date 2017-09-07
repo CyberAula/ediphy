@@ -65,17 +65,6 @@ export default class GridConfigurator extends Component {
                         overlay={height !== 'auto' ? tooltip : <Tooltip id="none" style={{ display: 'none' }}/>}>
                         <InputGroup style={{ width: '10%', float: 'right' }}>
                             <ControlLabel> auto</ControlLabel>
-                            {/*<FormControl type="checkbox"
-                                key="height"
-                                value={height === 'auto' ? "checked" : "unchecked"}
-                                checked={height === 'auto'}
-                                label="auto"
-                                style={{ width: '100%' }}
-                                onChange={e => {
-                                    let current = height === 'auto';
-                                    let newHeight = current ? parseFloat(document.getElementById(this.props.id).clientHeight, 10) : 'auto';
-                                    this.props.onSortableContainerResized(this.props.id, this.props.parentId, newHeight);
-                                }}/>*/}
                             <ToggleSwitch
                                 key="height"
                                 checked={height === 'auto'}

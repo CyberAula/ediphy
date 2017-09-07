@@ -64,12 +64,12 @@ export default class DaliCanvasDoc extends Component {
                 style={{ display: this.props.containedViewSelected !== 0 && !this.props.fromCV ? 'none' : 'initial' }}>
 
                 <div className="scrollcontainer"
-                     style={{ backgroundColor: show ? 'white' : 'transparent', display: show ? 'block' : 'none' }}
-                     onClick={e => {
-                         this.props.onBoxSelected(-1);
-                         this.setState({ showTitle: false });
-                         e.stopPropagation();
-                     }}>
+                    style={{ backgroundColor: show ? 'white' : 'transparent', display: show ? 'block' : 'none' }}
+                    onClick={e => {
+                        this.props.onBoxSelected(-1);
+                        this.setState({ showTitle: false });
+                        e.stopPropagation();
+                    }}>
                     <DaliHeader titles={titles}
                         showButtons={this.state.showTitle}
                         onShowTitle={()=>this.setState({ showTitle: true })}

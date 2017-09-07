@@ -170,7 +170,7 @@ export default class ReduxProvider extends Component {
                                             },
                                         },
                                     },
-                                    "__extra": {
+                                    "z__extra": {
                                         "__name": "Alias",
                                         "icon": "rate_review",
                                         "buttons": {
@@ -368,7 +368,7 @@ export default class ReduxProvider extends Component {
                                             },
                                         },
                                     },
-                                    "__extra": {
+                                    "z__extra": {
                                         "__name": "Alias",
                                         "icon": "rate_review",
                                         "buttons": {
@@ -470,7 +470,7 @@ export default class ReduxProvider extends Component {
                                             },
                                         },
                                     },
-                                    "__extra": {
+                                    "z__extra": {
                                         "__name": "Alias",
                                         "icon": "rate_review",
                                         "buttons": {

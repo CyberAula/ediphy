@@ -503,8 +503,8 @@ export default class PluginToolbar extends Component {
      * @param key Current key
      */
     renderAccordion(accordion, tabKey, accordionKeys, state, key) {
-        if (accordionKeys[0] === '__extra') {
-            return;
+        if (accordionKeys[0] === 'z__extra') {
+            return null;
         }
         let props = {
             key: key,
@@ -624,7 +624,6 @@ export default class PluginToolbar extends Component {
                     let newButton = Object.assign({}, (buttonKey === '__width' ? accordion.buttons.__width : accordion.buttons.__height));
                     let otherButton = Object.assign({}, (buttonKey === '__height' ? accordion.buttons.__width : accordion.buttons.__height));
                     let type = e.target.type;
-                    console.log(e.target)
                     if (!type && e.target.classList.contains('toggle-switch---toggle---mncCu')) {
                         type = 'checkbox';
                     }
@@ -868,7 +867,7 @@ export default class PluginToolbar extends Component {
                 [React.createElement(
                     ToggleSwitch,
                     props,
-                    button.__name), <label style={{display: 'inline-block'}}>{props.label}</label>]
+                    button.__name), <label key={buttonKey + 'label'} style={{ display: 'inline-block' }}>{props.label}</label>]
             );
         }
 
@@ -965,9 +964,9 @@ export default class PluginToolbar extends Component {
                         { key: 'label_' + button.__name },
                         button.__name),
                     React.createElement(
-                    "span",
-                    { key: 'output_span' + button.__name, className: 'rangeOutput' },
-                    button.type === "range" ? button.value : null),
+                        "span",
+                        { key: 'output_span' + button.__name, className: 'rangeOutput' },
+                        button.type === "range" ? button.value : null),
                     React.createElement(
                         FormControl,
                         props,

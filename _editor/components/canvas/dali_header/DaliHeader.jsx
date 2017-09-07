@@ -106,7 +106,7 @@ export default class DaliHeader extends Component {
                     this.props.onShowTitle();
                     e.stopPropagation(); }}>
                     <div style={{ backgroundColor: 'transparent', display: (titles.length !== 0) ? 'initial' : 'none' }}>
-                        {/*<div className={this.props.showButtons ? "caja selectedTitle selectedBox" : "caja"} >*/}
+                        {/* <div className={this.props.showButtons ? "caja selectedTitle selectedBox" : "caja"} > */}
                         <div className={"caja"} >
                             <div className="cab">
 
