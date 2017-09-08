@@ -103,7 +103,7 @@ export default class MarkCreator extends Component {
                 let toolbarState = this.props.toolbar.state;
 
                 /* NEW MARK DEFAULT PARAMS*/
-                window.addEventListener('mouseup', this.clickOutside);
+                window.addEventListener('mouseup', this.clickOutside, true);
                 window.addEventListener('keyup', component.keyListener);
 
                 overlay.oncontextmenu = function(event) {
@@ -138,7 +138,7 @@ export default class MarkCreator extends Component {
     clickOutside(e) {
         // this function will be always called if a click happens,
         // even if stopImmediatePropagation is used on the event target
-        if (e.target && (e.target.id === 'overlay' || e.target.id === 'markCreatorButton')) {
+        if (e.target && (e.target.id === 'markOverlay' || e.target.id === 'markCreatorButton')) {
             return;
         }
         this.exitFunction();
