@@ -129,7 +129,7 @@ export default class DaliHeader extends Component {
                                             {cvList && cvList.length > 0 && cvList.map(it => { return it; }) }
                                             {!cvList || cvList.length === 0 ? (<span className="cvList">{i18n.t("contained_view_nowhere")}</span>) : null}
                                         </Popover>
-                                    }><i className="material-icons infoIcon" style={{ fontSize: '16px' }}>info</i></OverlayTrigger>) : null }</h2>
+                                    }><i className="material-icons infoIcon" >info</i></OverlayTrigger>) : null }</h2>
                                     {/* NavItem subtitle */}
                                     <h3 style={{ display: (currentStatus.documentSubTitle === 'hidden') ? 'none' : 'block' }}>{ subTitle }</h3>
 
