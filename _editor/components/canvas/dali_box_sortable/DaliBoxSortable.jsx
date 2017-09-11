@@ -7,7 +7,7 @@ import DaliBox from '../dali_box/DaliBox';
 import { ID_PREFIX_SORTABLE_CONTAINER } from '../../../../common/constants';
 import { ADD_BOX } from '../../../../common/actions';
 import { isSortableBox } from '../../../../common/utils';
-import Dali from './../../../../core/main';
+import Dali from '../../../../core/editor/main';
 import i18n from 'i18next';
 
 import './_daliBoxSortable.scss';

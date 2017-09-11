@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { isPage, isSection } from '../../../../common/utils';
 import { FormControl } from 'react-bootstrap';
-import Dali from './../../../../core/main';
+import Dali from '../../../../core/editor/main';
 import i18n from 'i18next';
 
 import './_daliIndexTitle.scss';

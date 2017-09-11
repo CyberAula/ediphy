@@ -3,8 +3,7 @@ import ReactDOM from 'react-dom';
 import { Grid, Row, Navbar, Nav, NavDropdown, NavItem, MenuItem } from 'react-bootstrap';
 import Content from './src/components/Content';
 import { tree } from './src/content';
-
-require("./src/style/style.css");
+import "./src/style/style.css";
 
 export default class DaliDocs extends Component {
     constructor(props) {

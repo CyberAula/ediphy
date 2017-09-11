@@ -5,7 +5,7 @@ import RadioButtonFormGroup from '../radio_button_form_group/RadioButtonFormGrou
 import Select from 'react-select';
 import VishProvider from './../../vish_provider/vish_provider/VishProvider';
 import MarksList from './../../rich_plugins/marks_list/MarksList.jsx';
-import Dali from './../../../../core/main';
+import Dali from '../../../../core/editor/main';
 import ColorPicker from './../../common/color-picker/ColorPicker';
 import ToggleSwitch from '@trendmicro/react-toggle-switch';
 import '@trendmicro/react-toggle-switch/dist/react-toggle-switch.css';

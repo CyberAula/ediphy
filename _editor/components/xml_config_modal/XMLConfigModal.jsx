@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Modal, Button, Row } from 'react-bootstrap';
-import Dali from './../../../core/main';
+import Dali from '../../../core/editor/main';
 import { UPDATE_NAV_ITEM_EXTRA_FILES } from '../../../common/actions';
 
 /**

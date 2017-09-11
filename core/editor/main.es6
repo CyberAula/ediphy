@@ -2,8 +2,8 @@ import DevConfig from './config';
 import ProductionConfig from './config_production';
 import { api, api_private } from './api';
 import Plugins from './plugins';
-import Visor from './visor/main';
-import Scorm from './scorm/main';
+import Visor from '../visor/main';
+import Scorm from '../scorm/main';
 import i18n from 'i18next';
 
 const Config = process.env.NODE_ENV === "production" ? ProductionConfig : DevConfig;

@@ -28,7 +28,7 @@ export default function() {
             Dali.Config.pluginList.map(id => {
                 try {
                     let plugin = new BasePlugin();
-                    Dali.Plugins[id] = require('./../plugins/' + id + '/' + id)[id](plugin);
+                    Dali.Plugins[id] = require('./../../plugins/' + id + '/' + id)[id](plugin);
                     plugin.create(Dali.Plugins[id]);
                     plugin.init();
                     plugin.getLocales();

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Col } from 'react-bootstrap';
 import interact from 'interact.js';
-import Dali from './../../../../core/main';
+import Dali from '../../../../core/editor/main';
 import ReactDOM from 'react-dom';
 import './_pluginRibbon.scss';
 

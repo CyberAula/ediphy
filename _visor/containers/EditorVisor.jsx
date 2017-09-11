@@ -14,7 +14,7 @@ require('es6-promise').polyfill();
 import 'typeface-ubuntu';
 import 'typeface-source-sans-pro';
 import './../../sass/style.scss';
-import './../../core/visor_entrypoint';
+import '../../core/editor/visor_entrypoint';
 
 /**
  * Visor app main component

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import DaliIndexTitle from '../dali_index_title/DaliIndexTitle';
 import { isPage, isSection, isSlide, calculateNewIdOrder } from '../../../../common/utils';
-import Dali from './../../../../core/main';
+import Dali from '../../../../core/editor/main';
 
 /**
  * Section element in index

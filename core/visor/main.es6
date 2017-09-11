@@ -2,7 +2,7 @@ import JSZip from 'jszip';
 import JSZipUtils from 'jszip-utils';
 import FileSaver from 'file-saver';
 
-import Dali from './../main';
+import Dali from '../editor/main';
 import Plugins from './plugins';
 import { ID_PREFIX_SECTION } from '../../common/constants';
 

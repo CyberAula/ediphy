@@ -9,7 +9,7 @@ import interact from 'interact.js';
 import { ADD_BOX } from '../../../../common/actions';
 import { isSortableBox } from '../../../../common/utils';
 import { aspectRatio } from '../../../../common/common_tools';
-import Dali from './../../../../core/main';
+import Dali from '../../../../core/editor/main';
 import ReactResizeDetector from 'react-resize-detector';
 import i18n from 'i18next';
 

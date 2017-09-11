@@ -1,10 +1,14 @@
+body, #root, #root > .container-fluid, #mainRow {
+    height:100%;
+}
+
 .bsGrid {
-    padding-top: 90px;
+    /*padding-top: 90px;*/
 }
 
 #nbRow{
-    position: fixed;
-    width: 100%;
+    /*position: fixed;*/
+    /*width: 100%;*/
 }
 .selectedNav {
     background-color: #ccc;
@@ -21,6 +25,8 @@
     outline: none !important;
 
 }
+
+
 
 .navListItem {
     border: none !important;
@@ -48,7 +54,7 @@
 }
 
 .mainCol {
-    padding-top: 60px;
+    /*padding-top: 60px;*/
 }
 
 .mainPageBlock {
