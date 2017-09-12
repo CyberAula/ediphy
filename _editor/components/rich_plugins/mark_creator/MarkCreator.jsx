@@ -103,7 +103,7 @@ export default class MarkCreator extends Component {
                 let toolbarState = this.props.toolbar.state;
 
                 /* NEW MARK DEFAULT PARAMS*/
-                window.addEventListener('mouseup', this.clickOutside, true);
+                document.documentElement.addEventListener('mouseup', this.clickOutside, true);
                 window.addEventListener('keyup', component.keyListener);
 
                 overlay.oncontextmenu = function(event) {
