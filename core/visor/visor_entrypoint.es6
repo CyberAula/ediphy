@@ -25,7 +25,7 @@ if (window.State) {
     window.State = undefined;
 }
 
-if (process.env.NODE_ENV === 'production' && dali_editor_json !== undefined) {
+if (process.env.NODE_ENV === 'production' && typeof dali_editor_json !== 'undefined') {
     window.Dali.State = JSON.parse(dali_editor_json);
 }
 
