@@ -1,7 +1,7 @@
 import React from "react";
 import i18n from 'i18next';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
-import ClickNHold from '../../_editor/components/rich_plugins/click_n_hold/ClickNHold';
+import MarkEditor from '../../_editor/components/rich_plugins/mark_editor/MarkEditor';
 
 export function HotspotImages(base) {
     return {
@@ -109,13 +109,13 @@ export function HotspotImages(base) {
         getRenderTemplate: function(state) {
             let marks = state.__marks;
             let Mark = ({ idKey, title, style, color }) => (
-                <ClickNHold style={style} time={1.5} mark={idKey} base={base}>
+                <MarkEditor style={style} time={1.5} mark={idKey} base={base}>
                     <OverlayTrigger key={idKey} text={title} placement="top" overlay={<Tooltip id={idKey}>{title}</Tooltip>}>
                         <a className="mapMarker" href="#">
                             <i key="i" style={{ color: color }} className="material-icons">room</i>
                         </a>
                     </OverlayTrigger>
-                </ClickNHold>);
+                </MarkEditor>);
 
             let markElements = Object.keys(marks).map((id) =>{
                 let value = marks[id].value;

@@ -3,7 +3,7 @@ import { findDOMNode } from 'react-dom';
 import ReactPlayer from 'react-player';
 import screenfull from 'screenfull';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
-import ClickNHold from '../../../_editor/components/rich_plugins/click_n_hold/ClickNHold';
+import MarkEditor from '../../../_editor/components/rich_plugins/mark_editor/MarkEditor';
 
 export default class EnrichedPlayerPlugin extends React.Component {
     constructor(props) {
@@ -85,7 +85,7 @@ export default class EnrichedPlayerPlugin extends React.Component {
             let color = marks[id].color;
 
             return(
-                <ClickNHold key={id} style={{ left: value, position: "absolute" }} time={1.5} mark={id} base={this.props.base}>
+                <MarkEditor key={id} style={{ left: value, position: "absolute" }} time={1.5} mark={id} base={this.props.base}>
                     <a key={id} href="#">
                         <div style={{ width: "4px", height: "8px", background: color || "#1fc8db" }}>
                             <OverlayTrigger key={id} text={title} placement="top" overlay={<Tooltip id={id}>{title}</Tooltip>}>
@@ -93,7 +93,7 @@ export default class EnrichedPlayerPlugin extends React.Component {
                             </OverlayTrigger>
                         </div>
                     </a>
-                </ClickNHold>);
+                </MarkEditor>);
         });
         /* jshint ignore:start */
         return (
