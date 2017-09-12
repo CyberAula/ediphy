@@ -34,7 +34,7 @@
     overflow-y: auto;
 
     .form-group {
-        margin: 5px 0;
+        margin: 10px 0;
     }
     /* Input text */
     .form-control {
@@ -250,7 +250,7 @@ a.toggle-switch---switch---3EchW {
     float: right;
     margin-right: 12px;
     position: relative;
-    top: 50px;
+    top: 42px;
     right: 4px;
     font-size: 0.9em;
 }
@@ -440,4 +440,35 @@ a.toggle-switch---switch---3EchW {
 
 .popover.bottom > .arrow::after {
     border-bottom-color: inherit;
+}
+
+
+input[type="radio"] {
+    background-color: #fff;
+    background-image: -webkit-linear-gradient(0deg, transparent 20%, hsla(0,0%,100%,.7), transparent 80%),
+    -webkit-linear-gradient(90deg, transparent 20%, hsla(0,0%,100%,.7), transparent 80%);
+    border-radius: 10px;
+    cursor: pointer;
+    display: inline-block;
+    height: 16px;
+    margin-right: 16px;
+    position: relative;
+    width: 16px;
+    border: 2px solid #ccc;
+    -webkit-appearance: none;
+}
+input[type="radio"]:after {
+    background-color: #fff;
+    border-radius: 50%;
+    content: '';
+    display: block;
+    height: 8px;
+    left: 2px;
+    position: relative;
+    top: 2px;
+    width: 8px;
+}
+input[type="radio"]:checked:after {
+    background-color: #1fc8db;
+
 }

@@ -34,7 +34,6 @@ export default class PlayerPlugin extends React.Component {
     }
 
     setPlaybackRate(e) {
-        console.log(parseFloat(e.target.value));
         this.setState({ playbackRate: parseFloat(e.target.value) });
     }
 

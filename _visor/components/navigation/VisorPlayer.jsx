@@ -6,7 +6,7 @@ import Dali from './../../../core/main';
 import { isPage } from '../../../common/utils';
 import { toggleFullScreen, isFullScreenOn, fullScreenListener } from '../../../common/common_tools';
 import 'bootstrap/dist/css/bootstrap.css';
-
+import screenfull from 'screenfull';
 /**
  * Visor's navigation buttons
  */
@@ -20,10 +20,6 @@ export default class VisorPlayer extends Component {
         this.state = {
             isFullScreenOn: isFullScreenOn(),
         };
-        /**
-         * Binded function
-         */
-        this.checkFullScreen = this.checkFullScreen.bind(this);
     }
 
     /**
@@ -81,7 +77,11 @@ export default class VisorPlayer extends Component {
                 <OverlayTrigger placement="bottom" delay={0} trigger={['hover']} rootClose overlay={this.createTooltip("fullscreen", i18n.t("messages.fullscreen"))}>
                     <Button className="playerButton"
                         bsStyle="primary"
-                        onClick={(e)=>{toggleFullScreen(); this.setState({ isFullScreenOn: isFullScreenOn() });}}>
+                        onClick={(e)=>{
+                            let el = document.getElementById('root');
+                            // let el = document.documentElement;
+                            screenfull.toggle(el);
+                            this.setState({ isFullScreenOn: isFullScreenOn() });}}>
                         {this.state.isFullScreenOn ?
                             (<i className="material-icons">fullscreen_exit</i>) :
                             (<i className="material-icons">fullscreen</i>)}
@@ -106,28 +106,6 @@ export default class VisorPlayer extends Component {
             }
             return null;
         });
-    }
-
-    /**
-     * Adds fullscreen listener
-     */
-    componentDidMount() {
-        fullScreenListener(this.checkFullScreen, true);
-
-    }
-
-    /**
-     * Removes fullscreen listener
-     */
-    componentWillUnmount() {
-        fullScreenListener(this.checkFullScreen, false);
-    }
-
-    /**
-     * Checks if browser's in fullscreen mode and updates state
-     */
-    checkFullScreen() {
-        this.setState({ isFullScreenOn: isFullScreenOn() });
     }
 
 }

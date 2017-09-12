@@ -244,7 +244,6 @@ export function exportStateAsync(state) {
         // In this case, we return a promise to wait for.
         // This is not required by thunk middleware, but it is convenient for us.
         if (process.env.NODE_ENV !== 'production' || dali_editor_params === undefined) {
-            console.log(state);
             return fetch(Dali.Config.export_url, {
                 method: 'POST',
                 headers: {

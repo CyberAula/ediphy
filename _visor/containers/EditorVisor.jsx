@@ -98,6 +98,12 @@ export default class Visor extends Component {
             this.setState({ triggeredMarks: [] });
         }
 
+        // reset marks when going between connected marks that are main sections
+        if (this.state.currentView.length > 1 && this.state.currentView.filter((i, v, a) => i.indexOf("pa-") !== -1).length > 1) {
+            this.setState({ currentView: [this.state.currentView[this.state.currentView.length - 1]] });
+        }
+
+        // Mark triggering mechanism
         if(nextState.triggeredMarks.length !== 0 && this.returnTriggereableMark(nextState.triggeredMarks)) {
             let newMark = this.returnTriggereableMark(nextState.triggeredMarks);
 
@@ -109,6 +115,7 @@ export default class Visor extends Component {
                 return mark;
             });
 
+            // New or existing mark
             if(newMark.connectMode === 'new' || newMark.connectMode === "existing") {
 
                 let array_trigger_mark = this.santinizeViewsArray(nextState.triggeredMarks, nextState.currentView.concat([newMark.connection]));
@@ -120,8 +127,8 @@ export default class Visor extends Component {
                     triggeredMarks: nextState.triggeredMarks,
                 });
 
+            // External target
             } else if(newMark.connectMode === "external") {
-
                 let win = window.open(newMark.connection, '_blank');
                 win.focus();
                 let shiftExternal = nextState.triggeredMarks;
@@ -365,9 +372,12 @@ export default class Visor extends Component {
         triggeredMarks.forEach(mark=>{
             if(mark.currentState === "DONE" && final_array.indexOf(mark.connection) !== -1) {
                 final_array.splice(final_array.indexOf(mark.connection), 1);
-
             }
         });
+
+        final_array = final_array.reverse().filter((v, i, a) => {
+            return a.indexOf(v) === i || v.indexOf("pa-") === -1;
+        }).reverse();
 
         return final_array;
     }

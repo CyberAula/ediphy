@@ -173,12 +173,14 @@ export default class ClickNHold extends Component {
             document.body.style.cursor = 'default';
             boxStyle.classList.remove('norotate');
             window.removeEventListener('keyup', keyListener);
-            window.removeEventListener('mouseup', clickOutside);
+            document.documentElement.removeEventListener('mouseup', clickOutside);
             if (overlay) {
                 overlay.remove();
             }
             dropableElement.classList.remove('rich_overlay');
-            component.setState({ editing: false });
+            /* if(component) {
+                component.setState({ editing: false });
+            }*/
             base.render('UPDATE_BOX');
         };
 
@@ -216,6 +218,7 @@ export default class ClickNHold extends Component {
             }
             document.body.style.cursor = 'default';
             boxStyle.classList.remove('norotate');
+            document.documentElement.removeEventListener('mouseup', clickOutside, true);
             window.removeEventListener('keyup', keyListener);
             overlay.remove();
             dropableElement.classList.remove('rich_overlay');

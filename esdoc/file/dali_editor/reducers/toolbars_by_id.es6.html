@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../../">
+  <title data-ice="title">dali_editor/reducers/toolbars_by_id.es6 | Dali Editor</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+<meta name="description" content="e-learning authoring tool"><meta property="twitter:card" content="summary"><meta property="twitter:title" content="Dali Editor"><meta property="twitter:description" content="e-learning authoring tool"></head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+<a style="position:relative; top:3px;" href="https://github.com/ging/dali_editor"><img width="20px" src="./image/github.png"></a></header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#-editor-components-autosave">_editor/components/autosave</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/dali_editor/_editor/components/autosave/AutoSave.jsx~AutoSave.html">AutoSave</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#-editor-components-canvas-dali-box">_editor/components/canvas/dali_box</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/dali_editor/_editor/components/canvas/dali_box/DaliBox.jsx~DaliBox.html">DaliBox</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#-editor-components-canvas-dali-box-sortable">_editor/components/canvas/dali_box_sortable</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/dali_editor/_editor/components/canvas/dali_box_sortable/DaliBoxSortable.jsx~DaliBoxSortable.html">DaliBoxSortable</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#-editor-components-canvas-dali-canvas">_editor/components/canvas/dali_canvas</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/dali_editor/_editor/components/canvas/dali_canvas/DaliCanvas.jsx~DaliCanvas.html">DaliCanvas</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#-editor-components-canvas-dali-canvas-doc">_editor/components/canvas/dali_canvas_doc</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/dali_editor/_editor/components/canvas/dali_canvas_doc/DaliCanvasDoc.jsx~DaliCanvasDoc.html">DaliCanvasDoc</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#-editor-components-canvas-dali-canvas-sli">_editor/components/canvas/dali_canvas_sli</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/dali_editor/_editor/components/canvas/dali_canvas_sli/DaliCanvasSli.jsx~DaliCanvasSli.html">DaliCanvasSli</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#-editor-components-canvas-dali-header">_editor/components/canvas/dali_header</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/dali_editor/_editor/components/canvas/dali_header/DaliHeader.jsx~DaliHeader.html">DaliHeader</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#-editor-components-canvas-dali-shortcuts">_editor/components/canvas/dali_shortcuts</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/dali_editor/_editor/components/canvas/dali_shortcuts/DaliShortcuts.jsx~DaliShortcuts.html">DaliShortcuts</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#-editor-components-canvas-plugin-placeholder">_editor/components/canvas/plugin_placeholder</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/dali_editor/_editor/components/canvas/plugin_placeholder/PluginPlaceholder.jsx~PluginPlaceholder.html">PluginPlaceholder</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#-editor-components-carrousel-carrousel-list">_editor/components/carrousel/carrousel_list</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/dali_editor/_editor/components/carrousel/carrousel_list/CarrouselList.jsx~CarrouselList.html">CarrouselList</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#-editor-components-carrousel-dali-carrousel">_editor/components/carrousel/dali_carrousel</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/dali_editor/_editor/components/carrousel/dali_carrousel/DaliCarousel.jsx~DaliCarousel.html">DaliCarousel</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#-editor-components-carrousel-dali-index-title">_editor/components/carrousel/dali_index_title</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/dali_editor/_editor/components/carrousel/dali_index_title/DaliIndexTitle.jsx~DaliIndexTitle.html">DaliIndexTitle</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#-editor-components-carrousel-page-menu">_editor/components/carrousel/page_menu</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/dali_editor/_editor/components/carrousel/page_menu/PageMenu.jsx~PageMenu.html">PageMenu</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#-editor-components-carrousel-section">_editor/components/carrousel/section</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/dali_editor/_editor/components/carrousel/section/Section.jsx~Section.html">Section</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#-editor-components-carrousel-thumbnails">_editor/components/carrousel/thumbnails</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/dali_editor/_editor/components/carrousel/thumbnails/Thumbnail.jsx~Thumbnail.html">Thumbnail</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#-editor-components-common-alert">_editor/components/common/alert</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/dali_editor/_editor/components/common/alert/Alert.jsx~Alert.html">Alert</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#-editor-components-common-color-picker">_editor/components/common/color-picker</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/dali_editor/_editor/components/common/color-picker/ColorPicker.jsx~ColorPicker.html">ColorPicker</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#-editor-components-common-file-input">_editor/components/common/file-input</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/dali_editor/_editor/components/common/file-input/FileInput.jsx~FileInput.html">FileInput</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#-editor-components-nav-bar-dali-nav-bar">_editor/components/nav_bar/dali_nav_bar</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/dali_editor/_editor/components/nav_bar/dali_nav_bar/DaliNavBar.jsx~DaliNavBar.html">DaliNavBar</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#-editor-components-nav-bar-global-config">_editor/components/nav_bar/global_config</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/dali_editor/_editor/components/nav_bar/global_config/GlobalConfig.jsx~GlobalConfig.html">GlobalConfig</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-contextOptions">contextOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-languages">languages</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-rightsOptions">rightsOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-statusOptions">statusOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-suggestions">suggestions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-difLevels">difLevels</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#-editor-components-nav-bar-global-config-range-slider">_editor/components/nav_bar/global_config/range_slider</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/dali_editor/_editor/components/nav_bar/global_config/range_slider/RangeSlider.jsx~RangeSlider.html">RangeSlider</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#-editor-components-nav-bar-plugin-ribbon">_editor/components/nav_bar/plugin_ribbon</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/dali_editor/_editor/components/nav_bar/plugin_ribbon/PluginRibbon.jsx~PluginRibbon.html">PluginRibbon</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#-editor-components-plugin-config-modal">_editor/components/plugin_config_modal</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/dali_editor/_editor/components/plugin_config_modal/PluginConfigModal.jsx~PluginConfigModal.html">PluginConfigModal</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#-editor-components-rich-plugins-click-n-hold">_editor/components/rich_plugins/click_n_hold</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/dali_editor/_editor/components/rich_plugins/click_n_hold/ClickNHold.jsx~ClickNHold.html">ClickNHold</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#-editor-components-rich-plugins-contained-canvas">_editor/components/rich_plugins/contained_canvas</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/dali_editor/_editor/components/rich_plugins/contained_canvas/ContainedCanvas.jsx~ContainedCanvas.html">ContainedCanvas</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#-editor-components-rich-plugins-mark-creator">_editor/components/rich_plugins/mark_creator</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/dali_editor/_editor/components/rich_plugins/mark_creator/MarkCreator.jsx~MarkCreator.html">MarkCreator</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#-editor-components-rich-plugins-marks-list">_editor/components/rich_plugins/marks_list</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/dali_editor/_editor/components/rich_plugins/marks_list/MarksList.jsx~MarksList.html">MarksList</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#-editor-components-rich-plugins-rich-marks-modal">_editor/components/rich_plugins/rich_marks_modal</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/dali_editor/_editor/components/rich_plugins/rich_marks_modal/RichMarksModal.jsx~RichMarksModal.html">RichMarksModal</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#-editor-components-server-feedback">_editor/components/server_feedback</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/dali_editor/_editor/components/server_feedback/ServerFeedback.jsx~ServerFeedback.html">ServerFeedback</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#-editor-components-toolbar-grid-configurator">_editor/components/toolbar/grid_configurator</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/dali_editor/_editor/components/toolbar/grid_configurator/GridConfigurator.jsx~GridConfigurator.html">GridConfigurator</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#-editor-components-toolbar-plugin-toolbar">_editor/components/toolbar/plugin_toolbar</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/dali_editor/_editor/components/toolbar/plugin_toolbar/PluginToolbar.jsx~PluginToolbar.html">PluginToolbar</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#-editor-components-toolbar-radio-button-form-group">_editor/components/toolbar/radio_button_form_group</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/dali_editor/_editor/components/toolbar/radio_button_form_group/RadioButtonFormGroup.jsx~RadioButtonFormGroup.html">RadioButtonFormGroup</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#-editor-components-vish-provider">_editor/components/vish_provider</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/dali_editor/_editor/components/vish_provider/VishCatalogModal.jsx~VishCatalogModal.html">VishCatalogModal</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#-editor-components-vish-provider-vish-provider">_editor/components/vish_provider/vish_provider</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/dali_editor/_editor/components/vish_provider/vish_provider/VishProvider.jsx~VishProvider.html">VishProvider</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#-editor-components-vish-provider-vish-searcher-modal">_editor/components/vish_provider/vish_searcher_modal</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/dali_editor/_editor/components/vish_provider/vish_searcher_modal/VishSearcherModal.jsx~VishSearcherModal.html">VishSearcherModal</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#-editor-components-vish-provider-vish-uploader-modal">_editor/components/vish_provider/vish_uploader_modal</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/dali_editor/_editor/components/vish_provider/vish_uploader_modal/VishDropzone.jsx~VishDropzone.html">VishDropzone</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/dali_editor/_editor/components/vish_provider/vish_uploader_modal/VishUploaderModal.jsx~VishUploaderModal.html">VishUploaderModal</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#-editor-components-xml-config-modal">_editor/components/xml_config_modal</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/dali_editor/_editor/components/xml_config_modal/XMLConfigModal.jsx~XMLConfigModal.html">XMLConfigModal</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#-editor-containers">_editor/containers</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/dali_editor/_editor/containers/ReduxProvider.jsx~ReduxProvider.html">ReduxProvider</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-DevTools">DevTools</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#-visor-components-canvas">_visor/components/canvas</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/dali_editor/_visor/components/canvas/BoxSortableVisor.jsx~BoxSortableVisor.html">BoxSortableVisor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/dali_editor/_visor/components/canvas/BoxVisor.jsx~BoxVisor.html">BoxVisor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/dali_editor/_visor/components/canvas/CanvasVisor.jsx~CanvasVisor.html">CanvasVisor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/dali_editor/_visor/components/canvas/CanvasVisorDoc.jsx~CanvasVisorDoc.html">CanvasVisorDoc</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/dali_editor/_visor/components/canvas/CanvasVisorSli.jsx~CanvasVisorSli.html">CanvasVisorSli</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/dali_editor/_visor/components/canvas/ContainedCanvasVisor.jsx~ContainedCanvasVisor.html">ContainedCanvasVisor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/dali_editor/_visor/components/canvas/HeaderVisor.jsx~HeaderVisor.html">HeaderVisor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/dali_editor/_visor/components/canvas/PluginPlaceholderVisor.jsx~PluginPlaceholderVisor.html">PluginPlaceholderVisor</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#-visor-components-navigation">_visor/components/navigation</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/dali_editor/_visor/components/navigation/SideNavVisor.jsx~SideNavVisor.html">SideNavVisor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/dali_editor/_visor/components/navigation/VisorNavSection.jsx~VisorNavSection.html">VisorNavSection</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/dali_editor/_visor/components/navigation/VisorPlayer.jsx~VisorPlayer.html">VisorPlayer</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#-visor-components-scorm">_visor/components/scorm</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/dali_editor/_visor/components/scorm/ScormComponent.jsx~ScormComponent.html">ScormComponent</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#-visor-containers">_visor/containers</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/dali_editor/_visor/containers/EditorVisor.jsx~Visor.html">Visor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/dali_editor/_visor/containers/Visor.jsx~Visor.html">Visor</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#common">common</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-addBox">addBox</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-addContainedView">addContainedView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-addNavItem">addNavItem</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-addRichMark">addRichMark</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-changeCols">changeCols</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-changeContainedViewName">changeContainedViewName</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-changeDisplayMode">changeDisplayMode</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-changeGlobalConfig">changeGlobalConfig</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-changeNavItemName">changeNavItemName</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-changeRows">changeRows</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-changeSortableProps">changeSortableProps</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-changeUnitNumber">changeUnitNumber</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-deleteBox">deleteBox</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-deleteContainedView">deleteContainedView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-deleteNavItem">deleteNavItem</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-deleteRichMark">deleteRichMark</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-deleteSortableContainer">deleteSortableContainer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-dropBox">dropBox</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-duplicateBox">duplicateBox</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-editRichMark">editRichMark</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-expandNavItem">expandNavItem</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-exportStateAsync">exportStateAsync</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-fetchVishResourcesAsync">fetchVishResourcesAsync</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-fetchVishResourcesSuccess">fetchVishResourcesSuccess</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-importState">importState</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-importStateAsync">importStateAsync</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-increaseBoxLevel">increaseBoxLevel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-moveBox">moveBox</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-reorderBoxes">reorderBoxes</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-reorderNavItem">reorderNavItem</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-reorderSortableContainer">reorderSortableContainer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-resizeBox">resizeBox</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-resizeSortableContainer">resizeSortableContainer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-selectBox">selectBox</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-selectContainedView">selectContainedView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-selectIndex">selectIndex</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-selectNavItem">selectNavItem</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-setBusy">setBusy</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-toggleNavItem">toggleNavItem</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-toggleTextEditor">toggleTextEditor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-toggleTitleMode">toggleTitleMode</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-updateBox">updateBox</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-updateNavItemExtraFiles">updateNavItemExtraFiles</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-updateToolbar">updateToolbar</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-uploadImage">uploadImage</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-uploadVishResourceAsync">uploadVishResourceAsync</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-verticallyAlignBox">verticallyAlignBox</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-aspectRatio">aspectRatio</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-exitFullScreen">exitFullScreen</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-isFullScreenOn">isFullScreenOn</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-requestFullScreen">requestFullScreen</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-toggleFullScreen">toggleFullScreen</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-ADD_BOX">ADD_BOX</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-ADD_CONTAINED_VIEW">ADD_CONTAINED_VIEW</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-ADD_NAV_ITEM">ADD_NAV_ITEM</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-ADD_RICH_MARK">ADD_RICH_MARK</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-CHANGE_COLS">CHANGE_COLS</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-CHANGE_CONTAINED_VIEW_NAME">CHANGE_CONTAINED_VIEW_NAME</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-CHANGE_DISPLAY_MODE">CHANGE_DISPLAY_MODE</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-CHANGE_GLOBAL_CONFIG">CHANGE_GLOBAL_CONFIG</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-CHANGE_NAV_ITEM_NAME">CHANGE_NAV_ITEM_NAME</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-CHANGE_ROWS">CHANGE_ROWS</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-CHANGE_SORTABLE_PROPS">CHANGE_SORTABLE_PROPS</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-CHANGE_UNIT_NUMBER">CHANGE_UNIT_NUMBER</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-DELETE_BOX">DELETE_BOX</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-DELETE_CONTAINED_VIEW">DELETE_CONTAINED_VIEW</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-DELETE_NAV_ITEM">DELETE_NAV_ITEM</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-DELETE_RICH_MARK">DELETE_RICH_MARK</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-DELETE_SORTABLE_CONTAINER">DELETE_SORTABLE_CONTAINER</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-DROP_BOX">DROP_BOX</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-DUPLICATE_BOX">DUPLICATE_BOX</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-EDIT_PLUGIN_TEXT">EDIT_PLUGIN_TEXT</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-EDIT_RICH_MARK">EDIT_RICH_MARK</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-EXPAND_NAV_ITEM">EXPAND_NAV_ITEM</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-FETCH_VISH_RESOURCES_SUCCESS">FETCH_VISH_RESOURCES_SUCCESS</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-IMPORT_STATE">IMPORT_STATE</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-INCREASE_LEVEL">INCREASE_LEVEL</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-INDEX_SELECT">INDEX_SELECT</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-MOVE_BOX">MOVE_BOX</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-REORDER_BOXES">REORDER_BOXES</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-REORDER_NAV_ITEM">REORDER_NAV_ITEM</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-REORDER_SORTABLE_CONTAINER">REORDER_SORTABLE_CONTAINER</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-RESIZE_BOX">RESIZE_BOX</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-RESIZE_SORTABLE_CONTAINER">RESIZE_SORTABLE_CONTAINER</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-SELECT_BOX">SELECT_BOX</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-SELECT_CONTAINED_VIEW">SELECT_CONTAINED_VIEW</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-SELECT_NAV_ITEM">SELECT_NAV_ITEM</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-SET_BUSY">SET_BUSY</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-TOGGLE_NAV_ITEM">TOGGLE_NAV_ITEM</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-TOGGLE_TEXT_EDITOR">TOGGLE_TEXT_EDITOR</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-TOGGLE_TITLE_MODE">TOGGLE_TITLE_MODE</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-UPDATE_BOX">UPDATE_BOX</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-UPDATE_NAV_ITEM_EXTRA_FILES">UPDATE_NAV_ITEM_EXTRA_FILES</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-UPDATE_TOOLBAR">UPDATE_TOOLBAR</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-UPLOAD_IMAGE">UPLOAD_IMAGE</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-VERTICALLY_ALIGN_BOX">VERTICALLY_ALIGN_BOX</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-ID_PREFIX_BOX">ID_PREFIX_BOX</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-ID_PREFIX_CONTAINED_VIEW">ID_PREFIX_CONTAINED_VIEW</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-ID_PREFIX_PAGE">ID_PREFIX_PAGE</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-ID_PREFIX_RICH_MARK">ID_PREFIX_RICH_MARK</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-ID_PREFIX_SECTION">ID_PREFIX_SECTION</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-ID_PREFIX_SLIDE">ID_PREFIX_SLIDE</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-ID_PREFIX_SORTABLE_BOX">ID_PREFIX_SORTABLE_BOX</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-ID_PREFIX_SORTABLE_CONTAINER">ID_PREFIX_SORTABLE_CONTAINER</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-PAGE_TYPES">PAGE_TYPES</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-SECTIONS_HAVE_CONTENT">SECTIONS_HAVE_CONTENT</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#core">core</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-api">api</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-api_private">api_private</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-base_plugin">base_plugin</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-plugins">plugins</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#core-scorm">core/scorm</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-changeInitialState">changeInitialState</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-changeLocation">changeLocation</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-finish">finish</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-init">init</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-savePreviousResults">savePreviousResults</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-setFinalScore">setFinalScore</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-ErrorHandler">ErrorHandler</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-doCommit">doCommit</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-doGetDiagnostic">doGetDiagnostic</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-doGetErrorString">doGetErrorString</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-doGetLastError">doGetLastError</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-doGetValue">doGetValue</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-doInitialize">doInitialize</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-doSetValue">doSetValue</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-doTerminate">doTerminate</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-findAPI">findAPI</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-findDataStore">findDataStore</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-findObjective">findObjective</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getAPI">getAPI</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getAPIHandle">getAPIHandle</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-message">message</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#core-visor">core/visor</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-base_plugin">base_plugin</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-plugins">plugins</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-basicimage">plugins/BasicImage</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-BasicImage">BasicImage</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-basicimage-visor">plugins/BasicImage/visor</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-BasicImage">BasicImage</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-basicplayer">plugins/BasicPlayer</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-BasicPlayer">BasicPlayer</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-basicplayer-components">plugins/BasicPlayer/components</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/dali_editor/plugins/BasicPlayer/components/PlayerPlugin.js~PlayerPlugin.html">PlayerPlugin</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/dali_editor/plugins/BasicPlayer/components/PlayerPluginEditor.js~PlayerPlugin.html">PlayerPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-basicplayer-visor">plugins/BasicPlayer/visor</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-BasicPlayer">BasicPlayer</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-basictext">plugins/BasicText</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-BasicText">BasicText</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-basicvideo">plugins/BasicVideo</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-BasicVideo">BasicVideo</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-container">plugins/Container</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-Container">Container</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-datatable">plugins/DataTable</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-DataTable">DataTable</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-datatable-components">plugins/DataTable/components</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/dali_editor/plugins/DataTable/components/chart-options.js~ChartOptions.html">ChartOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/dali_editor/plugins/DataTable/components/config-component.js~Config.html">Config</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/dali_editor/plugins/DataTable/components/data-provider.js~DataProvider.html">DataProvider</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/dali_editor/plugins/DataTable/components/table-component.js~TableComponent.html">TableComponent</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-enrichedplayer">plugins/EnrichedPlayer</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-EnrichedPlayer">EnrichedPlayer</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-enrichedplayer-components">plugins/EnrichedPlayer/components</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/dali_editor/plugins/EnrichedPlayer/components/EnrichedPlayerPlugin.js~EnrichedPlayerPlugin.html">EnrichedPlayerPlugin</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/dali_editor/plugins/EnrichedPlayer/components/EnrichedPlayerPluginEditor.js~EnrichedPlayerPlugin.html">EnrichedPlayerPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-enrichedplayer-visor">plugins/EnrichedPlayer/visor</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-EnrichedPlayer">EnrichedPlayer</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-graficad3">plugins/GraficaD3</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-GraficaD3">GraficaD3</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-graficad3-components">plugins/GraficaD3/components</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/dali_editor/plugins/GraficaD3/components/chart-component.js~Chart.html">Chart</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/dali_editor/plugins/GraficaD3/components/chart-options.js~ChartOptions.html">ChartOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/dali_editor/plugins/GraficaD3/components/config-component.js~Config.html">Config</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/dali_editor/plugins/GraficaD3/components/data-provider.js~DataProvider.html">DataProvider</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-hotspotimages">plugins/HotspotImages</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-HotspotImages">HotspotImages</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-hotspotimages-visor">plugins/HotspotImages/visor</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-HotspotImages">HotspotImages</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-richtext">plugins/RichText</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-RichText">RichText</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-virtualtour">plugins/VirtualTour</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-VirtualTour">VirtualTour</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-virtualtour-components">plugins/VirtualTour/components</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/dali_editor/plugins/VirtualTour/components/Map.js~Map.html">Map</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/dali_editor/plugins/VirtualTour/components/SearchBox.js~SearchBox.html">SearchBox</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-virtualtour-visor">plugins/VirtualTour/visor</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-VirtualTour">VirtualTour</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-webpage">plugins/Webpage</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-Webpage">Webpage</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-youtube">plugins/Youtube</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-Youtube">Youtube</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#reducers">reducers</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-box_level_selected">box_level_selected</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-box_selected">box_selected</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-boxes_by_id">boxes_by_id</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-contained_view_selected">contained_view_selected</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-contained_views_by_id">contained_views_by_id</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-global_config">global_config</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-index_selected">index_selected</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-nav_item_selected">nav_item_selected</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-nav_items_by_id">nav_items_by_id</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-nav_items_ids">nav_items_ids</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-toolbars_by_id">toolbars_by_id</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-GlobalState">GlobalState</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">dali_editor/reducers/toolbars_by_id.es6</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import { ADD_BOX, ADD_RICH_MARK, CHANGE_NAV_ITEM_NAME, DELETE_BOX, DELETE_RICH_MARK, DELETE_CONTAINED_VIEW, ADD_NAV_ITEM, DELETE_NAV_ITEM, DELETE_SORTABLE_CONTAINER, DUPLICATE_BOX,
+    EDIT_RICH_MARK, RESIZE_BOX, RESIZE_SORTABLE_CONTAINER, TOGGLE_TEXT_EDITOR, UPDATE_BOX, UPDATE_TOOLBAR, CHANGE_CONTAINED_VIEW_NAME,
+    VERTICALLY_ALIGN_BOX, IMPORT_STATE } from &apos;../common/actions&apos;;
+import Utils, { changeProp, changeProps, deleteProps, isSortableBox, isSortableContainer, isPage, isSlide, isDocument, nextToolbarAvailName } from &apos;../common/utils&apos;;
+import i18n from &apos;i18next&apos;;
+
+function createAspectRatioButton(controls, config) {
+    let arb = config.aspectRatioButtonConfig;
+    let button = {
+        __name: arb.name,
+        type: &quot;checkbox&quot;,
+        checked: arb.defaultValue,
+        autoManaged: true,
+    };
+    if (arb.location.length === 2) {
+        controls[arb.location[0]].accordions[arb.location[1]].buttons.__aspectRatio = button;
+    } else {
+        controls[arb.location[0]].accordions[arb.location[1]].accordions[arb.location[2]].buttons.__aspectRatio = button;
+    }
+}
+
+function createRichAccordions(controls) {
+    if (!controls.main) {
+        controls.main = {
+            __name: &quot;Main&quot;,
+            accordions: {
+                __marks_list: {
+                    key: &apos;marks_list&apos;,
+                    __name: i18n.t(&quot;marks.marks_list&quot;),
+                    icon: &apos;room&apos;,
+                    buttons: {},
+                }, /* ,
+                __content_list: {
+                    key: &apos;content_list&apos;,
+                    __name: &apos;Content List&apos;,
+                    icon: &apos;border_all&apos;,
+                    buttons: {}
+                }*/
+            },
+        };
+    }
+    if (!controls.main.accordions.__marks_list) {
+        controls.main.accordions.__marks_list = {
+            key: &apos;marks_list&apos;,
+            __name: i18n.t(&quot;marks.marks_list&quot;),
+            icon: &apos;room&apos;,
+            buttons: {},
+        };
+    }
+    /* if (!controls.main.accordions.__content_list) {
+        controls.main.accordions.__content_list = {
+            key: &apos;content_list&apos;,
+            __name: &apos;Content List&apos;,
+            icon: &apos;border_all&apos;,
+            buttons: {}
+        };
+    }*/
+}
+
+function createAliasButton(controls, state) {
+    if (!controls.main) {
+        controls.main = {
+            __name: &quot;Alias&quot;,
+            icon: &apos;rate_review&apos;,
+            accordions: {
+                z__extra: {
+                    __name: &quot;Alias&quot;,
+                    buttons: {},
+                },
+            },
+        };
+    } else if (!controls.main.accordions.z__extra) {
+        controls.main.accordions.z__extra = {
+            __name: &quot;Alias&quot;,
+            icon: &apos;rate_review&apos;,
+            buttons: {},
+        };
+    }
+    if (!controls.main.accordions.z__extra.buttons.alias) {
+        if(state === null) {
+            controls.main.accordions.z__extra.buttons.alias = {
+                __name: &apos;Alias&apos;,
+                type: &apos;text&apos;,
+                value: &quot;&quot;,
+                autoManaged: true,
+                isAttribute: true,
+            };
+        }else{
+            controls.main.accordions.z__extra.buttons.alias = Object.assign({}, state.controls.main.accordions.z__extra.buttons.alias);
+        }
+    }
+}
+
+function createSizeButtons(controls, state, action, floatingBox) {
+    if (!controls.main) {
+        controls.main = {
+            __name: &quot;Main&quot;,
+            accordions: {
+                __sortable: {
+                    key: &apos;structure&apos;,
+                    __name: i18n.t(&apos;Structure&apos;),
+                    icon: &apos;border_all&apos;,
+                    buttons: {},
+                },
+            },
+        };
+    } else if (!controls.main.accordions.__sortable) {
+        controls.main.accordions.__sortable = {
+            key: &apos;structure&apos;,
+            __name: i18n.t(&apos;Structure&apos;),
+            icon: &apos;border_all&apos;,
+            buttons: {},
+        };
+    }
+    let displayValue;
+    let value;
+    let units;
+    let type;
+
+    // It means we are creating a new one, initial params can come
+    if (state === null) {
+        if (floatingBox) {
+            displayValue = 25;
+            value = 25;
+            units = &quot;%&quot;;
+        } else {
+            displayValue = 25;
+            value = 25;
+            units = &quot;%&quot;;
+        }
+        type = &quot;number&quot;;
+
+        if (isSortableContainer(action.payload.ids.container) &amp;&amp;
+            isSortableBox(action.payload.ids.parent) &amp;&amp; !action.payload.config.needsTextEdition) {
+
+            displayValue = 25;
+            value = 25;
+            units = &apos;%&apos;;
+        }
+
+        let initialWidth = action.payload.initialParams.width;
+        if (initialWidth) {
+            if (initialWidth === &quot;auto&quot;) {
+                displayValue = &quot;auto&quot;;
+                units = &quot;%&quot;;
+                type = &quot;text&quot;;
+            } else {
+                displayValue = parseInt(initialWidth, 10);
+                value = parseInt(initialWidth, 10);
+                if (initialWidth.indexOf(&quot;px&quot;) !== -1) {
+                    units = &quot;px&quot;;
+                } else {
+                    units = &quot;%&quot;;
+                }
+            }
+        }
+
+    } else {
+        let width = state.controls.main.accordions.__sortable.buttons.__width;
+        displayValue = width.displayValue;
+        value = width.value;
+        units = width.units;
+        type = width.type;
+    }
+    controls.main.accordions.__sortable.buttons.__width = {
+        __name: i18n.t(&apos;Width&apos;),
+        type: type,
+        displayValue: displayValue,
+        value: value,
+        step: 5,
+        units: units,
+        auto: displayValue === &quot;auto&quot;,
+        autoManaged: true,
+    };
+    if (state === null) {
+        let initialHeight = action.payload.initialParams.height;
+        if (initialHeight) {
+            if (initialHeight === &quot;auto&quot;) {
+                displayValue = &quot;auto&quot;;
+                units = &quot;%&quot;;
+                type = &quot;text&quot;;
+            } else {
+                displayValue = parseInt(initialHeight, 10);
+                value = parseInt(initialHeight, 10);
+                if (initialHeight.indexOf(&quot;px&quot;) !== -1) {
+                    units = &quot;px&quot;;
+                } else {
+                    units = &quot;%&quot;;
+                }
+            }
+        } else {
+            value = &quot;20&quot;;
+            displayValue = &quot;auto&quot;;
+            units = &quot;%&quot;;
+            type = &quot;text&quot;;
+        }
+
+    } else {
+        let height = state.controls.main.accordions.__sortable.buttons.__height;
+        type = height.type;
+        displayValue = height.displayValue;
+        value = height.value;
+        units = height.units;
+        /* controls.main.accordions.__sortable.buttons.__height = {
+         __name: i18n.t(&apos;Height&apos;),
+         type: height.type,
+         displayValue: height.displayValue,
+         value: height.value,
+         step: 5,
+         units: height.units,
+         auto: height.displayValue === &quot;auto&quot;,
+         autoManaged: true
+         };*/
+    }
+    controls.main.accordions.__sortable.buttons.__height = {
+        __name: i18n.t(&apos;Height&apos;),
+        type: type,
+        displayValue: displayValue,
+        value: value,
+        step: 5,
+        units: units,
+        auto: displayValue === &quot;auto&quot;,
+        autoManaged: true,
+    };
+
+    if (state === null) {
+        controls.main.accordions.__sortable.buttons.__rotate = {
+            __name: i18n.t(&apos;Rotate&apos;),
+            type: &apos;range&apos;,
+            value: 0,
+            min: 0,
+            max: 360,
+            autoManaged: false,
+        };
+
+    } else {
+        // let hasPositionButton = action.payload.toolbar &amp;&amp; action.payload.toolbar.main &amp;&amp; action.payload.toolbar.main.accordions &amp;&amp; action.payload.toolbar.main.accordions.__sortable &amp;&amp; action.payload.toolbar.main.accordions.__sortable.buttons &amp;&amp; action.payload.toolbar.main.accordions.__sortable.buttons.__position;
+        let hasButton = state.controls &amp;&amp; state.controls.main &amp;&amp; state.controls.main.accordions &amp;&amp; state.controls.main.accordions.__sortable &amp;&amp; state.controls.main.accordions.__sortable.buttons &amp;&amp; state.controls.main.accordions.__sortable.buttons.__rotate;
+
+        if (hasButton) {
+            controls.main.accordions.__sortable.buttons.__rotate = {
+                __name: i18n.t(&apos;Rotate&apos;),
+                type: &apos;range&apos;,
+                value: state.controls.main.accordions.__sortable.buttons.__rotate.value,
+                min: 0,
+                max: 360,
+                autoManaged: true,
+            };
+        }
+
+    }
+
+    // This will be commented until it&apos;s working correctly
+    if (state === null) {
+        if (!floatingBox) {
+            controls.main.accordions.__sortable.buttons.__position = {
+                __name: i18n.t(&apos;Position&apos;),
+                type: &apos;radio&apos;,
+                value: &apos;relative&apos;,
+                options: [&apos;absolute&apos;, &apos;relative&apos;],
+                autoManaged: true,
+            };
+        }
+
+    } else {
+        // let hasPositionButton = action.payload.toolbar &amp;&amp; action.payload.toolbar.main &amp;&amp; action.payload.toolbar.main.accordions &amp;&amp; action.payload.toolbar.main.accordions.__sortable &amp;&amp; action.payload.toolbar.main.accordions.__sortable.buttons &amp;&amp; action.payload.toolbar.main.accordions.__sortable.buttons.__position;
+        let hasPositionButton = state.controls &amp;&amp; state.controls.main &amp;&amp; state.controls.main.accordions &amp;&amp; state.controls.main.accordions.__sortable &amp;&amp; state.controls.main.accordions.__sortable.buttons &amp;&amp; state.controls.main.accordions.__sortable.buttons.__position;
+
+        if (!floatingBox &amp;&amp; hasPositionButton) {
+            controls.main.accordions.__sortable.buttons.__position = {
+                __name: i18n.t(&apos;Position&apos;),
+                type: &apos;radio&apos;,
+                value: state.controls.main.accordions.__sortable.buttons.__position.value,
+                options: [&apos;absolute&apos;, &apos;relative&apos;],
+                autoManaged: true,
+            };
+        }
+
+    }
+
+    /*
+       controls.main.accordions.__sortable.buttons.__verticalAlign = {
+       __name: i18n.t(&apos;Vertical_align&apos;),
+       type: &apos;fancy_radio&apos;,
+       value: &apos;middle&apos;,
+       options: [&apos;top&apos;, &apos;middle&apos;, &apos;bottom&apos;],
+       tooltips: [i18n.t(&apos;messages.align_top&apos;), i18n.t(&apos;messages.align_middle&apos;), i18n.t(&apos;messages.align_bottom&apos;)],
+       icons: [&apos;vertical_align_top&apos;, &apos;vertical_align_center&apos;, &apos;vertical_align_bottom&apos;],
+       autoManaged: true
+       };
+       */
+
+}
+
+function toolbarCreator(state, action) {
+    let toolbar = {
+        id: action.payload.ids.id,
+        controls: action.payload.toolbar || {
+            main: {
+                __name: &quot;Main&quot;,
+                accordions: {},
+            },
+        },
+        config: action.payload.config || {},
+        state: action.payload.state || {},
+        showTextEditor: false,
+    };
+    if (isSortableBox(action.payload.ids.id)) {
+        toolbar.config.displayName = i18n.t(&apos;Container_&apos;);
+    }
+    if(!isSortableBox(action.payload.ids.id)) {
+        createSizeButtons(toolbar.controls, null, action, !isSortableContainer(action.payload.ids.container));
+        createAliasButton(toolbar.controls, null);
+    }
+    if (toolbar.config &amp;&amp; toolbar.config.aspectRatioButtonConfig) {
+        createAspectRatioButton(toolbar.controls, toolbar.config);
+    }
+    if (toolbar.config &amp;&amp; toolbar.config.isRich) {
+        createRichAccordions(toolbar.controls);
+    }
+
+    return toolbar;
+}
+
+function toolbarSectionCreator(state, action, isContainedView = false) {
+    let doc_type;
+    let id = isContainedView ? action.payload.mark.connection.id : action.payload.id;
+    let type = isContainedView ? action.payload.mark.connection.type : action.payload.type;
+    if (isPage(id)) {
+        doc_type = i18n.t(&apos;page&apos;);
+    }
+    if(isSlide(type)) {
+        doc_type = i18n.t(&apos;slide&apos;);
+    }
+
+    if(isDocument(type)) {
+        doc_type = i18n.t(&apos;document&apos;);
+    }
+    let pagetitle = i18n.t(&apos;Title&apos;) + doc_type;
+    let toolbar = {
+        id: id,
+        controls: action.payload.toolbar || {
+            main: {
+                __name: &quot;Main&quot;,
+                accordions: { // define accordions for section
+                    basic: {
+                        __name: &quot;Generales&quot;,
+                        icon: &apos;settings&apos;,
+                        buttons: {
+                            page_display: {
+                                __name: i18n.t(&apos;display_page&apos;),
+                                type: &apos;checkbox&apos;,
+                                checked: true,
+                                autoManaged: false,
+                            },
+                            navitem_name: {
+                                __name: i18n.t(&apos;NavItem_name&apos;),
+                                type: &apos;text&apos;,
+                                value: isContainedView ? action.payload.mark.connection.name /* nextToolbarAvailName(i18n.t(&apos;contained_view&apos;), state)*/ : doc_type,
+                                autoManaged: false,
+                            },
+                        },
+                    },
+                    header: {
+                        __name: i18n.t(&apos;Header&apos;),
+                        icon: &apos;format_color_text&apos;,
+                        buttons: {
+                            display_title: {
+                                __name: i18n.t(&apos;course_title&apos;),
+                                type: &apos;checkbox&apos;,
+                                checked: false,
+                                autoManaged: false,
+                            },
+                            display_pagetitle: {
+                                __name: pagetitle,
+                                type: &apos;checkbox&apos;,
+                                checked: true,
+                                autoManaged: false,
+                            },
+                            pagetitle_name: {
+                                __name: &quot;custom_title&quot;,
+                                type: &apos;conditionalText&apos;,
+                                associatedKey: &apos;display_pagetitle&apos;,
+                                value: &quot;&quot;,
+                                autoManaged: false,
+                                display: true,
+                            },
+                            display_pagesubtitle: {
+                                __name: i18n.t(&apos;subtitle&apos;),
+                                type: &apos;checkbox&apos;,
+                                checked: false,
+                                autoManaged: false,
+                            },
+                            pagesubtitle_name: {
+                                __name: &quot;custom_subtitle&quot;,
+                                type: &apos;conditionalText&apos;,
+                                associatedKey: &apos;display_pagesubtitle&apos;,
+                                value: &quot;&quot;,
+                                autoManaged: false,
+                                display: true,
+                            },
+
+                        },
+
+                    },
+                },
+            },
+        },
+        config: action.payload.config || {},
+        state: action.payload.state || {},
+
+    };
+
+    if (!isContainedView &amp;&amp; toolbar.controls &amp;&amp; toolbar.controls.main &amp;&amp; toolbar.controls.main.accordions.header &amp;&amp; toolbar.controls.main.accordions.header.buttons) {
+        toolbar.controls.main.accordions.header.buttons.display_breadcrumb = {
+            __name: i18n.t(&apos;Breadcrumb&apos;),
+            type: &apos;checkbox&apos;,
+            checked: true,
+            autoManaged: false,
+        };
+        toolbar.controls.main.accordions.header.buttons.display_pagenumber = {
+            __name: i18n.t(&apos;pagenumber&apos;),
+            type: &apos;checkbox&apos;,
+            checked: false,
+            autoManaged: false,
+        };
+        toolbar.controls.main.accordions.header.buttons.pagenumber_name = {
+            __name: &quot;custom_pagenum&quot;,
+            type: &apos;conditionalText&apos;,
+            associatedKey: &apos;display_pagenumber&apos;,
+            value: &quot;&quot;,
+            autoManaged: false,
+            display: true,
+        };
+    }
+    toolbar.config.displayName = isContainedView ? doc_type + &apos;: &apos; + i18n.t(&quot;contained_view&quot;) : doc_type;
+
+    createAliasButton(toolbar.controls, null);
+
+    return toolbar;
+}
+
+function toolbarReducer(state, action) {
+    let newState;
+    switch (action.type) {
+    case ADD_RICH_MARK:
+        return changeProp(state, &quot;state&quot;, action.payload.state);
+    case CHANGE_NAV_ITEM_NAME:
+        newState = Utils.deepClone(state);
+        newState.controls.main.accordions.basic.buttons.navitem_name.value = action.payload.title;
+        return newState;
+    case CHANGE_CONTAINED_VIEW_NAME:
+        newState = Utils.deepClone(state);
+        newState.controls.main.accordions.basic.buttons.navitem_name.value = action.payload.title;
+        return newState;
+    case EDIT_RICH_MARK:
+        return changeProp(state, &quot;state&quot;, action.payload.state);
+    case RESIZE_BOX:
+        newState = Utils.deepClone(state);
+        if (newState.controls.main.accordions.__sortable) {
+            let buttons = newState.controls.main.accordions.__sortable.buttons;
+            if (buttons.__height &amp;&amp; buttons.__width) {
+                if (action.payload.heightButton) {
+                    newState.controls.main.accordions.__sortable.buttons.__height = action.payload.heightButton;
+                }
+                if (action.payload.widthButton) {
+                    newState.controls.main.accordions.__sortable.buttons.__width = action.payload.widthButton;
+                }
+            }
+        }
+
+        // Rebind callback functions because from not automanaged buttons
+        for (let tabKey in newState.controls) {
+            for (let accordionKey in newState.controls[tabKey].accordions) {
+                let button;
+                for (let buttonKey in newState.controls[tabKey].accordions[accordionKey].buttons) {
+                    button = newState.controls[tabKey].accordions[accordionKey].buttons[buttonKey];
+                    if (!button.autoManaged) {
+                        button.callback = state.controls[tabKey].accordions[accordionKey].buttons[buttonKey].callback;
+                    }
+                }
+                if (newState.controls[tabKey].accordions[accordionKey].accordions) {
+                    for (let accordionKey2 in newState.controls[tabKey].accordions[accordionKey].accordions) {
+                        for (let buttonKey in newState.controls[tabKey].accordions[accordionKey].accordions[accordionKey2].buttons) {
+                            button = newState.controls[tabKey].accordions[accordionKey].accordions[accordionKey2].buttons[buttonKey];
+                            if (!button.autoManaged) {
+                                button.callback = state.controls[tabKey].accordions[accordionKey].buttons[buttonKey].callback;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return newState;
+    case RESIZE_SORTABLE_CONTAINER:
+        newState = Utils.deepClone(state);
+        let sortableContainers = newState.state.__pluginContainerIds;
+        for (let key in sortableContainers) {
+            if (sortableContainers[key].id === action.payload.id) {
+                sortableContainers[key].height = action.payload.height;
+                break;
+            }
+        }
+
+        // Rebind callback functions because from not automanaged buttons
+        for (let tabKey in newState.controls) {
+            for (let accordionKey in newState.controls[tabKey].accordions) {
+                let button;
+                for (let buttonKey in newState.controls[tabKey].accordions[accordionKey].buttons) {
+                    button = newState.controls[tabKey].accordions[accordionKey].buttons[buttonKey];
+                    if (!button.autoManaged) {
+                        button.callback = state.controls[tabKey].accordions[accordionKey].buttons[buttonKey].callback;
+                    }
+                }
+                if (newState.controls[tabKey].accordions[accordionKey].accordions) {
+                    for (let accordionKey2 in newState.controls[tabKey].accordions[accordionKey].accordions) {
+                        for (let buttonKey in newState.controls[tabKey].accordions[accordionKey].accordions[accordionKey2].buttons) {
+                            button = newState.controls[tabKey].accordions[accordionKey].accordions[accordionKey2].buttons[buttonKey];
+                            if (!button.autoManaged) {
+                                button.callback = state.controls[tabKey].accordions[accordionKey].buttons[buttonKey].callback;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return newState;
+
+    case TOGGLE_TEXT_EDITOR:
+        return changeProp(state, &quot;showTextEditor&quot;, action.payload.value);
+    case UPDATE_BOX:
+        /* let controls = action.payload.toolbar;
+            if (!isSortableBox(action.payload.id)) {
+                createSizeButtons(controls, state, action);
+                createAliasButton(controls, state);
+            }
+
+            if (state.config &amp;&amp; state.config.isRich) {
+                createRichAccordions(controls);
+            }
+            if (state.config &amp;&amp; state.config.aspectRatioButtonConfig) {
+                createAspectRatioButton(controls, state.config);
+            }*/
+        return changeProps(
+            state,
+            [
+                &quot;state&quot;,
+            ], [
+                action.payload.state,
+            ]
+        );
+    case UPDATE_TOOLBAR:
+        newState = Utils.deepClone(state);
+        let pl = action.payload;
+
+        if (pl.value.__name) {
+            if (pl.accordions.length &gt; 1) {
+                newState.controls[pl.tab].accordions[pl.accordions[0]].accordions[pl.accordions[1]].buttons[pl.name] = pl.value;
+            } else {
+                newState.controls[pl.tab].accordions[pl.accordions[0]].buttons[pl.name] = pl.value;
+            }
+        } else if (pl.accordions.length &gt; 1) {
+            newState.controls[pl.tab].accordions[pl.accordions[0]].accordions[pl.accordions[1]]
+                .buttons[pl.name][typeof pl.value === &quot;boolean&quot; ? &quot;checked&quot; : &quot;value&quot;] = pl.value;
+        } else {
+            newState.controls[pl.tab].accordions[pl.accordions[0]]
+                .buttons[pl.name][typeof pl.value === &quot;boolean&quot; ? &quot;checked&quot; : &quot;value&quot;] = pl.value;
+        }
+
+        // Rebind callback functions because from not automanaged buttons
+        for (let tabKey in newState.controls) {
+            for (let accordionKey in newState.controls[tabKey].accordions) {
+                let button;
+                for (let buttonKey in newState.controls[tabKey].accordions[accordionKey].buttons) {
+                    button = newState.controls[tabKey].accordions[accordionKey].buttons[buttonKey];
+                    if (!button.autoManaged) {
+                        button.callback = state.controls[tabKey].accordions[accordionKey].buttons[buttonKey].callback;
+                    }
+                }
+                if (newState.controls[tabKey].accordions[accordionKey].accordions) {
+                    for (let accordionKey2 in newState.controls[tabKey].accordions[accordionKey].accordions) {
+                        for (let buttonKey in newState.controls[tabKey].accordions[accordionKey].accordions[accordionKey2].buttons) {
+                            button = newState.controls[tabKey].accordions[accordionKey].accordions[accordionKey2].buttons[buttonKey];
+                            if (!button.autoManaged) {
+                                button.callback = state.controls[tabKey].accordions[accordionKey].buttons[buttonKey].callback;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return newState;
+    case DELETE_RICH_MARK:
+        return changeProp(state, &quot;state&quot;, action.payload.state);
+    case VERTICALLY_ALIGN_BOX:
+        newState = Utils.deepClone(state);
+        newState.controls.main.accordions.__sortable.buttons.__verticalAlign.value = action.payload.verticalAlign;
+
+        // Rebind callback functions because from not automanaged buttons
+        for (let tabKey in newState.controls) {
+            for (let accordionKey in newState.controls[tabKey].accordions) {
+                let button;
+                for (let buttonKey in newState.controls[tabKey].accordions[accordionKey].buttons) {
+                    button = newState.controls[tabKey].accordions[accordionKey].buttons[buttonKey];
+                    if (!button.autoManaged) {
+                        button.callback = state.controls[tabKey].accordions[accordionKey].buttons[buttonKey].callback;
+                    }
+                }
+                if (newState.controls[tabKey].accordions[accordionKey].accordions) {
+                    for (let accordionKey2 in newState.controls[tabKey].accordions[accordionKey].accordions) {
+                        for (let buttonKey in newState.controls[tabKey].accordions[accordionKey].accordions[accordionKey2].buttons) {
+                            button = newState.controls[tabKey].accordions[accordionKey].accordions[accordionKey2].buttons[buttonKey];
+                            if (!button.autoManaged) {
+                                button.callback = state.controls[tabKey].accordions[accordionKey].buttons[buttonKey].callback;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return newState;
+    default:
+        return state;
+    }
+}
+
+export default function(state = {}, action = {}) {
+    let newState;
+    switch (action.type) {
+    case ADD_BOX:
+        return changeProp(state, action.payload.ids.id, toolbarCreator(state, action));
+    case ADD_NAV_ITEM:
+        return changeProp(state, action.payload.id, toolbarSectionCreator(state, action));
+    case ADD_RICH_MARK:
+        newState = state;
+        if(action.payload.mark.connectMode === &quot;new&quot;) {
+            let modState = changeProp(state, action.payload.mark.connection.id || action.payload.mark.connection, toolbarSectionCreator(state, action, true));
+            newState = changeProp(modState, action.payload.parent, toolbarReducer(modState[action.payload.parent], action));
+        }
+        return newState;
+    case CHANGE_NAV_ITEM_NAME:
+        return changeProp(state, action.payload.id, toolbarReducer(state[action.payload.id], action));
+        // return state;
+    case CHANGE_CONTAINED_VIEW_NAME:
+        return changeProp(state, action.payload.id, toolbarReducer(state[action.payload.id], action));
+    case DELETE_BOX:
+        let children = action.payload.children ? action.payload.children : [];
+        return deleteProps(state, children.concat(action.payload.id));
+    case DELETE_CONTAINED_VIEW:
+        let boxesCV = action.payload.boxes ? action.payload.boxes : [];
+        let newToolbarCV = Object.assign({}, state);
+        let parents = action.payload.parent ? action.payload.parent : [];
+        // Delete all related marks
+        Object.keys(parents).forEach((el)=&gt;{
+            if (newToolbarCV[el] &amp;&amp; newToolbarCV[el].state &amp;&amp; newToolbarCV[el].state.__marks) {
+                parents[el].forEach((mark)=&gt;{
+                    if (newToolbarCV[el].state.__marks[mark] &amp;&amp; newToolbarCV[el].state.__marks[mark].connection === action.payload.ids[0]) {
+                        delete newToolbarCV[el].state.__marks[mark];
+                    }
+                });
+            }
+        });
+        return deleteProps(newToolbarCV, boxesCV.concat(action.payload.ids[0]));
+    case DELETE_NAV_ITEM:
+        let boxes = action.payload.boxes ? action.payload.boxes : [];
+        let linkedBoxes = action.payload.linkedBoxes ? action.payload.linkedBoxes : {};
+        let newToolbar = Object.assign({}, state);
+        Object.keys(linkedBoxes).forEach((el)=&gt;{
+            if (newToolbar[el] &amp;&amp; newToolbar[el].state &amp;&amp; newToolbar[el].state.__marks) {
+                for (let markId in linkedBoxes[el]) {
+                    let mark = linkedBoxes[el][markId];
+                    action.payload.ids.forEach((id)=&gt;{
+                        if (newToolbar[el].state.__marks[mark] &amp;&amp; newToolbar[el].state.__marks[mark].connection === id) {
+                            delete newToolbar[el].state.__marks[mark];
+                        }
+                    });
+
+                }
+            }
+        });
+        return deleteProps(newToolbar, boxes.concat(action.payload.ids));
+    case DELETE_SORTABLE_CONTAINER:
+        return deleteProps(state, action.payload.children);
+    case DUPLICATE_BOX:
+        newState = Object.assign({}, state);
+        let replaced = Object.assign({}, state);
+        let newIds = action.payload.newIds;
+        // let count = 0;
+        Object.keys(newIds).map((box)=&gt; {
+            replaced = Object.assign({}, Object.replaceAll(replaced, box, newIds[box]));
+        });
+        replaced = Object.assign({}, Object.replaceAll(replaced, action.payload.id.substr(3), action.payload.newId));
+        return Object.assign({}, newState, replaced);
+    case EDIT_RICH_MARK:
+        return state;
+        // return changeProp(state, action.payload.parent, toolbarReducer(state[action.payload.parent], action));
+    case DELETE_RICH_MARK:
+        // if (state[action.payload.parent] &amp;&amp; state[action.payload.parent].state.__marks &amp;&amp; state[action.payload.parent].state.__marks[action.payload.id]) {
+        // return changeProp(state, action.payload.parent, toolbarReducer(state[action.payload.parent], action));
+        // }
+        return state;
+    case RESIZE_BOX:
+        return changeProp(state, action.payload.id, toolbarReducer(state[action.payload.id], action));
+    case RESIZE_SORTABLE_CONTAINER:
+        return changeProp(state, action.payload.parent, toolbarReducer(state[action.payload.parent], action));
+    case TOGGLE_TEXT_EDITOR:
+        return changeProp(state, action.payload.caller, toolbarReducer(state[action.payload.caller], action));
+    case UPDATE_BOX:
+        return changeProp(state, action.payload.id, toolbarReducer(state[action.payload.id], action));
+    case UPDATE_TOOLBAR:
+        return changeProp(state, action.payload.id, toolbarReducer(state[action.payload.id], action));
+    case VERTICALLY_ALIGN_BOX:
+        return changeProp(state, action.payload.id, toolbarReducer(state[action.payload.id], action));
+    case IMPORT_STATE:
+        return action.payload.present.toolbarsById || state;
+    default:
+        return state;
+    }
+}
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.0.1)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

@@ -25,6 +25,10 @@ if (window.State) {
     window.State = undefined;
 }
 
+if (process.env.NODE_ENV === 'production' && dali_editor_json !== undefined) {
+    window.Dali.State = JSON.parse(dali_editor_json);
+}
+
 Config.pluginList.map(id => {
     try {
         window.Dali.Visor.Plugins.add(id);

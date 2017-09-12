@@ -855,6 +855,9 @@ class DaliApp extends Component {
             }
         }
         if (obj.attr && obj.attr.class) {
+            if(!Array.isArray(obj.attr.class) && typeof obj.attr.class === "string") {
+                obj.attr.class = [obj.attr.class];
+            }
             obj.attr.className = obj.attr.class.join(' ');
             delete obj.attr.class;
         }
