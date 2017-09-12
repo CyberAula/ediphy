@@ -1,5 +1,5 @@
 import * as API from './scorm_wrapper';
-import Config from '../editor/config';
+import Config from '../config';
 import { isSection } from '../../common/utils';
 
 export function init() {

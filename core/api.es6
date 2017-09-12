@@ -1,4 +1,4 @@
-import Dali from './main';
+import Dali from './editor/main';
 
 export function api() {
     return {

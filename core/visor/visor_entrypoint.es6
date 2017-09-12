@@ -1,7 +1,7 @@
-import { api, api_private } from './api';
-import Visor from '../visor/main';
+import { api, api_private } from '../api';
+import Visor from './main';
 import Scorm from '../scorm/main';
-import Config from './config';
+import Config from '../config';
 
 require('../../sass/style.scss');
 
