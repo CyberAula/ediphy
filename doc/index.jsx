@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { Grid, Row, Navbar, Nav, NavDropdown, NavItem, MenuItem } from 'react-bootstrap';
 import Content from './src/components/Content';
 import { tree } from './src/content';
-import "./src/style/style.css";
+import "./src/style/style.scss";
 
 export default class DaliDocs extends Component {
     constructor(props) {
@@ -40,6 +40,7 @@ export default class DaliDocs extends Component {
                     </Navbar>
                 </Row>
                 <Content
+                    handleNav={this.handleNav}
                     section={this.state.section}
                     subsection={this.state.subsection}/>
             </Grid>);

@@ -38,7 +38,7 @@ export default class Content extends Component {
                 customComponent = <Home/>;
                 break;
             case 2:
-                customComponent = <About/>;
+                customComponent = <About handleNav={this.props.handleNav}/>;
                 break;
             default:
                 break;

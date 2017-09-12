@@ -1,5 +1,5 @@
-﻿// export const WIKI_BASE_URL = "https://raw.githubusercontent.com/wiki/ging/dali_editor/";
-export const WIKI_BASE_URL = "http://localhost/";
+﻿export const WIKI_BASE_URL = "https://raw.githubusercontent.com/wiki/ging/dali_editor/";
+// export const WIKI_BASE_URL = "http://localhost/";
 
 export const tree = {
     1: {
@@ -93,12 +93,12 @@ export const tree = {
 
                             },
                         },
-                        5: {
+                        /* 5: {
                             title: "Core",
                             md: true,
                             fromURL: true,
                             src: (WIKI_BASE_URL + "Core.md"),
-                        },
+                        }, */
                         6: {
                             title: "Configuración global",
                             md: true,
@@ -135,30 +135,24 @@ export const tree = {
                 pages:
                     {
                         1: {
-                            title: "Introducción",
-                            md: true,
-                            fromURL: true,
-                            src: (WIKI_BASE_URL + "PluginIntro.md"),
-                        },
-                        2: {
                             title: "Creación de plugins",
                             md: true,
                             fromURL: true,
                             src: (WIKI_BASE_URL + "Creaci%C3%B3n-de-plugins.md"),
                         },
-                        3: {
+                        2: {
                             title: "BasePlugin",
                             md: true,
                             fromURL: true,
                             src: (WIKI_BASE_URL + "BasePlugin.md"),
                         },
-                        4: {
+                        3: {
                             title: "BasePluginVisor",
                             md: true,
                             fromURL: true,
                             src: (WIKI_BASE_URL + "BasePluginVisor.md"),
                         },
-                        5: {
+                        4: {
                             title: "Plugins Enriquecidos",
                             md: true,
                             fromURL: true,
