@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { isContainedView, isPage, isSection } from '../../../common/utils';
 import { aspectRatio } from '../../../common/common_tools';
-import Config from './../../../core/config';
+import Config from '../../../core/editor/config';
 import * as API from './../../../core/scorm/scorm_utils';
 
 export default class ScormComponent extends Component {

@@ -6,7 +6,7 @@ import DaliApp from './DaliApp';
 import i18n from 'i18next';
 import { createStore, compose, applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
-import Dali from '../../core/main';
+import Dali from '../../core/editor/main';
 
 export default class ReduxProvider extends Component {
     constructor(props) {

@@ -29,7 +29,7 @@ import RichMarksModal from '../components/rich_plugins/rich_marks_modal/RichMark
 import AutoSave from '../components/autosave/AutoSave';
 import Alert from '../components/common/alert/Alert';
 import i18n from 'i18next';
-import Dali from '../../core/main';
+import Dali from '../../core/editor/main';
 import { isSortableBox, isSection, isContainedView, isSortableContainer } from '../../common/utils';
 import 'typeface-ubuntu';
 import 'typeface-source-sans-pro';

@@ -1,4 +1,4 @@
-import Dali from './../main';
+import Dali from '../editor/main';
 import BasePlugin from './base_plugin';
 
 export default function() {

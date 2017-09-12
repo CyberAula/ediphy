@@ -7,7 +7,7 @@ import ReduxProvider from './_editor/containers/ReduxProvider';
 import i18n from './locales/i18n';
 
 require('es6-promise').polyfill();
-require('expose-loader?Dali!./core/temp_hack');
+require('expose-loader?Dali!./core/editor/temp_hack');
 require('./plugins/plugin_dependencies_loader').requireAll();
 
 // Require CSS files

@@ -1,6 +1,6 @@
 import Dali from './main';
 import ReactDOM from 'react-dom';
-import { isSortableContainer } from '../common/utils';
+import { isSortableContainer } from '../../common/utils';
 let html2json = require('html2json').html2json;
 
 export default function() {
@@ -65,7 +65,7 @@ export default function() {
         getLocales: function() {
             try {
                 let currentLanguage = Dali.i18n.language;
-                let texts = require('./../plugins/' + this.getConfig().name + "/locales/" + currentLanguage);
+                let texts = require('./../../plugins/' + this.getConfig().name + "/locales/" + currentLanguage);
                 Dali.i18n.addResourceBundle(currentLanguage, 'translation', texts, true, false);
             } catch (e) {
             }

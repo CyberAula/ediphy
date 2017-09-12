@@ -1,14 +1,14 @@
 import { api, api_private } from './api';
-import Visor from './visor/main';
-import Scorm from './scorm/main';
+import Visor from '../visor/main';
+import Scorm from '../scorm/main';
 import Config from './config';
 
-require('../sass/style.scss');
+require('../../sass/style.scss');
 
 // This requires dynamically all scss' kept in component's folders
-let scss_context = require.context('../_editor', true, /\.scss$/);
+let scss_context = require.context('../../_editor', true, /\.scss$/);
 scss_context.keys().map(scss_context);
-let scss_visor_context = require.context('../_visor', true, /\.scss$/);
+let scss_visor_context = require.context('../../_visor', true, /\.scss$/);
 scss_visor_context.keys().map(scss_visor_context);
 
 window.ReactDOM = require('react-dom');

@@ -4,7 +4,7 @@ import interact from 'interact.js';
 import DaliBox from '../dali_box/DaliBox';
 import { RESIZE_SORTABLE_CONTAINER, ADD_BOX } from '../../../../common/actions';
 import { isAncestorOrSibling } from '../../../../common/utils';
-import Dali from './../../../../core/main';
+import Dali from '../../../../core/editor/main';
 
 import './_pluginPlaceHolder.scss';
 

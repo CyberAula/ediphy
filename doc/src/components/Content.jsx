@@ -53,7 +53,7 @@ export default class Content extends Component {
 
         let big = this.state.self || Object.keys(this.state.pages).length === 0;
         return (
-            <Row>
+            <Row className="mainRow">
                 <Col xs={12} sm={3} className="mainCol" style={{ display: big ? 'none' : 'block' }}>
                     <h4 className="sidebarTitle">{sideBarTitle}</h4>
                     <ListGroup>

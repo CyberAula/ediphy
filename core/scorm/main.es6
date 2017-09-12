@@ -1,4 +1,4 @@
-import Dali from './../main';
+import Dali from '../editor/main';
 import { ID_PREFIX_SECTION } from '../../common/constants';
 import { isSection } from '../../common/utils';
 export default {

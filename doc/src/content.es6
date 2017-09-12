@@ -1,4 +1,6 @@
 export const WIKI_BASE_URL = "https://raw.githubusercontent.com/wiki/ging/dali_editor/";
+// export const WIKI_BASE_URL = "http://localhost/";
+
 export const tree = {
     1: {
         title: "Home",

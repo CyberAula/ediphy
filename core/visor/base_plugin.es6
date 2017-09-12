@@ -1,4 +1,4 @@
-import Dali from './../main';
+import Dali from '../editor/main';
 let html2json = require('html2json').html2json;
 
 export default function() {

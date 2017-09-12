@@ -4,7 +4,7 @@ import DaliIndexTitle from '../../carrousel/dali_index_title/DaliIndexTitle';
 import GlobalConfig from '../global_config/GlobalConfig';
 import i18n from 'i18next';
 import { isSection } from '../../../../common/utils';
-import Dali from './../../../../core/main';
+import Dali from '../../../../core/editor/main';
 import { toggleFullScreen, isFullScreenOn, fullScreenListener } from '../../../../common/common_tools';
 import './_navBar.scss';
 // import screenfull from 'screenfull';
@@ -59,13 +59,13 @@ export default class DaliNavBar extends Component {
 
                 <button
                     className={ this.props.hideTab === 'show' && this.props.category === 'text' ? 'navButtonPlug active' : 'navButtonPlug' }
-                    title='Text' disabled={false /* disablePlugins*/}
+                    title={i18n.t("Text")} disabled={false /* disablePlugins*/}
                     onClick={() => {this.openPlugin('text');}}><i
                         className="material-icons">text_fields</i><br/> <span
                         className="hideonresize">{i18n.t("Text")}</span></button>
                 <button
                     className={ this.props.hideTab === 'show' && this.props.category === 'image' ? 'navButtonPlug active' : 'navButtonPlug' }
-                    title='Images' disabled={false /* disablePlugins*/}
+                    title={i18n.t("Images")} disabled={false /* disablePlugins*/}
                     onClick={() => { this.openPlugin('image');}}><i className="material-icons">image</i><br/><span
                         className="hideonresize"> {i18n.t("Images")}</span></button>
                 <button

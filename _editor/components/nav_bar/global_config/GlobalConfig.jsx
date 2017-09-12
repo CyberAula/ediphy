@@ -220,7 +220,7 @@ export default class GlobalConfig extends Component {
                                     </FormGroup>
                                     <FormGroup >
                                         <ControlLabel>{i18n.t('global_config.aspect_ratio')}</ControlLabel><br/>
-                                        <Radio name="radioGroup" inline checked={canvasRatio === 16 / 9 } onChange={e => {this.setState({ modifiedState: true, canvasRatio: 4 / 3 });}}>
+                                        <Radio name="radioGroup" inline checked={canvasRatio === 16 / 9 } onChange={e => {this.setState({ modifiedState: true, canvasRatio: 16 / 9 });}}>
                                             16/9
                                         </Radio>
                                         {' '}

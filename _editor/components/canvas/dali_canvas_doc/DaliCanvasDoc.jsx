@@ -4,7 +4,7 @@ import DaliBoxSortable from '../dali_box_sortable/DaliBoxSortable';
 import DaliShortcuts from '../dali_shortcuts/DaliShortcuts';
 import { Col } from 'react-bootstrap';
 import DaliHeader from '../dali_header/DaliHeader';
-import Dali from './../../../../core/main';
+import Dali from '../../../../core/editor/main';
 import { isSortableBox } from '../../../../common/utils';
 
 /**

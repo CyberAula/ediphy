@@ -6,7 +6,7 @@ import Section from './../section/Section';
 import DaliIndexTitle from './../dali_index_title/DaliIndexTitle';
 import { isPage, isSection, isSlide, isContainedView, calculateNewIdOrder } from '../../../../common/utils';
 import i18n from 'i18next';
-import Dali from './../../../../core/main';
+import Dali from '../../../../core/editor/main';
 import './_carrouselList.scss';
 
 /**
