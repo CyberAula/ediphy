@@ -2,7 +2,7 @@ import React from "react";
 import i18n from 'i18next';
 import Map from './components/Map';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
-import ClickNHold from '../../_editor/components/rich_plugins/click_n_hold/ClickNHold';
+import MarkEditor from "../../_editor/components/rich_plugins/mark_editor/MarkEditor";
 require('./_virtualTour.scss');
 window.mapList = [];
 export function VirtualTour(base) {
@@ -122,13 +122,13 @@ export function VirtualTour(base) {
             }
 
             let Mark = ({ idKey, title, color }) => (
-                <ClickNHold time={1.5} mark={idKey} base={base}>
+                <MarkEditor time={1.5} mark={idKey} base={base}>
                     <OverlayTrigger key={idKey} text={title} placement="top" overlay={<Tooltip id={idKey}>{title}</Tooltip>}>
                         <a className="mapMarker" href="#">
                             <i style={{ color: color }} key="i" className="material-icons">room</i>
                         </a>
                     </OverlayTrigger>
-                </ClickNHold>);
+                </MarkEditor>);
 
             let markElements = Object.keys(marks).map((idKey) => {
                 let value = marks[idKey].value;
