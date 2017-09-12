@@ -98,7 +98,6 @@ export default class Visor extends Component {
             this.setState({ triggeredMarks: [] });
         }
 
-        // reset marks when going between connected marks that are main sections
         if (this.state.currentView.length > 1 && this.state.currentView.filter((i, v, a) => i.indexOf("pa-") !== -1).length > 1) {
             this.setState({ currentView: [this.state.currentView[this.state.currentView.length - 1]] });
         }
