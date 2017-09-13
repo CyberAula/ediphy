@@ -70,3 +70,7 @@ body, #root, #root > .container-fluid, #mainRow {
 .loader img {
     vertical-align: middle;
 }
+.markdownContainer img {
+    max-width: 100%;
+}
+

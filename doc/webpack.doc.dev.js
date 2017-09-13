@@ -6,7 +6,7 @@ let path = require('path');
 module.exports = merge.smart(common, {
     entry: {
         'doc': [
-            'webpack-dev-server/client?http://localhost:8080/', // WebpackDevServer host and port
+            'webpack-dev-server/client?http://localhost:8082/', // WebpackDevServer host and port
             'webpack/hot/only-dev-server', // "only" prevents reload on syntax errors
             // 'bootstrap-loader', // Loads Twitter Bootstrap
             path.join(__dirname, '/index.jsx'),
@@ -29,7 +29,7 @@ module.exports = merge.smart(common, {
         contentBase: path.join(__dirname, '/dist'),
         hot: true,
         inline: true,
-        port: 8080,
+        port: 8082,
     },
 });
 

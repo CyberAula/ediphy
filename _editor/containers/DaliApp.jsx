@@ -619,19 +619,25 @@ class DaliApp extends Component {
 
         window.onkeyup = function(e) {
             let key = e.keyCode ? e.keyCode : e.which;
+            // Checks what element has the cursor focus currently
+            let focus = document.activeElement.className;
+
             // Ctrl + Z
             if (key === 90 && e.ctrlKey) {
-                this.dispatchAndSetState(ActionCreators.undo());
+                if (focus.indexOf('form-control') === -1 && focus.indexOf('tituloCurso') === -1 && focus.indexOf('cke_editable') === -1) {
+                    this.dispatchAndSetState(ActionCreators.undo());
+                }
             }
             // Ctrl + Y
             if (key === 89 && e.ctrlKey) {
-                this.dispatchAndSetState(ActionCreators.redo());
+                if (focus.indexOf('form-control') === -1 && focus.indexOf('tituloCurso') === -1 && focus.indexOf('cke_editable') === -1) {
+                    this.dispatchAndSetState(ActionCreators.redo());
+                }
             }
 
             // Supr
             else if (key === 46) {
-                // Checks what element has the cursor focus currently
-                let focus = document.activeElement.className;
+
                 if (this.props.boxSelected !== -1 && !isSortableBox(this.props.boxSelected)) {
                     // If it is not an input or any other kind of text edition AND there is a box selected, it deletes said box
                     if (focus.indexOf('form-control') === -1 && focus.indexOf('tituloCurso') === -1 && focus.indexOf('cke_editable') === -1) {
