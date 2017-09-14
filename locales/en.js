@@ -202,8 +202,8 @@ let en = {
 
         },
         "Multimedia": "Multimedia",
-        "NavItem_name": "Document name",
-        "NavItem_title": "Document title",
+        "NavItem_name": "Page name",
+        "NavItem_title": "Page title",
         "no_results": "No results",
         "OK": "OK",
         "Open": "Open",

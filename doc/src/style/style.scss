@@ -81,3 +81,19 @@ body, #root, #root > .container-fluid, #mainRow {
 pre {
     color: #444;
 }
+
+.markdownContainer img {
+    max-width: 100%;
+    display:block;
+    margin:auto;
+}
+
+
+img[alt=Índice], img[alt=Toolbar] {
+    float: right;
+    margin: 10px;
+}
+
+.contentCol {
+    padding: 0px 20px 20px 20px;
+}

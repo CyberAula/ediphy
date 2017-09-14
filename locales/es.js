@@ -200,7 +200,8 @@ let es = {
         },
 
         "Multimedia": "Multimedia",
-        "NavItem_name": "Nombre documento",
+        "NavItem_name": "Nombre de la página",
+        "NavItem_title": "Título de la página",
         "no_results": "Sin resultados",
         "OK": "OK",
         "Open": "Abrir",

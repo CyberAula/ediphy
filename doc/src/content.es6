@@ -1,6 +1,5 @@
-﻿export const WIKI_BASE_URL = "https://raw.githubusercontent.com/wiki/ging/dali_editor/";
-// export const WIKI_BASE_URL = "http://localhost/";
-
+﻿export const WIKI_BASE_URL = "http://localhost:8081/";
+// export const WIKI_BASE_URL = "https://raw.githubusercontent.com/wiki/ging/dali_editor/";
 export const tree = {
     1: {
         title: "Home",
@@ -17,17 +16,28 @@ export const tree = {
         children: {},
         pages: {
             1: {
-                title: "Introducción",
+                title: "Manual de usuario",
                 md: true,
                 fromURL: true,
-                src: (WIKI_BASE_URL + "Manual_Intro.md"),
-                hideTitle: true,
+                src: (WIKI_BASE_URL + "Manual/Manual_Intro.md"),
             },
             2: {
+                title: "Estructura de un curso",
+                md: true,
+                fromURL: true,
+                src: (WIKI_BASE_URL + "Manual/Manual_Estructura.md"),
+            },
+            3: {
                 title: "Plugins",
                 md: true,
                 fromURL: true,
-                src: (WIKI_BASE_URL + "Manual_Plugins.md"),
+                src: (WIKI_BASE_URL + "Manual/Manual_Plugins.md"),
+            },
+            4: {
+                title: "Acciones adicionales",
+                md: true,
+                fromURL: true,
+                src: (WIKI_BASE_URL + "Manual/Manual_Actions.md"),
             },
         },
     },

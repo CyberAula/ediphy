@@ -73,7 +73,7 @@ export default class Content extends Component {
 
                     </ListGroup>
                 </Col>
-                <Col xs={12} className="mainCol" sm={big ? 12 : 9 } >
+                <Col xs={12} className="mainCol contentCol" sm={big ? 12 : 9 } >
                     {(this.state.self || !pages || !pages[currentPage] || (pages[currentPage] && pages[currentPage].hideTitle)) ? null : (<h1> {this.state.title}</h1>)}
                     {this.state.md ?
                         <div className="markdownContainer" style={{ padding: !big ? '0px' : '0px 50px' }}>
