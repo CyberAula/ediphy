@@ -30,13 +30,13 @@ export default class About extends Component {
                             <Col xs={12} md={4}>
                                 <Well>
                                     <h3><i className="material-icons">build</i> Plugin API</h3>
-                                    Si deseas crear tu propio plugin para completar tu instancia de Dalí, consulta la <a href="#" onClick={()=>{this.props.handleNav(4, 1);}}>API de Plugins</a>
+                                    Si deseas crear tu propio plugin para completar tu instancia de Dalí, consulta la <a href="#" onClick={()=>{this.props.handleNav(4, 2);}}>API de Plugins</a>
                                 </Well>
                             </Col>
                             <Col xs={12} md={4}>
                                 <Well>
                                     <h3><i className="material-icons">code</i> Documentación</h3>
-                                    Si deseas contribuír al proyecto, consulta la <a href="#" onClick={()=>{this.props.handleNav(4, 2);}}>documentación de desarrolladores</a>
+                                    Si deseas contribuír o crear tu propia versión, consulta la <a href="#" onClick={()=>{this.props.handleNav(4, 1);}}>documentación de desarrolladores</a>
                                 </Well>
                             </Col>
                         </Row>

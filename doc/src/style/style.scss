@@ -97,3 +97,15 @@ img[alt=Índice], img[alt=Toolbar] {
 .contentCol {
     padding: 0px 20px 20px 20px;
 }
+
+/*Fixed navbar*/
+.mainRow {
+    margin-top: 70px;
+}
+
+nav.navbar {
+    position: fixed;
+    width: 100%;
+    z-index: 9999;
+}
+/***************/
