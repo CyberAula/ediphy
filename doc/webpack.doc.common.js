@@ -2,6 +2,8 @@ let webpack = require('webpack');
 
 let path = require('path');
 let ProgressBarPlugin = require('progress-bar-webpack-plugin');
+const marked = require("marked");
+const renderer = new marked.Renderer();
 
 module.exports = {
     module: {
@@ -32,6 +34,22 @@ module.exports = {
                         presets: ['es2015', 'react'],
                     },
                 },
+            },
+            {
+                test: /\.md$/,
+                exclude: /node_modules/,
+                use: [
+                    {
+                        loader: "html-loader",
+                    },
+                    {
+                        loader: "markdown-loader",
+                        options: {
+                            pedantic: true,
+                            renderer,
+                        },
+                    },
+                ],
             },
             {
                 test: /\.css$/,

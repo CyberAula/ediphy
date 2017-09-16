@@ -8,7 +8,7 @@ module.exports = merge.smart(common, {
     entry: {
         'doc': [
             path.join(__dirname, '/index.jsx'),
-        ]
+        ],
 
     },
     output: {

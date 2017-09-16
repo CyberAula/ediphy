@@ -73,6 +73,7 @@ export const tree = {
                                     md: true,
                                     fromURL: true,
                                     src: (WIKI_BASE_URL + "Componentes.md"),
+                                    react_docgen: true,
                                 },
                             },
                         },

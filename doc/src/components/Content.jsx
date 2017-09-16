@@ -5,6 +5,7 @@ import Markdown from 'react-remarkable';
 import loaderSvg from '../img/Rolling.svg';
 import Home from './Home';
 import About from './About';
+import ComponentDoc from './ComponentDoc';
 const loader = <div className="loader" ><img src={loaderSvg} /></div>;
 
 export default class Content extends Component {
@@ -26,6 +27,16 @@ export default class Content extends Component {
 
     }
 
+    mapAlternate(array, fn1, fn2, thisArg) {
+        let fn = fn1, output = [];
+        for (let i = 0; i < array.length; i++) {
+            output[i] = fn.call(thisArg, array[i], i, array);
+            // toggle between the two functions
+            fn = fn === fn1 ? fn2 : fn1;
+        }
+        return output;
+    }
+
     render() {
         let pages = this.state.pages;
         let changePage = this.changePage.bind(this);
@@ -33,7 +44,7 @@ export default class Content extends Component {
         let currentSubPage = this.state.subpage;
         let customComponent = null;
         if (this.state.self) {
-            switch(this.props.section) {
+            switch (this.props.section) {
             case 1:
                 customComponent = <Home/>;
                 break;
@@ -52,6 +63,23 @@ export default class Content extends Component {
         sideBarTitle = sideBarTitle || this.state.title;
 
         let big = this.state.self || Object.keys(this.state.pages).length === 0;
+        let content = this.state.content;
+
+        if (content && this.state.rdg && this.state.md) {
+            let parts = content.split(/<!-- (.*) -->/g);
+
+            // render the values in <strong> tags
+            let children = this.mapAlternate(parts,
+                function(x) { return x; },
+                function(x) {
+                    return <ComponentDoc bsClass="default" component={x}/>;
+
+                });
+
+            content = children;
+
+        }
+
         return (
             <Row className="mainRow">
                 <Col xs={12} sm={3} className="mainCol" style={{ display: big ? 'none' : 'block' }}>
@@ -78,10 +106,11 @@ export default class Content extends Component {
                     {this.state.md ?
                         <div className="markdownContainer" style={{ padding: !big ? '0px' : '0px 50px' }}>
                             <Markdown>
-                                { this.state.content }
+                                { content }
+                                <ComponentDoc/>
                             </Markdown>
                         </div> :
-                        (<div>{this.state.content}</div>)
+                        (<div>{content}</div>)
                     }
                     {customComponent}
 
@@ -119,7 +148,8 @@ export default class Content extends Component {
                 url: url,
                 method: "GET" })
                 .done(function(data) {
-                    this.setState({ content: data, md: content.md });
+
+                    this.setState({ content: data, md: content.md, rdg: content.react_docgen });
                     let tableList = $('table');
                     tableList.map(table => tableList[table].classList.add('table', 'table-striped'));
 

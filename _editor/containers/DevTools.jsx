@@ -6,7 +6,9 @@ import { createDevTools } from 'redux-devtools';
 // Monitors are separate packages, and you can make a custom one
 import LogMonitor from 'redux-devtools-log-monitor';
 import DockMonitor from 'redux-devtools-dock-monitor';
-
+/** *
+ * Redux DevTools
+ */
 // createDevTools takes a monitor and produces a DevTools component
 const DevTools = createDevTools(
     // Monitors are individually adjustable with props.

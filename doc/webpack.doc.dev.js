@@ -10,7 +10,7 @@ module.exports = merge.smart(common, {
             'webpack/hot/only-dev-server', // "only" prevents reload on syntax errors
             // 'bootstrap-loader', // Loads Twitter Bootstrap
             path.join(__dirname, '/index.jsx'),
-        ]
+        ],
     },
     output: {
         path: path.join(__dirname, '/dist'),
