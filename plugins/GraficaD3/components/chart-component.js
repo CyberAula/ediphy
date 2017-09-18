@@ -20,15 +20,17 @@ export default class Chart extends React.Component {
                         <CartesianGrid horizontal={options.gridX} vertical={options.gridY} />
                         {options.y.map((y, o) => {
                             return(
-                                <Line key={o + 1} type="monotone" dataKey={y.key} stroke={y.color}/>
+                                <Line key={o + 1} type="monotone" dataKey={y.key} stroke={y.color} fillOpacity={1}/>
                             );
                         })}
-                        <Tooltip active />
+                        <Tooltip />
                         <Legend />
                     </LineChart>
                 </ResponsiveContainer>
             );
         case "area":
+            console.log(options);
+            console.log(data);
             return (
                 <ResponsiveContainer width="100%" height="100%">
                     <AreaChart
@@ -102,7 +104,6 @@ export default class Chart extends React.Component {
                 </ResponsiveContainer>
             );
         default:
-
             return (
                 <ResponsiveContainer width="100%" height="100%">
                     <LineChart data={data}>

@@ -125,7 +125,7 @@ export default class ChartOptions extends React.Component {
                 <h4>{i18n.t("GraficaD3.header.options")}</h4>
                 <div className="content-block">
                     <Form horizontal>
-                        {/* <FormGroup>
+                         <FormGroup>
                             <Col xs={5}>
                                 <FormControl.Static>
                                     {i18n.t("GraficaD3.chart_type")}
@@ -139,7 +139,7 @@ export default class ChartOptions extends React.Component {
                                     <option value="pie">{i18n.t("GraficaD3.types.pie")}</option>
                                 </FormControl>
                             </Col>
-                        </FormGroup>*/}
+                        </FormGroup>{/**/}
                         <FormGroup>
                             <Col xs={12}>
                                 <FormControl.Static>

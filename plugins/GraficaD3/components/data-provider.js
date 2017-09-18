@@ -8,12 +8,8 @@ export default class DataProvider extends React.Component {
 
     constructor(props) {
         super(props);
-        let rows = this.props.data.length;
-        let cols = this.props.data.length === 0 ? 2 : Object.keys(this.props.data[0]).length;
         this.confirmButton = this.confirmButton.bind(this);
-        this.colLeft = this.colLeft.bind(this);
-        this.colLeft = this.colLeft.bind(this);
-        this.colRight = this.colRight.bind(this);
+
         this.deleteCols = this.deleteCols.bind(this);
         this.colsChanged = this.colsChanged.bind(this);
         this.deleteRows = this.deleteRows.bind(this);
@@ -24,8 +20,8 @@ export default class DataProvider extends React.Component {
         this.dataChanged = this.dataChanged.bind(this);
 
         this.state = {
-            cols: cols,
-            rows: rows,
+            cols: 1,
+            rows: props.data.length,
             data: this.props.data,
             keys: this.props.keys,
             valueKeys: this.props.valueKeys,
@@ -66,28 +62,6 @@ export default class DataProvider extends React.Component {
         this.setState({ cols: pre, data: data, keys: keys });
     }
 
-    colLeft(col) {
-        let pre = this.state.cols;
-        let keys = this.state.keys;
-        let left = keys[col - 1];
-        let current = keys[col];
-        keys[col - 1] = current;
-        keys[col] = left;
-
-        this.setState({ keys: keys });
-    }
-
-    colRight(col) {
-        let pre = this.state.cols;
-        let keys = this.state.keys;
-        let right = keys[col + 1];
-        let current = keys[col];
-        keys[col + 1] = current;
-        keys[col] = right;
-        // console.log(keys);
-
-        this.setState({ keys: keys });
-    }
 
     colsChanged(event) {
         let pre = this.state.cols;
@@ -292,9 +266,7 @@ export default class DataProvider extends React.Component {
                                     {Array.apply(0, Array(this.state.cols)).map((x, i) => {
                                         return(
                                             <th key={i + 1}>
-                                                {/* i !== 0 ? <i className="material-icons clearCol" onClick={(e)=>{this.colLeft(i);}}>chevron_left</i> : null */}
                                                 <i className="material-icons clearCol" onClick={(e)=>{this.deleteCols(i);}}>clear</i>
-                                                {/* i !== (this.state.keys.length - 1) ? <i className="material-icons clearCol" onClick={(e)=>{this.colRight(i);}}>chevron_right</i> : null*/ }
                                                 <FormControl type="text" name={i} value={this.state.keys[i]} style={{ margin: '0px' }} onChange={this.keyChanged}/>
                                             </th>
                                         );

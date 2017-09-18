@@ -9,21 +9,26 @@ export default class Config extends React.Component {
 
     constructor(props) {
         super(props);
-        let state = this.props.state;
-        state.base = this.props.base;
         this.modifyState = this.modifyState.bind(this);
         this.dataChanged = this.dataChanged.bind(this);
         this.setOptions = this.setOptions.bind(this);
         this.optionsChanged = this.optionsChanged.bind(this);
         this.editButtonClicked = this.editButtonClicked.bind(this);
         this.updateChart = this.updateChart.bind(this);
-        this.state = state;
+        this.state = props.state;
     }
 
     componentDidUpdate(nextProps, nextState) {
         if (nextProps.state.editing === false) {
-            this.props.base.configModalNeedsUpdate();
+            nextProps.configModalNeedsUpdate();
         }
+    }
+    componentWillUpdate(nextProps,nextState){
+        nextProps.base.setState("options", this.state.options);
+        nextProps.base.setState("data", this.state.data);
+        nextProps.base.setState("keys", this.state.keys);
+        nextProps.base.setState("valueKeys", this.state.valueKeys);
+        nextProps.base.setState("editing", this.state.editing);
     }
 
     componentDidMount() {
@@ -32,22 +37,14 @@ export default class Config extends React.Component {
     }
 
     modifyState() {
-        // console.log("modifyState");
-        // console.log(this.state);
-        this.state.base.setState("options", this.state.options);
-        this.state.base.setState("data", this.state.data);
-        this.state.base.setState("keys", this.state.keys);
-        this.state.base.setState("valueKeys", this.state.valueKeys);
-        this.state.base.setState("editing", this.state.editing);
+
     }
 
     dataChanged(values) {
-
         this.setState({ editing: false });
         this.state.base.setState("data", values.data);
         this.setOptions(values.data, values.keys);
         this.updateChart();
-
     }
 
     setOptions(data, keys) {
@@ -84,16 +81,12 @@ export default class Config extends React.Component {
     }
 
     optionsChanged(options) {
-        // console.log("optionshanged");
-        // console.log(options);
         this.setState({ options: options });
         this.state.base.setState("options", options);
         this.updateChart();
     }
 
     editButtonClicked() {
-        // console.log("editButton");
-        // console.log(this.state);
         this.setState({ editing: true });
     }
 
@@ -103,7 +96,6 @@ export default class Config extends React.Component {
 
     render() {
 
-        this.modifyState();
         return (
             <Grid>
                 <Row>
