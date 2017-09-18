@@ -9,20 +9,22 @@ export default class Chart extends React.Component {
         let width = this.props.width;
         switch (options.type) {
         case "line":
+            console.log(options);
+            console.log(data);
             return (
                 <ResponsiveContainer width="100%" height="100%">
                     <LineChart
                         data={data}>
-                        <XAxis dataKey={options.x} name={options.x} tickCount={data ? data.length : 5}/>
-                        <YAxis/>
+                        <XAxis dataKey={options.x} name={options.x} tickCount={data ? data.length : 5} />
+                        <YAxis />
                         <CartesianGrid horizontal={options.gridX} vertical={options.gridY} />
                         {options.y.map((y, o) => {
                             return(
                                 <Line key={o + 1} type="monotone" dataKey={y.key} stroke={y.color}/>
                             );
                         })}
-                        <Tooltip active/>
-                        <Legend/>
+                        <Tooltip active />
+                        <Legend />
                     </LineChart>
                 </ResponsiveContainer>
             );
@@ -34,7 +36,6 @@ export default class Chart extends React.Component {
                         <defs>
                             {options.y.map((y, o) => {
                                 return(
-
                                     <linearGradient key={o + 1} id={"colorUv" + o} x1="0" y1="0" x2="0" y2="1">
                                         <stop offset="5%" stopColor={y.color} stopOpacity={0.8}/>
                                         <stop offset="95%" stopColor={y.color} stopOpacity={0}/>
@@ -104,9 +105,7 @@ export default class Chart extends React.Component {
 
             return (
                 <ResponsiveContainer width="100%" height="100%">
-                    <LineChart
-
-                        data={data}>
+                    <LineChart data={data}>
                         <XAxis dataKey={options.x} name={options.x}/>
                         <YAxis/>
                         <CartesianGrid

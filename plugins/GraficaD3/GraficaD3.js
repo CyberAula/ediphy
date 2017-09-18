@@ -30,92 +30,14 @@ export function GraficaD3(base) {
                         style: {
                             __name: Dali.i18n.t("GraficaD3.style"),
                             icon: "palette",
-                            order: [
-                                "margins",
-                                "paddings",
-                                "borderWidth",
-                                "borderStyle",
-                                "borderColor",
-                                "borderRadius",
-                                "opacity",
-                            ],
-                            accordions: {
-                                margins: {
-                                    __name: Dali.i18n.t("GraficaD3.margin"),
-                                    buttons: {
-                                        left: {
-                                            __name: Dali.i18n.t("GraficaD3.left"),
-                                            type: "number",
-                                            value: 0,
-                                            min: 0,
-                                            max: 500,
-                                            units: "px",
-                                        },
-                                        right: {
-                                            __name: Dali.i18n.t("GraficaD3.right"),
-                                            type: "number",
-                                            value: 0,
-                                            min: 0,
-                                            max: 500,
-                                            units: "px",
-                                        },
-                                        top: {
-                                            __name: Dali.i18n.t("GraficaD3.top"),
-                                            type: "number",
-                                            value: 0,
-                                            min: 0,
-                                            max: 500,
-                                            units: "px",
-                                        },
-                                        bottom: {
-                                            __name: Dali.i18n.t("GraficaD3.bottom"),
-                                            type: "number",
-                                            value: 0,
-                                            min: 0,
-                                            max: 500,
-                                            units: "px",
-                                        },
-                                    },
-                                },
-                                paddings: {
-                                    __name: Dali.i18n.t("GraficaD3.padding"),
-                                    buttons: {
-                                        left: {
-                                            __name: Dali.i18n.t("GraficaD3.left"),
-                                            type: "number",
-                                            value: 0,
-                                            min: 0,
-                                            max: 500,
-                                            units: "px",
-                                        },
-                                        right: {
-                                            __name: Dali.i18n.t("GraficaD3.right"),
-                                            type: "number",
-                                            value: 0,
-                                            min: 0,
-                                            max: 500,
-                                            units: "px",
-                                        },
-                                        top: {
-                                            __name: Dali.i18n.t("GraficaD3.top"),
-                                            type: "number",
-                                            value: 0,
-                                            min: 0,
-                                            max: 500,
-                                            units: "px",
-                                        },
-                                        bottom: {
-                                            __name: Dali.i18n.t("GraficaD3.bottom"),
-                                            type: "number",
-                                            value: 0,
-                                            min: 0,
-                                            max: 500,
-                                            units: "px",
-                                        },
-                                    },
-                                },
-                            },
                             buttons: {
+                                padding: {
+                                    __name: Dali.i18n.t('GraficaD3.padding'),
+                                    type: 'number',
+                                    value: 10,
+                                    min: 0,
+                                    max: 100,
+                                },
                                 borderWidth: {
                                     __name: Dali.i18n.t("GraficaD3.border_width"),
                                     type: "number",
@@ -159,16 +81,8 @@ export function GraficaD3(base) {
             };
         },
         getInitialState: function() {
-            let data = [];
-            let keys = [];
-            let row = {};
-            for (let i = 0; i < 1; i++) {
-                keys.push(i);
-                row[i] = "";
-            }
-            for (let i = 0; i < 2; i++) {
-                data.push(row);
-            }
+            let data = [{ 0: "" }, { 0: "" }];
+            let keys = [0];
 
             return {
                 data: data,
@@ -176,7 +90,7 @@ export function GraficaD3(base) {
                 valueKeys: keys,
                 editing: true,
                 options: {
-                    type: "line",
+                    type: "area",
                     x: "",
                     y: [{
                         key: "",
@@ -193,7 +107,6 @@ export function GraficaD3(base) {
             };
         },
         getRenderTemplate: function(state) {
-
             return (
             /* jshint ignore:start */
                 <Chart data={state.data} options={state.options} />
@@ -209,7 +122,6 @@ export function GraficaD3(base) {
             );
         },
         fileChanged: function(event) {
-
             let files = event.target.files;
             let file = files[0];
             let reader = new FileReader();
