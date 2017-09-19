@@ -32,6 +32,7 @@ export default class DataProvider extends React.Component {
             error: false,
         };
     }
+
     confirmButton() {
         let empty = false;
         outerloop:
@@ -51,6 +52,7 @@ export default class DataProvider extends React.Component {
             this.props.dataChanged({ data: this.state.data, keys: this.state.keys, valueKeys: this.state.valueKeys });
         }
     }
+
     deleteCols(col) {
         let pre = this.state.cols - 1;
         let keys = this.state.keys;
@@ -63,6 +65,7 @@ export default class DataProvider extends React.Component {
 
         this.setState({ cols: pre, data: data, keys: keys });
     }
+
     colLeft(col) {
         let pre = this.state.cols;
         let keys = this.state.keys;
@@ -70,10 +73,10 @@ export default class DataProvider extends React.Component {
         let current = keys[col];
         keys[col - 1] = current;
         keys[col] = left;
-        // console.log(keys);
 
         this.setState({ keys: keys });
     }
+
     colRight(col) {
         let pre = this.state.cols;
         let keys = this.state.keys;
@@ -85,6 +88,7 @@ export default class DataProvider extends React.Component {
 
         this.setState({ keys: keys });
     }
+
     colsChanged(event) {
         let pre = this.state.cols;
         let value = parseInt(event.target.value, 10);
@@ -112,6 +116,7 @@ export default class DataProvider extends React.Component {
         }
         this.setState({ cols: parseInt(value, 10), data: data, keys: keys });
     }
+
     deleteRows(row) {
         let pre = this.state.rows - 1;
         let data = this.state.data;
@@ -119,6 +124,7 @@ export default class DataProvider extends React.Component {
 
         this.setState({ rows: pre, data: data });
     }
+
     rowsChanged(event) {
         let pre = this.state.rows;
         let value = parseInt(event.target.value, 10);
@@ -139,6 +145,7 @@ export default class DataProvider extends React.Component {
         }
         this.setState({ rows: parseInt(value, 10), data: data });
     }
+
     keyChanged(event) {
         let keys = this.state.keys;
         let pre = keys[event.target.name];
@@ -152,19 +159,15 @@ export default class DataProvider extends React.Component {
         this.setState({ keys: keys, data: data });
 
     }
+
     csvToJSON(csv) {
-
         let lines = csv.split("\n");
-
         let result = [];
-
         let headers = lines[0].split(",");
 
         for(let i = 1; i < lines.length; i++) {
-
             let obj = {};
             let currentline = lines[i].split(",");
-
             for (let j = 0; j < headers.length; j++) {
                 obj[headers[j]] = currentline[j];
             }
@@ -173,8 +176,8 @@ export default class DataProvider extends React.Component {
 
         return result;
     }
-    validateJson(json) {
 
+    validateJson(json) {
         let data = {};
         if(json.length === 0) {
             this.setState({ error: true });
@@ -198,11 +201,13 @@ export default class DataProvider extends React.Component {
         this.setState({ error: false });
         return true;
     }
+
     compareKeys(a, b) {
         a = a.sort().toString();
         b = b.sort().toString();
         return a === b;
     }
+
     fileChanged(event) {
         let files = event.target.files;
         let file = files[0];
@@ -220,6 +225,7 @@ export default class DataProvider extends React.Component {
         };
         reader.readAsText(file);
     }
+
     dataChanged(event) {
 
         let pos = event.target.name.split(" ");
@@ -232,6 +238,7 @@ export default class DataProvider extends React.Component {
         data[row] = Object.assign({}, data[row], newRow);
         this.setState({ data: data });
     }
+
     render() {
         return (
             /* jshint ignore:start */
@@ -240,9 +247,6 @@ export default class DataProvider extends React.Component {
                 <Form horizontal style={{ padding: "16px" }}>
                     <FormGroup>
                         <FileInput onChange={this.fileChanged} className="fileInput">
-                            {/* <Button className="btn btn-primary" style={{ marginTop: '0px' }}>{ Dali.i18n.t('FileDialog') }</Button>*/}
-                            {/* <span style={{ marginLeft: '10px' }}>*/}
-                            {/* <label className="control-label">{ Dali.i18n.t('FileDialog') + ':   ' } </label> { this.state.name || '' }</span>*/}
                             <div className="fileDrag">
                                 <span style={{ display: this.state.name ? 'none' : 'block' }}><i className="material-icons">ic_file_upload</i><b>{ i18n.t('FileInput.Drag') }</b>{ i18n.t('FileInput.Drag_2') }<b>{ i18n.t('FileInput.Click') }</b>{ i18n.t('FileInput.Click_2') }</span>
                                 <span className="fileUploaded" style={{ display: this.state.name ? 'block' : 'none' }}><i className="material-icons">insert_drive_file</i>{ this.state.name || '' }</span>

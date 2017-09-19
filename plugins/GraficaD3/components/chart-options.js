@@ -125,13 +125,13 @@ export default class ChartOptions extends React.Component {
                 <h4>{i18n.t("GraficaD3.header.options")}</h4>
                 <div className="content-block">
                     <Form horizontal>
-                        <FormGroup>
+                        {/* <FormGroup>
                             <Col xs={5}>
                                 <FormControl.Static>
                                     {i18n.t("GraficaD3.chart_type")}
                                 </FormControl.Static>
                             </Col>
-                            <Col xs={7}>
+                                <Col xs={7}>
                                 <FormControl componentClass="select" placeholder="line" value={this.state.type} onChange={this.typeChanged}>
                                     <option value="line">{i18n.t("GraficaD3.types.line")}</option>
                                     <option value="area">{i18n.t("GraficaD3.types.area")}</option>
@@ -139,7 +139,7 @@ export default class ChartOptions extends React.Component {
                                     <option value="pie">{i18n.t("GraficaD3.types.pie")}</option>
                                 </FormControl>
                             </Col>
-                        </FormGroup>
+                        </FormGroup>*/}
                         <FormGroup>
                             <Col xs={12}>
                                 <FormControl.Static>
