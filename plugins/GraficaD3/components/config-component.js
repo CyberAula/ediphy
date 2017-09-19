@@ -14,13 +14,13 @@ export default class Config extends React.Component {
         this.setOptions = this.setOptions.bind(this);
         this.optionsChanged = this.optionsChanged.bind(this);
         this.editButtonClicked = this.editButtonClicked.bind(this);
-        this.updateChart = this.updateChart.bind(this);
+        //this.updateChart = this.updateChart.bind(this);
         this.state = props.state;
     }
 
     componentDidUpdate(nextProps, nextState) {
         if (nextProps.state.editing === false) {
-            nextProps.configModalNeedsUpdate();
+            nextProps.base.configModalNeedsUpdate();
         }
     }
     componentWillUpdate(nextProps,nextState){
@@ -42,9 +42,23 @@ export default class Config extends React.Component {
 
     dataChanged(values) {
         this.setState({ editing: false });
-        this.state.base.setState("data", values.data);
-        this.setOptions(values.data, values.keys);
-        this.updateChart();
+
+        /* CONVERSOR BETWEEN OLD AND NEW */
+        let keys = values.data.slice(0).map((x)=>{return x[0];})
+        let oldObjectStructure = new Array(values.data[0].length-1);
+        for(let n = 0; n<oldObjectStructure.length;n++){
+            oldObjectStructure[n] = {};
+        }
+        values.data.slice(0).forEach((array,indx)=>{
+            for(let n = 1; n < array.length; n++){
+                oldObjectStructure[n - 1][array[0]] = array[n];
+            }
+        });
+        /* CONVERSOR BETWEEN OLD AND NEW */
+
+        //this.props.base.setState("data", values.data);
+        this.setOptions(oldObjectStructure, keys);
+        //this.updateChart();
     }
 
     setOptions(data, keys) {
@@ -77,13 +91,13 @@ export default class Config extends React.Component {
         options.x = keys[0];
         options.y = [{ key: valueKeys[0], color: "#1FC8DB" }];
         options.rings = [{ name: keys[0], value: valueKeys[0], color: "#1FC8DB" }];
-        this.setState({ data: data, keys: keys, valueKeys: valueKeys, options: options });
+        this.setState({ chartData: data, keys: keys, valueKeys: valueKeys, options: options });
     }
 
     optionsChanged(options) {
         this.setState({ options: options });
-        this.state.base.setState("options", options);
-        this.updateChart();
+        this.setState("options", options);
+        //this.updateChart();
     }
 
     editButtonClicked() {
@@ -118,7 +132,7 @@ export default class Config extends React.Component {
                         {!this.state.editing &&
                         <div style={{ height: '300px', width: '95%' }}>
                             <h4>Previsualización</h4>
-                            <Chart data={this.state.data} options={this.state.options} width={this.state.chartWidth}
+                            <Chart data={this.state.chartData} options={this.state.options} width={this.state.chartWidth}
                                 key={this.state.key}/>
                         </div>
                         }
