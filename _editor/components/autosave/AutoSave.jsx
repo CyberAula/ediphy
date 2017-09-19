@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Dali from '../../../core/editor/main';
 import { CHANGE_DISPLAY_MODE, EXPAND_NAV_ITEM, IMPORT_STATE, INCREASE_LEVEL, INDEX_SELECT, SELECT_BOX, SELECT_NAV_ITEM, SET_BUSY, TOGGLE_TEXT_EDITOR, TOGGLE_TITLE_MODE, UPDATE_NAV_ITEM_EXTRA_FILES, UPDATE_BOX } from './../../../common/actions';
 
@@ -98,3 +99,23 @@ export default class AutoSave extends Component {
         );
     }
 }
+
+AutoSave.propTypes = {
+    /**
+     * Guarda el estado
+     */
+    save: PropTypes.func.isRequired,
+    /**
+     * Última acción realizada en Redux
+     */
+    lastAction: PropTypes.any,
+    /**
+     * Indicador de si hay una operación en curso con el servisor
+     */
+    isBusy: PropTypes.any,
+    /**
+     * Indicador de si se está en modo previsualización
+     */
+    visorVisible: PropTypes.bool,
+
+};

@@ -91,7 +91,7 @@ export default class Content extends Component {
                                 className={currentPage === key && currentSubPage === 0 ? 'selectedNav navListItem' : 'navListItem'}
                                 onClick={()=>{changePage(key, 0);}}>{item.title}</ListGroupItem>
                             {Object.keys(item.subpages || {}).map(function(sub) {
-                                return <ListGroupItem style={{ paddingLeft: '25px' }}
+                                return <ListGroupItem style={{ paddingLeft: '50px' }}
                                     className={currentPage === key && currentSubPage === sub ? 'selectedNav navListItem subItem' : 'navListItem subItem'}
                                     key={ key + "_" + sub }
                                     onClick={()=>{changePage(key, sub);}}>{item.subpages[sub].title}</ListGroupItem>;

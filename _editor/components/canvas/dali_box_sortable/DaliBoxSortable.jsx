@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
 import { Button, OverlayTrigger, Popover, Tooltip } from 'react-bootstrap';
 import interact from 'interact.js';
 import Alert from './../../common/alert/Alert';
@@ -109,7 +110,6 @@ export default class DaliBoxSortable extends Component {
                                                                 onBoxResized={this.props.onBoxResized}
                                                                 onBoxDropped={this.props.onBoxDropped}
                                                                 onVerticallyAlignBox={this.props.onVerticallyAlignBox}
-                                                                onBoxModalToggled={this.props.onBoxModalToggled}
                                                                 onBoxesInsideSortableReorder={this.props.onBoxesInsideSortableReorder}
                                                                 onSortableContainerResized={this.props.onSortableContainerResized}
                                                                 onTextEditorToggled={this.props.onTextEditorToggled}
@@ -372,3 +372,102 @@ export default class DaliBoxSortable extends Component {
 
     }
 }
+
+DaliBoxSortable.propTypes = {
+    /**
+     * Identificador único de la caja
+     */
+    id: PropTypes.string.isRequired,
+    /**
+     * Diccionario que contiene todas las cajas creadas, accesibles por su *id*
+     */
+    boxes: PropTypes.object.isRequired,
+    /**
+     * Caja seleccionada en el momento. Si no hay ninguna, -1
+     */
+    boxSelected: PropTypes.any.isRequired,
+    /**
+     * Nivel de profundidad de caja seleccionada (sólo para plugins dentro de plugins)
+     */
+    boxLevelSelected: PropTypes.number.isRequired,
+    /**
+     * Diccionario que contiene todas las vistas contenidas, accesibles por su *id*
+     */
+    containedViews: PropTypes.object.isRequired,
+    /**
+     * Vista contenida seleccionada identificada por su *id*
+     */
+    containedViewSelected: PropTypes.any.isRequired,
+    /**
+     * Diccionario que contiene todas las cajas y vistas creadas , accesibles por su *id*
+     */
+    toolbars: PropTypes.object.isRequired,
+    /**
+     * Última acción realizada en Redux
+     */
+    lastActionDispatched: PropTypes.any.isRequired,
+    /**
+     * Añade una marca a la caja
+     */
+    addMarkShortcut: PropTypes.func.isRequired,
+    /**
+     * TODO
+     */
+    deleteMarkCreator: PropTypes.func.isRequired,
+    /**
+     * TODO
+     */
+    markCreatorId: PropTypes.any.isRequired,
+    /**
+     * Añade una caja
+     */
+    onBoxAdded: PropTypes.func.isRequired,
+    /**
+     * Selecciona la caja
+     */
+    onBoxSelected: PropTypes.func.isRequired,
+    /**
+     * Aumenta el nivel de profundidad de selección (plugins dentro de plugins)
+     */
+    onBoxLevelIncreased: PropTypes.func.isRequired,
+    /**
+     * Mueve la caja
+     */
+    onBoxMoved: PropTypes.func.isRequired,
+    /**
+     * Redimensiona la caja
+     */
+    onBoxResized: PropTypes.func.isRequired,
+    /**
+     * Suelta la caja en una zona de un DaliBoxSortable
+     */
+    onBoxDropped: PropTypes.func.isRequired,
+    /**
+     * Alínea la caja verticalmente
+     */
+    onVerticallyAlignBox: PropTypes.func.isRequired,
+    /**
+     * Reordena las cajas dentro de su contenedor
+     */
+    onBoxesInsideSortableReorder: PropTypes.func.isRequired,
+    /**
+     * Borra un contenedor
+     */
+    onSortableContainerDeleted: PropTypes.func.isRequired,
+    /**
+     * Reordena los contenedores
+     */
+    onSortableContainerReordered: PropTypes.func.isRequired,
+    /**
+     * Redimensiona un contenedor
+     */
+    onSortableContainerResized: PropTypes.func.isRequired,
+    /**
+     * Hace aparecer/desaparecer el CKEditor
+     */
+    onTextEditorToggled: PropTypes.func.isRequired,
+    /**
+     * Indica el tipo de página en el que se encuentra la caja
+     */
+    pageType: PropTypes.string.isRequired,
+};

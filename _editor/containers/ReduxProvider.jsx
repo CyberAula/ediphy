@@ -421,7 +421,7 @@ export default class ReduxProvider extends Component {
                                                 "autoManaged": false,
                                             },
                                             "display_pagetitle": {
-                                                "__name": i18n.t('page'),
+                                                "__name": i18n.t('Title') + i18n.t('document'),
                                                 "type": "checkbox",
                                                 "checked": true,
                                                 "autoManaged": false,

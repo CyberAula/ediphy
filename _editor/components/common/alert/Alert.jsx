@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
 import { Button, Modal } from 'react-bootstrap';
 import i18n from 'i18next';
 /** *
@@ -68,3 +68,54 @@ export default class Alert extends Component {
     }
 
 }
+
+Alert.propTypes = {
+    /**
+     * Indica si se muestra o se oculta la alerta
+     */
+    show: PropTypes.bool,
+    /**
+     * Clases CSS para aplicar al modal de la alerta
+     */
+    className: PropTypes.string,
+    /**
+     * Estilo de Bootstrap para los botones de la alerta
+     */
+    bsStyle: PropTypes.oneOf(["success", "warning", "danger", "info", "default", "primary", "link"]),
+    /**
+     * Indica si el modal de la alerta debe tener barra de encabezado
+     */
+    hasHeader: PropTypes.bool,
+    /**
+     * Indica si se debe incluir un fondo negro semitransparente detrás de la alerta (true). Si se especifica `static`, no se ocultará la alerta al hacer click.
+     */
+    backdrop: PropTypes.oneOf(['static', true, false]),
+    /**
+     * Título para el encabezado. Sólo se mostrará si la propedad `hasHeader` es `true`. Puede ser una cadena de texto o un componente de React.
+     */
+    title: PropTypes.any,
+    /**
+     * Indica si se debe incluir un botón de cerrar en el encabezado. Sólo se mostrará si la propedad `hasHeader` es `true`
+     */
+    closeButton: PropTypes.bool,
+    /**
+     * Texto del botón de aceptar
+     */
+    acceptButtonText: PropTypes.string,
+    /**
+     * Indica si se incluye un botón de cancelar
+     */
+    cancelButton: PropTypes.bool,
+    /**
+     * Texto del botón de cancelar (si lo hay)
+     */
+    cancelButtonText: PropTypes.string,
+    /**
+     * Cierra la alerta
+     */
+    onClose: PropTypes.func.isRequired,
+    /**
+     * Componentes que forman el interior de la alerta. Si son componentes controlados, debe gestionarse su estado desde el componente padre.
+     */
+    children: PropTypes.any,
+};

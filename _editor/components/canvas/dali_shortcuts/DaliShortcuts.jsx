@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import Dali from '../../../../core/editor/main';
 import { Tooltip, OverlayTrigger } from 'react-bootstrap';
@@ -318,3 +319,43 @@ export default class DaliShortcuts extends Component {
         }
     }
 }
+
+DaliShortcuts.propTypes = {
+    /**
+     * Caja seleccionada
+     */
+    box: PropTypes.any,
+    /**
+     * Vista contenida seleccionada
+     */
+    containedViewSelected: PropTypes.any,
+    /**
+     * Si se renderiza el componente desde una vista contenida (true) o una normal (false)
+     */
+    isContained: PropTypes.bool,
+    /**
+     * Hace aparecer/desaparecer el CKEditor
+     */
+    onTextEditorToggled: PropTypes.func.isRequired,
+    /**
+     * TODO
+     */
+    onMarkCreatorToggled: PropTypes.func.isRequired,
+    /**
+     * Borra una caja
+     */
+    onBoxDeleted: PropTypes.func.isRequired,
+    /**
+     * Redimensiona una caja
+     */
+    onBoxResized: PropTypes.func.isRequired,
+    /**
+     * Toolbar seleccionada
+     */
+    toolbar: PropTypes.object,
+    /**
+     * Activa la funcionalidad de manipular el plugin con el ratón/dedo
+     */
+    pointerEventsCallback: PropTypes.func,
+
+};

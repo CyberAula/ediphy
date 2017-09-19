@@ -209,8 +209,7 @@ export default class GridConfigurator extends Component {
                         value={this.props.container.style ? this.props.container.style.borderColor : '#ffffff'}
                         onChange={e => {
                             this.props.onSortablePropsChanged(this.props.id, this.props.parentId, 'borderColor', e.color);
-                        }}
-                        mode='RGB' />
+                        }}/>
                 </FormGroup>
                 <FormGroup>
                     <ControlLabel>{i18n.t('styles.border_size')}</ControlLabel>

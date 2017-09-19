@@ -19,7 +19,6 @@
     "test": "jest --colors",
     "eslint": "eslint  --fix  **/*.js **/*.jsx **/*.es6 --ignore-pattern node_modules/ --ignore-pattern dist --ignore-pattern doc/dist --ignore-pattern doc/esdoc --ignore-pattern doc/jsdoc --ignore-pattern sass --ignore-pattern dali_server --ignore-pattern webpack_plugins",
     "doc": " node doc/reactdocgenmd.js & webpack --config doc/webpack.doc.prod.js",
-    "all-doc": "esdoc -c doc/esdoc.json && npm run doc",
     "dev-doc": "webpack-dev-server --open --progress --colors --config doc/webpack.doc.dev.js",
     "add-all": "git add .",
     "postinstall": "node ./plugin_install"

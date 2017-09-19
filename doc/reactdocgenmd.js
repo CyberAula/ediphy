@@ -9,20 +9,20 @@ const template = `
 {{#if srcLink }}From [\`{{srcLink}}\`]({{srcLink}}){{/if}}
  
  
-prop | type | default | required | description
----- | :----: | :-------: | :--------: | -----------
+prop | type | required | description
+---- | :----: | :--------: | -----------
 {{#each props}}
-**{{@key}}** | \`{{> (typePartial this) this}}\` | {{#if this.defaultValue}}\`{{{this.defaultValue}}}\`{{/if}} | {{#if this.required}}✔{{else}}✘{{/if}} | {{#if this.description}}{{{this.description}}}{{/if}}
+**{{@key}}** | \`{{> (typePartial this) this}}\`  | {{#if this.required}}✔{{else}}✘{{/if}} | {{#if this.description}}{{{this.description}}}{{/if}}
 {{/each}}
  
  
 {{#each composes}}
 #### {{this.componentName}}
  
-prop | type | default | required | description
----- | :----: | :-------: | :--------: | -----------
+prop | type | required | description
+---- | :----: | :--------: | -----------
 {{#each this.props}}
-**{{@key}}** | \`{{> (typePartial this) this}}\` | {{#if this.defaultValue}}\`{{{this.defaultValue}}}\`{{/if}} | {{#if this.required}}:white_check_mark:{{else}}:x:{{/if}} | {{#if this.description}}{{{this.description}}}{{/if}}
+**{{@key}}** | \`{{> (typePartial this) this}}\` | {{#if this.required}}:white_check_mark:{{else}}:x:{{/if}} | {{#if this.description}}{{{this.description}}}{{/if}}
 {{/each}}
  
 {{/each}}

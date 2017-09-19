@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import DaliIndexTitle from '../dali_index_title/DaliIndexTitle';
 import { isPage, isSection, isSlide, calculateNewIdOrder } from '../../../../common/utils';
 import Dali from '../../../../core/editor/main';
@@ -60,8 +61,7 @@ export default class Section extends Component {
                                     navItem.unitNumber + ". " :
                                     this.props.navItems[navItem.parent].children.indexOf(this.props.id) + 1 + '. '}
                                 hidden={navItem.hidden}
-                                onNameChanged={this.props.onNavItemNameChanged}
-                                onNavItemToggled={this.props.onNavItemToggled}/>
+                                onNameChanged={this.props.onNavItemNameChanged}/>
                         </span>
                     </span>
                 </div>
@@ -85,8 +85,7 @@ export default class Section extends Component {
                                 onNavItemNameChanged={this.props.onNavItemNameChanged}
                                 onNavItemSelected={this.props.onNavItemSelected}
                                 onNavItemExpanded={this.props.onNavItemExpanded}
-                                onNavItemReordered={this.props.onNavItemReordered}
-                                onNavItemToggled={this.props.onNavItemToggled}/>;
+                                onNavItemReordered={this.props.onNavItemReordered}/>;
                         } else if (isPage(id)) {
                             let classSelectedD = this.props.navItemSelected === id ? 'selected dragS' : 'notSelected dragS';
                             let classIndexSelectedD = this.props.indexSelected === id ? ' classIndexSelected' : '';
@@ -114,8 +113,7 @@ export default class Section extends Component {
                                             index={this.props.navItems[this.props.navItems[id].parent].children.indexOf(id) + 1 + '.'}
                                             title={this.props.navItems[id].name}
                                             hidden={this.props.navItems[id].hidden}
-                                            onNameChanged={this.props.onNavItemNameChanged}
-                                            onNavItemToggled={this.props.onNavItemToggled}/>
+                                            onNameChanged={this.props.onNavItemNameChanged} />
                                     </span>
                                 </div>
                             );
@@ -202,3 +200,55 @@ export default class Section extends Component {
         jQuery(this.refs.sortableList).sortable("destroy");
     }
 }
+
+Section.propTypes = {
+    /**
+     * Identificador único de la sección
+     */
+    id: PropTypes.string.isRequired,
+    /**
+     * Identificador único del elemento seleccionado en el índice
+     */
+    indexSelected: PropTypes.any.isRequired,
+    /**
+     * Array ordenado de los elementos del índice
+     */
+    navItemsIds: PropTypes.array.isRequired,
+    /**
+     * Diccionario que contiene todas las vistas creadas, accesibles por su *id*
+     */
+    navItems: PropTypes.object.isRequired,
+    /**
+     * Identificador único de la vista seleccionada
+     */
+    navItemSelected: PropTypes.any,
+    /**
+     * Cambia el nombre de la sección
+     */
+    onNavItemNameChanged: PropTypes.func.isRequired,
+    /**
+     * Añade una nueva sección o página
+     */
+    onNavItemAdded: PropTypes.func.isRequired,
+    /**
+     * Añade una nueva caja
+     */
+    onBoxAdded: PropTypes.func.isRequired,
+    /**
+     * Selecciona la sección en el índice
+     */
+    onIndexSelected: PropTypes.func.isRequired,
+    /**
+     * Selecciona la sección para visualizarla
+     */
+    onNavItemSelected: PropTypes.func.isRequired,
+    /**
+     * Expande la sección
+     */
+    onNavItemExpanded: PropTypes.func.isRequired,
+    /**
+     * Reordena los elementos del índice
+     */
+    onNavItemReordered: PropTypes.func.isRequired,
+
+};

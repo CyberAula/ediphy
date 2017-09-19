@@ -19,7 +19,7 @@ export function DataTable(base) {
                 initialWidth: '100%',
                 initialHeight: "auto",
                 initialWidthSlide: '100%',
-                initialHeightSlide: '100%',
+                initialHeightSlide: 'auto',
             };
         },
         getToolbar: function() {

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Picker from 'rc-color-picker';
-
 import './../../../../node_modules/rc-color-picker/assets/index.css';
 import './color_picker_input.scss';
 /**
@@ -99,3 +99,14 @@ export default class ColorPicker extends Component {
         return num;
     }
 }
+
+ColorPicker.propTypes = {
+    /**
+     * Valor del color seleccionado
+     */
+    value: PropTypes.string.isRequired,
+    /**
+     * Cambia el color seleccionado
+     */
+    onChange: PropTypes.func.isRequired,
+};

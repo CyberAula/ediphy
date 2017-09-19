@@ -116,7 +116,6 @@ class DaliApp extends Component {
                         onVishCatalogToggled={() => this.setState({ catalogModal: true })}
                         setcat={(category) => {this.setState({ pluginTab: category, hideTab: 'show' });}}/>
                     <AutoSave save={() => {this.dispatchAndSetState(exportStateAsync({ present: this.props.store.getState().present }));}}
-                        serverModalOpen={()=>{this.setState({ serverModal: true });}}
                         isBusy={isBusy}
                         lastAction={this.state.lastAction}
                         visorVisible={this.state.visorVisible}/>
@@ -188,7 +187,6 @@ class DaliApp extends Component {
                             });
                         }}
                         onNavItemReordered={(id, newParent, oldParent, idsInOrder, childrenInOrder) => this.dispatchAndSetState(reorderNavItem(id, newParent, oldParent, idsInOrder, childrenInOrder))}
-                        onNavItemToggled={ id => this.dispatchAndSetState(toggleNavItem(id)) }
                         onDisplayModeChanged={mode => this.dispatchAndSetState(changeDisplayMode(mode))}
                         containedViewsVisible={this.state.containedViewsVisible}
                         onContainedViewsExpand={()=>{

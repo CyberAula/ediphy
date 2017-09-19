@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { OverlayTrigger, Popover, Breadcrumb, BreadcrumbItem } from 'react-bootstrap';
 import i18n from 'i18next';
 import { isSortableBox, isCanvasElement, isContainedView } from '../../../../common/utils';
@@ -19,6 +20,7 @@ export default class DaliHeader extends Component {
         let docTitle = navItem.name;
         let subTitle = i18n.t('subtitle');
         let pagenumber = this.props.navItem.unitNumber;
+        console.log(navItem.header);
 
         if (navItem !== undefined && navItem.id !== 0 && navItem.header) {
             docTitle = navItem.header.elementContent.documentTitle !== "" && (navItem.header.elementContent.documentTitle !== navItem.name) ? navItem.header.elementContent.documentTitle : navItem.name;
@@ -103,7 +105,6 @@ export default class DaliHeader extends Component {
             return (
                 <div className="title" onClick={(e) => {
                     this.props.onBoxSelected(-1);
-                    this.props.onShowTitle();
                     e.stopPropagation(); }}>
                     <div style={{ backgroundColor: 'transparent', display: (titles.length !== 0) ? 'initial' : 'none' }}>
                         {/* <div className={this.props.showButtons ? "caja selectedTitle selectedBox" : "caja"} > */}
@@ -111,13 +112,7 @@ export default class DaliHeader extends Component {
                             <div className="cab">
 
                                 <div className="cabtabla_numero"
-                                    contentEditable={false}
-                                    suppressContentEditableWarning
                                     style={{ display: (currentStatus.pageNumber === 'hidden') ? 'none' : 'block' }}
-                                    onBlur={e => {
-                                        this.props.onUnitNumberChanged(navItem.id, parseInt(e.target.innerText, 10));
-
-                                    }}
                                 >{pagenumber}</div>
 
                                 <div className="tit_ud_cap">
@@ -199,3 +194,42 @@ export default class DaliHeader extends Component {
     }
 
 }
+
+DaliHeader.propTypes = {
+    /**
+     * Array que contiene el título desglosado de la página. Ej: `['Sección 1'. 'Página 1']`
+     */
+    titles: PropTypes.array.isRequired,
+    /**
+     * Selecciona caja
+     */
+    onBoxSelected: PropTypes.func.isRequired,
+    /**
+     * Título del curso
+     */
+    courseTitle: PropTypes.string.isRequired,
+    /**
+     * Página actual, identificada por su *id*
+     */
+    navItem: PropTypes.any,
+    /**
+     * Diccionario que contiene todas las vistas creadas, accesibles por su *id*
+     */
+    navItems: PropTypes.object.isRequired,
+    /**
+     * Vista contenida actual, identificada por su *id*
+     */
+    containedView: PropTypes.any,
+    /**
+     * Diccionario que contiene todas las vistas contenidas, accesibles por su *id*
+     */
+    containedViews: PropTypes.object.isRequired,
+    /**
+     * Diccionario que contiene todas las toolbars, accesibles por el *id* de su caja/vista
+     */
+    toolbars: PropTypes.object.isRequired,
+    /**
+     * Diccionario que contiene todas las cajas creadas, accesibles por su *id*
+     */
+    boxes: PropTypes.object.isRequired,
+};
