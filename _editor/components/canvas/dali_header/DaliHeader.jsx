@@ -20,7 +20,6 @@ export default class DaliHeader extends Component {
         let docTitle = navItem.name;
         let subTitle = i18n.t('subtitle');
         let pagenumber = this.props.navItem.unitNumber;
-        console.log(navItem.header);
 
         if (navItem !== undefined && navItem.id !== 0 && navItem.header) {
             docTitle = navItem.header.elementContent.documentTitle !== "" && (navItem.header.elementContent.documentTitle !== navItem.name) ? navItem.header.elementContent.documentTitle : navItem.name;

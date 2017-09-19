@@ -106,7 +106,7 @@ DaliIndexTitle.propTypes = {
     /**
      * Identificador único del elemento del índice seleccionado
      */
-    id: PropTypes.string.isRequired,
+    id: PropTypes.string,
     /**
      * Título del elemento del índice seleccionado
      */
@@ -114,7 +114,7 @@ DaliIndexTitle.propTypes = {
     /**
      * Número del elemento del índice seleccionado
      */
-    index: PropTypes.string.isRequired,
+    index: PropTypes.any.isRequired,
     /**
      * Indicador de si el elemento está marcado como privado (aparece tachado y no se muestra en el visor)
      */
