@@ -347,12 +347,6 @@ function toolbarSectionCreator(state, action, isContainedView = false) {
                         __name: "Generales",
                         icon: 'settings',
                         buttons: {
-                            page_display: {
-                                __name: i18n.t('display_page'),
-                                type: 'checkbox',
-                                checked: true,
-                                autoManaged: false,
-                            },
                             navitem_name: {
                                 __name: i18n.t('NavItem_name'),
                                 type: 'text',
@@ -432,6 +426,13 @@ function toolbarSectionCreator(state, action, isContainedView = false) {
             autoManaged: false,
             display: true,
         };
+    }
+    if (!isContainedView && toolbar.controls && toolbar.controls.main && toolbar.controls.main.accordions.basic && toolbar.controls.main.accordions.basic.buttons) {
+        toolbar.controls.main.accordions.basic.buttons.page_display = {
+            __name: i18n.t('display_page'),
+            type: 'checkbox',
+            checked: true,
+            autoManaged: false };
     }
     toolbar.config.displayName = isContainedView ? doc_type + ': ' + i18n.t("contained_view") : doc_type;
 
