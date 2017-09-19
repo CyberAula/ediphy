@@ -338,7 +338,7 @@ DaliShortcuts.propTypes = {
      */
     onTextEditorToggled: PropTypes.func.isRequired,
     /**
-     * TODO
+     * Muestra/oculta el overlay de creación de marcas
      */
     onMarkCreatorToggled: PropTypes.func.isRequired,
     /**

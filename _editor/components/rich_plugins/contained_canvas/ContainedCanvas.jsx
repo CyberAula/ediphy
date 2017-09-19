@@ -183,17 +183,17 @@ ContainedCanvas.propTypes = {
      */
     addMarkShortcut: PropTypes.func.isRequired,
     /**
-     * TODO
+     * Función que oculta el overlay de creación de marcas
      */
     deleteMarkCreator: PropTypes.func.isRequired,
     /**
-     * TODO
+     * Identificador de la caja en la que se va a crear una marca
      */
     markCreatorId: PropTypes.any.isRequired,
     /**
-     * TODO
+     * Oculta/muestra el overlay de creación de marcas
      */
-    titleModeToggled: PropTypes.func.isRequired,
+    onMarkCreatorToggled: PropTypes.func.isRequired,
     /**
      * Añade una caja
      */

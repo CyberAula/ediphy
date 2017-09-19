@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import './_rangeslider.scss';
 /**
  * Range slider component with min and max draggable values
@@ -13,7 +14,7 @@ export default class RangeSlider extends Component {
         let min = props.minValue || props.min;
         let max = props.maxValue || props.max;
         /**
-         * Component's initial state
+         * Co;ponent's initial state
          */
         this.state = {
             min: props.min,
@@ -117,3 +118,33 @@ export default class RangeSlider extends Component {
         );
     }
 }
+RangeSlider.propTypes = {
+    /**
+     * Mínimo valor posible
+     */
+    min: PropTypes.number.isRequired,
+    /**
+     * Máximo valor posible
+     */
+    max: PropTypes.number.isRequired,
+    /**
+     * Diferencia mínima permitida entre el máximo y el mínimo valor
+     */
+    minRange: PropTypes.number.isRequired,
+    /**
+     * Valor inferior seleccionado
+     */
+    minValue: PropTypes.number.isRequired,
+    /**
+     * Valor superior seleccionado
+     */
+    maxValue: PropTypes.number.isRequired,
+    /**
+     * Modifica el valor del input
+     */
+    onChange: PropTypes.func.isRequired,
+    /**
+     * Incremento de valor mínimo
+     */
+    step: PropTypes.number.isRequired,
+};

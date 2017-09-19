@@ -411,11 +411,11 @@ DaliBoxSortable.propTypes = {
      */
     addMarkShortcut: PropTypes.func.isRequired,
     /**
-     * TODO
+     * Función que oculta el overlay de creación de marcas
      */
     deleteMarkCreator: PropTypes.func.isRequired,
     /**
-     * TODO
+     * Identificador de la caja en la que se va a crear una marca
      */
     markCreatorId: PropTypes.any.isRequired,
     /**
