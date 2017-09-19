@@ -81,13 +81,10 @@ export function GraficaD3(base) {
             };
         },
         getInitialState: function() {
-            let data = [{ "First field": "1" }, { "First field": "2" }];
-            let keys = ["First field"];
+            let data = [["Initial column", 1, 0]];
 
             return {
                 data: data,
-                keys: keys,
-                valueKeys: keys,
                 editing: true,
                 options: {
                     type: "area",
