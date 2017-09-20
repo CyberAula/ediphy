@@ -498,7 +498,6 @@ export default class DaliBox extends Component {
         let offsetEl = document.getElementById('maincontent') ? document.getElementById('maincontent').getBoundingClientRect() : {};
         let leftO = offsetEl.left || 0;
         let topO = offsetEl.top || 0;
-        offsetEl;
         let gridTarget = interact.createSnapGrid({ x: 10, y: 10, range: 7.1, offset: { x: leftO, y: topO } });
         Dali.Plugins.get(toolbar.config.name).getConfig();
         Dali.Plugins.get(toolbar.config.name).afterRender(this.refs.content, toolbar.state);
