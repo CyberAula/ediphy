@@ -500,6 +500,7 @@ export default class DaliBox extends Component {
         let topO = offsetEl.top || 0;
         offsetEl;
         let gridTarget = interact.createSnapGrid({ x: 10, y: 10, range: 7.1, offset: { x: leftO, y: topO } });
+        Dali.Plugins.get(toolbar.config.name).getConfig();
         Dali.Plugins.get(toolbar.config.name).afterRender(this.refs.content, toolbar.state);
         let dragRestrictionSelector = isSortableContainer(box.container) ? ".daliBoxSortableContainer, .drg" + box.container : "parent";
         interact(ReactDOM.findDOMNode(this))

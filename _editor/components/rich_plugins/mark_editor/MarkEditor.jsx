@@ -173,7 +173,7 @@ export default class MarkEditor extends Component {
             document.body.style.cursor = 'default';
             boxStyle.classList.remove('norotate');
             window.removeEventListener('keyup', keyListener);
-            document.documentElement.removeEventListener('mouseup', clickOutside);
+            document.documentElement.removeEventListener('mouseup', clickOutside, true);
             if (overlay) {
                 overlay.remove();
             }
@@ -226,7 +226,8 @@ export default class MarkEditor extends Component {
                 component.setState({ editing: false });
             }
             base.setState('__marks', marks);
-            base.render('UPDATE_BOX');
+            base.render('EDIT_RICH_MARK');
+
         };
         dropableElement.parentElement.appendChild(overlay);
 

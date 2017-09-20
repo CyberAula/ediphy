@@ -521,13 +521,13 @@ class DaliApp extends Component {
                 ));
                 break;
             case EDIT_RICH_MARK:
-                // this.dispatchAndSetState(editRichMark(e.detail.ids.id, e.detail.state));
-                this.dispatchAndSetState(updateBox(
+                this.dispatchAndSetState(editRichMark(e.detail.ids.id, e.detail.state));
+                /* this.dispatchAndSetState(updateBox(
                     e.detail.ids.id,
                     e.detail.content,
                     e.detail.toolbar,
                     e.detail.state
-                ));
+                ));*/
                 break;
             case ADD_BOX:
                 if(this.severalBoxes === 0) {
@@ -549,6 +549,7 @@ class DaliApp extends Component {
                     e.detail.initialParams
                 ));
                 break;
+
             case DELETE_RICH_MARK:
             case DELETE_NAV_ITEM:
             case DELETE_CONTAINED_VIEW:

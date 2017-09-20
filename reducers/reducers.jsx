@@ -87,8 +87,8 @@ const GlobalState = undoable(combineReducers({
         case TOGGLE_TITLE_MODE:
         case UPDATE_NAV_ITEM_EXTRA_FILES:
         case UPDATE_BOX:
-            /* case DELETE_RICH_MARK:
-             case ADD_RICH_MARK:*/
+        /* case DELETE_RICH_MARK:
+         case ADD_RICH_MARK:*/
             return false;
         }
 

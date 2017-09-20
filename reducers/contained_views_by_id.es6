@@ -51,6 +51,9 @@ export default function(state = {}, action = {}) {
         }
         return state;
     case EDIT_RICH_MARK:
+        if(!action.payload.mark) {
+            return state;
+        }
         let editState = Object.assign({}, state);
         if (isContainedView(action.payload.oldConnection)) {
             if (editState[action.payload.oldConnection] && editState[action.payload.oldConnection].parent[action.payload.parent]) {
