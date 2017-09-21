@@ -216,7 +216,7 @@ DaliCanvasDoc.propTypes = {
      */
     fromCV: PropTypes.bool,
     /**
-     * Indicador de si se muestra el canvas (tiene qu haber un navItem seleccionado)
+     * Indicador de si se muestra el canvas (tiene que haber un navItem seleccionado)
      */
     showCanvas: PropTypes.bool,
     /**

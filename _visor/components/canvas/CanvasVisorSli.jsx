@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
 import BoxVisor from './BoxVisor';
 import { Col, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import HeaderVisor from './HeaderVisor';
@@ -110,7 +110,6 @@ export default class CanvasVisorSli extends Component {
                 </div>
 
             </Col>
-            /* jshint ignore:end */
         );
     }
     componentDidUpdate() {
@@ -139,3 +138,58 @@ export default class CanvasVisorSli extends Component {
     }
 
 }
+
+CanvasVisorSli.propTypes = {
+    /**
+     * Diccionario que contiene todas las cajas
+     */
+    boxes: PropTypes.object.isRequired,
+    /**
+     * Relación de aspecto para las diapositivas
+     */
+    canvasRatio: PropTypes.number.isRequired,
+    /**
+     * Cambia la vista actual
+     */
+    changeCurrentView: PropTypes.func.isRequired,
+    /**
+     * Diccionario que contiene todas las vistas contenidas, accesibles por su *id*
+     */
+    containedViews: PropTypes.object.isRequired,
+    /**
+     * Vista actual
+     */
+    currentView: PropTypes.any,
+    /**
+     * Diccionario que contiene todas las vistas creadas, accesibles por su *id*
+     */
+    navItems: PropTypes.object.isRequired,
+    /**
+     * Elimina la última vista
+     */
+    removeLastView: PropTypes.func.isRequired,
+    /**
+     * Estado del plugin enriquecido en la transición
+     */
+    richElementsState: PropTypes.object,
+    /**
+     * Indicador de si se muestra el canvas (tiene que haber un navItem seleccionado)
+     */
+    showCanvas: PropTypes.bool,
+    /**
+     * Título del curso
+     */
+    title: PropTypes.any,
+    /**
+     * Diccionario que contiene todas las toolbars
+     */
+    toolbars: PropTypes.object,
+    /**
+     * Lista de marcas en curso o lanzadas
+     */
+    triggeredMarks: PropTypes.array,
+    /**
+     *  Array de vistas
+     */
+    viewsArray: PropTypes.array,
+};

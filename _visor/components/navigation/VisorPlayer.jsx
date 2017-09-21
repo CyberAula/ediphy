@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
 import { Button, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import i18n from 'i18next';
 import Dali from '../../../core/editor/main';
 import { isPage } from '../../../common/utils';
-import { toggleFullScreen, isFullScreenOn, fullScreenListener } from '../../../common/common_tools';
+import { isFullScreenOn } from '../../../common/common_tools';
 import 'bootstrap/dist/css/bootstrap.css';
 import screenfull from 'screenfull';
+
 /**
  * Visor's navigation buttons
  */
@@ -113,3 +114,26 @@ export default class VisorPlayer extends Component {
     }
 
 }
+
+VisorPlayer.propTypes = {
+    /**
+     * Indica si se muestran o ocultan los botones de navegación
+     */
+    show: PropTypes.bool,
+    /**
+     * Cambia la vista actuak
+     */
+    changeCurrentView: PropTypes.func.isRequired,
+    /**
+     Diccionario que contiene todas las vistas y vistas contenidas, accesibles por su *id*
+     */
+    currentViews: PropTypes.array.isRequired,
+    /**
+     * Diccionario que contiene todas las vistas, accesibles por su *id*
+     */
+    navItemsById: PropTypes.object.isRequired,
+    /**
+     * Array que contiene todas las vistas y vistas contenidas, accesibles por su *id*
+     */
+    navItemsIds: PropTypes.array.isRequired,
+};

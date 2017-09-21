@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import BoxVisor from './BoxVisor';
-import { isBox, isSortableBox, isView, isSortableContainer, isAncestorOrSibling } from '../../../common/utils';
+import { isAncestorOrSibling } from '../../../common/utils';
 
 export default class PluginPlaceholderVisor extends Component {
     render() {
@@ -11,7 +12,6 @@ export default class PluginPlaceholderVisor extends Component {
             className += " childBoxSelected";
         }
         return (
-            /* jshint ignore:start */
             <div style={
                 Object.assign({}, {
                     width: "100%",
@@ -39,21 +39,11 @@ export default class PluginPlaceholderVisor extends Component {
                                             return (<BoxVisor id={idBox}
                                                 key={index}
                                                 boxes={this.props.boxes}
-                                                boxSelected={this.props.boxSelected}
-                                                boxLevelSelected={this.props.boxLevelSelected}
-                                                containedViewSelected={this.props.containedViewSelected}
+                                                changeCurrentView={this.props.changeCurrentView}
+                                                currentViewSelected={this.props.currentViewSelected}
                                                 toolbars={this.props.toolbars}
-                                                lastActionDispatched={this.props.lastActionDispatched}
-                                                onBoxLevelIncreased={this.props.onBoxLevelIncreased}
-                                                onBoxMoved={this.props.onBoxMoved}
-                                                onBoxResized={this.props.onBoxResized}
-                                                onBoxesInsideSortableReorder={this.props.onBoxesInsideSortableReorder}
-                                                onSortableContainerResized={this.props.onSortableContainerResized}
-                                                onBoxDeleted={this.props.onBoxDeleted}
-                                                onBoxDropped={this.props.onBoxDropped}
-                                                onBoxModalToggled={this.props.onBoxModalToggled}
-                                                onVerticallyAlignBox={this.props.onVerticallyAlignBox}
-                                                onTextEditorToggled={this.props.onTextEditorToggled}/>);
+                                                richElementsState={this.props.richElementsState}/>);
+
                                         } else if (index === container.children.length - 1) {
                                             return (<span><br/><br/></span>);
                                         }
@@ -67,8 +57,42 @@ export default class PluginPlaceholderVisor extends Component {
                     return null;
                 })}
             </div>
-            /* jshint ignore:end */
         );
     }
 
 }
+
+PluginPlaceholderVisor.propTypes = {
+    /**
+     * Identificador del contenedor de plugins
+     */
+    pluginContainer: PropTypes.string.isRequired,
+    /**
+     * Indica si se puede redimensionar el contenedor
+     */
+    resizable: PropTypes.bool,
+    /**
+     * Identificador de la caja
+     */
+    parentBox: PropTypes.string.isRequired,
+    /**
+     * Diccionario que contiene todas las cajas
+     */
+    boxes: PropTypes.object.isRequired,
+    /**
+     * Cambia la vista actual
+     */
+    changeCurrentView: PropTypes.func.isRequired,
+    /**
+     * Vista actual
+     */
+    currentView: PropTypes.any,
+    /**
+     * Diccionario que contiene todas las toolbars
+     */
+    toolbars: PropTypes.object,
+    /**
+     * Estado del plugin enriquecido en la transición
+     */
+    richElementsState: PropTypes.object,
+};

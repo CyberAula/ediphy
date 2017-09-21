@@ -20,26 +20,12 @@ export default class BoxVisor extends Component {
         let vis = this.props.boxSelected === this.props.id;
         let style = {};
 
-        let textareaStyle = {
-            position: 'absolute',
-            resize: 'none',
-            // top: '0%', ** there is an error here
-            color: 'black',
-            backgroundColor: 'white',
-            padding: 0,
-            width: '100%',
-            height: (toolbar.showTextEditor ? '' : '100%'),
-            border: 'dashed black 1px',
-            zIndex: 99999,
-            visibility: (toolbar.showTextEditor ? 'visible' : 'hidden'),
-        };
         let attrs = {};
         let width;
         let height;
         let classNames = "";
 
         if (toolbar.config.needsTextEdition) {
-            textareaStyle.textAlign = "left";
             style.textAlign = "left";
         }
 
@@ -63,14 +49,7 @@ export default class BoxVisor extends Component {
                     } else {
                         attrs['data-' + buttonKey] = button.value;
                     }
-                    if (buttonKey === 'fontSize') {
-                        textareaStyle.fontSize = button.value;
-                        if (button.units) {
-                            textareaStyle.fontSize += button.units;
-                        }
-                    } else if (buttonKey === 'color') {
-                        textareaStyle.color = button.value;
-                    }
+
                 }
                 if (toolbar.controls[tabKey].accordions[accordionKey].accordions) {
                     for (let accordionKey2 in toolbar.controls[tabKey].accordions[accordionKey].accordions) {
@@ -87,14 +66,7 @@ export default class BoxVisor extends Component {
                             } else {
                                 attrs['data-' + buttonKey] = button.value;
                             }
-                            if (buttonKey === 'fontSize') {
-                                textareaStyle.fontSize = button.value;
-                                if (button.units) {
-                                    textareaStyle.fontSize += button.units;
-                                }
-                            } else if (buttonKey === 'color') {
-                                textareaStyle.color = button.value;
-                            }
+
                         }
                     }
                 }
@@ -147,16 +119,6 @@ export default class BoxVisor extends Component {
             classes += " automaticallySizedBox";
         }
 
-        let showOverlay = "none";
-        // If current level selected is bigger than this box's and it has no children, show overlay
-        if (this.props.boxLevelSelected > box.level && box.children.length === 0) {
-            showOverlay = "initial";
-        // If current level selected is the same but this box belongs to another "tree" of boxes, show overlay
-        } else if (this.props.boxLevelSelected === box.level &&
-                   box.level !== 0 &&
-                   !isAncestorOrSibling(this.props.boxSelected, this.props.id, this.props.boxes)) {
-            showOverlay = "initial";
-        }
         let verticalAlign = "top";
         if (isSortableBox(box.container)) {
             if (toolbar.controls.main.accordions.__sortable.buttons.__verticalAlign.value) {
@@ -177,21 +139,12 @@ export default class BoxVisor extends Component {
         wholeBoxVisorStyle.transform = wholeBoxVisorStyle.WebkitTransform = wholeBoxVisorStyle.MsTransform = rotate;
 
         return (
-            /* jshint ignore:start */
             <div className={classes} id={'box-' + this.props.id}
                 style={wholeBoxVisorStyle}>
                 {border}
                 {content}
-                {/* {toolbar.state.__text ?
-                    <div id={box.id}
-                        ref={"textarea"}
-                        className={classNames + " textAreaStyle"}
-                        contentEditable
-                        style={textareaStyle} /> :
-                    null
-                }*/}
+
             </div>
-            /* jshint ignore:end */
         );
     }
 
@@ -223,22 +176,10 @@ export default class BoxVisor extends Component {
                     resizable: resizable,
                     parentBox: this.props.boxes[this.props.id],
                     boxes: this.props.boxes,
-                    boxSelected: this.props.boxSelected,
-                    boxLevelSelected: this.props.boxLevelSelected,
                     toolbars: this.props.toolbars,
-                    lastActionDispatched: this.props.lastActionDispatched,
-                    onBoxSelected: this.props.onBoxSelected,
-                    onBoxLevelIncreased: this.props.onBoxLevelIncreased,
+                    richElementsState: this.props.richElementsState,
+                    changeCurrentView: this.props.changeCurrentView,
                     currentViewSelected: this.props.currentViewSelected,
-                    onBoxMoved: this.props.onBoxMoved,
-                    onBoxResized: this.props.onBoxResized,
-                    onSortableContainerResized: this.props.onSortableContainerResized,
-                    onBoxDeleted: this.props.onBoxDeleted,
-                    onBoxDropped: this.props.onBoxDropped,
-                    onVerticallyAlignBox: this.props.onVerticallyAlignBox,
-                    onBoxModalToggled: this.props.onBoxModalToggled,
-                    onBoxesInsideSortableReorder: this.props.onBoxesInsideSortableReorder,
-                    onTextEditorToggled: this.props.onTextEditorToggled,
                 });
             } else {
                 component = markup.tag;
@@ -280,37 +221,30 @@ export default class BoxVisor extends Component {
         return React.createElement(component, props, children);
     }
 }
+
 BoxVisor.propTypes = {
     /**
      * Identificador de la caja
      */
-    id: PropTypes.any.isRequired,
+    id: PropTypes.string.isRequired,
     /**
      * Diccionario que contiene todas las cajas
      */
-    boxes: PropTypes.any.isRequired,
-    /**
-     * Caja seleccionada
-     */
-    boxSelected: PropTypes.any.isRequired,
-    /**
-     * Nivel de caja seleccionada
-     */
-    boxLevelSelected: PropTypes.any.isRequired,
+    boxes: PropTypes.object.isRequired,
     /**
      * Cambia la vista actual
      */
-    changeCurrentView: PropTypes.any.isRequired,
+    changeCurrentView: PropTypes.func.isRequired,
     /**
      * Vista actual
      */
-    currentView: PropTypes.any.isRequired,
+    currentView: PropTypes.any,
     /**
      * Diccionario que contiene todas las toolbars
      */
-    toolbars: PropTypes.any.isRequired,
+    toolbars: PropTypes.object,
     /**
      * Estado del plugin enriquecido en la transición
      */
-    richElementsState: PropTypes.any.isRequired,
+    richElementsState: PropTypes.object,
 };

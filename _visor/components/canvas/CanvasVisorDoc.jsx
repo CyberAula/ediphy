@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
 import BoxVisor from './BoxVisor';
 import BoxSortableVisor from './BoxSortableVisor';
 import { Col, Tooltip, OverlayTrigger } from 'react-bootstrap';
@@ -117,7 +117,6 @@ export default class CanvasVisorDoc extends Component {
                     </div>
                 </div>
             </Col>
-            /* jshint ignore:end */
         );
     }
 
@@ -131,3 +130,54 @@ export default class CanvasVisorDoc extends Component {
     }
 
 }
+
+CanvasVisorDoc.propTypes = {
+    /**
+     * Diccionario que contiene todas las cajas
+     */
+    boxes: PropTypes.object.isRequired,
+    /**
+     * Cambia la vista actual
+     */
+    changeCurrentView: PropTypes.func.isRequired,
+    /**
+     * Diccionario que contiene todas las vistas contenidas, accesibles por su *id*
+     */
+    containedViews: PropTypes.object.isRequired,
+    /**
+     * Vista actual
+     */
+    currentView: PropTypes.any,
+    /**
+     * Diccionario que contiene todas las vistas creadas, accesibles por su *id*
+     */
+    navItems: PropTypes.object.isRequired,
+    /**
+     * Elimina la última vista
+     */
+    removeLastView: PropTypes.func.isRequired,
+    /**
+     * Estado del plugin enriquecido en la transición
+     */
+    richElementsState: PropTypes.object,
+    /**
+     * Indicador de si se muestra el canvas (tiene que haber un navItem seleccionado)
+     */
+    showCanvas: PropTypes.bool,
+    /**
+     * Título del curso
+     */
+    title: PropTypes.any,
+    /**
+     * Diccionario que contiene todas las toolbars
+     */
+    toolbars: PropTypes.object,
+    /**
+     * Lista de marcas en curso o lanzadas
+     */
+    triggeredMarks: PropTypes.array,
+    /**
+     *  Array de vistas
+     */
+    viewsArray: PropTypes.array,
+};

@@ -197,7 +197,6 @@ export default class Visor extends Component {
                                 { !isContainedView(this.getLastCurrentViewElement()) ?
                                     (<CanvasVisor
                                         boxes={boxes}
-                                        boxSelected={boxSelected}
                                         changeCurrentView={(element) => {this.changeCurrentView(element);}}
                                         canvasRatio={ratio}
                                         containedViews={containedViews}
@@ -213,7 +212,6 @@ export default class Visor extends Component {
                                     />) :
                                     (<ContainedCanvasVisor
                                         boxes={boxes}
-                                        boxSelected={boxSelected}
                                         changeCurrentView={(element) => {this.changeCurrentView(element);}}
                                         canvasRatio={ratio}
                                         containedViews={containedViews}
