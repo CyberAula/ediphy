@@ -44,6 +44,8 @@ body, #root, #root > .container-fluid, #mainRow {
 
 .sidebarTitle {
     font-weight: bold;
+    margin-top: 26px;
+    margin-bottom: 16px;
 }
 
 
@@ -78,6 +80,10 @@ body, #root, #root > .container-fluid, #mainRow {
     border-radius: 0px !important;
 }
 
+.navbar {
+    margin-bottom: 0px;
+    border:none;
+}
 pre {
     color: #444;
 }
@@ -100,11 +106,11 @@ img[alt=Índice], img[alt=Toolbar] {
 
 /*Fixed navbar*/
 .mainRow {
-    margin-top: 70px;
+    //margin-top: 70px;
 }
 
 nav.navbar {
-    position: fixed;
+    //position: fixed;
     width: 100%;
     z-index: 9999;
 }
@@ -121,4 +127,13 @@ h5, .h5 {
 
 .playground h2 {
     font-size: 18px;
+}
+
+.mainRow {
+    height: calc(100% - 62px);
+}
+
+.mainCol {
+    height:100%;
+    overflow: auto;
 }

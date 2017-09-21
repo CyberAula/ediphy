@@ -9,8 +9,8 @@ const template = `
 {{#if srcLink }}From [\`{{srcLink}}\`]({{srcLink}}){{/if}}
  
  
-prop | type | required | description
----- | :----: | :--------: | -----------
+prop | tipo | obligatoria | descripción
+---- | :----: | :-----------: | -----------
 {{#each props}}
 **{{@key}}** | \`{{> (typePartial this) this}}\`  | {{#if this.required}}✔{{else}}✘{{/if}} | {{#if this.description}}{{{this.description}}}{{/if}}
 {{/each}}

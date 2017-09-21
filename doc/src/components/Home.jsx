@@ -12,6 +12,7 @@ export default class Content extends Component {
     render() {
         return (
             <Grid className="bsGrid">
+                <br/>
                 <Jumbotron>
                     <img src={icon} style={{ width: '170px', float: 'left', marginRight: '30px', stroke: '#777' }} alt=""/>
                     <h1>Dalí Editor</h1>

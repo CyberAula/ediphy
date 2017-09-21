@@ -83,6 +83,7 @@ export default class Content extends Component {
         return (
             <Row className="mainRow">
                 <Col xs={12} sm={3} className="mainCol" style={{ display: big ? 'none' : 'block' }}>
+
                     <h4 className="sidebarTitle">{sideBarTitle}</h4>
                     <ListGroup>
                         {Object.keys(pages).map(function(key) {
