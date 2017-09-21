@@ -121,7 +121,7 @@ VisorPlayer.propTypes = {
      */
     show: PropTypes.bool,
     /**
-     * Cambia la vista actuak
+     * Cambia la vista actual
      */
     changeCurrentView: PropTypes.func.isRequired,
     /**
