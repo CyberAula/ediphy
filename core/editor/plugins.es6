@@ -34,6 +34,7 @@ export default function() {
                     plugin.getLocales();
                     pluginInstancesList[id] = plugin;
                     pluginConfigs.push(plugin.getConfig());
+                    plugin.getConfig().callback({}, 'INIT');
 
                     Dali.Visor.Plugins.add(id);
                 } catch (e) {
