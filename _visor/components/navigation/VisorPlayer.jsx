@@ -41,39 +41,43 @@ export default class VisorPlayer extends Component {
 
         return(
             <div id="player">
-                <OverlayTrigger placement="bottom" delayShow={50} trigger={['hover']} overlay={this.createTooltip("first", i18n.t("player.First"))}>
-                    <Button className="playerButton"
-                        bsStyle="primary"
-                        disabled={maxIndex === 0}
-                        onClick={(e)=>{this.props.changeCurrentView(navItemsIds[0]);}}>
-                        <i className="material-icons">first_page</i>
-                    </Button>
-                </OverlayTrigger>
+                {this.props.show ?
+                    (<span>
+                        <OverlayTrigger placement="bottom" delayShow={50} trigger={['hover']} overlay={this.createTooltip("first", i18n.t("player.First"))}>
+                            <Button className="playerButton"
+                                bsStyle="primary"
+                                disabled={maxIndex === 0}
+                                onClick={(e)=>{this.props.changeCurrentView(navItemsIds[0]);}}>
+                                <i className="material-icons">first_page</i>
+                            </Button>
+                        </OverlayTrigger>
 
-                <OverlayTrigger placement="bottom" delayShow={0} trigger={['hover']} rootClose overlay={this.createTooltip("previous", i18n.t("player.Previous"))}>
-                    <Button className="playerButton"
-                        bsStyle="primary"
-                        disabled={index === 0 || maxIndex === 0}
-                        onClick={(e)=>{this.props.changeCurrentView(navItemsIds[Math.max(index - 1, 0)]);}}>
-                        <i className="material-icons">chevron_left</i>
-                    </Button>
-                </OverlayTrigger>
-                <OverlayTrigger placement="bottom" delay={0} trigger={['hover']} rootClose overlay={this.createTooltip("next", i18n.t("player.Next"))}>
-                    <Button className="playerButton"
-                        bsStyle="primary"
-                        disabled={index === maxIndex - 1 || maxIndex === 0}
-                        onClick={(e)=>{this.props.changeCurrentView(navItemsIds[Math.min(index + 1, maxIndex - 1)]);}}>
-                        <i className="material-icons">chevron_right</i>
-                    </Button>
-                </OverlayTrigger>
-                <OverlayTrigger placement="bottom" delay={0} trigger={['hover']} rootClose overlay={this.createTooltip("last", i18n.t("player.Last"))}>
-                    <Button className="playerButton"
-                        bsStyle="primary"
-                        disabled={maxIndex === 0}
-                        onClick={(e)=>{this.props.changeCurrentView(navItemsIds[maxIndex - 1]);}}>
-                        <i className="material-icons">last_page</i>
-                    </Button>
-                </OverlayTrigger>
+                        <OverlayTrigger placement="bottom" delayShow={0} trigger={['hover']} rootClose overlay={this.createTooltip("previous", i18n.t("player.Previous"))}>
+                            <Button className="playerButton"
+                                bsStyle="primary"
+                                disabled={index === 0 || maxIndex === 0}
+                                onClick={(e)=>{this.props.changeCurrentView(navItemsIds[Math.max(index - 1, 0)]);}}>
+                                <i className="material-icons">chevron_left</i>
+                            </Button>
+                        </OverlayTrigger>
+                        <OverlayTrigger placement="bottom" delay={0} trigger={['hover']} rootClose overlay={this.createTooltip("next", i18n.t("player.Next"))}>
+                            <Button className="playerButton"
+                                bsStyle="primary"
+                                disabled={index === maxIndex - 1 || maxIndex === 0}
+                                onClick={(e)=>{this.props.changeCurrentView(navItemsIds[Math.min(index + 1, maxIndex - 1)]);}}>
+                                <i className="material-icons">chevron_right</i>
+                            </Button>
+                        </OverlayTrigger>
+                        <OverlayTrigger placement="bottom" delay={0} trigger={['hover']} rootClose overlay={this.createTooltip("last", i18n.t("player.Last"))}>
+                            <Button className="playerButton"
+                                bsStyle="primary"
+                                disabled={maxIndex === 0}
+                                onClick={(e)=>{this.props.changeCurrentView(navItemsIds[maxIndex - 1]);}}>
+                                <i className="material-icons">last_page</i>
+                            </Button>
+                        </OverlayTrigger>
+                    </span>) :
+                    null }
                 <OverlayTrigger placement="bottom" delay={0} trigger={['hover']} rootClose overlay={this.createTooltip("fullscreen", i18n.t("messages.fullscreen"))}>
                     <Button className="playerButton"
                         bsStyle="primary"

@@ -512,14 +512,12 @@ export default class ReduxProvider extends Component {
 
     render() {
         return (
-            /* jshint ignore:start */
             <Provider store={this.store}>
                 <div style={{ height: '100%' }}>
                     <DaliApp id="app" store={this.store}/>
                     { /* <DevTools/> */ }
                 </div>
             </Provider>
-            /* jshint ignore:end */
         );
     }
 

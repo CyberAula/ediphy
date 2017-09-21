@@ -8,7 +8,6 @@ export default class CanvasVisor extends Component {
     render() {
         let visorContent;
         if (isSlide(this.props.navItems[this.props.currentView].type)) {
-            /* jshint ignore:start */
             visorContent = <CanvasVisorSli
                 boxes={this.props.boxes}
                 boxLevelSelected={this.props.boxLevelSelected}
@@ -25,9 +24,7 @@ export default class CanvasVisor extends Component {
                 toolbars={this.props.toolbars}
                 triggeredMarks={this.props.triggeredMarks}
                 viewsArray={this.props.viewsArray}/>;
-            /* jshint ignore:end */
         }else{
-            /* jshint ignore:start */
             visorContent = <CanvasVisorDoc
                 boxes={this.props.boxes}
                 boxLevelSelected={this.props.boxLevelSelected}
@@ -43,13 +40,10 @@ export default class CanvasVisor extends Component {
                 title={this.props.title}
                 triggeredMarks={this.props.triggeredMarks}
                 viewsArray={this.props.viewsArray}/>;
-            /* jshint ignore:end */
         }
 
         return (
-            /* jshint ignore:start */
             visorContent
-            /* jshint ignore:end */
         );
     }
 

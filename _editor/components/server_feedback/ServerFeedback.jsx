@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Modal } from 'react-bootstrap';
 import i18n from 'i18next';
-
+import PropTypes from 'prop-types';
 /**
  * Server Feedback Alert
  */
@@ -34,3 +34,22 @@ export default class ServerFeedback extends Component {
         );
     }
 }
+
+ServerFeedback.propTypes = {
+    /**
+     * Indica si se muestra el popup de feedback del servidor
+     */
+    show: PropTypes.bool,
+    /**
+     * Título del modal
+     */
+    title: PropTypes.any,
+    /**
+     * Indica si hay una operación con el servidor en curso
+     */
+    isBusy: PropTypes.any,
+    /**
+     * Oculta el popup
+     */
+    hideModal: PropTypes.func.isRequired,
+};

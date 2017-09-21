@@ -235,3 +235,21 @@ export default class MarkEditor extends Component {
 
 }
 
+MarkEditor.propTypes = {
+    /**
+     * Objeto de estilo CSS
+     */
+    style: PropTypes.object.isRequired,
+    /**
+     * Tiempo que hay que tener pulsada la marca antes de moverla
+     */
+    time: PropTypes.object.isRequired,
+    /**
+     * Objeto marca del estado del plugin
+     */
+    mark: PropTypes.object.isRequired,
+    /**
+     * Base del estado del plugin
+     */
+    base: PropTypes.object.isRequired,
+};

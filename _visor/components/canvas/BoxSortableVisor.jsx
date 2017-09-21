@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import BoxVisor from './BoxVisor';
 
 export default class BoxSortableVisor extends Component {
@@ -59,3 +60,38 @@ export default class BoxSortableVisor extends Component {
         );
     }
 }
+
+BoxSortableVisor.propTypes = {
+    /**
+     * Identificador de la caja
+     */
+    id: PropTypes.any.isRequired,
+    /**
+     * Diccionario que contiene todas las cajas
+     */
+    boxes: PropTypes.any.isRequired,
+    /**
+     * Caja seleccionada
+     */
+    boxSelected: PropTypes.any.isRequired,
+    /**
+     * Nivel de caja seleccionada
+     */
+    boxLevelSelected: PropTypes.any.isRequired,
+    /**
+     * Cambia la vista actual
+     */
+    changeCurrentView: PropTypes.any.isRequired,
+    /**
+     * Vista actual
+     */
+    currentView: PropTypes.any.isRequired,
+    /**
+     * Diccionario que contiene todas las toolbars
+     */
+    toolbars: PropTypes.any.isRequired,
+    /**
+     * Estado del plugin enriquecido en la transición
+     */
+    richElementsState: PropTypes.any.isRequired,
+};

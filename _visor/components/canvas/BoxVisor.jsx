@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
 import PluginPlaceholderVisor from './PluginPlaceholderVisor';
-import { isBox, isSortableBox, isView, isSortableContainer, isAncestorOrSibling } from '../../../common/utils';
+import { isSortableBox, isAncestorOrSibling } from '../../../common/utils';
 
 export default class BoxVisor extends Component {
     constructor(props) {
@@ -126,7 +126,6 @@ export default class BoxVisor extends Component {
             </div>
         );
         let border = (
-            /* jshint ignore:start */
             <div style={{ visibility: (vis ? 'visible' : 'hidden') }}>
                 <div style={{
                     position: 'absolute',
@@ -137,7 +136,6 @@ export default class BoxVisor extends Component {
                     boxSizing: 'content-box',
                 }} />
             </div>
-            /* jshint ignore:end */
         );
 
         let classes = "wholeboxvisor";
@@ -282,3 +280,37 @@ export default class BoxVisor extends Component {
         return React.createElement(component, props, children);
     }
 }
+BoxVisor.propTypes = {
+    /**
+     * Identificador de la caja
+     */
+    id: PropTypes.any.isRequired,
+    /**
+     * Diccionario que contiene todas las cajas
+     */
+    boxes: PropTypes.any.isRequired,
+    /**
+     * Caja seleccionada
+     */
+    boxSelected: PropTypes.any.isRequired,
+    /**
+     * Nivel de caja seleccionada
+     */
+    boxLevelSelected: PropTypes.any.isRequired,
+    /**
+     * Cambia la vista actual
+     */
+    changeCurrentView: PropTypes.any.isRequired,
+    /**
+     * Vista actual
+     */
+    currentView: PropTypes.any.isRequired,
+    /**
+     * Diccionario que contiene todas las toolbars
+     */
+    toolbars: PropTypes.any.isRequired,
+    /**
+     * Estado del plugin enriquecido en la transición
+     */
+    richElementsState: PropTypes.any.isRequired,
+};

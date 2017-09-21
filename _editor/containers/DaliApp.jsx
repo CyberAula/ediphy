@@ -329,7 +329,6 @@ class DaliApp extends Component {
                     onVisibilityToggled={()=> this.setState({ visorVisible: !this.state.visorVisible })}
                     state={this.props.store.getState().present}/>
                 <PluginConfigModal />
-
                 <XMLConfigModal id={boxSelected}
                     toolbar={toolbars[boxSelected]}
                     visible={this.state.xmlEditorVisible}

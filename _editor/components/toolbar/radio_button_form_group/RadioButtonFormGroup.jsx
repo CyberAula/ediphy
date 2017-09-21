@@ -72,12 +72,12 @@ export default class RadioButtonFormGroup extends Component {
  * Prop Types
  * @type {{key: shim, title: shim, options: shim, selected: shim, click: shim, tooltips: *, icons: *}}
  */
-RadioButtonFormGroup.defaultProps = {
+RadioButtonFormGroup.propTypes = {
     // key: PropTypes.string,
-    title: PropTypes.string,
-    options: PropTypes.object,
-    selected: PropTypes.string,
-    click: PropTypes.func,
+    title: PropTypes.string.isRequired,
+    options: PropTypes.array.isRequired,
+    selected: PropTypes.any.isRequired,
+    click: PropTypes.func.isRequired,
     tooltips: PropTypes.arrayOf(PropTypes.string),
     icons: PropTypes.arrayOf(PropTypes.string),
 };

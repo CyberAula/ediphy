@@ -275,7 +275,6 @@ export default class PluginToolbar extends Component {
                                                 return null;
                                             })}
                                         </PanelGroup>
-
                                         {textButton}
                                         {xmlButton}
                                         {configButton}
@@ -558,7 +557,7 @@ export default class PluginToolbar extends Component {
         if (accordion.key === 'marks_list') {
             children.push(
                 <MarksList key="marks_list"
-                    state={state}
+                    state={state.__marks}
                     toolbars={this.props.toolbars}
                     onRichMarksModalToggled={this.props.onRichMarksModalToggled}
                     onRichMarkEditPressed={this.props.onRichMarkEditPressed}
