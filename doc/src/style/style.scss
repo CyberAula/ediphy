@@ -36,6 +36,7 @@ body, #root, #root > .container-fluid, #mainRow {
     box-shadow: none !important;
     outline: none !important;
     font-weight: bold;
+    font-size: 16px;
 }
 
 .subItem{
@@ -46,6 +47,7 @@ body, #root, #root > .container-fluid, #mainRow {
     font-weight: bold;
     margin-top: 26px;
     margin-bottom: 16px;
+    font-size: 24px;
 }
 
 
@@ -101,7 +103,8 @@ img[alt=Índice], img[alt=Toolbar] {
 }
 
 .contentCol {
-    padding: 0px 20px 20px 20px;
+    padding: 40px;
+    padding-top: 0px;
 }
 
 /*Fixed navbar*/

@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import createBrowserHistory from 'history/createBrowserHistory';
+const history = createBrowserHistory();
 import ReactDOM from 'react-dom';
 import { Grid, Row, Navbar, Nav, NavDropdown, NavItem, MenuItem } from 'react-bootstrap';
 import Content from './src/components/Content';
@@ -16,10 +19,28 @@ export default class DaliDocs extends Component {
         this.handleNav = this.handleNav.bind(this);
     }
     render() {
+        let navItems = <Nav>{Object.keys(tree).map(el =>{
+            if (Object.keys(tree[el].children).length === 0) {
+                return (
+                    <NavItem key={el} active={this.state.section === el} eventKey={el} href="#" onClick={()=>this.handleNav(el, 0)}>{tree[el].title}</NavItem>
+                );
+            }
+
+            return (<NavDropdown key={el} active={this.state.section === el} eventKey={el} title={tree[el].title} id="basic-nav-dropdown">
+                {Object.keys(tree[el].children).map(sub =>{
+                    return (
+                        <MenuItem key={el + '.' + sub} eventKey={el + '.' + sub} onClick={()=>this.handleNav(el, sub)}>{tree[el].children[sub].title}</MenuItem>
+                    );
+                })}
+
+            </NavDropdown>
+            );
+
+        })}</Nav>;
         return (
             <Grid fluid>
                 <Row id="nbRow">
-                    <Navbar collapseOnSelect>
+                    <Navbar collapseOnSelect >
                         <Navbar.Header>
                             <Navbar.Brand>
                                 <a href="#">Dalí Editor Docs</a>
@@ -27,15 +48,7 @@ export default class DaliDocs extends Component {
                         </Navbar.Header>
                         <Navbar.Toggle style={{ top: '0px', right: '0px', position: 'absolute' }}/>
                         <Navbar.Collapse>
-                            <Nav>
-                                <NavItem active={this.state.section === 1} eventKey={1} href="#" onClick={()=>this.handleNav(1, 0)}>{tree[1].title}</NavItem>
-                                <NavItem active={this.state.section === 2} eventKey={2} href="#" onClick={()=>this.handleNav(2, 0)}>{tree[2].title}</NavItem>
-                                <NavItem active={this.state.section === 3} eventKey={3} href="#" onClick={()=>this.handleNav(3, 0)}>{tree[3].title}</NavItem>
-                                <NavDropdown active={this.state.section === 4} eventKey={4} title={tree[4].title} id="basic-nav-dropdown">
-                                    <MenuItem eventKey={4.1} onClick={()=>this.handleNav(4, 1)}>{tree[4].children[1].title}</MenuItem>
-                                    <MenuItem eventKey={4.2} onClick={()=>this.handleNav(4, 2)}>{tree[4].children[2].title}</MenuItem>
-                                </NavDropdown>
-                            </Nav>
+                            {navItems}
                         </Navbar.Collapse>
                     </Navbar>
                 </Row>

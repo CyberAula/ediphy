@@ -3,9 +3,7 @@ import { Row, Col, ListGroup, ListGroupItem, Glyphicon } from 'react-bootstrap';
 import { tree } from './../content';
 import Markdown from 'react-remarkable';
 import loaderSvg from '../img/Rolling.svg';
-import Home from './Home';
-import About from './About';
-import ComponentDoc from './ComponentDoc';
+import * as Components from '../components';
 const loader = <div className="loader" ><img src={loaderSvg} /></div>;
 
 export default class Content extends Component {
@@ -44,16 +42,8 @@ export default class Content extends Component {
         let currentSubPage = this.state.subpage;
         let customComponent = null;
         if (this.state.self) {
-            switch (this.props.section) {
-            case 1:
-                customComponent = <Home/>;
-                break;
-            case 2:
-                customComponent = <About handleNav={this.props.handleNav}/>;
-                break;
-            default:
-                break;
-            }
+            console.log(tree[this.props.section]);
+            customComponent = React.createElement(tree[this.props.section].componentName && Components[tree[this.props.section].componentName] ? Components[tree[this.props.section].componentName] : 'span', { handleNav: this.props.handleNav }, []);
         }
 
         let sideBarTitle = tree[this.props.section].title;
@@ -72,7 +62,7 @@ export default class Content extends Component {
             let children = this.mapAlternate(parts,
                 function(x) { return x; },
                 function(x) {
-                    return <ComponentDoc bsClass="default" component={x}/>;
+                    return <Components.ComponentDoc bsClass="default" component={x}/>;
 
                 });
 
@@ -86,11 +76,11 @@ export default class Content extends Component {
 
                     <h4 className="sidebarTitle">{sideBarTitle}</h4>
                     <ListGroup>
-                        {Object.keys(pages).map(function(key) {
+                        {Object.keys(pages).map((key) => {
                             let item = pages[key];
                             return <div><ListGroupItem key={key}
                                 className={currentPage === key && currentSubPage === 0 ? 'selectedNav navListItem' : 'navListItem'}
-                                onClick={()=>{changePage(key, 0);}}>{item.title}</ListGroupItem>
+                                onClick={()=>{changePage(key, 0);}}> {/* ● */}{item.title}</ListGroupItem>
                             {Object.keys(item.subpages || {}).map(function(sub) {
                                 return <ListGroupItem style={{ paddingLeft: '50px' }}
                                     className={currentPage === key && currentSubPage === sub ? 'selectedNav navListItem subItem' : 'navListItem subItem'}
@@ -108,7 +98,6 @@ export default class Content extends Component {
                         <div className="markdownContainer" style={{ padding: !big ? '0px' : '0px 50px' }}>
                             <Markdown>
                                 { content }
-                                <ComponentDoc/>
                             </Markdown>
                         </div> :
                         (<div>{content}</div>)
