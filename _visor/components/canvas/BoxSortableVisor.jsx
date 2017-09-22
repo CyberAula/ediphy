@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import BoxVisor from './BoxVisor';
 
 export default class BoxSortableVisor extends Component {
@@ -33,8 +34,6 @@ export default class BoxSortableVisor extends Component {
                                                         return (<BoxVisor id={idBox}
                                                             key={ind}
                                                             boxes={this.props.boxes}
-                                                            boxSelected={this.props.boxSelected}
-                                                            boxLevelSelected={this.props.boxLevelSelected}
                                                             changeCurrentView={(element)=>{this.props.changeCurrentView(element);}}
                                                             currentViewSelected={this.props.currentViewSelected}
                                                             toolbars={this.props.toolbars}
@@ -59,3 +58,30 @@ export default class BoxSortableVisor extends Component {
         );
     }
 }
+
+BoxSortableVisor.propTypes = {
+    /**
+     * Identificador de la caja
+     */
+    id: PropTypes.string.isRequired,
+    /**
+     * Diccionario que contiene todas las cajas
+     */
+    boxes: PropTypes.object.isRequired,
+    /**
+     * Cambia la vista actual
+     */
+    changeCurrentView: PropTypes.func.isRequired,
+    /**
+     * Vista actual
+     */
+    currentView: PropTypes.any,
+    /**
+     * Diccionario que contiene todas las toolbars
+     */
+    toolbars: PropTypes.object,
+    /**
+     * Estado del plugin enriquecido en la transición
+     */
+    richElementsState: PropTypes.object,
+};

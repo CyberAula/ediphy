@@ -26,7 +26,7 @@ export default class VishCatalogModal extends Component {
                 </Modal.Header>
 
                 <Modal.Body>
-                    <Form style={{ minHeight: 250 }}>
+                    <Form style={{ minHeight: 250 }} action="javascript:void(0);">
                         <FormGroup>
                             {(this.props.state || this.props.images.length !== 0) ? this.props.images.map((item, index) => {
                                 return (

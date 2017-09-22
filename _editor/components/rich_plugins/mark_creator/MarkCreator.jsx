@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import i18n from 'i18next';
 import { FormControl } from 'react-bootstrap';
@@ -241,3 +242,49 @@ export default class MarkCreator extends Component {
 
 }
 
+MarkCreator.propTypes = {
+    /**
+     * Añade una nueva marca
+     */
+    addMarkShortcut: PropTypes.func.isRequired,
+    /**
+     * Añade una nueva caja (usado para añadir un DaliBoxSortable si se crea una vista contenida documento)
+     */
+    onBoxAdded: PropTypes.func.isRequired,
+    /**
+     * Caja seleccionada
+     */
+    boxSelected: PropTypes.any.isRequired,
+    /**
+     * Elemento del DOM al que se adhiere la creación de marcas
+     */
+    content: PropTypes.any,
+    /**
+     * Diccionario que contiene todas las vistas contenidas, identificadas por su *ide*
+     */
+    containedViews: PropTypes.object.isRequired,
+    /**
+     * Toolbar de la caja seleccionada
+     */
+    toolbar: PropTypes.object.isRequired,
+    /**
+     * Borra el overlay de creación de marcas
+     */
+    deleteMarkCreator: PropTypes.func.isRequired,
+    /**
+     * Transforma la posición del ratón en coordenadas, según la función descrita en la definición del plugin
+     */
+    parseRichMarkInput: PropTypes.func.isRequired,
+    /**
+     * Identificador del creador de marcas
+     */
+    markCreatorId: PropTypes.any.isRequired,
+    /**
+     * Caja seleccionada
+     */
+    currentId: PropTypes.any.isRequired,
+    /**
+     * Tipo de página actual
+     */
+    pageType: PropTypes.string.isRequired,
+};

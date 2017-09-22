@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import interact from 'interact.js';
 import DaliBox from '../dali_box/DaliBox';
@@ -147,3 +148,82 @@ export default class PluginPlaceholder extends Component {
             });
     }
 }
+
+PluginPlaceholder.propTypes = {
+    /**
+     * Nombre del contenedor de plugins
+     */
+    pluginContainer: PropTypes.string.isRequired,
+    /**
+     * Indicador de si se puede redimensionar el contenedor
+     */
+    resizable: PropTypes.bool,
+    /**
+     * Identificador único de la caja padre
+     */
+    parentBox: PropTypes.string.isRequired,
+    /**
+     * Diccionario que contiene todas las cajas creadas, accesibles por su *id*
+     */
+    boxes: PropTypes.object.isRequired,
+    /**
+     * Caja seleccionada
+     */
+    boxSelected: PropTypes.any,
+    /**
+     * Nivel de caja seleccionado
+     */
+    boxLevelSelected: PropTypes.any,
+    /**
+     * Diccionario que contiene todas las toolbars, accesibles por el *id* de su caja o vista
+     */
+    toolbars: PropTypes.object.isRequired,
+    /**
+     * Última acción de Redux realizada
+     */
+    lastActionDispatched: PropTypes.any,
+    /**
+     * Selecciona una caja
+     */
+    onBoxSelected: PropTypes.func.isRequired,
+    /**
+     * Aumenta de nivel de profundidad de selección (plugins dentro de plugins)
+     */
+    onBoxLevelIncreased: PropTypes.func.isRequired,
+    /**
+     * Vista contenida seleccionanda
+     */
+    containedViewSelected: PropTypes.any,
+    /**
+     * Mueve una caja
+     */
+    onBoxMoved: PropTypes.func.isRequired,
+    /**
+     * Redimensiona una caja
+     */
+    onBoxResized: PropTypes.func.isRequired,
+    /**
+     * Redimensiona contenedor sortable
+     */
+    onSortableContainerResized: PropTypes.func.isRequired,
+    /**
+     * Elimina caja
+     */
+    onBoxDeleted: PropTypes.func.isRequired,
+    /**
+     * Suelta caja
+     */
+    onBoxDropped: PropTypes.func.isRequired,
+    /**
+     * Alinea verticalmente una caja
+     */
+    onVerticallyAlignBox: PropTypes.func.isRequired,
+    /**
+     * Reordena las cajas de un contenedor
+     */
+    onBoxesInsideSortableReorder: PropTypes.func.isRequired,
+    /**
+     * Activa/Desactiva la edición de texto
+     */
+    onTextEditorToggled: PropTypes.func.isRequired,
+};

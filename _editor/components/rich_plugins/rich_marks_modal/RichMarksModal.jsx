@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
 import Alert from './../../common/alert/Alert';
 import Picker from 'rc-color-picker';
 import { Modal, Button, Row, Col, FormGroup, ControlLabel, FormControl, Radio } from 'react-bootstrap';
@@ -372,3 +373,66 @@ export default class RichMarksModal extends Component {
     }
 
 }
+
+RichMarksModal.propTypes = {
+    /**
+     * Caja seleccionada
+     */
+    boxSelected: PropTypes.any.isRequired,
+    /**
+     * Toolbar del plugin
+     */
+    pluginToolbar: PropTypes.object,
+    /**
+     * Vista seleccionada
+     */
+    navItemSelected: PropTypes.any.isRequired,
+    /**
+     * Diccionario que contiene las toolbars
+     */
+    toolbars: PropTypes.object.isRequired,
+    /**
+     * Vista contenida seleccionada
+     */
+    containedViewSelected: PropTypes.any.isRequired,
+    /**
+     * Diccionario que contiene las vistas contenidas
+     */
+    containedViews: PropTypes.object.isRequired,
+    /**
+     * Diccionario que contiene las vistas creadas
+     */
+    navItems: PropTypes.object.isRequired,
+    /**
+     * Array que contiene las vistas creadas
+     */
+    navItemsIds: PropTypes.array.isRequired,
+    /**
+     * Indica si se muestra o oculta el modal de edición de marcas
+     */
+    visible: PropTypes.any.isRequired,
+    /**
+     * Marca en edición
+     */
+    currentRichMark: PropTypes.any,
+    /**
+     * Valor por defecto de la marca
+     */
+    defaultValueMark: PropTypes.any,
+    /**
+     * Valida si el valor introducido es correcto
+     */
+    validateValueInput: PropTypes.func,
+    /**
+     * Añade una caja
+     */
+    onBoxAdded: PropTypes.func.isRequired,
+    /**
+     * Actualiza la marca
+     */
+    onRichMarkUpdated: PropTypes.func.isRequired,
+    /**
+     * Muestra/oculta el modal
+     */
+    onRichMarksModalToggled: PropTypes.any.isRequired,
+};

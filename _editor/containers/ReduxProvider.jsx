@@ -421,7 +421,7 @@ export default class ReduxProvider extends Component {
                                                 "autoManaged": false,
                                             },
                                             "display_pagetitle": {
-                                                "__name": i18n.t('page'),
+                                                "__name": i18n.t('Title') + i18n.t('document'),
                                                 "type": "checkbox",
                                                 "checked": true,
                                                 "autoManaged": false,
@@ -512,14 +512,12 @@ export default class ReduxProvider extends Component {
 
     render() {
         return (
-            /* jshint ignore:start */
             <Provider store={this.store}>
                 <div style={{ height: '100%' }}>
                     <DaliApp id="app" store={this.store}/>
-                    {/* <DevTools/> */}
+                    {/* <DevTools/>*/}
                 </div>
             </Provider>
-            /* jshint ignore:end */
         );
     }
 

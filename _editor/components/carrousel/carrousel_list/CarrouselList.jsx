@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Tooltip, Button, OverlayTrigger, Popover } from 'react-bootstrap';
-
 import { ID_PREFIX_PAGE, ID_PREFIX_SECTION, ID_PREFIX_SORTABLE_BOX, PAGE_TYPES } from '../../../../common/constants';
 import Section from './../section/Section';
 import DaliIndexTitle from './../dali_index_title/DaliIndexTitle';
@@ -85,8 +85,7 @@ export default class CarrouselList extends Component {
                                 onIndexSelected={this.props.onIndexSelected}
                                 onNavItemSelected={this.props.onNavItemSelected}
                                 onNavItemExpanded={this.props.onNavItemExpanded}
-                                onNavItemReordered={this.props.onNavItemReordered}
-                                onNavItemToggled={this.props.onNavItemToggled}/>;
+                                onNavItemReordered={this.props.onNavItemReordered}/>;
                         } else if (isPage(id)) {
                             let classSelected = (this.props.navItemSelected === id) ? 'selected' : 'notSelected';
                             let classIndexSelected = this.props.indexSelected === id ? ' classIndexSelected' : '';
@@ -114,8 +113,7 @@ export default class CarrouselList extends Component {
                                         title={this.props.navItems[id].name}
                                         index={this.props.navItems[this.props.navItems[id].parent].children.indexOf(id) + 1 + '.'}
                                         hidden={this.props.navItems[id].hidden}
-                                        onNameChanged={this.props.onNavItemNameChanged}
-                                        onNavItemToggled={this.props.onNavItemToggled}/>
+                                        onNameChanged={this.props.onNavItemNameChanged}/>
                                 </span>
                             </div>;
                         }
@@ -169,8 +167,7 @@ export default class CarrouselList extends Component {
                                         title={this.props.containedViews[id].name}
                                         index={1}
                                         hidden={false}
-                                        onNameChanged={this.props.onContainedViewNameChanged}
-                                        onNavItemToggled={this.props.onNavItemToggled}/>
+                                        onNameChanged={this.props.onContainedViewNameChanged} />
                                 </span>
                             </div>);
                         })
@@ -439,3 +436,95 @@ export default class CarrouselList extends Component {
         jQuery(this.refs.sortableList).sortable("destroy");
     }
 }
+
+CarrouselList.propTypes = {
+    /**
+     * Diccionario que contiene todas las vistas contenidas, accesibles por su *id*
+     */
+    containedViews: PropTypes.object.isRequired,
+
+    /**
+     * Vista contenida seleccionada, identificada por su *id*
+     */
+    containedViewSelected: PropTypes.any,
+
+    /**
+     * Diccionario que contiene todas las cajas creadas, accesibles por su *id*
+     */
+    boxes: PropTypes.object.isRequired,
+
+    /**
+     * Array que contiene todas las vistas creadas, identificadas por su *id*
+     */
+    navItemsIds: PropTypes.array.isRequired,
+
+    /**
+     * Diccionario que contiene todas las vistas creadas, accesibles por su *id*
+     */
+    navItems: PropTypes.object.isRequired,
+
+    /**
+     * Vista seleccionada, identificada por su *id*
+     */
+    navItemSelected: PropTypes.any,
+
+    /**
+     * Vista/vista contenida seleccionada en el índice
+     */
+    indexSelected: PropTypes.any,
+
+    /**
+     * Añade caja
+     */
+    onBoxAdded: PropTypes.func.isRequired,
+
+    /**
+     * Borra vista contenida
+     */
+    onContainedViewDeleted: PropTypes.func.isRequired,
+
+    /**
+     * Selecciona vista contenida
+     */
+    onContainedViewSelected: PropTypes.func.isRequired,
+
+    /**
+     * Renombre vista contenida
+     */
+    onContainedViewNameChanged: PropTypes.func.isRequired,
+
+    /**
+     * Renombra vista
+     */
+    onNavItemNameChanged: PropTypes.func.isRequired,
+
+    /**
+     * Añade vista
+     */
+    onNavItemAdded: PropTypes.func.isRequired,
+
+    /**
+     * Selecciona vista
+     */
+    onNavItemSelected: PropTypes.func.isRequired,
+
+    /**
+     * Selecciona vista/vista contenida en el contexto del índice
+     */
+    onIndexSelected: PropTypes.func.isRequired,
+
+    /**
+     * Expande sección
+     */
+    onNavItemExpanded: PropTypes.func.isRequired,
+
+    /**
+     * Elimina vista/vista contenida
+     */
+    onNavItemDeleted: PropTypes.func.isRequired,
+    /**
+     * Reordena elementos del índice
+     */
+    onNavItemReordered: PropTypes.func.isRequired,
+
+};

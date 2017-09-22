@@ -314,7 +314,6 @@ export default class DaliBox extends Component {
                     onBoxDeleted: this.props.onBoxDeleted,
                     onBoxDropped: this.props.onBoxDropped,
                     onVerticallyAlignBox: this.props.onVerticallyAlignBox,
-                    onBoxModalToggled: this.props.onBoxModalToggled,
                     onBoxesInsideSortableReorder: this.props.onBoxesInsideSortableReorder,
                     onTextEditorToggled: this.props.onTextEditorToggled,
                 });
@@ -484,7 +483,6 @@ export default class DaliBox extends Component {
      * Get CKEditor instances and set interact listeners for box manipulation
      */
     componentDidMount() {
-        console.log(this.props);
         let toolbar = this.props.toolbars[this.props.id];
         let box = this.props.boxes[this.props.id];
         if (toolbar.config && toolbar.config.needsTextEdition) {
@@ -502,6 +500,7 @@ export default class DaliBox extends Component {
         let topO = offsetEl.top || 0;
         offsetEl;
         let gridTarget = interact.createSnapGrid({ x: 10, y: 10, range: 7.1, offset: { x: leftO, y: topO } });
+        Dali.Plugins.get(toolbar.config.name).getConfig();
         Dali.Plugins.get(toolbar.config.name).afterRender(this.refs.content, toolbar.state);
         let dragRestrictionSelector = isSortableContainer(box.container) ? ".daliBoxSortableContainer, .drg" + box.container : "parent";
         interact(ReactDOM.findDOMNode(this))
@@ -855,33 +854,94 @@ export default class DaliBox extends Component {
     }
 
 }
-/**
- * Default props
- * @type {{id: (*), boxes: shim, boxSelected: shim, boxLevelSelected: shim, containedViews: shim, containedViewSelected: shim, toolbars: shim, lastActionDispatched: shim, addMarkShortcut: shim, deleteMarkCreator: shim, markCreatorId: shim, onBoxAdded: shim, onBoxSelected: shim, onBoxLevelIncreased: shim, onBoxMoved: shim, onBoxResized: shim, onBoxDropped: shim, onVerticallyAlignBox: shim, onBoxModalToggled: shim, onBoxesInsideSortableReorder: shim, onSortableContainerResized: shim, onTextEditorToggled: shim, pageType: shim}}
- */
-DaliBox.defaultProps = {
+
+DaliBox.propTypes = {
+    /**
+     * Identificador único de la caja
+     */
     id: PropTypes.string.isRequired,
-    // key: PropTypes.string.isRequired,
-    boxes: PropTypes.object,
-    boxSelected: PropTypes.string,
-    boxLevelSelected: PropTypes.number,
-    containedViews: PropTypes.object,
-    containedViewSelected: PropTypes.string,
-    toolbars: PropTypes.object,
-    lastActionDispatched: PropTypes.string,
-    addMarkShortcut: PropTypes.func,
-    deleteMarkCreator: PropTypes.func,
-    markCreatorId: PropTypes.string,
-    onBoxAdded: PropTypes.func,
-    onBoxSelected: PropTypes.func,
-    onBoxLevelIncreased: PropTypes.func,
-    onBoxMoved: PropTypes.func,
-    onBoxResized: PropTypes.func,
-    onBoxDropped: PropTypes.func,
-    onVerticallyAlignBox: PropTypes.func,
-    onBoxModalToggled: PropTypes.func,
-    onBoxesInsideSortableReorder: PropTypes.func,
-    onSortableContainerResized: PropTypes.func,
-    onTextEditorToggled: PropTypes.func,
-    pageType: PropTypes.string,
+    /**
+     * Diccionario que contiene todas las cajas creadas, accesibles por su *id*
+     */
+    boxes: PropTypes.object.isRequired,
+    /**
+     * Caja seleccionada en el momento. Si no hay ninguna, -1
+     */
+    boxSelected: PropTypes.any.isRequired,
+    /**
+     * Nivel de profundidad de caja seleccionada (sólo para plugins dentro de plugins)
+     */
+    boxLevelSelected: PropTypes.number.isRequired,
+    /**
+     * Diccionario que contiene todas las vistas contenidas, accesibles por su *id*
+     */
+    containedViews: PropTypes.object.isRequired,
+    /**
+     * Vista contenida seleccionada identificada por su *id*
+     */
+    containedViewSelected: PropTypes.any.isRequired,
+    /**
+     * Diccionario que contiene todas las cajas y vistas creadas , accesibles por su *id*
+     */
+    toolbars: PropTypes.object.isRequired,
+    /**
+     * Última acción realizada en Redux
+     */
+    lastActionDispatched: PropTypes.any.isRequired,
+    /**
+     * Añade una marca a la caja
+     */
+    addMarkShortcut: PropTypes.func.isRequired,
+    /**
+     * Función que oculta el overlay de creación de marcas
+     */
+    deleteMarkCreator: PropTypes.func.isRequired,
+    /**
+     * Identificador de la caja en la que se va a crear una marca
+     */
+    markCreatorId: PropTypes.any.isRequired,
+    /**
+     * Añade una caja
+     */
+    onBoxAdded: PropTypes.func.isRequired,
+    /**
+     * Selecciona la caja
+     */
+    onBoxSelected: PropTypes.func.isRequired,
+    /**
+     * Aumenta el nivel de profundidad de selección (plugins dentro de plugins)
+     */
+    onBoxLevelIncreased: PropTypes.func.isRequired,
+    /**
+     * Mueve la caja
+     */
+    onBoxMoved: PropTypes.func.isRequired,
+    /**
+     * Redimensiona la caja
+     */
+    onBoxResized: PropTypes.func.isRequired,
+    /**
+     * Suelta la caja en una zona de un DaliBoxSortable
+     */
+    onBoxDropped: PropTypes.func.isRequired,
+    /**
+     * Alínea la caja verticalmente
+     */
+    onVerticallyAlignBox: PropTypes.func.isRequired,
+    /**
+     * Reordena las cajas dentro de su contenedor
+     */
+    onBoxesInsideSortableReorder: PropTypes.func.isRequired,
+    /**
+     * Redimensiona un contenedor
+     */
+    onSortableContainerResized: PropTypes.func.isRequired,
+    /**
+     * Hace aparecer/desaparecer el CKEditor
+     */
+    onTextEditorToggled: PropTypes.func.isRequired,
+    /**
+     * Indica el tipo de página en el que se encuentra la caja
+     */
+    pageType: PropTypes.string.isRequired,
 };

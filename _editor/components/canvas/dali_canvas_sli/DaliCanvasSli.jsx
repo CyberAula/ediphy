@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import DaliBox from '../dali_box/DaliBox';
 import DaliShortcuts from '../dali_shortcuts/DaliShortcuts';
@@ -29,7 +30,6 @@ export default class DaliCanvasSli extends Component {
          * @type {{showTitle: boolean, alert: null}}
          */
         this.state = {
-            showTitle: false,
             alert: null,
         };
     }
@@ -94,20 +94,14 @@ export default class DaliCanvasSli extends Component {
                            <rect width="100%" height="100%" fill="url(#grid)" />
                          </svg>   */}
                         <DaliHeader titles={titles}
-                            showButtons={this.state.showTitle}
-                            onShowTitle={()=>this.setState({ showTitle: true })}
                             onBoxSelected={this.props.onBoxSelected}
                             courseTitle={this.props.title}
-                            title={itemSelected.name}
                             navItem={this.props.navItemSelected}
                             navItems={this.props.navItems}
                             containedView={this.props.containedViewSelected}
                             containedViews={this.props.containedViews}
-                            titleModeToggled={this.props.titleModeToggled}
-                            onUnitNumberChanged={this.props.onUnitNumberChanged}
                             toolbars={this.props.toolbars}
                             boxes={this.props.boxes}
-                            showButton
                         />
 
                         {/* {this.props.fromCV ?  (<button className="btnOverBar cvBackButton" style={{margin: "10px 0px 0px 10px"}}
@@ -147,11 +141,11 @@ export default class DaliCanvasSli extends Component {
                                 onBoxLevelIncreased={this.props.onBoxLevelIncreased}
                                 onBoxMoved={this.props.onBoxMoved}
                                 onBoxResized={this.props.onBoxResized}
+
                                 onSortableContainerResized={this.props.onSortableContainerResized}
                                 onBoxesInsideSortableReorder={this.props.onBoxesInsideSortableReorder}
                                 onBoxDropped={this.props.onBoxDropped}
                                 onVerticallyAlignBox={this.props.onVerticallyAlignBox}
-                                onBoxModalToggled={this.props.onBoxModalToggled}
                                 onTextEditorToggled={this.props.onTextEditorToggled}
                                 pageType={itemSelected.type || 0}
                             />;
@@ -263,3 +257,129 @@ export default class DaliCanvasSli extends Component {
 
     }
 }
+DaliCanvasSli.propTypes = {
+    /**
+     * Si se renderiza el componente desde una vista contenida (true) o una normal (false)
+     */
+    fromCV: PropTypes.bool,
+    /**
+     * Relación de aspecto para diapositivas
+     */
+    canvasRatio: PropTypes.number.isRequired,
+    /**
+     * Indicador de si se muestra el canvas (tiene qu haber un navItem seleccionado)
+     */
+    showCanvas: PropTypes.bool,
+    /**
+     * Diccionario que contiene todas las cajas creadas, accesibles por su *id*
+     */
+    boxes: PropTypes.object.isRequired,
+    /**
+     * Caja seleccionada en el momento. Si no hay ninguna, -1
+     */
+    boxSelected: PropTypes.any.isRequired,
+    /**
+     * Nivel de profundidad de caja seleccionada (sólo para plugins dentro de plugins)
+     */
+    boxLevelSelected: PropTypes.number.isRequired,
+    /**
+     * Diccionario que contiene todas las vistas creadas, accesibles por su *id*
+     */
+    navItems: PropTypes.object.isRequired,
+    /**
+     * Vista  seleccionada identificada por su *id*
+     */
+    navItemSelected: PropTypes.any.isRequired,
+    /**
+     * Diccionario que contiene todas las vistas contenidas, accesibles por su *id*
+     */
+    containedViews: PropTypes.object.isRequired,
+    /**
+     * Vista contenida seleccionada identificada por su *id*
+     */
+    containedViewSelected: PropTypes.any.isRequired,
+    /**
+     * Título del curso
+     */
+    title: PropTypes.string.isRequired,
+    /**
+     * Diccionario que contiene todas las cajas y vistas creadas , accesibles por su *id*
+     */
+    toolbars: PropTypes.object.isRequired,
+    /**
+     * Última acción realizada en Redux
+     */
+    lastActionDispatched: PropTypes.any.isRequired,
+    /**
+     * Añade una marca a la caja
+     */
+    addMarkShortcut: PropTypes.func.isRequired,
+    /**
+     * Función que oculta el overlay de creación de marcas
+     */
+    deleteMarkCreator: PropTypes.func.isRequired,
+    /**
+     * Identificador de la caja en la que se va a crear una marca
+     */
+    markCreatorId: PropTypes.any.isRequired,
+    /**
+     * Oculta/muestra el overlay de creación de marcas
+     */
+    onMarkCreatorToggled: PropTypes.func.isRequired,
+    /**
+     * Añade una caja
+     */
+    onBoxAdded: PropTypes.func.isRequired,
+    /**
+     * Borra una caja
+     */
+    onBoxDeleted: PropTypes.func.isRequired,
+    /**
+     * Selecciona la caja
+     */
+    onBoxSelected: PropTypes.func.isRequired,
+    /**
+     * Aumenta el nivel de profundidad de selección (plugins dentro de plugins)
+     */
+    onBoxLevelIncreased: PropTypes.func.isRequired,
+    /**
+     * Mueve la caja
+     */
+    onBoxMoved: PropTypes.func.isRequired,
+    /**
+     * Redimensiona la caja
+     */
+    onBoxResized: PropTypes.func.isRequired,
+    /**
+     * Suelta la caja en una zona de un DaliBoxSortable
+     */
+    onBoxDropped: PropTypes.func.isRequired,
+    /**
+     * Alínea la caja verticalmente
+     */
+    onVerticallyAlignBox: PropTypes.func.isRequired,
+    /**
+     * Reordena las cajas dentro de su contenedor
+     */
+    onBoxesInsideSortableReorder: PropTypes.func.isRequired,
+    /**
+     * Borra un contenedor
+     */
+    onSortableContainerDeleted: PropTypes.func.isRequired,
+    /**
+     * Reordena los contenedores
+     */
+    onSortableContainerReordered: PropTypes.func.isRequired,
+    /**
+     * Redimensiona un contenedor
+     */
+    onSortableContainerResized: PropTypes.func.isRequired,
+    /**
+     * Selecciona una vista contenida
+     */
+    onContainedViewSelected: PropTypes.func.isRequired,
+    /**
+     * Hace aparecer/desaparecer el CKEditor
+     */
+    onTextEditorToggled: PropTypes.func.isRequired,
+};

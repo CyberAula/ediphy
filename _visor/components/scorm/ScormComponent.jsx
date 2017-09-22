@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
 import { isContainedView, isPage, isSection } from '../../../common/utils';
-import { aspectRatio } from '../../../common/common_tools';
 import Config from '../../../core/config';
 import * as API from './../../../core/scorm/scorm_utils';
 
@@ -73,3 +72,26 @@ export default class ScormComponent extends Component {
     }
 
 }
+
+ScormComponent.propTypes = {
+    /**
+     * Diccionario que contiene todas las vistas creadas, accesibles por su *id*
+     */
+    navItems: PropTypes.object.isRequired,
+    /**
+     * Array que contiene todas las vistas creadas, accesibles por su *id*
+     */
+    navItemsIds: PropTypes.array.isRequired,
+    /**
+     * Vista actual
+     */
+    currentView: PropTypes.any.isRequired,
+    /**
+     * Configuración global del curso
+     */
+    globalConfig: PropTypes.object.isRequired,
+    /**
+     * Cambia la vista actual
+     */
+    changeCurrentView: PropTypes.func.isRequired,
+};

@@ -12,6 +12,7 @@ dali_server/config.json
 dali_server/node_modules
 doc/esdoc
 doc/jsdoc
+doc/files/*
 doc/dist/doc-bundle.js
 *.map
 nbproject

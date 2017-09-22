@@ -80,7 +80,7 @@
     "no-proto": 1,
     "no-redeclare": 1,
     "no-return-assign": 1,
-    "no-script-url": 1,
+//    "no-script-url": 1,
     "no-self-compare": 1,
     "no-sequences": 1,
     "no-throw-literal": 1,
@@ -115,7 +115,7 @@
     "no-path-concat": 1,
     "no-process-exit": 1,
     "no-restricted-modules": [1, ""], // add any unwanted Node.js core modules
-    "no-sync": 1,
+//    "no-sync": 1,
 
     /* Stylistic Issues */
     "array-bracket-spacing": [1, "never"],
@@ -194,7 +194,7 @@
     "react/jsx-sort-props": 0,
     "react/jsx-uses-react": 1,
     "react/jsx-uses-vars": 1,
-    "react/no-danger": 1,
+//    "react/no-danger": 1,
 //    "react/no-did-mount-set-state": 1,  // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     "react/no-did-update-set-state": 1,
 //    "react/no-multi-comp": 1,

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { FormControl, InputGroup, FormGroup, ControlLabel, OverlayTrigger, Popover, Tooltip } from 'react-bootstrap';
 import ColorPicker from './../../common/color-picker/ColorPicker';
 import i18n from 'i18next';
@@ -209,8 +210,7 @@ export default class GridConfigurator extends Component {
                         value={this.props.container.style ? this.props.container.style.borderColor : '#ffffff'}
                         onChange={e => {
                             this.props.onSortablePropsChanged(this.props.id, this.props.parentId, 'borderColor', e.color);
-                        }}
-                        mode='RGB' />
+                        }}/>
                 </FormGroup>
                 <FormGroup>
                     <ControlLabel>{i18n.t('styles.border_size')}</ControlLabel>
@@ -257,3 +257,38 @@ export default class GridConfigurator extends Component {
         );
     }
 }
+
+GridConfigurator.propTypes = {
+    /**
+     * Identificador del elemento del DOM
+     */
+    id: PropTypes.string,
+    /**
+     * Identificador de la caja seleccionada
+     */
+    parentId: PropTypes.any.isRequired,
+    /**
+     * Contenedor actual
+     */
+    container: PropTypes.any.isRequired,
+    /**
+     * Cambia las distribución de columnas
+     */
+    onColsChanged: PropTypes.func.isRequired,
+    /**
+     * Cambia las distribución de filas
+     */
+    onRowsChanged: PropTypes.func.isRequired,
+    /**
+     * Propiedades del sortable container
+     */
+    sortableProps: PropTypes.object,
+    /**
+     * Cambia las propiedades del sortable container
+     */
+    onSortablePropsChanged: PropTypes.func.isRequired,
+    /**
+     * Redimensiona el sortable container
+     */
+    onSortableContainerResized: PropTypes.func.isRequired,
+};

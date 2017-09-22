@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-import i18n from 'i18next';
+import PropTypes from 'prop-types';
 import Dali from '../../../core/editor/main';
 import { isSlide, isSection } from '../../../common/utils';
 
@@ -18,7 +17,6 @@ export default class VisorNavSection extends Component {
         let name = this.props.navItemsById[this.props.pageName].name;
         let classes = this.props.display ? "visorNavListEl" : "visorNavListEl hiddenNavVisor";
         return (
-            /* jshint ignore:start */
             <ul className={classes}>
                 <li className="visorNavListEl" onClick={(e)=>{
                     if (Dali.Config.sections_have_content) {
@@ -59,7 +57,29 @@ export default class VisorNavSection extends Component {
                 }
 
             </ul>
-        /* jshint ignore:end */
         );
     }
 }
+
+VisorNavSection.propTypes = {
+    /**
+     * Indica si está desplegada o replegada
+     */
+    display: PropTypes.bool,
+    /**
+     * Nombre de la sección
+     */
+    pageName: PropTypes.string.isRequired,
+    /**
+     * Diccionario que contiene todas las vistas, accesibles por su *id*
+     */
+    navItemsById: PropTypes.object.isRequired,
+    /**
+     * Vista seleccionada actualmente
+     */
+    navItemSelected: PropTypes.any.isRequired,
+    /**
+     * Cambia la vista actual
+     */
+    changeCurrentView: PropTypes.func.isRequired,
+};

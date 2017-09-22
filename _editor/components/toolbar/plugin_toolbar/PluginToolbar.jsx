@@ -275,7 +275,6 @@ export default class PluginToolbar extends Component {
                                                 return null;
                                             })}
                                         </PanelGroup>
-
                                         {textButton}
                                         {xmlButton}
                                         {configButton}
@@ -558,7 +557,7 @@ export default class PluginToolbar extends Component {
         if (accordion.key === 'marks_list') {
             children.push(
                 <MarksList key="marks_list"
-                    state={state}
+                    state={state.__marks}
                     toolbars={this.props.toolbars}
                     onRichMarksModalToggled={this.props.onRichMarksModalToggled}
                     onRichMarkEditPressed={this.props.onRichMarkEditPressed}
@@ -751,7 +750,7 @@ export default class PluginToolbar extends Component {
                         null
                     ),*/
                     React.createElement(
-                        ColorPicker, { key: props.label, value: props.value, onChange: props.onChange, mode: 'RGB' },
+                        ColorPicker, { key: props.label, value: props.value, onChange: props.onChange },
                         []),
                 ]);
 
@@ -909,13 +908,13 @@ export default class PluginToolbar extends Component {
                 <FormGroup>
                     <ToggleSwitch label={i18n.t("Auto")}
                         checked={button.auto}
-                        onChange={props.onChange}>
-                        {i18n.t("Auto")}
-                    </ToggleSwitch>
+                        onChange={props.onChange}/>
+                    {i18n.t("Auto")} <br/>
                     {/* Disable px size in slides*/}
                     {isSlide(this.props.navItems[this.props.navItemSelected].type) ?
                         (<span />) :
-                        (<div><ControlLabel>{i18n.t("Units")}</ControlLabel>
+                        (<div><br/>
+                            <ControlLabel>{i18n.t("Units")}</ControlLabel>
                             <FormControl componentClass='select'
                                 value={button.units}
                                 onChange={props.onChange}>

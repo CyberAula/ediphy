@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
 
 import VisorNavSection from './VisorNavSection';
 import { isSlide, isPage, isSection } from '../../../common/utils';
@@ -10,11 +10,8 @@ export default class SideNavVisor extends Component {
     }
 
     render() {
-
         let navItemSelected = this.getCurrentNavItem(this.props.currentViews);
-
         return(
-            /* jshint ignore:start */
             <div id="sidebar-wrapper">
                 <ul className="sidebar-nav">
                     <li className="sidebar-brand">
@@ -40,7 +37,6 @@ export default class SideNavVisor extends Component {
                                     href="#">
                                     {isSlide(this.props.navItemsById[page].type) ? (<i className="material-icons">slideshow</i>) : (<i className="material-icons">insert_drive_file</i>)}
                                     <span>{this.props.navItemsById[page].name}</span>
-                                    {/* this.props.navItemsById[page].name*/}
 
                                 </a>
                             </li>);
@@ -51,17 +47,37 @@ export default class SideNavVisor extends Component {
 
                 </ul>
             </div>
-            /* jshint ignore:end */
         );
     }
     getCurrentNavItem(ids) {
         let navs = ids.filter(isPage);
         return navs.length > 0 ? navs[navs.length - 1] : 0;
-        /* return ids.reduce(e=>{
-            if (isPage(e)){
-                console.log(e)
-                return e;
-            }
-        });*/
     }
 }
+
+SideNavVisor.propTypes = {
+    /**
+     * Cambia la vista actual
+     */
+    changeCurrentView: PropTypes.func.isRequired,
+    /**
+     * Título del curso
+     */
+    courseTitle: PropTypes.string.isRequired,
+    /**
+     Diccionario que contiene todas las vistas y vistas contenidas, accesibles por su *id*
+     */
+    currentViews: PropTypes.array.isRequired,
+    /**
+     * Diccionario que contiene todas las vistas, accesibles por su *id*
+     */
+    navItemsById: PropTypes.object.isRequired,
+    /**
+     * Array que contiene todas las vistas y vistas contenidas, accesibles por su *id*
+     */
+    navItemsIds: PropTypes.array.isRequired,
+    /**
+     * Indica si la barra de navegación está recogida o expandida
+     */
+    toggled: PropTypes.bool,
+};

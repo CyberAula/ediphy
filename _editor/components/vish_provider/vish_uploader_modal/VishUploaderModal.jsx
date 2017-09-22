@@ -20,7 +20,7 @@ export default class VishUploaderModal extends Component {
                 </Modal.Header>
 
                 <Modal.Body>
-                    <Form>
+                    <Form action="javascript:void(0);">
                         <FormGroup>
                             <ControlLabel>{i18n.t("vish_upload_title")}</ControlLabel>
                             <FormControl ref="title" type="text"/>

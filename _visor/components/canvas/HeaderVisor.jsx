@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Tooltip, OverlayTrigger, Breadcrumb, BreadcrumbItem, Button } from 'react-bootstrap';
 import i18n from 'i18next';
 import { isView, isContainedView } from '../../../common/utils';
@@ -88,23 +89,17 @@ export default class HeaderVisor extends Component {
         }
 
         return (
-            /* jshint ignore:start */
-
-            <div className="title" onClick={(e) => {
-                this.props.onShowTitle();
-                e.stopPropagation(); }}>
+            <div className="title">
                 <div style={{ backgroundColor: 'white', display: 'initial' }}>
-                    <div className={this.props.showButtons ? "caja selectedTitle selectedBox" : "caja"}>
+                    <div className="caja">
                         <div className="cab"
                             style={{ backgroundColor: 'transparent', visibility: (currentStatus === 'hidden') ? 'hidden' : 'inherit' }}>
                             <div className="cabtabla_numero"
                                 contentEditable={false}
                                 suppressContentEditableWarning
-                                style={{ display: (currentStatus.pageNumber === 'hidden') ? 'none' : 'block' }}
-                                onBlur={e => {
-                                    // this.props.onUnitNumberChanged(this.props.navItem.id, parseInt(e.target.innerText, 10));
-                                }}
-                            >{pagenumber}</div>
+                                style={{ display: (currentStatus.pageNumber === 'hidden') ? 'none' : 'block' }}>
+                                {pagenumber}
+                            </div>
                             <div className="tit_ud_cap">
                                 {/* Course title*/}
                                 <h1 style={{ display: (currentStatus.courseTitle === 'hidden') ? 'none' : 'block' }}>{this.props.courseTitle}</h1>
@@ -112,25 +107,41 @@ export default class HeaderVisor extends Component {
                                 <h2 style={{ display: (currentStatus.documentTitle === 'hidden') ? 'none' : 'block' }}>{docTitle}</h2>
                                 {/* NavItem subtitle */}
                                 <h3 style={{ display: (currentStatus.documentSubTitle === 'hidden') ? 'none' : 'block' }}>{subTitle}</h3>
-
                                 {/* breadcrumb */}
                                 <div className="contenido" style={{ display: (currentStatus.breadcrumb === 'hidden') ? 'none' : 'block' }}>
                                     { content }
                                 </div>
                             </div>
-                            {/* <div className="cabtabla_lapiz">
-                                <img style={{display: 'none', visibility: 'inherit'}}
-                                    src="images/ico_alumno.gif" alt="Alumno"/>
-                                <div style={{display: 'none'}} id="alumno2"> Alumno</div>
-                            </div>*/}
                             <div style={{ display: 'none' }} className="clear" />
                         </div>
                     </div>
                     <br style={{ clear: 'both', visibility: 'inherit' }}/>
                 </div>
             </div>
-            /* jshint ignore:end */
         );
     }
 
 }
+
+HeaderVisor.propTypes = {
+    /**
+     * Array que contiene el título desglosado de la página. Ej: `['Sección 1'. 'Página 1']`
+     */
+    titles: PropTypes.array.isRequired,
+    /**
+     * Título del curso
+     */
+    courseTitle: PropTypes.string.isRequired,
+    /**
+     * Diccionario que contiene todas las vistas creadas, accesibles por su *id*
+     */
+    navItems: PropTypes.object.isRequired,
+    /**
+     * Vista actual
+     */
+    currentView: PropTypes.any,
+    /**
+     * Diccionario que contiene todas las vistas contenidas, accesibles por su *id*
+     */
+    containedViews: PropTypes.object.isRequired,
+};

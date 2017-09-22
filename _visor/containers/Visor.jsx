@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
 import { Modal } from 'react-bootstrap';
 import i18n from 'i18next';
 
@@ -13,14 +13,11 @@ export default class Visor extends Component {
     render() {
         if (this.props.state.navItemSelected === 0) {
             return (
-                /* jshint ignore:start */
                 <div />
-                /* jshint ignore:end */
             );
         }
 
         return (
-            /* jshint ignore:start */
             <Modal className="visor modalVisorContainer"
                 show={this.props.visorVisible}
                 backdrop bsSize="large"
@@ -43,7 +40,25 @@ export default class Visor extends Component {
                     }} style={{ width: "100%", height: "100%", border: 0 }} allowFullScreen frameBorder="0" />
                 </Modal.Body>
             </Modal>
-            /* jshint ignore:end */
         );
     }
 }
+
+Visor.PropTypes = {
+    /**
+     * Título del curso
+     */
+    title: PropTypes.string.isRequired,
+    /**
+     * Indica si se debe mostrar o no el visor
+     */
+    visorVisible: PropTypes.bool,
+    /**
+     * Muestra o oculta el visor
+     */
+    onVisibilityToggled: PropTypes.func.isRequired,
+    /**
+     * Estado de la aplicación que se pasa al visor
+     */
+    state: PropTypes.object.isRequired,
+};

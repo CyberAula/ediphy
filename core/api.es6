@@ -15,8 +15,8 @@ export function api() {
             Dali.API_Private.emit(Dali.API_Private.events.openConfig, { name: name, reason: reason });
             return promise;
         },
-        editRichMark: function(id, value) {
-            Dali.API_Private.emit(Dali.API_Private.events.editRichMark, { id: id, value: value });
+        editRichMark: function(box, mark, value) {
+            Dali.API_Private.emit(Dali.API_Private.events.editRichMark, { box: box, id: mark, value: value });
         },
         markTriggered: function(id, value, stateElement) {
             Dali.API_Private.emit(Dali.API_Private.events.markTriggered, { id, value, stateElement });

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Col, Input, Dropdown, MenuItem } from 'react-bootstrap';
 import DaliIndexTitle from '../../carrousel/dali_index_title/DaliIndexTitle';
 import GlobalConfig from '../global_config/GlobalConfig';
@@ -223,3 +224,99 @@ export default class DaliNavBar extends Component {
         this.setState({ isFullScreenOn: screenfull.isFullscreen });
     }
 }
+
+DaliNavBar.propTypes = {
+    /**
+     *  Muestra o oculta la barra de plugins
+     */
+    hideTab: PropTypes.oneOf(["show", "hide"]).isRequired,
+    /**
+     * Objeto que contiene la configuración global del curso almacenada en el estado de Redux
+     */
+    globalConfig: PropTypes.object.isRequired,
+    /**
+     * Modifica la configuración global del curso
+     */
+    changeGlobalConfig: PropTypes.func.isRequired,
+    /**
+     * Permite utilizar la funcionalidad de undo
+     */
+    undoDisabled: PropTypes.bool,
+    /**
+     * Permite utilizar la funcionalidad de redo
+     */
+    redoDisabled: PropTypes.bool,
+    /**
+     * Array que contiene todas las vistas identificables por su *id*
+     */
+    navItemsIds: PropTypes.array,
+    /**
+     * Diccionario que contiene todas las vistas identificables por su *id*
+     */
+    navItems: PropTypes.object.isRequired,
+    /**
+     * Modifica el título del curso
+     */
+    onTitleChanged: PropTypes.func.isRequired,
+    /**
+     * Identifica la vista contenida que se está editando
+     */
+    containedViewSelected: PropTypes.any.isRequired,
+    /**
+     * Identifica la vista contenida que se está editando
+     */
+    navItemSelected: PropTypes.any.isRequired,
+    /**
+     * Caja seleccionada
+     */
+    boxSelected: PropTypes.any.isRequired,
+    /**
+     * Cierra la edición de texto en curso
+     */
+    onTextEditorToggled: PropTypes.func.isRequired,
+    /**
+     * Deshace el último cambio
+     */
+    undo: PropTypes.func.isRequired,
+    /**
+     * Rehace el último cambio
+     */
+    redo: PropTypes.func.isRequired,
+    /**
+     * Activa el modo previsualización
+     */
+    visor: PropTypes.func.isRequired,
+    /**
+     * Exporta el curso en HTML
+     */
+    export: PropTypes.func.isRequired,
+    /**
+     * Exporta el curso en SCORM
+     */
+    scorm: PropTypes.func.isRequired,
+    /**
+     * Guarda los cambios en el servidor remoto
+     */
+    save: PropTypes.func.isRequired,
+    /**
+     * Categoria de plugin mostrada
+     */
+    category: PropTypes.string.isRequired,
+    /**
+     * Carga los cambios desde el servidor remoto
+     */
+    opens: PropTypes.func.isRequired,
+    /**
+     * Ventana emergente que indica si la importación/exportación al servidor ha sido correcta
+     */
+    serverModalOpen: PropTypes.func.isRequired,
+    /**
+     * Abre el catálogo de recursos subidos al servidor
+     */
+    onVishCatalogToggled: PropTypes.func.isRequired,
+    /**
+     * Cambia la categoría de plugins seleccionada
+     * */
+    setcat: PropTypes.func.isRequired,
+
+};

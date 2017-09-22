@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Modal, Grid, Row, Col, FormGroup, Checkbox, ControlLabel, FormControl, InputGroup, Radio, OverlayTrigger, Popover, Button } from 'react-bootstrap';
+import PropTypes from 'prop-types';
+import { Modal, Grid, Row, Col, FormGroup, ControlLabel, FormControl, InputGroup, Radio, OverlayTrigger, Popover, Button } from 'react-bootstrap';
 import i18n from 'i18next';
 import RangeSlider from './range_slider/RangeSlider';
 import Select from 'react-select';
@@ -362,3 +363,22 @@ export default class GlobalConfig extends Component {
     }
 
 }
+
+GlobalConfig.propTypes = {
+    /**
+     * Indica si se debe mostrar la ventana de configuración del curso u ocultar
+     */
+    show: PropTypes.bool,
+    /**
+     * Diccionario que contiene la configuración del curso. Objeto idéntico a ***globalConfig*** en el estado de Redux.
+     */
+    globalConfig: PropTypes.object.isRequired,
+    /**
+     * Guarda la nueva configuración
+     */
+    changeGlobalConfig: PropTypes.func.isRequired,
+    /**
+     * Cierra la ventana de configuración
+     */
+    close: PropTypes.func.isRequired,
+};

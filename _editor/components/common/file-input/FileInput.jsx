@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 /**
  * FileInput component for dragging and dropping files
@@ -41,3 +42,34 @@ export default class FileInput extends React.Component {
             </div>);
     }
 }
+
+FileInput.propTypes = {
+    /**
+     * Nombre para el input en el formulario
+     */
+    name: PropTypes.string,
+    /**
+     * Input desactivado
+     */
+    disabled: PropTypes.bool,
+    /**
+     * Extensiones aceptadas para los ficheros elegidos
+     */
+    accept: PropTypes.string,
+    /**
+     * Cambia el valor del input
+     */
+    onChange: PropTypes.string.isRequired,
+    /**
+     * Estilo para el componente
+     */
+    style: PropTypes.object,
+    /**
+     * Clase CSS para el componente
+     */
+    className: PropTypes.string,
+    /**
+     * Componentes hijos
+     */
+    children: PropTypes.any,
+};

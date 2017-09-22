@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Button, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import i18n from 'i18next';
 export default class MarksList extends Component {
@@ -15,8 +16,8 @@ export default class MarksList extends Component {
                 </Button>
                 <br/>
                 {
-                    Object.keys(this.props.state.__marks).map(id => {
-                        let mark = this.props.state.__marks[id];
+                    Object.keys(this.props.state).map(id => {
+                        let mark = this.props.state[id];
                         let name = mark.connection;
                         let color = mark.color || '#337ab7';
                         let widthScroll = Math.max(mark.title.length / 11 * 100, 100);
@@ -68,3 +69,27 @@ export default class MarksList extends Component {
         );
     }
 }
+
+MarksList.propTypes = {
+    /*
+     * Objeto de marcas del estado del plugin
+     */
+    state: PropTypes.object.isRequired,
+    /*
+     * Diccionario que incluye las toolbars
+     */
+    toolbars: PropTypes.object.isRequired,
+    /*
+     * Muestra/oculta el modal de edición de marcas
+     */
+    onRichMarksModalToggled: PropTypes.func.isRequired,
+    /*
+     * Comienza la edición de una marca
+     */
+    onRichMarkEditPressed: PropTypes.func.isRequired,
+    /*
+     * Borra una marca
+     */
+    onRichMarkDeleted: PropTypes.func.isRequired,
+
+};

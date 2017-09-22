@@ -182,7 +182,7 @@ export default class Visor extends Component {
                         style={{ height: '100%' }}>
                         <Row style={{ height: '100%' }}>
                             <Col lg={12} style={{ height: '100%' }}>
-                                {visorNav.player && !isContainedView(this.getLastCurrentViewElement()) ? (<VisorPlayer show={visorNav.player}
+                                { !isContainedView(this.getLastCurrentViewElement()) ? (<VisorPlayer show={visorNav.player}
                                     changeCurrentView={(page)=> {this.changeCurrentView(page);}}
                                     currentViews={this.state.currentView}
                                     navItemsById={navItems}
@@ -197,7 +197,6 @@ export default class Visor extends Component {
                                 { !isContainedView(this.getLastCurrentViewElement()) ?
                                     (<CanvasVisor
                                         boxes={boxes}
-                                        boxSelected={boxSelected}
                                         changeCurrentView={(element) => {this.changeCurrentView(element);}}
                                         canvasRatio={ratio}
                                         containedViews={containedViews}
@@ -213,7 +212,6 @@ export default class Visor extends Component {
                                     />) :
                                     (<ContainedCanvasVisor
                                         boxes={boxes}
-                                        boxSelected={boxSelected}
                                         changeCurrentView={(element) => {this.changeCurrentView(element);}}
                                         canvasRatio={ratio}
                                         containedViews={containedViews}

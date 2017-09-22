@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { isPage, isSection } from '../../../../common/utils';
 import { FormControl } from 'react-bootstrap';
 import Dali from '../../../../core/editor/main';
@@ -100,3 +101,26 @@ export default class DaliIndexTitle extends Component {
     }
 
 }
+
+DaliIndexTitle.propTypes = {
+    /**
+     * Identificador único del elemento del índice seleccionado
+     */
+    id: PropTypes.string,
+    /**
+     * Título del elemento del índice seleccionado
+     */
+    title: PropTypes.string.isRequired,
+    /**
+     * Número del elemento del índice seleccionado
+     */
+    index: PropTypes.any,
+    /**
+     * Indicador de si el elemento está marcado como privado (aparece tachado y no se muestra en el visor)
+     */
+    hidden: PropTypes.bool,
+    /**
+     * Cambia el título del elemento seleccionado
+     */
+    onNameChanged: PropTypes.func.isRequired,
+};

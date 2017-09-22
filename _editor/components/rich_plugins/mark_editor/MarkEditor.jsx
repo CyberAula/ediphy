@@ -173,7 +173,7 @@ export default class MarkEditor extends Component {
             document.body.style.cursor = 'default';
             boxStyle.classList.remove('norotate');
             window.removeEventListener('keyup', keyListener);
-            document.documentElement.removeEventListener('mouseup', clickOutside);
+            document.documentElement.removeEventListener('mouseup', clickOutside, true);
             if (overlay) {
                 overlay.remove();
             }
@@ -225,8 +225,11 @@ export default class MarkEditor extends Component {
             if (component) {
                 component.setState({ editing: false });
             }
-            base.setState('__marks', marks);
-            base.render('UPDATE_BOX');
+
+            base.editRichMark(id, value);
+            // base.setState('__marks', marks);
+            // base.render('EDIT_RICH_MARK');
+
         };
         dropableElement.parentElement.appendChild(overlay);
 
@@ -234,3 +237,21 @@ export default class MarkEditor extends Component {
 
 }
 
+MarkEditor.propTypes = {
+    /**
+     * Objeto de estilo CSS
+     */
+    style: PropTypes.object.isRequired,
+    /**
+     * Tiempo que hay que tener pulsada la marca antes de moverla
+     */
+    time: PropTypes.object.isRequired,
+    /**
+     * Objeto marca del estado del plugin
+     */
+    mark: PropTypes.object.isRequired,
+    /**
+     * Base del estado del plugin
+     */
+    base: PropTypes.object.isRequired,
+};

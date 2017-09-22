@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { Jumbotron, Grid, Col, Row, Well } from 'react-bootstrap';
-import Markdown from 'react-remarkable';
+import { Jumbotron, Grid, Col, Row } from 'react-bootstrap';
 import icon from '../img/ging.png';
 import react from '../img/React-icon.svg';
 import redux from '../img/Redux-icon.svg';
@@ -12,6 +11,7 @@ export default class Content extends Component {
     render() {
         return (
             <Grid className="bsGrid">
+                <br/>
                 <Jumbotron>
                     <img src={icon} style={{ width: '170px', float: 'left', marginRight: '30px', stroke: '#777' }} alt=""/>
                     <h1>Dalí Editor</h1>
