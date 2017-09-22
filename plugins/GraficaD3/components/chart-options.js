@@ -6,10 +6,7 @@ import i18n from 'i18next';
 export default class ChartOptions extends React.Component {
     constructor(props) {
         super(props);
-        let options = this.props.options;
-        options.keys = this.props.keys;
-        options.valueKeys = this.props.valueKeys;
-        this.state = options;
+
         this.typeChanged = this.typeChanged.bind(this);
         this.colorChanged = this.colorChanged.bind(this);
         this.yAxisChanged = this.yAxisChanged.bind(this);
@@ -21,20 +18,31 @@ export default class ChartOptions extends React.Component {
         this.ringNameChanged = this.ringNameChanged.bind(this);
         this.ringValueChanged = this.ringValueChanged.bind(this);
         this.ringColorChanged = this.ringColorChanged.bind(this);
+
+        this.state = {
+            gridX: this.props.options.gridX,
+            gridY: this.props.options.gridY,
+            rings: this.props.options.rings,
+            type: this.props.options.type,
+            x: this.props.options.x,
+            y: this.props.options.y,
+            keys: this.props.keys,
+            valueKeys: this.props.valueKeys,
+        };
+
     }
 
-    componentDidUpdate(prevProps, prevState) {
-
-        if(prevState !== this.state) {
+    componentWillUpdate(nextProps, nextState) {
+        if(nextState !== this.state) {
             if (typeof this.props.optionsChanged === 'function') {
                 // console.log(this.state);
                 this.props.optionsChanged({
-                    type: this.state.type,
-                    x: this.state.x,
-                    y: this.state.y,
-                    gridX: this.state.gridX,
-                    gridY: this.state.gridY,
-                    rings: this.state.rings,
+                    type: nextState.type,
+                    x: nextState.x,
+                    y: nextState.y,
+                    gridX: nextState.gridX,
+                    gridY: nextState.gridY,
+                    rings: nextState.rings,
                 });
             }
         }
@@ -125,21 +133,21 @@ export default class ChartOptions extends React.Component {
                 <h4>{i18n.t("GraficaD3.header.options")}</h4>
                 <div className="content-block">
                     <Form horizontal>
-                         <FormGroup>
+                        <FormGroup>
                             <Col xs={5}>
                                 <FormControl.Static>
                                     {i18n.t("GraficaD3.chart_type")}
                                 </FormControl.Static>
                             </Col>
-                                <Col xs={7}>
+                            <Col xs={7}>
                                 <FormControl componentClass="select" placeholder="line" value={this.state.type} onChange={this.typeChanged}>
                                     <option value="line">{i18n.t("GraficaD3.types.line")}</option>
                                     <option value="area">{i18n.t("GraficaD3.types.area")}</option>
                                     <option value="bar">{i18n.t("GraficaD3.types.bar")}</option>
-                                    <option value="pie">{i18n.t("GraficaD3.types.pie")}</option>
+                                    {/*<option value="pie">{i18n.t("GraficaD3.types.pie")}</option>*/}
                                 </FormControl>
                             </Col>
-                        </FormGroup>{/**/}
+                        </FormGroup>
                         <FormGroup>
                             <Col xs={12}>
                                 <FormControl.Static>

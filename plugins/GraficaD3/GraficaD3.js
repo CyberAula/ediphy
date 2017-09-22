@@ -81,10 +81,10 @@ export function GraficaD3(base) {
             };
         },
         getInitialState: function() {
-            let data = [["Initial column", 1, 0]];
 
             return {
-                data: data,
+                dataProvided: [["First column", 1, 0], ["Second column", 0, 1]],
+                dataProcessed: {},
                 editing: true,
                 options: {
                     type: "area",
@@ -106,7 +106,7 @@ export function GraficaD3(base) {
         getRenderTemplate: function(state) {
             return (
             /* jshint ignore:start */
-                <Chart data={state.data} options={state.options} />
+                <Chart dataProcessed={state.dataProcessed} options={state.options} />
             /* jshint ignore:end */
             );
 

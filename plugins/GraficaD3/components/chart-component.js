@@ -2,35 +2,46 @@ import React from "react";
 import { ResponsiveContainer, PieChart, AreaChart, BarChart, LineChart, Pie, Area, Bar, Line, XAxis, YAxis, CartesianGrid, Legend, Tooltip } from "recharts";
 
 export default class Chart extends React.Component {
+    componentWillUpdate(){
 
+    }
     render() {
-        let data = this.props.data;
+        let data = this.props.dataProcessed;
         let options = this.props.options;
-        let width = this.props.width;
+        let ymap = options.y.map((y)=>{ return y;});
+
         switch (options.type) {
         case "line":
-            console.log(options);
-            console.log(data);
-            return (
-                <ResponsiveContainer width="100%" height="100%">
-                    <LineChart
-                        data={data}>
-                        <XAxis dataKey={options.x} name={options.x} tickCount={data ? data.length : 5} />
-                        <YAxis />
-                        <CartesianGrid horizontal={options.gridX} vertical={options.gridY} />
-                        {options.y.map((y, o) => {
-                            return(
-                                <Line key={o + 1} type="monotone" dataKey={y.key} stroke={y.color} fillOpacity={1}/>
-                            );
-                        })}
-                        <Tooltip />
-                        <Legend />
-                    </LineChart>
-                </ResponsiveContainer>
-            );
+            if(ymap.length === 1){
+                return (
+                    <ResponsiveContainer width="100%" height="100%">
+                        <LineChart
+                            data={data}>
+                            <XAxis dataKey={options.x} name={options.x} /*tickCount={data ? data.length : 5}*/ />
+                            <YAxis />
+                            <CartesianGrid horizontal={options.gridX} vertical={options.gridY} />
+                            <Tooltip />
+                            <Legend />
+                            <Line key={1} type="monotone" dataKey={options.y[0].key} stroke={options.y[0].color} fillOpacity={1} />
+                        </LineChart>
+                    </ResponsiveContainer>
+                );
+            }else {
+                return (
+                    <ResponsiveContainer width="100%" height="100%">
+                        <LineChart
+                            data={data}>
+                            <XAxis dataKey={options.x} name={options.x} /*tickCount={data ? data.length : 5}*/ />
+                            <YAxis />
+                            <CartesianGrid horizontal={options.gridX} vertical={options.gridY} />
+                            <Tooltip />
+                            <Legend />
+                            {ymap.map((y,o) => <Line key={o+1} type="monotone" dataKey={y.key} stroke={y.color} fillOpacity={1} />)}
+                        </LineChart>
+                    </ResponsiveContainer>
+                );
+            }
         case "area":
-            console.log(options);
-            console.log(data);
             return (
                 <ResponsiveContainer width="100%" height="100%">
                     <AreaChart
@@ -49,32 +60,40 @@ export default class Chart extends React.Component {
                         <YAxis/>
                         <CartesianGrid horizontal={options.gridX} vertical={options.gridY} />
                         <Tooltip />
-                        {options.y.map((y, o) => {
-                            return(
-                                <Area key={o + 1} type="monotone" dataKey={y.key} stroke={y.color} fillOpacity={1} fill={"url(#colorUv" + o + ")"}/>
-                            );
-                        })}
+                        {ymap.map((y,o) => <Area key={o + 1} type="monotone" dataKey={y.key} stroke={y.color} fillOpacity={1} fill={"url(#colorUv" + o + ")"}/>)}
                     </AreaChart>
                 </ResponsiveContainer>
             );
         case "bar":
-            return (
-                <ResponsiveContainer width="100%" height="100%">
-                    <BarChart
-                        data={data}>
-                        <XAxis dataKey={options.x} name={options.x}/>
-                        <YAxis/>
-                        <CartesianGrid horizontal={options.gridX} vertical={options.gridY} />
-                        <Tooltip/>
-                        <Legend />
-                        {options.y.map((y, o) => {
-                            return(
-                                <Bar key={o + 1} dataKey={y.key} fill={y.color} scaleY={1} />
-                            );
-                        })}
-                    </BarChart>
-                </ResponsiveContainer>
-            );
+            if(ymap.length === 1){
+                return (
+                    <ResponsiveContainer width="100%" height="100%">
+                        <BarChart
+                            data={data}>
+                            <XAxis dataKey={options.x} name={options.x}/>
+                            <YAxis/>
+                            <CartesianGrid horizontal={options.gridX} vertical={options.gridY} />
+                            <Tooltip/>
+                            <Legend />
+                            <Bar key={1} dataKey={options.y[0].key} fill={options.y[0].color} scaleY={1} />
+                        </BarChart>
+                    </ResponsiveContainer>
+                );
+            } else {
+                return (
+                    <ResponsiveContainer width="100%" height="100%">
+                        <BarChart
+                            data={data}>
+                            <XAxis dataKey={options.x} name={options.x}/>
+                            <YAxis/>
+                            <CartesianGrid horizontal={options.gridX} vertical={options.gridY} />
+                            <Tooltip/>
+                            <Legend />
+                            {ymap.map((y,o) =><Bar key={o + 1} dataKey={y.key} fill={y.color} scaleY={1} />)}
+                        </BarChart>
+                    </ResponsiveContainer>
+                );
+            }
         case "pie":
             let rings = [];
             for (let ring of options.rings) {

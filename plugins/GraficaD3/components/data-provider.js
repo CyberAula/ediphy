@@ -20,7 +20,7 @@ export default class DataProvider extends React.Component {
         this.dataChanged = this.dataChanged.bind(this);
 
         this.state = {
-            data: this.props.data,
+            dataProvided: this.props.dataProvided,
             error: false,
         };
     }
@@ -28,9 +28,9 @@ export default class DataProvider extends React.Component {
     confirmButton() {
         let empty = false;
         outerloop:
-        for (let i = 0; i < this.state.data.length; i++) {
-            for (let o = 0; o < this.state.data.length; o++) {
-                if(this.state.data[i][o] === "") {
+        for (let i = 0; i < this.state.dataProvided.length; i++) {
+            for (let o = 0; o < this.state.dataProvided.length; o++) {
+                if(this.state.dataProvided[i][o] === "") {
                     let alertComp = (<Alert className="pageModal" show hasHeader closeButton onClose={()=>{this.setState({ alert: null });}}>
                         <span> {i18n.t("GraficaD3.alert_msg")} </span>
                     </Alert>);
@@ -41,75 +41,74 @@ export default class DataProvider extends React.Component {
             }
         }
         if (typeof this.props.dataChanged === 'function' && !empty) {
-            this.props.dataChanged({ data: this.state.data});
+            this.props.dataChanged({ dataProvided: this.state.dataProvided });
         }
     }
 
     deleteCols(col) {
-        if (col > -1){
-            let newData = this.state.data.slice(0);
+        if (col > -1) {
+            let newData = this.state.dataProvided.slice(0);
             newData.splice(col, 1);
-            this.setState({data: newData});
+            this.setState({ dataProvided: newData });
         }
     }
 
-
     colsChanged(event) {
-        let colNumber = parseInt(event.target.value);
-        let newData = this.state.data.slice(0);
+        let colNumber = parseInt(event.target.value, 10);
+        let newData = this.state.dataProvided.slice(0);
         let rowLength = newData[0].length;
 
-        if(colNumber !== newData.length && colNumber > 0){
-            if(colNumber > newData.length){
-                //Initializes columns
+        if (colNumber !== newData.length && colNumber > 0) {
+            if(colNumber > newData.length) {
+                // Initializes columns
                 let iterationSize = colNumber - newData.length;
-                for(let n =0; n < iterationSize; n++){
+                for (let n = 0; n < iterationSize; n++) {
                     let column = new Array(rowLength).fill('');
                     newData.push(column);
                 }
-            } else if (colNumber < newData.length){
+            } else if (colNumber < newData.length) {
 
-                newData = newData.slice(0,colNumber);
+                newData = newData.slice(0, colNumber);
             }
-            this.setState({ data: newData });
+            this.setState({ dataProvided: newData });
         }
 
     }
 
     deleteRows(row) {
-        let newData = this.state.data.slice(0);
-        for(let n in newData){
+        let newData = this.state.dataProvided.slice(0);
+        for(let n in newData) {
             newData[n].splice(row + 1, 1);
         }
 
-        this.setState({ data: newData });
+        this.setState({ dataProvided: newData });
     }
 
     rowsChanged(event) {
-        let rowNumber = parseInt(event.target.value);
-        let newData = this.state.data.slice(0);
-        if(rowNumber !== newData[0].length && rowNumber > 0){
-            if(rowNumber > newData[0].length){
+        let rowNumber = parseInt(event.target.value, 10);
+        let newData = this.state.dataProvided.slice(0);
+        if (rowNumber !== newData[0].length && rowNumber > 0) {
+            if (rowNumber > newData[0].length) {
                 let rowAmount = rowNumber - newData[0].length;
                 let nextArray = new Array(rowAmount).fill('');
-                for (let n = 0; n < newData.length; n++){
+                for (let n = 0; n < newData.length; n++) {
                     newData[n] = newData[n].concat(nextArray.slice(0));
                 }
-            } else if (rowNumber < newData[0].length){
-                for (let n = 0; n < newData.length; n++){
-                    newData[n] = newData[n].slice(0,rowNumber);
+            } else if (rowNumber < newData[0].length) {
+                for (let n = 0; n < newData.length; n++) {
+                    newData[n] = newData[n].slice(0, rowNumber);
                 }
             }
-            this.setState({ data: newData });
+            this.setState({ dataProvided: newData });
         }
     }
 
     keyChanged(event) {
-        let pos = parseInt(event.target.name);
-        let newData = this.state.data.slice(0);
+        let pos = parseInt(event.target.name, 10);
+        let newData = this.state.dataProvided.slice(0);
 
         newData[pos][0] = event.target.value;
-        this.setState({data: newData });
+        this.setState({ dataProvided: newData });
 
     }
 
@@ -181,13 +180,13 @@ export default class DataProvider extends React.Component {
 
     dataChanged(event) {
         let pos = event.target.name.split(" ");
-        let row = parseInt(pos[1])+1;
-        let col = parseInt(pos[0]);
-        let newData = this.state.data.slice(0);
+        let row = parseInt(pos[1], 10) + 1;
+        let col = parseInt(pos[0], 10);
+        let newData = this.state.dataProvided.slice(0);
 
-        if( typeof event.target.value !== "undefined" /*&& !isNaN(parseInt(event.target.value))*/){
+        if (typeof event.target.value !== "undefined"/* && !isNaN(parseInt(event.target.value)) */) {
             newData[col][row] = event.target.value;
-            this.setState({ data: newData });
+            this.setState({ dataProvided: newData });
         }
     }
 
@@ -217,14 +216,14 @@ export default class DataProvider extends React.Component {
                             {i18n.t("GraficaD3.data_cols")}
                         </Col>
                         <Col xs={3}>
-                            <FormControl type="number" name="cols" value={this.state.data.length} onChange={this.colsChanged}/>
+                            <FormControl type="number" name="cols" value={this.state.dataProvided.length} onChange={this.colsChanged}/>
                         </Col>
 
                         <Col componentClass={ControlLabel} xs={1}>
                             {i18n.t("GraficaD3.data_rows")}
                         </Col>
                         <Col xs={3}>
-                            <FormControl type="number" name="rows" value={this.state.data[0].length} onChange={this.rowsChanged}/>
+                            <FormControl type="number" name="rows" value={this.state.dataProvided[0].length} onChange={this.rowsChanged}/>
                         </Col>
                         <Col xs={3}>
                             <Button className="btn btn-primary" onClick={this.confirmButton} style={{ marginTop: '0px' }}>{i18n.t("GraficaD3.confirm")}</Button>
@@ -232,7 +231,7 @@ export default class DataProvider extends React.Component {
                     </FormGroup>
                     <div style={{ marginTop: '10px', overflowX: 'auto' }}>
                         <div style={{ display: 'table', tableLayout: 'fixed', width: '100%' }}>
-                            {this.state.data.map((x, i) => {
+                            {this.state.dataProvided.map((x, i) => {
                                 return(
                                     <FormControl.Static key={i + 1} style={{ display: 'table-cell', padding: '8px', textAlign: 'center' }} />
                                 );
@@ -241,29 +240,29 @@ export default class DataProvider extends React.Component {
                         <table className="table bordered hover" >
                             <thead>
                                 <tr>
-                                    {this.state.data.map((x, i) => {
+                                    {this.state.dataProvided.map((x, i) => {
                                         return(
                                             <th key={i + 1}>
                                                 <i className="material-icons clearCol" onClick={(e)=>{this.deleteCols(i);}}>clear</i>
-                                                <FormControl type="text" name={i} value={this.state.data[i][0]} style={{ margin: '0px' }} onChange={this.keyChanged}/>
+                                                <FormControl type="text" name={i} value={this.state.dataProvided[i][0]} style={{ margin: '0px' }} onChange={this.keyChanged}/>
                                             </th>
                                         );
                                     })}
                                 </tr>
                             </thead>
                             <tbody style={{ backgroundColor: '#f2f2f2' }}>
-                                {this.state.data[0].map((x, i) => {
-                                    if(i === this.state.data[0].length - 1){
+                                {this.state.dataProvided[0].map((x, i) => {
+                                    if(i === this.state.dataProvided[0].length - 1) {
                                         return;
                                     }
 
-                                    return(
+                                    return (
                                         <tr key={i + 1}>
-                                            {this.state.data.map((q, o) => {
+                                            {this.state.dataProvided.map((q, o) => {
                                                 return(
                                                     <td key={o + 1}>
                                                         <i className="material-icons clearRow" onClick={()=>{this.deleteRows(i);}}>clear</i>
-                                                        <FormControl type="text" name={o + " " + i} value={this.state.data[o][i+1]} onChange={this.dataChanged}/>
+                                                        <FormControl type="text" name={o + " " + i} value={this.state.dataProvided[o][i + 1]} onChange={this.dataChanged}/>
 
                                                     </td>
                                                 );
