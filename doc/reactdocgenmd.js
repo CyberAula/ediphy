@@ -77,11 +77,11 @@ function writeModuleFile(modPath) {
 
     fs.writeFile(modPath, content);
 }
-console.log('\n******************************REACT-DOCGEN************************************************\n');
+console.log('\nREACT-DOCGEN\n');
 console.log('Generating component props documentation for Editor');
 getFiles(editorPath);
 console.log('Generating component props documentation for Visor');
 getFiles(visorPath);
 writeModuleFile('./doc/importMdFiles.es6');
-console.log('\n******************************************************************************************\n');
+console.log('\n\n\n');
 

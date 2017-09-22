@@ -31,10 +31,10 @@ function writeModuleFile(modPath) {
     fs.writeFile(modPath, content);
 }
 
-console.log('\n******************************IMPORT CUSTOM COMPONENTS************************************\n');
+console.log('\nIMPORT CUSTOM COMPONENTS\n');
 console.log('Getting files from doc/src/components/...');
 getFiles(filePath);
 console.log('Exporting components in doc/src/components.es6');
 writeModuleFile('./doc/src/components.es6');
-console.log('\n******************************************************************************************\n');
+console.log('\n\n\n');
 

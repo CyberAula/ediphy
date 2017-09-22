@@ -4,7 +4,7 @@ const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const common = require('./webpack.doc.common.js');
 let path = require('path');
 
-console.log('\n******************************CREATE BUNDLE***********************************************\n');
+console.log('\nCREATE BUNDLE\n');
 
 module.exports = merge.smart(common, {
     entry: {
@@ -35,5 +35,5 @@ module.exports = merge.smart(common, {
 });
 console.log('App is served in doc/dist  ✓');
 console.log('Copy the folder for production');
-console.log('\n******************************************************************************************\n');
+console.log('\n\n\n');
 

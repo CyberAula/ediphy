@@ -37,7 +37,7 @@ export default class VishSearcherModal extends Component {
                 </Modal.Header>
 
                 <Modal.Body>
-                    <Form horizontal>
+                    <Form horizontal action="javascript:void(0);">
                         <FormGroup>
                             <Col md={4}>
                                 <ControlLabel>{i18n.t("vish_search_terms")}</ControlLabel>

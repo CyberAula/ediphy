@@ -14,40 +14,67 @@ body, #root, #root > .container-fluid, #mainRow {
     /*width: 100%;*/
 }
 .selectedNav {
-    background-color: #ccc;
-    border: none !important;
+    background-color: white !important;
+    margin-bottom: 0px;
 
+    //background-color: #ccc;
+    //border: none !important;
 }
-
-.selectedNav.list-group-item:hover,
-.selectedNav.list-group-item:active,
-.selectedNav.list-group-item:focus {
+.list-group-item,
+button.selectedNav,
+button.selectedNav.list-group-item,
+button.selectedNav.list-group-item:hover,
+button.selectedNav.list-group-item:active,
+button.selectedNav.list-group-item:focus,
+button.list-group-item:hover,
+button.list-group-item:active,
+button.list-group-item:focus{
     background-color: #ccc;
-    border: none !important;
+    //color: #165ba8;
+    //background-color: transparent !important;
+    //border: none ;
     box-shadow: none !important;
     outline: none !important;
+    border-bottom: 1px solid #777 !important;
+    border-top: none !important;
+    margin-bottom: 0px;
 
 }
 
 
 
 .navListItem {
-    border: none !important;
+    //border: none !important;
     box-shadow: none !important;
     outline: none !important;
     font-weight: bold;
-    font-size: 16px;
+    font-size: 14px;
+    background-color: transparent;
+    border-bottom: 1px solid #777 !important;
+    text-transform: uppercase;
+    font-size: 11px !important;
+
 }
 
 .subItem{
     font-weight: normal;
+    border-bottom: 1px solid #777 !important;
+    border-top: none !important;
 }
 
 .sidebarTitle {
     font-weight: bold;
-    margin-top: 26px;
+    //margin-top: 26px;
     margin-bottom: 16px;
     font-size: 24px;
+    /**/
+    border-bottom: 2px solid #333;
+    background: #aaa;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding-left:5px;
+    padding-top: 26px;
+    padding-bottom: 15px;
 }
 
 
@@ -107,6 +134,16 @@ img[alt=Índice], img[alt=Toolbar] {
     padding-top: 0px;
 }
 
+#indexCol {
+    background-color: #ddd;
+    padding: 0px;
+  .list-group {
+      margin-bottom: 0px;
+  }
+    border-right: 1px solid #333;
+}
+
+
 /*Fixed navbar*/
 .mainRow {
     //margin-top: 70px;
@@ -133,10 +170,27 @@ h5, .h5 {
 }
 
 .mainRow {
-    height: calc(100% - 62px);
+    //height: calc(100% - 62px);
+    height: calc(100% - 50px);
 }
 
 .mainCol {
     height:100%;
     overflow: auto;
+}
+
+.editIcon {
+    float: right;
+    font-size: 16px;
+    margin-top: 20px;
+}
+
+.list-group-item {
+    padding: 7px 7px;
+}
+
+@media(max-width:576px){
+    .mainCol {
+        height:auto;
+    }
 }
