@@ -144,7 +144,7 @@ export default class ChartOptions extends React.Component {
                                     <option value="line">{i18n.t("GraficaD3.types.line")}</option>
                                     <option value="area">{i18n.t("GraficaD3.types.area")}</option>
                                     <option value="bar">{i18n.t("GraficaD3.types.bar")}</option>
-                                    {/*<option value="pie">{i18n.t("GraficaD3.types.pie")}</option>*/}
+                                    {/* <option value="pie">{i18n.t("GraficaD3.types.pie")}</option>*/}
                                 </FormControl>
                             </Col>
                         </FormGroup>

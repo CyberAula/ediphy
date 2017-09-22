@@ -2,7 +2,7 @@ import React from "react";
 import { ResponsiveContainer, PieChart, AreaChart, BarChart, LineChart, Pie, Area, Bar, Line, XAxis, YAxis, CartesianGrid, Legend, Tooltip } from "recharts";
 
 export default class Chart extends React.Component {
-    componentWillUpdate(){
+    componentWillUpdate() {
 
     }
     render() {
@@ -12,12 +12,12 @@ export default class Chart extends React.Component {
 
         switch (options.type) {
         case "line":
-            if(ymap.length === 1){
+            if(ymap.length === 1) {
                 return (
                     <ResponsiveContainer width="100%" height="100%">
                         <LineChart
                             data={data}>
-                            <XAxis dataKey={options.x} name={options.x} /*tickCount={data ? data.length : 5}*/ />
+                            <XAxis dataKey={options.x} name={options.x} /* tickCount={data ? data.length : 5}*/ />
                             <YAxis />
                             <CartesianGrid horizontal={options.gridX} vertical={options.gridY} />
                             <Tooltip />
@@ -26,21 +26,21 @@ export default class Chart extends React.Component {
                         </LineChart>
                     </ResponsiveContainer>
                 );
-            }else {
-                return (
-                    <ResponsiveContainer width="100%" height="100%">
-                        <LineChart
-                            data={data}>
-                            <XAxis dataKey={options.x} name={options.x} /*tickCount={data ? data.length : 5}*/ />
-                            <YAxis />
-                            <CartesianGrid horizontal={options.gridX} vertical={options.gridY} />
-                            <Tooltip />
-                            <Legend />
-                            {ymap.map((y,o) => <Line key={o+1} type="monotone" dataKey={y.key} stroke={y.color} fillOpacity={1} />)}
-                        </LineChart>
-                    </ResponsiveContainer>
-                );
             }
+            return (
+                <ResponsiveContainer width="100%" height="100%">
+                    <LineChart
+                        data={data}>
+                        <XAxis dataKey={options.x} name={options.x} /* tickCount={data ? data.length : 5}*/ />
+                        <YAxis />
+                        <CartesianGrid horizontal={options.gridX} vertical={options.gridY} />
+                        <Tooltip />
+                        <Legend />
+                        {ymap.map((y, o) => <Line key={o + 1} type="monotone" dataKey={y.key} stroke={y.color} fillOpacity={1} />)}
+                    </LineChart>
+                </ResponsiveContainer>
+            );
+
         case "area":
             return (
                 <ResponsiveContainer width="100%" height="100%">
@@ -60,12 +60,12 @@ export default class Chart extends React.Component {
                         <YAxis/>
                         <CartesianGrid horizontal={options.gridX} vertical={options.gridY} />
                         <Tooltip />
-                        {ymap.map((y,o) => <Area key={o + 1} type="monotone" dataKey={y.key} stroke={y.color} fillOpacity={1} fill={"url(#colorUv" + o + ")"}/>)}
+                        {ymap.map((y, o) => <Area key={o + 1} type="monotone" dataKey={y.key} stroke={y.color} fillOpacity={1} fill={"url(#colorUv" + o + ")"}/>)}
                     </AreaChart>
                 </ResponsiveContainer>
             );
         case "bar":
-            if(ymap.length === 1){
+            if(ymap.length === 1) {
                 return (
                     <ResponsiveContainer width="100%" height="100%">
                         <BarChart
@@ -79,21 +79,21 @@ export default class Chart extends React.Component {
                         </BarChart>
                     </ResponsiveContainer>
                 );
-            } else {
-                return (
-                    <ResponsiveContainer width="100%" height="100%">
-                        <BarChart
-                            data={data}>
-                            <XAxis dataKey={options.x} name={options.x}/>
-                            <YAxis/>
-                            <CartesianGrid horizontal={options.gridX} vertical={options.gridY} />
-                            <Tooltip/>
-                            <Legend />
-                            {ymap.map((y,o) =><Bar key={o + 1} dataKey={y.key} fill={y.color} scaleY={1} />)}
-                        </BarChart>
-                    </ResponsiveContainer>
-                );
             }
+            return (
+                <ResponsiveContainer width="100%" height="100%">
+                    <BarChart
+                        data={data}>
+                        <XAxis dataKey={options.x} name={options.x}/>
+                        <YAxis/>
+                        <CartesianGrid horizontal={options.gridX} vertical={options.gridY} />
+                        <Tooltip/>
+                        <Legend />
+                        {ymap.map((y, o) =><Bar key={o + 1} dataKey={y.key} fill={y.color} scaleY={1} />)}
+                    </BarChart>
+                </ResponsiveContainer>
+            );
+
         case "pie":
             let rings = [];
             for (let ring of options.rings) {

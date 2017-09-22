@@ -23,8 +23,8 @@ export default class Config extends React.Component {
             nextProps.base.configModalNeedsUpdate();
         }
     }
-    componentWillUpdate(nextProps,nextState){
-        nextProps.base.setState("dataProvided", nextState.dataProvided );
+    componentWillUpdate(nextProps, nextState) {
+        nextProps.base.setState("dataProvided", nextState.dataProvided);
         nextProps.base.setState("options", nextState.options);
         nextProps.base.setState("dataProcessed", nextState.dataProcessed);
         nextProps.base.setState("keys", nextState.keys);
@@ -42,23 +42,23 @@ export default class Config extends React.Component {
     }
 
     dataChanged(values) {
-        this.setState({ editing: false, dataProvided: values.dataProvided.slice(0)});
+        this.setState({ editing: false, dataProvided: values.dataProvided.slice(0) });
 
         /* CONVERSOR BETWEEN OLD AND NEW */
-        let keys = values.dataProvided.slice(0).map((x)=>{return x[0];})
-        let oldObjectStructure = new Array(values.dataProvided[0].length-1);
-        for(let n = 0; n<oldObjectStructure.length;n++){
+        let keys = values.dataProvided.slice(0).map((x)=>{return x[0];});
+        let oldObjectStructure = new Array(values.dataProvided[0].length - 1);
+        for(let n = 0; n < oldObjectStructure.length; n++) {
             oldObjectStructure[n] = {};
         }
-        values.dataProvided.slice(0).forEach((array,indx)=>{
-            for(let n = 1; n < array.length; n++){
+        values.dataProvided.slice(0).forEach((array, indx)=>{
+            for(let n = 1; n < array.length; n++) {
                 oldObjectStructure[n - 1][array[0]] = array[n];
             }
         });
         /* CONVERSOR BETWEEN OLD AND NEW */
 
         this.setOptions(oldObjectStructure, keys);
-        //this.updateChart();
+        // this.updateChart();
     }
 
     setOptions(dataProcessed, keys) {
