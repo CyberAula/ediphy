@@ -1,7 +1,7 @@
 const path = require('path');
 const fs = require('fs');
 
-let filePath = (path.join('.', 'doc/src/components'));
+let compPath = (path.join('.', 'doc/src/components'));
 let files = [];
 
 function getFiles(filePath) {
@@ -33,7 +33,7 @@ function writeModuleFile(modPath) {
 
 console.log('\nIMPORT CUSTOM COMPONENTS\n');
 console.log('Getting files from doc/src/components/...');
-getFiles(filePath);
+getFiles(compPath);
 console.log('Exporting components in doc/src/components.es6');
 writeModuleFile('./doc/src/components.es6');
 console.log('\n\n\n');
