@@ -51,7 +51,7 @@ export default function(state = {}, action = {}) {
         }
         return state;
     case EDIT_RICH_MARK:
-        if(!action.payload.mark) {
+        if(!action.payload.mark || !action.payload.newConnection) {
             return state;
         }
         let editState = Object.assign({}, state);

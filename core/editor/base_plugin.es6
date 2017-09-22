@@ -52,6 +52,7 @@ export default function() {
                 idKey !== 'afterRender' &&
                 idKey !== 'getConfigTemplate' &&
                 idKey !== 'getRenderTemplate' &&
+                idKey !== 'editRichMark' &&
                 idKey !== 'getLocales') {
                     plugin[idKey] = descendant[idKey];
                 }
@@ -344,6 +345,9 @@ export default function() {
                     );
                 }
             }
+        },
+        editRichMark: function(mark, value) {
+            Dali.API.editRichMark(id, mark, value);
         },
         afterRender: function(element, oldState) {
             state = oldState;

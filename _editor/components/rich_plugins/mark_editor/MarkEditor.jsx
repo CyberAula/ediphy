@@ -225,8 +225,10 @@ export default class MarkEditor extends Component {
             if (component) {
                 component.setState({ editing: false });
             }
-            base.setState('__marks', marks);
-            base.render('EDIT_RICH_MARK');
+
+            base.editRichMark(id, value);
+            // base.setState('__marks', marks);
+            // base.render('EDIT_RICH_MARK');
 
         };
         dropableElement.parentElement.appendChild(overlay);

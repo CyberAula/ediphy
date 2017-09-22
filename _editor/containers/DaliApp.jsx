@@ -360,11 +360,16 @@ class DaliApp extends Component {
                             state.__marks[mark.id].connection = mark.connection.id;
                         }
                         this.dispatchAndSetState(editRichMark(boxSelected, state, mark.id, oldConnection, newConnection));
-                        Dali.Plugins.get(toolbar.config.name).forceUpdate(
-                            state,
-                            boxSelected,
-                            this.state.currentRichMark && !createNew ? UPDATE_TOOLBAR : addRichMark(boxSelected, mark, state)
-                        );
+
+                        if (!this.state.currentRichMark || createNew) {
+                            // this.dispatchAndSetState(addRichMark(boxSelected, mark, state));
+                            Dali.Plugins.get(toolbar.config.name).forceUpdate(
+                                state,
+                                boxSelected,
+                                addRichMark(boxSelected, mark, state)
+                            );
+                        }
+
                     }}
                     onRichMarksModalToggled={() => {
                         this.setState({ richMarksVisible: !this.state.richMarksVisible });
@@ -417,11 +422,11 @@ class DaliApp extends Component {
 
                         delete state.__marks[id];
                         this.dispatchAndSetState(deleteRichMark(id, boxSelected, cvid, state));
-                        Dali.Plugins.get(toolbar.config.name).forceUpdate(
+                        /* Dali.Plugins.get(toolbar.config.name).forceUpdate(
                             state,
                             boxSelected,
                             DELETE_RICH_MARK);
-
+*/
                         // This checks if the deleted mark leaves an orphan contained view, and displays a message asking if the user would like to delete it as well
                         if (isContainedView(cvid)) {
                             let thiscv = containedViews[cvid];
@@ -521,6 +526,7 @@ class DaliApp extends Component {
                 break;
             case EDIT_RICH_MARK:
                 this.dispatchAndSetState(editRichMark(e.detail.ids.id, e.detail.state));
+
                 /* this.dispatchAndSetState(updateBox(
                     e.detail.ids.id,
                     e.detail.content,
@@ -607,11 +613,12 @@ class DaliApp extends Component {
         });
 
         Dali.API_Private.listenEmission(Dali.API_Private.events.editRichMark, e =>{
-            let toolbar = this.props.toolbars[this.props.boxSelected];
+            let box = e.detail.box;
+            let toolbar = this.props.toolbars[box];
             let state = JSON.parse(JSON.stringify(toolbar.state));
             state.__marks[e.detail.id].value = e.detail.value;
-
-            this.dispatchAndSetState(editRichMark(e.detail.id, e.detail.value));
+            this.dispatchAndSetState(editRichMark(this.props.boxSelected, state, e.detail.id, null, null));
+            // Dali.Plugins.get(toolbar.config.name).forceUpdate(state, box, UPDATE_TOOLBAR);
 
         });
 

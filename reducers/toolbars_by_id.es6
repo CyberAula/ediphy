@@ -637,7 +637,8 @@ export default function(state = {}, action = {}) {
     case ADD_NAV_ITEM:
         return changeProp(state, action.payload.id, toolbarSectionCreator(state, action));
     case ADD_RICH_MARK:
-        newState = state;
+        newState = action.payload.state;
+        console.log(newState);
         if(action.payload.mark.connectMode === "new") {
             let modState = changeProp(state, action.payload.mark.connection.id || action.payload.mark.connection, toolbarSectionCreator(state, action, true));
             newState = changeProp(modState, action.payload.parent, toolbarReducer(modState[action.payload.parent], action));
@@ -697,12 +698,11 @@ export default function(state = {}, action = {}) {
         replaced = Object.assign({}, Object.replaceAll(replaced, action.payload.id.substr(3), action.payload.newId));
         return Object.assign({}, newState, replaced);
     case EDIT_RICH_MARK:
-        return state;
-        // return changeProp(state, action.payload.parent, toolbarReducer(state[action.payload.parent], action));
+        return changeProp(state, action.payload.parent, toolbarReducer(state[action.payload.parent], action));
     case DELETE_RICH_MARK:
-        // if (state[action.payload.parent] && state[action.payload.parent].state.__marks && state[action.payload.parent].state.__marks[action.payload.id]) {
-        // return changeProp(state, action.payload.parent, toolbarReducer(state[action.payload.parent], action));
-        // }
+        if (state[action.payload.parent] && state[action.payload.parent].state.__marks && state[action.payload.parent].state.__marks[action.payload.id]) {
+            return changeProp(state, action.payload.parent, toolbarReducer(state[action.payload.parent], action));
+        }
         return state;
     case RESIZE_BOX:
         return changeProp(state, action.payload.id, toolbarReducer(state[action.payload.id], action));
