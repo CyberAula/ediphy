@@ -253,7 +253,7 @@ export default class DataProvider extends React.Component {
                             <tbody style={{ backgroundColor: '#f2f2f2' }}>
                                 {this.state.dataProvided[0].map((x, i) => {
                                     if(i === this.state.dataProvided[0].length - 1) {
-                                        return;
+                                        return true;
                                     }
 
                                     return (

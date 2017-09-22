@@ -596,4 +596,4 @@ export function message(str)
         output.log(str);
     }
 }
-/*eslint-enable */
+/* eslint-enable */
