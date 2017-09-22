@@ -112,47 +112,44 @@ export default class DataProvider extends React.Component {
 
     }
 
-    csvToJSON(csv) {
+    parseCSVtoDataProvider(csv){
         let lines = csv.split("\n");
-        let result = [];
-        let headers = lines[0].split(",");
 
-        for(let i = 1; i < lines.length; i++) {
-            let obj = {};
-            let currentline = lines[i].split(",");
-            for (let j = 0; j < headers.length; j++) {
-                obj[headers[j]] = currentline[j];
+        let horizontalArray = [];
+        lines.forEach((x)=>{
+            let row = x.split(',');
+            horizontalArray.push(row);
+        });
+
+        /* Reverts Array*/
+        let verticalArray = new Array(horizontalArray[0].length);
+        for(let n = 0; n < horizontalArray[0].length; n++){
+            verticalArray[n] = [];
+            for( let y= 0; y < horizontalArray.length; y++){
+                verticalArray[n].push(horizontalArray[y][n]);
             }
-            result.push(obj);
         }
 
-        return result;
+        return verticalArray;
     }
 
-    validateJson(json) {
-        let data = {};
-        if(json.length === 0) {
-            this.setState({ error: true });
-            return false;
-        }
-        let cols = Object.keys(json[0]);
-        if(cols.length === 0) {
-            this.setState({ error: true, file: false });
-            return false;
-        }
-        for(let row of json) {
+    parseJSONtoDataProvider(json){
+        let parsedJSON = JSON.parse(json);
+        let keys = Object.keys(parsedJSON[0]);
+        let nextArray = new Array(keys.length);
 
-            if(!this.compareKeys(cols, Object.keys(row))) {
-                this.setState({ error: true, file: false });
-                return false;
-            }
-            cols = Object.keys(row);
+        for (let n = 0; n < nextArray.length; n++ ){
+            nextArray[n] = [keys[n]];
         }
-        this.setState({ cols: cols.length, rows: json.length, data: json, keys: cols, x: cols[0] });
-
-        this.setState({ error: false });
-        return true;
+        for (let n = 0; n < nextArray.length; n++ ){
+            Object.keys(parsedJSON).forEach((x)=>{
+                console.log(parsedJSON[x][keys[n]]);
+                nextArray[n].push(parsedJSON[x][keys[n]]);
+            });
+        }
+        return nextArray;
     }
+
 
     compareKeys(a, b) {
         a = a.sort().toString();
@@ -168,12 +165,12 @@ export default class DataProvider extends React.Component {
         reader.onload = () => {
             let data = reader.result;
             if(file.name.split('.').pop() === "csv") {
-                data = this.csvToJSON(data);
+                data = this.parseCSVtoDataProvider(data);
             } else if(file.name.split('.').pop() === "json") {
-                data = JSON.parse(data);
+                data = this.parseJSONtoDataProvider(data);
             }
-            this.setState({ name: file.name });
-            this.validateJson(data);
+            this.setState({ name: file.name, dataProvided: data});
+
         };
         reader.readAsText(file);
     }
@@ -192,11 +189,10 @@ export default class DataProvider extends React.Component {
 
     render() {
         return (
-            /* jshint ignore:start */
             <div>
                 { this.state.alert }
                 <Form horizontal style={{ padding: "16px" }}>
-                    {/* <FormGroup>
+                    <FormGroup>
                         <FileInput onChange={this.fileChanged} className="fileInput">
                             <div className="fileDrag">
                                 <span style={{ display: this.state.name ? 'none' : 'block' }}><i className="material-icons">ic_file_upload</i><b>{ i18n.t('FileInput.Drag') }</b>{ i18n.t('FileInput.Drag_2') }<b>{ i18n.t('FileInput.Click') }</b>{ i18n.t('FileInput.Click_2') }</span>
@@ -210,7 +206,7 @@ export default class DataProvider extends React.Component {
                                 {i18n.t("GraficaD3.fill_in")}
                             </FormControl.Static>
                         </Col>
-                    </FormGroup>*/}
+                    </FormGroup>
                     <FormGroup>
                         <Col componentClass={ControlLabel} xs={2}>
                             {i18n.t("GraficaD3.data_cols")}
@@ -275,7 +271,6 @@ export default class DataProvider extends React.Component {
                     </div>
                 </Form>
             </div>
-            /* jshint ignore:end */
         );
     }
 }
