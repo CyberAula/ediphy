@@ -15,7 +15,6 @@ export default class DataProvider extends React.Component {
         this.deleteRows = this.deleteRows.bind(this);
         this.rowsChanged = this.rowsChanged.bind(this);
         this.keyChanged = this.keyChanged.bind(this);
-        this.validateJson = this.validateJson.bind(this);
         this.fileChanged = this.fileChanged.bind(this);
         this.dataChanged = this.dataChanged.bind(this);
 
@@ -112,7 +111,7 @@ export default class DataProvider extends React.Component {
 
     }
 
-    parseCSVtoDataProvider(csv){
+    parseCSVtoDataProvider(csv) {
         let lines = csv.split("\n");
 
         let horizontalArray = [];
@@ -123,9 +122,9 @@ export default class DataProvider extends React.Component {
 
         /* Reverts Array*/
         let verticalArray = new Array(horizontalArray[0].length);
-        for(let n = 0; n < horizontalArray[0].length; n++){
+        for (let n = 0; n < horizontalArray[0].length; n++) {
             verticalArray[n] = [];
-            for( let y= 0; y < horizontalArray.length; y++){
+            for (let y = 0; y < horizontalArray.length; y++) {
                 verticalArray[n].push(horizontalArray[y][n]);
             }
         }
@@ -133,23 +132,21 @@ export default class DataProvider extends React.Component {
         return verticalArray;
     }
 
-    parseJSONtoDataProvider(json){
+    parseJSONtoDataProvider(json) {
         let parsedJSON = JSON.parse(json);
         let keys = Object.keys(parsedJSON[0]);
         let nextArray = new Array(keys.length);
 
-        for (let n = 0; n < nextArray.length; n++ ){
+        for (let n = 0; n < nextArray.length; n++) {
             nextArray[n] = [keys[n]];
         }
-        for (let n = 0; n < nextArray.length; n++ ){
+        for (let n = 0; n < nextArray.length; n++) {
             Object.keys(parsedJSON).forEach((x)=>{
-                console.log(parsedJSON[x][keys[n]]);
                 nextArray[n].push(parsedJSON[x][keys[n]]);
             });
         }
         return nextArray;
     }
-
 
     compareKeys(a, b) {
         a = a.sort().toString();
@@ -169,8 +166,7 @@ export default class DataProvider extends React.Component {
             } else if(file.name.split('.').pop() === "json") {
                 data = this.parseJSONtoDataProvider(data);
             }
-            this.setState({ name: file.name, dataProvided: data});
-
+            this.setState({ name: file.name, dataProvided: data });
         };
         reader.readAsText(file);
     }
