@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { LinkContainer } from 'react-router-bootstrap';
 import createBrowserHistory from 'history/createBrowserHistory';
+const supportsHistory = 'pushState' in window.history;
 const history = createBrowserHistory();
 import ReactDOM from 'react-dom';
 import { Grid, Row, Navbar, Nav, NavDropdown, NavItem, MenuItem } from 'react-bootstrap';
 import Content from './src/components/Content';
-import { tree } from './src/content';
+import { tree, lookForPath } from './src/content';
 import "./src/style/style.scss";
 
 export default class DaliDocs extends Component {
@@ -14,6 +16,8 @@ export default class DaliDocs extends Component {
         this.state = {
             section: 1,
             subsection: 0,
+            page: 1,
+            subpage: 0,
         };
 
         this.handleNav = this.handleNav.bind(this);
@@ -22,14 +26,20 @@ export default class DaliDocs extends Component {
         let navItems = <Nav>{Object.keys(tree).map(el =>{
             if (Object.keys(tree[el].children).length === 0) {
                 return (
-                    <NavItem key={el} active={this.state.section === el} eventKey={el} href="#" onClick={()=>this.handleNav(el, 0)}>{tree[el].title}</NavItem>
+                    <NavItem key={el} active={this.state.section === el} eventKey={el} href="#">
+                        <LinkContainer to={tree[el].path}><span>{tree[el].title}</span></LinkContainer>
+                    </NavItem>
                 );
             }
 
             return (<NavDropdown key={el} active={this.state.section === el} eventKey={el} title={tree[el].title} id="basic-nav-dropdown">
                 {Object.keys(tree[el].children).map(sub =>{
                     return (
-                        <MenuItem key={el + '.' + sub} eventKey={el + '.' + sub} onClick={()=>this.handleNav(el, sub)}>{tree[el].children[sub].title}</MenuItem>
+                        <MenuItem key={el + '.' + sub} eventKey={el + '.' + sub}>
+                            <LinkContainer to={tree[el].children[sub].path}>
+                                <span>{tree[el].children[sub].title}</span>
+                            </LinkContainer>
+                        </MenuItem>
                     );
                 })}
 
@@ -37,7 +47,17 @@ export default class DaliDocs extends Component {
             );
 
         })}</Nav>;
-        return (
+
+        const Comp = ({ match }) => {
+            let url = lookForPath(match.url);
+            url = url || {};
+            return <Content
+                section={ url.section || this.state.section }
+                subsection={ url.subsection || this.state.subsection}
+                page={ url.page || this.state.page }
+                subpage={ url.subpage || this.state.subpage } />;
+        };
+        return (<Router forceRefresh={!supportsHistory}>
             <Grid fluid>
                 <Row id="nbRow">
                     <Navbar collapseOnSelect >
@@ -52,11 +72,12 @@ export default class DaliDocs extends Component {
                         </Navbar.Collapse>
                     </Navbar>
                 </Row>
-                <Content
-                    handleNav={this.handleNav}
-                    section={this.state.section}
-                    subsection={this.state.subsection}/>
-            </Grid>);
+                <Route exact path="/" component={Comp}/>
+                <Route exact path="/:section" component={Comp}/>
+                <Route exact path="/:section/:page" component={Comp}/>
+                <Route path="/:section/:page/:subpage" component={Comp}/>
+
+            </Grid></Router>);
 
     }
     handleNav(section, subsection) {

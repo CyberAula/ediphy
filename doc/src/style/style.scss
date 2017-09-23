@@ -107,6 +107,17 @@ button.list-group-item:focus{
 
 .navbar, .list-group-item {
     border-radius: 0px !important;
+
+}
+
+.list-group-item {
+    span {
+        display:block;
+        width:100%;
+        height:100%;
+        cursor: pointer;
+
+    }
 }
 
 .navbar {
@@ -170,8 +181,8 @@ h5, .h5 {
 }
 
 .mainRow {
-    //height: calc(100% - 62px);
-    height: calc(100% - 50px);
+    height: calc(100% - 62px);
+    //height: calc(100% - 50px);
 }
 
 .mainCol {

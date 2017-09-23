@@ -30,6 +30,7 @@ module.exports = merge.smart(common, {
         hot: true,
         inline: true,
         port: 8082,
+        historyApiFallback: true,
     },
 });
 

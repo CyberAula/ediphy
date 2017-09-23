@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { LinkContainer } from 'react-router-bootstrap';
 import { Row, Col, ListGroup, ListGroupItem, Glyphicon } from 'react-bootstrap';
 import { tree, WIKI_BASE_URL, editURL } from './../content';
 import Markdown from 'react-remarkable';
@@ -11,8 +12,6 @@ export default class Content extends Component {
         super(props);
         this.state = {
             title: "",
-            page: 1,
-            subpage: 0,
             content: null,
             pages: {},
             self: true,
@@ -20,7 +19,6 @@ export default class Content extends Component {
     }
 
     changePage(page, subpage) {
-        // this.setState({ page, subpage });
         this.reload(this.props.section, this.props.subsection, page, subpage);
 
     }
@@ -38,11 +36,11 @@ export default class Content extends Component {
     render() {
         let pages = this.state.pages;
         let changePage = this.changePage.bind(this);
-        let currentPage = this.state.page;
-        let currentSubPage = this.state.subpage;
+        let currentPage = this.props.page;
+        let currentSubPage = this.props.subpage;
         let customComponent = null;
         if (this.state.self) {
-            customComponent = React.createElement(tree[this.props.section].componentName && Components[tree[this.props.section].componentName] ? Components[tree[this.props.section].componentName] : 'span', { handleNav: this.props.handleNav }, []);
+            customComponent = React.createElement(tree[this.props.section].componentName && Components[tree[this.props.section].componentName] ? Components[tree[this.props.section].componentName] : 'span', []);
         }
 
         let sideBarTitle = tree[this.props.section].title;
@@ -54,7 +52,7 @@ export default class Content extends Component {
         let big = this.state.self || Object.keys(this.state.pages).length === 0;
         let content = this.state.content;
 
-        if (content && this.state.rdg && this.state.md) {
+        if (content && typeof content === "string" && this.state.rdg && this.state.md) {
             let parts = content.split(/<!-- (.*) -->/g);
 
             // render the values in <strong> tags
@@ -79,15 +77,21 @@ export default class Content extends Component {
                     <ListGroup>
                         {Object.keys(pages).map((key) => {
                             let item = pages[key];
-                            return <div><ListGroupItem key={key}
-                                className={currentPage === key && currentSubPage === 0 ? 'selectedNav navListItem' : 'navListItem'}
-                                onClick={()=>{changePage(key, 0);}}> {/* ● */}{item.title}</ListGroupItem>
-                            {Object.keys(item.subpages || {}).map(function(sub) {
-                                return <ListGroupItem style={{ paddingLeft: '30px' }}
-                                    className={currentPage === key && currentSubPage === sub ? 'selectedNav navListItem subItem' : 'navListItem subItem'}
-                                    key={ key + "_" + sub }
-                                    onClick={()=>{changePage(key, sub);}}>{item.subpages[sub].title}</ListGroupItem>;
-                            })}
+                            return <div>
+                                <ListGroupItem key={key} className={currentPage === key && (!currentSubPage || currentSubPage === 0) ? 'selectedNav navListItem' : 'navListItem'} >
+                                    <LinkContainer to={item.path || '#'}>
+                                        <span>{item.title}</span>
+                                    </LinkContainer>
+                                </ListGroupItem>
+                                {Object.keys(item.subpages || {}).map(function(sub) {
+                                    return <ListGroupItem style={{ paddingLeft: '30px' }}
+                                        className={currentPage === key && currentSubPage === sub ? 'selectedNav navListItem subItem' : 'navListItem subItem'}
+                                        key={ key + "_" + sub }>
+                                        <LinkContainer to={item.subpages[sub].path || '#'}>
+                                            <span>{item.subpages[sub].title}</span>
+                                        </LinkContainer>
+                                    </ListGroupItem>;
+                                })}
                             </div>;
                         })}
 
@@ -141,7 +145,8 @@ export default class Content extends Component {
             let editUrl = editURL(content.src);
             $.ajax({
                 url: url,
-                method: "GET" })
+                method: "GET",
+            })
                 .done(function(data) {
 
                     this.setState({ content: data, md: content.md, rdg: content.react_docgen, url: editUrl });
@@ -157,14 +162,15 @@ export default class Content extends Component {
             this.setState({ content: "" });
         }
         this.setState({ title: title, content: loader, /* md: content.md,*/ pages: pages, self: false, page, subpage });
+
     }
 
     componentWillReceiveProps(nextProps) {
-        if (this.props !== nextProps) {
-            this.reload(nextProps.section, nextProps.subsection, 1, 0);
-        }
+        // if (this.props !== nextProps) {
+        this.reload(nextProps.section, nextProps.subsection, nextProps.page || 1, nextProps.subpage || 0);
+        // }
     }
     componentDidMount() {
-        this.reload(this.props.section, this.props.subsection, this.state.page, this.state.subpage);
+        this.reload(this.props.section, this.props.subsection, this.props.page, this.props.subpage);
     }
 }
