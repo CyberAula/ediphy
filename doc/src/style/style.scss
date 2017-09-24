@@ -14,8 +14,9 @@ body, #root, #root > .container-fluid, #mainRow {
     /*width: 100%;*/
 }
 .selectedNav {
-    background-color: white !important;
+    //background-color: white !important;
     margin-bottom: 0px;
+    text-decoration: underline;
 
     //background-color: #ccc;
     //border: none !important;
@@ -29,13 +30,14 @@ button.selectedNav.list-group-item:focus,
 button.list-group-item:hover,
 button.list-group-item:active,
 button.list-group-item:focus{
-    background-color: #ccc;
+    //background-color: #ccc;
     //color: #165ba8;
     //background-color: transparent !important;
     //border: none ;
     box-shadow: none !important;
     outline: none !important;
-    border-bottom: 1px solid #777 !important;
+    //border-bottom: 1px solid #777 !important;
+    border-bottom: none !important;
     border-top: none !important;
     margin-bottom: 0px;
 
@@ -50,7 +52,8 @@ button.list-group-item:focus{
     font-weight: bold;
     font-size: 14px;
     background-color: transparent;
-    border-bottom: 1px solid #777 !important;
+    //border-bottom: 1px solid #777 !important;
+    border-bottom: none !important;
     text-transform: uppercase;
     font-size: 11px !important;
 
@@ -58,21 +61,20 @@ button.list-group-item:focus{
 
 .subItem{
     font-weight: normal;
-    border-bottom: 1px solid #777 !important;
+    //border-bottom: 1px solid #777 !important;
     border-top: none !important;
+    border-bottom: none !important;
 }
 
 .sidebarTitle {
     font-weight: bold;
     //margin-top: 26px;
-    margin-bottom: 16px;
-    font-size: 24px;
-    /**/
-    border-bottom: 2px solid #333;
-    background: #aaa;
+    font-size: 18px;
+    margin: auto;
+    margin-bottom: -20px;
+    text-transform: uppercase;
     margin-top: 0px;
-    margin-bottom: 0px;
-    padding-left:5px;
+    width:90%;
     padding-top: 26px;
     padding-bottom: 15px;
 }
@@ -149,9 +151,19 @@ img[alt=Índice], img[alt=Toolbar] {
     background-color: #ddd;
     padding: 0px;
   .list-group {
+      margin-top: 10px;
       margin-bottom: 0px;
+      padding-left: 10px;
   }
-    border-right: 1px solid #333;
+    //border-right: 1px solid #333;
+    hr {
+        margin-top: 5px;
+        /* margin-bottom: 20px; */
+        border: 0;
+        border-style: ridge;
+        border-top: 3px solid #93c54b;
+        width: 90%;
+    }
 }
 
 
@@ -198,10 +210,24 @@ h5, .h5 {
 
 .list-group-item {
     padding: 7px 7px;
+    border: none;
 }
 
+.mainLogo {
+    width: 150px;
+    float: left;
+    margin-right: 30px;
+    stroke: #777;
+}
 @media(max-width:576px){
     .mainCol {
         height:auto;
+    }
+    .jumbotron {
+        text-align: center;
+        .mainLogo {
+            float: none;
+            margin-right: 0px !important;
+        }
     }
 }

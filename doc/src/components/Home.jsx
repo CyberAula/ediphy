@@ -13,7 +13,7 @@ export default class Content extends Component {
             <Grid className="bsGrid">
                 <br/>
                 <Jumbotron>
-                    <img src={icon} style={{ width: '170px', float: 'left', marginRight: '30px', stroke: '#777' }} alt=""/>
+                    <img src={icon} className="mainLogo" alt=""/>
                     <h1>Dalí Editor</h1>
                     <h2>e-learning authoring tool</h2>
                 </Jumbotron>

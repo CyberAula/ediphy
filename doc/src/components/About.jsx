@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { LinkContainer } from 'react-router-bootstrap';
+import { Link } from 'react-router-dom';
 import { Grid, Col, Row, Well } from 'react-bootstrap';
 import Markdown from 'react-remarkable';
 import { WIKI_BASE_URL } from './../content';
@@ -25,19 +25,19 @@ export default class About extends Component {
                             <Col xs={12} md={4}>
                                 <Well>
                                     <h3><i className="material-icons">help</i> Manual de usuario</h3>
-                                    Si eres un usuario que desea aprender a utilizar Dalí, accede al <LinkContainer to="/manual"><span>Manual de usuario</span></LinkContainer>
+                                    Si eres un usuario que desea aprender a utilizar Dalí, accede al <Link to="/manual"><span>Manual de usuario</span></Link>
                                 </Well>
                             </Col>
                             <Col xs={12} md={4}>
                                 <Well>
                                     <h3><i className="material-icons">build</i> Plugin API</h3>
-                                    Si deseas crear tu propio plugin para completar tu instancia de Dalí, consulta la <LinkContainer to="/api"><span>API de Plugins</span></LinkContainer>
+                                    Si deseas crear tu propio plugin para completar tu instancia de Dalí, consulta la <Link to="/api"><span>API de Plugins</span></Link>
                                 </Well>
                             </Col>
                             <Col xs={12} md={4}>
                                 <Well>
                                     <h3><i className="material-icons">code</i> Documentación</h3>
-                                    Si deseas contribuír o crear tu propia versión, consulta la <LinkContainer to="/doc"><span>documentación de desarrolladores</span></LinkContainer>
+                                    Si deseas contribuír o crear tu propia versión, consulta la <Link to="/doc"><span>documentación de desarrolladores</span></Link>
                                 </Well>
                             </Col>
                         </Row>

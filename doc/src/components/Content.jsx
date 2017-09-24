@@ -74,6 +74,7 @@ export default class Content extends Component {
                     <h4 className="sidebarTitle">
                         {/* <Glyphicon style={{ fontSize: '18px' }} glyph="list-alt"/> */}{sideBarTitle}
                     </h4>
+                    <hr />
                     <ListGroup>
                         {Object.keys(pages).map((key) => {
                             let item = pages[key];
