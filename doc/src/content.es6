@@ -26,7 +26,7 @@ export const tree = {
         children: {},
         pages: {
             1: {
-                path: '/manual',
+                path: '/manual/intro',
                 title: "Manual de usuario",
                 md: true,
                 fromURL: true,
