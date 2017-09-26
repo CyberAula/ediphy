@@ -8,7 +8,7 @@ import { isSection } from '../../../../common/utils';
 import Dali from '../../../../core/editor/main';
 import { toggleFullScreen, isFullScreenOn, fullScreenListener } from '../../../../common/common_tools';
 import './_navBar.scss';
-// import screenfull from 'screenfull';
+import screenfull from 'screenfull';
 
 /**
  * Upper navigation bar component
@@ -25,7 +25,7 @@ export default class DaliNavBar extends Component {
          */
         this.state = {
             showGlobalConfig: false,
-            isFullScreenOn: isFullScreenOn(),
+            isFullScreenOn: screenfull.isFullscreen,
 
         };
         /**
@@ -142,10 +142,11 @@ export default class DaliNavBar extends Component {
                     <button className="navButton"
                         title={i18n.t("messages.fullscreen")}
                         onClick={() => {
-                            // let el = document.documentElement; // document.getElementById('mainbody')
-                            // screenfull.toggle(el)
-                            toggleFullScreen(document.documentElement);
-                            this.setState({ isFullScreenOn: isFullScreenOn() });
+                            /* let el = document.documentElement; //
+                            if (!(window===window.parent)){
+                                el = document.getElementById('mainbody');
+                            }*/
+                            screenfull.toggle(document.documentElement);
                         }}>
                         {this.state.isFullScreenOn ?
                             (<i className="material-icons">fullscreen_exit</i>) :
@@ -205,24 +206,25 @@ export default class DaliNavBar extends Component {
      * Add fullscreen listeners
      */
     componentDidMount() {
-        // screenfull.on('change', this.checkFullScreen)
-        fullScreenListener(this.checkFullScreen, true);
+        screenfull.on('change', this.checkFullScreen);
+
     }
 
     /**
      * Remove fullscreen listeners
      */
     componentWillUnmount() {
-        // screenfull.off('change', this.checkFullScreen);
-        fullScreenListener(this.checkFullScreen, false);
+        screenfull.off('change', this.checkFullScreen);
+
     }
 
     /**
      * Check if browser is in fullscreen mode and update state
      */
-    checkFullScreen() {
-        this.setState({ isFullScreenOn: screenfull.isFullscreen });
+    checkFullScreen(e) {
+        this.setState({ isFullScreenOn: !this.state.isFullScreenOn /* screenfull.isFullscreen*/});
     }
+
 }
 
 DaliNavBar.propTypes = {
