@@ -1,18 +1,65 @@
 $material-font-path:  '../../../node_modules/material-design-icons-font/iconfont/';
+$dali_blue: #1fc8db;
 @import '../../../node_modules/material-design-icons-font/iconfont/material-icons';
 
 body, #root, #root > .container-fluid, #mainRow {
     height:100%;
 }
-
-.bsGrid {
-    /*padding-top: 90px;*/
+a{
+  color: $dali_blue;
+  &:hover, &:active, &:focus{
+    color: $dali_blue;
+  }
 }
-
 #nbRow{
-    /*position: fixed;*/
-    /*width: 100%;*/
+  background: #3e3f3a;
+  position: fixed;
+  width: 100%;
+  z-index: 9999;
+  nav.navbar {
+    margin: auto;
+    max-width: 960px;
+    z-index: 9999;
+  }
 }
+.mainCol {
+  height:100%;
+}
+
+.mainRow{
+  max-width: 960px;
+  margin: 60px auto 0;
+}
+#indexCol {
+  background-color: white;
+  padding: 0px;
+  .sidebarTitle{
+    padding: 35px 0 25px;
+    font-size: 1em;
+  }
+  .list-group {
+      margin-top: 10px;
+      margin-bottom: 0px;
+      padding-left: 10px;
+  }
+  hr {
+    margin-top: 5px;
+    border: 0;
+    border-style: ridge;
+    border-top: 3px solid $dali_blue;
+    width: 90%;
+  }
+}
+
+
+.contentCol {
+  padding: 50px;
+  padding-top: 10px;
+  .container{
+    width: auto;
+  }
+}
+
 .selectedNav {
     //background-color: white !important;
     margin-bottom: 0px;
@@ -21,6 +68,7 @@ body, #root, #root > .container-fluid, #mainRow {
     //background-color: #ccc;
     //border: none !important;
 }
+
 .list-group-item,
 button.selectedNav,
 button.selectedNav.list-group-item,
@@ -40,10 +88,7 @@ button.list-group-item:focus{
     border-bottom: none !important;
     border-top: none !important;
     margin-bottom: 0px;
-
 }
-
-
 
 .navListItem {
     //border: none !important;
@@ -79,11 +124,6 @@ button.list-group-item:focus{
     padding-bottom: 15px;
 }
 
-
-
-.mainCol {
-    /*padding-top: 60px;*/
-}
 
 .mainPageBlock {
     text-align: center;
@@ -134,42 +174,9 @@ img[alt=Índice], img[alt=Toolbar] {
     margin: 10px;
 }
 
-.contentCol {
-    padding: 50px;
-    padding-top: 10px;
-}
-
-#indexCol {
-    background-color: #ddd;
-    padding: 0px;
-  .list-group {
-      margin-top: 10px;
-      margin-bottom: 0px;
-      padding-left: 10px;
-  }
-    //border-right: 1px solid #333;
-    hr {
-        margin-top: 5px;
-        /* margin-bottom: 20px; */
-        border: 0;
-        border-style: ridge;
-        border-top: 3px solid #93c54b;
-        width: 90%;
-    }
-}
 
 
-/*Fixed navbar*/
-.mainRow {
-    //margin-top: 70px;
-}
 
-nav.navbar {
-    //position: fixed;
-    width: 100%;
-    z-index: 9999;
-}
-/***************/
 
 h4, .h4 {
     font-size: 18px;
@@ -184,15 +191,6 @@ h5, .h5 {
     font-size: 18px;
 }
 
-.mainRow {
-    height: calc(100% - 62px);
-    //height: calc(100% - 50px);
-}
-
-.mainCol {
-    height:100%;
-    overflow: auto;
-}
 
 .editIcon {
     float: right;

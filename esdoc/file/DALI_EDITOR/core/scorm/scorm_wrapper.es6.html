@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../../../">
+  <title data-ice="title">DALI_EDITOR/core/scorm/scorm_wrapper.es6 | Dali Editor</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+<meta name="description" content="e-learning authoring tool"><meta property="twitter:card" content="summary"><meta property="twitter:title" content="Dali Editor"><meta property="twitter:description" content="e-learning authoring tool"></head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+<a style="position:relative; top:3px;" href="https://github.com/ging/dali_editor"><img width="20px" src="./image/github.png"></a></header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#-editor-components-autosave">_editor/components/autosave</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/DALI_EDITOR/_editor/components/autosave/AutoSave.jsx~AutoSave.html">AutoSave</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#-editor-components-canvas-dali-box">_editor/components/canvas/dali_box</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/DALI_EDITOR/_editor/components/canvas/dali_box/DaliBox.jsx~DaliBox.html">DaliBox</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#-editor-components-canvas-dali-box-sortable">_editor/components/canvas/dali_box_sortable</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/DALI_EDITOR/_editor/components/canvas/dali_box_sortable/DaliBoxSortable.jsx~DaliBoxSortable.html">DaliBoxSortable</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#-editor-components-canvas-dali-canvas">_editor/components/canvas/dali_canvas</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/DALI_EDITOR/_editor/components/canvas/dali_canvas/DaliCanvas.jsx~DaliCanvas.html">DaliCanvas</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#-editor-components-canvas-dali-canvas-doc">_editor/components/canvas/dali_canvas_doc</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/DALI_EDITOR/_editor/components/canvas/dali_canvas_doc/DaliCanvasDoc.jsx~DaliCanvasDoc.html">DaliCanvasDoc</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#-editor-components-canvas-dali-canvas-sli">_editor/components/canvas/dali_canvas_sli</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/DALI_EDITOR/_editor/components/canvas/dali_canvas_sli/DaliCanvasSli.jsx~DaliCanvasSli.html">DaliCanvasSli</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#-editor-components-canvas-dali-header">_editor/components/canvas/dali_header</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/DALI_EDITOR/_editor/components/canvas/dali_header/DaliHeader.jsx~DaliHeader.html">DaliHeader</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#-editor-components-canvas-dali-shortcuts">_editor/components/canvas/dali_shortcuts</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/DALI_EDITOR/_editor/components/canvas/dali_shortcuts/DaliShortcuts.jsx~DaliShortcuts.html">DaliShortcuts</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#-editor-components-canvas-plugin-placeholder">_editor/components/canvas/plugin_placeholder</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/DALI_EDITOR/_editor/components/canvas/plugin_placeholder/PluginPlaceholder.jsx~PluginPlaceholder.html">PluginPlaceholder</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#-editor-components-carrousel-carrousel-list">_editor/components/carrousel/carrousel_list</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/DALI_EDITOR/_editor/components/carrousel/carrousel_list/CarrouselList.jsx~CarrouselList.html">CarrouselList</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#-editor-components-carrousel-dali-carrousel">_editor/components/carrousel/dali_carrousel</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/DALI_EDITOR/_editor/components/carrousel/dali_carrousel/DaliCarousel.jsx~DaliCarousel.html">DaliCarousel</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#-editor-components-carrousel-dali-index-title">_editor/components/carrousel/dali_index_title</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/DALI_EDITOR/_editor/components/carrousel/dali_index_title/DaliIndexTitle.jsx~DaliIndexTitle.html">DaliIndexTitle</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#-editor-components-carrousel-page-menu">_editor/components/carrousel/page_menu</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/DALI_EDITOR/_editor/components/carrousel/page_menu/PageMenu.jsx~PageMenu.html">PageMenu</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#-editor-components-carrousel-section">_editor/components/carrousel/section</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/DALI_EDITOR/_editor/components/carrousel/section/Section.jsx~Section.html">Section</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#-editor-components-carrousel-thumbnails">_editor/components/carrousel/thumbnails</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/DALI_EDITOR/_editor/components/carrousel/thumbnails/Thumbnail.jsx~Thumbnail.html">Thumbnail</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#-editor-components-common-alert">_editor/components/common/alert</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/DALI_EDITOR/_editor/components/common/alert/Alert.jsx~Alert.html">Alert</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#-editor-components-common-color-picker">_editor/components/common/color-picker</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/DALI_EDITOR/_editor/components/common/color-picker/ColorPicker.jsx~ColorPicker.html">ColorPicker</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#-editor-components-common-file-input">_editor/components/common/file-input</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/DALI_EDITOR/_editor/components/common/file-input/FileInput.jsx~FileInput.html">FileInput</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#-editor-components-nav-bar-dali-nav-bar">_editor/components/nav_bar/dali_nav_bar</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/DALI_EDITOR/_editor/components/nav_bar/dali_nav_bar/DaliNavBar.jsx~DaliNavBar.html">DaliNavBar</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#-editor-components-nav-bar-global-config">_editor/components/nav_bar/global_config</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/DALI_EDITOR/_editor/components/nav_bar/global_config/GlobalConfig.jsx~GlobalConfig.html">GlobalConfig</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-contextOptions">contextOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-languages">languages</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-rightsOptions">rightsOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-statusOptions">statusOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-suggestions">suggestions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-difLevels">difLevels</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#-editor-components-nav-bar-global-config-range-slider">_editor/components/nav_bar/global_config/range_slider</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/DALI_EDITOR/_editor/components/nav_bar/global_config/range_slider/RangeSlider.jsx~RangeSlider.html">RangeSlider</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#-editor-components-nav-bar-plugin-ribbon">_editor/components/nav_bar/plugin_ribbon</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/DALI_EDITOR/_editor/components/nav_bar/plugin_ribbon/PluginRibbon.jsx~PluginRibbon.html">PluginRibbon</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#-editor-components-plugin-config-modal">_editor/components/plugin_config_modal</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/DALI_EDITOR/_editor/components/plugin_config_modal/PluginConfigModal.jsx~PluginConfigModal.html">PluginConfigModal</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#-editor-components-rich-plugins-click-n-hold">_editor/components/rich_plugins/click_n_hold</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/DALI_EDITOR/_editor/components/rich_plugins/click_n_hold/ClickNHold.jsx~ClickNHold.html">ClickNHold</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#-editor-components-rich-plugins-contained-canvas">_editor/components/rich_plugins/contained_canvas</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/DALI_EDITOR/_editor/components/rich_plugins/contained_canvas/ContainedCanvas.jsx~ContainedCanvas.html">ContainedCanvas</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#-editor-components-rich-plugins-mark-creator">_editor/components/rich_plugins/mark_creator</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/DALI_EDITOR/_editor/components/rich_plugins/mark_creator/MarkCreator.jsx~MarkCreator.html">MarkCreator</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#-editor-components-rich-plugins-marks-list">_editor/components/rich_plugins/marks_list</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/DALI_EDITOR/_editor/components/rich_plugins/marks_list/MarksList.jsx~MarksList.html">MarksList</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#-editor-components-rich-plugins-rich-marks-modal">_editor/components/rich_plugins/rich_marks_modal</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/DALI_EDITOR/_editor/components/rich_plugins/rich_marks_modal/RichMarksModal.jsx~RichMarksModal.html">RichMarksModal</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#-editor-components-server-feedback">_editor/components/server_feedback</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/DALI_EDITOR/_editor/components/server_feedback/ServerFeedback.jsx~ServerFeedback.html">ServerFeedback</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#-editor-components-toolbar-grid-configurator">_editor/components/toolbar/grid_configurator</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/DALI_EDITOR/_editor/components/toolbar/grid_configurator/GridConfigurator.jsx~GridConfigurator.html">GridConfigurator</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#-editor-components-toolbar-plugin-toolbar">_editor/components/toolbar/plugin_toolbar</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/DALI_EDITOR/_editor/components/toolbar/plugin_toolbar/PluginToolbar.jsx~PluginToolbar.html">PluginToolbar</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#-editor-components-toolbar-radio-button-form-group">_editor/components/toolbar/radio_button_form_group</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/DALI_EDITOR/_editor/components/toolbar/radio_button_form_group/RadioButtonFormGroup.jsx~RadioButtonFormGroup.html">RadioButtonFormGroup</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#-editor-components-vish-provider">_editor/components/vish_provider</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/DALI_EDITOR/_editor/components/vish_provider/VishCatalogModal.jsx~VishCatalogModal.html">VishCatalogModal</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#-editor-components-vish-provider-vish-provider">_editor/components/vish_provider/vish_provider</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/DALI_EDITOR/_editor/components/vish_provider/vish_provider/VishProvider.jsx~VishProvider.html">VishProvider</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#-editor-components-vish-provider-vish-searcher-modal">_editor/components/vish_provider/vish_searcher_modal</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/DALI_EDITOR/_editor/components/vish_provider/vish_searcher_modal/VishSearcherModal.jsx~VishSearcherModal.html">VishSearcherModal</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#-editor-components-vish-provider-vish-uploader-modal">_editor/components/vish_provider/vish_uploader_modal</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/DALI_EDITOR/_editor/components/vish_provider/vish_uploader_modal/VishDropzone.jsx~VishDropzone.html">VishDropzone</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/DALI_EDITOR/_editor/components/vish_provider/vish_uploader_modal/VishUploaderModal.jsx~VishUploaderModal.html">VishUploaderModal</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#-editor-components-xml-config-modal">_editor/components/xml_config_modal</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/DALI_EDITOR/_editor/components/xml_config_modal/XMLConfigModal.jsx~XMLConfigModal.html">XMLConfigModal</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#-editor-containers">_editor/containers</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/DALI_EDITOR/_editor/containers/ReduxProvider.jsx~ReduxProvider.html">ReduxProvider</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-DevTools">DevTools</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#-visor-components-canvas">_visor/components/canvas</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/DALI_EDITOR/_visor/components/canvas/BoxSortableVisor.jsx~BoxSortableVisor.html">BoxSortableVisor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/DALI_EDITOR/_visor/components/canvas/BoxVisor.jsx~BoxVisor.html">BoxVisor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/DALI_EDITOR/_visor/components/canvas/CanvasVisor.jsx~CanvasVisor.html">CanvasVisor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/DALI_EDITOR/_visor/components/canvas/CanvasVisorDoc.jsx~CanvasVisorDoc.html">CanvasVisorDoc</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/DALI_EDITOR/_visor/components/canvas/CanvasVisorSli.jsx~CanvasVisorSli.html">CanvasVisorSli</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/DALI_EDITOR/_visor/components/canvas/ContainedCanvasVisor.jsx~ContainedCanvasVisor.html">ContainedCanvasVisor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/DALI_EDITOR/_visor/components/canvas/HeaderVisor.jsx~HeaderVisor.html">HeaderVisor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/DALI_EDITOR/_visor/components/canvas/PluginPlaceholderVisor.jsx~PluginPlaceholderVisor.html">PluginPlaceholderVisor</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#-visor-components-navigation">_visor/components/navigation</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/DALI_EDITOR/_visor/components/navigation/SideNavVisor.jsx~SideNavVisor.html">SideNavVisor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/DALI_EDITOR/_visor/components/navigation/VisorNavSection.jsx~VisorNavSection.html">VisorNavSection</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/DALI_EDITOR/_visor/components/navigation/VisorPlayer.jsx~VisorPlayer.html">VisorPlayer</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#-visor-components-scorm">_visor/components/scorm</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/DALI_EDITOR/_visor/components/scorm/ScormComponent.jsx~ScormComponent.html">ScormComponent</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#-visor-containers">_visor/containers</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/DALI_EDITOR/_visor/containers/EditorVisor.jsx~Visor.html">Visor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/DALI_EDITOR/_visor/containers/Visor.jsx~Visor.html">Visor</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#common">common</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-addBox">addBox</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-addContainedView">addContainedView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-addNavItem">addNavItem</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-addRichMark">addRichMark</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-changeCols">changeCols</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-changeContainedViewName">changeContainedViewName</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-changeDisplayMode">changeDisplayMode</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-changeGlobalConfig">changeGlobalConfig</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-changeNavItemName">changeNavItemName</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-changeRows">changeRows</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-changeSortableProps">changeSortableProps</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-changeUnitNumber">changeUnitNumber</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-deleteBox">deleteBox</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-deleteContainedView">deleteContainedView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-deleteNavItem">deleteNavItem</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-deleteRichMark">deleteRichMark</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-deleteSortableContainer">deleteSortableContainer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-dropBox">dropBox</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-duplicateBox">duplicateBox</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-editRichMark">editRichMark</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-expandNavItem">expandNavItem</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-exportStateAsync">exportStateAsync</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-fetchVishResourcesAsync">fetchVishResourcesAsync</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-fetchVishResourcesSuccess">fetchVishResourcesSuccess</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-importState">importState</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-importStateAsync">importStateAsync</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-increaseBoxLevel">increaseBoxLevel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-moveBox">moveBox</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-reorderBoxes">reorderBoxes</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-reorderNavItem">reorderNavItem</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-reorderSortableContainer">reorderSortableContainer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-resizeBox">resizeBox</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-resizeSortableContainer">resizeSortableContainer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-selectBox">selectBox</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-selectContainedView">selectContainedView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-selectIndex">selectIndex</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-selectNavItem">selectNavItem</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-setBusy">setBusy</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-toggleNavItem">toggleNavItem</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-toggleTextEditor">toggleTextEditor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-toggleTitleMode">toggleTitleMode</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-updateBox">updateBox</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-updateNavItemExtraFiles">updateNavItemExtraFiles</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-updateToolbar">updateToolbar</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-uploadImage">uploadImage</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-uploadVishResourceAsync">uploadVishResourceAsync</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-verticallyAlignBox">verticallyAlignBox</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-aspectRatio">aspectRatio</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-fullScreenListener">fullScreenListener</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-isFullScreenOn">isFullScreenOn</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-toggleFullScreen">toggleFullScreen</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-ADD_BOX">ADD_BOX</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-ADD_CONTAINED_VIEW">ADD_CONTAINED_VIEW</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-ADD_NAV_ITEM">ADD_NAV_ITEM</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-ADD_RICH_MARK">ADD_RICH_MARK</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-CHANGE_COLS">CHANGE_COLS</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-CHANGE_CONTAINED_VIEW_NAME">CHANGE_CONTAINED_VIEW_NAME</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-CHANGE_DISPLAY_MODE">CHANGE_DISPLAY_MODE</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-CHANGE_GLOBAL_CONFIG">CHANGE_GLOBAL_CONFIG</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-CHANGE_NAV_ITEM_NAME">CHANGE_NAV_ITEM_NAME</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-CHANGE_ROWS">CHANGE_ROWS</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-CHANGE_SORTABLE_PROPS">CHANGE_SORTABLE_PROPS</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-CHANGE_UNIT_NUMBER">CHANGE_UNIT_NUMBER</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-DELETE_BOX">DELETE_BOX</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-DELETE_CONTAINED_VIEW">DELETE_CONTAINED_VIEW</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-DELETE_NAV_ITEM">DELETE_NAV_ITEM</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-DELETE_RICH_MARK">DELETE_RICH_MARK</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-DELETE_SORTABLE_CONTAINER">DELETE_SORTABLE_CONTAINER</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-DROP_BOX">DROP_BOX</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-DUPLICATE_BOX">DUPLICATE_BOX</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-EDIT_PLUGIN_TEXT">EDIT_PLUGIN_TEXT</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-EDIT_RICH_MARK">EDIT_RICH_MARK</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-EXPAND_NAV_ITEM">EXPAND_NAV_ITEM</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-FETCH_VISH_RESOURCES_SUCCESS">FETCH_VISH_RESOURCES_SUCCESS</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-IMPORT_STATE">IMPORT_STATE</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-INCREASE_LEVEL">INCREASE_LEVEL</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-INDEX_SELECT">INDEX_SELECT</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-MOVE_BOX">MOVE_BOX</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-REORDER_BOXES">REORDER_BOXES</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-REORDER_NAV_ITEM">REORDER_NAV_ITEM</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-REORDER_SORTABLE_CONTAINER">REORDER_SORTABLE_CONTAINER</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-RESIZE_BOX">RESIZE_BOX</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-RESIZE_SORTABLE_CONTAINER">RESIZE_SORTABLE_CONTAINER</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-SELECT_BOX">SELECT_BOX</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-SELECT_CONTAINED_VIEW">SELECT_CONTAINED_VIEW</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-SELECT_NAV_ITEM">SELECT_NAV_ITEM</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-SET_BUSY">SET_BUSY</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-TOGGLE_NAV_ITEM">TOGGLE_NAV_ITEM</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-TOGGLE_TEXT_EDITOR">TOGGLE_TEXT_EDITOR</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-TOGGLE_TITLE_MODE">TOGGLE_TITLE_MODE</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-UPDATE_BOX">UPDATE_BOX</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-UPDATE_NAV_ITEM_EXTRA_FILES">UPDATE_NAV_ITEM_EXTRA_FILES</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-UPDATE_TOOLBAR">UPDATE_TOOLBAR</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-UPLOAD_IMAGE">UPLOAD_IMAGE</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-VERTICALLY_ALIGN_BOX">VERTICALLY_ALIGN_BOX</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-ID_PREFIX_BOX">ID_PREFIX_BOX</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-ID_PREFIX_CONTAINED_VIEW">ID_PREFIX_CONTAINED_VIEW</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-ID_PREFIX_PAGE">ID_PREFIX_PAGE</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-ID_PREFIX_RICH_MARK">ID_PREFIX_RICH_MARK</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-ID_PREFIX_SECTION">ID_PREFIX_SECTION</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-ID_PREFIX_SLIDE">ID_PREFIX_SLIDE</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-ID_PREFIX_SORTABLE_BOX">ID_PREFIX_SORTABLE_BOX</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-ID_PREFIX_SORTABLE_CONTAINER">ID_PREFIX_SORTABLE_CONTAINER</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-PAGE_TYPES">PAGE_TYPES</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-SECTIONS_HAVE_CONTENT">SECTIONS_HAVE_CONTENT</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#core">core</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-api">api</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-api_private">api_private</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-base_plugin">base_plugin</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-plugins">plugins</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#core-scorm">core/scorm</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-changeInitialState">changeInitialState</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-changeLocation">changeLocation</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-finish">finish</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-init">init</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-savePreviousResults">savePreviousResults</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-setFinalScore">setFinalScore</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-ErrorHandler">ErrorHandler</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-doCommit">doCommit</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-doGetDiagnostic">doGetDiagnostic</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-doGetErrorString">doGetErrorString</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-doGetLastError">doGetLastError</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-doGetValue">doGetValue</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-doInitialize">doInitialize</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-doSetValue">doSetValue</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-doTerminate">doTerminate</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-findAPI">findAPI</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-findDataStore">findDataStore</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-findObjective">findObjective</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getAPI">getAPI</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getAPIHandle">getAPIHandle</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-message">message</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#core-visor">core/visor</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-base_plugin">base_plugin</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-plugins">plugins</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-basicimage">plugins/BasicImage</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-BasicImage">BasicImage</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-basicimage-visor">plugins/BasicImage/visor</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-BasicImage">BasicImage</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-basicplayer">plugins/BasicPlayer</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-BasicPlayer">BasicPlayer</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-basicplayer-components">plugins/BasicPlayer/components</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/DALI_EDITOR/plugins/BasicPlayer/components/PlayerPlugin.js~PlayerPlugin.html">PlayerPlugin</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/DALI_EDITOR/plugins/BasicPlayer/components/PlayerPluginEditor.js~PlayerPlugin.html">PlayerPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-basicplayer-visor">plugins/BasicPlayer/visor</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-BasicPlayer">BasicPlayer</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-basictext">plugins/BasicText</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-BasicText">BasicText</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-basicvideo">plugins/BasicVideo</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-BasicVideo">BasicVideo</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-container">plugins/Container</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-Container">Container</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-datatable">plugins/DataTable</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-DataTable">DataTable</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-datatable-components">plugins/DataTable/components</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/DALI_EDITOR/plugins/DataTable/components/chart-options.js~ChartOptions.html">ChartOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/DALI_EDITOR/plugins/DataTable/components/config-component.js~Config.html">Config</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/DALI_EDITOR/plugins/DataTable/components/data-provider.js~DataProvider.html">DataProvider</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/DALI_EDITOR/plugins/DataTable/components/table-component.js~TableComponent.html">TableComponent</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-enrichedplayer">plugins/EnrichedPlayer</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-EnrichedPlayer">EnrichedPlayer</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-enrichedplayer-components">plugins/EnrichedPlayer/components</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/DALI_EDITOR/plugins/EnrichedPlayer/components/EnrichedPlayerPlugin.js~EnrichedPlayerPlugin.html">EnrichedPlayerPlugin</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/DALI_EDITOR/plugins/EnrichedPlayer/components/EnrichedPlayerPluginEditor.js~EnrichedPlayerPlugin.html">EnrichedPlayerPlugin</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-enrichedplayer-visor">plugins/EnrichedPlayer/visor</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-EnrichedPlayer">EnrichedPlayer</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-graficad3">plugins/GraficaD3</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-GraficaD3">GraficaD3</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-graficad3-components">plugins/GraficaD3/components</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/DALI_EDITOR/plugins/GraficaD3/components/chart-component.js~Chart.html">Chart</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/DALI_EDITOR/plugins/GraficaD3/components/chart-options.js~ChartOptions.html">ChartOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/DALI_EDITOR/plugins/GraficaD3/components/config-component.js~Config.html">Config</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/DALI_EDITOR/plugins/GraficaD3/components/data-provider.js~DataProvider.html">DataProvider</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-hotspotimages">plugins/HotspotImages</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-HotspotImages">HotspotImages</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-hotspotimages-visor">plugins/HotspotImages/visor</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-HotspotImages">HotspotImages</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-richtext">plugins/RichText</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-RichText">RichText</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-virtualtour">plugins/VirtualTour</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-VirtualTour">VirtualTour</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-virtualtour-components">plugins/VirtualTour/components</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/DALI_EDITOR/plugins/VirtualTour/components/Map.js~Map.html">Map</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/DALI_EDITOR/plugins/VirtualTour/components/SearchBox.js~SearchBox.html">SearchBox</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-virtualtour-visor">plugins/VirtualTour/visor</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-VirtualTour">VirtualTour</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-webpage">plugins/Webpage</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-Webpage">Webpage</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#plugins-youtube">plugins/Youtube</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-Youtube">Youtube</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#reducers">reducers</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-box_level_selected">box_level_selected</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-box_selected">box_selected</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-boxes_by_id">boxes_by_id</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-contained_view_selected">contained_view_selected</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-contained_views_by_id">contained_views_by_id</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-global_config">global_config</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-index_selected">index_selected</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-nav_item_selected">nav_item_selected</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-nav_items_by_id">nav_items_by_id</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-nav_items_ids">nav_items_ids</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-toolbars_by_id">toolbars_by_id</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-GlobalState">GlobalState</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#reducers---tests--">reducers/__tests__</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-test_helper">test_helper</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">DALI_EDITOR/core/scorm/scorm_wrapper.es6</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">/*eslint-disable */
+/** **************************************************************************
+SCORM_2004_APIwrapper.js
+&#xA9; 2000, 2011 Advanced Distributed Learning (ADL). Some Rights Reserved.
+*****************************************************************************
+
+Advanced Distributed Learning (&quot;ADL&quot;) grants you (&quot;Licensee&quot;) a  non-exclusive, 
+royalty free, license to use and redistribute this  software in source and binary 
+code form, provided that i) this copyright  notice and license appear on all 
+copies of the software; and ii) Licensee does not utilize the software in a 
+manner which is disparaging to ADL.
+
+This software is provided &quot;AS IS,&quot; without a warranty of any kind.  
+ALL EXPRESS OR IMPLIED CONDITIONS, REPRESENTATIONS AND WARRANTIES, INCLUDING 
+ANY IMPLIED WARRANTY OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE OR 
+NON-INFRINGEMENT, ARE HEREBY EXCLUDED.  ADL AND ITS LICENSORS SHALL NOT BE LIABLE 
+FOR ANY DAMAGES SUFFERED BY LICENSEE AS A RESULT OF USING, MODIFYING OR 
+DISTRIBUTING THE SOFTWARE OR ITS DERIVATIVES.  IN NO EVENT WILL ADL OR ITS LICENSORS 
+BE LIABLE FOR ANY LOST REVENUE, PROFIT OR DATA, OR FOR DIRECT, INDIRECT, SPECIAL, 
+CONSEQUENTIAL, INCIDENTAL OR PUNITIVE DAMAGES, HOWEVER CAUSED AND REGARDLESS OF THE 
+THEORY OF LIABILITY, ARISING OUT OF THE USE OF OR INABILITY TO USE SOFTWARE, EVEN IF 
+ADL HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+
+*****************************************************************************
+*SCORM_2004_APIwrapper.js code is licensed under the Creative Commons
+Attribution-ShareAlike 3.0 Unported License.
+
+To view a copy of this license:
+
+     - Visit http://creativecommons.org/licenses/by-sa/3.0/ 
+     - Or send a letter to
+            Creative Commons, 444 Castro Street,  Suite 900, Mountain View,
+            California, 94041, USA.
+
+The following is a summary of the full license which is available at:
+
+      - http://creativecommons.org/licenses/by-sa/3.0/legalcode
+
+*****************************************************************************
+
+Creative Commons Attribution-ShareAlike 3.0 Unported (CC BY-SA 3.0)
+
+You are free to:
+
+     - Share : to copy, distribute and transmit the work
+     - Remix : to adapt the work
+
+Under the following conditions:
+
+     - Attribution: You must attribute the work in the manner specified by 
+       the author or licensor (but not in any way that suggests that they 
+       endorse you or your use of the work).
+
+     - Share Alike: If you alter, transform, or build upon this work, you 
+       may distribute the resulting work only under the same or similar 
+       license to this one.
+
+With the understanding that:
+
+     - Waiver: Any of the above conditions can be waived if you get permission 
+       from the copyright holder.
+
+     - Public Domain: Where the work or any of its elements is in the public 
+       domain under applicable law, that status is in no way affected by the license.
+
+     - Other Rights: In no way are any of the following rights affected by the license:
+
+           * Your fair dealing or fair use rights, or other applicable copyright 
+             exceptions and limitations;
+
+           * The author&apos;s moral rights;
+
+           * Rights other persons may have either in the work itself or in how the 
+             work is used, such as publicity or privacy rights.
+
+     - Notice: For any reuse or distribution, you must make clear to others the 
+               license terms of this work.
+
+****************************************************************************/
+/** *****************************************************************************
+** Usage: Executable course content can call the API Wrapper
+**      functions as follows:
+**
+**    javascript:
+**          var result = doInitialize();
+**          if (result != true)
+**          {
+**             // handle error
+**          }
+**
+**    authorware:
+**          result := ReadURL(&quot;javascript:doInitialize()&quot;, 100)
+**
+**    director:
+**          result = externalEvent(&quot;javascript:doInitialize()&quot;)
+**
+**
+*******************************************************************************/
+
+let debug = true; // set this to false to turn debugging off
+
+let output = window.console; // output can be set to any object that has a log(string) function
+// such as: var output = { log: function(str){alert(str);} };
+
+// Define exception/error codes
+let _NoError = { &quot;code&quot;: &quot;0&quot;, &quot;string&quot;: &quot;No Error&quot;, &quot;diagnostic&quot;: &quot;No Error&quot; };
+let _GeneralException = { &quot;code&quot;: &quot;101&quot;, &quot;string&quot;: &quot;General Exception&quot;, &quot;diagnostic&quot;: &quot;General Exception&quot; };
+let _AlreadyInitialized = { &quot;code&quot;: &quot;103&quot;, &quot;string&quot;: &quot;Already Initialized&quot;, &quot;diagnostic&quot;: &quot;Already Initialized&quot; };
+
+let initialized = false;
+
+// local variable definitions
+let apiHandle = null;
+
+/** *****************************************************************************
+**
+** Function: doInitialize()
+** Inputs:  None
+** Return:  true if the initialization was successful, or
+**          false if the initialization failed.
+**
+** Description:
+** Initialize communication with LMS by calling the Initialize
+** function which will be implemented by the LMS.
+**
+*******************************************************************************/
+export function doInitialize()
+{
+    if (initialized) {return &quot;true&quot;;}
+
+    let api = getAPIHandle();
+    if (api == null)
+    {
+        message(&quot;Unable to locate the LMS&apos;s API Implementation.\nInitialize was not successful.&quot;);
+        return &quot;false&quot;;
+    }
+
+    let result = api.Initialize(&quot;&quot;);
+
+    if (result.toString() != &quot;true&quot;)
+    {
+        let err = ErrorHandler();
+        message(&quot;Initialize failed with error code: &quot; + err.code);
+    }
+    else
+    {
+        initialized = true;
+    }
+
+    return result.toString();
+}
+
+/** *****************************************************************************
+**
+** Function doTerminate()
+** Inputs:  None
+** Return:  true if successful
+**          false if failed.
+**
+** Description:
+** Close communication with LMS by calling the Terminate
+** function which will be implemented by the LMS
+**
+*******************************************************************************/
+export function doTerminate()
+{
+    if (! initialized) {return &quot;true&quot;;}
+
+    let api = getAPIHandle();
+    if (api == null)
+    {
+        message(&quot;Unable to locate the LMS&apos;s API Implementation.\nTerminate was not successful.&quot;);
+        return &quot;false&quot;;
+    }
+
+    // call the Terminate function that should be implemented by the API
+    let result = api.Terminate(&quot;&quot;);
+    if (result.toString() != &quot;true&quot;)
+    {
+        let err = ErrorHandler();
+        message(&quot;Terminate failed with error code: &quot; + err.code);
+    }
+
+    initialized = false;
+
+    return result.toString();
+}
+
+/** *****************************************************************************
+**
+** Function doGetValue(name)
+** Inputs:  name - string representing the cmi data model defined category or
+**             element (e.g. cmi.learner_id)
+** Return:  The value presently assigned by the LMS to the cmi data model
+**       element defined by the element or category identified by the name
+**       input value.
+**
+** Description:
+** Wraps the call to the GetValue method
+**
+*******************************************************************************/
+export function doGetValue(name)
+{
+    let api = getAPIHandle();
+    let result = &quot;&quot;;
+    if (api == null)
+    {
+        message(&quot;Unable to locate the LMS&apos;s API Implementation.\nGetValue was not successful.&quot;);
+    }
+    else if (!initialized &amp;&amp; ! doInitialize())
+    {
+        let err = ErrorHandler();
+        message(&quot;GetValue failed - Could not initialize communication with the LMS - error code: &quot; + err.code);
+    }
+    else
+    {
+        result = api.GetValue(name);
+
+        let error = ErrorHandler();
+        if (error.code != _NoError.code)
+        {
+            // an error was encountered so display the error description
+            message(&quot;GetValue(&quot; + name + &quot;) failed. \n&quot; + error.code + &quot;: &quot; + error.string);
+            result = &quot;&quot;;
+        }
+    }
+    return result.toString();
+}
+
+/** *****************************************************************************
+**
+** Function doSetValue(name, value)
+** Inputs:  name -string representing the data model defined category or element
+**          value -the value that the named element or category will be assigned
+** Return:  true if successful
+**          false if failed.
+**
+** Description:
+** Wraps the call to the SetValue function
+**
+*******************************************************************************/
+export function doSetValue(name, value)
+{
+    let api = getAPIHandle();
+    let result = &quot;false&quot;;
+    if (api == null)
+    {
+        message(&quot;Unable to locate the LMS&apos;s API Implementation.\nSetValue was not successful.&quot;);
+    }
+    else if (!initialized &amp;&amp; !doInitialize())
+    {
+        let error = ErrorHandler();
+        message(&quot;SetValue failed - Could not initialize communication with the LMS - error code: &quot; + error.code);
+    }
+    else
+    {
+        result = api.SetValue(name, value);
+        if (result.toString() != &quot;true&quot;)
+        {
+            let err = ErrorHandler();
+            message(&quot;SetValue(&quot; + name + &quot;, &quot; + value + &quot;) failed. \n&quot; + err.code + &quot;: &quot; + err.string);
+        }
+    }
+
+    return result.toString();
+}
+
+/** *****************************************************************************
+**
+** Function doCommit()
+** Inputs:  None
+** Return:  true if successful
+**          false if failed
+**
+** Description:
+** Commits the data to the LMS.
+**
+*******************************************************************************/
+export function doCommit()
+{
+    let api = getAPIHandle();
+    let result = &quot;false&quot;;
+    if (api == null)
+    {
+        message(&quot;Unable to locate the LMS&apos;s API Implementation.\nCommit was not successful.&quot;);
+    }
+    else if (!initialized &amp;&amp; ! doInitialize())
+    {
+        let error = ErrorHandler();
+        message(&quot;Commit failed - Could not initialize communication with the LMS - error code: &quot; + error.code);
+    }
+    else
+    {
+        result = api.Commit(&quot;&quot;);
+        if (result != &quot;true&quot;)
+        {
+            let err = ErrorHandler();
+            message(&quot;Commit failed - error code: &quot; + err.code);
+        }
+    }
+
+    return result.toString();
+}
+
+/** *****************************************************************************
+**
+** Function doGetLastError()
+** Inputs:  None
+** Return:  The error code that was set by the last LMS function call
+**
+** Description:
+** Call the GetLastError function
+**
+*******************************************************************************/
+export function doGetLastError()
+{
+    let api = getAPIHandle();
+    if (api == null)
+    {
+        message(&quot;Unable to locate the LMS&apos;s API Implementation.\nGetLastError was not successful.&quot;);
+        // since we can&apos;t get the error code from the LMS, return a general error
+        return _GeneralException.code;
+    }
+
+    return api.GetLastError().toString();
+}
+
+/** *****************************************************************************
+**
+** Function doGetErrorString(errorCode)
+** Inputs:  errorCode - Error Code
+** Return:  The textual description that corresponds to the input error code
+**
+** Description:
+** Call the GetErrorString function
+**
+********************************************************************************/
+export function doGetErrorString(errorCode)
+{
+    let api = getAPIHandle();
+    if (api == null)
+    {
+        message(&quot;Unable to locate the LMS&apos;s API Implementation.\nGetErrorString was not successful.&quot;);
+        return _GeneralException.string;
+    }
+
+    return api.GetErrorString(errorCode).toString();
+}
+
+/** *****************************************************************************
+**
+** Function doGetDiagnostic(errorCode)
+** Inputs:  errorCode - Error Code(integer format), or null
+** Return:  The vendor specific textual description that corresponds to the
+**          input error code
+**
+** Description:
+** Call the LMSGetDiagnostic function
+**
+*******************************************************************************/
+export function doGetDiagnostic(errorCode)
+{
+    let api = getAPIHandle();
+    if (api == null)
+    {
+        message(&quot;Unable to locate the LMS&apos;s API Implementation.\nGetDiagnostic was not successful.&quot;);
+        return &quot;Unable to locate the LMS&apos;s API Implementation. GetDiagnostic was not successful.&quot;;
+    }
+
+    return api.GetDiagnostic(errorCode).toString();
+}
+
+/** *****************************************************************************
+**
+** Function ErrorHandler()
+** Inputs:  None
+** Return:  The current error
+**
+** Description:
+** Determines if an error was encountered by the previous API call
+** and if so, returns the error.
+**
+** Usage:
+** var last_error = ErrorHandler();
+** if (last_error.code != _NoError.code)
+** {
+**    message(&quot;Encountered an error. Code: &quot; + last_error.code +
+**                                &quot;\nMessage: &quot; + last_error.string +
+**                                &quot;\nDiagnostics: &quot; + last_error.diagnostic);
+** }
+*******************************************************************************/
+export function ErrorHandler()
+{
+    let error = { &quot;code&quot;: _NoError.code, &quot;string&quot;: _NoError.string, &quot;diagnostic&quot;: _NoError.diagnostic };
+    let api = getAPIHandle();
+    if (api == null)
+    {
+        message(&quot;Unable to locate the LMS&apos;s API Implementation.\nCannot determine LMS error code.&quot;);
+        error.code = _GeneralException.code;
+        error.string = _GeneralException.string;
+        error.diagnostic = &quot;Unable to locate the LMS&apos;s API Implementation. Cannot determine LMS error code.&quot;;
+        return error;
+    }
+
+    // check for errors caused by or from the LMS
+    error.code = api.GetLastError().toString();
+    if (error.code != _NoError.code)
+    {
+        // an error was encountered so display the error description
+        error.string = api.GetErrorString(error.code);
+        error.diagnostic = api.GetDiagnostic(&quot;&quot;);
+    }
+
+    return error;
+}
+
+/** ****************************************************************************
+**
+** Function getAPIHandle()
+** Inputs:  None
+** Return:  value contained by APIHandle
+**
+** Description:
+** Returns the handle to API object if it was previously set,
+** otherwise it returns null
+**
+*******************************************************************************/
+export function getAPIHandle()
+{
+    if (apiHandle == null)
+    {
+        apiHandle = getAPI();
+    }
+
+    return apiHandle;
+}
+
+/** *****************************************************************************
+**
+** Function findAPI(win)
+** Inputs:  win - a Window Object
+** Return:  If an API object is found, it&apos;s returned, otherwise null is returned
+**
+** Description:
+** This function looks for an object named API_1484_11 in parent and opener
+** windows
+**
+*******************************************************************************/
+export function findAPI(win)
+{
+    let findAPITries = 0;
+    while ((win.API_1484_11 == null) &amp;&amp; (win.parent != null) &amp;&amp; (win.parent != win))
+    {
+        findAPITries++;
+
+        if (findAPITries &gt; 500)
+        {
+            message(&quot;Error finding API -- too deeply nested.&quot;);
+            return null;
+        }
+
+        win = win.parent;
+
+    }
+    return win.API_1484_11;
+}
+
+/** *****************************************************************************
+**
+** Function getAPI()
+** Inputs:  none
+** Return:  If an API object is found, it&apos;s returned, otherwise null is returned
+**
+** Description:
+** This function looks for an object named API_1484_11, first in the current window&apos;s
+** frame hierarchy and then, if necessary, in the current window&apos;s opener window
+** hierarchy (if there is an opener window).
+**
+*******************************************************************************/
+export function getAPI()
+{
+    let theAPI = findAPI(window);
+    if ((theAPI == null) &amp;&amp; (window.opener != null) &amp;&amp; (typeof(window.opener) !== &quot;undefined&quot;))
+    {
+        theAPI = findAPI(window.opener);
+    }
+    if (theAPI == null)
+    {
+        message(&quot;Unable to find an API adapter&quot;);
+    }
+    return theAPI;
+}
+
+/** *****************************************************************************
+**
+** Function findObjective(objId)
+** Inputs:  objId - the id of the objective
+** Return:  the index where this objective is located
+**
+** Description:
+** This function looks for the objective within the objective array and returns
+** the index where it was found or it will create the objective for you and return
+** the new index.
+**
+*******************************************************************************/
+export function findObjective(objId)
+{
+    let num = doGetValue(&quot;cmi.objectives._count&quot;);
+    let objIndex = -1;
+
+    for (let i = 0; i &lt; num; ++i) {
+        if (doGetValue(&quot;cmi.objectives.&quot; + i + &quot;.id&quot;) == objId) {
+            objIndex = i;
+            break;
+        }
+    }
+
+    if (objIndex == -1) {
+        message(&quot;Objective &quot; + objId + &quot; not found.&quot;);
+        objIndex = num;
+        message(&quot;Creating new objective at index &quot; + objIndex);
+        doSetValue(&quot;cmi.objectives.&quot; + objIndex + &quot;.id&quot;, objId);
+    }
+    return objIndex;
+}
+
+/** *****************************************************************************
+** NOTE: This is a SCORM 2004 4th Edition feature.
+*
+** Function findDataStore(id)
+** Inputs:  id - the id of the data store
+** Return:  the index where this data store is located or -1 if the id wasn&apos;t found
+**
+** Description:
+** This function looks for the data store within the data array and returns
+** the index where it was found or returns -1 to indicate the id wasn&apos;t found
+** in the collection.
+**
+** Usage:
+** var dsIndex = findDataStore(&quot;myds&quot;);
+** if (dsIndex &gt; -1)
+** {
+**    doSetValue(&quot;adl.data.&quot; + dsIndex + &quot;.store&quot;, &quot;save this info...&quot;);
+** }
+** else
+** {
+**    var appending_data = doGetValue(&quot;cmi.suspend_data&quot;);
+**    doSetValue(&quot;cmi.suspend_data&quot;, appending_data + &quot;myds:save this info&quot;);
+** }
+*******************************************************************************/
+export function findDataStore(id)
+{
+    let num = doGetValue(&quot;adl.data._count&quot;);
+    let index = -1;
+
+    // if the get value was not null and is a number
+    // in other words, we got an index in the adl.data array
+    if (num != null &amp;&amp; ! isNaN(num))
+    {
+        for (let i = 0; i &lt; num; ++i)
+        {
+            if (doGetValue(&quot;adl.data.&quot; + i + &quot;.id&quot;) == id)
+            {
+                index = i;
+                break;
+            }
+        }
+
+        if (index == -1)
+        {
+            message(&quot;Data store &quot; + id + &quot; not found.&quot;);
+        }
+    }
+
+    return index;
+}
+
+/** *****************************************************************************
+**
+** Function message(str)
+** Inputs:  String - message you want to send to the designated output
+** Return:  none
+** Depends on: boolean debug to indicate if output is wanted
+**             object output to handle the messages. must implement a function 
+**             log(string)
+**
+** Description:
+** This function outputs messages to a specified output. You can define your own 
+** output object. It will just need to implement a log(string) function. This 
+** interface was used so that the output could be assigned the window.console object.
+*******************************************************************************/
+export function message(str)
+{
+    if(debug)
+    {
+        output.log(str);
+    }
+}
+/*eslint-enable */
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.0.1)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>
