@@ -24,7 +24,8 @@ function getFiles(filePath) {
 function writeModuleFile(modPath) {
     let content = "";
     files.map(fileObj=>{
-        let newPath = fileObj.path.replace('doc\\src\\components', './components').replace('.\\', '/') + '/';
+        console.log(fileObj);
+        let newPath = fileObj.path.replace('doc\\src\\components', './components').replace('doc/src/components', './components').replace('.\\', '/') + '/';
         content += "export { default as " + fileObj.name + " } from '" + newPath + fileObj.name + "';\n";
     });
 
