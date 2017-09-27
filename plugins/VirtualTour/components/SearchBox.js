@@ -27,12 +27,13 @@ export default class SearchBox extends React.Component {
             let places = this.searchBox.getPlaces();
             if (places && places.length > 0) {
                 let geom = places[0].geometry.location;
+                console.log(places[0])
                 let lat = Math.round(geom.lat() * 100000) / 100000;
                 let lng = Math.round(geom.lng() * 100000) / 100000;
                 let center = this.props.center;
                 let num = this.props.num;
                 let map = window.mapList[num];
-
+                map.fitBounds(places[0].geometry.viewport)
                 // console.log('%cBEGIN***************' + num + '**************************', 'color: blue', 'PLACES');
                 // console.log('PRE-UPDATE STATE', 'PLACES', center.lat, center.lng, num);
                 // console.log('PRE-UPDATE STATE', 'PLACES', window.mapList[num] ? (window.mapList[num].center.lat() + ' ' + window.mapList[num].center.lng()) : '');
