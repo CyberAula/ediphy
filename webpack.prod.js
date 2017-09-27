@@ -17,8 +17,8 @@ module.exports = merge.smart(common, {
         publicPath: '/', // This is used to generate URLs to e.g. images
         filename: 'prod/[name]-bundle.min.js',
     },
-    // devtool: 'source-map',
-    devtool: 'cheap-module-eval-source-map', // for dev in prod enviroment
+    devtool: 'source-map',
+    //devtool: 'cheap-module-eval-source-map', // for dev in prod enviroment
     externals: {
         dali_editor_params: 'dali_editor_params',
         dali_editor_json: 'dali_editor_json',

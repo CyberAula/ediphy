@@ -171,7 +171,8 @@ export function DataTable(base) {
             }
 
             return {
-                data: data,
+                data: [["First column", 1, 0], ["Second column", 0, 1]],
+                dataProcessed: {},
                 keys: keys,
                 editing: true,
                 options: {
