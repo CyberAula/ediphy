@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import VishDropzone from './VishDropzone';
+import VishDropzone from './ExternalDropzone';
 import ReactDOM from 'react-dom';
 import { Modal, FormControl, Form, FormGroup, ControlLabel, Button } from 'react-bootstrap';
 import i18n from 'i18next';

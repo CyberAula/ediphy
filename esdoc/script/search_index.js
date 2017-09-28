@@ -780,33 +780,33 @@ window.esdocSearchIndex = [
     "function"
   ],
   [
-    "dali_editor/dali_editor/_editor/components/vish_provider/vishcatalogmodal.jsx~vishcatalogmodal",
-    "class/DALI_EDITOR/_editor/components/vish_provider/VishCatalogModal.jsx~VishCatalogModal.html",
-    "<span>VishCatalogModal</span> <span class=\"search-result-import-path\">dali_editor/DALI_EDITOR/_editor/components/vish_provider/VishCatalogModal.jsx</span>",
+    "dali_editor/dali_editor/_editor/components/external_provider/vishcatalogmodal.jsx~vishcatalogmodal",
+    "class/DALI_EDITOR/_editor/components/external_provider/ExternalCatalogModal.jsx~VishCatalogModal.html",
+    "<span>VishCatalogModal</span> <span class=\"search-result-import-path\">dali_editor/DALI_EDITOR/_editor/components/external_provider/ExternalCatalogModal.jsx</span>",
     "class"
   ],
   [
-    "dali_editor/dali_editor/_editor/components/vish_provider/vish_uploader_modal/vishdropzone.jsx~vishdropzone",
-    "class/DALI_EDITOR/_editor/components/vish_provider/vish_uploader_modal/VishDropzone.jsx~VishDropzone.html",
-    "<span>VishDropzone</span> <span class=\"search-result-import-path\">dali_editor/DALI_EDITOR/_editor/components/vish_provider/vish_uploader_modal/VishDropzone.jsx</span>",
+    "dali_editor/dali_editor/_editor/components/external_provider/external_uploader_modal/vishdropzone.jsx~vishdropzone",
+    "class/DALI_EDITOR/_editor/components/external_provider/external_uploader_modal/ExternalDropzone.jsx~VishDropzone.html",
+    "<span>VishDropzone</span> <span class=\"search-result-import-path\">dali_editor/DALI_EDITOR/_editor/components/external_provider/external_uploader_modal/ExternalDropzone.jsx</span>",
     "class"
   ],
   [
-    "dali_editor/dali_editor/_editor/components/vish_provider/vish_provider/vishprovider.jsx~vishprovider",
-    "class/DALI_EDITOR/_editor/components/vish_provider/vish_provider/VishProvider.jsx~VishProvider.html",
-    "<span>VishProvider</span> <span class=\"search-result-import-path\">dali_editor/DALI_EDITOR/_editor/components/vish_provider/vish_provider/VishProvider.jsx</span>",
+    "dali_editor/dali_editor/_editor/components/external_provider/external_provider/vishprovider.jsx~vishprovider",
+    "class/DALI_EDITOR/_editor/components/external_provider/external_provider/ExternalProvider.jsx~VishProvider.html",
+    "<span>VishProvider</span> <span class=\"search-result-import-path\">dali_editor/DALI_EDITOR/_editor/components/external_provider/external_provider/ExternalProvider.jsx</span>",
     "class"
   ],
   [
-    "dali_editor/dali_editor/_editor/components/vish_provider/vish_searcher_modal/vishsearchermodal.jsx~vishsearchermodal",
-    "class/DALI_EDITOR/_editor/components/vish_provider/vish_searcher_modal/VishSearcherModal.jsx~VishSearcherModal.html",
-    "<span>VishSearcherModal</span> <span class=\"search-result-import-path\">dali_editor/DALI_EDITOR/_editor/components/vish_provider/vish_searcher_modal/VishSearcherModal.jsx</span>",
+    "dali_editor/dali_editor/_editor/components/external_provider/external_searcher_modal/vishsearchermodal.jsx~vishsearchermodal",
+    "class/DALI_EDITOR/_editor/components/external_provider/external_searcher_modal/ExternalSearcherModal.jsx~VishSearcherModal.html",
+    "<span>VishSearcherModal</span> <span class=\"search-result-import-path\">dali_editor/DALI_EDITOR/_editor/components/external_provider/external_searcher_modal/ExternalSearcherModal.jsx</span>",
     "class"
   ],
   [
-    "dali_editor/dali_editor/_editor/components/vish_provider/vish_uploader_modal/vishuploadermodal.jsx~vishuploadermodal",
-    "class/DALI_EDITOR/_editor/components/vish_provider/vish_uploader_modal/VishUploaderModal.jsx~VishUploaderModal.html",
-    "<span>VishUploaderModal</span> <span class=\"search-result-import-path\">dali_editor/DALI_EDITOR/_editor/components/vish_provider/vish_uploader_modal/VishUploaderModal.jsx</span>",
+    "dali_editor/dali_editor/_editor/components/external_provider/external_uploader_modal/vishuploadermodal.jsx~vishuploadermodal",
+    "class/DALI_EDITOR/_editor/components/external_provider/external_uploader_modal/ExternalUploaderModal.jsx~VishUploaderModal.html",
+    "<span>VishUploaderModal</span> <span class=\"search-result-import-path\">dali_editor/DALI_EDITOR/_editor/components/external_provider/external_uploader_modal/ExternalUploaderModal.jsx</span>",
     "class"
   ],
   [
@@ -2598,129 +2598,129 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
-    "dali_editor/_editor/components/vish_provider/vishcatalogmodal.jsx",
-    "file/DALI_EDITOR/_editor/components/vish_provider/VishCatalogModal.jsx.html",
-    "DALI_EDITOR/_editor/components/vish_provider/VishCatalogModal.jsx",
+    "dali_editor/_editor/components/external_provider/vishcatalogmodal.jsx",
+    "file/DALI_EDITOR/_editor/components/external_provider/ExternalCatalogModal.jsx.html",
+    "DALI_EDITOR/_editor/components/external_provider/ExternalCatalogModal.jsx",
     "file"
   ],
   [
-    "dali_editor/_editor/components/vish_provider/vishcatalogmodal.jsx~vishcatalogmodal#constructor",
-    "class/DALI_EDITOR/_editor/components/vish_provider/VishCatalogModal.jsx~VishCatalogModal.html#instance-constructor-constructor",
-    "DALI_EDITOR/_editor/components/vish_provider/VishCatalogModal.jsx~VishCatalogModal#constructor",
+    "dali_editor/_editor/components/external_provider/vishcatalogmodal.jsx~vishcatalogmodal#constructor",
+    "class/DALI_EDITOR/_editor/components/external_provider/ExternalCatalogModal.jsx~VishCatalogModal.html#instance-constructor-constructor",
+    "DALI_EDITOR/_editor/components/external_provider/ExternalCatalogModal.jsx~VishCatalogModal#constructor",
     "method"
   ],
   [
-    "dali_editor/_editor/components/vish_provider/vishcatalogmodal.jsx~vishcatalogmodal#render",
-    "class/DALI_EDITOR/_editor/components/vish_provider/VishCatalogModal.jsx~VishCatalogModal.html#instance-method-render",
-    "DALI_EDITOR/_editor/components/vish_provider/VishCatalogModal.jsx~VishCatalogModal#render",
+    "dali_editor/_editor/components/external_provider/vishcatalogmodal.jsx~vishcatalogmodal#render",
+    "class/DALI_EDITOR/_editor/components/external_provider/ExternalCatalogModal.jsx~VishCatalogModal.html#instance-method-render",
+    "DALI_EDITOR/_editor/components/external_provider/ExternalCatalogModal.jsx~VishCatalogModal#render",
     "method"
   ],
   [
-    "dali_editor/_editor/components/vish_provider/vish_provider/vishprovider.jsx",
-    "file/DALI_EDITOR/_editor/components/vish_provider/vish_provider/VishProvider.jsx.html",
-    "DALI_EDITOR/_editor/components/vish_provider/vish_provider/VishProvider.jsx",
+    "dali_editor/_editor/components/external_provider/external_provider/vishprovider.jsx",
+    "file/DALI_EDITOR/_editor/components/external_provider/external_provider/ExternalProvider.jsx.html",
+    "DALI_EDITOR/_editor/components/external_provider/external_provider/ExternalProvider.jsx",
     "file"
   ],
   [
-    "dali_editor/_editor/components/vish_provider/vish_provider/vishprovider.jsx~vishprovider#constructor",
-    "class/DALI_EDITOR/_editor/components/vish_provider/vish_provider/VishProvider.jsx~VishProvider.html#instance-constructor-constructor",
-    "DALI_EDITOR/_editor/components/vish_provider/vish_provider/VishProvider.jsx~VishProvider#constructor",
+    "dali_editor/_editor/components/external_provider/external_provider/vishprovider.jsx~vishprovider#constructor",
+    "class/DALI_EDITOR/_editor/components/external_provider/external_provider/ExternalProvider.jsx~VishProvider.html#instance-constructor-constructor",
+    "DALI_EDITOR/_editor/components/external_provider/external_provider/ExternalProvider.jsx~VishProvider#constructor",
     "method"
   ],
   [
-    "dali_editor/_editor/components/vish_provider/vish_provider/vishprovider.jsx~vishprovider#index",
-    "class/DALI_EDITOR/_editor/components/vish_provider/vish_provider/VishProvider.jsx~VishProvider.html#instance-member-index",
-    "DALI_EDITOR/_editor/components/vish_provider/vish_provider/VishProvider.jsx~VishProvider#index",
+    "dali_editor/_editor/components/external_provider/external_provider/vishprovider.jsx~vishprovider#index",
+    "class/DALI_EDITOR/_editor/components/external_provider/external_provider/ExternalProvider.jsx~VishProvider.html#instance-member-index",
+    "DALI_EDITOR/_editor/components/external_provider/external_provider/ExternalProvider.jsx~VishProvider#index",
     "member"
   ],
   [
-    "dali_editor/_editor/components/vish_provider/vish_provider/vishprovider.jsx~vishprovider#render",
-    "class/DALI_EDITOR/_editor/components/vish_provider/vish_provider/VishProvider.jsx~VishProvider.html#instance-method-render",
-    "DALI_EDITOR/_editor/components/vish_provider/vish_provider/VishProvider.jsx~VishProvider#render",
+    "dali_editor/_editor/components/external_provider/external_provider/vishprovider.jsx~vishprovider#render",
+    "class/DALI_EDITOR/_editor/components/external_provider/external_provider/ExternalProvider.jsx~VishProvider.html#instance-method-render",
+    "DALI_EDITOR/_editor/components/external_provider/external_provider/ExternalProvider.jsx~VishProvider#render",
     "method"
   ],
   [
-    "dali_editor/_editor/components/vish_provider/vish_provider/vishprovider.jsx~vishprovider#state",
-    "class/DALI_EDITOR/_editor/components/vish_provider/vish_provider/VishProvider.jsx~VishProvider.html#instance-member-state",
-    "DALI_EDITOR/_editor/components/vish_provider/vish_provider/VishProvider.jsx~VishProvider#state",
+    "dali_editor/_editor/components/external_provider/external_provider/vishprovider.jsx~vishprovider#state",
+    "class/DALI_EDITOR/_editor/components/external_provider/external_provider/ExternalProvider.jsx~VishProvider.html#instance-member-state",
+    "DALI_EDITOR/_editor/components/external_provider/external_provider/ExternalProvider.jsx~VishProvider#state",
     "member"
   ],
   [
-    "dali_editor/_editor/components/vish_provider/vish_searcher_modal/vishsearchermodal.jsx",
-    "file/DALI_EDITOR/_editor/components/vish_provider/vish_searcher_modal/VishSearcherModal.jsx.html",
-    "DALI_EDITOR/_editor/components/vish_provider/vish_searcher_modal/VishSearcherModal.jsx",
+    "dali_editor/_editor/components/external_provider/external_searcher_modal/vishsearchermodal.jsx",
+    "file/DALI_EDITOR/_editor/components/external_provider/external_searcher_modal/ExternalSearcherModal.jsx.html",
+    "DALI_EDITOR/_editor/components/external_provider/external_searcher_modal/ExternalSearcherModal.jsx",
     "file"
   ],
   [
-    "dali_editor/_editor/components/vish_provider/vish_searcher_modal/vishsearchermodal.jsx~vishsearchermodal#constructor",
-    "class/DALI_EDITOR/_editor/components/vish_provider/vish_searcher_modal/VishSearcherModal.jsx~VishSearcherModal.html#instance-constructor-constructor",
-    "DALI_EDITOR/_editor/components/vish_provider/vish_searcher_modal/VishSearcherModal.jsx~VishSearcherModal#constructor",
+    "dali_editor/_editor/components/external_provider/external_searcher_modal/vishsearchermodal.jsx~vishsearchermodal#constructor",
+    "class/DALI_EDITOR/_editor/components/external_provider/external_searcher_modal/ExternalSearcherModal.jsx~VishSearcherModal.html#instance-constructor-constructor",
+    "DALI_EDITOR/_editor/components/external_provider/external_searcher_modal/ExternalSearcherModal.jsx~VishSearcherModal#constructor",
     "method"
   ],
   [
-    "dali_editor/_editor/components/vish_provider/vish_searcher_modal/vishsearchermodal.jsx~vishsearchermodal#index",
-    "class/DALI_EDITOR/_editor/components/vish_provider/vish_searcher_modal/VishSearcherModal.jsx~VishSearcherModal.html#instance-member-index",
-    "DALI_EDITOR/_editor/components/vish_provider/vish_searcher_modal/VishSearcherModal.jsx~VishSearcherModal#index",
+    "dali_editor/_editor/components/external_provider/external_searcher_modal/vishsearchermodal.jsx~vishsearchermodal#index",
+    "class/DALI_EDITOR/_editor/components/external_provider/external_searcher_modal/ExternalSearcherModal.jsx~VishSearcherModal.html#instance-member-index",
+    "DALI_EDITOR/_editor/components/external_provider/external_searcher_modal/ExternalSearcherModal.jsx~VishSearcherModal#index",
     "member"
   ],
   [
-    "dali_editor/_editor/components/vish_provider/vish_searcher_modal/vishsearchermodal.jsx~vishsearchermodal#render",
-    "class/DALI_EDITOR/_editor/components/vish_provider/vish_searcher_modal/VishSearcherModal.jsx~VishSearcherModal.html#instance-method-render",
-    "DALI_EDITOR/_editor/components/vish_provider/vish_searcher_modal/VishSearcherModal.jsx~VishSearcherModal#render",
+    "dali_editor/_editor/components/external_provider/external_searcher_modal/vishsearchermodal.jsx~vishsearchermodal#render",
+    "class/DALI_EDITOR/_editor/components/external_provider/external_searcher_modal/ExternalSearcherModal.jsx~VishSearcherModal.html#instance-method-render",
+    "DALI_EDITOR/_editor/components/external_provider/external_searcher_modal/ExternalSearcherModal.jsx~VishSearcherModal#render",
     "method"
   ],
   [
-    "dali_editor/_editor/components/vish_provider/vish_searcher_modal/vishsearchermodal.jsx~vishsearchermodal#state",
-    "class/DALI_EDITOR/_editor/components/vish_provider/vish_searcher_modal/VishSearcherModal.jsx~VishSearcherModal.html#instance-member-state",
-    "DALI_EDITOR/_editor/components/vish_provider/vish_searcher_modal/VishSearcherModal.jsx~VishSearcherModal#state",
+    "dali_editor/_editor/components/external_provider/external_searcher_modal/vishsearchermodal.jsx~vishsearchermodal#state",
+    "class/DALI_EDITOR/_editor/components/external_provider/external_searcher_modal/ExternalSearcherModal.jsx~VishSearcherModal.html#instance-member-state",
+    "DALI_EDITOR/_editor/components/external_provider/external_searcher_modal/ExternalSearcherModal.jsx~VishSearcherModal#state",
     "member"
   ],
   [
-    "dali_editor/_editor/components/vish_provider/vish_uploader_modal/vishdropzone.jsx",
-    "file/DALI_EDITOR/_editor/components/vish_provider/vish_uploader_modal/VishDropzone.jsx.html",
-    "DALI_EDITOR/_editor/components/vish_provider/vish_uploader_modal/VishDropzone.jsx",
+    "dali_editor/_editor/components/external_provider/external_uploader_modal/vishdropzone.jsx",
+    "file/DALI_EDITOR/_editor/components/external_provider/external_uploader_modal/ExternalDropzone.jsx.html",
+    "DALI_EDITOR/_editor/components/external_provider/external_uploader_modal/ExternalDropzone.jsx",
     "file"
   ],
   [
-    "dali_editor/_editor/components/vish_provider/vish_uploader_modal/vishdropzone.jsx~vishdropzone#constructor",
-    "class/DALI_EDITOR/_editor/components/vish_provider/vish_uploader_modal/VishDropzone.jsx~VishDropzone.html#instance-constructor-constructor",
-    "DALI_EDITOR/_editor/components/vish_provider/vish_uploader_modal/VishDropzone.jsx~VishDropzone#constructor",
+    "dali_editor/_editor/components/external_provider/external_uploader_modal/vishdropzone.jsx~vishdropzone#constructor",
+    "class/DALI_EDITOR/_editor/components/external_provider/external_uploader_modal/ExternalDropzone.jsx~VishDropzone.html#instance-constructor-constructor",
+    "DALI_EDITOR/_editor/components/external_provider/external_uploader_modal/ExternalDropzone.jsx~VishDropzone#constructor",
     "method"
   ],
   [
-    "dali_editor/_editor/components/vish_provider/vish_uploader_modal/vishdropzone.jsx~vishdropzone#ondrop",
-    "class/DALI_EDITOR/_editor/components/vish_provider/vish_uploader_modal/VishDropzone.jsx~VishDropzone.html#instance-method-onDrop",
-    "DALI_EDITOR/_editor/components/vish_provider/vish_uploader_modal/VishDropzone.jsx~VishDropzone#onDrop",
+    "dali_editor/_editor/components/external_provider/external_uploader_modal/vishdropzone.jsx~vishdropzone#ondrop",
+    "class/DALI_EDITOR/_editor/components/external_provider/external_uploader_modal/ExternalDropzone.jsx~VishDropzone.html#instance-method-onDrop",
+    "DALI_EDITOR/_editor/components/external_provider/external_uploader_modal/ExternalDropzone.jsx~VishDropzone#onDrop",
     "method"
   ],
   [
-    "dali_editor/_editor/components/vish_provider/vish_uploader_modal/vishdropzone.jsx~vishdropzone#render",
-    "class/DALI_EDITOR/_editor/components/vish_provider/vish_uploader_modal/VishDropzone.jsx~VishDropzone.html#instance-method-render",
-    "DALI_EDITOR/_editor/components/vish_provider/vish_uploader_modal/VishDropzone.jsx~VishDropzone#render",
+    "dali_editor/_editor/components/external_provider/external_uploader_modal/vishdropzone.jsx~vishdropzone#render",
+    "class/DALI_EDITOR/_editor/components/external_provider/external_uploader_modal/ExternalDropzone.jsx~VishDropzone.html#instance-method-render",
+    "DALI_EDITOR/_editor/components/external_provider/external_uploader_modal/ExternalDropzone.jsx~VishDropzone#render",
     "method"
   ],
   [
-    "dali_editor/_editor/components/vish_provider/vish_uploader_modal/vishdropzone.jsx~vishdropzone#state",
-    "class/DALI_EDITOR/_editor/components/vish_provider/vish_uploader_modal/VishDropzone.jsx~VishDropzone.html#instance-member-state",
-    "DALI_EDITOR/_editor/components/vish_provider/vish_uploader_modal/VishDropzone.jsx~VishDropzone#state",
+    "dali_editor/_editor/components/external_provider/external_uploader_modal/vishdropzone.jsx~vishdropzone#state",
+    "class/DALI_EDITOR/_editor/components/external_provider/external_uploader_modal/ExternalDropzone.jsx~VishDropzone.html#instance-member-state",
+    "DALI_EDITOR/_editor/components/external_provider/external_uploader_modal/ExternalDropzone.jsx~VishDropzone#state",
     "member"
   ],
   [
-    "dali_editor/_editor/components/vish_provider/vish_uploader_modal/vishuploadermodal.jsx",
-    "file/DALI_EDITOR/_editor/components/vish_provider/vish_uploader_modal/VishUploaderModal.jsx.html",
-    "DALI_EDITOR/_editor/components/vish_provider/vish_uploader_modal/VishUploaderModal.jsx",
+    "dali_editor/_editor/components/external_provider/external_uploader_modal/vishuploadermodal.jsx",
+    "file/DALI_EDITOR/_editor/components/external_provider/external_uploader_modal/ExternalUploaderModal.jsx.html",
+    "DALI_EDITOR/_editor/components/external_provider/external_uploader_modal/ExternalUploaderModal.jsx",
     "file"
   ],
   [
-    "dali_editor/_editor/components/vish_provider/vish_uploader_modal/vishuploadermodal.jsx~vishuploadermodal#componentwillreceiveprops",
-    "class/DALI_EDITOR/_editor/components/vish_provider/vish_uploader_modal/VishUploaderModal.jsx~VishUploaderModal.html#instance-method-componentWillReceiveProps",
-    "DALI_EDITOR/_editor/components/vish_provider/vish_uploader_modal/VishUploaderModal.jsx~VishUploaderModal#componentWillReceiveProps",
+    "dali_editor/_editor/components/external_provider/external_uploader_modal/vishuploadermodal.jsx~vishuploadermodal#componentwillreceiveprops",
+    "class/DALI_EDITOR/_editor/components/external_provider/external_uploader_modal/ExternalUploaderModal.jsx~VishUploaderModal.html#instance-method-componentWillReceiveProps",
+    "DALI_EDITOR/_editor/components/external_provider/external_uploader_modal/ExternalUploaderModal.jsx~VishUploaderModal#componentWillReceiveProps",
     "method"
   ],
   [
-    "dali_editor/_editor/components/vish_provider/vish_uploader_modal/vishuploadermodal.jsx~vishuploadermodal#render",
-    "class/DALI_EDITOR/_editor/components/vish_provider/vish_uploader_modal/VishUploaderModal.jsx~VishUploaderModal.html#instance-method-render",
-    "DALI_EDITOR/_editor/components/vish_provider/vish_uploader_modal/VishUploaderModal.jsx~VishUploaderModal#render",
+    "dali_editor/_editor/components/external_provider/external_uploader_modal/vishuploadermodal.jsx~vishuploadermodal#render",
+    "class/DALI_EDITOR/_editor/components/external_provider/external_uploader_modal/ExternalUploaderModal.jsx~VishUploaderModal.html#instance-method-render",
+    "DALI_EDITOR/_editor/components/external_provider/external_uploader_modal/ExternalUploaderModal.jsx~VishUploaderModal#render",
     "method"
   ],
   [

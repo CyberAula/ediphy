@@ -30,7 +30,7 @@ export function HotspotImages(base) {
                             buttons: {
                                 url: {
                                     __name: 'URL',
-                                    type: 'vish_provider',
+                                    type: 'external_provider',
                                     value: base.getState().url,
                                     autoManaged: false,
                                 },
