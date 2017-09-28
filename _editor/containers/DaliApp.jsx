@@ -525,7 +525,8 @@ class DaliApp extends Component {
                 ));
                 break;
             case EDIT_RICH_MARK:
-                this.dispatchAndSetState(editRichMark(e.detail.ids.id, e.detail.state));
+
+                // this.dispatchAndSetState(editRichMark(e.detail.ids.id, e.detail.state));
 
                 /* this.dispatchAndSetState(updateBox(
                     e.detail.ids.id,
@@ -616,9 +617,9 @@ class DaliApp extends Component {
             let box = e.detail.box;
             let toolbar = this.props.toolbars[box];
             let state = JSON.parse(JSON.stringify(toolbar.state));
-            state.__marks[e.detail.id].value = e.detail.value;
-            this.dispatchAndSetState(editRichMark(this.props.boxSelected, state, e.detail.id, null, null));
-            // Dali.Plugins.get(toolbar.config.name).forceUpdate(state, box, UPDATE_TOOLBAR);
+            let ind = e.detail.id;
+            state.__marks[ind].value = e.detail.value;
+            this.dispatchAndSetState(editRichMark(box, state, e.detail.id, null, null));
 
         });
 

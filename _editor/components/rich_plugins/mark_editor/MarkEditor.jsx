@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
 import { findParentBySelector } from '../../../../common/utils';
 import './_mark_editor.scss';
 /*
@@ -104,7 +105,7 @@ export default class MarkEditor extends Component {
      * @returns {code}
      */
     render() {
-        let classList = '';
+        let classList = 'markeditor ';
         classList += this.state.holding ? 'holding ' : '';
         classList += this.state.ended ? 'ended ' : '';
         classList += this.state.editing ? 'editing' : '';
@@ -157,7 +158,7 @@ export default class MarkEditor extends Component {
         overlay.style.cursor = 'url("/images/mark.svg") ' + cursor_x_offset + ' ' + cursor_y_offset + ', crosshair !important';
         document.body.style.cursor = 'url("/images/mark.svg") ' + cursor_x_offset + ' ' + cursor_y_offset + ', crosshair !important';
         let base = this.props.base;
-        let toolbarState = base.getState();
+        let toolbarState = this.props.state
         let parseRichMarkInput = base.parseRichMarkInput;
         let editing = this.state.editing;
         const id = this.props.mark;
@@ -200,8 +201,7 @@ export default class MarkEditor extends Component {
             exitFunction();
             event.preventDefault();
         };
-
-        overlay.onmouseup = function(event) {
+        let mouseup = function(event) {
             if (event.which === 3) {
                 exitFunction();
                 return;
@@ -225,12 +225,17 @@ export default class MarkEditor extends Component {
             if (component) {
                 component.setState({ editing: false });
             }
-
-            base.editRichMark(id, value);
-            // base.setState('__marks', marks);
-            // base.render('EDIT_RICH_MARK');
+            let boxParent = findParentBySelector(myself, '.wholebox');
+            if (boxParent) {
+                let boxId = findParentBySelector(myself, '.wholebox').id.replace("box-","");
+                base.editRichMark(boxId, id, value);
+                // base.setState('__marks', marks);
+                // base.render('EDIT_RICH_MARK');
+            }
+            overlay.removeEventListener('mouseup', mouseup);
 
         };
+        overlay.addEventListener('mouseup', mouseup);
         dropableElement.parentElement.appendChild(overlay);
 
     }
@@ -254,4 +259,8 @@ MarkEditor.propTypes = {
      * Base del estado del plugin
      */
     base: PropTypes.object.isRequired,
+    /**
+     * Estado de la toolbar del plugin
+     */
+    state: PropTypes.object.isRequired
 };

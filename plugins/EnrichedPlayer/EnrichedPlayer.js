@@ -1,5 +1,5 @@
 import React from "react";
-import EnrichedPlayerPlugin from './components/EnrichedPlayerPluginEditor.js';
+import EnrichedPlayerPluginEditor from './components/EnrichedPlayerPluginEditor.js';
 import i18n from 'i18next';
 require('./EnrichedPlayer.scss');
 
@@ -100,11 +100,9 @@ export function EnrichedPlayer(base) {
         getRenderTemplate: function(state) {
 
             return (
-                /* jshint ignore:start */
                 <div style={{ width: "100%", height: "100%" }}>
-                    <EnrichedPlayerPlugin style={{ width: "100%", height: "100%" }} state={state} base={base} />
+                    <EnrichedPlayerPluginEditor style={{ width: "100%", height: "100%" }} state={state} base={base} />
                 </div>
-                /* jshint ignore:end */
             );
         },
         parseRichMarkInput: function(...value) {

@@ -35,13 +35,14 @@ export default class CanvasVisorSli extends Component {
 
         let overlayHeight = actualHeight ? actualHeight : '100%';
         // aspectRatio(this.props.aspectRatio);
-        let boxes = itemSelected.boxes || [];
+        let boxes = isCV ? this.props.containedViews[this.props.currentView].boxes || [] : this.props.navItems[this.props.currentView].boxes || [];
         let thisView = this.props.viewsArray && this.props.viewsArray.length > 1 ? (i18n.t('messages.go_back_to') + (isContainedView(this.props.viewsArray[this.props.viewsArray.length - 2]) ? this.props.containedViews[this.props.viewsArray[this.props.viewsArray.length - 2]].name : this.props.navItems[this.props.viewsArray[this.props.viewsArray.length - 2]].name)) : i18n.t('messages.go_back');
 
         const tooltip = (
             <Tooltip id="tooltip">{thisView}</Tooltip>
         );
         let animationType = "animation-zoom";
+        console.log(boxes)
         return (
             <Col id={isCV ? "containedCanvas" : "canvas"} md={12} xs={12} className={isCV ? animationType : ""}
                 style={{ display: 'initial', padding: '0', width: '100%' }}>

@@ -65,3 +65,10 @@
 .editing {
  cursor : url("/images/mark.svg") 12 20, crosshair !important;
 }
+
+.markeditor *{
+  pointer-events: none !important;
+}
+.selectedBox.wholebox .markeditor * {
+  pointer-events: all !important;
+}

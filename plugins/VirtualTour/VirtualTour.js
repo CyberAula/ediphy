@@ -122,7 +122,7 @@ export function VirtualTour(base) {
             }
 
             let Mark = ({ idKey, title, color }) => (
-                <MarkEditor time={1.5} mark={idKey} base={base}>
+                <MarkEditor time={1.5} mark={idKey} base={base} state={state}>
                     <OverlayTrigger key={idKey} text={title} placement="top" overlay={<Tooltip id={idKey}>{title}</Tooltip>}>
                         <a className="mapMarker" href="#">
                             <i style={{ color: color }} key="i" className="material-icons">room</i>

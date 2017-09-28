@@ -147,17 +147,20 @@ export default function() {
                     }
                 }
                 initialParams = initParams;
-                let floatingBox = !isSortableContainer(initialParams.container);
-                if(descendant.getConfig().initialWidth) {
-                    initialParams.width = floatingBox && descendant.getConfig().initialWidthSlide ? descendant.getConfig().initialWidthSlide : descendant.getConfig().initialWidth;
-                }
-                if(descendant.getConfig().initialHeight) {
-                    initialParams.height = floatingBox && descendant.getConfig().initialHeightSlide ? descendant.getConfig().initialHeightSlide : descendant.getConfig().initialHeight;
-                }
-                if (needsConfigModal) {
-                    this.openConfigModal(reason, state);
-                } else {
-                    this.render(reason);
+                if (initialParams && Object.keys(initialParams).length !== 0) {
+                    let floatingBox = !isSortableContainer(initialParams.container);
+                    if (descendant.getConfig().initialWidth) {
+                        initialParams.width = floatingBox && descendant.getConfig().initialWidthSlide ? descendant.getConfig().initialWidthSlide : descendant.getConfig().initialWidth;
+                    }
+                    if (descendant.getConfig().initialHeight) {
+                        initialParams.height = floatingBox && descendant.getConfig().initialHeightSlide ? descendant.getConfig().initialHeightSlide : descendant.getConfig().initialHeight;
+                    }
+
+                    if (needsConfigModal) {
+                        this.openConfigModal(reason, state);
+                    } else {
+                        this.render(reason);
+                    }
                 }
             }.bind(this);
 
@@ -346,8 +349,8 @@ export default function() {
                 }
             }
         },
-        editRichMark: function(mark, value) {
-            Dali.API.editRichMark(id, mark, value);
+        editRichMark: function(boxId, mark, value) {
+            Dali.API.editRichMark(boxId, mark, value);
         },
         afterRender: function(element, oldState) {
             state = oldState;

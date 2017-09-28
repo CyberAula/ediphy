@@ -638,7 +638,6 @@ export default function(state = {}, action = {}) {
         return changeProp(state, action.payload.id, toolbarSectionCreator(state, action));
     case ADD_RICH_MARK:
         newState = action.payload.state;
-        console.log(newState);
         if(action.payload.mark.connectMode === "new") {
             let modState = changeProp(state, action.payload.mark.connection.id || action.payload.mark.connection, toolbarSectionCreator(state, action, true));
             newState = changeProp(modState, action.payload.parent, toolbarReducer(modState[action.payload.parent], action));

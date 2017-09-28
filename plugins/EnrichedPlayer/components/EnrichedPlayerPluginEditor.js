@@ -3,9 +3,9 @@ import { findDOMNode } from 'react-dom';
 import ReactPlayer from 'react-player';
 import screenfull from 'screenfull';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
-import MarkEditor from '../../../_editor/components/rich_plugins/mark_editor/MarkEditor';
+import MarkEditor from './../../../_editor/components/rich_plugins/mark_editor/MarkEditor';
 
-export default class EnrichedPlayerPlugin extends React.Component {
+export default class EnrichedPlayerPluginEditor extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -36,7 +36,6 @@ export default class EnrichedPlayerPlugin extends React.Component {
     }
 
     setPlaybackRate(e) {
-        console.log(parseFloat(e.target.value));
         this.setState({ playbackRate: parseFloat(e.target.value) });
     }
 
@@ -85,7 +84,7 @@ export default class EnrichedPlayerPlugin extends React.Component {
             let color = marks[id].color;
 
             return(
-                <MarkEditor key={id} style={{ left: value, position: "absolute" }} time={1.5} mark={id} base={this.props.base}>
+                <MarkEditor key={id} style={{ left: value, position: "absolute" }} time={1.5} mark={id} state={this.props.state} base={this.props.base}>
                     <a key={id} href="#">
                         <div style={{ width: "4px", height: "8px", background: color || "#1fc8db" }}>
                             <OverlayTrigger key={id} text={title} placement="top" overlay={<Tooltip id={id}>{title}</Tooltip>}>
