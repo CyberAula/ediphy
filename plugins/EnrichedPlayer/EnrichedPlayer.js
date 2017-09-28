@@ -93,7 +93,7 @@ export function EnrichedPlayer(base) {
         },
         getInitialState: function() {
             return {
-                url: "https://www.youtube.com/watch?v=vTIIMJ9tUc8",
+                url: "https://www.youtube.com/watch?v=BV5P_V2Yyrc",
                 controls: true,
             };
         },

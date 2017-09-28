@@ -43,28 +43,22 @@ export default class ChartOptions extends React.Component {
                                     {i18n.t("DataTable.show")}
                                 </FormControl.Static>
                                 <Col xs={12} >
-                                    <Checkbox className="mycb" checked={!this.state.disableFilter}
-                                              onChange={()=>{this.setState({ disableFilter: !this.state.disableFilter });}} />
+                                    <Checkbox className="mycb" checked={!this.state.disableFilter} onChange={()=>{this.setState({ disableFilter: !this.state.disableFilter });}} />
                                     {i18n.t('DataTable.options.disableFilter')}</Col>
                                 <Col xs={12} >
-                                    <Checkbox className="mycb" checked={!this.state.disablePagination}
-                                              onChange={()=>{this.setState({ disablePagination: !this.state.disablePagination });}} />
+                                    <Checkbox className="mycb" checked={!this.state.disablePagination} onChange={()=>{this.setState({ disablePagination: !this.state.disablePagination });}} />
                                     {i18n.t('DataTable.options.disablePagination')}</Col>
                                 <Col xs={12} >
-                                    <Checkbox className="mycb" checked={!this.state.disableRowChoice}
-                                              onChange={()=>{this.setState({ disableRowChoice: !this.state.disableRowChoice });}} />
+                                    <Checkbox className="mycb" checked={!this.state.disableRowChoice} onChange={()=>{this.setState({ disableRowChoice: !this.state.disableRowChoice });}} />
                                     {i18n.t('DataTable.options.disableRowChoice')}</Col><br/><br/><br/><br/>
 
                                 <label htmlFor="">{i18n.t("DataTable.options.initialPageLength")}</label>
-                                <FormControl type="number" value={this.state.initialPageLength}
-                                             onChange={(e)=>{if (!isNaN(parseInt(e.target.value, 10))) { this.setState({ initialPageLength: parseInt(e.target.value, 10) });}}}/>
+                                <FormControl type="number" value={this.state.initialPageLength} onChange={(e)=>{if (!isNaN(parseInt(e.target.value, 10))) { this.setState({ initialPageLength: parseInt(e.target.value, 10) });}}}/>
 
                             </Col>
                             <Col xs={12} sm={4}>
                                 <label htmlFor="">{i18n.t("DataTable.options.initialSortProp")}</label>
-                                <FormControl componentClass="select" placeholder="line"
-                                             value={this.state.initialSort}
-                                             onChange={(e)=>{this.setState({ initialSort: e.target.value });}}>
+                                <FormControl componentClass="select" placeholder="line" value={this.state.initialSort} onChange={(e)=>{this.setState({ initialSort: e.target.value });}}>
                                     <option key={"DEFAULT_0"} value={0}>{" "}</option>
                                     {this.state.keys.map(key=>{
                                         return(<option key={key} value={key}>{key}</option>);
@@ -73,15 +67,11 @@ export default class ChartOptions extends React.Component {
                                 </FormControl>
                                 <label htmlFor="">{i18n.t("DataTable.options.initialOrderProp")}</label>
                                 <FormGroup>
-                                    <Radio name="radioGroup" inline style={{ marginLeft: '15px' }}
-                                           onChange={e=>{this.setState({ initialOrder: 'ascending' });}}
-                                           checked={this.state.initialOrder === 'ascending'}>
+                                    <Radio name="radioGroup" inline style={{ marginLeft: '15px' }} onChange={e=>{this.setState({ initialOrder: 'ascending' });}} checked={this.state.initialOrder === 'ascending'}>
                                         {i18n.t("DataTable.options.ascending")}
                                     </Radio>
                                     <br/>
-                                    <Radio name="radioGroup" inline style={{ marginLeft: '15px' }}
-                                           onChange={e=>{this.setState({ initialOrder: 'descending' });}}
-                                           checked={this.state.initialOrder === 'descending'}>
+                                    <Radio name="radioGroup" inline style={{ marginLeft: '15px' }} onChange={e=>{this.setState({ initialOrder: 'descending' });}} checked={this.state.initialOrder === 'descending'}>
                                         {i18n.t("DataTable.options.descending")}
                                     </Radio>
                                 </FormGroup>
@@ -90,23 +80,19 @@ export default class ChartOptions extends React.Component {
                             <Col xs={12} sm={4}>
                                 <div style={{ display: this.state.disableRowChoice ? 'none' : 'block' }}>
                                     <label htmlFor="">{i18n.t("DataTable.options.pageSizeLabel")}</label>
-                                    <FormControl type="text" value={this.state.pageSizeLabel}
-                                                 onChange={(e)=>{this.setState({ pageSizeLabel: e.target.value });}}/>
+                                    <FormControl type="text" value={this.state.pageSizeLabel} onChange={(e)=>{this.setState({ pageSizeLabel: e.target.value });}}/>
                                 </div>
                                 <div style={{ display: this.state.disableFilter ? 'none' : 'block' }}>
                                     <label htmlFor="">{i18n.t("DataTable.options.searchLabel")}</label>
-                                    <FormControl type="text" value={this.state.searchLabel}
-                                                 onChange={(e)=>{this.setState({ searchLabel: e.target.value });}}/>
+                                    <FormControl type="text" value={this.state.searchLabel} onChange={(e)=>{this.setState({ searchLabel: e.target.value });}}/>
                                 </div>
                                 <div style={{ display: this.state.disableFilter ? 'none' : 'block' }}>
                                     <label htmlFor="">{i18n.t("DataTable.options.searchPlaceholder")}</label>
-                                    <FormControl type="text" value={this.state.searchPlaceholder}
-                                                 onChange={(e)=>{this.setState({ searchPlaceholder: e.target.value });}}/>
+                                    <FormControl type="text" value={this.state.searchPlaceholder} onChange={(e)=>{this.setState({ searchPlaceholder: e.target.value });}}/>
                                 </div>
                                 <div>
                                     <label htmlFor="">{i18n.t("DataTable.options.noDataLabel")}</label>
-                                    <FormControl type="text" value={this.state.noDataLabel}
-                                                 onChange={(e)=>{this.setState({ noDataLabel: e.target.value });}}/>
+                                    <FormControl type="text" value={this.state.noDataLabel} onChange={(e)=>{this.setState({ noDataLabel: e.target.value });}}/>
                                 </div>
                             </Col>
                         </FormGroup>

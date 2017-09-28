@@ -89,7 +89,7 @@ export function BasicPlayer(base) {
         },
         getInitialState: function() {
             return {
-                url: "https://www.youtube.com/watch?time_continue=156&v=yqCwDurUrw0",
+                url: "https://www.youtube.com/watch?v=BV5P_V2Yyrc",
                 controls: true,
             };
         },

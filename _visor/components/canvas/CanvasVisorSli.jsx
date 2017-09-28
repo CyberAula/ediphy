@@ -42,7 +42,6 @@ export default class CanvasVisorSli extends Component {
             <Tooltip id="tooltip">{thisView}</Tooltip>
         );
         let animationType = "animation-zoom";
-        console.log(boxes)
         return (
             <Col id={isCV ? "containedCanvas" : "canvas"} md={12} xs={12} className={isCV ? animationType : ""}
                 style={{ display: 'initial', padding: '0', width: '100%' }}>

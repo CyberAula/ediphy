@@ -515,7 +515,7 @@ export default class ReduxProvider extends Component {
             <Provider store={this.store}>
                 <div style={{ height: '100%' }}>
                     <DaliApp id="app" store={this.store}/>
-                     {/* <DevTools/> */}
+                    {/* <DevTools/> */}
                 </div>
             </Provider>
         );

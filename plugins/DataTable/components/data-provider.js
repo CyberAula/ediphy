@@ -35,18 +35,19 @@ export default class DataProvider extends React.Component {
     confirmButton() {
         let empty = false;
         outerloop:
-            for (let i = 0; i < this.state.data.length; i++) {
-                for (let o = 0; o < this.state.data.length; o++) {
-                    if(this.state.data[i][o] === "") {
-                        let alertComp = (<Alert className="pageModal" show hasHeader closeButton onClose={()=>{this.setState({ alert: null });}}>
-                            <span> {i18n.t("DataTable.alert_msg")} </span>
-                        </Alert>);
-                        this.setState({ alert: alertComp });
-                        empty = true;
-                        break outerloop;
-                    }
+        for (let i = 0; i < this.state.data.length; i++) {
+            for (let o = 0; o < this.state.data.length; o++) {
+                if(this.state.data[i][o] === "") {
+                    let alertComp = (<Alert className="pageModal" show hasHeader closeButton onClose={()=>{this.setState({ alert: null });}}>
+                        <span> {i18n.t("DataTable.alert_msg")} </span>
+                    </Alert>);
+                    this.setState({ alert: alertComp });
+                    empty = true;
+                    break outerloop;
                 }
             }
+        }
+
         if (typeof this.props.dataChanged === 'function' && !empty) {
             this.props.dataChanged({ data: this.state.data, keys: this.state.keys });
         }
@@ -281,39 +282,38 @@ export default class DataProvider extends React.Component {
                         </div>
                         <table className="table bordered hover" >
                             <thead>
-                            <tr>
-                                {Array.apply(0, Array(this.state.cols)).map((x, i) => {
-                                    return(
-                                        <th key={i + 1}>
-                                            {/* {i !== 0 ? <i className="material-icons clearCol" onClick={(e)=>{this.colLeft(i);}}>chevron_left</i> : null }*/}
-                                            <i className="material-icons clearCol" onClick={(e)=>{this.deleteCols(i);}}>clear</i>
-                                            {/* {i !== (this.state.keys.length - 1) ? <i className="material-icons clearCol" onClick={(e)=>{this.colRight(i);}}>chevron_right</i> : null }                                                <FormControl type="text" name={i} value={this.state.keys[i]} style={{ margin: '0px' }} onChange={this.keyChanged}/>*/}
-                                            <FormControl type="text" name={i} value={this.state.keys[i]} style={{ margin: '0px' }} onChange={this.keyChanged}/>
-                                        </th>
-                                    );
-                                })}
-                            </tr>
+                                <tr>
+                                    {Array.apply(0, Array(this.state.cols)).map((x, i) => {
+                                        return(
+                                            <th key={i + 1}>
+                                                {/* {i !== 0 ? <i className="material-icons clearCol" onClick={(e)=>{this.colLeft(i);}}>chevron_left</i> : null }*/}
+                                                <i className="material-icons clearCol" onClick={(e)=>{this.deleteCols(i);}}>clear</i>
+                                                {/* {i !== (this.state.keys.length - 1) ? <i className="material-icons clearCol" onClick={(e)=>{this.colRight(i);}}>chevron_right</i> : null }                                                <FormControl type="text" name={i} value={this.state.keys[i]} style={{ margin: '0px' }} onChange={this.keyChanged}/>*/}
+                                                <FormControl type="text" name={i} value={this.state.keys[i]} style={{ margin: '0px' }} onChange={this.keyChanged}/>
+                                            </th>
+                                        );
+                                    })}
+                                </tr>
                             </thead>
                             <tbody style={{ backgroundColor: '#f2f2f2' }}>
+                                {Array.apply(0, Array(this.state.rows)).map((x, i) => {
 
-                            {Array.apply(0, Array(this.state.rows)).map((x, i) => {
+                                    return(
+                                        <tr key={i + 1}>
 
-                                return(
-                                    <tr key={i + 1}>
+                                            {Array.apply(0, Array(this.state.cols)).map((q, o) => {
+                                                return(
+                                                    <td key={o + 1}>
+                                                        {o === 0 ? (<i className="material-icons clearRow" onClick={()=>{this.deleteRows(i);}}>clear</i>) : null}
 
-                                        {Array.apply(0, Array(this.state.cols)).map((q, o) => {
-                                            return(
-                                                <td key={o + 1}>
-                                                    {o === 0 ? (<i className="material-icons clearRow" onClick={()=>{this.deleteRows(i);}}>clear</i>) : null}
+                                                        <FormControl type="text" name={i + " " + this.state.keys[o]} value={this.state.data[i][this.state.keys[o]]} onChange={this.dataChanged}/>
 
-                                                    <FormControl type="text" name={i + " " + this.state.keys[o]} value={this.state.data[i][this.state.keys[o]]} onChange={this.dataChanged}/>
-
-                                                </td>
-                                            );
-                                        })}
-                                    </tr>
-                                );
-                            })}
+                                                    </td>
+                                                );
+                                            })}
+                                        </tr>
+                                    );
+                                })}
                             </tbody>
                         </table>
                     </div>

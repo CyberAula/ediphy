@@ -158,7 +158,7 @@ export default class MarkEditor extends Component {
         overlay.style.cursor = 'url("/images/mark.svg") ' + cursor_x_offset + ' ' + cursor_y_offset + ', crosshair !important';
         document.body.style.cursor = 'url("/images/mark.svg") ' + cursor_x_offset + ' ' + cursor_y_offset + ', crosshair !important';
         let base = this.props.base;
-        let toolbarState = this.props.state
+        let toolbarState = this.props.state;
         let parseRichMarkInput = base.parseRichMarkInput;
         let editing = this.state.editing;
         const id = this.props.mark;
@@ -227,7 +227,7 @@ export default class MarkEditor extends Component {
             }
             let boxParent = findParentBySelector(myself, '.wholebox');
             if (boxParent) {
-                let boxId = findParentBySelector(myself, '.wholebox').id.replace("box-","");
+                let boxId = findParentBySelector(myself, '.wholebox').id.replace("box-", "");
                 base.editRichMark(boxId, id, value);
                 // base.setState('__marks', marks);
                 // base.render('EDIT_RICH_MARK');
@@ -262,5 +262,5 @@ MarkEditor.propTypes = {
     /**
      * Estado de la toolbar del plugin
      */
-    state: PropTypes.object.isRequired
+    state: PropTypes.object.isRequired,
 };
