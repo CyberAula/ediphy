@@ -21,7 +21,7 @@ import PluginConfigModal from '../components/plugin_config_modal/PluginConfigMod
 import XMLConfigModal from '../components/xml_config_modal/XMLConfigModal';
 import PluginToolbar from '../components/toolbar/plugin_toolbar/PluginToolbar';
 import Visor from '../../_visor/containers/Visor';
-import VishCatalogModal from '../components/vish_provider/VishCatalogModal';
+import VishCatalogModal from '../components/external_provider/ExternalCatalogModal';
 import PluginRibbon from '../components/nav_bar/plugin_ribbon/PluginRibbon';
 import DaliNavBar from '../components/nav_bar/dali_nav_bar/DaliNavBar';
 import ServerFeedback from '../components/server_feedback/ServerFeedback';

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { FormGroup, FormControl, ControlLabel, Button } from 'react-bootstrap';
-import VishSearcherModal from './../vish_searcher_modal/VishSearcherModal';
-import VishUploaderModal from './../vish_uploader_modal/VishUploaderModal';
+import VishSearcherModal from '../external_searcher_modal/ExternalSearcherModal';
+import VishUploaderModal from '../external_uploader_modal/ExternalUploaderModal';
 import i18n from 'i18next';
 
 /**
