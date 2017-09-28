@@ -11,7 +11,9 @@ webpack.config.js~
 dali_server/config.json
 dali_server/node_modules
 doc/esdoc
+esdoc
 doc/jsdoc
+jsdoc
 doc/files/*
 doc/dist/doc-bundle.js
 *.map
