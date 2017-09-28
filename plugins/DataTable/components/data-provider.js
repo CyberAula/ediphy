@@ -8,18 +8,26 @@ export default class DataProvider extends React.Component {
 
     constructor(props) {
         super(props);
+        let rows = this.props.data.length;
+        let cols = this.props.data.length === 0 ? 2 : Object.keys(this.props.data[0]).length;
         this.confirmButton = this.confirmButton.bind(this);
-
+        this.colLeft = this.colLeft.bind(this);
+        this.colLeft = this.colLeft.bind(this);
+        this.colRight = this.colRight.bind(this);
         this.deleteCols = this.deleteCols.bind(this);
         this.colsChanged = this.colsChanged.bind(this);
         this.deleteRows = this.deleteRows.bind(this);
         this.rowsChanged = this.rowsChanged.bind(this);
         this.keyChanged = this.keyChanged.bind(this);
+        this.validateJson = this.validateJson.bind(this);
         this.fileChanged = this.fileChanged.bind(this);
         this.dataChanged = this.dataChanged.bind(this);
 
         this.state = {
+            cols: cols,
+            rows: rows,
             data: this.props.data,
+            keys: this.props.keys,
             error: false,
         };
     }
@@ -40,120 +48,159 @@ export default class DataProvider extends React.Component {
                 }
             }
         if (typeof this.props.dataChanged === 'function' && !empty) {
-            this.props.dataChanged({ data: this.state.data });
+            this.props.dataChanged({ data: this.state.data, keys: this.state.keys });
         }
     }
+    colLeft(col) {
+        let pre = this.state.cols;
+        let keys = this.state.keys;
+        let left = keys[col - 1];
+        let current = keys[col];
+        keys[col - 1] = current;
+        keys[col] = left;
+        console.log(keys);
 
+        this.setState({ keys: keys });
+    }
+    colRight(col) {
+        let pre = this.state.cols;
+        let keys = this.state.keys;
+        let right = keys[col + 1];
+        let current = keys[col];
+        keys[col + 1] = current;
+        keys[col] = right;
+        this.setState({ keys: keys });
+    }
     deleteCols(col) {
-        if (col > -1) {
-            let newData = this.state.data.slice(0);
-            newData.splice(col, 1);
-            this.setState({ data: newData });
-        }
-    }
+        let pre = this.state.cols - 1;
+        let keys = this.state.keys;
+        let data = this.state.data;
 
+        for (let i = 0; i < data.length; i++) {
+            delete data[i][keys[col]];
+        }
+        keys.splice(col, 1);
+
+        this.setState({ cols: pre, data: data, keys: keys });
+    }
     colsChanged(event) {
-        let colNumber = parseInt(event.target.value, 10);
-        let newData = this.state.data.slice(0);
-        let rowLength = newData[0].length;
+        let pre = this.state.cols;
+        let value = parseInt(event.target.value, 10);
+        let keys = this.state.keys;
+        let data = this.state.data;
 
-        if (colNumber !== newData.length && colNumber > 0) {
-            if(colNumber > newData.length) {
-                // Initializes columns
-                let iterationSize = colNumber - newData.length;
-                for (let n = 0; n < iterationSize; n++) {
-                    let column = new Array(rowLength).fill('');
-                    newData.push(column);
-                }
-            } else if (colNumber < newData.length) {
-
-                newData = newData.slice(0, colNumber);
+        if (value > pre) {
+            for (let o = pre; o < value; o++) {
+                keys.push(o);
             }
-            this.setState({ data: newData });
+            for (let i = 0; i < data.length; i++) {
+                for (let o = pre; o < value; o++) {
+                    data[i][o] = "";
+                }
+            }
+
+        } else if (value < pre) {
+
+            for (let i = 0; i < data.length; i++) {
+                for (let o = value; o < pre; o++) {
+                    delete data[i][keys[o]];
+                }
+            }
+            keys = keys.slice(0, value);
         }
-
+        this.setState({ cols: parseInt(value, 10), data: data, keys: keys });
     }
-
     deleteRows(row) {
-        let newData = this.state.data.slice(0);
-        for(let n in newData) {
-            newData[n].splice(row + 1, 1);
-        }
+        let pre = this.state.rows - 1;
+        let data = this.state.data;
+        data.splice(row, 1);
 
-        this.setState({ data: newData });
+        this.setState({ rows: pre, data: data });
     }
-
     rowsChanged(event) {
-        let rowNumber = parseInt(event.target.value, 10);
-        let newData = this.state.data.slice(0);
-        if (rowNumber !== newData[0].length && rowNumber > 0) {
-            if (rowNumber > newData[0].length) {
-                let rowAmount = rowNumber - newData[0].length;
-                let nextArray = new Array(rowAmount).fill('');
-                for (let n = 0; n < newData.length; n++) {
-                    newData[n] = newData[n].concat(nextArray.slice(0));
-                }
-            } else if (rowNumber < newData[0].length) {
-                for (let n = 0; n < newData.length; n++) {
-                    newData[n] = newData[n].slice(0, rowNumber);
-                }
+        let pre = this.state.rows;
+        let value = parseInt(event.target.value, 10);
+
+        let keys = this.state.keys;
+        let data = this.state.data;
+
+        if (value > pre) {
+            let row = {};
+            for (let i = 0; i < keys.length; i++) {
+                row[keys[i]] = "";
             }
-            this.setState({ data: newData });
+            for (let i = pre; i < value; i++) {
+                data.push(row);
+            }
+        } else if (value < pre) {
+            data = data.slice(0, value);
         }
+        this.setState({ rows: parseInt(value, 10), data: data });
     }
-
     keyChanged(event) {
-        let pos = parseInt(event.target.name, 10);
-        let newData = this.state.data.slice(0);
-
-        newData[pos][0] = event.target.value;
-        this.setState({ data: newData });
+        let keys = this.state.keys;
+        let pre = keys[event.target.name];
+        let data = this.state.data;
+        keys[event.target.name] = event.target.value;
+        for (let i = 0; i < data.length; i++) {
+            let val = data[i][pre];
+            data[i][event.target.value] = val;
+            delete data[i][pre];
+        }
+        this.setState({ keys: keys, data: data });
 
     }
+    csvToJSON(csv) {
 
-    parseCSVtoDataProvider(csv) {
         let lines = csv.split("\n");
 
-        let horizontalArray = [];
-        lines.forEach((x)=>{
-            let row = x.split(',');
-            horizontalArray.push(row);
-        });
+        let result = [];
 
-        /* Reverts Array*/
-        let verticalArray = new Array(horizontalArray[0].length);
-        for (let n = 0; n < horizontalArray[0].length; n++) {
-            verticalArray[n] = [];
-            for (let y = 0; y < horizontalArray.length; y++) {
-                verticalArray[n].push(horizontalArray[y][n]);
+        let headers = lines[0].split(",");
+
+        for(let i = 1; i < lines.length; i++) {
+
+            let obj = {};
+            let currentline = lines[i].split(",");
+
+            for (let j = 0; j < headers.length; j++) {
+                obj[headers[j]] = currentline[j];
             }
+            result.push(obj);
         }
 
-        return verticalArray;
+        return result;
     }
+    validateJson(json) {
 
-    parseJSONtoDataProvider(json) {
-        let parsedJSON = JSON.parse(json);
-        let keys = Object.keys(parsedJSON[0]);
-        let nextArray = new Array(keys.length);
+        let data = {};
+        if(json.length === 0) {
+            this.setState({ error: true });
+            return false;
+        }
+        let cols = Object.keys(json[0]);
+        if(cols.length === 0) {
+            this.setState({ error: true, file: false });
+            return false;
+        }
+        for(let row of json) {
 
-        for (let n = 0; n < nextArray.length; n++) {
-            nextArray[n] = [keys[n]];
+            if(!this.compareKeys(cols, Object.keys(row))) {
+                this.setState({ error: true, file: false });
+                return false;
+            }
+            cols = Object.keys(row);
         }
-        for (let n = 0; n < nextArray.length; n++) {
-            Object.keys(parsedJSON).forEach((x)=>{
-                nextArray[n].push(parsedJSON[x][keys[n]]);
-            });
-        }
-        return nextArray;
+        this.setState({ cols: cols.length, rows: json.length, data: json, keys: cols, x: cols[0] });
+
+        this.setState({ error: false });
+        return true;
     }
-
     compareKeys(a, b) {
         a = a.sort().toString();
         b = b.sort().toString();
         return a === b;
     }
-
     fileChanged(event) {
         let files = event.target.files;
         let file = files[0];
@@ -162,34 +209,37 @@ export default class DataProvider extends React.Component {
         reader.onload = () => {
             let data = reader.result;
             if(file.name.split('.').pop() === "csv") {
-                data = this.parseCSVtoDataProvider(data);
+                data = this.csvToJSON(data);
             } else if(file.name.split('.').pop() === "json") {
-                data = this.parseJSONtoDataProvider(data);
+                data = JSON.parse(data);
             }
-            this.setState({ name: file.name, data: data });
+            this.setState({ name: file.name });
+            this.validateJson(data);
         };
         reader.readAsText(file);
     }
-
     dataChanged(event) {
         let pos = event.target.name.split(" ");
-        let row = parseInt(pos[1], 10) + 1;
-        let col = parseInt(pos[0], 10);
-        let newData = this.state.data.slice(0);
-
-        if (typeof event.target.value !== "undefined"/* && !isNaN(parseInt(event.target.value)) */) {
-            newData[col][row] = event.target.value;
-            this.setState({ data: newData });
-        }
+        let row = pos[0];
+        let col = pos[1];
+        let data = this.state.data;
+        let newvalue = isNaN(event.target.value) || event.target.value === "" || event.target.value === null ? event.target.value : parseFloat(event.target.value);
+        let newRow = {};
+        newRow[col] = newvalue;
+        data[row] = Object.assign({}, data[row], newRow);
+        this.setState({ data: data });
     }
 
     render() {
         return (
-            <div>
+            <div id="datatable_config_modal">
                 { this.state.alert }
                 <Form horizontal style={{ padding: "16px" }}>
                     <FormGroup>
                         <FileInput onChange={this.fileChanged} className="fileInput">
+                            {/* <Button className="btn btn-primary" style={{ marginTop: '0px' }}>{ Dali.i18n.t('FileDialog') }</Button>*/}
+                            {/* <span style={{ marginLeft: '10px' }}>*/}
+                            {/* <label className="control-label">{ Dali.i18n.t('FileDialog') + ':   ' } </label> { this.state.name || '' }</span>*/}
                             <div className="fileDrag">
                                 <span style={{ display: this.state.name ? 'none' : 'block' }}><i className="material-icons">ic_file_upload</i><b>{ i18n.t('FileInput.Drag') }</b>{ i18n.t('FileInput.Drag_2') }<b>{ i18n.t('FileInput.Click') }</b>{ i18n.t('FileInput.Click_2') }</span>
                                 <span className="fileUploaded" style={{ display: this.state.name ? 'block' : 'none' }}><i className="material-icons">insert_drive_file</i>{ this.state.name || '' }</span>
@@ -208,14 +258,14 @@ export default class DataProvider extends React.Component {
                             {i18n.t("DataTable.data_cols")}
                         </Col>
                         <Col xs={3}>
-                            <FormControl type="number" name="cols" value={this.state.data.length} onChange={this.colsChanged}/>
+                            <FormControl type="number" name="cols" value={this.state.cols} onChange={this.colsChanged}/>
                         </Col>
 
                         <Col componentClass={ControlLabel} xs={1}>
                             {i18n.t("DataTable.data_rows")}
                         </Col>
                         <Col xs={3}>
-                            <FormControl type="number" name="rows" value={this.state.data[0].length} onChange={this.rowsChanged}/>
+                            <FormControl type="number" name="rows" value={this.state.rows} onChange={this.rowsChanged}/>
                         </Col>
                         <Col xs={3}>
                             <Button className="btn btn-primary" onClick={this.confirmButton} style={{ marginTop: '0px' }}>{i18n.t("DataTable.confirm")}</Button>
@@ -223,7 +273,7 @@ export default class DataProvider extends React.Component {
                     </FormGroup>
                     <div style={{ marginTop: '10px', overflowX: 'auto' }}>
                         <div style={{ display: 'table', tableLayout: 'fixed', width: '100%' }}>
-                            {this.state.data.map((x, i) => {
+                            {Array.apply(0, Array(this.state.cols)).map((x, i) => {
                                 return(
                                     <FormControl.Static key={i + 1} style={{ display: 'table-cell', padding: '8px', textAlign: 'center' }} />
                                 );
@@ -232,29 +282,31 @@ export default class DataProvider extends React.Component {
                         <table className="table bordered hover" >
                             <thead>
                             <tr>
-                                {this.state.data.map((x, i) => {
+                                {Array.apply(0, Array(this.state.cols)).map((x, i) => {
                                     return(
                                         <th key={i + 1}>
+                                            {/* {i !== 0 ? <i className="material-icons clearCol" onClick={(e)=>{this.colLeft(i);}}>chevron_left</i> : null }*/}
                                             <i className="material-icons clearCol" onClick={(e)=>{this.deleteCols(i);}}>clear</i>
-                                            <FormControl type="text" name={i} value={this.state.data[i][0]} style={{ margin: '0px' }} onChange={this.keyChanged}/>
+                                            {/* {i !== (this.state.keys.length - 1) ? <i className="material-icons clearCol" onClick={(e)=>{this.colRight(i);}}>chevron_right</i> : null }                                                <FormControl type="text" name={i} value={this.state.keys[i]} style={{ margin: '0px' }} onChange={this.keyChanged}/>*/}
+                                            <FormControl type="text" name={i} value={this.state.keys[i]} style={{ margin: '0px' }} onChange={this.keyChanged}/>
                                         </th>
                                     );
                                 })}
                             </tr>
                             </thead>
                             <tbody style={{ backgroundColor: '#f2f2f2' }}>
-                            {this.state.data[0].map((x, i) => {
-                                if(i === this.state.data[0].length - 1) {
-                                    return true;
-                                }
 
-                                return (
+                            {Array.apply(0, Array(this.state.rows)).map((x, i) => {
+
+                                return(
                                     <tr key={i + 1}>
-                                        {this.state.data.map((q, o) => {
+
+                                        {Array.apply(0, Array(this.state.cols)).map((q, o) => {
                                             return(
                                                 <td key={o + 1}>
-                                                    <i className="material-icons clearRow" onClick={()=>{this.deleteRows(i);}}>clear</i>
-                                                    <FormControl type="text" name={o + " " + i} value={this.state.data[o][i + 1]} onChange={this.dataChanged}/>
+                                                    {o === 0 ? (<i className="material-icons clearRow" onClick={()=>{this.deleteRows(i);}}>clear</i>) : null}
+
+                                                    <FormControl type="text" name={i + " " + this.state.keys[o]} value={this.state.data[i][this.state.keys[o]]} onChange={this.dataChanged}/>
 
                                                 </td>
                                             );

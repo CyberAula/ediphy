@@ -159,7 +159,7 @@ export function DataTable(base) {
             };
         },
         getInitialState: function() {
-            let data = [];
+            let data = [/*["First column", 1, 0], ["Second column", 0, 1]*/];
             let keys = [];
             let row = {};
             for (let i = 0; i < 1; i++) {
@@ -171,8 +171,7 @@ export function DataTable(base) {
             }
 
             return {
-                data: [["First column", 1, 0], ["Second column", 0, 1]],
-                dataProcessed: {},
+                data: data,
                 keys: keys,
                 editing: true,
                 options: {
