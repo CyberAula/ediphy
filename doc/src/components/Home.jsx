@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { Jumbotron, Grid, Col, Row } from 'react-bootstrap';
 import icon from '../img/ging.png';
 import react from '../img/React-icon.svg';
@@ -19,7 +20,9 @@ export default class Content extends Component {
                 </Jumbotron>
                 <Row className="tools">
                     <Col xs={12} md={4} className="mainPageBlock">
+                        <Link to="api">
                       <img src={plugin} style={{ width: '40%' }} alt=""/>
+                        </Link>
                       <h3>Estructura basada en plugins</h3>
                     </Col>
                     <Col xs={12} md={4} className="mainPageBlock">
