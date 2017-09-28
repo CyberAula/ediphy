@@ -21,25 +21,25 @@ export default class Content extends Component {
                 <Row className="tools">
                     <Col xs={12} md={4} className="mainPageBlock">
                         <Link to="api">
-                      <img src={plugin} style={{ width: '40%' }} alt=""/>
+                            <img src={plugin} style={{ width: '40%' }} alt=""/>
                         </Link>
-                      <h3>Estructura basada en plugins</h3>
+                        <h3>Estructura basada en plugins</h3>
                     </Col>
                     <Col xs={12} md={4} className="mainPageBlock">
-                      <a href="https://facebook.github.io/react/">
-                        <img src={react} style={{ width: '40%' }} alt=""/>
-                      </a>
-                      <a href="http://redux.js.org/docs/introduction/">
-                        <img src={redux} style={{ width: '40%' }} alt=""/>
-                      </a>
-                      <h3>Creado con React y Redux</h3>
+                        <a href="https://facebook.github.io/react/">
+                            <img src={react} style={{ width: '40%' }} alt=""/>
+                        </a>
+                        <a href="http://redux.js.org/docs/introduction/">
+                            <img src={redux} style={{ width: '40%' }} alt=""/>
+                        </a>
+                        <h3>Creado con React y Redux</h3>
                     </Col>
 
                     <Col xs={12} md={4} className="mainPageBlock">
-                      <a href="https://github.com/ging/dali_editor/">
-                          <img src={git} style={{ width: '40%' }} alt=""/>
-                      </a>
-                      <h3>Visita el proyecto en GitHub</h3>
+                        <a href="https://github.com/ging/dali_editor/">
+                            <img src={git} style={{ width: '40%' }} alt=""/>
+                        </a>
+                        <h3>Visita el proyecto en GitHub</h3>
                     </Col>
                 </Row>
             </Grid>

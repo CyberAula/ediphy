@@ -15,6 +15,10 @@ export function HotspotImages(base) {
                 needsTextEdition: false,
                 icon: 'image',
                 // initialWidth: '25%',
+                aspectRatioButtonConfig: {
+                    location: ["main", "__sortable"],
+                    defaultValue: true,
+                },
                 isRich: true,
                 marksType: [{ name: i18n.t("HotspotImages.pos"), key: 'value', format: '[x,y]', default: '50,50', defaultColor: '#222222' }],
             };

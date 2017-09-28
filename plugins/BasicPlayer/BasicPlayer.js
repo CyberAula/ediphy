@@ -11,6 +11,14 @@ export function BasicPlayer(base) {
                 displayName: Dali.i18n.t("BasicPlayer.PluginName"),
                 category: "multimedia",
                 icon: "play_arrow",
+                initialWidth: '480px',
+                initialHeight: "270px",
+                initialWidthSlide: '30%',
+                initialHeightSlide: '30%',
+                aspectRatioButtonConfig: {
+                    location: ["main", "__sortable"],
+                    defaultValue: true,
+                },
             };
         },
         getToolbar: function() {

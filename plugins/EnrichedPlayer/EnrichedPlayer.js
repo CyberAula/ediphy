@@ -12,8 +12,15 @@ export function EnrichedPlayer(base) {
                 isRich: true,
                 displayName: Dali.i18n.t("EnrichedPlayer.PluginName"),
                 category: "multimedia",
-                initialWidth: '30%',
+                initialWidth: '480px',
+                initialHeight: "270px",
+                initialWidthSlide: '30%',
+                initialHeightSlide: '30%',
                 icon: "play_arrow",
+                aspectRatioButtonConfig: {
+                    location: ["main", "__sortable"],
+                    defaultValue: true,
+                },
                 marksType: [{ name: i18n.t("EnrichedPlayer.pos"), key: 'value', format: '[x%]', default: '50%', defaultColor: "#1fc8db" }],
             };
         },
