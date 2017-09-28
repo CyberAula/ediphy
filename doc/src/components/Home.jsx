@@ -14,29 +14,29 @@ export default class Content extends Component {
                 <br/>
                 <Jumbotron>
                     <img src={icon} className="mainLogo" alt=""/>
-                    <h1>Dalí Editor</h1>
+                    <h1><b>Dalí</b> Editor</h1>
                     <h2>e-learning authoring tool</h2>
                 </Jumbotron>
-                <Row>
+                <Row className="tools">
                     <Col xs={12} md={4} className="mainPageBlock">
-                        <h3>Estructura basada en plugins</h3>
-                        <img src={plugin} style={{ width: '40%' }} alt=""/>
+                      <img src={plugin} style={{ width: '40%' }} alt=""/>
+                      <h3>Estructura basada en plugins</h3>
                     </Col>
                     <Col xs={12} md={4} className="mainPageBlock">
-                        <h3>Creado con React y Redux</h3>
-                        <a href="https://facebook.github.io/react/">
-                            <img src={react} style={{ width: '40%' }} alt=""/>
-                        </a>
-                        <a href="http://redux.js.org/docs/introduction/">
-                            <img src={redux} style={{ width: '40%' }} alt=""/>
-                        </a>
+                      <a href="https://facebook.github.io/react/">
+                        <img src={react} style={{ width: '40%' }} alt=""/>
+                      </a>
+                      <a href="http://redux.js.org/docs/introduction/">
+                        <img src={redux} style={{ width: '40%' }} alt=""/>
+                      </a>
+                      <h3>Creado con React y Redux</h3>
                     </Col>
 
                     <Col xs={12} md={4} className="mainPageBlock">
-                        <h3>Visita el proyecto en GitHub</h3>
-                        <a href="https://github.com/ging/dali_editor/">
-                            <img src={git} style={{ width: '40%' }} alt=""/>
-                        </a>
+                      <a href="https://github.com/ging/dali_editor/">
+                          <img src={git} style={{ width: '40%' }} alt=""/>
+                      </a>
+                      <h3>Visita el proyecto en GitHub</h3>
                     </Col>
                 </Row>
             </Grid>
