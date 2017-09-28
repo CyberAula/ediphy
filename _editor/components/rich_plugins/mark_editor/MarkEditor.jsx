@@ -250,11 +250,11 @@ MarkEditor.propTypes = {
     /**
      * Tiempo que hay que tener pulsada la marca antes de moverla
      */
-    time: PropTypes.object.isRequired,
+    time: PropTypes.number.isRequired,
     /**
      * Objeto marca del estado del plugin
      */
-    mark: PropTypes.object.isRequired,
+    mark: PropTypes.string.isRequired,
     /**
      * Base del estado del plugin
      */
