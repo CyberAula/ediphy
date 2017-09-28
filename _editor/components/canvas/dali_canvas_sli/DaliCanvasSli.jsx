@@ -155,7 +155,7 @@ export default class DaliCanvasSli extends Component {
                         {boxes.length === 0 ? (<div className="dragContentHere" style={{backgroundColor: 'transparent', border:0}}>{i18n.t("messages.drag_content")}</div>):(<span></span>)}
                         */}
                     </div>
-                    <ReactResizeDetector handleWidth handleHeight onResize={(e)=>{aspectRatio(this.props.canvasRatio, this.props.fromCV ? 'airlayer_cv' : 'airlayer', 'canvas');
+                    <ReactResizeDetector handleWidth handleHeight onResize={(e)=>{aspectRatio(this.props.canvasRatio, this.props.fromCV ? 'airlayer_cv' : 'airlayer', this.props.fromCV ? 'containedCanvas' : 'canvas');
                     }} />
                 </div>
                 <DaliShortcuts
