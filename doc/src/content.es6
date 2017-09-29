@@ -1,8 +1,9 @@
 ﻿// export const WIKI_BASE_URL = "http://localhost:8081/";
 export const WIKI_BASE_URL = "https://raw.githubusercontent.com/wiki/ging/dali_editor/";
 export const editURL = (src) => {
-
-    return "https://github.com/ging/DALI_EDITOR/wiki/" + src.replace('.md', '') + "/_edit";
+    let split = src.split("/").pop().replace('.md', '');
+    let url = "https://github.com/ging/DALI_EDITOR/wiki/" + split + "/_edit";
+    return url;
 };
 
 export const tree = {
