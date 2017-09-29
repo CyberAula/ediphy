@@ -137,6 +137,7 @@
     "react-addons-create-fragment": "^15.6.0",
     "react-bootstrap": "^0.31.2",
     "react-bootstrap-typeahead": "^2.0.0-alpha.3",
+    "react-datatable-bs": "^1.0.5",
     "react-dom": "^15.4.1",
     "react-dropzone": "^4.1.0",
     "react-redux": "^5.0.6",

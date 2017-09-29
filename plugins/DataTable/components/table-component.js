@@ -1,4 +1,5 @@
 import React from "react";
+import ReactDOM from "react-dom";
 import { DataTable } from 'react-datatable-bs';
 require('react-datatable-bs/css/table-twbs.css');
 
@@ -16,8 +17,9 @@ export default class TableComponent extends React.Component {
         if (!isNaN(options.initialPageLength) && options.pageLengthOptions.indexOf(options.initialPageLength) === -1) {
             options.pageLengthOptions = this.insert(options.initialPageLength, options.pageLengthOptions);
         }
+        let prop = keys.indexOf(options.initialSort) !== -1 ? options.initialSort : (keys && keys.length > 0 ? keys[0] : 0);
         return (
-            <div className="tableContainer">
+            <div className={"tableContainer theme-" + options.theme}>
                 <DataTable
                     keys="name"
                     columns={cols}
@@ -31,7 +33,8 @@ export default class TableComponent extends React.Component {
                     searchLabel={options.searchLabel}
                     searchPlaceholder={options.searchPlaceholder}
                     pageLengthOptions={options.pageLengthOptions}
-                    initialSortBy={{ prop: options.initialSort, order: options.initialOrder } /* { prop: cols[0].title, order: 'descending' }*/}
+                    paginationBottom
+                    initialSortBy={{ prop: prop, order: options.initialOrder } /* { prop: cols[0].title, order: 'descending' }*/}
                 />
             </div>
 
@@ -53,6 +56,11 @@ export default class TableComponent extends React.Component {
         }
         return this.locationOf(element, array, start, pivot);
 
+    }
+    componentDidUpdate() {
+
+    }
+    componentDidMount() {
     }
 
 }

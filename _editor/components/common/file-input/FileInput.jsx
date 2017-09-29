@@ -59,7 +59,7 @@ FileInput.propTypes = {
     /**
      * Cambia el valor del input
      */
-    onChange: PropTypes.string.isRequired,
+    onChange: PropTypes.func.isRequired,
     /**
      * Estilo para el componente
      */

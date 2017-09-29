@@ -25,13 +25,14 @@ export default class Config extends React.Component {
                         <ChartOptions options={this.state.options} optionsChanged={this.optionsChanged} keys={this.state.keys} />
                         }
                     </Col>
-                    <Col lg={12} xs={12}>
+                    <Col lg={12} xs={12} >
                         {!this.state.editing && <div>
                             <h4>{i18n.t("DataTable.header.preview")}</h4><br/>
                             <div style={{ marginRight: '-10px', marginLeft: '0px' }} ref="chartContainer" id="chartContainer">
                                 <TableComponent data={this.state.data} options={this.state.options} key={this.state.key} />
                             </div>
                         </div>}
+                        {!this.state.editing && <div id="previewOverlay"/>}
                     </Col>
 
                 </Row>

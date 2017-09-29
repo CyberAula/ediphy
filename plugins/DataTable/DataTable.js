@@ -159,16 +159,13 @@ export function DataTable(base) {
             };
         },
         getInitialState: function() {
-            let data = [/* ["First column", 1, 0], ["Second column", 0, 1] */];
-            let keys = [];
-            let row = {};
-            for (let i = 0; i < 1; i++) {
-                keys.push(i);
-                row[i] = "";
-            }
-            for (let i = 0; i < 2; i++) {
-                data.push(row);
-            }
+            let data = [{ Name: "John Doe", Age: 16, Country: "USA" },
+                { Name: "Mary Smith", Age: 23, Country: "Canada" },
+                { Name: "Marion  Gilbert", Age: 18, Country: "Australia" },
+                { Name: "Bruce Johnson", Age: 21, Country: "UK" },
+                { Name: "Ronald Armstrong", Age: 31, Country: "Ireland" },
+                { Name: "Brianna Reardown", Age: 37, Country: "Malta" }];
+            let keys = ["Name", "Age", "Country"];
 
             return {
                 data: data,
@@ -183,8 +180,9 @@ export function DataTable(base) {
                     searchPlaceholder: '',
                     noDataLabel: i18n.t("DataTable.options.noDataLabel_txt"),
                     initialPageLength: 5,
-                    initialSort: 0,
+                    initialSort: keys[0] || 0,
                     initialOrder: 'descending',
+                    theme: 'basic',
                 },
             };
         },
