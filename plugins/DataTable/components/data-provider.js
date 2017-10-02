@@ -31,13 +31,16 @@ export default class DataProvider extends React.Component {
             error: false,
         };
     }
-
+    /**
+     * TODO Revisar
+     * */
     confirmButton() {
         let empty = false;
         outerloop:
         for (let i = 0; i < this.state.data.length; i++) {
-            for (let o = 0; o < this.state.data.length; o++) {
-                if(this.state.data[i][o] === "") {
+            for (let o = 0; o < this.state.keys.length; o++) {
+                let k = this.state.keys[o];
+                if(this.state.data[i][k] === "") {
                     let alertComp = (<Alert className="pageModal" show hasHeader closeButton onClose={()=>{this.setState({ alert: null });}}>
                         <span> {i18n.t("DataTable.alert_msg")} </span>
                     </Alert>);
@@ -59,7 +62,6 @@ export default class DataProvider extends React.Component {
         let current = keys[col];
         keys[col - 1] = current;
         keys[col] = left;
-        console.log(keys);
 
         this.setState({ keys: keys });
     }
@@ -165,7 +167,7 @@ export default class DataProvider extends React.Component {
             let currentline = lines[i].split(",");
 
             for (let j = 0; j < headers.length; j++) {
-                obj[headers[j]] = currentline[j];
+                obj[headers[j]] = "" + currentline[j];
             }
             result.push(obj);
         }
@@ -207,24 +209,30 @@ export default class DataProvider extends React.Component {
         let file = files[0];
 
         let reader = new FileReader();
-        reader.onload = () => {
+        reader.onload = function() {
             let data = reader.result;
             if(file.name.split('.').pop() === "csv") {
                 data = this.csvToJSON(data);
             } else if(file.name.split('.').pop() === "json") {
                 data = JSON.parse(data);
+            } else {
+                let alertComp = (<Alert className="pageModal" show hasHeader closeButton onClose={()=>{this.setState({ alert: null });}}>
+                    <span> {i18n.t("DataTable.file_msg")} </span>
+                </Alert>);
+                this.setState({ alert: alertComp });
+                return;
             }
             this.setState({ name: file.name });
             this.validateJson(data);
-        };
-        reader.readAsText(file);
+        }.bind(this);
+        reader.readAsBinaryString(file);
     }
     dataChanged(event) {
         let pos = event.target.name.split(" ");
         let row = pos[0];
         let col = pos[1];
         let data = this.state.data;
-        let newvalue = isNaN(event.target.value) || event.target.value === "" || event.target.value === null ? event.target.value : parseFloat(event.target.value);
+        let newvalue = event.target.value === "" || event.target.value === null ? "" : event.target.value;
         let newRow = {};
         newRow[col] = newvalue;
         data[row] = Object.assign({}, data[row], newRow);
@@ -286,9 +294,7 @@ export default class DataProvider extends React.Component {
                                     {Array.apply(0, Array(this.state.cols)).map((x, i) => {
                                         return(
                                             <th key={i + 1}>
-                                                {/* {i !== 0 ? <i className="material-icons clearCol" onClick={(e)=>{this.colLeft(i);}}>chevron_left</i> : null }*/}
                                                 <i className="material-icons clearCol" onClick={(e)=>{this.deleteCols(i);}}>clear</i>
-                                                {/* {i !== (this.state.keys.length - 1) ? <i className="material-icons clearCol" onClick={(e)=>{this.colRight(i);}}>chevron_right</i> : null }                                                <FormControl type="text" name={i} value={this.state.keys[i]} style={{ margin: '0px' }} onChange={this.keyChanged}/>*/}
                                                 <FormControl type="text" name={i} value={this.state.keys[i]} style={{ margin: '0px' }} onChange={this.keyChanged}/>
                                             </th>
                                         );
@@ -306,7 +312,7 @@ export default class DataProvider extends React.Component {
                                                     <td key={o + 1}>
                                                         {o === 0 ? (<i className="material-icons clearRow" onClick={()=>{this.deleteRows(i);}}>clear</i>) : null}
 
-                                                        <FormControl type="text" name={i + " " + this.state.keys[o]} value={this.state.data[i][this.state.keys[o]]} onChange={this.dataChanged}/>
+                                                        <FormControl type="text" name={i + " " + this.state.keys[o]} value={this.state.data[i][this.state.keys[o]] } onChange={this.dataChanged}/>
 
                                                     </td>
                                                 );

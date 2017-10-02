@@ -211,7 +211,7 @@ export default class MarkCreator extends Component {
                     courseTitle: 'hidden',
                     documentTitle: 'expanded',
                     documentSubTitle: 'hidden',
-                    breadcrumb: "reduced",
+                    breadcrumb: "hidden",
                     pageNumber: "hidden" },
             },
         };

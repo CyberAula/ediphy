@@ -18,6 +18,7 @@ window.Dali = {
     API_Private: api_private(),
     Visor: Visor,
     Scorm: Scorm,
+    Config: Config,
 };
 
 if (window.State) {

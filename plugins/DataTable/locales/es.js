@@ -48,6 +48,7 @@ module.exports = {
         "data_cols": "Columnas",
         "key": "Key",
         "alert_msg": "Rellena todos los campos de la tabla",
+        "file_msg": "Hay un problema con el fichero subido",
         "confirm": "Confirmar",
         "fill_in": "O rellena una tabla",
         "show": "Mostrar",

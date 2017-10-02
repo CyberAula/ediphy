@@ -7,7 +7,7 @@ window.mapsVisor = [];
 export function VirtualTour(base) {
     return {
         getRenderTemplate: function(state, id) {
-            if (!google) {
+            if (!window.google || !navigator.onLine) {
                 return (<div className="dropableRichZone noInternetConnectionBox" style={{ width: '100%', height: '100%' }}>
                     <div className="middleAlign">
                         <i className="material-icons dark">signal_wifi_off</i><br/>

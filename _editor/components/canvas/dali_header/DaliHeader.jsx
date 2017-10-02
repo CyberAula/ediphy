@@ -100,12 +100,19 @@ export default class DaliHeader extends Component {
             }
         }
         if (navItem.id !== 0) {
+            let hide = true;
+            for (let i in currentStatus) {
+                if (currentStatus[i] !== 'hidden') {
+                    hide = false;
+                    break;
+                }
+            }
 
             return (
                 <div className="title" onClick={(e) => {
                     this.props.onBoxSelected(-1);
                     e.stopPropagation(); }}>
-                    <div style={{ backgroundColor: 'transparent', display: (titles.length !== 0) ? 'initial' : 'none' }}>
+                    <div style={{ backgroundColor: 'transparent', display: (!hide && titles.length !== 0) ? 'initial' : 'none' }}>
                         {/* <div className={this.props.showButtons ? "caja selectedTitle selectedBox" : "caja"} > */}
                         <div className={"caja"} >
                             <div className="cab">

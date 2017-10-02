@@ -82,7 +82,7 @@ export function Webpage(base) {
         },
         getInitialState: function() {
             return {
-                url: 'http://apps.thecodepost.org/trex/trex.html',
+                url: 'http://vishub.org',
             };
         },
         getRenderTemplate: function(state) {

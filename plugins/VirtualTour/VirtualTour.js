@@ -7,6 +7,10 @@ require('./_virtualTour.scss');
 window.mapList = [];
 export function VirtualTour(base) {
     return {
+        init: function() {
+            let src = "https://maps.google.com/maps/api/js?libraries=places&key=AIzaSyAOOAHADllUMGULOz5FQu3rIhM0RtwxP7Q";
+            $('<script>').attr('src', src).appendTo('head');
+        },
         getConfig: function() {
             return {
                 name: 'VirtualTour',
@@ -111,8 +115,7 @@ export function VirtualTour(base) {
 
             let id = "map-" + Date.now();
             let marks = state.__marks;
-
-            if (!google || !navigator.onLine) {
+            if (!window.google || !navigator.onLine) {
                 return (<div className="dropableRichZone noInternetConnectionBox" style={{ width: '100%', height: '100%' }}>
                     <div className="middleAlign">
                         <i className="material-icons dark">signal_wifi_off</i><br/>
@@ -163,10 +166,10 @@ export function VirtualTour(base) {
             base.setState(name, value);
         },
         parseRichMarkInput: function(...value) {
-            if (!google || !navigator.onLine) {
+            let state = value[5];
+            if (!window.google || !navigator.onLine || !window.mapList[state.num]) {
                 return '0,0';
             }
-            let state = value[5];
             let clickX = value[0] + 12;
             let clickY = value[1] + 26;
             let latCenter = state.config.lat;
@@ -174,7 +177,7 @@ export function VirtualTour(base) {
             let zoom = state.config.zoom;
             let num = state.num;
 
-            let maps = google.maps;
+            let maps = window.google.maps;
             let map = window.mapList[state.num];
             let topRight = map.getProjection().fromLatLngToPoint(map.getBounds().getNorthEast());
             let bottomLeft = map.getProjection().fromLatLngToPoint(map.getBounds().getSouthWest());
@@ -205,7 +208,7 @@ export function VirtualTour(base) {
             return { isWrong: false, value: value };
         },
         pointerEventsCallback: function(bool, toolbarState) {
-            if (!google || !navigator.onLine) {return;}
+            if (!window.google || !navigator.onLine) {return;}
             if (window.mapList[toolbarState.num || (toolbarState.state ? toolbarState.state.num : 9999)]) {
                 switch(bool) {
                 case 'mouseenter':
