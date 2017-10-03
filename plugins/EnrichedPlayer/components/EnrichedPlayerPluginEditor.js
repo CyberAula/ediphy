@@ -75,7 +75,6 @@ export default class EnrichedPlayerPluginEditor extends React.Component {
 
     render() {
 
-        /* jshint ignore:start */
         let marks = this.props.state.__marks;
 
         let markElements = Object.keys(marks).map((id) =>{
@@ -94,7 +93,7 @@ export default class EnrichedPlayerPluginEditor extends React.Component {
                     </a>
                 </MarkEditor>);
         });
-        /* jshint ignore:start */
+
         return (
             <div ref={player_wrapper => {this.player_wrapper = player_wrapper;}} style={{ width: "100%", height: "100%", pointerEvents: "none" }} className="enriched-player-wrapper">
                 <ReactPlayer
@@ -104,6 +103,7 @@ export default class EnrichedPlayerPluginEditor extends React.Component {
                     width="100%"
                     url={this.props.state.url}
                     playing={this.state.playing}
+                    fileConfig={{ attributes: { poster: Dali.Config.broken_link } }}
                     volume={this.state.volume}
                     onPlay={() => this.setState({ playing: true })}
                     onPause={() => this.setState({ playing: false })}
@@ -129,6 +129,5 @@ export default class EnrichedPlayerPluginEditor extends React.Component {
                     </div>)}
             </div>
         );
-        /* jshint ignore:end */
     }
 }

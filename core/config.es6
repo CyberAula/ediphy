@@ -7,6 +7,7 @@ export default {
     dist_visor_bundle: "dist/visor-bundle.js",
     visor_bundle: "visor-bundle.js",
     image_placeholder: "images/placeholder.png",
+    broken_link: "images/broken_link.png",
     scorm_ejs: "/lib/scorm/scorm_nav.ejs",
     visor_ejs: "./lib/visor/index",
     scorm_zip: "./lib/scorm/scorm.zip",

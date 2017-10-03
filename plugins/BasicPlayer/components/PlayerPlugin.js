@@ -77,6 +77,7 @@ export default class PlayerPlugin extends React.Component {
                     url={this.props.state.url}
                     playing={this.state.playing}
                     volume={this.state.volume}
+                    fileConfig={{ attributes: { poster: Dali.Config.broken_link } }}
                     onPlay={() => this.setState({ playing: true })}
                     onPause={() => this.setState({ playing: false })}
                     onEnded={() => this.setState({ playing: false })}

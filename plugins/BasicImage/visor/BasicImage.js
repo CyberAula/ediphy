@@ -13,7 +13,7 @@ export function BasicImage(base) {
                         onError={(e)=>{
                             console.log(e);
                             e.target.onError = null;
-                            e.target.src = Dali.Config.image_placeholder;
+                            e.target.src = Dali.Config.broken_link;
                         }}
                     />
                 </div>;
