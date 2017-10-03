@@ -41,33 +41,26 @@ export default class ChartOptions extends React.Component {
                     <Form horizontal>
                         <FormGroup>
                             <Col xs={12} sm={3}>
-                                <FormControl.Static>
-                                    {i18n.t("DataTable.show")}
-                                </FormControl.Static>
-                                <Col xs={12} >
-                                    <ToggleSwitch className="mycb"
-                                        size="sm"
-                                        label={i18n.t('DataTable.options.disableFilter')}
-                                        checked={!this.state.disableFilter}
-                                        onChange={()=> this.setState({ disableFilter: !this.state.disableFilter })}/>
-                                    {i18n.t('DataTable.options.disableFilter')}
-                                </Col>
-                                <Col xs={12} >
-                                    <ToggleSwitch className="mycb"
-                                        size="sm"
-                                        label={i18n.t('DataTable.options.disablePagination')}
-                                        checked={!this.state.disablePagination}
-                                        onChange={()=> this.setState({ disablePagination: !this.state.disablePagination })}/>
-                                    {i18n.t('DataTable.options.disablePagination')}
-                                </Col>
-                                <Col xs={12} >
-                                    <ToggleSwitch className="mycb"
-                                        size="sm"
-                                        label={i18n.t('DataTable.options.disableRowChoice')}
-                                        checked={!this.state.disableRowChoice}
-                                        onChange={()=> this.setState({ disableRowChoice: !this.state.disableRowChoice })}/>
-                                    {i18n.t('DataTable.options.disableRowChoice')}</Col><br/><br/><br/><br/>
-
+                                <label htmlFor="">{i18n.t("DataTable.show")}</label><br/>
+                                <ToggleSwitch className="mycb"
+                                    size="sm"
+                                    label={i18n.t('DataTable.options.disableFilter')}
+                                    checked={!this.state.disableFilter}
+                                    onChange={()=> this.setState({ disableFilter: !this.state.disableFilter })}/>
+                                {i18n.t('DataTable.options.disableFilter')}<br/>
+                                <ToggleSwitch className="mycb"
+                                    size="sm"
+                                    label={i18n.t('DataTable.options.disablePagination')}
+                                    checked={!this.state.disablePagination}
+                                    onChange={()=> this.setState({ disablePagination: !this.state.disablePagination })}/>
+                                {i18n.t('DataTable.options.disablePagination')}<br/>
+                                <ToggleSwitch className="mycb"
+                                    size="sm"
+                                    label={i18n.t('DataTable.options.disableRowChoice')}
+                                    checked={!this.state.disableRowChoice}
+                                    onChange={()=> this.setState({ disableRowChoice: !this.state.disableRowChoice })}/>
+                                {i18n.t('DataTable.options.disableRowChoice')} <br/>
+                                <br/>
                                 <label htmlFor="">{i18n.t("DataTable.options.initialPageLength")}</label>
                                 <FormControl type="number" value={this.state.initialPageLength} onChange={(e)=>{if (!isNaN(parseInt(e.target.value, 10))) { this.setState({ initialPageLength: parseInt(e.target.value, 10) });}}}/>
 
@@ -112,8 +105,8 @@ export default class ChartOptions extends React.Component {
                                 </FormControl>
 
                             </Col>
-                            <Col xs={12} sm={6}>
-                                <label style={{ fontWeight: 'bold', fontSize: '16px' }}>{i18n.t("DataTable.options.labels")}</label>
+                            <Col xs={12} sm={6} id="thirdCol" >
+                                <label>{i18n.t("DataTable.options.labels")}</label>
                                 <div style={{ display: this.state.disableRowChoice ? 'none' : 'block' }}>
                                     <label htmlFor="">{i18n.t("DataTable.options.pageSizeLabel")}</label>
                                     <FormControl type="text" value={this.state.pageSizeLabel} onChange={(e)=>{this.setState({ pageSizeLabel: e.target.value });}}/>

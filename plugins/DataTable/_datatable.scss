@@ -71,6 +71,23 @@ $fa-font-path:"../../node_modules/font-awesome/fonts";
         //pointer-events: none;
     }
 
+    @media (min-width: 576px) {
+        #thirdCol {
+            padding-left: 25px;
+            padding-right: 25px;
+
+        }
+    }
+
+
+
+
+
+
+
+
+
+
     .tableContainer {
         * {
             border-radius: 0px;

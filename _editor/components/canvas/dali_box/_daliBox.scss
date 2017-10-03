@@ -108,7 +108,8 @@
 } */
 
 .selectedBox {
-    background-color: #eeeeee !important;
+    //background-color: #eeeeee !important;
+    background-color: rgba(27,177,188,0.1) !important;
     border: 1px dashed $blueprimary !important;
     color: $fondo !important;
 }
