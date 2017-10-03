@@ -37,7 +37,9 @@ export default class DaliHeader extends Component {
                     if (this.props.toolbars[id].state && this.props.toolbars[id].state.__marks) {
                         let at = '@';
                         for (let mark in this.props.toolbars[id].state.__marks) {
-                            markName += this.props.toolbars[id].state.__marks[mark].title + ', ';
+                            if (this.props.toolbars[id].state.__marks[mark].connection === this.props.containedView.id) {
+                                markName += this.props.toolbars[id].state.__marks[mark].title + ', ';
+                            }
                         }
                         markName = markName.slice(0, markName.length - 2) + " " + at + " ";
 
