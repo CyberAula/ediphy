@@ -43,7 +43,7 @@ export default class SearchBox extends React.Component {
         }
     }
     componentDidMount() {
-        if(!google || !navigator.onLine) {
+        if(!window.google || !navigator.onLine) {
             return;
         }
         let input = ReactDOM.findDOMNode(this.refs["input-" + this.props.id]);
@@ -53,6 +53,6 @@ export default class SearchBox extends React.Component {
     }
 
     componentWillUnmount() {
-        google.maps.event.removeListener(this.searchBoxListener);
+        window.google.maps.event.removeListener(this.searchBoxListener);
     }
 }

@@ -33,8 +33,8 @@ export default class Map extends React.Component {
                         scrollwheel: true,
                         gestureHandling: 'greedy',
                         zoomControlOptions: this.state.controls ? {
-                            position: google.maps.ControlPosition.RIGHT_CENTER,
-                            style: google.maps.ZoomControlStyle.SMALL,
+                            position: window.google.maps.ControlPosition.RIGHT_CENTER,
+                            style: window.google.maps.ZoomControlStyle.SMALL,
                         } : null,
                     }}
                     onChildMouseEnter={() => {let bool = findParentBySelector(ReactDOM.findDOMNode(this), '.pointerEventsEnabled'); this.setState({ draggable: false, disableDoubleClickZoom: true, controls: bool });}}

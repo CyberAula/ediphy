@@ -1,4 +1,6 @@
 import React from 'react';
+import i18n from 'i18next';
+
 export function BasicImage(base) {
     return {
         getConfig: function() {
@@ -99,7 +101,22 @@ export function BasicImage(base) {
             };
         },
         getRenderTemplate: function(state) {
-            return (<div style={{ width: '100%', margin: '0px', height: '100%' }} ><img onClick={()=>{$dali$.showPreview();}} className="basicImageClass" style={{ width: '100%', height: '100%' }} src={state.url} /></div>);
+            return (<div style={{ width: '100%', margin: '0px', height: '100%' }} >
+                <img onClick={()=>{$dali$.showPreview();}} ref="img"
+                    className="basicImageClass"
+                    style={{ width: '100%', height: '100%' }}
+                    src={state.url}
+                    onError={(e)=>{
+                        e.target.onError = null;
+                        e.target.src = Dali.Config.image_placeholder;
+                    }}/>
+                <div className="dropableRichZone noInternetConnectionBox" style={{ display: 'none', width: '100%', height: '100%' }}>
+                    <div className="middleAlign">
+                        <i className="material-icons dark">signal_wifi_off</i><br/>
+                        {i18n.t('messages.no_internet')}
+                    </div>
+                </div>
+            </div>);
 
         },
         handleToolbar: function(name, value) {

@@ -82,6 +82,10 @@ export default class PlayerPlugin extends React.Component {
                     onEnded={() => this.setState({ playing: false })}
                     onProgress={this.onProgress.bind(this)}
                     onDuration={duration => this.setState({ duration })}
+                    onError={(e)=>{
+                        e.target.onError = null;
+                        e.target.src = Dali.Config.image_placeholder;
+                    }}
                 />
                 {(this.state.controls) && (
                     <div className="player-media-controls">

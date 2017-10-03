@@ -246,7 +246,7 @@ MarkEditor.propTypes = {
     /**
      * Objeto de estilo CSS
      */
-    style: PropTypes.object.isRequired,
+    style: PropTypes.object,
     /**
      * Tiempo que hay que tener pulsada la marca antes de moverla
      */

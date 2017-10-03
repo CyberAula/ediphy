@@ -87,10 +87,16 @@ export default class HeaderVisor extends Component {
                 }
             }
         }
-
+        let hide = true;
+        for (let i in currentStatus) {
+            if (currentStatus[i] !== 'hidden') {
+                hide = false;
+                break;
+            }
+        }
         return (
             <div className="title">
-                <div style={{ backgroundColor: 'white', display: 'initial' }}>
+                <div style={{ backgroundColor: 'white', display: hide ? 'none' : 'initial' }}>
                     <div className="caja">
                         <div className="cab"
                             style={{ backgroundColor: 'transparent', visibility: (currentStatus === 'hidden') ? 'hidden' : 'inherit' }}>
