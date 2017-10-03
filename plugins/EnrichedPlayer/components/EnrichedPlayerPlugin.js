@@ -142,7 +142,6 @@ export default class EnrichedPlayerPlugin extends React.Component {
                 </OverlayTrigger>);
         });
 
-        /* jshint ignore:start */
         return (
             <div ref={player_wrapper => {this.player_wrapper = player_wrapper;}} style={{ width: "100%", height: "100%" }} className="enriched-player-wrapper">
                 <ReactPlayer
@@ -153,6 +152,7 @@ export default class EnrichedPlayerPlugin extends React.Component {
                     url={this.props.state.url}
                     playing={this.state.playing}
                     volume={this.state.volume}
+                    fileConfig={{ attributes: { poster: Dali.Config.broken_link } }}
                     onPlay={() => this.setState({ playing: true })}
                     onPause={() => this.setState({ playing: false })}
                     onEnded={() => this.setState({ playing: false })}

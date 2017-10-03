@@ -108,7 +108,7 @@ export function BasicImage(base) {
                     src={state.url}
                     onError={(e)=>{
                         e.target.onError = null;
-                        e.target.src = Dali.Config.image_placeholder;
+                        e.target.src = Dali.Config.broken_link;
                     }}/>
                 <div className="dropableRichZone noInternetConnectionBox" style={{ display: 'none', width: '100%', height: '100%' }}>
                     <div className="middleAlign">
