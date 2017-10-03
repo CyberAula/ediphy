@@ -39,6 +39,9 @@
     "moduleDirectories": [
       "node_modules"
     ],
+    "moduleNameMapper": {
+      "\\.(ejs)$": "<rootDir>/core/api.es6"
+    },
     "testMatch": [
       "**/?(*.)(*test).js"
     ]
