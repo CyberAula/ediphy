@@ -101,9 +101,9 @@ export default class EnrichedPlayerPlugin extends React.Component {
     }
 
     onProgress(state) {
-        //if (!this.state.seeking) {
-            this.setState(state);
-        //}
+        // if (!this.state.seeking) {
+        this.setState(state);
+        // }
 
     }
 

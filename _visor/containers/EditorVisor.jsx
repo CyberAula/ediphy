@@ -411,19 +411,18 @@ export default class Visor extends Component {
     }
 
     /**
-     *
+     * Provisional Method TODO: Verify if needed
      * @param triggered_event
      * @param richStateselement
      */
-    clearStateElements(triggered_event, richStateselement){
-        if(richStateselement[triggered_event.id] !== undefined && parseFloat(triggered_event.value) > parseFloat(richStateselement[triggered_event.id]) + 1 ){
-            let newElementState = Object.assign({},richStateselement);
+    clearStateElements(triggered_event, richStateselement) {
+        if(richStateselement[triggered_event.id] !== undefined && parseFloat(triggered_event.value) > parseFloat(richStateselement[triggered_event.id]) + 1) {
+            let newElementState = Object.assign({}, richStateselement);
             newElementState[triggered_event.id] = undefined;
             return newElementState;
-        } else {
-            return richStateselement;
         }
 
+        return richStateselement;
     }
 
     /**
@@ -600,12 +599,11 @@ export default class Visor extends Component {
      * @param richElementsState
      *
      */
-    isNotInStateElement(triggered_event, richElementsState){
-        if(richElementsState[triggered_event.id] === triggered_event.value){
+    isNotInStateElement(triggered_event, richElementsState) {
+        if(richElementsState[triggered_event.id] === triggered_event.value) {
             return false;
-        } else{
-            return true;
         }
+        return true;
     }
 
     /**
