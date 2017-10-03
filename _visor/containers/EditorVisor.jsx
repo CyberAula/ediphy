@@ -63,24 +63,27 @@ export default class Visor extends Component {
                     triggered_marks = this.putMarksOnHold(triggered_marks, triggered_event);
                     // If mark is storable (if make any sense to store to render something different like a video) do it else, don't
                     if(triggered_event.stateElement) {
-                        let new_mark = {};
-                        new_mark[triggered_event.id] = triggered_event.value;
-                        this.setState({
-                            triggeredMarks: triggered_marks,
-                            richElementState: Object.assign({}, richElementsState, new_mark),
-                        });
+                        if(this.isNotInStateElement(triggered_event, this.state.richElementState)) {
+                            let new_mark = {};
+                            new_mark[triggered_event.id] = triggered_event.value;
+                            this.setState({
+                                triggeredMarks: triggered_marks,
+                                richElementState: Object.assign({}, richElementsState, new_mark),
+                            });
+                        }
+
                     }else{
                         triggered_marks.forEach((mark, index)=>{
                             if(mark.id === isTriggerable.id) {
                                 triggered_marks[index] = isTriggerable;
                             }
                         });
-
                         this.setState({ triggeredMarks: triggered_marks });
 
                     }
                 }
             } else if(triggered_event.stateElement) {
+
                 let backupElementStates = this.state.backupElementStates;
                 let new_mark = {};
                 new_mark[triggered_event.id] = triggered_event.value;
@@ -101,7 +104,7 @@ export default class Visor extends Component {
         if (this.state.currentView.length > 1 && this.state.currentView.filter((i, v, a) => i.indexOf("pa-") !== -1).length > 1) {
             this.setState({ currentView: [this.state.currentView[this.state.currentView.length - 1]] });
         }
-
+        console.log("editorvisorUpdates");
         // Mark triggering mechanism
         if(nextState.triggeredMarks.length !== 0 && this.returnTriggereableMark(nextState.triggeredMarks)) {
             let newMark = this.returnTriggereableMark(nextState.triggeredMarks);
@@ -408,6 +411,22 @@ export default class Visor extends Component {
     }
 
     /**
+     *
+     * @param triggered_event
+     * @param richStateselement
+     */
+    clearStateElements(triggered_event, richStateselement){
+        if(richStateselement[triggered_event.id] !== undefined && parseFloat(triggered_event.value) > parseFloat(richStateselement[triggered_event.id]) + 1 ){
+            let newElementState = Object.assign({},richStateselement);
+            newElementState[triggered_event.id] = undefined;
+            return newElementState;
+        } else {
+            return richStateselement;
+        }
+
+    }
+
+    /**
      * Get all marks triggered in the same event
      * @param marks
      * @param triggered_event
@@ -573,6 +592,20 @@ export default class Visor extends Component {
         let nextState = backup;
         nextState[this.state.triggeredMarks[0].box_id] = current[this.state.triggeredMarks[0].box_id];
         return nextState;
+    }
+
+    /**
+     * Detects if element is not already in state Element so its already triggered
+     * @param triggered_event
+     * @param richElementsState
+     *
+     */
+    isNotInStateElement(triggered_event, richElementsState){
+        if(richElementsState[triggered_event.id] === triggered_event.value){
+            return false;
+        } else{
+            return true;
+        }
     }
 
     /**
