@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { OverlayTrigger, Popover, Breadcrumb, BreadcrumbItem } from 'react-bootstrap';
+import { Breadcrumb, BreadcrumbItem } from 'react-bootstrap';
 import i18n from 'i18next';
-import { isSortableBox, isCanvasElement, isContainedView } from '../../../../common/utils';
 import './_daliHeader.scss';
+import CVInfo from "./CVInfo";
+
 /**
  *  DaliHeaderComponent
  *  It shows the current page's title
@@ -26,39 +27,7 @@ export default class DaliHeader extends Component {
             subTitle = navItem.header.elementContent.documentSubTitle !== "" && (navItem.header.elementContent.documentSubTitle !== i18n.t('subtitle')) ? navItem.header.elementContent.documentSubTitle : i18n.t('subtitle');
             pagenumber = navItem.header.elementContent.numPage !== "" && (navItem.header.elementContent.numPage !== navItem.unitNumber) ? navItem.header.elementContent.numPage : navItem.unitNumber;
         }
-        let cvList = [];
-        if (this.props.containedView) {
-            for (let id in this.props.containedView.parent) {
-                // let par = this.props.containedView.parent[id];
-                if (this.props.toolbars[id]) {
-                    let el = this.props.boxes[id];
-                    let from = "unknown";
-                    let markName = "";
-                    if (this.props.toolbars[id].state && this.props.toolbars[id].state.__marks) {
-                        let at = '@';
-                        for (let mark in this.props.toolbars[id].state.__marks) {
-                            if (this.props.toolbars[id].state.__marks[mark].connection === this.props.containedView.id) {
-                                markName += this.props.toolbars[id].state.__marks[mark].title + ', ';
-                            }
-                        }
-                        markName = markName.slice(0, markName.length - 2) + " " + at + " ";
 
-                    }
-
-                    if (isSortableBox(el.parent)) {
-                        let origin = this.props.boxes[el.parent].parent;
-                        from = isContainedView(origin) ? this.props.containedViews[origin].name : this.props.navItems[origin].name;
-                    } else if (isCanvasElement(el.parent)) {
-                        from = isContainedView(el.parent) ? this.props.containedViews[el.parent].name : this.props.navItems[el.parent].name;
-                    } else {
-                        break;
-                    }
-                    cvList.push(<span className="cvList" key={id}>{markName}<b>{this.props.toolbars[id].config.displayName}</b> { ' (' + from + ')'}</span>);
-                    // return this.props.toolbars[parent].config.displayName + " from " + this.props.navItems[this.props.boxes[parent]] || this.props.containedViews[this.props.boxes[parent]] || this.props.boxes[parent];
-
-                }
-            }
-        }
         let content;
         let unidad = "";
         // breadcrumb
@@ -127,12 +96,8 @@ export default class DaliHeader extends Component {
                                     {/* Course title*/}
                                     <h1 style={{ display: (currentStatus.courseTitle === 'hidden') ? 'none' : 'block' }}>{this.props.courseTitle}</h1>
                                     {/* NavItem title */}
-                                    <h2 style={{ display: (currentStatus.documentTitle === 'hidden') ? 'none' : 'block' }}>{docTitle}{this.props.containedView !== 0 ? (<OverlayTrigger placement="bottom" overlay={
-                                        <Popover className="cvPopover" id="popover-positioned-bottom" title={ i18n.t("contained_view_popover") }>
-                                            {cvList && cvList.length > 0 && cvList.map(it => { return it; }) }
-                                            {!cvList || cvList.length === 0 ? (<span className="cvList">{i18n.t("contained_view_nowhere")}</span>) : null}
-                                        </Popover>
-                                    }><i className="material-icons infoIcon" >info</i></OverlayTrigger>) : null }</h2>
+                                    <h2 style={{ display: (currentStatus.documentTitle === 'hidden') ? 'none' : 'block' }}>{docTitle}{this.props.containedView !== 0 ? (
+                                        <CVInfo containedViews={this.props.containedViews} navItems={this.props.navItems} containedView={this.props.containedView} toolbars={this.props.toolbars} boxes={this.props.boxes}/>) : null }</h2>
                                     {/* NavItem subtitle */}
                                     <h3 style={{ display: (currentStatus.documentSubTitle === 'hidden') ? 'none' : 'block' }}>{ subTitle }</h3>
 
