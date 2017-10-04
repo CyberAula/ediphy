@@ -1,4 +1,4 @@
-@import "../../../../sass/_variables.scss";
+@import "../../../../sass/general/_variables.scss";
 
 .daliBoxSortableContainer{
     min-height: 70px;
@@ -42,6 +42,6 @@
     line-height: 100px;
 }
 .sortableContainerBox {
-  border: 1px solid transparent;
+  border: $boxborderwidth solid transparent;
 }
 
