@@ -135,8 +135,8 @@ export function updateBox(id, content, toolbar, state) {
     return { type: UPDATE_BOX, payload: { id, content, toolbar, state } };
 }
 
-export function deleteBox(id, parent, container, children) {
-    return { type: DELETE_BOX, payload: { id, parent, container, children } };
+export function deleteBox(id, parent, container, children, cvs) {
+    return { type: DELETE_BOX, payload: { id, parent, container, children, cvs } };
 }
 
 export function reorderSortableContainer(ids, parent) {
@@ -159,8 +159,8 @@ export function resizeSortableContainer(id, parent, height) {
     return { type: RESIZE_SORTABLE_CONTAINER, payload: { id, parent, height } };
 }
 
-export function deleteSortableContainer(id, parent, children) {
-    return { type: DELETE_SORTABLE_CONTAINER, payload: { id, parent, children } };
+export function deleteSortableContainer(id, parent, children, cvs) {
+    return { type: DELETE_SORTABLE_CONTAINER, payload: { id, parent, children, cvs } };
 }
 
 export function changeSortableProps(id, parent, prop, value) {

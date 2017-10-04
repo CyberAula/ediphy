@@ -99,7 +99,6 @@ export default class RichMarksModal extends Component {
         // }
         let pluginType = this.props.pluginToolbar && this.props.pluginToolbar.config ? this.props.pluginToolbar.config.displayName : 'Plugin';
         return (
-            /* jshint ignore:start */
             <Modal className="pageModal richMarksModal" backdrop bsSize="large" show={this.props.visible}>
                 <Modal.Header>
                     <Modal.Title><i style={{ fontSize: '18px' }} className="material-icons">room</i> {(current ? i18n.t("marks.edit_mark_to") : i18n.t("marks.add_mark_to")) + pluginType }</Modal.Title>
@@ -320,7 +319,6 @@ export default class RichMarksModal extends Component {
                     <span> {this.state.alertMsg} </span>
                 </Alert>
             </Modal>
-            /* jshint ignore:end */
         );
 
     }

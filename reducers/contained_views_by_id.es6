@@ -30,7 +30,10 @@ function singleContainedViewReducer(state = {}, action = {}) {
         return changeProp(state, "parent", previousParents);
     case DELETE_BOX:
         // TODO: Borrar parent boxes borradas
-        return changeProp(state, "boxes", state.boxes.filter(id => action.payload.id !== id));
+        let modState = Object.assign({}, state);
+        console.log(modState);
+        delete modState.parent[action.payload.id];
+        return changeProp(modState, "boxes", modState.boxes.filter(id => action.payload.id !== id));
     case TOGGLE_TITLE_MODE:
         return changeProp(state, "header", action.payload.titles);
     case CHANGE_CONTAINED_VIEW_NAME:
@@ -92,41 +95,52 @@ export default function(state = {}, action = {}) {
             return changeProp(state, action.payload.mark.connection.id, action.payload.mark.connection);
         }
         return state;
-        /*  case DELETE_BOX:
-            let stateWithViewsDeleted = deleteProps(state, action.payload.childrenViews);
-            if (isContainedView(action.payload.parent)) {
-                stateWithViewsDeleted = changeProp(
-                    stateWithViewsDeleted,
-                    action.payload.parent,
-                    singleContainedViewReducer(stateWithViewsDeleted[action.payload.parent], action));
-            }
-            return stateWithViewsDeleted;*/
+    case DELETE_BOX:
+        let modState = Object.assign({}, state);
+        // Delete parent reference for contained views that linked to the deleted box
+        for (let cv in action.payload.cvs) {
+            delete modState[action.payload.cvs[cv]].parent[action.payload.id];
+        }
+        // If the deleted box's parent is a contained view, delete it from the boxes array
+        if (isContainedView(action.payload.parent)) {
+            modState = changeProp(
+                modState,
+                action.payload.parent,
+                singleContainedViewReducer(modState[action.payload.parent], action));
+        }
+        return modState;
     case CHANGE_CONTAINED_VIEW_NAME:
         return changeProp(state, action.payload.id, singleContainedViewReducer(state[action.payload.id], action));
     case DELETE_CONTAINED_VIEW:
         return deleteProps(state, action.payload.ids);
 
-        /* case DELETE_SORTABLE_CONTAINER:
-            let item = findNavItemContainingBox(state,action.payload.parent);
-            if(item) {
-                if(item.extraFiles.length !== 0) {
-                    return Object.assign({}, state,
-                                    Object.assign({},
-                                        {
-                                            [findNavItemContainingBox(state, action.payload.parent).id]:
-                                            Object.assign(
-                                                {},
-                                                findNavItemContainingBox(state, action.payload.parent),
-                                                {extraFiles: {}
-                                                }
-                                            )
-                                        }
-                                    )
-                        );
-                }
+    case DELETE_SORTABLE_CONTAINER:
+        /* let item = findNavItemContainingBox(state,action.payload.parent);
+        if(item) {
+            if(item.extraFiles.length !== 0) {
+                return Object.assign({}, state,
+                                Object.assign({},
+                                    {
+                                        [findNavItemContainingBox(state, action.payload.parent).id]:
+                                        Object.assign(
+                                            {},
+                                            findNavItemContainingBox(state, action.payload.parent),
+                                            {extraFiles: {}
+                                            }
+                                        )
+                                    }
+                                )
+                    );
             }
-            return state;*/
-        // return deleteProps(state, action.payload.childrenViews);
+        }*/
+        let nState = Object.assign({}, state);
+        for (let cv in action.payload.cvs) {
+            for (let b in action.payload.cvs[cv]) {
+                delete nState[cv].parent[action.payload.cvs[cv][b]];
+            }
+        }
+        return nState;
+    // return deleteProps(state, action.payload.childrenViews);
     case TOGGLE_TITLE_MODE:
         if (isContainedView(action.payload.id)) {
             return changeProp(state, action.payload.id, singleContainedViewReducer(state[action.payload.id], action));
