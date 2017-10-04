@@ -264,11 +264,11 @@ class DaliApp extends Component {
                                 onSortableContainerResized={(id, parent, height) => this.dispatchAndSetState(resizeSortableContainer(id, parent, height))}
                                 onSortableContainerDeleted={(id, parent) => {
                                     let descBoxes = this.getDescendantBoxesFromContainer(boxes[parent], id);
-                                    let cvs = {};
-                                    for (let b in descBoxes){
-                                        let box = boxes[descBoxes[b]]
+                                    let cvs = { };
+                                    for (let b in descBoxes) {
+                                        let box = boxes[descBoxes[b]];
                                         for (let cv in box.containedViews) {
-                                            if (!cvs[box.containedViews[cv]] ){
+                                            if (!cvs[box.containedViews[cv]]) {
                                                 cvs[box.containedViews[cv]] = [box.id];
                                             } else if (cvs[containedViews[cv]].indexOf(box.id) === -1) {
                                                 cvs[box.containedViews[cv]].push(box.id);
@@ -279,7 +279,7 @@ class DaliApp extends Component {
                                 }}
                                 onSortableContainerReordered={(ids, parent) => this.dispatchAndSetState(reorderSortableContainer(ids, parent))}
                                 onBoxDropped={(id, row, col) => this.dispatchAndSetState(dropBox(id, row, col))}
-                                onBoxDeleted={(id, parent, container)=> {let bx = this.getDescendantBoxes(boxes[id]); this.dispatchAndSetState(deleteBox(id, parent, container, bx , boxes[id].containedViews/* , this.getDescendantContainedViews(boxes[id])*/))}}
+                                onBoxDeleted={(id, parent, container)=> {let bx = this.getDescendantBoxes(boxes[id]); this.dispatchAndSetState(deleteBox(id, parent, container, bx, boxes[id].containedViews /* , this.getDescendantContainedViews(boxes[id])*/));}}
                                 onContainedViewSelected={id => this.dispatchAndSetState(selectContainedView(id))}
                                 onVerticallyAlignBox={(id, verticalAlign)=>this.dispatchAndSetState(verticallyAlignBox(id, verticalAlign))}
                                 onUnitNumberChanged={(id, value) => this.dispatchAndSetState(changeUnitNumber(id, value))}
@@ -324,10 +324,10 @@ class DaliApp extends Component {
                                 onSortableContainerDeleted={(id, parent) => {
                                     let descBoxes = this.getDescendantBoxesFromContainer(boxes[parent], id);
                                     let cvs = {};
-                                    for (let b in descBoxes){
+                                    for (let b in descBoxes) {
                                         let box = boxes[descBoxes[b]];
                                         for (let cv in box.containedViews) {
-                                            if (!cvs[box.containedViews[cv]] ){
+                                            if (!cvs[box.containedViews[cv]]) {
                                                 cvs[box.containedViews[cv]] = [box.id];
                                             } else if (cvs[containedViews[cv]].indexOf(box.id) === -1) {
                                                 cvs[box.containedViews[cv]].push(box.id);
@@ -335,9 +335,10 @@ class DaliApp extends Component {
                                         }
                                     }
                                     this.dispatchAndSetState(deleteSortableContainer(id, parent, descBoxes, cvs/* , this.getDescendantContainedViewsFromContainer(boxes[parent], id)*/));
-                                }}                                onSortableContainerReordered={(ids, parent) => this.dispatchAndSetState(reorderSortableContainer(ids, parent))}
+                                }}
+                                onSortableContainerReordered={(ids, parent) => this.dispatchAndSetState(reorderSortableContainer(ids, parent))}
                                 onBoxDropped={(id, row, col) => this.dispatchAndSetState(dropBox(id, row, col))}
-                                onBoxDeleted={(id, parent, container)=> {let bx = this.getDescendantBoxes(boxes[id]); this.dispatchAndSetState(deleteBox(id, parent, container, bx, boxes[id].containedViews/* , this.getDescendantContainedViews(boxes[id])*/))}}
+                                onBoxDeleted={(id, parent, container)=> {let bx = this.getDescendantBoxes(boxes[id]); this.dispatchAndSetState(deleteBox(id, parent, container, bx, boxes[id].containedViews /* , this.getDescendantContainedViews(boxes[id])*/));}}
                                 onMarkCreatorToggled={(id) => this.setState({ markCreatorVisible: id })}
                                 onVerticallyAlignBox={(id, verticalAlign)=>this.dispatchAndSetState(verticallyAlignBox(id, verticalAlign))}
                                 onTextEditorToggled={(caller, value) => this.dispatchAndSetState(toggleTextEditor(caller, value))}
@@ -431,11 +432,11 @@ class DaliApp extends Component {
                     onSortableContainerResized={(id, parent, height) => this.dispatchAndSetState(resizeSortableContainer(id, parent, height))}
                     onSortableContainerDeleted={(id, parent) => {
                         let descBoxes = this.getDescendantBoxesFromContainer(boxes[parent], id);
-                        let cvs = {};
-                        for (let b in descBoxes){
+                        let cvs = { };
+                        for (let b in descBoxes) {
                             let box = boxes[descBoxes[b]];
                             for (let cv in box.containedViews) {
-                                if (!cvs[box.containedViews[cv]] ){
+                                if (!cvs[box.containedViews[cv]]) {
                                     cvs[box.containedViews[cv]] = [box.id];
                                 } else if (cvs[containedViews[cv]].indexOf(box.id) === -1) {
                                     cvs[box.containedViews[cv]].push(box.id);
@@ -443,10 +444,11 @@ class DaliApp extends Component {
                             }
                         }
                         this.dispatchAndSetState(deleteSortableContainer(id, parent, descBoxes, cvs/* , this.getDescendantContainedViewsFromContainer(boxes[parent], id)*/));
-                    }}                      onSortablePropsChanged={(id, parent, prop, value) => this.dispatchAndSetState(changeSortableProps(id, parent, prop, value))}
+                    }}
+                    onSortablePropsChanged={(id, parent, prop, value) => this.dispatchAndSetState(changeSortableProps(id, parent, prop, value))}
                     onToolbarUpdated={(id, tab, accordion, name, value) => this.dispatchAndSetState(updateToolbar(id, tab, accordion, name, value))}
                     onBoxDuplicated={(id, parent, container)=> this.dispatchAndSetState(duplicateBox(id, parent, container, this.getDescendantBoxes(boxes[id]), this.getDuplicatedBoxesIds(this.getDescendantBoxes(boxes[id])), Date.now() - 1))}
-                    onBoxDeleted={(id, parent, container)=> {let bx = this.getDescendantBoxes(boxes[id]); this.dispatchAndSetState(deleteBox(id, parent, container, bx, boxes[id].containedViews/* , this.getDescendantContainedViews(boxes[id])*/))}}
+                    onBoxDeleted={(id, parent, container)=> {let bx = this.getDescendantBoxes(boxes[id]); this.dispatchAndSetState(deleteBox(id, parent, container, bx, boxes[id].containedViews /* , this.getDescendantContainedViews(boxes[id])*/));}}
                     onXMLEditorToggled={() => this.setState({ xmlEditorVisible: !this.state.xmlEditorVisible })}
                     onRichMarksModalToggled={() => {
                         this.setState({ richMarksVisible: !this.state.richMarksVisible });
@@ -837,7 +839,6 @@ class DaliApp extends Component {
 
         return selected;
     }
-
 
     /**
      * Get descendants of duplicated boxes

@@ -66,7 +66,7 @@
     "esdoc-publish-markdown-plugin": "^1.0.0",
     "esdoc-react-plugin": "^1.0.0",
     "esdoc-standard-plugin": "^1.0.0",
-    "eslint": "^4.3.0",
+    "eslint": "^4.8.0",
     "eslint-config-react": "^1.1.7",
     "eslint-loader": "^1.9.0",
     "eslint-plugin-babel": "^4.1.2",
