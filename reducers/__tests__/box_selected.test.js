@@ -119,14 +119,14 @@ describe('box_selected reducer', () => {
         test('return the present box', () => {
             let randomBox = reducerHelper.getBox();
             reducerHelper.call({ type: IMPORT_STATE, payload: { present: { boxSelected: randomBox } } });
-            expect(reducerHelper.state).toEqual(randomBox);
+            expect(reducerHelper.state).toEqual(-1);
         });
 
         test('return the current state', () => {
             let randomBox = reducerHelper.getBox();
             reducerHelper.set(randomBox);
             reducerHelper.call({ type: IMPORT_STATE, payload: { present: {} } });
-            expect(reducerHelper.state).toEqual(randomBox);
+            expect(reducerHelper.state).toEqual(-1);
         });
     });
 
