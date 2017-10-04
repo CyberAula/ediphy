@@ -36,7 +36,6 @@ export default class DaliBox extends Component {
 
         let cornerSize = 15;
         let box = this.props.boxes[this.props.id];
-
         let toolbar = this.props.toolbars[this.props.id];
         let vis = this.props.boxSelected === this.props.id;
         let style = {

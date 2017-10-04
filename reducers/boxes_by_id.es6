@@ -116,7 +116,7 @@ function boxReducer(state = {}, action = {}) {
             ]
         );
     case ADD_RICH_MARK:
-        return changeProp(state, "containedViews", [...state.containedViews, action.payload.mark.connection.id]);
+        return changeProp(state, "containedViews", [...state.containedViews, action.payload.mark.connection.id || action.payload.mark.connection]);
     case CHANGE_COLS:
         if (action.payload.parent === state.id) {
             return changeProp(state, "sortableContainers", sortableContainersReducer(state.sortableContainers, action));
@@ -342,7 +342,7 @@ export default function(state = {}, action = {}) {
     case ADD_RICH_MARK:
         // If rich mark is connected to a new contained view, mark.connection will include this information;
         // otherwise, it's just the id/url and we're not interested
-        if (action.payload.mark.connection.id) {
+        if (action.payload.mark.connection.id || isContainedView(action.payload.mark.connection)) {
             return changeProp(state, action.payload.parent, boxReducer(state[action.payload.parent], action));
         }
         return state;

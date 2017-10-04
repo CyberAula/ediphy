@@ -52,7 +52,6 @@ export default class PluginToolbar extends Component {
         // when no plugin selected, but new navitem
         if (this.props.boxSelected === -1 && isCanvasElement(this.props.navItemSelected, Dali.Config.sections_have_content)) {
             let toolbar = this.props.toolbars[this.props.navItemSelected];
-
             return (
                 <div id="wrap"
                     className="wrapper"
