@@ -15,7 +15,7 @@ export default {
     export_url: "/dali_documents/",
     import_url: "/dali_documents/",
     search_vish_url: "http://vishub.org/apis/search/",
-    upload_vish_url: "http://127.0.0.1:8081/upload",
+    upload_vish_url: "/documents.json",
     // OPTIONS
     show_numbers_before_navitems: false,
     api_editor_url_change: true,
