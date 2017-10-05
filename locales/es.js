@@ -137,6 +137,7 @@ let es = {
         "Importing": "Se está importando...",
         "INDEX": "ÍNDICE",
         "Indice": "Índice",
+        "insert_plugin": "Insertar plugin",
         "currentLang": "es",
         "marks": {
             "add_mark": "Añadir marca",
@@ -217,6 +218,7 @@ let es = {
             "Next": "Siguiente",
             "Last": "Fin",
         },
+        "plugin_config": "Configuración del plugin",
         "Position": "Posicionamiento",
         "Preview": "Previsualizar",
         "Properties": "Propiedades",
