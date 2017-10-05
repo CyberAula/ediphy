@@ -361,14 +361,11 @@ export function uploadVishResourceAsync(query) {
                     dispatch(setBusy(true, i18n.t("Uploading")));
 
                     let form = new FormData();
-                    form.append("title", query.title);
-                    form.append("description", query.description);
-                    form.append("file", query.file);
-
-                    let data = {
-                        authenticity_token: dali_editor_params.authenticity_token,
-                        dali_document: { user: { name: dali_editor_params.name, id: dali_editor_params.id }, json: state },
-                    };
+                    form.append("documnet[title]", query.title);
+                    form.append("document[description]", "Uploaded using Dali Editor");
+                    form.append("document[owner_id]", dali_editor_params.id);
+                    form.append("authenticity_token", dali_editor_params.authenticity_token);
+                    form.append("document[file]", query.file);
 
                     return fetch(Dali.Config.upload_vish_url, {
                         method: 'POST',
