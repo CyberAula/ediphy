@@ -96,10 +96,8 @@ export function HotspotImages(base) {
             };
         },
         getRichMarkInput: function(state, MarkInput) {
-            /* jshint ignore:start */
             let div = <div><span>x,y</span><input onChange={(event)=>{MarkInput(event.target.value);}} /></div>;
             return div;
-            /* jshint ignore:end */
         },
         getInitialState: function() {
             return {

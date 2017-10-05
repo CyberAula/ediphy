@@ -124,7 +124,6 @@ export default class EnrichedPlayerPlugin extends React.Component {
 
     render() {
 
-        /* jshint ignore:start */
         let marks = this.props.state.__marks;
 
         let markElements = Object.keys(marks).map((id) =>{
@@ -177,6 +176,5 @@ export default class EnrichedPlayerPlugin extends React.Component {
                     </div>)}
             </div>
         );
-        /* jshint ignore:end */
     }
 }

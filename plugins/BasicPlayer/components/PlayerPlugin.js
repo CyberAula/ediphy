@@ -66,7 +66,6 @@ export default class PlayerPlugin extends React.Component {
     }
 
     render() {
-        /* jshint ignore:start */
         return (
             <div ref={player_wrapper => {this.player_wrapper = player_wrapper;}} style={{ width: "100%", height: "100%" }} className="player-wrapper">
                 <ReactPlayer
@@ -104,6 +103,5 @@ export default class PlayerPlugin extends React.Component {
                     </div>)}
             </div>
         );
-        /* jshint ignore:end */
     }
 }

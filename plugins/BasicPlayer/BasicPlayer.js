@@ -103,11 +103,9 @@ export function BasicPlayer(base) {
         },
         getRenderTemplate: function(state) {
             return (
-                /* jshint ignore:start */
                 <div style={{ width: "100%", height: "100%" }}>
                     <PlayerPlugin style={{ width: "100%", height: "100%" }} state={state} />
                 </div>
-                /* jshint ignore:end */
             );
         },
         handleToolbar: function(name, value) {

@@ -105,17 +105,13 @@ export function GraficaD3(base) {
         },
         getRenderTemplate: function(state) {
             return (
-            /* jshint ignore:start */
                 <Chart dataProcessed={state.dataProcessed} options={state.options} />
-            /* jshint ignore:end */
             );
 
         },
         getConfigTemplate: function(extState) {
             return (
-            /* jshint ignore:start */
                 <Config state={extState} base={base} />
-            /* jshint ignore:end */
             );
         },
         fileChanged: function(event) {

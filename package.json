@@ -80,8 +80,6 @@
     "jest": "^20.0.4",
     "jest-webpack": "^0.3.0",
     "jsdoc": "^3.5.4",
-    "jshint": "^2.9.4",
-    "jshint-loader": "^0.8.3",
     "json-loader": "^0.5.4",
     "markdown-loader": "^2.0.1",
     "node-dir": "^0.1.16",

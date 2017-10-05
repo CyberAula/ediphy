@@ -67,7 +67,6 @@ export default class MarksList extends Component {
                     })
                 }
             </div>
-            /* jshint ignore: end */
         );
     }
 }

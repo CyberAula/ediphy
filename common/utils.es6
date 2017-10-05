@@ -50,13 +50,11 @@ export function isSortableContainer(id) {
 
 export function changeProps(object, keys, values) {
     if (Array.isArray(keys) && Array.isArray(values) && keys.length === values.length) {
-        /* jshint ignore:start */
         let temp = { ...object };
         for (let i = 0; i < keys.length; i++) {
             temp = changeProp(temp, keys[i], values[i]);
         }
         return temp;
-        /* jshint ignore:end */
     }
 
     console.error("Incorrect parameters");
@@ -76,23 +74,19 @@ export function changeProp(object, key, value) {
     // First one works, second does not!
     // ---------------------------------------------------------------------------
 
-    /* jshint ignore:start */
     return {
         ...object,
         [key]: value,
     };
-    /* jshint ignore:end */
 }
 
 export function deleteProps(object, keys) {
     if (Array.isArray(keys)) {
-        /* jshint ignore:start */
         let temp = { ...object };
         for (let i = 0; i < keys.length; i++) {
             temp = deleteProp(temp, keys[i]);
         }
         return temp;
-        /* jshint ignore:end */
     }
     console.error("Parameter is not an array");
     return undefined;

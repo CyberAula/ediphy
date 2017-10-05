@@ -88,7 +88,6 @@ class DaliApp extends Component {
         let title = globalConfig.title || '---';
         let canvasRatio = globalConfig.canvasRatio;
         return (
-            /* jshint ignore:start */
             <Grid id="app" fluid style={{ height: '100%' }}>
                 <Row className="navBar">
                     {this.state.alert}
@@ -172,19 +171,6 @@ class DaliApp extends Component {
                             });
                             let marksRemoving = this.getDescendantLinkedBoxes(viewRemoving, navItems) || [];
                             this.dispatchAndSetState(deleteNavItem(viewRemoving, navItems[navsel].parent, boxesRemoving, containedRemoving, marksRemoving));
-
-                            Object.keys(marksRemoving).forEach((el) => {
-                                if(toolbars[el]) {
-                                    if (toolbars[el].state && toolbars[el].state.__marks) {
-                                        Dali.Plugins.get(toolbars[el].config.name).forceUpdate(
-                                            toolbars[el].state,
-                                            el,
-                                            DELETE_NAV_ITEM
-                                        );
-                                    }
-
-                                }
-                            });
                         }}
                         onNavItemReordered={(id, newParent, oldParent, idsInOrder, childrenInOrder) => this.dispatchAndSetState(reorderNavItem(id, newParent, oldParent, idsInOrder, childrenInOrder))}
                         onDisplayModeChanged={mode => this.dispatchAndSetState(changeDisplayMode(mode))}
@@ -518,7 +504,6 @@ class DaliApp extends Component {
                 />
 
             </Grid>
-            /* jshint ignore:end */
         );
     }
 

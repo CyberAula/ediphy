@@ -6,7 +6,6 @@ export default class BoxSortableVisor extends Component {
     render() {
         let box = this.props.boxes[this.props.id];
         return (
-            /* jshint ignore:start */
             <div ref="sortableContainer"
                 style={{ position: 'relative' }}>
                 {box.children.map((idContainer, index)=> {
@@ -54,7 +53,6 @@ export default class BoxSortableVisor extends Component {
                     </div>);
                 })}
             </div>
-            /* jshint ignore:end */
         );
     }
 }
