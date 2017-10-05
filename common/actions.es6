@@ -375,7 +375,9 @@ export function uploadVishResourceAsync(query) {
                         if (response.status >= 400) {
                             throw new Error(i18n.t("error.generic"));
                         }
-                        return response.text();
+                        return response.text().then((text)=>{
+                            return JSON.parse(text).src;
+                        });
                     })
                         .then((result) => {
                             dispatch(setBusy(false, result));
