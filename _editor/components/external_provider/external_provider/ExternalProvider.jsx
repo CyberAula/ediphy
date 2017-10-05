@@ -62,7 +62,7 @@ export default class VishProvider extends Component {
                     isBusy={this.props.isBusy}
                     onVishUploaderToggled={(resourceUrl) => {
                         if(resourceUrl) {
-                            this.props.onChange({ target: { value: JSON.parse(resourceUrl)["src"] } });
+                            this.props.onChange({ target: { value: JSON.parse(resourceUrl).src } });
                         }
                         this.setState({ uploading: !this.state.uploading });
                     }}
