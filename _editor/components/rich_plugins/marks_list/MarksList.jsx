@@ -22,7 +22,9 @@ export default class MarksList extends Component {
                         let color = mark.color || '#337ab7';
                         let widthScroll = Math.max(mark.title.length / 11 * 100, 100);
                         try {
-                            name = this.props.toolbars[mark.connection.id || mark.connection] ? this.props.toolbars[mark.connection.id || mark.connection].controls.main.accordions.basic.buttons.navitem_name.value : mark.connection;
+                            name = this.props.toolbars[mark.connection.id || mark.connection] ?
+                                this.props.toolbars[mark.connection.id || mark.connection].controls.main.accordions.basic.buttons.navitem_name.value :
+                                mark.connection;
                         } catch(e) { }
                         return (
                             <div className="markListBox" key={id}>

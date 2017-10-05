@@ -54,10 +54,12 @@ export default function(state = {}, action = {}) {
         }
         return state;
     case EDIT_RICH_MARK:
+        // This means we are only editing the position of the mark by dragging, so this reducer is not interested
         if(!action.payload.mark || !action.payload.newConnection) {
             return state;
         }
         let editState = Object.assign({}, state);
+        // If the old connection is a contained view, we need to remove the mark from its parent list
         if (isContainedView(action.payload.oldConnection)) {
             if (editState[action.payload.oldConnection] && editState[action.payload.oldConnection].parent[action.payload.parent]) {
                 let ind = editState[action.payload.oldConnection].parent[action.payload.parent].indexOf(action.payload.mark);
@@ -66,10 +68,10 @@ export default function(state = {}, action = {}) {
                     if (editState[action.payload.oldConnection].parent[action.payload.parent].length === 0) {
                         delete editState[action.payload.oldConnection].parent[action.payload.parent];
                     }
-
                 }
             }
         }
+        // If the new connection is a contained view, we need to include the mark from its parent list
         if (isContainedView(action.payload.newConnection)) {
             if (editState[action.payload.newConnection]) {
                 if(Object.keys(editState[action.payload.newConnection].parent).indexOf(action.payload.parent) === -1) {

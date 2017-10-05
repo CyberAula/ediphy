@@ -107,6 +107,7 @@ export default class ReduxProvider extends Component {
                                                 "__name": i18n.t('NavItem_name'),
                                                 "type": "text",
                                                 "autoManaged": false,
+                                                "value": i18n.t('page'),
                                             },
                                         },
                                     },
@@ -305,6 +306,7 @@ export default class ReduxProvider extends Component {
                                                 "__name": i18n.t('NavItem_name'),
                                                 "type": "text",
                                                 "autoManaged": false,
+                                                "value": i18n.t('page'),
                                             },
                                         },
                                     },
@@ -405,6 +407,7 @@ export default class ReduxProvider extends Component {
                                             },
                                             "navitem_name": {
                                                 "__name": i18n.t('NavItem_name'),
+                                                "value": i18n.t('page'),
                                                 "type": "text",
                                                 "autoManaged": false,
                                             },
@@ -515,7 +518,7 @@ export default class ReduxProvider extends Component {
             <Provider store={this.store}>
                 <div style={{ height: '100%' }}>
                     <DaliApp id="app" store={this.store}/>
-                    { /* <DevTools/>*/ }
+                    { /* <DevTools/> */ }
                 </div>
             </Provider>
         );
