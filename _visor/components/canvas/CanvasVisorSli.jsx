@@ -105,7 +105,9 @@ export default class CanvasVisorSli extends Component {
 
                         })}
 
-                        <ReactResizeDetector handleWidth handleHeight onResize={(e)=>{aspectRatio(this.props.canvasRatio, isCV ? 'airlayer_cv' : 'airlayer', isCV ? "containedCanvas" : "canvas");}} />
+                        <ReactResizeDetector handleWidth handleHeight onResize={(e)=>{
+                            aspectRatio(this.props.canvasRatio, isCV ? 'airlayer_cv' : 'airlayer', isCV ? "containedCanvas" : "canvas");
+                        }} />
                     </div>
                 </div>
 
