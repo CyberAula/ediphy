@@ -3,6 +3,7 @@ import { findDOMNode } from 'react-dom';
 import ReactPlayer from 'react-player';
 import screenfull from 'screenfull';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import img from './../../../dist/images/broken_link.png';
 
 export default class EnrichedPlayerPlugin extends React.Component {
     constructor(props) {
@@ -151,7 +152,7 @@ export default class EnrichedPlayerPlugin extends React.Component {
                     url={this.props.state.url}
                     playing={this.state.playing}
                     volume={this.state.volume}
-                    fileConfig={{ attributes: { poster: Dali.Config.broken_link } }}
+                    fileConfig={{ attributes: { poster: img } }}
                     onPlay={() => this.setState({ playing: true })}
                     onPause={() => this.setState({ playing: false })}
                     onEnded={() => this.setState({ playing: false })}

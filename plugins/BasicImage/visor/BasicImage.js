@@ -1,4 +1,5 @@
 import React from 'react';
+import img from './../../../dist/images/broken_link.png';
 
 export function BasicImage(base) {
     return {
@@ -11,9 +12,8 @@ export function BasicImage(base) {
                     <img style={{ width: '100%', height: '100%', left: '0px', top: '0px' }}
                         src={state.url}
                         onError={(e)=>{
-                            console.log(e);
                             e.target.onError = null;
-                            e.target.src = Dali.Config.broken_link;
+                            e.target.src = img;
                         }}
                     />
                 </div>;

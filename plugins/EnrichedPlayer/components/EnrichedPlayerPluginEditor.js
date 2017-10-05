@@ -4,6 +4,7 @@ import ReactPlayer from 'react-player';
 import screenfull from 'screenfull';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import MarkEditor from './../../../_editor/components/rich_plugins/mark_editor/MarkEditor';
+import img from './../../../dist/images/broken_link.png';
 
 export default class EnrichedPlayerPluginEditor extends React.Component {
     constructor(props) {
@@ -103,7 +104,7 @@ export default class EnrichedPlayerPluginEditor extends React.Component {
                     width="100%"
                     url={this.props.state.url}
                     playing={this.state.playing}
-                    fileConfig={{ attributes: { poster: Dali.Config.broken_link } }}
+                    fileConfig={{ attributes: { poster: img } }}
                     volume={this.state.volume}
                     onPlay={() => this.setState({ playing: true })}
                     onPause={() => this.setState({ playing: false })}
