@@ -1,6 +1,6 @@
 import React from 'react';
 import i18n from 'i18next';
-
+import img from './../../dist/images/broken_link.png';
 export function BasicImage(base) {
     return {
         getConfig: function() {
@@ -108,7 +108,8 @@ export function BasicImage(base) {
                     src={state.url}
                     onError={(e)=>{
                         e.target.onError = null;
-                        e.target.src = Dali.Config.broken_link;
+                        e.target.src = img; // Dali.Config.broken_link;
+
                     }}/>
                 <div className="dropableRichZone noInternetConnectionBox" style={{ display: 'none', width: '100%', height: '100%' }}>
                     <div className="middleAlign">

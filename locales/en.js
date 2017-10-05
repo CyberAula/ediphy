@@ -140,6 +140,7 @@ let en = {
         "Importing": "Importing...",
         "INDEX": "INDEX",
         "Indice": "Index",
+        "insert_plugin": "Insert plugin",
         "currentLang": "en",
         "marks": {
             "add_mark": "Add mark",
@@ -219,6 +220,7 @@ let en = {
             "Next": "Next",
             "Last": "Last",
         },
+        "plugin_config": "Plugin Configuration",
         "Position": "Positioning",
         "Preview": "Preview",
         "Properties": "Properties",

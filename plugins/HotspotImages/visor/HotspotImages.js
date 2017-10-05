@@ -1,5 +1,6 @@
 import React from "react";
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import img from './../../../dist/images/broken_link.png';
 
 export function HotspotImages(base) {
     return {
@@ -26,7 +27,7 @@ export function HotspotImages(base) {
                 <div>
                     <img style={{ height: "100%", width: "100%" }} src={state.url} onError={(e)=>{
                         e.target.onError = null;
-                        e.target.src = Dali.Config.broken_link;
+                        e.target.src = img; // Dali.Config.broken_link;
                     }}/>
                     {markElements}
                 </div>);
