@@ -30,10 +30,11 @@ export default class VishDropzone extends Component {
      * @param acceptedFile
      * @param rejectedFile
      */
-    onDrop(acceptedFile, rejectedFile) {
+    onDrop(event) {
+        let files = event.target.files;
 
-        if (acceptedFile.length === 1) {
-            this.setState({ file: acceptedFile[0] });
+        if (event.target.files.length === 1) {
+            this.setState({ file: event.target.files[0] });
         }
     }
 
