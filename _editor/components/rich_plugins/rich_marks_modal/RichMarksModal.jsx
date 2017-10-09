@@ -82,12 +82,9 @@ export default class RichMarksModal extends Component {
         }
 
         let current = this.props.currentRichMark;
-        // Por defecto la página actual si no hay ninguna seleccionada
-        let currentView = this.props.containedViewSelected && this.props.containedViewSelected !== 0 ? { label: this.props.containedViews[this.props.containedViewSelected].name, id: this.props.containedViewSelected } :
-            { label: this.props.navItems[this.props.navItemSelected].name, id: this.props.navItemSelected };
 
         let selected = this.state.existingSelected && (this.props.containedViews[this.state.existingSelected] || this.props.navItems[this.state.existingSelected]) ? (isContainedView(this.state.existingSelected) ? { label: this.props.containedViews[this.state.existingSelected].name, id: this.state.existingSelected } :
-            { label: this.props.navItems[this.state.existingSelected].name, id: this.state.existingSelected }) : currentView;
+            { label: this.props.navItems[this.state.existingSelected].name, id: this.state.existingSelected }) : this.returnAllViews(this.props)[0];
         let newSelected = "";
 
         // if (this.state.connectMode === 'existing') {
@@ -154,6 +151,7 @@ export default class RichMarksModal extends Component {
                                     }}>{i18n.t("marks.new_content")}</Radio>
                                 <Radio value="existing"
                                     name="connect_mode"
+                                    disabled={!this.returnAllViews(this.props).length > 0}
                                     checked={this.state.connectMode === "existing"}
                                     onChange={e => {
                                         this.setState({ connectMode: "existing" });
@@ -341,9 +339,9 @@ export default class RichMarksModal extends Component {
                 return;
             }
             // We need to turn off this requisite in case there is no more pages available and we need to link to the same page the box is in
-            /* if(props.containedViewSelected === 0 && props.navItemSelected === id){
+            if(props.containedViewSelected === 0 && props.navItemSelected === id) {
                 return;
-            }*/
+            }
 
             viewNames.push({ label: props.navItems[id].name, id: id });
         });
