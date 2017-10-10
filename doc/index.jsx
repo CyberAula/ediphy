@@ -25,21 +25,19 @@ export default class DaliDocs extends Component {
     render() {
         let navItems = <Nav>{Object.keys(tree).map(el =>{
             if (Object.keys(tree[el].children).length === 0) {
-                return (
+                return (<LinkContainer to={tree[el].path}>
                     <NavItem key={el} active={this.state.section === el} eventKey={el} href="#">
-                        <LinkContainer to={tree[el].path}><span>{tree[el].title}</span></LinkContainer>
-                    </NavItem>
+                        <span>{tree[el].title}</span>
+                    </NavItem></LinkContainer>
                 );
             }
 
             return (<NavDropdown key={el} active={this.state.section === el} eventKey={el} title={tree[el].title} id="basic-nav-dropdown">
                 {Object.keys(tree[el].children).map(sub =>{
-                    return (
+                    return (<LinkContainer to={tree[el].children[sub].path}>
                         <MenuItem key={el + '.' + sub} eventKey={el + '.' + sub}>
-                            <LinkContainer to={tree[el].children[sub].path}>
-                                <span>{tree[el].children[sub].title}</span>
-                            </LinkContainer>
-                        </MenuItem>
+                            <span>{tree[el].children[sub].title}</span>
+                        </MenuItem></LinkContainer>
                     );
                 })}
 

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Col } from 'react-bootstrap';
 import interact from 'interact.js';
+import PropTypes from 'prop-types';
 import Dali from '../../../../core/editor/main';
 import ReactDOM from 'react-dom';
 import './_pluginRibbon.scss';
@@ -228,3 +229,31 @@ function changeOverflow(bool) {
     document.getElementById('canvas').style.zIndex = bool ? '-1' : '0';
     document.getElementById('containedCanvas').style.zIndex = bool ? '-1' : '0';
 }
+
+PluginRibbon.propTypes = {
+    /**
+    * Indica si los plugins del ribbon están desactivados
+    */
+    disabled: PropTypes.boolean,
+    /**
+  * Caja seleccionada identificada por su *id*
+  */
+    boxSelected: PropTypes.any.isRequired,
+
+    /**
+  * Vista seleccionada
+  */
+    navItemSelected: PropTypes.any.isRequired,
+    /**
+  * Vista contenida seleccionada
+  */
+    containedViewSelected: PropTypes.any.isRequired,
+    /**
+  * Categoría de plugin seleccionada
+  */
+    category: PropTypes.string,
+    /**
+  * Altura del ribbon
+  */
+    ribbonHeight: PropTypes.number,
+};
