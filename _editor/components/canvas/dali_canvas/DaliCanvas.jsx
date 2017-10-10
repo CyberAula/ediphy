@@ -25,79 +25,9 @@ export default class DaliCanvas extends Component {
      * @returns {code} React rendered component
      */
     render() {
-        let canvasContent;
-        if (isSlide(this.props.navItemSelected.type)) {
-            canvasContent = <DaliCanvasSli
-                addMarkShortcut={this.props.addMarkShortcut}
-                boxes={this.props.boxes}
-                boxSelected={this.props.boxSelected}
-                boxLevelSelected={this.props.boxLevelSelected}
-                canvasRatio={this.props.canvasRatio}
-                containedViews={this.props.containedViews}
-                containedViewSelected={this.props.containedViewSelected}
-                deleteMarkCreator={this.props.deleteMarkCreator}
-                fromCV={false}
-                lastActionDispatched={this.props.lastActionDispatched}
-                markCreatorId={this.props.markCreatorId}
-                onBoxAdded={this.props.onBoxAdded}
-                onBoxLevelIncreased={this.props.onBoxLevelIncreased}
-                onBoxSelected={this.props.onBoxSelected}
-                onBoxMoved={this.props.onBoxMoved}
-                onBoxResized={this.props.onBoxResized}
-                onBoxDropped={this.props.onBoxDropped}
-                onBoxDeleted={this.props.onBoxDeleted}
-                onMarkCreatorToggled={this.props.onMarkCreatorToggled}
-                onVerticallyAlignBox={this.props.onVerticallyAlignBox}
-                onTextEditorToggled={this.props.onTextEditorToggled}
-                onContainedViewSelected={this.props.onContainedViewSelected}
-                onSortableContainerDeleted={this.props.onSortableContainerDeleted}
-                onSortableContainerResized={this.props.onSortableContainerResized}
-                onSortableContainerReordered={this.props.onSortableContainerReordered}
-                onBoxesInsideSortableReorder={this.props.onBoxesInsideSortableReorder}
-                navItems={this.props.navItems}
-                navItemSelected={this.props.navItemSelected}
-                title={this.props.title}
-                toolbars={this.props.toolbars}
-                showCanvas={this.props.showCanvas}
-            />;
-        }else{
-            canvasContent = <DaliCanvasDoc
-                addMarkShortcut={this.props.addMarkShortcut}
-                boxes={this.props.boxes}
-                boxSelected={this.props.boxSelected}
-                boxLevelSelected={this.props.boxLevelSelected}
-                containedViews={this.props.containedViews}
-                containedViewSelected={this.props.containedViewSelected}
-                deleteMarkCreator={this.props.deleteMarkCreator}
-                fromCV={false}
-                lastActionDispatched={this.props.lastActionDispatched}
-                markCreatorId={this.props.markCreatorId}
-                onMarkCreatorToggled={this.props.onMarkCreatorToggled}
-                onBoxAdded={this.props.onBoxAdded}
-                onBoxSelected={this.props.onBoxSelected}
-                onBoxLevelIncreased={this.props.onBoxLevelIncreased}
-                onBoxMoved={this.props.onBoxMoved}
-                onBoxResized={this.props.onBoxResized}
-                onSortableContainerResized={this.props.onSortableContainerResized}
-                onSortableContainerDeleted={this.props.onSortableContainerDeleted}
-                onSortableContainerReordered={this.props.onSortableContainerReordered}
-                onContainedViewSelected={this.props.onContainedViewSelected}
-                onBoxDropped={this.props.onBoxDropped}
-                onBoxDeleted={this.props.onBoxDeleted}
-                onVerticallyAlignBox={this.props.onVerticallyAlignBox}
-                onTextEditorToggled={this.props.onTextEditorToggled}
-                onBoxesInsideSortableReorder={this.props.onBoxesInsideSortableReorder}
-                navItems={this.props.navItems}
-                navItemSelected={this.props.navItemSelected}
-                toolbars={this.props.toolbars}
-                showCanvas={this.props.showCanvas}
-                title={this.props.title}
-            />;
-        }
-
-        return (
-            canvasContent
-        );
+        return (isSlide(this.props.navItemSelected.type)) ?
+            (<DaliCanvasSli fromCV={false} {...this.props} />) :
+            (<DaliCanvasDoc fromCV={false} {...this.props} />);
     }
 
     /**

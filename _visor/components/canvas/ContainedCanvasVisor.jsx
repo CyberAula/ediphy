@@ -13,34 +13,9 @@ export default class ContainedCanvasVisor extends Component {
     render() {
         let visorContent;
         if (isSlide(this.props.containedViews[this.props.currentView].type)) {
-            visorContent = <CanvasVisorSli
-                navItems={this.props.navItems}
-                currentView={this.props.currentView}
-                containedViews={this.props.containedViews}
-                boxes={this.props.boxes}
-                toolbars={this.props.toolbars}
-                removeLastView={this.props.removeLastView}
-                richElementsState={this.props.richElementsState}
-                showCanvas={this.props.showCanvas}
-                canvasRatio={this.props.canvasRatio}
-                changeCurrentView={this.props.changeCurrentView}
-                title={this.props.title}
-                triggeredMarks={this.props.triggeredMarks}
-                viewsArray={this.props.viewsArray}/>;
+            visorContent = <CanvasVisorSli {...this.props} />;
         }else{
-            visorContent = <CanvasVisorDoc
-                navItems={this.props.navItems}
-                containedViews={this.props.containedViews}
-                currentView={this.props.currentView}
-                boxes={this.props.boxes}
-                toolbars={this.props.toolbars}
-                removeLastView={this.props.removeLastView}
-                richElementsState={this.props.richElementsState}
-                showCanvas={this.props.showCanvas}
-                changeCurrentView={this.props.changeCurrentView}
-                title={this.props.title}
-                triggeredMarks={this.props.triggeredMarks}
-                viewsArray={this.props.viewsArray}/>;
+            visorContent = <CanvasVisorDoc {...this.props} />;
         }
         return (
             <CSSTransition
