@@ -28,7 +28,7 @@ module.exports = {
             "disablePagination": "Pagination",
             "initialPageLength": "No. Rows/page",
             "initialSortProp": "Order by column",
-            "initialOrder": "Sort type",
+            "initialOrderProp": "Sort by",
             "labels": "Labels",
             "noDataLabel": "Empty table message",
             "noDataLabel_txt": "No data",

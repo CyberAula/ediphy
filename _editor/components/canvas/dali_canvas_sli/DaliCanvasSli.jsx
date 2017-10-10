@@ -210,7 +210,6 @@ export default class DaliCanvasSli extends Component {
                 }
                 let mc = this.props.fromCV ? document.getElementById("contained_maincontent") : document.getElementById('maincontent');
                 let al = this.props.fromCV ? document.getElementById('airlayer_cv') : document.getElementById('airlayer');
-                console.log(parseFloat(al.style.marginTop));
                 let position = {
                     x: (event.dragEvent.clientX - event.target.getBoundingClientRect().left - mc.offsetLeft) * 100 / mc.offsetWidth + "%",
                     y: (event.dragEvent.clientY - event.target.getBoundingClientRect().top + mc.scrollTop /* - parseFloat(al.style.marginTop)*/) * 100 / mc.offsetHeight + '%',

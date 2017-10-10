@@ -18,7 +18,7 @@ export function DataTable(base) {
                 icon: "view_stream",
                 initialWidth: '100%',
                 initialHeight: "auto",
-                initialWidthSlide: '100%',
+                initialWidthSlide: '60%',
                 initialHeightSlide: 'auto',
             };
         },
