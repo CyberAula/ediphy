@@ -234,12 +234,7 @@ PluginRibbon.propTypes = {
     /**
     * Indica si los plugins del ribbon están desactivados
     */
-    disabled: PropTypes.boolean,
-    /**
-  * Caja seleccionada identificada por su *id*
-  */
-    boxSelected: PropTypes.any.isRequired,
-
+    disabled: PropTypes.bool,
     /**
   * Vista seleccionada
   */
@@ -255,5 +250,5 @@ PluginRibbon.propTypes = {
     /**
   * Altura del ribbon
   */
-    ribbonHeight: PropTypes.number,
+    ribbonHeight: PropTypes.string,
 };

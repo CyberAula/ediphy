@@ -364,11 +364,10 @@ class DaliApp extends Component {
                         let oldConnection = state.__marks[mark.id] ? state.__marks[mark.id].connection : 0;
                         state.__marks[mark.id] = JSON.parse(JSON.stringify(mark));
                         let newConnection = mark.connection;
-                        if(mark.connection.id) {
+                        if (mark.connection.id) {
                             newConnection = mark.connection.id;
                             state.__marks[mark.id].connection = mark.connection.id;
                         }
-                        this.dispatchAndSetState(editRichMark(boxSelected, state, mark.id, oldConnection, newConnection));
 
                         if (!this.state.currentRichMark || createNew) {
                             // this.dispatchAndSetState(addRichMark(boxSelected, mark, state));
@@ -377,6 +376,8 @@ class DaliApp extends Component {
                                 boxSelected,
                                 addRichMark(boxSelected, mark, state)
                             );
+                        } else {
+                            this.dispatchAndSetState(editRichMark(boxSelected, state, mark.id, oldConnection, newConnection));
                         }
 
                     }}
