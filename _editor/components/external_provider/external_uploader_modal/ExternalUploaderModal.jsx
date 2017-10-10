@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import VishDropzone from './ExternalDropzone';
+import Alert from './../../common/alert/Alert';
 import ReactDOM from 'react-dom';
 import { Modal, FormControl, Form, FormGroup, ControlLabel, Button } from 'react-bootstrap';
 import i18n from 'i18next';
@@ -8,6 +9,12 @@ import i18n from 'i18next';
  * VISH Uploader Component
  */
 export default class VishUploaderModal extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            alert: null,
+        };
+    }
     /**
      * Renders React Component
      * @returns {code}
@@ -30,7 +37,7 @@ export default class VishUploaderModal extends Component {
                             <FormControl ref="desc" componentClass="textarea" style={{ resize: 'none' }}/>
                         </FormGroup>
                         <FormGroup>
-                            <VishDropzone ref="dropZone" />
+                            <VishDropzone ref="dropZone" accept={this.props.accept}/>
                         </FormGroup>
                         <FormGroup>
                             <ControlLabel>{this.props.isBusy.value ? this.props.isBusy.msg : ""}</ControlLabel>
@@ -45,16 +52,27 @@ export default class VishUploaderModal extends Component {
                     <Button bsStyle="primary"
                         disabled={this.props.isBusy.value}
                         onClick={e => {
-                            this.props.onUploadVishResource(
-                                {
-                                    title: ReactDOM.findDOMNode(this.refs.title).value,
-                                    description: ReactDOM.findDOMNode(this.refs.desc).value,
-                                    file: this.refs.dropZone.state.file,
-                                }
-                            );
+                            let { title, description, file } = {
+                                title: ReactDOM.findDOMNode(this.refs.title).value,
+                                description: ReactDOM.findDOMNode(this.refs.desc).value,
+                                file: this.refs.dropZone.state.file,
+                            };
+                            if (title && title !== "" && description && description !== "" && file) {
+                                this.props.onUploadVishResource({ title, description, file });
+                            } else {
+                                let alert = (
+                                    <Alert className="pageModal" show hasHeader backdrop={false}
+                                        title={ <span><i className="material-icons" style={{ fontSize: '14px', marginRight: '5px' }}>warning</i>{ i18n.t("messages.alert") }</span> }
+                                        closeButton onClose={()=>{this.setState({ alert: null });}}>
+                                        <span> { i18n.t('messages.all_fields') } </span>
+                                    </Alert>);
+                                this.setState({ alert: alert });
+                            }
+
                         }}>
                         {i18n.t("vish_upload")}
                     </Button>
+                    { this.state.alert }
                 </Modal.Footer>
             </Modal>
         );

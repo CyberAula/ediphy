@@ -898,6 +898,7 @@ export default class PluginToolbar extends Component {
                 onFetchVishResources: this.props.onFetchVishResources,
                 onUploadVishResource: this.props.onUploadVishResource,
                 onChange: props.onChange,
+                accept: button.accept,
             }, null);
         }
 

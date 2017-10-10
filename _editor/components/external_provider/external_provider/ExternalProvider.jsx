@@ -59,6 +59,7 @@ export default class VishProvider extends Component {
                     }}
                     onFetchVishResources={this.props.onFetchVishResources}/>
                 <VishUploaderModal visible={this.state.uploading}
+                    accept={this.props.accept}
                     isBusy={this.props.isBusy}
                     onVishUploaderToggled={(resourceUrl) => {
                         if(resourceUrl) {

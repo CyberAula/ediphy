@@ -171,6 +171,7 @@ let en = {
             "align_middle": "The element is placed in the middle of the parent element",
             "align_right": "Align right",
             "align_top": "The top of the element is aligned with the top of the tallest element on the line",
+            "all_fields": "You must fill in all of the fields in order to upload the file",
             "Cancel": "Cancel",
             "columns_distribution": "Columns distribution",
             "confirm_delete_cv": "Confirm deletion",

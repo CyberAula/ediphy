@@ -169,6 +169,7 @@ let es = {
             "align_middle": "El elemento se alinea al medio de la línea",
             "align_right": "Alinear a la derecha",
             "align_top": "La parte superior del elemento se alinea con la parte superior del elemento más alto de la línea",
+            "all_fields": "Debes rellenar todos los campos para subir el fichero",
             "Cancel": "Cancelar",
             "columns_distribution": "Distribución de columnas",
             "confirm_delete_cv": "Confirmar borrado",

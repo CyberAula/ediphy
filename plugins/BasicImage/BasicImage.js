@@ -83,6 +83,7 @@ export function BasicImage(base) {
                                 url: {
                                     __name: 'URL',
                                     type: 'external_provider',
+                                    accept: "image/*",
                                     value: base.getState().url,
                                     autoManaged: false,
                                 },

@@ -37,6 +37,7 @@ export function HotspotImages(base) {
                                     __name: 'URL',
                                     type: 'external_provider',
                                     value: base.getState().url,
+                                    accept: "image/*",
                                     autoManaged: false,
                                 },
                             },

@@ -77,7 +77,7 @@ export default class VishSearcherModal extends Component {
                                 </FormControl>
                             </Col>
                             <Col md={2}>
-                                <Button className="btn-primary" onClick={(e) => {
+                                <Button type="submit" className="btn-primary" onClick={(e) => {
                                     let url = encodeURI(Dali.Config.search_vish_url +
                                         "?q=" + ReactDOM.findDOMNode(this.refs.query).value +
                                         "&type=" + ReactDOM.findDOMNode(this.refs.type).value +
