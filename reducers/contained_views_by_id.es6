@@ -31,7 +31,6 @@ function singleContainedViewReducer(state = {}, action = {}) {
     case DELETE_BOX:
         // TODO: Borrar parent boxes borradas
         let modState = Object.assign({}, state);
-        console.log(modState);
         delete modState.parent[action.payload.id];
         return changeProp(modState, "boxes", modState.boxes.filter(id => action.payload.id !== id));
     case TOGGLE_TITLE_MODE:
@@ -72,13 +71,16 @@ export default function(state = {}, action = {}) {
             }
         }
         // If the new connection is a contained view, we need to include the mark from its parent list
+
         if (isContainedView(action.payload.newConnection)) {
             if (editState[action.payload.newConnection]) {
                 if(Object.keys(editState[action.payload.newConnection].parent).indexOf(action.payload.parent) === -1) {
-                    editState[action.payload.newConnection].parent[action.payload.parent] = [action.payload.mark];
+                    editState[action.payload.newConnection].parent[action.payload.parent] = [action.payload.mark.id || action.payload.mark];
                 } else {
-                    editState[action.payload.newConnection].parent[action.payload.parent].push(action.payload.mark);
+                    editState[action.payload.newConnection].parent[action.payload.parent].push(action.payload.mark.id || action.payload.mark);
                 }
+            } else if (action.payload.mark.connection.id) {
+                editState = changeProp(editState, action.payload.mark.connection.id, action.payload.mark.connection);
             }
         }
         return editState;

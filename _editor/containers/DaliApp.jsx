@@ -228,13 +228,13 @@ class DaliApp extends Component {
                                     if(mark.connection.id) {
                                         state.__marks[mark.id].connection = mark.connection.id;
                                     }
-                                    // this.dispatchAndSetState(addRichMark(boxSelected, mark, state));
-
+                                    this.dispatchAndSetState(addRichMark(boxSelected, mark, state));
+/*
                                     Dali.Plugins.get(toolbar.config.name).forceUpdate(
                                         state,
                                         boxSelected,
                                         addRichMark(boxSelected, mark, state)
-                                    );
+                                    );*/
                                 }}
                                 deleteMarkCreator={()=>this.setState({ markCreatorVisible: false })}
                                 lastActionDispatched={this.state.lastAction}
@@ -284,11 +284,13 @@ class DaliApp extends Component {
                                     if(mark.connection.id) {
                                         state.__marks[mark.id].connection = mark.connection.id;
                                     }
-                                    Dali.Plugins.get(toolbar.config.name).forceUpdate(
+                                    this.dispatchAndSetState(addRichMark(boxSelected, mark, state));
+
+                                    /*Dali.Plugins.get(toolbar.config.name).forceUpdate(
                                         state,
                                         boxSelected,
                                         addRichMark(boxSelected, mark, state)
-                                    );
+                                    );*/
                                 }}
                                 onBoxAdded={(ids, draggable, resizable, content, toolbar, config, state) => this.dispatchAndSetState(addBox(ids, draggable, resizable, content, toolbar, config, state))}
                                 deleteMarkCreator={()=>this.setState({ markCreatorVisible: false })}
@@ -369,16 +371,12 @@ class DaliApp extends Component {
                             state.__marks[mark.id].connection = mark.connection.id;
                         }
 
-                        if (!this.state.currentRichMark || createNew) {
-                            // this.dispatchAndSetState(addRichMark(boxSelected, mark, state));
-                            Dali.Plugins.get(toolbar.config.name).forceUpdate(
-                                state,
-                                boxSelected,
-                                addRichMark(boxSelected, mark, state)
-                            );
-                        } else {
-                            this.dispatchAndSetState(editRichMark(boxSelected, state, mark.id, oldConnection, newConnection));
+                        if (!this.state.currentRichMark  && createNew) {
+                           this.dispatchAndSetState(addRichMark(boxSelected, mark, state));
+                        }  else {
+                            this.dispatchAndSetState(editRichMark(boxSelected, state, mark, oldConnection, newConnection));
                         }
+
 
                     }}
                     onRichMarksModalToggled={() => {
@@ -446,11 +444,6 @@ class DaliApp extends Component {
 
                         delete state.__marks[id];
                         this.dispatchAndSetState(deleteRichMark(id, boxSelected, cvid, state));
-                        /* Dali.Plugins.get(toolbar.config.name).forceUpdate(
-                            state,
-                            boxSelected,
-                            DELETE_RICH_MARK);
-*/
                         // This checks if the deleted mark leaves an orphan contained view, and displays a message asking if the user would like to delete it as well
                         if (isContainedView(cvid)) {
                             let thiscv = containedViews[cvid];
@@ -539,13 +532,13 @@ class DaliApp extends Component {
 
             switch (reason) {
             case ADD_RICH_MARK:
-                this.dispatchAndSetState(e.detail.reason); // The action was created previously //TODO: here is the problem we need to trigger update box as well
+                /*this.dispatchAndSetState(e.detail.reason); // The action was created previously //TODO: here is the problem we need to trigger update box as well
                 this.dispatchAndSetState(updateBox(
                     e.detail.ids.id,
                     e.detail.content,
                     e.detail.toolbar,
                     e.detail.state
-                ));
+                ));*/
                 break;
             case EDIT_RICH_MARK:
 
@@ -579,7 +572,7 @@ class DaliApp extends Component {
                 ));
                 break;
 
-            case DELETE_RICH_MARK:
+            // case DELETE_RICH_MARK:
             case DELETE_NAV_ITEM:
             case DELETE_CONTAINED_VIEW:
             case EDIT_PLUGIN_TEXT:

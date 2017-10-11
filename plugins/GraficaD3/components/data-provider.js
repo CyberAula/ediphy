@@ -189,7 +189,7 @@ export default class DataProvider extends React.Component {
                 { this.state.alert }
                 <Form horizontal style={{ padding: "16px" }}>
                     <FormGroup>
-                        <FileInput onChange={this.fileChanged} className="fileInput">
+                        <FileInput onChange={this.fileChanged} className="fileInput" accept=".csv,.json">
                             <div className="fileDrag">
                                 <span style={{ display: this.state.name ? 'none' : 'block' }}><i className="material-icons">ic_file_upload</i><b>{ i18n.t('FileInput.Drag') }</b>{ i18n.t('FileInput.Drag_2') }<b>{ i18n.t('FileInput.Click') }</b>{ i18n.t('FileInput.Click_2') }</span>
                                 <span className="fileUploaded" style={{ display: this.state.name ? 'block' : 'none' }}><i className="material-icons">insert_drive_file</i>{ this.state.name || '' }</span>

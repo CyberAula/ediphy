@@ -339,9 +339,9 @@ export default function(state = {}, action = {}) {
         if (!isContainedView(action.payload.newConnection) && action.payload.oldConnection !== 0) {
             if (editState[action.payload.newConnection]) {
                 if(Object.keys(editState[action.payload.newConnection].linkedBoxes).indexOf(action.payload.parent) === -1) {
-                    editState[action.payload.newConnection].linkedBoxes[action.payload.parent] = [action.payload.mark];
+                    editState[action.payload.newConnection].linkedBoxes[action.payload.parent] = [action.payload.mark.id || action.payload.mark];
                 } else {
-                    editState[action.payload.newConnection].linkedBoxes[action.payload.parent].push(action.payload.mark);
+                    editState[action.payload.newConnection].linkedBoxes[action.payload.parent].push(action.payload.mark.id || action.payload.mark);
                 }
             }
         }

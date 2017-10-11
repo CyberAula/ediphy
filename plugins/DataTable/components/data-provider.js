@@ -245,7 +245,7 @@ export default class DataProvider extends React.Component {
                 { this.state.alert }
                 <Form horizontal style={{ padding: "16px" }}>
                     <FormGroup>
-                        <FileInput onChange={this.fileChanged} className="fileInput">
+                        <FileInput onChange={this.fileChanged} className="fileInput" accept=".csv,.json">
                             {/* <Button className="btn btn-primary" style={{ marginTop: '0px' }}>{ Dali.i18n.t('FileDialog') }</Button>*/}
                             {/* <span style={{ marginLeft: '10px' }}>*/}
                             {/* <label className="control-label">{ Dali.i18n.t('FileDialog') + ':   ' } </label> { this.state.name || '' }</span>*/}
