@@ -229,7 +229,7 @@ class DaliApp extends Component {
                                         state.__marks[mark.id].connection = mark.connection.id;
                                     }
                                     this.dispatchAndSetState(addRichMark(boxSelected, mark, state));
-/*
+                                    /*
                                     Dali.Plugins.get(toolbar.config.name).forceUpdate(
                                         state,
                                         boxSelected,
@@ -286,7 +286,7 @@ class DaliApp extends Component {
                                     }
                                     this.dispatchAndSetState(addRichMark(boxSelected, mark, state));
 
-                                    /*Dali.Plugins.get(toolbar.config.name).forceUpdate(
+                                    /* Dali.Plugins.get(toolbar.config.name).forceUpdate(
                                         state,
                                         boxSelected,
                                         addRichMark(boxSelected, mark, state)
@@ -371,12 +371,11 @@ class DaliApp extends Component {
                             state.__marks[mark.id].connection = mark.connection.id;
                         }
 
-                        if (!this.state.currentRichMark  && createNew) {
-                           this.dispatchAndSetState(addRichMark(boxSelected, mark, state));
-                        }  else {
+                        if (!this.state.currentRichMark && createNew) {
+                            this.dispatchAndSetState(addRichMark(boxSelected, mark, state));
+                        } else {
                             this.dispatchAndSetState(editRichMark(boxSelected, state, mark, oldConnection, newConnection));
                         }
-
 
                     }}
                     onRichMarksModalToggled={() => {
@@ -532,7 +531,7 @@ class DaliApp extends Component {
 
             switch (reason) {
             case ADD_RICH_MARK:
-                /*this.dispatchAndSetState(e.detail.reason); // The action was created previously //TODO: here is the problem we need to trigger update box as well
+                /* this.dispatchAndSetState(e.detail.reason); // The action was created previously //TODO: here is the problem we need to trigger update box as well
                 this.dispatchAndSetState(updateBox(
                     e.detail.ids.id,
                     e.detail.content,

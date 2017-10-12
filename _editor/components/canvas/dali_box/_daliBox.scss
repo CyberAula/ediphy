@@ -108,7 +108,8 @@
 
 .wholebox, .wholeboxvisor{
     display: inline-block;
-    word-break: break-all;
+    word-break: break-word;
+    // word-break: break-all;
     border: $boxborderwidth solid transparent;
     vertical-align:top;
     word-wrap: break-word;

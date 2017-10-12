@@ -1,3 +1,4 @@
+import React from 'react';
 export function Webpage(base) {
     return {
         getConfig: function() {
@@ -10,6 +11,7 @@ export function Webpage(base) {
                 initialHeight: "300px",
                 initialWidthSlide: '70%',
                 initialHeightSlide: '60%',
+                flavor: 'react',
             };
         },
         getToolbar: function() {
@@ -86,7 +88,7 @@ export function Webpage(base) {
             };
         },
         getRenderTemplate: function(state) {
-            return "<iframe  class=\"basicImageClass\"  style=\"width: 100%; height: 100%; z-index:0;\" src=\"" + state.url + "\"></iframe>";
+            return (<iframe style={{ width: '100%', height: '100%', zIndex: 0, pointerEvents: 'none' }} src={state.url}/>);
         },
         handleToolbar: function(name, value) {
             base.setState(name, value);
