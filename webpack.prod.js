@@ -17,7 +17,7 @@ module.exports = merge.smart(common, {
         publicPath: '/', // This is used to generate URLs to e.g. images
         filename: 'prod/[name]-bundle.min.js',
     },
-    devtool: 'eval',
+    devtool: 'cheap-module-source-map',
     // devtool: 'cheap-module-eval-source-map', // for dev in prod enviroment
     externals: {
         dali_editor_params: 'dali_editor_params',
@@ -25,9 +25,19 @@ module.exports = merge.smart(common, {
     },
     plugins: [
         new webpack.optimize.OccurrenceOrderPlugin(),
+        new webpack.optimize.ModuleConcatenationPlugin(),
         new webpack.optimize.UglifyJsPlugin({
             compressor: {
                 warnings: false,
+                screw_ie8: true,
+                conditionals: true,
+                unused: true,
+                comparisons: true,
+                sequences: true,
+                dead_code: true,
+                evaluate: true,
+                if_return: true,
+                join_vars: true
             },
         }),
         new webpack.DefinePlugin({
