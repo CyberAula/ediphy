@@ -47,11 +47,6 @@
     ]
   },
   "devDependencies": {
-    "BasicPlayer": "file:plugins\\BasicPlayer",
-    "DataTable": "file:plugins\\DataTable",
-    "EnrichedPlayer": "file:plugins\\EnrichedPlayer",
-    "GraficaD3": "file:plugins\\GraficaD3",
-    "VirtualTour": "file:plugins\\VirtualTour",
     "async": "^2.1.2",
     "babel-core": "^6.26.0",
     "babel-eslint": "^7.2.3",
@@ -117,6 +112,7 @@
     "@trendmicro/react-toggle-switch": "^0.5.5",
     "BasicPlayer": "./plugins/BasicPlayer",
     "EnrichedPlayer": "file:plugins/EnrichedPlayer",
+    "DataTable": "file:plugins/DataTable",
     "GraficaD3": "file:plugins/GraficaD3",
     "VirtualTour": "file:plugins/VirtualTour",
     "animated": "^0.2.0",
@@ -143,7 +139,6 @@
     "react-addons-create-fragment": "^15.6.0",
     "react-bootstrap": "^0.31.2",
     "react-bootstrap-typeahead": "^2.0.0-alpha.3",
-    "react-datatable-bs": "^1.0.6",
     "react-dom": "^15.4.1",
     "react-dropzone": "^4.1.0",
     "react-redux": "^5.0.6",
