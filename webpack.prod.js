@@ -37,7 +37,7 @@ module.exports = merge.smart(common, {
                 dead_code: true,
                 evaluate: true,
                 if_return: true,
-                join_vars: true
+                join_vars: true,
             },
         }),
         new webpack.DefinePlugin({
