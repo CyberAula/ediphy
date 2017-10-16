@@ -111,8 +111,8 @@ export function VirtualTour(base) {
                 num: window.mapList.length,
             };
         },
-        getRenderTemplate: function(state) {
-
+        getRenderTemplate: function(state, props) {
+            console.log(props);
             let id = "map-" + Date.now();
             let marks = state.__marks;
             if (!window.google || !navigator.onLine) {
@@ -125,7 +125,7 @@ export function VirtualTour(base) {
             }
 
             let Mark = ({ idKey, title, color }) => (
-                <MarkEditor time={1.5} mark={idKey} base={base} state={state}>
+                <MarkEditor time={1.5} mark={idKey} base={base} onRichMarkUpdated={props.onRichMarkUpdated} state={state}>
                     <OverlayTrigger key={idKey} text={title} placement="top" overlay={<Tooltip id={idKey}>{title}</Tooltip>}>
                         <a className="mapMarker" href="#">
                             <i style={{ color: color }} key="i" className="material-icons">room</i>

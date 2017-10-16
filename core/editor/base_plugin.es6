@@ -44,16 +44,16 @@ export default function() {
 
             Object.keys(descendant).map(function(idKey) {
                 if (idKey !== 'init' &&
-                idKey !== 'getConfig' &&
-                idKey !== 'getToolbar' &&
-                idKey !== 'getSections' &&
-                idKey !== 'getInitialState' &&
-                idKey !== 'handleToolbar' &&
-                idKey !== 'afterRender' &&
-                idKey !== 'getConfigTemplate' &&
-                idKey !== 'getRenderTemplate' &&
-                idKey !== 'editRichMark' &&
-                idKey !== 'getLocales') {
+                    idKey !== 'getConfig' &&
+                    idKey !== 'getToolbar' &&
+                    idKey !== 'getSections' &&
+                    idKey !== 'getInitialState' &&
+                    idKey !== 'handleToolbar' &&
+                    idKey !== 'afterRender' &&
+                    idKey !== 'getConfigTemplate' &&
+                    idKey !== 'getRenderTemplate' &&
+                    idKey !== 'editRichMark' &&
+                    idKey !== 'getLocales') {
                     plugin[idKey] = descendant[idKey];
                 }
             });
@@ -130,7 +130,7 @@ export default function() {
                         state.__text = "<p>" + Dali.i18n.t("text_here") + "</p>";
                     }
                     if (!descendant.getRenderTemplate) {
-                        descendant.getRenderTemplate = function(stateObj) {
+                        descendant.getRenderTemplate = function(stateObj, props) {
                             return stateObj.__text;
                         };
                     }
@@ -185,8 +185,8 @@ export default function() {
                 limitToOneInstance: limitToOneInstance,
             };
         },
-        getRenderTemplate: function(render_state) {
-            return descendant.getRenderTemplate(render_state);
+        getRenderTemplate: function(render_state, props) {
+            return descendant.getRenderTemplate(render_state, props);
         },
         getToolbar: function() {
             let toolbar;
@@ -318,7 +318,7 @@ export default function() {
                 console.error(this.getConfig().name + " has not defined getRenderTemplate method");
             } else {
 
-                let template = descendant.getRenderTemplate(state);
+                let template = descendant.getRenderTemplate(state, {});
                 if(template !== null && this.getConfig().flavor !== "react") {
                     template = html2json(template);
                     assignPluginContainerIds(template);

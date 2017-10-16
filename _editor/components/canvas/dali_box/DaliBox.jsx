@@ -142,7 +142,7 @@ export default class DaliBox extends Component {
 
         let content = toolbar.config.flavor === "react" ? (
             <div style={style} {...attrs} className={"boxStyle " + classNames} ref={"content"}>
-                {Dali.Plugins.get(toolbar.config.name).getRenderTemplate(toolbar.state)}
+                {Dali.Plugins.get(toolbar.config.name).getRenderTemplate(toolbar.state, this.props)}
             </div>
         ) : (
             <div style={style} {...attrs} className={"boxStyle " + classNames} ref={"content"}>
@@ -379,6 +379,7 @@ export default class DaliBox extends Component {
      * @param nextState React next state
      */
     componentWillUpdate(nextProps, nextState) {
+        if ((this.props.boxSelected === this.props.id)) {console.log(nextProps);}
         if ((this.props.boxSelected === this.props.id) && (nextProps.boxSelected !== this.props.id) && this.props.toolbars[this.props.id].showTextEditor) {
             CKEDITOR.instances[this.props.id].focusManager.blur(true);
             this.blurTextarea();

@@ -74,6 +74,7 @@ class DaliApp extends Component {
             catalogModal: false,
             lastAction: "",
         };
+        this.onRichMarkUpdated = this.onRichMarkUpdated.bind(this);
     }
 
     /**
@@ -258,6 +259,7 @@ class DaliApp extends Component {
                                     }
                                     this.dispatchAndSetState(deleteSortableContainer(id, parent, descBoxes, cvs/* , this.getDescendantContainedViewsFromContainer(boxes[parent], id)*/));
                                 }}
+                                onRichMarkUpdated={(box, state, mark)=>{this.dispatchAndSetState(editRichMark(box, state, mark));}}
                                 onSortableContainerReordered={(ids, parent) => this.dispatchAndSetState(reorderSortableContainer(ids, parent))}
                                 onBoxDropped={(id, row, col) => this.dispatchAndSetState(dropBox(id, row, col))}
                                 onBoxDeleted={(id, parent, container)=> {let bx = this.getDescendantBoxes(boxes[id]); this.dispatchAndSetState(deleteBox(id, parent, container, bx, boxes[id].containedViews /* , this.getDescendantContainedViews(boxes[id])*/));}}
@@ -360,24 +362,7 @@ class DaliApp extends Component {
                     defaultValueMark={toolbars[boxSelected] && toolbars[boxSelected].config && Dali.Plugins.get(toolbars[boxSelected].config.name) ? Dali.Plugins.get(toolbars[boxSelected].config.name).getConfig().defaultMarkValue : 0}
                     validateValueInput={toolbars[boxSelected] && toolbars[boxSelected].config && Dali.Plugins.get(toolbars[boxSelected].config.name) ? Dali.Plugins.get(toolbars[boxSelected].config.name).validateValueInput : null}
                     onBoxAdded={(ids, draggable, resizable, content, toolbar, config, state) => this.dispatchAndSetState(addBox(ids, draggable, resizable, content, toolbar, config, state))}
-                    onRichMarkUpdated={(mark, createNew) => {
-                        let toolbar = toolbars[boxSelected];
-                        let state = JSON.parse(JSON.stringify(toolbar.state));
-                        let oldConnection = state.__marks[mark.id] ? state.__marks[mark.id].connection : 0;
-                        state.__marks[mark.id] = JSON.parse(JSON.stringify(mark));
-                        let newConnection = mark.connection;
-                        if (mark.connection.id) {
-                            newConnection = mark.connection.id;
-                            state.__marks[mark.id].connection = mark.connection.id;
-                        }
-
-                        if (!this.state.currentRichMark && createNew) {
-                            this.dispatchAndSetState(addRichMark(boxSelected, mark, state));
-                        } else {
-                            this.dispatchAndSetState(editRichMark(boxSelected, state, mark, oldConnection, newConnection));
-                        }
-
-                    }}
+                    onRichMarkUpdated={this.onRichMarkUpdated}
                     onRichMarksModalToggled={() => {
                         this.setState({ richMarksVisible: !this.state.richMarksVisible });
                         if(this.state.richMarksVisible) {
@@ -825,6 +810,25 @@ class DaliApp extends Component {
         return newIds;
     }
 
+    onRichMarkUpdated(mark, createNew) {
+        let boxSelected = this.props.boxSelected;
+        let toolbar = this.props.toolbars[boxSelected];
+        let state = JSON.parse(JSON.stringify(toolbar.state));
+        let oldConnection = state.__marks[mark.id] ? state.__marks[mark.id].connection : 0;
+        state.__marks[mark.id] = JSON.parse(JSON.stringify(mark));
+        let newConnection = mark.connection;
+        if (mark.connection.id) {
+            newConnection = mark.connection.id;
+            state.__marks[mark.id].connection = mark.connection.id;
+        }
+
+        if (!this.state.currentRichMark && createNew) {
+            this.dispatchAndSetState(addRichMark(boxSelected, mark, state));
+        } else {
+            this.dispatchAndSetState(editRichMark(boxSelected, state, mark, oldConnection, newConnection));
+        }
+
+    }
     /**
      *
      * @param obj

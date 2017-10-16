@@ -116,6 +116,7 @@ export default class DaliCanvasDoc extends Component {
                                             onBoxLevelIncreased={this.props.onBoxLevelIncreased}
                                             onBoxMoved={this.props.onBoxMoved}
                                             onBoxResized={this.props.onBoxResized}
+                                            onRichMarkUpdated={this.props.onRichMarkUpdated}
                                             onSortableContainerResized={this.props.onSortableContainerResized}
                                             onBoxesInsideSortableReorder={this.props.onBoxesInsideSortableReorder}
                                             onBoxDropped={this.props.onBoxDropped}
@@ -135,6 +136,7 @@ export default class DaliCanvasDoc extends Component {
                                         toolbars={this.props.toolbars}
                                         lastActionDispatched={this.props.lastActionDispatched}
                                         deleteMarkCreator={this.props.deleteMarkCreator}
+                                        onRichMarkUpdated={this.props.onRichMarkUpdated}
                                         markCreatorId={this.props.markCreatorId}
                                         onBoxAdded={this.props.onBoxAdded}
                                         onBoxSelected={this.props.onBoxSelected}
