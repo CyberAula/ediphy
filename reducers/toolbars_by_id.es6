@@ -637,7 +637,7 @@ export default function(state = {}, action = {}) {
     case ADD_NAV_ITEM:
         return changeProp(state, action.payload.id, toolbarSectionCreator(state, action));
     case ADD_RICH_MARK:
-        newState = state;
+        newState = Object.assign({}, state);
         if(action.payload.mark.connectMode === "new") {
             let modState = changeProp(newState, action.payload.mark.connection.id || action.payload.mark.connection, toolbarSectionCreator(newState, action, true));
             newState = changeProp(modState, action.payload.parent, toolbarReducer(modState[action.payload.parent], action));
@@ -699,11 +699,9 @@ export default function(state = {}, action = {}) {
         replaced = Object.assign({}, Object.replaceAll(replaced, action.payload.id.substr(3), action.payload.newId));
         return Object.assign({}, newState, replaced);
     case EDIT_RICH_MARK:
-        newState = state;
         if(action.payload.mark.connectMode === "new" && action.payload.oldConnection !== action.payload.newConnection) {
             let modState = changeProp(state, action.payload.mark.connection.id || action.payload.mark.connection, toolbarSectionCreator(state, action, true));
-            newState = changeProp(modState, action.payload.parent, toolbarReducer(modState[action.payload.parent], action));
-            return newState;
+            return changeProp(modState, action.payload.parent, toolbarReducer(modState[action.payload.parent], action));
         }
         return changeProp(state, action.payload.parent, toolbarReducer(state[action.payload.parent], action));
     case DELETE_RICH_MARK:

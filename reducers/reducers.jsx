@@ -98,8 +98,8 @@ const GlobalState = undoable(combineReducers({
                 return false;
             }
         }
-
-        return currentState !== previousState; // only add to history if state changed
+        // TODO: Comprobar que esto funciona
+        return currentState !== previousState;
     },
 });
 

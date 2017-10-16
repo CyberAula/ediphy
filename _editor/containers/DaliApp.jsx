@@ -631,10 +631,10 @@ class DaliApp extends Component {
         Dali.API_Private.listenEmission(Dali.API_Private.events.editRichMark, e =>{
             let box = e.detail.box;
             let toolbar = this.props.toolbars[box];
-            let state = JSON.parse(JSON.stringify(toolbar.state));
+            let state = Object.assign({}, toolbar.state);
             let ind = e.detail.id;
             state.__marks[ind].value = e.detail.value;
-            this.dispatchAndSetState(editRichMark(box, state, e.detail.id, null, null));
+            this.dispatchAndSetState(editRichMark(box, state, state.__marks[ind], null, null));
 
         });
 
