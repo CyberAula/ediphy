@@ -2,8 +2,8 @@ import React from "react";
 import i18n from 'i18next';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import MarkEditor from '../../_editor/components/rich_plugins/mark_editor/MarkEditor';
-import img from './../../dist/images/broken_link.png';
-
+import img_broken from './../../dist/images/broken_link.png';
+import img_placeholder from './../../dist/images/placeholder.png';
 export function HotspotImages(base) {
     return {
         getConfig: function() {
@@ -106,7 +106,7 @@ export function HotspotImages(base) {
                 // url: 'http://nemanjakovacevic.net/wp-content/uploads/2013/07/placeholder.png'
                 // url:'http://www.amicus.nieruchomosci.pl/grafika/no-image.png'
                 // url: 'https://bytesizemoments.com/wp-content/uploads/2014/04/placeholder.png'
-                url: Dali.Config.image_placeholder,
+                url: img_placeholder, // Dali.Config.image_placeholder,
 
             };
         },

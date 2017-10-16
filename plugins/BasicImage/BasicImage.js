@@ -1,6 +1,7 @@
 import React from 'react';
 import i18n from 'i18next';
-import img from './../../dist/images/broken_link.png';
+import img_broken from './../../dist/images/broken_link.png';
+import img_placeholder from './../../dist/images/placeholder.png';
 export function BasicImage(base) {
     return {
         getConfig: function() {
@@ -98,7 +99,7 @@ export function BasicImage(base) {
                 // url: 'http://nemanjakovacevic.net/wp-content/uploads/2013/07/placeholder.png'
                 // url: 'http://www.amicus.nieruchomosci.pl/grafika/no-image.png'
                 // url: 'https://bytesizemoments.com/wp-content/uploads/2014/04/placeholder.png',
-                url: Dali.Config.image_placeholder,
+                url: img_placeholder, // Dali.Config.image_placeholder,
             };
         },
         getRenderTemplate: function(state) {
@@ -109,7 +110,7 @@ export function BasicImage(base) {
                     src={state.url}
                     onError={(e)=>{
                         e.target.onError = null;
-                        e.target.src = img; // Dali.Config.broken_link;
+                        e.target.src = img_broken; // Dali.Config.broken_link;
 
                     }}/>
                 <div className="dropableRichZone noInternetConnectionBox" style={{ display: 'none', width: '100%', height: '100%' }}>

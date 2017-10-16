@@ -347,7 +347,7 @@ export default function(state = {}, action = {}) {
         }
         return editState;
     case DELETE_RICH_MARK:
-        if(!isContainedView(action.payload.cvid)) {
+        if(!isContainedView(action.payload.cvid) && isView(action.payload.cvid)) {
             return changeProp(state, action.payload.cvid, singleNavItemReducer(state[action.payload.cvid], action));
         }
         return state;
