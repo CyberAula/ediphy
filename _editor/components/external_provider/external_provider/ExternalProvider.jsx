@@ -63,15 +63,15 @@ export default class ExternalProvider extends Component {
                     onFetchVishResources={this.props.onFetchVishResources}/>}
                 { Dali.Config.external_providers.enable_external_upload &&
                 <ExternalUploaderModal visible={this.state.uploading}
-                                       accept={this.props.accept}
-                                       isBusy={this.props.isBusy}
-                                       onExternalUploaderToggled={(resourceUrl) => {
+                    accept={this.props.accept}
+                    isBusy={this.props.isBusy}
+                    onExternalUploaderToggled={(resourceUrl) => {
                         if(resourceUrl) {
                             this.props.onChange({ target: { value: resourceUrl } });
                         }
                         this.setState({ uploading: !this.state.uploading });
                     }}
-                                       onUploadVishResource={this.props.onUploadVishResource}/>}
+                    onUploadVishResource={this.props.onUploadVishResource}/>}
             </FormGroup>
         );
     }

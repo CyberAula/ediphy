@@ -331,8 +331,8 @@ class DaliApp extends Component {
                     onXMLEditorToggled={() => this.setState({ xmlEditorVisible: !this.state.xmlEditorVisible })}/>
                 {Dali.Config.external_providers.enable_catalog_modal &&
                 <ExternalCatalogModal images={imagesUploaded}
-                                      visible={this.state.catalogModal}
-                                      onExternalCatalogToggled={() => this.setState({ catalogModal: !this.state.catalogModal })}/>}
+                    visible={this.state.catalogModal}
+                    onExternalCatalogToggled={() => this.setState({ catalogModal: !this.state.catalogModal })}/>}
                 <RichMarksModal boxSelected={boxSelected}
                     pluginToolbar={toolbars[boxSelected]}
                     navItemSelected={navItemSelected}
