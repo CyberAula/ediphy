@@ -145,7 +145,7 @@ export default class MarkCreator extends Component {
     clickOutside(e) {
         // this function will be always called if a click happens,
         // even if stopImmediatePropagation is used on the event target
-        if (e.target && (e.target.id === 'markOverlay' || e.target.id === 'markCreatorButton' || e.target.classList.indexOf('popupFooterButton') !== -1)) {
+        if (e.target && (e.target.id === 'markOverlay' || e.target.id === 'markCreatorButton' || (e.target.classList && e.target.classList.contains('popupFooterButton') !== -1))) {
             return;
         }
 
