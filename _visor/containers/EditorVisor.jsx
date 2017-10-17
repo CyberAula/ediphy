@@ -104,7 +104,7 @@ export default class Visor extends Component {
         if (this.state.currentView.length > 1 && this.state.currentView.filter((i, v, a) => i.indexOf("pa-") !== -1).length > 1) {
             this.setState({ currentView: [this.state.currentView[this.state.currentView.length - 1]] });
         }
-        console.log("editorvisorUpdates");
+
         // Mark triggering mechanism
         if(nextState.triggeredMarks.length !== 0 && this.returnTriggereableMark(nextState.triggeredMarks)) {
             let newMark = this.returnTriggereableMark(nextState.triggeredMarks);
@@ -142,6 +142,35 @@ export default class Visor extends Component {
             }
         }
 
+    }
+
+    componentDidMount() {
+        if(Dali.State.globalConfig.keyBindings) {
+            window.onkeyup = function(e) {
+                let key = e.keyCode ? e.keyCode : e.which;
+
+                let navItemsIds = Dali.State.navItemsIds;
+
+                if (!Dali.Config.sections_have_content) {
+                    navItemsIds = navItemsIds.filter((element)=>(element.indexOf("se") === -1));
+                }
+                let navItemSelected = this.state.currentView.reduce(element=> {
+                    if (isPage(element)) {
+                        return element;
+                    }
+                    return null;
+                });
+
+                let index = navItemsIds.indexOf(navItemSelected);
+                let maxIndex = navItemsIds.length;
+
+                if (key === 37) {
+                    this.changeCurrentView(navItemsIds[Math.max(index - 1, 0)]);
+                } else if(key === 39) {
+                    this.changeCurrentView(navItemsIds[Math.min(index + 1, maxIndex - 1)]);
+                }
+            }.bind(this);
+        }
     }
 
     render() {

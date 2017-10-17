@@ -29,6 +29,7 @@ export default class GlobalConfig extends Component {
         this.state = {
             title: this.props.globalConfig.title || "",
             author: this.props.globalConfig.author || "",
+            keyBindings: this.props.globalConfig.keyBindings || true,
             canvasRatio: this.props.globalConfig.canvasRatio || 16 / 9,
             age: this.props.globalConfig.age || { min: 0, max: 100 },
             typicalLearningTime: this.props.globalConfig.typicalLearningTime || { h: 0, m: 0, s: 0 },
@@ -55,7 +56,7 @@ export default class GlobalConfig extends Component {
      * @returns {code}
      */
     render() {
-        const { title, author, canvasRatio, age, typicalLearningTime, difficulty, rights, visorNav, description, language, keywords, version, status, context } = this.state;
+        const { title, author, canvasRatio, keyBindings, age, typicalLearningTime, difficulty, rights, visorNav, description, language, keywords, version, status, context } = this.state;
         return (
             <Modal className="pageModal"
                 show={this.props.show}
@@ -235,6 +236,10 @@ export default class GlobalConfig extends Component {
                                         {i18n.t('global_config.visor_nav.player')}&nbsp;&nbsp;&nbsp;&nbsp;
                                         <ToggleSwitch onChange={(e)=>{this.setState({ modifiedState: true, visorNav: { player: visorNav.player, sidebar: !visorNav.sidebar } });}} checked={visorNav.sidebar}/>
                                         {i18n.t('global_config.visor_nav.sidebar')}
+                                    </FormGroup>
+                                    <FormGroup>
+                                        <ToggleSwitch onChange={(e)=>{this.setState({ modifiedState: true, keyBindings: !keyBindings });}} checked={keyBindings}/>
+                                        {i18n.t('global_config.keybindings')}
                                     </FormGroup>
                                     <FormGroup >
                                         <ControlLabel>{i18n.t('global_config.status')}</ControlLabel><br/>

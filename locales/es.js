@@ -74,6 +74,7 @@ let es = {
             },
             "difficulty": "Dificultad",
             "Discard": "Cancelar",
+            "keybindings": "Key Bindings",
             "keylist": {
                 "Art": "Arte",
                 "Biology": "Biología",
