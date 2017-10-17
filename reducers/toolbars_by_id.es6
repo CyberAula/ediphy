@@ -689,7 +689,6 @@ export default function(state = {}, action = {}) {
     case DELETE_SORTABLE_CONTAINER:
         return deleteProps(state, action.payload.children);
     case DUPLICATE_BOX:
-        newState = Object.assign({}, state);
         let replaced = Object.assign({}, state);
         let newIds = action.payload.newIds;
         // let count = 0;
@@ -697,13 +696,14 @@ export default function(state = {}, action = {}) {
             replaced = Object.assign({}, Object.replaceAll(replaced, box, newIds[box]));
         });
         replaced = Object.assign({}, Object.replaceAll(replaced, action.payload.id.substr(3), action.payload.newId));
-        return Object.assign({}, newState, replaced);
+        return replaced;
     case EDIT_RICH_MARK:
         if(action.payload.mark.connectMode === "new" && action.payload.oldConnection !== action.payload.newConnection) {
             let modState = changeProp(state, action.payload.mark.connection.id || action.payload.mark.connection, toolbarSectionCreator(state, action, true));
             return changeProp(modState, action.payload.parent, toolbarReducer(modState[action.payload.parent], action));
         }
         return changeProp(state, action.payload.parent, toolbarReducer(state[action.payload.parent], action));
+
     case DELETE_RICH_MARK:
         if (state[action.payload.parent] && state[action.payload.parent].state.__marks && state[action.payload.parent].state.__marks[action.payload.id]) {
             return changeProp(state, action.payload.parent, toolbarReducer(state[action.payload.parent], action));

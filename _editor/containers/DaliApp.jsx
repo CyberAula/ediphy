@@ -12,7 +12,7 @@ import { addNavItem, selectNavItem, expandNavItem, deleteNavItem, reorderNavItem
     fetchVishResourcesSuccess, fetchVishResourcesAsync, uploadVishResourceAsync,
     deleteContainedView, selectContainedView, changeContainedViewName,
     addRichMark, editRichMark, deleteRichMark,
-    ADD_BOX, ADD_RICH_MARK, EDIT_RICH_MARK, EDIT_PLUGIN_TEXT, DELETE_CONTAINED_VIEW, DELETE_NAV_ITEM, DELETE_RICH_MARK, UPDATE_BOX, UPDATE_TOOLBAR } from '../../common/actions';
+    ADD_BOX, EDIT_PLUGIN_TEXT, DELETE_CONTAINED_VIEW, DELETE_NAV_ITEM, DELETE_RICH_MARK, UPDATE_BOX, UPDATE_TOOLBAR } from '../../common/actions';
 import { ID_PREFIX_BOX, ID_PREFIX_SORTABLE_CONTAINER } from '../../common/constants';
 import DaliCanvas from '../components/canvas/dali_canvas/DaliCanvas';
 import ContainedCanvas from '../components/rich_plugins/contained_canvas/ContainedCanvas';
@@ -165,9 +165,7 @@ class DaliApp extends Component {
                                     boxesRemoving.push(boxId);
                                     boxesRemoving = boxesRemoving.concat(this.getDescendantBoxes(boxes[boxId]));
                                     // containedRemoving = containedRemoving.concat(this.getDescendantContainedViews(boxes[boxId]));
-
                                 });
-
                             });
                             let marksRemoving = this.getDescendantLinkedBoxes(viewRemoving, navItems) || [];
                             this.dispatchAndSetState(deleteNavItem(viewRemoving, navItems[navsel].parent, boxesRemoving, containedRemoving, marksRemoving));
@@ -222,19 +220,12 @@ class DaliApp extends Component {
                                 markCreatorId={this.state.markCreatorVisible}
                                 onBoxAdded={(ids, draggable, resizable, content, toolbar, config, state) => this.dispatchAndSetState(addBox(ids, draggable, resizable, content, toolbar, config, state))}
                                 addMarkShortcut= {(mark) => {
-                                    let toolbar = toolbars[boxSelected];
-                                    let state = JSON.parse(JSON.stringify(toolbar.state));
+                                    let state = JSON.parse(JSON.stringify(toolbars[boxSelected].state));
                                     state.__marks[mark.id] = JSON.parse(JSON.stringify(mark));
                                     if(mark.connection.id) {
                                         state.__marks[mark.id].connection = mark.connection.id;
                                     }
                                     this.dispatchAndSetState(addRichMark(boxSelected, mark, state));
-                                    /*
-                                    Dali.Plugins.get(toolbar.config.name).forceUpdate(
-                                        state,
-                                        boxSelected,
-                                        addRichMark(boxSelected, mark, state)
-                                    );*/
                                 }}
                                 deleteMarkCreator={()=>this.setState({ markCreatorVisible: false })}
                                 lastActionDispatched={this.state.lastAction}
@@ -285,12 +276,6 @@ class DaliApp extends Component {
                                         state.__marks[mark.id].connection = mark.connection.id;
                                     }
                                     this.dispatchAndSetState(addRichMark(boxSelected, mark, state));
-
-                                    /* Dali.Plugins.get(toolbar.config.name).forceUpdate(
-                                        state,
-                                        boxSelected,
-                                        addRichMark(boxSelected, mark, state)
-                                    );*/
                                 }}
                                 onBoxAdded={(ids, draggable, resizable, content, toolbar, config, state) => this.dispatchAndSetState(addBox(ids, draggable, resizable, content, toolbar, config, state))}
                                 deleteMarkCreator={()=>this.setState({ markCreatorVisible: false })}
@@ -530,26 +515,6 @@ class DaliApp extends Component {
             }
 
             switch (reason) {
-            case ADD_RICH_MARK:
-                /* this.dispatchAndSetState(e.detail.reason); // The action was created previously //TODO: here is the problem we need to trigger update box as well
-                this.dispatchAndSetState(updateBox(
-                    e.detail.ids.id,
-                    e.detail.content,
-                    e.detail.toolbar,
-                    e.detail.state
-                ));*/
-                break;
-            case EDIT_RICH_MARK:
-
-                // this.dispatchAndSetState(editRichMark(e.detail.ids.id, e.detail.state));
-
-                /* this.dispatchAndSetState(updateBox(
-                    e.detail.ids.id,
-                    e.detail.content,
-                    e.detail.toolbar,
-                    e.detail.state
-                ));*/
-                break;
             case ADD_BOX:
                 if(this.severalBoxes === 0) {
                     this.severalBoxes = Date.now() + this.index++;
@@ -628,13 +593,10 @@ class DaliApp extends Component {
             Dali.API_Private.answer(Dali.API_Private.events.getPluginsInView, plugins);
         });
 
-        Dali.API_Private.listenEmission(Dali.API_Private.events.editRichMark, e =>{
-            let box = e.detail.box;
-            let toolbar = this.props.toolbars[box];
-            let state = Object.assign({}, toolbar.state);
-            let ind = e.detail.id;
-            state.__marks[ind].value = e.detail.value;
-            this.dispatchAndSetState(editRichMark(box, state, state.__marks[ind], null, null));
+        Dali.API_Private.listenEmission(Dali.API_Private.events.editRichMark, e => {
+            let newState = JSON.parse(JSON.stringify(this.props.toolbars[e.detail.box].state));
+            newState.__marks[e.detail.id].value = e.detail.value;
+            this.dispatchAndSetState(editRichMark(e.detail.box, newState, newState.__marks[e.detail.id], false, false));
 
         });
 
