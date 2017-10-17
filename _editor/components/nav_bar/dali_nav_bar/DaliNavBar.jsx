@@ -114,15 +114,17 @@ export default class DaliNavBar extends Component {
                                 {i18n.t('messages.global_config')}
                             </button>
                         </MenuItem>
-                        <MenuItem divider key="div_4"/>
+                        {Dali.Config.external_providers.enable_catalog_modal &&
+                        <MenuItem divider key="div_4"/> &&
                         <MenuItem eventKey="4" key="4">
                             <button className="dropdownButton" title={i18n.t('Open_Catalog')}
                                 onClick={() => {
-                                    this.props.onVishCatalogToggled();
+                                    this.props.onExternalCatalogToggled();
                                 }}><i className="material-icons">grid_on</i>
                                 {i18n.t('Open_Catalog')}
                             </button>
                         </MenuItem>
+                        }
                         {(Dali.Config.open_button_enabled === undefined || Dali.Config.open_button_enabled) &&
                         [<MenuItem divider key="div_5"/>,
                             <MenuItem eventKey="5" key="5">
@@ -317,7 +319,7 @@ DaliNavBar.propTypes = {
     /**
      * Abre el catálogo de recursos subidos al servidor
      */
-    onVishCatalogToggled: PropTypes.func.isRequired,
+    onExternalCatalogToggled: PropTypes.func.isRequired,
     /**
      * Cambia la categoría de plugins seleccionada
      * */

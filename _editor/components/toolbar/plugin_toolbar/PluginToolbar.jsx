@@ -3,7 +3,7 @@ import { Tooltip, FormControl, OverlayTrigger, Popover, InputGroup, FormGroup, R
 import GridConfigurator from '../grid_configurator/GridConfigurator.jsx';
 import RadioButtonFormGroup from '../radio_button_form_group/RadioButtonFormGroup.jsx';
 import Select from 'react-select';
-import VishProvider from '../../external_provider/external_provider/ExternalProvider';
+import ExternalProvider from '../../external_provider/external_provider/ExternalProvider';
 import MarksList from './../../rich_plugins/marks_list/MarksList.jsx';
 import Dali from '../../../../core/editor/main';
 import ColorPicker from './../../common/color-picker/ColorPicker';
@@ -890,7 +890,7 @@ export default class PluginToolbar extends Component {
         }
 
         if (button.type === "external_provider") {
-            return React.createElement(VishProvider, {
+            return React.createElement(ExternalProvider, {
                 key: button.__name,
                 formControlProps: props,
                 isBusy: this.props.isBusy,
