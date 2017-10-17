@@ -111,6 +111,7 @@ let es = {
             "status": "Estado",
             "status_list": {
                 "draft": "Borrador",
+                "public": "Público",
                 "final": "Final",
                 "revised": "Revisado",
                 "unavailable": "No disponible",

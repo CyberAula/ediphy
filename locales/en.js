@@ -113,6 +113,7 @@ let en = {
             "status": "Status",
             "status_list": {
                 "draft": "Draft",
+                "Public": "Public",
                 "final": "Final",
                 "revised": "Revised",
                 "unavailable": "Unavailable",
