@@ -5,7 +5,7 @@ import i18n from 'i18next';
 /**
  * VISH Catalog Modal
  */
-export default class VishCatalogModal extends Component {
+export default class ExternalCatalogModal extends Component {
     /**
      * Constructor
      * @param props
@@ -45,7 +45,7 @@ export default class VishCatalogModal extends Component {
 
                 <Modal.Footer>
                     <Button onClick={e => {
-                        this.props.onVishCatalogToggled();
+                        this.props.onExternalCatalogToggled();
                     }}>{i18n.t("OK")}</Button>
                 </Modal.Footer>
             </Modal>

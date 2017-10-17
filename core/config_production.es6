@@ -17,6 +17,11 @@ export default {
     search_vish_url: "http://vishub.org/apis/search/",
     upload_vish_url: "/documents.json",
     // OPTIONS
+    external_providers: {
+        enable_search: true,
+        enable_external_upload: true,
+        enable_catalog_modal: false,
+    },
     show_numbers_before_navitems: false,
     api_editor_url_change: true,
     open_button_enabled: false,

@@ -21,7 +21,7 @@ import PluginConfigModal from '../components/plugin_config_modal/PluginConfigMod
 import XMLConfigModal from '../components/xml_config_modal/XMLConfigModal';
 import PluginToolbar from '../components/toolbar/plugin_toolbar/PluginToolbar';
 import Visor from '../../_visor/containers/Visor';
-import VishCatalogModal from '../components/external_provider/ExternalCatalogModal';
+import ExternalCatalogModal from '../components/external_provider/ExternalCatalogModal';
 import PluginRibbon from '../components/nav_bar/plugin_ribbon/PluginRibbon';
 import DaliNavBar from '../components/nav_bar/dali_nav_bar/DaliNavBar';
 import ServerFeedback from '../components/server_feedback/ServerFeedback';
@@ -112,7 +112,7 @@ class DaliApp extends Component {
                         category={this.state.pluginTab}
                         opens={() => {this.dispatchAndSetState(importStateAsync());}}
                         serverModalOpen={()=>{this.setState({ serverModal: true });}}
-                        onVishCatalogToggled={() => this.setState({ catalogModal: true })}
+                        onExternalCatalogToggled={() => this.setState({ catalogModal: true })}
                         setcat={(category) => {this.setState({ pluginTab: category, hideTab: 'show' });}}/>
                     <AutoSave save={() => {this.dispatchAndSetState(exportStateAsync({ present: this.props.store.getState().present }));}}
                         isBusy={isBusy}
@@ -329,9 +329,10 @@ class DaliApp extends Component {
                     toolbar={toolbars[boxSelected]}
                     visible={this.state.xmlEditorVisible}
                     onXMLEditorToggled={() => this.setState({ xmlEditorVisible: !this.state.xmlEditorVisible })}/>
-                <VishCatalogModal images={imagesUploaded}
-                    visible={this.state.catalogModal}
-                    onVishCatalogToggled={() => this.setState({ catalogModal: !this.state.catalogModal })}/>
+                {Dali.Config.external_providers.enable_catalog_modal &&
+                <ExternalCatalogModal images={imagesUploaded}
+                                      visible={this.state.catalogModal}
+                                      onExternalCatalogToggled={() => this.setState({ catalogModal: !this.state.catalogModal })}/>}
                 <RichMarksModal boxSelected={boxSelected}
                     pluginToolbar={toolbars[boxSelected]}
                     navItemSelected={navItemSelected}

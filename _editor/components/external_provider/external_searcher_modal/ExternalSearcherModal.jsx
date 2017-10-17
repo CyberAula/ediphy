@@ -6,7 +6,7 @@ import i18n from 'i18next';
 /**
  * VISH Search Component
  */
-export default class VishSearcherModal extends Component {
+export default class ExternalSearcherModal extends Component {
     /**
      * Constructor
      */
@@ -130,10 +130,10 @@ export default class VishSearcherModal extends Component {
 
                 <Modal.Footer>
                     <Button onClick={e => {
-                        this.props.onVishSearcherToggled();
+                        this.props.onExternalSearcherToggled();
                     }}>{i18n.t("Cancel")}</Button>
                     <Button bsStyle="primary" onClick={e => {
-                        this.props.onVishSearcherToggled(this.state.resourceUrl);
+                        this.props.onExternalSearcherToggled(this.state.resourceUrl);
                     }}>{i18n.t("global_config.Accept")}</Button>
                 </Modal.Footer>
             </Modal>
