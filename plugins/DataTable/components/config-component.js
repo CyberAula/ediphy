@@ -115,7 +115,7 @@ export default class Config extends React.Component {
     }
 
     updateChart() {
-        // this.forceUpdate();
+        this.forceUpdate();
         this.setState({ key: Math.random() });
     }
 

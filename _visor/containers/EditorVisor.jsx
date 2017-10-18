@@ -145,6 +145,9 @@ export default class Visor extends Component {
     }
 
     componentDidMount() {
+        /*
+        * Add Key bindings to app
+        * */
         if(Dali.State.globalConfig.keyBindings) {
             window.onkeyup = function(e) {
                 let key = e.keyCode ? e.keyCode : e.which;
