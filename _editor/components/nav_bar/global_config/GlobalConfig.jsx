@@ -29,7 +29,6 @@ export default class GlobalConfig extends Component {
         this.state = {
             title: this.props.globalConfig.title || "",
             author: this.props.globalConfig.author || "",
-            keyBindings: this.props.globalConfig.keyBindings || true,
             canvasRatio: this.props.globalConfig.canvasRatio || 16 / 9,
             age: this.props.globalConfig.age || { min: 0, max: 100 },
             typicalLearningTime: this.props.globalConfig.typicalLearningTime || { h: 0, m: 0, s: 0 },
@@ -41,7 +40,7 @@ export default class GlobalConfig extends Component {
             version: this.props.globalConfig.version || '0.0.0',
             status: this.props.globalConfig.status || 'draft',
             context: this.props.globalConfig.context || 'school',
-            visorNav: this.props.globalConfig.visorNav || { player: true, sidebar: true },
+            visorNav: this.props.globalConfig.visorNav || { player: true, sidebar: true, keyBindings: true },
             modifiedState: false,
             showAlert: false,
         };
@@ -56,7 +55,7 @@ export default class GlobalConfig extends Component {
      * @returns {code}
      */
     render() {
-        const { title, author, canvasRatio, keyBindings, age, typicalLearningTime, difficulty, rights, visorNav, description, language, keywords, version, status, context } = this.state;
+        const { title, author, canvasRatio, age, typicalLearningTime, difficulty, rights, visorNav, description, language, keywords, version, status, context } = this.state;
         return (
             <Modal className="pageModal"
                 show={this.props.show}
@@ -232,14 +231,14 @@ export default class GlobalConfig extends Component {
                                     </FormGroup>
                                     <FormGroup>
                                         <ControlLabel>{i18n.t('global_config.visor_nav.title')}</ControlLabel><br/>
-                                        <ToggleSwitch onChange={(e)=>{this.setState({ modifiedState: true, visorNav: { player: !visorNav.player, sidebar: visorNav.sidebar } });}} checked={visorNav.player}/>
-                                        {i18n.t('global_config.visor_nav.player')}&nbsp;&nbsp;&nbsp;&nbsp;
-                                        <ToggleSwitch onChange={(e)=>{this.setState({ modifiedState: true, visorNav: { player: visorNav.player, sidebar: !visorNav.sidebar } });}} checked={visorNav.sidebar}/>
-                                        {i18n.t('global_config.visor_nav.sidebar')}
+                                        <ToggleSwitch onChange={(e)=>{this.setState({ modifiedState: true, visorNav: { player: !visorNav.player, sidebar: visorNav.sidebar, keyBindings: visorNav.keyBindings } });}} checked={visorNav.player}/>
+                                        { i18n.t('global_config.visor_nav.player') }&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <ToggleSwitch onChange={(e)=>{this.setState({ modifiedState: true, visorNav: { player: visorNav.player, sidebar: !visorNav.sidebar, keyBindings: visorNav.keyBindings } });}} checked={visorNav.sidebar}/>
+                                        { i18n.t('global_config.visor_nav.sidebar') }
                                     </FormGroup>
                                     <FormGroup>
-                                        <ToggleSwitch onChange={(e)=>{this.setState({ modifiedState: true, keyBindings: !keyBindings });}} checked={keyBindings}/>
-                                        {i18n.t('global_config.keybindings')}
+                                        <ToggleSwitch onChange={(e)=>{this.setState({ modifiedState: true, visorNav: { player: visorNav.player, sidebar: visorNav.sidebar, keyBindings: !visorNav.keyBindings } });}} checked={visorNav.keyBindings}/>
+                                        { i18n.t('global_config.visor_nav.keybindings') }
                                     </FormGroup>
                                     <FormGroup >
                                         <ControlLabel>{i18n.t('global_config.status')}</ControlLabel><br/>
@@ -346,7 +345,7 @@ export default class GlobalConfig extends Component {
             version: this.props.globalConfig.version || '0.0.0',
             status: this.props.globalConfig.status || 'draft',
             context: this.props.globalConfig.context || 'school',
-            visorNav: this.props.globalConfig.visorNav || { player: true, sidebar: true },
+            visorNav: this.props.globalConfig.visorNav || { player: true, sidebar: true, keyBindings: true },
             modifiedState: false,
         });
 

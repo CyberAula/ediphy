@@ -76,7 +76,6 @@ let en = {
             },
             "difficulty": "Difficulty",
             "Discard": "Cancel",
-            "keybindings": "Key Bindings",
             "keylist": {
                 "Art": "Art",
                 "Biology": "Biology",
@@ -124,9 +123,10 @@ let en = {
             "typicalLearningTime": "Typical learning time",
             "version": "Version",
             "visor_nav": {
-                "player": "Buttons",
+                "keybindings": "Keyboard arrows",
+                "player": "Button bar",
                 "sidebar": "Side navbar",
-                "title": "Visualization navigation",
+                "title": "Preview navigation",
             },
         },
         "fullscreen": "Fullscreen",

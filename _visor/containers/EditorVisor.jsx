@@ -145,10 +145,14 @@ export default class Visor extends Component {
     }
 
     componentDidMount() {
+
         /*
         * Add Key bindings to app
         * */
-        if(Dali.State.globalConfig.keyBindings) {
+
+        if(Dali.State.globalConfig.visorNav.keyBindings) {
+            // First get window focus so arrows work right away
+            window.focus();
             window.onkeyup = function(e) {
                 let key = e.keyCode ? e.keyCode : e.which;
 
