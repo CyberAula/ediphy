@@ -621,15 +621,14 @@ class DaliApp extends Component {
 
             // Supr
             else if (key === 46) {
-                console.log(key)
                 if (this.props.boxSelected !== -1 && !isSortableBox(this.props.boxSelected)) {
                     // If it is not an input or any other kind of text edition AND there is a box selected, it deletes said box
                     if (focus.indexOf('form-control') === -1 && focus.indexOf('tituloCurso') === -1 && focus.indexOf('cke_editable') === -1) {
                         let box = this.props.boxes[this.props.boxSelected];
                         let toolbar = this.props.toolbars[this.props.boxSelected];
                         if (!toolbar.showTextEditor) {
-                            let bx = this.getDescendantBoxes(boxes[id]);
-                            this.dispatchAndSetState(deleteBox(box.id, box.parent, box.container, bx, boxes[id].containedViews/* , this.getDescendantContainedViews(box)*/));
+                            let bx = this.getDescendantBoxes(this.props.boxes[this.props.boxSelected]);
+                            this.dispatchAndSetState(deleteBox(box.id, box.parent, box.container, bx, this.props.boxes[this.props.boxSelected].containedViews/* , this.getDescendantContainedViews(box)*/));
                         }
                     }
                 }
