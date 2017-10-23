@@ -41,6 +41,7 @@ let en = {
             "exporting": "There was an error when exporting",
             "generic": "There was an error",
             "importing": "There was an error when importing",
+            "reaching_server": "Can't reach server",
             "searching": "There was an error while searching",
         },
         "Exercises": "Exercises",

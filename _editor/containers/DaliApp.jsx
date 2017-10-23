@@ -114,10 +114,11 @@ class DaliApp extends Component {
                         serverModalOpen={()=>{this.setState({ serverModal: true });}}
                         onExternalCatalogToggled={() => this.setState({ catalogModal: true })}
                         setcat={(category) => {this.setState({ pluginTab: category, hideTab: 'show' });}}/>
+                    {Dali.Config.autosave_time > 1000 &&
                     <AutoSave save={() => {this.dispatchAndSetState(exportStateAsync({ present: this.props.store.getState().present }));}}
                         isBusy={isBusy}
                         lastAction={this.state.lastAction}
-                        visorVisible={this.state.visorVisible}/>
+                        visorVisible={this.state.visorVisible}/>})
                 </Row>
                 <Row style={{ height: 'calc(100% - 60px)' }} id="mainRow">
                     <DaliCarousel boxes={boxes}

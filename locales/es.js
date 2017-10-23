@@ -38,6 +38,7 @@ let es = {
             "exporting": "Ha ocurrido un error al exportar",
             "generic": "Ha ocurrido un error",
             "importing": "Ha ocurrido un error al importar",
+            "reaching_server": "No se ha podido subir nada al servidor",
             "searching": "Ha ocurrido un error al buscar",
         },
         "Exercises": "Ejercicios",

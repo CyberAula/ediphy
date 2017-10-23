@@ -26,7 +26,7 @@ export default {
     api_editor_url_change: false,
     open_button_enabled: true,
     sections_have_content: false,
-    autosave_time: 30000,
+    autosave_time: 0, // Any value below 1000 will not autosave
     pluginList: [
         'BasicImage',
         'BasicText',
