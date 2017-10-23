@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import MarkCreator from '../../rich_plugins/mark_creator/MarkCreator';
-import interact from 'interact.js';
+import interact from 'interactjs';
 import PluginPlaceholder from '../plugin_placeholder/PluginPlaceholder';
 import { ADD_BOX, UPDATE_BOX, RESIZE_BOX, EDIT_PLUGIN_TEXT, IMPORT_STATE } from '../../../../common/actions';
 import Dali from '../../../../core/editor/main';

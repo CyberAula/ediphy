@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
-import interact from 'interact.js';
+import interact from 'interactjs';
 import DaliBox from '../dali_box/DaliBox';
 import { RESIZE_SORTABLE_CONTAINER, ADD_BOX } from '../../../../common/actions';
 import { isAncestorOrSibling } from '../../../../common/utils';

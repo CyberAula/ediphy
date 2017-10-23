@@ -6,7 +6,7 @@ import DaliShortcuts from '../dali_shortcuts/DaliShortcuts';
 import Alert from './../../common/alert/Alert';
 import { Col, Button } from 'react-bootstrap';
 import DaliHeader from '../dali_header/DaliHeader';
-import interact from 'interact.js';
+import interact from 'interactjs';
 import { ADD_BOX } from '../../../../common/actions';
 import { isSortableBox } from '../../../../common/utils';
 import { aspectRatio } from '../../../../common/common_tools';

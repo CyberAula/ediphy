@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import { Button, OverlayTrigger, Popover, Tooltip } from 'react-bootstrap';
-import interact from 'interact.js';
+import interact from 'interactjs';
 import Alert from './../../common/alert/Alert';
 import DaliBox from '../dali_box/DaliBox';
 import { ID_PREFIX_SORTABLE_CONTAINER } from '../../../../common/constants';
