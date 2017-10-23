@@ -124,7 +124,7 @@
     "html2json": "^1.0.2",
     "i18next": "^9.0.0",
     "i18next-browser-languagedetector": "^2.0.0",
-    "interact.js": "^1.2.8",
+    "interact.js": "^1.2.9",
     "isomorphic-fetch": "^2.2.1",
     "jest-cli": "^20.0.4",
     "jquery": "^3.1.1",

@@ -708,8 +708,8 @@ export default class DaliBox extends Component {
                 preserveAspectRatio: this.checkAspectRatioValue(),
                 enabled: (box.resizable),
                 restrict: {
-                    restriction: "parent",
-                    elementRect: { top: 0, left: 0, bottom: 1, right: 1 },
+                    restriction: dragRestrictionSelector,
+                    elementRect: { top: 0, left: 0, bottom: 0, right: 0 },
                 },
                 edges: { left: true, right: true, bottom: true, top: true },
                 onstart: (event) => {
@@ -737,7 +737,6 @@ export default class DaliBox extends Component {
                     let target = event.target;
                     let x = (parseFloat(target.getAttribute('data-x'), 10) || 0);
                     let y = (parseFloat(target.getAttribute('data-y'), 10) || 0);
-
                     // update the element's style
                     target.style.width = event.rect.width + 'px';
                     target.style.height = event.rect.height + 'px';
