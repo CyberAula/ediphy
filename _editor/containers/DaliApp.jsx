@@ -621,7 +621,7 @@ class DaliApp extends Component {
 
             // Supr
             else if (key === 46) {
-
+                console.log(key)
                 if (this.props.boxSelected !== -1 && !isSortableBox(this.props.boxSelected)) {
                     // If it is not an input or any other kind of text edition AND there is a box selected, it deletes said box
                     if (focus.indexOf('form-control') === -1 && focus.indexOf('tituloCurso') === -1 && focus.indexOf('cke_editable') === -1) {

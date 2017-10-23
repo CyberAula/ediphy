@@ -709,7 +709,7 @@ export default class DaliBox extends Component {
                 enabled: (box.resizable),
                 restrict: {
                     restriction: dragRestrictionSelector,
-                    elementRect: { top: 0, left: 0, bottom: 0, right: 0 },
+                    // elementRect: { top: 0, left: 0, bottom: 0, right: 0 },
                 },
                 edges: { left: true, right: true, bottom: true, top: true },
                 onstart: (event) => {
