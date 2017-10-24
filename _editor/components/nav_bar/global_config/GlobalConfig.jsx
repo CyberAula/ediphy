@@ -353,7 +353,8 @@ export default class GlobalConfig extends Component {
 
                 // toDataURL defaults to png, so we need to request a jpeg, then convert for file download.
                 // let a = document.createElement('a');
-                // a.href = extra_canvas.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream");
+                // a.href = a.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream");
+                //a.click();
                 this.setState({ thumbnail: extra_canvas.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream") });
             },
             useCORS: true });
