@@ -16,6 +16,7 @@ const img_place_holder = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAlgAAAHC
 import 'react-select/dist/react-select.css';
 import './_globalConfig.scss';
 import './_reactTags.scss';
+import FileInput from "../../common/file-input/FileInput";
 
 /**
  * Global course configuration modal
@@ -51,6 +52,7 @@ export default class GlobalConfig extends Component {
         this.handleDelete = this.handleDelete.bind(this);
         this.handleAddition = this.handleAddition.bind(this);
         this.handleDrag = this.handleDrag.bind(this);
+        this.fileChanged = this.fileChanged.bind(this);
     }
 
     /**
@@ -159,6 +161,13 @@ export default class GlobalConfig extends Component {
                                         <Button onClick={()=>{
                                             this.getCurrentPageAvatar();
                                         }}>Use this page as thumbnail</Button>
+                                        <FileInput onChange={this.fileChanged} className="fileInput" accept=".jpeg,.gif,.png">
+                                            <div className="fileDrag">
+                                                <span style={{ display: this.state.name ? 'none' : 'block' }}><i className="material-icons">ic_file_upload</i><b>{ i18n.t('FileInput.Drag') }</b>{ i18n.t('FileInput.Drag_2') }<b>{ i18n.t('FileInput.Click') }</b>{ i18n.t('FileInput.Click_2') }</span>
+                                                <span className="fileUploaded" style={{ display: this.state.name ? 'block' : 'none' }}><i className="material-icons">insert_drive_file</i>{ this.state.name || '' }</span>
+                                            </div>
+                                        </FileInput>
+
                                     </FormGroup>
                                 </Col>
                                 <Col className="advanced-block" xs={12} md={5} lg={5}><br/>
@@ -339,25 +348,59 @@ export default class GlobalConfig extends Component {
     getCurrentPageAvatar() {
         let element;
         if (document.getElementsByClassName('scrollcontainer').length > 0) {
-            element = document.getElementsByClassName('scrollcontainer');
+            element = document.getElementsByClassName('scrollcontainer')[0];
         } else {
             element = document.getElementById('maincontent');
         }
-        html2canvas(element, {
+
+        let clone = element.cloneNode(true);
+        let style = clone.style;
+        style.position = 'relative';
+        style.top = window.innerHeight + 'px';
+        style.left = 0;
+        document.body.appendChild(clone);
+
+        html2canvas(clone, {
             onrendered: (canvas)=> {
                 let extra_canvas = document.createElement('canvas');
+
                 extra_canvas.setAttribute('width', 500);
                 extra_canvas.setAttribute('height', 500);
                 let ctx = extra_canvas.getContext('2d');
                 ctx.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, 500, 500);
 
-                // toDataURL defaults to png, so we need to request a jpeg, then convert for file download.
+                // Uncomment this lines to download the image directly
                 // let a = document.createElement('a');
                 // a.href = a.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream");
-                //a.click();
+                // a.click();
+
+                document.body.removeChild(clone);
                 this.setState({ thumbnail: extra_canvas.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream") });
+
             },
             useCORS: true });
+    }
+
+    fileChanged(event) {
+        let files = event.target.files;
+        let file = files[0];
+        let gc = this;
+        let reader = new FileReader();
+        reader.onload = () => {
+            let data = reader.result;
+            let img = new Image();
+            img.onload = ()=>{
+                let canvas = document.createElement('canvas');
+                let ctx = canvas.getContext('2d');
+                canvas.width = 500;
+                canvas.height = canvas.width * (img.height / img.width);
+                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+                gc.setState({ thumbnail: canvas.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream") });
+            };
+            img.src = data;
+        };
+        reader.readAsDataURL(file);
     }
 
     /**
