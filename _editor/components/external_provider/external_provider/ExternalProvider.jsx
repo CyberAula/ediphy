@@ -3,6 +3,7 @@ import { FormGroup, FormControl, ControlLabel, Button } from 'react-bootstrap';
 import ExternalSearcherModal from '../external_searcher_modal/ExternalSearcherModal';
 import ExternalUploaderModal from '../external_uploader_modal/ExternalUploaderModal';
 import i18n from 'i18next';
+import PropTypes from 'prop-types';
 
 /**
  * ExternalProvider Component
@@ -76,3 +77,31 @@ export default class ExternalProvider extends Component {
         );
     }
 }
+
+ExternalProvider.proptypes = {
+    /**
+     * Delegación del botón en la creación
+     * */
+    accept: PropTypes.any,
+    /**
+    * Importa los props desde Plugin Toolbar
+    * */
+    formControlProps: PropTypes.object,
+    /**
+    * Indicador de si hay una operación en curso con el servidor
+    * */
+    isBusy: PropTypes.any,
+    /**
+    * Resultados obtenidos de la búsqueda en el proveedor externo
+    * */
+    fetchResults: PropTypes.object,
+    /**
+     * Función para obtener resultados del proveedor externo
+     */
+    onFetchVishResources: PropTypes.func,
+    /**
+     * Función para subir imágenes al proveedor externo
+     */
+    onUploadVishResource: PropTypes.func,
+
+};

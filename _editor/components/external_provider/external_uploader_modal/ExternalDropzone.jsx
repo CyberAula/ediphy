@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import FileInput from './../../common/file-input/FileInput';
+import PropTypes from 'prop-types';
 
 /**
  * VISH Dropzone component
@@ -69,3 +70,10 @@ export default class ExternalDropzone extends Component {
         );
     }
 }
+
+ExternalDropzone.proptypes = {
+    /**
+     * Delegación del botón en la creación
+     * */
+    accept: PropTypes.any,
+};
