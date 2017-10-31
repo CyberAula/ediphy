@@ -364,6 +364,11 @@ export default class GlobalConfig extends Component {
                 title: nextProps.globalConfig.title || "",
             });
         }
+        if (this.props.globalConfig.status !== nextProps.globalConfig.status) {
+            this.setState({
+                status: nextProps.globalConfig.status || "draft",
+            });
+        }
     }
 
 }
