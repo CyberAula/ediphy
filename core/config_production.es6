@@ -22,7 +22,7 @@ export default {
         enable_external_upload: true,
         enable_catalog_modal: false,
     },
-    publish_button: false,
+    publish_button: true,
     show_numbers_before_navitems: false,
     api_editor_url_change: true,
     open_button_enabled: false,
