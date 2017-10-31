@@ -6,7 +6,9 @@ export const editURL = (src) => {
     return url;
 };
 
-export const tree = {
+export const srcTree = (lang = "es") => {
+    let langPath = langPath === "en" ? "" : "_" + lang ;
+    return {
     1: {
         path: '/',
         title: "Home",
@@ -31,28 +33,28 @@ export const tree = {
                 title: "Manual de usuario",
                 md: true,
                 fromURL: true,
-                src: ("Manual/Manual_Intro.md"),
+                src: ("Manual/Manual_Intro" + langPath + ".md"),
             },
             2: {
                 path: '/manual/estructura',
                 title: "Estructura de un curso",
                 md: true,
                 fromURL: true,
-                src: ("Manual/Manual_Estructura.md"),
+                src: ("Manual/Manual_Estructura" + langPath + ".md"),
             },
             3: {
                 path: '/manual/plugins',
                 title: "Plugins",
                 md: true,
                 fromURL: true,
-                src: ("Manual/Manual_Plugins.md"),
+                src: ("Manual/Manual_Plugins" + langPath + ".md"),
             },
             4: {
                 path: '/manual/acciones',
                 title: "Acciones adicionales",
                 md: true,
                 fromURL: true,
-                src: ("Manual/Manual_Actions.md"),
+                src: ("Manual/Manual_Actions" + langPath + ".md"),
             },
         },
     },
@@ -70,7 +72,7 @@ export const tree = {
                             title: "Introducción",
                             md: true,
                             fromURL: true,
-                            src: ("DaliDoc.md"),
+                            src: ("DaliDoc" + langPath + ".md"),
                             hideTitle: true,
                         },
                         2: {
@@ -78,21 +80,21 @@ export const tree = {
                             title: "Estructura del proyecto",
                             md: true,
                             fromURL: true,
-                            src: ("Estructura.md"),
+                            src: ("Estructura" + langPath + ".md"),
                         },
                         3: {
                             path: '/docs/react',
                             title: "React",
                             md: true,
                             fromURL: true,
-                            src: ("React.md"),
+                            src: ("React"+ langPath +".md"),
                             subpages: {
                                 1: {
                                     path: '/docs/react/componentes',
                                     title: "Componentes",
                                     md: true,
                                     fromURL: true,
-                                    src: ("Componentes.md"),
+                                    src: ("Componentes"+ langPath +".md"),
                                     react_docgen: true,
                                 },
                             },
@@ -102,28 +104,28 @@ export const tree = {
                             title: "Redux",
                             md: true,
                             fromURL: true,
-                            src: ("Redux.md"),
+                            src: ("Redux"+ langPath +".md"),
                             subpages: {
                                 1: {
                                     path: '/docs/redux/estado',
                                     title: "Estado de la aplicación",
                                     md: true,
                                     fromURL: true,
-                                    src: ("Estado-de-la-aplicación.md"),
+                                    src: ("Estado-de-la-aplicación"+ langPath +".md"),
                                 },
                                 2: {
                                     path: '/docs/redux/acciones',
                                     title: "Acciones",
                                     md: true,
                                     fromURL: true,
-                                    src: ("Acciones.md"),
+                                    src: ("Acciones"+ langPath +".md"),
                                 },
                                 3: {
                                     path: '/docs/redux/reducers',
                                     title: "Reductores",
                                     md: true,
                                     fromURL: true,
-                                    src: ("Reductores.md"),
+                                    src: ("Reductores"+ langPath +".md"),
                                 },
 
                             },
@@ -139,28 +141,28 @@ export const tree = {
                             title: "Configuración global",
                             md: true,
                             fromURL: true,
-                            src: ("GlobalConfig.md"),
+                            src: ("GlobalConfig"+ langPath +".md"),
                         },
                         7: {
                             path: '/docs/plugins',
                             title: "Plugins",
                             md: true,
                             fromURL: true,
-                            src: ("PluginDev.md"),
+                            src: ("PluginDev"+ langPath +".md"),
                             subpages: {
                                 1: {
                                     path: '/docs/plugins/api',
                                     title: "Comunicación con Plugin API",
                                     md: true,
                                     fromURL: true,
-                                    src: ("API.md"),
+                                    src: ("API"+ langPath +".md"),
                                 },
                                 2: {
                                     path: '/docs/plugins/uso',
                                     title: "Uso de plugins",
                                     md: true,
                                     fromURL: true,
-                                    src: ("Plugins.md"),
+                                    src: ("Plugins"+ langPath +".md"),
                                 },
 
                             },
@@ -179,28 +181,28 @@ export const tree = {
                             title: "Creación de plugins",
                             md: true,
                             fromURL: true,
-                            src: ("Creaci%C3%B3n-de-plugins.md"),
+                            src: ("Creaci%C3%B3n-de-plugins"+ langPath +".md"),
                         },
                         2: {
                             path: '/api/baseplugin',
                             title: "BasePlugin",
                             md: true,
                             fromURL: true,
-                            src: ("BasePlugin.md"),
+                            src: ("BasePlugin"+ langPath +".md"),
                         },
                         3: {
                             path: '/api/basepluginvisor',
                             title: "BasePluginVisor",
                             md: true,
                             fromURL: true,
-                            src: ("BasePluginVisor.md"),
+                            src: ("BasePluginVisor"+ langPath +".md"),
                         },
                         4: {
                             path: '/api/rich',
                             title: "Plugins Enriquecidos",
                             md: true,
                             fromURL: true,
-                            src: ("RichPlugins.md"),
+                            src: ("RichPlugins" + langPath + ".md"),
                         },
 
                     },
@@ -208,9 +210,10 @@ export const tree = {
         },
     },
 
-};
+}};
 
 export const lookForPath = (path) => {
+    let tree = srcTree();
     for (let section in tree) {
         if (tree[section].path === path) {
             return { section: section };

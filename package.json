@@ -18,8 +18,8 @@
     "watch-sass": "node-sass -w sass/style.scss -o dist/css/compiledsass.css",
     "test": "jest --colors",
     "eslint": "eslint  --fix  **/*.js **/*.jsx **/*.es6 --ignore-pattern node_modules/ --ignore-pattern dist --ignore-pattern doc/dist --ignore-pattern doc/esdoc --ignore-pattern doc/jsdoc --ignore-pattern sass --ignore-pattern dali_server --ignore-pattern webpack_plugins",
-    "doc": " node doc/reactdocgenmd.js & node doc/importComponents.js & webpack --config doc/webpack.doc.prod.js",
-    "dev-doc": "node doc/reactdocgenmd.js & node doc/importComponents.js & webpack-dev-server --open --progress --colors --config doc/webpack.doc.dev.js",
+    "doc": "babel-node --presets es2015 doc/reactdocgenmd_rdmr.js & node doc/importComponents.js & webpack --config doc/webpack.doc.prod.js",
+    "dev-doc": "babel-node --presets es2015  doc/reactdocgenmd_rdmr.js & node doc/importComponents.js & webpack-dev-server --open --progress --colors --config doc/webpack.doc.dev.js",
     "add-all": "git add .",
     "postinstall": "node ./plugin_install"
   },

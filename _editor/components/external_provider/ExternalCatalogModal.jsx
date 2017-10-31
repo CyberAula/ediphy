@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Modal, Form, FormGroup, Button } from 'react-bootstrap';
 import i18n from 'i18next';
-
+import PropTypes from 'prop-types';
 /**
  * VISH Catalog Modal
  */

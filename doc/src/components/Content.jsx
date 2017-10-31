@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Row, Col, ListGroup, ListGroupItem, Glyphicon } from 'react-bootstrap';
-import { tree, WIKI_BASE_URL, editURL } from './../content';
+import { srcTree, WIKI_BASE_URL, editURL } from './../content';
 import Markdown from 'react-remarkable';
 import loaderSvg from '../img/Rolling.svg';
 import * as Components from '../components';
 const loader = <div className="loader" ><img src={loaderSvg} /></div>;
-
+import i18n from 'i18next';
 export default class Content extends Component {
     constructor(props) {
         super(props);
@@ -34,6 +34,7 @@ export default class Content extends Component {
     }
 
     render() {
+        let tree = srcTree(i18n.t("lang"));
         let pages = this.state.pages;
         let changePage = this.changePage.bind(this);
         let currentPage = this.props.page;
@@ -120,6 +121,7 @@ export default class Content extends Component {
     }
 
     reload(section, subsection, page, subpage) {
+        let tree = srcTree(i18n.t("lang"));
         let content = tree[section];
         let url = "";
         if (subsection !== 0) {

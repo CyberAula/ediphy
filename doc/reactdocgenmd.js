@@ -1,36 +1,8 @@
 const path = require('path');
 const fs = require('fs');
 const reactDocgen = require('react-docgen');
-const ReactDocGenMarkdownRenderer = require('react-docgen-markdown-renderer');
-
-const template = `
-## \`{{componentName}}\`
- 
-{{#if srcLink }}From [\`{{srcLink}}\`]({{srcLink}}){{/if}}
- 
- 
-prop | tipo | obligatoria | descripción
----- | :----: | :-----------: | -----------
-{{#each props}}
-**{{@key}}** | \`{{> (typePartial this) this}}\`  | {{#if this.required}}✔{{else}}✘{{/if}} | {{#if this.description}}{{{this.description}}}{{/if}}
-{{/each}}
- 
- 
-{{#each composes}}
-#### {{this.componentName}}
- 
-prop | type | required | description
----- | :----: | :--------: | -----------
-{{#each this.props}}
-**{{@key}}** | \`{{> (typePartial this) this}}\` | {{#if this.required}}:white_check_mark:{{else}}:x:{{/if}} | {{#if this.description}}{{{this.description}}}{{/if}}
-{{/each}}
- 
-{{/each}}
-`;
-const renderer = new ReactDocGenMarkdownRenderer({
-    componentsBasePath: '.',
-    template: template,
-});
+// const ReactDocGenMarkdownRenderer = require('react-docgen-markdown-renderer');
+const generateMarkdown = require('./generateMarkdown');
 
 let editorPath = (path.join('.', '_editor/components'));
 let visorPath = (path.join('.', '_visor/components'));
@@ -38,9 +10,9 @@ let files = [];
 
 function genDoc(componentPath) {
     fs.readFile(componentPath, (error, content) => {
-        const documentationPath = path.join('doc/files', path.basename(componentPath, path.extname(componentPath)) + renderer.extension);
+        const documentationPath = path.join('doc/files', path.basename(componentPath, path.extname(componentPath)) + '.md');
         const doc = reactDocgen.parse(content);
-        fs.writeFile(documentationPath, renderer.render(
+        fs.writeFile(documentationPath, generateMarkdown(
             /* The path to the component, used for linking to the file. */
             componentPath,
             /* The actual react-docgen AST */
@@ -77,7 +49,8 @@ function writeModuleFile(modPath) {
 
     fs.writeFile(modPath, content);
 }
-console.log('\nREACT-DOCGEN\n');
+for(lang in lan)
+{console.log('\nREACT-DOCGEN\n');}
 console.log('Generating component props documentation for Editor');
 getFiles(editorPath);
 console.log('Generating component props documentation for Visor');
