@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { LinkContainer } from 'react-router-bootstrap';
-import { Row, Col, ListGroup, ListGroupItem, Glyphicon } from 'react-bootstrap';
+import { Row, Col, ListGroup, ListGroupItem, Glyphicon, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { srcTree, WIKI_BASE_URL, editURL } from './../content';
 import Markdown from 'react-remarkable';
 import loaderSvg from '../img/Rolling.svg';
+import editIcon from '../img/edit.svg';
 import * as Components from '../components';
 const loader = <div className="loader" ><img src={loaderSvg} /></div>;
 import i18n from 'i18next';
@@ -67,6 +68,9 @@ export default class Content extends Component {
             content = children;
 
         }
+        const tooltip = (
+            <Tooltip id="tooltip">{i18n.t("EditDocs")}</Tooltip>
+        );
 
         return (
             <Row className="mainRow">
@@ -100,10 +104,12 @@ export default class Content extends Component {
                     </ListGroup>
                 </Col>
                 <Col xs={12} className="mainCol contentCol" sm={big ? 12 : 9 } md={big ? 12 : 10} >
-                    <span className="editIcon"
+                    <OverlayTrigger placement="bottom" overlay={tooltip}>
+                        <span className="editIcon"
                         style={{ display: content && content !== "" && content !== loader ? 'inline-block' : 'none' }}>
-                        <a href={this.state.url}><Glyphicon glyph="edit"/></a>
+                        <a href={this.state.url}><img style={{width: '25px'}} src={editIcon}/></a>
                     </span>
+                    </OverlayTrigger>
                     {(this.state.self || !pages || !pages[currentPage] || (pages[currentPage] && pages[currentPage].hideTitle)) ? null : (<h1> {this.state.title}</h1>)}
                     {this.state.md ?
                         <div className="markdownContainer" style={{ padding: !big ? '0px' : '0px 50px' }}>
