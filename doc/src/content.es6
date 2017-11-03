@@ -8,8 +8,8 @@ export const editURL = (src) => {
 };
 
 export const srcTree = (lang = "es") => {
-    let langPath = langPath === "en" ? "" : "_" + lang;
-    return {
+  let langPath = lang === "en" ? "" : "_" + lang;
+  return {
         1: {
             path: '/',
             title: i18n.t("title.Home"),
