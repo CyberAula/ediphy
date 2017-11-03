@@ -6,7 +6,7 @@ import { en } from './en/en.js';
 let translations = { en: en, es: es };
 
 i18n
-    // .use(LanguageDetector)
+    .use(LanguageDetector)
     .init({
         whitelist: ['es', 'en'],
         fallbackLng: 'en',
