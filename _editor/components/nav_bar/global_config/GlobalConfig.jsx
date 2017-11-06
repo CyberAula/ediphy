@@ -113,7 +113,7 @@ export default class GlobalConfig extends Component {
                                                 <Button bsStyle="primary" onClick={()=>{
                                                     this.getCurrentPageAvatar();
                                                 }}>{i18n.t('global_config.avatar_screenshot')}</Button>
-                                                <Button bsStyle="default" onClick={()=>{
+                                                <Button bsStyle="default" disabled={ this.state.thumbnail === img_place_holder } onClick={()=>{
                                                     this.setState({ thumbnail: img_place_holder });
                                                 }}>{i18n.t('global_config.avatar_delete_img')}</Button>
                                             </div>
