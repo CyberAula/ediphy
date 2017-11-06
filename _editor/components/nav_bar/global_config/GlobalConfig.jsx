@@ -99,7 +99,27 @@ export default class GlobalConfig extends Component {
                             <Row>
                                 <Col xs={12} md={7} lg={7}><br/>
                                     <h4>{i18n.t('global_config.title_general')}</h4>
-                                    <FormGroup >
+                                    <FormGroup>
+                                        <ControlLabel>{i18n.t('global_config.avatar')}</ControlLabel>
+                                        <div className="cont_avatar">
+                                            <img height={100} src={this.state.thumbnail} className="avatar" />
+                                            <div>
+                                                <FileInput onChange={this.fileChanged} className="fileInput" accept=".jpeg,.gif,.png">
+                                                    <div className="fileDrag">
+                                                        <span style={{ display: this.state.name ? 'none' : 'block' }}><b>{ i18n.t('FileInput.Drag') }</b>{ i18n.t('FileInput.Drag_2') }<b>{ i18n.t('FileInput.Click') }</b></span>
+                                                        <span className="fileUploaded" style={{ display: this.state.name ? 'block' : 'none' }}><i className="material-icons">insert_drive_file</i>{ this.state.name || '' }</span>
+                                                    </div>
+                                                </FileInput>
+                                                <Button bsStyle="primary" onClick={()=>{
+                                                    this.getCurrentPageAvatar();
+                                                }}>{i18n.t('global_config.avatar_screenshot')}</Button>
+                                                <Button bsStyle="default" onClick={()=>{
+                                                    this.setState({ thumbnail: img_place_holder });
+                                                }}>{i18n.t('global_config.avatar_delete_img')}</Button>
+                                            </div>
+                                        </div>
+                                    </FormGroup>
+                                    <FormGroup>
                                         <ControlLabel>{i18n.t('global_config.course_title')}</ControlLabel>
                                         <FormControl type="text"
                                             value={title}
@@ -108,7 +128,11 @@ export default class GlobalConfig extends Component {
                                     </FormGroup>
                                     <FormGroup >
                                         <ControlLabel>{i18n.t('global_config.description')}</ControlLabel>
-                                        <FormControl id="descTA" componentClass="textarea" placeholder={i18n.t('global_config.description_placeholder')} value={description} onInput={e => {this.setState({ description: e.target.value });}} />
+                                        <FormControl id="descTA"
+                                            componentClass="textarea"
+                                            placeholder={i18n.t('global_config.description_placeholder')}
+                                            value={description}
+                                            onInput={e => {this.setState({ modifiedState: true, description: e.target.value });}} />
                                     </FormGroup>
                                     <FormGroup >
                                         <ControlLabel>{i18n.t('global_config.author')}</ControlLabel>
@@ -156,19 +180,7 @@ export default class GlobalConfig extends Component {
                                             handleAddition={this.handleAddition}
                                             handleDrag={this.handleDrag} />
                                     </FormGroup>
-                                    <FormGroup>
-                                        <img width={100} height={100} src={this.state.thumbnail}/>
-                                        <Button onClick={()=>{
-                                            this.getCurrentPageAvatar();
-                                        }}>Use this page as thumbnail</Button>
-                                        <FileInput onChange={this.fileChanged} className="fileInput" accept=".jpeg,.gif,.png">
-                                            <div className="fileDrag">
-                                                <span style={{ display: this.state.name ? 'none' : 'block' }}><i className="material-icons">ic_file_upload</i><b>{ i18n.t('FileInput.Drag') }</b>{ i18n.t('FileInput.Drag_2') }<b>{ i18n.t('FileInput.Click') }</b>{ i18n.t('FileInput.Click_2') }</span>
-                                                <span className="fileUploaded" style={{ display: this.state.name ? 'block' : 'none' }}><i className="material-icons">insert_drive_file</i>{ this.state.name || '' }</span>
-                                            </div>
-                                        </FileInput>
 
-                                    </FormGroup>
                                 </Col>
                                 <Col className="advanced-block" xs={12} md={5} lg={5}><br/>
                                     <h4>{i18n.t('global_config.title_advanced')}</h4>

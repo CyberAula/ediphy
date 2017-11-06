@@ -46,7 +46,7 @@ let es = {
         "FileDialog": "Fichero",
         "FileInput": {
             "Drag": "Arrastra",
-            "Drag_2": " aquí tu fichero o ",
+            "Drag_2": " un fichero o ",
             "Click": "haz click",
             "Click_2": " para buscar",
         },
@@ -56,6 +56,9 @@ let es = {
             "aspect_ratio": "Relación de aspecto en diapositivas",
             "anonymous": "Anónimo",
             "author": "Autor",
+            "avatar": "Miniatura",
+            "avatar_delete_img": "Borrar imagen",
+            "avatar_screenshot": "Capturar pantalla",
             "context": "Contexto",
             "context_list": {
                 "school": "Ed.Primaria, Secundaria y Bach.",
