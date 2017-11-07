@@ -172,7 +172,7 @@ export default class DaliBoxSortable extends Component {
                     })}
                 </div>
 
-                <div className="dragContentHere"
+                <div className="dragContentHere" data-html2canvas-ignore
                     onClick={e => {
                         this.props.onBoxSelected(-1);
                         e.stopPropagation();}}>{i18n.t("messages.drag_content")}
