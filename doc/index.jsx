@@ -7,8 +7,9 @@ const history = createBrowserHistory();
 import ReactDOM from 'react-dom';
 import { Grid, Row, Navbar, Nav, NavDropdown, NavItem, MenuItem } from 'react-bootstrap';
 import Content from './src/components/Content';
-import { tree, lookForPath } from './src/content';
+import { srcTree, lookForPath } from './src/content';
 import "./src/style/style.scss";
+import i18n from './locales/i18n';
 
 export default class DaliDocs extends Component {
     constructor(props) {
@@ -23,6 +24,8 @@ export default class DaliDocs extends Component {
         this.handleNav = this.handleNav.bind(this);
     }
     render() {
+        console.log(i18n.t("lang"));
+        let tree = srcTree(i18n.t("lang"));
         let navItems = <Nav>{Object.keys(tree).map(el =>{
             if (Object.keys(tree[el].children).length === 0) {
                 return (<LinkContainer to={tree[el].path}>

@@ -34,6 +34,6 @@ module.exports = merge.smart(common, {
     ],
 });
 console.log('App is served in doc/dist  ✓');
-console.log('Copy the folder for production');
+console.info('You can now copy the dist folder for production');
 console.log('\n\n\n');
 
