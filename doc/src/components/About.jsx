@@ -26,19 +26,19 @@ export default class About extends Component {
                             <Col xs={12} md={4}>
                                 <Well>
                                     <h3><i className="material-icons">help</i>{i18n.t("About.UserManual")}</h3>
-                                  {i18n.t("About.UserManual_desc")}<Link to="/manual"><span>{i18n.t("About.UserManual")}</span></Link>
+                                    {i18n.t("About.UserManual_desc")}<Link to="/manual"><span>{i18n.t("About.UserManual")}</span></Link>
                                 </Well>
                             </Col>
                             <Col xs={12} md={4}>
                                 <Well>
                                     <h3><i className="material-icons">build</i>{i18n.t("About.PluginAPI")}</h3>
-                                  {i18n.t("About.PluginAPI_desc")}<Link to="/api"><span>{i18n.t("About.PluginAPI2")}</span></Link>
+                                    {i18n.t("About.PluginAPI_desc")}<Link to="/api"><span>{i18n.t("About.PluginAPI2")}</span></Link>
                                 </Well>
                             </Col>
                             <Col xs={12} md={4}>
                                 <Well>
                                     <h3><i className="material-icons">code</i>{i18n.t("About.Documentation")} </h3>
-                                  {i18n.t("About.Documentation_desc")}<Link to="/doc"><span> {i18n.t("About.Documentation2")}</span></Link>
+                                    {i18n.t("About.Documentation_desc")}<Link to="/doc"><span> {i18n.t("About.Documentation2")}</span></Link>
                                 </Well>
                             </Col>
                         </Row>
@@ -51,8 +51,8 @@ export default class About extends Component {
 
     componentDidMount() {
         let lang = i18n.t("lang");
-        lang = lang == 'en' ? "": ("_"+lang);
-        let urlCl = WIKI_BASE_URL + 'CHANGELOG'+lang+'.md';
+        lang = lang === 'en' ? "" : ("_" + lang);
+        let urlCl = WIKI_BASE_URL + 'CHANGELOG' + lang + '.md';
         $.ajax({
             url: urlCl,
             method: "GET" })
@@ -66,7 +66,7 @@ export default class About extends Component {
                 console.error('error', xhr);
                 this.setState({ changelog: "" });
             }.bind(this));
-        let urlA = WIKI_BASE_URL + 'About'+lang+'.md';
+        let urlA = WIKI_BASE_URL + 'About' + lang + '.md';
         $.ajax({
             url: urlA,
             method: "GET" })

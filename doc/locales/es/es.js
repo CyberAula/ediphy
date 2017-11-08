@@ -32,9 +32,9 @@ let es = {
             "Description": "Herramienta de autoría de e-learning",
             "PluginBased": "Estructura basada en plugins",
             "ReactRedux": "Creado con React y Redux",
-            "Github": "Visita el proyecto en Github"
+            "Github": "Visita el proyecto en Github",
         },
-        "About":{
+        "About": {
             "UserManual": "Manual de usuario",
             "UserManual_desc": "Si eres un usuario que desea aprender a utilizar Dalí, accede al ",
             "PluginAPI": "Plugin API",
@@ -42,8 +42,8 @@ let es = {
             "PluginAPI_desc": "Si deseas crear tu propio plugin para completar tu instancia de Dalí, consulta la ",
             "Documentation": "Documentación",
             "Documentation2": "documentación de desarrolladores",
-            "Documentation_desc": "Si deseas contribuír o crear tu propia versión, consulta la "
-        }
+            "Documentation_desc": "Si deseas contribuír o crear tu propia versión, consulta la ",
+        },
     },
 };
 

@@ -7,7 +7,9 @@ const languages = ['en', 'es'];
 const EDITOR_PATH = (path.join('.', '_editor/components'));
 const VISOR_PATH = (path.join('.', '_visor/components'));
 const FILES_PATH = 'doc/files/';
+const IMPORT_PATH = './doc/importMdFiles.es6';
 let files = [];
+
 function genDoc(componentPath, renderer, lang) {
     fs.readFile(componentPath, (error, content) => {
         const documentationPath = path.join(FILES_PATH + lang, path.basename(componentPath, path.extname(componentPath)) + renderer.extension);
@@ -63,11 +65,16 @@ function writeModuleFile(modPath, lang) {
 
     fs.appendFileSync(modPath, content);
 }
-function main() {
-    fs.writeFileSync('./doc/importMdFiles.es6', "");
-    if(!fs.existsSync(FILES_PATH)) {
-        fs.mkdirSync((FILES_PATH));
+
+function createDirIfNotExists(dir) {
+    if(!fs.existsSync(dir)) {
+        fs.mkdirSync((dir));
     }
+}
+
+function main() {
+    fs.writeFileSync(IMPORT_PATH, "");
+    createDirIfNotExists(FILES_PATH);
     for (let l in languages) {
         files = [];
         let lang = languages[l];
@@ -75,13 +82,10 @@ function main() {
             componentsBasePath: '.',
             template: require('./locales/' + lang + '/template').template,
         });
-        if(!fs.existsSync(FILES_PATH + lang)) {
-            fs.mkdirSync((FILES_PATH + lang));
-        }
-
+        createDirIfNotExists(FILES_PATH + lang);
         getFiles(EDITOR_PATH, renderer, lang);
         getFiles(VISOR_PATH, renderer, lang);
-        writeModuleFile('./doc/importMdFiles.es6', lang);
+        writeModuleFile(IMPORT_PATH, lang);
 
     }
 }

@@ -106,9 +106,9 @@ export default class Content extends Component {
                 <Col xs={12} className="mainCol contentCol" sm={big ? 12 : 9 } md={big ? 12 : 10} >
                     <OverlayTrigger placement="bottom" overlay={tooltip}>
                         <span className="editIcon"
-                        style={{ display: content && content !== "" && content !== loader ? 'inline-block' : 'none' }}>
-                        <a href={this.state.url}><img style={{width: '25px'}} src={editIcon}/></a>
-                    </span>
+                            style={{ display: content && content !== "" && content !== loader ? 'inline-block' : 'none' }}>
+                            <a href={this.state.url}><img style={{ width: '25px' }} src={editIcon}/></a>
+                        </span>
                     </OverlayTrigger>
                     {(this.state.self || !pages || !pages[currentPage] || (pages[currentPage] && pages[currentPage].hideTitle)) ? null : (<h1> {this.state.title}</h1>)}
                     {this.state.md ?
