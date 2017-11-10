@@ -21,23 +21,23 @@ export default class Content extends Component {
                 <Row className="tools">
                     <Col xs={12} md={4} className="mainPageBlock">
                         <Link to="api">
-                            <img src={plugin} style={{ width: '40%' }} alt=""/>
+                            <img src={plugin} className="homeImg" alt=""/>
                         </Link>
                         <h3>{i18n.t("Home.PluginBased")}</h3>
                     </Col>
                     <Col xs={12} md={4} className="mainPageBlock">
                         <a href="https://facebook.github.io/react/">
-                            <img src={react} style={{ width: '40%' }} alt=""/>
+                            <img src={react} className="homeImg" alt=""/>
                         </a>
                         <a href="http://redux.js.org/docs/introduction/">
-                            <img src={redux} style={{ width: '40%' }} alt=""/>
+                            <img src={redux} className="homeImg" alt=""/>
                         </a>
                         <h3>{i18n.t("Home.ReactRedux")}</h3>
                     </Col>
 
                     <Col xs={12} md={4} className="mainPageBlock">
                         <a href="https://github.com/ging/dali_editor/">
-                            <img src={git} style={{ width: '40%' }} alt=""/>
+                            <img src={git} className="homeImg" alt=""/>
                         </a>
                         <h3>{i18n.t("Home.Github")}</h3>
                     </Col>

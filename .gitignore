@@ -16,6 +16,10 @@ doc/jsdoc
 jsdoc
 doc/files/*
 doc/dist/doc-bundle.js
+doc/dist/doc-bundle.js
+doc/dist/demo/*bundle.js
+doc/dist/demo/*bundle.min.js
+doc/dist/demo/lib/*
 *.map
 nbproject
 dist/lib/scorm/scorm.zip

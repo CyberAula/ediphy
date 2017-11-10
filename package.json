@@ -18,11 +18,12 @@
     "watch-sass": "node-sass -w sass/style.scss -o dist/css/compiledsass.css",
     "test": "jest --colors",
     "eslint": "eslint  --fix  **/*.js **/*.jsx **/*.es6",
-    "doc": "babel-node --presets es2015 doc/reactdocgenmd.js & node doc/importComponents.js & webpack --config doc/webpack.doc.prod.js",
-    "dev-doc": "babel-node --presets es2015  doc/reactdocgenmd.js & node doc/importComponents.js & webpack-dev-server --open --progress --colors --config doc/webpack.doc.dev.js",
+    "doc": "babel-node --presets es2015 doc/scripts/reactdocgenmd.js & node doc/scripts/importComponents.js & webpack --config doc/webpack.doc.prod.js & webpack --config webpack.noserver.js & node doc/scripts/bringtodist.js",
+    "dev-doc": "babel-node --presets es2015  doc/scripts/reactdocgenmd.js & node doc/scripts/importComponents.js &  webpack --config webpack.noserver.js & node doc/scripts/bringtodist.js & webpack-dev-server --open --progress --colors --config doc/webpack.doc.dev.js",
+    "dev-only-doc": "webpack-dev-server --open --progress --colors --config doc/webpack.doc.dev.js",
     "add-all": "git add .",
     "postinstall": "node ./plugin_install"
-  },
+   },
   "pre-commit": [
     "eslint",
     "add-all"
@@ -82,6 +83,7 @@
     "jsdoc": "^3.5.4",
     "json-loader": "^0.5.4",
     "markdown-loader": "^2.0.1",
+    "ncp": "^2.0.0",
     "node-dir": "^0.1.16",
     "node-sass": "^4.5.3",
     "package-json-validator": "^0.6.1",

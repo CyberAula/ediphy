@@ -26,6 +26,7 @@ let es = {
             "BasePlugin": "BasePlugin",
             "BasePluginVisor": "BasePluginVisor",
             "RichPlugins": "Plugins Enriquecidos",
+            "LiveDemo": "Pruébalo!",
 
         },
         "Home": {

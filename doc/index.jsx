@@ -24,9 +24,16 @@ export default class DaliDocs extends Component {
         this.handleNav = this.handleNav.bind(this);
     }
     render() {
-        console.log(i18n.t("lang"));
         let tree = srcTree(i18n.t("lang"));
         let navItems = <Nav>{Object.keys(tree).map(el =>{
+            if (tree[el].isExternal) {
+                return (<NavItem key={el} active={this.state.section === el} eventKey={el} href={tree[el].path}
+                    onClick={()=>{window.location = tree[el].path;}}>
+                    <span className="dali_blue" >{tree[el].title}</span>
+                </NavItem>);
+
+            }
+
             if (Object.keys(tree[el].children).length === 0) {
                 return (<LinkContainer to={tree[el].path}>
                     <NavItem key={el} active={this.state.section === el} eventKey={el} href="#">
@@ -47,7 +54,9 @@ export default class DaliDocs extends Component {
             </NavDropdown>
             );
 
-        })}</Nav>;
+        })}
+
+        </Nav>;
 
         const Comp = ({ match }) => {
             let url = lookForPath(match.url);
@@ -70,6 +79,7 @@ export default class DaliDocs extends Component {
                         <Navbar.Toggle style={{ top: '0px', right: '0px', position: 'absolute' }}/>
                         <Navbar.Collapse>
                             {navItems}
+
                         </Navbar.Collapse>
                     </Navbar>
                 </Row>

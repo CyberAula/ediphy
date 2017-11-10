@@ -496,7 +496,7 @@ class DaliApp extends Component {
      * Loads plugin API and sets listeners for plugin events, marks and keyboard keys pressed
      */
     componentDidMount() {
-        if (process.env.NODE_ENV === 'production' && dali_editor_json && dali_editor_json !== 'undefined') {
+        if (process.env.NODE_ENV === 'production' && process.env.DOC !== 'doc' && dali_editor_json && dali_editor_json !== 'undefined') {
             this.props.dispatch(importState(JSON.parse(dali_editor_json)));
         }
 
