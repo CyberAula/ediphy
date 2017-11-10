@@ -25,6 +25,7 @@ let en = {
             "BasePlugin": "BasePlugin",
             "BasePluginVisor": "BasePluginVisor",
             "RichPlugins": "Rich Plugins",
+            "LiveDemo": "Live Demo!",
         },
         "Home": {
             "Description": "e-learning authoring tool",
