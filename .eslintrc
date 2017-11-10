@@ -3,10 +3,17 @@
   "node": true
 },
   "parser": "babel-eslint",
+  "extends": [
+    "plugin:jsx-a11y/recommended"
+  ],
   "plugins": [
     "babel",
-    "react"
+    "react",
+    "jsx-a11y"
   ],
+
+
+
   "rules": {
 
     /*Possible Errors */
