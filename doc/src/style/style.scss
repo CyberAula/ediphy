@@ -19,6 +19,9 @@ a{
   }
 }
 
+.dali_blue {
+  color: #1fc8db;
+}
 code{
   color: $dali_blue;
   background-color: #e9fafc;
@@ -234,4 +237,13 @@ img[alt=Índice], img[alt=Toolbar] {
             margin-right: 0px !important;
         }
     }
+}
+
+.tooltip {
+  text-transform: none;
+}
+
+.homeImg {
+  width: 40%;
+  max-width: 170px;
 }

@@ -49,7 +49,7 @@ let en = {
         "FileDialog": "File",
         "FileInput": {
             "Drag": "Drag",
-            "Drag_2": " your file here or ",
+            "Drag_2": " a file or ",
             "Click": "click",
             "Click_2": " to browse",
         },
@@ -58,6 +58,9 @@ let en = {
             "aspect_ratio": "Aspect Ratio",
             "anonymous": "Anonymous",
             "author": "Author",
+            "avatar": "Avatar",
+            "avatar_delete_img": "Delete image",
+            "avatar_screenshot": "Use screenshot",
             "context": "Context",
             "context_list": {
                 "school": "School",

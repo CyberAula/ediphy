@@ -8,7 +8,6 @@ function getFiles(filePath) {
     fs.readdirSync(filePath).forEach(function(file) {
         if (file) {
             let subpath = filePath + '/' + file;
-
             if(fs.lstatSync(subpath).isDirectory()) {
                 getFiles(subpath);
             } else if (path.extname(file) && path.extname(file) === '.jsx') {
