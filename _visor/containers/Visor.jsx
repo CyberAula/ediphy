@@ -31,7 +31,7 @@ export default class Visor extends Component {
                 </Modal.Header>
 
                 <Modal.Body style={{ position: 'relative', top: '-1px', width: '100%', height: '97%', padding: '0px', backgroundColor: '#555' }}>
-                    <iframe id="visor_iframe" ref={el => {
+                    <iframe title="Preview" id="visor_iframe" ref={el => {
                         if(el !== null && this.props.visorVisible) {
                             el.contentWindow.document.open();
                             el.contentWindow.document.write(Dali.Visor.exportPage(this.props.state));

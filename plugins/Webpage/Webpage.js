@@ -88,7 +88,7 @@ export function Webpage(base) {
             };
         },
         getRenderTemplate: function(state) {
-            return (<iframe style={{ width: '100%', height: '100%', zIndex: 0, pointerEvents: 'none' }} src={state.url}/>);
+            return (<iframe title="Webpage" style={{ width: '100%', height: '100%', zIndex: 0, pointerEvents: 'none' }} src={state.url}/>);
         },
         handleToolbar: function(name, value) {
             base.setState(name, value);
