@@ -1,4 +1,4 @@
-import i18n from './locales/i18n';
+import i18n from '../locales/i18n';
 import path from 'path';
 import fs from 'fs';
 const reactDocgen = require('react-docgen');
@@ -80,7 +80,7 @@ function main() {
         let lang = languages[l];
         let renderer = new ReactDocGenMarkdownRenderer({
             componentsBasePath: '.',
-            template: require('./locales/' + lang + '/template').template,
+            template: require('../locales/' + lang + '/template').template,
         });
         createDirIfNotExists(FILES_PATH + lang);
         getFiles(EDITOR_PATH, renderer, lang);

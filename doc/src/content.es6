@@ -210,6 +210,13 @@ export const srcTree = (lang = "es") => {
                 },
             },
         },
+        5: {
+            isExternal: true,
+            path: "demo/editor.html",
+            title: i18n.t("title.LiveDemo"),
+            children: {},
+            self: true,
+        },
 
     };};
 

@@ -184,7 +184,7 @@ export default class DaliNavBar extends Component {
                         <br/>
                         <span className="hideonresize">{i18n.t('Redone')}</span>
                     </button>
-                    { (Dali.Config.publish_button === undefined || !Dali.Config.publish_button) &&
+                    { (!Dali.Config.disable_save_button && (Dali.Config.publish_button === undefined || !Dali.Config.publish_button)) &&
                         <button className="navButton"
                             title={i18n.t('Save')}
                             disabled={this.props.undoDisabled }

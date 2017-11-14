@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Panel } from 'react-bootstrap';
-import * as doc from './../../importMdFiles';
+import * as doc from '../../importMdFiles';
 import i18n from 'i18next';
 export default class ComponentDoc extends Component {
     constructor(props) {
