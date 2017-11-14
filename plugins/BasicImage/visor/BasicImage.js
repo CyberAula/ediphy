@@ -11,6 +11,7 @@ export function BasicImage(base) {
                 return <div style={{ width: '100%', height: '100%' }}>
                     <img style={{ width: '100%', height: '100%', left: '0px', top: '0px' }}
                         src={state.url}
+                        alt="Default"
                         onError={(e)=>{
                             e.target.onError = null;
                             e.target.src = img;

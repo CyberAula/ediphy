@@ -140,7 +140,7 @@ export function HotspotImages(base) {
 
             return (
                 <div className="dropableRichZone">
-                    <img className="basicImageClass" style={{ height: "100%", width: "100%" }} src={state.url} onError={(e)=>{
+                    <img className="basicImageClass" alt="Default" style={{ height: "100%", width: "100%" }} src={state.url} onError={(e)=>{
                         e.target.onError = null;
                         e.target.src = img; // Dali.Config.broken_link;
                     }}/>

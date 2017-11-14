@@ -33,6 +33,7 @@ export default class ExternalCatalogModal extends Component {
                                 return (
                                     <img key={index}
                                         src={item}
+                                        alt="ViSH" 
                                         style={{
                                             width: 160,
                                             height: 160,

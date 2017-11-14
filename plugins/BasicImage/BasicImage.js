@@ -106,6 +106,7 @@ export function BasicImage(base) {
             return (<div style={{ width: '100%', margin: '0px', height: '100%' }} >
                 <img onClick={()=>{$dali$.showPreview();}} ref="img"
                     className="basicImageClass"
+                    alt="Default"
                     style={{ width: '100%', height: '100%' }}
                     src={state.url}
                     onError={(e)=>{

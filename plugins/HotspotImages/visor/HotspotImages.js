@@ -25,7 +25,7 @@ export function HotspotImages(base) {
 
             return(
                 <div>
-                    <img style={{ height: "100%", width: "100%" }} src={state.url} onError={(e)=>{
+                    <img style={{ height: "100%", width: "100%" }} alt="Default" src={state.url} onError={(e)=>{
                         e.target.onError = null;
                         e.target.src = img; // Dali.Config.broken_link;
                     }}/>
