@@ -17,7 +17,7 @@
     "start-webpack": "webpack-dev-server --progress",
     "watch-sass": "node-sass -w sass/style.scss -o dist/css/compiledsass.css",
     "test": "jest --colors",
-    "eslint": "eslint  --fix  **/*.js **/*.jsx **/*.es6",
+    "eslint": "eslint  --fix  **/**/**/**/**/**/**/*.js **/**/**/**/**/**/**/*.jsx **/**/**/**/**/**/**/*.es6",
     "doc": "babel-node --presets es2015 doc/reactdocgenmd.js & node doc/importComponents.js & webpack --config doc/webpack.doc.prod.js",
     "dev-doc": "babel-node --presets es2015  doc/reactdocgenmd.js & node doc/importComponents.js & webpack-dev-server --open --progress --colors --config doc/webpack.doc.dev.js",
     "add-all": "git add .",
