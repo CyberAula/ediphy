@@ -38,10 +38,10 @@ export default class CanvasVisorDoc extends Component {
             <Tooltip id="tooltip">{thisView}</Tooltip>
         );
 
-        let animationType = "animation-zoom";
+        let animationType = isCV ? "animation-zoom" : ""; // "animation-slide";
         return (
 
-            <Col id={isCV ? "containedCanvas" : "canvas"} md={12} xs={12} className={isCV ? animationType : ""}
+            <Col id={isCV ? "containedCanvas" : "canvas"} md={12} xs={12} className={animationType}
                 style={{ display: 'initial', padding: '0', width: '100%' }}>
                 <div className="scrollcontainer">
                     {isCV ? (< OverlayTrigger placement="bottom" overlay={tooltip}>
