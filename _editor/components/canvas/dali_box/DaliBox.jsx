@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import MarkCreator from '../../rich_plugins/mark_creator/MarkCreator';
-import interact from 'interact.js';
+import interact from 'interactjs';
 import PluginPlaceholder from '../plugin_placeholder/PluginPlaceholder';
 import { ADD_BOX, UPDATE_BOX, RESIZE_BOX, EDIT_PLUGIN_TEXT, IMPORT_STATE } from '../../../../common/actions';
 import Dali from '../../../../core/editor/main';
@@ -709,8 +709,8 @@ export default class DaliBox extends Component {
                 preserveAspectRatio: this.checkAspectRatioValue(),
                 enabled: (box.resizable),
                 restrict: {
-                    restriction: "parent",
-                    elementRect: { top: 0, left: 0, bottom: 1, right: 1 },
+                    restriction: dragRestrictionSelector,
+                    // elementRect: { top: 0, left: 0, bottom: 0, right: 0 },
                 },
                 edges: { left: true, right: true, bottom: true, top: true },
                 onstart: (event) => {
@@ -738,7 +738,6 @@ export default class DaliBox extends Component {
                     let target = event.target;
                     let x = (parseFloat(target.getAttribute('data-x'), 10) || 0);
                     let y = (parseFloat(target.getAttribute('data-y'), 10) || 0);
-
                     // update the element's style
                     target.style.width = event.rect.width + 'px';
                     target.style.height = event.rect.height + 'px';

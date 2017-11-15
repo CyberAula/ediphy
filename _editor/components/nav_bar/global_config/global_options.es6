@@ -35,9 +35,10 @@ export function suggestions() {
 export function statusOptions() {
     return [
         { label: i18n.t("global_config.status_list.draft"), value: 'draft' },
-        { label: i18n.t("global_config.status_list.final"), value: 'final' },
-        { label: i18n.t("global_config.status_list.revised"), value: 'revised' },
-        { label: i18n.t("global_config.status_list.unavailable"), value: 'unavailable' }];
+        { label: i18n.t("global_config.status_list.public"), value: 'final' },
+        /* { label: i18n.t("global_config.status_list.final"), value: 'final' }, */
+        /* { label: i18n.t("global_config.status_list.revised"), value: 'revised' }, */
+        /* { label: i18n.t("global_config.status_list.unavailable"), value: 'unavailable' } */ ];
 }
 
 /**

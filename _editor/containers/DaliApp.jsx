@@ -12,7 +12,7 @@ import { addNavItem, selectNavItem, expandNavItem, deleteNavItem, reorderNavItem
     fetchVishResourcesSuccess, fetchVishResourcesAsync, uploadVishResourceAsync,
     deleteContainedView, selectContainedView, changeContainedViewName,
     addRichMark, editRichMark, deleteRichMark,
-    ADD_BOX, ADD_RICH_MARK, EDIT_RICH_MARK, EDIT_PLUGIN_TEXT, DELETE_CONTAINED_VIEW, DELETE_NAV_ITEM, DELETE_RICH_MARK, UPDATE_BOX, UPDATE_TOOLBAR } from '../../common/actions';
+    ADD_BOX, EDIT_PLUGIN_TEXT, DELETE_CONTAINED_VIEW, DELETE_NAV_ITEM, DELETE_RICH_MARK, UPDATE_BOX, UPDATE_TOOLBAR } from '../../common/actions';
 import { ID_PREFIX_BOX, ID_PREFIX_SORTABLE_CONTAINER } from '../../common/constants';
 import DaliCanvas from '../components/canvas/dali_canvas/DaliCanvas';
 import ContainedCanvas from '../components/rich_plugins/contained_canvas/ContainedCanvas';
@@ -21,7 +21,7 @@ import PluginConfigModal from '../components/plugin_config_modal/PluginConfigMod
 import XMLConfigModal from '../components/xml_config_modal/XMLConfigModal';
 import PluginToolbar from '../components/toolbar/plugin_toolbar/PluginToolbar';
 import Visor from '../../_visor/containers/Visor';
-import VishCatalogModal from '../components/external_provider/ExternalCatalogModal';
+import ExternalCatalogModal from '../components/external_provider/ExternalCatalogModal';
 import PluginRibbon from '../components/nav_bar/plugin_ribbon/PluginRibbon';
 import DaliNavBar from '../components/nav_bar/dali_nav_bar/DaliNavBar';
 import ServerFeedback from '../components/server_feedback/ServerFeedback';
@@ -113,12 +113,13 @@ class DaliApp extends Component {
                         category={this.state.pluginTab}
                         opens={() => {this.dispatchAndSetState(importStateAsync());}}
                         serverModalOpen={()=>{this.setState({ serverModal: true });}}
-                        onVishCatalogToggled={() => this.setState({ catalogModal: true })}
+                        onExternalCatalogToggled={() => this.setState({ catalogModal: true })}
                         setcat={(category) => {this.setState({ pluginTab: category, hideTab: 'show' });}}/>
+                    {Dali.Config.autosave_time > 1000 &&
                     <AutoSave save={() => {this.dispatchAndSetState(exportStateAsync({ present: this.props.store.getState().present }));}}
                         isBusy={isBusy}
                         lastAction={this.state.lastAction}
-                        visorVisible={this.state.visorVisible}/>
+                        visorVisible={this.state.visorVisible}/>})
                 </Row>
                 <Row style={{ height: 'calc(100% - 60px)' }} id="mainRow">
                     <DaliCarousel boxes={boxes}
@@ -166,9 +167,7 @@ class DaliApp extends Component {
                                     boxesRemoving.push(boxId);
                                     boxesRemoving = boxesRemoving.concat(this.getDescendantBoxes(boxes[boxId]));
                                     // containedRemoving = containedRemoving.concat(this.getDescendantContainedViews(boxes[boxId]));
-
                                 });
-
                             });
                             let marksRemoving = this.getDescendantLinkedBoxes(viewRemoving, navItems) || [];
                             this.dispatchAndSetState(deleteNavItem(viewRemoving, navItems[navsel].parent, boxesRemoving, containedRemoving, marksRemoving));
@@ -223,19 +222,12 @@ class DaliApp extends Component {
                                 markCreatorId={this.state.markCreatorVisible}
                                 onBoxAdded={(ids, draggable, resizable, content, toolbar, config, state) => this.dispatchAndSetState(addBox(ids, draggable, resizable, content, toolbar, config, state))}
                                 addMarkShortcut= {(mark) => {
-                                    let toolbar = toolbars[boxSelected];
-                                    let state = JSON.parse(JSON.stringify(toolbar.state));
+                                    let state = JSON.parse(JSON.stringify(toolbars[boxSelected].state));
                                     state.__marks[mark.id] = JSON.parse(JSON.stringify(mark));
                                     if(mark.connection.id) {
                                         state.__marks[mark.id].connection = mark.connection.id;
                                     }
                                     this.dispatchAndSetState(addRichMark(boxSelected, mark, state));
-                                    /*
-                                    Dali.Plugins.get(toolbar.config.name).forceUpdate(
-                                        state,
-                                        boxSelected,
-                                        addRichMark(boxSelected, mark, state)
-                                    );*/
                                 }}
                                 deleteMarkCreator={()=>this.setState({ markCreatorVisible: false })}
                                 lastActionDispatched={this.state.lastAction}
@@ -287,12 +279,6 @@ class DaliApp extends Component {
                                         state.__marks[mark.id].connection = mark.connection.id;
                                     }
                                     this.dispatchAndSetState(addRichMark(boxSelected, mark, state));
-
-                                    /* Dali.Plugins.get(toolbar.config.name).forceUpdate(
-                                        state,
-                                        boxSelected,
-                                        addRichMark(boxSelected, mark, state)
-                                    );*/
                                 }}
                                 onBoxAdded={(ids, draggable, resizable, content, toolbar, config, state) => this.dispatchAndSetState(addBox(ids, draggable, resizable, content, toolbar, config, state))}
                                 deleteMarkCreator={()=>this.setState({ markCreatorVisible: false })}
@@ -346,9 +332,10 @@ class DaliApp extends Component {
                     toolbar={toolbars[boxSelected]}
                     visible={this.state.xmlEditorVisible}
                     onXMLEditorToggled={() => this.setState({ xmlEditorVisible: !this.state.xmlEditorVisible })}/>
-                <VishCatalogModal images={imagesUploaded}
+                {Dali.Config.external_providers.enable_catalog_modal &&
+                <ExternalCatalogModal images={imagesUploaded}
                     visible={this.state.catalogModal}
-                    onVishCatalogToggled={() => this.setState({ catalogModal: !this.state.catalogModal })}/>
+                    onExternalCatalogToggled={() => this.setState({ catalogModal: !this.state.catalogModal })}/>}
                 <RichMarksModal boxSelected={boxSelected}
                     pluginToolbar={toolbars[boxSelected]}
                     navItemSelected={navItemSelected}
@@ -494,7 +481,7 @@ class DaliApp extends Component {
      * Loads plugin API and sets listeners for plugin events, marks and keyboard keys pressed
      */
     componentDidMount() {
-        if (process.env.NODE_ENV === 'production' && dali_editor_json && dali_editor_json !== 'undefined') {
+        if (process.env.NODE_ENV === 'production' && process.env.DOC !== 'doc' && dali_editor_json && dali_editor_json !== 'undefined') {
             this.props.dispatch(importState(JSON.parse(dali_editor_json)));
         }
 
@@ -515,26 +502,6 @@ class DaliApp extends Component {
             }
 
             switch (reason) {
-            case ADD_RICH_MARK:
-                /* this.dispatchAndSetState(e.detail.reason); // The action was created previously //TODO: here is the problem we need to trigger update box as well
-                this.dispatchAndSetState(updateBox(
-                    e.detail.ids.id,
-                    e.detail.content,
-                    e.detail.toolbar,
-                    e.detail.state
-                ));*/
-                break;
-            case EDIT_RICH_MARK:
-
-                // this.dispatchAndSetState(editRichMark(e.detail.ids.id, e.detail.state));
-
-                /* this.dispatchAndSetState(updateBox(
-                    e.detail.ids.id,
-                    e.detail.content,
-                    e.detail.toolbar,
-                    e.detail.state
-                ));*/
-                break;
             case ADD_BOX:
                 if(this.severalBoxes === 0) {
                     this.severalBoxes = Date.now() + this.index++;
@@ -613,13 +580,10 @@ class DaliApp extends Component {
             Dali.API_Private.answer(Dali.API_Private.events.getPluginsInView, plugins);
         });
 
-        Dali.API_Private.listenEmission(Dali.API_Private.events.editRichMark, e =>{
-            let box = e.detail.box;
-            let toolbar = this.props.toolbars[box];
-            let state = JSON.parse(JSON.stringify(toolbar.state));
-            let ind = e.detail.id;
-            state.__marks[ind].value = e.detail.value;
-            this.dispatchAndSetState(editRichMark(box, state, e.detail.id, null, null));
+        Dali.API_Private.listenEmission(Dali.API_Private.events.editRichMark, e => {
+            let newState = JSON.parse(JSON.stringify(this.props.toolbars[e.detail.box].state));
+            newState.__marks[e.detail.id].value = e.detail.value;
+            this.dispatchAndSetState(editRichMark(e.detail.box, newState, newState.__marks[e.detail.id], false, false));
 
         });
 
@@ -643,15 +607,14 @@ class DaliApp extends Component {
 
             // Supr
             else if (key === 46) {
-
                 if (this.props.boxSelected !== -1 && !isSortableBox(this.props.boxSelected)) {
                     // If it is not an input or any other kind of text edition AND there is a box selected, it deletes said box
                     if (focus.indexOf('form-control') === -1 && focus.indexOf('tituloCurso') === -1 && focus.indexOf('cke_editable') === -1) {
                         let box = this.props.boxes[this.props.boxSelected];
                         let toolbar = this.props.toolbars[this.props.boxSelected];
                         if (!toolbar.showTextEditor) {
-                            let bx = this.getDescendantBoxes(boxes[id]);
-                            this.dispatchAndSetState(deleteBox(box.id, box.parent, box.container, bx, boxes[id].containedViews/* , this.getDescendantContainedViews(box)*/));
+                            let bx = this.getDescendantBoxes(this.props.boxes[this.props.boxSelected]);
+                            this.dispatchAndSetState(deleteBox(box.id, box.parent, box.container, bx, this.props.boxes[this.props.boxSelected].containedViews/* , this.getDescendantContainedViews(box)*/));
                         }
                     }
                 }

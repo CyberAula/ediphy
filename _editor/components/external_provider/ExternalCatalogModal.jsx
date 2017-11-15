@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { Modal, Form, FormGroup, Button } from 'react-bootstrap';
 import i18n from 'i18next';
+import PropTypes from 'prop-types';
 
 /**
  * VISH Catalog Modal
  */
-export default class VishCatalogModal extends Component {
+export default class ExternalCatalogModal extends Component {
     /**
      * Constructor
      * @param props
@@ -45,10 +46,29 @@ export default class VishCatalogModal extends Component {
 
                 <Modal.Footer>
                     <Button onClick={e => {
-                        this.props.onVishCatalogToggled();
+                        this.props.onExternalCatalogToggled();
                     }}>{i18n.t("OK")}</Button>
                 </Modal.Footer>
             </Modal>
         );
     }
 }
+
+ExternalCatalogModal.proptypes = {
+    /**
+     * Muestra el Modal
+     */
+    visible: PropTypes.bool,
+    /**
+     * Indicador de si hay una operación en curso con el servidor
+     * */
+    isBusy: PropTypes.bool,
+    /**
+     * Función para mostrar la búsqueda externa
+     */
+    onExternalSearcherToggled: PropTypes.func,
+    /**
+     * Función para obtener resultados del proveedor externo
+     */
+    onFetchVishResources: PropTypes.func,
+};

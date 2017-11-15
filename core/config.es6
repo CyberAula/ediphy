@@ -17,11 +17,17 @@ export default {
     search_vish_url: "http://vishub.org/apis/search/",
     upload_vish_url: "http://127.0.0.1:8081/upload",
     // OPTIONS
+    external_providers: {
+        enable_search: true,
+        enable_external_upload: false,
+        enable_catalog_modal: false,
+    },
+    publish_button: false,
     show_numbers_before_navitems: false,
     api_editor_url_change: false,
     open_button_enabled: true,
     sections_have_content: false,
-    autosave_time: 30000,
+    autosave_time: 0, // Any value below 1000 will not autosave
     pluginList: [
         'BasicImage',
         'BasicText',

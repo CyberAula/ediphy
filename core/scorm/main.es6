@@ -334,7 +334,7 @@ export default {
         itValue.appendChild(itValueTxt);
         interactivityType.appendChild(itValue);
         educational.appendChild(interactivityType);
-        /* MULTI?*/ 
+        /* MULTI?*/
         /* var learningResourceType = doc.createElement('learningResourceType');
                 var lrtSource = doc.createElement('source');
                     var lrtSourceTxt = doc.createTextNode('LOMv1.0');

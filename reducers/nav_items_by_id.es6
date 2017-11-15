@@ -216,7 +216,7 @@ export default function(state = {}, action = {}) {
 
         return state;
     case DELETE_SORTABLE_CONTAINER:
-        let item = findNavItemContainingBox(state, action.payload.parent);
+        /* let item = findNavItemContainingBox(state, action.payload.parent);
         if(item) {
             if(item.extraFiles.length !== 0) {
                 return Object.assign({}, state,
@@ -233,8 +233,14 @@ export default function(state = {}, action = {}) {
                     )
                 );
             }
+        }*/
+        let nState = Object.assign({}, state);
+        /* for (let cv in action.payload.cvs) {
+        for (let b in action.payload.cvs[cv]) {
+          delete nState[cv].parent[action.payload.cvs[cv][b]];
         }
-        return state;
+      }*/
+        return nState;
     case DUPLICATE_BOX:
         if (isView(action.payload.parent)) {
             let newBoxes = state[action.payload.parent].boxes;
@@ -292,6 +298,13 @@ export default function(state = {}, action = {}) {
         });
         return changeProps(itemsReordered, descendantsToUpdate, newDescendants);
     case DELETE_NAV_ITEM:
+        for (let cv in state) {
+            for (let box in action.payload.boxes) {
+                if (state[cv].linkedBoxes && state[cv].linkedBoxes[action.payload.boxes[box]]) {
+                    delete state[cv].linkedBoxes[action.payload.boxes[box]];
+                }
+            }
+        }
         let stateWithNavItemsDeleted = deleteProps(state, action.payload.ids);
         return changeProp(stateWithNavItemsDeleted, action.payload.parent, singleNavItemReducer(state[action.payload.parent], action));
     case TOGGLE_NAV_ITEM:

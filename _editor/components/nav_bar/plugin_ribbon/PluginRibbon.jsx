@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Col } from 'react-bootstrap';
-import interact from 'interact.js';
+import interact from 'interactjs';
 import PropTypes from 'prop-types';
 import Dali from '../../../../core/editor/main';
 import ReactDOM from 'react-dom';

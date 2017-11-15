@@ -93,6 +93,18 @@ export default class DaliNavBar extends Component {
                         <span className="hideonresize" style={{ fontSize: '12px' }}>Menu</span>
                     </Dropdown.Toggle>
                     <Dropdown.Menu id="topMenu" className="pageMenu super-colors topMenu">
+                        {(Dali.Config.publish_button !== undefined && Dali.Config.publish_button) &&
+                        <MenuItem disabled={this.props.undoDisabled} eventKey="6" key="6">
+                            <button className="dropdownButton"
+                                disabled={this.props.undoDisabled}
+                                onClick={(e) => {
+                                    this.props.save();
+                                    this.props.serverModalOpen();
+                                }}>
+                                <i className="material-icons">save</i>
+                                {i18n.t('Save')}
+                            </button>
+                        </MenuItem>}
                         <MenuItem disabled={this.props.undoDisabled} eventKey="1" key="1">
                             <button className="dropdownButton" title={i18n.t('messages.export_to_HTML')}
                                 disabled={ (this.props.navItemSelected === 0) || this.props.undoDisabled}
@@ -114,15 +126,17 @@ export default class DaliNavBar extends Component {
                                 {i18n.t('messages.global_config')}
                             </button>
                         </MenuItem>
-                        <MenuItem divider key="div_4"/>
+                        {Dali.Config.external_providers.enable_catalog_modal &&
+                        <MenuItem divider key="div_4"/> &&
                         <MenuItem eventKey="4" key="4">
                             <button className="dropdownButton" title={i18n.t('Open_Catalog')}
                                 onClick={() => {
-                                    this.props.onVishCatalogToggled();
+                                    this.props.onExternalCatalogToggled();
                                 }}><i className="material-icons">grid_on</i>
                                 {i18n.t('Open_Catalog')}
                             </button>
                         </MenuItem>
+                        }
                         {(Dali.Config.open_button_enabled === undefined || Dali.Config.open_button_enabled) &&
                         [<MenuItem divider key="div_5"/>,
                             <MenuItem eventKey="5" key="5">
@@ -170,17 +184,48 @@ export default class DaliNavBar extends Component {
                         <br/>
                         <span className="hideonresize">{i18n.t('Redone')}</span>
                     </button>
+                    { (!Dali.Config.disable_save_button && (Dali.Config.publish_button === undefined || !Dali.Config.publish_button)) &&
+                        <button className="navButton"
+                            title={i18n.t('Save')}
+                            disabled={this.props.undoDisabled }
+                            onClick={() => {
+                                this.props.save();
+                                this.props.serverModalOpen();
+                            }}>
+                            <i className="material-icons">save</i>
+                            <br/>
+                            <span className="hideonresize">{i18n.t('Save')}</span>
+                        </button>
+                    }
+                    { Dali.Config.publish_button !== undefined && Dali.Config.publish_button && this.props.globalConfig.status === "draft" &&
                     <button className="navButton"
-                        title={i18n.t('Save')}
+                        title={i18n.t('Publish')}
                         disabled={this.props.undoDisabled }
                         onClick={() => {
+                            this.props.changeGlobalConfig("status", "final");
                             this.props.save();
                             this.props.serverModalOpen();
                         }}>
-                        <i className="material-icons">save</i>
+                        <i className="material-icons">publish</i>
                         <br/>
-                        <span className="hideonresize">{i18n.t('Save')}</span>
+                        <span className="hideonresize">{i18n.t('Publish')}</span>
                     </button>
+                    }
+                    { Dali.Config.publish_button !== undefined && Dali.Config.publish_button && this.props.globalConfig.status === "final" &&
+                    <button className="navButton"
+                        title={i18n.t('Unpublish')}
+                        disabled={this.props.undoDisabled }
+                        onClick={() => {
+                            this.props.changeGlobalConfig("status", "draft");
+                            this.props.save();
+                            this.props.serverModalOpen();
+                        }}>
+                        <i className="material-icons">no_sim</i>
+                        <br/>
+                        <span className="hideonresize">{i18n.t('Unpublish')}</span>
+                    </button>
+                    }
+
                     <button className="navButton"
                         title={i18n.t('Preview')}
                         disabled={((this.props.navItemSelected === 0 || (this.props.navItemSelected && !Dali.Config.sections_have_content && isSection(this.props.navItemSelected))))}
@@ -317,10 +362,33 @@ DaliNavBar.propTypes = {
     /**
      * Abre el catálogo de recursos subidos al servidor
      */
-    onVishCatalogToggled: PropTypes.func.isRequired,
+    onExternalCatalogToggled: PropTypes.func.isRequired,
     /**
      * Cambia la categoría de plugins seleccionada
      * */
     setcat: PropTypes.func.isRequired,
 
 };
+
+/**
+ * TODO: Si queremos parametrizar esta clase hacemos un json y lo recorremos con los siguientes elementos:
+ *
+ *  {
+ *    navbar:[{
+ *      title,
+ *      className,
+ *      disabled,
+ *      tooltip,
+ *      icon,
+ *      onClick [func],
+ *      shownCondition [func],
+ *    },{},...],
+ *    dropdownMenu: [{title,
+ *      className,
+ *      disabled,
+ *      tooltip,
+ *      icon,
+ *      onClick [func],
+ *      shownCondition [func],}]
+ *  }
+ * */

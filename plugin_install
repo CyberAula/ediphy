@@ -5,79 +5,75 @@
 * when they have a package.json inside any of the folders.
 */
 
-var shelljs = require('shelljs');
-var fs = require('fs');
-var PJV = require('package-json-validator').PJV;
-var glob = require("glob");
-var async = require("async");
+let shelljs = require('shelljs');
+let fs = require('fs');
+let PJV = require('package-json-validator').PJV;
+let glob = require("glob");
+let async = require("async");
 
-
-fs.readdir("./plugins", (err,files) => {
-	files.forEach(file => {
-  	if(fs.lstatSync("./plugins/" + file).isDirectory()){
-  		if(fs.existsSync("./plugins/"+ file +"/package.json")){
+fs.readdir("./plugins", (err, files) => {
+    files.forEach(file => {
+  	if(fs.lstatSync("./plugins/" + file).isDirectory()) {
+  		if(fs.existsSync("./plugins/" + file + "/package.json")) {
   			console.log("Installing " + file);
-        var validation = PJV.validate(fs.readFileSync("./plugins/"+ file +"/package.json", 'utf8'),"npm");
-  			if (validation.valid){
-  				shelljs.exec("npm install ./plugins/"+ file).stdout;
+                let validation = PJV.validate(fs.readFileSync("./plugins/" + file + "/package.json", 'utf8'), "npm");
+  			if (validation.valid) {
+  				shelljs.exec("npm install ./plugins/" + file).stdout;
+                }
+            }
+        } else {
+            // console.log(validation.errors);
         }
-      }
-    } else {
-      //console.log(validation.errors);
-    }
-  });
+    });
 });
 
-    
 /* GET JS LOCAL DEPENDENCIES AND CSS*/
 async.series({
-  dependencies: function(call){
-    glob("./plugins/*/package.json", function(err,files){
-      var dependencies_array = [];
-      for(var f = 0; f < files.length; f++){
-        var json = JSON.parse(fs.readFileSync(files[f], 'utf8'));
-        if(json.config && json.config.localDependencies){
-          Object.keys(json.config.localDependencies).forEach(function(e){
-            dependencies_array.push(json.config.localDependencies[e]);
-          });
-        }
-      }
-      call(null, dependencies_array)
-    });
-  },
-  css: function(call){
-    glob("./plugins/*/package.json", function(err,files){
-      var css_array = [];
-      for(var f = 0; f < files.length; f++){
-        var json = JSON.parse(fs.readFileSync(files[f], 'utf8'));             
-        if(json.config && json.config.css){
-          Object.keys(json.config.css).forEach(function(e){
-            css_array.push(json.config.css[e]);
-          });
-        }
-      }
-      call("css", css_array);
-    });
-  }
-  },function(err, results){
-    var loader_string = "module.exports = { requireAll: function() { ";
-    async.each(results.dependencies, function(file, call){
-      var require_string = "require('!script-loader!./..";
-      var require_close = "');";
-      loader_string += require_string + file + require_close;
-      call();
-    }, function(err){
-      async.each(results.css, function(file, call){
-        var require_string = "require('./..";
-        var require_close = "');";
+    dependencies: function(call) {
+        glob("./plugins/*/package.json", function(err, files) {
+            let dependencies_array = [];
+            for(let f = 0; f < files.length; f++) {
+                var json = JSON.parse(fs.readFileSync(files[f], 'utf8'));
+                if(json.config && json.config.localDependencies) {
+                    Object.keys(json.config.localDependencies).forEach(function(e) {
+                        dependencies_array.push(json.config.localDependencies[e]);
+                    });
+                }
+            }
+            call(null, dependencies_array);
+        });
+    },
+    css: function(call) {
+        glob("./plugins/*/package.json", function(err, files) {
+            let css_array = [];
+            for(let f = 0; f < files.length; f++) {
+                var json = JSON.parse(fs.readFileSync(files[f], 'utf8'));
+                if(json.config && json.config.css) {
+                    Object.keys(json.config.css).forEach(function(e) {
+                        css_array.push(json.config.css[e]);
+                    });
+                }
+            }
+            call("css", css_array);
+        });
+    },
+}, function(err, results) {
+    let loader_string = "module.exports = { requireAll: function() { ";
+    async.each(results.dependencies, function(file, call) {
+        let require_string = "require('!script-loader!./..";
+        let require_close = "');";
         loader_string += require_string + file + require_close;
         call();
-      }, function(err){
-        loader_string += "} };\n";
-        fs.writeFile("./plugins/plugin_dependencies_loader.js", loader_string);
-      });
+    }, function(err) {
+        async.each(results.css, function(file, call) {
+            let require_string = "require('./..";
+            let require_close = "');";
+            loader_string += require_string + file + require_close;
+            call();
+        }, function(err) {
+            loader_string += "} };\n";
+            fs.writeFile("./plugins/plugin_dependencies_loader.js", loader_string);
+        });
     });
 });
-
-	  	
 

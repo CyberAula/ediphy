@@ -67,7 +67,7 @@ export default class MarkCreator extends Component {
                     this.processPrompt(bool);
                 }}>
                 {i18n.t("marks.create_mark")}<br/><br/>
-                <FormControl type="text" autoFocus placeholder={i18n.t("marks.new_mark")} onChange={(e)=>{this.setState({ promptRes: e.target.value });}} />
+                <FormControl type="text" value={this.state.promptRes} autoFocus placeholder={i18n.t("marks.new_mark")} onChange={(e)=>{this.setState({ promptRes: e.target.value });}} />
             </Alert>);
     }
 
@@ -77,9 +77,9 @@ export default class MarkCreator extends Component {
      * @param nextState
      */
     componentWillUpdate(nextProps, nextState) {
-        if (this.state.showAlert && this.state.promptRes !== "" && nextState.promptRes === "") {
+        /* if (this.state.showAlert && this.state.promptRes !== "" && nextState.promptRes === "") {
             nextState.promptRes = this.state.promptRes;
-        }
+        }*/
         if(this.props.content !== undefined && !this.state.showAlert) {
             let element = this.props.content;
             let dom_element = ReactDOM.findDOMNode(element);
@@ -145,9 +145,10 @@ export default class MarkCreator extends Component {
     clickOutside(e) {
         // this function will be always called if a click happens,
         // even if stopImmediatePropagation is used on the event target
-        if (e.target && (e.target.id === 'markOverlay' || e.target.id === 'markCreatorButton')) {
+        if (e.target && (e.target.id === 'markOverlay' || e.target.id === 'markCreatorButton' || (e.target.classList && e.target.classList.contains('popupFooterButton') !== -1))) {
             return;
         }
+
         this.exitFunction();
 
     }

@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
-import VishDropzone from './ExternalDropzone';
+import ExternalDropzone from './ExternalDropzone';
 import Alert from './../../common/alert/Alert';
 import ReactDOM from 'react-dom';
 import { Modal, FormControl, Form, FormGroup, ControlLabel, Button } from 'react-bootstrap';
 import i18n from 'i18next';
+import PropTypes from 'prop-types';
 
 /**
  * VISH Uploader Component
  */
-export default class VishUploaderModal extends Component {
+export default class ExternalUploaderModal extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -37,7 +38,7 @@ export default class VishUploaderModal extends Component {
                             <FormControl ref="desc" componentClass="textarea" style={{ resize: 'none' }}/>
                         </FormGroup>
                         <FormGroup>
-                            <VishDropzone ref="dropZone" accept={this.props.accept}/>
+                            <ExternalDropzone ref="dropZone" accept={this.props.accept}/>
                         </FormGroup>
                         <FormGroup>
                             <ControlLabel>{this.props.isBusy.value ? this.props.isBusy.msg : ""}</ControlLabel>
@@ -47,7 +48,7 @@ export default class VishUploaderModal extends Component {
 
                 <Modal.Footer>
                     <Button disabled={this.props.isBusy.value} onClick={e => {
-                        this.props.onVishUploaderToggled();
+                        this.props.onExternalUploaderToggled();
                     }}>Cancel</Button>
                     <Button bsStyle="primary"
                         disabled={this.props.isBusy.value}
@@ -85,7 +86,26 @@ export default class VishUploaderModal extends Component {
      */
     componentWillReceiveProps(nextProps) {
         if (!nextProps.isBusy.value && this.props.isBusy.value && this.props.visible) {
-            this.props.onVishUploaderToggled(nextProps.isBusy.msg);
+            this.props.onExternalUploaderToggled(nextProps.isBusy.msg);
         }
     }
 }
+
+ExternalUploaderModal.proptypes = {
+    /**
+     * Delegación del botón en la creación
+     * */
+    accept: PropTypes.any,
+    /**
+     * Indicador de si hay una operación en curso con el servidor
+     * */
+    isBusy: PropTypes.any,
+    /**
+     * Función para mostrar el Modal con el mensaje de información del servidor
+     */
+    onExternalUploaderToggled: PropTypes.func,
+    /**
+     * Función para subir imágenes al proveedor externo
+     */
+    onUploadVishResource: PropTypes.func,
+};
