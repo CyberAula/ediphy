@@ -90,7 +90,6 @@
 
 
 .modalVisorContainer {
-  //margin: 15px;
   .modal-lg {
     width: 95% !important;
     margin: 0 auto;
@@ -258,7 +257,7 @@
     overflow: auto;
     li{
       line-height: 35px;
-      a{
+      a, button{
         display: block;
         text-decoration: none;
         color: white;
@@ -310,36 +309,35 @@
 }
 
 @media(min-width:768px) {
-    .visorwrapper {
-        padding-left: 0;
-    }
-    .visorwrapper.toggled {
-        padding-left: 250px !important;
-    }
-    #sidebar-wrapper {
-        width: 0;
-    }
-    .visorwrapper.toggled #sidebar-wrapper {
-        width: 250px !important;
-    }
-    #page-content-wrapper {
-        position: relative;
-        background-color: #9a9a9a;
-    }
-    .visorwrapper.toggled #page-content-wrapper {
-        position: relative !important;
-        margin-right: 0 !important;
-    }
+  .visorwrapper {
+      padding-left: 0;
+  }
+  .visorwrapper.toggled {
+      padding-left: 250px !important;
+  }
+  #sidebar-wrapper {
+      width: 0;
+  }
+  .visorwrapper.toggled #sidebar-wrapper {
+      width: 250px !important;
+  }
+  #page-content-wrapper {
+      position: relative;
+      background-color: #9a9a9a;
+  }
+  .visorwrapper.toggled #page-content-wrapper {
+      position: relative !important;
+      margin-right: 0 !important;
+  }
 }
 
 
 /*Iframe*/
 iframe#visor_iframe{
-    background-color: white;
-    //background-image: url("https://s-media-cache-ak0.pinimg.com/originals/25/ef/28/25ef280441ad6d3a5ccf89960b4e95eb.gif");
-    background-image: url("../../dist/images/spinner.svg");
-    background-repeat: no-repeat;
-    background-position: 50% 50%;
+  background-color: white;
+  background-image: url("../../dist/images/spinner.svg");
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
 }
 
 li > .selectedNavItemVisor {
@@ -350,35 +348,29 @@ li > .selectedNavItemVisor {
   display:block;
 }
 
-/*.visorwrapper #airlayer,  .visorwrapper #airlayer_cv{
-  min-height: 100%;
-  min-height: calc(100vh - 135px);
-}*/
-
 
 .visorwrapper #containedCanvas {
   min-height: 100% !important;  
 }
 
-.visorwrapper #containedCanvas #airlayer{
-  //min-height: 100vh ;  
-}
 
 .indexElementTitle {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    display: inline-block;
-    padding-right: 10px;
-    
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: inline-block;
+  padding-right: 10px;
+  border: none;
+  width: 100%;
+  background: inherit;
+  text-align: left;
 }
-// .visorwrapper #containedCanvas {
-//   min-height: 100%;  
-// }
+
 
 .doc, .sli, #maincontent, #airlayer {
   overflow: visible;
 }
+
 .cvBackButton {
    z-index:9999;
 } 

@@ -36,9 +36,14 @@
   pointer-events: all !important;
 }
 
-a.mapMarker {
+.mapMarker {
   position: absolute;
-  pointerEvents: all !important;
+  pointer-events: all !important;
+  border: none;
+  padding: 0;
+  margin: 0;
+
+  background-color: transparent;
   top: -26px;
   left: -12px;
   width: 24px;

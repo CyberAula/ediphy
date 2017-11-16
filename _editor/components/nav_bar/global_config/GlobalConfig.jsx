@@ -160,9 +160,6 @@ export default class GlobalConfig extends Component {
                                             </Popover>}>
                                             <a className="miniIcon"><i className="material-icons">help</i></a>
                                         </OverlayTrigger>
-                                        {/*
-                                        <a className="miniIcon" target="_blank" href={"https://creativecommons.org/licenses/?lang="+i18n.t('currentLang')}><i className="material-icons">help</i></a>
-                                         */}
                                         <br/>
                                         <Select
                                             name="form-field-name-rights"

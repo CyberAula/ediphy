@@ -24,12 +24,12 @@ export default class VisorNavSection extends Component {
                     } else {
                         this.setState({ toggled: !this.state.toggled });
                     }}}>
-                    <a className={this.props.navItemSelected === this.props.pageName ? "indexElementTitle visorNavListEl selectedNavItemVisor" : "indexElementTitle visorNavListEl"} style={{ paddingLeft: marginUl }} href="#">
+                    <button className={this.props.navItemSelected === this.props.pageName ? "indexElementTitle visorNavListEl selectedNavItemVisor" : "indexElementTitle visorNavListEl"} style={{ paddingLeft: marginUl }} >
                         {this.state.toggled ?
                             (<i onClick={(e)=>{this.setState({ toggled: !this.state.toggled });}} className="material-icons">keyboard_arrow_down</i>) : (<i onClick={(e)=>{this.setState({ toggled: !this.state.toggled });}} className="material-icons">keyboard_arrow_right</i>)}
 
                         <span> {name} </span>
-                    </a>
+                    </button>
                 </li>
 
                 { children.map(page => {
@@ -45,12 +45,11 @@ export default class VisorNavSection extends Component {
                     return (<li key={page}
                         onClick={(e)=>{this.props.changeCurrentView(page);}}
                         className={this.state.toggled ? "visorNavListEl" : "visorNavListEl hiddenNavVisor"}>
-                        <a style={{ paddingLeft: margin }}
-                            className={this.props.navItemSelected === page ? "indexElementTitle selectedNavItemVisor" : "indexElementTitle"}
-                            href="#">
+                        <button style={{ paddingLeft: margin }}
+                            className={this.props.navItemSelected === page ? "indexElementTitle selectedNavItemVisor" : "indexElementTitle"}>
                             {isSlide(this.props.navItemsById[page].type) ? (<i className="material-icons">slideshow</i>) : (<i className="material-icons">insert_drive_file</i>)}
                             <span>{this.props.navItemsById[page].name}</span>
-                        </a>
+                        </button>
                     </li>);
 
                 })

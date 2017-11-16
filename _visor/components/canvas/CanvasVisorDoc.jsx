@@ -45,14 +45,14 @@ export default class CanvasVisorDoc extends Component {
                 style={{ display: 'initial', padding: '0', width: '100%' }}>
                 <div className="scrollcontainer">
                     {isCV ? (< OverlayTrigger placement="bottom" overlay={tooltip}>
-                        <a href="#" className="btnOverBar cvBackButton" style={{ pointerEvents: this.props.viewsArray.length > 1 ? 'initial' : 'none', color: this.props.viewsArray.length > 1 ? 'black' : 'gray' }}
+                        <button className="btnOverBar cvBackButton" style={{ pointerEvents: this.props.viewsArray.length > 1 ? 'initial' : 'none', color: this.props.viewsArray.length > 1 ? 'black' : 'gray' }}
                             onClick={a => {
                                 document.getElementById("containedCanvas").classList.add("exitCanvas");
                                 setTimeout(function() {
                                     this.props.removeLastView();
                                 }.bind(this), 500);
                                 a.stopPropagation();
-                            }}><i className="material-icons">close</i></a></OverlayTrigger>) : (<span />)}
+                            }}><i className="material-icons">close</i></button></OverlayTrigger>) : (<span />)}
                     <HeaderVisor titles={titles}
                         onShowTitle={()=>this.setState({ showTitle: true })}
                         courseTitle={this.props.title}

@@ -32,13 +32,12 @@ export default class SideNavVisor extends Component {
                             return (<li key={page}
                                 onClick={(e)=>{this.props.changeCurrentView(page);}}
                                 className="visorNavListEl">
-                                <a style={{ paddingLeft: marginPage }}
-                                    className={navItemSelected === page ? "indexElementTitle selectedNavItemVisor" : "indexElementTitle"}
-                                    href="#">
+                                <button style={{ paddingLeft: marginPage }}
+                                    className={navItemSelected === page ? "indexElementTitle selectedNavItemVisor" : "indexElementTitle"}>
                                     {isSlide(this.props.navItemsById[page].type) ? (<i className="material-icons">slideshow</i>) : (<i className="material-icons">insert_drive_file</i>)}
                                     <span>{this.props.navItemsById[page].name}</span>
 
-                                </a>
+                                </button>
                             </li>);
 
                         }
