@@ -31,6 +31,7 @@ export default class Map extends React.Component {
                         panControl: true,
                         disableDoubleClickZoom: this.state.disableDoubleClickZoom,
                         scrollwheel: true,
+                        fullscreenControl: false,
                         gestureHandling: 'greedy',
                         zoomControlOptions: this.state.controls ? {
                             position: window.google.maps.ControlPosition.RIGHT_CENTER,
