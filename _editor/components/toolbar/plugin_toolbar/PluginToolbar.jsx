@@ -865,7 +865,7 @@ export default class PluginToolbar extends Component {
                 [React.createElement(
                     ToggleSwitch,
                     props,
-                    button.__name), <label key={buttonKey + 'label'} style={{ display: 'inline-block' }}>{props.label}</label>]
+                    button.__name), <label htmlFor={props.id} key={buttonKey + 'label'} style={{ display: 'inline-block' }}>{props.label}</label>]
             );
         }
 
