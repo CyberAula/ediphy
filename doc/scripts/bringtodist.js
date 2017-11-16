@@ -1,8 +1,9 @@
 const path = require('path');
 const fs = require('fs');
+const ncp = require("ncp").ncp;
+
 const origPath = path.join('.', 'dist/lib');
 const dstPath = path.join('.', 'doc/dist/demo/lib');
-const ncp = require("ncp").ncp;
 ncp.limit = 0;
 
 const mkdirSync = function(dirPath) {
@@ -19,4 +20,5 @@ ncp(origPath, dstPath, function(err) {
         return console.error(err);
     }
     console.log("Done !");
+    return "";
 });
