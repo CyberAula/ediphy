@@ -104,7 +104,7 @@ export function BasicImage(base) {
         },
         getRenderTemplate: function(state) {
             return (<div style={{ width: '100%', margin: '0px', height: '100%' }} >
-                <img onClick={()=>{$dali$.showPreview();}} ref="img"
+                <img ref="img"
                     className="basicImageClass"
                     alt="Default"
                     style={{ width: '100%', height: '100%' }}
