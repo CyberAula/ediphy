@@ -1,10 +1,10 @@
-export function Container(base) {
+export function ContainerJS(base) {
     return {
         getConfig: function() {
             return {
-                name: 'Container',
-                displayName: Dali.i18n.t('Container.PluginName'),
-                category: 'multimedia',
+                name: 'ContainerJS',
+                displayName: Dali.i18n.t('ContainerJS.PluginName'),
+                category: 'text',
                 icon: 'view_agenda',
             };
         },

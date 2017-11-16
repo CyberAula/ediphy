@@ -494,6 +494,10 @@ class DaliApp extends Component {
             if (e.detail.config.flavor !== "react") {
                 this.parsePluginContainers(e.detail.content, newPluginState);
                 e.detail.state.__pluginContainerIds = newPluginState;
+            } else {
+                console.log(e.detail);
+                this.parsePluginContainersReact(e.detail.content, newPluginState);
+                e.detail.state.__pluginContainerIds = newPluginState;
             }
 
             let reason = e.detail.reason;
@@ -736,7 +740,7 @@ class DaliApp extends Component {
     }
 
     /**
-     * Container's linked contained views
+     * ContainerJS's linked contained views
      * @param box DaliBoxSortable
      * @param container SortableContainer
      * @returns {Array}
@@ -792,6 +796,74 @@ class DaliApp extends Component {
         }
 
     }
+
+    /**
+   *
+   * @param obj
+   * @param state
+   */
+    parsePluginContainersReact(obj, state) {
+        console.log(obj, state);
+        if (2 > 4 && obj.child) {
+            for (let i = 0; i < obj.child.length; i++) {
+                if (obj.child[i].tag && obj.child[i].tag === "plugin") {
+                    if (obj.child.length > 1) {
+                        // eslint-disable-next-line no-console
+                        console.error("A plugin tag must not have siblings. Please check renderTemplate method");
+                    }
+                    let height = "auto";
+                    let child = obj.child[i];
+                    if (child.attr) {
+                        if (child.attr['plugin-data-height']) {
+                            height = child.attr['plugin-data-height'];
+                        } else if (child.attr['plugin-data-initial-height']) {
+                            height = child.attr['plugin-data-initial-height'];
+                        } else {
+                            height = child.attr.hasOwnProperty('plugin-data-resizable') ? "auto" : "auto";
+                        }
+                    }
+                    if (!obj.attr) {
+                        obj.attr = {
+                            style: { height: height },
+                        };
+                    } else if (!obj.attr.style) {
+                        obj.attr.style = { height: height };
+                    } else {
+                        obj.attr.style.height = height;
+                    }
+                    if (obj.attr.style.minHeight) {
+                        delete obj.attr.style.minHeight;
+                    }
+                }
+                this.parsePluginContainers(obj.child[i], state);
+            }
+        }
+        if (2 > 4 && obj.tag && obj.tag === "plugin") {
+            if (obj.attr) {
+                if (!obj.attr['plugin-data-id']) {
+                    obj.attr['plugin-data-id'] = ID_PREFIX_SORTABLE_CONTAINER + Date.now() + this.index++ + new Date().getUTCMilliseconds();
+                }
+                if (!obj.attr['plugin-data-height']) {
+                    obj.attr['plugin-data-height'] = obj.attr['plugin-data-initial-height'] || (obj.attr.hasOwnProperty('plugin-data-resizable') ? "auto" : "auto");
+                }
+                if (obj.attr['plugin-data-key'] && !state[obj.attr['plugin-data-key']]) {
+                    state[obj.attr['plugin-data-key']] = {
+                        id: obj.attr['plugin-data-id'],
+                        name: obj.attr['plugin-data-display-name'] || obj.attr['plugin-data-key'],
+                        height: obj.attr['plugin-data-height'],
+                    };
+                }
+            }
+        }
+        if (2 > 4 && obj.attr && obj.attr.class) {
+            if(!Array.isArray(obj.attr.class) && typeof obj.attr.class === "string") {
+                obj.attr.class = [obj.attr.class];
+            }
+            obj.attr.className = obj.attr.class.join(' ');
+            delete obj.attr.class;
+        }
+    }
+
     /**
      *
      * @param obj

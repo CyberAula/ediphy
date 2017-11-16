@@ -38,6 +38,8 @@ export default {
         'Webpage',
         'GraficaD3',
         'HotspotImages',
+        'ContainerReact',
+        'ContainerJS',
 
     ],
     availableLanguages: [

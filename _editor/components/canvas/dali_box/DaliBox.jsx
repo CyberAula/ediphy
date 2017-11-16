@@ -139,10 +139,10 @@ export default class DaliBox extends Component {
         }
         wholeBoxStyle.transform = wholeBoxStyle.WebkitTransform = wholeBoxStyle.MsTransform = rotate;
         // style.transform = style.WebkitTransform = style.MsTransform = rotate;
-
+        let props = { ...this.props, parentBox: this.props.boxes[this.props.id] };
         let content = toolbar.config.flavor === "react" ? (
             <div style={style} {...attrs} className={"boxStyle " + classNames} ref={"content"}>
-                {Dali.Plugins.get(toolbar.config.name).getRenderTemplate(toolbar.state, this.props)}
+                {Dali.Plugins.get(toolbar.config.name).getRenderTemplate(toolbar.state, props)}
             </div>
         ) : (
             <div style={style} {...attrs} className={"boxStyle " + classNames} ref={"content"}>
@@ -203,7 +203,6 @@ export default class DaliBox extends Component {
         }
         wholeBoxStyle.verticalAlign = verticalAlign;
 
-        /* <MarkCreator/>*/
         return (
             <div className={classes} id={'box-' + this.props.id}
                 onClick={e => {
@@ -216,7 +215,7 @@ export default class DaliBox extends Component {
                     }
                     // Last parent has to be the same, otherwise all boxes with same level would be selectable
                     if(this.props.boxLevelSelected === box.level &&
-                       isAncestorOrSibling(this.props.boxSelected, this.props.id, this.props.boxes)) {
+                 isAncestorOrSibling(this.props.boxSelected, this.props.id, this.props.boxes)) {
                         if(e.nativeEvent.ctrlKey && box.children.length !== 0) {
                             this.props.onBoxLevelIncreased();
                         }else if(this.props.boxSelected !== this.props.id) {
@@ -261,19 +260,20 @@ export default class DaliBox extends Component {
                 <div className="boxOverlay" style={{ display: showOverlay }} />
                 <MarkCreator
                     addMarkShortcut={this.props.addMarkShortcut}
+                    deleteMarkCreator={this.props.deleteMarkCreator}
                     onBoxAdded={this.props.onBoxAdded}
+                    pageType={this.props.pageType}
                     boxSelected={this.props.boxSelected}
                     content={this.refs.content}
                     containedViews={this.props.containedViews}
                     toolbar={toolbar ? toolbar : {}}
-                    deleteMarkCreator={this.props.deleteMarkCreator}
                     parseRichMarkInput={Dali.Plugins.get(toolbar.config.name).parseRichMarkInput}
                     markCreatorId={this.props.markCreatorId}
                     currentId={this.props.id}
-                    pageType={this.props.pageType}
                 />
             </div>
         );
+        /* <MarkCreator/>*/
     }
 
     /**
@@ -301,6 +301,9 @@ export default class DaliBox extends Component {
                     parentBox: this.props.boxes[this.props.id],
                     boxes: this.props.boxes,
                     boxSelected: this.props.boxSelected,
+                    markCreatorId: this.props.markCreatorId,
+                    addMarkShortcut: this.props.addMarkShortcut,
+                    deleteMarkCreator: this.props.deleteMarkCreator,
                     boxLevelSelected: this.props.boxLevelSelected,
                     toolbars: this.props.toolbars,
                     lastActionDispatched: this.props.lastActionDispatched,
@@ -310,8 +313,10 @@ export default class DaliBox extends Component {
                     onBoxMoved: this.props.onBoxMoved,
                     onBoxResized: this.props.onBoxResized,
                     onSortableContainerResized: this.props.onSortableContainerResized,
-                    onBoxDeleted: this.props.onBoxDeleted,
                     onBoxDropped: this.props.onBoxDropped,
+                    containedViews: this.props.containedViews,
+                    onBoxAdded: this.props.onBoxAdded,
+                    pageType: this.props.pageType,
                     onVerticallyAlignBox: this.props.onVerticallyAlignBox,
                     onBoxesInsideSortableReorder: this.props.onBoxesInsideSortableReorder,
                     onTextEditorToggled: this.props.onTextEditorToggled,
@@ -379,7 +384,6 @@ export default class DaliBox extends Component {
      * @param nextState React next state
      */
     componentWillUpdate(nextProps, nextState) {
-        if ((this.props.boxSelected === this.props.id)) {console.log(nextProps);}
         if ((this.props.boxSelected === this.props.id) && (nextProps.boxSelected !== this.props.id) && this.props.toolbars[this.props.id].showTextEditor) {
             CKEDITOR.instances[this.props.id].focusManager.blur(true);
             this.blurTextarea();

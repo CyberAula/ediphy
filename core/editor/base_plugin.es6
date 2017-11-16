@@ -323,7 +323,8 @@ export default function() {
                     template = html2json(template);
                     assignPluginContainerIds(template);
                 } else{
-                    template = '';
+                    template = html2json(template);
+                    assignPluginContainerIds(template);
                 }
                 if (template !== null) {
                     Dali.API.renderPlugin(

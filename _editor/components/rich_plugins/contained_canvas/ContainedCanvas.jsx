@@ -6,7 +6,7 @@ import DaliCanvasDoc from '../../canvas/dali_canvas_doc/DaliCanvasDoc';
 import { isSlide } from '../../../../common/utils';
 
 /**
- * Container component to render contained views
+ * ContainerJS component to render contained views
  *
  */
 export default class ContainedCanvas extends Component {

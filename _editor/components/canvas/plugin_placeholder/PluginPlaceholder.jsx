@@ -64,13 +64,18 @@ export default class PluginPlaceholder extends Component {
                                                 containedViewSelected={this.props.containedViewSelected}
                                                 toolbars={this.props.toolbars}
                                                 lastActionDispatched={this.props.lastActionDispatched}
+                                                markCreatorId={this.props.markCreatorId}
+                                                addMarkShortcut={this.props.addMarkShortcut}
+                                                deleteMarkCreator={this.props.deleteMarkCreator}
                                                 onBoxSelected={this.props.onBoxSelected}
                                                 onBoxLevelIncreased={this.props.onBoxLevelIncreased}
                                                 onBoxMoved={this.props.onBoxMoved}
                                                 onBoxResized={this.props.onBoxResized}
                                                 onBoxesInsideSortableReorder={this.props.onBoxesInsideSortableReorder}
                                                 onSortableContainerResized={this.props.onSortableContainerResized}
-                                                onBoxDeleted={this.props.onBoxDeleted}
+                                                onBoxAdded={this.props.onBoxAdded}
+                                                pageType={this.props.pageType}
+                                                containedViews={this.props.containedViews}
                                                 onBoxDropped={this.props.onBoxDropped}
                                                 onBoxModalToggled={this.props.onBoxModalToggled}
                                                 onVerticallyAlignBox={this.props.onVerticallyAlignBox}
@@ -161,7 +166,7 @@ PluginPlaceholder.propTypes = {
     /**
      * Identificador único de la caja padre
      */
-    parentBox: PropTypes.string.isRequired,
+    parentBox: PropTypes.any.isRequired,
     /**
      * Diccionario que contiene todas las cajas creadas, accesibles por su *id*
      */
@@ -207,10 +212,6 @@ PluginPlaceholder.propTypes = {
      */
     onSortableContainerResized: PropTypes.func.isRequired,
     /**
-     * Elimina caja
-     */
-    onBoxDeleted: PropTypes.func.isRequired,
-    /**
      * Suelta caja
      */
     onBoxDropped: PropTypes.func.isRequired,
@@ -226,4 +227,28 @@ PluginPlaceholder.propTypes = {
      * Activa/Desactiva la edición de texto
      */
     onTextEditorToggled: PropTypes.func.isRequired,
+    /**
+      * Identificador de la caja en la que se va a crear una marca
+      */
+    markCreatorId: PropTypes.any.isRequired,
+    /**
+      * Añade una marca a la caja
+      */
+    addMarkShortcut: PropTypes.func.isRequired,
+    /**
+       * Función que oculta el overlay de creación de marcas
+       */
+    deleteMarkCreator: PropTypes.func.isRequired,
+    /**
+      * Añade una caja
+      */
+    onBoxAdded: PropTypes.func.isRequired,
+    /**
+       * Indica el tipo de página en el que se encuentra la caja
+       */
+    pageType: PropTypes.string.isRequired,
+    /**
+   * Diccionario que contiene todas las vistas contenidas, accesibles por su *id*
+   */
+    containedViews: PropTypes.object.isRequired,
 };
