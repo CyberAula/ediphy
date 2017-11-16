@@ -102,7 +102,7 @@ export default class GlobalConfig extends Component {
                                     <FormGroup>
                                         <ControlLabel>{i18n.t('global_config.avatar')}</ControlLabel>
                                         <div className="cont_avatar">
-                                            <img height={100} src={this.state.thumbnail} className="avatar" />
+                                            <img alt="Avatar" height={100} src={this.state.thumbnail} className="avatar" />
                                             <div>
                                                 <FileInput onChange={this.fileChanged} className="fileInput" accept=".jpeg,.gif,.png">
                                                     <div className="fileDrag">

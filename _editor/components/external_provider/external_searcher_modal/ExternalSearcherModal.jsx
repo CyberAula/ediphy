@@ -104,6 +104,7 @@ export default class ExternalSearcherModal extends Component {
                                         let border = this.state.itemSelected === index ? "solid orange 3px" : "solid transparent 3px";
                                         return (
                                             <img key={index}
+                                                alt="default"
                                                 src={item.file_url}
                                                 style={{
                                                     width: 160,
