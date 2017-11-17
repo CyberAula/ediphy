@@ -1,7 +1,7 @@
 (function () {
     function divDialog(editor, command) {
         return {
-            title: editor.lang.daliplugin.title,
+            title: editor.lang.ediphyplugin.title,
             minWidth: 400,
             minHeight: 165,
             contents: [
@@ -19,9 +19,9 @@
                                     id: 'plugin-data-key',
                                     type: 'text',
                                     style: 'width: 100%;',
-                                    label: editor.lang.daliplugin.keyLabel,
+                                    label: editor.lang.ediphyplugin.keyLabel,
                                     required: true,
-                                    validate: CKEDITOR.dialog.validate.notEmpty(editor.lang.daliplugin.validateKey),
+                                    validate: CKEDITOR.dialog.validate.notEmpty(editor.lang.ediphyplugin.validateKey),
                                     setup: function (element) {
                                         this.setValue(element.getAttribute("plugin-data-key"));
                                     },
@@ -33,7 +33,7 @@
                                     id: 'plugin-data-display-name',
                                     type: 'text',
                                     style: 'width: 100%;',
-                                    label: editor.lang.daliplugin.displayNameLabel,
+                                    label: editor.lang.ediphyplugin.displayNameLabel,
                                     setup: function (element) {
                                         this.setValue(element.getAttribute("plugin-data-display-name"));
                                     },
@@ -47,7 +47,7 @@
                             id: 'plugin-data-default',
                             type: 'select',
                             style: 'width: 100%;',
-                            label: editor.lang.daliplugin.defaultLabel,
+                            label: editor.lang.ediphyplugin.defaultLabel,
                             'default': '',
                             items: [],
                             setup: function (element) {
@@ -68,7 +68,7 @@
                 });
             },
             onShow: function () {
-                if (command == 'editdaliplugin') {
+                if (command == 'editediphyplugin') {
                     var element = editor.getSelection().getStartElement();
                     this.element = element;
 
@@ -96,12 +96,12 @@
         };
     }
 
-    CKEDITOR.dialog.add('createdaliplugin', function (editor) {
-        return divDialog(editor, 'createdaliplugin');
+    CKEDITOR.dialog.add('createediphyplugin', function (editor) {
+        return divDialog(editor, 'createediphyplugin');
     });
 
-    CKEDITOR.dialog.add('editdaliplugin', function (editor) {
-        return divDialog(editor, 'editdaliplugin');
+    CKEDITOR.dialog.add('editediphyplugin', function (editor) {
+        return divDialog(editor, 'editediphyplugin');
     });
 
 })();

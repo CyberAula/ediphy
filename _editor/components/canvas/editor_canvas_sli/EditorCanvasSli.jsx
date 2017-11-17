@@ -179,7 +179,7 @@ export default class EditorCanvasSli extends Component {
      */
     componentDidMount() {
         interact(ReactDOM.findDOMNode(this.refs.slideDropZone)).dropzone({
-            accept: '.floatingDaliBox',
+            accept: '.floatingEditorBox',
             overlap: 'pointer',
             ondropactivate: function(event) {
                 event.target.classList.add('drop-active');

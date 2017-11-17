@@ -104,7 +104,7 @@ export function BasicImage(base) {
         },
         getRenderTemplate: function(state) {
             return (<div style={{ width: '100%', margin: '0px', height: '100%' }} >
-                <img onClick={()=>{$dali$.showPreview();}} ref="img"
+                <img onClick={()=>{$ediphy$.showPreview();}} ref="img"
                     className="basicImageClass"
                     style={{ width: '100%', height: '100%' }}
                     src={state.url}

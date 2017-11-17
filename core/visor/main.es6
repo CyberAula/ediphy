@@ -101,7 +101,7 @@ export default {
                         }).then(function(zip) {
                             return zip.generateAsync({ type: "blob" });
                         }).then(function(blob) {
-                            FileSaver.saveAs(blob, "dalivisor.zip");
+                            FileSaver.saveAs(blob, "ediphyvisor.zip");
                         });
                     });
 

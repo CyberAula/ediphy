@@ -176,7 +176,7 @@ export default class EditorCanvasDoc extends Component {
     componentDidMount() {
 
         interact(ReactDOM.findDOMNode(this)).dropzone({
-            accept: '.floatingDaliBox',
+            accept: '.floatingEditorBox',
             overlap: 'pointer',
             ondropactivate: function (event) {
                 event.target.classList.add('drop-active');

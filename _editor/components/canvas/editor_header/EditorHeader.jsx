@@ -6,7 +6,7 @@ import './_editorHeader.scss';
 import CVInfo from "./CVInfo";
 
 /**
- *  DaliHeaderComponent
+ *  EditorHeaderComponent
  *  It shows the current page's title
  */
 export default class EditorHeader extends Component {

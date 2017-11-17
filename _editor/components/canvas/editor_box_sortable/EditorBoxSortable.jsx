@@ -39,7 +39,7 @@ export default class EditorBoxSortable extends Component {
     render() {
         let box = this.props.boxes[this.props.id];
         return (
-            <div className="daliBoxSortable"
+            <div className="editorBoxSortable"
                 onClick={e => {
                     if(box.children.length !== 0) {
                         this.props.onBoxSelected(this.props.id);
@@ -56,7 +56,7 @@ export default class EditorBoxSortable extends Component {
                     {box.children.map((idContainer, index)=> {
                         let container = box.sortableContainers[idContainer];
                         return (<div key={index}
-                            className={"daliBoxSortableContainer pos_relative " + container.style.className}
+                            className={"editorBoxSortableContainer pos_relative " + container.style.className}
                             data-id={idContainer}
                             id={idContainer}
                             ref={idContainer}
@@ -199,7 +199,7 @@ export default class EditorBoxSortable extends Component {
      */
     componentDidMount() {
         this.configureDropZone(ReactDOM.findDOMNode(this), "newContainer", ".rib");
-        this.configureDropZone(".daliBoxSortableContainer", "existingContainer", ".rib");
+        this.configureDropZone(".editorBoxSortableContainer", "existingContainer", ".rib");
 
         this.props.boxes[this.props.id].children.map(id => {
             this.configureResizable(this.refs[id]);
@@ -211,8 +211,8 @@ export default class EditorBoxSortable extends Component {
             start: (event, ui) => {
                 // Hide EditorShortcuts
                 let bar = this.props.containedViewSelected === 0 ?
-                    document.getElementById('daliBoxIcons') :
-                    document.getElementById('contained_daliBoxIcons');
+                    document.getElementById('editorBoxIcons') :
+                    document.getElementById('contained_editorBoxIcons');
                 bar.classList.add('hidden');
             },
             stop: (event, ui) => {
@@ -228,8 +228,8 @@ export default class EditorBoxSortable extends Component {
                 list.sortable('cancel');
                 // Unhide EditorShortcuts
                 let bar = this.props.containedViewSelected === 0 ?
-                    document.getElementById('daliBoxIcons') :
-                    document.getElementById('contained_daliBoxIcons');
+                    document.getElementById('editorBoxIcons') :
+                    document.getElementById('contained_editorBoxIcons');
                 bar.classList.remove('hidden');
                 window.dispatchEvent(new Event('resize'));
 
@@ -368,7 +368,7 @@ export default class EditorBoxSortable extends Component {
      */
     componentWillUnmount() {
         interact(ReactDOM.findDOMNode(this)).unset();
-        interact(".daliBoxSortableContainer").unset();
+        interact(".editorBoxSortableContainer").unset();
 
     }
 }

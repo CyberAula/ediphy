@@ -220,7 +220,7 @@ export default {
         lccrole.appendChild(lccroleval);
         lcc.appendChild(lccrole);
         let lccEntity = doc.createElement('entity'); // Entity
-        let lcEntTxt = doc.createTextNode('BEGIN:VCARD&#xD;VERSION:3.0&#xD;N:Authoring Tool Ediphy Editor (http://github.com/ging/DALI_EDITOR)&#xD;FN:Authoring Tool Ediphy Editor (http://github.com/ging/DALI_EDITOR)&#xD;END:VCARD'); // / Yet to determine
+        let lcEntTxt = doc.createTextNode('BEGIN:VCARD&#xD;VERSION:3.0&#xD;N:Authoring Tool Ediphy Editor (http://github.com/ging/ediphy)&#xD;FN:Authoring Tool Ediphy Editor (http://github.com/ging/ediphy)&#xD;END:VCARD'); // / Yet to determine
         lccEntity.appendChild(lcEntTxt);
         lcc.appendChild(lccEntity);
         let lccDate = doc.createElement('date'); // Date

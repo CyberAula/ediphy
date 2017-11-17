@@ -9,9 +9,9 @@ import { isSortableBox, isSortableContainer } from '../../../../common/utils';
 
 /**
  * EditorShortcuts component
- * Floating tools that help edit DaliBoxes more easily
+ * Floating tools that help edit EditorBoxes more easily
  */
-export default class DaliShortcuts extends Component {
+export default class EditorShortcuts extends Component {
     /**
      * Constructor
      * @param props
@@ -46,7 +46,7 @@ export default class DaliShortcuts extends Component {
         let boxEl = document.getElementById('box-' + (box ? box.id : ''));
 
         return (
-            <div id={this.props.isContained ? "contained_daliBoxIcons" : "daliBoxIcons"}
+            <div id={this.props.isContained ? "contained_editorBoxIcons" : "editorBoxIcons"}
                 className=""
                 ref="container"
                 style={{
@@ -64,7 +64,7 @@ export default class DaliShortcuts extends Component {
                                 overlay={
                                     <Tooltip id="richMark">{i18n.t('messages.add_new_mark')}</Tooltip>
                                 }>
-                                <button id="markCreatorButton" className="daliTitleButton" onMouseDown={(e)=>{
+                                <button id="markCreatorButton" className="editorTitleButton" onMouseDown={(e)=>{
                                     this.props.onMarkCreatorToggled(box.id);
                                 }}>
                                     <i id="markCreatorButton" className="material-icons">room</i>
@@ -80,7 +80,7 @@ export default class DaliShortcuts extends Component {
                                         {i18n.t('messages.adjust_to_document')}
                                     </Tooltip>
                                 }>
-                                <button className="daliTitleButton"
+                                <button className="editorTitleButton"
                                     onClick={(e) => {
                                         let widthButton = Object.assign({}, toolbar.controls.main.accordions.__sortable.buttons.__width);
                                         if(widthButton.displayValue === 100 && widthButton.units === "%") {
@@ -121,11 +121,11 @@ export default class DaliShortcuts extends Component {
                                         {i18n.t('messages.edit_text')}
                                     </Tooltip>
                                 }>
-                                <button className="daliTitleButton"
+                                <button className="editorTitleButton"
                                     onClick={(e) => {
                                         this.props.onTextEditorToggled(toolbar.id, !toolbar.showTextEditor);
                                         if(this.props.box && this.props.box.id) {
-                                            // TODO: Código duplicado en DaliBox, EditorShortcuts y PluginToolbar. Extraer a common_tools?
+                                            // TODO: Código duplicado en EditorBox, EditorShortcuts y PluginToolbar. Extraer a common_tools?
                                             let CKstring = CKEDITOR.instances[this.props.box.id].getData();
                                             let initString = "<p>" + i18n.t("text_here") + "</p>\n";
                                             if (CKstring === initString) {
@@ -149,7 +149,7 @@ export default class DaliShortcuts extends Component {
                                         {i18n.t('open_conf')}
                                     </Tooltip>
                                 }>
-                                <button id="open_conf" className={"daliTitleButton"}
+                                <button id="open_conf" className={"editorTitleButton"}
                                     onClick={(e) => {
                                         Ediphy.Plugins.get(toolbar.config.name).openConfigModal(UPDATE_BOX, toolbar.state, toolbar.id);
                                     }}>
@@ -168,7 +168,7 @@ export default class DaliShortcuts extends Component {
                                         {i18n.t('messages.pointer_events')}
                                     </Tooltip>
                                 }>
-                                <button id="pebutton" className={boxEl && boxEl.classList.contains('pointerEventsEnabled') ? "daliTitleButton dtbSelected" : "daliTitleButton"}
+                                <button id="pebutton" className={boxEl && boxEl.classList.contains('pointerEventsEnabled') ? "editorTitleButton dtbSelected" : "editorTitleButton"}
                                     onClick={(e) => {
                                         boxEl.classList.toggle('pointerEventsEnabled');
                                         let but = document.getElementById('pebutton');
@@ -192,7 +192,7 @@ export default class DaliShortcuts extends Component {
                                 {i18n.t('messages.erase_plugin')}
                             </Tooltip>
                         }>
-                        <button className="daliTitleButton"
+                        <button className="editorTitleButton"
                             onClick={(e) => {
                                 this.props.onBoxDeleted(box.id, box.parent, box.container);
                                 e.stopPropagation();
@@ -324,7 +324,7 @@ export default class DaliShortcuts extends Component {
     }
 }
 
-DaliShortcuts.propTypes = {
+EditorShortcuts.propTypes = {
     /**
      * Caja seleccionada
      */

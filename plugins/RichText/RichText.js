@@ -10,7 +10,7 @@ export function RichText(base) {
                 initialWidth: 'auto',
                 initialHeight: 'auto',
                 extraTextConfig: {
-                    extraPlugins: "daliplugin",
+                    extraPlugins: "ediphyplugin",
                 },
                 icon: 'format_indent_increase',
             };

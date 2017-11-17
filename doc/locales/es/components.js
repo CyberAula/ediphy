@@ -6,7 +6,7 @@ let components = {
         "lastAction": "Última acción realizada en Redux",
         "visorVisible": "Indicador de si se está en modo previsualización",
     },
-    "DaliBox": {
+    "EditorBox": {
         "id": "Identificador único de la caja",
         "boxes": "Diccionario que contiene todas las cajas creadas, accesibles por su *id*",
         "boxSelected": "Caja seleccionada en el momento. Si no hay ninguna, -1",
@@ -30,7 +30,7 @@ let components = {
         "onTextEditorToggled": "Hace aparecer/desaparecer el CKEditor",
         "pageType": "Indica el tipo de página en el que se encuentra la caja",
     },
-    "DaliBoxSortable": {
+    "EditorBoxSortable": {
         "id": "Identificador único de la caja",
         "boxes": "Diccionario que contiene todas las cajas creadas, accesibles por su *id*",
         "boxSelected": "Caja seleccionada en el momento. Si no hay ninguna, -1",
@@ -56,7 +56,7 @@ let components = {
         "onTextEditorToggled": "Hace aparecer/desaparecer el CKEditor",
         "pageType": "Indica el tipo de página en el que se encuentra la caja",
     },
-    "DaliCanvas": {
+    "EditorCanvas": {
         "canvasRatio": "Relación de aspecto para diapositivas",
         "showCanvas": "Indicador de si se muestra el canvas (tiene qu haber un navItem seleccionado)",
         "boxes": "Diccionario que contiene todas las cajas creadas, accesibles por su *id*",
@@ -88,7 +88,7 @@ let components = {
         "onContainedViewSelected": "Selecciona una vista contenida",
         "onTextEditorToggled": "Hace aparecer/desaparecer el CKEditor",
     },
-    "DaliCanvasDoc": {
+    "EditorCanvasDoc": {
         "fromCV": "Si se renderiza el componente desde una vista contenida (true) o una normal (false)",
         "showCanvas": "Indicador de si se muestra el canvas (tiene que haber un navItem seleccionado)",
         "boxes": "Diccionario que contiene todas las cajas creadas, accesibles por su *id*",
@@ -120,7 +120,7 @@ let components = {
         "onContainedViewSelected": "Selecciona una vista contenida",
         "onTextEditorToggled": "Hace aparecer/desaparecer el CKEditor",
     },
-    "DaliCanvasSli": {
+    "EditorCanvasSli": {
         "fromCV": "Si se renderiza el componente desde una vista contenida (true) o una normal (false)",
         "canvasRatio": "Relación de aspecto para diapositivas",
         "showCanvas": "Indicador de si se muestra el canvas (tiene qu haber un navItem seleccionado)",
@@ -160,7 +160,7 @@ let components = {
         "toolbars": "Diccionario que contiene todas las toolbars, accesibles por el *id* de su caja/vista",
         "boxes": "Diccionario que contiene todas las cajas creadas, accesibles por su *id*",
     },
-    "DaliHeader": {
+    "EditorHeader": {
         "titles": "Array que contiene el título desglosado de la página. Ej: `['Sección 1'. 'Página 1']`",
         "onBoxSelected": "Selecciona caja",
         "courseTitle": "Título del curso",
@@ -171,7 +171,7 @@ let components = {
         "toolbars": "Diccionario que contiene todas las toolbars, accesibles por el *id* de su caja/vista",
         "boxes": "Diccionario que contiene todas las cajas creadas, accesibles por su *id*",
     },
-    "DaliShortcuts": {
+    "EditorShortcuts": {
         "box": "Caja seleccionada",
         "containedViewSelected": "Vista contenida seleccionada",
         "isContained": "Si se renderiza el componente desde una vista contenida (true) o una normal (false)",
@@ -203,7 +203,7 @@ let components = {
         "onBoxesInsideSortableReorder": "Reordena las cajas de un contenedor",
         "onTextEditorToggled": "Activa/Desactiva la edición de texto",
     },
-    "DaliIndexTitle": {
+    "EditorIndexTitle": {
         "id": "Identificador único del elemento del índice seleccionado",
         "title": "Título del elemento del índice seleccionado",
         "index": "Número del elemento del índice seleccionado",
@@ -230,7 +230,7 @@ let components = {
         "onNavItemDeleted": "Elimina vista/vista contenida",
         "onNavItemReordered": "Reordena elementos del índice",
     },
-    "DaliCarousel": {
+    "EditorCarousel": {
         "containedViews": "Diccionario que contiene todas las vistas contenidas, accesibles por su *id*",
         "containedViewSelected": "Vista contenida seleccionada, identificada por su *id*",
         "boxes": "Diccionario que contiene todas las cajas creadas, accesibles por su *id*",
@@ -309,7 +309,7 @@ let components = {
         "onChange": "Modifica el valor del input",
         "step": "Incremento de valor mínimo",
     },
-    "DaliNavBar": {
+    "EditorNavBar": {
         "hideTab": "Muestra o oculta la barra de plugins",
         "globalConfig": "Objeto que contiene la configuración global del curso almacenada en el estado de Redux",
         "changeGlobalConfig": "Modifica la configuración global del curso",

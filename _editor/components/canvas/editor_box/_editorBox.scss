@@ -62,12 +62,12 @@
 }
 
 /*Box editing shortcuts*/
-#daliBoxIcons, #contained_daliBoxIcons{
+#editorBoxIcons, #contained_editorBoxIcons{
   position: absolute;
   text-align: center;
   height: 40px;
   margin-top: -40px;
-  .daliTitleButton {
+  .editorTitleButton {
       background-color: #bababa !important;
       &:hover {
           background-color: $blueprimary !important;
@@ -93,7 +93,7 @@
 
 }
 
-/* #contained_daliBoxIcons {
+/* #contained_editorBoxIcons {
     margin-top: 0px;
     z-index: 999;
     width: 100%;

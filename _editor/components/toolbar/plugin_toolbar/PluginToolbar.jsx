@@ -128,7 +128,7 @@ export default class PluginToolbar extends Component {
                         onClick={() => {
                             this.props.onTextEditorToggled(toolbar.id, !toolbar.showTextEditor);
                             if(!toolbar.showTextEditor && this.props.box && this.props.box.id) {
-                                // Código duplicado en DaliBox, DaliShortcuts y PluginToolbar. Extraer a common_tools?
+                                // Código duplicado en EditorBox, EditorShortcuts y PluginToolbar. Extraer a common_tools?
                                 let CKstring = CKEDITOR.instances[this.props.box.id].getData();
                                 let initString = "<p>" + i18n.t("text_here") + "</p>\n";
                                 if (CKstring === initString) {

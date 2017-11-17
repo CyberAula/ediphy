@@ -1,12 +1,12 @@
 {
-  "name": "dali_editor",
+  "name": "ediphy",
   "version": "1.0.0",
   "main": "index.js",
   "author": "",
   "license": "ISC",
   "repository": {
     "type": "git",
-    "url": "git://github.com/ging/DALI_EDITOR.git"
+    "url": "git://github.com/ging/ediphy.git"
   },
   "scripts": {
     "build-production": "webpack -p --define process.env.NODE_ENV='\"production\"' --progress --colors",

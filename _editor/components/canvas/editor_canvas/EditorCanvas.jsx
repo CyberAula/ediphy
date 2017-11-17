@@ -43,7 +43,7 @@ export default class EditorCanvas extends Component {
 
     /**
      * After component updates
-     * Fixes bug when reordering dalibox sortable CKEDITOR doesn't update otherwise
+     * Fixes bug when reordering editorbox sortable CKEDITOR doesn't update otherwise
      * @param prevProps React previous props
      * @param prevState React previous state
      */

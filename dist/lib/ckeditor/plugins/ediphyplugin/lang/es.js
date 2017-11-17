@@ -1,4 +1,4 @@
-CKEDITOR.plugins.setLang('daliplugin', 'es', {
+CKEDITOR.plugins.setLang('ediphyplugin', 'es', {
     title: 'Incluir plugin de Ediphy',
     toolbar: 'Incluir plugin de Ediphy',
     edit: 'Editar Contenedor',

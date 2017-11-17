@@ -88,7 +88,7 @@ export default function() {
                 template = pluginObj.getRenderTemplate(state);
             }
 
-            let regexp = new RegExp(/[$]dali[$][.][\w\s]+[(]([^)]*)/g);
+            let regexp = new RegExp(/[$]ediphy[$][.][\w\s]+[(]([^)]*)/g);
             let match = regexp.exec(template);
             let matches = [];
 
@@ -103,7 +103,7 @@ export default function() {
                 } else {
                     template = template.replace(matchNew[0], matchNew[0].replace(matchNew[1], "event, \"" + id + "\"")); // template.replace(match[0], match[0].replace(match[1], "event, this, __getPlugin(this)"));
                 }
-                template = template.replace(/[$]dali[$][.]/, "Ediphy.Visor.Plugins." + name + ".");
+                template = template.replace(/[$]ediphy[$][.]/, "Ediphy.Visor.Plugins." + name + ".");
             });
 
             if (template.indexOf("pointer-events") !== -1) {

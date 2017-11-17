@@ -50,7 +50,7 @@
 }
 
 /*Overriding bootstrap*/
-.daliCarousel {
+.editorCarousel {
     h3, h4 {
         &:hover {
             cursor: pointer;
@@ -145,7 +145,7 @@
         vertical-align: middle;
         margin: 0;
     }
-    .daliCarousel {
+    .editorCarousel {
         .editIndexTitleIcon {
             font-size: 1em;
             float: right;
@@ -296,7 +296,7 @@
 /*Delete popover*/
 
 .popoverButton {
-    @extend .daliTitleButton;
+    @extend .editorTitleButton;
     margin-top: 0px !important;
     padding: 2px 4px !important;
     width: auto !important;

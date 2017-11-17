@@ -1,14 +1,14 @@
 (function () {
-    CKEDITOR.plugins.add('daliplugin', {
+    CKEDITOR.plugins.add('ediphyplugin', {
         requires: 'dialog',
         lang: 'en,es', // %REMOVE_LINE_CORE%
-        icons: 'daliplugin', // %REMOVE_LINE_CORE%
+        icons: 'ediphyplugin', // %REMOVE_LINE_CORE%
         hidpi: true, // %REMOVE_LINE_CORE%
         init: function (editor) {
-            var lang = editor.lang.daliplugin;
+            var lang = editor.lang.ediphyplugin;
             //allowed = 'plugin[*]{*}(*)';
 
-            editor.addCommand('createdaliplugin', new CKEDITOR.dialogCommand('createdaliplugin'
+            editor.addCommand('createediphyplugin', new CKEDITOR.dialogCommand('createediphyplugin'
                 /*, {
                  allowedContent: allowed,
                  requiredContent: 'plugin[!plugin-data-id]',
@@ -20,8 +20,8 @@
                  }*/
             ));
 
-            editor.addCommand('editdaliplugin', new CKEDITOR.dialogCommand('editdaliplugin'));
-            editor.addCommand('removedaliplugin', {
+            editor.addCommand('editediphyplugin', new CKEDITOR.dialogCommand('editediphyplugin'));
+            editor.addCommand('removeediphyplugin', {
                 exec: function (editor) {
                     var selection = editor.getSelection();
                     var ranges = selection && selection.getRanges();
@@ -55,24 +55,24 @@
                 }
             });
 
-            editor.ui.addButton && editor.ui.addButton('DaliPlugin', {
+            editor.ui.addButton && editor.ui.addButton('EdiphyPlugin', {
                 label: lang.toolbar,
-                command: 'createdaliplugin',
+                command: 'createediphyplugin',
                 toolbar: 'blocks,50'
             });
 
             if (editor.addMenuItems) {
                 editor.addMenuItems({
-                    editdaliplugin: {
+                    editediphyplugin: {
                         label: lang.edit,
-                        command: 'editdaliplugin',
+                        command: 'editediphyplugin',
                         group: 'div',
                         order: 1
                     },
 
-                    removedaliplugin: {
+                    removeediphyplugin: {
                         label: lang.remove,
-                        command: 'removedaliplugin',
+                        command: 'removeediphyplugin',
                         group: 'div',
                         order: 5
                     }
@@ -85,8 +85,8 @@
 
                         if (element.getAscendant('plugin', true)) {
                             return {
-                                editdaliplugin: CKEDITOR.TRISTATE_OFF,
-                                removedaliplugin: CKEDITOR.TRISTATE_OFF
+                                editediphyplugin: CKEDITOR.TRISTATE_OFF,
+                                removeediphyplugin: CKEDITOR.TRISTATE_OFF
                             };
                         }
 
@@ -95,8 +95,8 @@
                 }
             }
 
-            CKEDITOR.dialog.add('createdaliplugin', this.path + 'dialogs/daliplugin.js');
-            CKEDITOR.dialog.add('editdaliplugin', this.path + 'dialogs/daliplugin.js');
+            CKEDITOR.dialog.add('createediphyplugin', this.path + 'dialogs/ediphyplugin.js');
+            CKEDITOR.dialog.add('editediphyplugin', this.path + 'dialogs/ediphyplugin.js');
         }
     });
 })();

@@ -501,7 +501,7 @@ export default class EditorBox extends Component {
         let gridTarget = interact.createSnapGrid({ x: 10, y: 10, range: 7.1, offset: { x: leftO, y: topO } });
         Ediphy.Plugins.get(toolbar.config.name).getConfig();
         Ediphy.Plugins.get(toolbar.config.name).afterRender(this.refs.content, toolbar.state);
-        let dragRestrictionSelector = isSortableContainer(box.container) ? ".daliBoxSortableContainer, .drg" + box.container : "parent";
+        let dragRestrictionSelector = isSortableContainer(box.container) ? ".editorBoxSortableContainer, .drg" + box.container : "parent";
         interact(ReactDOM.findDOMNode(this))
             /* .snap({
                 actions     : ['resizex', 'resizey', 'resizexy', 'resize', 'drag'],
@@ -527,7 +527,7 @@ export default class EditorBox extends Component {
                         let iterate = true;
                         while (iterate) {
                             parent = parent.parentNode;
-                            if (parent.className && (parent.className.indexOf("daliBoxSortableContainer") !== -1 || parent.className.indexOf("drg" + box.container) !== -1)) {
+                            if (parent.className && (parent.className.indexOf("editorBoxSortableContainer") !== -1 || parent.className.indexOf("drg" + box.container) !== -1)) {
                                 iterate = false;
                             }
                         }
@@ -573,8 +573,8 @@ export default class EditorBox extends Component {
 
                     // Hide EditorShortcuts
                     let bar = this.props.containedViewSelected === 0 ?
-                        document.getElementById('daliBoxIcons') :
-                        document.getElementById('contained_daliBoxIcons');
+                        document.getElementById('editorBoxIcons') :
+                        document.getElementById('contained_editorBoxIcons');
                     bar.classList.add('hidden');
 
                     // Level has to be the same to drag a box, unless a sortableContainer is selected, then it should allow level 0 boxes
@@ -695,8 +695,8 @@ export default class EditorBox extends Component {
                     // Unhide EditorShortcuts
 
                     let bar = this.props.containedViewSelected === 0 ?
-                        document.getElementById('daliBoxIcons') :
-                        document.getElementById('contained_daliBoxIcons');
+                        document.getElementById('editorBoxIcons') :
+                        document.getElementById('contained_editorBoxIcons');
                     bar.classList.remove('hidden');
 
                     event.stopPropagation();
@@ -715,8 +715,8 @@ export default class EditorBox extends Component {
                 onstart: (event) => {
                     // Hide EditorShortcuts
                     let bar = this.props.containedViewSelected === 0 ?
-                        document.getElementById('daliBoxIcons') :
-                        document.getElementById('contained_daliBoxIcons');
+                        document.getElementById('editorBoxIcons') :
+                        document.getElementById('contained_editorBoxIcons');
                     bar.classList.add('hidden');
 
                     // Append textbox with actual size
@@ -806,10 +806,10 @@ export default class EditorBox extends Component {
                     target.setAttribute('data-x', 0);
                     target.setAttribute('data-y', 0);
 
-                    // Unhide DaliShorcuts and remove size textbox
+                    // Unhide EditorShorcuts and remove size textbox
                     let bar = this.props.containedViewSelected === 0 ?
-                        document.getElementById('daliBoxIcons') :
-                        document.getElementById('contained_daliBoxIcons');
+                        document.getElementById('editorBoxIcons') :
+                        document.getElementById('contained_editorBoxIcons');
                     bar.classList.remove('hidden');
                     let span = document.getElementById('sizing');
                     if (span) {

@@ -41,7 +41,7 @@ export default class PluginRibbon extends Component {
                             if (button.category === this.props.category || this.props.category === 'all') {
                                 let clase = "" + button.icon;
                                 return (<div key={index} className="buttonPlace">
-                                    <Button className={"rib " + (button.allowFloatingBox ? "floatingDaliBox" : "")}
+                                    <Button className={"rib " + (button.allowFloatingBox ? "floatingEditorBox" : "")}
                                         disabled={this.props.disabled}
                                         key={index}
                                         name={item.name}

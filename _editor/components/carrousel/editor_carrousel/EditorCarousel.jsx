@@ -70,7 +70,7 @@ export default class EditorCarousel extends Component {
                         <div className="clear" />
                     </div>
                     <div id="indice"
-                        className="daliCarousel"
+                        className="editorCarousel"
                         key="indice"
                         style={{ height: '100%' }}>
                         {this.props.carouselShow ? carrouselContent : <br/>}

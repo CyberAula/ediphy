@@ -1,4 +1,4 @@
-CKEDITOR.plugins.setLang( 'daliplugin', 'en', {
+CKEDITOR.plugins.setLang( 'ediphyplugin', 'en', {
     title: 'Create Container',
     toolbar: 'Create Container',
     edit: 'Edit Container',
