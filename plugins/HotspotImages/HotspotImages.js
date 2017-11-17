@@ -9,7 +9,7 @@ export function HotspotImages(base) {
         getConfig: function() {
             return {
                 name: 'HotspotImages',
-                displayName: Dali.i18n.t('HotspotImages.PluginName'),
+                displayName: Ediphy.i18n.t('HotspotImages.PluginName'),
                 category: 'image',
                 needsConfigModal: false,
                 flavor: "react",
@@ -30,7 +30,7 @@ export function HotspotImages(base) {
                     __name: "Main",
                     accordions: {
                         basic: {
-                            __name: Dali.i18n.t('HotspotImages.source'),
+                            __name: Ediphy.i18n.t('HotspotImages.source'),
                             icon: 'link',
                             buttons: {
                                 url: {
@@ -43,48 +43,48 @@ export function HotspotImages(base) {
                             },
                         },
                         style: {
-                            __name: Dali.i18n.t('HotspotImages.box_style'),
+                            __name: Ediphy.i18n.t('HotspotImages.box_style'),
                             icon: 'palette',
                             buttons: {
                                 padding: {
-                                    __name: Dali.i18n.t('HotspotImages.padding'),
+                                    __name: Ediphy.i18n.t('HotspotImages.padding'),
                                     type: 'number',
                                     value: 0,
                                     min: 0,
                                     max: 100,
                                 },
                                 backgroundColor: {
-                                    __name: Dali.i18n.t('HotspotImages.background_color'),
+                                    __name: Ediphy.i18n.t('HotspotImages.background_color'),
                                     type: 'color',
                                     value: '#ffffff',
                                 },
                                 borderWidth: {
-                                    __name: Dali.i18n.t('HotspotImages.border_size'),
+                                    __name: Ediphy.i18n.t('HotspotImages.border_size'),
                                     type: 'number',
                                     value: 0,
                                     min: 0,
                                     max: 10,
                                 },
                                 borderStyle: {
-                                    __name: Dali.i18n.t('HotspotImages.border_style'),
+                                    __name: Ediphy.i18n.t('HotspotImages.border_style'),
                                     type: 'select',
                                     value: 'solid',
                                     options: ['none', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset', 'initial', 'inherit'],
                                 },
                                 borderColor: {
-                                    __name: Dali.i18n.t('HotspotImages.border_color'),
+                                    __name: Ediphy.i18n.t('HotspotImages.border_color'),
                                     type: 'color',
                                     value: '#000000',
                                 },
                                 borderRadius: {
-                                    __name: Dali.i18n.t('HotspotImages.radius'),
+                                    __name: Ediphy.i18n.t('HotspotImages.radius'),
                                     type: 'number',
                                     value: 0,
                                     min: 0,
                                     max: 50,
                                 },
                                 opacity: {
-                                    __name: Dali.i18n.t('HotspotImages.opacity'),
+                                    __name: Ediphy.i18n.t('HotspotImages.opacity'),
                                     type: 'range',
                                     value: 1,
                                     min: 0,
@@ -106,7 +106,7 @@ export function HotspotImages(base) {
                 // url: 'http://nemanjakovacevic.net/wp-content/uploads/2013/07/placeholder.png'
                 // url:'http://www.amicus.nieruchomosci.pl/grafika/no-image.png'
                 // url: 'https://bytesizemoments.com/wp-content/uploads/2014/04/placeholder.png'
-                url: img_placeholder, // Dali.Config.image_placeholder,
+                url: img_placeholder, // Ediphy.Config.image_placeholder,
 
             };
         },
@@ -142,7 +142,7 @@ export function HotspotImages(base) {
                 <div className="dropableRichZone">
                     <img className="basicImageClass" style={{ height: "100%", width: "100%" }} src={state.url} onError={(e)=>{
                         e.target.onError = null;
-                        e.target.src = img; // Dali.Config.broken_link;
+                        e.target.src = img; // Ediphy.Config.broken_link;
                     }}/>
                     {markElements}
                 </div>

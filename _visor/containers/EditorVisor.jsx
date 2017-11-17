@@ -23,18 +23,18 @@ export default class Visor extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            currentView: [this.getCurrentView(Dali.State.navItemSelected, Dali.State.containedViewSelected)], /* This is the actual view rendering*/
+            currentView: [this.getCurrentView(Ediphy.State.navItemSelected, Ediphy.State.containedViewSelected)], /* This is the actual view rendering*/
             triggeredMarks: [],
             richElementState: {},
             backupElementStates: {},
-            toggledSidebar: Dali.State.globalConfig.visorNav.sidebar ? Dali.State.globalConfig.visorNav.sidebar : (Dali.State.globalConfig.visorNav.sidebar === undefined),
-            fromScorm: Dali.State.fromScorm,
+            toggledSidebar: Ediphy.State.globalConfig.visorNav.sidebar ? Ediphy.State.globalConfig.visorNav.sidebar : (Ediphy.State.globalConfig.visorNav.sidebar === undefined),
+            fromScorm: Ediphy.State.fromScorm,
         };
 
     }
 
     componentWillUnmount() {
-        Dali.API_Private.cleanListener(Dali.API_Private.events.markTriggered);
+        Ediphy.API_Private.cleanListener(Ediphy.API_Private.events.markTriggered);
     }
     componentWillMount() {
         // Get the event received check if exist and modify the state
@@ -47,7 +47,7 @@ export default class Visor extends Component {
         let richElementsState = this.state.richElementState;
 
         // Marks Global Listener
-        Dali.API_Private.listenEmission(Dali.API_Private.events.markTriggered, e=>{
+        Ediphy.API_Private.listenEmission(Ediphy.API_Private.events.markTriggered, e=>{
             let marks = this.getAllMarks();
             let triggered_event = e.detail;
             let triggered_marks = this.getTriggeredMarks(marks, triggered_event);
@@ -150,15 +150,15 @@ export default class Visor extends Component {
         * Add Key bindings to app
         * */
 
-        if(Dali.State.globalConfig.visorNav.keyBindings) {
+        if(Ediphy.State.globalConfig.visorNav.keyBindings) {
             // First get window focus so arrows work right away
             window.focus();
             window.onkeyup = function(e) {
                 let key = e.keyCode ? e.keyCode : e.which;
 
-                let navItemsIds = Dali.State.navItemsIds;
+                let navItemsIds = Ediphy.State.navItemsIds;
 
-                if (!Dali.Config.sections_have_content) {
+                if (!Ediphy.Config.sections_have_content) {
                     navItemsIds = navItemsIds.filter((element)=>(element.indexOf("se") === -1));
                 }
                 let navItemSelected = this.state.currentView.reduce(element=> {
@@ -182,16 +182,16 @@ export default class Visor extends Component {
 
     render() {
         if (window.State) {
-            Dali.State = window.State;
+            Ediphy.State = window.State;
         }
 
-        let boxes = Dali.State.boxesById;
-        let boxSelected = Dali.State.boxSelected;
-        let navItems = Dali.State.navItemsById;
-        let navItemsIds = Dali.State.navItemsIds;
-        let containedViews = Dali.State.containedViewsById;
-        let toolbars = Dali.State.toolbarsById;
-        let globalConfig = Dali.State.globalConfig;
+        let boxes = Ediphy.State.boxesById;
+        let boxSelected = Ediphy.State.boxSelected;
+        let navItems = Ediphy.State.navItemsById;
+        let navItemsIds = Ediphy.State.navItemsIds;
+        let containedViews = Ediphy.State.containedViewsById;
+        let toolbars = Ediphy.State.toolbarsById;
+        let globalConfig = Ediphy.State.globalConfig;
         let title = globalConfig.title;
         let ratio = globalConfig.canvasRatio;
         let visorNav = globalConfig.visorNav;
@@ -524,8 +524,8 @@ export default class Visor extends Component {
         let boxes = this.getAllRichDescendantBoxes(currentView);
         let marks = [];
         boxes.forEach(box=>{
-            Object.keys(Dali.State.toolbarsById[box].state.__marks).map(mark_element=>{
-                let mark_box = Dali.State.toolbarsById[box].state.__marks[mark_element];
+            Object.keys(Ediphy.State.toolbarsById[box].state.__marks).map(mark_element=>{
+                let mark_box = Ediphy.State.toolbarsById[box].state.__marks[mark_element];
                 mark_box.box_id = box;
                 marks.push(mark_box);
             });
@@ -588,29 +588,29 @@ export default class Visor extends Component {
      * @returns {Array}
      */
     getAllRichDescendantBoxes(navItemID) {
-        let view = Dali.State.navItemsById[navItemID];
+        let view = Ediphy.State.navItemsById[navItemID];
         if (isContainedView(navItemID)) {
-            view = Dali.State.containedViewsById[navItemID];
+            view = Ediphy.State.containedViewsById[navItemID];
         }
         let boxes = view.boxes;
         let newBoxes = [];
 
         let richBoxes = [];
-        Object.keys(Dali.State.boxesById).map(box=>{
+        Object.keys(Ediphy.State.boxesById).map(box=>{
 
             if(boxes.indexOf(box) !== -1) {
                 newBoxes.push(box);
 
-                if(Object.keys(Dali.State.boxesById[box].children).length !== 0) {
-                    Object.keys(Dali.State.boxesById[box].sortableContainers).map(second_box=>{
-                        newBoxes = newBoxes.concat(Dali.State.boxesById[box].sortableContainers[second_box].children);
+                if(Object.keys(Ediphy.State.boxesById[box].children).length !== 0) {
+                    Object.keys(Ediphy.State.boxesById[box].sortableContainers).map(second_box=>{
+                        newBoxes = newBoxes.concat(Ediphy.State.boxesById[box].sortableContainers[second_box].children);
                     });
                 }
             }
         });
 
         newBoxes.forEach(final=>{
-            if(Dali.State.toolbarsById[final] && Dali.State.toolbarsById[final].config && Dali.State.toolbarsById[final].config.isRich) {
+            if(Ediphy.State.toolbarsById[final] && Ediphy.State.toolbarsById[final].config && Ediphy.State.toolbarsById[final].config.isRich) {
                 richBoxes.push(final);
             }
         });

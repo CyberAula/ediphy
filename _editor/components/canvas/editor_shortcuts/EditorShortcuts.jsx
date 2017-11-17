@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
-import Dali from '../../../../core/editor/main';
+import Ediphy from '../../../../core/editor/main';
 import { Tooltip, OverlayTrigger } from 'react-bootstrap';
 import { UPDATE_BOX } from '../../../../common/actions';
 import i18n from 'i18next';
 import { isSortableBox, isSortableContainer } from '../../../../common/utils';
 
 /**
- * DaliShortcuts component
+ * EditorShortcuts component
  * Floating tools that help edit DaliBoxes more easily
  */
 export default class DaliShortcuts extends Component {
@@ -125,7 +125,7 @@ export default class DaliShortcuts extends Component {
                                     onClick={(e) => {
                                         this.props.onTextEditorToggled(toolbar.id, !toolbar.showTextEditor);
                                         if(this.props.box && this.props.box.id) {
-                                            // TODO: Código duplicado en DaliBox, DaliShortcuts y PluginToolbar. Extraer a common_tools?
+                                            // TODO: Código duplicado en DaliBox, EditorShortcuts y PluginToolbar. Extraer a common_tools?
                                             let CKstring = CKEDITOR.instances[this.props.box.id].getData();
                                             let initString = "<p>" + i18n.t("text_here") + "</p>\n";
                                             if (CKstring === initString) {
@@ -151,7 +151,7 @@ export default class DaliShortcuts extends Component {
                                 }>
                                 <button id="open_conf" className={"daliTitleButton"}
                                     onClick={(e) => {
-                                        Dali.Plugins.get(toolbar.config.name).openConfigModal(UPDATE_BOX, toolbar.state, toolbar.id);
+                                        Ediphy.Plugins.get(toolbar.config.name).openConfigModal(UPDATE_BOX, toolbar.state, toolbar.id);
                                     }}>
                                     <i className="material-icons">build</i>
                                 </button>

@@ -11,7 +11,7 @@ import { srcTree, lookForPath } from './src/content';
 import "./src/style/style.scss";
 import i18n from './locales/i18n';
 
-export default class DaliDocs extends Component {
+export default class EdiphyDocs extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -96,4 +96,4 @@ export default class DaliDocs extends Component {
     }
 }
 
-ReactDOM.render((<DaliDocs />), document.getElementById('root'));
+ReactDOM.render((<EdiphyDocs />), document.getElementById('root'));

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import DaliCanvasSli from '../dali_canvas_sli/DaliCanvasSli';
-import DaliCanvasDoc from '../dali_canvas_doc/DaliCanvasDoc';
+import EditorCanvasSli from '../editor_canvas_sli/EditorCanvasSli';
+import EditorCanvasDoc from '../editor_canvas_doc/EditorCanvasDoc';
 import { REORDER_SORTABLE_CONTAINER, REORDER_BOXES } from '../../../../common/actions';
 import { isSlide } from '../../../../common/utils';
 
@@ -11,7 +11,7 @@ import './_canvas.scss';
  * Container component to render documents or slides
  *
  */
-export default class DaliCanvas extends Component {
+export default class EditorCanvas extends Component {
     /**
      * Constructor
      * @param props React component props
@@ -26,8 +26,8 @@ export default class DaliCanvas extends Component {
      */
     render() {
         return (isSlide(this.props.navItemSelected.type)) ?
-            (<DaliCanvasSli fromCV={false} {...this.props} />) :
-            (<DaliCanvasDoc fromCV={false} {...this.props} />);
+            (<EditorCanvasSli fromCV={false} {...this.props} />) :
+            (<EditorCanvasDoc fromCV={false} {...this.props} />);
     }
 
     /**
@@ -63,7 +63,7 @@ export default class DaliCanvas extends Component {
 
 }
 
-DaliCanvas.propTypes = {
+EditorCanvas.propTypes = {
     /**
      * Relación de aspecto para diapositivas
      */
@@ -153,7 +153,7 @@ DaliCanvas.propTypes = {
      */
     onBoxResized: PropTypes.func.isRequired,
     /**
-     * Suelta la caja en una zona de un DaliBoxSortable
+     * Suelta la caja en una zona de un EditorBoxSortable
      */
     onBoxDropped: PropTypes.func.isRequired,
     /**

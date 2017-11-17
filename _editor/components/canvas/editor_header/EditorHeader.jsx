@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Breadcrumb, BreadcrumbItem } from 'react-bootstrap';
 import i18n from 'i18next';
-import './_daliHeader.scss';
+import './_editorHeader.scss';
 import CVInfo from "./CVInfo";
 
 /**
  *  DaliHeaderComponent
  *  It shows the current page's title
  */
-export default class DaliHeader extends Component {
+export default class EditorHeader extends Component {
     /**
      * Renders React Component
      * @returns {code}
@@ -168,7 +168,7 @@ export default class DaliHeader extends Component {
 
 }
 
-DaliHeader.propTypes = {
+EditorHeader.propTypes = {
     /**
      * Array que contiene el título desglosado de la página. Ej: `['Sección 1'. 'Página 1']`
      */

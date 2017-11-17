@@ -4,7 +4,7 @@ export function Webpage(base) {
         getConfig: function() {
             return {
                 name: 'Webpage',
-                displayName: Dali.i18n.t('Webpage.PluginName'),
+                displayName: Ediphy.i18n.t('Webpage.PluginName'),
                 category: 'multimedia',
                 icon: 'public',
                 initialWidth: '70%',
@@ -20,7 +20,7 @@ export function Webpage(base) {
                     __name: "Main",
                     accordions: {
                         basic: {
-                            __name: Dali.i18n.t('Webpage.URL'),
+                            __name: Ediphy.i18n.t('Webpage.URL'),
                             icon: 'link',
                             buttons: {
                                 url: {
@@ -32,7 +32,7 @@ export function Webpage(base) {
                             },
                         },
                         style: {
-                            __name: Dali.i18n.t('Webpage.box_style'),
+                            __name: Ediphy.i18n.t('Webpage.box_style'),
                             icon: 'palette',
                             buttons: {
                                 padding: {
@@ -43,32 +43,32 @@ export function Webpage(base) {
                                     max: 100,
                                 },
                                 borderWidth: {
-                                    __name: Dali.i18n.t('Webpage.border_size'),
+                                    __name: Ediphy.i18n.t('Webpage.border_size'),
                                     type: 'number',
                                     value: 0,
                                     min: 0,
                                     max: 10,
                                 },
                                 borderStyle: {
-                                    __name: Dali.i18n.t('Webpage.border_style'),
+                                    __name: Ediphy.i18n.t('Webpage.border_style'),
                                     type: 'select',
                                     value: 'solid',
                                     options: ['none', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset', 'initial', 'inherit'],
                                 },
                                 borderColor: {
-                                    __name: Dali.i18n.t('Webpage.border_color'),
+                                    __name: Ediphy.i18n.t('Webpage.border_color'),
                                     type: 'color',
                                     value: '#000000',
                                 },
                                 borderRadius: {
-                                    __name: Dali.i18n.t('Webpage.radius'),
+                                    __name: Ediphy.i18n.t('Webpage.radius'),
                                     type: 'number',
                                     value: 0,
                                     min: 0,
                                     max: 50,
                                 },
                                 opacity: {
-                                    __name: Dali.i18n.t('Webpage.opacity'),
+                                    __name: Ediphy.i18n.t('Webpage.opacity'),
                                     type: 'range',
                                     value: 1,
                                     min: 0,

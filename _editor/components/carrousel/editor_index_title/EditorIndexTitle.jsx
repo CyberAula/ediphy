@@ -2,15 +2,15 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { isPage, isSection } from '../../../../common/utils';
 import { FormControl } from 'react-bootstrap';
-import Dali from '../../../../core/editor/main';
+import Ediphy from '../../../../core/editor/main';
 import i18n from 'i18next';
 
-import './_daliIndexTitle.scss';
+import './_editorIndexTitle.scss';
 
 /**
  * Component for editing index elements in situ
  */
-export default class DaliIndexTitle extends Component {
+export default class EditorIndexTitle extends Component {
     /**
      * Constructor
      * @param props
@@ -47,7 +47,7 @@ export default class DaliIndexTitle extends Component {
                             }
                             e.stopPropagation();
                         }}>
-                        {Dali.Config.show_numbers_before_navitems ? this.props.index : ""} {this.props.title}
+                        {Ediphy.Config.show_numbers_before_navitems ? this.props.index : ""} {this.props.title}
                     </div>) :
                     (<FormControl
                         type="text"
@@ -102,7 +102,7 @@ export default class DaliIndexTitle extends Component {
 
 }
 
-DaliIndexTitle.propTypes = {
+EditorIndexTitle.propTypes = {
     /**
      * Identificador único del elemento del índice seleccionado
      */

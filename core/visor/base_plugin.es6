@@ -1,4 +1,4 @@
-import Dali from '../editor/main';
+import Ediphy from '../editor/main';
 let html2json = require('html2json').html2json;
 
 export default function() {
@@ -70,11 +70,11 @@ export default function() {
         export: function(state, name, hasChildren, id = "") {
             let pluginObj, template, hasVisorTemplate;
 
-            if (!Dali.Visor.Plugins[name]) {
-                pluginObj = Dali.Plugins[name];
+            if (!Ediphy.Visor.Plugins[name]) {
+                pluginObj = Ediphy.Plugins[name];
                 hasVisorTemplate = false;
             } else {
-                pluginObj = Dali.Visor.Plugins[name];
+                pluginObj = Ediphy.Visor.Plugins[name];
                 hasVisorTemplate = true;
             }
             if (!pluginObj.getRenderTemplate) {
@@ -98,12 +98,12 @@ export default function() {
             }
             matches.map(function(matchNew) {
                 if (matchNew[1].length === 0) {
-                    // no traducir pasar directamente la función pasarle directamenete Dali.Visor.Plugins[match[0]].function(event,props,)
+                    // no traducir pasar directamente la función pasarle directamenete Ediphy.Visor.Plugins[match[0]].function(event,props,)
                     template = template.replace(matchNew[0], matchNew[0] + "event, \"" + id + "\""); // template.replace(match[0], match[0] + "event, this, __getPlugin(this)");
                 } else {
                     template = template.replace(matchNew[0], matchNew[0].replace(matchNew[1], "event, \"" + id + "\"")); // template.replace(match[0], match[0].replace(match[1], "event, this, __getPlugin(this)"));
                 }
-                template = template.replace(/[$]dali[$][.]/, "Dali.Visor.Plugins." + name + ".");
+                template = template.replace(/[$]dali[$][.]/, "Ediphy.Visor.Plugins." + name + ".");
             });
 
             if (template.indexOf("pointer-events") !== -1) {
@@ -146,7 +146,7 @@ export default function() {
                 return;
             }
             if(value) {
-                Dali.API.markTriggered(element, value, stateElement);
+                Ediphy.API.markTriggered(element, value, stateElement);
             }
         },
     };

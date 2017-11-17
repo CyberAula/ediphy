@@ -14,30 +14,30 @@ import { addNavItem, selectNavItem, expandNavItem, deleteNavItem, reorderNavItem
     addRichMark, editRichMark, deleteRichMark,
     ADD_BOX, EDIT_PLUGIN_TEXT, DELETE_CONTAINED_VIEW, DELETE_NAV_ITEM, DELETE_RICH_MARK, UPDATE_BOX, UPDATE_TOOLBAR } from '../../common/actions';
 import { ID_PREFIX_BOX, ID_PREFIX_SORTABLE_CONTAINER } from '../../common/constants';
-import DaliCanvas from '../components/canvas/dali_canvas/DaliCanvas';
+import EditorCanvas from '../components/canvas/editor_canvas/EditorCanvas';
 import ContainedCanvas from '../components/rich_plugins/contained_canvas/ContainedCanvas';
-import DaliCarousel from '../components/carrousel/dali_carrousel/DaliCarousel';
+import EditorCarousel from '../components/carrousel/editor_carrousel/EditorCarousel';
 import PluginConfigModal from '../components/plugin_config_modal/PluginConfigModal';
 import XMLConfigModal from '../components/xml_config_modal/XMLConfigModal';
 import PluginToolbar from '../components/toolbar/plugin_toolbar/PluginToolbar';
 import Visor from '../../_visor/containers/Visor';
 import ExternalCatalogModal from '../components/external_provider/ExternalCatalogModal';
 import PluginRibbon from '../components/nav_bar/plugin_ribbon/PluginRibbon';
-import DaliNavBar from '../components/nav_bar/dali_nav_bar/DaliNavBar';
+import EditorNavBar from '../components/nav_bar/editor_nav_bar/EditorNavBar';
 import ServerFeedback from '../components/server_feedback/ServerFeedback';
 import RichMarksModal from '../components/rich_plugins/rich_marks_modal/RichMarksModal';
 import AutoSave from '../components/autosave/AutoSave';
 import Alert from '../components/common/alert/Alert';
 import i18n from 'i18next';
-import Dali from '../../core/editor/main';
+import Ediphy from '../../core/editor/main';
 import { isSortableBox, isSection, isContainedView, isSortableContainer } from '../../common/utils';
 import 'typeface-ubuntu';
 import 'typeface-source-sans-pro';
 
 /**
- * DaliApp. Main application component that renders everything else
+ * EditorApp. Main application component that renders everything else
  */
-class DaliApp extends Component {
+class EditorApp extends Component {
     /**
      * Constructor
      * @param props
@@ -91,7 +91,7 @@ class DaliApp extends Component {
             <Grid id="app" fluid style={{ height: '100%' }}>
                 <Row className="navBar">
                     {this.state.alert}
-                    <DaliNavBar hideTab={this.state.hideTab}
+                    <EditorNavBar hideTab={this.state.hideTab}
                         globalConfig={globalConfig}
                         changeGlobalConfig={(prop, value) => {this.dispatchAndSetState(changeGlobalConfig(prop, value));}}
                         undoDisabled={undoDisabled}
@@ -106,22 +106,22 @@ class DaliApp extends Component {
                         undo={() => {this.dispatchAndSetState(ActionCreators.undo());}}
                         redo={() => {this.dispatchAndSetState(ActionCreators.redo());}}
                         visor={() =>{this.setState({ visorVisible: true });}}
-                        export={() => {Dali.Visor.exports(this.props.store.getState().present);}}
-                        scorm={() => {Dali.Visor.exportScorm(this.props.store.getState().present);}}
+                        export={() => {Ediphy.Visor.exports(this.props.store.getState().present);}}
+                        scorm={() => {Ediphy.Visor.exportScorm(this.props.store.getState().present);}}
                         save={() => {this.dispatchAndSetState(exportStateAsync({ present: this.props.store.getState().present })); }}
                         category={this.state.pluginTab}
                         opens={() => {this.dispatchAndSetState(importStateAsync());}}
                         serverModalOpen={()=>{this.setState({ serverModal: true });}}
                         onExternalCatalogToggled={() => this.setState({ catalogModal: true })}
                         setcat={(category) => {this.setState({ pluginTab: category, hideTab: 'show' });}}/>
-                    {Dali.Config.autosave_time > 1000 &&
+                    {Ediphy.Config.autosave_time > 1000 &&
                     <AutoSave save={() => {this.dispatchAndSetState(exportStateAsync({ present: this.props.store.getState().present }));}}
                         isBusy={isBusy}
                         lastAction={this.state.lastAction}
                         visorVisible={this.state.visorVisible}/>})
                 </Row>
                 <Row style={{ height: 'calc(100% - 60px)' }} id="mainRow">
-                    <DaliCarousel boxes={boxes}
+                    <EditorCarousel boxes={boxes}
                         title={title}
                         containedViews={containedViews}
                         containedViewSelected={containedViewSelected}
@@ -145,7 +145,7 @@ class DaliApp extends Component {
 
                             Object.keys(containedViews[cvid].parent).forEach((el)=>{
                                 if (toolbars[el] && toolbars[el].state && toolbars[el].state.__marks) {
-                                    Dali.Plugins.get(toolbars[el].config.name).forceUpdate(
+                                    Ediphy.Plugins.get(toolbars[el].config.name).forceUpdate(
                                         toolbars[el].state,
                                         el,
                                         DELETE_CONTAINED_VIEW
@@ -154,7 +154,7 @@ class DaliApp extends Component {
                             });
                         }}
                         onNavItemNameChanged={(id, titleStr) => this.dispatchAndSetState(changeNavItemName(id, titleStr))}
-                        onNavItemAdded={(id, name, parent, type, position) => this.dispatchAndSetState(addNavItem(id, name, parent, type, position, (type !== 'section' || (type === 'section' && Dali.Config.sections_have_content))))}
+                        onNavItemAdded={(id, name, parent, type, position) => this.dispatchAndSetState(addNavItem(id, name, parent, type, position, (type !== 'section' || (type === 'section' && Ediphy.Config.sections_have_content))))}
                         onNavItemSelected={id => this.dispatchAndSetState(selectNavItem(id))}
                         onNavItemExpanded={(id, value) => this.dispatchAndSetState(expandNavItem(id, value))}
                         onNavItemDeleted={(navsel) => {
@@ -198,7 +198,7 @@ class DaliApp extends Component {
                         style={{ height: (this.state.carouselFull ? 0 : '100%'),
                             width: (this.state.carouselShow ? 'calc(100% - 212px)' : 'calc(100% - 80px)') }}>
                         <Row id="ribbonRow">
-                            <PluginRibbon disabled={navItemSelected === 0 || (!Dali.Config.sections_have_content && navItemSelected && isSection(navItemSelected)) || this.hasExerciseBox(navItemSelected, navItems, this.state, boxes)} // ADD condition navItemSelected There are extrafiles
+                            <PluginRibbon disabled={navItemSelected === 0 || (!Ediphy.Config.sections_have_content && navItemSelected && isSection(navItemSelected)) || this.hasExerciseBox(navItemSelected, navItems, this.state, boxes)} // ADD condition navItemSelected There are extrafiles
                                 boxSelected={boxes[boxSelected]}
                                 navItemSelected={navItems[navItemSelected]}
                                 containedViewSelected={containedViewSelected}
@@ -207,7 +207,7 @@ class DaliApp extends Component {
                                 ribbonHeight={ribbonHeight + 'px'} />
                         </Row>
                         <Row id="canvasRow" style={{ height: 'calc(100% - ' + ribbonHeight + 'px)' }}>
-                            <DaliCanvas boxes={boxes}
+                            <EditorCanvas boxes={boxes}
                                 canvasRatio={canvasRatio}
                                 boxSelected={boxSelected}
                                 boxLevelSelected={boxLevelSelected}
@@ -330,7 +330,7 @@ class DaliApp extends Component {
                     toolbar={toolbars[boxSelected]}
                     visible={this.state.xmlEditorVisible}
                     onXMLEditorToggled={() => this.setState({ xmlEditorVisible: !this.state.xmlEditorVisible })}/>
-                {Dali.Config.external_providers.enable_catalog_modal &&
+                {Ediphy.Config.external_providers.enable_catalog_modal &&
                 <ExternalCatalogModal images={imagesUploaded}
                     visible={this.state.catalogModal}
                     onExternalCatalogToggled={() => this.setState({ catalogModal: !this.state.catalogModal })}/>}
@@ -344,8 +344,8 @@ class DaliApp extends Component {
                     navItemsIds={navItemsIds}
                     visible={this.state.richMarksVisible}
                     currentRichMark={this.state.currentRichMark}
-                    defaultValueMark={toolbars[boxSelected] && toolbars[boxSelected].config && Dali.Plugins.get(toolbars[boxSelected].config.name) ? Dali.Plugins.get(toolbars[boxSelected].config.name).getConfig().defaultMarkValue : 0}
-                    validateValueInput={toolbars[boxSelected] && toolbars[boxSelected].config && Dali.Plugins.get(toolbars[boxSelected].config.name) ? Dali.Plugins.get(toolbars[boxSelected].config.name).validateValueInput : null}
+                    defaultValueMark={toolbars[boxSelected] && toolbars[boxSelected].config && Ediphy.Plugins.get(toolbars[boxSelected].config.name) ? Ediphy.Plugins.get(toolbars[boxSelected].config.name).getConfig().defaultMarkValue : 0}
+                    validateValueInput={toolbars[boxSelected] && toolbars[boxSelected].config && Ediphy.Plugins.get(toolbars[boxSelected].config.name) ? Ediphy.Plugins.get(toolbars[boxSelected].config.name).validateValueInput : null}
                     onBoxAdded={(ids, draggable, resizable, content, toolbar, config, state) => this.dispatchAndSetState(addBox(ids, draggable, resizable, content, toolbar, config, state))}
                     onRichMarkUpdated={(mark, createNew) => {
                         let toolbar = toolbars[boxSelected];
@@ -500,8 +500,8 @@ class DaliApp extends Component {
             this.props.dispatch(importState(JSON.parse(dali_editor_json)));
         }
 
-        Dali.Plugins.loadAll();
-        Dali.API_Private.listenEmission(Dali.API_Private.events.render, e => {
+        Ediphy.Plugins.loadAll();
+        Ediphy.API_Private.listenEmission(Ediphy.API_Private.events.render, e => {
             this.index = 0;
             let newPluginState = {};
             let navItemSelected = this.props.navItems[this.props.navItemSelected];
@@ -565,7 +565,7 @@ class DaliApp extends Component {
                 }
             }
         });
-        Dali.API_Private.listenEmission(Dali.API_Private.events.getPluginsInView, e => {
+        Ediphy.API_Private.listenEmission(Ediphy.API_Private.events.getPluginsInView, e => {
             let plugins = {};
             let ids = [];
             let view = e.detail.view ? e.detail.view : this.props.navItemSelected;
@@ -592,10 +592,10 @@ class DaliApp extends Component {
                 }
             });
 
-            Dali.API_Private.answer(Dali.API_Private.events.getPluginsInView, plugins);
+            Ediphy.API_Private.answer(Ediphy.API_Private.events.getPluginsInView, plugins);
         });
 
-        Dali.API_Private.listenEmission(Dali.API_Private.events.editRichMark, e => {
+        Ediphy.API_Private.listenEmission(Ediphy.API_Private.events.editRichMark, e => {
             let newState = JSON.parse(JSON.stringify(this.props.toolbars[e.detail.box].state));
             newState.__marks[e.detail.id].value = e.detail.value;
             this.dispatchAndSetState(editRichMark(e.detail.box, newState, newState.__marks[e.detail.id], false, false));
@@ -752,7 +752,7 @@ class DaliApp extends Component {
 
     /**
      * Container's linked contained views
-     * @param box DaliBoxSortable
+     * @param box EditorBoxSortable
      * @param container SortableContainer
      * @returns {Array}
      */
@@ -875,12 +875,12 @@ class DaliApp extends Component {
             let plug_children = boxes[eventDetails.ids.id].sortableContainers[obj.attr['plugin-data-id']];
             if (plug_children && plug_children.children && plug_children.children.length === 0) {
                 obj.attr['plugin-data-default'].split(" ").map(name => {
-                    if (!Dali.Plugins.get(name)) {
+                    if (!Ediphy.Plugins.get(name)) {
                         // eslint-disable-next-line no-console
                         console.error("Plugin " + name + " does not exist");
                         return;
                     }
-                    Dali.Plugins.get(name).getConfig().callback({
+                    Ediphy.Plugins.get(name).getConfig().callback({
                         parent: eventDetails.ids.id,
                         container: obj.attr['plugin-data-id'],
                         isDefaultPlugin: true,
@@ -914,4 +914,4 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps)(DaliApp);
+export default connect(mapStateToProps)(EditorApp);

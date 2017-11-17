@@ -91,10 +91,10 @@ export default class BoxVisor extends Component {
         /* TODO: Reasign object if is rich to have marks as property box.content.props*/
 
         let content = toolbar.config.flavor === "react" ? (
-            <div style={style} {...attrs} className={"boxStyle " + classNames} ref={"content"}>{Dali.Visor.Plugins[toolbar.config.name].getRenderTemplate(toolbar.state, box.id)}</div>
+            <div style={style} {...attrs} className={"boxStyle " + classNames} ref={"content"}>{Ediphy.Visor.Plugins[toolbar.config.name].getRenderTemplate(toolbar.state, box.id)}</div>
         ) : (
             <div style={style} {...attrs} className={"boxStyle " + classNames} ref={"content"}>
-                {this.renderChildren(Dali.Visor.Plugins.get(toolbar.config.name).export(toolbar.state, toolbar.config.name, box.children.length !== 0, this.props.id), 0)}
+                {this.renderChildren(Ediphy.Visor.Plugins.get(toolbar.config.name).export(toolbar.state, toolbar.config.name, box.children.length !== 0, this.props.id), 0)}
             </div>
         );
         let border = (

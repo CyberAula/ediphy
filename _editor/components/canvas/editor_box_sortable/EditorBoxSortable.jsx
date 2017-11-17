@@ -4,20 +4,20 @@ import PropTypes from 'prop-types';
 import { Button, OverlayTrigger, Popover, Tooltip } from 'react-bootstrap';
 import interact from 'interactjs';
 import Alert from './../../common/alert/Alert';
-import DaliBox from '../dali_box/DaliBox';
+import EditorBox from '../editor_box/EditorBox';
 import { ID_PREFIX_SORTABLE_CONTAINER } from '../../../../common/constants';
 import { ADD_BOX } from '../../../../common/actions';
 import { isSortableBox } from '../../../../common/utils';
-import Dali from '../../../../core/editor/main';
+import Ediphy from '../../../../core/editor/main';
 import i18n from 'i18next';
 
-import './_daliBoxSortable.scss';
+import './_editorBoxSortable.scss';
 
 /**
- * DaliBoxSortabe Component
- * @desc It is a special kind of DaliBox that is automatically added when a document is created. It cannot be moved or resized and it takes up the whole width of the page. It has different 'rows', named SortableContainers, where plugins are displayed, that can be sorted.
+ * EditorBoxSortable Component
+ * @desc It is a special kind of EditorBox that is automatically added when a document is created. It cannot be moved or resized and it takes up the whole width of the page. It has different 'rows', named SortableContainers, where plugins are displayed, that can be sorted.
  */
-export default class DaliBoxSortable extends Component {
+export default class EditorBoxSortable extends Component {
     /**
      * Constructor
      * @param props React component props
@@ -91,7 +91,7 @@ export default class DaliBoxSortable extends Component {
                                                     }}>
                                                     {container.children.map((idBox, ind) => {
                                                         if (this.props.boxes[idBox].col === i && this.props.boxes[idBox].row === j) {
-                                                            return (<DaliBox id={idBox}
+                                                            return (<EditorBox id={idBox}
                                                                 key={ind}
                                                                 boxes={this.props.boxes}
                                                                 boxSelected={this.props.boxSelected}
@@ -209,7 +209,7 @@ export default class DaliBoxSortable extends Component {
         list.sortable({
             handle: '.drag-handle',
             start: (event, ui) => {
-                // Hide DaliShortcuts
+                // Hide EditorShortcuts
                 let bar = this.props.containedViewSelected === 0 ?
                     document.getElementById('daliBoxIcons') :
                     document.getElementById('contained_daliBoxIcons');
@@ -226,7 +226,7 @@ export default class DaliBoxSortable extends Component {
 
                 }
                 list.sortable('cancel');
-                // Unhide DaliShortcuts
+                // Unhide EditorShortcuts
                 let bar = this.props.containedViewSelected === 0 ?
                     document.getElementById('daliBoxIcons') :
                     document.getElementById('contained_daliBoxIcons');
@@ -283,10 +283,10 @@ export default class DaliBoxSortable extends Component {
             ondrop: function(e) {
 
                 if (dropArea === 'cell') {
-                    // If element dragged is coming from PluginRibbon, create a new DaliBox
+                    // If element dragged is coming from PluginRibbon, create a new EditorBox
                     if (e.relatedTarget.className.indexOf("rib") !== -1) {
                         // Check if there is a limit in the number of plugin instances
-                        if (isSortableBox(this.props.id) && Dali.Plugins.get(e.relatedTarget.getAttribute("name")).getConfig().limitToOneInstance) {
+                        if (isSortableBox(this.props.id) && Ediphy.Plugins.get(e.relatedTarget.getAttribute("name")).getConfig().limitToOneInstance) {
                             for (let child in this.props.boxes) {
                                 if (!isSortableBox(child) && this.props.boxes[child].parent === this.props.id && this.props.toolbars[child].config.name === e.relatedTarget.getAttribute("name")) {
                                     let alert = (<Alert className="pageModal"
@@ -309,7 +309,7 @@ export default class DaliBoxSortable extends Component {
                             col: extraParams.i,
                             row: extraParams.j,
                         };
-                        Dali.Plugins.get(e.relatedTarget.getAttribute("name")).getConfig().callback(initialParams, ADD_BOX);
+                        Ediphy.Plugins.get(e.relatedTarget.getAttribute("name")).getConfig().callback(initialParams, ADD_BOX);
                     } else {
                         let boxDragged = this.props.boxes[this.props.boxSelected];
                         // If box being dragged is dropped in a different column or row, change it's value
@@ -321,7 +321,7 @@ export default class DaliBoxSortable extends Component {
                         clone.parentElement.removeChild(clone);
                     }
                 } else {
-                    if (isSortableBox(this.props.id) && Dali.Plugins.get(e.relatedTarget.getAttribute("name")).getConfig().limitToOneInstance) {
+                    if (isSortableBox(this.props.id) && Ediphy.Plugins.get(e.relatedTarget.getAttribute("name")).getConfig().limitToOneInstance) {
                         for (let child in this.props.boxes) {
                             if (!isSortableBox(child) && this.props.boxes[child].parent === this.props.id && this.props.toolbars[child].config.name === e.relatedTarget.getAttribute("name")) {
                                 let alert = (<Alert className="pageModal"
@@ -351,7 +351,7 @@ export default class DaliBoxSortable extends Component {
                         };
                     }
 
-                    Dali.Plugins.get(e.relatedTarget.getAttribute("name")).getConfig().callback(initialParams, ADD_BOX);
+                    Ediphy.Plugins.get(e.relatedTarget.getAttribute("name")).getConfig().callback(initialParams, ADD_BOX);
                     e.dragEvent.stopPropagation();
                 }
             }.bind(this),
@@ -373,7 +373,7 @@ export default class DaliBoxSortable extends Component {
     }
 }
 
-DaliBoxSortable.propTypes = {
+EditorBoxSortable.propTypes = {
     /**
      * Identificador único de la caja
      */
@@ -439,7 +439,7 @@ DaliBoxSortable.propTypes = {
      */
     onBoxResized: PropTypes.func.isRequired,
     /**
-     * Suelta la caja en una zona de un DaliBoxSortable
+     * Suelta la caja en una zona de un EditorBoxSortable
      */
     onBoxDropped: PropTypes.func.isRequired,
     /**

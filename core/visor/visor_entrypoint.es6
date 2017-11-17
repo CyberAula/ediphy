@@ -13,7 +13,7 @@ scss_visor_context.keys().map(scss_visor_context);
 
 window.ReactDOM = require('react-dom');
 
-window.Dali = {
+window.Ediphy = {
     API: api(),
     API_Private: api_private(),
     Visor: Visor,
@@ -22,17 +22,17 @@ window.Dali = {
 };
 
 if (window.State) {
-    window.Dali.State = window.State;
+    window.Ediphy.State = window.State;
     window.State = undefined;
 }
 
 if (process.env.DOC !== 'doc' && process.env.NODE_ENV === 'production' && typeof dali_editor_json !== 'undefined') {
-    window.Dali.State = JSON.parse(dali_editor_json);
+    window.Ediphy.State = JSON.parse(dali_editor_json);
 }
 
 Config.pluginList.map(id => {
     try {
-        window.Dali.Visor.Plugins.add(id);
+        window.Ediphy.Visor.Plugins.add(id);
     } catch (e) {
     }
 });

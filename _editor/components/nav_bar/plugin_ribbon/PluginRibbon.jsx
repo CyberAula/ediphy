@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Button, Col } from 'react-bootstrap';
 import interact from 'interactjs';
 import PropTypes from 'prop-types';
-import Dali from '../../../../core/editor/main';
+import Ediphy from '../../../../core/editor/main';
 import ReactDOM from 'react-dom';
 import './_pluginRibbon.scss';
 
@@ -119,7 +119,7 @@ export default class PluginRibbon extends Component {
      * Set interact and other listeners
      */
     componentDidMount() {
-        Dali.API_Private.listenEmission(Dali.API_Private.events.addMenuButtons, e => {
+        Ediphy.API_Private.listenEmission(Ediphy.API_Private.events.addMenuButtons, e => {
             this.setState({ buttons: this.state.buttons.concat(e.detail) });
 
             const holder = ReactDOM.findDOMNode(this.refs.holder);

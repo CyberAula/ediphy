@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Button, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import i18n from 'i18next';
-import Dali from '../../../core/editor/main';
+import Ediphy from '../../../core/editor/main';
 import { isPage } from '../../../common/utils';
 import { isFullScreenOn, fullScreenListener } from '../../../common/common_tools';
 import 'bootstrap/dist/css/bootstrap.css';
@@ -31,7 +31,7 @@ export default class VisorPlayer extends Component {
     render() {
 
         let navItemsIds = this.props.navItemsIds;
-        if (!Dali.Config.sections_have_content) {
+        if (!Ediphy.Config.sections_have_content) {
             navItemsIds = this.props.navItemsIds.filter(this.isntSection);
         }
 

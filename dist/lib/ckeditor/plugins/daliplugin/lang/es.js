@@ -1,10 +1,10 @@
 CKEDITOR.plugins.setLang('daliplugin', 'es', {
-    title: 'Incluir plugin de Dali',
-    toolbar: 'Incluir plugin de Dali',
+    title: 'Incluir plugin de Ediphy',
+    toolbar: 'Incluir plugin de Ediphy',
     edit: 'Editar Contenedor',
     remove: 'Quitar Contenedor',
     keyLabel: 'Clave de Contenedor',
     validateKey: 'El campo "Clave" no puede estar vacío',
     displayNameLabel: 'Nombre del Contenedor',
-    defaultLabel: 'Incluir plugin Dali',
+    defaultLabel: 'Incluir plugin Ediphy',
 });

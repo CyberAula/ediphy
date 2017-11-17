@@ -3,7 +3,7 @@ export function Youtube(base) {
         getConfig: function() {
             return {
                 name: 'Youtube',
-                displayName: Dali.i18n.t('Youtube.PluginName'),
+                displayName: Ediphy.i18n.t('Youtube.PluginName'),
                 category: 'multimedia',
                 initialWidth: '350px',
                 initialHeight: '200px',
@@ -20,11 +20,11 @@ export function Youtube(base) {
                     __name: "Main",
                     accordions: {
                         basic: {
-                            __name: Dali.i18n.t('Youtube.Video'),
+                            __name: Ediphy.i18n.t('Youtube.Video'),
                             icon: 'link',
                             buttons: {
                                 url: {
-                                    __name: Dali.i18n.t('Youtube.URL'),
+                                    __name: Ediphy.i18n.t('Youtube.URL'),
                                     type: 'text',
                                     value: base.getState().url,
                                     autoManaged: false,
@@ -32,43 +32,43 @@ export function Youtube(base) {
                             },
                         },
                         style: {
-                            __name: Dali.i18n.t('Youtube.box_style'),
+                            __name: Ediphy.i18n.t('Youtube.box_style'),
                             icon: 'palette',
                             buttons: {
                                 padding: {
-                                    __name: Dali.i18n.t('Youtube.padding'),
+                                    __name: Ediphy.i18n.t('Youtube.padding'),
                                     type: 'number',
                                     value: 0,
                                     min: 0,
                                     max: 100,
                                 },
                                 borderWidth: {
-                                    __name: Dali.i18n.t('Youtube.border_size'),
+                                    __name: Ediphy.i18n.t('Youtube.border_size'),
                                     type: 'number',
                                     value: 0,
                                     min: 0,
                                     max: 10,
                                 },
                                 borderStyle: {
-                                    __name: Dali.i18n.t('Youtube.border_style'),
+                                    __name: Ediphy.i18n.t('Youtube.border_style'),
                                     type: 'select',
                                     value: 'solid',
                                     options: ['none', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset', 'initial', 'inherit'],
                                 },
                                 borderColor: {
-                                    __name: Dali.i18n.t('Youtube.border_color'),
+                                    __name: Ediphy.i18n.t('Youtube.border_color'),
                                     type: 'color',
                                     value: '#000000',
                                 },
                                 borderRadius: {
-                                    __name: Dali.i18n.t('Youtube.radius'),
+                                    __name: Ediphy.i18n.t('Youtube.radius'),
                                     type: 'number',
                                     value: 0,
                                     min: 0,
                                     max: 50,
                                 },
                                 opacity: {
-                                    __name: Dali.i18n.t('Youtube.opacity'),
+                                    __name: Ediphy.i18n.t('Youtube.opacity'),
                                     type: 'range',
                                     value: 1,
                                     min: 0,

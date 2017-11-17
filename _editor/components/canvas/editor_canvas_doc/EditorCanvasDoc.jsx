@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import DaliBox from '../dali_box/DaliBox';
-import DaliBoxSortable from '../dali_box_sortable/DaliBoxSortable';
-import DaliShortcuts from '../dali_shortcuts/DaliShortcuts';
+import EditorBox from '../editor_box/EditorBox';
+import EditorBoxSortable from '../editor_box_sortable/EditorBoxSortable';
+import EditorShortcuts from '../editor_shortcuts/EditorShortcuts';
 import { Col } from 'react-bootstrap';
-import DaliHeader from '../dali_header/DaliHeader';
-import Dali from '../../../../core/editor/main';
+import EditorHeader from '../editor_header/EditorHeader';
+import Ediphy from '../../../../core/editor/main';
 import { isSortableBox } from '../../../../common/utils';
 
 /**
- * DaliCanvasDoc component
+ * EditorCanvasDoc component
  * Canvas component to display documents
  */
-export default class DaliCanvasDoc extends Component {
+export default class EditorCanvasDoc extends Component {
     /**
      * Renders React Component
      * @returns {code}
@@ -41,7 +41,7 @@ export default class DaliCanvasDoc extends Component {
 
         let overlayHeight = actualHeight ? actualHeight : '100%';
         /* let isSection = this.props.navItemSelected.id.toString().indexOf('se') !== -1;
-        let contentAllowedInSections = Dali.Config.sections_have_content;
+        let contentAllowedInSections = Ediphy.Config.sections_have_content;
         let showCanvas = (!isSection || (isSection && contentAllowedInSections));*/
         let boxes = itemSelected ? itemSelected.boxes : [];
         let show = itemSelected && itemSelected.id !== 0;
@@ -56,7 +56,7 @@ export default class DaliCanvasDoc extends Component {
                         this.setState({ showTitle: false });
                         e.stopPropagation();
                     }}>
-                    <DaliHeader titles={titles}
+                    <EditorHeader titles={titles}
                         onBoxSelected={this.props.onBoxSelected}
                         courseTitle={this.props.title}
                         navItem={this.props.navItemSelected}
@@ -100,7 +100,7 @@ export default class DaliCanvasDoc extends Component {
                                 {boxes.map(id => {
                                     let box = boxes[id];
                                     if (!isSortableBox(id)) {
-                                        return <DaliBox key={id}
+                                        return <EditorBox key={id}
                                             id={id}
                                             addMarkShortcut={this.props.addMarkShortcut}
                                             boxes={this.props.boxes}
@@ -124,7 +124,7 @@ export default class DaliCanvasDoc extends Component {
                                             toolbars={this.props.toolbars}
                                             pageType={itemSelected.type || 0}/>;
                                     }
-                                    return <DaliBoxSortable key={id}
+                                    return <EditorBoxSortable key={id}
                                         id={id}
                                         addMarkShortcut={this.props.addMarkShortcut}
                                         boxes={this.props.boxes}
@@ -155,14 +155,14 @@ export default class DaliCanvasDoc extends Component {
                         </div>
                     </div>
                 </div>
-                <DaliShortcuts
+                <EditorShortcuts
                     box={this.props.boxes[this.props.boxSelected]}
                     containedViewSelected={this.props.containedViewSelected}
                     isContained={this.props.fromCV}
                     onTextEditorToggled={this.props.onTextEditorToggled}
                     onBoxResized={this.props.onBoxResized}
                     onBoxDeleted={this.props.onBoxDeleted}
-                    pointerEventsCallback={this.props.toolbars[this.props.boxSelected] && this.props.toolbars[this.props.boxSelected].config && this.props.toolbars[this.props.boxSelected].config.name && Dali.Plugins.get(this.props.toolbars[this.props.boxSelected].config.name) ? Dali.Plugins.get(this.props.toolbars[this.props.boxSelected].config.name).pointerEventsCallback : null}
+                    pointerEventsCallback={this.props.toolbars[this.props.boxSelected] && this.props.toolbars[this.props.boxSelected].config && this.props.toolbars[this.props.boxSelected].config.name && Ediphy.Plugins.get(this.props.toolbars[this.props.boxSelected].config.name) ? Ediphy.Plugins.get(this.props.toolbars[this.props.boxSelected].config.name).pointerEventsCallback : null}
                     onMarkCreatorToggled={this.props.onMarkCreatorToggled}
                     toolbar={this.props.toolbars[this.props.boxSelected]}/>
             </Col>
@@ -198,7 +198,7 @@ export default class DaliCanvasDoc extends Component {
                     container: 0,
                     position: position
                 };
-                Dali.Plugins.get(event.relatedTarget.getAttribute("name")).getConfig().callback(initialParams, ADD_BOX);
+                Ediphy.Plugins.get(event.relatedTarget.getAttribute("name")).getConfig().callback(initialParams, ADD_BOX);
                 event.dragEvent.stopPropagation();
             }.bind(this),
             ondropdeactivate: function (event) {
@@ -210,7 +210,7 @@ export default class DaliCanvasDoc extends Component {
 */
 }
 
-DaliCanvasDoc.propTypes = {
+EditorCanvasDoc.propTypes = {
     /**
      * Si se renderiza el componente desde una vista contenida (true) o una normal (false)
      */
@@ -300,7 +300,7 @@ DaliCanvasDoc.propTypes = {
      */
     onBoxResized: PropTypes.func.isRequired,
     /**
-     * Suelta la caja en una zona de un DaliBoxSortable
+     * Suelta la caja en una zona de un EditorBoxSortable
      */
     onBoxDropped: PropTypes.func.isRequired,
     /**

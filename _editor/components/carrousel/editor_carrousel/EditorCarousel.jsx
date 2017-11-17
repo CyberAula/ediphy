@@ -6,7 +6,7 @@ import i18n from 'i18next';
 /**
  * Index wrapper container
  */
-export default class DaliCarousel extends Component {
+export default class EditorCarousel extends Component {
     /**
      * Constructor
      * @param props
@@ -82,7 +82,7 @@ export default class DaliCarousel extends Component {
 
 }
 
-DaliCarousel.propTypes = {
+EditorCarousel.propTypes = {
     /**
      * Diccionario que contiene todas las vistas contenidas, accesibles por su *id*
      */

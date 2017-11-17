@@ -5,7 +5,7 @@ import RadioButtonFormGroup from '../radio_button_form_group/RadioButtonFormGrou
 import Select from 'react-select';
 import ExternalProvider from '../../external_provider/external_provider/ExternalProvider';
 import MarksList from './../../rich_plugins/marks_list/MarksList.jsx';
-import Dali from '../../../../core/editor/main';
+import Ediphy from '../../../../core/editor/main';
 import ColorPicker from './../../common/color-picker/ColorPicker';
 import ToggleSwitch from '@trendmicro/react-toggle-switch';
 import '@trendmicro/react-toggle-switch/dist/react-toggle-switch.css';
@@ -38,7 +38,7 @@ export default class PluginToolbar extends Component {
      * @returns {code}
      */
     render() {
-        if (!isCanvasElement(this.props.navItemSelected, Dali.Config.sections_have_content)) {
+        if (!isCanvasElement(this.props.navItemSelected, Ediphy.Config.sections_have_content)) {
             return (
                 <div id="wrap"
                     className="wrapper hiddenWrapper"
@@ -50,7 +50,7 @@ export default class PluginToolbar extends Component {
             );
         }
         // when no plugin selected, but new navitem
-        if (this.props.boxSelected === -1 && isCanvasElement(this.props.navItemSelected, Dali.Config.sections_have_content)) {
+        if (this.props.boxSelected === -1 && isCanvasElement(this.props.navItemSelected, Ediphy.Config.sections_have_content)) {
             let toolbar = this.props.toolbars[this.props.navItemSelected];
             return (
                 <div id="wrap"
@@ -162,7 +162,7 @@ export default class PluginToolbar extends Component {
                     <Button key={'config'}
                         className='toolbarButton'
                         onClick={() => {
-                            Dali.Plugins.get(toolbar.config.name).openConfigModal(UPDATE_BOX, toolbar.state, toolbar.id);
+                            Ediphy.Plugins.get(toolbar.config.name).openConfigModal(UPDATE_BOX, toolbar.state, toolbar.id);
                         }}>
                         <i className="toolbarIcons material-icons">build</i>
                         {i18n.t('open_conf')}

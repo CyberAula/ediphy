@@ -63,8 +63,8 @@
             onLoad: function () {
                 var defaultSelect = this.getContentElement('tab-basic', 'plugin-data-default');
                 defaultSelect.add('', '');
-                Dali.Config.pluginList.map(function (item) {
-                    defaultSelect.add(Dali.Plugins.get(item) ? Dali.Plugins.get(item).getConfig().displayName : item, item);
+                Ediphy.Config.pluginList.map(function (item) {
+                    defaultSelect.add(Ediphy.Plugins.get(item) ? Ediphy.Plugins.get(item).getConfig().displayName : item, item);
                 });
             },
             onShow: function () {

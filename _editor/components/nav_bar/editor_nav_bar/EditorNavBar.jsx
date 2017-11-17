@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Col, Input, Dropdown, MenuItem } from 'react-bootstrap';
-import DaliIndexTitle from '../../carrousel/dali_index_title/DaliIndexTitle';
+import EditorIndexTitle from '../../carrousel/editor_index_title/EditorIndexTitle';
 import GlobalConfig from '../global_config/GlobalConfig';
 import i18n from 'i18next';
 import { isSection } from '../../../../common/utils';
-import Dali from '../../../../core/editor/main';
+import Ediphy from '../../../../core/editor/main';
 // import { toggleFullScreen, isFullScreenOn, fullScreenListener } from '../../../../common/common_tools';
 import './_navBar.scss';
 import screenfull from 'screenfull';
@@ -13,7 +13,7 @@ import screenfull from 'screenfull';
 /**
  * Upper navigation bar component
  */
-export default class DaliNavBar extends Component {
+export default class EditorNavBar extends Component {
     /**
      * Constructor
      */
@@ -53,7 +53,7 @@ export default class DaliNavBar extends Component {
             <Col id="iconBar">
                 <div className="grad1" />
                 <div className="navBarSpace">
-                    <DaliIndexTitle className="tituloCurso"
+                    <EditorIndexTitle className="tituloCurso"
                         title={this.props.globalConfig.title}
                         onNameChanged={this.props.onTitleChanged}/>
                 </div>
@@ -93,7 +93,7 @@ export default class DaliNavBar extends Component {
                         <span className="hideonresize" style={{ fontSize: '12px' }}>Menu</span>
                     </Dropdown.Toggle>
                     <Dropdown.Menu id="topMenu" className="pageMenu super-colors topMenu">
-                        {(Dali.Config.publish_button !== undefined && Dali.Config.publish_button) &&
+                        {(Ediphy.Config.publish_button !== undefined && Ediphy.Config.publish_button) &&
                         <MenuItem disabled={this.props.undoDisabled} eventKey="6" key="6">
                             <button className="dropdownButton"
                                 disabled={this.props.undoDisabled}
@@ -126,7 +126,7 @@ export default class DaliNavBar extends Component {
                                 {i18n.t('messages.global_config')}
                             </button>
                         </MenuItem>
-                        {Dali.Config.external_providers.enable_catalog_modal &&
+                        {Ediphy.Config.external_providers.enable_catalog_modal &&
                         <MenuItem divider key="div_4"/> &&
                         <MenuItem eventKey="4" key="4">
                             <button className="dropdownButton" title={i18n.t('Open_Catalog')}
@@ -137,7 +137,7 @@ export default class DaliNavBar extends Component {
                             </button>
                         </MenuItem>
                         }
-                        {(Dali.Config.open_button_enabled === undefined || Dali.Config.open_button_enabled) &&
+                        {(Ediphy.Config.open_button_enabled === undefined || Ediphy.Config.open_button_enabled) &&
                         [<MenuItem divider key="div_5"/>,
                             <MenuItem eventKey="5" key="5">
                                 <button className="dropdownButton"
@@ -184,7 +184,7 @@ export default class DaliNavBar extends Component {
                         <br/>
                         <span className="hideonresize">{i18n.t('Redone')}</span>
                     </button>
-                    { (!Dali.Config.disable_save_button && (Dali.Config.publish_button === undefined || !Dali.Config.publish_button)) &&
+                    { (!Ediphy.Config.disable_save_button && (Ediphy.Config.publish_button === undefined || !Ediphy.Config.publish_button)) &&
                         <button className="navButton"
                             title={i18n.t('Save')}
                             disabled={this.props.undoDisabled }
@@ -197,7 +197,7 @@ export default class DaliNavBar extends Component {
                             <span className="hideonresize">{i18n.t('Save')}</span>
                         </button>
                     }
-                    { Dali.Config.publish_button !== undefined && Dali.Config.publish_button && this.props.globalConfig.status === "draft" &&
+                    { Ediphy.Config.publish_button !== undefined && Ediphy.Config.publish_button && this.props.globalConfig.status === "draft" &&
                     <button className="navButton"
                         title={i18n.t('Publish')}
                         disabled={this.props.undoDisabled }
@@ -211,7 +211,7 @@ export default class DaliNavBar extends Component {
                         <span className="hideonresize">{i18n.t('Publish')}</span>
                     </button>
                     }
-                    { Dali.Config.publish_button !== undefined && Dali.Config.publish_button && this.props.globalConfig.status === "final" &&
+                    { Ediphy.Config.publish_button !== undefined && Ediphy.Config.publish_button && this.props.globalConfig.status === "final" &&
                     <button className="navButton"
                         title={i18n.t('Unpublish')}
                         disabled={this.props.undoDisabled }
@@ -228,7 +228,7 @@ export default class DaliNavBar extends Component {
 
                     <button className="navButton"
                         title={i18n.t('Preview')}
-                        disabled={((this.props.navItemSelected === 0 || (this.props.navItemSelected && !Dali.Config.sections_have_content && isSection(this.props.navItemSelected))))}
+                        disabled={((this.props.navItemSelected === 0 || (this.props.navItemSelected && !Ediphy.Config.sections_have_content && isSection(this.props.navItemSelected))))}
                         onClick={() =>
                         { if (this.props.boxSelected !== 0) {
                             this.props.onTextEditorToggled(this.props.boxSelected, false);
@@ -274,7 +274,7 @@ export default class DaliNavBar extends Component {
 
 }
 
-DaliNavBar.propTypes = {
+EditorNavBar.propTypes = {
     /**
      *  Muestra o oculta la barra de plugins
      */

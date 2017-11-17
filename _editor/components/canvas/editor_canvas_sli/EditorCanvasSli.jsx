@@ -1,24 +1,24 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
-import DaliBox from '../dali_box/DaliBox';
-import DaliShortcuts from '../dali_shortcuts/DaliShortcuts';
+import EditorBox from '../editor_box/EditorBox';
+import EditorShortcuts from '../editor_shortcuts/EditorShortcuts';
 import Alert from './../../common/alert/Alert';
 import { Col, Button } from 'react-bootstrap';
-import DaliHeader from '../dali_header/DaliHeader';
+import EditorHeader from '../editor_header/EditorHeader';
 import interact from 'interactjs';
 import { ADD_BOX } from '../../../../common/actions';
 import { isSortableBox } from '../../../../common/utils';
 import { aspectRatio } from '../../../../common/common_tools';
-import Dali from '../../../../core/editor/main';
+import Ediphy from '../../../../core/editor/main';
 import ReactResizeDetector from 'react-resize-detector';
 import i18n from 'i18next';
 
 /**
- * DaliCanvasSli component
+ * EditorCanvasSli component
  * Canvas component to display slides
  */
-export default class DaliCanvasSli extends Component {
+export default class EditorCanvasSli extends Component {
     /**
      * Constructor
      * @param props
@@ -93,7 +93,7 @@ export default class DaliCanvasSli extends Component {
 
                            <rect width="100%" height="100%" fill="url(#grid)" />
                          </svg>   */}
-                        <DaliHeader titles={titles}
+                        <EditorHeader titles={titles}
                             onBoxSelected={this.props.onBoxSelected}
                             courseTitle={this.props.title}
                             navItem={this.props.navItemSelected}
@@ -124,7 +124,7 @@ export default class DaliCanvasSli extends Component {
 
                         {boxes.map(id => {
                             let box = boxes[id];
-                            return <DaliBox key={id}
+                            return <EditorBox key={id}
                                 id={id}
                                 addMarkShortcut={this.props.addMarkShortcut}
                                 boxes={this.props.boxes}
@@ -158,14 +158,14 @@ export default class DaliCanvasSli extends Component {
                     <ReactResizeDetector handleWidth handleHeight onResize={(e)=>{aspectRatio(this.props.canvasRatio, this.props.fromCV ? 'airlayer_cv' : 'airlayer', this.props.fromCV ? 'containedCanvas' : 'canvas');
                     }} />
                 </div>
-                <DaliShortcuts
+                <EditorShortcuts
                     box={this.props.boxes[this.props.boxSelected]}
                     containedViewSelected={this.props.containedViewSelected}
                     isContained={this.props.fromCV}
                     onTextEditorToggled={this.props.onTextEditorToggled}
                     onBoxResized={this.props.onBoxResized}
                     onBoxDeleted={this.props.onBoxDeleted}
-                    pointerEventsCallback={this.props.toolbars[this.props.boxSelected] && this.props.toolbars[this.props.boxSelected].config && this.props.toolbars[this.props.boxSelected].config.name && Dali.Plugins.get(this.props.toolbars[this.props.boxSelected].config.name) ? Dali.Plugins.get(this.props.toolbars[this.props.boxSelected].config.name).pointerEventsCallback : null}
+                    pointerEventsCallback={this.props.toolbars[this.props.boxSelected] && this.props.toolbars[this.props.boxSelected].config && this.props.toolbars[this.props.boxSelected].config.name && Ediphy.Plugins.get(this.props.toolbars[this.props.boxSelected].config.name) ? Ediphy.Plugins.get(this.props.toolbars[this.props.boxSelected].config.name).pointerEventsCallback : null}
                     onMarkCreatorToggled={this.props.onMarkCreatorToggled}
                     toolbar={this.props.toolbars[this.props.boxSelected]}/>
 
@@ -191,7 +191,7 @@ export default class DaliCanvasSli extends Component {
                 event.target.classList.remove("drop-target");
             },
             ondrop: function(event) {
-                if (Dali.Plugins.get(event.relatedTarget.getAttribute("name")).getConfig().limitToOneInstance) {
+                if (Ediphy.Plugins.get(event.relatedTarget.getAttribute("name")).getConfig().limitToOneInstance) {
                     for (let child in this.props.boxes) {
                         if (!isSortableBox(child) && this.props.boxes[child].parent === this.props.navItemSelected.id && this.props.toolbars[child].config.name === event.relatedTarget.getAttribute("name")) {
                             let alert = (<Alert className="pageModal"
@@ -220,7 +220,7 @@ export default class DaliCanvasSli extends Component {
                     container: 0,
                     position: position,
                 };
-                Dali.Plugins.get(event.relatedTarget.getAttribute("name")).getConfig().callback(initialParams, ADD_BOX);
+                Ediphy.Plugins.get(event.relatedTarget.getAttribute("name")).getConfig().callback(initialParams, ADD_BOX);
                 event.dragEvent.stopPropagation();
             }.bind(this),
             ondropdeactivate: function(event) {
@@ -257,7 +257,7 @@ export default class DaliCanvasSli extends Component {
 
     }
 }
-DaliCanvasSli.propTypes = {
+EditorCanvasSli.propTypes = {
     /**
      * Si se renderiza el componente desde una vista contenida (true) o una normal (false)
      */
@@ -351,7 +351,7 @@ DaliCanvasSli.propTypes = {
      */
     onBoxResized: PropTypes.func.isRequired,
     /**
-     * Suelta la caja en una zona de un DaliBoxSortable
+     * Suelta la caja en una zona de un EditorBoxSortable
      */
     onBoxDropped: PropTypes.func.isRequired,
     /**

@@ -7,7 +7,7 @@ export function BasicImage(base) {
         getConfig: function() {
             return {
                 name: 'BasicImage',
-                displayName: Dali.i18n.t('BasicImage.PluginName'),
+                displayName: Ediphy.i18n.t('BasicImage.PluginName'),
                 category: 'image',
                 flavor: 'react',
                 needsConfigModal: false,
@@ -27,48 +27,48 @@ export function BasicImage(base) {
                     accordions: {
 
                         style: {
-                            __name: Dali.i18n.t('BasicImage.box_style'),
+                            __name: Ediphy.i18n.t('BasicImage.box_style'),
                             icon: 'palette',
                             buttons: {
                                 padding: {
-                                    __name: Dali.i18n.t('BasicImage.padding'),
+                                    __name: Ediphy.i18n.t('BasicImage.padding'),
                                     type: 'number',
                                     value: 0,
                                     min: 0,
                                     max: 100,
                                 },
                                 backgroundColor: {
-                                    __name: Dali.i18n.t('BasicImage.background_color'),
+                                    __name: Ediphy.i18n.t('BasicImage.background_color'),
                                     type: 'color',
                                     value: '#ffffff',
                                 },
                                 borderWidth: {
-                                    __name: Dali.i18n.t('BasicImage.border_size'),
+                                    __name: Ediphy.i18n.t('BasicImage.border_size'),
                                     type: 'number',
                                     value: 0,
                                     min: 0,
                                     max: 10,
                                 },
                                 borderStyle: {
-                                    __name: Dali.i18n.t('BasicImage.border_style'),
+                                    __name: Ediphy.i18n.t('BasicImage.border_style'),
                                     type: 'select',
                                     value: 'solid',
                                     options: ['none', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset', 'initial', 'inherit'],
                                 },
                                 borderColor: {
-                                    __name: Dali.i18n.t('BasicImage.border_color'),
+                                    __name: Ediphy.i18n.t('BasicImage.border_color'),
                                     type: 'color',
                                     value: '#000000',
                                 },
                                 borderRadius: {
-                                    __name: Dali.i18n.t('BasicImage.radius'),
+                                    __name: Ediphy.i18n.t('BasicImage.radius'),
                                     type: 'number',
                                     value: 0,
                                     min: 0,
                                     max: 50,
                                 },
                                 opacity: {
-                                    __name: Dali.i18n.t('BasicImage.opacity'),
+                                    __name: Ediphy.i18n.t('BasicImage.opacity'),
                                     type: 'range',
                                     value: 1,
                                     min: 0,
@@ -78,7 +78,7 @@ export function BasicImage(base) {
                             },
                         },
                         basic: {
-                            __name: Dali.i18n.t('BasicImage.source'),
+                            __name: Ediphy.i18n.t('BasicImage.source'),
                             icon: 'link',
                             buttons: {
                                 url: {
@@ -99,7 +99,7 @@ export function BasicImage(base) {
                 // url: 'http://nemanjakovacevic.net/wp-content/uploads/2013/07/placeholder.png'
                 // url: 'http://www.amicus.nieruchomosci.pl/grafika/no-image.png'
                 // url: 'https://bytesizemoments.com/wp-content/uploads/2014/04/placeholder.png',
-                url: img_placeholder, // Dali.Config.image_placeholder,
+                url: img_placeholder, // Ediphy.Config.image_placeholder,
             };
         },
         getRenderTemplate: function(state) {
@@ -110,7 +110,7 @@ export function BasicImage(base) {
                     src={state.url}
                     onError={(e)=>{
                         e.target.onError = null;
-                        e.target.src = img_broken; // Dali.Config.broken_link;
+                        e.target.src = img_broken; // Ediphy.Config.broken_link;
 
                     }}/>
                 <div className="dropableRichZone noInternetConnectionBox" style={{ display: 'none', width: '100%', height: '100%' }}>

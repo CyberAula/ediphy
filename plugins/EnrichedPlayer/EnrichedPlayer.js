@@ -10,7 +10,7 @@ export function EnrichedPlayer(base) {
                 name: "EnrichedPlayer",
                 flavor: "react",
                 isRich: true,
-                displayName: Dali.i18n.t("EnrichedPlayer.PluginName"),
+                displayName: Ediphy.i18n.t("EnrichedPlayer.PluginName"),
                 category: "multimedia",
                 initialWidth: '480px',
                 initialHeight: "270px",
@@ -30,17 +30,17 @@ export function EnrichedPlayer(base) {
                     __name: "Main",
                     accordions: {
                         basic: {
-                            __name: Dali.i18n.t('EnrichedPlayer.Video'),
+                            __name: Ediphy.i18n.t('EnrichedPlayer.Video'),
                             icon: 'link',
                             buttons: {
                                 url: {
-                                    __name: Dali.i18n.t('EnrichedPlayer.URL'),
+                                    __name: Ediphy.i18n.t('EnrichedPlayer.URL'),
                                     type: 'text',
                                     value: base.getState().url,
                                     autoManaged: false,
                                 },
                                 controls: {
-                                    __name: Dali.i18n.t('EnrichedPlayer.Show_controls'),
+                                    __name: Ediphy.i18n.t('EnrichedPlayer.Show_controls'),
                                     type: 'checkbox',
                                     checked: base.getState().controls,
                                     autoManaged: false,
@@ -48,43 +48,43 @@ export function EnrichedPlayer(base) {
                             },
                         },
                         style: {
-                            __name: Dali.i18n.t('EnrichedPlayer.box_style'),
+                            __name: Ediphy.i18n.t('EnrichedPlayer.box_style'),
                             icon: 'palette',
                             buttons: {
                                 padding: {
-                                    __name: Dali.i18n.t('EnrichedPlayer.padding'),
+                                    __name: Ediphy.i18n.t('EnrichedPlayer.padding'),
                                     type: 'number',
                                     value: 0,
                                     min: 0,
                                     max: 100,
                                 },
                                 borderWidth: {
-                                    __name: Dali.i18n.t('EnrichedPlayer.border_size'),
+                                    __name: Ediphy.i18n.t('EnrichedPlayer.border_size'),
                                     type: 'number',
                                     value: 0,
                                     min: 0,
                                     max: 10,
                                 },
                                 borderStyle: {
-                                    __name: Dali.i18n.t('EnrichedPlayer.border_style'),
+                                    __name: Ediphy.i18n.t('EnrichedPlayer.border_style'),
                                     type: 'select',
                                     value: 'solid',
                                     options: ['none', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset', 'initial', 'inherit'],
                                 },
                                 borderColor: {
-                                    __name: Dali.i18n.t('EnrichedPlayer.border_color'),
+                                    __name: Ediphy.i18n.t('EnrichedPlayer.border_color'),
                                     type: 'color',
                                     value: '#000000',
                                 },
                                 borderRadius: {
-                                    __name: Dali.i18n.t('EnrichedPlayer.radius'),
+                                    __name: Ediphy.i18n.t('EnrichedPlayer.radius'),
                                     type: 'number',
                                     value: 0,
                                     min: 0,
                                     max: 50,
                                 },
                                 opacity: {
-                                    __name: Dali.i18n.t('EnrichedPlayer.opacity'),
+                                    __name: Ediphy.i18n.t('EnrichedPlayer.opacity'),
                                     type: 'range',
                                     value: 1,
                                     min: 0,

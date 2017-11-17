@@ -6,7 +6,7 @@ import { isBox, isSortableBox, isContainedView } from '../common/utils';
 export default function(state = -1, action = {}) {
     switch (action.type) {
     case ADD_BOX:
-        // When we create a new document, new DaliBoxSortable is created aswell; we don't want it to be selected
+        // When we create a new document, new EditorBoxSortable is created aswell; we don't want it to be selected
         if (isSortableBox(action.payload.ids.id)) {
             if (isContainedView(action.payload.ids.parent)) {
                 return state;

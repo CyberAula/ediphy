@@ -14,7 +14,7 @@ export function VirtualTour(base) {
         getConfig: function() {
             return {
                 name: 'VirtualTour',
-                displayName: Dali.i18n.t('VirtualTour.PluginName'),
+                displayName: Ediphy.i18n.t('VirtualTour.PluginName'),
                 category: 'multimedia',
                 needsConfigModal: false,
                 flavor: "react",
@@ -41,48 +41,48 @@ export function VirtualTour(base) {
                     __name: "Main",
                     accordions: {
                         style: {
-                            __name: Dali.i18n.t('VirtualTour.box_style'),
+                            __name: Ediphy.i18n.t('VirtualTour.box_style'),
                             icon: 'palette',
                             buttons: {
                                 padding: {
-                                    __name: Dali.i18n.t('VirtualTour.padding'),
+                                    __name: Ediphy.i18n.t('VirtualTour.padding'),
                                     type: 'number',
                                     value: 0,
                                     min: 0,
                                     max: 100,
                                 },
                                 backgroundColor: {
-                                    __name: Dali.i18n.t('VirtualTour.background_color'),
+                                    __name: Ediphy.i18n.t('VirtualTour.background_color'),
                                     type: 'color',
                                     value: '#ffffff',
                                 },
                                 borderWidth: {
-                                    __name: Dali.i18n.t('VirtualTour.border_size'),
+                                    __name: Ediphy.i18n.t('VirtualTour.border_size'),
                                     type: 'number',
                                     value: 0,
                                     min: 0,
                                     max: 10,
                                 },
                                 borderStyle: {
-                                    __name: Dali.i18n.t('VirtualTour.border_style'),
+                                    __name: Ediphy.i18n.t('VirtualTour.border_style'),
                                     type: 'select',
                                     value: 'solid',
                                     options: ['none', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset', 'initial', 'inherit'],
                                 },
                                 borderColor: {
-                                    __name: Dali.i18n.t('VirtualTour.border_color'),
+                                    __name: Ediphy.i18n.t('VirtualTour.border_color'),
                                     type: 'color',
                                     value: '#000000',
                                 },
                                 borderRadius: {
-                                    __name: Dali.i18n.t('VirtualTour.radius'),
+                                    __name: Ediphy.i18n.t('VirtualTour.radius'),
                                     type: 'number',
                                     value: 0,
                                     min: 0,
                                     max: 50,
                                 },
                                 opacity: {
-                                    __name: Dali.i18n.t('VirtualTour.opacity'),
+                                    __name: Ediphy.i18n.t('VirtualTour.opacity'),
                                     type: 'range',
                                     value: 1,
                                     min: 0,

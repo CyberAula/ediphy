@@ -1,4 +1,4 @@
-import Dali from '../editor/main';
+import Ediphy from '../editor/main';
 import BasePlugin from './base_plugin';
 
 export default function() {
@@ -12,13 +12,13 @@ export default function() {
         },
         add: function(name) {
             let basePlugin = new BasePlugin();
-            Dali.Visor.Plugins[name] = require('./../../plugins/' + name + '/' + name)[name](basePlugin);
+            Ediphy.Visor.Plugins[name] = require('./../../plugins/' + name + '/' + name)[name](basePlugin);
             try {
-                Dali.Visor.Plugins[name] = require('./../../plugins/' + name + '/visor/' + name)[name](basePlugin);
+                Ediphy.Visor.Plugins[name] = require('./../../plugins/' + name + '/visor/' + name)[name](basePlugin);
             } catch (e) {
             }
 
-            basePlugin.create(Dali.Visor.Plugins[name]);
+            basePlugin.create(Ediphy.Visor.Plugins[name]);
             basePlugin.init();
             pluginInstancesList[name] = basePlugin;
         },

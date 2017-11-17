@@ -38,7 +38,7 @@ let en = {
             "UserManual_desc": "If you are a user who wishes to learn how to use Dalí Editor, access the ",
             "PluginAPI": "Plugin API",
             "PluginAPI2": "Plugin API",
-            "PluginAPI_desc": "If you would like to create your own plugin for your instance of Dali Editor, check the ",
+            "PluginAPI_desc": "If you would like to create your own plugin for your instance of Ediphy Editor, check the ",
             "Documentation": "Documentation",
             "Documentation2": "Developer Docs",
             "Documentation_desc": "If you want to contribute or create your own version of Dalí, refer to the ",

@@ -5,16 +5,16 @@ import MarkCreator from '../../rich_plugins/mark_creator/MarkCreator';
 import interact from 'interactjs';
 import PluginPlaceholder from '../plugin_placeholder/PluginPlaceholder';
 import { ADD_BOX, UPDATE_BOX, RESIZE_BOX, EDIT_PLUGIN_TEXT, IMPORT_STATE } from '../../../../common/actions';
-import Dali from '../../../../core/editor/main';
+import Ediphy from '../../../../core/editor/main';
 import i18n from 'i18next';
 import { isSortableBox, isSortableContainer, isAncestorOrSibling, isContainedView } from '../../../../common/utils';
-import './_daliBox.scss';
+import './_editorBox.scss';
 
 /**
- * Dali Box component.
+ * Ediphy Box component.
  * @desc It is the main and more complex component by far. It is the one in charge of painting a plugin's template and therefore it has many parts conditioned to the type of plugin.
  */
-export default class DaliBox extends Component {
+export default class EditorBox extends Component {
     /**
      * Constructor
      * @param props React component props
@@ -142,7 +142,7 @@ export default class DaliBox extends Component {
 
         let content = toolbar.config.flavor === "react" ? (
             <div style={style} {...attrs} className={"boxStyle " + classNames} ref={"content"}>
-                {Dali.Plugins.get(toolbar.config.name).getRenderTemplate(toolbar.state)}
+                {Ediphy.Plugins.get(toolbar.config.name).getRenderTemplate(toolbar.state)}
             </div>
         ) : (
             <div style={style} {...attrs} className={"boxStyle " + classNames} ref={"content"}>
@@ -208,7 +208,7 @@ export default class DaliBox extends Component {
             <div className={classes} id={'box-' + this.props.id}
                 onClick={e => {
                     // If there's no box selected and current's level is 0 (otherwise, it would select a deeper box)
-                    // or -1 (only DaliBoxSortable can have level -1)
+                    // or -1 (only EditorBoxSortable can have level -1)
                     if((this.props.boxSelected === -1 || this.props.boxLevelSelected === -1) && box.level === 0) {
                         this.props.onBoxSelected(this.props.id);
                         e.stopPropagation();
@@ -236,7 +236,7 @@ export default class DaliBox extends Component {
                         this.props.onTextEditorToggled(this.props.id, true);
                         this.refs.textarea.focus();
                         // Elimina el placeholder "Introduzca texto aquí" cuando se va a editar
-                        // Código duplicado en DaliBox, DaliShortcuts y PluginToolbar. Extraer a common_tools?
+                        // Código duplicado en EditorBox, EditorShortcuts y PluginToolbar. Extraer a common_tools?
                         let CKstring = CKEDITOR.instances[this.props.id].getData();
                         let initString = "<p>" + i18n.t("text_here") + "</p>\n";
                         if(CKstring === initString) {
@@ -267,7 +267,7 @@ export default class DaliBox extends Component {
                     containedViews={this.props.containedViews}
                     toolbar={toolbar ? toolbar : {}}
                     deleteMarkCreator={this.props.deleteMarkCreator}
-                    parseRichMarkInput={Dali.Plugins.get(toolbar.config.name).parseRichMarkInput}
+                    parseRichMarkInput={Ediphy.Plugins.get(toolbar.config.name).parseRichMarkInput}
                     markCreatorId={this.props.markCreatorId}
                     currentId={this.props.id}
                     pageType={this.props.pageType}
@@ -367,7 +367,7 @@ export default class DaliBox extends Component {
             data = i18n.t("text_here");
             CKEDITOR.instances[this.props.id].setData(i18n.t("text_here"));
         }
-        Dali.Plugins.get(toolbar.config.name).forceUpdate(Object.assign({}, toolbar.state, {
+        Ediphy.Plugins.get(toolbar.config.name).forceUpdate(Object.assign({}, toolbar.state, {
             __text: toolbar.config.extraTextConfig ? data : encodeURI(data),
         }), this.props.id, EDIT_PLUGIN_TEXT);
     }
@@ -466,13 +466,13 @@ export default class DaliBox extends Component {
             window.MathJax.Hub.Queue(["Typeset", window.MathJax.Hub]);
         }
         if (action.type === "@@redux-undo/UNDO") {
-            Dali.Plugins.get(toolbar.config.name).afterRender(this.refs.content, toolbar.state);
+            Ediphy.Plugins.get(toolbar.config.name).afterRender(this.refs.content, toolbar.state);
 
         }
 
         if ((action.type === ADD_BOX || action.type === UPDATE_BOX || action.type === RESIZE_BOX || action.type === IMPORT_STATE) &&
             ((action.payload.id || action.payload.ids.id) === this.props.id)) {
-            Dali.Plugins.get(toolbar.config.name).afterRender(this.refs.content, toolbar.state);
+            Ediphy.Plugins.get(toolbar.config.name).afterRender(this.refs.content, toolbar.state);
         }
 
     }
@@ -499,8 +499,8 @@ export default class DaliBox extends Component {
         let topO = offsetEl.top || 0;
         offsetEl;
         let gridTarget = interact.createSnapGrid({ x: 10, y: 10, range: 7.1, offset: { x: leftO, y: topO } });
-        Dali.Plugins.get(toolbar.config.name).getConfig();
-        Dali.Plugins.get(toolbar.config.name).afterRender(this.refs.content, toolbar.state);
+        Ediphy.Plugins.get(toolbar.config.name).getConfig();
+        Ediphy.Plugins.get(toolbar.config.name).afterRender(this.refs.content, toolbar.state);
         let dragRestrictionSelector = isSortableContainer(box.container) ? ".daliBoxSortableContainer, .drg" + box.container : "parent";
         interact(ReactDOM.findDOMNode(this))
             /* .snap({
@@ -571,7 +571,7 @@ export default class DaliBox extends Component {
                         this.props.onBoxSelected(this.props.id);
                     }
 
-                    // Hide DaliShortcuts
+                    // Hide EditorShortcuts
                     let bar = this.props.containedViewSelected === 0 ?
                         document.getElementById('daliBoxIcons') :
                         document.getElementById('contained_daliBoxIcons');
@@ -692,7 +692,7 @@ export default class DaliBox extends Component {
                         }
                     }
 
-                    // Unhide DaliShortcuts
+                    // Unhide EditorShortcuts
 
                     let bar = this.props.containedViewSelected === 0 ?
                         document.getElementById('daliBoxIcons') :
@@ -713,7 +713,7 @@ export default class DaliBox extends Component {
                 },
                 edges: { left: true, right: true, bottom: true, top: true },
                 onstart: (event) => {
-                    // Hide DaliShortcuts
+                    // Hide EditorShortcuts
                     let bar = this.props.containedViewSelected === 0 ?
                         document.getElementById('daliBoxIcons') :
                         document.getElementById('contained_daliBoxIcons');
@@ -853,7 +853,7 @@ export default class DaliBox extends Component {
 
 }
 
-DaliBox.propTypes = {
+EditorBox.propTypes = {
     /**
      * Identificador único de la caja
      */
@@ -919,7 +919,7 @@ DaliBox.propTypes = {
      */
     onBoxResized: PropTypes.func.isRequired,
     /**
-     * Suelta la caja en una zona de un DaliBoxSortable
+     * Suelta la caja en una zona de un EditorBoxSortable
      */
     onBoxDropped: PropTypes.func.isRequired,
     /**
