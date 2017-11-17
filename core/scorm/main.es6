@@ -1,4 +1,4 @@
-import Dali from '../editor/main';
+import Ediphy from '../editor/main';
 import { ID_PREFIX_SECTION } from '../../common/constants';
 import { isSection } from '../../common/utils';
 export default {
@@ -7,7 +7,7 @@ export default {
 
         // /     ROOT MANIFEST
         let manifest = doc.createElement("manifest");
-        manifest.setAttribute("identifier", "com.dali.presentation");
+        manifest.setAttribute("identifier", "com.ediphy.presentation");
         manifest.setAttribute("version", "1.0");
         manifest.setAttribute("xmlns", "http://www.imsglobal.org/xsd/imscp_v1p1");
         manifest.setAttribute("xmlns:adlcp", "http://www.adlnet.org/xsd/adlcp_v1p3");
@@ -220,7 +220,7 @@ export default {
         lccrole.appendChild(lccroleval);
         lcc.appendChild(lccrole);
         let lccEntity = doc.createElement('entity'); // Entity
-        let lcEntTxt = doc.createTextNode('BEGIN:VCARD&#xD;VERSION:3.0&#xD;N:Authoring Tool Dali Editor (http://github.com/ging/DALI_EDITOR)&#xD;FN:Authoring Tool Dali Editor (http://github.com/ging/DALI_EDITOR)&#xD;END:VCARD'); // / Yet to determine
+        let lcEntTxt = doc.createTextNode('BEGIN:VCARD&#xD;VERSION:3.0&#xD;N:Authoring Tool Ediphy Editor (http://github.com/ging/ediphy)&#xD;FN:Authoring Tool Ediphy Editor (http://github.com/ging/ediphy)&#xD;END:VCARD'); // / Yet to determine
         lccEntity.appendChild(lcEntTxt);
         lcc.appendChild(lccEntity);
         let lccDate = doc.createElement('date'); // Date
@@ -334,7 +334,7 @@ export default {
         itValue.appendChild(itValueTxt);
         interactivityType.appendChild(itValue);
         educational.appendChild(interactivityType);
-        /* MULTI?*/ 
+        /* MULTI?*/
         /* var learningResourceType = doc.createElement('learningResourceType');
                 var lrtSource = doc.createElement('source');
                     var lrtSourceTxt = doc.createTextNode('LOMv1.0');
@@ -501,7 +501,7 @@ export default {
         return str;
     },
     getIndex: function(navs) {
-        return (new EJS({ url: Dali.Config.scorm_ejs }).render({ navs: navs }));
+        return (new EJS({ url: Ediphy.Config.scorm_ejs }).render({ navs: navs }));
     },
     xmlOrganizationBranch: function(root_child, actual_child, sections, doc, resource_elements) {
         let branch_elements = [];
@@ -543,7 +543,7 @@ export default {
             let actual_section = actual_child;
             let element = doc.createElement("item");
             element.setAttribute("identifier", this.santinize_id(sections[actual_section].id) + "_item");
-            if (Dali.Config.sections_have_content || (sections[actual_section].id.indexOf(ID_PREFIX_SECTION) === -1)) {
+            if (Ediphy.Config.sections_have_content || (sections[actual_section].id.indexOf(ID_PREFIX_SECTION) === -1)) {
                 element.setAttribute("identifierref", this.santinize_id(sections[actual_section].id) + "_resource");
             }
             let element_title = doc.createElement("title");
@@ -640,7 +640,7 @@ export default {
         objectives.appendChild(primaryObjective);
         for (let i = 0; i < navsIds.length; i++) {
             let id = navsIds[i];
-            if (Dali.Config.sections_have_content || (!Dali.Config.sections_have_content && !isSection(id))) {
+            if (Ediphy.Config.sections_have_content || (!Ediphy.Config.sections_have_content && !isSection(id))) {
                 let newObjective = doc.createElement("imsss:objective");
                 newObjective.setAttribute("objectiveID", id);
                 objectives.appendChild(newObjective);
@@ -697,7 +697,7 @@ export default {
         manifest.setAttribute("xmlns", "http://www.imsproject.org/xsd/imscp_rootv1p1p2");
         manifest.setAttribute("xmlns:adlcp", "http://www.adlnet.org/xsd/adlcp_rootv1p2");
         manifest.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
-        manifest.setAttribute("identifier", "com.dali.presentation");
+        manifest.setAttribute("identifier", "com.ediphy.presentation");
         manifest.setAttribute("version", "1.0");
         manifest.setAttribute("xsi:schemaLocation", "http://www.imsproject.org/xsd/imscp_rootv1p1p2 imscp_rootv1p1p2.xsd http://www.imsglobal.org/xsd/imsmd_rootv1p2p1 imsmd_rootv1p2p1.xsd http://www.adlnet.org/xsd/adlcp_rootv1p2 adlcp_rootv1p2.xsd");
 
@@ -740,7 +740,7 @@ export default {
                 let root_element = doc.createElement("item");
 
                 root_element.setAttribute("identifier", this.santinize_id(root_section) + "_item");
-                if (Dali.Config.sections_have_content || root_section.indexOf(ID_PREFIX_SECTION) === -1) {
+                if (Ediphy.Config.sections_have_content || root_section.indexOf(ID_PREFIX_SECTION) === -1) {
                     root_element.setAttribute("identifierref", this.santinize_id(sections[root_section].id) + "_resource");
                 }
 
@@ -785,7 +785,7 @@ export default {
         // /   RESOURCE ITEMS
         let resources = doc.createElement("resources");
         for (let i = 0; i < resource_elements.length; i++) {
-            if (!Dali.Config.sections_have_content && (resource_elements[i].id.indexOf(ID_PREFIX_SECTION) !== -1)) {
+            if (!Ediphy.Config.sections_have_content && (resource_elements[i].id.indexOf(ID_PREFIX_SECTION) !== -1)) {
 
             }
             let resource = doc.createElement("resource");

@@ -7,10 +7,11 @@ const history = createBrowserHistory();
 import ReactDOM from 'react-dom';
 import { Grid, Row, Navbar, Nav, NavDropdown, NavItem, MenuItem } from 'react-bootstrap';
 import Content from './src/components/Content';
-import { tree, lookForPath } from './src/content';
+import { srcTree, lookForPath } from './src/content';
 import "./src/style/style.scss";
+import i18n from './locales/i18n';
 
-export default class DaliDocs extends Component {
+export default class Docs extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -23,7 +24,16 @@ export default class DaliDocs extends Component {
         this.handleNav = this.handleNav.bind(this);
     }
     render() {
+        let tree = srcTree(i18n.t("lang"));
         let navItems = <Nav>{Object.keys(tree).map(el =>{
+            if (tree[el].isExternal) {
+                return (<NavItem key={el} active={this.state.section === el} eventKey={el} href={tree[el].path}
+                    onClick={()=>{window.location = tree[el].path;}}>
+                    <span className="ediphy_blue" >{tree[el].title}</span>
+                </NavItem>);
+
+            }
+
             if (Object.keys(tree[el].children).length === 0) {
                 return (<LinkContainer to={tree[el].path}>
                     <NavItem key={el} active={this.state.section === el} eventKey={el} href="#">
@@ -44,7 +54,9 @@ export default class DaliDocs extends Component {
             </NavDropdown>
             );
 
-        })}</Nav>;
+        })}
+
+        </Nav>;
 
         const Comp = ({ match }) => {
             let url = lookForPath(match.url);
@@ -61,12 +73,13 @@ export default class DaliDocs extends Component {
                     <Navbar collapseOnSelect >
                         <Navbar.Header>
                             <Navbar.Brand>
-                                <a href="#">Dalí Editor Docs</a>
+                                <a href="#">Ediphy Docs</a>
                             </Navbar.Brand>
                         </Navbar.Header>
                         <Navbar.Toggle style={{ top: '0px', right: '0px', position: 'absolute' }}/>
                         <Navbar.Collapse>
                             {navItems}
+
                         </Navbar.Collapse>
                     </Navbar>
                 </Row>
@@ -83,4 +96,5 @@ export default class DaliDocs extends Component {
     }
 }
 
-ReactDOM.render((<DaliDocs />), document.getElementById('root'));
+ReactDOM.render((<Docs />), document.getElementById('root'));
+

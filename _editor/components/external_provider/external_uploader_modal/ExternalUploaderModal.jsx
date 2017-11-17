@@ -4,6 +4,7 @@ import Alert from './../../common/alert/Alert';
 import ReactDOM from 'react-dom';
 import { Modal, FormControl, Form, FormGroup, ControlLabel, Button } from 'react-bootstrap';
 import i18n from 'i18next';
+import PropTypes from 'prop-types';
 
 /**
  * VISH Uploader Component
@@ -89,3 +90,22 @@ export default class ExternalUploaderModal extends Component {
         }
     }
 }
+
+ExternalUploaderModal.proptypes = {
+    /**
+     * Delegación del botón en la creación
+     * */
+    accept: PropTypes.any,
+    /**
+     * Indicador de si hay una operación en curso con el servidor
+     * */
+    isBusy: PropTypes.any,
+    /**
+     * Función para mostrar el Modal con el mensaje de información del servidor
+     */
+    onExternalUploaderToggled: PropTypes.func,
+    /**
+     * Función para subir imágenes al proveedor externo
+     */
+    onUploadVishResource: PropTypes.func,
+};

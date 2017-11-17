@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import interact from 'interactjs';
-import DaliBox from '../dali_box/DaliBox';
+import EditorBox from '../editor_box/EditorBox';
 import { RESIZE_SORTABLE_CONTAINER, ADD_BOX } from '../../../../common/actions';
 import { isAncestorOrSibling } from '../../../../common/utils';
-import Dali from '../../../../core/editor/main';
+import Ediphy from '../../../../core/editor/main';
 
 import './_pluginPlaceHolder.scss';
 
@@ -56,7 +56,7 @@ export default class PluginPlaceholder extends Component {
                                     }}>
                                     {container.children.map((idBox, index) => {
                                         if (this.props.boxes[idBox].col === i && this.props.boxes[idBox].row === j) {
-                                            return (<DaliBox id={idBox}
+                                            return (<EditorBox id={idBox}
                                                 key={index}
                                                 boxes={this.props.boxes}
                                                 boxSelected={this.props.boxSelected}
@@ -105,7 +105,7 @@ export default class PluginPlaceholder extends Component {
                 e.target.classList.remove("drop-target");
             },
             ondrop: function(e) {
-                // If element dragged is coming from PluginRibbon, create a new DaliBox
+                // If element dragged is coming from PluginRibbon, create a new EditorBox
                 if (e.relatedTarget.className.indexOf("rib") !== -1) {
                     let initialParams = {
                         parent: this.props.parentBox.id,
@@ -113,7 +113,7 @@ export default class PluginPlaceholder extends Component {
                         col: extraParams.i,
                         row: extraParams.j,
                     };
-                    Dali.Plugins.get(e.relatedTarget.getAttribute("name")).getConfig().callback(initialParams, ADD_BOX);
+                    Ediphy.Plugins.get(e.relatedTarget.getAttribute("name")).getConfig().callback(initialParams, ADD_BOX);
                 } else {
                     let boxDragged = this.props.boxes[this.props.boxSelected];
                     // If box being dragged is dropped in a different column or row, change it's value
@@ -143,7 +143,7 @@ export default class PluginPlaceholder extends Component {
                 onend: (event) => {
                     this.props.onSortableContainerResized(this.props.pluginContainer, this.props.parentBox.id, parseInt(event.target.style.height, 10));
                     let toolbar = this.props.toolbars[this.props.parentBox.id];
-                    Dali.Plugins.get(toolbar.config.name).forceUpdate(toolbar.state, this.props.parentBox.id, RESIZE_SORTABLE_CONTAINER);
+                    Ediphy.Plugins.get(toolbar.config.name).forceUpdate(toolbar.state, this.props.parentBox.id, RESIZE_SORTABLE_CONTAINER);
                 },
             });
     }

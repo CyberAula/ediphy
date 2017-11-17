@@ -45,6 +45,7 @@ export function VirtualTour(base) {
                                 panControl: true,
                                 mapTypeControl: true,
                                 scrollwheel: true,
+                                fullscreenControl: false,
                                 gestureHandling: 'greedy',
                             }}
                             onGoogleApiLoaded={({ map, maps }) => {

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Dali from '../../../core/editor/main';
+import Ediphy from '../../../core/editor/main';
 import { CHANGE_DISPLAY_MODE, EXPAND_NAV_ITEM, IMPORT_STATE, INCREASE_LEVEL, INDEX_SELECT, SELECT_BOX, SELECT_NAV_ITEM, SET_BUSY, TOGGLE_TEXT_EDITOR, TOGGLE_TITLE_MODE, UPDATE_NAV_ITEM_EXTRA_FILES, UPDATE_BOX } from './../../../common/actions';
-
+const lang = ['en', 'es'];
 /** *
  * Component for auto-saving the state of the application periodically and avoid losing changes
  */
@@ -32,7 +32,7 @@ export default class AutoSave extends Component {
          * Timer function set up
          * @type {js timer}
          */
-        this.intervalId = setInterval(this.timer.bind(this), Dali.Config.autosave_time);
+        this.intervalId = setInterval(this.timer.bind(this), Ediphy.Config.autosave_time);
     }
 
     /**
@@ -102,20 +102,20 @@ export default class AutoSave extends Component {
 
 AutoSave.propTypes = {
     /**
-     * Guarda el estado
-     */
+   * Saves the state
+   */
     save: PropTypes.func.isRequired,
     /**
-     * Última acción realizada en Redux
-     */
+   * Last Redux action dispatched
+   */
     lastAction: PropTypes.any,
     /**
-     * Indicador de si hay una operación en curso con el servisor
-     */
+   * Indicates if there is a current server operation
+   */
     isBusy: PropTypes.any,
     /**
-     * Indicador de si se está en modo previsualización
-     */
+   * Indicates if the preview mode is on or not
+   */
     visorVisible: PropTypes.bool,
 
 };

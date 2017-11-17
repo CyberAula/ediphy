@@ -14,5 +14,5 @@ i18n
         resources: translations,
         debug: false,
     });
-
+console.log('ge');
 export default i18n;

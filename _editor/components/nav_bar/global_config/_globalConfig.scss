@@ -9,10 +9,28 @@
 	padding: 0px;
 	background-color: white;
 	overflow-y: auto;
-	.form-group {
-		/* padding:15px;
-		border-radius: 5px;
-		background: #eee; */
+	.form-group{
+      .control-label{
+        width: 100%;
+      }
+      .cont_avatar {
+        display: flex;
+        flexFlow: row nowrap;
+        .avatar {
+          margin: 0 10px 10px 0;
+          border: 1px solid gray;
+        }
+        .fileInput{
+          width: 80%;
+          margin-bottom: 10px;
+          .fileDrag{
+            margin: 0;
+          }
+        }
+        button{
+          margin-right: 5px;
+        }
+      }
 	}
 	.advanced-block{
       background-color: $lightestgrey;

@@ -11,7 +11,7 @@ export default class BoxSortableVisor extends Component {
                 {box.children.map((idContainer, index)=> {
                     let container = box.sortableContainers[idContainer];
                     return (<div key={index}
-                        className={"daliBoxSortableContainer pos_relative " + container.style.className}
+                        className={"editorBoxSortableContainer pos_relative " + container.style.className}
                         id={idContainer}
                         style={
                             Object.assign({}, {

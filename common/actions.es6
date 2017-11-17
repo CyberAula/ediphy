@@ -1,5 +1,5 @@
 import fetch from 'isomorphic-fetch';
-import Dali from '../core/editor/main';
+import Ediphy from '../core/editor/main';
 import i18n from 'i18next';
 
 export const ADD_BOX = 'ADD_BOX';
@@ -243,8 +243,8 @@ export function exportStateAsync(state) {
 
         // In this case, we return a promise to wait for.
         // This is not required by thunk middleware, but it is convenient for us.
-        if (process.env.NODE_ENV !== 'production' || dali_editor_params === undefined) {
-            return fetch(Dali.Config.export_url, {
+        if (process.env.NODE_ENV !== 'production' || ediphy_editor_params === undefined) {
+            return fetch(Ediphy.Config.export_url, {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -267,11 +267,11 @@ export function exportStateAsync(state) {
         }
 
         let data = {
-            authenticity_token: dali_editor_params.authenticity_token,
-            dali_document: { user: { name: dali_editor_params.name, id: dali_editor_params.id }, json: state },
+            authenticity_token: ediphy_editor_params.authenticity_token,
+            ediphy_document: { user: { name: ediphy_editor_params.name, id: ediphy_editor_params.id }, json: state },
         };
 
-        return fetch(dali_editor_params.export_url, { // return fetch(Dali.Config.export_url, {
+        return fetch(ediphy_editor_params.export_url, { // return fetch(Ediphy.Config.export_url, {
             credentials: 'same-origin',
             method: 'POST',
             headers: {
@@ -287,12 +287,12 @@ export function exportStateAsync(state) {
                 return response.text();
             })
             .then(result => {
-                let dali_resource_id = JSON.parse(result).dali_id;
+                let ediphy_resource_id = JSON.parse(result).ediphy_id;
 
-                if (Dali.Config.api_editor_url_change) {
-                    window.parent.history.replaceState("", "", Dali.Config.export_url + dali_resource_id + dali_editor_params.edit_prefix);
-                    dali_editor_params.export_url = Dali.Config.export_url + dali_resource_id;
-                    dali_editor_params.dali_resource_id = dali_resource_id;
+                if (Ediphy.Config.api_editor_url_change) {
+                    window.parent.history.replaceState("", "", Ediphy.Config.export_url + ediphy_resource_id + ediphy_editor_params.edit_prefix);
+                    ediphy_editor_params.export_url = Ediphy.Config.export_url + ediphy_resource_id;
+                    ediphy_editor_params.ediphy_resource_id = ediphy_resource_id;
                 }
                 dispatch(setBusy(false, i18n.t("success_transaction")));
             })
@@ -307,7 +307,7 @@ export function importStateAsync() {
     return dispatch => {
         dispatch(setBusy(true, i18n.t("Importing")));
 
-        return fetch(Dali.Config.import_url)
+        return fetch(Ediphy.Config.import_url)
             .then(response => {
                 if (response.status >= 400) {
                     throw new Error(i18n.t("error.importing"));
@@ -362,14 +362,14 @@ export function uploadVishResourceAsync(query) {
 
                     let form = new FormData();
                     form.append("document[title]", query.title);
-                    form.append("document[description]", "Uploaded using Dali Editor");
-                    if (typeof(dali_editor_params) !== 'undefined') {
-                        form.append("document[owner_id]", dali_editor_params.id);
-                        form.append("authenticity_token", dali_editor_params.authenticity_token);
+                    form.append("document[description]", "Uploaded using Ediphy Editor");
+                    if (typeof(ediphy_editor_params) !== 'undefined') {
+                        form.append("document[owner_id]", ediphy_editor_params.id);
+                        form.append("authenticity_token", ediphy_editor_params.authenticity_token);
                     }
                     form.append("document[file]", query.file);
 
-                    return fetch(Dali.Config.upload_vish_url, {
+                    return fetch(Ediphy.Config.upload_vish_url, {
                         method: 'POST',
                         credentials: 'same-origin',
                         body: form,

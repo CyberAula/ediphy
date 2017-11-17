@@ -1,4 +1,4 @@
-import Dali from './main';
+import Ediphy from './main';
 import ReactDOM from 'react-dom';
 import { isSortableContainer } from '../../common/utils';
 let html2json = require('html2json').html2json;
@@ -65,9 +65,9 @@ export default function() {
         },
         getLocales: function() {
             try {
-                let currentLanguage = Dali.i18n.language;
+                let currentLanguage = Ediphy.i18n.language;
                 let texts = require('./../../plugins/' + this.getConfig().name + "/locales/" + currentLanguage);
-                Dali.i18n.addResourceBundle(currentLanguage, 'translation', texts, true, false);
+                Ediphy.i18n.addResourceBundle(currentLanguage, 'translation', texts, true, false);
             } catch (e) {
             }
         },
@@ -112,7 +112,7 @@ export default function() {
             limitToOneInstance = defaultFor(limitToOneInstance, false);
 
             if (aspectRatioButtonConfig) {
-                aspectRatioButtonConfig.name = Dali.i18n.t("Aspect_ratio");
+                aspectRatioButtonConfig.name = Ediphy.i18n.t("Aspect_ratio");
                 aspectRatioButtonConfig.location = defaultFor(aspectRatioButtonConfig.location, ["main", "z__extra"], "Aspect ratio button location not defined");
                 if (!Array.isArray(aspectRatioButtonConfig.location) || aspectRatioButtonConfig.location.length < 2 || aspectRatioButtonConfig.location.length > 3) {
                     console.error("Aspect ratio button location malformed");
@@ -127,7 +127,7 @@ export default function() {
                 }
                 if (needsTextEdition) {
                     if (!state.__text) {
-                        state.__text = "<p>" + Dali.i18n.t("text_here") + "</p>";
+                        state.__text = "<p>" + Ediphy.i18n.t("text_here") + "</p>";
                     }
                     if (!descendant.getRenderTemplate) {
                         descendant.getRenderTemplate = function(stateObj) {
@@ -254,11 +254,11 @@ export default function() {
                     console.error(this.getConfig().name + " has not defined getConfigTemplate method");
                 }
             } else {
-                Dali.API.openConfig(this.getConfig().name, reason).then(function(div) {
+                Ediphy.API.openConfig(this.getConfig().name, reason).then(function(div) {
                     if(this.getConfig().flavor !== 'react') {
                         let template = descendant.getConfigTemplate(oldState, div);
                         if(template) {
-                            div.innerHTML = descendant.getConfigTemplate(oldState).replace(/[$]dali[$]/g, "Dali.Plugins.get('" + this.getConfig().name + "')");
+                            div.innerHTML = descendant.getConfigTemplate(oldState).replace(/[$]ediphy[$]/g, "Ediphy.Plugins.get('" + this.getConfig().name + "')");
                         }
                     } else {
                         ReactDOM.render(descendant.getConfigTemplate(oldState), div);
@@ -267,7 +267,7 @@ export default function() {
             }
         },
         configModalNeedsUpdate: function() {
-            Dali.API.configModalNeedsUpdate();
+            Ediphy.API.configModalNeedsUpdate();
         },
         getRichMarkInput: function(setMark) {
             if(descendant.getRichMarkInput) {
@@ -295,7 +295,7 @@ export default function() {
             return undefined;
         },
         postParseRichMarkInput(mark_id, value) {
-            Dali.API.editRichMark(mark_id, value);
+            Ediphy.API.editRichMark(mark_id, value);
         },
         forceUpdate: function(oldState, sender, reason) {
             state = oldState;
@@ -326,7 +326,7 @@ export default function() {
                     template = '';
                 }
                 if (template !== null) {
-                    Dali.API.renderPlugin(
+                    Ediphy.API.renderPlugin(
                         template,
                         this.getToolbar(),
                         this.getConfig(),
@@ -350,7 +350,7 @@ export default function() {
             }
         },
         editRichMark: function(boxId, mark, value) {
-            Dali.API.editRichMark(boxId, mark, value);
+            Ediphy.API.editRichMark(boxId, mark, value);
         },
         afterRender: function(element, oldState) {
             state = oldState;

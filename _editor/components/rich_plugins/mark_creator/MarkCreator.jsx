@@ -249,7 +249,7 @@ MarkCreator.propTypes = {
      */
     addMarkShortcut: PropTypes.func.isRequired,
     /**
-     * Añade una nueva caja (usado para añadir un DaliBoxSortable si se crea una vista contenida documento)
+     * Añade una nueva caja (usado para añadir un EditorBoxSortable si se crea una vista contenida documento)
      */
     onBoxAdded: PropTypes.func.isRequired,
     /**
