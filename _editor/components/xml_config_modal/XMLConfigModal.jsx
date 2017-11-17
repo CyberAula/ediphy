@@ -38,9 +38,9 @@ export default class XMLConfigModal extends Component {
                             },
                             success: function(response, status, xhr) {
                                 if(!state.__xml_path) {
-                                    window.history.pushState({}, "", response.dali_document_path);
+                                    window.history.pushState({}, "", response.ediphy_document_path);
                                 }
-                                state.__xml_path = response.dali_exercise_path;
+                                state.__xml_path = response.ediphy_exercise_path;
                             },
                             error: function(xhr, status, error) {
                                 // eslint-disable-next-line no-console

@@ -8,8 +8,8 @@ dist/prod/*
 webpack.config.js~
 *.orig
 .sass-cache
-dali_server/config.json
-dali_server/node_modules
+ediphy_server/config.json
+ediphy_server/node_modules
 doc/esdoc
 esdoc
 doc/jsdoc

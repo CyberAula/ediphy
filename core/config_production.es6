@@ -1,6 +1,6 @@
 export default {
     // PATHS
-    xml_path: "dali_documents/add_xml", // "http://lamas.dit.upm.es:3000/dali_documents/add_xml",
+    xml_path: "ediphy/add_xml",
     xml_fake_path: "exercises/ua2_ue10_ejer7.xml",
     exercise_render_template_iframe_src: "./exercises/index.html",
     dist_index: "dist/index.html",
@@ -12,8 +12,8 @@ export default {
     visor_ejs: "/assets/lib/visor/index",
     scorm_zip: "/assets/lib/scorm/scorm.zip",
     visor_zip: "/assets/lib/dist.zip",
-    export_url: "/dali_documents/",
-    import_url: "/dali_documents/",
+    export_url: "/ediphy/",
+    import_url: "/ediphy/",
     search_vish_url: "http://vishub.org/apis/search/",
     upload_vish_url: "/documents.json",
     // OPTIONS

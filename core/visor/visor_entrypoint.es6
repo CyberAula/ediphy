@@ -26,8 +26,8 @@ if (window.State) {
     window.State = undefined;
 }
 
-if (process.env.DOC !== 'doc' && process.env.NODE_ENV === 'production' && typeof dali_editor_json !== 'undefined') {
-    window.Ediphy.State = JSON.parse(dali_editor_json);
+if (process.env.DOC !== 'doc' && process.env.NODE_ENV === 'production' && typeof ediphy_editor_json !== 'undefined') {
+    window.Ediphy.State = JSON.parse(ediphy_editor_json);
 }
 
 Config.pluginList.map(id => {
