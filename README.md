@@ -13,7 +13,7 @@ First clone the repo and then install the dependencies like so:
 
 ```bash
 git clone https://github.com/ging/ediphy.git
-cd dali_editor
+cd ediphy
 npm install
 ```
 Once everything is installed, you can run the application with the following line:
