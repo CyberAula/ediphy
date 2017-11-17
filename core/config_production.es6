@@ -11,9 +11,9 @@ export default {
     scorm_ejs: "/assets/lib/scorm/scorm_nav.ejs",
     visor_ejs: "/assets/lib/visor/index",
     scorm_zip: "/assets/lib/scorm/scorm.zip",
-    visor_zip: "/assets/lib/dist.zip",
-    export_url: "/ediphy/",
-    import_url: "/ediphy/",
+    visor_zip: "/assets/lib/visor/dist.zip",
+    export_url: "/ediphy_documents/",
+    import_url: "/ediphy_documents/",
     search_vish_url: "http://vishub.org/apis/search/",
     upload_vish_url: "/documents.json",
     // OPTIONS
