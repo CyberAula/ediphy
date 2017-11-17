@@ -447,7 +447,7 @@ let components = {
         "isBusy": "Indica si hay una operación con el servidor en curso",
         "hideModal": "Oculta el popup",
     },
-    "BoxSortableVisor": {
+    "VisorBoxSortable": {
         "id": "Identificador de la caja",
         "boxes": "Diccionario que contiene todas las cajas",
         "changeCurrentView": "Cambia la vista actual",
@@ -455,7 +455,7 @@ let components = {
         "toolbars": "Diccionario que contiene todas las toolbars",
         "richElementsState": "Estado del plugin enriquecido en la transición",
     },
-    "BoxVisor": {
+    "VisorBox": {
         "id": "Identificador de la caja",
         "boxes": "Diccionario que contiene todas las cajas",
         "changeCurrentView": "Cambia la vista actual",
@@ -463,7 +463,7 @@ let components = {
         "toolbars": "Diccionario que contiene todas las toolbars",
         "richElementsState": "Estado del plugin enriquecido en la transición",
     },
-    "CanvasVisor": {
+    "VisorCanvas": {
         "boxes": "Diccionario que contiene todas las cajas",
         "canvasRatio": "Relación de aspecto para las diapositivas",
         "changeCurrentView": "Cambia la vista actual",
@@ -478,7 +478,7 @@ let components = {
         "triggeredMarks": "Lista de marcas en curso o lanzadas",
         "viewsArray": "Array de vistas",
     },
-    "CanvasVisorDoc": {
+    "VisorCanvasDoc": {
         "boxes": "Diccionario que contiene todas las cajas",
         "changeCurrentView": "Cambia la vista actual",
         "containedViews": "Diccionario que contiene todas las vistas contenidas, accesibles por su *id*",
@@ -492,22 +492,7 @@ let components = {
         "triggeredMarks": "Lista de marcas en curso o lanzadas",
         "viewsArray": "Array de vistas",
     },
-    "CanvasVisorSli": {
-        "boxes": "Diccionario que contiene todas las cajas",
-        "canvasRatio": "Relación de aspecto para las diapositivas",
-        "changeCurrentView": "Cambia la vista actual",
-        "containedViews": "Diccionario que contiene todas las vistas contenidas, accesibles por su *id*",
-        "currentView": "Vista actual",
-        "navItems": "Diccionario que contiene todas las vistas creadas, accesibles por su *id*",
-        "removeLastView": "Elimina la última vista",
-        "richElementsState": "Estado del plugin enriquecido en la transición",
-        "showCanvas": "Indicador de si se muestra el canvas (tiene que haber un navItem seleccionado)",
-        "title": "Título del curso",
-        "toolbars": "Diccionario que contiene todas las toolbars",
-        "triggeredMarks": "Lista de marcas en curso o lanzadas",
-        "viewsArray": "Array de vistas",
-    },
-    "ContainedCanvasVisor": {
+    "VisorCanvasSli": {
         "boxes": "Diccionario que contiene todas las cajas",
         "canvasRatio": "Relación de aspecto para las diapositivas",
         "changeCurrentView": "Cambia la vista actual",
@@ -522,14 +507,29 @@ let components = {
         "triggeredMarks": "Lista de marcas en curso o lanzadas",
         "viewsArray": "Array de vistas",
     },
-    "HeaderVisor": {
+    "VisorContainedCanvas": {
+        "boxes": "Diccionario que contiene todas las cajas",
+        "canvasRatio": "Relación de aspecto para las diapositivas",
+        "changeCurrentView": "Cambia la vista actual",
+        "containedViews": "Diccionario que contiene todas las vistas contenidas, accesibles por su *id*",
+        "currentView": "Vista actual",
+        "navItems": "Diccionario que contiene todas las vistas creadas, accesibles por su *id*",
+        "removeLastView": "Elimina la última vista",
+        "richElementsState": "Estado del plugin enriquecido en la transición",
+        "showCanvas": "Indicador de si se muestra el canvas (tiene que haber un navItem seleccionado)",
+        "title": "Título del curso",
+        "toolbars": "Diccionario que contiene todas las toolbars",
+        "triggeredMarks": "Lista de marcas en curso o lanzadas",
+        "viewsArray": "Array de vistas",
+    },
+    "VisorHeader": {
         "titles": "Array que contiene el título desglosado de la página. Ej: `['Sección 1'. 'Página 1']`",
         "courseTitle": "Título del curso",
         "navItems": "Diccionario que contiene todas las vistas creadas, accesibles por su *id*",
         "currentView": "Vista actual",
         "containedViews": "Diccionario que contiene todas las vistas contenidas, accesibles por su *id*",
     },
-    "PluginPlaceholderVisor": {
+    "VisorPluginPlaceholder": {
         "pluginContainer": "Identificador del contenedor de plugins",
         "resizable": "Indica si se puede redimensionar el contenedor",
         "parentBox": "Identificador de la caja",
@@ -539,7 +539,7 @@ let components = {
         "toolbars": "Diccionario que contiene todas las toolbars",
         "richElementsState": "Estado del plugin enriquecido en la transición",
     },
-    "SideNavVisor": {
+    "VisorSideNav": {
         "changeCurrentView": "Cambia la vista actual",
         "courseTitle": "Título del curso",
         "currentViews": "Diccionario que contiene todas las vistas y vistas contenidas, accesibles por su *id*",

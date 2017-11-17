@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import VisorNavSection from './VisorNavSection';
 import { isSlide, isPage, isSection } from '../../../common/utils';
 
-export default class SideNavVisor extends Component {
+export default class VisorSideNav extends Component {
     constructor(props) {
         super(props);
     }
@@ -55,7 +55,7 @@ export default class SideNavVisor extends Component {
     }
 }
 
-SideNavVisor.propTypes = {
+VisorSideNav.propTypes = {
     /**
      * Cambia la vista actual
      */

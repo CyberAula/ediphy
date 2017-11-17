@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import BoxVisor from './BoxVisor';
+import VisorBox from './VisorBox';
 import { isAncestorOrSibling } from '../../../common/utils';
 
-export default class PluginPlaceholderVisor extends Component {
+export default class VisorPluginPlaceholder extends Component {
     render() {
         let container = this.props.parentBox.sortableContainers[this.props.pluginContainer];
         let className = "drg" + this.props.pluginContainer;
@@ -36,7 +36,7 @@ export default class PluginPlaceholderVisor extends Component {
                                 >
                                     {container.children.map((idBox, index) => {
                                         if (this.props.boxes[idBox].col === i && this.props.boxes[idBox].row === j) {
-                                            return (<BoxVisor id={idBox}
+                                            return (<VisorBox id={idBox}
                                                 key={index}
                                                 boxes={this.props.boxes}
                                                 changeCurrentView={this.props.changeCurrentView}
@@ -62,7 +62,7 @@ export default class PluginPlaceholderVisor extends Component {
 
 }
 
-PluginPlaceholderVisor.propTypes = {
+VisorPluginPlaceholder.propTypes = {
     /**
      * Identificador del contenedor de plugins
      */

@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import BoxVisor from './BoxVisor';
-import BoxSortableVisor from './BoxSortableVisor';
+import VisorBox from './VisorBox';
+import VisorBoxSortable from './VisorBoxSortable';
 import { Col, Tooltip, OverlayTrigger } from 'react-bootstrap';
-import HeaderVisor from './HeaderVisor';
+import VisorHeader from './VisorHeader';
 import { isContainedView, isSortableBox, isSection, isView } from '../../../common/utils';
 import i18n from 'i18next';
 
-export default class CanvasVisorDoc extends Component {
+export default class VisorCanvasDoc extends Component {
 
     render() {
         let titles = [];
@@ -53,7 +53,7 @@ export default class CanvasVisorDoc extends Component {
                                 }.bind(this), 500);
                                 a.stopPropagation();
                             }}><i className="material-icons">close</i></a></OverlayTrigger>) : (<span />)}
-                    <HeaderVisor titles={titles}
+                    <VisorHeader titles={titles}
                         onShowTitle={()=>this.setState({ showTitle: true })}
                         courseTitle={this.props.title}
                         titleMode={itemSelected.titleMode}
@@ -91,7 +91,7 @@ export default class CanvasVisorDoc extends Component {
                                 {boxes.map(id => {
                                     let box = this.props.boxes[id];
                                     if (!isSortableBox(box.id)) {
-                                        return <BoxVisor key={id}
+                                        return <VisorBox key={id}
                                             id={id}
                                             boxes={this.props.boxes}
                                             boxSelected={this.props.boxSelected}
@@ -101,7 +101,7 @@ export default class CanvasVisorDoc extends Component {
                                             toolbars={this.props.toolbars}
                                             richElementsState={this.props.richElementsState}/>;
                                     }
-                                    return <BoxSortableVisor key={id}
+                                    return <VisorBoxSortable key={id}
                                         id={id}
                                         boxes={this.props.boxes}
                                         boxSelected={this.props.boxSelected}
@@ -131,7 +131,7 @@ export default class CanvasVisorDoc extends Component {
 
 }
 
-CanvasVisorDoc.propTypes = {
+VisorCanvasDoc.propTypes = {
     /**
      * Diccionario que contiene todas las cajas
      */

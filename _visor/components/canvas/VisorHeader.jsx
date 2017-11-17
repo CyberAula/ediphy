@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Tooltip, OverlayTrigger, Breadcrumb, BreadcrumbItem, Button } from 'react-bootstrap';
+import { Breadcrumb, BreadcrumbItem } from 'react-bootstrap';
 import i18n from 'i18next';
 import { isView, isContainedView } from '../../../common/utils';
 
-export default class HeaderVisor extends Component {
+export default class VisorHeader extends Component {
 
     /*
      * This method is used to calculate actual position for title indexes
@@ -129,7 +129,7 @@ export default class HeaderVisor extends Component {
 
 }
 
-HeaderVisor.propTypes = {
+VisorHeader.propTypes = {
     /**
      * Array que contiene el título desglosado de la página. Ej: `['Sección 1'. 'Página 1']`
      */
