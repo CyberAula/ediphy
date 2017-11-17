@@ -1,53 +1,25 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import VisorCanvasDoc from './VisorCanvasDoc';
+import VisorCanvasSli from './VisorCanvasSli';
 import { isSlide } from '../../../common/utils';
-import CanvasVisorDoc from './CanvasVisorDoc';
-import CanvasVisorSli from './CanvasVisorSli';
-import { CSSTransition } from 'react-transition-group';
 
-export default class ContainedCanvasVisor extends Component {
+export default class VisorCanvas extends Component {
 
-    componentDidMount() {
-
-    }
     render() {
-        let visorContent;
-        if (isSlide(this.props.containedViews[this.props.currentView].type)) {
-            visorContent = <CanvasVisorSli {...this.props} />;
-        }else{
-            visorContent = <CanvasVisorDoc {...this.props} />;
-        }
-        return (
-            <CSSTransition
-                key="anim"
-                classNames={{
-                    appear: 'appear',
-                    appearActive: 'active-appear',
-                    enter: 'enter',
-                    enterActive: 'active-enter',
-                    exit: 'exit',
-                    exitActive: 'active-exit',
-                }}
-                timeout={{ enter: 500, exit: 300 }}>
-                {visorContent}
-            </CSSTransition>
-        );
-    }
-
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.boxSelected !== -1) {
-            this.setState({ showTitle: false });
-        }
-        document.getElementById('contained_maincontent').scrollTop = 0;
+        return (isSlide(this.props.navItems[this.props.currentView].type)) ?
+            (<VisorCanvasSli {...this.props} />) :
+            (<VisorCanvasDoc {...this.props} />);
 
     }
 
     componentDidUpdate() {
         window.MathJax.Hub.Queue(["Typeset", window.MathJax.Hub]);
     }
+
 }
 
-ContainedCanvasVisor.propTypes = {
+VisorCanvas.propTypes = {
     /**
      * Diccionario que contiene todas las cajas
      */

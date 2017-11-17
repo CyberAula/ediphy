@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import BoxVisor from './BoxVisor';
+import VisorBox from './VisorBox';
 import { Col, Tooltip, OverlayTrigger } from 'react-bootstrap';
-import HeaderVisor from './HeaderVisor';
+import VisorHeader from './VisorHeader';
 import { aspectRatio } from '../../../common/common_tools';
 import ReactResizeDetector from 'react-resize-detector';
 import { isContainedView, isView } from '../../../common/utils';
 import i18n from 'i18next';
 
-export default class CanvasVisorSli extends Component {
+export default class VisorCanvasSli extends Component {
 
     render() {
 
@@ -65,7 +65,7 @@ export default class CanvasVisorSli extends Component {
 
                                 a.stopPropagation();
                             }}><i className="material-icons">close</i></a></OverlayTrigger>) : (<span />)}
-                        <HeaderVisor titles={titles}
+                        <VisorHeader titles={titles}
                             onShowTitle={()=>this.setState({ showTitle: true })}
                             courseTitle={this.props.title}
                             titleMode={itemSelected.titleMode}
@@ -93,7 +93,7 @@ export default class CanvasVisorSli extends Component {
                         {boxes.map(id => {
                             let box = this.props.boxes[id];
 
-                            return <BoxVisor key={id}
+                            return <VisorBox key={id}
                                 id={id}
                                 boxes={this.props.boxes}
                                 boxSelected={this.props.boxSelected}
@@ -141,7 +141,7 @@ export default class CanvasVisorSli extends Component {
 
 }
 
-CanvasVisorSli.propTypes = {
+VisorCanvasSli.propTypes = {
     /**
      * Diccionario que contiene todas las cajas
      */

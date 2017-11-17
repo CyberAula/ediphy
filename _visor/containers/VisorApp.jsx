@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { Grid, Row, Col, Button } from 'react-bootstrap';
-import CanvasVisor from './../components/canvas/CanvasVisor';
-import ContainedCanvasVisor from './../components/canvas/ContainedCanvasVisor';
-import SideNavVisor from './../components/navigation/SideNavVisor';
+import VisorCanvas from '../components/canvas/VisorCanvas';
+import VisorContainedCanvas from '../components/canvas/VisorContainedCanvas';
+import VisorSideNav from '../components/navigation/VisorSideNav';
 import VisorPlayer from './../components/navigation/VisorPlayer';
 
 import { isContainedView, isView } from '../../common/utils';
@@ -206,7 +206,7 @@ export default class Visor extends Component {
         return (
             <div id="app"
                 className={wrapperClasses} >
-                <SideNavVisor
+                <VisorSideNav
                     changeCurrentView={(page)=> {this.changeCurrentView(page);}}
                     courseTitle={title}
                     show={visorNav.sidebar}
@@ -234,7 +234,7 @@ export default class Visor extends Component {
                                 </Button>) : null}
 
                                 { !isContainedView(this.getLastCurrentViewElement()) ?
-                                    (<CanvasVisor
+                                    (<VisorCanvas
                                         boxes={boxes}
                                         changeCurrentView={(element) => {this.changeCurrentView(element);}}
                                         canvasRatio={ratio}
@@ -249,7 +249,7 @@ export default class Visor extends Component {
                                         triggeredMarks={this.state.triggeredMarks}
                                         viewsArray={this.state.currentView}
                                     />) :
-                                    (<ContainedCanvasVisor
+                                    (<VisorContainedCanvas
                                         boxes={boxes}
                                         changeCurrentView={(element) => {this.changeCurrentView(element);}}
                                         canvasRatio={ratio}
