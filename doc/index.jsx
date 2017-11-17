@@ -11,7 +11,7 @@ import { srcTree, lookForPath } from './src/content';
 import "./src/style/style.scss";
 import i18n from './locales/i18n';
 
-export default class EdiphyDocs extends Component {
+export default class Docs extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -29,7 +29,7 @@ export default class EdiphyDocs extends Component {
             if (tree[el].isExternal) {
                 return (<NavItem key={el} active={this.state.section === el} eventKey={el} href={tree[el].path}
                     onClick={()=>{window.location = tree[el].path;}}>
-                    <span className="dali_blue" >{tree[el].title}</span>
+                    <span className="ediphy_blue" >{tree[el].title}</span>
                 </NavItem>);
 
             }
@@ -73,7 +73,7 @@ export default class EdiphyDocs extends Component {
                     <Navbar collapseOnSelect >
                         <Navbar.Header>
                             <Navbar.Brand>
-                                <a href="#">Dalí Editor Docs</a>
+                                <a href="#">Ediphy Docs</a>
                             </Navbar.Brand>
                         </Navbar.Header>
                         <Navbar.Toggle style={{ top: '0px', right: '0px', position: 'absolute' }}/>
@@ -96,4 +96,5 @@ export default class EdiphyDocs extends Component {
     }
 }
 
-ReactDOM.render((<EdiphyDocs />), document.getElementById('root'));
+ReactDOM.render((<Docs />), document.getElementById('root'));
+
