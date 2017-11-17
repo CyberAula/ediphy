@@ -12,7 +12,7 @@ In order to install this project you will need `node` 6.x.x (latest), `npm` and 
 First clone the repo and then install the dependencies like so:
 
 ```bash
-git clone https://github.com/ging/dali_editor.git
+git clone https://github.com/ging/ediphy.git
 cd dali_editor
 npm install
 ```
