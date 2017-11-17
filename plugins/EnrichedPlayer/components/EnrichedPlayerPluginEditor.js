@@ -82,7 +82,7 @@ export default class EnrichedPlayerPluginEditor extends React.Component {
             let value = marks[id].value;
             let title = marks[id].title;
             let color = marks[id].color;
-
+            /* eslint-disable */
             return(
                 <MarkEditor key={id} style={{ left: value, position: "absolute" }} time={1.5} mark={id} state={this.props.state} base={this.props.base}>
                     <a key={id} href="#">
@@ -93,7 +93,8 @@ export default class EnrichedPlayerPluginEditor extends React.Component {
                         </div>
                     </a>
                 </MarkEditor>);
-        });
+            });
+        /* eslint-enable */
 
         return (
             <div ref={player_wrapper => {this.player_wrapper = player_wrapper;}} style={{ width: "100%", height: "100%", pointerEvents: "none" }} className="enriched-player-wrapper">

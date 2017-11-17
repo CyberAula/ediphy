@@ -13,7 +13,7 @@ export function HotspotImages(base) {
                 let position = marks[e].value.split(',');
                 let title = marks[e].title;
                 let color = marks[e].color;
-
+                /* eslint-disable */
                 return(
                     <a key={e} style={{ position: 'absolute', top: position[0] + "%", left: position[1] + "%", width: '24px', height: '26px' }} onClick={()=>{this.onMarkClicked(box_id, marks[e].value);}} >
                         <OverlayTrigger placement="top" overlay={<Tooltip positionLeft="-12" id={e}>{title}</Tooltip>}>
@@ -21,6 +21,7 @@ export function HotspotImages(base) {
                         </OverlayTrigger>
                     </a>
                 );
+                /* eslint-enable */
             });
 
             return(

@@ -131,7 +131,7 @@ export default class EnrichedPlayerPlugin extends React.Component {
             let value = marks[id].value;
             let title = marks[id].title;
             let color = marks[id].color;
-
+            /* eslint-disable */
             return(
                 <OverlayTrigger key={id} text={title} placement="top" overlay={<Tooltip id={id}>{title}</Tooltip>}>
                     <a key={id} style={{ left: value, position: "absolute" }} href="#">
@@ -140,6 +140,7 @@ export default class EnrichedPlayerPlugin extends React.Component {
                         </div>
                     </a>
                 </OverlayTrigger>);
+            /* eslint-enable */
         });
 
         return (

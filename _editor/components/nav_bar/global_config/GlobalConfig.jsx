@@ -60,6 +60,12 @@ export default class GlobalConfig extends Component {
      * @returns {code}
      */
     render() {
+        const Licenses = (
+            <Popover id="info_licenses" className="advancedPopover" title="Licencias">
+                {i18n.t('global_config.rights_short_txt')}
+                <a target="_blank" href={"https://creativecommons.org/licenses/?lang=" + i18n.t('currentLang')}> [{i18n.t('Read_more')}] </a>
+            </Popover>
+        );
         const { title, author, canvasRatio, age, typicalLearningTime, difficulty, rights, visorNav, description, language, thumbnail, keywords, version, status, context } = this.state;
         return (
             <Modal className="pageModal"
@@ -153,12 +159,8 @@ export default class GlobalConfig extends Component {
                                     </FormGroup>
                                     <FormGroup >
                                         <ControlLabel>{i18n.t('global_config.rights')}</ControlLabel>
-                                        <OverlayTrigger trigger="click" rootClose placement="top"
-                                            overlay={<Popover id="info_licenses" className="advancedPopover" title="Licencias">
-                                                {i18n.t('global_config.rights_short_txt')}
-                                                <a target="_blank" href={"https://creativecommons.org/licenses/?lang=" + i18n.t('currentLang')}> [{i18n.t('Read_more')}] </a>
-                                            </Popover>}>
-                                            <a className="miniIcon"><i className="material-icons">help</i></a>
+                                        <OverlayTrigger trigger="click" placement="top" overlay={Licenses}>
+                                            <Button className="miniIcon"><i className="material-icons">help</i></Button>
                                         </OverlayTrigger>
                                         <br/>
                                         <Select
@@ -275,20 +277,7 @@ export default class GlobalConfig extends Component {
                                             options={statusOptions()}
                                             onChange={e => {this.setState({ modifiedState: true, status: e.value }); }} />
                                     </FormGroup>
-
                                 </Col>
-                                {/*
-                                <Col xs={12} md={6} lg={6}><br/>
-                                     version commented, transparent for the user
-                                    <FormGroup >
-                                        <ControlLabel>{i18n.t('global_config.version')}</ControlLabel>
-                                        <FormControl   type="text"
-                                                       value={version}
-                                                       placeholder=""
-                                                       onChange={e => {this.setState({version: e.target.value})}}/>
-                                    </FormGroup>
-                                </Col>*/}
-
                             </Row>
                         </form>
                     </Grid>

@@ -57,20 +57,22 @@
         border-radius: 0;
       }
       .miniIcon{
-        color: $grismedio;
+        color: $grisadams;;
+        border: none;
         float: right;
-        opacity: 0.5;
-        margin: 5px 0;
+        position: absolute;
+        right: 15px;
+        padding: 0;
         &:hover{
-          opacity: 1;
+          color: black;
         }
+
       }
       .control-label{
         margin: 5px 0;
         padding: 0;
         font-size: 1em;
         color: $blueprimary;
-        width: 90%;
       }
 
     }

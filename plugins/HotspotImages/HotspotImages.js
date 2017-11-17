@@ -112,6 +112,7 @@ export function HotspotImages(base) {
         },
         getRenderTemplate: function(state) {
             let marks = state.__marks;
+            /* eslint-disable */
             let Mark = ({ idKey, title, style, color }) => (
                 <MarkEditor style={style} time={1.5} mark={idKey} base={base} state={state}>
                     <OverlayTrigger key={idKey} text={title} placement="top" overlay={<Tooltip id={idKey}>{title}</Tooltip>}>
@@ -120,7 +121,7 @@ export function HotspotImages(base) {
                         </a>
                     </OverlayTrigger>
                 </MarkEditor>);
-
+            /* eslint-enable */
             let markElements = Object.keys(marks).map((id) =>{
                 let value = marks[id].value;
                 let title = marks[id].title;
