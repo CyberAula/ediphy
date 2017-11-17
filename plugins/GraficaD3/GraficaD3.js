@@ -10,7 +10,7 @@ export function GraficaD3(base) {
             return {
                 name: "GraficaD3",
                 flavor: "react",
-                displayName: Dali.i18n.t("GraficaD3.PluginName"),
+                displayName: Ediphy.i18n.t("GraficaD3.PluginName"),
                 category: "image",
                 needsConfigModal: true,
                 needsConfirmation: true,
@@ -28,18 +28,18 @@ export function GraficaD3(base) {
                     __name: "Main",
                     accordions: {
                         style: {
-                            __name: Dali.i18n.t("GraficaD3.style"),
+                            __name: Ediphy.i18n.t("GraficaD3.style"),
                             icon: "palette",
                             buttons: {
                                 padding: {
-                                    __name: Dali.i18n.t('GraficaD3.padding'),
+                                    __name: Ediphy.i18n.t('GraficaD3.padding'),
                                     type: 'number',
                                     value: 10,
                                     min: 0,
                                     max: 100,
                                 },
                                 borderWidth: {
-                                    __name: Dali.i18n.t("GraficaD3.border_width"),
+                                    __name: Ediphy.i18n.t("GraficaD3.border_width"),
                                     type: "number",
                                     value: 0,
                                     min: 0,
@@ -47,18 +47,18 @@ export function GraficaD3(base) {
                                     units: "px",
                                 },
                                 borderStyle: {
-                                    __name: Dali.i18n.t("GraficaD3.border_style"),
+                                    __name: Ediphy.i18n.t("GraficaD3.border_style"),
                                     type: "select",
                                     value: "solid",
                                     options: ["none", "hidden", "dotted", "dashed", "solid", "double", "groove", "ridge", "inset", "outset", "initial", "inherit"],
                                 },
                                 borderColor: {
-                                    __name: Dali.i18n.t("GraficaD3.border_color"),
+                                    __name: Ediphy.i18n.t("GraficaD3.border_color"),
                                     type: "color",
                                     value: "#000000",
                                 },
                                 borderRadius: {
-                                    __name: Dali.i18n.t("GraficaD3.border_radius"),
+                                    __name: Ediphy.i18n.t("GraficaD3.border_radius"),
                                     type: "number",
                                     value: 0,
                                     min: 0,
@@ -67,7 +67,7 @@ export function GraficaD3(base) {
                                     units: "%",
                                 },
                                 opacity: {
-                                    __name: Dali.i18n.t("GraficaD3.opacity"),
+                                    __name: Ediphy.i18n.t("GraficaD3.opacity"),
                                     type: "range",
                                     value: 1,
                                     min: 0,

@@ -3,7 +3,7 @@ export function BasicVideo(base) {
         getConfig: function() {
             return {
                 name: 'BasicVideo',
-                displayName: Dali.i18n.t('BasicVideo.PluginName'),
+                displayName: Ediphy.i18n.t('BasicVideo.PluginName'),
                 category: 'multimedia',
                 aspectRatioButtonConfig: {
                     location: ["main", "__sortable"],
@@ -18,23 +18,23 @@ export function BasicVideo(base) {
                     __name: "Main",
                     accordions: {
                         basic: {
-                            __name: Dali.i18n.t('BasicVideo.Video'),
+                            __name: Ediphy.i18n.t('BasicVideo.Video'),
                             icon: 'link',
                             buttons: {
                                 url: {
-                                    __name: Dali.i18n.t('BasicVideo.URL'),
+                                    __name: Ediphy.i18n.t('BasicVideo.URL'),
                                     type: 'text',
                                     value: base.getState().url,
                                     autoManaged: false,
                                 },
                                 controls: {
-                                    __name: Dali.i18n.t('BasicVideo.Show_controls'),
+                                    __name: Ediphy.i18n.t('BasicVideo.Show_controls'),
                                     type: 'checkbox',
                                     checked: base.getState().controls,
                                     autoManaged: false,
                                 },
                                 autoplay: {
-                                    __name: Dali.i18n.t('BasicVideo.Autoplay'),
+                                    __name: Ediphy.i18n.t('BasicVideo.Autoplay'),
                                     type: 'checkbox',
                                     checked: base.getState().autoplay,
                                     autoManaged: false,
@@ -42,43 +42,43 @@ export function BasicVideo(base) {
                             },
                         },
                         style: {
-                            __name: Dali.i18n.t('BasicVideo.box_style'),
+                            __name: Ediphy.i18n.t('BasicVideo.box_style'),
                             icon: 'palette',
                             buttons: {
                                 padding: {
-                                    __name: Dali.i18n.t('BasicVideo.padding'),
+                                    __name: Ediphy.i18n.t('BasicVideo.padding'),
                                     type: 'number',
                                     value: 0,
                                     min: 0,
                                     max: 100,
                                 },
                                 borderWidth: {
-                                    __name: Dali.i18n.t('BasicVideo.border_size'),
+                                    __name: Ediphy.i18n.t('BasicVideo.border_size'),
                                     type: 'number',
                                     value: 0,
                                     min: 0,
                                     max: 10,
                                 },
                                 borderStyle: {
-                                    __name: Dali.i18n.t('BasicVideo.border_style'),
+                                    __name: Ediphy.i18n.t('BasicVideo.border_style'),
                                     type: 'select',
                                     value: 'solid',
                                     options: ['none', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset', 'initial', 'inherit'],
                                 },
                                 borderColor: {
-                                    __name: Dali.i18n.t('BasicVideo.border_color'),
+                                    __name: Ediphy.i18n.t('BasicVideo.border_color'),
                                     type: 'color',
                                     value: '#000000',
                                 },
                                 borderRadius: {
-                                    __name: Dali.i18n.t('BasicVideo.radius'),
+                                    __name: Ediphy.i18n.t('BasicVideo.radius'),
                                     type: 'number',
                                     value: 0,
                                     min: 0,
                                     max: 50,
                                 },
                                 opacity: {
-                                    __name: Dali.i18n.t('BasicVideo.opacity'),
+                                    __name: Ediphy.i18n.t('BasicVideo.opacity'),
                                     type: 'range',
                                     value: 1,
                                     min: 0,

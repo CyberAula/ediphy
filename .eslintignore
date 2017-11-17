@@ -2,5 +2,5 @@ node_modules
 dist
 doc/dist
 sass
-dali_server
+ediphy_server
 webpack_plugins

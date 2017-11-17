@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import DaliIndexTitle from '../dali_index_title/DaliIndexTitle';
+import EditorIndexTitle from '../editor_index_title/EditorIndexTitle';
 import { isPage, isSection, isSlide, calculateNewIdOrder } from '../../../../common/utils';
-import Dali from '../../../../core/editor/main';
+import Ediphy from '../../../../core/editor/main';
 
 /**
  * Section element in index
@@ -29,7 +29,7 @@ export default class Section extends Component {
                     e.stopPropagation();
                 }}
                 onDoubleClick={e => {
-                    if (Dali.Config.sections_have_content) {
+                    if (Ediphy.Config.sections_have_content) {
                         this.props.onNavItemSelected(navItem.id);
                         this.props.onNavItemExpanded(navItem.id, !navItem.isExpanded);
                     }
@@ -55,7 +55,7 @@ export default class Section extends Component {
                             </i>
                         </button>
                         <span className={classSelected} style={{ display: 'inline' }}>
-                            <DaliIndexTitle id={this.props.id}
+                            <EditorIndexTitle id={this.props.id}
                                 title={navItem.name}
                                 index={navItem.level === 1 ?
                                     navItem.unitNumber + ". " :
@@ -109,7 +109,7 @@ export default class Section extends Component {
                                         <i className="material-icons fileIcon">
                                             {isSlide(this.props.navItems[id].type) ? "slideshow" : "insert_drive_file"}
                                         </i>
-                                        <DaliIndexTitle id={id}
+                                        <EditorIndexTitle id={id}
                                             index={this.props.navItems[this.props.navItems[id].parent].children.indexOf(id) + 1 + '.'}
                                             title={this.props.navItems[id].name}
                                             hidden={this.props.navItems[id].hidden}

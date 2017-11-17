@@ -20,8 +20,8 @@ module.exports = merge.smart(common, {
     devtool: 'cheap-module-source-map',
     // devtool: 'cheap-module-eval-source-map', // for dev in prod enviroment
     /* externals: {
-        dali_editor_params: 'dali_editor_params',
-        dali_editor_json: 'dali_editor_json',
+         ediphy: 'ediphy_editor_params',
+         ediphy: 'ediphy_editor_json',
     },*/
     plugins: [
         new webpack.optimize.OccurrenceOrderPlugin(),

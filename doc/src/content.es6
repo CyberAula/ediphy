@@ -1,9 +1,9 @@
 ﻿import i18n from 'i18next';
 // export const WIKI_BASE_URL = "http://localhost:8081/";
-export const WIKI_BASE_URL = "https://raw.githubusercontent.com/wiki/ging/dali_editor/";
+export const WIKI_BASE_URL = "https://raw.githubusercontent.com/wiki/ging/ediphy/";
 export const editURL = (src) => {
     let split = src.split("/").pop().replace('.md', '');
-    let url = "https://github.com/ging/DALI_EDITOR/wiki/" + split + "/_edit";
+    let url = "https://github.com/ging/ediphy/wiki/" + split + "/_edit";
     return url;
 };
 
@@ -64,7 +64,7 @@ export const srcTree = (lang = "es") => {
             children: {
                 1: {
                     path: '/docs',
-                    title: "Dalí Editor",
+                    title: "Ediphy",
                     children: {},
                     pages:
                     {
@@ -73,7 +73,7 @@ export const srcTree = (lang = "es") => {
                             title: i18n.t("title.Intro"),
                             md: true,
                             fromURL: true,
-                            src: ("DaliDoc" + langPath + ".md"),
+                            src: ("Doc" + langPath + ".md"),
                             hideTitle: true,
                         },
                         2: {
