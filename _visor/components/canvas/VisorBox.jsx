@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import PluginPlaceholderVisor from './PluginPlaceholderVisor';
+import PluginPlaceholderVisor from './VisorPluginPlaceholder';
 import { isSortableBox, isAncestorOrSibling } from '../../../common/utils';
 
-export default class BoxVisor extends Component {
+export default class VisorBox extends Component {
     constructor(props) {
         super(props);
         this.borderSize = 2;
@@ -222,7 +222,7 @@ export default class BoxVisor extends Component {
     }
 }
 
-BoxVisor.propTypes = {
+VisorBox.propTypes = {
     /**
      * Identificador de la caja
      */
