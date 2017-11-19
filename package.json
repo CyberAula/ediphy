@@ -44,6 +44,7 @@
     "moduleNameMapper": {
       "\\.(ejs)$": "<rootDir>/core/api.es6"
     },
+    "setupFiles": ["<rootDir>/shim.js"],
     "testMatch": [
       "**/?(*.)(*test).js"
     ]
