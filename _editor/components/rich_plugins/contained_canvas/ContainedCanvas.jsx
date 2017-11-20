@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Col } from 'react-bootstrap';
-import DaliCanvasSli from '../../canvas/dali_canvas_sli/DaliCanvasSli';
-import DaliCanvasDoc from '../../canvas/dali_canvas_doc/DaliCanvasDoc';
+import EditorCanvasSli from '../../canvas/editor_canvas_sli/EditorCanvasSli';
+import EditorCanvasDoc from '../../canvas/editor_canvas_doc/EditorCanvasDoc';
 import { isSlide } from '../../../../common/utils';
 
 /**
@@ -34,9 +34,9 @@ export default class ContainedCanvas extends Component {
         let containedViewSelected = this.props.containedViewSelected;
         if (containedViewSelected && containedViewSelected !== 0) {
             if (isSlide(containedViewSelected.type)) {
-                canvasContent = (<DaliCanvasSli fromCV {...this.props} />);
+                canvasContent = (<EditorCanvasSli fromCV {...this.props} />);
             } else {
-                canvasContent = (<DaliCanvasDoc fromCV {...this.props} />);
+                canvasContent = (<EditorCanvasDoc fromCV {...this.props} />);
             }
         } else {
             canvasContent = (<Col id="containedCanvas"
@@ -156,7 +156,7 @@ ContainedCanvas.propTypes = {
      */
     onBoxResized: PropTypes.func.isRequired,
     /**
-     * Suelta la caja en una zona de un DaliBoxSortable
+     * Suelta la caja en una zona de un EditorBoxSortable
      */
     onBoxDropped: PropTypes.func.isRequired,
     /**

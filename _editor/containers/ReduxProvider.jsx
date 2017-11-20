@@ -2,17 +2,17 @@ import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import DevTools from './DevTools';
 import GlobalState from '../../reducers/reducers';
-import DaliApp from './DaliApp';
+import EditorApp from './EditorApp';
 import i18n from 'i18next';
 import { createStore, compose, applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
-import Dali from '../../core/editor/main';
+import Ediphy from '../../core/editor/main';
 
 export default class ReduxProvider extends Component {
     constructor(props) {
         super(props);
 
-        this.initialState = Dali.Config.sections_have_content ?
+        this.initialState = Ediphy.Config.sections_have_content ?
             ({ present: {
                 globalConfig: { title: i18n.t('course_title'), canvasRatio: 16 / 9, visorNav: { player: true, sidebar: true, keyBindings: true }, trackProgess: true, age: { min: 0, max: 100 }, context: 'school', rights: "Public Domain", keywords: [], typicalLearningTime: { h: 0, m: 0, s: 0 }, version: '1.0.0', thumbnail: '', status: 'draft', structure: 'linear', difficulty: 'easy' },
                 displayMode: "list",
@@ -29,7 +29,7 @@ export default class ReduxProvider extends Component {
                         unitNumber: 1,
                         hidden: false,
                         linkedBoxes: {},
-                        boxes: Dali.Config.sections_have_content ? ['bs-1467887497412'] : [],
+                        boxes: Ediphy.Config.sections_have_content ? ['bs-1467887497412'] : [],
                         level: 1,
                         type: "section",
                         extraFiles: {},
@@ -51,7 +51,7 @@ export default class ReduxProvider extends Component {
                 },
                 navItemsIds: ['se-1467887497411'],
                 navItemSelected: 'se-1467887497411',
-                boxesById: Dali.Config.sections_have_content ? {
+                boxesById: Ediphy.Config.sections_have_content ? {
                     'bs-1467887497412': {
                         id: "bs-1467887497412",
                         parent: "se-1467887497411",
@@ -74,7 +74,7 @@ export default class ReduxProvider extends Component {
                         containedViews: [],
                     },
                 } : {},
-                toolbarsById: Dali.Config.sections_have_content ? ({
+                toolbarsById: Ediphy.Config.sections_have_content ? ({
                     'bs-1467887497412': {
                         id: "bs-1467887497412",
                         state: {},
@@ -517,7 +517,7 @@ export default class ReduxProvider extends Component {
         return (
             <Provider store={this.store}>
                 <div style={{ height: '100%' }}>
-                    <DaliApp id="app" store={this.store}/>
+                    <EditorApp id="app" store={this.store}/>
                     { /* <DevTools/> */ }
                 </div>
             </Provider>

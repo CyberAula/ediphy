@@ -54,6 +54,9 @@ export default class MarkEditor extends Component {
      * @param e Event
      */
     start(e) {
+        if (e.button === 2) {
+            return;
+        }
         let ended = this.state.ended;
         let start = Date.now();
         this.setState({ start: start, holding: true, ended: false });
@@ -115,7 +118,7 @@ export default class MarkEditor extends Component {
                 style={this.props.style}
                 onMouseDown={this.start}
                 onTouchStart={this.start}
-                onMouseUp={()=>{console.log(0); this.end();}}
+                onMouseUp={()=>{this.end();}}
                 onMouseEnter={(e)=>{
                     this.props.base.pointerEventsCallback('mouseenter', this.props.base.getState());
                 }}

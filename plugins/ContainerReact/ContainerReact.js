@@ -5,7 +5,7 @@ export function ContainerReact(base) {
         getConfig: function() {
             return {
                 name: 'ContainerReact',
-                displayName: Dali.i18n.t('ContainerReact.PluginName'),
+                displayName: Ediphy.i18n.t('ContainerReact.PluginName'),
                 category: 'text',
                 icon: 'view_agenda',
                 initialWidth: '60%',

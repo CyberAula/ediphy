@@ -2,9 +2,10 @@ export function ContainerJS(base) {
     return {
         getConfig: function() {
             return {
-                name: 'ContainerJS',
-                displayName: Dali.i18n.t('ContainerJS.PluginName'),
-                category: 'text',
+
+                name: 'Container',
+                displayName: Ediphy.i18n.t('Container.PluginName'),
+                category: 'multimedia',
                 icon: 'view_agenda',
             };
         },

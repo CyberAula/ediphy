@@ -1,34 +1,34 @@
-import Dali from './editor/main';
+import Ediphy from './editor/main';
 
 export function api() {
     return {
         addMenuButtons: function(json) {
-            Dali.API_Private.emit(Dali.API_Private.events.addMenuButtons, json);
+            Ediphy.API_Private.emit(Ediphy.API_Private.events.addMenuButtons, json);
         },
         configModalNeedsUpdate: function() {
-            Dali.API_Private.emit(Dali.API_Private.events.configModalNeedsUpdate, {});
+            Ediphy.API_Private.emit(Ediphy.API_Private.events.configModalNeedsUpdate, {});
         },
         openConfig: function(name, reason) {
             let promise = new Promise(function(resolve) {
-                Dali.API_Private.listenAnswer(Dali.API_Private.events.openConfig, resolve);
+                Ediphy.API_Private.listenAnswer(Ediphy.API_Private.events.openConfig, resolve);
             });
-            Dali.API_Private.emit(Dali.API_Private.events.openConfig, { name: name, reason: reason });
+            Ediphy.API_Private.emit(Ediphy.API_Private.events.openConfig, { name: name, reason: reason });
             return promise;
         },
         editRichMark: function(box, mark, value) {
-            Dali.API_Private.emit(Dali.API_Private.events.editRichMark, { box: box, id: mark, value: value });
+            Ediphy.API_Private.emit(Ediphy.API_Private.events.editRichMark, { box: box, id: mark, value: value });
         },
         markTriggered: function(id, value, stateElement) {
-            Dali.API_Private.emit(Dali.API_Private.events.markTriggered, { id, value, stateElement });
+            Ediphy.API_Private.emit(Ediphy.API_Private.events.markTriggered, { id, value, stateElement });
         },
         changeView: function(id) {
-            Dali.API_Private.emit(Dali.API_Private.events.changeView, { id: id });
+            Ediphy.API_Private.emit(Ediphy.API_Private.events.changeView, { id: id });
         },
         renderPlugin: function(html, toolbar, config, state, ids, initialParams, reason) {
             if(!reason) {
                 console.warn("No reason given");
             }
-            Dali.API_Private.emit(Dali.API_Private.events.render, {
+            Ediphy.API_Private.emit(Ediphy.API_Private.events.render, {
                 content: html,
                 toolbar: toolbar,
                 config: config,

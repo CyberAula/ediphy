@@ -1,6 +1,6 @@
 //vars and mixins
 $material-font-path:  '../../../node_modules/material-design-icons-font/iconfont/';
-$dali_blue: #1fc8db;
+$ediphy_blue: #1fc8db;
 
 @mixin scale{
   -ms-transform: scale(1.1); /* IE 9 */
@@ -13,17 +13,17 @@ body, #root, #root > .container-fluid, #mainRow {
     height:100%;
 }
 a{
-  color: $dali_blue;
+  color: $ediphy_blue;
   &:hover, &:active, &:focus{
-    color: $dali_blue;
+    color: $ediphy_blue;
   }
 }
 
-.dali_blue {
+.ediphy_blue {
   color: #1fc8db;
 }
 code{
-  color: $dali_blue;
+  color: $ediphy_blue;
   background-color: #e9fafc;
 }
 
@@ -75,7 +75,7 @@ h5, .h5 {
     margin-top: 5px;
     border: 0;
     border-style: ridge;
-    border-top: 3px solid $dali_blue;
+    border-top: 3px solid $ediphy_blue;
     width: 90%;
   }
 }
