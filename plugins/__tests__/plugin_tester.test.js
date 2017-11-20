@@ -4,9 +4,10 @@ const plugins = getPluginProvider();
 
 function getPluginProvider() {
     let files = glob.sync("plugins/*/package.json");
+    console.log(files);
     let final_object = {};
     for(let packageit in files) {
-        let json = require("../" + files[packageit]);
+        let json = stub.returns(require.requireActual("../" + files[packageit]));
         let dependencies = json.dependencies;
         var config = json.config;
         if(dependencies) {
@@ -22,8 +23,8 @@ function getPluginProvider() {
     return final_object;
 }
 
-describe('test is well formed', (plugins)=>{
-    test('does_get_plugin', (whatever = plugins)=>{
-        expect(whatever).toBeDefined();
+describe('test is well formed', ()=>{
+    test('does_get_plugin', ()=>{
+        expect(plugins).toBeDefined();
     });
 });
