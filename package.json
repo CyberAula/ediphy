@@ -16,7 +16,7 @@
     "both": "npm run start-webpack & npm run watch-sass",
     "start-webpack": "webpack-dev-server --progress",
     "watch-sass": "node-sass -w sass/style.scss -o dist/css/compiledsass.css",
-    "test": "jest --colors",
+    "test": "jest --colors --watch",
     "testlong": "jest --colors --verbose || true",
     "eslint": "eslint . --fix  --ext .js,.jsx,.es6",
     "doc": "babel-node --presets es2015 doc/scripts/reactdocgenmd.js & node doc/scripts/importComponents.js & webpack --config doc/webpack.doc.prod.js & webpack --config webpack.noserver.js & node doc/scripts/bringtodist.js",
