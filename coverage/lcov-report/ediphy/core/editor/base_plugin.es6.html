@@ -1,0 +1,1205 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for ediphy/core/editor/base_plugin.es6</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../../prettify.css" />
+    <link rel="stylesheet" href="../../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../../index.html">All files</a> / <a href="index.html">ediphy/core/editor</a> base_plugin.es6
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0.53% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>1/189</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/130</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>0/27</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0.53% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>1/189</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338
+339
+340
+341
+342
+343
+344
+345
+346
+347
+348
+349
+350
+351
+352
+353
+354
+355
+356
+357
+358
+359
+360
+361
+362
+363
+364
+365
+366
+367
+368
+369
+370
+371
+372
+373
+374
+375
+376
+377
+378
+379
+380
+381</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import Ediphy from './main';
+import ReactDOM from 'react-dom';
+import { isSortableContainer } from '../../common/utils';
+let html2json = require('html2json').html2json;
+&nbsp;
+export default <span class="fstat-no" title="function not covered" >fu</span>nction() {
+    let descendant, state, id, initialParams = <span class="cstat-no" title="statement not covered" >{};</span>
+&nbsp;
+    let defaultFor = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >fu</span>nction(arg, value, warn) {</span>
+<span class="cstat-no" title="statement not covered" >        if (typeof arg !== 'undefined') {</span>
+<span class="cstat-no" title="statement not covered" >            return arg;</span>
+        }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        if (warn) {</span>
+<span class="cstat-no" title="statement not covered" >            console.warn(warn);</span>
+        }
+<span class="cstat-no" title="statement not covered" >        return value;</span>
+    };
+&nbsp;
+    let assignPluginContainerIds = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >fu</span>nction(json) {</span>
+<span class="cstat-no" title="statement not covered" >        if (json.child) {</span>
+<span class="cstat-no" title="statement not covered" >            for (let i = 0; i &lt; json.child.length; i++) {</span>
+<span class="cstat-no" title="statement not covered" >                assignPluginContainerIds(json.child[i]);</span>
+            }
+        }
+<span class="cstat-no" title="statement not covered" >        if (json.tag &amp;&amp; json.tag === "plugin") {</span>
+<span class="cstat-no" title="statement not covered" >            if (!state.__pluginContainerIds) {</span>
+<span class="cstat-no" title="statement not covered" >                state.__pluginContainerIds = {};</span>
+            }
+            let key = <span class="cstat-no" title="statement not covered" >json.attr['plugin-data-key'];</span>
+<span class="cstat-no" title="statement not covered" >            if (!key) {</span>
+<span class="cstat-no" title="statement not covered" >                console.error(json.tag + " has not defined plugin-data-key");</span>
+            } else <span class="cstat-no" title="statement not covered" >if (state.__pluginContainerIds[key]) {</span>
+<span class="cstat-no" title="statement not covered" >                json.attr['plugin-data-id'] = state.__pluginContainerIds[key].id;</span>
+<span class="cstat-no" title="statement not covered" >                json.attr['plugin-data-display-name'] = state.__pluginContainerIds[key].name;</span>
+<span class="cstat-no" title="statement not covered" >                json.attr['plugin-data-height'] = state.__pluginContainerIds[key].height;</span>
+            }
+        }
+    };
+&nbsp;
+    let plugin = <span class="cstat-no" title="statement not covered" >{</span>
+        create: <span class="fstat-no" title="function not covered" >fu</span>nction(obj) {
+<span class="cstat-no" title="statement not covered" >            descendant = obj;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            Object.keys(descendant).map(<span class="fstat-no" title="function not covered" >fu</span>nction(idKey) {</span>
+<span class="cstat-no" title="statement not covered" >                if (idKey !== 'init' &amp;&amp;</span>
+                idKey !== 'getConfig' &amp;&amp;
+                idKey !== 'getToolbar' &amp;&amp;
+                idKey !== 'getSections' &amp;&amp;
+                idKey !== 'getInitialState' &amp;&amp;
+                idKey !== 'handleToolbar' &amp;&amp;
+                idKey !== 'afterRender' &amp;&amp;
+                idKey !== 'getConfigTemplate' &amp;&amp;
+                idKey !== 'getRenderTemplate' &amp;&amp;
+                idKey !== 'editRichMark' &amp;&amp;
+                idKey !== 'getLocales') {
+<span class="cstat-no" title="statement not covered" >                    plugin[idKey] = descendant[idKey];</span>
+                }
+            });
+        },
+        init: <span class="fstat-no" title="function not covered" >fu</span>nction() {
+<span class="cstat-no" title="statement not covered" >            if (descendant.init) {</span>
+<span class="cstat-no" title="statement not covered" >                descendant.init();</span>
+            }
+        },
+        getLocales: <span class="fstat-no" title="function not covered" >fu</span>nction() {
+<span class="cstat-no" title="statement not covered" >            try {</span>
+                let currentLanguage = <span class="cstat-no" title="statement not covered" >Ediphy.i18n.language;</span>
+                let texts = <span class="cstat-no" title="statement not covered" >require('./../../plugins/' + this.getConfig().name + "/locales/" + currentLanguage);</span>
+<span class="cstat-no" title="statement not covered" >                Ediphy.i18n.addResourceBundle(currentLanguage, 'translation', texts, true, false);</span>
+            } catch (e) {
+            }
+        },
+        getConfig: <span class="fstat-no" title="function not covered" >fu</span>nction() {
+            let name, displayName, category, callback, needsConfigModal, needsConfirmation, needsTextEdition, extraTextConfig, needsPointerEventsAllowed,
+                needsXMLEdition, icon, iconFromUrl, aspectRatioButtonConfig, isRich, marksType, flavor, allowFloatingBox, limitToOneInstance;
+<span class="cstat-no" title="statement not covered" >            if (descendant.getConfig) {</span>
+                let cfg = <span class="cstat-no" title="statement not covered" >descendant.getConfig();</span>
+<span class="cstat-no" title="statement not covered" >                name = cfg.name;</span>
+<span class="cstat-no" title="statement not covered" >                displayName = cfg.displayName;</span>
+<span class="cstat-no" title="statement not covered" >                category = cfg.category;</span>
+<span class="cstat-no" title="statement not covered" >                icon = cfg.icon;</span>
+<span class="cstat-no" title="statement not covered" >                iconFromUrl = cfg.iconFromUrl;</span>
+<span class="cstat-no" title="statement not covered" >                isRich = cfg.isRich;</span>
+<span class="cstat-no" title="statement not covered" >                flavor = cfg.flavor;</span>
+<span class="cstat-no" title="statement not covered" >                marksType = cfg.marksType;</span>
+<span class="cstat-no" title="statement not covered" >                needsConfigModal = cfg.needsConfigModal;</span>
+<span class="cstat-no" title="statement not covered" >                needsConfirmation = cfg.needsConfirmation;</span>
+<span class="cstat-no" title="statement not covered" >                needsTextEdition = cfg.needsTextEdition;</span>
+<span class="cstat-no" title="statement not covered" >                extraTextConfig = cfg.extraTextConfig;</span>
+<span class="cstat-no" title="statement not covered" >                needsXMLEdition = cfg.needsXMLEdition;</span>
+<span class="cstat-no" title="statement not covered" >                allowFloatingBox = cfg.allowFloatingBox;</span>
+<span class="cstat-no" title="statement not covered" >                aspectRatioButtonConfig = cfg.aspectRatioButtonConfig;</span>
+<span class="cstat-no" title="statement not covered" >                needsPointerEventsAllowed = cfg.needsPointerEventsAllowed;</span>
+<span class="cstat-no" title="statement not covered" >                limitToOneInstance = cfg.limitToOneInstance;</span>
+            }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            name = defaultFor(name, 'PluginName', "Plugin name not assigned");</span>
+<span class="cstat-no" title="statement not covered" >            displayName = defaultFor(displayName, 'Plugin', "Plugin displayName not assigned");</span>
+<span class="cstat-no" title="statement not covered" >            category = defaultFor(category, 'text', "Plugin category not assigned");</span>
+<span class="cstat-no" title="statement not covered" >            icon = defaultFor(icon, 'fa-cogs', "Plugin icon not assigned");</span>
+<span class="cstat-no" title="statement not covered" >            iconFromUrl = defaultFor(iconFromUrl, false);</span>
+<span class="cstat-no" title="statement not covered" >            isRich = defaultFor(isRich, false);</span>
+<span class="cstat-no" title="statement not covered" >            marksType = defaultFor(marksType, [{ name: 'value', key: 'value' }]);</span>
+<span class="cstat-no" title="statement not covered" >            flavor = defaultFor(flavor, 'plain');</span>
+<span class="cstat-no" title="statement not covered" >            allowFloatingBox = defaultFor(allowFloatingBox, true);</span>
+<span class="cstat-no" title="statement not covered" >            needsConfigModal = defaultFor(needsConfigModal, false);</span>
+<span class="cstat-no" title="statement not covered" >            needsConfirmation = defaultFor(needsConfirmation, false);</span>
+<span class="cstat-no" title="statement not covered" >            needsTextEdition = defaultFor(needsTextEdition, false);</span>
+<span class="cstat-no" title="statement not covered" >            needsXMLEdition = defaultFor(needsXMLEdition, false);</span>
+<span class="cstat-no" title="statement not covered" >            needsPointerEventsAllowed = defaultFor(needsPointerEventsAllowed, false);</span>
+<span class="cstat-no" title="statement not covered" >            limitToOneInstance = defaultFor(limitToOneInstance, false);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            if (aspectRatioButtonConfig) {</span>
+<span class="cstat-no" title="statement not covered" >                aspectRatioButtonConfig.name = Ediphy.i18n.t("Aspect_ratio");</span>
+<span class="cstat-no" title="statement not covered" >                aspectRatioButtonConfig.location = defaultFor(aspectRatioButtonConfig.location, ["main", "z__extra"], "Aspect ratio button location not defined");</span>
+<span class="cstat-no" title="statement not covered" >                if (!Array.isArray(aspectRatioButtonConfig.location) || aspectRatioButtonConfig.location.length &lt; 2 || aspectRatioButtonConfig.location.length &gt; 3) {</span>
+<span class="cstat-no" title="statement not covered" >                    console.error("Aspect ratio button location malformed");</span>
+                }
+<span class="cstat-no" title="statement not covered" >                aspectRatioButtonConfig.defaultValue = defaultFor(aspectRatioButtonConfig.defaultValue, "unchecked");</span>
+            }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            callback = <span class="fstat-no" title="function not covered" >fu</span>nction(initParams, reason) {</span>
+<span class="cstat-no" title="statement not covered" >                state = {};</span>
+<span class="cstat-no" title="statement not covered" >                if (descendant.getInitialState) {</span>
+<span class="cstat-no" title="statement not covered" >                    state = descendant.getInitialState();</span>
+                }
+<span class="cstat-no" title="statement not covered" >                if (needsTextEdition) {</span>
+<span class="cstat-no" title="statement not covered" >                    if (!state.__text) {</span>
+<span class="cstat-no" title="statement not covered" >                        state.__text = "&lt;p&gt;" + Ediphy.i18n.t("text_here") + "&lt;/p&gt;";</span>
+                    }
+<span class="cstat-no" title="statement not covered" >                    if (!descendant.getRenderTemplate) {</span>
+<span class="cstat-no" title="statement not covered" >                        descendant.getRenderTemplate = <span class="fstat-no" title="function not covered" >fu</span>nction(stateObj) {</span>
+<span class="cstat-no" title="statement not covered" >                            return stateObj.__text;</span>
+                        };
+                    }
+                }
+<span class="cstat-no" title="statement not covered" >                if (needsXMLEdition) {</span>
+<span class="cstat-no" title="statement not covered" >                    if (!state.__xml) {</span>
+<span class="cstat-no" title="statement not covered" >                        state.__xml = null;</span>
+<span class="cstat-no" title="statement not covered" >                        state.__size = null;</span>
+                    }
+                }
+<span class="cstat-no" title="statement not covered" >                if(isRich) {</span>
+<span class="cstat-no" title="statement not covered" >                    if(!state.__marks) {</span>
+<span class="cstat-no" title="statement not covered" >                        state.__marks = {};</span>
+                    }
+                }
+<span class="cstat-no" title="statement not covered" >                initialParams = initParams;</span>
+<span class="cstat-no" title="statement not covered" >                if (initialParams &amp;&amp; Object.keys(initialParams).length !== 0) {</span>
+                    let floatingBox = <span class="cstat-no" title="statement not covered" >!isSortableContainer(initialParams.container);</span>
+<span class="cstat-no" title="statement not covered" >                    if (descendant.getConfig().initialWidth) {</span>
+<span class="cstat-no" title="statement not covered" >                        initialParams.width = floatingBox &amp;&amp; descendant.getConfig().initialWidthSlide ? descendant.getConfig().initialWidthSlide : descendant.getConfig().initialWidth;</span>
+                    }
+<span class="cstat-no" title="statement not covered" >                    if (descendant.getConfig().initialHeight) {</span>
+<span class="cstat-no" title="statement not covered" >                        initialParams.height = floatingBox &amp;&amp; descendant.getConfig().initialHeightSlide ? descendant.getConfig().initialHeightSlide : descendant.getConfig().initialHeight;</span>
+                    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >                    if (needsConfigModal) {</span>
+<span class="cstat-no" title="statement not covered" >                        this.openConfigModal(reason, state);</span>
+                    } else {
+<span class="cstat-no" title="statement not covered" >                        this.render(reason);</span>
+                    }
+                }
+            }.bind(this);
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            return {</span>
+                name: name,
+                displayName: displayName,
+                category: category,
+                callback: callback,
+                needsConfigModal: needsConfigModal,
+                needsConfirmation: needsConfirmation,
+                needsTextEdition: needsTextEdition,
+                extraTextConfig: extraTextConfig,
+                needsXMLEdition: needsXMLEdition,
+                aspectRatioButtonConfig: aspectRatioButtonConfig,
+                allowFloatingBox: allowFloatingBox,
+                icon: icon,
+                iconFromUrl: iconFromUrl,
+                isRich: isRich,
+                marksType: marksType,
+                flavor: flavor,
+                needsPointerEventsAllowed: needsPointerEventsAllowed,
+                limitToOneInstance: limitToOneInstance,
+            };
+        },
+        getRenderTemplate: <span class="fstat-no" title="function not covered" >fu</span>nction(render_state) {
+<span class="cstat-no" title="statement not covered" >            return descendant.getRenderTemplate(render_state);</span>
+        },
+        getToolbar: <span class="fstat-no" title="function not covered" >fu</span>nction() {
+            let toolbar;
+            // eslint-disable-next-line no-var
+            var buttonKey;
+<span class="cstat-no" title="statement not covered" >            if (descendant.getToolbar) {</span>
+<span class="cstat-no" title="statement not covered" >                toolbar = descendant.getToolbar();</span>
+            }
+<span class="cstat-no" title="statement not covered" >            toolbar = defaultFor(toolbar, {});</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            for (let tabKey in toolbar) {</span>
+<span class="cstat-no" title="statement not covered" >                toolbar[tabKey].__name = defaultFor(toolbar[tabKey].__name, tabKey);</span>
+                let accordions = <span class="cstat-no" title="statement not covered" >defaultFor(toolbar[tabKey].accordions, {}, "Property accordions in tab '" + tabKey + "' not found");</span>
+<span class="cstat-no" title="statement not covered" >                toolbar[tabKey].accordions = accordions;</span>
+<span class="cstat-no" title="statement not covered" >                for (let accordionKey in accordions) {</span>
+                    let button;
+<span class="cstat-no" title="statement not covered" >                    accordions[accordionKey].__name = defaultFor(accordions[accordionKey].__name, accordionKey, "Property __name in accordion '" + accordionKey + "' not found");</span>
+                    let buttons = <span class="cstat-no" title="statement not covered" >defaultFor(accordions[accordionKey].buttons, {}, "Property buttons in accordion '" + accordionKey + "' not found");</span>
+<span class="cstat-no" title="statement not covered" >                    accordions[accordionKey].buttons = buttons;</span>
+<span class="cstat-no" title="statement not covered" >                    for (buttonKey in buttons) {</span>
+<span class="cstat-no" title="statement not covered" >                        button = buttons[buttonKey];</span>
+<span class="cstat-no" title="statement not covered" >                        button.__name = defaultFor(button.__name, buttonKey, "Property __name in button '" + buttonKey + "' not found");</span>
+<span class="cstat-no" title="statement not covered" >                        button.autoManaged = defaultFor(button.autoManaged, true);</span>
+<span class="cstat-no" title="statement not covered" >                        if(button.type === "radio" || button.type === "select") {</span>
+<span class="cstat-no" title="statement not covered" >                            button.options = defaultFor(button.options, []);</span>
+                        }
+<span class="cstat-no" title="statement not covered" >                        if (!button.callback &amp;&amp; !button.autoManaged) {</span>
+<span class="cstat-no" title="statement not covered" >                            button.callback = this.update.bind(this);</span>
+                        }
+                    }
+<span class="cstat-no" title="statement not covered" >                    if (accordions[accordionKey].accordions || accordions[accordionKey].order) {</span>
+                        let accordions2 = <span class="cstat-no" title="statement not covered" >defaultFor(accordions[accordionKey].accordions, {}, "Property accordions in accordion '" + accordionKey + "' not found");</span>
+<span class="cstat-no" title="statement not covered" >                        accordions[accordionKey].accordions = accordions2;</span>
+<span class="cstat-no" title="statement not covered" >                        accordions[accordionKey].order = defaultFor(accordions[accordionKey].order, [], "Property order in accordion '" + accordionKey + "' not found");</span>
+<span class="cstat-no" title="statement not covered" >                        if (accordions[accordionKey].order.length !== (Object.keys(buttons).length + Object.keys(accordions2).length)) {</span>
+<span class="cstat-no" title="statement not covered" >                            console.warn("Accordion '%s' in tab '%s' malformed. Order property length differs from expected", accordionKey, tabKey);</span>
+                        }
+<span class="cstat-no" title="statement not covered" >                        for (let accordionKey2 in accordions2) {</span>
+<span class="cstat-no" title="statement not covered" >                            accordions2[accordionKey2].__name = defaultFor(accordions2[accordionKey2].__name, accordionKey2, "Property __name in accordion '" + accordionKey2 + "' not found");</span>
+<span class="cstat-no" title="statement not covered" >                            buttons = defaultFor(accordions2[accordionKey2].buttons, {}, "Property buttons in accordion '" + accordionKey2 + "' not found");</span>
+<span class="cstat-no" title="statement not covered" >                            accordions2[accordionKey2].buttons = buttons;</span>
+<span class="cstat-no" title="statement not covered" >                            for (buttonKey in buttons) {</span>
+<span class="cstat-no" title="statement not covered" >                                button = buttons[buttonKey];</span>
+<span class="cstat-no" title="statement not covered" >                                button.__name = defaultFor(button.__name, buttonKey, "Property __name in button '" + buttonKey + "' not found");</span>
+<span class="cstat-no" title="statement not covered" >                                button.autoManaged = defaultFor(button.autoManaged, true);</span>
+<span class="cstat-no" title="statement not covered" >                                if(button.type === "radio" || button.type === "select") {</span>
+<span class="cstat-no" title="statement not covered" >                                    button.options = defaultFor(button.options, []);</span>
+                                }
+<span class="cstat-no" title="statement not covered" >                                if (!button.callback &amp;&amp; !button.autoManaged) {</span>
+<span class="cstat-no" title="statement not covered" >                                    button.callback = this.update.bind(this);</span>
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+<span class="cstat-no" title="statement not covered" >            return toolbar;</span>
+        },
+        openConfigModal: <span class="fstat-no" title="function not covered" >fu</span>nction(reason, oldState, sender) {
+<span class="cstat-no" title="statement not covered" >            state = oldState;</span>
+<span class="cstat-no" title="statement not covered" >            id = sender;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            if (!descendant.getConfigTemplate) {</span>
+<span class="cstat-no" title="statement not covered" >                if (this.getConfig().needsConfigModal) {</span>
+<span class="cstat-no" title="statement not covered" >                    console.error(this.getConfig().name + " has not defined getConfigTemplate method");</span>
+                }
+            } else {
+<span class="cstat-no" title="statement not covered" >                Ediphy.API.openConfig(this.getConfig().name, reason).then(<span class="fstat-no" title="function not covered" >fu</span>nction(div) {</span>
+<span class="cstat-no" title="statement not covered" >                    if(this.getConfig().flavor !== 'react') {</span>
+                        let template = <span class="cstat-no" title="statement not covered" >descendant.getConfigTemplate(oldState, div);</span>
+<span class="cstat-no" title="statement not covered" >                        if(template) {</span>
+<span class="cstat-no" title="statement not covered" >                            div.innerHTML = descendant.getConfigTemplate(oldState).replace(/[$]ediphy[$]/g, "Ediphy.Plugins.get('" + this.getConfig().name + "')");</span>
+                        }
+                    } else {
+<span class="cstat-no" title="statement not covered" >                        ReactDOM.render(descendant.getConfigTemplate(oldState), div);</span>
+                    }
+                }.bind(this));
+            }
+        },
+        configModalNeedsUpdate: <span class="fstat-no" title="function not covered" >fu</span>nction() {
+<span class="cstat-no" title="statement not covered" >            Ediphy.API.configModalNeedsUpdate();</span>
+        },
+        getRichMarkInput: <span class="fstat-no" title="function not covered" >fu</span>nction(setMark) {
+<span class="cstat-no" title="statement not covered" >            if(descendant.getRichMarkInput) {</span>
+<span class="cstat-no" title="statement not covered" >                descendant.getRichMarkInput(state, setMark);</span>
+            }
+<span class="cstat-no" title="statement not covered" >            return undefined;</span>
+        },
+        parseRichMarkInput: <span class="fstat-no" title="function not covered" >fu</span>nction(...values) {
+<span class="cstat-no" title="statement not covered" >            if(descendant.parseRichMarkInput) {</span>
+<span class="cstat-no" title="statement not covered" >                return descendant.parseRichMarkInput(...values);</span>
+            }
+<span class="cstat-no" title="statement not covered" >            return undefined;</span>
+        },
+        pointerEventsCallback: <span class="fstat-no" title="function not covered" >fu</span>nction(bool, toolbarState) {
+<span class="cstat-no" title="statement not covered" >            if(descendant.pointerEventsCallback) {</span>
+<span class="cstat-no" title="statement not covered" >                return descendant.pointerEventsCallback(bool, toolbarState);</span>
+            }
+<span class="cstat-no" title="statement not covered" >            return undefined;</span>
+        },
+        /* Esta función es para poder comprobar si los valores introducidos por el usuario al crear marcas son correctos*/
+        validateValueInput: <span class="fstat-no" title="function not covered" >fu</span>nction(value) {
+<span class="cstat-no" title="statement not covered" >            if(descendant.validateValueInput) {</span>
+<span class="cstat-no" title="statement not covered" >                return descendant.validateValueInput(value);</span>
+            }
+<span class="cstat-no" title="statement not covered" >            return undefined;</span>
+        },
+        postParseRichMarkInput(mark_id, value) {
+<span class="cstat-no" title="statement not covered" >            Ediphy.API.editRichMark(mark_id, value);</span>
+        },
+        forceUpdate: <span class="fstat-no" title="function not covered" >fu</span>nction(oldState, sender, reason) {
+<span class="cstat-no" title="statement not covered" >            state = oldState;</span>
+<span class="cstat-no" title="statement not covered" >            id = sender ? sender : id;</span>
+<span class="cstat-no" title="statement not covered" >            this.render(reason);</span>
+        },
+        render: <span class="fstat-no" title="function not covered" >fu</span>nction(reason) {
+            // Posible reasons:
+            // ADD_BOX,
+            // ADD_RICH_MARK,
+            // EDIT_RICH_MARK,
+            // DELETE_RICH_MARK,
+            // UPDATE_TOOLBAR,
+            // UPDATE_BOX,
+            // RESIZE_SORTABLE_CONTAINER,
+            // EDIT_PLUGIN_TEXT,
+            // UPDATE_NAV_ITEM_EXTRA_FILES
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            if (!descendant.getRenderTemplate) {</span>
+<span class="cstat-no" title="statement not covered" >                console.error(this.getConfig().name + " has not defined getRenderTemplate method");</span>
+            } else {
+&nbsp;
+                let template = <span class="cstat-no" title="statement not covered" >descendant.getRenderTemplate(state);</span>
+<span class="cstat-no" title="statement not covered" >                if(template !== null &amp;&amp; this.getConfig().flavor !== "react") {</span>
+<span class="cstat-no" title="statement not covered" >                    template = html2json(template);</span>
+<span class="cstat-no" title="statement not covered" >                    assignPluginContainerIds(template);</span>
+                } else{
+<span class="cstat-no" title="statement not covered" >                    template = '';</span>
+                }
+<span class="cstat-no" title="statement not covered" >                if (template !== null) {</span>
+<span class="cstat-no" title="statement not covered" >                    Ediphy.API.renderPlugin(</span>
+                        template,
+                        this.getToolbar(),
+                        this.getConfig(),
+                        state,
+                        {
+                            id: id,
+                            parent: initialParams.parent,
+                            container: initialParams.container,
+                        },
+                        {
+                            position: initialParams.position,
+                            row: initialParams.row,
+                            col: initialParams.col,
+                            width: initialParams.width,
+                            height: initialParams.height,
+                            isDefaultPlugin: defaultFor(initialParams.isDefaultPlugin, false),
+                        },
+                        reason
+                    );
+                }
+            }
+        },
+        editRichMark: <span class="fstat-no" title="function not covered" >fu</span>nction(boxId, mark, value) {
+<span class="cstat-no" title="statement not covered" >            Ediphy.API.editRichMark(boxId, mark, value);</span>
+        },
+        afterRender: <span class="fstat-no" title="function not covered" >fu</span>nction(element, oldState) {
+<span class="cstat-no" title="statement not covered" >            state = oldState;</span>
+<span class="cstat-no" title="statement not covered" >            if (descendant.afterRender) {</span>
+<span class="cstat-no" title="statement not covered" >                descendant.afterRender(element, oldState);</span>
+            }
+        },
+        update: <span class="fstat-no" title="function not covered" >fu</span>nction(oldState, name, value, sender, reason) {
+<span class="cstat-no" title="statement not covered" >            state = oldState;</span>
+<span class="cstat-no" title="statement not covered" >            id = sender || id;</span>
+<span class="cstat-no" title="statement not covered" >            if (descendant.handleToolbar) {</span>
+<span class="cstat-no" title="statement not covered" >                descendant.handleToolbar(name, value);</span>
+            }
+<span class="cstat-no" title="statement not covered" >            this.render(reason);</span>
+        },
+        setState: <span class="fstat-no" title="function not covered" >fu</span>nction(key, value) {
+<span class="cstat-no" title="statement not covered" >            state[key] = value;</span>
+        },
+        getState: <span class="fstat-no" title="function not covered" >fu</span>nction() {
+<span class="cstat-no" title="statement not covered" >            return state;</span>
+        },
+        registerExtraFunction: <span class="fstat-no" title="function not covered" >fu</span>nction() {
+        },
+    };
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    return plugin;</span>
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Mon Nov 20 2017 10:30:38 GMT+0100 (CET)
+</div>
+</div>
+<script src="../../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../../sorter.js"></script>
+</body>
+</html>

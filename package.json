@@ -17,14 +17,14 @@
     "start-webpack": "webpack-dev-server --progress",
     "watch-sass": "node-sass -w sass/style.scss -o dist/css/compiledsass.css",
     "test": "jest --colors",
+    "testlong": "jest --colors --verbose || true",
     "eslint": "eslint . --fix  --ext .js,.jsx,.es6",
     "doc": "babel-node --presets es2015 doc/scripts/reactdocgenmd.js & node doc/scripts/importComponents.js & webpack --config doc/webpack.doc.prod.js & webpack --config webpack.noserver.js & node doc/scripts/bringtodist.js",
     "dev-doc": "babel-node --presets es2015  doc/scripts/reactdocgenmd.js & node doc/scripts/importComponents.js &  webpack --config webpack.noserver.js & node doc/scripts/bringtodist.js & webpack-dev-server --open --progress --colors --config doc/webpack.doc.dev.js",
     "dev-only-doc": "webpack-dev-server --open --progress --colors --config doc/webpack.doc.dev.js",
-
     "add-all": "git add .",
     "postinstall": "node ./plugin_install"
-   },
+  },
   "pre-commit": [
     "eslint",
     "add-all"
@@ -44,7 +44,12 @@
     "moduleNameMapper": {
       "\\.(ejs)$": "<rootDir>/core/api.es6"
     },
-    "setupFiles": ["<rootDir>/shim.js"],
+    "setupFiles": [
+      "<rootDir>/shim.js"
+    ],
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ],
     "testMatch": [
       "**/?(*.)(test|spec).js"
     ]
@@ -62,6 +67,9 @@
     "bootstrap-sass": "^3.3.7",
     "css-loader": "^0.28.7",
     "ejs-compiled-loader": "^1.1.0",
+    "enzyme": "^3.2.0",
+    "enzyme-adapter-react-16": "^1.1.0",
+    "enzyme-to-json": "^3.2.2",
     "esdoc": "^1.0.4",
     "esdoc-ecmascript-proposal-plugin": "^1.0.0",
     "esdoc-jsx-plugin": "^1.0.0",

@@ -1,0 +1,1268 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for ediphy/reducers/boxes_by_id.es6</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../index.html">All files</a> / <a href="index.html">ediphy/reducers</a> boxes_by_id.es6
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">1.41% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>2/142</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">1.54% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>2/130</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">7.69% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>1/13</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">1.42% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>2/141</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338
+339
+340
+341
+342
+343
+344
+345
+346
+347
+348
+349
+350
+351
+352
+353
+354
+355
+356
+357
+358
+359
+360
+361
+362
+363
+364
+365
+366
+367
+368
+369
+370
+371
+372
+373
+374
+375
+376
+377
+378
+379
+380
+381
+382
+383
+384
+385
+386
+387
+388
+389
+390
+391
+392
+393
+394
+395
+396
+397
+398
+399
+400
+401
+402</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import Utils, { changeProp, changeProps, deleteProp, deleteProps, isSortableBox, isContainedView, isSortableContainer } from '../common/utils';
+import { ADD_BOX, MOVE_BOX, DUPLICATE_BOX, UPDATE_BOX, DELETE_BOX, REORDER_SORTABLE_CONTAINER, DROP_BOX, ADD_RICH_MARK,
+    RESIZE_SORTABLE_CONTAINER, DELETE_SORTABLE_CONTAINER, CHANGE_COLS, CHANGE_ROWS, CHANGE_SORTABLE_PROPS, REORDER_BOXES,
+    DELETE_NAV_ITEM, DELETE_CONTAINED_VIEW, IMPORT_STATE } from '../common/actions';
+import { ID_PREFIX_BOX } from '../common/constants';
+&nbsp;
+function <span class="fstat-no" title="function not covered" >boxCreator(</span>state, action) {
+    let position;
+    let level = <span class="cstat-no" title="statement not covered" >0;</span>
+<span class="cstat-no" title="statement not covered" >    if (state[action.payload.ids.parent] &amp;&amp; !isContainedView(action.payload.ids.container)) {</span>
+<span class="cstat-no" title="statement not covered" >        level = state[action.payload.ids.parent].level + 1;</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if (isSortableBox(action.payload.ids.id)) {</span>
+<span class="cstat-no" title="statement not covered" >        position = { x: 0, y: 0, type: 'relative' };</span>
+<span class="cstat-no" title="statement not covered" >        level = -1;</span>
+    } else {
+<span class="cstat-no" title="statement not covered" >        position = {</span>
+            x: 0,
+            y: 0,
+            type: 'absolute',
+        };
+    }
+<span class="cstat-no" title="statement not covered" >    if (isSortableContainer(action.payload.ids.container)) {</span>
+<span class="cstat-no" title="statement not covered" >        position = {</span>
+            x: 0,
+            y: 0,
+            type: 'relative',
+        };
+    }
+    let col = <span class="cstat-no" title="statement not covered" >0;</span>
+    let row = <span class="cstat-no" title="statement not covered" >0;</span>
+<span class="cstat-no" title="statement not covered" >    if (action.payload.initialParams) {</span>
+<span class="cstat-no" title="statement not covered" >        if (action.payload.initialParams.position) {</span>
+<span class="cstat-no" title="statement not covered" >            position = action.payload.initialParams.position;</span>
+        }
+<span class="cstat-no" title="statement not covered" >        if (action.payload.initialParams.col) {</span>
+<span class="cstat-no" title="statement not covered" >            col = action.payload.initialParams.col;</span>
+        }
+<span class="cstat-no" title="statement not covered" >        if (action.payload.initialParams.row) {</span>
+<span class="cstat-no" title="statement not covered" >            row = action.payload.initialParams.row;</span>
+        }
+<span class="cstat-no" title="statement not covered" >        if (action.payload.initialParams.width) {</span>
+            // width = action.payload.initialParams.width;
+        }
+    }
+&nbsp;
+    // sortableContainers for boxes inside this box (this is not EditorBoxSortable)
+    let children = <span class="cstat-no" title="statement not covered" >[];</span>
+    let sortableContainers = <span class="cstat-no" title="statement not covered" >{};</span>
+<span class="cstat-no" title="statement not covered" >    if (action.payload.state) {</span>
+        let pluginContainers = <span class="cstat-no" title="statement not covered" >action.payload.state.__pluginContainerIds;</span>
+<span class="cstat-no" title="statement not covered" >        if (pluginContainers) {</span>
+<span class="cstat-no" title="statement not covered" >            for (let key in pluginContainers) {</span>
+<span class="cstat-no" title="statement not covered" >                children.push(pluginContainers[key].id);</span>
+<span class="cstat-no" title="statement not covered" >                sortableContainers[pluginContainers[key].id] = sortableContainerCreator(key, [], pluginContainers[key].height);</span>
+            }
+        }
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    return {</span>
+        id: action.payload.ids.id,
+        parent: action.payload.ids.parent,
+        container: action.payload.ids.container,
+        level: level,
+        col: col,
+        row: row,
+        position: position,
+        // width: width,
+        // height: height,
+        content: action.payload.content,
+        draggable: action.payload.draggable,
+        resizable: action.payload.resizable,
+        showTextEditor: false,
+        fragment: {},
+        children: children,
+        sortableContainers: sortableContainers,
+        containedViews: [],
+    };
+}
+&nbsp;
+function <span class="fstat-no" title="function not covered" >sortableContainerCreator(</span>key = <span class="branch-0 cbranch-no" title="branch not covered" >"",</span> children = <span class="branch-0 cbranch-no" title="branch not covered" >[],</span> height = <span class="branch-0 cbranch-no" title="branch not covered" >"auto")</span> {
+<span class="cstat-no" title="statement not covered" >    return {</span>
+        children: children,
+        style: {
+            padding: '0px',
+            borderColor: '#ffffff',
+            borderWidth: '0px',
+            borderStyle: 'solid',
+            opacity: '1',
+            textAlign: 'center',
+            className: '',
+        },
+        height: height,
+        key: key,
+        colDistribution: [100],
+        cols: [
+            [100],
+        ],
+    };
+}
+&nbsp;
+function <span class="fstat-no" title="function not covered" >boxReducer(</span>state = <span class="branch-0 cbranch-no" title="branch not covered" >{},</span> action = <span class="branch-0 cbranch-no" title="branch not covered" >{})</span> {
+<span class="cstat-no" title="statement not covered" >    switch (action.type) {</span>
+    case ADD_BOX:
+<span class="cstat-no" title="statement not covered" >        return changeProps(</span>
+            state,
+            [
+                "children",
+                "sortableContainers",
+            ], [
+                (state.children.indexOf(action.payload.ids.container) !== -1) ? // if parent box contains container indicated
+                state.children : // nothing changes
+                    [...state.children, action.payload.ids.container], // adds container to children
+                sortableContainersReducer(state.sortableContainers, action),
+            ]
+        );
+    case ADD_RICH_MARK:
+<span class="cstat-no" title="statement not covered" >        return changeProp(state, "containedViews", [...state.containedViews, action.payload.mark.connection.id || action.payload.mark.connection]);</span>
+    case CHANGE_COLS:
+<span class="cstat-no" title="statement not covered" >        if (action.payload.parent === state.id) {</span>
+<span class="cstat-no" title="statement not covered" >            return changeProp(state, "sortableContainers", sortableContainersReducer(state.sortableContainers, action));</span>
+        }
+<span class="cstat-no" title="statement not covered" >        return changeProps(</span>
+            state,
+            [
+                "col",
+                "row",
+            ], [
+                state.col &gt;= action.payload.distribution.length ? action.payload.distribution.length - 1 : state.col,
+                state.col &gt;= action.payload.distribution.length ? 0 : state.row,
+            ]
+        );
+    case CHANGE_SORTABLE_PROPS:
+<span class="cstat-no" title="statement not covered" >        return changeProp(state, "sortableContainers", sortableContainersReducer(state.sortableContainers, action));</span>
+    case CHANGE_ROWS:
+<span class="cstat-no" title="statement not covered" >        if (action.payload.parent === state.id) {</span>
+<span class="cstat-no" title="statement not covered" >            return changeProp(state, "sortableContainers", sortableContainersReducer(state.sortableContainers, action));</span>
+        }
+<span class="cstat-no" title="statement not covered" >        return changeProp(</span>
+            state,
+            "row",
+            state.row &gt;= action.payload.distribution.length ?
+                action.payload.distribution.length - 1 :
+                state.row
+        );
+    case DELETE_BOX:
+<span class="cstat-no" title="statement not covered" >        return changeProp(state, "sortableContainers", sortableContainersReducer(state.sortableContainers, action));</span>
+    case DELETE_SORTABLE_CONTAINER:
+<span class="cstat-no" title="statement not covered" >        return changeProps(</span>
+            state,
+            [
+                "children",
+                "sortableContainers",
+            ], [
+                state.children.filter(<span class="fstat-no" title="function not covered" >id</span> =&gt; <span class="cstat-no" title="statement not covered" >id !== action.payload.id)</span>,
+                sortableContainersReducer(state.sortableContainers, action),
+            ]
+        );
+    case DROP_BOX:
+<span class="cstat-no" title="statement not covered" >        return changeProps(</span>
+            state,
+            [
+                "row",
+                "col",
+            ], [
+                action.payload.row,
+                action.payload.col,
+            ]
+        );
+    case MOVE_BOX:
+<span class="cstat-no" title="statement not covered" >        return changeProp(state, "position",</span>
+            {
+                x: action.payload.x,
+                y: action.payload.y,
+                type: action.payload.position,
+            }
+        );
+    case REORDER_SORTABLE_CONTAINER:
+<span class="cstat-no" title="statement not covered" >        return changeProp(state, "children", action.payload.ids);</span>
+    case REORDER_BOXES:
+<span class="cstat-no" title="statement not covered" >        return changeProp(state, "sortableContainers", sortableContainersReducer(state.sortableContainers, action));</span>
+    case RESIZE_SORTABLE_CONTAINER:
+<span class="cstat-no" title="statement not covered" >        return changeProp(state, "sortableContainers", sortableContainersReducer(state.sortableContainers, action));</span>
+    case UPDATE_BOX:
+        // sortableContainers for boxes inside this box (this is not EditorBoxSortable)
+        let sortableContainers = <span class="cstat-no" title="statement not covered" >{};</span>
+        let children = <span class="cstat-no" title="statement not covered" >[];</span>
+<span class="cstat-no" title="statement not covered" >        if (action.payload.state.__pluginContainerIds) {</span>
+<span class="cstat-no" title="statement not covered" >            for (let containerKey in action.payload.state.__pluginContainerIds) {</span>
+                let container = <span class="cstat-no" title="statement not covered" >action.payload.state.__pluginContainerIds[containerKey];</span>
+                // if not found -&gt; create new one; otherwise copy existing
+<span class="cstat-no" title="statement not covered" >                if (!state.sortableContainers[container.id]) {</span>
+<span class="cstat-no" title="statement not covered" >                    sortableContainers[container.id] = sortableContainerCreator(containerKey, [], container.height);</span>
+                } else {
+<span class="cstat-no" title="statement not covered" >                    sortableContainers[container.id] = Utils.deepClone(state.sortableContainers[container.id]);</span>
+                }
+<span class="cstat-no" title="statement not covered" >                children.push(container.id);</span>
+            }
+        }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        return changeProps(</span>
+            state,
+            [
+                "content",
+                "children",
+                "sortableContainers",
+            ], [
+                action.payload.content,
+                children,
+                sortableContainers,
+            ]
+        );
+    default:
+<span class="cstat-no" title="statement not covered" >        return state;</span>
+    }
+}
+&nbsp;
+function <span class="fstat-no" title="function not covered" >singleSortableContainerReducer(</span>state = <span class="branch-0 cbranch-no" title="branch not covered" >{},</span> action = <span class="branch-0 cbranch-no" title="branch not covered" >{})</span> {
+<span class="cstat-no" title="statement not covered" >    switch (action.type) {</span>
+    case ADD_BOX:
+<span class="cstat-no" title="statement not covered" >        return changeProp(state, "children", [...state.children, action.payload.ids.id]);</span>
+    case CHANGE_COLS:
+        let cols = <span class="cstat-no" title="statement not covered" >state.cols;</span>
+        let distributionLength = <span class="cstat-no" title="statement not covered" >action.payload.distribution.length;</span>
+<span class="cstat-no" title="statement not covered" >        if (distributionLength &lt; cols.length) {</span>
+<span class="cstat-no" title="statement not covered" >            cols = cols.slice(0, distributionLength);</span>
+        }
+        let reduced = <span class="cstat-no" title="statement not covered" >action.payload.distribution.reduce(<span class="fstat-no" title="function not covered" >fu</span>nction(prev, curr) {</span>
+<span class="cstat-no" title="statement not covered" >            return prev + curr;</span>
+        });
+<span class="cstat-no" title="statement not covered" >        if (reduced &gt; 99 || reduced &lt;= 101) {</span>
+<span class="cstat-no" title="statement not covered" >            if (distributionLength &gt; cols.length) {</span>
+                let difference = <span class="cstat-no" title="statement not covered" >distributionLength - cols.length;</span>
+<span class="cstat-no" title="statement not covered" >                for (let i = 0; i &lt; difference; i++) {</span>
+<span class="cstat-no" title="statement not covered" >                    cols.push([100]);</span>
+                }
+            }
+        }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        return changeProps(</span>
+            state,
+            [
+                "colDistribution",
+                "cols",
+            ], [
+                action.payload.distribution,
+                cols,
+            ]
+        );
+    case CHANGE_ROWS:
+        let newCols = <span class="cstat-no" title="statement not covered" >state.cols.slice();</span>
+<span class="cstat-no" title="statement not covered" >        newCols[action.payload.column] = action.payload.distribution;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        return changeProp(state, "cols", newCols);</span>
+    case CHANGE_SORTABLE_PROPS:
+<span class="cstat-no" title="statement not covered" >        return changeProp(state, "style", changeProp(state.style, action.payload.prop, action.payload.value));</span>
+    case DELETE_BOX:
+<span class="cstat-no" title="statement not covered" >        return changeProp(state, "children", state.children.filter(<span class="fstat-no" title="function not covered" >id</span> =&gt; <span class="cstat-no" title="statement not covered" >id !== action.payload.id)</span>);</span>
+    case REORDER_BOXES:
+<span class="cstat-no" title="statement not covered" >        return changeProp(state, "children", action.payload.order);</span>
+    case RESIZE_SORTABLE_CONTAINER:
+<span class="cstat-no" title="statement not covered" >        return changeProp(state, "height", action.payload.height);</span>
+    default:
+<span class="cstat-no" title="statement not covered" >        return state;</span>
+    }
+}
+&nbsp;
+function <span class="fstat-no" title="function not covered" >sortableContainersReducer(</span>state = <span class="branch-0 cbranch-no" title="branch not covered" >{},</span> action = <span class="branch-0 cbranch-no" title="branch not covered" >{})</span> {
+<span class="cstat-no" title="statement not covered" >    switch (action.type) {</span>
+    case ADD_BOX:
+<span class="cstat-no" title="statement not covered" >        return changeProp(</span>
+            state,
+            action.payload.ids.container,
+            state[action.payload.ids.container] ?
+                singleSortableContainerReducer(state[action.payload.ids.container], action) :
+                sortableContainerCreator("", [action.payload.ids.id])
+        );
+    case CHANGE_COLS:
+<span class="cstat-no" title="statement not covered" >        return changeProp(state, action.payload.id, singleSortableContainerReducer(state[action.payload.id], action));</span>
+    case CHANGE_ROWS:
+<span class="cstat-no" title="statement not covered" >        return changeProp(state, action.payload.id, singleSortableContainerReducer(state[action.payload.id], action));</span>
+    case CHANGE_SORTABLE_PROPS:
+<span class="cstat-no" title="statement not covered" >        return changeProp(state, action.payload.id, singleSortableContainerReducer(state[action.payload.id], action));</span>
+    case DELETE_BOX:
+<span class="cstat-no" title="statement not covered" >        return changeProp(state, action.payload.container, singleSortableContainerReducer(state[action.payload.container], action));</span>
+    case DELETE_SORTABLE_CONTAINER:
+<span class="cstat-no" title="statement not covered" >        return deleteProp(state, action.payload.id);</span>
+    case REORDER_BOXES:
+<span class="cstat-no" title="statement not covered" >        return changeProp(state, action.payload.container, singleSortableContainerReducer(state[action.payload.container], action));</span>
+    case RESIZE_SORTABLE_CONTAINER:
+<span class="cstat-no" title="statement not covered" >        return changeProp(state, action.payload.id, singleSortableContainerReducer(state[action.payload.id], action));</span>
+    default:
+<span class="cstat-no" title="statement not covered" >        return state;</span>
+    }
+}
+&nbsp;
+export default function(state = {}, action = <span class="branch-0 cbranch-no" title="branch not covered" >{})</span> {
+    let newState;
+    let temp;
+    switch (action.type) {
+<span class="branch-0 cbranch-no" title="branch not covered" >    case ADD_BOX:</span>
+        // if box is contained in sortableContainer, add it as well to its children
+<span class="cstat-no" title="statement not covered" >        if (isSortableContainer(action.payload.ids.container)) {</span>
+<span class="cstat-no" title="statement not covered" >            return changeProps(</span>
+                state,
+                [
+                    action.payload.ids.id,
+                    action.payload.ids.parent,
+                ], [
+                    boxCreator(state, action),
+                    boxReducer(state[action.payload.ids.parent], action),
+                ]
+            );
+        }
+<span class="cstat-no" title="statement not covered" >        return changeProp(state, action.payload.ids.id, boxCreator(state, action));</span>
+<span class="branch-1 cbranch-no" title="branch not covered" >    case MOVE_BOX:</span>
+<span class="cstat-no" title="statement not covered" >        return changeProp(state, action.payload.id, boxReducer(state[action.payload.id], action));</span>
+<span class="branch-2 cbranch-no" title="branch not covered" >    case DUPLICATE_BOX:</span>
+        // TODO
+<span class="cstat-no" title="statement not covered" >        newState = Object.assign({}, state);</span>
+        let replaced = <span class="cstat-no" title="statement not covered" >Object.assign({}, state);</span>
+        let newIds = <span class="cstat-no" title="statement not covered" >action.payload.newIds;</span>
+        let newId = <span class="cstat-no" title="statement not covered" >ID_PREFIX_BOX + action.payload.newId;</span>
+        // let count = 0;
+<span class="cstat-no" title="statement not covered" >        Object.keys(newIds).map(<span class="fstat-no" title="function not covered" >bo</span>x =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >            replaced = Object.replaceAll(replaced, box, newIds[box]);</span>
+        });
+<span class="cstat-no" title="statement not covered" >        replaced = Object.replaceAll(replaced, action.payload.id.substr(3), action.payload.newId);/</span>/ split -
+        let defState = <span class="cstat-no" title="statement not covered" >Object.assign({}, newState, replaced);</span>
+<span class="cstat-no" title="statement not covered" >        if (action.payload.container !== 0) {</span>
+<span class="cstat-no" title="statement not covered" >            replaced[action.payload.parent].sortableContainers[action.payload.container].children.push(action.payload.id);</span>
+        }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        return Object.assign({}, defState, {</span>
+            [newId]: Object.assign({}, defState[newId], { position: { x: 0, y: 0, position: 'absolute' } }),
+        });
+<span class="branch-3 cbranch-no" title="branch not covered" >    case RESIZE_SORTABLE_CONTAINER:</span>
+<span class="cstat-no" title="statement not covered" >        return changeProp(state, action.payload.parent, boxReducer(state[action.payload.parent], action));</span>
+<span class="branch-4 cbranch-no" title="branch not covered" >    case UPDATE_BOX:</span>
+<span class="cstat-no" title="statement not covered" >        return changeProp(state, action.payload.id, boxReducer(state[action.payload.id], action));</span>
+<span class="branch-5 cbranch-no" title="branch not covered" >    case ADD_RICH_MARK:</span>
+        // If rich mark is connected to a new contained view, mark.connection will include this information;
+        // otherwise, it's just the id/url and we're not interested
+<span class="cstat-no" title="statement not covered" >        if (action.payload.mark.connection.id || isContainedView(action.payload.mark.connection)) {</span>
+<span class="cstat-no" title="statement not covered" >            return changeProp(state, action.payload.parent, boxReducer(state[action.payload.parent], action));</span>
+        }
+<span class="cstat-no" title="statement not covered" >        return state;</span>
+<span class="branch-6 cbranch-no" title="branch not covered" >    case REORDER_BOXES:</span>
+<span class="cstat-no" title="statement not covered" >        return changeProp(state, action.payload.parent, boxReducer(state[action.payload.parent], action));</span>
+<span class="branch-7 cbranch-no" title="branch not covered" >    case CHANGE_SORTABLE_PROPS:</span>
+<span class="cstat-no" title="statement not covered" >        return changeProp(state, action.payload.parent, boxReducer(state[action.payload.parent], action));</span>
+<span class="branch-8 cbranch-no" title="branch not covered" >    case DROP_BOX:</span>
+<span class="cstat-no" title="statement not covered" >        return changeProp(state, action.payload.id, boxReducer(state[action.payload.id], action));</span>
+<span class="branch-9 cbranch-no" title="branch not covered" >    case CHANGE_COLS:</span>
+<span class="cstat-no" title="statement not covered" >        newState = changeProp(state, action.payload.parent, boxReducer(state[action.payload.parent], action));</span>
+<span class="cstat-no" title="statement not covered" >        action.payload.boxesAffected.forEach(<span class="fstat-no" title="function not covered" >id</span> =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >            newState = changeProp(newState, id, boxReducer(newState[id], action));</span>
+        });
+<span class="cstat-no" title="statement not covered" >        return newState;</span>
+<span class="branch-10 cbranch-no" title="branch not covered" >    case CHANGE_ROWS:</span>
+<span class="cstat-no" title="statement not covered" >        newState = changeProp(state, action.payload.parent, boxReducer(state[action.payload.parent], action));</span>
+<span class="cstat-no" title="statement not covered" >        action.payload.boxesAffected.forEach(<span class="fstat-no" title="function not covered" >id</span> =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >            newState = changeProp(newState, id, boxReducer(newState[id], action));</span>
+        });
+<span class="cstat-no" title="statement not covered" >        return newState;</span>
+<span class="branch-11 cbranch-no" title="branch not covered" >    case DELETE_BOX:</span>
+        let children = <span class="cstat-no" title="statement not covered" >action.payload.children ? action.payload.children : [];</span>
+        let which_children = <span class="cstat-no" title="statement not covered" >children.concat(action.payload.id);</span>
+<span class="cstat-no" title="statement not covered" >        temp = deleteProps(state, children.concat(action.payload.id));</span>
+&nbsp;
+        // If box is in sortableContainer, delete from its children aswell
+<span class="cstat-no" title="statement not covered" >        if (isSortableContainer(action.payload.container)) {</span>
+<span class="cstat-no" title="statement not covered" >            return changeProp(temp, action.payload.parent, boxReducer(state[action.payload.parent], action));</span>
+        }
+<span class="cstat-no" title="statement not covered" >        return temp;</span>
+<span class="branch-12 cbranch-no" title="branch not covered" >    case DELETE_CONTAINED_VIEW:</span>
+        let newBoxes = <span class="cstat-no" title="statement not covered" >Object.assign({}, state);</span>
+<span class="cstat-no" title="statement not covered" >        Object.keys(action.payload.parent).forEach(<span class="fstat-no" title="function not covered" >(e</span>l)=&gt;{</span>
+<span class="cstat-no" title="statement not covered" >            if(newBoxes[el] &amp;&amp; newBoxes[el].containedViews) {</span>
+                let index = <span class="cstat-no" title="statement not covered" >newBoxes[el].containedViews.indexOf(action.payload.ids[0]);</span>
+<span class="cstat-no" title="statement not covered" >                if(index &gt; -1) {</span>
+<span class="cstat-no" title="statement not covered" >                    newBoxes[el].containedViews.splice(index, 1);</span>
+                }
+            }
+        });
+<span class="cstat-no" title="statement not covered" >        return deleteProps(newBoxes, action.payload.boxes);</span>
+<span class="branch-13 cbranch-no" title="branch not covered" >    case DELETE_SORTABLE_CONTAINER:</span>
+<span class="cstat-no" title="statement not covered" >        temp = deleteProps(state, action.payload.children);</span>
+<span class="cstat-no" title="statement not covered" >        return changeProp(temp, action.payload.parent, boxReducer(state[action.payload.parent], action));</span>
+<span class="branch-14 cbranch-no" title="branch not covered" >    case DELETE_NAV_ITEM:</span>
+        // TODO: Delete linked marks
+<span class="cstat-no" title="statement not covered" >        return deleteProps(state, action.payload.boxes);</span>
+<span class="branch-15 cbranch-no" title="branch not covered" >    case REORDER_SORTABLE_CONTAINER:</span>
+<span class="cstat-no" title="statement not covered" >        return changeProp(state, action.payload.parent, boxReducer(state[action.payload.parent], action));</span>
+<span class="branch-16 cbranch-no" title="branch not covered" >    case IMPORT_STATE:</span>
+<span class="cstat-no" title="statement not covered" >        return action.payload.present.boxesById || state;</span>
+    default:
+        return state;
+    }
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Mon Nov 20 2017 10:30:38 GMT+0100 (CET)
+</div>
+</div>
+<script src="../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../sorter.js"></script>
+</body>
+</html>
