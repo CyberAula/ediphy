@@ -22,27 +22,27 @@ export default class EditorCarousel extends Component {
     render() {
         let displayModeClassName = "";
         let carrouselContent;
-        if (this.props.displayMode === "list") {
-            carrouselContent = <CarrouselList id={0}
-                containedViews={this.props.containedViews}
-                containedViewSelected={this.props.containedViewSelected}
-                boxes={this.props.boxes}
-                navItemsIds={this.props.navItemsIds}
-                navItems={this.props.navItems}
-                navItemSelected={this.props.navItemSelected}
-                indexSelected={this.props.indexSelected}
-                onBoxAdded={this.props.onBoxAdded}
-                onContainedViewDeleted={this.props.onContainedViewDeleted}
-                onContainedViewSelected={this.props.onContainedViewSelected}
-                onContainedViewNameChanged={this.props.onContainedViewNameChanged}
-                onNavItemNameChanged={this.props.onNavItemNameChanged}
-                onNavItemAdded={this.props.onNavItemAdded}
-                onNavItemSelected={this.props.onNavItemSelected}
-                onIndexSelected={this.props.onIndexSelected}
-                onNavItemExpanded={this.props.onNavItemExpanded}
-                onNavItemDeleted={this.props.onNavItemDeleted}
-                onNavItemReordered={this.props.onNavItemReordered}/>;
-        }
+        // if (this.props.displayMode === "list") {
+        carrouselContent = <CarrouselList id={0}
+            containedViews={this.props.containedViews}
+            containedViewSelected={this.props.containedViewSelected}
+            boxes={this.props.boxes}
+            navItemsIds={this.props.navItemsIds}
+            navItems={this.props.navItems}
+            navItemSelected={this.props.navItemSelected}
+            indexSelected={this.props.indexSelected}
+            onBoxAdded={this.props.onBoxAdded}
+            onContainedViewDeleted={this.props.onContainedViewDeleted}
+            onContainedViewSelected={this.props.onContainedViewSelected}
+            onContainedViewNameChanged={this.props.onContainedViewNameChanged}
+            onNavItemNameChanged={this.props.onNavItemNameChanged}
+            onNavItemAdded={this.props.onNavItemAdded}
+            onNavItemSelected={this.props.onNavItemSelected}
+            onIndexSelected={this.props.onIndexSelected}
+            onNavItemExpanded={this.props.onNavItemExpanded}
+            onNavItemDeleted={this.props.onNavItemDeleted}
+            onNavItemReordered={this.props.onNavItemReordered}/>;
+        // }
         return (
             <div style={{
                 minWidth: this.props.carouselShow ? (this.props.carouselFull ? '100%' : '212px') : '80px',

@@ -15,107 +15,118 @@ export default class EditorHeader extends Component {
      * @returns {code}
      */
     render() {
-        let titles = this.props.titles || [];
-        let navItem = this.props.containedView !== 0 ? this.props.containedView : this.props.navItem;
-        let currentStatus = (navItem.header) ? navItem.header.display : undefined;
-        let docTitle = navItem.name;
-        let subTitle = i18n.t('subtitle');
-        let pagenumber = this.props.navItem.unitNumber;
+        if (this.props.navItem || this.props.containedView) {
+            let titles = this.props.titles || [];
+            let navItem = this.props.containedView !== 0 ? this.props.containedView : this.props.navItem;
+            let currentStatus = (navItem.header) ? navItem.header.display : undefined;
+            let docTitle = navItem.name;
+            let subTitle = i18n.t('subtitle');
+            let pagenumber = this.props.navItem.unitNumber;
 
-        if (navItem !== undefined && navItem.id !== 0 && navItem.header) {
-            docTitle = navItem.header.elementContent.documentTitle !== "" && (navItem.header.elementContent.documentTitle !== navItem.name) ? navItem.header.elementContent.documentTitle : navItem.name;
-            subTitle = navItem.header.elementContent.documentSubTitle !== "" && (navItem.header.elementContent.documentSubTitle !== i18n.t('subtitle')) ? navItem.header.elementContent.documentSubTitle : i18n.t('subtitle');
-            pagenumber = navItem.header.elementContent.numPage !== "" && (navItem.header.elementContent.numPage !== navItem.unitNumber) ? navItem.header.elementContent.numPage : navItem.unitNumber;
-        }
+            if (navItem !== undefined && navItem.id !== 0 && navItem.header) {
+                docTitle = navItem.header.elementContent.documentTitle !== "" && (navItem.header.elementContent.documentTitle !== navItem.name) ? navItem.header.elementContent.documentTitle : navItem.name;
+                subTitle = navItem.header.elementContent.documentSubTitle !== "" && (navItem.header.elementContent.documentSubTitle !== i18n.t('subtitle')) ? navItem.header.elementContent.documentSubTitle : i18n.t('subtitle');
+                pagenumber = navItem.header.elementContent.numPage !== "" && (navItem.header.elementContent.numPage !== navItem.unitNumber) ? navItem.header.elementContent.numPage : navItem.unitNumber;
+            }
 
-        let content;
-        let unidad = "";
-        // breadcrumb
-        if(this.props.containedView === 0) {
-            if (currentStatus !== undefined) {
-                if (currentStatus.breadcrumb === 'reduced') {
-                    let titleList = this.props.titles;
+            let content;
+            let unidad = "";
+            // breadcrumb
+            if (this.props.containedView === 0) {
+                if (currentStatus !== undefined) {
+                    if (currentStatus.breadcrumb === 'reduced') {
+                        let titleList = this.props.titles;
 
-                    let actualTitle = titleList[titleList.length - 1];
-                    unidad = titleList[0];
-                    content = React.createElement("div", { className: "subheader" },
-                        React.createElement(Breadcrumb, { style: { margin: 0, backgroundColor: 'inherit' } },
-                            titleList.map((item, index) => {
-                                if (index !== titleList.length) {
-                                    return React.createElement(BreadcrumbItem, { key: index }, item);
+                        let actualTitle = titleList[titleList.length - 1];
+                        unidad = titleList[0];
+                        content = React.createElement("div", { className: "subheader" },
+                            React.createElement(Breadcrumb, { style: { margin: 0, backgroundColor: 'inherit' } },
+                                titleList.map((item, index) => {
+                                    if (index !== titleList.length) {
+                                        return React.createElement(BreadcrumbItem, { key: index }, item);
+                                    }
+                                    return null;
+                                })
+                            )
+                        );
+
+                    } else if (currentStatus.breadcrumb === 'expanded') {
+                        let titlesComponents = "";
+                        let titles_length = this.props.titles.length;
+                        content = React.createElement("div", { className: "subheader" },
+                            this.props.titles.map((text, index) => {
+                                if (index === 0) {
+                                    unidad = text;
+                                } else {
+                                    let nivel = (index > 4) ? 6 : index + 2;
+                                    return React.createElement("h" + nivel, {
+                                        key: index,
+                                        style: { marginTop: '0px' },
+                                    }, /* this.getActualIndex(titles_length, index) + */text);
                                 }
                                 return null;
                             })
-                        )
-                    );
+                        );
+                    }
 
-                } else if (currentStatus.breadcrumb === 'expanded') {
-                    let titlesComponents = "";
-                    let titles_length = this.props.titles.length;
-                    content = React.createElement("div", { className: "subheader" },
-                        this.props.titles.map((text, index) => {
-                            if (index === 0) {
-                                unidad = text;
-                            } else {
-                                let nivel = (index > 4) ? 6 : index + 2;
-                                return React.createElement("h" + nivel, {
-                                    key: index,
-                                    style: { marginTop: '0px' },
-                                }, /* this.getActualIndex(titles_length, index) + */text);
-                            }
-                            return null;
-                        })
-                    );
-                }
-
-            }
-        }
-        if (navItem.id !== 0) {
-            let hide = true;
-            for (let i in currentStatus) {
-                if (currentStatus[i] !== 'hidden') {
-                    hide = false;
-                    break;
                 }
             }
+            if (navItem.id !== 0) {
+                let hide = true;
+                for (let i in currentStatus) {
+                    if (currentStatus[i] !== 'hidden') {
+                        hide = false;
+                        break;
+                    }
+                }
 
-            return (
-                <div className="title" onClick={(e) => {
-                    this.props.onBoxSelected(-1);
-                    e.stopPropagation(); }}>
-                    <div style={{ backgroundColor: 'transparent', display: (!hide && titles.length !== 0) ? 'initial' : 'none' }}>
-                        {/* <div className={this.props.showButtons ? "caja selectedTitle selectedBox" : "caja"} > */}
-                        <div className={"caja"} >
-                            <div className="cab">
+                return (
+                    <div className="title" onClick={(e) => {
+                        this.props.onBoxSelected(-1);
+                        e.stopPropagation();
+                    }}>
+                        <div style={{
+                            backgroundColor: 'transparent',
+                            display: (!hide && titles.length !== 0) ? 'initial' : 'none',
+                        }}>
+                            {/* <div className={this.props.showButtons ? "caja selectedTitle selectedBox" : "caja"} > */}
+                            <div className={"caja"}>
+                                <div className="cab">
 
-                                <div className="cabtabla_numero"
-                                    style={{ display: (currentStatus.pageNumber === 'hidden') ? 'none' : 'block' }}
-                                >{pagenumber}</div>
+                                    <div className="cabtabla_numero"
+                                        style={{ display: (currentStatus.pageNumber === 'hidden') ? 'none' : 'block' }}
+                                    >{pagenumber}</div>
 
-                                <div className="tit_ud_cap">
-                                    {/* Course title*/}
-                                    <h1 style={{ display: (currentStatus.courseTitle === 'hidden') ? 'none' : 'block' }}>{this.props.courseTitle}</h1>
-                                    {/* NavItem title */}
-                                    <h2 style={{ display: (currentStatus.documentTitle === 'hidden') ? 'none' : 'block' }}>{docTitle}{this.props.containedView !== 0 ? (
-                                        <CVInfo containedViews={this.props.containedViews} navItems={this.props.navItems} containedView={this.props.containedView} toolbars={this.props.toolbars} boxes={this.props.boxes}/>) : null }</h2>
-                                    {/* NavItem subtitle */}
-                                    <h3 style={{ display: (currentStatus.documentSubTitle === 'hidden') ? 'none' : 'block' }}>{ subTitle }</h3>
+                                    <div className="tit_ud_cap">
+                                        {/* Course title*/}
+                                        <h1
+                                            style={{ display: (currentStatus.courseTitle === 'hidden') ? 'none' : 'block' }}>{this.props.courseTitle}</h1>
+                                        {/* NavItem title */}
+                                        <h2
+                                            style={{ display: (currentStatus.documentTitle === 'hidden') ? 'none' : 'block' }}>{docTitle}{this.props.containedView !== 0 ? (
+                                                <CVInfo containedViews={this.props.containedViews} navItems={this.props.navItems}
+                                                    containedView={this.props.containedView} toolbars={this.props.toolbars}
+                                                    boxes={this.props.boxes}/>) : null}</h2>
+                                        {/* NavItem subtitle */}
+                                        <h3
+                                            style={{ display: (currentStatus.documentSubTitle === 'hidden') ? 'none' : 'block' }}>{subTitle}</h3>
 
-                                    {/* breadcrumb */}
-                                    <div className="contenido" style={{ display: (currentStatus.breadcrumb === 'hidden') ? 'none' : 'block' }}>
-                                        { content }
+                                        {/* breadcrumb */}
+                                        <div className="contenido"
+                                            style={{ display: (currentStatus.breadcrumb === 'hidden') ? 'none' : 'block' }}>
+                                            {content}
+                                        </div>
                                     </div>
+
+                                    <div style={{ display: 'none' }} className="clear"/>
                                 </div>
-
-                                <div style={{ display: 'none' }} className="clear" />
                             </div>
+
                         </div>
-
                     </div>
-                </div>
-            );
+                );
+            }
         }
-
         return null;
 
     }

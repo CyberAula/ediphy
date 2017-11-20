@@ -41,7 +41,7 @@ export default class EditorCanvasSli extends Component {
     render() {
         let itemSelected = this.props.fromCV ? this.props.containedViewSelected : this.props.navItemSelected;
         let titles = [];
-        if (itemSelected.id !== 0) {
+        if (itemSelected && itemSelected.id !== 0) {
             titles.push(itemSelected.name);
             if (!this.props.fromCV) {
                 let parent = itemSelected.parent;
@@ -61,7 +61,7 @@ export default class EditorCanvasSli extends Component {
         }
 
         let overlayHeight = actualHeight ? actualHeight : '100%';
-        let boxes = itemSelected.boxes;
+        let boxes = itemSelected ? itemSelected.boxes : [];
         return (
             <Col id={this.props.fromCV ? 'containedCanvas' : 'canvas'} md={12} xs={12} className="canvasSliClass"
                 style={{ display: this.props.containedViewSelected !== 0 && !this.props.fromCV ? 'none' : 'initial' }}>

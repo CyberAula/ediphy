@@ -12,7 +12,9 @@ export default class ReduxProvider extends Component {
     constructor(props) {
         super(props);
 
-        this.initialState = Ediphy.Config.sections_have_content ?
+        this.initialState =
+
+        Ediphy.Config.sections_have_content ?
             ({ present: {
                 globalConfig: { title: i18n.t('course_title'), canvasRatio: 16 / 9, visorNav: { player: true, sidebar: true, keyBindings: true }, trackProgess: true, age: { min: 0, max: 100 }, context: 'school', rights: "Public Domain", keywords: [], typicalLearningTime: { h: 0, m: 0, s: 0 }, version: '1.0.0', thumbnail: '', status: 'draft', structure: 'linear', difficulty: 'easy' },
                 displayMode: "list",
@@ -51,7 +53,7 @@ export default class ReduxProvider extends Component {
                 },
                 navItemsIds: ['se-1467887497411'],
                 navItemSelected: 'se-1467887497411',
-                boxesById: Ediphy.Config.sections_have_content ? {
+                boxesById: {
                     'bs-1467887497412': {
                         id: "bs-1467887497412",
                         parent: "se-1467887497411",
@@ -73,8 +75,8 @@ export default class ReduxProvider extends Component {
                         sortableContainers: {},
                         containedViews: [],
                     },
-                } : {},
-                toolbarsById: Ediphy.Config.sections_have_content ? ({
+                },
+                toolbarsById: {
                     'bs-1467887497412': {
                         id: "bs-1467887497412",
                         state: {},
@@ -190,7 +192,7 @@ export default class ReduxProvider extends Component {
                         "config": { displayName: i18n.t('section') },
                         "state": {},
                     },
-                }) : ({}),
+                },
                 isBusy: "",
                 fetchVishResults: { "results": [] },
             } }) :
