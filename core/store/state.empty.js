@@ -15,4 +15,6 @@ export const emptyState = (config) => { return ({ present:
         toolbarsById: { },
         isBusy: "",
         fetchVishResults: { "results": [] },
-    } });};
+    },
+});
+};

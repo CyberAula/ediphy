@@ -14,12 +14,12 @@ describe('global_config reducer', ()=>{
         it('should load globalConfig ', () => {
             // setup
             let action = {
-                type: types.IMPORT_STATE
+                type: types.IMPORT_STATE,
             };
             // execute
             let newState = index_selected(undefined, action);
 
-            //expect(newState).toEqual();
+            // expect(newState).toEqual();
         });
     });
 
@@ -28,7 +28,6 @@ describe('global_config reducer', ()=>{
     });
 
 });
-
 
 // case CHANGE_GLOBAL_CONFIG:
 //     if(action.payload.prop === 'STATE') {
