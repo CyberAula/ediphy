@@ -3,7 +3,7 @@ import BasePlugin from './base_plugin';
 
 export default function() {
     let pluginInstancesList = {};
-
+    let pluginConfigs = [];
     return {
         get: function(name) {
             return pluginInstancesList[name];
@@ -23,7 +23,6 @@ export default function() {
             return promise;
         },
         loadAll: function() {
-            let pluginConfigs = [];
 
             Ediphy.Config.pluginList.map(id => {
                 try {
@@ -40,7 +39,8 @@ export default function() {
                 } catch (e) {
                 }
             });
-
+        },
+        loadButtons: function() {
             Ediphy.API.addMenuButtons(pluginConfigs);
         },
     };

@@ -25,7 +25,7 @@ export default class EditorCanvas extends Component {
      * @returns {code} React rendered component
      */
     render() {
-        return (isSlide(this.props.navItemSelected.type)) ?
+        return (!this.props.navItemSelected || !this.props.navItemSelected.type || isSlide(this.props.navItemSelected.type)) ?
             (<EditorCanvasSli fromCV={false} {...this.props} />) :
             (<EditorCanvasDoc fromCV={false} {...this.props} />);
     }
@@ -36,7 +36,10 @@ export default class EditorCanvas extends Component {
      * @param nextProps
      */
     componentWillReceiveProps(nextProps) {
-        if (this.props.navItemSelected.id !== nextProps.navItemSelected.id) {
+
+        if (this.props.navItemSelected && this.props.navItemSelected.id &&
+          nextProps.navItemSelected && nextProps.navItemSelected.id &&
+          this.props.navItemSelected.id !== nextProps.navItemSelected.id) {
             document.getElementById('maincontent').scrollTop = 0;
         }
     }
