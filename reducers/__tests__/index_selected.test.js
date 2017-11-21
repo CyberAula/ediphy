@@ -17,11 +17,13 @@ describe('index_selected reducer', ()=>{
     describe('should delete nav item and return 0', () => {
         it('handle DELETE_NAV_ITEM', () => {
             // setup
-            let action = { type: types.DELETE_NAV_ITEM };
+            let action = { type: types.DELETE_NAV_ITEM }; //TODO: change for deleteNavItem('', '', '', '', '')
+
             // execute
             let newState = index_selected(undefined, action);
 
             expect(newState).toEqual(0);
+
         });
     });
 
