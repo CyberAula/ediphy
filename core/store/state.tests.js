@@ -1,6 +1,21 @@
+
 export const testState = { "present":
     {
-        "globalConfig": { "title": "Título Curso", "canvasRatio": 1.7777777777777777, "visorNav": { "player": true, "sidebar": true, "keyBindings": true }, "trackProgress": true, "age": { "min": 0, "max": 100 }, "context": "school", "keywords": [], "rights": "Public Domain", "status": "draft", "structure": "linear", "version": "1.0.0", "typicalLearningTime": { "h": 0, "m": 0, "s": 0 }, "difficulty": "easy" },
+        "globalConfig": {
+            "title": "Título Curso",
+            "canvasRatio": 1.7777777777777777,
+            "visorNav": { "player": true, "sidebar": true, "keyBindings": true },
+            "trackProgress": true,
+            "age": { "min": 0, "max": 100 },
+            "context": "school",
+            "keywords": [],
+            "rights": "Public Domain",
+            "status": "draft",
+            "structure": "linear",
+            "version": "1.0.0",
+            "typicalLearningTime": { "h": 0, "m": 0, "s": 0 },
+            "difficulty": "easy",
+        },
         "imagesUploaded": [],
         "boxesById": {
             "bs-1497983247797": { "id": "bs-1497983247797", "parent": "pa-1497983247795", "container": 0, "level": -1, "col": 0, "row": 0, "position": { "x": 0, "y": 0, "type": "relative" }, "draggable": false, "resizable": false, "showTextEditor": false, "fragment": {}, "children": [], "sortableContainers": {}, "containedViews": [] },
@@ -11,7 +26,9 @@ export const testState = { "present":
         "boxSelected": -1,
         "boxLevelSelected": 0,
         "indexSelected": "pa-1511252955865",
-        "navItemsIds": ["se-1467887497411", "pa-1497983247795", "pa-1511252952332", "se-1511252954307", "pa-1511252955321", "pa-1511252955865", "pa-1511252985426"],
+        "navItemsIds": [
+            "se-1467887497411", "pa-1497983247795", "pa-1511252952332", "se-1511252954307", "pa-1511252955321", "pa-1511252955865", "pa-1511252985426",
+        ],
         "navItemSelected": "pa-1511252955865",
         "navItemsById": {
             "0": { "id": 0, "children": ["se-1467887497411", "pa-1511252985426"], "boxes": [], "level": 0, "type": "", "hidden": false, "isExpanded": true },
