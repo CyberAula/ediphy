@@ -326,10 +326,10 @@ class EditorApp extends Component {
                     onVisibilityToggled={()=> this.setState({ visorVisible: !this.state.visorVisible })}
                     state={this.props.store.getState().present}/>
                 <PluginConfigModal />
-                <XMLConfigModal id={boxSelected}
+                {/* <XMLConfigModal id={boxSelected}
                     toolbar={toolbars[boxSelected]}
                     visible={this.state.xmlEditorVisible}
-                    onXMLEditorToggled={() => this.setState({ xmlEditorVisible: !this.state.xmlEditorVisible })}/>
+                    onXMLEditorToggled={() => this.setState({ xmlEditorVisible: !this.state.xmlEditorVisible })}/>*/}
                 {Ediphy.Config.external_providers.enable_catalog_modal &&
                 <ExternalCatalogModal images={imagesUploaded}
                     visible={this.state.catalogModal}
