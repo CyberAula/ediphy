@@ -178,7 +178,7 @@ export default class CarrouselList extends Component {
                     <div className="bottomLine" />
                     <OverlayTrigger placement="top" overlay={(<Tooltip id="newFolderTooltip">{i18n.t('create new folder')}</Tooltip>)}>
                         <Button className="carrouselButton"
-                            disabled={ isContainedView(this.props.indexSelected) || this.props.indexSelected === -1 || this.props.navItems[this.props.indexSelected].level >= 10}
+                            disabled={ !this.props.indexSelected || this.props.indexSelected === -1 || isContainedView(this.props.indexSelected) || this.props.navItems[this.props.indexSelected].level >= 10}
                             onClick={e => {
 
                                 let idnuevo = ID_PREFIX_SECTION + Date.now();

@@ -144,7 +144,7 @@ function singleNavItemReducer(state = {}, action = {}) {
     }
 }
 
-export default function(state = {}, action = {}) {
+export default function(state = { 0: { id: 0, children: [], boxes: [], level: 0, type: '', hidden: false } }, action = {}) {
 
     switch (action.type) {
     case ADD_BOX:

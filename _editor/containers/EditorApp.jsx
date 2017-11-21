@@ -500,7 +500,7 @@ class EditorApp extends Component {
             this.props.dispatch(importState(JSON.parse(ediphy_editor_json)));
         }
 
-        Ediphy.Plugins.loadAll();
+        Ediphy.Plugins.loadButtons();
         Ediphy.API_Private.listenEmission(Ediphy.API_Private.events.render, e => {
             this.index = 0;
             let newPluginState = {};
