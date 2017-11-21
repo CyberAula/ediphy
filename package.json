@@ -22,8 +22,7 @@
     "doc": "babel-node --presets es2015 doc/scripts/reactdocgenmd.js & node doc/scripts/importComponents.js & webpack --config doc/webpack.doc.prod.js & webpack --config webpack.noserver.js & node doc/scripts/bringtodist.js",
     "dev-doc": "babel-node --presets es2015  doc/scripts/reactdocgenmd.js & node doc/scripts/importComponents.js &  webpack --config webpack.noserver.js & node doc/scripts/bringtodist.js & webpack-dev-server --open --progress --colors --config doc/webpack.doc.dev.js",
     "dev-only-doc": "webpack-dev-server --open --progress --colors --config doc/webpack.doc.dev.js",
-    "add-all": "git add .",
-    "postinstall": "node ./plugin_install"
+    "add-all": "git add ."
   },
   "pre-commit": [
     "eslint",
@@ -44,7 +43,6 @@
     ],
     "moduleNameMapper": {
       "\\.(ejs)$": "<rootDir>/core/api.es6"
-
     },
     "setupFiles": [
       "<rootDir>/shim.js"
@@ -124,7 +122,7 @@
   },
   "dependencies": {
     "@trendmicro/react-toggle-switch": "^0.5.7",
-    "BasicPlayer": "./plugins/BasicPlayer",
+    "BasicPlayer": "file:plugins/BasicPlayer",
     "DataTable": "file:plugins/DataTable",
     "EnrichedPlayer": "file:plugins/EnrichedPlayer",
     "GraficaD3": "file:plugins/GraficaD3",
