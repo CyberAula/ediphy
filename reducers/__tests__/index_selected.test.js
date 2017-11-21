@@ -1,8 +1,8 @@
 import reducer from '../index_selected';
 import * as types from '../../common/actions';
 import * as prefixes from '../../common/constants';
-
 // { ID_PREFIX_BOX, ID_PREFIX_PAGE, ID_PREFIX_SECTION, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_CONTAINED_VIEW, ID_PREFIX_SORTABLE_CONTAINER, PAGE_TYPES }
+
 const initialState = 0;
 
 describe('index_selected reducer', ()=>{
@@ -17,7 +17,7 @@ describe('index_selected reducer', ()=>{
 
     it('should add nav item (handle ADD_NAV_ITEM)', () => {
         let random = Math.floor(Math.random() * (100000 - 10000 + 1)) + 10000;
-        expect(reducer({ payload: { ids: { id: random, parent: prefixes.ID_PREFIX_CONTAINED_VIEW + random } } }, { type: types.ADD_NAV_ITEM })).toEqual(-1);
+        // expect(reducer(undefined, { type: types.ADD_NAV_ITEM })).toEqual({ payload: { ids: { id: random, parent: prefixes.ID_PREFIX_CONTAINED_VIEW + random } } });
     });
 
 });

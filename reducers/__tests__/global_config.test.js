@@ -1,8 +1,6 @@
 import reducer from '../global_config';
 import * as types from '../../common/actions';
 
-let reducerHelper = helper(undefined, reducer);
-
 const initialState = 0;
 
 describe('global_config reducer', ()=>{
