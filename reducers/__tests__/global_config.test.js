@@ -1,28 +1,36 @@
+import { testState } from '../../core/store/state.tests.js';
+import { emptyState } from '../../core/store/state.empty.js';
 import global_config from '../global_config';
-import * as types from '../../common/actions';
+import * as ActionTypes from '../../common/actions';
+import { changeProp } from '../../common/utils';
 
-describe('global_config reducer', ()=>{
-    it('should return 0 as default initial state', () => {
+const initstate = testState;
 
-    });
-    describe('handle IMPORT_STATE', () => {
-        it('should load globalConfig ', () => {
+describe('# global_config reducer', ()=>{
 
-        });
-    });
-
-    it('should change global config (handle CHANGE_GLOBAL_CONFIG)', () => {
-
+    test('Should return emptyState as default', () => {
+        const state = initstate.present.globalConfig;
+        expect(global_config(state, {})).toEqual(state);
     });
 
+    test('Change the all Global config when save', () => {
+        const state = initstate.present.globalConfig;
+        const action = { type: ActionTypes.CHANGE_GLOBAL_CONFIG, payload: { prop: 'STATE', value: initstate.present.globalConfig } };
+        expect(global_config(state, action)).toEqual(initstate.present.globalConfig);
+    });
+    test('Change specific prop in Global config', () => {
+        const action = { type: ActionTypes.CHANGE_GLOBAL_CONFIG, payload: { prop: 'title', value: 'Título' } };
+        expect(global_config(initstate, action)).toEqual(changeProp(initstate, action.payload.prop, action.payload.value));
+    });
+    test('Import global config present state', () => {
+        const state = initstate.present.globalConfig;
+        const action = { type: ActionTypes.IMPORT_STATE, payload: { present: { globalConfig: state } } };
+        expect(global_config(state, action)).toEqual(state);
+    });
+    test('Import empty default state', () => {
+        const state = emptyState().present.globalConfig;
+        const action = { type: ActionTypes.IMPORT_STATE, payload: { present: { globalConfig: state } } };
+        expect(global_config(state, action)).toEqual(state);
+    });
 });
 
-// case CHANGE_GLOBAL_CONFIG:
-//     if(action.payload.prop === 'STATE') {
-//         return action.payload.value;
-//     }
-// return changeProp(state, action.payload.prop, action.payload.value);
-
-// case IMPORT_STATE:
-//     return action.payload.present.globalConfig || state;
-// :

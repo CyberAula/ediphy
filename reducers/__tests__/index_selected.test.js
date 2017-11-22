@@ -26,77 +26,27 @@ describe('# index_selected reducer', ()=>{
         expect(index_selected(initstate, action)).toEqual(initstate);
 
     });
-
-    describe('should select nav item ', () => {
-        let cv = 'cv-1511252975055';
-        it('handle SELECT_NAV_ITEM', () => {
-            // setup
-            let action = {
-                type: ActionTypes.SELECT_NAV_ITEM,
-                payload: { id: cv },
-            };
-                // ActionTypes.selectNavItem('cv-1511252975055') ;
-            // execute
-            let newState = index_selected(cv, action);
-            // console.log(newState);
-
-            expect(newState).toEqual(action.payload.id); // return state, now is 0
-        });
-
-        // TODO:select a specific NAV ITEM
+    test('Index selected item - Page', () => {
+        const action = { type: ActionTypes.INDEX_SELECT, payload: { id: 'pa-1497983247795' } };
+        expect(index_selected(initstate, action)).toEqual('pa-1497983247795');
 
     });
+    test('Index selected item - Section', () => {
+        const action = { type: ActionTypes.INDEX_SELECT, payload: { id: 'se-1467887497411' } };
+        expect(index_selected(initstate, action)).toEqual('se-1467887497411');
 
-    describe('should select an item (handle INDEX_SELECT)', () => {
-        it('should select a PAGE', () => {
-            let random_page = 'pa-1497983247795';
-            // setup
-            let action = {
-                type: ActionTypes.INDEX_SELECT,
-                payload: { id: random_page },
-            };
-            // execute
-            let newState = index_selected(undefined, action);
-
-            expect(newState).toEqual(random_page);
-        });
-        it('should select a SECTION', () => {
-            let random_section = 'se-1467887497411';
-            // setup
-            let action = {
-                type: ActionTypes.INDEX_SELECT,
-                payload: { id: random_section },
-            };
-            // execute
-            let newState = index_selected(undefined, action);
-
-            expect(newState).toEqual(random_section);
-        });
-        it('should select a SLIDE', () => {
-            let random_slide = 'pa-1511252955865';
-            // setup
-            let action = {
-                type: ActionTypes.INDEX_SELECT,
-                payload: { id: random_slide },
-            };
-            // execute
-            let newState = index_selected(undefined, action);
-
-            expect(newState).toEqual(random_slide);
-        });
-        // TODO:select a CV
     });
+    test('Index selected item - Contained View', () => {
+        const action = { type: ActionTypes.INDEX_SELECT, payload: { id: 'cv-1511252975055' } };
+        expect(index_selected(initstate, action)).toEqual('cv-1511252975055');
 
-    describe('should import state and return 0 ', () => {
-        it('handle IMPORT_STATE', () => {
-            // setup
-            let action = { type: ActionTypes.IMPORT_STATE };
-            // execute
-            let newState = index_selected(initstate, action);
+    });
+    // TODO. why slide has not iD_prefix => sl-*
 
-            expect(newState).toEqual(0);
-        });
+    test('Import state from state.test', () => {
+        const action = { type: ActionTypes.IMPORT_STATE, payload: { present: {} } };
+        expect(index_selected(initstate, action)).toEqual(0);
+
     });
 
 });
-
