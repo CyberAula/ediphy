@@ -6,7 +6,7 @@ import { addNavItem, selectNavItem, expandNavItem, deleteNavItem, reorderNavItem
     changeNavItemName, changeUnitNumber, selectIndex,
     addBox, selectBox, moveBox, resizeBox, updateBox, duplicateBox, deleteBox, reorderSortableContainer, dropBox, increaseBoxLevel,
     resizeSortableContainer, deleteSortableContainer, changeCols, changeRows, changeSortableProps, reorderBoxes, verticallyAlignBox,
-    toggleTextEditor, toggleTitleMode,
+    toggleTextEditor, toggleTitleMode, pasteBox,
     changeDisplayMode, updateToolbar,
     exportStateAsync, importStateAsync, importState, changeGlobalConfig,
     fetchVishResourcesSuccess, fetchVishResourcesAsync, uploadVishResourceAsync,
@@ -478,7 +478,14 @@ class EditorApp extends Component {
                     onUploadVishResource={(query) => this.dispatchAndSetState(uploadVishResourceAsync(query))}
                     onFetchVishResources={(query) => this.dispatchAndSetState(fetchVishResourcesAsync(query))}
                 />
-                <Clipboard boxes={this.props.boxesById} boxSelected={this.props.boxSelected} toolbars={this.props.toolbarsById}/>
+                <Clipboard boxes={boxes}
+                    boxSelected={boxSelected}
+                    navItemSelected={navItemSelected}
+                    containedViewSelected={containedViewSelected}
+                    navItems={navItems}
+                    containedViews={containedViews}
+                    toolbars={toolbars}
+                    pasteBox={(ids, box, toolbar)=>this.dispatchAndSetState(pasteBox(ids, box, toolbar))}/>
 
             </Grid>
         );

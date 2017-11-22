@@ -10,6 +10,12 @@ let components = {
         "toolbars": "Objeto que contiene las toolbars",
         "boxes": "Objeto que contiene las cajas",
         "boxSelected": "Caja seleccionada",
+        "navItemSelected": "Vista seleccionada",
+        "containedViewSelected": "Vista contenida seleccionada",
+        "navItems": "Objeto que contiene todas las vistas",
+        "containedViews": "Objeto que contiene todas las vistas contenidas",
+        "pasteBox": "Pega la caja copiada",
+
     },
     "EditorBox": {
         "id": "Identificador único de la caja",

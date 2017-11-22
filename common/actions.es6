@@ -58,6 +58,8 @@ export const UPLOAD_IMAGE = 'UPLOAD_IMAGE';
 export const DELETE_RICH_MARK = 'DELETE_RICH_MARK';
 export const EDIT_PLUGIN_TEXT = 'EDIT_PLUGIN_TEXT';
 
+export const PASTE_BOX = 'PASTE_BOX';
+
 export function selectIndex(id) {
     return { type: INDEX_SELECT, payload: { id } };
 }
@@ -196,6 +198,10 @@ export function selectContainedView(id) {
 
 export function toggleTextEditor(caller, value) {
     return { type: TOGGLE_TEXT_EDITOR, payload: { caller, value } };
+}
+
+export function pasteBox(ids, box, toolbar) {
+    return { type: PASTE_BOX, payload: { ids, box, toolbar } };
 }
 
 export function toggleTitleMode(id, titles) {
