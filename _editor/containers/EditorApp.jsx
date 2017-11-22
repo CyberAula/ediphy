@@ -27,6 +27,7 @@ import EditorNavBar from '../components/nav_bar/editor_nav_bar/EditorNavBar';
 import ServerFeedback from '../components/server_feedback/ServerFeedback';
 import RichMarksModal from '../components/rich_plugins/rich_marks_modal/RichMarksModal';
 import AutoSave from '../components/autosave/AutoSave';
+import Clipboard from '../components/clipboard/Clipboard';
 import Alert from '../components/common/alert/Alert';
 import i18n from 'i18next';
 import Ediphy from '../../core/editor/main';
@@ -477,6 +478,7 @@ class EditorApp extends Component {
                     onUploadVishResource={(query) => this.dispatchAndSetState(uploadVishResourceAsync(query))}
                     onFetchVishResources={(query) => this.dispatchAndSetState(fetchVishResourcesAsync(query))}
                 />
+                <Clipboard boxes={this.props.boxesById} boxSelected={this.props.boxSelected} toolbars={this.props.toolbarsById}/>
 
             </Grid>
         );
@@ -636,32 +638,6 @@ class EditorApp extends Component {
             }
 
         }.bind(this);
-
-        document.addEventListener('copy', function(event) {
-            let focus = document.activeElement.className;
-            if (event.clipboardData) {
-                if(this.props.boxSelected !== -1) {
-                    if (focus.indexOf('form-control') === -1 && focus.indexOf('tituloCurso') === -1 && focus.indexOf('cke_editable') === -1) {
-                        event.preventDefault();
-                        event.clipboardData.setData("text/plain", this.props.boxSelected);
-                    }
-                }
-                console.log(event.clipboardData.getData("text"));
-            }
-        }.bind(this));
-
-        // TODO quitar focus al ckeditor
-        document.addEventListener('paste', function(event) {
-            let focus = document.activeElement.className;
-            if (event.clipboardData) {
-                if(this.props.boxSelected !== -1) {
-                    if (focus.indexOf('form-control') === -1 && focus.indexOf('tituloCurso') === -1 && focus.indexOf('cke_editable') === -1) {
-                        event.preventDefault();
-                        console.log(event.clipboardData.getData("text"));
-                    }
-                }
-            }
-        }.bind(this));
 
     }
 
