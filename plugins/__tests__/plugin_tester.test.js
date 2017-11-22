@@ -1,30 +1,43 @@
+import fs from 'fs';
 import glob from 'glob';
+import BasePlugin from '../../core/editor/base_plugin';
+let PJV = require('package-json-validator').PJV;
 
-const plugins = getPluginProvider();
+describe('plugins package.json is well formed', ()=>{
+    const plugins = glob.sync("plugins/*/package.json");
 
-function getPluginProvider() {
-    let files = glob.sync("plugins/*/package.json");
-    console.log(files);
-    let final_object = {};
-    for(let packageit in files) {
-        let json = stub.returns(require.requireActual("../" + files[packageit]));
-        let dependencies = json.dependencies;
-        var config = json.config;
-        if(dependencies) {
-            Object.keys(dependencies).map(function(e) {
-                if(config && config.aliases && config.aliases[e]) {
-                    final_object[config.aliases[e]] = e;
-                } else {
-                    final_object[toCamelCase(e)] = e;
-                }
-            });
-        }
-    }
-    return final_object;
-}
+    plugins.forEach((element) => {
+        test('JSON ' + element + ' is well formed', ()=>{
+            expect(PJV.validate(fs.readFileSync(element, 'utf8'), "npm").valid).toBeTruthy();
+        });
+    });
+});
 
-describe('test is well formed', ()=>{
-    test('does_get_plugin', ()=>{
-        expect(plugins).toBeDefined();
+describe('plugins are correctly formed', ()=>{
+
+    const plugin_folders = glob.sync("plugins/*", { ignore: ["plugins/__tests__", "plugins/plugin_dependencies_loader.js"] });
+
+    plugin_folders.forEach((plugin)=>{
+
+        test(plugin.split("plugins/")[1] + ' main file exist', ()=>{
+            let main_file = fs.readFileSync(plugin + "/" + plugin.split("plugins/")[1] + ".js", 'utf8');
+            expect(main_file).toBeTruthy();
+        });
+
+        test(plugin.split("plugins/")[1] + 'plugin can be imported', ()=>{
+            let baseplugin = new BasePlugin();
+            let current_plugin = require.requireActual("./../../" + plugin + "/" + plugin.split("plugins/")[1])[plugin.split("plugins/")[1]](baseplugin);
+
+            expect(current_plugin).toBeDefined();
+            expect(current_plugin).toHaveProperty('getConfig');
+            expect(current_plugin).toHaveProperty('getToolbar');
+        });
+
+        test(plugin.split("plugins/")[1] + 'plugin has visor', ()=>{
+            // let baseplugin = new BasePlugin();
+            // let current_plugin  = require.requireActual("./../../" + plugin + "/visor/" + plugin.split("plugins/")[1])[plugin.split("plugins/")[1]](baseplugin);
+
+        });
+
     });
 });
