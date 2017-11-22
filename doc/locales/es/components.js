@@ -14,7 +14,8 @@ let components = {
         "containedViewSelected": "Vista contenida seleccionada",
         "navItems": "Objeto que contiene todas las vistas",
         "containedViews": "Objeto que contiene todas las vistas contenidas",
-        "pasteBox": "Pega la caja copiada",
+        "onBoxPasted": "Pega la caja copiada",
+        "onBoxDeleted": "Borra la caja seleccionada",
 
     },
     "EditorBox": {

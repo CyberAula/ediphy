@@ -16,6 +16,7 @@ export default class Clipboard extends Component {
         super(props);
         this.copyListener = this.copyListener.bind(this);
         this.pasteListener = this.pasteListener.bind(this);
+        this.cutListener = this.cutListener.bind(this);
     }
 
     /**
@@ -37,7 +38,13 @@ export default class Clipboard extends Component {
         }
     }
 
-    // TODO quitar focus al ckeditor?
+    cutListener(event) {
+        this.copyListener(event);
+        let box = this.props.boxes[this.props.boxSelected];
+        // TODO CKEditor errors fix
+        this.props.onBoxDeleted(box.id, box.parent, box.container);
+    }
+
     pasteListener(event) {
         let focus = document.activeElement.className;
         if (event.clipboardData) {
@@ -45,8 +52,8 @@ export default class Clipboard extends Component {
             // Check if copied data is plugin
             try {
                 data = JSON.parse(data);
-            } catch(e) {
-                console.log(event);
+            } catch(err) {
+                console.log(err);
             }
             // Copied data is a plugin
             if (data && data.box && data.toolbar) {
@@ -60,13 +67,14 @@ export default class Clipboard extends Component {
                     if (page) {
                         let containerId = ID_PREFIX_SORTABLE_CONTAINER + Date.now();
                         let id = ID_PREFIX_BOX + Date.now();
-                        let parent = isSlide(page.type) ? page.id : page.boxes[0];
-                        let container = isSlide(page.type) ? 0 : containerId;
-                        console.log(id, parent, container, page);
+                        let isTargetSlide = isSlide(page.type);
+                        let parent = isTargetSlide ? page.id : page.boxes[0];
+                        let container = isTargetSlide ? 0 : containerId;
+                        // console.log(id, parent, container, page);
                         let ids = { id, parent, container };
-                        let box = Object.assign({}, data.box, ids);
-                        let toolbar = Object.assign({}, data.toolbar, { id });
-                        this.props.pasteBox(ids, box, toolbar);
+                        this.props.onBoxPasted(ids,
+                            this.transformBox(data.box, ids, isTargetSlide),
+                            this.transformToolbar(data.toolbar, ids, isTargetSlide));
                     }
 
                     // Inside a text box (CKEditor or input)
@@ -75,15 +83,37 @@ export default class Clipboard extends Component {
                 }
                 // Copied data is not a plugin
             } else {
-
+                // TODO Create plugin image from copied image, plugin text from copied text, etc
             }
 
         }
     }
 
+    transformBox(box, ids, isTargetSlide) {
+        let newBox = Object.assign({}, box, {
+            container: ids.container,
+            id: ids.id,
+            parent: ids.parent,
+            position: isTargetSlide ? { type: "absolute", x: randomPositionGenerator(20, 40), y: randomPositionGenerator(20, 40) } : { type: box.position.type, x: "0%", y: "0%" },
+            resizable: isTargetSlide,
+            row: 0,
+            col: 0,
+        });
+        return newBox;
+    }
+
+    transformToolbar(toolbar, ids, isTargetSlide) {
+        let newToolbar = Object.assign({}, toolbar, { id: ids.id });
+        console.log("//////////NEW_BOX///////////////");
+        console.log(newToolbar);
+        return newToolbar;
+
+    }
+
     componentDidMount() {
         document.addEventListener('copy', this.copyListener);
         document.addEventListener('paste', this.pasteListener);
+        document.addEventListener('cut', this.cutListener);
     }
 
     /**
@@ -93,6 +123,7 @@ export default class Clipboard extends Component {
     componentWillUnmount() {
         document.removeEventListener('copy', this.copyListener);
         document.removeEventListener('paste', this.pasteListener);
+        document.removeEventListener('cut', this.cutListener);
     }
 
     /**
@@ -105,22 +136,31 @@ export default class Clipboard extends Component {
 
 }
 
+function randomPositionGenerator(min, max) {
+    return (Math.random() * (max - min) + min).toFixed(2) + "%";
+
+}
+
 Clipboard.propTypes = {
     /**
-   * Paste box function
-   */
-    pasteBox: PropTypes.func.isRequired,
+     * Paste box function
+     */
+    onBoxPasted: PropTypes.func.isRequired,
     /**
-   * Selected box
-   */
+     * Delete box function
+     */
+    onBoxDeleted: PropTypes.func.isRequired,
+    /**
+      * Selected box
+      */
     boxSelected: PropTypes.any,
     /**
-   * Object that contains the toolbars
-   */
+      * Object that contains the toolbars
+      */
     toolbars: PropTypes.object,
     /**
-   * Object that contains the boxes
-   */
+      * Object that contains the boxes
+      */
     boxes: PropTypes.object,
     /**
    * View selected
@@ -139,3 +179,4 @@ Clipboard.propTypes = {
    */
     containedViews: PropTypes.any,
 };
+
