@@ -15,10 +15,54 @@ describe('# boxes_by_id reducer ************************************************
     });
 
     describe('handle ADD_BOX', ()=>{
-        test('If added box', () => {
-            // expect(boxes_by_id(state, {})).toEqual(state);
+        test('If added box is contained in sortableContainer (if is in a document)', () => {
+            const boxpayload = { ids: { parent: 'bs-1497983247797', id: 'bo-1511443052925', container: 'sc-1511443052922' }, draggable: true, resizable: false, content: '', toolbar: {}, config: {}, state: {}, initialParams: {} };
+            const action = {
+                type: ActionTypes.ADD_BOX,
+                payload: { boxpayload },
+            };
+            const createdbox = {
+                id: 'bo-1511443052925',
+                parent: 'bs-1497983247797',
+                container: 'sc-1511443052922',
+                level: 0,
+                col: 0,
+                row: 0,
+                position: { x: 0, y: 0, type: 'relative' },
+                content: "",
+                draggable: true,
+                resizable: false,
+                showTextEditor: false,
+                fragment: {},
+                children: [],
+                sortableContainers: {},
+                containedViews: [],
+            };
+            state['bo-1511443052925'] = createdbox;
+            const newstate = state;
+            expect(action.ids.container != 0).toBeTruthy;
+            // expect(boxes_by_id(state, action)).toEqual(newstate);
+
         });
     });
+
+    // case ADD_BOX:
+    //         // if box is contained in sortableContainer, add it as well to its children
+    //         if (isSortableContainer(action.payload.ids.container)) {
+    //             return changeProps(
+    //                 state,
+    //                 [
+    //                     action.payload.ids.id,
+    //                     action.payload.ids.parent,
+    //                 ], [
+    //                     boxCreator(state, action),
+    //                     boxReducer(state[action.payload.ids.parent], action),
+    //                 ]
+    //             );
+    //         }
+    //     return changeProp(state, action.payload.ids.id, boxCreator(state, action));
+    //
+
     describe('handle MOVE_BOX', ()=>{
         test('If moved box', () => {
             // expect(boxes_by_id(state, {})).toEqual(state);
