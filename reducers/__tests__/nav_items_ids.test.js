@@ -54,7 +54,7 @@ describe('# nav_items_ids reducer', ()=>{
             expect(nav_items_ids(state, action)).toEqual(ids);
         });
         test('Import default state from state.test', () => {
-            const state = 0;
+
             const action = { type: ActionTypes.IMPORT_STATE, payload: { present: { navItemSelected: state } } };
             expect(nav_items_ids(state, action)).toEqual(state);
         });
