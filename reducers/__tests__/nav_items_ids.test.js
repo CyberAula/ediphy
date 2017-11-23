@@ -21,11 +21,13 @@ describe('# nav_items_ids reducer', ()=>{
             expect(nav_items_ids(state, action)).toEqual(addId);
         });
     });
-    describe('handle DELETE_NAV_ITEM ******************** TODO :)', ()=> {
+    describe('handle DELETE_NAV_ITEM', ()=> {
         test('Delete navigation items ', () => {
-            const action = { type: ActionTypes.DELETE_NAV_ITEM, payload: { ids: [0, 1] } };
-            // expect(action.payload.ids && action.payload.ids.length > 0 && action.payload.ids.includes(0)).toBeTruthy();
-            // expect(nav_items_ids(undefined, action)).toEqual(0);
+            const state = initstate.present.navItemsIds;
+            const action = { type: ActionTypes.DELETE_NAV_ITEM, payload: { ids: state } };
+            const id = 'pa-1497983247795';
+            const newstate = state.filter(id => action.payload.ids.indexOf(id) === -1);
+            expect(nav_items_ids(state, action)).toEqual(newstate);
         });
     });
 
@@ -50,7 +52,3 @@ describe('# nav_items_ids reducer', ()=>{
         });
     });
 });
-
-// case DELETE_NAV_ITEM:
-//     return state.filter(id => action.payload.ids.indexOf(id) === -1);
-
