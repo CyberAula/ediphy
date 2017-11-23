@@ -1,7 +1,6 @@
 import { testState } from '../../core/store/state.tests.js';
 import global_config from '../global_config';
 import * as ActionTypes from '../../common/actions';
-import { changeProp } from '../../common/utils';
 
 const state = testState.present.globalConfig;
 
