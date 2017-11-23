@@ -25,8 +25,8 @@ describe('# nav_items_ids reducer', ()=>{
         test('Delete navigation items ', () => {
             const state = initstate.present.navItemsIds;
             const action = { type: ActionTypes.DELETE_NAV_ITEM, payload: { ids: state } };
-            const id = 'pa-1497983247795';
-            const newstate = state.filter(id => action.payload.ids.indexOf(id) === -1);
+            const idtofind = 'pa-1497983247795';
+            const newstate = state.filter(idtofind => action.payload.ids.indexOf(idtofind) === -1);
             expect(nav_items_ids(state, action)).toEqual(newstate);
         });
     });
