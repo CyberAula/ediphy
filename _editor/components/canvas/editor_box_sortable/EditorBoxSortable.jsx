@@ -65,22 +65,22 @@ export default class EditorBoxSortable extends Component {
                                     height: container.height === 'auto' ? container.height : container.height + 'px',
                                 }, container.style)
                             }>
-                            <div className="disp_table width100 height100">
+                            <div className="disp_table width100 height100" style={{ minHeight: '100px', height: '1px' }}>
                                 {container.colDistribution.map((col, i) => {
                                     if (container.cols[i]) {
                                         return (<div key={i}
-                                            className="colDist-i height100 disp_table_cell vert_al_top"
+                                            className={"colDist-i height100 disp_table_cell vert_al_top colNum" + i}
                                             style={{ width: col + "%" }}>
                                             {container.cols[i].map((row, j) => {
                                                 return (<div key={j}
-                                                    className="colDist-j width100 pos_relative"
+                                                    className={"colDist-j width100 pos_relative rowNum" + j}
                                                     style={{ height: row + "%" }}
                                                     ref={e => {
                                                         if(e !== null) {
                                                             this.configureDropZone(
                                                                 ReactDOM.findDOMNode(e),
                                                                 "cell",
-                                                                ".rib, .dnd" + idContainer,
+                                                                ".rib, .dnd", // + idContainer,
                                                                 {
                                                                     idContainer: idContainer,
                                                                     i: i,
@@ -281,7 +281,7 @@ export default class EditorBoxSortable extends Component {
                 e.target.classList.remove("drop-target");
             },
             ondrop: function(e) {
-
+                console.log("jjj");
                 if (dropArea === 'cell') {
                     // If element dragged is coming from PluginRibbon, create a new EditorBox
                     if (e.relatedTarget.className.indexOf("rib") !== -1) {
@@ -313,8 +313,12 @@ export default class EditorBoxSortable extends Component {
                     } else {
                         let boxDragged = this.props.boxes[this.props.boxSelected];
                         // If box being dragged is dropped in a different column or row, change it's value
-                        if (boxDragged && (boxDragged.col !== extraParams.i || boxDragged.row !== extraParams.j)) {
-                            this.props.onBoxDropped(this.props.boxSelected, extraParams.j, extraParams.i);
+                        if (boxDragged) { // && (boxDragged.col !== extraParams.i || boxDragged.row !== extraParams.j)) {
+                            this.props.onBoxDropped(this.props.boxSelected,
+                                extraParams.j,
+                                extraParams.i,
+                                this.props.boxes[this.props.boxSelected].parent,
+                                extraParams.idContainer);
                         }
 
                         let clone = document.getElementById('clone');

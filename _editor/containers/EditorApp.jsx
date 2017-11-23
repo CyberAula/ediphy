@@ -252,7 +252,7 @@ class EditorApp extends Component {
                                     this.dispatchAndSetState(deleteSortableContainer(id, parent, descBoxes, cvs/* , this.getDescendantContainedViewsFromContainer(boxes[parent], id)*/));
                                 }}
                                 onSortableContainerReordered={(ids, parent) => this.dispatchAndSetState(reorderSortableContainer(ids, parent))}
-                                onBoxDropped={(id, row, col) => this.dispatchAndSetState(dropBox(id, row, col))}
+                                onBoxDropped={(id, row, col, parent, container) => this.dispatchAndSetState(dropBox(id, row, col, parent, container))}
                                 onBoxDeleted={(id, parent, container)=> {let bx = this.getDescendantBoxes(boxes[id]); this.dispatchAndSetState(deleteBox(id, parent, container, bx, boxes[id].containedViews /* , this.getDescendantContainedViews(boxes[id])*/));}}
                                 onContainedViewSelected={id => this.dispatchAndSetState(selectContainedView(id))}
                                 onVerticallyAlignBox={(id, verticalAlign)=>this.dispatchAndSetState(verticallyAlignBox(id, verticalAlign))}
@@ -288,7 +288,7 @@ class EditorApp extends Component {
                                 onContainedViewSelected={id => this.dispatchAndSetState(selectContainedView(id))}
                                 onBoxSelected={(id) => this.dispatchAndSetState(selectBox(id))}
                                 onBoxLevelIncreased={() => this.dispatchAndSetState(increaseBoxLevel())}
-                                onBoxMoved={(id, x, y, position, parent, container) => this.dispatchAndSetState(moveBox(id, x, y, position, parent, container))}
+                                onBoxMoved={(id, x, y, parent, container) => this.dispatchAndSetState(moveBox(id, x, y, position, parent, container))}
                                 onBoxResized={(id, widthButton, heightButton) => this.dispatchAndSetState(resizeBox(id, widthButton, heightButton))}
                                 onSortableContainerResized={(id, parent, height) => this.dispatchAndSetState(resizeSortableContainer(id, parent, height))}
                                 onSortableContainerDeleted={(id, parent) => {
