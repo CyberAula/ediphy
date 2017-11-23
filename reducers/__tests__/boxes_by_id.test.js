@@ -6,7 +6,7 @@ const state = testState.present.boxesById;
 
 // console.log(state);
 
-describe('# boxes_by_id reducer', ()=>{
+describe('# boxes_by_id reducer ******************************************************************* TODO :)', ()=>{
 
     describe('DEFAULT', ()=>{
         test('Should return test.state as default', () => {

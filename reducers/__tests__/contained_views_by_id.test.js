@@ -6,7 +6,7 @@ const state = testState.present.containedViewsById;
 
 // console.log(state);
 
-describe('# contained_views_by_id reducer', ()=>{
+describe('# contained_views_by_id reducer ******************************************************************* TODO :)', ()=>{
 
     describe('DEFAULT', ()=>{
         test('Should return test.state as default', () => {
@@ -68,7 +68,7 @@ describe('# contained_views_by_id reducer', ()=>{
 // Single contained view reducer
 //* *************************************************************************************************
 
-describe('# single_contained_views_by_id reducer', ()=>{
+describe('# single_contained_views_by_id reducer ******************************************************************* TODO :)', ()=>{
     describe('DEFAULT', ()=>{
         test('Should return test.state as default', () => {
             expect(contained_views_by_id(state, {})).toEqual(state);
