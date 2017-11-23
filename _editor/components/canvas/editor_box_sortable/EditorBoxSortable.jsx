@@ -65,7 +65,7 @@ export default class EditorBoxSortable extends Component {
                                     height: container.height === 'auto' ? container.height : container.height + 'px',
                                 }, container.style)
                             }>
-                            <div className="disp_table width100 height100" style={{ minHeight: '100px', height: '1px' }}>
+                            <div className="disp_table width100 height100" style={{ minHeight: '30px', height: '1px' }}>
                                 {container.colDistribution.map((col, i) => {
                                     if (container.cols[i]) {
                                         return (<div key={i}
@@ -323,6 +323,12 @@ export default class EditorBoxSortable extends Component {
 
                         let clone = document.getElementById('clone');
                         clone.parentElement.removeChild(clone);
+                        for (let b in this.props.boxes) {
+                            let dombox = document.getElementById('box-' + b);
+                            if (dombox) {
+                                dombox.style.opacity = 1;
+                            }
+                        }
                     }
                 } else {
                     if (isSortableBox(this.props.id) && Ediphy.Plugins.get(e.relatedTarget.getAttribute("name")).getConfig().limitToOneInstance) {

@@ -76,6 +76,7 @@ export default class Clipboard extends Component {
                     // Paste plugin
                         event.preventDefault();
                         // TODO Drag with Ctrl key held
+                        // TODO Limit one instance plugin
                         this.props.onBoxPasted(ids,
                             this.transformBox(data.box, ids, isTargetSlide, data.box.resizable),
                             this.transformToolbar(data.toolbar, ids, isTargetSlide, data.box.resizable));
@@ -114,7 +115,13 @@ export default class Clipboard extends Component {
                         console.log(err);
                     }
                     if (noImage) {
-                        initialParams.text = event.clipboardData.getData("text/html") || event.clipboardData.getData("text");
+                        initialParams.text = event.clipboardData.getData("text/html");
+                        if (initialParams.text.indexOf("<head>") !== -1) {
+                            initialParams.text = encodeURI(event.clipboardData.getData("text/plain"));
+                        }
+                        if (!initialParams.text) {
+                            initialParams.text = "<span>" + (event.clipboardData.getData("text/plain")) + "</span>";
+                        }
                         Ediphy.Plugins.get("BasicText").getConfig().callback(initialParams, ADD_BOX);
                         console.log(data);
                     }

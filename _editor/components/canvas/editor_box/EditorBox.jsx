@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import MarkCreator from '../../rich_plugins/mark_creator/MarkCreator';
 import interact from 'interactjs';
 import PluginPlaceholder from '../plugin_placeholder/PluginPlaceholder';
-import { ADD_BOX, UPDATE_BOX, RESIZE_BOX, EDIT_PLUGIN_TEXT, IMPORT_STATE } from '../../../../common/actions';
+import { ADD_BOX, UPDATE_BOX, RESIZE_BOX, EDIT_PLUGIN_TEXT, IMPORT_STATE, PASTE_BOX } from '../../../../common/actions';
 import Ediphy from '../../../../core/editor/main';
 import i18n from 'i18next';
 import { isSortableBox, isSortableContainer, isAncestorOrSibling, isContainedView } from '../../../../common/utils';
@@ -472,7 +472,7 @@ export default class EditorBox extends Component {
 
         }
 
-        if ((action.type === ADD_BOX || action.type === UPDATE_BOX || action.type === RESIZE_BOX || action.type === IMPORT_STATE) &&
+        if ((action.type === ADD_BOX || action.type === UPDATE_BOX || action.type === PASTE_BOX || action.type === RESIZE_BOX || action.type === IMPORT_STATE) &&
             ((action.payload.id || action.payload.ids.id) === this.props.id)) {
             Ediphy.Plugins.get(toolbar.config.name).afterRender(this.refs.content, toolbar.state);
         }
@@ -689,6 +689,7 @@ export default class EditorBox extends Component {
                     bar.classList.remove('hidden');
 
                     event.stopPropagation();
+
                 },
             })
             .ignoreFrom('input, textarea, .textAreaStyle,  a, .pointerEventsEnabled')
