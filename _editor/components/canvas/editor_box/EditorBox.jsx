@@ -118,6 +118,7 @@ export default class EditorBox extends Component {
             }
         }
 
+        console.log('wh', width, height);
         Object.assign(textareaStyle, style);
         textareaStyle.visibility = 'visible';
 

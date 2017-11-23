@@ -121,11 +121,16 @@ export default function() {
             }
 
             callback = function(initParams, reason) {
+                console.log(initParams);
                 state = {};
                 if (descendant.getInitialState) {
                     state = descendant.getInitialState();
                 }
                 if (needsTextEdition) {
+                    if(initParams.text) {
+                        state.__text = initParams.text;
+                    }
+
                     if (!state.__text) {
                         state.__text = "<p>" + Ediphy.i18n.t("text_here") + "</p>";
                     }
@@ -135,6 +140,11 @@ export default function() {
                         };
                     }
                 }
+
+                if(initParams.url) {
+                    state.url = initParams.url;
+                }
+
                 if (needsXMLEdition) {
                     if (!state.__xml) {
                         state.__xml = null;
