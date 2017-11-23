@@ -2,7 +2,7 @@
 export const testState = { "present":
     {
         "globalConfig": {
-            "title": "Título Curso",
+            "title": "Ediphy",
             "canvasRatio": 1.7777777777777777,
             "visorNav": { "player": true, "sidebar": true, "keyBindings": true },
             "trackProgress": true,
@@ -13,6 +13,7 @@ export const testState = { "present":
             "status": "draft",
             "structure": "linear",
             "version": "1.0.0",
+            "thumbnail": '',
             "typicalLearningTime": { "h": 0, "m": 0, "s": 0 },
             "difficulty": "easy",
         },
