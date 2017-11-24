@@ -294,7 +294,7 @@ export default class DataProvider extends React.Component {
                                     {Array.apply(0, Array(this.state.cols)).map((x, i) => {
                                         return(
                                             <th key={i + 1}>
-                                                <i className="material-icons clearCol" onClick={(e)=>{this.deleteCols(i);}}>clear</i>
+                                                <i className="material-icons clearCol" onClick={(e)=>{this.deleteCols(i);}} role="button" tabIndex="0">clear</i>
                                                 <FormControl type="text" name={i} value={this.state.keys[i]} style={{ margin: '0px' }} onChange={this.keyChanged}/>
                                             </th>
                                         );
@@ -310,7 +310,7 @@ export default class DataProvider extends React.Component {
                                             {Array.apply(0, Array(this.state.cols)).map((q, o) => {
                                                 return(
                                                     <td key={o + 1}>
-                                                        {o === 0 ? (<i className="material-icons clearRow" onClick={()=>{this.deleteRows(i);}}>clear</i>) : null}
+                                                        {o === 0 ? (<i className="material-icons clearRow" onClick={()=>{this.deleteRows(i);}} role="button" tabIndex="0">clear</i>) : null}
 
                                                         <FormControl type="text" name={i + " " + this.state.keys[o]} value={this.state.data[i][this.state.keys[o]] } onChange={this.dataChanged}/>
 

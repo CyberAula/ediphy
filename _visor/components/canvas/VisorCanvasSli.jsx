@@ -51,9 +51,9 @@ export default class VisorCanvasSli extends Component {
                     style={{ margin: '0 auto', visibility: (this.props.showCanvas ? 'visible' : 'hidden') }}>
 
                     <div id={isCV ? "contained_maincontent" : "maincontent"}
-                        onClick={e => {
-                            this.setState({ showTitle: false });
-                        }}
+                        //onClick={e => {
+                          //  this.setState({ showTitle: false });
+                        //}}
                         className={'innercanvas sli'}
                         style={{ visibility: (this.props.showCanvas ? 'visible' : 'hidden') }}>
                         {isCV ? (< OverlayTrigger placement="bottom" overlay={tooltip}>

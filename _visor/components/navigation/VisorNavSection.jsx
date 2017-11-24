@@ -18,16 +18,15 @@ export default class VisorNavSection extends Component {
         let classes = this.props.display ? "visorNavListEl" : "visorNavListEl hiddenNavVisor";
         return (
             <ul className={classes}>
-                <li className="visorNavListEl" onClick={(e)=>{
-                    if (Ediphy.Config.sections_have_content) {
-                        this.props.changePage(this.props.pageName);
-                    } else {
-                        this.setState({ toggled: !this.state.toggled });
-                    }}}>
-                    <button className={this.props.navItemSelected === this.props.pageName ? "indexElementTitle visorNavListEl selectedNavItemVisor" : "indexElementTitle visorNavListEl"} style={{ paddingLeft: marginUl }} >
+                <li className="visorNavListEl" >
+                    <button onClick={(e)=>{
+                        if (Ediphy.Config.sections_have_content) {
+                            this.props.changePage(this.props.pageName);
+                        } else {
+                            this.setState({ toggled: !this.state.toggled });
+                        }}} className={this.props.navItemSelected === this.props.pageName ? "indexElementTitle visorNavListEl selectedNavItemVisor" : "indexElementTitle visorNavListEl"} style={{ paddingLeft: marginUl }} >
                         {this.state.toggled ?
-                            (<i onClick={(e)=>{this.setState({ toggled: !this.state.toggled });}} className="material-icons">keyboard_arrow_down</i>) : (<i onClick={(e)=>{this.setState({ toggled: !this.state.toggled });}} className="material-icons">keyboard_arrow_right</i>)}
-
+                            (<i onClick={(e)=>{this.setState({ toggled: !this.state.toggled });}} role="button" tabIndex="0" className="material-icons">keyboard_arrow_down</i>) : (<i onClick={(e)=>{this.setState({ toggled: !this.state.toggled });}} role="button" tabIndex="0" className="material-icons">keyboard_arrow_right</i>)}
                         <span> {name} </span>
                     </button>
                 </li>
@@ -43,9 +42,9 @@ export default class VisorNavSection extends Component {
                             changeCurrentView={(pageNum) => {this.props.changeCurrentView(pageNum);}} />);
                     }
                     return (<li key={page}
-                        onClick={(e)=>{this.props.changeCurrentView(page);}}
                         className={this.state.toggled ? "visorNavListEl" : "visorNavListEl hiddenNavVisor"}>
                         <button style={{ paddingLeft: margin }}
+                            onClick={(e)=>{this.props.changeCurrentView(page);}}
                             className={this.props.navItemSelected === page ? "indexElementTitle selectedNavItemVisor" : "indexElementTitle"}>
                             {isSlide(this.props.navItemsById[page].type) ? (<i className="material-icons">slideshow</i>) : (<i className="material-icons">insert_drive_file</i>)}
                             <span>{this.props.navItemsById[page].name}</span>
