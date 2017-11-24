@@ -6,7 +6,7 @@ const state = testState.present.boxesById;
 
 // console.log(state);
 
-describe('# boxes_by_id reducer ******************************************************************* TODO :)', ()=>{
+describe('# boxes_by_id reducer ******************************************************************* DOING :)', ()=>{
 
     describe('DEFAULT', ()=>{
         test('Should return test.state as default', () => {
@@ -15,60 +15,129 @@ describe('# boxes_by_id reducer ************************************************
     });
 
     describe('handle ADD_BOX', ()=>{
+        // new box to add
+        const createdbox = {
+            id: 'bo-1511443052925', parent: '', container: '', level: 0, col: 0, row: 0,
+            position: { x: 0, y: 0, type: '' },
+            content: "", draggable: true,
+            resizable: false, showTextEditor: false, fragment: {}, children: [], sortableContainers: {}, containedViews: [],
+        };
         test('If added box is contained in sortableContainer (if is in a document)', () => {
-            const boxpayload = { ids: { parent: 'bs-1497983247797', id: 'bo-1511443052925', container: 'sc-1511443052922' }, draggable: true, resizable: false, content: '', toolbar: {}, config: {}, state: {}, initialParams: {} };
-            const action = {
-                type: ActionTypes.ADD_BOX,
-                payload: { boxpayload },
-            };
-            const createdbox = {
-                id: 'bo-1511443052925',
-                parent: 'bs-1497983247797',
-                container: 'sc-1511443052922',
-                level: 0,
+            createdbox.container = 'sc-1511443052922';
+            createdbox.parent = 'bs-1511252985426';
+            createdbox.position.type = 'relative';
+            createdbox.resizable = false;
+
+            // sortable container modified
+
+            const modifiedsortable = {
+                id: 'bs-1511252985426',
+                parent: 'pa-1511252985426',
+                container: 0,
+                level: -1,
                 col: 0,
                 row: 0,
                 position: { x: 0, y: 0, type: 'relative' },
-                content: "",
-                draggable: true,
+                draggable: false,
                 resizable: false,
                 showTextEditor: false,
                 fragment: {},
-                children: [],
-                sortableContainers: {},
+                children: ["sc-1511443052922"],
+                sortableContainers: {
+                    "sc-1511443052922": {
+                        "children": ["bo-1511443052925"],
+                        "colDistribution": [100],
+                        "cols": [[100]],
+                        "height": "auto",
+                        "key": "",
+                        "style": {
+                            "borderColor": "#ffffff",
+                            "borderStyle": "solid",
+                            "borderWidth": "0px",
+                            "className": "",
+                            "opacity": "1",
+                            "padding": "0px",
+                            "textAlign": "center",
+                        },
+                    },
+                },
                 containedViews: [],
             };
-            state['bo-1511443052925'] = createdbox;
-            const newstate = state;
-            expect(action.ids.container != 0).toBeTruthy;
-            // expect(boxes_by_id(state, action)).toEqual(newstate);
+            const action = {
+                type: ActionTypes.ADD_BOX,
+                payload: { ids:
+                    { parent: 'bs-1511252985426', id: 'bo-1511443052925', container: 'sc-1511443052922' },
+                draggable: true,
+                resizable: false,
+                content: '',
+                toolbar: {},
+                config: {},
+                state: {},
+                initialParams: {},
+                },
+            };
+
+            const newstate = Object.assign({}, state);
+
+            // state modications
+            newstate['bs-1511252985426'] = modifiedsortable;
+            newstate['bo-1511443052925'] = createdbox;
+
+            expect(action.payload.ids.container != 0).toBeTruthy;
+            expect(boxes_by_id(state, action)).toEqual(newstate);
 
         });
-    });
+        test('If added box in a slide', () => {
+            // new box to add
 
-    // case ADD_BOX:
-    //         // if box is contained in sortableContainer, add it as well to its children
-    //         if (isSortableContainer(action.payload.ids.container)) {
-    //             return changeProps(
-    //                 state,
-    //                 [
-    //                     action.payload.ids.id,
-    //                     action.payload.ids.parent,
-    //                 ], [
-    //                     boxCreator(state, action),
-    //                     boxReducer(state[action.payload.ids.parent], action),
-    //                 ]
-    //             );
-    //         }
-    //     return changeProp(state, action.payload.ids.id, boxCreator(state, action));
-    //
+            createdbox.container = '0';
+            createdbox.parent = 'pa-1511252955865';
+            createdbox.position.type = 'absolute';
+            createdbox.resizable = true;
+
+            const action = {
+                type: ActionTypes.ADD_BOX,
+                payload: { ids:
+                    { parent: 'pa-1511252955865', id: 'bo-1511443052925', container: '0' },
+                draggable: true,
+                resizable: true,
+                content: '',
+                toolbar: {},
+                config: {},
+                state: {},
+                initialParams: {},
+                },
+            };
+            const newstate = Object.assign({}, state);
+            newstate['bo-1511443052925'] = createdbox;
+            expect(boxes_by_id(state, action)).toEqual(newstate);
+        });
+    });
 
     describe('handle MOVE_BOX', ()=>{
         test('If moved box', () => {
-            // expect(boxes_by_id(state, {})).toEqual(state);
+            const action = {
+                type: ActionTypes.MOVE_BOX,
+                payload: {
+                    id: 'bo-1511252970033',
+                    x: '29.425837320574164%',
+                    y: '29.26829268292683%',
+                    position: 'absolute',
+                    parent: 'pa-1511252955865',
+                    container: 0,
+                },
+            };
+            const newstate = Object.assign({}, state);
+            newstate['bo-1511252970033'].position.x = action.payload.x;
+            newstate['bo-1511252970033'].position.y = action.payload.y;
+
+            console.log(state['bo-1511252970033']);
+
+            expect(boxes_by_id(state, action)).toEqual(newstate);
         });
     });
-    describe('handle DUPLICATE_BOX', ()=>{
+
+    describe('handle DUPLICATE_BOX  ********************************************************** TODO', ()=>{
         test('If duplicated box', () => {
             // expect(boxes_by_id(state, {})).toEqual(state);
         });
