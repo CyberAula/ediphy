@@ -1,5 +1,6 @@
 import helper from './test_helper';
 import reducer from '../box_selected';
+
 import { ADD_BOX, ADD_NAV_ITEM, DELETE_BOX, DELETE_SORTABLE_CONTAINER, DUPLICATE_BOX, DELETE_NAV_ITEM, SELECT_BOX, SELECT_CONTAINED_VIEW, SELECT_NAV_ITEM, IMPORT_STATE } from '../../common/actions';
 
 let reducerHelper = helper(undefined, reducer);

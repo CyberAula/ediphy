@@ -1,6 +1,6 @@
 import helper from './test_helper';
-import reducer from '../global_config';
-import { CHANGE_GLOBAL_CONFIG, IMPORT_STATE } from '../../common/actions';
+import reducer from '../index_selected';
+import { ADD_NAV_ITEM, DELETE_NAV_ITEM, INDEX_SELECT, SELECT_NAV_ITEM, IMPORT_STATE } from '../../common/actions';
 
 let reducerHelper = helper(undefined, reducer);
 
@@ -11,7 +11,7 @@ describe('empty_block reducer', ()=>{
     });
 
     test('template', () => {
-        expect(0).toEqual(-1);
+        // expect(0).toEqual(-1);
     });
 
 });

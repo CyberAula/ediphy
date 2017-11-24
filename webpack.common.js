@@ -5,6 +5,9 @@ let path = require('path');
 let ProgressBarPlugin = require('progress-bar-webpack-plugin');
 
 module.exports = {
+    node: {
+        fs: 'empty',
+    },
     module: {
         rules: [
             {
