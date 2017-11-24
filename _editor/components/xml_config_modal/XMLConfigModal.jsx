@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Modal, Button, Row } from 'react-bootstrap';
-import Dali from '../../../core/editor/main';
+import Ediphy from '../../../core/editor/main';
 import { UPDATE_NAV_ITEM_EXTRA_FILES } from '../../../common/actions';
 
 /**
@@ -30,7 +30,7 @@ export default class XMLConfigModal extends Component {
                         let state = Object.assign({}, this.props.toolbar.state);
                         let xml = this.generateXMLFromView(state);
                         $.ajax({
-                            url: state.__xml_path ? state.__xml_path : Dali.Config.xml_path,
+                            url: state.__xml_path ? state.__xml_path : Ediphy.Config.xml_path,
                             type: state.__xml_path ? 'PUT' : 'POST',
                             data: {
                                 url: window.location.pathname,
@@ -38,9 +38,9 @@ export default class XMLConfigModal extends Component {
                             },
                             success: function(response, status, xhr) {
                                 if(!state.__xml_path) {
-                                    window.history.pushState({}, "", response.dali_document_path);
+                                    window.history.pushState({}, "", response.ediphy_document_path);
                                 }
-                                state.__xml_path = response.dali_exercise_path;
+                                state.__xml_path = response.ediphy_exercise_path;
                             },
                             error: function(xhr, status, error) {
                                 // eslint-disable-next-line no-console
@@ -48,9 +48,9 @@ export default class XMLConfigModal extends Component {
                             },
                             complete: function(xhr, status) {
                                 if(status === "error") {
-                                    state.__xml_path = Dali.Config.xml_fake_path;
+                                    state.__xml_path = Ediphy.Config.xml_fake_path;
                                 }
-                                Dali.Plugins.get(this.props.toolbar.config.name).forceUpdate(state, this.props.id, UPDATE_NAV_ITEM_EXTRA_FILES);
+                                Ediphy.Plugins.get(this.props.toolbar.config.name).forceUpdate(state, this.props.id, UPDATE_NAV_ITEM_EXTRA_FILES);
                                 this.props.onXMLEditorToggled();
                             }.bind(this),
                         });

@@ -1,0 +1,482 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for ediphy/plugins/GraficaD3/components/config-component.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../../../prettify.css" />
+    <link rel="stylesheet" href="../../../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../../../index.html">All files</a> / <a href="index.html">ediphy/plugins/GraficaD3/components</a> config-component.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>0/52</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/25</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>0/12</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>0/51</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import React from "react";
+import { Button, Col, Grid, Row } from "react-bootstrap";
+import i18n from 'i18next';
+import DataProvider from './data-provider';
+import ChartOptions from './chart-options';
+import Chart from './chart-component';
+&nbsp;
+export default class Config extends React.Component {
+&nbsp;
+<span class="fstat-no" title="function not covered" >    co</span>nstructor(props) {
+<span class="cstat-no" title="statement not covered" >        super(props);</span>
+<span class="cstat-no" title="statement not covered" >        this.modifyState = this.modifyState.bind(this);</span>
+<span class="cstat-no" title="statement not covered" >        this.dataChanged = this.dataChanged.bind(this);</span>
+<span class="cstat-no" title="statement not covered" >        this.setOptions = this.setOptions.bind(this);</span>
+<span class="cstat-no" title="statement not covered" >        this.optionsChanged = this.optionsChanged.bind(this);</span>
+<span class="cstat-no" title="statement not covered" >        this.editButtonClicked = this.editButtonClicked.bind(this);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        this.state = props.state;</span>
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    co</span>mponentDidUpdate(nextProps, nextState) {
+<span class="cstat-no" title="statement not covered" >        if (nextProps.state.editing === false) {</span>
+<span class="cstat-no" title="statement not covered" >            nextProps.base.configModalNeedsUpdate();</span>
+        }
+    }
+<span class="fstat-no" title="function not covered" >    co</span>mponentWillUpdate(nextProps, nextState) {
+<span class="cstat-no" title="statement not covered" >        nextProps.base.setState("dataProvided", nextState.dataProvided);</span>
+<span class="cstat-no" title="statement not covered" >        nextProps.base.setState("options", nextState.options);</span>
+<span class="cstat-no" title="statement not covered" >        nextProps.base.setState("dataProcessed", nextState.dataProcessed);</span>
+<span class="cstat-no" title="statement not covered" >        nextProps.base.setState("keys", nextState.keys);</span>
+<span class="cstat-no" title="statement not covered" >        nextProps.base.setState("valueKeys", nextState.valueKeys);</span>
+<span class="cstat-no" title="statement not covered" >        nextProps.base.setState("editing", nextState.editing);</span>
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    co</span>mponentDidMount() {
+        let { clientWidth } = <span class="cstat-no" title="statement not covered" >this.refs.chartContainer;</span>
+<span class="cstat-no" title="statement not covered" >        this.setState({ chartWidth: clientWidth });</span>
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    mo</span>difyState() {
+&nbsp;
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    da</span>taChanged(values) {
+<span class="cstat-no" title="statement not covered" >        this.setState({ editing: false, dataProvided: values.dataProvided.slice(0) });</span>
+&nbsp;
+        /* CONVERSOR BETWEEN OLD AND NEW */
+        let keys = <span class="cstat-no" title="statement not covered" >values.dataProvided.slice(0).map(<span class="fstat-no" title="function not covered" >(x</span>)=&gt;{<span class="cstat-no" title="statement not covered" >return x[0];}</span>);</span>
+        let oldObjectStructure = <span class="cstat-no" title="statement not covered" >new Array(values.dataProvided[0].length - 1);</span>
+<span class="cstat-no" title="statement not covered" >        for(let n = 0; n &lt; oldObjectStructure.length; n++) {</span>
+<span class="cstat-no" title="statement not covered" >            oldObjectStructure[n] = {};</span>
+        }
+<span class="cstat-no" title="statement not covered" >        values.dataProvided.slice(0).forEach(<span class="fstat-no" title="function not covered" >(a</span>rray, indx)=&gt;{</span>
+<span class="cstat-no" title="statement not covered" >            for(let n = 1; n &lt; array.length; n++) {</span>
+<span class="cstat-no" title="statement not covered" >                oldObjectStructure[n - 1][array[0]] = array[n];</span>
+            }
+        });
+        /* CONVERSOR BETWEEN OLD AND NEW */
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        this.setOptions(oldObjectStructure, keys);</span>
+        // this.updateChart();
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    se</span>tOptions(dataProcessed, keys) {
+        let nKeys = <span class="cstat-no" title="statement not covered" >[];</span>
+<span class="cstat-no" title="statement not covered" >        for (let i = 0; i &lt; keys.length; i++) {</span>
+            let value = <span class="cstat-no" title="statement not covered" >keys[i];</span>
+<span class="cstat-no" title="statement not covered" >            nKeys[i] = {};</span>
+<span class="cstat-no" title="statement not covered" >            nKeys[i].value = value;</span>
+<span class="cstat-no" title="statement not covered" >            nKeys[i].notNumber = true;</span>
+        }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        for (let o = 0; o &lt; dataProcessed.length; o++) {</span>
+            let row = <span class="cstat-no" title="statement not covered" >dataProcessed[o];</span>
+<span class="cstat-no" title="statement not covered" >            for (let i = 0; i &lt; keys.length; i++) {</span>
+                let key = <span class="cstat-no" title="statement not covered" >nKeys[i];</span>
+<span class="cstat-no" title="statement not covered" >                dataProcessed[o][keys[i]] = isNaN(dataProcessed[o][keys[i]]) || typeof(dataProcessed[o][keys[i]]) === "boolean" || dataProcessed[o][keys[i]] === "" || dataProcessed[o][keys[i]] === null ? dataProcessed[o][keys[i]] : parseFloat(dataProcessed[o][keys[i]], 10);</span>
+<span class="cstat-no" title="statement not covered" >                if (key.notNumber) {</span>
+<span class="cstat-no" title="statement not covered" >                    nKeys[i].notNumber = isNaN(row[key.value]) || typeof(row[key.value]) === "boolean" || row[key.value] === "";</span>
+                }
+            }
+        }
+&nbsp;
+        let valueKeys = <span class="cstat-no" title="statement not covered" >[];</span>
+<span class="cstat-no" title="statement not covered" >        for (let key of nKeys) {</span>
+<span class="cstat-no" title="statement not covered" >            if (!key.notNumber) {</span>
+<span class="cstat-no" title="statement not covered" >                valueKeys.push(key.value);</span>
+            }
+        }
+        let options = <span class="cstat-no" title="statement not covered" >this.state.options;</span>
+<span class="cstat-no" title="statement not covered" >        options.x = keys[0];</span>
+<span class="cstat-no" title="statement not covered" >        options.y = [{ key: valueKeys[0], color: "#1FC8DB" }];</span>
+<span class="cstat-no" title="statement not covered" >        options.rings = [{ name: keys[0], value: valueKeys[0], color: "#1FC8DB" }];</span>
+<span class="cstat-no" title="statement not covered" >        this.setState({ dataProcessed: dataProcessed, keys: keys, valueKeys: valueKeys, options: options });</span>
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    op</span>tionsChanged(options) {
+<span class="cstat-no" title="statement not covered" >        this.setState({ options: options });</span>
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    ed</span>itButtonClicked() {
+<span class="cstat-no" title="statement not covered" >        this.setState({ editing: true });</span>
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    re</span>nder() {
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        return (</span>
+            &lt;Grid&gt;
+                &lt;Row&gt;
+                    &lt;Col lg={this.state.editing ? 12 : 5} xs={12}&gt;
+                        &lt;h4&gt; {i18n.t("GraficaD3.header.origin")} &lt;/h4&gt;
+                        {!this.state.editing &amp;&amp;
+                        &lt;Button onClick={this.editButtonClicked} style={{ marginTop: '0px' }}
+                            className="btn-primary"&gt;{i18n.t("GraficaD3.edit")}&lt;/Button&gt;
+                        }
+                        {this.state.editing &amp;&amp;
+                        &lt;DataProvider dataProvided={this.state.dataProvided} dataChanged={this.dataChanged} keys={this.state.keys}
+                            valueKeys={this.state.valueKeys}/&gt;
+                        }
+                        {!this.state.editing &amp;&amp;
+                        &lt;ChartOptions options={this.state.options} optionsChanged={this.optionsChanged}
+                            keys={this.state.keys} valueKeys={this.state.valueKeys}/&gt;
+                        }
+                    &lt;/Col&gt;
+                    &lt;div className="col-xs-12 col-lg-7" ref="chartContainer" style={{ padding: '0px' }}&gt;
+                        {!this.state.editing &amp;&amp;
+                        &lt;div style={{ height: '300px', width: '95%' }}&gt;
+                            &lt;h4&gt;Previsualización&lt;/h4&gt;
+                            &lt;Chart dataProcessed={this.state.dataProcessed} options={this.state.options} width={this.state.chartWidth}
+                                key={this.state.key}/&gt;
+                        &lt;/div&gt;
+                        }
+                    &lt;/div&gt;
+                &lt;/Row&gt;
+            &lt;/Grid&gt;
+        );
+    }
+&nbsp;
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Wed Nov 22 2017 16:13:18 GMT+0100 (CET)
+</div>
+</div>
+<script src="../../../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../../../sorter.js"></script>
+</body>
+</html>

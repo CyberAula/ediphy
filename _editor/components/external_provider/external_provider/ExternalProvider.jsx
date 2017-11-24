@@ -39,19 +39,19 @@ export default class ExternalProvider extends Component {
                     this.props.formControlProps.onChange(e, this.state);
                 }}/>
                 <br />
-                { Dali.Config.external_providers.enable_search &&
+                { Ediphy.Config.external_providers.enable_search &&
                 <Button className={'toolbarButton'}
                     onClick={() => {
                         this.setState({ searching: true });
                     }}>{i18n.t('Search_in_ViSH')}</Button>}
                 <br />
                 <br />
-                { Dali.Config.external_providers.enable_external_upload &&
+                { Ediphy.Config.external_providers.enable_external_upload &&
                 <Button className={'toolbarButton'}
                     onClick={() => {
                         this.setState({ uploading: true });
                     }}>{i18n.t('Upload_to_ViSH')}</Button>}
-                { Dali.Config.external_providers.enable_search &&
+                { Ediphy.Config.external_providers.enable_search &&
                 <ExternalSearcherModal visible={this.state.searching}
                     isBusy={this.props.isBusy}
                     fetchResults={this.props.fetchResults}
@@ -62,7 +62,7 @@ export default class ExternalProvider extends Component {
                         this.setState({ searching: !this.state.searching });
                     }}
                     onFetchVishResources={this.props.onFetchVishResources}/>}
-                { Dali.Config.external_providers.enable_external_upload &&
+                { Ediphy.Config.external_providers.enable_external_upload &&
                 <ExternalUploaderModal visible={this.state.uploading}
                     accept={this.props.accept}
                     isBusy={this.props.isBusy}

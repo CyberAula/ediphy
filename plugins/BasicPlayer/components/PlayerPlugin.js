@@ -85,7 +85,7 @@ export default class PlayerPlugin extends React.Component {
                     onDuration={duration => this.setState({ duration })}
                     onError={(e)=>{
                         e.target.onError = null;
-                        e.target.src = Dali.Config.image_placeholder;
+                        e.target.src = Ediphy.Config.image_placeholder;
                     }}
                 />
                 {(this.state.controls) && (

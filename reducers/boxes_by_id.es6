@@ -45,7 +45,7 @@ function boxCreator(state, action) {
         }
     }
 
-    // sortableContainers for boxes inside this box (this is not DaliBoxSortable)
+    // sortableContainers for boxes inside this box (this is not EditorBoxSortable)
     let children = [];
     let sortableContainers = {};
     if (action.payload.state) {
@@ -183,7 +183,7 @@ function boxReducer(state = {}, action = {}) {
     case RESIZE_SORTABLE_CONTAINER:
         return changeProp(state, "sortableContainers", sortableContainersReducer(state.sortableContainers, action));
     case UPDATE_BOX:
-        // sortableContainers for boxes inside this box (this is not DaliBoxSortable)
+        // sortableContainers for boxes inside this box (this is not EditorBoxSortable)
         let sortableContainers = {};
         let children = [];
         if (action.payload.state.__pluginContainerIds) {

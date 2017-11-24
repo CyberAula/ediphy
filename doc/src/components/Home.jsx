@@ -15,7 +15,7 @@ export default class Content extends Component {
                 <br/>
                 <Jumbotron>
                     <img src={icon} className="mainLogo" alt=""/>
-                    <h1><b>Dalí</b> Editor</h1>
+                    <h1><b>ED</b>iphy</h1>
                     <h2>{i18n.t("Home.Description")}</h2>
                 </Jumbotron>
                 <Row className="tools">
@@ -36,7 +36,7 @@ export default class Content extends Component {
                     </Col>
 
                     <Col xs={12} md={4} className="mainPageBlock">
-                        <a href="https://github.com/ging/dali_editor/">
+                        <a href="https://github.com/ging/ediphy/">
                             <img src={git} className="homeImg" alt=""/>
                         </a>
                         <h3>{i18n.t("Home.Github")}</h3>

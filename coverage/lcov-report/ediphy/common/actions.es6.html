@@ -1,0 +1,1286 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for ediphy/common/actions.es6</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../index.html">All files</a> / <a href="index.html">ediphy/common</a> actions.es6
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">28.39% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>44/155</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/26</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>0/69</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">28.39% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>44/155</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338
+339
+340
+341
+342
+343
+344
+345
+346
+347
+348
+349
+350
+351
+352
+353
+354
+355
+356
+357
+358
+359
+360
+361
+362
+363
+364
+365
+366
+367
+368
+369
+370
+371
+372
+373
+374
+375
+376
+377
+378
+379
+380
+381
+382
+383
+384
+385
+386
+387
+388
+389
+390
+391
+392
+393
+394
+395
+396
+397
+398
+399
+400
+401
+402
+403
+404
+405
+406
+407
+408</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import fetch from 'isomorphic-fetch';
+import Ediphy from '../core/editor/main';
+import i18n from 'i18next';
+&nbsp;
+export const ADD_BOX = 'ADD_BOX';
+export const SELECT_BOX = 'SELECT_BOX';
+export const MOVE_BOX = 'MOVE_BOX';
+export const DUPLICATE_BOX = 'DUPLICATE_BOX';
+export const RESIZE_BOX = 'RESIZE_BOX';
+export const UPDATE_BOX = 'UPDATE_BOX';
+export const DELETE_BOX = 'DELETE_BOX';
+export const DROP_BOX = 'DROP_BOX';
+export const VERTICALLY_ALIGN_BOX = 'VERTICALLY_ALIGN_BOX';
+export const INCREASE_LEVEL = 'INCREASE_LEVEL';
+// this is to move a box that has relative position inside a container
+export const REORDER_BOXES = 'REORDER_BOXES';
+&nbsp;
+export const RESIZE_SORTABLE_CONTAINER = 'RESIZE_SORTABLE_CONTAINER';
+export const DELETE_SORTABLE_CONTAINER = 'DELETE_SORTABLE_CONTAINER';
+export const REORDER_SORTABLE_CONTAINER = 'REORDER_SORTABLE_CONTAINER';
+export const CHANGE_SORTABLE_PROPS = 'CHANGE_SORTABLE_PROPS';
+export const CHANGE_COLS = 'CHANGE_COLS';
+export const CHANGE_ROWS = 'CHANGE_ROWS';
+&nbsp;
+export const ADD_NAV_ITEM = 'ADD_NAV_ITEM';
+export const SELECT_NAV_ITEM = 'SELECT_NAV_ITEM';
+export const EXPAND_NAV_ITEM = 'EXPAND_NAV_ITEM';
+export const DELETE_NAV_ITEM = 'DELETE_NAV_ITEM';
+export const REORDER_NAV_ITEM = 'REORDER_NAV_ITEM';
+export const TOGGLE_NAV_ITEM = 'TOGGLE_NAV_ITEM';
+export const UPDATE_NAV_ITEM_EXTRA_FILES = 'UPDATE_NAV_ITEM_EXTRA_FILES';
+export const CHANGE_NAV_ITEM_NAME = 'CHANGE_NAV_ITEM_NAME';
+export const CHANGE_UNIT_NUMBER = 'CHANGE_UNIT_NUMBER';
+export const INDEX_SELECT = 'INDEX_SELECT';
+&nbsp;
+export const TOGGLE_TEXT_EDITOR = 'TOGGLE_TEXT_EDITOR';
+export const TOGGLE_TITLE_MODE = 'TOGGLE_TITLE_MODE';
+export const CHANGE_DISPLAY_MODE = 'CHANGE_DISPLAY_MODE';
+export const SET_BUSY = 'SET_BUSY';
+export const UPDATE_TOOLBAR = 'UPDATE_TOOLBAR';
+&nbsp;
+export const IMPORT_STATE = 'IMPORT_STATE';
+export const CHANGE_GLOBAL_CONFIG = 'CHANGE_GLOBAL_CONFIG';
+&nbsp;
+export const FETCH_VISH_RESOURCES_SUCCESS = "FETCH_VISH_RESOURCES_SUCCESS";
+&nbsp;
+export const ADD_RICH_MARK = 'ADD_RICH_MARK';
+export const EDIT_RICH_MARK = 'EDIT_RICH_MARK';
+&nbsp;
+export const ADD_CONTAINED_VIEW = 'ADD_CONTAINED_VIEW';
+export const SELECT_CONTAINED_VIEW = 'SELECT_CONTAINED_VIEW';
+export const DELETE_CONTAINED_VIEW = 'DELETE_CONTAINED_VIEW';
+export const CHANGE_CONTAINED_VIEW_NAME = 'CHANGE_CONTAINED_VIEW_NAME';
+&nbsp;
+export const UPLOAD_IMAGE = 'UPLOAD_IMAGE';
+&nbsp;
+// These are not real Redux actions but are use to specify plugin's render reason
+export const DELETE_RICH_MARK = 'DELETE_RICH_MARK';
+export const EDIT_PLUGIN_TEXT = 'EDIT_PLUGIN_TEXT';
+&nbsp;
+export function <span class="fstat-no" title="function not covered" >selectIndex(</span>id) {
+<span class="cstat-no" title="statement not covered" >    return { type: INDEX_SELECT, payload: { id } };</span>
+}
+&nbsp;
+export function <span class="fstat-no" title="function not covered" >selectNavItem(</span>id) {
+<span class="cstat-no" title="statement not covered" >    return { type: SELECT_NAV_ITEM, payload: { id } };</span>
+}
+&nbsp;
+export function <span class="fstat-no" title="function not covered" >addContainedView(</span>id, name, container) {
+<span class="cstat-no" title="statement not covered" >    return { type: ADD_CONTAINED_VIEW, payload: { id, name, container } };</span>
+}
+&nbsp;
+export function <span class="fstat-no" title="function not covered" >deleteContainedView(</span>ids, boxes, parent) {
+<span class="cstat-no" title="statement not covered" >    return { type: DELETE_CONTAINED_VIEW, payload: { ids, boxes, parent } };</span>
+}
+&nbsp;
+export function <span class="fstat-no" title="function not covered" >addNavItem(</span>id, name, parent, type, position, hasContent) {
+<span class="cstat-no" title="statement not covered" >    return { type: ADD_NAV_ITEM, payload: { id, name, parent, type, position, hasContent } };</span>
+}
+&nbsp;
+export function <span class="fstat-no" title="function not covered" >expandNavItem(</span>id, value) {
+<span class="cstat-no" title="statement not covered" >    return { type: EXPAND_NAV_ITEM, payload: { id, value } };</span>
+}
+&nbsp;
+export function <span class="fstat-no" title="function not covered" >deleteNavItem(</span>ids, parent, boxes, containedViews, linkedBoxes) {
+<span class="cstat-no" title="statement not covered" >    return { type: DELETE_NAV_ITEM, payload: { ids, parent, boxes, containedViews, linkedBoxes } };</span>
+}
+&nbsp;
+export function <span class="fstat-no" title="function not covered" >reorderNavItem(</span>id, newParent, oldParent, idsInOrder, childrenInOrder) {
+<span class="cstat-no" title="statement not covered" >    return { type: REORDER_NAV_ITEM, payload: { id, newParent, oldParent, idsInOrder, childrenInOrder } };</span>
+}
+&nbsp;
+export function <span class="fstat-no" title="function not covered" >toggleNavItem(</span>id) {
+<span class="cstat-no" title="statement not covered" >    return { type: TOGGLE_NAV_ITEM, payload: { id } };</span>
+}
+&nbsp;
+export function <span class="fstat-no" title="function not covered" >updateNavItemExtraFiles(</span>id, box, xml_path) {
+<span class="cstat-no" title="statement not covered" >    return { type: UPDATE_NAV_ITEM_EXTRA_FILES, payload: { id, box, xml_path } };</span>
+}
+&nbsp;
+export function <span class="fstat-no" title="function not covered" >changeNavItemName(</span>id, title) {
+<span class="cstat-no" title="statement not covered" >    return { type: CHANGE_NAV_ITEM_NAME, payload: { id, title } };</span>
+}
+&nbsp;
+export function <span class="fstat-no" title="function not covered" >changeContainedViewName(</span>id, title) {
+<span class="cstat-no" title="statement not covered" >    return { type: CHANGE_CONTAINED_VIEW_NAME, payload: { id, title } };</span>
+}
+&nbsp;
+export function <span class="fstat-no" title="function not covered" >changeUnitNumber(</span>id, value) {
+<span class="cstat-no" title="statement not covered" >    return { type: CHANGE_UNIT_NUMBER, payload: { id, value } };</span>
+}
+&nbsp;
+export function <span class="fstat-no" title="function not covered" >addBox(</span>ids, draggable, resizable, content, toolbar, config, state, initialParams) {
+<span class="cstat-no" title="statement not covered" >    return { type: ADD_BOX, payload: { ids, draggable, resizable, content, toolbar, config, state, initialParams } };</span>
+}
+&nbsp;
+export function <span class="fstat-no" title="function not covered" >selectBox(</span>id) {
+<span class="cstat-no" title="statement not covered" >    return { type: SELECT_BOX, payload: { id } };</span>
+}
+&nbsp;
+export function <span class="fstat-no" title="function not covered" >moveBox(</span>id, x, y, position, parent, container) {
+<span class="cstat-no" title="statement not covered" >    return { type: MOVE_BOX, payload: { id, x, y, position, parent, container } };</span>
+}
+&nbsp;
+// @TODO
+export function <span class="fstat-no" title="function not covered" >duplicateBox(</span>id, parent, container, children, newIds, newId) {
+<span class="cstat-no" title="statement not covered" >    return { type: DUPLICATE_BOX, payload: { id, parent, container, children, newIds, newId } };</span>
+}
+&nbsp;
+export function <span class="fstat-no" title="function not covered" >resizeBox(</span>id, widthButton, heightButton) {
+<span class="cstat-no" title="statement not covered" >    return { type: RESIZE_BOX, payload: { id, widthButton, heightButton } };</span>
+}
+&nbsp;
+export function <span class="fstat-no" title="function not covered" >updateBox(</span>id, content, toolbar, state) {
+<span class="cstat-no" title="statement not covered" >    return { type: UPDATE_BOX, payload: { id, content, toolbar, state } };</span>
+}
+&nbsp;
+export function <span class="fstat-no" title="function not covered" >deleteBox(</span>id, parent, container, children, cvs) {
+<span class="cstat-no" title="statement not covered" >    return { type: DELETE_BOX, payload: { id, parent, container, children, cvs } };</span>
+}
+&nbsp;
+export function <span class="fstat-no" title="function not covered" >reorderSortableContainer(</span>ids, parent) {
+<span class="cstat-no" title="statement not covered" >    return { type: REORDER_SORTABLE_CONTAINER, payload: { ids, parent } };</span>
+}
+&nbsp;
+export function <span class="fstat-no" title="function not covered" >dropBox(</span>id, row, col) {
+<span class="cstat-no" title="statement not covered" >    return { type: DROP_BOX, payload: { id, row, col } };</span>
+}
+&nbsp;
+export function <span class="fstat-no" title="function not covered" >verticallyAlignBox(</span>id, verticalAlign) {
+<span class="cstat-no" title="statement not covered" >    return { type: VERTICALLY_ALIGN_BOX, payload: { id, verticalAlign } };</span>
+}
+&nbsp;
+export function <span class="fstat-no" title="function not covered" >increaseBoxLevel(</span>) {
+<span class="cstat-no" title="statement not covered" >    return { type: INCREASE_LEVEL, payload: {} };</span>
+}
+&nbsp;
+export function <span class="fstat-no" title="function not covered" >resizeSortableContainer(</span>id, parent, height) {
+<span class="cstat-no" title="statement not covered" >    return { type: RESIZE_SORTABLE_CONTAINER, payload: { id, parent, height } };</span>
+}
+&nbsp;
+export function <span class="fstat-no" title="function not covered" >deleteSortableContainer(</span>id, parent, children, cvs) {
+<span class="cstat-no" title="statement not covered" >    return { type: DELETE_SORTABLE_CONTAINER, payload: { id, parent, children, cvs } };</span>
+}
+&nbsp;
+export function <span class="fstat-no" title="function not covered" >changeSortableProps(</span>id, parent, prop, value) {
+<span class="cstat-no" title="statement not covered" >    return { type: CHANGE_SORTABLE_PROPS, payload: { id, parent, prop, value } };</span>
+}
+export function <span class="fstat-no" title="function not covered" >changeCols(</span>id, parent, distribution, boxesAffected) {
+<span class="cstat-no" title="statement not covered" >    return { type: CHANGE_COLS, payload: { id, parent, distribution, boxesAffected } };</span>
+}
+&nbsp;
+export function <span class="fstat-no" title="function not covered" >changeRows(</span>id, parent, column, distribution, boxesAffected) {
+<span class="cstat-no" title="statement not covered" >    return { type: CHANGE_ROWS, payload: { id, parent, column, distribution, boxesAffected } };</span>
+}
+&nbsp;
+export function <span class="fstat-no" title="function not covered" >reorderBoxes(</span>parent, container, order) {
+<span class="cstat-no" title="statement not covered" >    return { type: REORDER_BOXES, payload: { parent, container, order } };</span>
+}
+&nbsp;
+export function <span class="fstat-no" title="function not covered" >addRichMark(</span>parent, mark, state) {
+<span class="cstat-no" title="statement not covered" >    return { type: ADD_RICH_MARK, payload: { parent, mark, state } };</span>
+}
+&nbsp;
+export function <span class="fstat-no" title="function not covered" >editRichMark(</span>parent, state, mark, oldConnection, newConnection) {
+<span class="cstat-no" title="statement not covered" >    return { type: EDIT_RICH_MARK, payload: { parent, state, mark, oldConnection, newConnection } };</span>
+}
+&nbsp;
+export function <span class="fstat-no" title="function not covered" >deleteRichMark(</span>id, parent, cvid, state) {
+<span class="cstat-no" title="statement not covered" >    return { type: DELETE_RICH_MARK, payload: { id, parent, cvid, state } };</span>
+}
+&nbsp;
+export function <span class="fstat-no" title="function not covered" >selectContainedView(</span>id) {
+<span class="cstat-no" title="statement not covered" >    return { type: SELECT_CONTAINED_VIEW, payload: { id } };</span>
+}
+&nbsp;
+export function <span class="fstat-no" title="function not covered" >toggleTextEditor(</span>caller, value) {
+<span class="cstat-no" title="statement not covered" >    return { type: TOGGLE_TEXT_EDITOR, payload: { caller, value } };</span>
+}
+&nbsp;
+export function <span class="fstat-no" title="function not covered" >toggleTitleMode(</span>id, titles) {
+<span class="cstat-no" title="statement not covered" >    return { type: TOGGLE_TITLE_MODE, payload: { id, titles } };</span>
+}
+&nbsp;
+export function <span class="fstat-no" title="function not covered" >changeDisplayMode(</span>mode) {
+<span class="cstat-no" title="statement not covered" >    return { type: CHANGE_DISPLAY_MODE, payload: { mode } };</span>
+}
+&nbsp;
+export function <span class="fstat-no" title="function not covered" >setBusy(</span>value, msg) {
+<span class="cstat-no" title="statement not covered" >    return { type: SET_BUSY, payload: { value, msg } };</span>
+}
+&nbsp;
+export function <span class="fstat-no" title="function not covered" >changeGlobalConfig(</span>prop, value) {
+<span class="cstat-no" title="statement not covered" >    return { type: CHANGE_GLOBAL_CONFIG, payload: { prop, value } };</span>
+}
+&nbsp;
+export function <span class="fstat-no" title="function not covered" >importState(</span>state) {
+<span class="cstat-no" title="statement not covered" >    return { type: IMPORT_STATE, payload: state };</span>
+}
+&nbsp;
+export function <span class="fstat-no" title="function not covered" >updateToolbar(</span>id, tab, accordions, name, value) {
+<span class="cstat-no" title="statement not covered" >    return { type: UPDATE_TOOLBAR, payload: { id, tab, accordions, name, value } };</span>
+}
+&nbsp;
+export function <span class="fstat-no" title="function not covered" >fetchVishResourcesSuccess(</span>result) {
+<span class="cstat-no" title="statement not covered" >    return { type: FETCH_VISH_RESOURCES_SUCCESS, payload: { result } };</span>
+}
+&nbsp;
+export function <span class="fstat-no" title="function not covered" >uploadImage(</span>url) {
+<span class="cstat-no" title="statement not covered" >    return { type: UPLOAD_IMAGE, payload: { url } };</span>
+}
+&nbsp;
+// Async actions
+export function <span class="fstat-no" title="function not covered" >exportStateAsync(</span>state) {
+<span class="cstat-no" title="statement not covered" >    return <span class="fstat-no" title="function not covered" >di</span>spatch =&gt; {</span>
+&nbsp;
+        // First dispatch: the app state is updated to inform
+        // that the API call is starting.
+<span class="cstat-no" title="statement not covered" >        dispatch(setBusy(true, i18n.t("Exporting")));</span>
+&nbsp;
+        // The function called by the thunk middleware can return a value,
+        // that is passed on as the return value of the dispatch method.
+&nbsp;
+        // In this case, we return a promise to wait for.
+        // This is not required by thunk middleware, but it is convenient for us.
+<span class="cstat-no" title="statement not covered" >        if (process.env.NODE_ENV !== 'production' || ediphy_editor_params === undefined) {</span>
+<span class="cstat-no" title="statement not covered" >            return fetch(Ediphy.Config.export_url, {</span>
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(state),
+            })
+                .then(<span class="fstat-no" title="function not covered" >re</span>sponse =&gt; {
+<span class="cstat-no" title="statement not covered" >                    if (response.status &gt;= 400) {</span>
+<span class="cstat-no" title="statement not covered" >                        throw new Error(i18n.t("error.exporting"));</span>
+                    }
+<span class="cstat-no" title="statement not covered" >                    return true;</span>
+                })
+                .then(<span class="fstat-no" title="function not covered" >()</span> =&gt; {
+<span class="cstat-no" title="statement not covered" >                    dispatch(setBusy(false, i18n.t("success_transaction")));</span>
+                })
+                .catch(<span class="fstat-no" title="function not covered" >e </span>=&gt; {
+<span class="cstat-no" title="statement not covered" >                    dispatch(setBusy(false, e.message));</span>
+                });
+        }
+&nbsp;
+        let data = <span class="cstat-no" title="statement not covered" >{</span>
+            authenticity_token: ediphy_editor_params.authenticity_token,
+            ediphy_document: { user: { name: ediphy_editor_params.name, id: ediphy_editor_params.id }, json: state },
+        };
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        return fetch(ediphy_editor_params.export_url, { // return fetch(Ediphy.Config.export_url, {</span>
+            credentials: 'same-origin',
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+            .then(<span class="fstat-no" title="function not covered" >re</span>sponse =&gt; {
+<span class="cstat-no" title="statement not covered" >                if (response.status &gt;= 400) {</span>
+<span class="cstat-no" title="statement not covered" >                    throw new Error(i18n.t("error.exporting"));</span>
+                }
+<span class="cstat-no" title="statement not covered" >                return response.text();</span>
+            })
+            .then(<span class="fstat-no" title="function not covered" >re</span>sult =&gt; {
+                let ediphy_resource_id = <span class="cstat-no" title="statement not covered" >JSON.parse(result).ediphy_id;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >                if (Ediphy.Config.api_editor_url_change) {</span>
+<span class="cstat-no" title="statement not covered" >                    window.parent.history.replaceState("", "", Ediphy.Config.export_url + ediphy_resource_id + ediphy_editor_params.edit_prefix);</span>
+<span class="cstat-no" title="statement not covered" >                    ediphy_editor_params.export_url = Ediphy.Config.export_url + ediphy_resource_id;</span>
+<span class="cstat-no" title="statement not covered" >                    ediphy_editor_params.ediphy_resource_id = ediphy_resource_id;</span>
+                }
+<span class="cstat-no" title="statement not covered" >                dispatch(setBusy(false, i18n.t("success_transaction")));</span>
+            })
+            .catch(<span class="fstat-no" title="function not covered" >e </span>=&gt;{
+<span class="cstat-no" title="statement not covered" >                dispatch(setBusy(false, e.message));</span>
+            });
+&nbsp;
+    };
+}
+&nbsp;
+export function <span class="fstat-no" title="function not covered" >importStateAsync(</span>) {
+<span class="cstat-no" title="statement not covered" >    return <span class="fstat-no" title="function not covered" >di</span>spatch =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >        dispatch(setBusy(true, i18n.t("Importing")));</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        return fetch(Ediphy.Config.import_url)</span>
+            .then(<span class="fstat-no" title="function not covered" >re</span>sponse =&gt; {
+<span class="cstat-no" title="statement not covered" >                if (response.status &gt;= 400) {</span>
+<span class="cstat-no" title="statement not covered" >                    throw new Error(i18n.t("error.importing"));</span>
+                }
+<span class="cstat-no" title="statement not covered" >                return response.text();</span>
+            })
+            .then(<span class="fstat-no" title="function not covered" >re</span>sult =&gt; {
+<span class="cstat-no" title="statement not covered" >                console.log(result);</span>
+<span class="cstat-no" title="statement not covered" >                dispatch(importState(JSON.parse(result)));</span>
+<span class="cstat-no" title="statement not covered" >                return true;</span>
+            })
+            .then(<span class="fstat-no" title="function not covered" >()</span> =&gt; {
+<span class="cstat-no" title="statement not covered" >                dispatch(setBusy(false, i18n.t("success_transaction")));</span>
+            })
+            .catch(<span class="fstat-no" title="function not covered" >e </span>=&gt; {
+<span class="cstat-no" title="statement not covered" >                dispatch(setBusy(false, e.message));</span>
+            });
+    };
+}
+&nbsp;
+export function <span class="fstat-no" title="function not covered" >fetchVishResourcesAsync(</span>query) {
+<span class="cstat-no" title="statement not covered" >    return <span class="fstat-no" title="function not covered" >di</span>spatch =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >        dispatch(setBusy(true, i18n.t("Searching")));</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        return fetch(query)</span>
+            .then(<span class="fstat-no" title="function not covered" >re</span>sponse =&gt; {
+<span class="cstat-no" title="statement not covered" >                if (response.status &gt;= 400) {</span>
+<span class="cstat-no" title="statement not covered" >                    throw new Error(i18n.t("error.searching"));</span>
+                }
+<span class="cstat-no" title="statement not covered" >                return response.text();</span>
+            })
+            .then(<span class="fstat-no" title="function not covered" >re</span>sult =&gt; {
+<span class="cstat-no" title="statement not covered" >                dispatch(fetchVishResourcesSuccess(JSON.parse(result)));</span>
+<span class="cstat-no" title="statement not covered" >                return true;</span>
+            })
+            .then(<span class="fstat-no" title="function not covered" >()</span> =&gt; {
+<span class="cstat-no" title="statement not covered" >                dispatch(setBusy(false, i18n.t("no_results")));</span>
+            })
+            .catch(<span class="fstat-no" title="function not covered" >e </span>=&gt; {
+<span class="cstat-no" title="statement not covered" >                dispatch(setBusy(false, e.message));</span>
+            });
+    };
+}
+&nbsp;
+export function <span class="fstat-no" title="function not covered" >uploadVishResourceAsync(</span>query) {
+<span class="cstat-no" title="statement not covered" >    return <span class="fstat-no" title="function not covered" >di</span>spatch =&gt; {</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        if (query.title !== null &amp;&amp; query.title.length &gt; 0) {</span>
+<span class="cstat-no" title="statement not covered" >            if (query.file !== null) {</span>
+<span class="cstat-no" title="statement not covered" >                if (query.file.name.match(/\.(jpeg|jpg|gif|png)$/) !== null) {</span>
+<span class="cstat-no" title="statement not covered" >                    dispatch(setBusy(true, i18n.t("Uploading")));</span>
+&nbsp;
+                    let form = <span class="cstat-no" title="statement not covered" >new FormData();</span>
+<span class="cstat-no" title="statement not covered" >                    form.append("document[title]", query.title);</span>
+<span class="cstat-no" title="statement not covered" >                    form.append("document[description]", "Uploaded using Ediphy Editor");</span>
+<span class="cstat-no" title="statement not covered" >                    if (typeof(ediphy_editor_params) !== 'undefined') {</span>
+<span class="cstat-no" title="statement not covered" >                        form.append("document[owner_id]", ediphy_editor_params.id);</span>
+<span class="cstat-no" title="statement not covered" >                        form.append("authenticity_token", ediphy_editor_params.authenticity_token);</span>
+                    }
+<span class="cstat-no" title="statement not covered" >                    form.append("document[file]", query.file);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >                    return fetch(Ediphy.Config.upload_vish_url, {</span>
+                        method: 'POST',
+                        credentials: 'same-origin',
+                        body: form,
+                    }).then(<span class="fstat-no" title="function not covered" >re</span>sponse =&gt; {
+<span class="cstat-no" title="statement not covered" >                        if (!response.ok) {</span>
+<span class="cstat-no" title="statement not covered" >                            throw Error(response.statusText);</span>
+                        }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >                        return response.text().then(<span class="fstat-no" title="function not covered" >(t</span>ext)=&gt;{</span>
+<span class="cstat-no" title="statement not covered" >                            return JSON.parse(text).src;</span>
+                        });
+                    })
+                        .then(<span class="fstat-no" title="function not covered" >(r</span>esult) =&gt; {
+<span class="cstat-no" title="statement not covered" >                            dispatch(setBusy(false, result));</span>
+<span class="cstat-no" title="statement not covered" >                            dispatch(uploadImage(result));</span>
+                        })
+                        .catch(<span class="fstat-no" title="function not covered" >e </span>=&gt; {
+<span class="cstat-no" title="statement not covered" >                            alert(i18n.t("error.reaching_server"));</span>
+<span class="cstat-no" title="statement not covered" >                            dispatch(setBusy(false, 'data:image/png;base64,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'));</span>
+                        });
+&nbsp;
+                }
+<span class="cstat-no" title="statement not covered" >                alert(i18n.t("error.file_extension_invalid"));</span>
+&nbsp;
+            } else {
+<span class="cstat-no" title="statement not covered" >                alert(i18n.t("error.file_not_selected"));</span>
+            }
+        }else {
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            alert(i18n.t("error.file_title_not_defined"));</span>
+<span class="cstat-no" title="statement not covered" >            return false;</span>
+        }
+<span class="cstat-no" title="statement not covered" >        return false;</span>
+    };
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Wed Nov 22 2017 16:13:18 GMT+0100 (CET)
+</div>
+</div>
+<script src="../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../sorter.js"></script>
+</body>
+</html>

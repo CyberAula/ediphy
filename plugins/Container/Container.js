@@ -3,7 +3,7 @@ export function Container(base) {
         getConfig: function() {
             return {
                 name: 'Container',
-                displayName: Dali.i18n.t('Container.PluginName'),
+                displayName: Ediphy.i18n.t('Container.PluginName'),
                 category: 'multimedia',
                 icon: 'view_agenda',
             };

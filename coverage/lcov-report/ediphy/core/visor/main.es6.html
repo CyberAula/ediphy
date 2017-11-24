@@ -1,0 +1,902 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for ediphy/core/visor/main.es6</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../../prettify.css" />
+    <link rel="stylesheet" href="../../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../../index.html">All files</a> / <a href="index.html">ediphy/core/visor</a> main.es6
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">3.6% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>4/111</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/50</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>0/24</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">3.6% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>4/111</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import JSZip from 'jszip';
+import JSZipUtils from 'jszip-utils';
+import FileSaver from 'file-saver';
+&nbsp;
+import Ediphy from '../editor/main';
+import Plugins from './plugins';
+import { ID_PREFIX_SECTION } from '../../common/constants';
+&nbsp;
+const visor_template = require("../../dist/lib/visor/index.ejs");
+&nbsp;
+let getDistinctName = <span class="fstat-no" title="function not covered" >fu</span>nction(name, namesUsed) {
+<span class="cstat-no" title="statement not covered" >    namesUsed[name] = namesUsed[name] + 1;</span>
+<span class="cstat-no" title="statement not covered" >    return name + namesUsed[name];</span>
+};
+&nbsp;
+let titleModifier = <span class="fstat-no" title="function not covered" >fu</span>nction(name) {
+<span class="cstat-no" title="statement not covered" >    if(name.indexOf("\:") !== -1) {</span>
+<span class="cstat-no" title="statement not covered" >        name = name.split("\:")[0];</span>
+    }
+<span class="cstat-no" title="statement not covered" >    return name;</span>
+};
+&nbsp;
+let parseEJS = <span class="fstat-no" title="function not covered" >fu</span>nction(path, page, state, fromScorm) {
+<span class="cstat-no" title="statement not covered" >    state.fromScorm = fromScorm;</span>
+<span class="cstat-no" title="statement not covered" >    if (page !== 0 &amp;&amp; state.navItemsById[page]) {</span>
+<span class="cstat-no" title="statement not covered" >        if (Object.keys(state.navItemsById[page].extraFiles).length !== 0) {</span>
+            let extraFileBox = <span class="cstat-no" title="statement not covered" >Object.keys(state.navItemsById[state.navItemSelected].extraFiles)[0];</span>
+            let extraFileContainer = <span class="cstat-no" title="statement not covered" >state.toolbarsById[extraFileBox];</span>
+<span class="cstat-no" title="statement not covered" >            return (visor_template({</span>
+                visor_bundle_path: Ediphy.Config.visor_bundle,
+                state: state,
+            }));
+        }
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    state.fromScorm = fromScorm;</span>
+<span class="cstat-no" title="statement not covered" >    return (visor_template({</span>
+        visor_bundle_path: Ediphy.Config.visor_bundle,
+        state: state,
+    }));
+};
+&nbsp;
+export default {
+    Plugins: Plugins(),
+    exports: <span class="fstat-no" title="function not covered" >fu</span>nction(state) {
+        let nav_names_used = <span class="cstat-no" title="statement not covered" >{};</span>
+        let xhr = <span class="cstat-no" title="statement not covered" >new XMLHttpRequest();</span>
+<span class="cstat-no" title="statement not covered" >        xhr.open('GET', Ediphy.Config.visor_bundle, true);</span>
+<span class="cstat-no" title="statement not covered" >        xhr.responseType = "arraybuffer";</span>
+<span class="cstat-no" title="statement not covered" >        xhr.onreadystatechange = <span class="fstat-no" title="function not covered" >fu</span>nction(evt) {</span>
+<span class="cstat-no" title="statement not covered" >            if (xhr.readyState === 4) {</span>
+<span class="cstat-no" title="statement not covered" >                if (xhr.status === 200) {</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >                    JSZipUtils.getBinaryContent(Ediphy.Config.visor_zip, <span class="fstat-no" title="function not covered" >fu</span>nction(err, data) {</span>
+<span class="cstat-no" title="statement not covered" >                        if (err) {</span>
+<span class="cstat-no" title="statement not covered" >                            throw err; </span>// or handle err
+                        }
+<span class="cstat-no" title="statement not covered" >                        JSZip.loadAsync(data).then(<span class="fstat-no" title="function not covered" >fu</span>nction(zip) {</span>
+                            /* var navs = state.navItemsById;
+&nbsp;
+                                state.navItemsIds.map(function (page) {
+                                    if(navs[page].hidden){
+                                        return;
+                                    }
+                                    if(page.indexOf(ID_PREFIX_SECTION) !== -1){
+                                        return;
+                                    }
+                                    var name = navs[page].name;
+&nbsp;
+                                    if( nav_names_used[name] === undefined ){
+                                        nav_names_used[name] = 0;
+                                    } else {
+                                        name = getDistinctName(name, nav_names_used);
+                                    }
+&nbsp;
+                                    var inner = parseEJS(Ediphy.Config.visor_ejs, page, state);
+                                    zip.file("dist/" + name + ".html", inner);
+                                    zip.file("js/visor-bundle.js", xhr.response);
+                                });
+                            */
+                            let page = <span class="cstat-no" title="statement not covered" >0;</span>
+<span class="cstat-no" title="statement not covered" >                            if (state.navItemsIds &amp;&amp; state.navItemsIds.length &gt; 0) {</span>
+<span class="cstat-no" title="statement not covered" >                                if(!Ediphy.Config.sections_have_content) {</span>
+                                    let i;
+<span class="cstat-no" title="statement not covered" >                                    for (i = 0; i &lt; state.navItemsIds.length; i++) {</span>
+<span class="cstat-no" title="statement not covered" >                                        if (state.navItemsIds[i].indexOf('se-') === -1) {</span>
+<span class="cstat-no" title="statement not covered" >                                            page = state.navItemsIds[i];</span>
+<span class="cstat-no" title="statement not covered" >                                            break;</span>
+                                        }
+                                    }
+                                } else {
+<span class="cstat-no" title="statement not covered" >                                    page = state.navItemsIds[0];</span>
+                                }
+                            }
+<span class="cstat-no" title="statement not covered" >                            state.navItemSelected = page;</span>
+                            let content = <span class="cstat-no" title="statement not covered" >parseEJS(Ediphy.Config.visor_ejs, page, state, false);</span>
+<span class="cstat-no" title="statement not covered" >                            zip.file(Ediphy.Config.dist_index, content);</span>
+<span class="cstat-no" title="statement not covered" >                            zip.file(Ediphy.Config.dist_visor_bundle, xhr.response);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >                            return zip;</span>
+                        }).then(<span class="fstat-no" title="function not covered" >fu</span>nction(zip) {
+<span class="cstat-no" title="statement not covered" >                            return zip.generateAsync({ type: "blob" });</span>
+                        }).then(<span class="fstat-no" title="function not covered" >fu</span>nction(blob) {
+<span class="cstat-no" title="statement not covered" >                            FileSaver.saveAs(blob, "ediphyvisor.zip");</span>
+                        });
+                    });
+&nbsp;
+                }
+            }
+        };
+<span class="cstat-no" title="statement not covered" >        xhr.send();</span>
+&nbsp;
+    },
+    exportPage: <span class="fstat-no" title="function not covered" >fu</span>nction(state) {
+<span class="cstat-no" title="statement not covered" >        if (Object.keys(state.navItemsById[state.navItemSelected].extraFiles).length !== 0) {</span>
+            let extraFileBox = <span class="cstat-no" title="statement not covered" >Object.keys(state.navItemsById[state.navItemSelected].extraFiles)[0];</span>
+            let extraFileContainer = <span class="cstat-no" title="statement not covered" >state.toolbarsById[extraFileBox];</span>
+<span class="cstat-no" title="statement not covered" >            state.fromScorm = false;</span>
+<span class="cstat-no" title="statement not covered" >            return (visor_template({</span>
+                visor_bundle_path: Ediphy.Config.visor_bundle,
+                state: state,
+            }));
+        }
+<span class="cstat-no" title="statement not covered" >        return visor_template({</span>
+            state: state,
+            visor_bundle_path: Ediphy.Config.visor_bundle,
+            fromScorm: false,
+        });
+    },
+    exportScorm: <span class="fstat-no" title="function not covered" >fu</span>nction(state) {
+        let zip_title;
+        let xhr = <span class="cstat-no" title="statement not covered" >new XMLHttpRequest();</span>
+<span class="cstat-no" title="statement not covered" >        xhr.open('GET', Ediphy.Config.visor_bundle, true);</span>
+<span class="cstat-no" title="statement not covered" >        xhr.responseType = "arraybuffer";</span>
+<span class="cstat-no" title="statement not covered" >        xhr.onreadystatechange = <span class="fstat-no" title="function not covered" >fu</span>nction(evt) {</span>
+<span class="cstat-no" title="statement not covered" >            if (xhr.readyState === 4) {</span>
+<span class="cstat-no" title="statement not covered" >                if (xhr.status === 200) {</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >                    JSZipUtils.getBinaryContent(Ediphy.Config.scorm_zip, <span class="fstat-no" title="function not covered" >fu</span>nction(err, data) {</span>
+<span class="cstat-no" title="statement not covered" >                        if (err) {</span>
+<span class="cstat-no" title="statement not covered" >                            throw err; </span>// or handle err
+                        }
+<span class="cstat-no" title="statement not covered" >                        JSZip.loadAsync(data).then(<span class="fstat-no" title="function not covered" >fu</span>nction(zip) {</span>
+                            let navs = <span class="cstat-no" title="statement not covered" >state.navItemsById;</span>
+                            let navsIds = <span class="cstat-no" title="statement not covered" >state.navItemsIds;</span>
+                            // var sections = [];
+                            /* state.navItemsIds.map(function (page) {
+                                if(navs[page].hidden){
+                                    return;
+                                }
+&nbsp;
+                                if ( !Ediphy.Config.sections_have_content &amp;&amp; (page.indexOf(ID_PREFIX_SECTION) !== -1)){
+                                    return;
+                                }
+&nbsp;
+                                var nombre = navs[page].id.replace(/\-/g,"\_");
+                                var unit;
+                                if(typeof navs[page].unitNumber === "undefined"){
+                                    unit = "blank";
+                                } else {
+                                    unit = navs[page].unitNumber;
+                                }
+                                var path = "unit" + unit + "/";
+&nbsp;
+                                //sections.push(path + nombre);
+                                if(Object.keys(navs[page].extraFiles).length !== 0){
+                                    for(var boxKey in navs[page].extraFiles){
+                                        $.ajax({
+                                            url: navs[page].extraFiles[boxKey],
+                                            async: false,
+                                            success: function (response, status, aj) {
+                                                zip.file(path + nombre + "_ejer.xml", aj.responseText);
+                                                state.toolbarsById[boxKey].state.__xml_path = nombre + "_ejer.xml";
+                                                state.toolbarsById[boxKey].state.isScorm = true;
+                                            },
+                                            error: function (aj, status) {
+                                                console.error("Error while downloading XML file");
+                                            }
+                                        });
+                                    }
+                                }
+                                var inner = parseEJS(Ediphy.Config.visor_ejs, page, state, true);
+                                //zip.file(path + nombre + ".html", inner);
+                            });*/
+                            // zip.file("index.html", Ediphy.Scorm.getIndex(navs));
+<span class="cstat-no" title="statement not covered" >                            zip.file("imsmanifest.xml", Ediphy.Scorm.createSPAimsManifest(navsIds, navs, state.globalConfig));</span>
+                            let page = <span class="cstat-no" title="statement not covered" >0;</span>
+<span class="cstat-no" title="statement not covered" >                            if (state.navItemsIds &amp;&amp; state.navItemsIds.length &gt; 0) {</span>
+<span class="cstat-no" title="statement not covered" >                                if(!Ediphy.Config.sections_have_content) {</span>
+                                    let i;
+<span class="cstat-no" title="statement not covered" >                                    for (i = 0; i &lt; state.navItemsIds.length; i++) {</span>
+<span class="cstat-no" title="statement not covered" >                                        if (state.navItemsIds[i].indexOf('se-') === -1) {</span>
+<span class="cstat-no" title="statement not covered" >                                            page = state.navItemsIds[i];</span>
+<span class="cstat-no" title="statement not covered" >                                            break;</span>
+                                        }
+                                    }
+                                } else {
+<span class="cstat-no" title="statement not covered" >                                    page = state.navItemsIds[0];</span>
+                                }
+                            }
+<span class="cstat-no" title="statement not covered" >                            state.fromScorm = true;</span>
+<span class="cstat-no" title="statement not covered" >                            state.navItemSelected = page;</span>
+                            let content = <span class="cstat-no" title="statement not covered" >parseEJS(Ediphy.Config.visor_ejs, page, state, true);</span>
+<span class="cstat-no" title="statement not covered" >                            zip.file(Ediphy.Config.dist_index, content);</span>
+<span class="cstat-no" title="statement not covered" >                            zip.file(Ediphy.Config.dist_visor_bundle, xhr.response);</span>
+<span class="cstat-no" title="statement not covered" >                            zip_title = state.globalConfig.title;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >                            return zip;</span>
+                        }).then(<span class="fstat-no" title="function not covered" >fu</span>nction(zip) {
+<span class="cstat-no" title="statement not covered" >                            return zip.generateAsync({ type: "blob" });</span>
+                        }).then(<span class="fstat-no" title="function not covered" >fu</span>nction(blob) {
+<span class="cstat-no" title="statement not covered" >                            FileSaver.saveAs(blob, zip_title.toLowerCase().replace(/\s/g, '') + Math.round(+new Date() / 1000) + ".zip");</span>
+                        });
+                    });
+                }
+            }
+        };
+<span class="cstat-no" title="statement not covered" >        xhr.send();</span>
+    },
+    exportSeparateScorm: <span class="fstat-no" title="function not covered" >fu</span>nction(state) {
+        let zip_title;
+<span class="cstat-no" title="statement not covered" >        JSZipUtils.getBinaryContent(Ediphy.Config.scorm_zip, <span class="fstat-no" title="function not covered" >fu</span>nction(err, data) {</span>
+<span class="cstat-no" title="statement not covered" >            if (err) {</span>
+<span class="cstat-no" title="statement not covered" >                throw err; </span>// or handle err
+            }
+<span class="cstat-no" title="statement not covered" >            JSZip.loadAsync(data).then(<span class="fstat-no" title="function not covered" >fu</span>nction(zip) {</span>
+                let navs = <span class="cstat-no" title="statement not covered" >state.navItemsById;</span>
+                // var sections = [];
+<span class="cstat-no" title="statement not covered" >                state.navItemsIds.map(<span class="fstat-no" title="function not covered" >fu</span>nction(page) {</span>
+<span class="cstat-no" title="statement not covered" >                    if(navs[page].hidden) {</span>
+<span class="cstat-no" title="statement not covered" >                        return;</span>
+                    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >                    if (!Ediphy.Config.sections_have_content &amp;&amp; (page.indexOf(ID_PREFIX_SECTION) !== -1)) {</span>
+<span class="cstat-no" title="statement not covered" >                        return;</span>
+                    }
+&nbsp;
+                    let nombre = <span class="cstat-no" title="statement not covered" >navs[page].id.replace(/\-/g, "\_");</span>
+                    let unit;
+<span class="cstat-no" title="statement not covered" >                    if(typeof navs[page].unitNumber === "undefined") {</span>
+<span class="cstat-no" title="statement not covered" >                        unit = "blank";</span>
+                    } else {
+<span class="cstat-no" title="statement not covered" >                        unit = navs[page].unitNumber;</span>
+                    }
+                    let path = <span class="cstat-no" title="statement not covered" >"unit" + unit + "/";</span>
+&nbsp;
+                    // sections.push(path + nombre);
+<span class="cstat-no" title="statement not covered" >                    if(Object.keys(navs[page].extraFiles).length !== 0) {</span>
+<span class="cstat-no" title="statement not covered" >                        for(let boxKey in navs[page].extraFiles) {</span>
+<span class="cstat-no" title="statement not covered" >                            $.ajax({</span>
+                                url: navs[page].extraFiles[boxKey],
+                                async: false,
+                                success: <span class="fstat-no" title="function not covered" >fu</span>nction(response, status, xhr) {
+<span class="cstat-no" title="statement not covered" >                                    zip.file(path + nombre + "_ejer.xml", xhr.responseText);</span>
+<span class="cstat-no" title="statement not covered" >                                    state.toolbarsById[boxKey].state.__xml_path = nombre + "_ejer.xml";</span>
+<span class="cstat-no" title="statement not covered" >                                    state.toolbarsById[boxKey].state.isScorm = true;</span>
+                                },
+                                error: <span class="fstat-no" title="function not covered" >fu</span>nction(xhr, status) {
+<span class="cstat-no" title="statement not covered" >                                    console.error("Error while downloading XML file");</span>
+                                },
+                            });
+                        }
+                    }
+                    let inner = <span class="cstat-no" title="statement not covered" >parseEJS(Ediphy.Config.visor_ejs, page, state, true);</span>
+<span class="cstat-no" title="statement not covered" >                    zip.file(path + nombre + ".html", inner);</span>
+                });
+<span class="cstat-no" title="statement not covered" >                zip.file("index.html", Ediphy.Scorm.getIndex(navs));</span>
+<span class="cstat-no" title="statement not covered" >                zip.file("imsmanifest.xml", Ediphy.Scorm.createOldimsManifest(state.globalConfig.title, navs));</span>
+<span class="cstat-no" title="statement not covered" >                zip_title = state.globalConfig.title;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >                return zip;</span>
+            }).then(<span class="fstat-no" title="function not covered" >fu</span>nction(zip) {
+<span class="cstat-no" title="statement not covered" >                return zip.generateAsync({ type: "blob" });</span>
+            }).then(<span class="fstat-no" title="function not covered" >fu</span>nction(blob) {
+<span class="cstat-no" title="statement not covered" >                FileSaver.saveAs(blob, zip_title.toLowerCase().replace(/\s/g, '') + Math.round(+new Date() / 1000) + ".zip");</span>
+            });
+        });
+    },
+};
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Wed Nov 22 2017 16:13:18 GMT+0100 (CET)
+</div>
+</div>
+<script src="../../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../../sorter.js"></script>
+</body>
+</html>

@@ -2,7 +2,7 @@ import JSZip from 'jszip';
 import JSZipUtils from 'jszip-utils';
 import FileSaver from 'file-saver';
 
-import Dali from '../editor/main';
+import Ediphy from '../editor/main';
 import Plugins from './plugins';
 import { ID_PREFIX_SECTION } from '../../common/constants';
 
@@ -27,7 +27,7 @@ let parseEJS = function(path, page, state, fromScorm) {
             let extraFileBox = Object.keys(state.navItemsById[state.navItemSelected].extraFiles)[0];
             let extraFileContainer = state.toolbarsById[extraFileBox];
             return (visor_template({
-                visor_bundle_path: Dali.Config.visor_bundle,
+                visor_bundle_path: Ediphy.Config.visor_bundle,
                 state: state,
             }));
         }
@@ -35,7 +35,7 @@ let parseEJS = function(path, page, state, fromScorm) {
 
     state.fromScorm = fromScorm;
     return (visor_template({
-        visor_bundle_path: Dali.Config.visor_bundle,
+        visor_bundle_path: Ediphy.Config.visor_bundle,
         state: state,
     }));
 };
@@ -45,13 +45,13 @@ export default {
     exports: function(state) {
         let nav_names_used = {};
         let xhr = new XMLHttpRequest();
-        xhr.open('GET', Dali.Config.visor_bundle, true);
+        xhr.open('GET', Ediphy.Config.visor_bundle, true);
         xhr.responseType = "arraybuffer";
         xhr.onreadystatechange = function(evt) {
             if (xhr.readyState === 4) {
                 if (xhr.status === 200) {
 
-                    JSZipUtils.getBinaryContent(Dali.Config.visor_zip, function(err, data) {
+                    JSZipUtils.getBinaryContent(Ediphy.Config.visor_zip, function(err, data) {
                         if (err) {
                             throw err; // or handle err
                         }
@@ -73,14 +73,14 @@ export default {
                                         name = getDistinctName(name, nav_names_used);
                                     }
 
-                                    var inner = parseEJS(Dali.Config.visor_ejs, page, state);
+                                    var inner = parseEJS(Ediphy.Config.visor_ejs, page, state);
                                     zip.file("dist/" + name + ".html", inner);
                                     zip.file("js/visor-bundle.js", xhr.response);
                                 });
                             */
                             let page = 0;
                             if (state.navItemsIds && state.navItemsIds.length > 0) {
-                                if(!Dali.Config.sections_have_content) {
+                                if(!Ediphy.Config.sections_have_content) {
                                     let i;
                                     for (i = 0; i < state.navItemsIds.length; i++) {
                                         if (state.navItemsIds[i].indexOf('se-') === -1) {
@@ -93,15 +93,15 @@ export default {
                                 }
                             }
                             state.navItemSelected = page;
-                            let content = parseEJS(Dali.Config.visor_ejs, page, state, false);
-                            zip.file(Dali.Config.dist_index, content);
-                            zip.file(Dali.Config.dist_visor_bundle, xhr.response);
+                            let content = parseEJS(Ediphy.Config.visor_ejs, page, state, false);
+                            zip.file(Ediphy.Config.dist_index, content);
+                            zip.file(Ediphy.Config.dist_visor_bundle, xhr.response);
 
                             return zip;
                         }).then(function(zip) {
                             return zip.generateAsync({ type: "blob" });
                         }).then(function(blob) {
-                            FileSaver.saveAs(blob, "dalivisor.zip");
+                            FileSaver.saveAs(blob, "ediphyvisor.zip");
                         });
                     });
 
@@ -117,26 +117,26 @@ export default {
             let extraFileContainer = state.toolbarsById[extraFileBox];
             state.fromScorm = false;
             return (visor_template({
-                visor_bundle_path: Dali.Config.visor_bundle,
+                visor_bundle_path: Ediphy.Config.visor_bundle,
                 state: state,
             }));
         }
         return visor_template({
             state: state,
-            visor_bundle_path: Dali.Config.visor_bundle,
+            visor_bundle_path: Ediphy.Config.visor_bundle,
             fromScorm: false,
         });
     },
     exportScorm: function(state) {
         let zip_title;
         let xhr = new XMLHttpRequest();
-        xhr.open('GET', Dali.Config.visor_bundle, true);
+        xhr.open('GET', Ediphy.Config.visor_bundle, true);
         xhr.responseType = "arraybuffer";
         xhr.onreadystatechange = function(evt) {
             if (xhr.readyState === 4) {
                 if (xhr.status === 200) {
 
-                    JSZipUtils.getBinaryContent(Dali.Config.scorm_zip, function(err, data) {
+                    JSZipUtils.getBinaryContent(Ediphy.Config.scorm_zip, function(err, data) {
                         if (err) {
                             throw err; // or handle err
                         }
@@ -149,7 +149,7 @@ export default {
                                     return;
                                 }
 
-                                if ( !Dali.Config.sections_have_content && (page.indexOf(ID_PREFIX_SECTION) !== -1)){
+                                if ( !Ediphy.Config.sections_have_content && (page.indexOf(ID_PREFIX_SECTION) !== -1)){
                                     return;
                                 }
 
@@ -179,14 +179,14 @@ export default {
                                         });
                                     }
                                 }
-                                var inner = parseEJS(Dali.Config.visor_ejs, page, state, true);
+                                var inner = parseEJS(Ediphy.Config.visor_ejs, page, state, true);
                                 //zip.file(path + nombre + ".html", inner);
                             });*/
-                            // zip.file("index.html", Dali.Scorm.getIndex(navs));
-                            zip.file("imsmanifest.xml", Dali.Scorm.createSPAimsManifest(navsIds, navs, state.globalConfig));
+                            // zip.file("index.html", Ediphy.Scorm.getIndex(navs));
+                            zip.file("imsmanifest.xml", Ediphy.Scorm.createSPAimsManifest(navsIds, navs, state.globalConfig));
                             let page = 0;
                             if (state.navItemsIds && state.navItemsIds.length > 0) {
-                                if(!Dali.Config.sections_have_content) {
+                                if(!Ediphy.Config.sections_have_content) {
                                     let i;
                                     for (i = 0; i < state.navItemsIds.length; i++) {
                                         if (state.navItemsIds[i].indexOf('se-') === -1) {
@@ -200,9 +200,9 @@ export default {
                             }
                             state.fromScorm = true;
                             state.navItemSelected = page;
-                            let content = parseEJS(Dali.Config.visor_ejs, page, state, true);
-                            zip.file(Dali.Config.dist_index, content);
-                            zip.file(Dali.Config.dist_visor_bundle, xhr.response);
+                            let content = parseEJS(Ediphy.Config.visor_ejs, page, state, true);
+                            zip.file(Ediphy.Config.dist_index, content);
+                            zip.file(Ediphy.Config.dist_visor_bundle, xhr.response);
                             zip_title = state.globalConfig.title;
 
                             return zip;
@@ -219,7 +219,7 @@ export default {
     },
     exportSeparateScorm: function(state) {
         let zip_title;
-        JSZipUtils.getBinaryContent(Dali.Config.scorm_zip, function(err, data) {
+        JSZipUtils.getBinaryContent(Ediphy.Config.scorm_zip, function(err, data) {
             if (err) {
                 throw err; // or handle err
             }
@@ -231,7 +231,7 @@ export default {
                         return;
                     }
 
-                    if (!Dali.Config.sections_have_content && (page.indexOf(ID_PREFIX_SECTION) !== -1)) {
+                    if (!Ediphy.Config.sections_have_content && (page.indexOf(ID_PREFIX_SECTION) !== -1)) {
                         return;
                     }
 
@@ -261,11 +261,11 @@ export default {
                             });
                         }
                     }
-                    let inner = parseEJS(Dali.Config.visor_ejs, page, state, true);
+                    let inner = parseEJS(Ediphy.Config.visor_ejs, page, state, true);
                     zip.file(path + nombre + ".html", inner);
                 });
-                zip.file("index.html", Dali.Scorm.getIndex(navs));
-                zip.file("imsmanifest.xml", Dali.Scorm.createOldimsManifest(state.globalConfig.title, navs));
+                zip.file("index.html", Ediphy.Scorm.getIndex(navs));
+                zip.file("imsmanifest.xml", Ediphy.Scorm.createOldimsManifest(state.globalConfig.title, navs));
                 zip_title = state.globalConfig.title;
 
                 return zip;

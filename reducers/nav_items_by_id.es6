@@ -144,7 +144,8 @@ function singleNavItemReducer(state = {}, action = {}) {
     }
 }
 
-export default function(state = {}, action = {}) {
+export default function(state = { 0: { id: 0, children: [], boxes: [], level: 0, type: '', hidden: false } }, action = {}) {
+
     switch (action.type) {
     case ADD_BOX:
         if (isView(action.payload.ids.parent)) {
@@ -179,22 +180,22 @@ export default function(state = {}, action = {}) {
     case DELETE_BOX:
         if (isView(action.payload.parent) && action.payload.parent !== 0) {
             /* if(findNavItemContainingBox(state,action.payload.parent).extraFiles.length !== 0){
-                    return changeProp(Object.assign({}, state,
-                                    Object.assign(
-                                        {},
-                                        {
-                                            [findNavItemContainingBox(state, action.payload.parent).id]:
-                                            Object.assign(
-                                                {},
-                                                findNavItemContainingBox(state, action.payload.parent),
-                                                {extraFiles: {}
-                                                }
-                                            )
-                                        }
-                                    )
-                        ),
-                    action.payload.parent, singleNavItemReducer(state[action.payload.parent], action));
-                }*/
+                        return changeProp(Object.assign({}, state,
+                                        Object.assign(
+                                            {},
+                                            {
+                                                [findNavItemContainingBox(state, action.payload.parent).id]:
+                                                Object.assign(
+                                                    {},
+                                                    findNavItemContainingBox(state, action.payload.parent),
+                                                    {extraFiles: {}
+                                                    }
+                                                )
+                                            }
+                                        )
+                            ),
+                        action.payload.parent, singleNavItemReducer(state[action.payload.parent], action));
+                    }*/
             return changeProp(state, action.payload.parent, singleNavItemReducer(state[action.payload.parent], action));
         }
 
@@ -203,12 +204,12 @@ export default function(state = {}, action = {}) {
                 Object.assign({},
                     {
                         [findNavItemContainingBox(state, action.payload.parent).id]:
-                        Object.assign(
-                            {},
-                            findNavItemContainingBox(state, action.payload.parent),
-                            { extraFiles: {},
-                            }
-                        ),
+                            Object.assign(
+                                {},
+                                findNavItemContainingBox(state, action.payload.parent),
+                                { extraFiles: {},
+                                }
+                            ),
                     }
                 )
             );
@@ -217,29 +218,29 @@ export default function(state = {}, action = {}) {
         return state;
     case DELETE_SORTABLE_CONTAINER:
         /* let item = findNavItemContainingBox(state, action.payload.parent);
-        if(item) {
-            if(item.extraFiles.length !== 0) {
-                return Object.assign({}, state,
-                    Object.assign({},
-                        {
-                            [findNavItemContainingBox(state, action.payload.parent).id]:
-                            Object.assign(
-                                {},
-                                findNavItemContainingBox(state, action.payload.parent),
-                                { extraFiles: {},
-                                }
-                            ),
-                        }
-                    )
-                );
-            }
-        }*/
+            if(item) {
+                if(item.extraFiles.length !== 0) {
+                    return Object.assign({}, state,
+                        Object.assign({},
+                            {
+                                [findNavItemContainingBox(state, action.payload.parent).id]:
+                                Object.assign(
+                                    {},
+                                    findNavItemContainingBox(state, action.payload.parent),
+                                    { extraFiles: {},
+                                    }
+                                ),
+                            }
+                        )
+                    );
+                }
+            }*/
         let nState = Object.assign({}, state);
         /* for (let cv in action.payload.cvs) {
-        for (let b in action.payload.cvs[cv]) {
-          delete nState[cv].parent[action.payload.cvs[cv][b]];
-        }
-      }*/
+            for (let b in action.payload.cvs[cv]) {
+              delete nState[cv].parent[action.payload.cvs[cv][b]];
+            }
+          }*/
         return nState;
     case DUPLICATE_BOX:
         if (isView(action.payload.parent)) {
@@ -280,8 +281,8 @@ export default function(state = {}, action = {}) {
             ]
         );
 
-            // Some properties are inherited from parent (level, hidden, unitNumber, etc.)
-            // We should update item's children with new inherited value
+        // Some properties are inherited from parent (level, hidden, unitNumber, etc.)
+        // We should update item's children with new inherited value
         let descendantsToUpdate = findDescendantNavItems(itemsReordered, action.payload.id);
         // We remove the first element (the item we moved)
         descendantsToUpdate.shift();

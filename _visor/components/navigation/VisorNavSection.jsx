@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Dali from '../../../core/editor/main';
+import Ediphy from '../../../core/editor/main';
 import { isSlide, isSection } from '../../../common/utils';
 
 export default class VisorNavSection extends Component {
@@ -19,7 +19,7 @@ export default class VisorNavSection extends Component {
         return (
             <ul className={classes}>
                 <li className="visorNavListEl" onClick={(e)=>{
-                    if (Dali.Config.sections_have_content) {
+                    if (Ediphy.Config.sections_have_content) {
                         this.props.changePage(this.props.pageName);
                     } else {
                         this.setState({ toggled: !this.state.toggled });

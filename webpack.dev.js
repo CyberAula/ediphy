@@ -12,7 +12,7 @@ module.exports = merge.smart(common, {
             'bootstrap-loader', // Loads Twitter Bootstrap
             './index.jsx',
         ], // Appʼs entry point
-        'visor': path.join(__dirname, '/_visor/containers/EditorVisor.jsx'),
+        'visor': path.join(__dirname, '/_visor/containers/VisorApp.jsx'),
     },
     output: {
         path: path.join(__dirname, '/dist'),
@@ -22,7 +22,7 @@ module.exports = merge.smart(common, {
     devtool: 'cheap-module-eval-source-map',
     watch: true,
     plugins: [
-        new BundleAnalyzerPlugin(),
+        // new BundleAnalyzerPlugin(),
         new webpack.HotModuleReplacementPlugin(),
         new webpack.LoaderOptionsPlugin({
             debug: true,

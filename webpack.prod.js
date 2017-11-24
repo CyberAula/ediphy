@@ -10,7 +10,7 @@ module.exports = merge.smart(common, {
             'bootstrap-loader', // Loads Twitter Bootstrap
             './index.jsx',
         ], // Appʼs entry point
-        'visor': path.join(__dirname, '/_visor/containers/EditorVisor.jsx'),
+        'visor': path.join(__dirname, '/_visor/containers/VisorApp.jsx'),
     },
     output: {
         path: path.join(__dirname, '/dist'),
@@ -20,8 +20,8 @@ module.exports = merge.smart(common, {
     devtool: 'cheap-module-source-map',
     // devtool: 'cheap-module-eval-source-map', // for dev in prod enviroment
     externals: {
-        dali_editor_params: 'dali_editor_params',
-        dali_editor_json: 'dali_editor_json',
+        ediphy_editor_params: 'ediphy_editor_params',
+        ediphy_editor_json: 'ediphy_editor_json',
     },
     plugins: [
         new webpack.optimize.OccurrenceOrderPlugin(),

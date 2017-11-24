@@ -335,7 +335,7 @@ export default class RichMarksModal extends Component {
             if (props.navItems[id].hidden) {
                 return;
             }
-            if(!Dali.Config.sections_have_content && isSection(id)) {
+            if(!Ediphy.Config.sections_have_content && isSection(id)) {
                 return;
             }
             // We need to turn off this requisite in case there is no more pages available and we need to link to the same page the box is in

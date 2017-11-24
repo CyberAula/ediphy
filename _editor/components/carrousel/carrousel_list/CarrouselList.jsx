@@ -3,14 +3,14 @@ import PropTypes from 'prop-types';
 import { Tooltip, Button, OverlayTrigger, Popover } from 'react-bootstrap';
 import { ID_PREFIX_PAGE, ID_PREFIX_SECTION, ID_PREFIX_SORTABLE_BOX, PAGE_TYPES } from '../../../../common/constants';
 import Section from './../section/Section';
-import DaliIndexTitle from './../dali_index_title/DaliIndexTitle';
+import EditorIndexTitle from '../editor_index_title/EditorIndexTitle';
 import { isPage, isSection, isSlide, isContainedView, calculateNewIdOrder } from '../../../../common/utils';
 import i18n from 'i18next';
-import Dali from '../../../../core/editor/main';
+import Ediphy from '../../../../core/editor/main';
 import './_carrouselList.scss';
 
 /**
- * Dali CarrouselList Component
+ * Ediphy CarrouselList Component
  * List of all the course's views and contained views
  */
 export default class CarrouselList extends Component {
@@ -71,7 +71,7 @@ export default class CarrouselList extends Component {
                         this.props.onIndexSelected(this.props.id);
                         e.stopPropagation();
                     }}>
-                    {this.props.navItems[this.props.id].children.map((id, index) => {
+                    {this.props.navItems && this.props.navItems.hasOwnProperty(this.props.id) && this.props.navItems[this.props.id].children.map((id, index) => {
                         if (isSection(id)) {
                             return <Section id={id}
                                 key={index}
@@ -108,7 +108,7 @@ export default class CarrouselList extends Component {
                                     <i className="material-icons fileIcon">
                                         {isSlide(this.props.navItems[id].type) ? "slideshow" : "insert_drive_file"}
                                     </i>
-                                    <DaliIndexTitle
+                                    <EditorIndexTitle
                                         id={id}
                                         title={this.props.navItems[id].name}
                                         index={this.props.navItems[this.props.navItems[id].parent].children.indexOf(id) + 1 + '.'}
@@ -162,7 +162,7 @@ export default class CarrouselList extends Component {
                                 <span className="" style={{ marginLeft: '10px' }}>
 
                                     <i style={{ marginRight: '10px' }} className="material-icons">{isSlide(this.props.containedViews[id].type) ? "slideshow" : "insert_drive_file"}</i>
-                                    <DaliIndexTitle
+                                    <EditorIndexTitle
                                         id={id}
                                         title={this.props.containedViews[id].name}
                                         index={1}
@@ -178,7 +178,7 @@ export default class CarrouselList extends Component {
                     <div className="bottomLine" />
                     <OverlayTrigger placement="top" overlay={(<Tooltip id="newFolderTooltip">{i18n.t('create new folder')}</Tooltip>)}>
                         <Button className="carrouselButton"
-                            disabled={ isContainedView(this.props.indexSelected) || this.props.navItems[this.props.indexSelected].level >= 10}
+                            disabled={ !this.props.indexSelected || this.props.indexSelected === -1 || isContainedView(this.props.indexSelected) || this.props.navItems[this.props.indexSelected].level >= 10}
                             onClick={e => {
 
                                 let idnuevo = ID_PREFIX_SECTION + Date.now();
@@ -189,7 +189,7 @@ export default class CarrouselList extends Component {
                                     PAGE_TYPES.SECTION,
                                     this.calculatePosition()
                                 );
-                                if(Dali.Config.sections_have_content) {
+                                if(Ediphy.Config.sections_have_content) {
                                     this.props.onBoxAdded({
                                         parent: idnuevo,
                                         container: 0,
@@ -331,6 +331,9 @@ export default class CarrouselList extends Component {
      * @returns {*}
      */
     getParent() {
+        if (!this.props.indexSelected || this.props.indexSelected === -1) {
+            return { id: 0 };
+        }
         // If the selected navItem is not a section, it cannot have children -> we return it's parent
         if (isSection(this.props.indexSelected)) {
             return this.props.navItems[this.props.indexSelected];

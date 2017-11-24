@@ -1,0 +1,599 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for ediphy/plugins/HotspotImages/HotspotImages.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../../prettify.css" />
+    <link rel="stylesheet" href="../../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../../index.html">All files</a> / <a href="index.html">ediphy/plugins/HotspotImages</a> HotspotImages.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">2.78% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>1/36</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/12</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">7.69% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>1/13</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">2.86% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>1/35</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import React from "react";
+import i18n from 'i18next';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import MarkEditor from '../../_editor/components/rich_plugins/mark_editor/MarkEditor';
+import img_broken from './../../dist/images/broken_link.png';
+import img_placeholder from './../../dist/images/placeholder.png';
+export function HotspotImages(base) {
+    return {
+        getConfig: <span class="fstat-no" title="function not covered" >fu</span>nction() {
+<span class="cstat-no" title="statement not covered" >            return {</span>
+                name: 'HotspotImages',
+                displayName: Ediphy.i18n.t('HotspotImages.PluginName'),
+                category: 'image',
+                needsConfigModal: false,
+                flavor: "react",
+                needsTextEdition: false,
+                icon: 'image',
+                // initialWidth: '25%',
+                aspectRatioButtonConfig: {
+                    location: ["main", "__sortable"],
+                    defaultValue: true,
+                },
+                isRich: true,
+                marksType: [{ name: i18n.t("HotspotImages.pos"), key: 'value', format: '[x,y]', default: '50,50', defaultColor: '#222222' }],
+            };
+        },
+        getToolbar: <span class="fstat-no" title="function not covered" >fu</span>nction() {
+<span class="cstat-no" title="statement not covered" >            return {</span>
+                main: {
+                    __name: "Main",
+                    accordions: {
+                        basic: {
+                            __name: Ediphy.i18n.t('HotspotImages.source'),
+                            icon: 'link',
+                            buttons: {
+                                url: {
+                                    __name: 'URL',
+                                    type: 'external_provider',
+                                    value: base.getState().url,
+                                    accept: "image/*",
+                                    autoManaged: false,
+                                },
+                            },
+                        },
+                        style: {
+                            __name: Ediphy.i18n.t('HotspotImages.box_style'),
+                            icon: 'palette',
+                            buttons: {
+                                padding: {
+                                    __name: Ediphy.i18n.t('HotspotImages.padding'),
+                                    type: 'number',
+                                    value: 0,
+                                    min: 0,
+                                    max: 100,
+                                },
+                                backgroundColor: {
+                                    __name: Ediphy.i18n.t('HotspotImages.background_color'),
+                                    type: 'color',
+                                    value: '#ffffff',
+                                },
+                                borderWidth: {
+                                    __name: Ediphy.i18n.t('HotspotImages.border_size'),
+                                    type: 'number',
+                                    value: 0,
+                                    min: 0,
+                                    max: 10,
+                                },
+                                borderStyle: {
+                                    __name: Ediphy.i18n.t('HotspotImages.border_style'),
+                                    type: 'select',
+                                    value: 'solid',
+                                    options: ['none', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset', 'initial', 'inherit'],
+                                },
+                                borderColor: {
+                                    __name: Ediphy.i18n.t('HotspotImages.border_color'),
+                                    type: 'color',
+                                    value: '#000000',
+                                },
+                                borderRadius: {
+                                    __name: Ediphy.i18n.t('HotspotImages.radius'),
+                                    type: 'number',
+                                    value: 0,
+                                    min: 0,
+                                    max: 50,
+                                },
+                                opacity: {
+                                    __name: Ediphy.i18n.t('HotspotImages.opacity'),
+                                    type: 'range',
+                                    value: 1,
+                                    min: 0,
+                                    max: 1,
+                                    step: 0.01,
+                                },
+                            },
+                        },
+                    },
+                },
+            };
+        },
+        getRichMarkInput: <span class="fstat-no" title="function not covered" >fu</span>nction(state, MarkInput) {
+            let div = <span class="cstat-no" title="statement not covered" >&lt;div&gt;&lt;span&gt;x,y&lt;/span&gt;&lt;input onChange={<span class="fstat-no" title="function not covered" >(e</span>vent)=&gt;{<span class="cstat-no" title="statement not covered" >MarkInput(event.target.value);}</span>} /&gt;&lt;/div&gt;;</span>
+<span class="cstat-no" title="statement not covered" >            return div;</span>
+        },
+        getInitialState: <span class="fstat-no" title="function not covered" >fu</span>nction() {
+<span class="cstat-no" title="statement not covered" >            return {</span>
+                // url: 'http://nemanjakovacevic.net/wp-content/uploads/2013/07/placeholder.png'
+                // url:'http://www.amicus.nieruchomosci.pl/grafika/no-image.png'
+                // url: 'https://bytesizemoments.com/wp-content/uploads/2014/04/placeholder.png'
+                url: img_placeholder, // Ediphy.Config.image_placeholder,
+&nbsp;
+            };
+        },
+        getRenderTemplate: <span class="fstat-no" title="function not covered" >fu</span>nction(state) {
+            let marks = <span class="cstat-no" title="statement not covered" >state.__marks;</span>
+            let Mark = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span> idKey, title, style, color }) =&gt; (</span>
+<span class="cstat-no" title="statement not covered" >                &lt;MarkEditor style={style} time={1.5} mark={idKey} base={base} state={state}&gt;</span>
+                    &lt;OverlayTrigger key={idKey} text={title} placement="top" overlay={&lt;Tooltip id={idKey}&gt;{title}&lt;/Tooltip&gt;}&gt;
+                        &lt;a className="mapMarker" href="#"&gt;
+                            &lt;i key="i" style={{ color: color }} className="material-icons"&gt;room&lt;/i&gt;
+                        &lt;/a&gt;
+                    &lt;/OverlayTrigger&gt;
+                &lt;/MarkEditor&gt;);
+&nbsp;
+            let markElements = <span class="cstat-no" title="statement not covered" >Object.keys(marks).map(<span class="fstat-no" title="function not covered" >(i</span>d) =&gt;{</span>
+                let value = <span class="cstat-no" title="statement not covered" >marks[id].value;</span>
+                let title = <span class="cstat-no" title="statement not covered" >marks[id].title;</span>
+                let color = <span class="cstat-no" title="statement not covered" >marks[id].color;</span>
+&nbsp;
+                let position;
+<span class="cstat-no" title="statement not covered" >                if (value &amp;&amp; value.split(',').length === 2) {</span>
+<span class="cstat-no" title="statement not covered" >                    position = value.split(',');</span>
+                } else{
+<span class="cstat-no" title="statement not covered" >                    position = [0, 0];</span>
+                }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >                return (&lt;Mark key={id} style={{ position: 'absolute', top: position[0] + "%", left: position[1] + "%" }} color={color} idKey={id} title={title} /&gt;);</span>
+&nbsp;
+                // return(&lt;a key={id} style={{ position: 'absolute', top: position[0] + "%", left: position[1] + "%" }} href="#"&gt;&lt;i style={{ width: "100%", height: "100%", top: '-26px', position: 'absolute', left: '-12px' }} className="material-icons"&gt;room&lt;/i&gt;&lt;/a&gt;);
+            });
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            return (</span>
+                &lt;div className="dropableRichZone"&gt;
+                    &lt;img className="basicImageClass" style={{ height: "100%", width: "100%" }} src={state.url} onError={<span class="fstat-no" title="function not covered" >(e</span>)=&gt;{
+<span class="cstat-no" title="statement not covered" >                        e.target.onError = null;</span>
+<span class="cstat-no" title="statement not covered" >                        e.target.src = img; </span>// Ediphy.Config.broken_link;
+                    }}/&gt;
+                    {markElements}
+                &lt;/div&gt;
+            );
+        },
+        handleToolbar: <span class="fstat-no" title="function not covered" >fu</span>nction(name, value) {
+<span class="cstat-no" title="statement not covered" >            base.setState(name, value);</span>
+        },
+        parseRichMarkInput: <span class="fstat-no" title="function not covered" >fu</span>nction(...value) {
+            let x = <span class="cstat-no" title="statement not covered" >(value[0] + 12) * 100 / value[2];</span>
+            let y = <span class="cstat-no" title="statement not covered" >(value [1] + 26) * 100 / value[3];</span>
+            let finalValue = <span class="cstat-no" title="statement not covered" >y.toFixed(2) + "," + x.toFixed(2);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            return finalValue;</span>
+        },
+        validateValueInput: <span class="fstat-no" title="function not covered" >fu</span>nction(value) {
+            let regex = <span class="cstat-no" title="statement not covered" >/(^-*\d+(?:\.\d*)?),(-*\d+(?:\.\d*)?$)/g;</span>
+            let match = <span class="cstat-no" title="statement not covered" >regex.exec(value);</span>
+<span class="cstat-no" title="statement not covered" >            if(match &amp;&amp; match.length === 3) {</span>
+                let x = <span class="cstat-no" title="statement not covered" >Math.round(parseFloat(match[1]) * 100) / 100;</span>
+                let y = <span class="cstat-no" title="statement not covered" >Math.round(parseFloat(match[2]) * 100) / 100;</span>
+<span class="cstat-no" title="statement not covered" >                if (isNaN(x) || isNaN(y)/* || x &gt; 100 || y &gt; 100 || x &lt; -100 || y &lt; -100*/) {</span>
+<span class="cstat-no" title="statement not covered" >                    return { isWrong: true, message: i18n.t("HotspotImages.message_mark_xy") };</span>
+                }
+<span class="cstat-no" title="statement not covered" >                value = x + ',' + y;</span>
+            } else {
+<span class="cstat-no" title="statement not covered" >                return { isWrong: true, message: i18n.t("HotspotImages.message_mark_xy") };</span>
+            }
+<span class="cstat-no" title="statement not covered" >            return { isWrong: false, value: value };</span>
+        },
+&nbsp;
+    };
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Wed Nov 22 2017 16:13:18 GMT+0100 (CET)
+</div>
+</div>
+<script src="../../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../../sorter.js"></script>
+</body>
+</html>

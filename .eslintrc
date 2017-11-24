@@ -20,8 +20,6 @@
     "jsx-a11y"
   ],
 
-
-
   "rules": {
 
     /*Possible Errors */
