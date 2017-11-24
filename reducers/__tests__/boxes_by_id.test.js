@@ -131,7 +131,7 @@ describe('# boxes_by_id reducer ************************************************
             newstate['bo-1511252970033'].position.x = action.payload.x;
             newstate['bo-1511252970033'].position.y = action.payload.y;
 
-            console.log(state['bo-1511252970033']);
+            // console.log(state['bo-1511252970033']);
 
             expect(boxes_by_id(state, action)).toEqual(newstate);
         });
