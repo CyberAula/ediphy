@@ -3,6 +3,7 @@ import fs from 'fs';
 import glob from 'glob';
 import { shallow } from 'enzyme';
 import BasePlugin from '../../core/editor/base_plugin';
+import BasePluginVisor from '../../core/visor/base_plugin';
 let PJV = require('package-json-validator').PJV;
 
 describe('plugins package.json is well formed', ()=>{
@@ -78,11 +79,40 @@ plugin_folders.forEach((plugin)=>{
                 expect(current_plugin.handleToolbar).toBeTruthy();
             });
         }
+
+        if (current_plugin.hasOwnProperty('init')) {
+            test(plugin.split("plugins/")[1] + 'plugin has init and is valid', () => {
+                expect(current_plugin.init).toBeTruthy();
+            });
+        }
     });
 
     describe('plugin visor file is correctly formed', ()=> {
-        test(plugin.split("plugins/")[1] + 'plugin has visor', () => {
-        });
+        beforeEach(jest.resetModules);
+        global.Ediphy = jest.fn({});
+        global.Ediphy.i18n = jest.fn({});
+        global.Ediphy.i18n.t = jest.fn((n)=>"translation");
+
+        if(fs.existsSync("./" + plugin + "/visor/" + plugin.split("plugins/")[1] + ".js")) {
+            let basepluginvisor = new BasePluginVisor();
+
+            let current_plugin = jest.requireActual("./../../" + plugin + "/visor/" + plugin.split("plugins/")[1])[plugin.split("plugins/")[1]](basepluginvisor);
+            test(plugin.split("plugins/")[1] + 'plugin visor can be imported', () => {
+                expect(current_plugin).toBeDefined();
+                expect(current_plugin).toHaveProperty('getRenderTemplate');
+            });
+        }
+    });
+
+    describe('plugin has locales files correctly formed', ()=> {
+        beforeEach(jest.resetModules);
+        global.Ediphy = jest.fn({});
+        global.Ediphy.i18n = jest.fn({});
+        global.Ediphy.i18n.t = jest.fn((n)=>"translation");
+
+        let locales = jest.requireActual("./../../" + plugin + "/locales/" + "en");
+        console.log(locales);
+
     });
 
 });
