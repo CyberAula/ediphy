@@ -138,8 +138,8 @@ describe('# boxes_by_id reducer ************************************************
         });
     });
 
-    describe('handle DUPLICATE_BOX  ********************************************************** TODO', ()=>{
-        test('If duplicated box', () => {
+    describe('handle DUPLICATE_BOX  **************************************** TODO copy & paste', ()=>{
+        test.skip('If duplicated box', () => {
             // expect(boxes_by_id(state, {})).toEqual(state);
         });
     });
@@ -164,18 +164,81 @@ describe('# boxes_by_id reducer ************************************************
         });
     });
 
-    describe('handle UPDATE_BOX ********************************************************** TODO', ()=>{
-        test('If updated box', () => {
-            // expect(boxes_by_id(state, {})).toEqual(state);
+    describe('handle UPDATE_BOX ******************************************** TODO plugin inside plugin', ()=>{
+        test.skip('If box updated', () => {
+            const action = {
+                type: ActionTypes.UPDATE_BOX,
+                payload: {
+                    id: 'bo-1511252970033',
+                    content: '',
+                    toolbar: {},
+                    state: { url: 'http://vishub.org/pictures/1608.jpg' },
+                },
+            };
+            // expect(boxes_by_id(state, action)).toEqual(state);
         });
     });
-    // return changeProp(state, action.payload.id, boxReducer(state[action.payload.id], action));
 
     describe('handle ADD_RICH_MARK', ()=>{
-        test('If rich mark added', () => {
-            // expect(boxes_by_id(state, {})).toEqual(state);
+        // 4 diferent cases
+        test('If rich mark added & connected to an external content', () => {
+            const action = {
+                type: ActionTypes.ADD_RICH_MARK,
+                payload: {
+                    parent: 'bo-1511252970033',
+                    mark: { id: "rm-1511786135103",
+                        title: "new mark",
+                        connectMode: "external",
+                        connection: "http://ging.github.io/ediphy/#/",
+                        displayMode: "navigate",
+                        value: "30.95,49.15",
+                        color: "#222222" },
+                    state: {},
+                },
+            };
+            expect(boxes_by_id(state, {})).toEqual(state);
+        });
+        test('If rich mark added & connected to an existing page (not a contained view)', () => {
+            const action = {
+                type: ActionTypes.ADD_RICH_MARK,
+                payload: {
+                    parent: 'bo-1511252970033',
+                    mark: { id: "rm-1511786135103",
+                        title: "new mark",
+                        connectMode: "existing",
+                        connection: "pa-1497983247795",
+                        displayMode: "navigate",
+                        value: "30.95,49.15",
+                        color: "#222222" },
+                    state: {},
+                },
+            };
+            expect(boxes_by_id(state, action)).toEqual(state);
+        });
+
+        test('If rich mark added and connected to a new contained view', () => {
+            const action = {
+                type: ActionTypes.ADD_RICH_MARK,
+                payload: {
+                    parent: 'bo-1511252970033',
+                    mark: { id: "rm-1511786135103",
+                        title: "new mark",
+                        connectMode: "new",
+                        connection: { id: "cv-1511789732970" },
+                        displayMode: "navigate",
+                        value: "30.95,49.15",
+                        color: "#222222" },
+                    state: {},
+                },
+            };
+            const newstate = Object.assign({}, state, {
+                ['bo-1511252970033']: Object.assign({}, state['bo-1511252970033'], { "containedViews": ['cv-1511252975055', 'cv-1511789732970'] }),
+            });
+
+            expect(boxes_by_id(state, action)).toEqual(newstate);
         });
     });
+
     describe('handle REORDER_BOXES', ()=>{
         test('If boxes reordered', () => {
             // expect(boxes_by_id(state, {})).toEqual(state);

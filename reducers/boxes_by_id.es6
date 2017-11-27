@@ -183,7 +183,7 @@ function boxReducer(state = {}, action = {}) {
     case RESIZE_SORTABLE_CONTAINER:
         return changeProp(state, "sortableContainers", sortableContainersReducer(state.sortableContainers, action));
     case UPDATE_BOX:
-        // sortableContainers for boxes inside this box (this is not EditorBoxSortable)
+        // sortableContainers for boxes inside this box (this is not EditorBoxSortable) (***** only working with PLUGIN inside PLUGIN)
         let sortableContainers = {};
         let children = [];
         if (action.payload.state.__pluginContainerIds) {
@@ -340,7 +340,7 @@ export default function(state = {}, action = {}) {
     case UPDATE_BOX:
         return changeProp(state, action.payload.id, boxReducer(state[action.payload.id], action));
     case ADD_RICH_MARK:
-        // If rich mark is connected to a new contained view, mark.connection will include this information;
+        // If rich mark is connected to a contained view (new or existing), mark.connection will include this information;
         // otherwise, it's just the id/url and we're not interested
         if (action.payload.mark.connection.id || isContainedView(action.payload.mark.connection)) {
             return changeProp(state, action.payload.parent, boxReducer(state[action.payload.parent], action));
