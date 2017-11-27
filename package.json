@@ -16,36 +16,45 @@
     "both": "npm run start-webpack & npm run watch-sass",
     "start-webpack": "webpack-dev-server --progress",
     "watch-sass": "node-sass -w sass/style.scss -o dist/css/compiledsass.css",
-    "test": "jest --colors",
+    "test": "jest --colors --watch",
+    "test:verbose": "jest --watch --colors --verbose || true",
+    "test:coverage": "jest --watch --colors --coverage --verbose || true",
     "eslint": "eslint . --fix  --ext .js,.jsx,.es6",
     "doc": "babel-node --presets es2015 doc/scripts/reactdocgenmd.js & node doc/scripts/importComponents.js & webpack --config doc/webpack.doc.prod.js & webpack --config webpack.noserver.js & node doc/scripts/bringtodist.js",
     "dev-doc": "babel-node --presets es2015  doc/scripts/reactdocgenmd.js & node doc/scripts/importComponents.js &  webpack --config webpack.noserver.js & node doc/scripts/bringtodist.js & webpack-dev-server --open --progress --colors --config doc/webpack.doc.dev.js",
     "dev-only-doc": "webpack-dev-server --open --progress --colors --config doc/webpack.doc.dev.js",
-
-    "add-all": "git add .",
-    "postinstall": "node ./plugin_install"
-   },
+    "add-all": "git add ."
+  },
   "pre-commit": [
     "eslint",
     "add-all"
   ],
   "jest": {
     "transform": {
-      ".*": "./node_modules/babel-jest"
+      "^.+\\.*?$": "./node_modules/babel-jest"
     },
     "moduleFileExtensions": [
       "js",
       "jsx",
-      "es6"
+      "es6",
+      "json"
     ],
     "moduleDirectories": [
       "node_modules"
     ],
     "moduleNameMapper": {
-      "\\.(ejs)$": "<rootDir>/core/api.es6"
+      "\\.(ejs)$": "<rootDir>/core/api.es6",
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/common/__mocks__/fileMock.js",
+      "\\.(css|scss|less)$": "<rootDir>/common/__mocks__/styleMock.js"
     },
+    "setupFiles": [
+      "<rootDir>/shim.js"
+    ],
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ],
     "testMatch": [
-      "**/?(*.)(*test).js"
+      "**/?(*.)(test|spec).js"
     ]
   },
   "devDependencies": {
@@ -61,6 +70,9 @@
     "bootstrap-sass": "^3.3.7",
     "css-loader": "^0.28.7",
     "ejs-compiled-loader": "^1.1.0",
+    "enzyme": "^3.2.0",
+    "enzyme-adapter-react-16": "^1.1.0",
+    "enzyme-to-json": "^3.2.2",
     "esdoc": "^1.0.4",
     "esdoc-ecmascript-proposal-plugin": "^1.0.0",
     "esdoc-jsx-plugin": "^1.0.0",
@@ -78,8 +90,10 @@
     "file-loader": "^1.1.5",
     "glob": "^7.1.2",
     "html-loader": "^0.5.1",
+    "identity-obj-proxy": "^3.0.0",
     "imports-loader": "^0.7.1",
     "jest": "^21.2.1",
+    "jest-json-schema": "^1.2.0",
     "jest-webpack": "^0.3.0",
     "jsdoc": "^3.5.5",
     "json-loader": "^0.5.7",
@@ -113,7 +127,7 @@
   },
   "dependencies": {
     "@trendmicro/react-toggle-switch": "^0.5.7",
-    "BasicPlayer": "./plugins/BasicPlayer",
+    "BasicPlayer": "file:plugins/BasicPlayer",
     "DataTable": "file:plugins/DataTable",
     "EnrichedPlayer": "file:plugins/EnrichedPlayer",
     "GraficaD3": "file:plugins/GraficaD3",
