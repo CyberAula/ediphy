@@ -95,8 +95,8 @@ plugin_folders.forEach((plugin)=>{
 
         if(fs.existsSync("./" + plugin + "/visor/" + plugin.split("plugins/")[1] + ".js")) {
             let basepluginvisor = new BasePluginVisor();
-
             let current_plugin = jest.requireActual("./../../" + plugin + "/visor/" + plugin.split("plugins/")[1])[plugin.split("plugins/")[1]](basepluginvisor);
+
             test(plugin.split("plugins/")[1] + 'plugin visor can be imported', () => {
                 expect(current_plugin).toBeDefined();
                 expect(current_plugin).toHaveProperty('getRenderTemplate');
@@ -108,11 +108,17 @@ plugin_folders.forEach((plugin)=>{
         beforeEach(jest.resetModules);
         global.Ediphy = jest.fn({});
         global.Ediphy.i18n = jest.fn({});
-        global.Ediphy.i18n.t = jest.fn((n)=>"translation");
+        global.Ediphy.i18n.t = jest.fn((n) => "translation");
 
-        let locales = jest.requireActual("./../../" + plugin + "/locales/" + "en");
-        console.log(locales);
+        test('Testing English language ' + plugin + ' locales', ()=>{
+            let locales = jest.requireActual("./../../" + plugin + "/locales/" + "en");
+            expect(locales).toBeDefined();
+        });
 
+        test('Testing Spanish language ' + plugin + ' locales', ()=>{
+            let locales = jest.requireActual("./../../" + plugin + "/locales/" + "es");
+            expect(locales).toBeDefined();
+        });
     });
 
 });
