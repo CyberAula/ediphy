@@ -1,6 +1,17 @@
+/**
+ * HELPER FUNCTIONS FOR THE CLIPBOARD
+ *
+ */
 
-// TODO link with VISH
+/**
+ * Async function for retrieving an image from the clipboard
+ * @param pasteEvent Paste event captured
+ * @param callback Callback function for when finishing parsing the image
+ * @param imageFormat Resulting image format
+ * @returns {boolean} True if there is images in the clipboard. False otherwise
+ */
 export function retrieveImageFromClipboardAsBase64(pasteEvent, callback, imageFormat) {
+    // TODO link with VISH
     if(pasteEvent.clipboardData === false) {
         if(typeof(callback) === "function") {
             callback(undefined);
@@ -51,7 +62,11 @@ export function retrieveImageFromClipboardAsBase64(pasteEvent, callback, imageFo
     return noImage;
 }
 
-// May be needed in the future
+/**
+ * Retrives image from clipboard as blob. Not used as for now but it may be needed in the future
+ * @param pasteEvent Paste event captured
+ * @param callback Callback function for when finishing parsing the image
+ */
 export function retrieveImageFromClipboardAsBlob(pasteEvent, callback) {
     if(pasteEvent.clipboardData === false) {
         if(typeof(callback) === "function") {
@@ -80,8 +95,37 @@ export function retrieveImageFromClipboardAsBlob(pasteEvent, callback) {
     }
 }
 
+/**
+ * Generates a random percentage between the given numbers
+ * @param min Min percentage
+ * @param max Max percentage
+ * @returns {string} Generated value. Ex: 50.02%
+ */
 export function randomPositionGenerator(min, max) {
     return (Math.random() * (max - min) + min).toFixed(2) + "%";
 
 }
 
+/**
+ * Adapt the text from the clipboard to HTML that the CKEditor recognizes
+ * @param data Clipboard data in HTML or plain text
+ * @returns {string} Resulting CKEditor content
+ */
+export function getCKEDITORAdaptedContent(data) {
+    // Parse HTML version
+    // let filter = new CKEDITOR.filter( 'p b' ),
+    // Parse the HTML string to pseudo-DOM structure.
+    let fragment = CKEDITOR.htmlParser.fragment.fromHtml(data);
+    let writer = new CKEDITOR.htmlParser.basicWriter();
+
+    fragment.writeHtml(writer);
+    return encodeURI(writer.getHtml());
+    /* return encodeURI(
+     decodeURI(
+     CKEDITOR.tools.htmlEncode(data)
+     )
+     );
+     */
+    // Plain text version
+    // return (event.clipboardData.getData("text/plain"));
+}

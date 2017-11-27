@@ -374,10 +374,25 @@ export default function(state = { 0: { id: 0, children: [], boxes: [], level: 0,
     case IMPORT_STATE:
         return action.payload.present.navItemsById || state;
     case PASTE_BOX:
-        if (isView(action.payload.ids.parent)) {
-            return changeProp(state, action.payload.ids.parent, singleNavItemReducer(state[action.payload.ids.parent], action));
+        let newState = JSON.parse(JSON.stringify(state));
+        if (isView(action.payload.ids.parent) && !isContainedView(action.payload.ids.parent)) {
+            newState = changeProp(newState, action.payload.ids.parent, singleNavItemReducer(newState[action.payload.ids.parent], action));
         }
-        return state;
+        if (action.payload.toolbar && action.payload.toolbar.state && action.payload.toolbar.state.__marks) {
+            let marks = action.payload.toolbar.state.__marks;
+            for (let mark in marks) {
+                if (isView(marks[mark].connection)) {
+                    if (newState[marks[mark].connection]) {
+                        if (!newState[marks[mark].connection].linkedBoxes[action.payload.ids.id]) {
+                            newState[marks[mark].connection].linkedBoxes[action.payload.ids.id] = [];
+                        }
+                        newState[marks[mark].connection].linkedBoxes[action.payload.ids.id].push(mark);
+
+                    }
+                }
+            }
+        }
+        return newState;
     default:
         return state;
     }

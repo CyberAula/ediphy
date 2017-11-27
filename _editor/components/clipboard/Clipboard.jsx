@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Ediphy from '../../../core/editor/main';
-import { isContainedView, isSlide, isSortableBox } from '../../../common/utils';
-import { ID_PREFIX_BOX, ID_PREFIX_SORTABLE_CONTAINER } from '../../../common/constants';
+import { isContainedView, isSlide, isSortableBox, isView } from '../../../common/utils';
+import { ID_PREFIX_BOX, ID_PREFIX_SORTABLE_CONTAINER, ID_PREFIX_RICH_MARK } from '../../../common/constants';
 import { ADD_BOX } from '../../../common/actions';
-import { randomPositionGenerator, retrieveImageFromClipboardAsBase64, retrieveImageFromClipboardAsBlob, text2HTML } from './clipboard.utils';
+import { randomPositionGenerator, retrieveImageFromClipboardAsBase64, getCKEDITORAdaptedContent } from './clipboard.utils';
 
 /** *
  * Component for managing the clipboard
@@ -38,17 +38,21 @@ export default class Clipboard extends Component {
                         toolbar: this.props.toolbars[this.props.boxSelected],
                     };
                     event.clipboardData.setData("text/plain", JSON.stringify(copyData));
+                    return true;
                 }
             }
-            // console.log(event.clipboardData.getData("text"));
         }
+        return false;
     }
 
     cutListener(event) {
-        this.copyListener(event);
-        let box = this.props.boxes[this.props.boxSelected];
-        // TODO CKEditor errors fix
-        this.props.onBoxDeleted(box.id, box.parent, box.container);
+        let fromPlugin = this.copyListener(event);
+        if (fromPlugin) {
+            let box = this.props.boxes[this.props.boxSelected];
+            // TODO CKEditor errors fix
+            this.props.onBoxDeleted(box.id, box.parent, box.container);
+        }
+
     }
 
     pasteListener(event) {
@@ -92,7 +96,7 @@ export default class Clipboard extends Component {
                         // event.preventDefault();
                     }
 
-                    // Copied data is not an EditorBox
+                // Copied data is not an EditorBox
                 } else if (focus.indexOf('form-control') === -1 && focus.indexOf('cke_editable') === -1 && activeElement !== 'TEXTAREA') {
                     event.preventDefault();
                     let imageBlob;
@@ -121,42 +125,9 @@ export default class Clipboard extends Component {
                         console.log(err);
                     }
                     if (noImage) {
-                        // Parse HTML version
-                        // let filter = new CKEDITOR.filter( 'p b' ),
-                        // Parse the HTML string to pseudo-DOM structure.
-                        let fragment = CKEDITOR.htmlParser.fragment.fromHtml(event.clipboardData.getData("text/html") || event.clipboardData.getData("text/plain"));
-                        let writer = new CKEDITOR.htmlParser.basicWriter();
-
-                        fragment.writeHtml(writer);
-                        initialParams.text = encodeURI(writer.getHtml());
-                        /* initialParams.text = encodeURI(
-                            decodeURI(
-                                CKEDITOR.tools.htmlEncode(event.clipboardData.getData("text/html") || event.clipboardData.getData("text/plain"))
-                            )
-                        );
-*/
-                        // Plain text version
-                        // initialParams.text =(event.clipboardData.getData("text/plain"));
+                        initialParams.text = getCKEDITORAdaptedContent(event.clipboardData.getData("text/html") || event.clipboardData.getData("text/plain"));
 
                         Ediphy.Plugins.get("BasicText").getConfig().callback(initialParams, ADD_BOX);
-
-                        // Focus and paste version
-                        /* this.props.onTextEditorToggled(this.props.boxSelected, true);
-                        CKEDITOR.instances[this.props.boxSelected].focus();
-                        // CKEDITOR.instances[this.props.boxSelected].setData( CKEDITOR.tools.htmlEncode(event.clipboardData.getData("text/html") || event.clipboardData.getData("text/plain")))
-                        // CKEDITOR.instances[this.props.boxSelected].commands.paste.exec()
-                        let text = (encodeURI(
-                            decodeURI(
-                                CKEDITOR.tools.htmlEncode(event.clipboardData.getData("text/html") || event.clipboardData.getData("text/plain"))
-                            )
-                        ));
-                        if (window.getSelection) {
-                            var newNode = document.createElement("span");
-                            newNode.innerHTML = text;
-                        } else {
-                            document.selection.createRange().pasteHTML(text);
-
-                        }*/
                     }
                 }
             }
@@ -176,6 +147,7 @@ export default class Clipboard extends Component {
             resizable: isTargetSlide,
             row: 0,
             col: 0,
+            containedViews: box.containedViews.filter(cv=> this.props.containedViews[cv]),
         });
         return newBox;
 
@@ -183,6 +155,26 @@ export default class Clipboard extends Component {
 
     transformToolbar(toolbar, ids, isTargetSlide, isOriginSlide) {
         let newToolbar = Object.assign({}, toolbar, { id: ids.id });
+        if (newToolbar.state && newToolbar.state.__marks) {
+            let newMarks = {};
+            for (let mark in newToolbar.state.__marks) {
+                let newId = mark + "_1";
+                if (newToolbar.state.__marks[mark].connection) {
+                    if ((isContainedView(newToolbar.state.__marks[mark].connection) &&
+                    this.props.containedViews[newToolbar.state.__marks[mark].connection]) ||
+                        (isView(newToolbar.state.__marks[mark].connection) &&
+                        this.props.navItems[newToolbar.state.__marks[mark].connection]) ||
+                        newToolbar.state.__marks[mark].connetMode === 'external') {
+                        newMarks[newId] = Object.assign({}, newToolbar.state.__marks[mark], { id: newId });
+                        // TODO Check if all the links to pages still exist since the time the box was copied
+
+                    }
+
+                }
+            }
+            newToolbar.state.__marks = newMarks;
+            console.log(newToolbar.state.__marks);
+        }
         if (isTargetSlide !== isOriginSlide) {
             // TODO Default width & height instead of 20%
             if (isTargetSlide) {
@@ -196,7 +188,6 @@ export default class Clipboard extends Component {
                 }
             }
         }
-        console.log(newToolbar);
         return newToolbar;
 
     }
