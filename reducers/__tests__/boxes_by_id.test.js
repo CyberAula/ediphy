@@ -83,7 +83,7 @@ describe('# boxes_by_id reducer ************************************************
             newstate['bs-1511252985426'] = modifiedsortable;
             newstate['bo-1511443052925'] = createdbox;
 
-            expect(action.payload.ids.container != 0).toBeTruthy;
+            expect(action.payload.ids.container !== 0).toBeTruthy;
             expect(boxes_by_id(state, action)).toEqual(newstate);
 
         });
