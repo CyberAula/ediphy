@@ -35,7 +35,7 @@ plugin_folders.forEach((plugin)=>{
         // });
 
         let baseplugin = new BasePlugin();
-        let current_plugin = require.requireActual("./../../" + plugin + "/" + plugin.split("plugins/")[1])[plugin.split("plugins/")[1]](baseplugin);
+        let current_plugin = jest.requireActual("./../../" + plugin + "/" + plugin.split("plugins/")[1])[plugin.split("plugins/")[1]](baseplugin);
 
         test(plugin.split("plugins/")[1] + 'plugin can be imported', () => {
             expect(current_plugin).toBeDefined();
