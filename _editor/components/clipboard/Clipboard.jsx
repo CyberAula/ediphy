@@ -27,7 +27,8 @@ export default class Clipboard extends Component {
      */
 
     copyListener(event) {
-        let focus = document.activeElement.className;
+        let activeElement = document.activeElement;
+        let focus = activeElement.className;
         if (event.clipboardData) {
             if (this.props.boxSelected !== -1 && !isSortableBox(this.props.boxSelected)) {
                 if (focus.indexOf('form-control') === -1 && focus.indexOf('cke_editable') === -1 && activeElement.tagName !== 'TEXTAREA') { // focus.indexOf('tituloCurso') === -1 &&
