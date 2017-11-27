@@ -150,7 +150,12 @@ export default class EditorBoxSortable extends Component {
                                                 onClick={e => {
                                                     this.props.onSortableContainerDeleted(idContainer, box.id);
                                                     e.stopPropagation();
-                                                }}>
+                                                }}
+                                                onTap={e => {
+                                                    this.props.onSortableContainerDeleted(idContainer, box.id);
+                                                    e.stopPropagation();
+                                                }}
+                                            >
                                                 {i18n.t("Accept")}
                                             </Button>
                                             <Button className="popoverButton"

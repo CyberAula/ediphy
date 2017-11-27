@@ -430,6 +430,8 @@ export default class EditorBox extends Component {
         let node = ReactDOM.findDOMNode(this);
 
         if (toolbar.showTextEditor) {
+            console.log(toolbar.state.__text);
+
             this.refs.textarea.focus();
 
         }

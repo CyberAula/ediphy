@@ -485,6 +485,7 @@ class EditorApp extends Component {
                     navItems={navItems}
                     containedViews={containedViews}
                     toolbars={toolbars}
+                    onTextEditorToggled={(caller, value) => this.dispatchAndSetState(toggleTextEditor(caller, value))}
                     onBoxPasted={(ids, box, toolbar)=>this.dispatchAndSetState(pasteBox(ids, box, toolbar))}
                     onBoxDeleted={(id, parent, container)=> {let bx = this.getDescendantBoxes(boxes[id]); this.dispatchAndSetState(deleteBox(id, parent, container, bx, boxes[id].containedViews /* , this.getDescendantContainedViews(boxes[id])*/));}}
                 />

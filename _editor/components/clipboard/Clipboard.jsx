@@ -4,15 +4,16 @@ import Ediphy from '../../../core/editor/main';
 import { isContainedView, isSlide, isSortableBox } from '../../../common/utils';
 import { ID_PREFIX_BOX, ID_PREFIX_SORTABLE_CONTAINER } from '../../../common/constants';
 import { ADD_BOX } from '../../../common/actions';
+import { randomPositionGenerator, retrieveImageFromClipboardAsBase64, retrieveImageFromClipboardAsBlob, text2HTML } from './clipboard.utils';
 
 /** *
  * Component for managing the clipboard
  */
 export default class Clipboard extends Component {
     /**
-   * Constructor
-   * @param props React component props
-   */
+     * Constructor
+     * @param props React component props
+     */
     constructor(props) {
         super(props);
         this.copyListener = this.copyListener.bind(this);
@@ -21,17 +22,20 @@ export default class Clipboard extends Component {
     }
 
     /**
-   * After component mounts
-   * Sets listener
-   */
+     * After component mounts
+     * Sets listener
+     */
 
     copyListener(event) {
         let focus = document.activeElement.className;
         if (event.clipboardData) {
-            if(this.props.boxSelected !== -1 && !isSortableBox(this.props.boxSelected)) {
-                if (focus.indexOf('form-control') === -1 && focus.indexOf('cke_editable') === -1) { // focus.indexOf('tituloCurso') === -1 &&
+            if (this.props.boxSelected !== -1 && !isSortableBox(this.props.boxSelected)) {
+                if (focus.indexOf('form-control') === -1 && focus.indexOf('cke_editable') === -1 && activeElement.tagName !== 'TEXTAREA') { // focus.indexOf('tituloCurso') === -1 &&
                     event.preventDefault();
-                    let copyData = { box: this.props.boxes[this.props.boxSelected], toolbar: this.props.toolbars[this.props.boxSelected] };
+                    let copyData = {
+                        box: this.props.boxes[this.props.boxSelected],
+                        toolbar: this.props.toolbars[this.props.boxSelected],
+                    };
                     event.clipboardData.setData("text/plain", JSON.stringify(copyData));
                 }
             }
@@ -47,14 +51,15 @@ export default class Clipboard extends Component {
     }
 
     pasteListener(event) {
-        let focus = document.activeElement.className;
+        let activeElement = document.activeElement;
+        let focus = activeElement.className;
         if (event.clipboardData) {
             // Check if copied data is plugin
             let data = "";
             try {
                 let clipboardData = event.clipboardData.getData("text");
                 data = JSON.parse(clipboardData);
-            } catch(err) {
+            } catch (err) {
                 console.log(err);
             }
 
@@ -71,9 +76,9 @@ export default class Clipboard extends Component {
 
                 // Copied data is an EditorBox
                 if (data && data.box && data.toolbar) {
-                // Focus is outside a text box
-                    if (focus.indexOf('form-control') === -1 && focus.indexOf('cke_editable') === -1) {
-                    // Paste plugin
+                    // Focus is outside a text box
+                    if (focus.indexOf('form-control') === -1 && focus.indexOf('cke_editable') === -1 && activeElement.tagName !== 'TEXTAREA') {
+                        // Paste plugin
                         event.preventDefault();
                         // TODO Drag with Ctrl key held
                         // TODO Limit one instance plugin
@@ -81,13 +86,13 @@ export default class Clipboard extends Component {
                             this.transformBox(data.box, ids, isTargetSlide, data.box.resizable),
                             this.transformToolbar(data.toolbar, ids, isTargetSlide, data.box.resizable));
 
-                    // Inside a text box (CKEditor or input)
+                        // Inside a text box (CKEditor or input)
                     } else {
                         // event.preventDefault();
                     }
 
-                // Copied data is not an EditorBox
-                } else if (focus.indexOf('form-control') === -1 && focus.indexOf('cke_editable') === -1) {
+                    // Copied data is not an EditorBox
+                } else if (focus.indexOf('form-control') === -1 && focus.indexOf('cke_editable') === -1 && activeElement !== 'TEXTAREA') {
                     event.preventDefault();
                     let imageBlob;
                     let initialParams = {
@@ -102,7 +107,7 @@ export default class Clipboard extends Component {
                     // If it is an image
                     let noImage = true;
                     try {
-                        noImage = this.retrieveImageFromClipboardAsBase64(event, (url)=>{
+                        noImage = retrieveImageFromClipboardAsBase64(event, (url) => {
                             console.log(url);
                             if (url) {
                                 initialParams.url = url; // URLObj.createObjectURL(imageBlob);
@@ -115,15 +120,42 @@ export default class Clipboard extends Component {
                         console.log(err);
                     }
                     if (noImage) {
-                        initialParams.text = event.clipboardData.getData("text/html");
-                        if (initialParams.text.indexOf("<head>") !== -1) {
-                            initialParams.text = encodeURI(event.clipboardData.getData("text/plain"));
-                        }
-                        if (!initialParams.text) {
-                            initialParams.text = "<span>" + (event.clipboardData.getData("text/plain")) + "</span>";
-                        }
+                        // Parse HTML version
+                        // let filter = new CKEDITOR.filter( 'p b' ),
+                        // Parse the HTML string to pseudo-DOM structure.
+                        let fragment = CKEDITOR.htmlParser.fragment.fromHtml(event.clipboardData.getData("text/html") || event.clipboardData.getData("text/plain"));
+                        let writer = new CKEDITOR.htmlParser.basicWriter();
+
+                        fragment.writeHtml(writer);
+                        initialParams.text = encodeURI(writer.getHtml());
+                        /* initialParams.text = encodeURI(
+                            decodeURI(
+                                CKEDITOR.tools.htmlEncode(event.clipboardData.getData("text/html") || event.clipboardData.getData("text/plain"))
+                            )
+                        );
+*/
+                        // Plain text version
+                        // initialParams.text =(event.clipboardData.getData("text/plain"));
+
                         Ediphy.Plugins.get("BasicText").getConfig().callback(initialParams, ADD_BOX);
-                        console.log(data);
+
+                        // Focus and paste version
+                        /* this.props.onTextEditorToggled(this.props.boxSelected, true);
+                        CKEDITOR.instances[this.props.boxSelected].focus();
+                        // CKEDITOR.instances[this.props.boxSelected].setData( CKEDITOR.tools.htmlEncode(event.clipboardData.getData("text/html") || event.clipboardData.getData("text/plain")))
+                        // CKEDITOR.instances[this.props.boxSelected].commands.paste.exec()
+                        let text = (encodeURI(
+                            decodeURI(
+                                CKEDITOR.tools.htmlEncode(event.clipboardData.getData("text/html") || event.clipboardData.getData("text/plain"))
+                            )
+                        ));
+                        if (window.getSelection) {
+                            var newNode = document.createElement("span");
+                            newNode.innerHTML = text;
+                        } else {
+                            document.selection.createRange().pasteHTML(text);
+
+                        }*/
                     }
                 }
             }
@@ -135,7 +167,11 @@ export default class Clipboard extends Component {
             container: ids.container,
             id: ids.id,
             parent: ids.parent,
-            position: isTargetSlide ? { type: "absolute", x: randomPositionGenerator(20, 40), y: randomPositionGenerator(20, 40) } : { type: box.position.type, x: "0%", y: "0%" },
+            position: isTargetSlide ? {
+                type: "absolute",
+                x: randomPositionGenerator(20, 40),
+                y: randomPositionGenerator(20, 40),
+            } : { type: box.position.type, x: "0%", y: "0%" },
             resizable: isTargetSlide,
             row: 0,
             col: 0,
@@ -171,9 +207,9 @@ export default class Clipboard extends Component {
     }
 
     /**
-   * Before component unmounts
-   * Unsets listener
-   */
+     * Before component unmounts
+     * Unsets listener
+     */
     componentWillUnmount() {
         document.removeEventListener('copy', this.copyListener);
         document.removeEventListener('paste', this.pasteListener);
@@ -181,100 +217,14 @@ export default class Clipboard extends Component {
     }
 
     /**
-   * Renders React Component
-   * @returns {code} React rendered component
-   */
+     * Renders React Component
+     * @returns {code} React rendered component
+     */
     render() {
-        return(null);
-    }
-
-    // TODO link with VISH
-    retrieveImageFromClipboardAsBase64(pasteEvent, callback, imageFormat) {
-        if(pasteEvent.clipboardData === false) {
-            if(typeof(callback) === "function") {
-                callback(undefined);
-            }
-        }
-        let items = pasteEvent.clipboardData.items;
-        if(items === undefined) {
-            if(typeof(callback) === "function") {
-                callback(undefined);
-            }
-        }
-        let noImage = false;
-        for (let i = 0; i < items.length; i++) {
-            // Skip content if not image
-            if (items[i].type.indexOf("image") !== -1) {
-                // Retrieve image on clipboard as blob
-                let blob = items[i].getAsFile();
-                // Create an abstract canvas and get context
-                let mycanvas = document.createElement("canvas");
-                let ctx = mycanvas.getContext('2d');
-                // Create an image
-                let img = new Image();
-                // Once the image loads, render the img on the canvas
-                img.onload = function() {
-                    // Update dimensions of the canvas with the dimensions of the image
-                    mycanvas.width = this.width;
-                    mycanvas.height = this.height;
-
-                    // Draw the image
-                    ctx.drawImage(img, 0, 0);
-
-                    // Execute callback with the base64 URI of the image
-                    if (typeof(callback) === "function") {
-                        callback(mycanvas.toDataURL(
-                            (imageFormat || "image/png")
-                        ));
-                    }
-                };
-                // Crossbrowser support for URL
-                let URLObj = window.URL || window.webkitURL;
-                // Creates a DOMString containing a URL representing the object given in the parameter
-                // namely the original Blob
-                img.src = URLObj.createObjectURL(blob);
-            } else if (i === items.length - 1 && noImage === false) {
-                noImage = true;
-            }
-        }
-        return noImage;
-    }
-    // May be needed in the future
-    retrieveImageFromClipboardAsBlob(pasteEvent, callback) {
-        if(pasteEvent.clipboardData === false) {
-            if(typeof(callback) === "function") {
-                callback(undefined);
-            }
-        }
-
-        let items = pasteEvent.clipboardData.items;
-
-        if(items === undefined) {
-            if(typeof(callback) === "function") {
-                callback(undefined);
-            }
-        }
-
-        for (let i = 0; i < items.length; i++) {
-            // Skip content if not image
-            if (items[i].type.indexOf("image") !== -1) {
-                // Retrieve image on clipboard as blob
-                let blob = items[i].getAsFile();
-
-                if(typeof(callback) === "function") {
-                    callback(blob);
-                }
-            }
-        }
+        return (null);
     }
 
 }
-
-function randomPositionGenerator(min, max) {
-    return (Math.random() * (max - min) + min).toFixed(2) + "%";
-
-}
-
 Clipboard.propTypes = {
     /**
      * Paste box function
