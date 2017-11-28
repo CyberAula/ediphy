@@ -4,8 +4,9 @@ import interact from 'interactjs';
 import PropTypes from 'prop-types';
 import Ediphy from '../../../../core/editor/main';
 import ReactDOM from 'react-dom';
+import i18n from 'i18next';
 import './_pluginRibbon.scss';
-
+import Alert from '../../common/alert/Alert';
 /**
  * Plugin ribbon inside toolbar
  */
@@ -18,6 +19,7 @@ export default class PluginRibbon extends Component {
         super(props);
         this.state = {
             buttons: [],
+            clipboardAlert: false,
         };
     }
 
@@ -26,6 +28,8 @@ export default class PluginRibbon extends Component {
      * @returns {code}
      */
     render() {
+        let actions = ["copy", "cut", "paste"];
+        let onClick = (e)=>{this.setState({ clipboardAlert: !this.state.clipboardAlert });};
         return (
             <Col id="ribbon"
                 md={12}
@@ -61,8 +65,19 @@ export default class PluginRibbon extends Component {
                             }
                             return null;
                         })}
+
                     </div>
                 </div>
+                <div id="ribbonActions">
+                    {actions.map((act, ind)=>{
+                        return <button key={ind} className="navButton ribbonAction" onClick={onClick}><i
+                            className="material-icons">{"content_" + act}</i><br/> <span
+                            className="hideonresize">{i18n.t("clipboard." + act)}</span></button>;
+                    })}
+                    {this.createAlert(this.state.clipboardAlert, onClick)}
+
+                </div>
+
             </Col>
         );
     }
@@ -212,6 +227,26 @@ export default class PluginRibbon extends Component {
      */
     componentWillUnmount() {
         interact('.rib').unset();
+    }
+
+    createAlert(state, callback) {
+        return <Alert show={state} onClose={callback} className="pageModal" hasHeader title="Portapapeles">
+            <p>{i18n.t("clipboard.msg")}</p>
+            <Col xs={4}>
+                <h2>Ctrl+C</h2>
+                <div>{i18n.t("clipboard.to")} {i18n.t("clipboard.copy").toLowerCase()}</div>
+            </Col>
+            <Col xs={4}>
+                <h2>Ctrl+X</h2>
+                <div>{i18n.t("clipboard.to")} {i18n.t("clipboard.cut").toLowerCase()}</div>
+            </Col>
+            <Col xs={4}>
+                <h2>Ctrl+V</h2>
+                <div>{i18n.t("clipboard.to")} {i18n.t("clipboard.paste").toLowerCase()}</div>
+            </Col>
+            <br/>
+
+        </Alert>;
     }
 }
 

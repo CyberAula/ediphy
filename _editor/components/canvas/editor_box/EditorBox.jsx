@@ -34,9 +34,9 @@ export default class EditorBox extends Component {
      * @returns {code} React rendered component
      */
     render() {
-
         let cornerSize = 15;
         let box = this.props.boxes[this.props.id];
+        console.log(box);
         let toolbar = this.props.toolbars[this.props.id];
         let vis = this.props.boxSelected === this.props.id;
         let style = {

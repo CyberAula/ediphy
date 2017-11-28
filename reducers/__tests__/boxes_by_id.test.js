@@ -120,15 +120,16 @@ describe('# boxes_by_id reducer ************************************************
                 type: ActionTypes.MOVE_BOX,
                 payload: {
                     id: 'bo-1511252970033',
-                    x: '29.425837320574164%',
-                    y: '29.26829268292683%',
+                    x: '29.42%',
+                    y: '29.26%',
                     position: 'absolute',
                     parent: 'pa-1511252955865',
                     container: 0,
                 },
             };
 
-            const newstate = Object.assign({}, state);
+            const newstate = JSON.parse(JSON.stringify(state));
+
             newstate['bo-1511252970033'].position.x = action.payload.x;
             newstate['bo-1511252970033'].position.y = action.payload.y;
 
@@ -289,7 +290,82 @@ describe('# boxes_by_id reducer ************************************************
             // expect(boxes_by_id(state, {})).toEqual(state);
         });
     });
-    describe('handle IMPORT_STATE', ()=>{
+    describe('handle PASTE_BOX', ()=>{
+        test('If box pasted from document to document', () => {
+
+            const boxPasted = {
+                "id": "bo-1511868565135",
+                "parent": "bs-1497983247797",
+                "container": "sc-1511868565133",
+                "level": 0,
+                "col": 0,
+                "row": 0,
+                "position": { "x": 0, "y": 0, "type": "relative" },
+                "content": "",
+                "draggable": true,
+                "resizable": false,
+                "showTextEditor": false,
+                "fragment": {},
+                "children": [],
+                "sortableContainers": {},
+                "containedViews": [],
+            };
+            const action = {
+                type: ActionTypes.PASTE_BOX,
+                payload: {
+                    ids: { parent: 'bs-1497983247797', container: 'sc-1511868565133', id: 'bo-1511868565135' },
+                    box: boxPasted,
+                    toolbar: {},
+                },
+
+            };
+
+            let newState = { "bs-1511252955322": { "id": "bs-1511252955322", "parent": "pa-1511252955321", "container": 0, "level": -1, "col": 0, "row": 0, "position": { "x": 0, "y": 0, "type": "relative" }, "draggable": false, "resizable": false, "showTextEditor": false, "fragment": {}, "children": [], "sortableContainers": {}, "containedViews": [] },
+                "bo-1511252970033": { "id": "bo-1511252970033", "parent": "pa-1511252955865", "container": 0, "level": 0, "col": 0, "row": 0, "position": { "x": "29.56%", "y": "28.67%", "type": "absolute" }, "content": "", "draggable": true, "resizable": true, "showTextEditor": false, "fragment": {}, "children": [], "sortableContainers": {}, "containedViews": ["cv-1511252975055"] },
+                "bs-1511252985426": { "id": "bs-1511252985426", "parent": "pa-1511252985426", "container": 0, "level": -1, "col": 0, "row": 0, "position": { "x": 0, "y": 0, "type": "relative" }, "draggable": false, "resizable": false, "showTextEditor": false, "fragment": {}, "children": [], "sortableContainers": {}, "containedViews": [] },
+
+                "bs-1497983247797": {
+                    "id": "bs-1497983247797",
+                    "parent": "pa-1497983247795",
+                    "container": 0,
+                    "level": -1,
+                    "col": 0,
+                    "row": 0,
+                    "position": { "x": 0, "y": 0, "type": "relative" },
+                    "draggable": false,
+                    "resizable": false,
+                    "showTextEditor": false,
+                    "fragment": {},
+                    "children": ["sc-1511868565133"],
+                    "sortableContainers": {
+                        "sc-1511868565133": {
+                            "children": [
+                                "bo-1511868565135",
+                            ],
+                            "colDistribution": [100],
+                            "cols": [[100]],
+                            "height": "auto",
+                            "key": "",
+                            "style": {
+                                "borderColor": "#ffffff",
+                                "borderStyle": "solid",
+                                "borderWidth": "0px",
+                                "className": "",
+                                "opacity": "1",
+                                "padding": "0px",
+                                "textAlign": "center",
+                            },
+                        },
+                    },
+                    "containedViews": [] },
+                "bo-1511868565135": { "id": "bo-1511868565135", "parent": "bs-1497983247797", "container": "sc-1511868565133", "level": 0, "col": 0, "row": 0, "position": { "x": 0, "y": 0, "type": "relative" }, "content": "", "draggable": true, "resizable": false, "showTextEditor": false, "fragment": {}, "children": [], "sortableContainers": {}, "containedViews": [] },
+            };
+
+            expect(boxes_by_id(state, action)).toEqual(newState);
+            // expect(boxes_by_id(state, {})).toEqual(state);
+        });
+    });
+    describe('handle IMPORT_STATE', () => {
         test('If state imported', () => {
             // expect(boxes_by_id(state, {})).toEqual(state);
         });
