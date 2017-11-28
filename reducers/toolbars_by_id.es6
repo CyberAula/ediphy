@@ -347,6 +347,12 @@ function toolbarSectionCreator(state, action, isContainedView = false) {
                         __name: "Generales",
                         icon: 'settings',
                         buttons: {
+                            background: {
+                                __name: i18n.t('toolbar_name'),
+                                type: 'color',
+                                value: "#00000",
+                                autoManaged: false,
+                            },
                             navitem_name: {
                                 __name: i18n.t('NavItem_name'),
                                 type: 'text',

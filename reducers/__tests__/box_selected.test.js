@@ -5,7 +5,7 @@ import { ADD_BOX, ADD_NAV_ITEM, DELETE_BOX, DELETE_SORTABLE_CONTAINER, DUPLICATE
 
 let reducerHelper = helper(undefined, reducer);
 
-describe('box_selected reducer', () => {
+describe('# box_selected reducer', () => {
 
     beforeAll(() => {
         reducerHelper.clean();

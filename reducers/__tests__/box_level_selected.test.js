@@ -5,7 +5,7 @@ import { ID_PREFIX_SORTABLE_BOX } from '../../common/constants';
 
 let reducerHelper = helper(undefined, reducer);
 
-describe('box_level_selected reducer', () => {
+describe('# box_level_selected reducer', () => {
 
     beforeAll(() => {
         reducerHelper.clean();
