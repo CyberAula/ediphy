@@ -99,6 +99,29 @@ export const initialState = (config) => { return config.sections_have_content ?
                                     },
                                 },
                             },
+                            "background": {
+                                "_name": "Fondo",
+                                "icon": "image",
+                                "buttons": {
+                                    "background_color": {
+                                        "__name": i18n.t('background.background_color'),
+                                        "type": 'color',
+                                        "value": "#00000",
+                                        "autoManaged": false,
+                                    },
+                                    "background_image": {
+                                        "__name": i18n.t('background.background_image'),
+                                        "type": 'image_file',
+                                        "value": "",
+                                        "autoManaged": false,
+                                    },
+                                    "background_reset": {
+                                        "__name": i18n.t('background.reset_background'),
+                                        "type": 'button',
+                                        "autoManaged": false,
+                                    },
+                                },
+                            },
                             "header": {
                                 "__name": i18n.t('Header'),
                                 "icon": "format_color_text",
@@ -417,6 +440,29 @@ export const initialState = (config) => { return config.sections_have_content ?
                                         "__name": i18n.t('NavItem_name'),
                                         "value": i18n.t('page'),
                                         "type": "text",
+                                        "autoManaged": false,
+                                    },
+                                },
+                            },
+                            "background": {
+                                "_name": "Fondo",
+                                "icon": "image",
+                                "buttons": {
+                                    "background_color": {
+                                        "__name": i18n.t('background.background_color'),
+                                        "type": 'color',
+                                        "value": "#00000",
+                                        "autoManaged": false,
+                                    },
+                                    "background_image": {
+                                        "__name": i18n.t('background.background_image'),
+                                        "type": 'image_file',
+                                        "value": "",
+                                        "autoManaged": false,
+                                    },
+                                    "background_reset": {
+                                        "__name": i18n.t('background.reset_background'),
+                                        "type": 'button',
                                         "autoManaged": false,
                                     },
                                 },

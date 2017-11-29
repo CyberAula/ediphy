@@ -168,7 +168,7 @@ describe('# toolbar reducer ****************************************************
                     id: "pa-1497983247795",
                     tab: "main",
                     accordions: ["basic"],
-                    name: "change_background",
+                    name: "background",
                     value: "#00000",
                 } };
 
@@ -176,9 +176,9 @@ describe('# toolbar reducer ****************************************************
                 ["pa-1497983247795"]: Object.assign({}, state["pa-1497983247795"], {
                     ["controls"]: Object.assign({}, state["pa-1497983247795"].controls, {
                         ["main"]: Object.assign({}, state["pa-1497983247795"].controls.main, {
-                            ["basic"]: Object.assign({}, state["pa-1497983247795"].controls.main.basic, {
+                            ["background"]: Object.assign({}, state["pa-1497983247795"].controls.main.basic, {
                                 ["buttons"]: Object.assign({}, state["pa-1497983247795"].controls.main.basic.buttons, {
-                                    ["background"]: Object.assign({}, {
+                                    ["background_color"]: Object.assign({}, {
 
                                     }),
                                 }),
@@ -198,7 +198,7 @@ describe('# toolbar reducer ****************************************************
                     id: "pa-1497983247795",
                     tab: "main",
                     accordions: ["basic"],
-                    name: "change_background",
+                    name: "background",
                     value: "https://www.cdc.gov/ncbddd/fasd/images/fasd-awareness2016-1175px.jpg",
                 } };
 
@@ -206,9 +206,9 @@ describe('# toolbar reducer ****************************************************
                 ["pa-1497983247795"]: Object.assign({}, state["pa-1497983247795"], {
                     ["controls"]: Object.assign({}, state["pa-1497983247795"].controls, {
                         ["main"]: Object.assign({}, state["pa-1497983247795"].controls.main, {
-                            ["basic"]: Object.assign({}, state["pa-1497983247795"].controls.main.basic, {
+                            ["background"]: Object.assign({}, state["pa-1497983247795"].controls.main.basic, {
                                 ["buttons"]: Object.assign({}, state["pa-1497983247795"].controls.main.basic.buttons, {
-                                    ["background"]: Object.assign({}, {
+                                    ["background_image"]: Object.assign({}, {
 
                                     }),
                                 }),

@@ -347,16 +347,34 @@ function toolbarSectionCreator(state, action, isContainedView = false) {
                         __name: "Generales",
                         icon: 'settings',
                         buttons: {
-                            background: {
-                                __name: i18n.t('toolbar_name'),
-                                type: 'color',
-                                value: "#00000",
-                                autoManaged: false,
-                            },
+
                             navitem_name: {
                                 __name: i18n.t('NavItem_name'),
                                 type: 'text',
                                 value: isContainedView ? action.payload.mark.connection.name /* nextToolbarAvailName(i18n.t('contained_view'), state)*/ : doc_type,
+                                autoManaged: false,
+                            },
+                        },
+                    },
+                    background: {
+                        _name: "Fondo",
+                        icon: "image",
+                        buttons: {
+                            background_color: {
+                                __name: i18n.t('background.background_color'),
+                                type: 'color',
+                                value: "#00000",
+                                autoManaged: false,
+                            },
+                            background_image: {
+                                __name: i18n.t('background.background_image'),
+                                type: 'image_file',
+                                value: "",
+                                autoManaged: false,
+                            },
+                            background_reset: {
+                                __name: i18n.t('background.reset_background'),
+                                type: 'button',
                                 autoManaged: false,
                             },
                         },
