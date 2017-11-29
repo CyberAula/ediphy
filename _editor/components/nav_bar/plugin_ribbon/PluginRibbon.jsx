@@ -230,7 +230,7 @@ export default class PluginRibbon extends Component {
     }
 
     createAlert(state, callback) {
-        return <Alert show={state} onClose={callback} className="pageModal" hasHeader title="Portapapeles">
+        return <Alert show={state} onClose={callback} className="pageModal" >
             <p>{i18n.t("clipboard.msg")}</p>
             <Col xs={4}>
                 <h2>Ctrl+C</h2>
