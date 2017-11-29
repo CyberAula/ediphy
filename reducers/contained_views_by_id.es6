@@ -162,7 +162,8 @@ export default function(state = {}, action = {}) {
         return state;
     case PASTE_BOX:
         let newState = JSON.parse(JSON.stringify(state));
-        if (isView(action.payload.ids.parent) && isContainedView(action.payload.ids.parent)) {
+
+        if (isContainedView(action.payload.ids.parent)) {
             newState = changeProp(newState, action.payload.ids.parent, singleContainedViewReducer(newState[action.payload.ids.parent], action));
         }
         if (action.payload.toolbar && action.payload.toolbar.state && action.payload.toolbar.state.__marks) {

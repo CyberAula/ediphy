@@ -83,7 +83,7 @@ describe('# boxes_by_id reducer ************************************************
             newstate['bs-1511252985426'] = modifiedsortable;
             newstate['bo-1511443052925'] = createdbox;
 
-            expect(action.payload.ids.container !== 0).toBeTruthy;
+            expect(action.payload.ids.container !== 0).toBeTruthy();
             expect(boxes_by_id(state, action)).toEqual(newstate);
 
         });
@@ -140,7 +140,7 @@ describe('# boxes_by_id reducer ************************************************
     });
 
     describe('handle DUPLICATE_BOX  **************************************** TODO copy & paste', ()=>{
-        test.skip('If duplicated box', () => {
+        test('If duplicated box', () => {
             // expect(boxes_by_id(state, {})).toEqual(state);
         });
     });
@@ -166,7 +166,7 @@ describe('# boxes_by_id reducer ************************************************
     });
 
     describe('handle UPDATE_BOX ******************************************** TODO plugin inside plugin', ()=>{
-        test.skip('If box updated', () => {
+        test('If box updated', () => {
             const action = {
                 type: ActionTypes.UPDATE_BOX,
                 payload: {
@@ -291,7 +291,7 @@ describe('# boxes_by_id reducer ************************************************
         });
     });
     describe('handle PASTE_BOX', ()=>{
-        test('If box pasted from document to document', () => {
+        test('If box pasted to document', () => {
 
             const boxPasted = {
                 "id": "bo-1511868565135",
@@ -364,6 +364,42 @@ describe('# boxes_by_id reducer ************************************************
             expect(boxes_by_id(state, action)).toEqual(newState);
             // expect(boxes_by_id(state, {})).toEqual(state);
         });
+        test('If box pasted to slide', () => {
+
+            const boxPasted = {
+                "id": "bo-1511868565135",
+                "parent": "cv-1511252975055",
+                "container": 0,
+                "level": 0,
+                "col": 0,
+                "row": 0,
+                "position": { "x": "50%", "y": "50%", "type": "absolute" },
+                "content": "",
+                "draggable": true,
+                "resizable": true,
+                "showTextEditor": false,
+                "fragment": {},
+                "children": [],
+                "sortableContainers": {},
+                "containedViews": [],
+            };
+            const action = {
+                type: ActionTypes.PASTE_BOX,
+                payload: {
+                    ids: { parent: "cv-1511252975055", container: 0, id: 'bo-1511868565135' },
+                    box: boxPasted,
+                    toolbar: {},
+                },
+
+            };
+
+            let newState = JSON.parse(JSON.stringify(state));
+            newState["bo-1511868565135"] = boxPasted;
+
+            expect(boxes_by_id(state, action)).toEqual(newState);
+        // expect(boxes_by_id(state, {})).toEqual(state);
+        });
+
     });
     describe('handle IMPORT_STATE', () => {
         test('If state imported', () => {

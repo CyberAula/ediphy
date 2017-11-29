@@ -288,7 +288,7 @@ class EditorApp extends Component {
                                 onContainedViewSelected={id => this.dispatchAndSetState(selectContainedView(id))}
                                 onBoxSelected={(id) => this.dispatchAndSetState(selectBox(id))}
                                 onBoxLevelIncreased={() => this.dispatchAndSetState(increaseBoxLevel())}
-                                onBoxMoved={(id, x, y, parent, container) => this.dispatchAndSetState(moveBox(id, x, y, position, parent, container))}
+                                onBoxMoved={(id, x, y, position, parent, container) => this.dispatchAndSetState(moveBox(id, x, y, position, parent, container))}
                                 onBoxResized={(id, widthButton, heightButton) => this.dispatchAndSetState(resizeBox(id, widthButton, heightButton))}
                                 onSortableContainerResized={(id, parent, height) => this.dispatchAndSetState(resizeSortableContainer(id, parent, height))}
                                 onSortableContainerDeleted={(id, parent) => {
