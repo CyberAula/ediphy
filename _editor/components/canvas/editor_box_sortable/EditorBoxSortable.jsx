@@ -318,7 +318,9 @@ export default class EditorBoxSortable extends Component {
                         }
 
                         let clone = document.getElementById('clone');
-                        clone.parentElement.removeChild(clone);
+                        if (clone) {
+                            clone.parentNode.removeChild(clone);
+                        }
                     }
                 } else {
                     if (isSortableBox(this.props.id) && Ediphy.Plugins.get(e.relatedTarget.getAttribute("name")).getConfig().limitToOneInstance) {

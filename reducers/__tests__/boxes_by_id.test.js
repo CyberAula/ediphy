@@ -1,11 +1,17 @@
 import { testState } from '../../core/store/state.tests.js';
 import boxes_by_id from '../boxes_by_id';
 import * as ActionTypes from '../../common/actions';
+import { CHANGE_SORTABLE_PROPS } from "../../common/actions";
+import { changeProp, changeProps, deleteProps, isSortableContainer } from "../../common/utils";
+import { DROP_BOX } from "../../common/actions";
+import { CHANGE_COLS } from "../../common/actions";
+import { CHANGE_ROWS } from "../../common/actions";
+import { DELETE_BOX } from "../../common/actions";
 
 const state = testState.present.boxesById;
 // new box to add
 const createdbox = {
-    id: 'bo-1511443052925', parent: '', container: '', level: 0, col: 0, row: 0,
+    id: 'bo-1511443052929', parent: '', container: '', level: 0, col: 0, row: 0,
     position: { x: 0, y: 0, type: '' },
     content: "", draggable: true,
     resizable: false, showTextEditor: false, fragment: {}, children: [], sortableContainers: {}, containedViews: [],
@@ -27,7 +33,7 @@ const modifiedsortable = {
     children: ["sc-1511443052922"],
     sortableContainers: {
         "sc-1511443052922": {
-            "children": ["bo-1511443052925"],
+            "children": ["bo-1511443052925", "bo-1511443052967", "bo-1511443052929"],
             "colDistribution": [100],
             "cols": [[100]],
             "height": "auto",
@@ -47,7 +53,7 @@ const modifiedsortable = {
 };
 // console.log(state);
 
-describe('# boxes_by_id reducer ******************************************************************* DOING :)', ()=>{
+describe('# boxes_by_id reducer ******************************************************************* DOING :)', () => {
 
     describe('DEFAULT', ()=>{
         test('Should return test.state as default', () => {
@@ -55,7 +61,7 @@ describe('# boxes_by_id reducer ************************************************
         });
     });
 
-    describe('handle ADD_BOX', ()=>{
+    describe('handle ADD_BOX', () => {
 
         test('If added box is contained in sortableContainer (if is in a document)', () => {
             createdbox.container = 'sc-1511443052922';
@@ -66,7 +72,7 @@ describe('# boxes_by_id reducer ************************************************
             const action = {
                 type: ActionTypes.ADD_BOX,
                 payload: { ids:
-                    { parent: 'bs-1511252985426', id: 'bo-1511443052925', container: 'sc-1511443052922' },
+                    { parent: 'bs-1511252985426', id: 'bo-1511443052929', container: 'sc-1511443052922' },
                 draggable: true,
                 resizable: false,
                 content: '',
@@ -81,7 +87,7 @@ describe('# boxes_by_id reducer ************************************************
 
             // state modications
             newstate['bs-1511252985426'] = modifiedsortable;
-            newstate['bo-1511443052925'] = createdbox;
+            newstate['bo-1511443052929'] = createdbox;
 
             expect(action.payload.ids.container !== 0).toBeTruthy;
             expect(boxes_by_id(state, action)).toEqual(newstate);
@@ -98,7 +104,7 @@ describe('# boxes_by_id reducer ************************************************
             const action = {
                 type: ActionTypes.ADD_BOX,
                 payload: { ids:
-                    { parent: 'pa-1511252955865', id: 'bo-1511443052925', container: '0' },
+                    { parent: 'pa-1511252955865', id: 'bo-1511443052929', container: '0' },
                 draggable: true,
                 resizable: true,
                 content: '',
@@ -109,12 +115,12 @@ describe('# boxes_by_id reducer ************************************************
                 },
             };
             const newstate = Object.assign({}, state);
-            newstate['bo-1511443052925'] = createdbox;
+            newstate['bo-1511443052929'] = createdbox;
             expect(boxes_by_id(state, action)).toEqual(newstate);
         });
     });
 
-    describe('handle MOVE_BOX', ()=>{
+    describe('handle MOVE_BOX', () => {
         test('If box moved', () => {
             const action = {
                 type: ActionTypes.MOVE_BOX,
@@ -132,13 +138,11 @@ describe('# boxes_by_id reducer ************************************************
             newstate['bo-1511252970033'].position.x = action.payload.x;
             newstate['bo-1511252970033'].position.y = action.payload.y;
 
-            // console.log(state['bo-1511252970033']);
-
             expect(boxes_by_id(state, action)).toEqual(newstate);
         });
     });
 
-    describe('handle DUPLICATE_BOX  **************************************** TODO copy & paste', ()=>{
+    describe('handle DUPLICATE_BOX  **************************************** TODO copy & paste', () => {
         test.skip('If duplicated box', () => {
             // expect(boxes_by_id(state, {})).toEqual(state);
         });
@@ -232,43 +236,161 @@ describe('# boxes_by_id reducer ************************************************
                 },
             };
             const newstate = Object.assign({}, state, {
-                ['bo-1511252970033']: Object.assign({}, state['bo-1511252970033'], { "containedViews": ['cv-1511252975055', 'cv-1511789732970'] }),
+                ['bo-1511252970033']: Object.assign({}, state['bo-1511252970033'], { "containedViews": ['cv-1511252975055', action.payload.mark.connection.id] }),
+            });
+
+            expect(boxes_by_id(state, action)).toEqual(newstate);
+        });
+
+        test('If rich mark added and connected to an existing contained view', () => {
+            const action = {
+                type: ActionTypes.ADD_RICH_MARK,
+                payload: {
+                    parent: 'bo-1511252970033',
+                    mark: { id: "rm-1511786135103",
+                        title: "new mark",
+                        connectMode: "existing",
+                        connection: "cv-1511789732970",
+                        displayMode: "navigate",
+                        value: "30.95,49.15",
+                        color: "#222222" },
+                    state: {},
+                },
+            };
+            const newstate = Object.assign({}, state, {
+                ['bo-1511252970033']: Object.assign({}, state['bo-1511252970033'], { "containedViews": ['cv-1511252975055', action.payload.mark.connection] }),
             });
 
             expect(boxes_by_id(state, action)).toEqual(newstate);
         });
     });
 
-    describe('handle REORDER_BOXES', ()=>{
-        test('If boxes reordered', () => {
-            // expect(boxes_by_id(state, {})).toEqual(state);
+    describe('handle REORDER_BOXES', () => {
+        test('If boxes reordered in a sortable container', () => {
+            const action = {
+                type: ActionTypes.REORDER_BOXES,
+                payload: {
+                    parent: 'bs-1511252985426',
+                    container: 'sc-1511443052922',
+                    order: ['bo-1511443052967', 'bo-1511443052925'],
+                },
+            };
+
+            const newState = JSON.parse(JSON.stringify(state));
+            newState['bs-1511252985426'].sortableContainers['sc-1511443052922'].children = action.payload.order;
+            expect(boxes_by_id(state, action)).toEqual(newState);
         });
     });
-    describe('handle CHANGE_SORTABLE_PROPS', ()=>{
-        test('If updated box', () => {
-            // expect(boxes_by_id(state, {})).toEqual(state);
+
+    describe('handle CHANGE_SORTABLE_PROPS', () => {
+        test('If sortable container props updated', () => {
+            const action = {
+                type: ActionTypes.CHANGE_SORTABLE_PROPS,
+                payload: {
+                    id: 'sc-1511443052922',
+                    parent: 'bs-1511252985426',
+                    prop: 'borderWidth',
+                    value: '2px',
+                },
+            };
+            const newState = JSON.parse(JSON.stringify(state));
+            newState['bs-1511252985426'].sortableContainers['sc-1511443052922'].style[action.payload.prop] = action.payload.value;
+            expect(boxes_by_id(state, action)).toEqual(newState);
         });
     });
-    describe('handle DROP_BOX', ()=>{
-        test('If box dropped', () => {
-            // expect(boxes_by_id(state, {})).toEqual(state);
+
+    describe('handle CHANGE_COLS  ********** TODO (remove columns ex. 3 -> 2)', () => {
+        test('If number of cols changed in a sortable container (add)', () => {
+            const action = {
+                type: ActionTypes.CHANGE_COLS,
+                payload: {
+                    id: 'sc-1511443052922',
+                    parent: 'bs-1511252985426',
+                    distribution: [50, 50],
+                    boxesAffected: ['bo-1511443052925', 'bo-1511443052967'],
+
+                },
+            };
+            const newState = JSON.parse(JSON.stringify(state));
+            newState['bs-1511252985426'].sortableContainers['sc-1511443052922'].colDistribution = action.payload.distribution;
+            newState['bs-1511252985426'].sortableContainers['sc-1511443052922'].cols = [[100], [100]];
+            expect(boxes_by_id(state, action)).toEqual(newState);
         });
     });
-    describe('handle CHANGE_COLS', ()=>{
-        test('If cols changed', () => {
-            // expect(boxes_by_id(state, {})).toEqual(state);
+
+    describe('handle CHANGE_ROWS (remove rows ex. 2 -> 1)', () => {
+        test('If number of rows changed in a sortable container (add)', () => {
+            const action = {
+                type: ActionTypes.CHANGE_ROWS,
+                payload: {
+                    id: 'sc-1511443052922',
+                    parent: 'bs-1511252985426',
+                    column: 0,
+                    distribution: [50, 50],
+                    boxesAffected: ['bo-1511443052925', 'bo-1511443052967'],
+                },
+            };
+            const newState = JSON.parse(JSON.stringify(state));
+            newState['bs-1511252985426'].sortableContainers['sc-1511443052922'].cols[action.payload.column] = action.payload.distribution;
+            expect(boxes_by_id(state, action)).toEqual(newState);
         });
     });
-    describe('handle CHANGE_ROWS', ()=>{
-        test('If rows changed', () => {
-            // expect(boxes_by_id(state, {})).toEqual(state);
+
+    describe('handle DROP_BOX', () => {
+        test('If box dropped between columns', () => {
+            const action = {
+                type: ActionTypes.DROP_BOX,
+                payload: {
+                    id: 'bo-1511443052925',
+                    row: 0,
+                    col: 1,
+                },
+            };
+            const newState = JSON.parse(JSON.stringify(state));
+            newState['bo-1511443052925'].col = action.payload.col;
+            newState['bo-1511443052925'].row = action.payload.row;
+
+            expect(boxes_by_id(state, action)).toEqual(newState);
         });
     });
-    describe('handle DELETE_BOX', ()=>{
-        test('If box deleted', () => {
-            // expect(boxes_by_id(state, {})).toEqual(state);
+
+    describe('handle DELETE_BOX', () => {
+        test('If box deleted is in a sortable container', () => {
+            const action = {
+                type: ActionTypes.DELETE_BOX,
+                payload: {
+                    id: 'bo-1511443052925',
+                    parent: 'bs-1511252985426',
+                    container: 'sc-1511443052922',
+                    children: [],
+                    cvs: [],
+                },
+            };
+            const newState = JSON.parse(JSON.stringify(state));
+            delete newState['bo-1511443052925'];
+            newState['bs-1511252985426'].sortableContainers['sc-1511443052922'].children = ['bo-1511443052967'];
+
+            expect(isSortableContainer(action.payload.container)).toBeTruthy();
+            expect(boxes_by_id(state, action)).toEqual(newState);
+        });
+        test('If box deleted is in a slide', () => {
+            const action = {
+                type: ActionTypes.DELETE_BOX,
+                payload: {
+                    id: 'bo-1511252970033',
+                    parent: 'pa-1511252955865',
+                    container: 0,
+                    children: [],
+                    cvs: [],
+                },
+            };
+            const newState = JSON.parse(JSON.stringify(state));
+
+            delete newState['bo-1511252970033'];
+            expect(boxes_by_id(state, action)).toEqual(newState);
         });
     });
+
     describe('handle DELETE_CONTAINED_VIEW', ()=>{
         test('If contained view deleted', () => {
             // expect(boxes_by_id(state, {})).toEqual(state);
@@ -295,107 +417,3 @@ describe('# boxes_by_id reducer ************************************************
         });
     });
 });
-
-// case ADD_BOX:
-//     // if box is contained in sortableContainer, add it as well to its children
-//     if (isSortableContainer(action.payload.ids.container)) {
-//         return changeProps(
-//             state,
-//             [
-//                 action.payload.ids.id,
-//                 action.payload.ids.parent,
-//             ], [
-//                 boxCreator(state, action),
-//                 boxReducer(state[action.payload.ids.parent], action),
-//             ]
-//         );
-//     }
-// return changeProp(state, action.payload.ids.id, boxCreator(state, action));
-
-// case MOVE_BOX:
-//     return changeProp(state, action.payload.id, boxReducer(state[action.payload.id], action));
-
-// case DUPLICATE_BOX:
-//     // TODO
-//     newState = Object.assign({}, state);
-// let replaced = Object.assign({}, state);
-// let newIds = action.payload.newIds;
-// let newId = ID_PREFIX_BOX + action.payload.newId;
-// // let count = 0;
-// Object.keys(newIds).map(box => {
-//     replaced = Object.replaceAll(replaced, box, newIds[box]);
-// });
-// replaced = Object.replaceAll(replaced, action.payload.id.substr(3), action.payload.newId);// split -
-// let defState = Object.assign({}, newState, replaced);
-// if (action.payload.container !== 0) {
-//     replaced[action.payload.parent].sortableContainers[action.payload.container].children.push(action.payload.id);
-// }
-//
-// return Object.assign({}, defState, {
-//     [newId]: Object.assign({}, defState[newId], { position: { x: 0, y: 0, position: 'absolute' } }),
-// });
-
-// case RESIZE_SORTABLE_CONTAINER:
-//     return changeProp(state, action.payload.parent, boxReducer(state[action.payload.parent], action));
-
-// case UPDATE_BOX:
-//     return changeProp(state, action.payload.id, boxReducer(state[action.payload.id], action));
-
-// case ADD_RICH_MARK:
-//     // If rich mark is connected to a new contained view, mark.connection will include this information;
-//     // otherwise, it's just the id/url and we're not interested
-//     if (action.payload.mark.connection.id || isContainedView(action.payload.mark.connection)) {
-//         return changeProp(state, action.payload.parent, boxReducer(state[action.payload.parent], action));
-//     }
-// return state;
-// case REORDER_BOXES:
-//     return changeProp(state, action.payload.parent, boxReducer(state[action.payload.parent], action));
-// case CHANGE_SORTABLE_PROPS:
-//     return changeProp(state, action.payload.parent, boxReducer(state[action.payload.parent], action));
-// case DROP_BOX:
-//     return changeProp(state, action.payload.id, boxReducer(state[action.payload.id], action));
-// case CHANGE_COLS:
-//     newState = changeProp(state, action.payload.parent, boxReducer(state[action.payload.parent], action));
-// action.payload.boxesAffected.forEach(id => {
-//     newState = changeProp(newState, id, boxReducer(newState[id], action));
-// });
-// return newState;
-// case CHANGE_ROWS:
-//     newState = changeProp(state, action.payload.parent, boxReducer(state[action.payload.parent], action));
-// action.payload.boxesAffected.forEach(id => {
-//     newState = changeProp(newState, id, boxReducer(newState[id], action));
-// });
-// return newState;
-// case DELETE_BOX:
-//     let children = action.payload.children ? action.payload.children : [];
-// let which_children = children.concat(action.payload.id);
-// temp = deleteProps(state, children.concat(action.payload.id));
-//
-// // If box is in sortableContainer, delete from its children aswell
-// if (isSortableContainer(action.payload.container)) {
-//     return changeProp(temp, action.payload.parent, boxReducer(state[action.payload.parent], action));
-// }
-// return temp;
-// case DELETE_CONTAINED_VIEW:
-//     let newBoxes = Object.assign({}, state);
-// Object.keys(action.payload.parent).forEach((el)=>{
-//     if(newBoxes[el] && newBoxes[el].containedViews) {
-//         let index = newBoxes[el].containedViews.indexOf(action.payload.ids[0]);
-//         if(index > -1) {
-//             newBoxes[el].containedViews.splice(index, 1);
-//         }
-//     }
-// });
-// return deleteProps(newBoxes, action.payload.boxes);
-// case DELETE_SORTABLE_CONTAINER:
-//     temp = deleteProps(state, action.payload.children);
-// return changeProp(temp, action.payload.parent, boxReducer(state[action.payload.parent], action));
-// case DELETE_NAV_ITEM:
-//     // TODO: Delete linked marks
-//     return deleteProps(state, action.payload.boxes);
-// case REORDER_SORTABLE_CONTAINER:
-//     return changeProp(state, action.payload.parent, boxReducer(state[action.payload.parent], action));
-// case IMPORT_STATE:
-//     return action.payload.present.boxesById || state;
-// default:
-// return state;
