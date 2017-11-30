@@ -26,3 +26,4 @@ dist/lib/scorm/scorm.zip
 dist/lib/visor/dist.zip
 .stylelintrc.json
 *.snap
+coverage

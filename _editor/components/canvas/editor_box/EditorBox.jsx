@@ -4,11 +4,12 @@ import PropTypes from 'prop-types';
 import MarkCreator from '../../rich_plugins/mark_creator/MarkCreator';
 import interact from 'interactjs';
 import PluginPlaceholder from '../plugin_placeholder/PluginPlaceholder';
-import { ADD_BOX, UPDATE_BOX, RESIZE_BOX, EDIT_PLUGIN_TEXT, IMPORT_STATE } from '../../../../common/actions';
+import { ADD_BOX, UPDATE_BOX, RESIZE_BOX, EDIT_PLUGIN_TEXT, IMPORT_STATE, PASTE_BOX } from '../../../../common/actions';
 import Ediphy from '../../../../core/editor/main';
 import i18n from 'i18next';
 import { isSortableBox, isSortableContainer, isAncestorOrSibling, isContainedView } from '../../../../common/utils';
 import './_editorBox.scss';
+import { ID_PREFIX_SORTABLE_CONTAINER } from '../../../../common/constants';
 
 /**
  * Ediphy Box component.
@@ -33,7 +34,6 @@ export default class EditorBox extends Component {
      * @returns {code} React rendered component
      */
     render() {
-
         let cornerSize = 15;
         let box = this.props.boxes[this.props.id];
         let toolbar = this.props.toolbars[this.props.id];
@@ -174,7 +174,7 @@ export default class EditorBox extends Component {
 
         let classes = "wholebox";
         if (box.container) {
-            classes += " dnd" + box.container;
+            classes += " dnd";// + box.container;
         }
         if (this.props.id === this.props.boxSelected) {
             classes += " selectedBox";
@@ -428,6 +428,7 @@ export default class EditorBox extends Component {
         let node = ReactDOM.findDOMNode(this);
 
         if (toolbar.showTextEditor) {
+
             this.refs.textarea.focus();
 
         }
@@ -470,7 +471,7 @@ export default class EditorBox extends Component {
 
         }
 
-        if ((action.type === ADD_BOX || action.type === UPDATE_BOX || action.type === RESIZE_BOX || action.type === IMPORT_STATE) &&
+        if ((action.type === ADD_BOX || action.type === UPDATE_BOX || action.type === PASTE_BOX || action.type === RESIZE_BOX || action.type === IMPORT_STATE) &&
             ((action.payload.id || action.payload.ids.id) === this.props.id)) {
             Ediphy.Plugins.get(toolbar.config.name).afterRender(this.refs.content, toolbar.state);
         }
@@ -501,7 +502,8 @@ export default class EditorBox extends Component {
         let gridTarget = interact.createSnapGrid({ x: 10, y: 10, range: 7.1, offset: { x: leftO, y: topO } });
         Ediphy.Plugins.get(toolbar.config.name).getConfig();
         Ediphy.Plugins.get(toolbar.config.name).afterRender(this.refs.content, toolbar.state);
-        let dragRestrictionSelector = isSortableContainer(box.container) ? ".editorBoxSortableContainer, .drg" + box.container : "parent";
+        let dragRestrictionSelector = isSortableContainer(box.container) ? /* ".editorBoxSortableContainer, .drg" + box.container :*/"sortableContainerBox" : "parent";
+        let resizeRestrictionSelector = isSortableContainer(box.container) ? ".editorBoxSortableContainer, .drg" + box.container : "parent";
         interact(ReactDOM.findDOMNode(this))
             /* .snap({
                 actions     : ['resizex', 'resizey', 'resizexy', 'resize', 'drag'],
@@ -647,51 +649,37 @@ export default class EditorBox extends Component {
                         target.style.opacity = 1;
                     }
 
+                    let releaseClick = document.elementFromPoint(event.clientX, event.clientY);
+                    let row = this.releaseClick(releaseClick, "rowNum");
+                    let col = this.releaseClick(releaseClick, "colNum");
+                    let hoverSortableContainer;
+                    let calculatedId = this.releaseClick(releaseClick, ID_PREFIX_SORTABLE_CONTAINER);
+                    if (calculatedId) {
+                        hoverSortableContainer = ID_PREFIX_SORTABLE_CONTAINER + calculatedId;
+                    }
+                    let containerId = hoverSortableContainer || box.container;
+                    let disposition = { col: col || 0, row: row || 0 };
                     this.props.onBoxMoved(
                         this.props.id,
                         isSortableContainer(box.container) ? left : absoluteLeft,
                         isSortableContainer(box.container) ? top : absoluteTop,
                         this.props.boxes[this.props.id].position.type,
                         box.parent,
-                        box.container
+                        containerId,
+                        disposition
                     );
 
                     // Stuff to reorder boxes when position is relative
-                    // TODO: learn how it works
-                    let releaseClick = document.elementFromPoint(event.clientX, event.clientY);
-                    if (releaseClick) {
-                        // Get element that has been clicked
-                        let release = releaseClick.getAttribute('id') || "noid";
-                        let counter = 7;
-                        // Check recursively the parent of the element clicked to check if any of them is a box
-                        while (release && release.indexOf('box-bo') === -1 && counter > 0 && releaseClick.parentNode) {
-                            releaseClick = releaseClick.parentNode;
-                            if (releaseClick) {
-                                release = releaseClick.getAttribute('id') || "noid";
-                            } else {
-                                counter = 0;
-                                break;
-                            }
-                            counter--;
-                        }
-                        if (counter > 0 && release && release.indexOf('box-bo') !== -1) {
-                            let partialID = release.split('box-');
-                            if (partialID && partialID.length > 0) {
-                                let hoverID = partialID[1];
-                                let boxOb = this.props.boxes[this.props.id];
-                                if (boxOb && isSortableContainer(boxOb.container)) {
-                                    let children = this.props.boxes[boxOb.parent].sortableContainers[boxOb.container].children;
-                                    if (children.indexOf(hoverID) !== -1) {
-                                        let newOrder = Object.assign([], children);
-                                        newOrder.splice(newOrder.indexOf(hoverID), 0, newOrder.splice(newOrder.indexOf(boxOb.id), 1)[0]);
-                                        this.props.onBoxesInsideSortableReorder(boxOb.parent, boxOb.container, newOrder);
-                                    }
-                                }
-                            }
-
+                    let hoverID = this.releaseClick(releaseClick, 'box-');
+                    let boxOb = this.props.boxes[this.props.id];
+                    if (boxOb && isSortableContainer(boxOb.container)) {
+                        let children = this.props.boxes[boxOb.parent].sortableContainers[boxOb.container].children;
+                        if (children.indexOf(hoverID) !== -1) {
+                            let newOrder = Object.assign([], children);
+                            newOrder.splice(newOrder.indexOf(hoverID), 0, newOrder.splice(newOrder.indexOf(boxOb.id), 1)[0]);
+                            this.props.onBoxesInsideSortableReorder(boxOb.parent, boxOb.container, newOrder);
                         }
                     }
-
                     // Unhide EditorShortcuts
 
                     let bar = this.props.containedViewSelected === 0 ?
@@ -700,6 +688,7 @@ export default class EditorBox extends Component {
                     bar.classList.remove('hidden');
 
                     event.stopPropagation();
+
                 },
             })
             .ignoreFrom('input, textarea, .textAreaStyle,  a, .pointerEventsEnabled')
@@ -708,7 +697,7 @@ export default class EditorBox extends Component {
                 preserveAspectRatio: this.checkAspectRatioValue(),
                 enabled: (box.resizable),
                 restrict: {
-                    restriction: dragRestrictionSelector,
+                    restriction: resizeRestrictionSelector,
                     // elementRect: { top: 0, left: 0, bottom: 0, right: 0 },
                 },
                 edges: { left: true, right: true, bottom: true, top: true },
@@ -798,7 +787,7 @@ export default class EditorBox extends Component {
                     if (box.position.x !== target.style.left || box.position.y !== target.style.top) {
                         target.style.left = (parseFloat(target.style.left) / 100 * target.parentElement.offsetWidth + parseFloat(target.getAttribute('data-x'))) * 100 / target.parentElement.offsetWidth + '%';
                         target.style.top = (parseFloat(target.style.top) / 100 * target.parentElement.offsetHeight + parseFloat(target.getAttribute('data-y'))) * 100 / target.parentElement.offsetHeight + '%';
-                        this.props.onBoxMoved(this.props.id, target.style.left, target.style.top, this.props.boxes[this.props.id].position.type, this.props.parent, this.props.container);
+                        this.props.onBoxMoved(this.props.id, target.style.left, target.style.top, box.position.type, box.parent, box.container);
                     }
                     target.style.webkitTransform = target.style.transform =
                         'translate(0px, 0px)';
@@ -820,6 +809,41 @@ export default class EditorBox extends Component {
                 },
             });
 
+    }
+
+    /**
+   * Calculate if a click was released on top of any element of a kind
+   * Example: Check if plugin was dropped on top of another plugin. Check in which sortable it was dropped, etc.
+   * @param releaseClick Element where the click was released
+   * @param name Prefix of the className of the parent we are looking for
+   * @returns {*}
+   */
+    releaseClick(releaseClick, name) {
+        if (releaseClick) {
+        // Get element that has been clicked
+            let release = releaseClick.getAttribute('id') || "noid";
+            let counter = 7;
+            // Check recursively the parent of the element clicked to check if any of them is a box
+            while (release && release.indexOf(name) === -1 && counter > 0 && releaseClick.parentNode) {
+                releaseClick = releaseClick.parentNode;
+                if (releaseClick) {
+                    release = releaseClick.getAttribute('id') || "noid";
+                } else {
+                    counter = 0;
+                    break;
+                }
+                counter--;
+            }
+            if (counter > 0 && release && release.indexOf(name) !== -1) {
+                let partialID = release.split(name);
+                if (partialID && partialID.length > 0) {
+                    return partialID[1];
+
+                }
+
+            }
+        }
+        return undefined;
     }
 
     /**

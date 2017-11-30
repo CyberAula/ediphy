@@ -73,7 +73,7 @@ export default function() {
         },
         getConfig: function() {
             let name, displayName, category, callback, needsConfigModal, needsConfirmation, needsTextEdition, extraTextConfig, needsPointerEventsAllowed,
-                needsXMLEdition, icon, iconFromUrl, aspectRatioButtonConfig, isRich, marksType, flavor, allowFloatingBox, limitToOneInstance;
+                needsXMLEdition, icon, iconFromUrl, aspectRatioButtonConfig, isRich, marksType, flavor, allowFloatingBox, limitToOneInstance, initialWidth, initialHeight, initialWidthSlide, initialHeightSlide;
             if (descendant.getConfig) {
                 let cfg = descendant.getConfig();
                 name = cfg.name;
@@ -93,6 +93,10 @@ export default function() {
                 aspectRatioButtonConfig = cfg.aspectRatioButtonConfig;
                 needsPointerEventsAllowed = cfg.needsPointerEventsAllowed;
                 limitToOneInstance = cfg.limitToOneInstance;
+                initialWidth = cfg.initialWidth;
+                initialWidthSlide = cfg.initialWidthSlide;
+                initialHeightSlide = cfg.initialHeightSlide;
+                initialHeight = cfg.initialHeight;
             }
 
             name = defaultFor(name, 'PluginName', "Plugin name not assigned");
@@ -110,6 +114,10 @@ export default function() {
             needsXMLEdition = defaultFor(needsXMLEdition, false);
             needsPointerEventsAllowed = defaultFor(needsPointerEventsAllowed, false);
             limitToOneInstance = defaultFor(limitToOneInstance, false);
+            initialWidth = defaultFor(initialWidth, '25');
+            initialWidthSlide = defaultFor(initialWidthSlide, initialWidth);
+            initialHeight = defaultFor(initialHeight, '25');
+            initialHeightSlide = defaultFor(initialHeightSlide, initialHeight);
 
             if (aspectRatioButtonConfig) {
                 aspectRatioButtonConfig.name = Ediphy.i18n.t("Aspect_ratio");
@@ -126,6 +134,10 @@ export default function() {
                     state = descendant.getInitialState();
                 }
                 if (needsTextEdition) {
+                    if(initParams.text) {
+                        state.__text = initParams.text;
+                    }
+
                     if (!state.__text) {
                         state.__text = "<p>" + Ediphy.i18n.t("text_here") + "</p>";
                     }
@@ -135,6 +147,11 @@ export default function() {
                         };
                     }
                 }
+
+                if(initParams.url) {
+                    state.url = initParams.url;
+                }
+
                 if (needsXMLEdition) {
                     if (!state.__xml) {
                         state.__xml = null;
@@ -183,6 +200,10 @@ export default function() {
                 flavor: flavor,
                 needsPointerEventsAllowed: needsPointerEventsAllowed,
                 limitToOneInstance: limitToOneInstance,
+                initialWidth: initialWidth,
+                initialWidthSlide: initialWidthSlide,
+                initialHeightSlide: initialHeightSlide,
+                initialHeight: initialHeight,
             };
         },
         getRenderTemplate: function(render_state) {
