@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Ediphy from '../../../core/editor/main';
+import Alert from '../common/alert/Alert';
 import { isContainedView, isSlide, isSortableBox, isView } from '../../../common/utils';
 import { ID_PREFIX_BOX, ID_PREFIX_SORTABLE_CONTAINER, ID_PREFIX_RICH_MARK } from '../../../common/constants';
 import { ADD_BOX } from '../../../common/actions';
 import { randomPositionGenerator, retrieveImageFromClipboardAsBase64, getCKEDITORAdaptedContent } from './clipboard.utils';
-
+import i18n from 'i18next';
 /** *
  * Component for managing the clipboard
  */
@@ -16,6 +17,9 @@ export default class Clipboard extends Component {
      */
     constructor(props) {
         super(props);
+        this.state = {
+            alert: null,
+        };
         this.copyListener = this.copyListener.bind(this);
         this.pasteListener = this.pasteListener.bind(this);
         this.cutListener = this.cutListener.bind(this);
@@ -86,13 +90,31 @@ export default class Clipboard extends Component {
                         // Paste plugin
                         event.preventDefault();
                         // TODO Drag with Ctrl key held
-                        // TODO Limit one instance plugin
+                        let pluginName = data.toolbar.config.name;
+                        let limitToOneInstance = data.toolbar.config.limitToOneInstance;
+
+                        if (limitToOneInstance) {
+                            let same = Object.keys(this.props.boxes).filter((key)=>{
+                                return (this.props.boxes[key].parent === parent && this.props.toolbars[key].config.name === pluginName);
+                            });
+                            if (same.length > 0) {
+                                let alert = (<Alert className="pageModal"
+                                    show
+                                    hasHeader
+                                    backdrop={false}
+                                    title={ <span><i className="material-icons" style={{ fontSize: '14px', marginRight: '5px' }}>warning</i>{ i18n.t("messages.alert") }</span> }
+                                    closeButton onClose={()=>{this.setState({ alert: null });}}>
+                                    <span> {i18n.t('messages.instance_limit')} </span>
+                                </Alert>);
+                                this.setState({ alert: alert }); return;
+                            }
+                        }
                         this.props.onBoxPasted(ids,
                             this.transformBox(data.box, ids, isTargetSlide, data.box.resizable),
                             this.transformToolbar(data.toolbar, ids, isTargetSlide, data.box.resizable));
-
                         // Inside a text box (CKEditor or input)
                     } else {
+                        // Let normal paste work
                         // event.preventDefault();
                     }
 
@@ -113,7 +135,6 @@ export default class Clipboard extends Component {
                     let noImage = true;
                     try {
                         noImage = retrieveImageFromClipboardAsBase64(event, (url) => {
-                            console.log(url);
                             if (url) {
                                 initialParams.url = url; // URLObj.createObjectURL(imageBlob);
                                 Ediphy.Plugins.get("BasicImage").getConfig().callback(initialParams, ADD_BOX);
@@ -143,7 +164,7 @@ export default class Clipboard extends Component {
                 type: "absolute",
                 x: randomPositionGenerator(20, 40),
                 y: randomPositionGenerator(20, 40),
-            } : { type: box.position.type, x: "0%", y: "0%" },
+            } : { type: "relative", x: "0%", y: "0%" },
             resizable: isTargetSlide,
             row: 0,
             col: 0,
@@ -166,26 +187,27 @@ export default class Clipboard extends Component {
                         this.props.navItems[newToolbar.state.__marks[mark].connection]) ||
                         newToolbar.state.__marks[mark].connetMode === 'external') {
                         newMarks[newId] = Object.assign({}, newToolbar.state.__marks[mark], { id: newId });
-                        // TODO Check if all the links to pages still exist since the time the box was copied
-
                     }
-
                 }
             }
             newToolbar.state.__marks = newMarks;
-            console.log(newToolbar.state.__marks);
         }
         if (isTargetSlide !== isOriginSlide) {
-            // TODO Default width & height instead of 20%
+            let config = Ediphy.Plugins.get(newToolbar.config.name).getConfig();
             if (isTargetSlide) {
-                if (newToolbar.controls.main.accordions.__sortable.buttons.__width.units === 'px') {
-                    newToolbar.controls.main.accordions.__sortable.buttons.__width.units = "%";
-                    newToolbar.controls.main.accordions.__sortable.buttons.__width.value = "20";
-                }
-                if (newToolbar.controls.main.accordions.__sortable.buttons.__height.units === 'px') {
-                    newToolbar.controls.main.accordions.__sortable.buttons.__height.units = "%";
-                    newToolbar.controls.main.accordions.__sortable.buttons.__height.value = "20";
-                }
+                newToolbar.controls.main.accordions.__sortable.buttons.__width.units = "%";
+                newToolbar.controls.main.accordions.__sortable.buttons.__width.value =
+                newToolbar.controls.main.accordions.__sortable.buttons.__width.displayValue = parseFloat(config.initialWidthSlide);
+                newToolbar.controls.main.accordions.__sortable.buttons.__height.units = "%";
+                newToolbar.controls.main.accordions.__sortable.buttons.__height.value =
+                newToolbar.controls.main.accordions.__sortable.buttons.__height.displayValue = parseFloat(config.initialHeightSlide);
+            } else {
+                newToolbar.controls.main.accordions.__sortable.buttons.__height.value =
+                newToolbar.controls.main.accordions.__sortable.buttons.__height.displayValue = parseFloat(config.initialHeight);
+                newToolbar.controls.main.accordions.__sortable.buttons.__height.units = config.initialHeight.indexOf('px') !== -1 ? "px" : "%";
+                newToolbar.controls.main.accordions.__sortable.buttons.__width.value =
+                newToolbar.controls.main.accordions.__sortable.buttons.__width.displayValue = parseFloat(config.initialWidth);
+                newToolbar.controls.main.accordions.__sortable.buttons.__width.units = config.initialWidth.indexOf('px') !== -1 ? "px" : "%";
             }
         }
         return newToolbar;
@@ -213,7 +235,7 @@ export default class Clipboard extends Component {
      * @returns {code} React rendered component
      */
     render() {
-        return (null);
+        return this.state.alert;
     }
 
 }

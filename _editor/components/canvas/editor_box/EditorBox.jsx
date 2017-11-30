@@ -36,7 +36,6 @@ export default class EditorBox extends Component {
     render() {
         let cornerSize = 15;
         let box = this.props.boxes[this.props.id];
-        console.log(box);
         let toolbar = this.props.toolbars[this.props.id];
         let vis = this.props.boxSelected === this.props.id;
         let style = {
@@ -118,7 +117,6 @@ export default class EditorBox extends Component {
             }
         }
 
-        console.log('wh', width, height);
         Object.assign(textareaStyle, style);
         textareaStyle.visibility = 'visible';
 
@@ -430,7 +428,6 @@ export default class EditorBox extends Component {
         let node = ReactDOM.findDOMNode(this);
 
         if (toolbar.showTextEditor) {
-            console.log(toolbar.state.__text);
 
             this.refs.textarea.focus();
 
