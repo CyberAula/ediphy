@@ -27,3 +27,4 @@ dist/lib/visor/dist.zip
 .stylelintrc.json
 *.snap
 coverage
+yarn.lock

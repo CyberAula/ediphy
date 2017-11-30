@@ -28,7 +28,7 @@ function writeModuleFile(modPath) {
         content += "export { default as " + fileObj.name + " } from '" + newPath + fileObj.name + "';\n";
     });
 
-    fs.writeFile(modPath, content);
+    fs.writeFileSync(modPath, content);
 }
 
 console.log('\nIMPORT CUSTOM COMPONENTS\n');
