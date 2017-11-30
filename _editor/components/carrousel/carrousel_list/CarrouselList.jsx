@@ -260,8 +260,7 @@ export default class CarrouselList extends Component {
                      */}
                     <Overlay rootClose
                         show={this.state.show}
-                        placement="top"
-                        container={this}
+                        placement='top'
                         target={() => ReactDOM.findDOMNode(this.refs.target)}
                         onHide={() => {this.setState({ show: false });}}>
                         <Popover id="popov" title={

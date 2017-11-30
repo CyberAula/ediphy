@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
-import { Button, OverlayTrigger, Popover, Tooltip } from 'react-bootstrap';
+import { Button, OverlayTrigger, Popover, Tooltip, Overlay } from 'react-bootstrap';
 import interact from 'interactjs';
 import Alert from './../../common/alert/Alert';
 import EditorBox from '../editor_box/EditorBox';
@@ -137,7 +137,11 @@ export default class EditorBoxSortable extends Component {
                                         <i className="material-icons drag-handle btnOverBar">swap_vert</i>
                                     </OverlayTrigger>
 
-                                    <OverlayTrigger trigger={["focus"]} placement="top" overlay={
+                                    <Overlay rootClose
+                                        show={this.state.show}
+                                        placement="top"
+                                        target={() => ReactDOM.findDOMNode(this.refs.target)}
+                                        onHide={() => {this.setState({ show: false });}}>
                                         <Popover id="popov" title={i18n.t("delete_container")}>
                                             <i style={{ color: 'yellow', fontSize: '13px', padding: '0 5px' }} className="material-icons">warning</i>
                                             {
@@ -150,24 +154,30 @@ export default class EditorBoxSortable extends Component {
                                                 onClick={e => {
                                                     this.props.onSortableContainerDeleted(idContainer, box.id);
                                                     e.stopPropagation();
+                                                    this.setState({ show: false });
                                                 }}
                                                 onTap={e => {
                                                     this.props.onSortableContainerDeleted(idContainer, box.id);
                                                     e.stopPropagation();
+                                                    this.setState({ show: false });
                                                 }}
                                             >
                                                 {i18n.t("Accept")}
                                             </Button>
                                             <Button className="popoverButton"
-                                                style={{ float: 'right' }} >
+                                                style={{ float: 'right' }}
+                                                onClick={() => {this.setState({ show: false });}}>
                                                 {i18n.t("Cancel")}
                                             </Button>
-                                        </Popover>}>
-                                        <OverlayTrigger placement="top" overlay={
-                                            <Tooltip id="deleteTooltip">{i18n.t('delete')}
-                                            </Tooltip>}>
-                                            <Button className="material-icons delete-sortable btnOverBar">delete</Button>
-                                        </OverlayTrigger>
+                                        </Popover>
+                                    </Overlay>
+                                    <OverlayTrigger placement="top" overlay={
+                                        <Tooltip id="deleteTooltip">{i18n.t('delete')}
+                                        </Tooltip>}>
+                                        <Button
+                                            onClick={() => {this.setState({ show: true });}}
+                                            ref="target"
+                                            className="material-icons delete-sortable btnOverBar">delete</Button>
                                     </OverlayTrigger>
 
                                 </div>
