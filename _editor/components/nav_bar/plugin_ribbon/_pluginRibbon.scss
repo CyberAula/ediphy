@@ -29,13 +29,15 @@
   right: 0;
   overflow-y: hidden;
   height: 100%;
-  width: calc(100% - 20px);
+  width: calc(100% - 200px);
 }
 
 #ribbonList {
   white-space: nowrap !important;
   margin-left: 16px;
   height: 100%;
+  width: 100%;
+  display: inline;
 }
 
 /***************************************/
@@ -116,4 +118,23 @@
 /*Disabled button*/
 button[disabled].ribShortcut {
   color: #ccc;
+}
+
+
+#ribbonActions {
+  float: right;
+  margin-top: -50px;
+  display: inline-block;
+}
+.ribbonAction {
+  height: 47px !important;
+  margin-top:2px;
+  background-color: transparent !important;
+  .material-icons {
+    font-size: 16px;
+  }
+  span {
+    display: block;
+    margin:0px;
+  }
 }

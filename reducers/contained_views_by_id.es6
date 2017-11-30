@@ -1,5 +1,5 @@
-import { ADD_BOX, ADD_CONTAINED_VIEW, ADD_RICH_MARK, DELETE_RICH_MARK, EDIT_RICH_MARK, DELETE_BOX, DELETE_CONTAINED_VIEW, CHANGE_CONTAINED_VIEW_NAME, TOGGLE_TITLE_MODE, DELETE_NAV_ITEM, DELETE_SORTABLE_CONTAINER, IMPORT_STATE } from '../common/actions';
-import { changeProp, deleteProps, isContainedView, findNavItemContainingBox } from '../common/utils';
+import { ADD_BOX, ADD_CONTAINED_VIEW, ADD_RICH_MARK, DELETE_RICH_MARK, EDIT_RICH_MARK, DELETE_BOX, DELETE_CONTAINED_VIEW, CHANGE_CONTAINED_VIEW_NAME, TOGGLE_TITLE_MODE, DELETE_NAV_ITEM, DELETE_SORTABLE_CONTAINER, PASTE_BOX, IMPORT_STATE } from '../common/actions';
+import { changeProp, deleteProps, isContainedView, findNavItemContainingBox, isView } from '../common/utils';
 
 function singleContainedViewReducer(state = {}, action = {}) {
     switch (action.type) {
@@ -37,6 +37,8 @@ function singleContainedViewReducer(state = {}, action = {}) {
         return changeProp(state, "header", action.payload.titles);
     case CHANGE_CONTAINED_VIEW_NAME:
         return changeProp(state, "name", action.payload.title);
+    case PASTE_BOX:
+        return changeProp(state, "boxes", [...state.boxes, action.payload.ids.id]);
     default:
         return state;
     }
@@ -158,6 +160,27 @@ export default function(state = {}, action = {}) {
             return changeProp(state, action.payload.id, singleContainedViewReducer(state[action.payload.id], action));
         }
         return state;
+    case PASTE_BOX:
+        let newState = JSON.parse(JSON.stringify(state));
+
+        if (isContainedView(action.payload.ids.parent)) {
+            newState = changeProp(newState, action.payload.ids.parent, singleContainedViewReducer(newState[action.payload.ids.parent], action));
+        }
+        if (action.payload.toolbar && action.payload.toolbar.state && action.payload.toolbar.state.__marks) {
+            let marks = action.payload.toolbar.state.__marks;
+            for (let mark in marks) {
+                if (isContainedView(marks[mark].connection)) {
+                    if (newState[marks[mark].connection]) {
+                        if (!newState[marks[mark].connection].parent[action.payload.ids.id]) {
+                            newState[marks[mark].connection].parent[action.payload.ids.id] = [];
+                        }
+                        newState[marks[mark].connection].parent[action.payload.ids.id].push(mark);
+
+                    }
+                }
+            }
+        }
+        return newState;
     case IMPORT_STATE:
         return action.payload.present.containedViewsById || state;
     default:

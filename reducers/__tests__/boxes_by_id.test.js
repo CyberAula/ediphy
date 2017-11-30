@@ -1,9 +1,8 @@
 import { testState } from '../../core/store/state.tests.js';
 import boxes_by_id from '../boxes_by_id';
 import * as ActionTypes from '../../common/actions';
-import {changeProp, isSortableContainer} from "../../common/utils";
-import {REORDER_SORTABLE_CONTAINER} from "../../common/actions";
-
+import { changeProp, isSortableContainer } from "../../common/utils";
+import { REORDER_SORTABLE_CONTAINER } from "../../common/actions";
 
 const state = testState.present.boxesById;
 // new box to add
@@ -13,7 +12,6 @@ const createdbox = {
     content: "", draggable: true,
     resizable: false, showTextEditor: false, fragment: {}, children: [], sortableContainers: {}, containedViews: [],
 };
-
 
 describe('# boxes_by_id reducer ******************************************************************* DOING :)', () => {
 
@@ -51,11 +49,9 @@ describe('# boxes_by_id reducer ************************************************
             newState['bs-1511252985426'].sortableContainers['sc-1511443052922'].children = ["bo-1511443052925", "bo-1511443052967", "bo-1511443052929"];
             newState['bo-1511443052929'] = createdbox;
 
-            expect(action.payload.ids.container !== 0).toBeTruthy;
+            expect(action.payload.ids.container !== 0).toBeTruthy();
             expect(boxes_by_id(state, action)).toEqual(newState);
-
         });
-
 
         test('If added box in a slide', () => {
             // new box to add
@@ -89,15 +85,16 @@ describe('# boxes_by_id reducer ************************************************
                 type: ActionTypes.MOVE_BOX,
                 payload: {
                     id: 'bo-1511252970033',
-                    x: '29.425837320574164%',
-                    y: '29.26829268292683%',
+                    x: '29.42%',
+                    y: '29.26%',
                     position: 'absolute',
                     parent: 'pa-1511252955865',
                     container: 0,
                 },
             };
 
-            const newstate = Object.assign({}, state);
+            const newstate = JSON.parse(JSON.stringify(state));
+
             newstate['bo-1511252970033'].position.x = action.payload.x;
             newstate['bo-1511252970033'].position.y = action.payload.y;
 
@@ -105,11 +102,12 @@ describe('# boxes_by_id reducer ************************************************
         });
     });
 
-    describe('handle DUPLICATE_BOX  **************************************** TODO copy & paste', () => {
-        test.skip('If duplicated box', () => {
-            // expect(boxes_by_id(state, {})).toEqual(state);
-        });
-    });
+    // describe('handle DUPLICATE_BOX  **************************************** TODO copy & paste', () => {
+    //     test('If duplicated box', () => {
+    //         // expect(boxes_by_id(state, {})).toEqual(state);
+    //     });
+    // });
+
     describe('handle RESIZE_SORTABLE_CONTAINER', ()=>{
         test('If resized sortable container', () => {
             const action = {
@@ -128,20 +126,20 @@ describe('# boxes_by_id reducer ************************************************
         });
     });
 
-    describe('handle UPDATE_BOX ******************************************** TODO plugin inside plugin', ()=>{
-        test.skip('If box updated', () => {
-            const action = {
-                type: ActionTypes.UPDATE_BOX,
-                payload: {
-                    id: 'bo-1511252970033',
-                    content: '',
-                    toolbar: {},
-                    state: { url: 'http://vishub.org/pictures/1608.jpg' },
-                },
-            };
-            // expect(boxes_by_id(state, action)).toEqual(state);
-        });
-    });
+    // describe('handle UPDATE_BOX ******************************************** TODO plugin inside plugin', ()=>{
+    //     test('If box updated', () => {
+    //         const action = {
+    //             type: ActionTypes.UPDATE_BOX,
+    //             payload: {
+    //                 id: 'bo-1511252970033',
+    //                 content: '',
+    //                 toolbar: {},
+    //                 state: { url: 'http://vishub.org/pictures/1608.jpg' },
+    //             },
+    //         };
+    //         // expect(boxes_by_id(state, action)).toEqual(state);
+    //     });
+    // });
 
     describe('handle ADD_RICH_MARK', ()=>{
         // 4 diferent cases
@@ -369,7 +367,6 @@ describe('# boxes_by_id reducer ************************************************
         });
     });
 
-
     describe('handle DELETE_SORTABLE_CONTAINER', ()=> {
         test('If sortable container with 2 boxes deleted', () => {
             const action = {
@@ -378,14 +375,14 @@ describe('# boxes_by_id reducer ************************************************
                     id: 'sc-1511443052922',
                     parent: 'bs-1511252985426',
                     children: ["bo-1511443052925", "bo-1511443052967"],
-                    cvs:'',
+                    cvs: '',
                 },
             };
             const newState = JSON.parse(JSON.stringify(state));
-            //delete content (children boxes)
+            // delete content (children boxes)
             delete newState['bo-1511443052925'];
             delete newState['bo-1511443052967'];
-            //delete sortable from page
+            // delete sortable from page
             delete newState['bs-1511252985426'].sortableContainers['sc-1511443052922'];
             newState['bs-1511252985426'].children = ['sc-1511443052923'];
 
@@ -416,7 +413,7 @@ describe('# boxes_by_id reducer ************************************************
             const action = {
                 type: ActionTypes.REORDER_SORTABLE_CONTAINER,
                 payload: {
-                    ids: ['sc-1511443052923','sc-1511443052922'],
+                    ids: ['sc-1511443052923', 'sc-1511443052922'],
                     parent: 'bs-1511252985426',
                 },
             };
@@ -425,16 +422,125 @@ describe('# boxes_by_id reducer ************************************************
             expect(boxes_by_id(state, action)).toEqual(newState);
         });
     });
-    
-    describe('handle IMPORT_STATE', ()=>{
+
+    describe('handle PASTE_BOX', ()=>{
+        test('If box pasted to document', () => {
+
+            const boxPasted = {
+                "id": "bo-1511868565135",
+                "parent": "bs-1497983247797",
+                "container": "sc-1511868565133",
+                "level": 0,
+                "col": 0,
+                "row": 0,
+                "position": { "x": 0, "y": 0, "type": "relative" },
+                "content": "",
+                "draggable": true,
+                "resizable": false,
+                "showTextEditor": false,
+                "fragment": {},
+                "children": [],
+                "sortableContainers": {},
+                "containedViews": [],
+            };
+            const action = {
+                type: ActionTypes.PASTE_BOX,
+                payload: {
+                    ids: { parent: 'bs-1497983247797', container: 'sc-1511868565133', id: 'bo-1511868565135' },
+                    box: boxPasted,
+                    toolbar: {},
+                },
+
+            };
+
+            let newState = { "bs-1511252955322": { "id": "bs-1511252955322", "parent": "pa-1511252955321", "container": 0, "level": -1, "col": 0, "row": 0, "position": { "x": 0, "y": 0, "type": "relative" }, "draggable": false, "resizable": false, "showTextEditor": false, "fragment": {}, "children": [], "sortableContainers": {}, "containedViews": [] },
+                "bo-1511252970033": { "id": "bo-1511252970033", "parent": "pa-1511252955865", "container": 0, "level": 0, "col": 0, "row": 0, "position": { "x": "29.56%", "y": "28.67%", "type": "absolute" }, "content": "", "draggable": true, "resizable": true, "showTextEditor": false, "fragment": {}, "children": [], "sortableContainers": {}, "containedViews": ["cv-1511252975055"] },
+                "bs-1511252985426": { "id": "bs-1511252985426", "parent": "pa-1511252985426", "container": 0, "level": -1, "col": 0, "row": 0, "position": { "x": 0, "y": 0, "type": "relative" }, "draggable": false, "resizable": false, "showTextEditor": false, "fragment": {}, "children": [], "sortableContainers": {}, "containedViews": [] },
+
+                "bs-1497983247797": {
+                    "id": "bs-1497983247797",
+                    "parent": "pa-1497983247795",
+                    "container": 0,
+                    "level": -1,
+                    "col": 0,
+                    "row": 0,
+                    "position": { "x": 0, "y": 0, "type": "relative" },
+                    "draggable": false,
+                    "resizable": false,
+                    "showTextEditor": false,
+                    "fragment": {},
+                    "children": ["sc-1511868565133"],
+                    "sortableContainers": {
+                        "sc-1511868565133": {
+                            "children": [
+                                "bo-1511868565135",
+                            ],
+                            "colDistribution": [100],
+                            "cols": [[100]],
+                            "height": "auto",
+                            "key": "",
+                            "style": {
+                                "borderColor": "#ffffff",
+                                "borderStyle": "solid",
+                                "borderWidth": "0px",
+                                "className": "",
+                                "opacity": "1",
+                                "padding": "0px",
+                                "textAlign": "center",
+                            },
+                        },
+                    },
+                    "containedViews": [] },
+                "bo-1511868565135": { "id": "bo-1511868565135", "parent": "bs-1497983247797", "container": "sc-1511868565133", "level": 0, "col": 0, "row": 0, "position": { "x": 0, "y": 0, "type": "relative" }, "content": "", "draggable": true, "resizable": false, "showTextEditor": false, "fragment": {}, "children": [], "sortableContainers": {}, "containedViews": [] },
+            };
+            expect(boxes_by_id(state, action)).toEqual(newState);
+        });
+
+        test('If box pasted to slide', () => {
+
+            const boxPasted = {
+                "id": "bo-1511868565135",
+                "parent": "cv-1511252975055",
+                "container": 0,
+                "level": 0,
+                "col": 0,
+                "row": 0,
+                "position": { "x": "50%", "y": "50%", "type": "absolute" },
+                "content": "",
+                "draggable": true,
+                "resizable": true,
+                "showTextEditor": false,
+                "fragment": {},
+                "children": [],
+                "sortableContainers": {},
+                "containedViews": [],
+            };
+            const action = {
+                type: ActionTypes.PASTE_BOX,
+                payload: {
+                    ids: { parent: "cv-1511252975055", container: 0, id: 'bo-1511868565135' },
+                    box: boxPasted,
+                    toolbar: {},
+                },
+
+            };
+
+            let newState = JSON.parse(JSON.stringify(state));
+            newState["bo-1511868565135"] = boxPasted;
+            expect(boxes_by_id(state, action)).toEqual(newState);
+        });
+    });
+
+    describe('handle IMPORT_STATE', () => {
         test('If state imported', () => {
             const action = {
                 type: ActionTypes.IMPORT_STATE,
                 payload: {
-                    present:{}
+                    present: {},
                 },
             };
             expect(boxes_by_id(state, action)).toEqual(state);
         });
     });
+
 });

@@ -103,6 +103,11 @@ describe('# toolbars_by_id reducer *********************************************
             // expect(toolbars_by_id(state, {})).toEqual(state);
         });
     });
+    describe('handle PASTE_BOX', ()=>{
+        test('If box pasted', () => {
+            // expect(toolbars_by_id(state, {})).toEqual(state);
+        });
+    });
     describe('handle IMPORT_STATE', ()=>{
         test('If state imported', () => {
             // expect(toolbars_by_id(state, {})).toEqual(state);

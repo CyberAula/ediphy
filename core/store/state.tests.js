@@ -255,9 +255,8 @@ export const testState = { "present":
                 "extraFiles": {},
                 "header": {
                     "elementContent": { "documentTitle": "", "documentSubTitle": "", "numPage": "" },
-                    "display": { "courseTitle": "hidden", "documentTitle": "expanded", "documentSubTitle": "hidden", "breadcrumb": "reduced", "pageNumber": "hidden" }
-                } }
-            ,
+                    "display": { "courseTitle": "hidden", "documentTitle": "expanded", "documentSubTitle": "hidden", "breadcrumb": "reduced", "pageNumber": "hidden" },
+                } },
             "pa-1511252955321": {
                 "id": "pa-1511252955321",
                 "name": "Página",
@@ -273,8 +272,8 @@ export const testState = { "present":
                 "extraFiles": {},
                 "header": {
                     "elementContent": { "documentTitle": "", "documentSubTitle": "", "numPage": "" },
-                    "display": { "courseTitle": "hidden", "documentTitle": "expanded", "documentSubTitle": "hidden", "breadcrumb": "reduced", "pageNumber": "hidden" }
-                }
+                    "display": { "courseTitle": "hidden", "documentTitle": "expanded", "documentSubTitle": "hidden", "breadcrumb": "reduced", "pageNumber": "hidden" },
+                },
             },
             "pa-1511252955865": {
                 "id": "pa-1511252955865",
@@ -291,8 +290,8 @@ export const testState = { "present":
                 "extraFiles": {},
                 "header": {
                     "elementContent": { "documentTitle": "", "documentSubTitle": "", "numPage": "" },
-                    "display": { "courseTitle": "hidden", "documentTitle": "expanded", "documentSubTitle": "hidden", "breadcrumb": "reduced", "pageNumber": "hidden" }
-                }
+                    "display": { "courseTitle": "hidden", "documentTitle": "expanded", "documentSubTitle": "hidden", "breadcrumb": "reduced", "pageNumber": "hidden" },
+                },
             },
             "pa-1511252985426": {
                 "id": "pa-1511252985426",
@@ -309,8 +308,8 @@ export const testState = { "present":
                 "extraFiles": {},
                 "header": {
                     "elementContent": { "documentTitle": "", "documentSubTitle": "", "numPage": "" },
-                    "display": { "courseTitle": "hidden", "documentTitle": "expanded", "documentSubTitle": "hidden", "breadcrumb": "reduced", "pageNumber": "hidden" }
-                }
+                    "display": { "courseTitle": "hidden", "documentTitle": "expanded", "documentSubTitle": "hidden", "breadcrumb": "reduced", "pageNumber": "hidden" },
+                },
             },
         },
         "containedViewsById": {
@@ -323,8 +322,8 @@ export const testState = { "present":
                 "extraFiles": {},
                 "header": {
                     "elementContent": { "documentTitle": "prueba", "documentSubTitle": "", "numPage": "" },
-                    "display": { "courseTitle": "hidden", "documentTitle": "expanded", "documentSubTitle": "hidden", "breadcrumb": "hidden", "pageNumber": "hidden" }
-                }
+                    "display": { "courseTitle": "hidden", "documentTitle": "expanded", "documentSubTitle": "hidden", "breadcrumb": "hidden", "pageNumber": "hidden" },
+                },
             },
         },
         "containedViewSelected": 0,
