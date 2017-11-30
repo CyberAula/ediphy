@@ -59,7 +59,7 @@ export default class PluginToolbar extends Component {
                         right: '0px',
                         top: this.props.top,
                     }}>
-                    <div className="pestana"
+                    <div className="pestana" role="presentation"
                         onClick={() => {
                             this.setState({ open: !this.state.open });
                         }} />
@@ -75,7 +75,7 @@ export default class PluginToolbar extends Component {
                                     {i18n.t('Properties')}
                                 </Tooltip>
                             }>
-                            <div onClick={() => {
+                            <button onClick={() => {
                                 this.setState({ open: !this.state.open });
                             }}
                             style={{ display: this.props.carouselShow ? 'block' : 'block' }}
@@ -89,7 +89,7 @@ export default class PluginToolbar extends Component {
                                 <div className="pluginTitleInToolbar">
                                     {toolbar.config.displayName || ""}
                                 </div>
-                            </div>
+                            </button>
                         </OverlayTrigger>
                         <div id="insidetools" style={{ display: this.state.open ? 'block' : 'none' }}>
                             <div className="toolbarTabs">
@@ -191,7 +191,7 @@ export default class PluginToolbar extends Component {
                     right: '0px',
                     top: this.props.top,
                 }}>
-                <div className="pestana"
+                <div className="pestana" role="presentation"
                     onClick={() => {
                         this.setState({ open: !this.state.open });
                     }} />
@@ -207,7 +207,7 @@ export default class PluginToolbar extends Component {
                                 {i18n.t('Properties')}
                             </Tooltip>
                         }>
-                        <div onClick={() => {
+                        <button onClick={() => {
                             this.setState({ open: !this.state.open });
                         }}
                         style={{ display: 'block' }}
@@ -221,7 +221,7 @@ export default class PluginToolbar extends Component {
                             <div className="pluginTitleInToolbar">
                                 {toolbar.config.displayName || ""}
                             </div>
-                        </div>
+                        </button>
                     </OverlayTrigger>
                     <div id="insidetools" style={{ display: this.state.open ? 'block' : 'none' }}>
                         <div className="toolbarTabs">

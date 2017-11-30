@@ -17,6 +17,8 @@
 .carouselListTitle {
     cursor: pointer;
     color: $grisclaro;
+    background-color: $darkest;
+    border: none;
     *{
         @include animacion(all, 0.2s);
     }

@@ -223,13 +223,15 @@ a.toggle-switch---switch---3EchW {
         padding-top: 7px;
     }
     .pluginTitleInToolbar {
-        margin: -8px 6px 8px;
+        margin: -8px 0px 8px 43px;
         color: $blueprimary;
         font-weight: 500;
+        float: left;
     }
     .toolbarTitletxt{
         display: block;
         padding: 8px;
+        float: left;
     }
 }
 
