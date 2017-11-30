@@ -224,11 +224,15 @@ export default class EditorBoxSortable extends Component {
         list.sortable({
             handle: '.drag-handle',
             start: (event, ui) => {
+
                 // Hide EditorShortcuts
                 let bar = this.props.containedViewSelected === 0 ?
                     document.getElementById('editorBoxIcons') :
                     document.getElementById('contained_editorBoxIcons');
-                bar.classList.add('hidden');
+
+                if (bar !== null) {
+                    bar.classList.add('hidden');
+                }
             },
             stop: (event, ui) => {
                 let indexes = [];
@@ -245,7 +249,9 @@ export default class EditorBoxSortable extends Component {
                 let bar = this.props.containedViewSelected === 0 ?
                     document.getElementById('editorBoxIcons') :
                     document.getElementById('contained_editorBoxIcons');
-                bar.classList.remove('hidden');
+                if (bar !== null) {
+                    bar.classList.remove('hidden');
+                }
                 window.dispatchEvent(new Event('resize'));
 
             },
@@ -337,13 +343,16 @@ export default class EditorBoxSortable extends Component {
                         }
 
                         let clone = document.getElementById('clone');
-                        clone.parentElement.removeChild(clone);
+                        if (clone) {
+                            clone.parentNode.removeChild(clone);
+                        }
                         for (let b in this.props.boxes) {
                             let dombox = document.getElementById('box-' + b);
                             if (dombox) {
                                 dombox.style.opacity = 1;
                             }
                         }
+
                     }
                 } else {
                     if (isSortableBox(this.props.id) && Ediphy.Plugins.get(e.relatedTarget.getAttribute("name")).getConfig().limitToOneInstance) {
