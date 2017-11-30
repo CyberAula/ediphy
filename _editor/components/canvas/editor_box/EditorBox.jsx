@@ -607,14 +607,20 @@ export default class EditorBox extends Component {
                     }
                 },
                 onend: (event) => {
+                    let bar = this.props.containedViewSelected === 0 ?
+                        document.getElementById('editorBoxIcons') :
+                        document.getElementById('contained_editorBoxIcons');
+                    bar.classList.remove('hidden');
+
                     if (this.props.boxSelected !== this.props.id) {
                         return;
                     }
 
                     let target = event.target;
-                    if (!target.parentElement) {
+                    if (!target.parentNode) {
                         return;
                     }
+                    // Unhide EditorShortcuts
 
                     // Get position and if contained in sortableContainer || PluginPlaceHolder, convert to %
                     let pos = this.props.boxes[this.props.id].position.type;
@@ -680,12 +686,6 @@ export default class EditorBox extends Component {
                             this.props.onBoxesInsideSortableReorder(boxOb.parent, boxOb.container, newOrder);
                         }
                     }
-                    // Unhide EditorShortcuts
-
-                    let bar = this.props.containedViewSelected === 0 ?
-                        document.getElementById('editorBoxIcons') :
-                        document.getElementById('contained_editorBoxIcons');
-                    bar.classList.remove('hidden');
 
                     event.stopPropagation();
 
