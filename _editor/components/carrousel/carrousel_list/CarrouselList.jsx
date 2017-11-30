@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
-import { Tooltip, Button, OverlayTrigger, Popover } from 'react-bootstrap';
+import { Tooltip, Button, OverlayTrigger, Popover, Overlay } from 'react-bootstrap';
 import { ID_PREFIX_PAGE, ID_PREFIX_SECTION, ID_PREFIX_SORTABLE_BOX, PAGE_TYPES } from '../../../../common/constants';
 import Section from './../section/Section';
 import EditorIndexTitle from '../editor_index_title/EditorIndexTitle';
@@ -257,7 +258,12 @@ export default class CarrouselList extends Component {
                      </Button>
                      </OverlayTrigger>
                      */}
-                    <OverlayTrigger trigger={["focus"]} placement="top" overlay={
+                    <Overlay rootClose
+                        show={this.state.show}
+                        placement="top"
+                        container={this}
+                        target={() => ReactDOM.findDOMNode(this.refs.target)}
+                        onHide={() => {this.setState({ show: false });}}>
                         <Popover id="popov" title={
                             isSection(this.props.indexSelected) ? i18n.t("delete_section") :
                                 isContainedView(this.props.indexSelected) ? i18n.t('delete_contained_canvas') :
@@ -269,6 +275,7 @@ export default class CarrouselList extends Component {
                             <br/>
                             <Button className="popoverButton"
                                 disabled={this.props.indexSelected === 0}
+                                onClick={() => {this.setState({ show: false });}}
                                 style={{ float: 'right' }} >
                                 {i18n.t("Cancel")}
                             </Button>
@@ -286,21 +293,24 @@ export default class CarrouselList extends Component {
                                     }
 
                                     this.props.onIndexSelected(0);
+                                    this.setState({ show: false });
                                 }
                                 }>
                                 {i18n.t("Accept")}
                             </Button>
 
-                        </Popover>}>
-                        <OverlayTrigger placement="top" overlay={
-                            <Tooltip id="deleteTooltip">{i18n.t('delete')}
-                            </Tooltip>}>
-                            <Button className="carrouselButton"
-                                disabled={this.props.indexSelected === 0}
-                                style={{ float: 'right' }}>
-                                <i className="material-icons">delete</i>
-                            </Button>
-                        </OverlayTrigger>
+                        </Popover>
+                    </Overlay>
+                    <OverlayTrigger placement="top" overlay={
+                        <Tooltip id="deleteTooltip">{i18n.t('delete')}
+                        </Tooltip>}>
+                        <Button className="carrouselButton"
+                            disabled={this.props.indexSelected === 0}
+                            onClick={() => {this.setState({ show: true });}}
+                            ref="target"
+                            style={{ float: 'right' }}>
+                            <i className="material-icons">delete</i>
+                        </Button>
                     </OverlayTrigger>
                 </div>
             </div>
