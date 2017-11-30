@@ -55,7 +55,6 @@ export default class VisorCanvasDoc extends Component {
 
                             }}><i className="material-icons">close</i></button></OverlayTrigger>) : (<span />)}
                     <VisorHeader titles={titles}
-                        onShowTitle={()=>this.setState({ showTitle: true })}
                         courseTitle={this.props.title}
                         titleMode={itemSelected.titleMode}
                         navItems={this.props.navItems}
@@ -70,9 +69,6 @@ export default class VisorCanvasDoc extends Component {
                             style={{ visibility: (this.props.showCanvas ? 'visible' : 'hidden') }}>
 
                             <div id={isCV ? "contained_maincontent" : "maincontent"}
-                                onClick={e => {
-                                    this.setState({ showTitle: false });
-                                }}
                                 className={'innercanvas doc'}
                                 style={{ visibility: (this.props.showCanvas ? 'visible' : 'hidden') }}>
 
@@ -122,9 +118,6 @@ export default class VisorCanvasDoc extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.boxSelected !== -1) {
-            this.setState({ showTitle: false });
-        }
         if (this.props.currentView.id !== nextProps.currentView.id) {
             document.getElementById(!isView(this.props.currentView) ? "contained_maincontent" : "maincontent").scrollTop = 0;
         }

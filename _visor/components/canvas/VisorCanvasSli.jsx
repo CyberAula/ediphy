@@ -51,9 +51,6 @@ export default class VisorCanvasSli extends Component {
                     style={{ margin: '0 auto', visibility: (this.props.showCanvas ? 'visible' : 'hidden') }}>
 
                     <div id={isCV ? "contained_maincontent" : "maincontent"}
-                        // onClick={e => {
-                        //  this.setState({ showTitle: false });
-                        // }}
                         className={'innercanvas sli'}
                         style={{ visibility: (this.props.showCanvas ? 'visible' : 'hidden') }}>
                         {isCV ? (< OverlayTrigger placement="bottom" overlay={tooltip}>
@@ -68,8 +65,6 @@ export default class VisorCanvasSli extends Component {
                             }}><i className="material-icons">close</i>
                             </button></OverlayTrigger>) : (<span />)}
                         <VisorHeader titles={titles}
-
-                            onShowTitle={()=>this.setState({ showTitle: true })}
                             courseTitle={this.props.title}
                             titleMode={itemSelected.titleMode}
                             navItem={this.props.navItemSelected}
@@ -139,9 +134,7 @@ export default class VisorCanvasSli extends Component {
             aspectRatio(nextProps.canvasRatio, isCV ? 'airlayer_cv' : 'airlayer', isCV ? "containedCanvas" : "canvas");
             // window.addEventListener("resize", aspectRatio);
         }
-
     }
-
 }
 
 VisorCanvasSli.propTypes = {
