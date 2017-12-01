@@ -124,14 +124,6 @@ export default class EditorShortcuts extends Component {
                                 <button className="editorTitleButton"
                                     onClick={(e) => {
                                         this.props.onTextEditorToggled(toolbar.id, !toolbar.showTextEditor);
-                                        /* if(this.props.box && this.props.box.id) {
-                                            // TODO: Código duplicado en EditorBox, EditorShortcuts y PluginToolbar. Extraer a common_tools?
-                                            let CKstring = CKEDITOR.instances[this.props.box.id].getData();
-                                            let initString = "<p>" + i18n.t("text_here") + "</p>\n";
-                                            if (CKstring === initString) {
-                                                CKEDITOR.instances[this.props.box.id].setData("");
-                                            }
-                                        }*/
                                         e.stopPropagation();
                                     }}>
                                     <i className="material-icons">mode_edit</i>

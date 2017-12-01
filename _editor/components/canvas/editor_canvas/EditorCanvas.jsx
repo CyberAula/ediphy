@@ -44,26 +44,6 @@ export default class EditorCanvas extends Component {
         }
     }
 
-    /**
-     * After component updates
-     * Fixes bug when reordering editorbox sortable CKEDITOR doesn't update otherwise
-     * @param prevProps React previous props
-     * @param prevState React previous state
-     */
-    componentDidUpdate(prevProps, prevState) {
-        /* if(this.props.lastActionDispatched.type === REORDER_SORTABLE_CONTAINER || this.props.lastActionDispatched.type === REORDER_BOXES) {
-            for (let instance in CKEDITOR.instances) {
-                CKEDITOR.instances[instance].destroy();
-            }
-            CKEDITOR.inlineAll();
-            for (let editor in CKEDITOR.instances) {
-                if (this.props.toolbars[editor].state.__text) {
-                    CKEDITOR.instances[editor].setData(decodeURI(this.props.toolbars[editor].state.__text));
-                }
-            }
-        }*/
-    }
-
 }
 
 EditorCanvas.propTypes = {

@@ -27,6 +27,7 @@ export default class EditorBox extends Component {
          * @type {number}
          */
         this.borderSize = 2;
+        this.blurTextarea = this.blurTextarea.bind(this);
     }
 
     /**
@@ -235,6 +236,7 @@ export default class EditorBox extends Component {
                     if(toolbar.config && toolbar.config.needsTextEdition && this.props.id === this.props.boxSelected) {
                         this.props.onTextEditorToggled(this.props.id, true);
                         /* this.refs.textarea.focus();
+
                         // Elimina el placeholder "Introduzca texto aquí" cuando se va a editar
                         // Código duplicado en EditorBox, EditorShortcuts y PluginToolbar. Extraer a common_tools?
                         let CKstring = CKEDITOR.instances[this.props.id].getData();
@@ -250,7 +252,7 @@ export default class EditorBox extends Component {
                 {/* The previous line was changed for the next one in order to make the box grow when text grows while editing.
                  To disable this, you also have to change the textareastyle to an absolute position div, and remove the float property*/}
                 {toolbar.showTextEditor ? null : content }
-                {toolbar.state.__text ? <CKEDitorComponent
+                {toolbar.state.__text ? <CKEDitorComponent boxSelected={this.props.boxSelected}
                     style={textareaStyle} className={classNames + " textAreaStyle"} toolbars={this.props.toolbars} id={this.props.id}
                     onBlur={this.blurTextarea}/> : null}
                 {/* {toolbar.state.__text ?
