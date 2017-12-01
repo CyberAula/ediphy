@@ -26,6 +26,10 @@
     .material-icons{
         padding: 8px;
     }
+    .btnToggleCarousel{
+        background-color: transparent;
+        border: none;
+    }
 }
 
 /*Section*/
@@ -103,14 +107,14 @@
 }
 
 .classIndexSelected {
-    color: #1fc8db !important;
+    color: $blueprimary !important;
 }
 
 .selected.classIndexSelected {
-    color: #1fc8db !important;
+    color: $blueprimary !important;
 }
 .selected.classIndexSelected .selected {
-    color: #1fc8db !important;
+    color: $blueprimary !important;
 }
 
 

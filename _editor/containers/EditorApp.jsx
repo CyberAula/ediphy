@@ -23,6 +23,7 @@ import PluginToolbar from '../components/toolbar/plugin_toolbar/PluginToolbar';
 import Visor from '../../_visor/containers/Visor';
 import ExternalCatalogModal from '../components/external_provider/ExternalCatalogModal';
 import PluginRibbon from '../components/nav_bar/plugin_ribbon/PluginRibbon';
+import ActionsRibbon from '../components/nav_bar/actions_ribbon/ActionsRibbon';
 import EditorNavBar from '../components/nav_bar/editor_nav_bar/EditorNavBar';
 import ServerFeedback from '../components/server_feedback/ServerFeedback';
 import RichMarksModal from '../components/rich_plugins/rich_marks_modal/RichMarksModal';
@@ -61,7 +62,7 @@ class EditorApp extends Component {
          */
         this.state = {
             alert: null,
-            pluginTab: 'text',
+            pluginTab: '',
             hideTab: 'show',
             visorVisible: false,
             xmlEditorVisible: false,
@@ -85,7 +86,7 @@ class EditorApp extends Component {
         const { dispatch, boxes, boxesIds, boxSelected, boxLevelSelected, navItemsIds, navItems, navItemSelected,
             containedViews, containedViewSelected, imagesUploaded, indexSelected,
             undoDisabled, redoDisabled, displayMode, isBusy, toolbars, globalConfig, fetchVishResults } = this.props;
-        let ribbonHeight = this.state.hideTab === 'hide' ? 0 : 47;
+        let ribbonHeight = this.state.hideTab === 'hide' ? 0 : 50;
         let title = globalConfig.title || '---';
         let canvasRatio = globalConfig.canvasRatio;
         return (
@@ -123,6 +124,8 @@ class EditorApp extends Component {
                 </Row>
                 <Row style={{ height: 'calc(100% - 60px)' }} id="mainRow">
                     <EditorCarousel boxes={boxes}
+                        globalConfig={globalConfig}
+                        onTitleChanged={(id, titleStr) => {this.dispatchAndSetState(changeGlobalConfig('title', titleStr));}}
                         title={title}
                         containedViews={containedViews}
                         containedViewSelected={containedViewSelected}
@@ -198,6 +201,9 @@ class EditorApp extends Component {
                     <Col id="colRight" xs={12}
                         style={{ height: (this.state.carouselFull ? 0 : '100%'),
                             width: (this.state.carouselShow ? 'calc(100% - 212px)' : 'calc(100% - 80px)') }}>
+                        <Row id="actionsRibbon">
+                            <ActionsRibbon ribbonHeight={ribbonHeight + 'px'}/>
+                        </Row>
                         <Row id="ribbonRow">
                             <PluginRibbon disabled={navItemSelected === 0 || (!Ediphy.Config.sections_have_content && navItemSelected && isSection(navItemSelected)) || this.hasExerciseBox(navItemSelected, navItems, this.state, boxes)} // ADD condition navItemSelected There are extrafiles
                                 boxSelected={boxes[boxSelected]}

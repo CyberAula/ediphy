@@ -55,6 +55,7 @@ $material-font-path:  '../node_modules/material-design-icons-font/iconfont/';
         @include animacion(height, 0.4s);
         >div{
             @include animacion(height, 0.4s);
+            @include animacion(width, 0.4s);
         }
     }
 

@@ -2,72 +2,53 @@
 
 /*Ribbon column*/
 #ribbonRow {
-  overflow-x: auto;
-  overflow-y: hidden;
-  .btn-group.open .dropdown-toggle {
-    -webkit-box-shadow: none;
-    box-shadow: none;
-  }
+  position: absolute;
+  top: 0;
+  z-index: 1;
+  width: auto;
+  background-color: $blueprimary;
+  border-radius: 0 0 7px 0;
+  max-width: 350px;
+  height: auto;
 }
 
 /*Ribbon Column*/
 #ribbon {
-  background-color: $grisclaro;
-  -webkit-box-shadow: inset 0px 3px 5px 0px rgba(179,179,179,1);
-  -moz-box-shadow: inset 0px 3px 5px 0px rgba(179,179,179,1);
-  box-shadow: inset 0px 3px 5px 0px rgba(179,179,179,1);
-  height: 60px;
+  //height: 60px;
   padding: 0;
   z-index: 0;
   overflow: hidden;
 }
-
 /************Plugin list***************/
-
 #insideribbon {
-  margin-top: 0px;
-  right: 0;
-  overflow-y: hidden;
-  height: 100%;
-  width: calc(100% - 200px);
-}
-
-#ribbonList {
-  white-space: nowrap !important;
-  margin-left: 16px;
-  height: 100%;
-  width: 100%;
-  display: inline;
+  //height: 50px;
 }
 
 /***************************************/
 
 /*Plugin name placeholder for dnd*/
 .buttonPlace {
-  position: relative;
   display: inline-block;
-  width: auto;
-  z-index: 0;
-  height: 100%;
+  margin: 10px 0 0 10px;
+  &:last-child{
+    margin-bottom: 10px;
+    margin-right: 10px;
+  }
 }
 
 /*Ribbon buttons*/
 .rib {
-  position: relative;
-  padding: 0 9px;
-  font-size: 14px !important;
-  border-radius: 0;
-  border: 1px solid lightgray;
-  background-color: transparent !important;
-  color: $grismedio;
-  height: 70%;
-  margin: 8px 4px;
+  padding: 5px 10px;
+  height: 100%;
+  font-size: 1em;
+  background-color: rgba(255,255,255,0.2) !important;
+  color: $darkest;
+  border: 1px solid $darkest;
+  border-radius: 3px;
   &:hover {
     background-color: white !important;
-    color: $grisoscuro;
-    box-shadow: none !important;
-    -webkit-box-shadow: none !important;
-    -moz-box-shadow: none !important;
+    color: $blueprimarydark;
+    border: 1px solid white;
   }
   .material-icons {
     vertical-align: text-bottom;
@@ -78,6 +59,7 @@
 /*Plugin class while dragging*/
 .ribdrag {
   color: $darkest;
+  padding: 10px;
   &:hover {
     color: $darkest !important;
   }
@@ -121,20 +103,3 @@ button[disabled].ribShortcut {
 }
 
 
-#ribbonActions {
-  float: right;
-  margin-top: -50px;
-  display: inline-block;
-}
-.ribbonAction {
-  height: 47px !important;
-  margin-top:2px;
-  background-color: transparent !important;
-  .material-icons {
-    font-size: 16px;
-  }
-  span {
-    display: block;
-    margin:0px;
-  }
-}

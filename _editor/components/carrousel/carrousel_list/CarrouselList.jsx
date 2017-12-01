@@ -63,7 +63,7 @@ export default class CarrouselList extends Component {
                         <i className="material-icons" style={{ color: "gray", fontSize: "22px" }}>{"arrow_drop_down" }</i> :
                         <i className="material-icons" style={{ color: "gray", fontSize: "15px", marginLeft: "2px", marginRight: "2px" }}>{"play_arrow" }</i>
                     }
-                    <span style={{ color: "white", fontSize: "13px" }}>{i18n.t("COURSE")}</span>
+                    <span style={{ color: "white", fontSize: "11px" }}>{i18n.t("INDEX")}</span>
                 </div>
                 <div ref="sortableList"
                     className="carList connectedSortables"
@@ -129,7 +129,7 @@ export default class CarrouselList extends Component {
                         <i className="material-icons" style={{ color: "gray", fontSize: "22px" }}>{"arrow_drop_down" }</i> :
                         <i className="material-icons" style={{ color: "gray", fontSize: "15px", marginLeft: "2px", marginRight: "2px" }}>{"play_arrow" }</i>
                     }
-                    <span style={{ color: "white", fontSize: "13px" }}>{i18n.t("CONTAINED_VIEWS")}</span>
+                    <span style={{ color: "white", fontSize: "11px" }}>{i18n.t("CONTAINED_VIEWS")}</span>
                 </div>
 
                 <div className="containedViewsList" style={{ height: (this.state.showContainedViews) ? ((this.state.showSortableItems) ? "calc(50% - 122px)" : "calc(100% - 122px)") : "0px",

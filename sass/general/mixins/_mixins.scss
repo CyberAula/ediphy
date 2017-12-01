@@ -1,9 +1,40 @@
+//generic transition
 @mixin animacion($prop: all, $duracion: 0.3s) {
     transition: $prop $duracion ease-in;
     -webkit-transition: $prop $duracion ease-in;
     -moz-transition: $prop $duracion ease-in;
     -o-transition: $prop $duracion ease-in;
 }
+//Example
+//@include animation(background-color 1s .5s, color 2s);
+
+// generic transform
+@mixin transform($transforms) {
+  -moz-transform: $transforms;
+  -o-transform: $transforms;
+  -ms-transform: $transforms;
+  -webkit-transform: $transforms;
+  transform: $transforms;
+}
+
+@mixin rotate ($deg) {
+  @include transform(rotate(#{$deg}deg));
+}
+//Example
+//@include rotate(10);
+
+@mixin scale($scale) {
+  @include transform(scale($scale));
+}
+//Example
+//@include scale(0.2);
+
+@mixin translate ($x, $y) {
+  @include transform(translate($x, $y));
+}
+//Example
+//@include translate(20, 30);
+
 
 @mixin selection {
     ::-moz-selection { @content; }

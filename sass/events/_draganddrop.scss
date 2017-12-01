@@ -21,9 +21,12 @@
 }
 #clone {
   position:absolute;
-	color: $blueprimary;
-	border: 1px dashed $blueprimary;
+  color: $blueprimary;
+    border: 1px dashed $blueprimary;
 	background-color: white !important;
+    padding: 10px !important;
+    margin: 0;
+    max-height: 40px;
 }
 
 /*Resize*/
