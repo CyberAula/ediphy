@@ -1,5 +1,18 @@
 import React, { Component } from 'react';
-import { Tooltip, FormControl, OverlayTrigger, Popover, InputGroup, FormGroup, Radio, ControlLabel, Checkbox, Button, PanelGroup, Panel } from 'react-bootstrap';
+import {
+    Tooltip,
+    FormControl,
+    OverlayTrigger,
+    Popover,
+    InputGroup,
+    FormGroup,
+    Radio,
+    ControlLabel,
+    Checkbox,
+    Button,
+    PanelGroup,
+    Panel,
+} from 'react-bootstrap';
 import GridConfigurator from '../grid_configurator/GridConfigurator.jsx';
 import RadioButtonFormGroup from '../radio_button_form_group/RadioButtonFormGroup.jsx';
 import Select from 'react-select';
@@ -46,7 +59,7 @@ export default class PluginToolbar extends Component {
                     style={{
                         top: this.props.top,
                     }}>
-                    <div id="tools" className="toolbox" />
+                    <div id="tools" className="toolbox"/>
                 </div>
             );
         }
@@ -63,7 +76,7 @@ export default class PluginToolbar extends Component {
                     <div className="pestana"
                         onClick={() => {
                             this.setState({ open: !this.state.open });
-                        }} />
+                        }}/>
                     <div id="tools"
                         style={{
                             width: this.state.open ? '250px' : '40px',
@@ -128,7 +141,7 @@ export default class PluginToolbar extends Component {
                         className={toolbar.showTextEditor ? 'toolbarButton textediting' : 'toolbarButton'}
                         onClick={() => {
                             this.props.onTextEditorToggled(toolbar.id, !toolbar.showTextEditor);
-                            if(!toolbar.showTextEditor && this.props.box && this.props.box.id) {
+                            if (!toolbar.showTextEditor && this.props.box && this.props.box.id) {
                                 // Código duplicado en EditorBox, EditorShortcuts y PluginToolbar. Extraer a common_tools?
                                 let CKstring = CKEDITOR.instances[this.props.box.id].getData();
                                 let initString = "<p>" + i18n.t("text_here") + "</p>\n";
@@ -195,7 +208,7 @@ export default class PluginToolbar extends Component {
                 <div className="pestana"
                     onClick={() => {
                         this.setState({ open: !this.state.open });
-                    }} />
+                    }}/>
                 <div id="tools"
                     style={{
                         width: this.state.open ? '250px' : '40px',
@@ -357,11 +370,11 @@ export default class PluginToolbar extends Component {
                 },
             });
             break;
-        // preview / export document
+            // preview / export document
         case i18n.t('display_page'):
             this.props.onNavItemToggled(this.props.navItemSelected);
             break;
-        // change document(navitem) name
+            // change document(navitem) name
         case i18n.t('NavItem_name'):
             if (isContainedView(this.props.navItemSelected)) {
                 this.props.onContainedViewNameChanged(this.props.navItemSelected, value);
@@ -369,7 +382,7 @@ export default class PluginToolbar extends Component {
                 this.props.onNavItemNameChanged(this.props.navItemSelected, value);
             }
             break;
-        // display - course title
+            // display - course title
         case i18n.t('course_title'):
             let courseTitle = value ? 'reduced' : 'hidden';
             this.props.titleModeToggled(this.props.navItemSelected, {
@@ -405,7 +418,7 @@ export default class PluginToolbar extends Component {
             });
 
             break;
-        // display - page title
+            // display - page title
         case i18n.t('Title') + i18n.t('page'):
             let pageTitle = value ? 'reduced' : 'hidden';
             this.props.titleModeToggled(this.props.navItemSelected, {
@@ -424,7 +437,7 @@ export default class PluginToolbar extends Component {
             });
 
             break;
-        // display - slide title
+            // display - slide title
         case i18n.t('Title') + i18n.t('slide'):
             let slideTitle = value ? 'reduced' : 'hidden';
             this.props.titleModeToggled(this.props.navItemSelected, {
@@ -442,7 +455,7 @@ export default class PluginToolbar extends Component {
                 },
             });
             break;
-        // display - subtitle
+            // display - subtitle
         case i18n.t('subtitle'):
             let subTitle = value ? 'reduced' : 'hidden';
             this.props.titleModeToggled(this.props.navItemSelected, {
@@ -460,7 +473,7 @@ export default class PluginToolbar extends Component {
                 },
             });
             break;
-        // display - breadcrumb
+            // display - breadcrumb
         case i18n.t('Breadcrumb'):
             let breadcrumb = value ? 'reduced' : 'hidden';
             this.props.titleModeToggled(this.props.navItemSelected, {
@@ -478,7 +491,7 @@ export default class PluginToolbar extends Component {
                 },
             });
             break;
-        // display - pagenumber
+            // display - pagenumber
         case i18n.t('pagenumber'):
             let pagenumber = value ? 'reduced' : 'hidden';
             this.props.titleModeToggled(this.props.navItemSelected, {
@@ -550,7 +563,7 @@ export default class PluginToolbar extends Component {
                 let buttonWidth = (buttonKeys[i] === '__width' || buttonKeys[i] === '__height') ? '60%' : '100%';
                 let buttonMargin = (buttonKeys[i] === '__width' || buttonKeys[i] === '__height') ? '5%' : '0px';
                 children.push(
-                    <div key={'div_' + i }
+                    <div key={'div_' + i}
                         style={{
                             width: buttonWidth,
                             marginRight: buttonMargin,
@@ -591,9 +604,9 @@ export default class PluginToolbar extends Component {
         let button = accordion.buttons[buttonKey];
         let children = null;
         let id;
-        if(this.props.boxSelected === -1) {
+        if (this.props.boxSelected === -1) {
             id = this.props.navItemSelected;
-        }else{
+        } else {
             id = this.props.box.id;
         }
 
@@ -623,7 +636,7 @@ export default class PluginToolbar extends Component {
             },
             onChange: e => {
                 let value;
-                if(typeof e.target !== 'undefined') {
+                if (typeof e.target !== 'undefined') {
                     value = e.target.value;
                 } else {
                     value = e.value;
@@ -668,21 +681,21 @@ export default class PluginToolbar extends Component {
                         }
                         break;
                     }
-                    if(accordion.buttons.__aspectRatio && accordion.buttons.__aspectRatio.checked) {
+                    if (accordion.buttons.__aspectRatio && accordion.buttons.__aspectRatio.checked) {
                         otherButton.value = otherButton.value * newButton.value / button.value;
-                        if(!otherButton.auto) {
+                        if (!otherButton.auto) {
                             otherButton.displayValue = otherButton.value;
                         }
                     }
 
                     // If next values are going to be over 100%, prevent action
-                    if((newButton.units === "%" && newButton.value > 100) || (otherButton.units === "%" && otherButton.value > 100)) {
+                    if ((newButton.units === "%" && newButton.value > 100) || (otherButton.units === "%" && otherButton.value > 100)) {
                         return;
                     }
 
-                    if(buttonKey === "__width") {
+                    if (buttonKey === "__width") {
                         this.props.onBoxResized(id, newButton, otherButton);
-                    }else{
+                    } else {
                         this.props.onBoxResized(id, otherButton, newButton);
                     }
                     return;
@@ -710,20 +723,20 @@ export default class PluginToolbar extends Component {
                         reader.onload = () => {
                             let img = new Image();
                             let data = reader.result;
-                            img.src = data;
-
-                            let canvas = document.createElement('canvas');
-                            let ctx = canvas.getContext('2d');
-                            ctx.drawImage(img, 0, 0, 1200, 1200);
-                            this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, canvas.toDataURL("image/jpeg"));
-                            if (!button.autoManaged) {
-                                if(!button.callback) {
-                                    this.handlecanvasToolbar(button.__name, canvas.toDataURL("image/jpeg"));
-                                }else{
-                                    button.callback(state, buttonKey, canvas.toDataURL("image/jpeg"), id, UPDATE_TOOLBAR);
+                            img.onload = () => {
+                                let canvas = document.createElement('canvas');
+                                let ctx = canvas.getContext('2d');
+                                ctx.drawImage(img, 0, 0, 1200, 1200);
+                                this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, canvas.toDataURL("image/jpeg"));
+                                if (!button.autoManaged) {
+                                    if (!button.callback) {
+                                        this.handlecanvasToolbar(button.__name, canvas.toDataURL("image/jpeg"));
+                                    } else {
+                                        button.callback(state, buttonKey, canvas.toDataURL("image/jpeg"), id, UPDATE_TOOLBAR);
+                                    }
                                 }
-
-                            }
+                            };
+                            img.src = data;
                         };
                         reader.readAsDataURL(file);
                         return;
@@ -759,15 +772,17 @@ export default class PluginToolbar extends Component {
                 }
                 if (button.type === 'color') {
                     value = e.color;
-                    if (!value) {return;}
+                    if (!value) {
+                        return;
+                    }
                 }
 
                 this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, value);
 
                 if (!button.autoManaged) {
-                    if(!button.callback) {
+                    if (!button.callback) {
                         this.handlecanvasToolbar(button.__name, value);
-                    }else{
+                    } else {
                         button.callback(state, buttonKey, value, id, UPDATE_TOOLBAR);
                     }
 
@@ -797,7 +812,8 @@ export default class PluginToolbar extends Component {
 
         }
 
-        if(button.type === "image_file") {
+        if (button.type === "image_file") {
+            let isURI = (/data\:/).test(props.value);
             return React.createElement(
                 FormGroup,
                 { key: button.__name }, [
@@ -807,11 +823,23 @@ export default class PluginToolbar extends Component {
                         button.__name),
                     React.createElement('div', { key: 'container_' + button.__name, style: { display: 'block' } },
                         React.createElement(
-                            FileInput, { key: 'fileinput_' + props.label, value: props.value, onChange: props.onChange, style: { width: '100%' } },
-                            React.createElement('div', { key: "inside_" + props.label, className: 'fileDrag_toolbar' }, [
+                            FileInput, {
+                                key: 'fileinput_' + props.label,
+                                value: props.value,
+                                onChange: props.onChange,
+                                style: { width: '100%' },
+                            },
+                            React.createElement('div', {
+                                style: { backgroundImage: isURI ? 'url(' + props.value + ')' : 'none' },
+                                key: "inside_" + props.label,
+                                className: 'fileDrag_toolbar',
+                            }, isURI ? null : [
                                 React.createElement('span', { key: props.label + "1" }, i18n.t('FileInput.Drag')),
                                 React.createElement('span', { key: props.label + "2", className: "fileUploaded" }, [
-                                    React.createElement('i', { key: 'icon_' + button.__name, className: 'material-icons' }, 'insert_drive_file'),
+                                    React.createElement('i', {
+                                        key: 'icon_' + button.__name,
+                                        className: 'material-icons',
+                                    }, 'insert_drive_file'),
                                 ]),
                             ])
                         )
@@ -819,7 +847,7 @@ export default class PluginToolbar extends Component {
                 ]);
         }
 
-        if(button.type === "button") {
+        if (button.type === "button") {
             return React.createElement(
                 FormGroup,
                 { key: button.__name }, [
@@ -950,7 +978,8 @@ export default class PluginToolbar extends Component {
                 [React.createElement(
                     ToggleSwitch,
                     props,
-                    button.__name), <label key={buttonKey + 'label'} style={{ display: 'inline-block' }}>{props.label}</label>]
+                    button.__name),
+                <label key={buttonKey + 'label'} style={{ display: 'inline-block' }}>{props.label}</label>]
             );
         }
 
@@ -960,7 +989,10 @@ export default class PluginToolbar extends Component {
 
             return React.createElement(
                 FormGroup,
-                { key: button.__name, style: { display: accordion.buttons[button.associatedKey].checked ? "block" : "none" } },
+                {
+                    key: button.__name,
+                    style: { display: accordion.buttons[button.associatedKey].checked ? "block" : "none" },
+                },
                 [
                     React.createElement(
                         "span",
@@ -997,7 +1029,7 @@ export default class PluginToolbar extends Component {
                     {i18n.t("Auto")} <br/>
                     {/* Disable px size in slides*/}
                     {isSlide(this.props.navItems[this.props.navItemSelected].type) ?
-                        (<span />) :
+                        (<span/>) :
                         (<div><br/>
                             <ControlLabel>{i18n.t("Units")}</ControlLabel>
                             <FormControl componentClass='select'
@@ -1037,7 +1069,7 @@ export default class PluginToolbar extends Component {
                 </FormGroup>
             );
         }
-        if(button.type === 'range') {
+        if (button.type === 'range') {
             props.className = "rangeInput";
             return React.createElement(
                 FormGroup,
@@ -1081,7 +1113,7 @@ export default class PluginToolbar extends Component {
      */
     renderOption(option) {
         return (
-            <span>{option.label}<i style={{ color: option.color, float: 'right' }} className="fa fa-stop" /></span>
+            <span>{option.label}<i style={{ color: option.color, float: 'right' }} className="fa fa-stop"/></span>
         );
     }
 
