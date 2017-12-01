@@ -110,7 +110,7 @@ export const initialState = (config) => { return config.sections_have_content ?
                                         "autoManaged": false,
                                     },
                                     "display_pagetitle": {
-                                        "__name": i18n.t('page'),
+                                        "__name": i18n.t('Title') + i18n.t('section'),
                                         "type": "checkbox",
                                         "checked": true,
                                         "autoManaged": false,

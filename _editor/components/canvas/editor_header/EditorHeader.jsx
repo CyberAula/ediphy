@@ -19,6 +19,7 @@ export default class EditorHeader extends Component {
             let titles = this.props.titles || [];
             let navItem = this.props.containedView !== 0 ? this.props.containedView : this.props.navItem;
             let currentStatus = (navItem.header) ? navItem.header.display : undefined;
+            console.log(currentStatus);
             let docTitle = navItem.name;
             let subTitle = i18n.t('subtitle');
             let pagenumber = this.props.navItem.unitNumber;

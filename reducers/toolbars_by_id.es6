@@ -5,7 +5,10 @@ import {
     CHANGE_CONTAINED_VIEW_NAME,
     VERTICALLY_ALIGN_BOX, IMPORT_STATE, PASTE_BOX,
 } from '../common/actions';
-import Utils, { changeProp, changeProps, deleteProps, isSortableBox, isSortableContainer, isPage, isSlide, isDocument, nextToolbarAvailName } from '../common/utils';
+import Utils, {
+    changeProp, changeProps, deleteProps, isSortableBox, isSortableContainer, isPage, isSlide, isDocument,
+    nextToolbarAvailName, isSection,
+} from '../common/utils';
 import i18n from 'i18next';
 
 function createAspectRatioButton(controls, config) {
@@ -340,7 +343,13 @@ function toolbarSectionCreator(state, action, isContainedView = false) {
     if(isDocument(type)) {
         doc_type = i18n.t('document');
     }
+
+    if(isSection(id)) {
+        doc_type = i18n.t('section');
+    }
     let pagetitle = i18n.t('Title') + doc_type;
+    console.log(doc_type, pagetitle);
+
     let toolbar = {
         id: id,
         controls: action.payload.toolbar || {
@@ -386,6 +395,7 @@ function toolbarSectionCreator(state, action, isContainedView = false) {
                             display_pagesubtitle: {
                                 __name: i18n.t('subtitle'),
                                 type: 'checkbox',
+                                value: "",
                                 checked: false,
                                 autoManaged: false,
                             },
