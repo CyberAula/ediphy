@@ -58,7 +58,7 @@ export const testState = { "present":
                 "level": 0,
                 "col": 0,
                 "row": 0,
-                "position": { "x": "29.565929565929565%", "y": "28.675400291120816%", "type": "absolute" },
+                "position": { "x": "29.56%", "y": "28.67%", "type": "absolute" },
                 "content": "",
                 "draggable": true,
                 "resizable": true,

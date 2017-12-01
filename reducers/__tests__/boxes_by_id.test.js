@@ -94,7 +94,7 @@ describe('# boxes_by_id reducer ************************************************
             };
 
             const newstate = JSON.parse(JSON.stringify(state));
-
+            console.log(newstate);
             newstate['bo-1511252970033'].position.x = action.payload.x;
             newstate['bo-1511252970033'].position.y = action.payload.y;
 
@@ -456,7 +456,6 @@ describe('# boxes_by_id reducer ************************************************
             let newState = { "bs-1511252955322": { "id": "bs-1511252955322", "parent": "pa-1511252955321", "container": 0, "level": -1, "col": 0, "row": 0, "position": { "x": 0, "y": 0, "type": "relative" }, "draggable": false, "resizable": false, "showTextEditor": false, "fragment": {}, "children": [], "sortableContainers": {}, "containedViews": [] },
                 "bo-1511252970033": { "id": "bo-1511252970033", "parent": "pa-1511252955865", "container": 0, "level": 0, "col": 0, "row": 0, "position": { "x": "29.56%", "y": "28.67%", "type": "absolute" }, "content": "", "draggable": true, "resizable": true, "showTextEditor": false, "fragment": {}, "children": [], "sortableContainers": {}, "containedViews": ["cv-1511252975055"] },
                 "bs-1511252985426": { "id": "bs-1511252985426", "parent": "pa-1511252985426", "container": 0, "level": -1, "col": 0, "row": 0, "position": { "x": 0, "y": 0, "type": "relative" }, "draggable": false, "resizable": false, "showTextEditor": false, "fragment": {}, "children": [], "sortableContainers": {}, "containedViews": [] },
-
                 "bs-1497983247797": {
                     "id": "bs-1497983247797",
                     "parent": "pa-1497983247795",
@@ -493,6 +492,7 @@ describe('# boxes_by_id reducer ************************************************
                     "containedViews": [] },
                 "bo-1511868565135": { "id": "bo-1511868565135", "parent": "bs-1497983247797", "container": "sc-1511868565133", "level": 0, "col": 0, "row": 0, "position": { "x": 0, "y": 0, "type": "relative" }, "content": "", "draggable": true, "resizable": false, "showTextEditor": false, "fragment": {}, "children": [], "sortableContainers": {}, "containedViews": [] },
             };
+            console.log(state, newState);
             expect(boxes_by_id(state, action)).toEqual(newState);
         });
 
