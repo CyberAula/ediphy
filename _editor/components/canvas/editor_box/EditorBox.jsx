@@ -10,7 +10,7 @@ import i18n from 'i18next';
 import { isSortableBox, isSortableContainer, isAncestorOrSibling, isContainedView } from '../../../../common/utils';
 import './_editorBox.scss';
 import { ID_PREFIX_SORTABLE_CONTAINER } from '../../../../common/constants';
-
+import CKEDitorComponent from './CKEDitorComponent';
 /**
  * Ediphy Box component.
  * @desc It is the main and more complex component by far. It is the one in charge of painting a plugin's template and therefore it has many parts conditioned to the type of plugin.
@@ -234,14 +234,14 @@ export default class EditorBox extends Component {
                 onDoubleClick={(e)=> {
                     if(toolbar.config && toolbar.config.needsTextEdition && this.props.id === this.props.boxSelected) {
                         this.props.onTextEditorToggled(this.props.id, true);
-                        this.refs.textarea.focus();
+                        /* this.refs.textarea.focus();
                         // Elimina el placeholder "Introduzca texto aquí" cuando se va a editar
                         // Código duplicado en EditorBox, EditorShortcuts y PluginToolbar. Extraer a common_tools?
                         let CKstring = CKEDITOR.instances[this.props.id].getData();
                         let initString = "<p>" + i18n.t("text_here") + "</p>\n";
                         if(CKstring === initString) {
                             CKEDITOR.instances[this.props.id].setData("");
-                        }
+                        }*/
                     }
                 }}
                 style={wholeBoxStyle}>
@@ -250,14 +250,17 @@ export default class EditorBox extends Component {
                 {/* The previous line was changed for the next one in order to make the box grow when text grows while editing.
                  To disable this, you also have to change the textareastyle to an absolute position div, and remove the float property*/}
                 {toolbar.showTextEditor ? null : content }
-                {toolbar.state.__text ?
+                {toolbar.state.__text ? <CKEDitorComponent
+                    style={textareaStyle} className={classNames + " textAreaStyle"} toolbars={this.props.toolbars} id={this.props.id}
+                    onBlur={this.blurTextarea}/> : null}
+                {/* {toolbar.state.__text ?
                     <div id={box.id}
                         ref={"textarea"}
                         className={classNames + " textAreaStyle"}
                         contentEditable
                         style={textareaStyle} /> :
                     null
-                }
+                }*/}
                 <div className="boxOverlay" style={{ display: showOverlay }} />
                 <MarkCreator
                     addMarkShortcut={this.props.addMarkShortcut}
@@ -359,14 +362,14 @@ export default class EditorBox extends Component {
     /**
      * Blurs text area and saves data
      */
-    blurTextarea() {
+    blurTextarea(data) {
         this.props.onTextEditorToggled(this.props.id, false);
         let toolbar = this.props.toolbars[this.props.id];
-        let data = CKEDITOR.instances[this.props.id].getData();
+        /* let data = CKEDITOR.instances[this.props.id].getData();
         if(data.length === 0) {
             data = i18n.t("text_here");
             CKEDITOR.instances[this.props.id].setData(i18n.t("text_here"));
-        }
+        }*/
         Ediphy.Plugins.get(toolbar.config.name).forceUpdate(Object.assign({}, toolbar.state, {
             __text: toolbar.config.extraTextConfig ? data : encodeURI(data),
         }), this.props.id, EDIT_PLUGIN_TEXT);
@@ -379,10 +382,10 @@ export default class EditorBox extends Component {
      * @param nextState React next state
      */
     componentWillUpdate(nextProps, nextState) {
-        if ((this.props.boxSelected === this.props.id) && (nextProps.boxSelected !== this.props.id) && this.props.toolbars[this.props.id].showTextEditor) {
+        /* if ((this.props.boxSelected === this.props.id) && (nextProps.boxSelected !== this.props.id) && this.props.toolbars[this.props.id].showTextEditor) {
             CKEDITOR.instances[this.props.id].focusManager.blur(true);
             this.blurTextarea();
-        }
+        }*/
     }
 
     /**
@@ -429,7 +432,7 @@ export default class EditorBox extends Component {
 
         if (toolbar.showTextEditor) {
 
-            this.refs.textarea.focus();
+            // this.refs.textarea.focus();
 
         }
         if (prevProps.toolbars[this.props.id] && (toolbar.showTextEditor !== prevProps.toolbars[this.props.id].showTextEditor) && box.draggable) {
@@ -446,7 +449,7 @@ export default class EditorBox extends Component {
             interact(node).draggable({ enabled: box.draggable });
         }
 
-        let action = this.props.lastActionDispatched;
+        /*        let action = this.props.lastActionDispatched;
 
         if ((action.type === "@@redux-undo/UNDO" || action.type === "@@redux-undo/REDO") && this.props.toolbars[this.props.id].config.needsTextEdition) {
             CKEDITOR.instances[this.props.id].setData(decodeURI(this.props.toolbars[this.props.id].state.__text));
@@ -474,7 +477,7 @@ export default class EditorBox extends Component {
         if ((action.type === ADD_BOX || action.type === UPDATE_BOX || action.type === PASTE_BOX || action.type === RESIZE_BOX || action.type === IMPORT_STATE) &&
             ((action.payload.id || action.payload.ids.id) === this.props.id)) {
             Ediphy.Plugins.get(toolbar.config.name).afterRender(this.refs.content, toolbar.state);
-        }
+        }*/
 
     }
 
@@ -485,7 +488,7 @@ export default class EditorBox extends Component {
     componentDidMount() {
         let toolbar = this.props.toolbars[this.props.id];
         let box = this.props.boxes[this.props.id];
-        if (toolbar.config && toolbar.config.needsTextEdition) {
+        /* if (toolbar.config && toolbar.config.needsTextEdition) {
             CKEDITOR.disableAutoInline = true;
             for (let key in toolbar.config.extraTextConfig) {
                 CKEDITOR.config[key] += toolbar.config.extraTextConfig[key] + ",";
@@ -494,7 +497,7 @@ export default class EditorBox extends Component {
             if (toolbar.state.__text) {
                 editor.setData(decodeURI(toolbar.state.__text));
             }
-        }
+        }*/
         let offsetEl = document.getElementById('maincontent') ? document.getElementById('maincontent').getBoundingClientRect() : {};
         let leftO = offsetEl.left || 0;
         let topO = offsetEl.top || 0;
@@ -867,12 +870,12 @@ export default class EditorBox extends Component {
      */
     componentWillUnmount() {
         interact(ReactDOM.findDOMNode(this)).unset();
-        if (CKEDITOR.instances[this.props.id]) {
+        /* if (CKEDITOR.instances[this.props.id]) {
             if (CKEDITOR.instances[this.props.id].focusManager.hasFocus) {
                 this.blurTextarea();
             }
             CKEDITOR.instances[this.props.id].destroy();
-        }
+        }*/
     }
 
 }

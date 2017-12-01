@@ -51,7 +51,7 @@ export default class EditorCanvas extends Component {
      * @param prevState React previous state
      */
     componentDidUpdate(prevProps, prevState) {
-        if(this.props.lastActionDispatched.type === REORDER_SORTABLE_CONTAINER || this.props.lastActionDispatched.type === REORDER_BOXES) {
+        /* if(this.props.lastActionDispatched.type === REORDER_SORTABLE_CONTAINER || this.props.lastActionDispatched.type === REORDER_BOXES) {
             for (let instance in CKEDITOR.instances) {
                 CKEDITOR.instances[instance].destroy();
             }
@@ -61,7 +61,7 @@ export default class EditorCanvas extends Component {
                     CKEDITOR.instances[editor].setData(decodeURI(this.props.toolbars[editor].state.__text));
                 }
             }
-        }
+        }*/
     }
 
 }
