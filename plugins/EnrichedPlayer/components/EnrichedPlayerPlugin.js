@@ -21,8 +21,6 @@ export default class EnrichedPlayerPlugin extends React.Component {
     }
 
     componentWillUpdate(nextProps, nextState) {
-        console.log(nextState);
-        console.log(nextProps);
         if(nextState.played !== this.state.played) {
             let sudo = this;
 
@@ -80,7 +78,6 @@ export default class EnrichedPlayerPlugin extends React.Component {
     }
 
     setPlaybackRate(e) {
-        console.log(parseFloat(e.target.value));
         this.setState({ playbackRate: parseFloat(e.target.value) });
     }
 

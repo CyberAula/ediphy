@@ -94,7 +94,6 @@ describe('# boxes_by_id reducer ************************************************
             };
 
             const newstate = JSON.parse(JSON.stringify(state));
-            console.log(newstate);
             newstate['bo-1511252970033'].position.x = action.payload.x;
             newstate['bo-1511252970033'].position.y = action.payload.y;
 
@@ -492,7 +491,6 @@ describe('# boxes_by_id reducer ************************************************
                     "containedViews": [] },
                 "bo-1511868565135": { "id": "bo-1511868565135", "parent": "bs-1497983247797", "container": "sc-1511868565133", "level": 0, "col": 0, "row": 0, "position": { "x": 0, "y": 0, "type": "relative" }, "content": "", "draggable": true, "resizable": false, "showTextEditor": false, "fragment": {}, "children": [], "sortableContainers": {}, "containedViews": [] },
             };
-            console.log(state, newState);
             expect(boxes_by_id(state, action)).toEqual(newState);
         });
 

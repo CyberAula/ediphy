@@ -348,7 +348,6 @@ function toolbarSectionCreator(state, action, isContainedView = false) {
         doc_type = i18n.t('section');
     }
     let pagetitle = i18n.t('Title') + doc_type;
-    console.log(doc_type, pagetitle);
 
     let toolbar = {
         id: id,

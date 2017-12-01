@@ -302,7 +302,6 @@ export default class EditorBoxSortable extends Component {
                 e.target.classList.remove("drop-target");
             },
             ondrop: function(e) {
-                console.log("jjj");
                 if (dropArea === 'cell') {
                     // If element dragged is coming from PluginRibbon, create a new EditorBox
                     if (e.relatedTarget.className.indexOf("rib") !== -1) {

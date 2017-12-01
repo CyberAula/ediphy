@@ -12,7 +12,6 @@ function getFiles(filePath) {
                 getFiles(subpath);
             } else if (path.extname(file) && path.extname(file) === '.jsx') {
                 if(file !== 'Content.jsx') {
-                    console.log('   ...' + file);
                     files.push({ name: path.basename(file, path.extname(file)), path: filePath });
                 }
             }
