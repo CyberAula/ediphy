@@ -33,6 +33,11 @@ describe('# nav_items_by_id reducer ********************************************
             // expect(nav_items_by_id(state, {})).toEqual(state);
         });
     });
+    describe('handle CHANGE_NAV_ITEM_BACKGROOUND', ()=>{
+        test('If nav item background changed', () => {
+            // expect(nav_items_by_id(state, {})).toEqual(state);
+        });
+    });
     describe('handle CHANGE_UNIT_NUMBER', ()=>{
         test('If unit number changed', () => {
             // expect(nav_items_by_id(state, {})).toEqual(state);

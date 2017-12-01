@@ -13,6 +13,7 @@ import { UPDATE_TOOLBAR, UPDATE_BOX } from '../../../../common/actions';
 import { isSortableContainer, isCanvasElement, isContainedView, isSlide } from '../../../../common/utils';
 import i18n from 'i18next';
 import './_pluginToolbar.scss';
+import FileInput from "../../common/file-input/FileInput";
 
 /**
  * Toolbar component for configuring boxes or pages
@@ -297,6 +298,15 @@ export default class PluginToolbar extends Component {
         let toolbar = this.props.toolbars[this.props.navItemSelected].controls.main.accordions;
         switch (name) {
         // change page/slide title
+        case i18n.t('background.background_color'):
+            this.props.onNavItemBackgroundChanged(this.props.navItemSelected, value);
+            break;
+        case i18n.t('background.background_image'):
+            this.props.onNavItemBackgroundChanged(this.props.navItemSelected, value);
+            break;
+        case i18n.t('background.reset_background'):
+            this.props.onNavItemBackgroundChanged(this.props.navItemSelected, value);
+            break;
         case "custom_title":
             this.props.titleModeToggled(this.props.navItemSelected, {
                 elementContent: {
@@ -689,9 +699,41 @@ export default class PluginToolbar extends Component {
 
                 }
 
+                if (button.type === 'button') {
+                    value = button.value;
+                }
+
+                if (button.type === 'image_file') {
+                    if (e.target.files.length === 1) {
+                        let file = e.target.files[0];
+                        let reader = new FileReader();
+                        reader.onload = () => {
+                            let img = new Image();
+                            let data = reader.result;
+                            img.src = data;
+
+                            let canvas = document.createElement('canvas');
+                            let ctx = canvas.getContext('2d');
+                            ctx.drawImage(img, 0, 0, 1200, 1200);
+                            this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, canvas.toDataURL("image/jpeg"));
+                            if (!button.autoManaged) {
+                                if(!button.callback) {
+                                    this.handlecanvasToolbar(button.__name, canvas.toDataURL("image/jpeg"));
+                                }else{
+                                    button.callback(state, buttonKey, canvas.toDataURL("image/jpeg"), id, UPDATE_TOOLBAR);
+                                }
+
+                            }
+                        };
+                        reader.readAsDataURL(file);
+                        return;
+                    }
+                }
+
                 if (button.type === 'checkbox') {
                     value = !button.checked;
                 }
+
                 if (button.type === 'radio') {
                     value = button.options[value];
                     if (buttonKey === '__position') {
@@ -754,6 +796,49 @@ export default class PluginToolbar extends Component {
                 ]);
 
         }
+
+        if(button.type === "image_file") {
+            return React.createElement(
+                FormGroup,
+                { key: button.__name }, [
+                    React.createElement(
+                        ControlLabel,
+                        { key: 'label_' + button.__name, value: button.value },
+                        button.__name),
+                    React.createElement('div', { key: 'container_' + button.__name, style: { display: 'block' } },
+                        React.createElement(
+                            FileInput, { key: 'fileinput_' + props.label, value: props.value, onChange: props.onChange, style: { width: '100%' } },
+                            React.createElement('div', { key: "inside_" + props.label, className: 'fileDrag_toolbar' }, [
+                                React.createElement('span', { key: props.label + "1" }, i18n.t('FileInput.Drag')),
+                                React.createElement('span', { key: props.label + "2", className: "fileUploaded" }, [
+                                    React.createElement('i', { key: 'icon_' + button.__name, className: 'material-icons' }, 'insert_drive_file'),
+                                ]),
+                            ])
+                        )
+                    ),
+                ]);
+        }
+
+        if(button.type === "button") {
+            return React.createElement(
+                FormGroup,
+                { key: button.__name }, [
+                    React.createElement(
+                        ControlLabel,
+                        { key: 'label_' + button.__name },
+                        button.__name),
+                    React.createElement(
+                        Button, {
+                            key: 'button_' + button.__name,
+                            onClick: props.onChange,
+                            className: "toolbarButton",
+                        },
+                        [
+                            React.createElement("div", { key: props.label }, button.displayLabel),
+                        ]),
+                ]);
+        }
+
         if (button.options) {
             if (button.type === "colorOptions") {
                 props.options = button.options;
@@ -1001,7 +1086,7 @@ export default class PluginToolbar extends Component {
     }
 
     /**
-     * Rende option value
+     * Render option value
      * @param option Option object wihth its label
      * @returns {code}
      */
@@ -1009,6 +1094,14 @@ export default class PluginToolbar extends Component {
         return (
             <span>{option.label}</span>
         );
+    }
+
+    onDropImage(event) {
+        let files = event.target.files;
+
+        if (event.target.files.length === 1) {
+            this.setState({ file: event.target.files[0] });
+        }
     }
 
 }

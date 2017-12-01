@@ -21,6 +21,7 @@ export const initialState = (config) => { return config.sections_have_content ?
                 level: 1,
                 type: "section",
                 extraFiles: {},
+                background: "#00000",
                 header: {
                     elementContent: {
                         documentTitle: '',
@@ -100,23 +101,24 @@ export const initialState = (config) => { return config.sections_have_content ?
                                 },
                             },
                             "background": {
-                                "_name": "Fondo",
+                                "__name": "Fondo",
                                 "icon": "image",
                                 "buttons": {
                                     "background_color": {
                                         "__name": i18n.t('background.background_color'),
+                                        "value": '#fffff',
                                         "type": 'color',
-                                        "value": "#00000",
                                         "autoManaged": false,
                                     },
                                     "background_image": {
                                         "__name": i18n.t('background.background_image'),
                                         "type": 'image_file',
-                                        "value": "",
                                         "autoManaged": false,
                                     },
                                     "background_reset": {
                                         "__name": i18n.t('background.reset_background'),
+                                        "value": "#fffff",
+                                        "displayLabel": "Reset",
                                         "type": 'button',
                                         "autoManaged": false,
                                     },
@@ -269,6 +271,7 @@ export const initialState = (config) => { return config.sections_have_content ?
                 level: 1,
                 type: "section",
                 extraFiles: {},
+                background: "#00000",
                 header: {
                     elementContent: {
                         documentTitle: "",
@@ -338,6 +341,30 @@ export const initialState = (config) => { return config.sections_have_content ?
                                         "type": "text",
                                         "autoManaged": false,
                                         "value": i18n.t('page'),
+                                    },
+                                },
+                            },
+                            "background": {
+                                "__name": "Fondo",
+                                "icon": "image",
+                                "buttons": {
+                                    "background_color": {
+                                        "__name": i18n.t('background.background_color'),
+                                        "value": '#fffff',
+                                        "type": 'color',
+                                        "autoManaged": false,
+                                    },
+                                    "background_image": {
+                                        "__name": i18n.t('background.background_image'),
+                                        "type": 'image_file',
+                                        "autoManaged": false,
+                                    },
+                                    "background_reset": {
+                                        "__name": i18n.t('background.reset_background'),
+                                        "value": "#fffff",
+                                        "displayLabel": "Reset",
+                                        "type": 'button',
+                                        "autoManaged": false,
                                     },
                                 },
                             },
@@ -445,23 +472,24 @@ export const initialState = (config) => { return config.sections_have_content ?
                                 },
                             },
                             "background": {
-                                "_name": "Fondo",
+                                "__name": "Fondo",
                                 "icon": "image",
                                 "buttons": {
                                     "background_color": {
                                         "__name": i18n.t('background.background_color'),
+                                        "value": '#fffff',
                                         "type": 'color',
-                                        "value": "#00000",
                                         "autoManaged": false,
                                     },
                                     "background_image": {
                                         "__name": i18n.t('background.background_image'),
                                         "type": 'image_file',
-                                        "value": "",
                                         "autoManaged": false,
                                     },
                                     "background_reset": {
                                         "__name": i18n.t('background.reset_background'),
+                                        "value": "#fffff",
+                                        "displayLabel": "Reset",
                                         "type": 'button',
                                         "autoManaged": false,
                                     },

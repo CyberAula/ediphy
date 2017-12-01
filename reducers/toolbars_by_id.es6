@@ -347,7 +347,6 @@ function toolbarSectionCreator(state, action, isContainedView = false) {
                         __name: "Generales",
                         icon: 'settings',
                         buttons: {
-
                             navitem_name: {
                                 __name: i18n.t('NavItem_name'),
                                 type: 'text',
@@ -357,13 +356,13 @@ function toolbarSectionCreator(state, action, isContainedView = false) {
                         },
                     },
                     background: {
-                        _name: "Fondo",
+                        __name: "Fondo",
                         icon: "image",
                         buttons: {
                             background_color: {
                                 __name: i18n.t('background.background_color'),
                                 type: 'color',
-                                value: "#00000",
+                                value: "#fffff",
                                 autoManaged: false,
                             },
                             background_image: {
@@ -374,6 +373,8 @@ function toolbarSectionCreator(state, action, isContainedView = false) {
                             },
                             background_reset: {
                                 __name: i18n.t('background.reset_background'),
+                                value: "#ffffff",
+                                displayLabel: "Reset",
                                 type: 'button',
                                 autoManaged: false,
                             },

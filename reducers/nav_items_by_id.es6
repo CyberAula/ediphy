@@ -1,7 +1,11 @@
-import { ADD_BOX, MOVE_BOX, ADD_NAV_ITEM, CHANGE_NAV_ITEM_NAME, CHANGE_UNIT_NUMBER, DELETE_BOX, DUPLICATE_BOX, EXPAND_NAV_ITEM,
-    REORDER_NAV_ITEM, DELETE_NAV_ITEM, TOGGLE_NAV_ITEM, TOGGLE_TITLE_MODE, UPDATE_NAV_ITEM_EXTRA_FILES, DELETE_SORTABLE_CONTAINER,
+import {
+    ADD_BOX, MOVE_BOX, ADD_NAV_ITEM, CHANGE_NAV_ITEM_NAME, CHANGE_UNIT_NUMBER, DELETE_BOX, DUPLICATE_BOX,
+    EXPAND_NAV_ITEM,
+    REORDER_NAV_ITEM, DELETE_NAV_ITEM, TOGGLE_NAV_ITEM, TOGGLE_TITLE_MODE, UPDATE_NAV_ITEM_EXTRA_FILES,
+    DELETE_SORTABLE_CONTAINER,
     ADD_RICH_MARK, EDIT_RICH_MARK, DELETE_RICH_MARK,
-    IMPORT_STATE } from '../common/actions';
+    IMPORT_STATE, CHANGE_NAV_ITEM_BACKGROUND,
+} from '../common/actions';
 import { ID_PREFIX_BOX } from '../common/constants';
 import { changeProp, changeProps, deleteProp, deleteProps, isView, isSlide, isDocument, findNavItemContainingBox, findDescendantNavItems, isContainedView } from '../common/utils';
 
@@ -21,6 +25,7 @@ function navItemCreator(state = {}, action = {}) {
             state[action.payload.parent].unitNumber),
         hidden: state[action.payload.parent].hidden,
         extraFiles: {},
+        background: "#00000",
         header: {
             elementContent: { documentTitle: '', documentSubTitle: '', numPage: '' },
             display: { courseTitle: 'hidden', documentTitle: 'expanded', documentSubTitle: 'hidden', breadcrumb: "reduced", pageNumber: "hidden" },
@@ -54,6 +59,8 @@ function singleNavItemReducer(state = {}, action = {}) {
         );
     case CHANGE_NAV_ITEM_NAME:
         return changeProp(state, "name", action.payload.title);
+    case CHANGE_NAV_ITEM_BACKGROUND:
+        return changeProp(state, "background", action.payload.background);
     case CHANGE_UNIT_NUMBER:
         let finalValue;
         if(isNaN(parseInt(action.payload.value, 10))) {
