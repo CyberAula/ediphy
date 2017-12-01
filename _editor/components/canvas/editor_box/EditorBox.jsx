@@ -252,7 +252,7 @@ export default class EditorBox extends Component {
                 {/* The previous line was changed for the next one in order to make the box grow when text grows while editing.
                  To disable this, you also have to change the textareastyle to an absolute position div, and remove the float property*/}
                 {toolbar.showTextEditor ? null : content }
-                {toolbar.state.__text ? <CKEDitorComponent boxSelected={this.props.boxSelected}
+                {toolbar.state.__text ? <CKEDitorComponent boxSelected={this.props.boxSelected} box={this.props.boxes[this.props.id]}
                     style={textareaStyle} className={classNames + " textAreaStyle"} toolbars={this.props.toolbars} id={this.props.id}
                     onBlur={this.blurTextarea}/> : null}
                 {/* {toolbar.state.__text ?

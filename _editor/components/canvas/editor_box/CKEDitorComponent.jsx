@@ -9,13 +9,15 @@ export default class CKEDitorComponent extends Component {
     }
 
     onBlur() {
-        CKEDITOR.instances[this.props.id].focusManager.blur(true);
-        let data = CKEDITOR.instances[this.props.id].getData();
-        if(data.length === 0) {
-            data = i18n.t("text_here");
-            CKEDITOR.instances[this.props.id].setData(data);
+        if (CKEDITOR.instances[this.props.id]) {
+            CKEDITOR.instances[this.props.id].focusManager.blur(true);
+            let data = CKEDITOR.instances[this.props.id].getData();
+            if (data.length === 0) {
+                data = i18n.t("text_here");
+                CKEDITOR.instances[this.props.id].setData(data);
+            }
+            this.props.onBlur(data);
         }
-        this.props.onBlur(data);
     }
 
     render() {
@@ -43,6 +45,7 @@ export default class CKEDitorComponent extends Component {
     }
 
     componentWillUnmount() {
+
         if (CKEDITOR.instances[this.props.id]) {
             if (CKEDITOR.instances[this.props.id].focusManager.hasFocus) {
                 this.onBlur();
@@ -54,8 +57,22 @@ export default class CKEDitorComponent extends Component {
 
     componentDidUpdate(prevProps, prevState) {
         if (this.props.toolbars[this.props.id].config.showTextEditor) {
-            this.refs.textarea.focus();
+            console.log('hereehhere');
+            // this.refs.textarea.focus();
         }
+        if(prevProps.box.parent !== this.props.box.parent || prevProps.box.container !== this.props.box.container) {
+            for (let instance in CKEDITOR.instances) {
+                CKEDITOR.instances[instance].destroy();
+            }
+            CKEDITOR.inlineAll();
+            for (let editor in CKEDITOR.instances) {
+                if (this.props.toolbars[editor].state.__text) {
+                    CKEDITOR.instances[editor].setData(decodeURI(this.props.toolbars[editor].state.__text));
+                }
+            }
+
+        }
+
     }
     componentWillReceiveProps(nextProps) {
         if (this.props.boxSelected === this.props.id && nextProps.boxSelected !== nextProps.id) {
@@ -65,8 +82,8 @@ export default class CKEDitorComponent extends Component {
             if (this.props.toolbars[this.props.id].showTextEditor === true && nextProps.toolbars[nextProps.id].showTextEditor === false) {
                 this.onBlur();
             } else if (this.props.toolbars[this.props.id].showTextEditor === false && nextProps.toolbars[nextProps.id].showTextEditor === true) {
-                this.refs.textarea.focus();
-                console.log('focusando');
+                // this.refs.textarea.focus();
+                // console.log('focusando');
                 // Elimina el placeholder "Introduzca texto aquí" cuando se va a editar
                 // Código duplicado en EditorBox, EditorShortcuts y PluginToolbar. Extraer a common_tools?
                 let CKstring = CKEDITOR.instances[nextProps.id].getData();
@@ -74,6 +91,9 @@ export default class CKEDitorComponent extends Component {
                 if(CKstring === initString) {
                     CKEDITOR.instances[nextProps.id].setData("");
                 }
+                let textArea = document.getElementById(nextProps.id);
+                if (textArea) {textArea.focus();}
+
             }
         }
     }
