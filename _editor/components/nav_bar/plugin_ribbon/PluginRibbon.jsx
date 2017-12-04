@@ -20,6 +20,7 @@ export default class PluginRibbon extends Component {
         this.state = {
             buttons: [],
             clipboardAlert: false,
+            showed: true,
         };
     }
 
@@ -28,11 +29,9 @@ export default class PluginRibbon extends Component {
      * @returns {code}
      */
     render() {
-        let actions = ["copy", "cut", "paste"];
-        let onClick = (e)=>{this.setState({ clipboardAlert: !this.state.clipboardAlert });};
         return (
-            <Col id="ribbon" md={12} xs={12} ref="holder">
-                <div id="insideribbon" className="">
+            <Col id="ribbon" md={12} xs={12} ref="holder" >
+                <div id="insideribbon">
                     <div id="ribbonList">
                         {this.state.buttons.map((item, index) => {
                             let button = this.state.buttons[index];

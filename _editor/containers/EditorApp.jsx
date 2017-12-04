@@ -90,7 +90,7 @@ class EditorApp extends Component {
         let title = globalConfig.title || '---';
         let canvasRatio = globalConfig.canvasRatio;
         return (
-            <Grid id="app" fluid style={{ height: '100%' }}>
+            <Grid id="app" fluid style={{ height: '100%', overflow: 'hidden' }}>
                 <Row className="navBar">
                     {this.state.alert}
                     <EditorNavBar hideTab={this.state.hideTab}

@@ -135,8 +135,8 @@ export default class EnrichedPlayerPlugin extends React.Component {
             return(
                 <OverlayTrigger key={id} text={title} placement="top" overlay={<Tooltip id={id}>{title}</Tooltip>}>
                     <a key={id} style={{ left: value, position: "absolute" }} href="#">
-                        <div style={{ width: "4px", height: "8px", background: color || "#1fc8db" }}>
-                            <i className="material-icons" style={{ color: color || "#1fc8db", position: "relative", top: "-24px", left: "-10px" }}>room</i>
+                        <div style={{ width: "4px", height: "8px", background: color || "#17CFC8" }}>
+                            <i className="material-icons" style={{ color: color || "#17CFC8", position: "relative", top: "-24px", left: "-10px" }}>room</i>
                         </div>
                     </a>
                 </OverlayTrigger>);

@@ -55,25 +55,35 @@ export default class EditorNavBar extends Component {
                     <button
                         className={ this.props.hideTab === 'show' && this.props.category === 'image' ? 'navButtonPlug active' : 'navButtonPlug' }
                         title={i18n.t("Images")} disabled={false /* disablePlugins*/}
-                        onClick={() => { this.openPlugin('image');}}><span className="hideonresize"> {i18n.t("Images")}</span></button>
+                        onClick={() => { this.props.category === 'image' ? this.openPlugin('') : this.openPlugin('image');}}>
+                        <i className="material-icons showonresize">image</i><span className="hideonresize"> {i18n.t("Images")}</span>
+                    </button>
                     <button
                         className={ this.props.hideTab === 'show' && this.props.category === 'text' ? 'navButtonPlug active' : 'navButtonPlug' }
                         title={i18n.t("Text")} disabled={false /* disablePlugins*/}
-                        onClick={() => {this.openPlugin('text');}}><span className="hideonresize">{i18n.t("Text")}</span></button>
+                        onClick={() => { this.props.category === 'text' ? this.openPlugin('') : this.openPlugin('text');}}>
+                        <i className="material-icons showonresize">text_fields</i><span className="hideonresize">{i18n.t("Text")}</span>
+                    </button>
                     <button
                         className={ this.props.hideTab === 'show' && this.props.category === 'multimedia' ? 'navButtonPlug active' : 'navButtonPlug' }
                         title={i18n.t("Multimedia")} disabled={false /* disablePlugins*/}
-                        onClick={() => {this.openPlugin('multimedia');}}><span className="hideonresize">{i18n.t("Multimedia")}</span></button>
+                        onClick={() => { this.props.category === 'multimedia' ? this.openPlugin('') : this.openPlugin('multimedia');}}>
+                        <i className="material-icons showonresize">play_circle_outline</i><span className="hideonresize">{i18n.t("Multimedia")}</span>
+                    </button>
                     <button
                         className={ this.props.hideTab === 'show' && this.props.category === 'animations' ? ' navButtonPlug active' : 'navButtonPlug' }
                         title={i18n.t("Animations")} disabled={false /* disablePlugins*/}
                         style={{ display: 'none' }}
-                        onClick={() => {this.openPlugin('animations');}}><span className="hideonresize">{i18n.t("Animations")}</span></button>
+                        onClick={() => { this.props.category === 'animations' ? this.openPlugin('') : this.openPlugin('animations');}}>
+                        <span className="hideonresize">{i18n.t("Animations")}</span>
+                    </button>
                     <button
                         className={ this.props.hideTab === 'show' && this.props.category === 'exercises' ? 'navButtonPlug active' : 'navButtonPlug' }
                         title={i18n.t("Exercises")} disabled={false /* disablePlugins*/}
                         style={{ display: 'none' }}
-                        onClick={() => {this.openPlugin('exercises'); }}><span className="hideonresize">{i18n.t("Exercises")}</span></button>
+                        onClick={() => { this.props.category === 'exercises' ? this.openPlugin('') : this.openPlugin('exercises'); }}>
+                        <span className="hideonresize">{i18n.t("Exercises")}</span>
+                    </button>
                     <button className="togglePlugins"><i className="material-icons">widgets</i></button>
                 </div>
                 <div className="navButtons">

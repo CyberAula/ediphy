@@ -51,7 +51,7 @@ export default class EditorCarousel extends Component {
                 overflowX: this.props.carouselFull ? 'hidden' : '',
             }} id="colLeft">
                 <div className="wrapperCarousel">
-                    <div style={{ textAlign: this.props.carouselShow ? 'left' : 'center', display: 'flex' }}
+                    <div style={{ textAlign: this.props.carouselShow ? 'left' : 'center', display: 'flex', flexFlow: this.props.carouselShow ? 'row' : 'column' }}
                         className={this.props.carouselShow ? 'carouselListTitle toolbarSpread' : 'carouselListTitle toolbarHide'}>
                         <button className="btnToggleCarousel" onClick={() => {this.props.onToggleWidth();}}>
                             <i style={{ fontSize: this.props.carouselShow ? "16px" : "28px" }} className="material-icons">format_list_numbered</i>

@@ -1,4 +1,5 @@
 @import "../../../../sass/general/_variables.scss";
+@import "../../../../sass/general/mixins/_mixins.scss";
 
 /*Ribbon column*/
 #ribbonRow {
@@ -14,14 +15,10 @@
 
 /*Ribbon Column*/
 #ribbon {
-  //height: 60px;
   padding: 0;
   z-index: 0;
   overflow: hidden;
-}
-/************Plugin list***************/
-#insideribbon {
-  //height: 50px;
+
 }
 
 /***************************************/
@@ -30,6 +27,7 @@
 .buttonPlace {
   display: inline-block;
   margin: 10px 0 0 10px;
+  @include animacion(all, 0.2s);
   &:last-child{
     margin-bottom: 10px;
     margin-right: 10px;
