@@ -311,13 +311,7 @@ export default class PluginToolbar extends Component {
         let toolbar = this.props.toolbars[this.props.navItemSelected].controls.main.accordions;
         switch (name) {
         // change page/slide title
-        case i18n.t('background.background_color'):
-            this.props.onNavItemBackgroundChanged(this.props.navItemSelected, value);
-            break;
-        case i18n.t('background.background_image'):
-            this.props.onNavItemBackgroundChanged(this.props.navItemSelected, value);
-            break;
-        case i18n.t('background.reset_background'):
+        case i18n.t('background.background'):
             this.props.onNavItemBackgroundChanged(this.props.navItemSelected, value);
             break;
         case "custom_title":
@@ -743,6 +737,33 @@ export default class PluginToolbar extends Component {
                     }
                 }
 
+                if (button.type === 'background_picker') {
+                    if (e.target.files.length === 1) {
+                        let file = e.target.files[0];
+                        let reader = new FileReader();
+                        reader.onload = () => {
+                            let img = new Image();
+                            let data = reader.result;
+                            img.onload = () => {
+                                let canvas = document.createElement('canvas');
+                                let ctx = canvas.getContext('2d');
+                                ctx.drawImage(img, 0, 0, 1200, 1200);
+                                this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, canvas.toDataURL("image/jpeg"));
+                                if (!button.autoManaged) {
+                                    if (!button.callback) {
+                                        this.handlecanvasToolbar(button.__name, canvas.toDataURL("image/jpeg"));
+                                    } else {
+                                        button.callback(state, buttonKey, canvas.toDataURL("image/jpeg"), id, UPDATE_TOOLBAR);
+                                    }
+                                }
+                            };
+                            img.src = data;
+                        };
+                        reader.readAsDataURL(file);
+                        return;
+                    }
+                }
+
                 if (button.type === 'checkbox') {
                     value = !button.checked;
                 }
@@ -843,6 +864,62 @@ export default class PluginToolbar extends Component {
                                 ]),
                             ])
                         )
+                    ),
+                ]);
+        }
+
+        if (button.type === "background_picker") {
+            let isURI = (/data\:/).test(props.value);
+            return React.createElement(
+                FormGroup,
+                { key: button.__name },
+                [
+                    React.createElement(
+                        ControlLabel,
+                        { key: 'label1_' + button.__name },
+                        i18n.t('background.background_color')),
+                    React.createElement(
+                        ColorPicker, { key: "cpicker_" + props.label, value: props.value, onChange: props.onChange },
+                        []),
+                    React.createElement(
+                        ControlLabel,
+                        { key: 'label2_' + button.__name, value: button.value },
+                        i18n.t('background.background_image')),
+                    React.createElement('div',
+                        { key: 'container_' + button.__name, style: { display: 'block' } },
+                        React.createElement(
+                            FileInput, {
+                                key: 'fileinput_' + props.label,
+                                value: props.value,
+                                onChange: props.onChange,
+                                style: { width: '100%' },
+                            },
+                            React.createElement('div', {
+                                style: { backgroundImage: isURI ? 'url(' + props.value + ')' : 'none' },
+                                key: "inside_" + props.label,
+                                className: 'fileDrag_toolbar',
+                            }, isURI ? null : [
+                                React.createElement('span', { key: props.label + "1" }, i18n.t('FileInput.Drag')),
+                                React.createElement('span', { key: props.label + "2", className: "fileUploaded" }, [
+                                    React.createElement('i', {
+                                        key: 'icon_' + button.__name,
+                                        className: 'material-icons',
+                                    }, 'insert_drive_file'),
+                                ]),
+                            ])
+                        )
+                    ),
+                    React.createElement(
+                        ControlLabel,
+                        { key: 'label_' + button.__name },
+                        i18n.t('background.reset_background')),
+                    React.createElement(
+                        Button, {
+                            key: 'button_' + button.__name,
+                            onClick: props.onChange,
+                            className: "toolbarButton",
+                        },
+                        React.createElement("div", { key: props.label }, "Reset"),
                     ),
                 ]);
         }

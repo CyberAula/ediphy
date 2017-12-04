@@ -359,23 +359,10 @@ function toolbarSectionCreator(state, action, isContainedView = false) {
                         __name: "Fondo",
                         icon: "image",
                         buttons: {
-                            background_color: {
-                                __name: i18n.t('background.background_color'),
-                                type: 'color',
+                            background: {
+                                __name: i18n.t('background.background'),
+                                type: 'background_picker',
                                 value: "#fffff",
-                                autoManaged: false,
-                            },
-                            background_image: {
-                                __name: i18n.t('background.background_image'),
-                                type: 'image_file',
-                                value: "",
-                                autoManaged: false,
-                            },
-                            background_reset: {
-                                __name: i18n.t('background.reset_background'),
-                                value: "#ffffff",
-                                displayLabel: "Reset",
-                                type: 'button',
                                 autoManaged: false,
                             },
                         },

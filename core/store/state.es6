@@ -348,22 +348,10 @@ export const initialState = (config) => { return config.sections_have_content ?
                                 "__name": "Fondo",
                                 "icon": "image",
                                 "buttons": {
-                                    "background_color": {
-                                        "__name": i18n.t('background.background_color'),
-                                        "value": '#fffff',
-                                        "type": 'color',
-                                        "autoManaged": false,
-                                    },
-                                    "background_image": {
-                                        "__name": i18n.t('background.background_image'),
-                                        "type": 'image_file',
-                                        "autoManaged": false,
-                                    },
-                                    "background_reset": {
-                                        "__name": i18n.t('background.reset_background'),
+                                    "background": {
+                                        "__name": i18n.t('background.background'),
+                                        "type": 'background_picker',
                                         "value": "#fffff",
-                                        "displayLabel": "Reset",
-                                        "type": 'button',
                                         "autoManaged": false,
                                     },
                                 },
@@ -475,22 +463,10 @@ export const initialState = (config) => { return config.sections_have_content ?
                                 "__name": "Fondo",
                                 "icon": "image",
                                 "buttons": {
-                                    "background_color": {
-                                        "__name": i18n.t('background.background_color'),
-                                        "value": '#fffff',
-                                        "type": 'color',
-                                        "autoManaged": false,
-                                    },
-                                    "background_image": {
-                                        "__name": i18n.t('background.background_image'),
-                                        "type": 'image_file',
-                                        "autoManaged": false,
-                                    },
-                                    "background_reset": {
-                                        "__name": i18n.t('background.reset_background'),
+                                    "background": {
+                                        "__name": i18n.t('background.background'),
+                                        "type": 'background_picker',
                                         "value": "#fffff",
-                                        "displayLabel": "Reset",
-                                        "type": 'button',
                                         "autoManaged": false,
                                     },
                                 },
