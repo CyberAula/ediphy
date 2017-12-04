@@ -390,7 +390,6 @@ export default class EditorBox extends Component {
 
     /**
      * After component updates
-     * Update CKEditor and interact objects bases on updates
      * @param prevProps React previous props
      * @param prevState React previous state
      */

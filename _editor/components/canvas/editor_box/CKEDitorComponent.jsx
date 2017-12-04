@@ -16,6 +16,7 @@ export default class CKEDitorComponent extends Component {
                 CKEDITOR.instances[this.props.id].setData(data);
             }
             this.props.onBlur(data);
+
         }
     }
 
@@ -58,6 +59,8 @@ export default class CKEDitorComponent extends Component {
         if (this.props.toolbars[this.props.id].showTextEditor && prevProps.toolbars[prevProps.id] && !prevProps.toolbars[prevProps.id].showTextEditor) {
             this.refs.textarea.focus();
         }
+        window.MathJax.Hub.Queue(["Typeset", window.MathJax.Hub]);
+
         if(prevProps.box.parent !== this.props.box.parent || prevProps.box.container !== this.props.box.container) {
             for (let instance in CKEDITOR.instances) {
                 CKEDITOR.instances[instance].destroy();
@@ -78,7 +81,7 @@ export default class CKEDitorComponent extends Component {
         }
         if (nextProps.boxSelected === nextProps.id) {
             if (this.props.toolbars[this.props.id].showTextEditor === true && nextProps.toolbars[nextProps.id].showTextEditor === false) {
-                this.onBlur();
+                // this.onBlur();
             } else if (this.props.toolbars[this.props.id].showTextEditor === false && nextProps.toolbars[nextProps.id].showTextEditor === true) {
                 let CKstring = CKEDITOR.instances[nextProps.id].getData();
                 let initString = "<p>" + i18n.t("text_here") + "</p>\n";
