@@ -1,43 +1,197 @@
 import { testState } from '../../core/store/state.tests.js';
 import nav_items_by_id from '../nav_items_by_id';
 import * as ActionTypes from '../../common/actions';
+import { isView } from "../../common/utils";
 
 const state = testState.present.navItemsById;
 
-// console.log(state);
-
-describe('# nav_items_by_id reducer ******************************************************************* TODO :)', ()=>{
+describe('# nav_items_by_id reducer ******************************************************************* DOING :)', ()=>{
 
     describe('DEFAULT', ()=>{
         test('Should return test.state as default', () => {
             expect(nav_items_by_id(state, {})).toEqual(state);
         });
     });
-    describe('handle ADD_BOX', ()=>{
-        test('If added box', () => {
-            // expect(nav_items_by_id(state, {})).toEqual(state);
+    describe('handle ADD_BOX', () => {
+        test('If added box in a sortable container', () => {
+            const action = {
+                type: ActionTypes.ADD_BOX,
+                payload: { ids:
+                        { parent: 'bs-1511252985426', id: 'bo-1511443052929', container: 'sc-1511443052922' },
+                draggable: true,
+                resizable: false,
+                content: '',
+                toolbar: {},
+                config: {},
+                state: {},
+                initialParams: {},
+                },
+            };
+            const newState = JSON.parse(JSON.stringify(state));
+            expect(isView(action.payload.ids.parent)).toBeFalsy();
+            expect(nav_items_by_id(state, action)).toEqual(newState);
+        });
+        test('If added box in a slide', () => {
+            const action = {
+                type: ActionTypes.ADD_BOX,
+                payload: { ids:
+                        { parent: 'pa-1511252952332', id: 'bo-1511443052929', container: 0 },
+                draggable: true,
+                resizable: true,
+                content: '',
+                toolbar: {},
+                config: {},
+                state: {},
+                initialParams: {},
+                },
+            };
+            const newState = JSON.parse(JSON.stringify(state));
+            newState['pa-1511252952332'].boxes = ['bo-1511443052929'];
+
+            expect(isView(action.payload.ids.parent)).toBeTruthy();
+            expect(nav_items_by_id(state, action)).toEqual(newState);
         });
     });
-    describe('handle MOVE_BOX', ()=>{
-        test('If moved box', () => {
-            // expect(nav_items_by_id(state, {})).toEqual(state);
+
+    describe('handle MOVE_BOX', () => {
+        test('If box moved in a slide', () => {
+            const action = {
+                type: ActionTypes.MOVE_BOX,
+                payload: {
+                    id: 'bo-1511252970033',
+                    x: '29.42%',
+                    y: '29.26%',
+                    position: 'absolute',
+                    parent: 'pa-1511252955865',
+                    container: 0,
+                },
+            };
+            const newState = JSON.parse(JSON.stringify(state));
+            expect(nav_items_by_id(state, action)).toEqual(newState);
         });
     });
-    describe('handle ADD_NAV_ITEM', ()=>{
-        test('If nav item added', () => {
-            // expect(nav_items_by_id(state, {})).toEqual(state);
+
+    describe('handle ADD_NAV_ITEM', () => {
+        test('If nav item added is a section', () => {
+            const newSection = { boxes: [],
+                children: [],
+                extraFiles: {},
+                header: {
+                    display: {
+                        breadcrumb: "reduced",
+                        courseTitle: "hidden",
+                        documentSubTitle: "hidden",
+                        documentTitle: "expanded",
+                        pageNumber: "hidden",
+                    },
+                    elementContent: {
+                        documentSubTitle: "",
+                        documentTitle: "",
+                        numPage: "",
+                    },
+                },
+                hidden: false,
+                id: "se-1512393803085",
+                isExpanded: true,
+                level: 2,
+                linkedBoxes: {},
+                name: "Sección",
+                parent: "se-1467887497411",
+                type: "section",
+                "unitNumber": 1 };
+            const action = {
+                type: ActionTypes.ADD_NAV_ITEM,
+                payload: {
+                    id: 'se-1512393803085',
+                    name: 'Sección',
+                    parent: 'se-1467887497411',
+                    type: 'section',
+                    position: 4,
+                    hasContent: false,
+                },
+            };
+            const newState = JSON.parse(JSON.stringify(state));
+            newState['se-1512393803085'] = newSection;
+            newState['se-1467887497411'].isExpanded = true;
+            newState['se-1467887497411'].children = ["pa-1497983247795", "pa-1511252952332", "se-1511252954307", "se-1512393803085"];
+            expect(nav_items_by_id(state, action)).toEqual(newState);
+        });
+        test('If nav item added is a document', () => {
+            const newPage = { boxes: [],
+                children: [],
+                extraFiles: {},
+                header: {
+                    display: {
+                        breadcrumb: "reduced",
+                        courseTitle: "hidden",
+                        documentSubTitle: "hidden",
+                        documentTitle: "expanded",
+                        pageNumber: "hidden",
+                    },
+                    elementContent: {
+                        documentSubTitle: "",
+                        documentTitle: "",
+                        numPage: "",
+                    },
+                },
+                hidden: false,
+                id: "pa-1512395563240",
+                isExpanded: true,
+                level: 2,
+                linkedBoxes: {},
+                name: "Página",
+                parent: "se-1467887497411",
+                type: "document",
+                "unitNumber": 1 };
+            const action = {
+                type: ActionTypes.ADD_NAV_ITEM,
+                payload: {
+                    id: 'pa-1512395563240',
+                    name: 'Página',
+                    parent: 'se-1467887497411',
+                    type: 'document',
+                    position: 4,
+                    hasContent: true,
+                },
+            };
+            const newState = JSON.parse(JSON.stringify(state));
+            newState['pa-1512395563240'] = newPage;
+            newState['se-1467887497411'].isExpanded = true;
+            newState['se-1467887497411'].children = ["pa-1497983247795", "pa-1511252952332", "se-1511252954307", 'pa-1512395563240'];
+            expect(nav_items_by_id(state, action)).toEqual(newState);
         });
     });
-    describe('handle CHANGE_NAV_ITEM_NAME', ()=>{
+
+    describe('handle CHANGE_NAV_ITEM_NAME', () => {
         test('If nav item name changed', () => {
-            // expect(nav_items_by_id(state, {})).toEqual(state);
+            const action = {
+                type: ActionTypes.CHANGE_NAV_ITEM_NAME,
+                payload: {
+                    id: 'pa-1497983247795',
+                    title: 'Título de prueba',
+                },
+            };
+            const newState = JSON.parse(JSON.stringify(state));
+            newState['pa-1497983247795'].name = action.payload.title;
+            expect(nav_items_by_id(state, action)).toEqual(newState);
         });
     });
-    describe('handle CHANGE_UNIT_NUMBER', ()=>{
-        test('If unit number changed', () => {
-            // expect(nav_items_by_id(state, {})).toEqual(state);
-        });
-    });
+
+    // describe('handle CHANGE_UNIT_NUMBER *********************** TODO :)', ()=>{
+    //     test('If unit number changed', () => {
+    //         // expect(nav_items_by_id(state, {})).toEqual(state);
+    //     });
+    // });
+
+    // case CHANGE_UNIT_NUMBER:
+    //         let finalValue;
+    //     if(isNaN(parseInt(action.payload.value, 10))) {
+    //         finalValue = "";
+    //     } else {
+    //         finalValue = action.payload.value;
+    //     }
+    //     return changeProp(state, "unitNumber", finalValue);
+
     describe('handle DELETE_BOX', ()=>{
         test('If box deleted', () => {
             // expect(nav_items_by_id(state, {})).toEqual(state);
@@ -215,83 +369,6 @@ describe('# nav_items_by_id reducer ********************************************
     });
     describe('handle IMPORT_STATE', ()=>{
         test('If state imported', () => {
-            // expect(nav_items_by_id(state, {})).toEqual(state);
-        });
-    });
-
-});
-
-// Single nav item reducer
-//* *************************************************************************************************
-
-describe('# single nav_item reducer ******************************************************************* TODO :)', ()=>{
-    describe('handle ADD_BOX', ()=>{
-        test('If added box', () => {
-            // expect(nav_items_by_id(state, {})).toEqual(state);
-        });
-    });
-    describe('handle MOVE_BOX', ()=>{
-        test('If moved box', () => {
-            // expect(nav_items_by_id(state, {})).toEqual(state);
-        });
-    });
-    describe('handle ADD_NAV_ITEM', ()=>{
-        test('If nav item added', () => {
-            // expect(nav_items_by_id(state, {})).toEqual(state);
-        });
-    });
-    describe('handle CHANGE_NAV_ITEM_NAME', ()=>{
-        test('If nav item name changed', () => {
-            // expect(nav_items_by_id(state, {})).toEqual(state);
-        });
-    });
-    describe('handle CHANGE_UNIT_NUMBER', ()=>{
-        test('If unit number changed', () => {
-            // expect(nav_items_by_id(state, {})).toEqual(state);
-        });
-    });
-    describe('handle DELETE_BOX', ()=>{
-        test('If box deleted', () => {
-            // expect(nav_items_by_id(state, {})).toEqual(state);
-        });
-    });
-    describe('handle DELETE_RICH_MARK', ()=>{
-        test('If rich mark deleted', () => {
-            // expect(nav_items_by_id(state, {})).toEqual(state);
-        });
-    });
-    describe('handle EXPAND_NAV_ITEM', ()=>{
-        test('If nav item expanded', () => {
-            // expect(nav_items_by_id(state, {})).toEqual(state);
-        });
-    });
-    describe('handle DELETE_NAV_ITEM', ()=>{
-        test('If nav item deleted', () => {
-            // expect(nav_items_by_id(state, {})).toEqual(state);
-        });
-    });
-    describe('handle REORDER_NAV_ITEM', ()=>{
-        test('If nav item reordered', () => {
-            // expect(nav_items_by_id(state, {})).toEqual(state);
-        });
-    });
-    describe('handle TOGGLE_NAV_ITEM', ()=>{
-        test('If nav item toggled', () => {
-            // expect(nav_items_by_id(state, {})).toEqual(state);
-        });
-    });
-    describe('handle TOGGLE_TITLE_MODE', ()=>{
-        test('If title mode toggled', () => {
-            // expect(nav_items_by_id(state, {})).toEqual(state);
-        });
-    });
-    describe('handle ADD_RICH_MARK', ()=>{
-        test('If rich mark added', () => {
-            // expect(nav_items_by_id(state, {})).toEqual(state);
-        });
-    });
-    describe('handle UPDATE_NAV_ITEM_EXTRA_FILES', ()=>{
-        test('If updated nav items extra files', () => {
             // expect(nav_items_by_id(state, {})).toEqual(state);
         });
     });
