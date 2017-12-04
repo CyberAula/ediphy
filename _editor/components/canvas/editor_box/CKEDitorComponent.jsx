@@ -3,7 +3,6 @@ import i18n from 'i18next';
 export default class CKEDitorComponent extends Component {
     constructor(props) {
         super(props);
-        // this.updateContent = this.updateContent.bind(this);
         this.onBlur = this.onBlur.bind(this);
 
     }
@@ -56,9 +55,8 @@ export default class CKEDitorComponent extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if (this.props.toolbars[this.props.id].config.showTextEditor) {
-            console.log('hereehhere');
-            // this.refs.textarea.focus();
+        if (this.props.toolbars[this.props.id].showTextEditor && prevProps.toolbars[prevProps.id] && !prevProps.toolbars[prevProps.id].showTextEditor) {
+            this.refs.textarea.focus();
         }
         if(prevProps.box.parent !== this.props.box.parent || prevProps.box.container !== this.props.box.container) {
             for (let instance in CKEDITOR.instances) {
@@ -82,10 +80,6 @@ export default class CKEDitorComponent extends Component {
             if (this.props.toolbars[this.props.id].showTextEditor === true && nextProps.toolbars[nextProps.id].showTextEditor === false) {
                 this.onBlur();
             } else if (this.props.toolbars[this.props.id].showTextEditor === false && nextProps.toolbars[nextProps.id].showTextEditor === true) {
-                // this.refs.textarea.focus();
-                // console.log('focusando');
-                // Elimina el placeholder "Introduzca texto aquí" cuando se va a editar
-                // Código duplicado en EditorBox, EditorShortcuts y PluginToolbar. Extraer a common_tools?
                 let CKstring = CKEDITOR.instances[nextProps.id].getData();
                 let initString = "<p>" + i18n.t("text_here") + "</p>\n";
                 if(CKstring === initString) {
