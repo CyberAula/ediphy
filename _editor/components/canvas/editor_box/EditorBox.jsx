@@ -623,12 +623,12 @@ export default class EditorBox extends Component {
 
                     if (ctrlKey) {
                         let ids = { parent: boxOb.parent, container: boxOb.container, id: ID_PREFIX_BOX + Date.now() };
-                        let pos = {
+                        let positionBox = {
                             x: isSortableContainer(boxOb.container) ? left : absoluteLeft,
                             y: isSortableContainer(boxOb.container) ? top : absoluteTop,
                         };
                         this.props.onBoxPasted(ids,
-                            transformBox(JSON.parse(JSON.stringify(boxOb)), ids, boxOb.resizable, boxOb.resizable, pos),
+                            transformBox(JSON.parse(JSON.stringify(boxOb)), ids, boxOb.resizable, boxOb.resizable, positionBox),
                             transformToolbar(JSON.parse(JSON.stringify(toolbar)), ids, boxOb.resizable, boxOb.resizable));
                     }
                     event.stopPropagation();
