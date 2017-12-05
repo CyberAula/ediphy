@@ -16,6 +16,12 @@ export default class CKEDitorComponent extends Component {
                 CKEDITOR.instances[this.props.id].setData(data);
             }
             this.props.onBlur(data);
+            let airlayer = document.getElementById("airlayer");
+            if (airlayer) {
+                airlayer.focus();
+            } else {
+                document.body.focus();
+            }
 
         }
     }
@@ -88,8 +94,8 @@ export default class CKEDitorComponent extends Component {
                 if(CKstring === initString) {
                     CKEDITOR.instances[nextProps.id].setData("");
                 }
-                let textArea = document.getElementById(nextProps.id);
-                if (textArea) {textArea.focus();}
+                /* let textArea = document.getElementById(nextProps.id);
+                if (textArea) {textArea.focus();}*/
 
             }
         }
