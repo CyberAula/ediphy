@@ -129,3 +129,77 @@ export function getCKEDITORAdaptedContent(data) {
     // Plain text version
     // return (event.clipboardData.getData("text/plain"));
 }
+
+/**
+ * Modifies the pasted box
+ * @param box Box object
+ * @param ids {id,container, parent}
+ * @param isTargetSlide Whether it is being pasted in a slide
+ * @param isOriginSlide Whether it was copied from a slide
+ * @returns {*}
+ */
+export function transformBox(box, ids, isTargetSlide, isOriginSlide, position) {
+    let newBox = Object.assign({}, box, {
+        container: ids.container,
+        id: ids.id,
+        parent: ids.parent,
+        position: isTargetSlide ? {
+            type: "absolute",
+            x: position && position.x ? position.x : randomPositionGenerator(20, 40),
+            y: position && position.y ? position.y : randomPositionGenerator(20, 40),
+        } : { type: "relative", x: "0%", y: "0%" },
+        resizable: isTargetSlide,
+        row: 0,
+        col: 0,
+        containedViews: box.containedViews.filter(cv=> this.props.containedViews[cv]),
+    });
+    return newBox;
+}
+
+/**
+ * Modifies the toolbar of the pasted box
+ * @param toolbar Toolbar object
+ * @param ids {id,container, parent}
+ * @param isTargetSlide Whether it is being pasted in a slide
+ * @param isOriginSlide Whether it was copied from a slide
+ * @returns {*}
+ */
+export function transformToolbar(toolbar, ids, isTargetSlide, isOriginSlide) {
+    let newToolbar = Object.assign({}, toolbar, { id: ids.id });
+    if (newToolbar.state && newToolbar.state.__marks) {
+        let newMarks = {};
+        for (let mark in newToolbar.state.__marks) {
+            let newId = mark + "_1";
+            if (newToolbar.state.__marks[mark].connection) {
+                if ((isContainedView(newToolbar.state.__marks[mark].connection) &&
+            this.props.containedViews[newToolbar.state.__marks[mark].connection]) ||
+          (isView(newToolbar.state.__marks[mark].connection) &&
+            this.props.navItems[newToolbar.state.__marks[mark].connection]) ||
+          newToolbar.state.__marks[mark].connetMode === 'external') {
+                    newMarks[newId] = Object.assign({}, newToolbar.state.__marks[mark], { id: newId });
+                }
+            }
+        }
+        newToolbar.state.__marks = newMarks;
+    }
+    if (isTargetSlide !== isOriginSlide) {
+        let config = Ediphy.Plugins.get(newToolbar.config.name).getConfig();
+        if (isTargetSlide) {
+            newToolbar.controls.main.accordions.__sortable.buttons.__width.units = "%";
+            newToolbar.controls.main.accordions.__sortable.buttons.__width.value =
+        newToolbar.controls.main.accordions.__sortable.buttons.__width.displayValue = parseFloat(config.initialWidthSlide);
+            newToolbar.controls.main.accordions.__sortable.buttons.__height.units = "%";
+            newToolbar.controls.main.accordions.__sortable.buttons.__height.value =
+        newToolbar.controls.main.accordions.__sortable.buttons.__height.displayValue = parseFloat(config.initialHeightSlide);
+        } else {
+            newToolbar.controls.main.accordions.__sortable.buttons.__height.value =
+        newToolbar.controls.main.accordions.__sortable.buttons.__height.displayValue = parseFloat(config.initialHeight);
+            newToolbar.controls.main.accordions.__sortable.buttons.__height.units = config.initialHeight.indexOf('px') !== -1 ? "px" : "%";
+            newToolbar.controls.main.accordions.__sortable.buttons.__width.value =
+        newToolbar.controls.main.accordions.__sortable.buttons.__width.displayValue = parseFloat(config.initialWidth);
+            newToolbar.controls.main.accordions.__sortable.buttons.__width.units = config.initialWidth.indexOf('px') !== -1 ? "px" : "%";
+        }
+    }
+    return newToolbar;
+
+}

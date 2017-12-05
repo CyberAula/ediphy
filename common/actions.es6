@@ -121,6 +121,7 @@ export function selectBox(id) {
 }
 
 export function moveBox(id, x, y, position, parent, container) {
+    console.log(x, y);
     return { type: MOVE_BOX, payload: { id, x, y, position, parent, container } };
 }
 

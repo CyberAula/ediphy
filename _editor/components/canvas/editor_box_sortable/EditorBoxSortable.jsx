@@ -109,6 +109,7 @@ export default class EditorBoxSortable extends Component {
                                                                 onBoxMoved={this.props.onBoxMoved}
                                                                 onBoxResized={this.props.onBoxResized}
                                                                 onBoxDropped={this.props.onBoxDropped}
+                                                                onBoxPasted={this.props.onBoxPasted}
                                                                 onVerticallyAlignBox={this.props.onVerticallyAlignBox}
                                                                 onBoxesInsideSortableReorder={this.props.onBoxesInsideSortableReorder}
                                                                 onSortableContainerResized={this.props.onSortableContainerResized}

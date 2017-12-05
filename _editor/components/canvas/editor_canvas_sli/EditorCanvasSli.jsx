@@ -141,7 +141,7 @@ export default class EditorCanvasSli extends Component {
                                 onBoxLevelIncreased={this.props.onBoxLevelIncreased}
                                 onBoxMoved={this.props.onBoxMoved}
                                 onBoxResized={this.props.onBoxResized}
-
+                                onBoxPasted={this.props.onBoxPasted}
                                 onSortableContainerResized={this.props.onSortableContainerResized}
                                 onBoxesInsideSortableReorder={this.props.onBoxesInsideSortableReorder}
                                 onBoxDropped={this.props.onBoxDropped}

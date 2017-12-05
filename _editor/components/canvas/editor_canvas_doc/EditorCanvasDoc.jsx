@@ -121,6 +121,7 @@ export default class EditorCanvasDoc extends Component {
                                             onBoxDropped={this.props.onBoxDropped}
                                             onVerticallyAlignBox={this.props.onVerticallyAlignBox}
                                             onTextEditorToggled={this.props.onTextEditorToggled}
+                                            onBoxPasted={this.props.onBoxPasted}
                                             toolbars={this.props.toolbars}
                                             pageType={itemSelected.type || 0}/>;
                                     }
@@ -146,6 +147,7 @@ export default class EditorCanvasDoc extends Component {
                                         onSortableContainerDeleted={this.props.onSortableContainerDeleted}
                                         onSortableContainerReordered={this.props.onSortableContainerReordered}
                                         onBoxDropped={this.props.onBoxDropped}
+                                        onBoxPasted={this.props.onBoxPasted}
                                         onVerticallyAlignBox={this.props.onVerticallyAlignBox}
                                         onTextEditorToggled={this.props.onTextEditorToggled}
                                         pageType={itemSelected.type || 0}/>;

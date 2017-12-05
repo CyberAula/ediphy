@@ -8,8 +8,10 @@ import { EDIT_PLUGIN_TEXT } from '../../../../common/actions';
 import Ediphy from '../../../../core/editor/main';
 import { isSortableBox, isSortableContainer, isAncestorOrSibling, isContainedView } from '../../../../common/utils';
 import './_editorBox.scss';
-import { ID_PREFIX_SORTABLE_CONTAINER } from '../../../../common/constants';
+import { ID_PREFIX_BOX, ID_PREFIX_SORTABLE_CONTAINER } from '../../../../common/constants';
 import CKEDitorComponent from './CKEDitorComponent';
+import { transformBox, transformToolbar } from '../../clipboard/clipboard.utils';
+
 /**
  * Ediphy Box component.
  * @desc It is the main and more complex component by far. It is the one in charge of painting a plugin's template and therefore it has many parts conditioned to the type of plugin.
@@ -538,7 +540,8 @@ export default class EditorBox extends Component {
                         document.getElementById('editorBoxIcons') :
                         document.getElementById('contained_editorBoxIcons');
                     bar.classList.remove('hidden');
-
+                    console.log(event.ctrlKey);
+                    let ctrlKey = event.ctrlKey;
                     if (this.props.boxSelected !== this.props.id) {
                         return;
                     }
@@ -592,15 +595,17 @@ export default class EditorBox extends Component {
                     }
                     let containerId = hoverSortableContainer || box.container;
                     let disposition = { col: col || 0, row: row || 0 };
-                    this.props.onBoxMoved(
-                        this.props.id,
-                        isSortableContainer(box.container) ? left : absoluteLeft,
-                        isSortableContainer(box.container) ? top : absoluteTop,
-                        this.props.boxes[this.props.id].position.type,
-                        box.parent,
-                        containerId,
-                        disposition
-                    );
+                    if (!ctrlKey) {
+                        this.props.onBoxMoved(
+                            this.props.id,
+                            isSortableContainer(box.container) ? left : absoluteLeft,
+                            isSortableContainer(box.container) ? top : absoluteTop,
+                            this.props.boxes[this.props.id].position.type,
+                            box.parent,
+                            containerId,
+                            disposition
+                        );
+                    }
 
                     // Stuff to reorder boxes when position is relative
                     let hoverID = this.releaseClick(releaseClick, 'box-');
@@ -610,10 +615,22 @@ export default class EditorBox extends Component {
                         if (children.indexOf(hoverID) !== -1) {
                             let newOrder = Object.assign([], children);
                             newOrder.splice(newOrder.indexOf(hoverID), 0, newOrder.splice(newOrder.indexOf(boxOb.id), 1)[0]);
-                            this.props.onBoxesInsideSortableReorder(boxOb.parent, boxOb.container, newOrder);
+                            if (!ctrlKey) {
+                                this.props.onBoxesInsideSortableReorder(boxOb.parent, boxOb.container, newOrder);
+                            }
                         }
                     }
 
+                    if (ctrlKey) {
+                        let ids = { parent: boxOb.parent, container: boxOb.container, id: ID_PREFIX_BOX + Date.now() };
+                        let pos = {
+                            x: isSortableContainer(boxOb.container) ? left : absoluteLeft,
+                            y: isSortableContainer(boxOb.container) ? top : absoluteTop,
+                        };
+                        this.props.onBoxPasted(ids,
+                            transformBox(JSON.parse(JSON.stringify(boxOb)), ids, boxOb.resizable, boxOb.resizable, pos),
+                            transformToolbar(JSON.parse(JSON.stringify(toolbar)), ids, boxOb.resizable, boxOb.resizable));
+                    }
                     event.stopPropagation();
 
                 },
@@ -674,6 +691,7 @@ export default class EditorBox extends Component {
                     }
                 },
                 onend: (event) => {
+
                     if (this.props.boxSelected !== this.props.id) {
                         return;
                     }
@@ -731,7 +749,6 @@ export default class EditorBox extends Component {
                     if (span) {
                         span.parentElement.removeChild(span);
                     }
-
                     event.stopPropagation();
                 },
             });

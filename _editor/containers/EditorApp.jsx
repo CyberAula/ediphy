@@ -260,6 +260,7 @@ class EditorApp extends Component {
                                 onTextEditorToggled={(caller, value) => this.dispatchAndSetState(toggleTextEditor(caller, value))}
                                 onBoxesInsideSortableReorder={(parent, container, order) => {this.dispatchAndSetState(reorderBoxes(parent, container, order));}}
                                 titleModeToggled={(id, value) => this.dispatchAndSetState(toggleTitleMode(id, value))}
+                                onBoxPasted={(ids, box, toolbar)=>this.dispatchAndSetState(pasteBox(ids, box, toolbar))}
                                 onMarkCreatorToggled={(id) => this.setState({ markCreatorVisible: id })}/>
                             <ContainedCanvas boxes={boxes}
                                 boxSelected={boxSelected}
@@ -291,6 +292,7 @@ class EditorApp extends Component {
                                 onBoxMoved={(id, x, y, position, parent, container) => this.dispatchAndSetState(moveBox(id, x, y, position, parent, container))}
                                 onBoxResized={(id, widthButton, heightButton) => this.dispatchAndSetState(resizeBox(id, widthButton, heightButton))}
                                 onSortableContainerResized={(id, parent, height) => this.dispatchAndSetState(resizeSortableContainer(id, parent, height))}
+                                onBoxPasted={(ids, box, toolbar)=>this.dispatchAndSetState(pasteBox(ids, box, toolbar))}
                                 onSortableContainerDeleted={(id, parent) => {
                                     let descBoxes = this.getDescendantBoxesFromContainer(boxes[parent], id);
                                     let cvs = {};

@@ -5,7 +5,7 @@ import Alert from '../common/alert/Alert';
 import { isContainedView, isSlide, isSortableBox, isView } from '../../../common/utils';
 import { ID_PREFIX_BOX, ID_PREFIX_SORTABLE_CONTAINER, ID_PREFIX_RICH_MARK } from '../../../common/constants';
 import { ADD_BOX } from '../../../common/actions';
-import { randomPositionGenerator, retrieveImageFromClipboardAsBase64, getCKEDITORAdaptedContent } from './clipboard.utils';
+import { randomPositionGenerator, retrieveImageFromClipboardAsBase64, getCKEDITORAdaptedContent, transformToolbar, transformBox } from './clipboard.utils';
 import i18n from 'i18next';
 /** *
  * Component for managing the clipboard
@@ -110,8 +110,8 @@ export default class Clipboard extends Component {
                             }
                         }
                         this.props.onBoxPasted(ids,
-                            this.transformBox(data.box, ids, isTargetSlide, data.box.resizable),
-                            this.transformToolbar(data.toolbar, ids, isTargetSlide, data.box.resizable));
+                            transformBox(data.box, ids, isTargetSlide, data.box.resizable),
+                            transformToolbar(data.toolbar, ids, isTargetSlide, data.box.resizable));
                         // Inside a text box (CKEditor or input)
                     } else {
                         // Let normal paste work
@@ -153,65 +153,6 @@ export default class Clipboard extends Component {
                 }
             }
         }
-    }
-
-    transformBox(box, ids, isTargetSlide, isOriginSlide) {
-        let newBox = Object.assign({}, box, {
-            container: ids.container,
-            id: ids.id,
-            parent: ids.parent,
-            position: isTargetSlide ? {
-                type: "absolute",
-                x: randomPositionGenerator(20, 40),
-                y: randomPositionGenerator(20, 40),
-            } : { type: "relative", x: "0%", y: "0%" },
-            resizable: isTargetSlide,
-            row: 0,
-            col: 0,
-            containedViews: box.containedViews.filter(cv=> this.props.containedViews[cv]),
-        });
-        return newBox;
-
-    }
-
-    transformToolbar(toolbar, ids, isTargetSlide, isOriginSlide) {
-        let newToolbar = Object.assign({}, toolbar, { id: ids.id });
-        if (newToolbar.state && newToolbar.state.__marks) {
-            let newMarks = {};
-            for (let mark in newToolbar.state.__marks) {
-                let newId = mark + "_1";
-                if (newToolbar.state.__marks[mark].connection) {
-                    if ((isContainedView(newToolbar.state.__marks[mark].connection) &&
-                    this.props.containedViews[newToolbar.state.__marks[mark].connection]) ||
-                        (isView(newToolbar.state.__marks[mark].connection) &&
-                        this.props.navItems[newToolbar.state.__marks[mark].connection]) ||
-                        newToolbar.state.__marks[mark].connetMode === 'external') {
-                        newMarks[newId] = Object.assign({}, newToolbar.state.__marks[mark], { id: newId });
-                    }
-                }
-            }
-            newToolbar.state.__marks = newMarks;
-        }
-        if (isTargetSlide !== isOriginSlide) {
-            let config = Ediphy.Plugins.get(newToolbar.config.name).getConfig();
-            if (isTargetSlide) {
-                newToolbar.controls.main.accordions.__sortable.buttons.__width.units = "%";
-                newToolbar.controls.main.accordions.__sortable.buttons.__width.value =
-                newToolbar.controls.main.accordions.__sortable.buttons.__width.displayValue = parseFloat(config.initialWidthSlide);
-                newToolbar.controls.main.accordions.__sortable.buttons.__height.units = "%";
-                newToolbar.controls.main.accordions.__sortable.buttons.__height.value =
-                newToolbar.controls.main.accordions.__sortable.buttons.__height.displayValue = parseFloat(config.initialHeightSlide);
-            } else {
-                newToolbar.controls.main.accordions.__sortable.buttons.__height.value =
-                newToolbar.controls.main.accordions.__sortable.buttons.__height.displayValue = parseFloat(config.initialHeight);
-                newToolbar.controls.main.accordions.__sortable.buttons.__height.units = config.initialHeight.indexOf('px') !== -1 ? "px" : "%";
-                newToolbar.controls.main.accordions.__sortable.buttons.__width.value =
-                newToolbar.controls.main.accordions.__sortable.buttons.__width.displayValue = parseFloat(config.initialWidth);
-                newToolbar.controls.main.accordions.__sortable.buttons.__width.units = config.initialWidth.indexOf('px') !== -1 ? "px" : "%";
-            }
-        }
-        return newToolbar;
-
     }
 
     componentDidMount() {

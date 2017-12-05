@@ -77,10 +77,9 @@ export default class CKEDitorComponent extends Component {
                     CKEDITOR.instances[editor].setData(decodeURI(this.props.toolbars[editor].state.__text));
                 }
             }
-
         }
-
     }
+
     componentWillReceiveProps(nextProps) {
         if (this.props.boxSelected === this.props.id && nextProps.boxSelected !== nextProps.id) {
             this.onBlur();
@@ -94,9 +93,6 @@ export default class CKEDitorComponent extends Component {
                 if(CKstring === initString) {
                     CKEDITOR.instances[nextProps.id].setData("");
                 }
-                /* let textArea = document.getElementById(nextProps.id);
-                if (textArea) {textArea.focus();}*/
-
             }
         }
     }
