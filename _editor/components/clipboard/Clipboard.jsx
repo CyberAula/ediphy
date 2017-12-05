@@ -53,7 +53,6 @@ export default class Clipboard extends Component {
         let fromPlugin = this.copyListener(event);
         if (fromPlugin) {
             let box = this.props.boxes[this.props.boxSelected];
-            // TODO CKEditor errors fix
             this.props.onBoxDeleted(box.id, box.parent, box.container);
         }
 
@@ -89,6 +88,7 @@ export default class Clipboard extends Component {
                     if (focus.indexOf('form-control') === -1 && focus.indexOf('cke_editable') === -1 && activeElement.tagName !== 'TEXTAREA') {
                         // Paste plugin
                         event.preventDefault();
+                        event.stopPropagation();
                         // TODO Drag with Ctrl key held
                         let pluginName = data.toolbar.config.name;
                         let limitToOneInstance = data.toolbar.config.limitToOneInstance;
