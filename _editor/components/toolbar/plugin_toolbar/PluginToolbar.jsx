@@ -738,7 +738,18 @@ export default class PluginToolbar extends Component {
                 }
 
                 if (button.type === 'background_picker') {
-                    if (e.target.files.length === 1) {
+                    if(e.color) {
+                        value = e.color;
+                        if (!value) {
+                            return;
+                        }
+                    }
+
+                    if(e.currentTarget && e.currentTarget.type === "button") {
+                        value = e.currentTarget.value;
+                    }
+
+                    if (e.target && e.target.files && e.target.files.length === 1) {
                         let file = e.target.files[0];
                         let reader = new FileReader();
                         reader.onload = () => {
@@ -870,6 +881,8 @@ export default class PluginToolbar extends Component {
 
         if (button.type === "background_picker") {
             let isURI = (/data\:/).test(props.value);
+            let default_background = "rgb(255, 255, 255)";
+
             return React.createElement(
                 FormGroup,
                 { key: button.__name },
@@ -879,7 +892,7 @@ export default class PluginToolbar extends Component {
                         { key: 'label1_' + button.__name },
                         i18n.t('background.background_color')),
                     React.createElement(
-                        ColorPicker, { key: "cpicker_" + props.label, value: props.value, onChange: props.onChange },
+                        ColorPicker, { key: "cpicker_" + props.label, value: isURI ? default_background : props.value, onChange: props.onChange },
                         []),
                     React.createElement(
                         ControlLabel,
@@ -915,6 +928,7 @@ export default class PluginToolbar extends Component {
                         i18n.t('background.reset_background')),
                     React.createElement(
                         Button, {
+                            value: default_background,
                             key: 'button_' + button.__name,
                             onClick: props.onChange,
                             className: "toolbarButton",

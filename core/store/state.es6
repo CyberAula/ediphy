@@ -21,7 +21,7 @@ export const initialState = (config) => { return config.sections_have_content ?
                 level: 1,
                 type: "section",
                 extraFiles: {},
-                background: "#00000",
+                background: "rgb(255, 255, 255)",
                 header: {
                     elementContent: {
                         documentTitle: '',
@@ -104,22 +104,10 @@ export const initialState = (config) => { return config.sections_have_content ?
                                 "__name": "Fondo",
                                 "icon": "image",
                                 "buttons": {
-                                    "background_color": {
-                                        "__name": i18n.t('background.background_color'),
-                                        "value": '#fffff',
-                                        "type": 'color',
-                                        "autoManaged": false,
-                                    },
-                                    "background_image": {
-                                        "__name": i18n.t('background.background_image'),
-                                        "type": 'image_file',
-                                        "autoManaged": false,
-                                    },
-                                    "background_reset": {
-                                        "__name": i18n.t('background.reset_background'),
-                                        "value": "#fffff",
-                                        "displayLabel": "Reset",
-                                        "type": 'button',
+                                    "background": {
+                                        "__name": i18n.t('background.background'),
+                                        "value": 'rgb(255,255,255)',
+                                        "type": 'background_picker',
                                         "autoManaged": false,
                                     },
                                 },
@@ -271,7 +259,7 @@ export const initialState = (config) => { return config.sections_have_content ?
                 level: 1,
                 type: "section",
                 extraFiles: {},
-                background: "#00000",
+                background: "rgb(255,255,255)",
                 header: {
                     elementContent: {
                         documentTitle: "",
