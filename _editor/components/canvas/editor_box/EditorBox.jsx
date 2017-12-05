@@ -397,19 +397,23 @@ export default class EditorBox extends Component {
         let toolbar = this.props.toolbars[this.props.id];
         let box = this.props.boxes[this.props.id];
         let node = ReactDOM.findDOMNode(this);
+        let offsetEl = document.getElementById('maincontent') ? document.getElementById('maincontent').getBoundingClientRect() : {};
+        let leftO = offsetEl.left || 0;
+        let topO = offsetEl.top || 0;
+        let gridTarget = interact.createSnapGrid({ x: 50, y: 50, range: 25, offset: { x: leftO, y: topO } });
 
         if (prevProps.toolbars[this.props.id] && (toolbar.showTextEditor !== prevProps.toolbars[this.props.id].showTextEditor) && box.draggable) {
-            interact(node).draggable({ enabled: !toolbar.showTextEditor });
+            interact(node).draggable({ enabled: !toolbar.showTextEditor, snap: { targets: [gridTarget] } });
         }
 
         if (box.resizable) {
-            interact(node).resizable({ preserveAspectRatio: this.checkAspectRatioValue() });
+            interact(node).resizable({ preserveAspectRatio: this.checkAspectRatioValue(), snap: { targets: [gridTarget] } });
         }
 
         if ((box.level > this.props.boxLevelSelected) && this.props.boxLevelSelected !== -1) {
             interact(node).draggable({ enabled: false });
         } else {
-            interact(node).draggable({ enabled: box.draggable });
+            interact(node).draggable({ enabled: box.draggable, snap: { targets: [gridTarget] } });
         }
 
     }
@@ -426,21 +430,21 @@ export default class EditorBox extends Component {
         let leftO = offsetEl.left || 0;
         let topO = offsetEl.top || 0;
         offsetEl;
-        let gridTarget = interact.createSnapGrid({ x: 10, y: 10, range: 7.1, offset: { x: leftO, y: topO } });
+        let gridTarget = interact.createSnapGrid({ x: 50, y: 50, range: 25, offset: { x: leftO, y: topO } });
         Ediphy.Plugins.get(toolbar.config.name).getConfig();
         Ediphy.Plugins.get(toolbar.config.name).afterRender(this.refs.content, toolbar.state);
         let dragRestrictionSelector = isSortableContainer(box.container) ? /* ".editorBoxSortableContainer, .drg" + box.container :*/"sortableContainerBox" : "parent";
         let resizeRestrictionSelector = isSortableContainer(box.container) ? ".editorBoxSortableContainer, .drg" + box.container : "parent";
         interact(ReactDOM.findDOMNode(this))
-            /* .snap({
-                actions     : ['resizex', 'resizey', 'resizexy', 'resize', 'drag'],
-                mode        : 'grid'
-            })*/
+            .snap({
+                actions: ['resizex', 'resizey', 'resizexy', 'resize', 'drag'],
+                mode: 'grid',
+            })
             .draggable({
-                /* snap: {
+                snap: {
                     targets: [gridTarget],
-                    relativePoints: [{ x: 0, y: 0 }]
-                },*/
+                    relativePoints: [{ x: 0, y: 0 }],
+                },
                 enabled: box.draggable,
                 restrict: {
                     restriction: dragRestrictionSelector,
@@ -620,7 +624,12 @@ export default class EditorBox extends Component {
             })
             .ignoreFrom('input, textarea, .textAreaStyle,  a, .pointerEventsEnabled')
             .resizable({
-                /* snap: { targets: [gridTarget] },*/
+                snap: { targets: [gridTarget] },
+                /* snapSize: {targets: [
+                    // snap the width and height to multiples of 5 when the element size
+                    // is 25 pixels away from the target size
+                    { width: 10, height: 10, range: 5 },
+                ]},*/
                 preserveAspectRatio: this.checkAspectRatioValue(),
                 enabled: (box.resizable),
                 restrict: {

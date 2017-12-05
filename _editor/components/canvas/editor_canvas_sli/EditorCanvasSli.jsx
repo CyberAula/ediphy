@@ -80,19 +80,19 @@ export default class EditorCanvasSli extends Component {
                         className={'innercanvas sli'}
                         style={{ visibility: (this.props.showCanvas ? 'visible' : 'hidden') }}>
                         {this.state.alert}
-                        {/* <svg width="100%" height="100%" style={{position:'absolute', top:0, zIndex: 0}} xmlns="http://www.w3.org/2000/svg">
-                           <defs>
-                             <pattern id="smallGrid" width="10" height="10" patternUnits="userSpaceOnUse">
-                               <path d="M 10 0 L 0 0 0 10" fill="none" stroke="gray" strokeWidth="0.5"/>
-                             </pattern>
-                             <pattern id="grid" width="100" height="100" patternUnits="userSpaceOnUse">
-                               <rect width="100" height="100" fill="url(#smallGrid)"/>
-                               <path d="M 100 0 L 0 0 0 100" fill="none" stroke="gray" strokeWidth="1"/>
-                             </pattern>
-                           </defs>
+                        {true ? <svg width="100%" height="100%" style={{ position: 'absolute', top: 0, zIndex: 0 }} xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <pattern id="smallGrid" width="10" height="10" patternUnits="userSpaceOnUse">
+                                    <path d="M 10 0 L 0 0 0 10" fill="none" stroke="#ccc" strokeWidth="0.5"/>
+                                </pattern>
+                                <pattern id="grid" width="100" height="100" patternUnits="userSpaceOnUse">
+                                    <rect width="100" height="100" fill="url(#smallGrid)"/>
+                                    <path d="M 100 0 L 0 0 0 100" fill="none" stroke="#ccc" strokeWidth="1"/>
+                                </pattern>
+                            </defs>
 
-                           <rect width="100%" height="100%" fill="url(#grid)" />
-                         </svg>   */}
+                            <rect width="100%" height="100%" fill="url(#grid)" />
+                        </svg> : null}
                         <EditorHeader titles={titles}
                             onBoxSelected={this.props.onBoxSelected}
                             courseTitle={this.props.title}
@@ -141,7 +141,6 @@ export default class EditorCanvasSli extends Component {
                                 onBoxLevelIncreased={this.props.onBoxLevelIncreased}
                                 onBoxMoved={this.props.onBoxMoved}
                                 onBoxResized={this.props.onBoxResized}
-
                                 onSortableContainerResized={this.props.onSortableContainerResized}
                                 onBoxesInsideSortableReorder={this.props.onBoxesInsideSortableReorder}
                                 onBoxDropped={this.props.onBoxDropped}
@@ -178,6 +177,7 @@ export default class EditorCanvasSli extends Component {
      * Set up interact in order to enable dragging boxes
      */
     componentDidMount() {
+
         interact(ReactDOM.findDOMNode(this.refs.slideDropZone)).dropzone({
             accept: '.floatingEditorBox',
             overlap: 'pointer',
