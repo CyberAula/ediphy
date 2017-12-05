@@ -4,8 +4,6 @@ import * as ActionTypes from '../../common/actions';
 
 const state = testState.present.containedViewsById;
 
-
-
 describe('# contained_views_by_id reducer ******************************************************************* TODO :)', ()=>{
 
     describe('DEFAULT', ()=>{
@@ -86,7 +84,7 @@ describe('# contained_views_by_id reducer **************************************
 
             let newState = {
                 "cv-1511252975055":
-                    { "id": "cv-1511252975055", "parent": { "bo-1511252970033": ["rm-1511252975055"] }, "name": "prueba", "boxes": ["bo-1511443052968",ids.id], "type": "slide", "extraFiles": {}, "header": { "elementContent": { "documentTitle": "prueba", "documentSubTitle": "", "numPage": "" }, "display": { "courseTitle": "hidden", "documentTitle": "expanded", "documentSubTitle": "hidden", "breadcrumb": "hidden", "pageNumber": "hidden" } } } };
+                    { "id": "cv-1511252975055", "parent": { "bo-1511252970033": ["rm-1511252975055"] }, "name": "prueba", "boxes": ["bo-1511443052968", ids.id], "type": "slide", "extraFiles": {}, "header": { "elementContent": { "documentTitle": "prueba", "documentSubTitle": "", "numPage": "" }, "display": { "courseTitle": "hidden", "documentTitle": "expanded", "documentSubTitle": "hidden", "breadcrumb": "hidden", "pageNumber": "hidden" } } } };
 
             expect(contained_views_by_id(state, action)).toEqual(newState);
         });
@@ -133,7 +131,7 @@ describe('# contained_views_by_id reducer **************************************
 
             let newState = {
                 "cv-1511252975055":
-                    { "id": "cv-1511252975055", "parent": { "bo-1511252970033": ["rm-1511252975055"], "bo-15118685651356": ["rm-1511252975055_1"] }, "name": "prueba", "boxes": ["bo-1511443052968",ids.id], "type": "slide", "extraFiles": {}, "header": { "elementContent": { "documentTitle": "prueba", "documentSubTitle": "", "numPage": "" }, "display": { "courseTitle": "hidden", "documentTitle": "expanded", "documentSubTitle": "hidden", "breadcrumb": "hidden", "pageNumber": "hidden" } } } };
+                    { "id": "cv-1511252975055", "parent": { "bo-1511252970033": ["rm-1511252975055"], "bo-15118685651356": ["rm-1511252975055_1"] }, "name": "prueba", "boxes": ["bo-1511443052968", ids.id], "type": "slide", "extraFiles": {}, "header": { "elementContent": { "documentTitle": "prueba", "documentSubTitle": "", "numPage": "" }, "display": { "courseTitle": "hidden", "documentTitle": "expanded", "documentSubTitle": "hidden", "breadcrumb": "hidden", "pageNumber": "hidden" } } } };
 
             expect(contained_views_by_id(state, action)).toEqual(newState);
         });

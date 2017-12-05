@@ -1,9 +1,9 @@
 import { testState } from '../../core/store/state.tests.js';
 import boxes_by_id from '../boxes_by_id';
 import * as ActionTypes from '../../common/actions';
-import {changeProp, changeProps, isSortableBox, isSortableContainer} from "../../common/utils";
+import { changeProp, changeProps, isSortableBox, isSortableContainer } from "../../common/utils";
 import { REORDER_SORTABLE_CONTAINER } from "../../common/actions";
-import {DROP_BOX} from "../../common/actions";
+import { DROP_BOX } from "../../common/actions";
 
 const state = testState.present.boxesById;
 // new box to add
@@ -303,7 +303,7 @@ describe('# boxes_by_id reducer', () => {
                     row: 0,
                     col: 1,
                     container: 'sc-1511443052922',
-                    parent:'bs-1511252985426',
+                    parent: 'bs-1511252985426',
                 },
             };
             const newState = JSON.parse(JSON.stringify(state));
@@ -457,12 +457,12 @@ describe('# boxes_by_id reducer', () => {
             let newState = { "bs-1511252955322": { "id": "bs-1511252955322", "parent": "pa-1511252955321", "container": 0, "level": -1, "col": 0, "row": 0, "position": { "x": 0, "y": 0, "type": "relative" }, "draggable": false, "resizable": false, "showTextEditor": false, "fragment": {}, "children": [], "sortableContainers": {}, "containedViews": [] },
                 "bo-1511252970033": { "id": "bo-1511252970033", "parent": "pa-1511252955865", "container": 0, "level": 0, "col": 0, "row": 0, "position": { "x": "29.56%", "y": "28.67%", "type": "absolute" }, "content": "", "draggable": true, "resizable": true, "showTextEditor": false, "fragment": {}, "children": [], "sortableContainers": {}, "containedViews": [] },
                 "bs-1511252985426": { "id": "bs-1511252985426", "parent": "pa-1511252985426", "container": 0, "level": -1, "col": 0, "row": 0, "position": { "x": 0, "y": 0, "type": "relative" }, "draggable": false, "resizable": false, "showTextEditor": false, "fragment": {},
-                    "children": ["sc-1511443052922", "sc-1511443052923",],
+                    "children": ["sc-1511443052922", "sc-1511443052923"],
                     "sortableContainers": {
                         "sc-1511443052922": {
                             "children": ["bo-1511443052925", "bo-1511443052967"],
                             "colDistribution": [100],
-                            "cols": [[100],[100]],
+                            "cols": [[100], [100]],
                             "height": "auto",
                             "key": "",
                             "style": {
@@ -492,7 +492,7 @@ describe('# boxes_by_id reducer', () => {
                             },
                         },
                     },
-                    "containedViews": []
+                    "containedViews": [],
                 },
                 "bs-1497983247797": {
                     "id": "bs-1497983247797",
@@ -527,7 +527,7 @@ describe('# boxes_by_id reducer', () => {
                             },
                         },
                     },
-                    "containedViews": []
+                    "containedViews": [],
                 },
                 'bo-1511443052925': {
                     "id": 'bo-1511443052925',

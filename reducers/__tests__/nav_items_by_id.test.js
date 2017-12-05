@@ -1,7 +1,10 @@
 import { testState } from '../../core/store/state.tests.js';
 import nav_items_by_id from '../nav_items_by_id';
 import * as ActionTypes from '../../common/actions';
-import { isView } from "../../common/utils";
+import { changeProp, deleteProp, findNavItemContainingBox, isSortableContainer, isView } from "../../common/utils";
+import { DELETE_BOX } from "../../common/actions";
+import { DELETE_SORTABLE_CONTAINER } from "../../common/actions";
+import { EXPAND_NAV_ITEM } from "../../common/actions";
 
 const state = testState.present.navItemsById;
 
@@ -183,68 +186,113 @@ describe('# nav_items_by_id reducer ********************************************
     //     });
     // });
 
-    // case CHANGE_UNIT_NUMBER:
-    //         let finalValue;
-    //     if(isNaN(parseInt(action.payload.value, 10))) {
-    //         finalValue = "";
-    //     } else {
-    //         finalValue = action.payload.value;
-    //     }
-    //     return changeProp(state, "unitNumber", finalValue);
+    describe('handle DELETE_BOX', () => {
+        test('If box deleted is in a sortable container', () => {
+            const action = {
+                type: ActionTypes.DELETE_BOX,
+                payload: {
+                    id: 'bo-1511443052925',
+                    parent: 'bs-1511252985426',
+                    container: 'sc-1511443052922',
+                    children: [],
+                    cvs: [],
+                },
+            };
+            const newState = JSON.parse(JSON.stringify(state));
+            expect(isSortableContainer(action.payload.container)).toBeTruthy();
+            expect(nav_items_by_id(state, action)).toEqual(newState);
+        });
+        test('If box deleted is in a slide', () => {
+            const action = {
+                type: ActionTypes.DELETE_BOX,
+                payload: {
+                    id: 'bo-1511252970033',
+                    parent: 'pa-1511252955865',
+                    container: 0,
+                    children: [],
+                    cvs: [],
+                },
+            };
+            const newState = JSON.parse(JSON.stringify(state));
 
-    describe('handle DELETE_BOX', ()=>{
-        test('If box deleted', () => {
-            // expect(nav_items_by_id(state, {})).toEqual(state);
+            newState['pa-1511252955865'].boxes = [];
+
+            expect(isView(action.payload.parent)).toBeTruthy();
+            expect(action.payload.parent !== 0).toBeTruthy();
+            expect(nav_items_by_id(state, action)).toEqual(newState);
         });
     });
-    describe('handle DELETE_SORTABLE_CONTAINER', ()=>{
+
+    describe('handle DELETE_SORTABLE_CONTAINER', () => {
         test('If sortable container deleted', () => {
-            // expect(nav_items_by_id(state, {})).toEqual(state);
+            const action = {
+                type: ActionTypes.DELETE_SORTABLE_CONTAINER,
+                payload: {
+                    id: 'sc-1511443052922',
+                    parent: 'bs-1511252985426',
+                    children: [],
+                    cvs: {},
+                },
+            };
+            const newState = JSON.parse(JSON.stringify(state));
+            expect(nav_items_by_id(state, action)).toEqual(newState);
         });
     });
-    describe('handle DUPLICATE_BOX', ()=>{
-        test('If duplicated box', () => {
-            // expect(nav_items_by_id(state, {})).toEqual(state);
-        });
-    });
-    describe('handle EXPAND_NAV_ITEM', ()=>{
+
+    // describe('handle DUPLICATE_BOX ***************************** TODO :)', () => {
+    //     test('If duplicated box', () => {
+    //         // expect(nav_items_by_id(state, action)).toEqual(newState);
+    //     });
+    // });
+
+    describe('handle EXPAND_NAV_ITEM', () => {
         test('If nav item expanded', () => {
-            // expect(nav_items_by_id(state, {})).toEqual(state);
+            const action = {
+                type: ActionTypes.EXPAND_NAV_ITEM,
+                payload: {
+                    id: 'se-1511252954307',
+                    value: false,
+                },
+            };
+            const newState = JSON.parse(JSON.stringify(state));
+            newState['se-1511252954307'].isExpanded = action.payload.value;
+            expect(nav_items_by_id(state, action)).toEqual(newState);
         });
     });
+
     describe('handle REORDER_NAV_ITEM', ()=>{
         test('If nav item reordered', () => {
-            // expect(nav_items_by_id(state, {})).toEqual(state);
+            // expect(nav_items_by_id(state, action)).toEqual(newState);
         });
     });
     describe('handle DELETE_NAV_ITEM', ()=>{
         test('If nav item deleted', () => {
-            // expect(nav_items_by_id(state, {})).toEqual(state);
+            // expect(nav_items_by_id(state, action)).toEqual(newState);
         });
     });
     describe('handle TOGGLE_NAV_ITEM', ()=>{
         test('If nav item toggled', () => {
-            // expect(nav_items_by_id(state, {})).toEqual(state);
+            // expect(nav_items_by_id(state, action)).toEqual(newState);
         });
     });
     describe('handle TOGGLE_TITLE_MODE', ()=>{
         test('If title mode toggled', () => {
-            // expect(nav_items_by_id(state, {})).toEqual(state);
+            // expect(nav_items_by_id(state, action)).toEqual(newState);
         });
     });
     describe('handle ADD_RICH_MARK', ()=>{
         test('If rich mark added', () => {
-            // expect(nav_items_by_id(state, {})).toEqual(state);
+            // expect(nav_items_by_id(state, action)).toEqual(newState);
         });
     });
     describe('handle EDIT_RICH_MARK', ()=>{
         test('If rich mark edited', () => {
-            // expect(nav_items_by_id(state, {})).toEqual(state);
+            // expect(nav_items_by_id(state, action)).toEqual(newState);
         });
     });
     describe('handle DELETE_RICH_MARK', ()=>{
         test('If rich mark deleted', () => {
-            // expect(nav_items_by_id(state, {})).toEqual(state);
+            // expect(nav_items_by_id(state, action)).toEqual(newState);
         });
     });
     describe('handle PASTE_BOX', ()=>{
@@ -333,7 +381,7 @@ describe('# nav_items_by_id reducer ********************************************
             newState[ids.parent].boxes = [ids.id];
 
             expect(nav_items_by_id(state, action)).toEqual(newState);
-        // expect(boxes_by_id(state, {})).toEqual(state);
+
         });
         test('If box pasted to cv slide with mark to navItem', () => {
 
@@ -364,12 +412,12 @@ describe('# nav_items_by_id reducer ********************************************
     });
     describe('handle UPDATE_NAV_ITEM_EXTRA_FILES', ()=>{
         test('If updated nav items extra files', () => {
-            // expect(nav_items_by_id(state, {})).toEqual(state);
+            // expect(nav_items_by_id(state, action)).toEqual(newState);
         });
     });
     describe('handle IMPORT_STATE', ()=>{
         test('If state imported', () => {
-            // expect(nav_items_by_id(state, {})).toEqual(state);
+            // expect(nav_items_by_id(state, action)).toEqual(newState);
         });
     });
 
