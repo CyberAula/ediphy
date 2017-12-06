@@ -162,6 +162,7 @@ export default class EditorCanvasDoc extends Component {
                     onTextEditorToggled={this.props.onTextEditorToggled}
                     onBoxResized={this.props.onBoxResized}
                     onBoxDeleted={this.props.onBoxDeleted}
+                    lastActionDispatched={this.props.lastActionDispatched}
                     pointerEventsCallback={this.props.toolbars[this.props.boxSelected] && this.props.toolbars[this.props.boxSelected].config && this.props.toolbars[this.props.boxSelected].config.name && Ediphy.Plugins.get(this.props.toolbars[this.props.boxSelected].config.name) ? Ediphy.Plugins.get(this.props.toolbars[this.props.boxSelected].config.name).pointerEventsCallback : null}
                     onMarkCreatorToggled={this.props.onMarkCreatorToggled}
                     toolbar={this.props.toolbars[this.props.boxSelected]}/>

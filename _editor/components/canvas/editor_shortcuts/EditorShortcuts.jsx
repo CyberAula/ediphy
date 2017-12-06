@@ -29,7 +29,7 @@ export default class EditorShortcuts extends Component {
         /**
          * Resize function binded
          */
-        this.resize = this.resize.bind(this);
+        this.resizeAndSetState = this.resizeAndSetState.bind(this);
     }
 
     /**
@@ -197,6 +197,10 @@ export default class EditorShortcuts extends Component {
         );
     }
 
+    resizeAndSetState(fromUpdate, newProps) {
+        let { width, top, left } = this.resize(fromUpdate, newProps);
+        this.setState({ left: left, top: top, width: width });
+    }
     /**
      * Resize callback for when either the window or the parent container change their size
      * @param fromUpdate
@@ -230,12 +234,14 @@ export default class EditorShortcuts extends Component {
                 } else {
                     width = box.getBoundingClientRect().width;
                 }
-
-                this.setState({ left: left, top: top, width: width });
                 box.classList.remove('norotate');
+
+                return { left, top, width };
+                // this.setState({ left: left, top: top, width: width });
 
             }
         }
+        return { left: 0, top: 0, width: 0 };
     }
 
     /**
@@ -245,8 +251,18 @@ export default class EditorShortcuts extends Component {
     componentWillReceiveProps(nextProps) {
         if (nextProps !== this.props) {
             if (nextProps.box) {
-                this.resize("fromUpdate", nextProps);
+                this.resizeAndSetState("fromUpdate", nextProps);
+                // this.setState({ left: left, top: top, width: width });
             }
+        }
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        let { width, top, left } = this.resize();
+
+        if (this.state.width !== width || this.state.top !== top || this.state.left !== left) {
+            // eslint-disable-next-line react/no-did-update-set-state
+            this.setState({ left: left, top: top, width: width });
         }
     }
 
@@ -282,11 +298,11 @@ export default class EditorShortcuts extends Component {
      * Sets resize listeners
      */
     componentDidMount() {
-        window.addEventListener('resize', this.resize);
+        window.addEventListener('resize', this.resizeAndSetState);
         if (this.props && this.props.box) {
             let boxObj = document.getElementById('box-' + this.props.box.id);
             if(boxObj) {
-                boxObj.addEventListener('resize', this.resize);
+                boxObj.addEventListener('resize', this.resizeAndSetState);
             }
 
         }
@@ -306,11 +322,11 @@ export default class EditorShortcuts extends Component {
             boxEl.classList.remove('pointerEventsEnabled');
         }
 
-        window.removeEventListener('resize', this.resize);
+        window.removeEventListener('resize', this.resizeAndSetState);
         if (this.props && this.props.box) {
             let boxObj = document.getElementById('box-' + this.props.box.id);
             if(boxObj) {
-                boxObj.removeEventListener('resize', this.resize);
+                boxObj.removeEventListener('resize', this.resizeAndSetState);
             }
         }
     }
