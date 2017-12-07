@@ -40,6 +40,7 @@ export default class EditorBoxSortable extends Component {
         let box = this.props.boxes[this.props.id];
         return (
             <div className="editorBoxSortable"
+                role="presentation"
                 onClick={e => {
                     if(box.children.length !== 0) {
                         this.props.onBoxSelected(this.props.id);
@@ -188,6 +189,7 @@ export default class EditorBoxSortable extends Component {
                 </div>
 
                 <div className="dragContentHere" data-html2canvas-ignore
+                    role="presentation"
                     onClick={e => {
                         this.props.onBoxSelected(-1);
                         e.stopPropagation();}}>{i18n.t("messages.drag_content")}

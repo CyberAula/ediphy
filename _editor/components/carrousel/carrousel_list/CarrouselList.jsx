@@ -56,7 +56,7 @@ export default class CarrouselList extends Component {
 
         return (
             <div style={{ height: "100%" }}>
-                <div style={{ height: "20px", backgroundColor: "black", marginBottom: "2px", paddingLeft: "10px", cursor: 'pointer' }} onClick={()=> {
+                <button style={{ border: "0", width: "100%", height: "20px", backgroundColor: "black", paddingLeft: "8px", cursor: 'pointer', textAlign: "left" }} onClick={()=> {
                     this.setState({ showSortableItems: !this.state.showSortableItems });
                 }}>
                     {(this.state.showSortableItems) ?
@@ -64,9 +64,10 @@ export default class CarrouselList extends Component {
                         <i className="material-icons" style={{ color: "gray", fontSize: "15px", marginLeft: "2px", marginRight: "2px" }}>{"play_arrow" }</i>
                     }
                     <span style={{ color: "white", fontSize: "11px" }}>{i18n.t("INDEX")}</span>
-                </div>
+                </button>
                 <div ref="sortableList"
                     className="carList connectedSortables"
+                    role="presentation"
                     style={{ height: (this.state.showSortableItems) ? this.getContentHeight() : '0px', display: 'inherit' }}
                     onClick={e => {
                         this.props.onIndexSelected(this.props.id);

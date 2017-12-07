@@ -40,7 +40,18 @@ export default class MarksList extends Component {
                                         markEl.style.width = widthScroll + '%';
                                         markEl.style.left = '-' + (widthScroll - 100) + '%';
                                     }}
+                                    onFocus={ () => {
+                                        let markEl = document.getElementById('mark_' + id);
+                                        markEl.style.transitionDuration = widthScroll / 100 + 's';
+                                        markEl.style.width = widthScroll + '%';
+                                        markEl.style.left = '-' + (widthScroll - 100) + '%';
+                                    }}
                                     onMouseOut={() =>{
+                                        let markEl = document.getElementById('mark_' + id);
+                                        markEl.style.width = '100%';
+                                        markEl.style.left = '0%';
+                                    }}
+                                    onBlur={ () => {
                                         let markEl = document.getElementById('mark_' + id);
                                         markEl.style.width = '100%';
                                         markEl.style.left = '0%';

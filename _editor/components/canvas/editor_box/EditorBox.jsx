@@ -206,6 +206,7 @@ export default class EditorBox extends Component {
         /* <MarkCreator/>*/
         return (
             <div className={classes} id={'box-' + this.props.id}
+                role="presentation"
                 onClick={e => {
                     // If there's no box selected and current's level is 0 (otherwise, it would select a deeper box)
                     // or -1 (only EditorBoxSortable can have level -1)

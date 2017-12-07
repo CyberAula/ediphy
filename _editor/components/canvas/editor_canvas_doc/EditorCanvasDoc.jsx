@@ -51,6 +51,7 @@ export default class EditorCanvasDoc extends Component {
 
                 <div className="scrollcontainer"
                     style={{ backgroundColor: show ? 'white' : 'transparent', display: show ? 'block' : 'none' }}
+                    role="presentation"
                     onClick={e => {
                         this.props.onBoxSelected(-1);
                         this.setState({ showTitle: false });

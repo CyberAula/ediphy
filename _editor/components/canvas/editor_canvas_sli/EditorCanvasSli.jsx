@@ -72,6 +72,7 @@ export default class EditorCanvasSli extends Component {
 
                     <div id={this.props.fromCV ? "contained_maincontent" : "maincontent"}
                         ref="slideDropZone"
+                        role="presentation"
                         onClick={e => {
                             this.props.onBoxSelected(-1);
                             this.setState({ showTitle: false });
