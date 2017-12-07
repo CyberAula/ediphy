@@ -58,6 +58,7 @@
 .ribdrag {
   color: $darkest;
   padding: 10px;
+  max-height: 40px !important;
   &:hover {
     color: $darkest !important;
   }
