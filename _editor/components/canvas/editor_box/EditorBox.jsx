@@ -400,7 +400,7 @@ export default class EditorBox extends Component {
         let offsetEl = document.getElementById('maincontent') ? document.getElementById('maincontent').getBoundingClientRect() : {};
         let leftO = offsetEl.left || 0;
         let topO = offsetEl.top || 0;
-        let gridTarget = interact.createSnapGrid({ x: 50, y: 50, range: 25, offset: { x: leftO, y: topO } });
+        let gridTarget = interact.createSnapGrid({ x: 5, y: 5, range: 3, offset: { x: leftO, y: topO } });
 
         if (prevProps.toolbars[this.props.id] && (toolbar.showTextEditor !== prevProps.toolbars[this.props.id].showTextEditor) && box.draggable) {
             interact(node).draggable({ enabled: !toolbar.showTextEditor, snap: { targets: [gridTarget] } });
@@ -430,7 +430,7 @@ export default class EditorBox extends Component {
         let leftO = offsetEl.left || 0;
         let topO = offsetEl.top || 0;
         offsetEl;
-        let gridTarget = interact.createSnapGrid({ x: 50, y: 50, range: 25, offset: { x: leftO, y: topO } });
+        let gridTarget = interact.createSnapGrid({ x: 5, y: 5, range: 3, offset: { x: leftO, y: topO } });
         Ediphy.Plugins.get(toolbar.config.name).getConfig();
         Ediphy.Plugins.get(toolbar.config.name).afterRender(this.refs.content, toolbar.state);
         let dragRestrictionSelector = isSortableContainer(box.container) ? /* ".editorBoxSortableContainer, .drg" + box.container :*/"sortableContainerBox" : "parent";
@@ -625,11 +625,11 @@ export default class EditorBox extends Component {
             .ignoreFrom('input, textarea, .textAreaStyle,  a, .pointerEventsEnabled')
             .resizable({
                 snap: { targets: [gridTarget] },
-                /* snapSize: {targets: [
+                snapSize: { targets: [
                     // snap the width and height to multiples of 5 when the element size
                     // is 25 pixels away from the target size
-                    { width: 10, height: 10, range: 5 },
-                ]},*/
+                    { width: 2, height: 2, range: 2 },
+                ] },
                 preserveAspectRatio: this.checkAspectRatioValue(),
                 enabled: (box.resizable),
                 restrict: {

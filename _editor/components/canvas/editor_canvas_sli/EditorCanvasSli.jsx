@@ -13,7 +13,7 @@ import { aspectRatio } from '../../../../common/common_tools';
 import Ediphy from '../../../../core/editor/main';
 import ReactResizeDetector from 'react-resize-detector';
 import i18n from 'i18next';
-
+import { SnapGrid } from './SnapGrid';
 /**
  * EditorCanvasSli component
  * Canvas component to display slides
@@ -62,6 +62,7 @@ export default class EditorCanvasSli extends Component {
 
         let overlayHeight = actualHeight ? actualHeight : '100%';
         let boxes = itemSelected ? itemSelected.boxes : [];
+        let gridOn = true;
         return (
             <Col id={this.props.fromCV ? 'containedCanvas' : 'canvas'} md={12} xs={12} className="canvasSliClass"
                 style={{ display: this.props.containedViewSelected !== 0 && !this.props.fromCV ? 'none' : 'initial' }}>
@@ -80,19 +81,7 @@ export default class EditorCanvasSli extends Component {
                         className={'innercanvas sli'}
                         style={{ visibility: (this.props.showCanvas ? 'visible' : 'hidden') }}>
                         {this.state.alert}
-                        {true ? <svg width="100%" height="100%" style={{ position: 'absolute', top: 0, zIndex: 0 }} xmlns="http://www.w3.org/2000/svg">
-                            <defs>
-                                <pattern id="smallGrid" width="10" height="10" patternUnits="userSpaceOnUse">
-                                    <path d="M 10 0 L 0 0 0 10" fill="none" stroke="#ccc" strokeWidth="0.5"/>
-                                </pattern>
-                                <pattern id="grid" width="100" height="100" patternUnits="userSpaceOnUse">
-                                    <rect width="100" height="100" fill="url(#smallGrid)"/>
-                                    <path d="M 100 0 L 0 0 0 100" fill="none" stroke="#ccc" strokeWidth="1"/>
-                                </pattern>
-                            </defs>
-
-                            <rect width="100%" height="100%" fill="url(#grid)" />
-                        </svg> : null}
+                        {gridOn ? <SnapGrid/> : null}
                         <EditorHeader titles={titles}
                             onBoxSelected={this.props.onBoxSelected}
                             courseTitle={this.props.title}
