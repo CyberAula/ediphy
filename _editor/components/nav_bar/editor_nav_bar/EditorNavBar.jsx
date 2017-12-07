@@ -84,7 +84,7 @@ export default class EditorNavBar extends Component {
                         onClick={() => { this.props.category === 'exercises' ? this.openPlugin('') : this.openPlugin('exercises'); }}>
                         <span className="hideonresize">{i18n.t("Exercises")}</span>
                     </button>
-                    <button className="togglePlugins"><i className="material-icons">widgets</i></button>
+                    <div className="togglePlugins"><i className="material-icons">widgets</i></div>
                 </div>
                 <div className="navButtons">
                     <button className="navButton"

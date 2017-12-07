@@ -204,7 +204,7 @@ class EditorApp extends Component {
                         <Row id="actionsRibbon">
                             <ActionsRibbon ribbonHeight={ribbonHeight + 'px'}/>
                         </Row>
-                        <Row id="ribbonRow">
+                        <Row id="ribbonRow" style={{ left: (this.state.carouselShow ? '15px' : '147px') }}>
                             <PluginRibbon disabled={navItemSelected === 0 || (!Ediphy.Config.sections_have_content && navItemSelected && isSection(navItemSelected)) || this.hasExerciseBox(navItemSelected, navItems, this.state, boxes)} // ADD condition navItemSelected There are extrafiles
                                 boxSelected={boxes[boxSelected]}
                                 navItemSelected={navItems[navItemSelected]}

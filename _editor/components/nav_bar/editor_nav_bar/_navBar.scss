@@ -146,6 +146,7 @@ button[disabled].navButton {
   width: auto;
   min-width: 80px;
   font-weight: 400;
+  line-height: 1em;
   .material-icons {
     vertical-align: middle;
   }
@@ -169,9 +170,10 @@ button[disabled].navButton {
   color: $blueprimary;
   height: 60px;
   float: right;
+  padding: 19px 5px;
   .material-icons{
     padding: 0 10px;
-    font-size: 1.5em;
+    font-size: 1.3em;
   }
 }
 
