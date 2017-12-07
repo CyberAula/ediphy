@@ -65,7 +65,7 @@ export default class ChartOptions extends React.Component {
             for (let i = yAxis.length; i < number; i++) {
                 yAxis[i] = {
                     key: "",
-                    color: "#1FC8DB",
+                    color: "#17CFC8",
                 };
             }
         } else {
@@ -100,7 +100,7 @@ export default class ChartOptions extends React.Component {
                 rings[i] = {
                     name: this.state.keys[0],
                     value: this.state.valueKeys[0],
-                    color: "#1FC8DB",
+                    color: "#17CFC8",
                 };
             }
         } else {

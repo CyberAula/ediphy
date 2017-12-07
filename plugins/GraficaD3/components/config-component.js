@@ -89,8 +89,8 @@ export default class Config extends React.Component {
         }
         let options = this.state.options;
         options.x = keys[0];
-        options.y = [{ key: valueKeys[0], color: "#1FC8DB" }];
-        options.rings = [{ name: keys[0], value: valueKeys[0], color: "#1FC8DB" }];
+        options.y = [{ key: valueKeys[0], color: "#17CFC8" }];
+        options.rings = [{ name: keys[0], value: valueKeys[0], color: "#17CFC8" }];
         this.setState({ dataProcessed: dataProcessed, keys: keys, valueKeys: valueKeys, options: options });
     }
 

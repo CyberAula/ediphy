@@ -1,8 +1,9 @@
 import { testState } from '../../core/store/state.tests.js';
 import boxes_by_id from '../boxes_by_id';
 import * as ActionTypes from '../../common/actions';
-import { changeProp, isSortableContainer } from "../../common/utils";
+import { changeProp, changeProps, isSortableBox, isSortableContainer } from "../../common/utils";
 import { REORDER_SORTABLE_CONTAINER } from "../../common/actions";
+import { DROP_BOX } from "../../common/actions";
 
 const state = testState.present.boxesById;
 // new box to add
@@ -13,7 +14,7 @@ const createdbox = {
     resizable: false, showTextEditor: false, fragment: {}, children: [], sortableContainers: {}, containedViews: [],
 };
 
-describe('# boxes_by_id reducer ******************************************************************* DOING :)', () => {
+describe('# boxes_by_id reducer', () => {
 
     describe('DEFAULT', ()=>{
         test('Should return test.state as default', () => {
@@ -301,12 +302,13 @@ describe('# boxes_by_id reducer ************************************************
                     id: 'bo-1511443052925',
                     row: 0,
                     col: 1,
+                    container: 'sc-1511443052922',
+                    parent: 'bs-1511252985426',
                 },
             };
             const newState = JSON.parse(JSON.stringify(state));
             newState['bo-1511443052925'].col = action.payload.col;
             newState['bo-1511443052925'].row = action.payload.row;
-
             expect(boxes_by_id(state, action)).toEqual(newState);
         });
     });
@@ -453,8 +455,45 @@ describe('# boxes_by_id reducer ************************************************
             };
 
             let newState = { "bs-1511252955322": { "id": "bs-1511252955322", "parent": "pa-1511252955321", "container": 0, "level": -1, "col": 0, "row": 0, "position": { "x": 0, "y": 0, "type": "relative" }, "draggable": false, "resizable": false, "showTextEditor": false, "fragment": {}, "children": [], "sortableContainers": {}, "containedViews": [] },
-                "bo-1511252970033": { "id": "bo-1511252970033", "parent": "pa-1511252955865", "container": 0, "level": 0, "col": 0, "row": 0, "position": { "x": "29.56%", "y": "28.67%", "type": "absolute" }, "content": "", "draggable": true, "resizable": true, "showTextEditor": false, "fragment": {}, "children": [], "sortableContainers": {}, "containedViews": ["cv-1511252975055"] },
-                "bs-1511252985426": { "id": "bs-1511252985426", "parent": "pa-1511252985426", "container": 0, "level": -1, "col": 0, "row": 0, "position": { "x": 0, "y": 0, "type": "relative" }, "draggable": false, "resizable": false, "showTextEditor": false, "fragment": {}, "children": [], "sortableContainers": {}, "containedViews": [] },
+                "bo-1511252970033": { "id": "bo-1511252970033", "parent": "pa-1511252955865", "container": 0, "level": 0, "col": 0, "row": 0, "position": { "x": "29.56%", "y": "28.67%", "type": "absolute" }, "content": "", "draggable": true, "resizable": true, "showTextEditor": false, "fragment": {}, "children": [], "sortableContainers": {}, "containedViews": [] },
+                "bs-1511252985426": { "id": "bs-1511252985426", "parent": "pa-1511252985426", "container": 0, "level": -1, "col": 0, "row": 0, "position": { "x": 0, "y": 0, "type": "relative" }, "draggable": false, "resizable": false, "showTextEditor": false, "fragment": {},
+                    "children": ["sc-1511443052922", "sc-1511443052923"],
+                    "sortableContainers": {
+                        "sc-1511443052922": {
+                            "children": ["bo-1511443052925", "bo-1511443052967"],
+                            "colDistribution": [100],
+                            "cols": [[100], [100]],
+                            "height": "auto",
+                            "key": "",
+                            "style": {
+                                "borderColor": "#ffffff",
+                                "borderStyle": "solid",
+                                "borderWidth": "0px",
+                                "className": "",
+                                "opacity": "1",
+                                "padding": "0px",
+                                "textAlign": "center",
+                            },
+                        },
+                        "sc-1511443052923": {
+                            "children": [],
+                            "colDistribution": [100],
+                            "cols": [[100]],
+                            "height": "auto",
+                            "key": "",
+                            "style": {
+                                "borderColor": "#ffffff",
+                                "borderStyle": "solid",
+                                "borderWidth": "0px",
+                                "className": "",
+                                "opacity": "1",
+                                "padding": "0px",
+                                "textAlign": "center",
+                            },
+                        },
+                    },
+                    "containedViews": [],
+                },
                 "bs-1497983247797": {
                     "id": "bs-1497983247797",
                     "parent": "pa-1497983247795",
@@ -488,9 +527,62 @@ describe('# boxes_by_id reducer ************************************************
                             },
                         },
                     },
-                    "containedViews": [] },
+                    "containedViews": [],
+                },
+                'bo-1511443052925': {
+                    "id": 'bo-1511443052925',
+                    "parent": 'bs-1511252985426',
+                    "container": 'sc-1511443052922',
+                    "level": 0,
+                    "col": 0,
+                    "row": 0,
+                    "position": { x: 0, y: 0, type: 'relative' },
+                    "content": '',
+                    "draggable": true,
+                    "resizable": false,
+                    "showTextEditor": false,
+                    "fragment": {},
+                    "children": [],
+                    "sortableContainers": {},
+                    "containedViews": [],
+                },
+                'bo-1511443052967': {
+                    "id": 'bo-1511443052967',
+                    "parent": 'bs-1511252985426',
+                    "container": 'sc-1511443052922',
+                    "level": 0,
+                    "col": 0,
+                    "row": 0,
+                    "position": { x: 0, y: 0, type: 'relative' },
+                    "content": '',
+                    "draggable": true,
+                    "resizable": false,
+                    "showTextEditor": false,
+                    "fragment": {},
+                    "children": [],
+                    "sortableContainers": {},
+                    "containedViews": [],
+                },
+                'bo-1511443052968': {
+                    "id": 'bo-1511443052968',
+                    "parent": 'cv-1511252975055',
+                    "container": 0,
+                    "level": 0,
+                    "col": 0,
+                    "row": 0,
+                    "position": { x: 0, y: 0, type: 'absolute' },
+                    "content": '',
+                    "draggable": true,
+                    "resizable": true,
+                    "showTextEditor": false,
+                    "fragment": {},
+                    "children": [],
+                    "sortableContainers": {},
+                    "containedViews": [],
+                },
                 "bo-1511868565135": { "id": "bo-1511868565135", "parent": "bs-1497983247797", "container": "sc-1511868565133", "level": 0, "col": 0, "row": 0, "position": { "x": 0, "y": 0, "type": "relative" }, "content": "", "draggable": true, "resizable": false, "showTextEditor": false, "fragment": {}, "children": [], "sortableContainers": {}, "containedViews": [] },
             };
+
             expect(boxes_by_id(state, action)).toEqual(newState);
         });
 

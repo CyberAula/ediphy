@@ -1,0 +1,27 @@
+@import "../../../../sass/general/_variables.scss";
+/*Ribbon Column*/
+#ActionRibbon {
+  background-color: $grisclaro;
+  -webkit-box-shadow: inset 0px 3px 5px 0px rgba(179,179,179,1);
+  -moz-box-shadow: inset 0px 3px 5px 0px rgba(179,179,179,1);
+  box-shadow: inset 0px 3px 5px 0px rgba(179,179,179,1);
+  height: 60px;
+  padding: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+
+#Actions {
+  float: right;
+}
+.ActionBtn {
+  height: 47px !important;
+  background-color: transparent !important;
+  .material-icons {
+    font-size: 16px;
+  }
+  span {
+    display: block;
+    margin:0px;
+  }
+}
