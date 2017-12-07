@@ -6,7 +6,6 @@ import VisorCanvasSli from './VisorCanvasSli';
 import { CSSTransition } from 'react-transition-group';
 
 export default class VisorContainedCanvas extends Component {
-
     componentDidMount() {
 
     }
