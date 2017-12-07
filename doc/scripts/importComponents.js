@@ -12,7 +12,6 @@ function getFiles(filePath) {
                 getFiles(subpath);
             } else if (path.extname(file) && path.extname(file) === '.jsx') {
                 if(file !== 'Content.jsx') {
-                    console.log('   ...' + file);
                     files.push({ name: path.basename(file, path.extname(file)), path: filePath });
                 }
             }
@@ -28,7 +27,7 @@ function writeModuleFile(modPath) {
         content += "export { default as " + fileObj.name + " } from '" + newPath + fileObj.name + "';\n";
     });
 
-    fs.writeFile(modPath, content);
+    fs.writeFileSync(modPath, content);
 }
 
 console.log('\nIMPORT CUSTOM COMPONENTS\n');

@@ -15,4 +15,6 @@ export const emptyState = () => { return ({ present:
         toolbarsById: { },
         isBusy: "",
         fetchVishResults: { "results": [] },
-    } });};
+    },
+});
+};

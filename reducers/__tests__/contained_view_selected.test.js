@@ -4,7 +4,7 @@ import { ADD_NAV_ITEM, DELETE_CONTAINED_VIEW, SELECT_CONTAINED_VIEW, SELECT_NAV_
 
 let reducerHelper = helper(undefined, reducer);
 
-describe('box_selected reducer', () => {
+describe('# contained_view_selected reducer', () => {
 
     beforeAll(() => {
         reducerHelper.clean();

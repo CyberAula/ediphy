@@ -25,8 +25,22 @@
     &:hover {
         color: #fff !important;
     }
+    .toolbarTitle{
+        .material-icons:hover{
+            @include rotate(180);
+        }
+    }
     .material-icons{
-        padding: 8px;
+        padding: 10px;
+        &:hover{@include scale(1.2);}
+
+    }
+    .btnToggleCarousel{
+        background-color: transparent;
+        border: none;
+        &:hover{
+            @include scale(1.2);
+        }
     }
 }
 
@@ -83,7 +97,7 @@
 }
 
 .selected.classIndexSelected {
-    color: #1fc8db;
+    color: $blueprimary;
 }
 
 /*NavItem Selected*/
@@ -105,14 +119,14 @@
 }
 
 .classIndexSelected {
-    color: #1fc8db !important;
+    color: $blueprimary !important;
 }
 
 .selected.classIndexSelected {
-    color: #1fc8db !important;
+    color: $blueprimary !important;
 }
 .selected.classIndexSelected .selected {
-    color: #1fc8db !important;
+    color: $blueprimary !important;
 }
 
 
@@ -138,7 +152,7 @@
 .wrapperCarousel {
     background-color: $darkest;
     margin: 0;
-    padding: 8px 0px 4px 0px;
+    //padding: 8px 0px 4px 0px;
     width: 100%;
     height: 100%;
     overflow: hidden;
@@ -156,6 +170,9 @@
         .carrouselButton {
             .material-icons {
                 font-size: 1em;
+            }
+            &:hover{
+                @include scale(1.2);
             }
         }
     }
@@ -331,8 +348,8 @@
     transition: height .25s  ease-in-out;
     background-color: #444;
     .empty-info{
-      margin: 15%;
-        text-align: center;
+      margin: 40px;
+      text-align: center;
       color: $grismedio;
       background-color: transparent;
     }

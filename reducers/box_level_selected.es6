@@ -1,4 +1,7 @@
-import { ADD_BOX, INCREASE_LEVEL, SELECT_BOX, SELECT_NAV_ITEM, DELETE_NAV_ITEM, IMPORT_STATE } from '../common/actions';
+import {
+    ADD_BOX, INCREASE_LEVEL, SELECT_BOX, SELECT_NAV_ITEM, DELETE_NAV_ITEM, IMPORT_STATE,
+    PASTE_BOX, MOVE_BOX,
+} from '../common/actions';
 import { isSortableBox } from '../common/utils';
 
 export default function(state = 0, action = {}) {
@@ -22,6 +25,9 @@ export default function(state = 0, action = {}) {
         return 0;
     case SELECT_NAV_ITEM:
         return 0;
+    case PASTE_BOX:
+        return 0;
+
     default:
         return state;
     }
