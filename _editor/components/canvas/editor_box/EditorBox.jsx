@@ -402,18 +402,21 @@ export default class EditorBox extends Component {
         let topO = offsetEl.top || 0;
         let gridTarget = interact.createSnapGrid({ x: 5, y: 5, range: 3, offset: { x: leftO, y: topO } });
 
+        let snap = { targets: [], relativePoints: [{ x: 0, y: 0 }] };
+        if (this.props.grid) {
+            snap = { targets: [gridTarget], relativePoints: [{ x: 0, y: 0 }] };
+        }
+
         if (prevProps.toolbars[this.props.id] && (toolbar.showTextEditor !== prevProps.toolbars[this.props.id].showTextEditor) && box.draggable) {
-            interact(node).draggable({ enabled: !toolbar.showTextEditor, snap: { targets: [gridTarget] } });
+            interact(node).draggable({ enabled: !toolbar.showTextEditor, snap: snap });
         }
 
         if (box.resizable) {
-            interact(node).resizable({ preserveAspectRatio: this.checkAspectRatioValue(), snap: { targets: [gridTarget] } });
+            interact(node).resizable({ preserveAspectRatio: this.checkAspectRatioValue(), snap: snap });
         }
 
         if ((box.level > this.props.boxLevelSelected) && this.props.boxLevelSelected !== -1) {
             interact(node).draggable({ enabled: false });
-        } else {
-            interact(node).draggable({ enabled: box.draggable, snap: { targets: [gridTarget] } });
         }
 
     }
@@ -431,6 +434,7 @@ export default class EditorBox extends Component {
         let topO = offsetEl.top || 0;
         offsetEl;
         let gridTarget = interact.createSnapGrid({ x: 5, y: 5, range: 3, offset: { x: leftO, y: topO } });
+        let targets = this.props.grid ? [gridTarget] : [];
         Ediphy.Plugins.get(toolbar.config.name).getConfig();
         Ediphy.Plugins.get(toolbar.config.name).afterRender(this.refs.content, toolbar.state);
         let dragRestrictionSelector = isSortableContainer(box.container) ? /* ".editorBoxSortableContainer, .drg" + box.container :*/"sortableContainerBox" : "parent";
@@ -442,7 +446,7 @@ export default class EditorBox extends Component {
             })
             .draggable({
                 snap: {
-                    targets: [gridTarget],
+                    targets: targets,
                     relativePoints: [{ x: 0, y: 0 }],
                 },
                 enabled: box.draggable,
@@ -624,7 +628,7 @@ export default class EditorBox extends Component {
             })
             .ignoreFrom('input, textarea, .textAreaStyle,  a, .pointerEventsEnabled')
             .resizable({
-                snap: { targets: [gridTarget] },
+                snap: { targets: targets },
                 snapSize: { targets: [
                     // snap the width and height to multiples of 5 when the element size
                     // is 25 pixels away from the target size

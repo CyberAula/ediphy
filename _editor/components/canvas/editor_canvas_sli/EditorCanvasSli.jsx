@@ -62,7 +62,8 @@ export default class EditorCanvasSli extends Component {
 
         let overlayHeight = actualHeight ? actualHeight : '100%';
         let boxes = itemSelected ? itemSelected.boxes : [];
-        let gridOn = true;
+        let gridOn = this.props.grid && ((this.props.containedViewSelected !== 0) === this.props.fromCV);
+        console.log(gridOn, 'gridOn');
         return (
             <Col id={this.props.fromCV ? 'containedCanvas' : 'canvas'} md={12} xs={12} className="canvasSliClass"
                 style={{ display: this.props.containedViewSelected !== 0 && !this.props.fromCV ? 'none' : 'initial' }}>
@@ -81,7 +82,7 @@ export default class EditorCanvasSli extends Component {
                         className={'innercanvas sli'}
                         style={{ visibility: (this.props.showCanvas ? 'visible' : 'hidden') }}>
                         {this.state.alert}
-                        {gridOn ? <SnapGrid/> : null}
+                        {gridOn ? <SnapGrid key={this.props.fromCV}/> : null}
                         <EditorHeader titles={titles}
                             onBoxSelected={this.props.onBoxSelected}
                             courseTitle={this.props.title}
@@ -115,6 +116,7 @@ export default class EditorCanvasSli extends Component {
                             let box = boxes[id];
                             return <EditorBox key={id}
                                 id={id}
+                                grid={gridOn}
                                 addMarkShortcut={this.props.addMarkShortcut}
                                 boxes={this.props.boxes}
                                 boxSelected={this.props.boxSelected}
@@ -371,4 +373,8 @@ EditorCanvasSli.propTypes = {
      * Hace aparecer/desaparecer el CKEditor
      */
     onTextEditorToggled: PropTypes.func.isRequired,
+    /**
+     * Whether or not the grid is activated for slides
+     */
+    grid: PropTypes.bool,
 };
