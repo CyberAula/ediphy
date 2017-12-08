@@ -21,7 +21,7 @@
     "test:coverage": "jest --watch --colors --coverage --verbose || true",
     "eslint": "eslint . --fix  --ext .js,.jsx,.es6",
     "doc": "cat ediphy && babel-node --presets es2015 doc/scripts/reactdocgenmd.js & node doc/scripts/importComponents.js & webpack --config doc/webpack.doc.prod.js & webpack -p --config webpack.noserver.js & node doc/scripts/bringtodist.js",
-    "dev-doc": "babel-node --presets es2015  doc/scripts/reactdocgenmd.js & node doc/scripts/importComponents.js &  webpack --config webpack.noserver.js & node doc/scripts/bringtodist.js & webpack-dev-server --open --progress --colors --config doc/webpack.doc.dev.js",
+    "dev-doc": "cat ediphy && babel-node --presets es2015  doc/scripts/reactdocgenmd.js & node doc/scripts/importComponents.js &  webpack --config webpack.noserver.js & node doc/scripts/bringtodist.js & webpack-dev-server --open --progress --colors --config doc/webpack.doc.dev.js",
     "dev-only-doc": "cat ediphy && webpack-dev-server --open --progress --colors --config doc/webpack.doc.dev.js",
     "add-all": "git add ."
   },

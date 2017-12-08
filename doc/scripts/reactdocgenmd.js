@@ -3,7 +3,7 @@ import path from 'path';
 import fs from 'fs';
 const reactDocgen = require('react-docgen');
 const ReactDocGenMarkdownRenderer = require('react-docgen-markdown-renderer');
-const languages = ['en', 'es'];
+export const languages = ['en', 'es'];
 const EDITOR_PATH = (path.join('.', '_editor/components'));
 const VISOR_PATH = (path.join('.', '_visor/components'));
 const FILES_PATH = 'doc/files/';

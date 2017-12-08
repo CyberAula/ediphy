@@ -10,7 +10,7 @@ import Content from './src/components/Content';
 import { srcTree, lookForPath } from './src/content';
 import "./src/style/style.scss";
 import i18n from './locales/i18n';
-
+// import {languages} from './scripts/reactdocgenmd';
 export default class Docs extends Component {
     constructor(props) {
         super(props);
@@ -19,6 +19,7 @@ export default class Docs extends Component {
             subsection: 0,
             page: 1,
             subpage: 0,
+            lang: "",
         };
 
         this.handleNav = this.handleNav.bind(this);
@@ -67,6 +68,11 @@ export default class Docs extends Component {
                 page={ url.page || this.state.page }
                 subpage={ url.subpage || this.state.subpage } />;
         };
+
+        const ChangeLang = ({ lang }) => {
+            return <button className="langButton" onClick={()=>{i18n.changeLanguage(lang); this.forceUpdate();}}>{lang}</button>;
+        };
+
         return (<Router forceRefresh={!supportsHistory}>
             <Grid fluid>
                 <Row id="nbRow">
@@ -87,7 +93,9 @@ export default class Docs extends Component {
                 <Route exact path="/:section" component={Comp}/>
                 <Route exact path="/:section/:page" component={Comp}/>
                 <Route path="/:section/:page/:subpage" component={Comp}/>
-
+                <snap id="langSelector">
+                    <ChangeLang lang="en"/>・<ChangeLang lang="es"/>
+                </snap>
             </Grid></Router>);
 
     }
