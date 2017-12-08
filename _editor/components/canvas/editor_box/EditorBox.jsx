@@ -10,6 +10,9 @@ import { isSortableBox, isSortableContainer, isAncestorOrSibling, isContainedVie
 import './_editorBox.scss';
 import { ID_PREFIX_SORTABLE_CONTAINER } from '../../../../common/constants';
 import CKEDitorComponent from './CKEDitorComponent';
+const SNAP_DRAG = 5;
+const SNAP_SIZE = 2;
+
 /**
  * Ediphy Box component.
  * @desc It is the main and more complex component by far. It is the one in charge of painting a plugin's template and therefore it has many parts conditioned to the type of plugin.
@@ -400,19 +403,26 @@ export default class EditorBox extends Component {
         let offsetEl = document.getElementById('maincontent') ? document.getElementById('maincontent').getBoundingClientRect() : {};
         let leftO = offsetEl.left || 0;
         let topO = offsetEl.top || 0;
-        let gridTarget = interact.createSnapGrid({ x: 5, y: 5, range: 3, offset: { x: leftO, y: topO } });
+        let gridTarget = interact.createSnapGrid({ x: SNAP_DRAG, y: SNAP_DRAG, range: (SNAP_DRAG / 2 + 1), offset: { x: leftO, y: topO } });
 
         let snap = { targets: [], relativePoints: [{ x: 0, y: 0 }] };
+        let snapSize = {};
         if (this.props.grid) {
             snap = { targets: [gridTarget], relativePoints: [{ x: 0, y: 0 }] };
+            snapSize = { targets: [
+                { width: SNAP_SIZE, height: SNAP_SIZE, range: SNAP_SIZE },
+            ] };
         }
 
         if (prevProps.toolbars[this.props.id] && (toolbar.showTextEditor !== prevProps.toolbars[this.props.id].showTextEditor) && box.draggable) {
             interact(node).draggable({ enabled: !toolbar.showTextEditor, snap: snap });
+        } else {
+            interact(node).draggable({ snap: snap });
         }
 
         if (box.resizable) {
-            interact(node).resizable({ preserveAspectRatio: this.checkAspectRatioValue(), snap: snap });
+
+            interact(node).resizable({ preserveAspectRatio: this.checkAspectRatioValue(), snap: snap, snapSize: snapSize });
         }
 
         if ((box.level > this.props.boxLevelSelected) && this.props.boxLevelSelected !== -1) {
@@ -433,7 +443,7 @@ export default class EditorBox extends Component {
         let leftO = offsetEl.left || 0;
         let topO = offsetEl.top || 0;
         offsetEl;
-        let gridTarget = interact.createSnapGrid({ x: 5, y: 5, range: 3, offset: { x: leftO, y: topO } });
+        let gridTarget = interact.createSnapGrid({ x: SNAP_DRAG, y: SNAP_DRAG, range: (SNAP_DRAG / 2 + 1), offset: { x: leftO, y: topO } });
         let targets = this.props.grid ? [gridTarget] : [];
         Ediphy.Plugins.get(toolbar.config.name).getConfig();
         Ediphy.Plugins.get(toolbar.config.name).afterRender(this.refs.content, toolbar.state);
@@ -632,7 +642,7 @@ export default class EditorBox extends Component {
                 snapSize: { targets: [
                     // snap the width and height to multiples of 5 when the element size
                     // is 25 pixels away from the target size
-                    { width: 2, height: 2, range: 2 },
+                    { width: SNAP_SIZE, height: SNAP_SIZE, range: SNAP_SIZE },
                 ] },
                 preserveAspectRatio: this.checkAspectRatioValue(),
                 enabled: (box.resizable),

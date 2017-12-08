@@ -30,8 +30,6 @@ export default class ActionsRibbon extends Component {
         );
         let slide = page && isSlide(page.type);
 
-        console.log(page, slide);
-
         return (
             <Col id="ActionRibbon" md={12} xs={12}
                 style={{
