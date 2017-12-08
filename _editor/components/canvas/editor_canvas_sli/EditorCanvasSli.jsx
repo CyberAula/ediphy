@@ -63,7 +63,6 @@ export default class EditorCanvasSli extends Component {
         let overlayHeight = actualHeight ? actualHeight : '100%';
         let boxes = itemSelected ? itemSelected.boxes : [];
         let gridOn = this.props.grid && ((this.props.containedViewSelected !== 0) === this.props.fromCV);
-        console.log(gridOn, 'gridOn');
         return (
             <Col id={this.props.fromCV ? 'containedCanvas' : 'canvas'} md={12} xs={12} className="canvasSliClass"
                 style={{ display: this.props.containedViewSelected !== 0 && !this.props.fromCV ? 'none' : 'initial' }}>
