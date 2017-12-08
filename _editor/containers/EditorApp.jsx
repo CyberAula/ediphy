@@ -322,7 +322,7 @@ class EditorApp extends Component {
                                     this.dispatchAndSetState(deleteSortableContainer(id, parent, descBoxes, cvs/* , this.getDescendantContainedViewsFromContainer(boxes[parent], id)*/));
                                 }}
                                 onSortableContainerReordered={(ids, parent) => this.dispatchAndSetState(reorderSortableContainer(ids, parent))}
-                                onBoxDropped={(id, row, col) => this.dispatchAndSetState(dropBox(id, row, col))}
+                                onBoxDropped={(id, row, col, parent, container) => this.dispatchAndSetState(dropBox(id, row, col, parent, container))}
                                 onBoxDeleted={(id, parent, container)=> {let bx = this.getDescendantBoxes(boxes[id]); this.dispatchAndSetState(deleteBox(id, parent, container, bx, boxes[id].containedViews /* , this.getDescendantContainedViews(boxes[id])*/));}}
                                 onMarkCreatorToggled={(id) => this.setState({ markCreatorVisible: id })}
                                 onVerticallyAlignBox={(id, verticalAlign)=>this.dispatchAndSetState(verticallyAlignBox(id, verticalAlign))}
