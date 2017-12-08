@@ -75,6 +75,7 @@ class EditorApp extends Component {
             serverModal: false,
             catalogModal: false,
             lastAction: "",
+            grid: false,
         };
     }
 
@@ -202,7 +203,13 @@ class EditorApp extends Component {
                         style={{ height: (this.state.carouselFull ? 0 : '100%'),
                             width: (this.state.carouselShow ? 'calc(100% - 212px)' : 'calc(100% - 80px)') }}>
                         <Row id="actionsRibbon">
-                            <ActionsRibbon ribbonHeight={ribbonHeight + 'px'}/>
+                            <ActionsRibbon onGridToggle={()=> {this.setState({ grid: !this.state.grid });}}
+                                grid={this.state.grid}
+                                navItemSelected={navItemSelected}
+                                containedViewSelected={containedViewSelected}
+                                navItems={navItems}
+                                containedViews={containedViews}
+                                ribbonHeight={ribbonHeight + 'px'}/>
                         </Row>
                         <Row id="ribbonRow" style={{ left: (this.state.carouselShow ? '15px' : '147px') }}>
                             <PluginRibbon disabled={navItemSelected === 0 || (!Ediphy.Config.sections_have_content && navItemSelected && isSection(navItemSelected)) || this.hasExerciseBox(navItemSelected, navItems, this.state, boxes)} // ADD condition navItemSelected There are extrafiles
@@ -215,6 +222,7 @@ class EditorApp extends Component {
                         </Row>
                         <Row id="canvasRow" style={{ height: 'calc(100% - ' + ribbonHeight + 'px)' }}>
                             <EditorCanvas boxes={boxes}
+                                grid={this.state.grid}
                                 canvasRatio={canvasRatio}
                                 boxSelected={boxSelected}
                                 boxLevelSelected={boxLevelSelected}
@@ -268,6 +276,7 @@ class EditorApp extends Component {
                                 titleModeToggled={(id, value) => this.dispatchAndSetState(toggleTitleMode(id, value))}
                                 onMarkCreatorToggled={(id) => this.setState({ markCreatorVisible: id })}/>
                             <ContainedCanvas boxes={boxes}
+                                grid={this.state.grid}
                                 boxSelected={boxSelected}
                                 canvasRatio={canvasRatio}
                                 boxLevelSelected={boxLevelSelected}
@@ -313,7 +322,7 @@ class EditorApp extends Component {
                                     this.dispatchAndSetState(deleteSortableContainer(id, parent, descBoxes, cvs/* , this.getDescendantContainedViewsFromContainer(boxes[parent], id)*/));
                                 }}
                                 onSortableContainerReordered={(ids, parent) => this.dispatchAndSetState(reorderSortableContainer(ids, parent))}
-                                onBoxDropped={(id, row, col) => this.dispatchAndSetState(dropBox(id, row, col))}
+                                onBoxDropped={(id, row, col, parent, container) => this.dispatchAndSetState(dropBox(id, row, col, parent, container))}
                                 onBoxDeleted={(id, parent, container)=> {let bx = this.getDescendantBoxes(boxes[id]); this.dispatchAndSetState(deleteBox(id, parent, container, bx, boxes[id].containedViews /* , this.getDescendantContainedViews(boxes[id])*/));}}
                                 onMarkCreatorToggled={(id) => this.setState({ markCreatorVisible: id })}
                                 onVerticallyAlignBox={(id, verticalAlign)=>this.dispatchAndSetState(verticallyAlignBox(id, verticalAlign))}

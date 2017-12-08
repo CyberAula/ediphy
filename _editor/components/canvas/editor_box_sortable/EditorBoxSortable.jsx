@@ -337,7 +337,7 @@ export default class EditorBoxSortable extends Component {
                             this.props.onBoxDropped(this.props.boxSelected,
                                 extraParams.j,
                                 extraParams.i,
-                                this.props.boxes[this.props.boxSelected].parent,
+                                boxDragged.parent,
                                 extraParams.idContainer);
                         }
 
@@ -387,6 +387,7 @@ export default class EditorBoxSortable extends Component {
                     Ediphy.Plugins.get(e.relatedTarget.getAttribute("name")).getConfig().callback(initialParams, ADD_BOX);
                     e.dragEvent.stopPropagation();
                 }
+
             }.bind(this),
             ondropdeactivate: function(e) {
                 e.target.classList.remove('drop-active');
