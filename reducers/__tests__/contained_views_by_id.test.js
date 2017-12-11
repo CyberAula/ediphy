@@ -1,10 +1,14 @@
 import { testState } from '../../core/store/state.tests.js';
 import contained_views_by_id from '../contained_views_by_id';
 import * as ActionTypes from '../../common/actions';
+import { changeProp, isContainedView } from "../../common/utils";
+import { EDIT_RICH_MARK } from "../../common/actions";
+import { ADD_RICH_MARK } from "../../common/actions";
+import { DELETE_BOX } from "../../common/actions";
 
 const state = testState.present.containedViewsById;
 
-describe('# contained_views_by_id reducer ******************************************************************* TODO :)', ()=>{
+describe('# contained_views_by_id reducer ******************************************************************* DOING', ()=>{
 
     describe('DEFAULT', ()=>{
         test('Should return test.state as default', () => {
@@ -12,30 +16,192 @@ describe('# contained_views_by_id reducer **************************************
         });
     });
     describe('handle ADD_BOX', ()=>{
-        test('If added box', () => {
-            // expect(contained_views_by_id(state, {})).toEqual(state);
+        test('If added box in a contained view (Slide)', () => {
+            const action = {
+                type: ActionTypes.ADD_BOX,
+                payload: { ids:
+                        { parent: 'cv-1511252975055', id: 'bo-1511443052929', container: 0 },
+                draggable: true,
+                resizable: true,
+                content: '',
+                toolbar: {},
+                config: {},
+                state: {},
+                initialParams: {},
+                },
+            };
+            const newState = JSON.parse(JSON.stringify(state));
+            newState['cv-1511252975055'].boxes = ['bo-1511443052968', 'bo-1511443052929'];
+
+            expect(isContainedView(action.payload.ids.parent)).toBeTruthy();
+            expect(contained_views_by_id(state, action)).toEqual(newState);
+        });
+
+    });
+
+    describe('handle EDIT_RICH_MARK', () => {
+        test('If rich mark edited and old/new links are not contained views', () => {
+            const action = {
+                type: ActionTypes.EDIT_RICH_MARK,
+                payload: {
+                    parent: 'bo-1511252970033',
+                    state: {},
+                    mark: { id: "rm-1511786135103",
+                        title: "new mark",
+                        connectMode: "existing",
+                        connection: "pa-1511252955865",
+                        displayMode: "navigate",
+                        value: "30.95,49.15",
+                        color: "#222222",
+                    },
+                    oldConnection: 'pa-1497983247795',
+                    newConnection: 'pa-1511252955865',
+
+                },
+            };
+            const newState = JSON.parse(JSON.stringify(state));
+            expect(contained_views_by_id(state, action)).toEqual(newState);
+        });
+        test('If rich mark edited and old link is a contained view', () => {
+            const action = {
+                type: ActionTypes.EDIT_RICH_MARK,
+                payload: {
+                    parent: 'bo-1511252970033',
+                    state: {},
+                    mark: { id: "rm-1511252975055",
+                        title: "new mark",
+                        connectMode: "existing",
+                        connection: "pa-1511252955865",
+                        displayMode: "navigate",
+                        value: "30.95,49.15",
+                        color: "#222222",
+                    },
+                    oldConnection: 'cv-1511252975055',
+                    newConnection: 'pa-1511252955865',
+
+                },
+            };
+            const newState = JSON.parse(JSON.stringify(state));
+            newState['cv-1511252975055'].parent = {};
+
+            expect(isContainedView(action.payload.oldConnection)).toBeTruthy();
+            expect(contained_views_by_id(state, action)).toEqual(newState);
+        });
+
+        test('If rich mark edited and new link is a contained view', () => {
+            const action = {
+                type: ActionTypes.EDIT_RICH_MARK,
+                payload: {
+                    parent: 'bo-1511252970033',
+                    state: {},
+                    mark: { id: "rm-1511786135103",
+                        title: "new mark",
+                        connectMode: "existing",
+                        connection: "cv-1511252975055",
+                        displayMode: "navigate",
+                        value: "30.95,49.15",
+                        color: "#222222",
+                    },
+                    oldConnection: 'pa-1497983247795',
+                    newConnection: 'cv-1511252975055',
+
+                },
+            };
+            const newState = JSON.parse(JSON.stringify(state));
+            newState['cv-1511252975055'].parent[action.payload.parent] = ["rm-1511252975055", "rm-1511786135103"];
+
+            expect(isContainedView(action.payload.newConnection)).toBeTruthy();
+            expect(contained_views_by_id(state, action)).toEqual(newState);
         });
     });
-    describe('handle EDIT_RICH_MARK', ()=>{
-        test('If rich mark edited', () => {
-            // expect(contained_views_by_id(state, {})).toEqual(state);
-        });
-    });
-    describe('handle DELETE_RICH_MARK', ()=>{
+
+    describe('handle DELETE_RICH_MARK', () => {
         test('If rich mark deleted', () => {
-            // expect(contained_views_by_id(state, {})).toEqual(state);
+            const action = {
+                type: ActionTypes.DELETE_RICH_MARK,
+                payload: {
+                    id: 'rm-1511252975055',
+                    parent: 'bo-1511252970033',
+                    cvid: 'cv-1511252975055',
+                    state: {},
+                },
+            };
+            const newState = JSON.parse(JSON.stringify(state));
+            newState[action.payload.cvid].parent = {};
+
+            expect(contained_views_by_id(state, action)).toEqual(newState);
         });
     });
-    describe('handle ADD_RICH_MARK', ()=>{
-        test('If rich mark added', () => {
-            // expect(contained_views_by_id(state, {})).toEqual(state);
+
+    describe('handle ADD_RICH_MARK', () => {
+
+        test('If rich mark added to an existing contained view', () => {
+
+            const action = {
+                type: ActionTypes.ADD_RICH_MARK,
+                payload: {
+                    parent: 'bo-1511252970033',
+                    mark: {
+                        id: "rm-1511786135103",
+                        title: "new mark",
+                        connectMode: "existing",
+                        connection: "cv-1511252975055",
+                        displayMode: "navigate",
+                        value: "30.95,49.15",
+                        color: "#222222",
+                    },
+                    state: {},
+                },
+            };
+
+            const newState = JSON.parse(JSON.stringify(state));
+
+            newState["cv-1511252975055"].parent['bo-1511252970033'] = ["rm-1511252975055", "rm-1511786135103"];
+
+            expect(action.payload.mark.connectMode === 'existing').toBeTruthy();
+            expect(isContainedView(action.payload.mark.connection)).toBeTruthy();
+
+            expect(contained_views_by_id(state, action)).toEqual(newState);
+        });
+
+        test('If rich mark added to a new contained view', () => {
+            const action = {
+                type: ActionTypes.ADD_RICH_MARK,
+                payload: {
+                    parent: 'bo-1511252970033',
+                    mark: {
+                        id: "rm-1511786135103",
+                        title: "new mark",
+                        connectMode: "new",
+                        connection: {
+                            id: "cv-1511252975056",
+                            parent: { 'bo-1511252970033': { 0: 'rm-1511786135103' } },
+                            name: 'CV2',
+                            boxes: [],
+                            type: 'slide',
+                            extraFiles: {},
+                            header: {},
+                        },
+                        displayMode: "navigate",
+                        value: "30.95,49.15",
+                        color: "#222222",
+                    },
+                    state: {},
+                },
+            };
+            const newState = JSON.parse(JSON.stringify(state));
+
+            newState[action.payload.mark.connection.id] = action.payload.mark.connection;
+            expect(contained_views_by_id(state, action)).toEqual(newState);
         });
     });
-    describe('handle DELETE_BOX', ()=>{
+
+    describe('handle DELETE_BOX', () => {
         test('If box deleted', () => {
             // expect(contained_views_by_id(state, {})).toEqual(state);
         });
     });
+
     describe('handle CHANGE_CONTAINED_VIEW_NAME', ()=>{
         test('If contained view name changed', () => {
             // expect(contained_views_by_id(state, {})).toEqual(state);
@@ -82,10 +248,8 @@ describe('# contained_views_by_id reducer **************************************
 
             };
 
-            let newState = {
-                "cv-1511252975055":
-                    { "id": "cv-1511252975055", "parent": { "bo-1511252970033": ["rm-1511252975055"] }, "name": "prueba", "boxes": ["bo-1511443052968", ids.id], "type": "slide", "extraFiles": {}, "header": { "elementContent": { "documentTitle": "prueba", "documentSubTitle": "", "numPage": "" }, "display": { "courseTitle": "hidden", "documentTitle": "expanded", "documentSubTitle": "hidden", "breadcrumb": "hidden", "pageNumber": "hidden" } } } };
-
+            const newState = JSON.parse(JSON.stringify(state));
+            newState["cv-1511252975055"].boxes = ["bo-1511443052968", ids.id];
             expect(contained_views_by_id(state, action)).toEqual(newState);
         });
         test('If box pasted to cv slide with mark to navItem', () => {
@@ -129,10 +293,9 @@ describe('# contained_views_by_id reducer **************************************
 
             };
 
-            let newState = {
-                "cv-1511252975055":
-                    { "id": "cv-1511252975055", "parent": { "bo-1511252970033": ["rm-1511252975055"], "bo-15118685651356": ["rm-1511252975055_1"] }, "name": "prueba", "boxes": ["bo-1511443052968", ids.id], "type": "slide", "extraFiles": {}, "header": { "elementContent": { "documentTitle": "prueba", "documentSubTitle": "", "numPage": "" }, "display": { "courseTitle": "hidden", "documentTitle": "expanded", "documentSubTitle": "hidden", "breadcrumb": "hidden", "pageNumber": "hidden" } } } };
-
+            const newState = JSON.parse(JSON.stringify(state));
+            newState["cv-1511252975055"].parent["bo-15118685651356"] = ["rm-1511252975055_1"];
+            newState["cv-1511252975055"].boxes = ["bo-1511443052968", ids.id];
             expect(contained_views_by_id(state, action)).toEqual(newState);
         });
         test('If box pasted to regular view', () => {
@@ -154,7 +317,6 @@ describe('# contained_views_by_id reducer **************************************
             };
 
             expect(contained_views_by_id(state, action)).toEqual(state);
-            // expect(boxes_by_id(state, {})).toEqual(state);
         });
 
     });
