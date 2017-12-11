@@ -288,6 +288,7 @@ export const initialState = (config) => { return config.sections_have_content ?
                 unitNumber: 1,
                 hidden: false,
                 extraFiles: {},
+                background: "rgb(255,255,255)",
                 header: {
                     elementContent: {
                         documentTitle: "",
@@ -454,7 +455,7 @@ export const initialState = (config) => { return config.sections_have_content ?
                                     "background": {
                                         "__name": i18n.t('background.background'),
                                         "type": 'background_picker',
-                                        "value": "#fffff",
+                                        "value": "rgb(255,255,255)",
                                         "autoManaged": false,
                                     },
                                 },

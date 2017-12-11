@@ -25,7 +25,7 @@ function navItemCreator(state = {}, action = {}) {
             state[action.payload.parent].unitNumber),
         hidden: state[action.payload.parent].hidden,
         extraFiles: {},
-        background: "#00000",
+        background: "rgb(255,255,255)",
         header: {
             elementContent: { documentTitle: '', documentSubTitle: '', numPage: '' },
             display: { courseTitle: 'hidden', documentTitle: 'expanded', documentSubTitle: 'hidden', breadcrumb: "reduced", pageNumber: "hidden" },
@@ -176,6 +176,8 @@ export default function(state = { 0: { id: 0, children: [], boxes: [], level: 0,
             ]
         );
     case CHANGE_NAV_ITEM_NAME:
+        return changeProp(state, action.payload.id, singleNavItemReducer(state[action.payload.id], action));
+    case CHANGE_NAV_ITEM_BACKGROUND:
         return changeProp(state, action.payload.id, singleNavItemReducer(state[action.payload.id], action));
     case CHANGE_UNIT_NUMBER:
         let itemsToChange = findDescendantNavItems(state, action.payload.id);

@@ -23,7 +23,7 @@ import ColorPicker from './../../common/color-picker/ColorPicker';
 import ToggleSwitch from '@trendmicro/react-toggle-switch';
 import '@trendmicro/react-toggle-switch/dist/react-toggle-switch.css';
 import { UPDATE_TOOLBAR, UPDATE_BOX } from '../../../../common/actions';
-import { isSortableContainer, isCanvasElement, isContainedView, isSlide } from '../../../../common/utils';
+import { isSortableContainer, isCanvasElement, isContainedView, isSlide, isDocument } from '../../../../common/utils';
 import i18n from 'i18next';
 import './_pluginToolbar.scss';
 import FileInput from "../../common/file-input/FileInput";
@@ -882,6 +882,7 @@ export default class PluginToolbar extends Component {
         if (button.type === "background_picker") {
             let isURI = (/data\:/).test(props.value);
             let default_background = "rgb(255, 255, 255)";
+            let isSli = isSlide(this.props.navItems[this.props.navItemSelected].type);
 
             return React.createElement(
                 FormGroup,
@@ -894,11 +895,11 @@ export default class PluginToolbar extends Component {
                     React.createElement(
                         ColorPicker, { key: "cpicker_" + props.label, value: isURI ? default_background : props.value, onChange: props.onChange },
                         []),
-                    React.createElement(
+                    isSli && React.createElement(
                         ControlLabel,
                         { key: 'label2_' + button.__name, value: button.value },
                         i18n.t('background.background_image')),
-                    React.createElement('div',
+                    isSli && React.createElement('div',
                         { key: 'container_' + button.__name, style: { display: 'block' } },
                         React.createElement(
                             FileInput, {
@@ -922,6 +923,30 @@ export default class PluginToolbar extends Component {
                             ])
                         )
                     ),
+                    /* React.createElement(ControlLabel,
+                        {key: 'labelradio1_' + button.__name},)
+                        /*i18n.t('background.radio_background')),
+                    React.createElement(Radio,{key: 'radio1_background', name: "background_picker"},
+                        ""
+                    ),
+                    React.createElement(ControlLabel,
+                        {key: 'labelradio2_' + button.__name},)
+                        /*i18n.t('background.radio_background')),
+                    React.createElement(Radio,{key: 'radio2_background',name: "background_picker"},
+                        ""
+                    ),
+                    React.createElement(ControlLabel,
+                        {key: 'labelradio3_' + button.__name},)
+                        /*i18n.t('background.radio_background'),
+                    React.createElement(Radio,{key: 'radio3_background',name: "background_picker"},
+                        ""
+                    ),
+                    React.createElement(ControlLabel,
+                        {key: 'labelradio4_' + button.__name},)
+                        /*i18n.t('background.radio_background')),
+                    React.createElement(Radio,{key: 'radio4_background',name: "background_picker"},
+                        ""
+                    ),*/
                     React.createElement(
                         ControlLabel,
                         { key: 'label_' + button.__name },

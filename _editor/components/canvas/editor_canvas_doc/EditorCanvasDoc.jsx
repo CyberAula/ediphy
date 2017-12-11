@@ -50,7 +50,7 @@ export default class EditorCanvasDoc extends Component {
                 style={{ display: this.props.containedViewSelected !== 0 && !this.props.fromCV ? 'none' : 'initial' }}>
 
                 <div className="scrollcontainer"
-                    style={{ backgroundColor: show ? 'white' : 'transparent', display: show ? 'block' : 'none' }}
+                    style={{ backgroundColor: show ? itemSelected.background : 'transparent', display: show ? 'block' : 'none' }}
                     onClick={e => {
                         this.props.onBoxSelected(-1);
                         this.setState({ showTitle: false });
@@ -77,11 +77,11 @@ export default class EditorCanvasDoc extends Component {
 
                         <div id={this.props.fromCV ? 'airlayer_cv' : 'airlayer'}
                             className={'doc_air'}
-                            style={{ visibility: (show ? 'visible' : 'hidden') }}>
+                            style={{ background: itemSelected.background, visibility: (show ? 'visible' : 'hidden') }}>
 
                             <div id={this.props.fromCV ? "contained_maincontent" : "maincontent"}
                                 className={'innercanvas doc'}
-                                style={{ visibility: (show ? 'visible' : 'hidden') }}>
+                                style={{ background: itemSelected.background, visibility: (show ? 'visible' : 'hidden') }}>
 
                                 <br/>
 
@@ -127,6 +127,7 @@ export default class EditorCanvasDoc extends Component {
                                     return <EditorBoxSortable key={id}
                                         id={id}
                                         addMarkShortcut={this.props.addMarkShortcut}
+                                        background={itemSelected.background}
                                         boxes={this.props.boxes}
                                         boxSelected={this.props.boxSelected}
                                         boxLevelSelected={this.props.boxLevelSelected}
