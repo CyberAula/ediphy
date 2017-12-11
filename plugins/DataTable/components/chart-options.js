@@ -16,7 +16,6 @@ export default class ChartOptions extends React.Component {
 
         if(prevState !== this.state) {
             if (typeof this.props.optionsChanged === 'function') {
-                // console.log(this.state);
                 this.props.optionsChanged({
                     disableFilter: this.state.disableFilter,
                     disableRowChoice: this.state.disableRowChoice,

@@ -6,6 +6,18 @@ let components = {
         "lastAction": "Última acción realizada en Redux",
         "visorVisible": "Indicador de si se está en modo previsualización",
     },
+    "Clipboard": {
+        "toolbars": "Objeto que contiene las toolbars",
+        "boxes": "Objeto que contiene las cajas",
+        "boxSelected": "Caja seleccionada",
+        "navItemSelected": "Vista seleccionada",
+        "containedViewSelected": "Vista contenida seleccionada",
+        "navItems": "Objeto que contiene todas las vistas",
+        "containedViews": "Objeto que contiene todas las vistas contenidas",
+        "onBoxPasted": "Pega la caja copiada",
+        "onBoxDeleted": "Borra la caja seleccionada",
+
+    },
     "EditorBox": {
         "id": "Identificador único de la caja",
         "boxes": "Diccionario que contiene todas las cajas creadas, accesibles por su *id*",

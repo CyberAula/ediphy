@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import CarrouselList from '../carrousel_list/CarrouselList';
+import EditorIndexTitle from '../editor_index_title/EditorIndexTitle';
 import i18n from 'i18next';
 
 /**
@@ -22,27 +23,27 @@ export default class EditorCarousel extends Component {
     render() {
         let displayModeClassName = "";
         let carrouselContent;
-        if (this.props.displayMode === "list") {
-            carrouselContent = <CarrouselList id={0}
-                containedViews={this.props.containedViews}
-                containedViewSelected={this.props.containedViewSelected}
-                boxes={this.props.boxes}
-                navItemsIds={this.props.navItemsIds}
-                navItems={this.props.navItems}
-                navItemSelected={this.props.navItemSelected}
-                indexSelected={this.props.indexSelected}
-                onBoxAdded={this.props.onBoxAdded}
-                onContainedViewDeleted={this.props.onContainedViewDeleted}
-                onContainedViewSelected={this.props.onContainedViewSelected}
-                onContainedViewNameChanged={this.props.onContainedViewNameChanged}
-                onNavItemNameChanged={this.props.onNavItemNameChanged}
-                onNavItemAdded={this.props.onNavItemAdded}
-                onNavItemSelected={this.props.onNavItemSelected}
-                onIndexSelected={this.props.onIndexSelected}
-                onNavItemExpanded={this.props.onNavItemExpanded}
-                onNavItemDeleted={this.props.onNavItemDeleted}
-                onNavItemReordered={this.props.onNavItemReordered}/>;
-        }
+        // if (this.props.displayMode === "list") {
+        carrouselContent = <CarrouselList id={0}
+            containedViews={this.props.containedViews}
+            containedViewSelected={this.props.containedViewSelected}
+            boxes={this.props.boxes}
+            navItemsIds={this.props.navItemsIds}
+            navItems={this.props.navItems}
+            navItemSelected={this.props.navItemSelected}
+            indexSelected={this.props.indexSelected}
+            onBoxAdded={this.props.onBoxAdded}
+            onContainedViewDeleted={this.props.onContainedViewDeleted}
+            onContainedViewSelected={this.props.onContainedViewSelected}
+            onContainedViewNameChanged={this.props.onContainedViewNameChanged}
+            onNavItemNameChanged={this.props.onNavItemNameChanged}
+            onNavItemAdded={this.props.onNavItemAdded}
+            onNavItemSelected={this.props.onNavItemSelected}
+            onIndexSelected={this.props.onIndexSelected}
+            onNavItemExpanded={this.props.onNavItemExpanded}
+            onNavItemDeleted={this.props.onNavItemDeleted}
+            onNavItemReordered={this.props.onNavItemReordered}/>;
+        // }
         return (
             <div style={{
                 minWidth: this.props.carouselShow ? (this.props.carouselFull ? '100%' : '212px') : '80px',
@@ -50,12 +51,16 @@ export default class EditorCarousel extends Component {
                 overflowX: this.props.carouselFull ? 'hidden' : '',
             }} id="colLeft">
                 <div className="wrapperCarousel">
-                    <div style={{ textAlign: this.props.carouselShow ? 'left' : 'center' }}
-                        onClick={() => {this.props.onToggleWidth();}}
+                    <div style={{ textAlign: this.props.carouselShow ? 'left' : 'center', display: 'flex', flexFlow: this.props.carouselShow ? 'row' : 'column' }}
                         className={this.props.carouselShow ? 'carouselListTitle toolbarSpread' : 'carouselListTitle toolbarHide'}>
-                        <i style={{ fontSize: this.props.carouselShow ? "16px" : "28px" }} className="material-icons">format_list_numbered</i>
+                        <button className="btnToggleCarousel" onClick={() => {this.props.onToggleWidth();}}>
+                            <i style={{ fontSize: this.props.carouselShow ? "16px" : "28px" }} className="material-icons">format_list_numbered</i>
+                        </button>
                         {!this.props.carouselShow ? <br/> : null}
-                        <div className="textIndex">{i18n.t('INDEX')}</div>
+
+                        <div className="navBarSpace" style={{ display: (this.props.carouselShow ? 'block' : 'none') }}>
+                            <EditorIndexTitle className="tituloCurso" title={this.props.globalConfig.title} onNameChanged={this.props.onTitleChanged} />
+                        </div>
                         <i style={{
                             fontSize: this.props.carouselShow ? "16px" : "32px",
                             position: this.props.carouselShow ? "absolute" : "initial",

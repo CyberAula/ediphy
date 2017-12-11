@@ -84,7 +84,7 @@ export default class RichMarksModal extends Component {
         let current = this.props.currentRichMark;
 
         let selected = this.state.existingSelected && (this.props.containedViews[this.state.existingSelected] || this.props.navItems[this.state.existingSelected]) ? (isContainedView(this.state.existingSelected) ? { label: this.props.containedViews[this.state.existingSelected].name, id: this.state.existingSelected } :
-            { label: this.props.navItems[this.state.existingSelected].name, id: this.state.existingSelected }) : this.returnAllViews(this.props)[0];
+            { label: this.props.navItems[this.state.existingSelected].name, id: this.state.existingSelected }) : this.returnAllViews(this.props)[0] || [];
         let newSelected = "";
 
         // if (this.state.connectMode === 'existing') {
@@ -185,13 +185,13 @@ export default class RichMarksModal extends Component {
                                 </span>
                             </FormGroup>
                             <FormGroup style={{ display: this.state.connectMode === "existing" ? "initial" : "none" }}>
-                                <Typeahead options={this.returnAllViews(this.props)}
+                                { this.state.connectMode === "existing" && <Typeahead options={this.returnAllViews(this.props)}
                                     placeholder="Search view by name"
                                     ignoreDiacritics={false}
                                     selected={[selected]}
                                     onChange={items => {
                                         this.setState({ existingSelected: items.length !== 0 ? items[0].id : "" });
-                                    }}/>
+                                    }}/>}
                             </FormGroup>
                             <FormGroup style={{ display: this.state.connectMode === "external" ? "initial" : "none" }}>
                                 <FormControl ref="externalSelected"

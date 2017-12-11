@@ -11,6 +11,13 @@ let es = {
         "Block": "Bloque",
         "Breadcrumb": "Breadcrumb",
         "Cancel": "Cancelar",
+        "clipboard": {
+            "copy": "Copiar",
+            "cut": "Cortar",
+            "paste": "Pegar",
+            "to": "para",
+            "msg": "Estas acciones no se encuentran disponibles. Para acceder a ellas usa los atajos del teclado:",
+        },
         "Container_": "Contenedor",
         "col_dist": "Distribución de columnas",
         "col_number": "Nº columnas",

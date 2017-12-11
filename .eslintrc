@@ -1,7 +1,8 @@
 {
   "env": {
     "browser": true,
-    "node": true
+    "node": true,
+    "jest/globals": true
   },
   "parserOptions": {
     "ecmaVersion": 6,
@@ -13,8 +14,10 @@
   "parser": "babel-eslint",
   "plugins": [
     "babel",
-    "react"
+    "react",
+    "jest"
   ],
+  "extends": ["plugin:jest/recommended"],
   "rules": {
 
     /*Possible Errors */

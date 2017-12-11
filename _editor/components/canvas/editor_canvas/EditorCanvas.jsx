@@ -25,7 +25,7 @@ export default class EditorCanvas extends Component {
      * @returns {code} React rendered component
      */
     render() {
-        return (isSlide(this.props.navItemSelected.type)) ?
+        return (!this.props.navItemSelected || !this.props.navItemSelected.type || isSlide(this.props.navItemSelected.type)) ?
             (<EditorCanvasSli fromCV={false} {...this.props} />) :
             (<EditorCanvasDoc fromCV={false} {...this.props} />);
     }
@@ -36,28 +36,11 @@ export default class EditorCanvas extends Component {
      * @param nextProps
      */
     componentWillReceiveProps(nextProps) {
-        if (this.props.navItemSelected.id !== nextProps.navItemSelected.id) {
-            document.getElementById('maincontent').scrollTop = 0;
-        }
-    }
 
-    /**
-     * After component updates
-     * Fixes bug when reordering editorbox sortable CKEDITOR doesn't update otherwise
-     * @param prevProps React previous props
-     * @param prevState React previous state
-     */
-    componentDidUpdate(prevProps, prevState) {
-        if(this.props.lastActionDispatched.type === REORDER_SORTABLE_CONTAINER || this.props.lastActionDispatched.type === REORDER_BOXES) {
-            for (let instance in CKEDITOR.instances) {
-                CKEDITOR.instances[instance].destroy();
-            }
-            CKEDITOR.inlineAll();
-            for (let editor in CKEDITOR.instances) {
-                if (this.props.toolbars[editor].state.__text) {
-                    CKEDITOR.instances[editor].setData(decodeURI(this.props.toolbars[editor].state.__text));
-                }
-            }
+        if (this.props.navItemSelected && this.props.navItemSelected.id &&
+          nextProps.navItemSelected && nextProps.navItemSelected.id &&
+          this.props.navItemSelected.id !== nextProps.navItemSelected.id) {
+            document.getElementById('maincontent').scrollTop = 0;
         }
     }
 
@@ -184,4 +167,8 @@ EditorCanvas.propTypes = {
      * Hace aparecer/desaparecer el CKEditor
      */
     onTextEditorToggled: PropTypes.func.isRequired,
+    /**
+     * Whether or not the grid is activated for slides
+     */
+    grid: PropTypes.bool,
 };

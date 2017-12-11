@@ -187,4 +187,8 @@ ContainedCanvas.propTypes = {
      * Hace aparecer/desaparecer el CKEditor
      */
     onTextEditorToggled: PropTypes.func.isRequired,
+    /**
+     * Whether or not the grid is activated for slides
+     */
+    grid: PropTypes.bool,
 };
