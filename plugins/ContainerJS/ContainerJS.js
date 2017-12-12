@@ -3,8 +3,8 @@ export function ContainerJS(base) {
         getConfig: function() {
             return {
 
-                name: 'Container',
-                displayName: Ediphy.i18n.t('Container.PluginName'),
+                name: 'ContainerJS',
+                displayName: Ediphy.i18n.t('ContainerJS.PluginName'),
                 category: 'multimedia',
                 icon: 'view_agenda',
             };

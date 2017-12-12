@@ -31,10 +31,15 @@ import AutoSave from '../components/autosave/AutoSave';
 import Clipboard from '../components/clipboard/Clipboard';
 import Alert from '../components/common/alert/Alert';
 import i18n from 'i18next';
+import {
+    addDefaultContainerPluginsReact, parsePluginContainers, parsePluginContainersReact, addDefaultContainerPlugins,
+    hasExerciseBox,
+} from '../../common/plugins_inside_plugins';
 import Ediphy from '../../core/editor/main';
 import { isSortableBox, isSection, isContainedView, isSortableContainer } from '../../common/utils';
 import 'typeface-ubuntu';
 import 'typeface-source-sans-pro';
+import PluginPlaceholder from '../components/canvas/plugin_placeholder/PluginPlaceholder';
 
 /**
  * EditorApp. Main application component that renders everything else
@@ -213,7 +218,7 @@ class EditorApp extends Component {
                                 ribbonHeight={ribbonHeight + 'px'}/>
                         </Row>
                         <Row id="ribbonRow" style={{ left: (this.state.carouselShow ? '15px' : '147px') }}>
-                            <PluginRibbon disabled={navItemSelected === 0 || (!Ediphy.Config.sections_have_content && navItemSelected && isSection(navItemSelected)) || this.hasExerciseBox(navItemSelected, navItems, this.state, boxes)} // ADD condition navItemSelected There are extrafiles
+                            <PluginRibbon disabled={navItemSelected === 0 || (!Ediphy.Config.sections_have_content && navItemSelected && isSection(navItemSelected)) || hasExerciseBox(navItemSelected, navItems, this.state, boxes)} // ADD condition navItemSelected There are extrafiles
                                 boxSelected={boxes[boxSelected]}
                                 navItemSelected={navItems[navItemSelected]}
                                 containedViewSelected={containedViewSelected}
@@ -519,11 +524,12 @@ class EditorApp extends Component {
             let navItemSelected = this.props.navItems[this.props.navItemSelected];
 
             if (e.detail.config.flavor !== "react") {
-                this.parsePluginContainers(e.detail.content, newPluginState);
+                parsePluginContainers(e.detail.content, newPluginState);
                 e.detail.state.__pluginContainerIds = newPluginState;
             } else {
-                console.log(e.detail);
-                this.parsePluginContainersReact(e.detail.content, newPluginState);
+                parsePluginContainersReact(e.detail.content, newPluginState);
+                console.log(newPluginState);
+
                 e.detail.state.__pluginContainerIds = newPluginState;
             }
 
@@ -573,7 +579,10 @@ class EditorApp extends Component {
             }
 
             if (e.detail.config.flavor !== "react") {
-                this.addDefaultContainerPlugins(e.detail, e.detail.content);
+                addDefaultContainerPlugins(e.detail, e.detail.content, this.props.boxes);
+            } else {
+                console.log(2);
+                addDefaultContainerPluginsReact(e.detail, e.detail.content, this.props.boxes);
             }
             if (e.detail.state.__xml_path) {
                 if (!navItemSelected.extraFiles[e.detail.ids.id] || navItemSelected.extraFiles[e.detail.ids.id] !== e.detail.state.__xml_path) {
@@ -611,12 +620,12 @@ class EditorApp extends Component {
             Ediphy.API_Private.answer(Ediphy.API_Private.events.getPluginsInView, plugins);
         });
 
-        Ediphy.API_Private.listenEmission(Ediphy.API_Private.events.editRichMark, e => {
-            let newState = JSON.parse(JSON.stringify(this.props.toolbars[e.detail.box].state));
-            newState.__marks[e.detail.id].value = e.detail.value;
-            this.dispatchAndSetState(editRichMark(e.detail.box, newState, newState.__marks[e.detail.id], false, false));
-
-        });
+        // Ediphy.API_Private.listenEmission(Ediphy.API_Private.events.editRichMark, e => {
+        //     let newState = JSON.parse(JSON.stringify(this.props.toolbars[e.detail.box].state));
+        //     newState.__marks[e.detail.id].value = e.detail.value;
+        //     this.dispatchAndSetState(editRichMark(e.detail.box, newState, newState.__marks[e.detail.id], false, false));
+        //
+        // });
 
         window.onkeyup = function(e) {
             let key = e.keyCode ? e.keyCode : e.which;
@@ -825,175 +834,6 @@ class EditorApp extends Component {
             this.dispatchAndSetState(editRichMark(boxSelected, state, mark, oldConnection, newConnection));
         }
 
-    }
-
-    /**
-   *
-   * @param obj
-   * @param state
-   */
-    parsePluginContainersReact(obj, state) {
-        console.log(obj, state);
-        if (2 > 4 && obj.child) {
-            for (let i = 0; i < obj.child.length; i++) {
-                if (obj.child[i].tag && obj.child[i].tag === "plugin") {
-                    if (obj.child.length > 1) {
-                        // eslint-disable-next-line no-console
-                        console.error("A plugin tag must not have siblings. Please check renderTemplate method");
-                    }
-                    let height = "auto";
-                    let child = obj.child[i];
-                    if (child.attr) {
-                        if (child.attr['plugin-data-height']) {
-                            height = child.attr['plugin-data-height'];
-                        } else if (child.attr['plugin-data-initial-height']) {
-                            height = child.attr['plugin-data-initial-height'];
-                        } else {
-                            height = child.attr.hasOwnProperty('plugin-data-resizable') ? "auto" : "auto";
-                        }
-                    }
-                    if (!obj.attr) {
-                        obj.attr = {
-                            style: { height: height },
-                        };
-                    } else if (!obj.attr.style) {
-                        obj.attr.style = { height: height };
-                    } else {
-                        obj.attr.style.height = height;
-                    }
-                    if (obj.attr.style.minHeight) {
-                        delete obj.attr.style.minHeight;
-                    }
-                }
-                this.parsePluginContainers(obj.child[i], state);
-            }
-        }
-        if (2 > 4 && obj.tag && obj.tag === "plugin") {
-            if (obj.attr) {
-                if (!obj.attr['plugin-data-id']) {
-                    obj.attr['plugin-data-id'] = ID_PREFIX_SORTABLE_CONTAINER + Date.now() + this.index++ + new Date().getUTCMilliseconds();
-                }
-                if (!obj.attr['plugin-data-height']) {
-                    obj.attr['plugin-data-height'] = obj.attr['plugin-data-initial-height'] || (obj.attr.hasOwnProperty('plugin-data-resizable') ? "auto" : "auto");
-                }
-                if (obj.attr['plugin-data-key'] && !state[obj.attr['plugin-data-key']]) {
-                    state[obj.attr['plugin-data-key']] = {
-                        id: obj.attr['plugin-data-id'],
-                        name: obj.attr['plugin-data-display-name'] || obj.attr['plugin-data-key'],
-                        height: obj.attr['plugin-data-height'],
-                    };
-                }
-            }
-        }
-        if (2 > 4 && obj.attr && obj.attr.class) {
-            if(!Array.isArray(obj.attr.class) && typeof obj.attr.class === "string") {
-                obj.attr.class = [obj.attr.class];
-            }
-            obj.attr.className = obj.attr.class.join(' ');
-            delete obj.attr.class;
-        }
-    }
-
-    /**
-     *
-     * @param obj
-     * @param state
-     */
-    parsePluginContainers(obj, state) {
-        if (obj.child) {
-            for (let i = 0; i < obj.child.length; i++) {
-                if (obj.child[i].tag && obj.child[i].tag === "plugin") {
-                    if (obj.child.length > 1) {
-                        // eslint-disable-next-line no-console
-                        console.error("A plugin tag must not have siblings. Please check renderTemplate method");
-                    }
-                    let height = "auto";
-                    let child = obj.child[i];
-                    if (child.attr) {
-                        if (child.attr['plugin-data-height']) {
-                            height = child.attr['plugin-data-height'];
-                        } else if (child.attr['plugin-data-initial-height']) {
-                            height = child.attr['plugin-data-initial-height'];
-                        } else {
-                            height = child.attr.hasOwnProperty('plugin-data-resizable') ? "auto" : "auto";
-                        }
-                    }
-                    if (!obj.attr) {
-                        obj.attr = {
-                            style: { height: height },
-                        };
-                    } else if (!obj.attr.style) {
-                        obj.attr.style = { height: height };
-                    } else {
-                        obj.attr.style.height = height;
-                    }
-                    if (obj.attr.style.minHeight) {
-                        delete obj.attr.style.minHeight;
-                    }
-                }
-                this.parsePluginContainers(obj.child[i], state);
-            }
-        }
-        if (obj.tag && obj.tag === "plugin") {
-            if (obj.attr) {
-                if (!obj.attr['plugin-data-id']) {
-                    obj.attr['plugin-data-id'] = ID_PREFIX_SORTABLE_CONTAINER + Date.now() + this.index++ + new Date().getUTCMilliseconds();
-                }
-                if (!obj.attr['plugin-data-height']) {
-                    obj.attr['plugin-data-height'] = obj.attr['plugin-data-initial-height'] || (obj.attr.hasOwnProperty('plugin-data-resizable') ? "auto" : "auto");
-                }
-                if (obj.attr['plugin-data-key'] && !state[obj.attr['plugin-data-key']]) {
-                    state[obj.attr['plugin-data-key']] = {
-                        id: obj.attr['plugin-data-id'],
-                        name: obj.attr['plugin-data-display-name'] || obj.attr['plugin-data-key'],
-                        height: obj.attr['plugin-data-height'],
-                    };
-                }
-            }
-        }
-        if (obj.attr && obj.attr.class) {
-            if(!Array.isArray(obj.attr.class) && typeof obj.attr.class === "string") {
-                obj.attr.class = [obj.attr.class];
-            }
-            obj.attr.className = obj.attr.class.join(' ');
-            delete obj.attr.class;
-        }
-    }
-
-    hasExerciseBox(navItemId, navItems, state, boxes) {
-        if(state.pluginTab === "exercises" && (navItems[navItemId].boxes.length > 1 || boxes[navItems[navItemId].boxes[0]].children.length !== 0)) {
-            return true;
-        }
-        if(navItems[navItemId] && Object.keys(navItems[navItemId].extraFiles).length !== 0) {
-            return true;
-        }
-        return false;
-    }
-
-    addDefaultContainerPlugins(eventDetails, obj) {
-        if (obj.child) {
-            for (let i = 0; i < obj.child.length; i++) {
-                this.addDefaultContainerPlugins(eventDetails, obj.child[i]);
-            }
-        }
-        if (obj.tag && obj.tag === "plugin" && obj.attr['plugin-data-default']) {
-            let boxes = this.props.store.getState().present.boxesById;
-            let plug_children = boxes[eventDetails.ids.id].sortableContainers[obj.attr['plugin-data-id']];
-            if (plug_children && plug_children.children && plug_children.children.length === 0) {
-                obj.attr['plugin-data-default'].split(" ").map(name => {
-                    if (!Ediphy.Plugins.get(name)) {
-                        // eslint-disable-next-line no-console
-                        console.error("Plugin " + name + " does not exist");
-                        return;
-                    }
-                    Ediphy.Plugins.get(name).getConfig().callback({
-                        parent: eventDetails.ids.id,
-                        container: obj.attr['plugin-data-id'],
-                        isDefaultPlugin: true,
-                    }, ADD_BOX);
-                });
-            }
-        }
     }
 
 }

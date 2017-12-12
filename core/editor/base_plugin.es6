@@ -1,6 +1,7 @@
 import Ediphy from './main';
 import ReactDOM from 'react-dom';
 import { isSortableContainer } from '../../common/utils';
+import PluginPlaceholder from '../../_editor/components/canvas/plugin_placeholder/PluginPlaceholder';
 let html2json = require('html2json').html2json;
 
 export default function() {
@@ -34,6 +35,35 @@ export default function() {
                 json.attr['plugin-data-id'] = state.__pluginContainerIds[key].id;
                 json.attr['plugin-data-display-name'] = state.__pluginContainerIds[key].name;
                 json.attr['plugin-data-height'] = state.__pluginContainerIds[key].height;
+            }
+        }
+    };
+
+    let assignPluginContainerIdsReact = function(temp) {
+        console.log('temp');
+        console.log(temp);
+        if (temp.props && temp.props.children) {
+            if(temp.props.children instanceof Array) {
+                for (let i = 0; i < temp.props.children.length; i++) {
+                    assignPluginContainerIdsReact(temp.props.children[i]);
+                }
+            } else {
+                assignPluginContainerIdsReact(temp.props.children);
+            }
+
+        }
+        if (temp.type && temp.type === PluginPlaceholder) {
+            if (!state.__pluginContainerIds) {
+                state.__pluginContainerIds = {};
+            }
+            let key = temp.props['plugin-data-key'];
+            if (!key) {
+                // console.error(temp.type.toString() + " has not defined plugin-data-key");
+            } else if (state.__pluginContainerIds[key]) {
+                console.log(200);
+                temp.props.pluginContainer = state.__pluginContainerIds[key].id;
+                temp.props['plugin-data-display-name'] = state.__pluginContainerIds[key].name;
+                temp.props['plugin-data-height'] = state.__pluginContainerIds[key].height;
             }
         }
     };
@@ -339,15 +369,21 @@ export default function() {
                 console.error(this.getConfig().name + " has not defined getRenderTemplate method");
             } else {
 
-                let template = descendant.getRenderTemplate(state, {});
-                if(template !== null && this.getConfig().flavor !== "react") {
-                    template = html2json(template);
-                    assignPluginContainerIds(template);
+                let template = null;
+                if (this.getConfig().flavor !== "react") {
+                    template = descendant.getRenderTemplate(state, {});
+                    if(template !== null) {
+                        template = html2json(template);
+                        assignPluginContainerIds(template);
+                    }
                 } else{
-                    template = html2json(template);
-                    assignPluginContainerIds(template);
+                    template = descendant.getRenderTemplate(state, {});
+                    assignPluginContainerIdsReact(template);
+
                 }
+
                 if (template !== null) {
+                    console.log('ww');
                     Ediphy.API.renderPlugin(
                         template,
                         this.getToolbar(),

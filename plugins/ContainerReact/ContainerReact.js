@@ -19,9 +19,13 @@ export function ContainerReact(base) {
             return {};
         },
         getRenderTemplate: function(state, props) {
-            console.log(props);
-            // return '<div><plugin plugin-data-key="reactcontainer" plugin-data-display-name="' + Dali.i18n.t('ContainerReact.content_box_name') + '" plugin-data-resizable plugin-data-default="BasicText" /></div>';
-            return <PluginPlaceholder {...props} plugin-data-id={"ee"} />;
+            return <div><div className={"col-xs-12"}>Ejercicio</div>
+                <div className={"col-xs-12"}><PluginPlaceholder {...props} key="1" plugin-data-display-name={"Pregunta"} plugin-data-default="BasicText" pluginContainer={"Pregunta"} /></div>
+                <div className={"col-xs-2 h3"}>1</div><div className={"col-xs-10"}><PluginPlaceholder {...props} key="1" plugin-data-display-name={"Respuesta 1"} plugin-data-default="BasicText" pluginContainer={"Respuesta1"} /></div>
+                <div className={"col-xs-2 h3"}>2</div><div className={"col-xs-10"}><PluginPlaceholder {...props} key="2" plugin-data-display-name={"Respuesta 2"} plugin-data-default="BasicText" pluginContainer={"Respuesta2"} /></div>
+
+            </div>;
+
         },
         handleToolbar: function(name, value) {
             base.setState(name, value);
