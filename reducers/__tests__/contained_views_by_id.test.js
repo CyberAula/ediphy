@@ -1,14 +1,20 @@
 import { testState } from '../../core/store/state.tests.js';
 import contained_views_by_id from '../contained_views_by_id';
 import * as ActionTypes from '../../common/actions';
-import { changeProp, isContainedView } from "../../common/utils";
+import { changeProp, deleteProps, isContainedView } from "../../common/utils";
 import { EDIT_RICH_MARK } from "../../common/actions";
 import { ADD_RICH_MARK } from "../../common/actions";
 import { DELETE_BOX } from "../../common/actions";
+import { CHANGE_CONTAINED_VIEW_NAME } from "../../common/actions";
+import { DELETE_CONTAINED_VIEW } from "../../common/actions";
+import { DELETE_NAV_ITEM } from "../../common/actions";
+import boxes_by_id from "../boxes_by_id";
+import { DELETE_SORTABLE_CONTAINER } from "../../common/actions";
+import { TOGGLE_TITLE_MODE } from "../../common/actions";
 
 const state = testState.present.containedViewsById;
 
-describe('# contained_views_by_id reducer ******************************************************************* DOING', ()=>{
+describe('# contained_views_by_id reducer', ()=>{
 
     describe('DEFAULT', ()=>{
         test('Should return test.state as default', () => {
@@ -82,7 +88,7 @@ describe('# contained_views_by_id reducer **************************************
                 },
             };
             const newState = JSON.parse(JSON.stringify(state));
-            newState['cv-1511252975055'].parent = {};
+            newState['cv-1511252975055'].parent = { 'bo-1511443052925': ["rm-1511252975456"] };
 
             expect(isContainedView(action.payload.oldConnection)).toBeTruthy();
             expect(contained_views_by_id(state, action)).toEqual(newState);
@@ -127,7 +133,7 @@ describe('# contained_views_by_id reducer **************************************
                 },
             };
             const newState = JSON.parse(JSON.stringify(state));
-            newState[action.payload.cvid].parent = {};
+            newState[action.payload.cvid].parent = { 'bo-1511443052925': ["rm-1511252975456"] };
 
             expect(contained_views_by_id(state, action)).toEqual(newState);
         });
@@ -197,35 +203,146 @@ describe('# contained_views_by_id reducer **************************************
     });
 
     describe('handle DELETE_BOX', () => {
-        test('If box deleted', () => {
-            // expect(contained_views_by_id(state, {})).toEqual(state);
+        test('If deleted box is linked to a contained view', () => {
+            const action = {
+                type: ActionTypes.DELETE_BOX,
+                payload: {
+                    id: 'bo-1511252970033',
+                    parent: 'pa-1511252955865',
+                    container: 0,
+                    children: [],
+                    cvs: ["cv-1511252975055"],
+                },
+            };
+            const newState = JSON.parse(JSON.stringify(state));
+            delete newState[action.payload.cvs[0]].parent[action.payload.id];
+            expect(contained_views_by_id(state, action)).toEqual(newState);
+        });
+
+        test('If the deleted box(s) parent is a contained view', () => {
+            const action = {
+                type: ActionTypes.DELETE_BOX,
+                payload: {
+                    id: 'bo-1511443052968',
+                    parent: 'cv-1511252975055',
+                    container: 0,
+                    children: [],
+                    cvs: [],
+                },
+            };
+            const newState = JSON.parse(JSON.stringify(state));
+            delete newState[action.payload.parent].boxes[action.payload.id];
+            newState['cv-1511252975055'].boxes = [];
+            expect(contained_views_by_id(state, action)).toEqual(newState);
         });
     });
 
-    describe('handle CHANGE_CONTAINED_VIEW_NAME', ()=>{
+    describe('handle CHANGE_CONTAINED_VIEW_NAME', () => {
         test('If contained view name changed', () => {
-            // expect(contained_views_by_id(state, {})).toEqual(state);
+            const action = {
+                type: ActionTypes.CHANGE_CONTAINED_VIEW_NAME,
+                payload: {
+                    id: 'cv-1511252975055',
+                    title: 'vc2',
+                },
+            };
+            const newState = JSON.parse(JSON.stringify(state));
+            newState[action.payload.id].name = action.payload.title;
+            expect(contained_views_by_id(state, action)).toEqual(newState);
         });
     });
-    describe('handle DELETE_CONTAINED_VIEW', ()=>{
+
+    describe('handle DELETE_CONTAINED_VIEW', () => {
         test('If contained view deleted', () => {
-            // expect(contained_views_by_id(state, {})).toEqual(state);
+            const action = {
+                type: ActionTypes.DELETE_CONTAINED_VIEW,
+                payload: {
+                    ids: ["cv-1511252975055"],
+                    boxes: ['bo-1511443052968'],
+                    parent: {},
+                },
+            };
+            const newState = JSON.parse(JSON.stringify(state));
+            delete newState["cv-1511252975055"];
+            expect(contained_views_by_id(state, action)).toEqual(newState);
         });
     });
+
+    describe('handle DELETE_NAV_ITEM', () => {
+        test('If nav item deleted and has a linked contained view', () => {
+            const action = {
+                type: ActionTypes.DELETE_NAV_ITEM,
+                payload: {
+                    ids: ['pa-1511252955865'],
+                    parent: 'se-1511252954307',
+                    boxes: ['bo-1511252970033'],
+                    containedViews: {},
+                    linkedBoxes: {},
+                },
+            };
+            const newState = JSON.parse(JSON.stringify(state));
+            delete newState["cv-1511252975055"].parent[action.payload.boxes[0]];
+            // delete newState["cv-1511252975058"].parent[action.payload.boxes[0]];
+            expect(contained_views_by_id(state, action)).toEqual(newState);
+        });
+    });
+
     describe('handle DELETE_SORTABLE_CONTAINER', () => {
-        test('If sortable container deleted', () => {
-            // expect(contained_views_by_id(state, {})).toEqual(state);
+        test('If sortable container deleted has a box linked to a contained view', () => {
+            const action = {
+                type: ActionTypes.DELETE_NAV_ITEM,
+                payload: {
+                    id: 'sc-1511443052922',
+                    parent: 'bs-1511252985426',
+                    children: ["bo-1511443052925", "bo-1511443052967"],
+                    cvs: { 'cv-1511252975055': ["bo-1511443052925"] },
+                },
+            };
+            const newState = JSON.parse(JSON.stringify(state));
+            delete newState['cv-1511252975055'].parent[action.payload.cvs[0]];
+            expect(contained_views_by_id(state, action)).toEqual(newState);
         });
     });
-    describe('handle TOGGLE_TITLE_MODE', ()=>{
-        test('If title mode toggled', () => {
-            // expect(contained_views_by_id(state, {})).toEqual(state);
+
+    describe('handle TOGGLE_TITLE_MODE', () => {
+        test('If title mode toggled in a contained view', () => {
+            const action = {
+                type: ActionTypes.TOGGLE_TITLE_MODE,
+                payload: {
+                    id: 'cv-1511252975055',
+                    titles: {
+                        elementContent: {
+                            documentTitle: "prueba",
+                            documentSubTitle: "",
+                            numPage: "",
+                        },
+                        display: {
+                            courseTitle: "reduced",
+                            documentTitle: "expanded",
+                            documentSubTitle: "hidden",
+                            breadcrumb: "reduced",
+                            pageNumber: "hidden",
+                        },
+                    },
+                },
+            };
+
+            const newState = JSON.parse(JSON.stringify(state));
+            newState[action.payload.id].header = action.payload.titles;
+            expect(isContainedView(action.payload.id)).toBeTruthy();
+            expect(contained_views_by_id(state, action)).toEqual(newState);
         });
     });
 
     describe('handle IMPORT_STATE', () => {
         test('If state imported', () => {
-            // expect(contained_views_by_id(state, {})).toEqual(state);
+            const action = {
+                type: ActionTypes.IMPORT_STATE,
+                payload: {
+                    present: {},
+                },
+            };
+            expect(boxes_by_id(state, action)).toEqual(state);
         });
     });
 

@@ -121,6 +121,7 @@ export default function(state = {}, action = {}) {
     case DELETE_CONTAINED_VIEW:
         return deleteProps(state, action.payload.ids);
     case DELETE_NAV_ITEM:
+
         for (let cv in state) {
             for (let box in action.payload.boxes) {
                 if (state[cv].parent[action.payload.boxes[box]]) {
