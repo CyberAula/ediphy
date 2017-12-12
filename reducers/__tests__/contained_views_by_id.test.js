@@ -1,16 +1,8 @@
 import { testState } from '../../core/store/state.tests.js';
 import contained_views_by_id from '../contained_views_by_id';
 import * as ActionTypes from '../../common/actions';
-import { changeProp, deleteProps, isContainedView } from "../../common/utils";
-import { EDIT_RICH_MARK } from "../../common/actions";
-import { ADD_RICH_MARK } from "../../common/actions";
-import { DELETE_BOX } from "../../common/actions";
-import { CHANGE_CONTAINED_VIEW_NAME } from "../../common/actions";
-import { DELETE_CONTAINED_VIEW } from "../../common/actions";
-import { DELETE_NAV_ITEM } from "../../common/actions";
+import { isContainedView } from "../../common/utils";
 import boxes_by_id from "../boxes_by_id";
-import { DELETE_SORTABLE_CONTAINER } from "../../common/actions";
-import { TOGGLE_TITLE_MODE } from "../../common/actions";
 
 const state = testState.present.containedViewsById;
 
