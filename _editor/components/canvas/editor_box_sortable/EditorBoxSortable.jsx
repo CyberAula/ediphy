@@ -55,6 +55,7 @@ export default class EditorBoxSortable extends Component {
                     {this.state.alert}
                     {box.children.map((idContainer, index)=> {
                         let container = box.sortableContainers[idContainer];
+                        console.log(idContainer);
                         return (<div key={index}
                             className={"editorBoxSortableContainer pos_relative " + container.style.className}
                             data-id={idContainer}
@@ -138,10 +139,11 @@ export default class EditorBoxSortable extends Component {
                                     </OverlayTrigger>
 
                                     <Overlay rootClose
-                                        show={this.state.show}
+                                        show={this.state.show === idContainer}
                                         placement="top"
-                                        target={() => ReactDOM.findDOMNode(this.refs.target)}
-                                        onHide={() => {this.setState({ show: false });}}>
+                                        container={this.refs[idContainer]}
+                                        target={() => ReactDOM.findDOMNode(this.refs['btn-' + idContainer])}
+                                        onHide={() => {this.setState({ show: this.state.show === idContainer ? false : this.state.show });}}>
                                         <Popover id="popov" title={i18n.t("delete_container")}>
                                             <i style={{ color: 'yellow', fontSize: '13px', padding: '0 5px' }} className="material-icons">warning</i>
                                             {
@@ -175,8 +177,8 @@ export default class EditorBoxSortable extends Component {
                                         <Tooltip id="deleteTooltip">{i18n.t('delete')}
                                         </Tooltip>}>
                                         <Button
-                                            onClick={() => {this.setState({ show: true });}}
-                                            ref="target"
+                                            onClick={() => {this.setState({ show: idContainer });}}
+                                            ref={'btn-' + idContainer}
                                             className="material-icons delete-sortable btnOverBar">delete</Button>
                                     </OverlayTrigger>
 
