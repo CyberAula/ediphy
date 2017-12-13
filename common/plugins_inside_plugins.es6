@@ -52,7 +52,7 @@ export function parsePluginContainersReact(obj, state) {
             if (!newProps.pluginContainer) {
                 // eslint-disable-next-line no-console
                 console.error("It is mandatory to specify the prop \"pluginContainer\" in PluginPlaceholder Component");
-                newProps.pluginContainer = ID_PREFIX_SORTABLE_CONTAINER + Date.now() + Math.random(10000) + new Date().getUTCMilliseconds();
+                newProps.pluginContainer = ID_PREFIX_SORTABLE_CONTAINER + Date.now() + parseInt(Math.random() * 10000, 10) + new Date().getUTCMilliseconds();
             } else {
                 newProps.pluginContainer = isSortableContainer(newProps.pluginContainer) ? newProps.pluginContainer : ID_PREFIX_SORTABLE_CONTAINER + newProps.pluginContainer;
             }
@@ -114,7 +114,7 @@ export function parsePluginContainers(obj, state) {
     if (obj.tag && obj.tag === "plugin") {
         if (obj.attr) {
             if (!obj.attr['plugin-data-id']) {
-                obj.attr['plugin-data-id'] = ID_PREFIX_SORTABLE_CONTAINER + Date.now() + Math.random(10000) + new Date().getUTCMilliseconds();
+                obj.attr['plugin-data-id'] = ID_PREFIX_SORTABLE_CONTAINER + Date.now() + parseInt(Math.random() * 10000, 10) + new Date().getUTCMilliseconds();
             }
             if (!obj.attr['plugin-data-height']) {
                 obj.attr['plugin-data-height'] = obj.attr['plugin-data-initial-height'] || (obj.attr.hasOwnProperty('plugin-data-resizable') ? "auto" : "auto");

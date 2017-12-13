@@ -209,9 +209,11 @@ export default class EditorBox extends Component {
         return (
             <div className={classes} id={'box-' + this.props.id}
                 onClick={e => {
+
                     // If there's no box selected and current's level is 0 (otherwise, it would select a deeper box)
                     // or -1 (only EditorBoxSortable can have level -1)
                     if((this.props.boxSelected === -1 || this.props.boxLevelSelected === -1) && box.level === 0) {
+                        console.log(1);
                         this.props.onBoxSelected(this.props.id);
                         e.stopPropagation();
                         return;
@@ -219,17 +221,27 @@ export default class EditorBox extends Component {
                     // Last parent has to be the same, otherwise all boxes with same level would be selectable
                     if(this.props.boxLevelSelected === box.level &&
                  isAncestorOrSibling(this.props.boxSelected, this.props.id, this.props.boxes)) {
+                        console.log(2);
+
                         if(e.nativeEvent.ctrlKey && box.children.length !== 0) {
+                            console.log(3);
+
                             this.props.onBoxLevelIncreased();
                         }else if(this.props.boxSelected !== this.props.id) {
+                            console.log(4);
+
                             this.props.onBoxSelected(this.props.id);
                         }
                     }
                     if(this.props.boxSelected !== -1 && this.props.boxLevelSelected === 0) {
+                        console.log(5);
+
                         this.props.onBoxSelected(this.props.id);
                         e.stopPropagation();
                     }
                     if(box.level === 0) {
+                        console.log(6);
+
                         e.stopPropagation();
                     }
                 }}
@@ -471,6 +483,7 @@ export default class EditorBox extends Component {
                 },
                 autoScroll: true,
                 onstart: (event) => {
+                    event.stopPropagation();
                     // If contained in smth different from ContainedCanvas (sortableContainer || PluginPlaceHolder), clone the node and hide the original
                     if (isSortableContainer(box.container)) {
                         let original = event.target;
@@ -522,7 +535,7 @@ export default class EditorBox extends Component {
                     if (this.props.boxSelected !== this.props.id) {
                         this.props.onBoxSelected(this.props.id);
                     }
-
+                    event.stopPropagation();
                     // Hide EditorShortcuts
                     let bar = this.props.containedViewSelected === 0 ?
                         document.getElementById('editorBoxIcons') :
@@ -557,6 +570,7 @@ export default class EditorBox extends Component {
                     }
                 },
                 onend: (event) => {
+                    event.stopPropagation();
                     let bar = this.props.containedViewSelected === 0 ?
                         document.getElementById('editorBoxIcons') :
                         document.getElementById('contained_editorBoxIcons');
