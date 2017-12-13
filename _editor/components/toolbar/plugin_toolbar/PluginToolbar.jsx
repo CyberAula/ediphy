@@ -724,9 +724,9 @@ export default class PluginToolbar extends Component {
                                 this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, canvas.toDataURL("image/jpeg"));
                                 if (!button.autoManaged) {
                                     if (!button.callback) {
-                                        this.handlecanvasToolbar(button.__name, canvas.toDataURL("image/jpeg"));
+                                        this.handlecanvasToolbar(button.__name, data);
                                     } else {
-                                        button.callback(state, buttonKey, canvas.toDataURL("image/jpeg"), id, UPDATE_TOOLBAR);
+                                        button.callback(state, buttonKey, data, id, UPDATE_TOOLBAR);
                                     }
                                 }
                             };
@@ -762,9 +762,9 @@ export default class PluginToolbar extends Component {
                                 this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, canvas.toDataURL("image/jpeg"));
                                 if (!button.autoManaged) {
                                     if (!button.callback) {
-                                        this.handlecanvasToolbar(button.__name, canvas.toDataURL("image/jpeg"));
+                                        this.handlecanvasToolbar(button.__name, data);
                                     } else {
-                                        button.callback(state, buttonKey, canvas.toDataURL("image/jpeg"), id, UPDATE_TOOLBAR);
+                                        button.callback(state, buttonKey, data, id, UPDATE_TOOLBAR);
                                     }
                                 }
                             };
@@ -881,6 +881,7 @@ export default class PluginToolbar extends Component {
 
         if (button.type === "background_picker") {
             let isURI = (/data\:/).test(props.value);
+            let isColor = (/rgb\(\d+\,\d+\,\d+(\,\d)?\)/).test(props.value);
             let default_background = "rgb(255, 255, 255)";
             let isSli = isSlide(this.props.navItems[this.props.navItemSelected].type);
 
@@ -893,7 +894,7 @@ export default class PluginToolbar extends Component {
                         { key: 'label1_' + button.__name },
                         i18n.t('background.background_color')),
                     React.createElement(
-                        ColorPicker, { key: "cpicker_" + props.label, value: isURI ? default_background : props.value, onChange: props.onChange },
+                        ColorPicker, { key: "cpicker_" + props.label, value: isColor ? props.value : default_background, onChange: props.onChange },
                         []),
                     isSli && React.createElement(
                         ControlLabel,
@@ -901,7 +902,7 @@ export default class PluginToolbar extends Component {
                         i18n.t('background.background_image')),
                     isSli && React.createElement('div',
                         { key: 'container_' + button.__name, style: { display: 'block' } },
-                        React.createElement(
+                        [React.createElement(
                             FileInput, {
                                 key: 'fileinput_' + props.label,
                                 value: props.value,
@@ -921,7 +922,26 @@ export default class PluginToolbar extends Component {
                                     }, 'insert_drive_file'),
                                 ]),
                             ])
-                        )
+                        ),
+                        React.createElement(
+                            FormGroup,
+                            { key: button.__name },
+                            [
+                                React.createElement(
+                                    ControlLabel,
+                                    { key: 'labelurlinput_' + button.__name },
+                                    i18n.t('background.background_input_url')),
+                                React.createElement(FormControl,
+                                    {
+                                        key: 'urlinput_' + props.label,
+                                        value: props.value,
+                                        onChange: props.onChange,
+                                    }, null),
+                            ]),
+                        (isURI && !isColor) && React.createElement(Radio, { key: 'full_', name: 'image_display' }, 'full'),
+                        (isURI && !isColor) && React.createElement(Radio, { key: 'repeat', name: 'image_display' }, 'repeat'),
+                        (isURI && !isColor) && React.createElement(Radio, { key: 'centered', name: 'image_display' }, 'centered'),
+                        ]
                     ),
                     /* React.createElement(ControlLabel,
                         {key: 'labelradio1_' + button.__name},)

@@ -9,9 +9,10 @@ let en = {
         "Aspect_ratio": "Aspect ratio",
         "Auto": "Automatic",
         "background": {
-            "background_color": "Color de fondo",
-            "background_image": "Imagen de fondo",
-            "reset_background": "Reiniciar fondo",
+            "background_color": "Background color",
+            "background_image": "Background image",
+            "reset_background": "Reset background",
+            "background_input_url": "URL Image",
         },
         "Block": "Block",
         "Breadcrumb": "Breadcrumb",

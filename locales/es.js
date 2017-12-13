@@ -12,6 +12,7 @@ let es = {
             "background_color": "Color de fondo",
             "background_image": "Imagen de fondo",
             "reset_background": "Reiniciar fondo",
+            "background_input_url": "Imágen URL",
         },
         "Block": "Bloque",
         "Breadcrumb": "Breadcrumb",
