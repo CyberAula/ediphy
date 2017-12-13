@@ -274,6 +274,12 @@ class EditorApp extends Component {
                                 onTextEditorToggled={(caller, value) => this.dispatchAndSetState(toggleTextEditor(caller, value))}
                                 onBoxesInsideSortableReorder={(parent, container, order) => {this.dispatchAndSetState(reorderBoxes(parent, container, order));}}
                                 titleModeToggled={(id, value) => this.dispatchAndSetState(toggleTitleMode(id, value))}
+                                onRichMarksModalToggled={() => {
+                                    this.setState({ richMarksVisible: !this.state.richMarksVisible });
+                                    if(this.state.richMarksVisible) {
+                                        this.setState({ currentRichMark: null });
+                                    }
+                                }}
                                 onMarkCreatorToggled={(id) => this.setState({ markCreatorVisible: id })}/>
                             <ContainedCanvas boxes={boxes}
                                 grid={this.state.grid}

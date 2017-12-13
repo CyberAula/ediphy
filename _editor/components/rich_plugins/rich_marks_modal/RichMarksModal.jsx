@@ -41,6 +41,7 @@ export default class RichMarksModal extends Component {
      * @param nextProps
      */
     componentWillReceiveProps(nextProps) {
+        console.log(nextProps.currentRichMark);
         let current = nextProps.currentRichMark;
         let allViews = this.returnAllViews(nextProps);
         if (!this.props.visible) {

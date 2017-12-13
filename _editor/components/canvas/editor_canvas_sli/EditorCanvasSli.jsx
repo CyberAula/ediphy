@@ -135,6 +135,7 @@ export default class EditorCanvasSli extends Component {
                                 onBoxesInsideSortableReorder={this.props.onBoxesInsideSortableReorder}
                                 onBoxDropped={this.props.onBoxDropped}
                                 onVerticallyAlignBox={this.props.onVerticallyAlignBox}
+                                onRichMarksModalToggled={this.props.onRichMarksModalToggled}
                                 onTextEditorToggled={this.props.onTextEditorToggled}
                                 pageType={itemSelected.type || 0}
                             />;

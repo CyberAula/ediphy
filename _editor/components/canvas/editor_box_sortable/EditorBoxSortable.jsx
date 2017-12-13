@@ -55,7 +55,6 @@ export default class EditorBoxSortable extends Component {
                     {this.state.alert}
                     {box.children.map((idContainer, index)=> {
                         let container = box.sortableContainers[idContainer];
-                        console.log(idContainer);
                         return (<div key={index}
                             className={"editorBoxSortableContainer pos_relative " + container.style.className}
                             data-id={idContainer}
@@ -114,6 +113,7 @@ export default class EditorBoxSortable extends Component {
                                                                 onBoxesInsideSortableReorder={this.props.onBoxesInsideSortableReorder}
                                                                 onSortableContainerResized={this.props.onSortableContainerResized}
                                                                 onTextEditorToggled={this.props.onTextEditorToggled}
+                                                                onRichMarksModalToggled={this.props.onRichMarksModalToggled}
                                                                 pageType={this.props.pageType}/>);
 
                                                         } else if (ind === container.children.length - 1) {
