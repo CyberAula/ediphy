@@ -121,8 +121,7 @@ export default class MarkCreator extends Component {
 
                     component.setState({ value: value });
                     component.props.onRichMarksModalToggled(value);
-                    component.processPrompt(false);
-
+                    component.exitFunction();
                 };
 
                 // document.documentElement.style.cursor = 'url("https://storage.googleapis.com/material-icons/external-assets/v4/icons/svg/ic_room_black_24px.svg"), default';

@@ -67,6 +67,7 @@ export default class RichMarksModal extends Component {
                     existingSelected: "",
                 });
             }
+
         }
 
     }
@@ -88,13 +89,14 @@ export default class RichMarksModal extends Component {
             { label: this.props.navItems[this.state.existingSelected].name, id: this.state.existingSelected }) : this.returnAllViews(this.props)[0] || [];
         let newSelected = "";
 
-        // if (this.state.connectMode === 'existing') {
         if (this.props.containedViews[this.state.newSelected]) {
             newSelected = this.props.containedViews[this.state.newSelected].name;
         } else if (this.props.navItems[this.state.newSelected]) {
             newSelected = this.props.navItems[this.state.newSelected].name;
         }
-        // }
+
+        let currentNavItemType = this.props.navItems[this.props.navItemSelected].type;
+
         let pluginType = this.props.pluginToolbar && this.props.pluginToolbar.config ? this.props.pluginToolbar.config.displayName : 'Plugin';
         return (
             <Modal className="pageModal richMarksModal" backdrop bsSize="large" show={this.props.visible}>
@@ -169,7 +171,7 @@ export default class RichMarksModal extends Component {
                         <Col xs={5} md={3}>
                             <FormGroup style={{ display: this.state.connectMode === "new" ? "initial" : "none" }}>
                                 <FormControl componentClass="select"
-                                    defaultValue={this.state.newType}
+                                    defaultValue={currentNavItemType}
                                     style={{
                                         display: /* this.state.newType === PAGE_TYPES.SLIDE || this.state.newType === PAGE_TYPES.DOCUMENT*/ this.state.newSelected === "" ? "initial" : "none",
                                     }}
@@ -233,7 +235,7 @@ export default class RichMarksModal extends Component {
                                 <FormControl
                                     ref="value"
                                     type={this.state.actualMarkType}
-                                    defaultValue={current ? current.value : (marksType.default ? marksType.default : 0)}/>
+                                    defaultValue={this.props.markCursorValue ? this.props.markCursorValue : (current ? current.value : (marksType.default ? marksType.default : 0))}/>
                             </Col>
                         </FormGroup>
                     </Row>
@@ -255,6 +257,7 @@ export default class RichMarksModal extends Component {
                         let name = title || nextAvailName(i18n.t('contained_view'), this.props.containedViews);
                         // Mark name
                         title = title || nextAvailName(i18n.t("marks.new_mark"), this.props.pluginToolbar.state.__marks, 'title');
+                        console.log('yay');
                         switch (connectMode) {
                         case "new":
                             connection = current && current.connection && current.connectMode === 'new' ?
