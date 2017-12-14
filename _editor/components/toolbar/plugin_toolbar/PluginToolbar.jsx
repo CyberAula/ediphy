@@ -312,7 +312,12 @@ export default class PluginToolbar extends Component {
         switch (name) {
         // change page/slide title
         case i18n.t('background.background'):
-            this.props.onNavItemBackgroundChanged(this.props.navItemSelected, value);
+            let isColor = (/rgb[a]?\(\d+\,\d+\,\d+(\,\d)?\)/).test(value.background);
+            if(isColor) {
+                this.props.onNavItemBackgroundChanged(this.props.navItemSelected, value.background);
+            } else {
+                this.props.onNavItemBackgroundChanged(this.props.navItemSelected, value);
+            }
             break;
         case "custom_title":
             this.props.titleModeToggled(this.props.navItemSelected, {
@@ -739,14 +744,22 @@ export default class PluginToolbar extends Component {
 
                 if (button.type === 'background_picker') {
                     if(e.color) {
-                        value = e.color;
+                        value = { background: e.color, attr: 'full' };
                         if (!value) {
                             return;
                         }
                     }
 
+                    if(e.target && e.target.type === "radio") {
+                        value = { background: button.value.background, attr: e.target.value };
+                    }
+
+                    if(e.target && e.target.type === "text") {
+                        value = { background: e.target.value, attr: 'full' };
+                    }
+
                     if(e.currentTarget && e.currentTarget.type === "button") {
-                        value = e.currentTarget.value;
+                        value = { background: e.currentTarget.value, attr: 'full' };
                     }
 
                     if (e.target && e.target.files && e.target.files.length === 1) {
@@ -759,10 +772,10 @@ export default class PluginToolbar extends Component {
                                 let canvas = document.createElement('canvas');
                                 let ctx = canvas.getContext('2d');
                                 ctx.drawImage(img, 0, 0, 1200, 1200);
-                                this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, canvas.toDataURL("image/jpeg"));
+                                this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, { background: data, attr: 'full' });
                                 if (!button.autoManaged) {
                                     if (!button.callback) {
-                                        this.handlecanvasToolbar(button.__name, data);
+                                        this.handlecanvasToolbar(button.__name, { background: data, attr: 'full' });
                                     } else {
                                         button.callback(state, buttonKey, data, id, UPDATE_TOOLBAR);
                                     }
@@ -880,9 +893,9 @@ export default class PluginToolbar extends Component {
         }
 
         if (button.type === "background_picker") {
-            let isURI = (/data\:/).test(props.value);
-            let isColor = (/rgb\(\d+\,\d+\,\d+(\,\d)?\)/).test(props.value);
-            let default_background = "rgb(255, 255, 255)";
+            let isURI = (/data\:/).test(props.value.background);
+            let isColor = (/rgb[a]?\(\d+\,\d+\,\d+(\,\d)?\)/).test(props.value.background);
+            let default_background = "rgb(255,255,255)";
             let isSli = isSlide(this.props.navItems[this.props.navItemSelected].type);
 
             return React.createElement(
@@ -894,23 +907,23 @@ export default class PluginToolbar extends Component {
                         { key: 'label1_' + button.__name },
                         i18n.t('background.background_color')),
                     React.createElement(
-                        ColorPicker, { key: "cpicker_" + props.label, value: isColor ? props.value : default_background, onChange: props.onChange },
+                        ColorPicker, { key: "cpicker_" + props.label, value: isColor ? props.value.background : default_background, onChange: props.onChange },
                         []),
                     isSli && React.createElement(
                         ControlLabel,
-                        { key: 'label2_' + button.__name, value: button.value },
+                        { key: 'label2_' + button.__name, value: button.value.background },
                         i18n.t('background.background_image')),
                     isSli && React.createElement('div',
                         { key: 'container_' + button.__name, style: { display: 'block' } },
                         [React.createElement(
                             FileInput, {
                                 key: 'fileinput_' + props.label,
-                                value: props.value,
+                                value: props.value.background,
                                 onChange: props.onChange,
                                 style: { width: '100%' },
                             },
                             React.createElement('div', {
-                                style: { backgroundImage: isURI ? 'url(' + props.value + ')' : 'none' },
+                                style: { backgroundImage: isURI ? 'url(' + props.value.background + ')' : 'none' },
                                 key: "inside_" + props.label,
                                 className: 'fileDrag_toolbar',
                             }, isURI ? null : [
@@ -934,39 +947,15 @@ export default class PluginToolbar extends Component {
                                 React.createElement(FormControl,
                                     {
                                         key: 'urlinput_' + props.label,
-                                        value: props.value,
+                                        value: isURI || isColor ? '' : props.value.background,
                                         onChange: props.onChange,
                                     }, null),
                             ]),
-                        (isURI && !isColor) && React.createElement(Radio, { key: 'full_', name: 'image_display' }, 'full'),
-                        (isURI && !isColor) && React.createElement(Radio, { key: 'repeat', name: 'image_display' }, 'repeat'),
-                        (isURI && !isColor) && React.createElement(Radio, { key: 'centered', name: 'image_display' }, 'centered'),
+                        (!isColor) && React.createElement(Radio, { key: 'full_', name: 'image_display', checked: props.value.attr === 'full', onChange: props.onChange, value: 'full' }, 'full'),
+                        (!isColor) && React.createElement(Radio, { key: 'repeat', name: 'image_display', checked: props.value.attr === 'repeat', onChange: props.onChange, value: 'repeat' }, 'repeat'),
+                        (!isColor) && React.createElement(Radio, { key: 'centered', name: 'image_display', checked: props.value.attr === 'centered', onChange: props.onChange, value: 'centered' }, 'centered'),
                         ]
                     ),
-                    /* React.createElement(ControlLabel,
-                        {key: 'labelradio1_' + button.__name},)
-                        /*i18n.t('background.radio_background')),
-                    React.createElement(Radio,{key: 'radio1_background', name: "background_picker"},
-                        ""
-                    ),
-                    React.createElement(ControlLabel,
-                        {key: 'labelradio2_' + button.__name},)
-                        /*i18n.t('background.radio_background')),
-                    React.createElement(Radio,{key: 'radio2_background',name: "background_picker"},
-                        ""
-                    ),
-                    React.createElement(ControlLabel,
-                        {key: 'labelradio3_' + button.__name},)
-                        /*i18n.t('background.radio_background'),
-                    React.createElement(Radio,{key: 'radio3_background',name: "background_picker"},
-                        ""
-                    ),
-                    React.createElement(ControlLabel,
-                        {key: 'labelradio4_' + button.__name},)
-                        /*i18n.t('background.radio_background')),
-                    React.createElement(Radio,{key: 'radio4_background',name: "background_picker"},
-                        ""
-                    ),*/
                     React.createElement(
                         ControlLabel,
                         { key: 'label_' + button.__name },

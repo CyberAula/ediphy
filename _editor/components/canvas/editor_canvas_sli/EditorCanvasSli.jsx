@@ -63,6 +63,7 @@ export default class EditorCanvasSli extends Component {
         let overlayHeight = actualHeight ? actualHeight : '100%';
         let boxes = itemSelected ? itemSelected.boxes : [];
         let backgroundIsUri = (/data\:/).test(itemSelected.background);
+        let isColor = (/rgb[a]?\(\d+\,\d+\,\d+(\,\d)?\)/).test(itemSelected.background);
         return (
             <Col id={this.props.fromCV ? 'containedCanvas' : 'canvas'} md={12} xs={12} className="canvasSliClass"
                 style={{ display: this.props.containedViewSelected !== 0 && !this.props.fromCV ? 'none' : 'initial' }}>
@@ -79,7 +80,11 @@ export default class EditorCanvasSli extends Component {
                             e.stopPropagation();
                         }}
                         className={'innercanvas sli'}
-                        style={{ visibility: (this.props.showCanvas ? 'visible' : 'hidden'), background: backgroundIsUri ? 'url(' + itemSelected.background + ')' : itemSelected.background }}>
+                        style={{ visibility: (this.props.showCanvas ? 'visible' : 'hidden'), background: isColor ? itemSelected.background : '',
+                            backgroundImage: !isColor ? 'url(' + itemSelected.background.background + ')' : '',
+                            backgroundSize: itemSelected.background.attr === 'full' ? 'cover' : 'auto',
+                            backgroundRepeat: itemSelected.background.attr === 'centered' ? 'no-repeat' : 'repeat',
+                            backgroundPosition: itemSelected.background.attr === 'centered' || itemSelected.background.attr === 'full' ? 'center center' : '0% 0%' }}>
                         {this.state.alert}
                         {/* <svg width="100%" height="100%" style={{position:'absolute', top:0, zIndex: 0}} xmlns="http://www.w3.org/2000/svg">
                            <defs>

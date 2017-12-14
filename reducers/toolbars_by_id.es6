@@ -362,7 +362,7 @@ function toolbarSectionCreator(state, action, isContainedView = false) {
                             background: {
                                 __name: i18n.t('background.background'),
                                 type: 'background_picker',
-                                value: "rgb(255,255,255)",
+                                value: { background: "rgb(255,255,255)", attr: "full" },
                                 autoManaged: false,
                             },
                         },
