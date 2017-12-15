@@ -1,21 +1,7 @@
 import { testState } from '../../core/store/state.tests.js';
 import nav_items_by_id from '../nav_items_by_id';
 import * as ActionTypes from '../../common/actions';
-import {
-    changeProp, changeProps, deleteProp, findNavItemContainingBox, isContainedView, isSortableContainer,
-    isView,
-} from "../../common/utils";
-import { DELETE_BOX } from "../../common/actions";
-import { DELETE_SORTABLE_CONTAINER } from "../../common/actions";
-import { EXPAND_NAV_ITEM } from "../../common/actions";
-import { DELETE_NAV_ITEM } from "../../common/actions";
-import { REORDER_NAV_ITEM } from "../../common/actions";
-import { TOGGLE_NAV_ITEM } from "../../common/actions";
-import { TOGGLE_TITLE_MODE } from "../../common/actions";
-import { ADD_RICH_MARK } from "../../common/actions";
-import { EDIT_RICH_MARK } from "../../common/actions";
-import { DELETE_RICH_MARK } from "../../common/actions";
-import { UPDATE_NAV_ITEM_EXTRA_FILES } from "../../common/actions";
+import { isContainedView, isSortableContainer, isView } from "../../common/utils";
 
 const state = testState.present.navItemsById;
 
@@ -438,7 +424,7 @@ describe('# nav_items_by_id reducer', ()=>{
 
     describe('handle UPDATE_NAV_ITEM_EXTRA_FILES  ***************** TODO (Adams heritage ??)', () => {
         test('If updated nav items extra files', () => {
-
+        // TODO
             // expect(nav_items_by_id(state, action)).toEqual(newState);
         });
     });

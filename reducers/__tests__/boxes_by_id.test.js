@@ -544,7 +544,7 @@ describe('# boxes_by_id reducer', () => {
                     "fragment": {},
                     "children": [],
                     "sortableContainers": {},
-                    "containedViews": [],
+                    "containedViews": ["cv-1511252975055"],
                 },
                 'bo-1511443052967': {
                     "id": 'bo-1511443052967',

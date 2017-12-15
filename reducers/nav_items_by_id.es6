@@ -38,7 +38,7 @@ function singleNavItemReducer(state = {}, action = {}) {
     case PASTE_BOX:
         return changeProp(state, "boxes", [...state.boxes, action.payload.ids.id]);
     case MOVE_BOX:
-        let children = Object.assign([], state.boxes);
+        let children = JSON.parse(JSON.stringify(state.boxes));
         for(let x in children) {
             if (children[x] === action.payload.id) {
                 children.push(children.splice(x, 1)[0]);
@@ -77,7 +77,7 @@ function singleNavItemReducer(state = {}, action = {}) {
         }
         return stateWithoutBox;
     case DELETE_RICH_MARK:
-        let previousParents = Object.assign({}, state.linkedBoxes);
+        let previousParents = JSON.parse(JSON.stringify(state.linkedBoxes));
         let oldMarks = previousParents[action.payload.parent];
         let ind = oldMarks.indexOf(action.payload.id);
         if (ind > -1) {
@@ -129,7 +129,7 @@ function singleNavItemReducer(state = {}, action = {}) {
     case TOGGLE_TITLE_MODE:
         return changeProp(state, "header", action.payload.titles);
     case ADD_RICH_MARK:
-        let oldParents = Object.assign({}, state.linkedBoxes);
+        let oldParents = JSON.parse(JSON.stringify(state.linkedBoxes));
         if(Object.keys(oldParents).indexOf(action.payload.parent) === -1) {
             oldParents[action.payload.parent] = [action.payload.mark.id];
         } else {
@@ -239,7 +239,7 @@ export default function(state = { 0: { id: 0, children: [], boxes: [], level: 0,
                         );
                     }
                 }*/
-        let nState = Object.assign({}, state);
+        let nState = JSON.parse(JSON.stringify(state));
         /* for (let cv in action.payload.cvs) {
                 for (let b in action.payload.cvs[cv]) {
                   delete nState[cv].parent[action.payload.cvs[cv][b]];
@@ -341,7 +341,7 @@ export default function(state = { 0: { id: 0, children: [], boxes: [], level: 0,
         if(!action.payload.mark || !action.payload.newConnection) {
             return state;
         }
-        let editState = Object.assign({}, state);
+        let editState = JSON.parse(JSON.stringify(state));
         if (!isContainedView(action.payload.oldConnection) && action.payload.oldConnection !== 0) {
             if (editState[action.payload.oldConnection] && editState[action.payload.oldConnection].linkedBoxes[action.payload.parent]) {
                 let ind = editState[action.payload.oldConnection].linkedBoxes[action.payload.parent].indexOf(action.payload.mark);

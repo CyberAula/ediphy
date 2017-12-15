@@ -266,7 +266,6 @@ export default class EditorBox extends Component {
                     addMarkShortcut={this.props.addMarkShortcut}
                     deleteMarkCreator={this.props.deleteMarkCreator}
                     onBoxAdded={this.props.onBoxAdded}
-                    pageType={this.props.pageType}
                     boxSelected={this.props.boxSelected}
                     content={this.refs.content}
                     containedViews={this.props.containedViews}
@@ -274,6 +273,8 @@ export default class EditorBox extends Component {
                     parseRichMarkInput={Ediphy.Plugins.get(toolbar.config.name).parseRichMarkInput}
                     markCreatorId={this.props.markCreatorId}
                     currentId={this.props.id}
+                    pageType={this.props.pageType}
+                    onRichMarksModalToggled={this.props.onRichMarksModalToggled}
                 />
             </div>
         );
@@ -645,7 +646,7 @@ export default class EditorBox extends Component {
                     if (boxOb && isSortableContainer(boxOb.container)) {
                         let children = this.props.boxes[boxOb.parent].sortableContainers[boxOb.container].children;
                         if (children.indexOf(hoverID) !== -1) {
-                            let newOrder = Object.assign([], children);
+                            let newOrder = JSON.parse(JSON.stringify(children));
                             newOrder.splice(newOrder.indexOf(hoverID), 0, newOrder.splice(newOrder.indexOf(boxOb.id), 1)[0]);
                             this.props.onBoxesInsideSortableReorder(boxOb.parent, boxOb.container, newOrder);
                         }

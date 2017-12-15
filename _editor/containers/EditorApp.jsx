@@ -30,6 +30,7 @@ import RichMarksModal from '../components/rich_plugins/rich_marks_modal/RichMark
 import AutoSave from '../components/autosave/AutoSave';
 import Clipboard from '../components/clipboard/Clipboard';
 import Alert from '../components/common/alert/Alert';
+import ToggleSwitch from '@trendmicro/react-toggle-switch';
 import i18n from 'i18next';
 import {
     addDefaultContainerPluginsReact, parsePluginContainers, parsePluginContainersReact, addDefaultContainerPlugins,
@@ -153,16 +154,6 @@ class EditorApp extends Component {
                             });
 
                             this.dispatchAndSetState(deleteContainedView([cvid], boxesRemoving, containedViews[cvid].parent));
-
-                            Object.keys(containedViews[cvid].parent).forEach((el)=>{
-                                if (toolbars[el] && toolbars[el].state && toolbars[el].state.__marks) {
-                                    Ediphy.Plugins.get(toolbars[el].config.name).forceUpdate(
-                                        toolbars[el].state,
-                                        el,
-                                        DELETE_CONTAINED_VIEW
-                                    );
-                                }
-                            });
                         }}
                         onNavItemNameChanged={(id, titleStr) => this.dispatchAndSetState(changeNavItemName(id, titleStr))}
                         onNavItemAdded={(id, name, parent, type, position) => this.dispatchAndSetState(addNavItem(id, name, parent, type, position, (type !== 'section' || (type === 'section' && Ediphy.Config.sections_have_content))))}
@@ -281,6 +272,12 @@ class EditorApp extends Component {
                                 onTextEditorToggled={(caller, value) => this.dispatchAndSetState(toggleTextEditor(caller, value))}
                                 onBoxesInsideSortableReorder={(parent, container, order) => {this.dispatchAndSetState(reorderBoxes(parent, container, order));}}
                                 titleModeToggled={(id, value) => this.dispatchAndSetState(toggleTitleMode(id, value))}
+                                onRichMarksModalToggled={(value) => {
+                                    this.setState({ richMarksVisible: !this.state.richMarksVisible, markCursorValue: value });
+                                    if(this.state.richMarksVisible) {
+                                        this.setState({ currentRichMark: null, value: null });
+                                    }
+                                }}
                                 onMarkCreatorToggled={(id) => this.setState({ markCreatorVisible: id })}/>
                             <ContainedCanvas boxes={boxes}
                                 grid={this.state.grid}
@@ -304,6 +301,12 @@ class EditorApp extends Component {
                                 onBoxAdded={(ids, draggable, resizable, content, toolbar, config, state) => this.dispatchAndSetState(addBox(ids, draggable, resizable, content, toolbar, config, state))}
                                 deleteMarkCreator={()=>this.setState({ markCreatorVisible: false })}
                                 title={title}
+                                onRichMarksModalToggled={(value) => {
+                                    this.setState({ richMarksVisible: !this.state.richMarksVisible, markCursorValue: value });
+                                    if(this.state.richMarksVisible) {
+                                        this.setState({ currentRichMark: null, value: null });
+                                    }
+                                }}
                                 toolbars={toolbars}
                                 titleModeToggled={(id, value) => this.dispatchAndSetState(toggleTitleMode(id, value))}
                                 lastActionDispatched={this.state.lastAction}
@@ -361,6 +364,7 @@ class EditorApp extends Component {
                     pluginToolbar={toolbars[boxSelected]}
                     navItemSelected={navItemSelected}
                     toolbars={toolbars}
+                    markCursorValue={this.state.markCursorValue}
                     containedViewSelected={containedViewSelected}
                     containedViews={containedViews}
                     navItems={navItems}
@@ -374,7 +378,7 @@ class EditorApp extends Component {
                     onRichMarksModalToggled={() => {
                         this.setState({ richMarksVisible: !this.state.richMarksVisible });
                         if(this.state.richMarksVisible) {
-                            this.setState({ currentRichMark: null });
+                            this.setState({ currentRichMark: null, markCursorValue: null });
                         }
                     }}/>
                 <PluginToolbar top={(60 + ribbonHeight) + 'px'}
@@ -435,7 +439,6 @@ class EditorApp extends Component {
                         let cvid = state.__marks[id].connection;
 
                         delete state.__marks[id];
-                        this.dispatchAndSetState(deleteRichMark(id, boxSelected, cvid, state));
                         // This checks if the deleted mark leaves an orphan contained view, and displays a message asking if the user would like to delete it as well
                         if (isContainedView(cvid)) {
                             let thiscv = containedViews[cvid];
@@ -458,21 +461,27 @@ class EditorApp extends Component {
                                         show
                                         hasHeader
                                         title={<span><i style={{ fontSize: '14px', marginRight: '5px' }} className="material-icons">delete</i>{i18n.t("messages.confirm_delete_cv")}</span>}
-                                        acceptButtonText={i18n.t("messages.confirm_delete_cv_as_well")}
-                                        cancelButton
-                                        cancelButtonText={i18n.t("messages.confirm_delete_cv_not")}
-                                        closeButton onClose={(bool)=>{
-                                            if (bool) {
-                                                let boxesRemoving = [];
-                                                containedViews[cvid].boxes.map(boxId => {
-                                                    boxesRemoving.push(boxId);
-                                                    boxesRemoving = boxesRemoving.concat(this.getDescendantBoxes(boxes[boxId]));
-                                                });
+                                        acceptButtonText={i18n.t("messages.OK")}
 
-                                                this.dispatchAndSetState(deleteContainedView([cvid], boxesRemoving, thiscv.parent));
+                                        closeButton onClose={(bool)=>{
+
+                                            if (bool) {
+                                                this.dispatchAndSetState(deleteRichMark(id, boxSelected, cvid, state));
+                                                let deleteAlsoCV = document.getElementById('deleteAlsoCv').classList.toString().indexOf('checked') > 0;
+                                                if(deleteAlsoCV) {
+                                                    let boxesRemoving = [];
+                                                    containedViews[cvid].boxes.map(boxId => {
+                                                        boxesRemoving.push(boxId);
+                                                        boxesRemoving = boxesRemoving.concat(this.getDescendantBoxes(boxes[boxId]));
+                                                    });
+
+                                                    this.dispatchAndSetState(deleteContainedView([cvid], boxesRemoving, thiscv.parent));
+                                                }
                                             }
                                             this.setState({ alert: null });}}>
-                                        <span> {confirmText} </span>
+                                        <span> {confirmText} </span><br/>
+                                        <ToggleSwitch id="deleteAlsoCv" />
+                                        {i18n.t("messages.confirm_delete_cv_as_well")}
                                     </Alert>);
                                     this.setState({ alert: alertComponent });
                                 }

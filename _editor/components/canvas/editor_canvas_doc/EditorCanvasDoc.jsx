@@ -123,6 +123,7 @@ export default class EditorCanvasDoc extends Component {
                                             onVerticallyAlignBox={this.props.onVerticallyAlignBox}
                                             onTextEditorToggled={this.props.onTextEditorToggled}
                                             toolbars={this.props.toolbars}
+                                            onRichMarksModalToggled={this.props.onRichMarksModalToggled}
                                             pageType={itemSelected.type || 0}/>;
                                     }
                                     return <EditorBoxSortable key={id}
@@ -147,6 +148,7 @@ export default class EditorCanvasDoc extends Component {
                                         onSortableContainerResized={this.props.onSortableContainerResized}
                                         onSortableContainerDeleted={this.props.onSortableContainerDeleted}
                                         onSortableContainerReordered={this.props.onSortableContainerReordered}
+                                        onRichMarksModalToggled={this.props.onRichMarksModalToggled}
                                         onBoxDropped={this.props.onBoxDropped}
                                         onVerticallyAlignBox={this.props.onVerticallyAlignBox}
                                         onTextEditorToggled={this.props.onTextEditorToggled}
