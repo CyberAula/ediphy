@@ -626,7 +626,7 @@ export default class EditorBox extends Component {
                     if (boxOb && isSortableContainer(boxOb.container)) {
                         let children = this.props.boxes[boxOb.parent].sortableContainers[boxOb.container].children;
                         if (children.indexOf(hoverID) !== -1) {
-                            let newOrder = Object.assign([], children);
+                            let newOrder = JSON.parse(JSON.stringify(children));
                             newOrder.splice(newOrder.indexOf(hoverID), 0, newOrder.splice(newOrder.indexOf(boxOb.id), 1)[0]);
                             this.props.onBoxesInsideSortableReorder(boxOb.parent, boxOb.container, newOrder);
                         }

@@ -453,7 +453,7 @@ export default class Visor extends Component {
      */
     clearStateElements(triggered_event, richStateselement) {
         if(richStateselement[triggered_event.id] !== undefined && parseFloat(triggered_event.value) > parseFloat(richStateselement[triggered_event.id]) + 1) {
-            let newElementState = Object.assign({}, richStateselement);
+            let newElementState = JSON.parse(JSON.stringify(richStateselement));
             newElementState[triggered_event.id] = undefined;
             return newElementState;
         }

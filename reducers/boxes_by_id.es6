@@ -356,8 +356,8 @@ export default function(state = {}, action = {}) {
 
     case DUPLICATE_BOX:
         // TODO
-        newState = Object.assign({}, state);
-        let replaced = Object.assign({}, state);
+        newState = JSON.parse(JSON.stringify(state));
+        let replaced = JSON.parse(JSON.stringify(state));
         let newIds = action.payload.newIds;
         let newId = ID_PREFIX_BOX + action.payload.newId;
         // let count = 0;
@@ -416,7 +416,7 @@ export default function(state = {}, action = {}) {
         }
         return temp;
     case DELETE_CONTAINED_VIEW:
-        let newBoxes = Object.assign({}, state);
+        let newBoxes = JSON.parse(JSON.stringify(state));
         Object.keys(action.payload.parent).forEach((el)=>{
             if(newBoxes[el] && newBoxes[el].containedViews) {
                 let index = newBoxes[el].containedViews.indexOf(action.payload.ids[0]);

@@ -650,7 +650,7 @@ export default function(state = {}, action = {}) {
     case ADD_NAV_ITEM:
         return changeProp(state, action.payload.id, toolbarSectionCreator(state, action));
     case ADD_RICH_MARK:
-        newState = Object.assign({}, state);
+        newState = JSON.parse(JSON.stringify(state));
         if(action.payload.mark.connectMode === "new") {
             let modState = changeProp(newState, action.payload.mark.connection.id || action.payload.mark.connection, toolbarSectionCreator(newState, action, true));
             newState = changeProp(modState, action.payload.parent, toolbarReducer(modState[action.payload.parent], action));
@@ -668,7 +668,7 @@ export default function(state = {}, action = {}) {
         return deleteProps(state, children.concat(action.payload.id));
     case DELETE_CONTAINED_VIEW:
         let boxesCV = action.payload.boxes ? action.payload.boxes : [];
-        let newToolbarCV = Object.assign({}, state);
+        let newToolbarCV = JSON.parse(JSON.stringify(state));
         let parents = action.payload.parent ? action.payload.parent : [];
         // Delete all related marks
         Object.keys(parents).forEach((el)=>{
@@ -684,7 +684,7 @@ export default function(state = {}, action = {}) {
     case DELETE_NAV_ITEM:
         let boxes = action.payload.boxes ? action.payload.boxes : [];
         let linkedBoxes = action.payload.linkedBoxes ? action.payload.linkedBoxes : {};
-        let newToolbar = Object.assign({}, state);
+        let newToolbar = JSON.parse(JSON.stringify(state));
         Object.keys(linkedBoxes).forEach((el)=>{
             if (newToolbar[el] && newToolbar[el].state && newToolbar[el].state.__marks) {
                 for (let markId in linkedBoxes[el]) {
@@ -702,7 +702,7 @@ export default function(state = {}, action = {}) {
     case DELETE_SORTABLE_CONTAINER:
         return deleteProps(state, action.payload.children);
     case DUPLICATE_BOX:
-        let replaced = Object.assign({}, state);
+        let replaced = JSON.parse(JSON.stringify(state));
         let newIds = action.payload.newIds;
         // let count = 0;
         Object.keys(newIds).map((box)=> {
