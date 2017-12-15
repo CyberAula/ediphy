@@ -263,6 +263,7 @@ export default class EditorBox extends Component {
                     markCreatorId={this.props.markCreatorId}
                     currentId={this.props.id}
                     pageType={this.props.pageType}
+                    onRichMarksModalToggled={this.props.onRichMarksModalToggled}
                 />
             </div>
         );

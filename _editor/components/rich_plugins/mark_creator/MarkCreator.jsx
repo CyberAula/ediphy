@@ -2,10 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import i18n from 'i18next';
-import { FormControl } from 'react-bootstrap';
 import { ID_PREFIX_RICH_MARK, ID_PREFIX_CONTAINED_VIEW, ID_PREFIX_SORTABLE_BOX, PAGE_TYPES } from '../../../../common/constants';
 import { nextAvailName } from '../../../../common/utils';
-import Alert from './../../common/alert/Alert';
 
 /**
  * Mark Creator overlay component
@@ -24,11 +22,11 @@ export default class MarkCreator extends Component {
         this.state = {
             onCreation: false,
             triggeredMarkCreator: false,
-            showAlert: false,
             value: 0,
             promptRes: "",
-
+            modalToggled: false,
         };
+
         /**
          * Binded function
          */
@@ -56,19 +54,8 @@ export default class MarkCreator extends Component {
      */
     render() {
         return (
-            <Alert className="pageModal"
-                show={this.state.showAlert}
-                hasHeader title={<span><i style={{ fontSize: '14px', marginRight: '5px' }} className="material-icons">room</i>{i18n.t("marks.new_mark")}</span>}
-                closeButton
-                cancelButton
-                acceptButtonText={'OK'}
-                onClose={(bool)=>{
-                    this.setState({ showAlert: false, promptRes: bool ? this.state.promptRes : null });
-                    this.processPrompt(bool);
-                }}>
-                {i18n.t("marks.create_mark")}<br/><br/>
-                <FormControl type="text" value={this.state.promptRes} autoFocus placeholder={i18n.t("marks.new_mark")} onChange={(e)=>{this.setState({ promptRes: e.target.value });}} />
-            </Alert>);
+            null
+        );
     }
 
     /**
@@ -80,7 +67,7 @@ export default class MarkCreator extends Component {
         /* if (this.state.showAlert && this.state.promptRes !== "" && nextState.promptRes === "") {
             nextState.promptRes = this.state.promptRes;
         }*/
-        if(this.props.content !== undefined && !this.state.showAlert) {
+        if(this.props.content !== undefined && !this.state.modalToggled) {
             let element = this.props.content;
             let dom_element = ReactDOM.findDOMNode(element);
             let dropableElement = dom_element.getElementsByClassName('dropableRichZone')[0];
@@ -132,8 +119,11 @@ export default class MarkCreator extends Component {
                     let richMarkValues = [];
                     let value = parseRichMarkInput(x, y, width, height, richMarkValues, toolbarState);
 
-                    component.setState({ showAlert: true, value: value });
+                    component.setState({ value: value });
+                    component.props.onRichMarksModalToggled(value);
+                    component.exitFunction();
                 };
+
                 // document.documentElement.style.cursor = 'url("https://storage.googleapis.com/material-icons/external-assets/v4/icons/svg/ic_room_black_24px.svg"), default';
                 dropableElement.parentElement.appendChild(overlay);
                 this.setState({ onCreation: true });
@@ -150,7 +140,6 @@ export default class MarkCreator extends Component {
         }
 
         this.exitFunction();
-
     }
 
     /**
@@ -245,47 +234,51 @@ export default class MarkCreator extends Component {
 
 MarkCreator.propTypes = {
     /**
-     * Añade una nueva marca
+     * Add a new mark
      */
     addMarkShortcut: PropTypes.func.isRequired,
     /**
-     * Añade una nueva caja (usado para añadir un EditorBoxSortable si se crea una vista contenida documento)
+     * Add a new box (used to add an EditorBoxSortable if a document contained view is created)
      */
     onBoxAdded: PropTypes.func.isRequired,
     /**
-     * Caja seleccionada
+     * Selected box
      */
     boxSelected: PropTypes.any.isRequired,
     /**
-     * Elemento del DOM al que se adhiere la creación de marcas
+     * DOM element where marks creation is added
      */
     content: PropTypes.any,
     /**
-     * Diccionario que contiene todas las vistas contenidas, identificadas por su *ide*
+     * Contained views dictionary (identified by its ID)
      */
     containedViews: PropTypes.object.isRequired,
     /**
-     * Toolbar de la caja seleccionada
+     * Box selected Toolbar
      */
     toolbar: PropTypes.object.isRequired,
     /**
-     * Borra el overlay de creación de marcas
+     * Deletes marks creation overlay
      */
     deleteMarkCreator: PropTypes.func.isRequired,
     /**
-     * Transforma la posición del ratón en coordenadas, según la función descrita en la definición del plugin
+     * Transforms mouse position into coordinates, according to the function described in the plugin definition
      */
     parseRichMarkInput: PropTypes.func.isRequired,
     /**
-     * Identificador del creador de marcas
+     * Marks creator identifier
      */
     markCreatorId: PropTypes.any.isRequired,
     /**
-     * Caja seleccionada
+     * Selected box
      */
     currentId: PropTypes.any.isRequired,
     /**
-     * Tipo de página actual
+     * Type of current page
      */
     pageType: PropTypes.string.isRequired,
+    /**
+     * Muestra/oculta el modal de edición de marcas -- Show / Hide marks editing modal
+     */
+    onRichMarksModalToggled: PropTypes.func.isRequired,
 };

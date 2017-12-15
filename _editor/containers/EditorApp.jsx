@@ -265,6 +265,12 @@ class EditorApp extends Component {
                                 onTextEditorToggled={(caller, value) => this.dispatchAndSetState(toggleTextEditor(caller, value))}
                                 onBoxesInsideSortableReorder={(parent, container, order) => {this.dispatchAndSetState(reorderBoxes(parent, container, order));}}
                                 titleModeToggled={(id, value) => this.dispatchAndSetState(toggleTitleMode(id, value))}
+                                onRichMarksModalToggled={(value) => {
+                                    this.setState({ richMarksVisible: !this.state.richMarksVisible, markCursorValue: value });
+                                    if(this.state.richMarksVisible) {
+                                        this.setState({ currentRichMark: null, value: null });
+                                    }
+                                }}
                                 onMarkCreatorToggled={(id) => this.setState({ markCreatorVisible: id })}/>
                             <ContainedCanvas boxes={boxes}
                                 grid={this.state.grid}
@@ -288,6 +294,12 @@ class EditorApp extends Component {
                                 onBoxAdded={(ids, draggable, resizable, content, toolbar, config, state) => this.dispatchAndSetState(addBox(ids, draggable, resizable, content, toolbar, config, state))}
                                 deleteMarkCreator={()=>this.setState({ markCreatorVisible: false })}
                                 title={title}
+                                onRichMarksModalToggled={(value) => {
+                                    this.setState({ richMarksVisible: !this.state.richMarksVisible, markCursorValue: value });
+                                    if(this.state.richMarksVisible) {
+                                        this.setState({ currentRichMark: null, value: null });
+                                    }
+                                }}
                                 toolbars={toolbars}
                                 titleModeToggled={(id, value) => this.dispatchAndSetState(toggleTitleMode(id, value))}
                                 lastActionDispatched={this.state.lastAction}
@@ -345,6 +357,7 @@ class EditorApp extends Component {
                     pluginToolbar={toolbars[boxSelected]}
                     navItemSelected={navItemSelected}
                     toolbars={toolbars}
+                    markCursorValue={this.state.markCursorValue}
                     containedViewSelected={containedViewSelected}
                     containedViews={containedViews}
                     navItems={navItems}
@@ -375,7 +388,7 @@ class EditorApp extends Component {
                     onRichMarksModalToggled={() => {
                         this.setState({ richMarksVisible: !this.state.richMarksVisible });
                         if(this.state.richMarksVisible) {
-                            this.setState({ currentRichMark: null });
+                            this.setState({ currentRichMark: null, markCursorValue: null });
                         }
                     }}/>
                 <PluginToolbar top={(60 + ribbonHeight) + 'px'}
