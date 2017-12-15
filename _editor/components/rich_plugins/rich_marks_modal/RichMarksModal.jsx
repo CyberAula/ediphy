@@ -256,7 +256,6 @@ export default class RichMarksModal extends Component {
                         let name = title || nextAvailName(i18n.t('contained_view'), this.props.containedViews);
                         // Mark name
                         title = title || nextAvailName(i18n.t("marks.new_mark"), this.props.pluginToolbar.state.__marks, 'title');
-                        console.log('yay');
                         switch (connectMode) {
                         case "new":
                             connection = current && current.connection && current.connectMode === 'new' ?

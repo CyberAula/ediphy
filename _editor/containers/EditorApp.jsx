@@ -206,9 +206,12 @@ class EditorApp extends Component {
                             <PluginRibbon disabled={navItemSelected === 0 || (!Ediphy.Config.sections_have_content && navItemSelected && isSection(navItemSelected)) || this.hasExerciseBox(navItemSelected, navItems, this.state, boxes)} // ADD condition navItemSelected There are extrafiles
                                 boxSelected={boxes[boxSelected]}
                                 navItemSelected={navItems[navItemSelected]}
+                                navItems={navItems}
                                 containedViewSelected={containedViewSelected}
                                 category={this.state.pluginTab}
                                 hideTab={this.state.hideTab}
+                                boxes={boxes}
+                                toolbars={toolbars}
                                 ribbonHeight={ribbonHeight + 'px'} />
                         </Row>
                         <Row id="canvasRow" style={{ height: 'calc(100% - ' + ribbonHeight + 'px)' }}>

@@ -8,6 +8,7 @@ import i18n from 'i18next';
 import './_pluginRibbon.scss';
 import { isSortableBox, isSlide } from "../../../../common/utils";
 import { ADD_BOX } from "../../../../common/actions";
+import Alert from './../../common/alert/Alert';
 import { ID_PREFIX_SORTABLE_CONTAINER } from "../../../../common/constants";
 
 /**
@@ -24,6 +25,7 @@ export default class PluginRibbon extends Component {
             buttons: [],
             clipboardAlert: false,
             showed: true,
+            alert: null,
         };
     }
 
@@ -223,10 +225,8 @@ export default class PluginRibbon extends Component {
 
         if (isSlide(this.props.navItemSelected.type)) {
             if (Ediphy.Plugins.get(event.target.getAttribute("name")).getConfig().limitToOneInstance) {
-                for (let child in this.props.navItemSelected.boxes) {
-                    console.log(!isSortableBox(child));
-                    console.log(this.props.navItemSelected.boxes);
-                    if (!isSortableBox(child) && this.props.navItemSelected.boxes[child].parent === this.props.navItemSelected.id && this.props.toolbars[child].config.name === event.target.getAttribute("name")) {
+                for (let child in this.props.boxes) {
+                    if (!isSortableBox(child) && this.props.boxes[child].parent === this.props.navItemSelected.id && this.props.toolbars[child].config.name === event.target.getAttribute("name")) {
                         let alert = (<Alert className="pageModal"
                             show
                             hasHeader
@@ -236,7 +236,7 @@ export default class PluginRibbon extends Component {
                             <span> {i18n.t('messages.instance_limit')} </span>
                         </Alert>);
                         this.setState({ alert: alert });
-                        event.dragEvent.stopPropagation();
+                        event.stopPropagation();
                         return;
                     }
                 }
@@ -260,7 +260,8 @@ export default class PluginRibbon extends Component {
             // Check if there is a limit in the number of plugin instances
             if (isSortableBox(this.props.navItemSelected.boxes[0]) && Ediphy.Plugins.get(event.target.getAttribute("name")).getConfig().limitToOneInstance) {
                 for (let child in this.props.boxes) {
-                    if (!isSortableBox(child) && this.props.boxes[child].parent === this.props.id && this.props.toolbars[child].config.name === event.target.getAttribute("name")) {
+
+                    if (!isSortableBox(child) && this.props.boxes[child].parent === this.props.navItemSelected.boxes[0] && this.props.toolbars[child].config.name === event.target.getAttribute("name")) {
                         let alert = (<Alert className="pageModal"
                             show
                             hasHeader
