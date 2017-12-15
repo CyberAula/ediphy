@@ -13,14 +13,19 @@ export default function(state = 0, action = {}) {
     case DELETE_NAV_ITEM:
         return 0;
     case SELECT_BOX:
-        if (action.payload.id === -1) {
+        if (isSortableBox(action.payload.id)) {
+            return -1;
+        }
+        return action.payload.box.level;
+
+        /*   if (action.payload.id === -1) {
             return 0;
         }
         if (isSortableBox(action.payload.id)) {
             return -1;
         }
         // If level is -1 because a EditorBoxSortable was selected previously, we want to return 0, otherwise, return current
-        return Math.max(state, 0);
+        return Math.max(state, 0);*/
     case IMPORT_STATE:
         return 0;
     case SELECT_NAV_ITEM:

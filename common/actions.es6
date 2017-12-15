@@ -116,8 +116,8 @@ export function addBox(ids, draggable, resizable, content, toolbar, config, stat
     return { type: ADD_BOX, payload: { ids, draggable, resizable, content, toolbar, config, state, initialParams } };
 }
 
-export function selectBox(id) {
-    return { type: SELECT_BOX, payload: { id } };
+export function selectBox(id, box) {
+    return { type: SELECT_BOX, payload: { id, box } };
 }
 
 export function moveBox(id, x, y, position, parent, container) {

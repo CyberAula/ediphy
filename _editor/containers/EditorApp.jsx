@@ -84,6 +84,7 @@ class EditorApp extends Component {
             grid: false,
         };
         this.onRichMarkUpdated = this.onRichMarkUpdated.bind(this);
+        this.onSortableContainerDeleted = this.onSortableContainerDeleted.bind(this);
     }
 
     /**
@@ -242,26 +243,12 @@ class EditorApp extends Component {
                                 }}
                                 deleteMarkCreator={()=>this.setState({ markCreatorVisible: false })}
                                 lastActionDispatched={this.state.lastAction}
-                                onBoxSelected={(id) => this.dispatchAndSetState(selectBox(id))}
+                                onBoxSelected={(id) => this.dispatchAndSetState(selectBox(id, boxes[id]))}
                                 onBoxLevelIncreased={() => this.dispatchAndSetState(increaseBoxLevel())}
                                 onBoxMoved={(id, x, y, position, parent, container) => this.dispatchAndSetState(moveBox(id, x, y, position, parent, container))}
                                 onBoxResized={(id, widthButton, heightButton) => this.dispatchAndSetState(resizeBox(id, widthButton, heightButton))}
                                 onSortableContainerResized={(id, parent, height) => this.dispatchAndSetState(resizeSortableContainer(id, parent, height))}
-                                onSortableContainerDeleted={(id, parent) => {
-                                    let descBoxes = this.getDescendantBoxesFromContainer(boxes[parent], id);
-                                    let cvs = { };
-                                    for (let b in descBoxes) {
-                                        let box = boxes[descBoxes[b]];
-                                        for (let cv in box.containedViews) {
-                                            if (!cvs[box.containedViews[cv]]) {
-                                                cvs[box.containedViews[cv]] = [box.id];
-                                            } else if (cvs[containedViews[cv]].indexOf(box.id) === -1) {
-                                                cvs[box.containedViews[cv]].push(box.id);
-                                            }
-                                        }
-                                    }
-                                    this.dispatchAndSetState(deleteSortableContainer(id, parent, descBoxes, cvs/* , this.getDescendantContainedViewsFromContainer(boxes[parent], id)*/));
-                                }}
+                                onSortableContainerDeleted={(id, parent) => {this.onSortableContainerDeleted(id, parent);}}
                                 onRichMarkUpdated={(box, state, mark)=>{this.dispatchAndSetState(editRichMark(box, state, mark));}}
                                 onSortableContainerReordered={(ids, parent) => this.dispatchAndSetState(reorderSortableContainer(ids, parent))}
                                 onBoxDropped={(id, row, col, parent, container) => this.dispatchAndSetState(dropBox(id, row, col, parent, container))}
@@ -311,26 +298,12 @@ class EditorApp extends Component {
                                 titleModeToggled={(id, value) => this.dispatchAndSetState(toggleTitleMode(id, value))}
                                 lastActionDispatched={this.state.lastAction}
                                 onContainedViewSelected={id => this.dispatchAndSetState(selectContainedView(id))}
-                                onBoxSelected={(id) => this.dispatchAndSetState(selectBox(id))}
+                                onBoxSelected={(id) => this.dispatchAndSetState(selectBox(id, boxes[id]))}
                                 onBoxLevelIncreased={() => this.dispatchAndSetState(increaseBoxLevel())}
                                 onBoxMoved={(id, x, y, position, parent, container) => this.dispatchAndSetState(moveBox(id, x, y, position, parent, container))}
                                 onBoxResized={(id, widthButton, heightButton) => this.dispatchAndSetState(resizeBox(id, widthButton, heightButton))}
                                 onSortableContainerResized={(id, parent, height) => this.dispatchAndSetState(resizeSortableContainer(id, parent, height))}
-                                onSortableContainerDeleted={(id, parent) => {
-                                    let descBoxes = this.getDescendantBoxesFromContainer(boxes[parent], id);
-                                    let cvs = {};
-                                    for (let b in descBoxes) {
-                                        let box = boxes[descBoxes[b]];
-                                        for (let cv in box.containedViews) {
-                                            if (!cvs[box.containedViews[cv]]) {
-                                                cvs[box.containedViews[cv]] = [box.id];
-                                            } else if (cvs[containedViews[cv]].indexOf(box.id) === -1) {
-                                                cvs[box.containedViews[cv]].push(box.id);
-                                            }
-                                        }
-                                    }
-                                    this.dispatchAndSetState(deleteSortableContainer(id, parent, descBoxes, cvs/* , this.getDescendantContainedViewsFromContainer(boxes[parent], id)*/));
-                                }}
+                                onSortableContainerDeleted={(id, parent) => {this.onSortableContainerDeleted(id, parent);}}
                                 onSortableContainerReordered={(ids, parent) => this.dispatchAndSetState(reorderSortableContainer(ids, parent))}
                                 onBoxDropped={(id, row, col, parent, container) => this.dispatchAndSetState(dropBox(id, row, col, parent, container))}
                                 onBoxDeleted={(id, parent, container)=> {let bx = this.getDescendantBoxes(boxes[id]); this.dispatchAndSetState(deleteBox(id, parent, container, bx, boxes[id].containedViews /* , this.getDescendantContainedViews(boxes[id])*/));}}
@@ -404,21 +377,7 @@ class EditorApp extends Component {
                     onVerticallyAlignBox={(id, verticalAlign) => this.dispatchAndSetState(verticallyAlignBox(id, verticalAlign))}
                     onTextEditorToggled={(caller, value) => this.dispatchAndSetState(toggleTextEditor(caller, value))}
                     onSortableContainerResized={(id, parent, height) => this.dispatchAndSetState(resizeSortableContainer(id, parent, height))}
-                    onSortableContainerDeleted={(id, parent) => {
-                        let descBoxes = this.getDescendantBoxesFromContainer(boxes[parent], id);
-                        let cvs = { };
-                        for (let b in descBoxes) {
-                            let box = boxes[descBoxes[b]];
-                            for (let cv in box.containedViews) {
-                                if (!cvs[box.containedViews[cv]]) {
-                                    cvs[box.containedViews[cv]] = [box.id];
-                                } else if (cvs[containedViews[cv]].indexOf(box.id) === -1) {
-                                    cvs[box.containedViews[cv]].push(box.id);
-                                }
-                            }
-                        }
-                        this.dispatchAndSetState(deleteSortableContainer(id, parent, descBoxes, cvs/* , this.getDescendantContainedViewsFromContainer(boxes[parent], id)*/));
-                    }}
+                    onSortableContainerDeleted={(id, parent) => {this.onSortableContainerDeleted(id, parent);}}
                     onSortablePropsChanged={(id, parent, prop, value) => this.dispatchAndSetState(changeSortableProps(id, parent, prop, value))}
                     onToolbarUpdated={(id, tab, accordion, name, value) => this.dispatchAndSetState(updateToolbar(id, tab, accordion, name, value))}
                     onBoxDuplicated={(id, parent, container)=> this.dispatchAndSetState(duplicateBox(id, parent, container, this.getDescendantBoxes(boxes[id]), this.getDuplicatedBoxesIds(this.getDescendantBoxes(boxes[id])), Date.now() - 1))}
@@ -843,6 +802,24 @@ class EditorApp extends Component {
             this.dispatchAndSetState(editRichMark(boxSelected, state, mark, oldConnection, newConnection));
         }
 
+    }
+
+    onSortableContainerDeleted(id, parent) {
+        let boxes = this.props.boxes;
+        let containedViews = this.props.containedViews;
+        let descBoxes = this.getDescendantBoxesFromContainer(boxes[parent], id);
+        let cvs = {};
+        for (let b in descBoxes) {
+            let box = boxes[descBoxes[b]];
+            for (let cv in box.containedViews) {
+                if (!cvs[box.containedViews[cv]]) {
+                    cvs[box.containedViews[cv]] = [box.id];
+                } else if (cvs[containedViews[cv]].indexOf(box.id) === -1) {
+                    cvs[box.containedViews[cv]].push(box.id);
+                }
+            }
+        }
+        this.dispatchAndSetState(deleteSortableContainer(id, parent, descBoxes, cvs/* , this.getDescendantContainedViewsFromContainer(boxes[parent], id)*/));
     }
 
 }

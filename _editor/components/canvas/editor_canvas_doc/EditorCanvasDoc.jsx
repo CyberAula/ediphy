@@ -85,7 +85,7 @@ export default class EditorCanvasDoc extends Component {
 
                                 <br/>
 
-                                <div id={this.props.fromCV ? "contained_canvas_boxes" : "canvas_boxes"}
+                                {/*  <div id={this.props.fromCV ? "contained_canvas_boxes" : "canvas_boxes"}
                                     style={{
                                         width: "100%",
                                         background: "black",
@@ -95,8 +95,8 @@ export default class EditorCanvasDoc extends Component {
                                         opacity: 0.4,
                                         display: (this.props.boxLevelSelected > 0) ? "block" : "none",
                                         visibility: (this.props.boxLevelSelected > 0) ? "visible" : "collapse",
-                                    }} />
-
+                                    }} />*/}
+                                <h4>{this.props.boxLevelSelected}  {this.props.boxSelected}</h4>
                                 {boxes.map(id => {
                                     let box = boxes[id];
                                     if (!isSortableBox(id)) {
@@ -173,46 +173,6 @@ export default class EditorCanvasDoc extends Component {
             </Col>
         );
     }
-/*
-    componentWillUnmount() {
-        interact(ReactDOM.findDOMNode(this)).unset();
-    }
-
-    componentDidMount() {
-
-        interact(ReactDOM.findDOMNode(this)).dropzone({
-            accept: '.floatingEditorBox',
-            overlap: 'pointer',
-            ondropactivate: function (event) {
-                event.target.classList.add('drop-active');
-            },
-            ondragenter: function (event) {
-                event.target.classList.add("drop-target");
-            },
-            ondragleave: function (event) {
-                event.target.classList.remove("drop-target");
-            },
-            ondrop: function (event) {
-                let position = {
-                    x: (event.dragEvent.clientX - event.target.getBoundingClientRect().left - document.getElementById('maincontent').offsetLeft)*100/event.target.parentElement.offsetWidth + "%",
-                    y: (event.dragEvent.clientY - event.target.getBoundingClientRect().top + document.getElementById('maincontent').scrollTop) + 'px',
-                    type: 'absolute'
-                };
-                let initialParams = {
-                    parent: this.props.fromCV ? this.props.containedViewSelected.id:this.props.navItemSelected.id,
-                    container: 0,
-                    position: position
-                };
-                Ediphy.Plugins.get(event.relatedTarget.getAttribute("name")).getConfig().callback(initialParams, ADD_BOX);
-                event.dragEvent.stopPropagation();
-            }.bind(this),
-            ondropdeactivate: function (event) {
-                event.target.classList.remove('drop-active');
-                event.target.classList.remove("drop-target");
-            }
-        });
-    }
-*/
 }
 
 EditorCanvasDoc.propTypes = {

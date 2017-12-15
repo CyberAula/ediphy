@@ -485,9 +485,13 @@ export default class EditorBox extends Component {
                 autoScroll: true,
                 onstart: (event) => {
                     event.stopPropagation();
+                    if (this.props.boxSelected !== this.props.id) {
+                        this.props.onBoxSelected(this.props.id);
+                    }
                     // If contained in smth different from ContainedCanvas (sortableContainer || PluginPlaceHolder), clone the node and hide the original
                     if (isSortableContainer(box.container)) {
                         let original = event.target;
+                        console.log(original);
                         let parent = original;
                         // Find real parent to append clone
                         let iterate = true;
@@ -533,9 +537,7 @@ export default class EditorBox extends Component {
                     }
                 },
                 onmove: (event) => {
-                    if (this.props.boxSelected !== this.props.id) {
-                        this.props.onBoxSelected(this.props.id);
-                    }
+
                     event.stopPropagation();
                     // Hide EditorShortcuts
                     let bar = this.props.containedViewSelected === 0 ?
