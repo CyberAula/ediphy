@@ -6,8 +6,9 @@ import Ediphy from '../../../../core/editor/main';
 import ReactDOM from 'react-dom';
 import i18n from 'i18next';
 import './_pluginRibbon.scss';
-import { isSortableBox } from "../../../../common/utils";
+import { isSortableBox, isSlide } from "../../../../common/utils";
 import { ADD_BOX } from "../../../../common/actions";
+import { ID_PREFIX_SORTABLE_CONTAINER } from "../../../../common/constants";
 
 /**
  * Plugin ribbon inside toolbar
@@ -47,39 +48,7 @@ export default class PluginRibbon extends Component {
                                         bsSize="large"
                                         draggable="false"
                                         onClick={(event) => {
-
-                                            if (Ediphy.Plugins.get(event.target.getAttribute("name")).getConfig().limitToOneInstance) {
-                                                for (let child in this.props.boxes) {
-                                                    if (!isSortableBox(child) && this.props.boxes[child].parent === this.props.navItemSelected.id && this.props.toolbars[child].config.name === event.relatedTarget.getAttribute("name")) {
-                                                        let alert = (<Alert className="pageModal"
-                                                            show
-                                                            hasHeader
-                                                            backdrop={false}
-                                                            title={ <span><i className="material-icons" style={{ fontSize: '14px', marginRight: '5px' }}>warning</i>{ i18n.t("messages.alert") }</span> }
-                                                            closeButton onClose={()=>{this.setState({ alert: null });}}>
-                                                            <span> {i18n.t('messages.instance_limit')} </span>
-                                                        </Alert>);
-                                                        this.setState({ alert: alert });
-                                                        event.dragEvent.stopPropagation();
-                                                        return;
-                                                    }
-                                                }
-                                            }
-                                            let mc = this.props.fromCV ? document.getElementById("contained_maincontent") : document.getElementById('maincontent');
-                                            let al = this.props.fromCV ? document.getElementById('airlayer_cv') : document.getElementById('airlayer');
-                                            let position = {
-                                                x: "50%",
-                                                y: '50%',
-                                                type: 'absolute',
-                                            };
-                                            let initialParams = {
-                                                parent: this.props.fromCV ? this.props.containedViewSelected.id : this.props.navItemSelected.id,
-                                                container: 0,
-                                                position: position,
-                                            };
-                                            Ediphy.Plugins.get(event.target.getAttribute("name")).getConfig().callback(initialParams, ADD_BOX);
-                                            event.stopPropagation();
-
+                                            this.ClickAddBox(event);
                                         }}
                                         style={(button.iconFromUrl) ? {
                                             padding: '8px 8px 8px 45px',
@@ -250,6 +219,73 @@ export default class PluginRibbon extends Component {
         interact('.rib').unset();
     }
 
+    ClickAddBox(event) {
+
+        if (isSlide(this.props.navItemSelected.type)) {
+            if (Ediphy.Plugins.get(event.target.getAttribute("name")).getConfig().limitToOneInstance) {
+                for (let child in this.props.navItemSelected.boxes) {
+                    console.log(!isSortableBox(child));
+                    console.log(this.props.navItemSelected.boxes);
+                    if (!isSortableBox(child) && this.props.navItemSelected.boxes[child].parent === this.props.navItemSelected.id && this.props.toolbars[child].config.name === event.target.getAttribute("name")) {
+                        let alert = (<Alert className="pageModal"
+                            show
+                            hasHeader
+                            backdrop={false}
+                            title={ <span><i className="material-icons" style={{ fontSize: '14px', marginRight: '5px' }}>warning</i>{ i18n.t("messages.alert") }</span> }
+                            closeButton onClose={()=>{this.setState({ alert: null });}}>
+                            <span> {i18n.t('messages.instance_limit')} </span>
+                        </Alert>);
+                        this.setState({ alert: alert });
+                        event.dragEvent.stopPropagation();
+                        return;
+                    }
+                }
+            }
+            let mc = this.props.fromCV ? document.getElementById("contained_maincontent") : document.getElementById('maincontent');
+            let al = this.props.fromCV ? document.getElementById('airlayer_cv') : document.getElementById('airlayer');
+            let position = {
+                x: "20%",
+                y: '20%',
+                type: 'absolute',
+            };
+            let initialParams = {
+                parent: this.props.fromCV ? this.props.containedViewSelected.id : this.props.navItemSelected.id,
+                container: 0,
+                position: position,
+            };
+            Ediphy.Plugins.get(event.target.getAttribute("name")).getConfig().callback(initialParams, ADD_BOX);
+            event.stopPropagation();
+        } else {
+
+            // Check if there is a limit in the number of plugin instances
+            if (isSortableBox(this.props.navItemSelected.boxes[0]) && Ediphy.Plugins.get(event.target.getAttribute("name")).getConfig().limitToOneInstance) {
+                for (let child in this.props.boxes) {
+                    if (!isSortableBox(child) && this.props.boxes[child].parent === this.props.id && this.props.toolbars[child].config.name === event.target.getAttribute("name")) {
+                        let alert = (<Alert className="pageModal"
+                            show
+                            hasHeader
+                            backdrop={false}
+                            title={ <span><i className="material-icons" style={{ fontSize: '14px', marginRight: '5px' }}>warning</i>{ i18n.t("messages.alert") }</span> }
+                            closeButton onClose={()=>{this.setState({ alert: null });}}>
+                            <span> {i18n.t('messages.instance_limit')} </span>
+                        </Alert>);
+                        this.setState({ alert: alert });
+                        event.stopPropagation();
+                        return;
+                    }
+                }
+            }
+
+            let initialParams = {};
+            initialParams = {
+                parent: this.props.navItemSelected.boxes[0],
+                container: ID_PREFIX_SORTABLE_CONTAINER + Date.now(),
+            };
+            Ediphy.Plugins.get(event.target.getAttribute("name")).getConfig().callback(initialParams, ADD_BOX);
+            event.stopPropagation();
+        }
+
+    }
 }
 
 /** *
