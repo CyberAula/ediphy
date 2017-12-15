@@ -38,6 +38,7 @@ export default class PluginRibbon extends Component {
             <Col id="ribbon" md={12} xs={12} ref="holder" >
                 <div id="insideribbon">
                     <div id="ribbonList">
+                        {this.state.alert}
                         {this.state.buttons.map((item, index) => {
                             let button = this.state.buttons[index];
                             if (button.category === this.props.category || this.props.category === 'all') {
@@ -231,7 +232,7 @@ export default class PluginRibbon extends Component {
                             show
                             hasHeader
                             backdrop={false}
-                            title={ <span><i className="material-icons" style={{ fontSize: '14px', marginRight: '5px' }}>warning</i>{ i18n.t("messages.alert") }</span> }
+                            title={ <span><i className="material-icons" style={{ fontSize: '14px', marginRight: '5px', color: 'yellow' }}>warning</i>{ i18n.t("messages.alert") }</span> }
                             closeButton onClose={()=>{this.setState({ alert: null });}}>
                             <span> {i18n.t('messages.instance_limit')} </span>
                         </Alert>);
@@ -266,10 +267,11 @@ export default class PluginRibbon extends Component {
                             show
                             hasHeader
                             backdrop={false}
-                            title={ <span><i className="material-icons" style={{ fontSize: '14px', marginRight: '5px' }}>warning</i>{ i18n.t("messages.alert") }</span> }
+                            title={ <span><i className="material-icons" style={{ fontSize: '14px', marginRight: '5px', color: 'yellow' }}>warning</i>{ i18n.t("messages.alert") }</span> }
                             closeButton onClose={()=>{this.setState({ alert: null });}}>
                             <span> {i18n.t('messages.instance_limit')} </span>
                         </Alert>);
+                        console.log(alert);
                         this.setState({ alert: alert });
                         event.stopPropagation();
                         return;
