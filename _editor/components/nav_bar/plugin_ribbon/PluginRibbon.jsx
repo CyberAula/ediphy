@@ -6,6 +6,8 @@ import Ediphy from '../../../../core/editor/main';
 import ReactDOM from 'react-dom';
 import i18n from 'i18next';
 import './_pluginRibbon.scss';
+import { isSortableBox } from "../../../../common/utils";
+import { ADD_BOX } from "../../../../common/actions";
 
 /**
  * Plugin ribbon inside toolbar
@@ -44,6 +46,41 @@ export default class PluginRibbon extends Component {
                                         name={item.name}
                                         bsSize="large"
                                         draggable="false"
+                                        onClick={(event) => {
+
+                                            if (Ediphy.Plugins.get(event.target.getAttribute("name")).getConfig().limitToOneInstance) {
+                                                for (let child in this.props.boxes) {
+                                                    if (!isSortableBox(child) && this.props.boxes[child].parent === this.props.navItemSelected.id && this.props.toolbars[child].config.name === event.relatedTarget.getAttribute("name")) {
+                                                        let alert = (<Alert className="pageModal"
+                                                            show
+                                                            hasHeader
+                                                            backdrop={false}
+                                                            title={ <span><i className="material-icons" style={{ fontSize: '14px', marginRight: '5px' }}>warning</i>{ i18n.t("messages.alert") }</span> }
+                                                            closeButton onClose={()=>{this.setState({ alert: null });}}>
+                                                            <span> {i18n.t('messages.instance_limit')} </span>
+                                                        </Alert>);
+                                                        this.setState({ alert: alert });
+                                                        event.dragEvent.stopPropagation();
+                                                        return;
+                                                    }
+                                                }
+                                            }
+                                            let mc = this.props.fromCV ? document.getElementById("contained_maincontent") : document.getElementById('maincontent');
+                                            let al = this.props.fromCV ? document.getElementById('airlayer_cv') : document.getElementById('airlayer');
+                                            let position = {
+                                                x: "50%",
+                                                y: '50%',
+                                                type: 'absolute',
+                                            };
+                                            let initialParams = {
+                                                parent: this.props.fromCV ? this.props.containedViewSelected.id : this.props.navItemSelected.id,
+                                                container: 0,
+                                                position: position,
+                                            };
+                                            Ediphy.Plugins.get(event.target.getAttribute("name")).getConfig().callback(initialParams, ADD_BOX);
+                                            event.stopPropagation();
+
+                                        }}
                                         style={(button.iconFromUrl) ? {
                                             padding: '8px 8px 8px 45px',
                                             backgroundImage: 'url(' + clase + ')',
