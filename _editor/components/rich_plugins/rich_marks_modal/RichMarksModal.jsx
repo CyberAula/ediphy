@@ -41,7 +41,6 @@ export default class RichMarksModal extends Component {
      * @param nextProps
      */
     componentWillReceiveProps(nextProps) {
-        console.log(nextProps.currentRichMark);
         let current = nextProps.currentRichMark;
         let allViews = this.returnAllViews(nextProps);
         if (!this.props.visible) {
@@ -188,14 +187,13 @@ export default class RichMarksModal extends Component {
                                 </span>
                             </FormGroup>
                             <FormGroup style={{ display: this.state.connectMode === "existing" ? "initial" : "none" }}>
-                                { this.state.connectMode === "existing" && <Typeahead options={this.returnAllViews(this.props)}
-                                    placeholder="Search view by name"
-                                    ignoreDiacritics={false}
-                                    selected={[selected]}
-                                    onChange={items => {
-                                        this.setState({ existingSelected: items.length !== 0 ? items[0].id : "" });
-                                    }}/>}
+                                {this.state.connectMode === "existing" && <FormControl componentClass="select" onChange={e=>{this.setState({ existingSelected: e.target.value });}}>
+                                    {this.returnAllViews(this.props).map(view=>{
+                                        return <option key={view.id} value={view.id}>{view.label}</option>;
+                                    })}
+                                </FormControl>}
                             </FormGroup>
+
                             <FormGroup style={{ display: this.state.connectMode === "external" ? "initial" : "none" }}>
                                 <FormControl ref="externalSelected"
                                     type="text"
