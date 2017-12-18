@@ -1,6 +1,6 @@
 //vars and mixins
 $material-font-path:  '../../../node_modules/material-design-icons-font/iconfont/';
-$ediphy_blue: #1fc8db;
+$ediphy_blue: #17CFC8;
 
 @mixin scale{
   -ms-transform: scale(1.1); /* IE 9 */
@@ -20,7 +20,7 @@ a{
 }
 
 .ediphy_blue {
-  color: #1fc8db;
+  color: #17CFC8;
 }
 code{
   color: $ediphy_blue;
@@ -246,4 +246,23 @@ img[alt=Índice], img[alt=Toolbar] {
 .homeImg {
   width: 40%;
   max-width: 170px;
+}
+
+#langSelector {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+}
+.langButton {
+  background: none !important;
+  color: inherit;
+  border: none;
+  padding: 0! important;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit !important;
+  color: #555;
+  &:hover {
+    text-decoration: underline;
+  }
 }

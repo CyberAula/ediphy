@@ -104,6 +104,11 @@ describe('# toolbars_by_id reducer *********************************************
             // expect(toolbars_by_id(state, {})).toEqual(state);
         });
     });
+    describe('handle PASTE_BOX', ()=>{
+        test('If box pasted', () => {
+            // expect(toolbars_by_id(state, {})).toEqual(state);
+        });
+    });
     describe('handle IMPORT_STATE', ()=>{
         test('If state imported', () => {
             // expect(toolbars_by_id(state, {})).toEqual(state);
@@ -169,24 +174,34 @@ describe('# toolbar reducer ****************************************************
                     tab: "main",
                     accordions: ["basic"],
                     name: "background",
-                    value: "#00000",
+                    value: "rgb(155,155,155,1)",
                 } };
 
-            let newState = Object.assign({}, state, {
-                ["pa-1497983247795"]: Object.assign({}, state["pa-1497983247795"], {
-                    ["controls"]: Object.assign({}, state["pa-1497983247795"].controls, {
-                        ["main"]: Object.assign({}, state["pa-1497983247795"].controls.main, {
-                            ["background"]: Object.assign({}, state["pa-1497983247795"].controls.main.basic, {
-                                ["buttons"]: Object.assign({}, state["pa-1497983247795"].controls.main.basic.buttons, {
-                                    ["background_color"]: Object.assign({}, {
-
-                                    }),
-                                }),
-                            }),
-                        }),
-                    }),
-                }),
-            });
+            let newState =
+                { ...state,
+                    ["pa-1497983247795"]: { ...state["pa-1497983247795"],
+                        ["controls"]: { ...state["pa-1497983247795"].controls,
+                            ["main"]: { ...state["pa-1497983247795"].controls.main,
+                                ["accordions"]: { ...state["pa-1497983247795"].controls.main.accordions,
+                                    ["background"]: { ...state["pa-1497983247795"].controls.main.accordions.background,
+                                        ["value"]: { ...state["pa-1497983247795"].controls.main.accordions.background.buttons,
+                                            ["buttons"]: { ...state["pa-1497983247795"].controls.main.accordions.background.buttons.background,
+                                                ["background"]: { ...state["pa-1497983247795"].controls.main.accordions.background.buttons.background.value,
+                                                    ["value"]: {
+                                                        "attr": "full",
+                                                        "background": "rgb(155,155,155,1)",
+                                                    },
+                                                },
+                                            },
+                                        },
+                                    },
+                                },
+                            },
+                        },
+                    },
+                };
+            // state["pa-1497983247795"]["controls"]["main"]["accordions"]["background"]["buttons"]["background"]["value"]
+            console.log(newState);
 
             expect(toolbars_by_id(state, action)).toEqual(newState);
         });
@@ -233,3 +248,4 @@ describe('# toolbar reducer ****************************************************
         });
     });
 });
+

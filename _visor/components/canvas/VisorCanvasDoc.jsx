@@ -43,7 +43,7 @@ export default class VisorCanvasDoc extends Component {
 
             <Col id={isCV ? "containedCanvas" : "canvas"} md={12} xs={12} className={animationType}
                 style={{ display: 'initial', padding: '0', width: '100%' }}>
-                <div className="scrollcontainer">
+                <div className="scrollcontainer" style={{ background: itemSelected.background }}>
                     {isCV ? (< OverlayTrigger placement="bottom" overlay={tooltip}>
                         <a href="#" className="btnOverBar cvBackButton" style={{ pointerEvents: this.props.viewsArray.length > 1 ? 'initial' : 'none', color: this.props.viewsArray.length > 1 ? 'black' : 'gray' }}
                             onClick={a => {
@@ -66,14 +66,14 @@ export default class VisorCanvasDoc extends Component {
                     <div className="outter canvasvisor">
                         <div id={isCV ? 'airlayer_cv' : 'airlayer'}
                             className={'doc_air'}
-                            style={{ visibility: (this.props.showCanvas ? 'visible' : 'hidden') }}>
+                            style={{ background: itemSelected.background, visibility: (this.props.showCanvas ? 'visible' : 'hidden') }}>
 
                             <div id={isCV ? "contained_maincontent" : "maincontent"}
                                 onClick={e => {
                                     this.setState({ showTitle: false });
                                 }}
                                 className={'innercanvas doc'}
-                                style={{ visibility: (this.props.showCanvas ? 'visible' : 'hidden') }}>
+                                style={{ background: itemSelected.background, visibility: (this.props.showCanvas ? 'visible' : 'hidden') }}>
 
                                 <br/>
 

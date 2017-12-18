@@ -4,11 +4,14 @@ import PropTypes from 'prop-types';
 import MarkCreator from '../../rich_plugins/mark_creator/MarkCreator';
 import interact from 'interactjs';
 import PluginPlaceholder from '../plugin_placeholder/PluginPlaceholder';
-import { ADD_BOX, UPDATE_BOX, RESIZE_BOX, EDIT_PLUGIN_TEXT, IMPORT_STATE } from '../../../../common/actions';
+import { EDIT_PLUGIN_TEXT } from '../../../../common/actions';
 import Ediphy from '../../../../core/editor/main';
-import i18n from 'i18next';
 import { isSortableBox, isSortableContainer, isAncestorOrSibling, isContainedView } from '../../../../common/utils';
 import './_editorBox.scss';
+import { ID_PREFIX_SORTABLE_CONTAINER } from '../../../../common/constants';
+import CKEDitorComponent from './CKEDitorComponent';
+const SNAP_DRAG = 5;
+const SNAP_SIZE = 2;
 
 /**
  * Ediphy Box component.
@@ -26,6 +29,7 @@ export default class EditorBox extends Component {
          * @type {number}
          */
         this.borderSize = 2;
+        this.blurTextarea = this.blurTextarea.bind(this);
     }
 
     /**
@@ -33,7 +37,6 @@ export default class EditorBox extends Component {
      * @returns {code} React rendered component
      */
     render() {
-
         let cornerSize = 15;
         let box = this.props.boxes[this.props.id];
         let toolbar = this.props.toolbars[this.props.id];
@@ -174,7 +177,7 @@ export default class EditorBox extends Component {
 
         let classes = "wholebox";
         if (box.container) {
-            classes += " dnd" + box.container;
+            classes += " dnd";// + box.container;
         }
         if (this.props.id === this.props.boxSelected) {
             classes += " selectedBox";
@@ -234,14 +237,7 @@ export default class EditorBox extends Component {
                 onDoubleClick={(e)=> {
                     if(toolbar.config && toolbar.config.needsTextEdition && this.props.id === this.props.boxSelected) {
                         this.props.onTextEditorToggled(this.props.id, true);
-                        this.refs.textarea.focus();
-                        // Elimina el placeholder "Introduzca texto aquí" cuando se va a editar
-                        // Código duplicado en EditorBox, EditorShortcuts y PluginToolbar. Extraer a common_tools?
-                        let CKstring = CKEDITOR.instances[this.props.id].getData();
-                        let initString = "<p>" + i18n.t("text_here") + "</p>\n";
-                        if(CKstring === initString) {
-                            CKEDITOR.instances[this.props.id].setData("");
-                        }
+
                     }
                 }}
                 style={wholeBoxStyle}>
@@ -250,14 +246,10 @@ export default class EditorBox extends Component {
                 {/* The previous line was changed for the next one in order to make the box grow when text grows while editing.
                  To disable this, you also have to change the textareastyle to an absolute position div, and remove the float property*/}
                 {toolbar.showTextEditor ? null : content }
-                {toolbar.state.__text ?
-                    <div id={box.id}
-                        ref={"textarea"}
-                        className={classNames + " textAreaStyle"}
-                        contentEditable
-                        style={textareaStyle} /> :
-                    null
-                }
+                {toolbar.state.__text ? <CKEDitorComponent key={"ck-" + this.props.id} boxSelected={this.props.boxSelected} box={this.props.boxes[this.props.id]}
+                    style={textareaStyle} className={classNames + " textAreaStyle"} toolbars={this.props.toolbars} id={this.props.id}
+                    onBlur={this.blurTextarea}/> : null}
+
                 <div className="boxOverlay" style={{ display: showOverlay }} />
                 <MarkCreator
                     addMarkShortcut={this.props.addMarkShortcut}
@@ -271,6 +263,7 @@ export default class EditorBox extends Component {
                     markCreatorId={this.props.markCreatorId}
                     currentId={this.props.id}
                     pageType={this.props.pageType}
+                    onRichMarksModalToggled={this.props.onRichMarksModalToggled}
                 />
             </div>
         );
@@ -359,30 +352,13 @@ export default class EditorBox extends Component {
     /**
      * Blurs text area and saves data
      */
-    blurTextarea() {
+    blurTextarea(data) {
         this.props.onTextEditorToggled(this.props.id, false);
         let toolbar = this.props.toolbars[this.props.id];
-        let data = CKEDITOR.instances[this.props.id].getData();
-        if(data.length === 0) {
-            data = i18n.t("text_here");
-            CKEDITOR.instances[this.props.id].setData(i18n.t("text_here"));
-        }
+
         Ediphy.Plugins.get(toolbar.config.name).forceUpdate(Object.assign({}, toolbar.state, {
             __text: toolbar.config.extraTextConfig ? data : encodeURI(data),
         }), this.props.id, EDIT_PLUGIN_TEXT);
-    }
-
-    /**
-     * Before component updates
-     * Blurs CKEditor area
-     * @param nextProps React next props
-     * @param nextState React next state
-     */
-    componentWillUpdate(nextProps, nextState) {
-        if ((this.props.boxSelected === this.props.id) && (nextProps.boxSelected !== this.props.id) && this.props.toolbars[this.props.id].showTextEditor) {
-            CKEDITOR.instances[this.props.id].focusManager.blur(true);
-            this.blurTextarea();
-        }
     }
 
     /**
@@ -418,7 +394,6 @@ export default class EditorBox extends Component {
 
     /**
      * After component updates
-     * Update CKEditor and interact objects bases on updates
      * @param prevProps React previous props
      * @param prevState React previous state
      */
@@ -426,92 +401,65 @@ export default class EditorBox extends Component {
         let toolbar = this.props.toolbars[this.props.id];
         let box = this.props.boxes[this.props.id];
         let node = ReactDOM.findDOMNode(this);
+        let offsetEl = document.getElementById('maincontent') ? document.getElementById('maincontent').getBoundingClientRect() : {};
+        let leftO = offsetEl.left || 0;
+        let topO = offsetEl.top || 0;
+        let gridTarget = interact.createSnapGrid({ x: SNAP_DRAG, y: SNAP_DRAG, range: (SNAP_DRAG / 2 + 1), offset: { x: leftO, y: topO } });
 
-        if (toolbar.showTextEditor) {
-            this.refs.textarea.focus();
-
+        let snap = { targets: [], relativePoints: [{ x: 0, y: 0 }] };
+        let snapSize = {};
+        if (this.props.grid) {
+            snap = { targets: [gridTarget], relativePoints: [{ x: 0, y: 0 }] };
+            snapSize = { targets: [
+                { width: SNAP_SIZE, height: SNAP_SIZE, range: SNAP_SIZE },
+            ] };
         }
+
         if (prevProps.toolbars[this.props.id] && (toolbar.showTextEditor !== prevProps.toolbars[this.props.id].showTextEditor) && box.draggable) {
-            interact(node).draggable({ enabled: !toolbar.showTextEditor });
+            interact(node).draggable({ enabled: !toolbar.showTextEditor, snap: snap });
+        } else {
+            interact(node).draggable({ snap: snap });
         }
 
         if (box.resizable) {
-            interact(node).resizable({ preserveAspectRatio: this.checkAspectRatioValue() });
+
+            interact(node).resizable({ preserveAspectRatio: this.checkAspectRatioValue(), snap: snap, snapSize: snapSize });
         }
 
         if ((box.level > this.props.boxLevelSelected) && this.props.boxLevelSelected !== -1) {
             interact(node).draggable({ enabled: false });
-        } else {
-            interact(node).draggable({ enabled: box.draggable });
-        }
-
-        let action = this.props.lastActionDispatched;
-
-        if ((action.type === "@@redux-undo/UNDO" || action.type === "@@redux-undo/REDO") && this.props.toolbars[this.props.id].config.needsTextEdition) {
-            CKEDITOR.instances[this.props.id].setData(decodeURI(this.props.toolbars[this.props.id].state.__text));
-        }
-
-        if (action.type === "DELETE_BOX" && this.props.toolbars[this.props.id].config.needsTextEdition) {
-            for (let instance in CKEDITOR.instances) {
-                CKEDITOR.instances[instance].destroy();
-            }
-            CKEDITOR.inlineAll();
-            for (let editor in CKEDITOR.instances) {
-                if (this.props.toolbars[editor].state.__text) {
-                    CKEDITOR.instances[editor].setData(decodeURI(this.props.toolbars[editor].state.__text));
-                }
-            }
-        }
-        if(this.props.toolbars[this.props.id].config.needsTextEdition) {
-            window.MathJax.Hub.Queue(["Typeset", window.MathJax.Hub]);
-        }
-        if (action.type === "@@redux-undo/UNDO") {
-            Ediphy.Plugins.get(toolbar.config.name).afterRender(this.refs.content, toolbar.state);
-
-        }
-
-        if ((action.type === ADD_BOX || action.type === UPDATE_BOX || action.type === RESIZE_BOX || action.type === IMPORT_STATE) &&
-            ((action.payload.id || action.payload.ids.id) === this.props.id)) {
-            Ediphy.Plugins.get(toolbar.config.name).afterRender(this.refs.content, toolbar.state);
         }
 
     }
 
     /**
      * After component mounts
-     * Get CKEditor instances and set interact listeners for box manipulation
+     * Set interact listeners for box manipulation
      */
     componentDidMount() {
         let toolbar = this.props.toolbars[this.props.id];
         let box = this.props.boxes[this.props.id];
-        if (toolbar.config && toolbar.config.needsTextEdition) {
-            CKEDITOR.disableAutoInline = true;
-            for (let key in toolbar.config.extraTextConfig) {
-                CKEDITOR.config[key] += toolbar.config.extraTextConfig[key] + ",";
-            }
-            let editor = CKEDITOR.inline(this.refs.textarea);
-            if (toolbar.state.__text) {
-                editor.setData(decodeURI(toolbar.state.__text));
-            }
-        }
+
         let offsetEl = document.getElementById('maincontent') ? document.getElementById('maincontent').getBoundingClientRect() : {};
         let leftO = offsetEl.left || 0;
         let topO = offsetEl.top || 0;
         offsetEl;
-        let gridTarget = interact.createSnapGrid({ x: 10, y: 10, range: 7.1, offset: { x: leftO, y: topO } });
+        let gridTarget = interact.createSnapGrid({ x: SNAP_DRAG, y: SNAP_DRAG, range: (SNAP_DRAG / 2 + 1), offset: { x: leftO, y: topO } });
+        let targets = this.props.grid ? [gridTarget] : [];
         Ediphy.Plugins.get(toolbar.config.name).getConfig();
         Ediphy.Plugins.get(toolbar.config.name).afterRender(this.refs.content, toolbar.state);
-        let dragRestrictionSelector = isSortableContainer(box.container) ? ".editorBoxSortableContainer, .drg" + box.container : "parent";
+        let dragRestrictionSelector = isSortableContainer(box.container) ? /* ".editorBoxSortableContainer, .drg" + box.container :*/"sortableContainerBox" : "parent";
+        let resizeRestrictionSelector = isSortableContainer(box.container) ? ".editorBoxSortableContainer, .drg" + box.container : "parent";
         interact(ReactDOM.findDOMNode(this))
-            /* .snap({
-                actions     : ['resizex', 'resizey', 'resizexy', 'resize', 'drag'],
-                mode        : 'grid'
-            })*/
+            .snap({
+                actions: ['resizex', 'resizey', 'resizexy', 'resize', 'drag'],
+                mode: 'grid',
+            })
             .draggable({
-                /* snap: {
-                    targets: [gridTarget],
-                    relativePoints: [{ x: 0, y: 0 }]
-                },*/
+                snap: {
+                    targets: targets,
+                    relativePoints: [{ x: 0, y: 0 }],
+                },
                 enabled: box.draggable,
                 restrict: {
                     restriction: dragRestrictionSelector,
@@ -605,14 +553,20 @@ export default class EditorBox extends Component {
                     }
                 },
                 onend: (event) => {
+                    let bar = this.props.containedViewSelected === 0 ?
+                        document.getElementById('editorBoxIcons') :
+                        document.getElementById('contained_editorBoxIcons');
+                    bar.classList.remove('hidden');
+
                     if (this.props.boxSelected !== this.props.id) {
                         return;
                     }
 
                     let target = event.target;
-                    if (!target.parentElement) {
+                    if (!target.parentNode) {
                         return;
                     }
+                    // Unhide EditorShortcuts
 
                     // Get position and if contained in sortableContainer || PluginPlaceHolder, convert to %
                     let pos = this.props.boxes[this.props.id].position.type;
@@ -647,68 +601,54 @@ export default class EditorBox extends Component {
                         target.style.opacity = 1;
                     }
 
+                    let releaseClick = document.elementFromPoint(event.clientX, event.clientY);
+                    let row = this.releaseClick(releaseClick, "rowNum");
+                    let col = this.releaseClick(releaseClick, "colNum");
+                    let hoverSortableContainer;
+                    let calculatedId = this.releaseClick(releaseClick, ID_PREFIX_SORTABLE_CONTAINER);
+                    if (calculatedId) {
+                        hoverSortableContainer = ID_PREFIX_SORTABLE_CONTAINER + calculatedId;
+                    }
+                    let containerId = hoverSortableContainer || box.container;
+                    let disposition = { col: col || 0, row: row || 0 };
                     this.props.onBoxMoved(
                         this.props.id,
                         isSortableContainer(box.container) ? left : absoluteLeft,
                         isSortableContainer(box.container) ? top : absoluteTop,
                         this.props.boxes[this.props.id].position.type,
                         box.parent,
-                        box.container
+                        containerId,
+                        disposition
                     );
 
                     // Stuff to reorder boxes when position is relative
-                    // TODO: learn how it works
-                    let releaseClick = document.elementFromPoint(event.clientX, event.clientY);
-                    if (releaseClick) {
-                        // Get element that has been clicked
-                        let release = releaseClick.getAttribute('id') || "noid";
-                        let counter = 7;
-                        // Check recursively the parent of the element clicked to check if any of them is a box
-                        while (release && release.indexOf('box-bo') === -1 && counter > 0 && releaseClick.parentNode) {
-                            releaseClick = releaseClick.parentNode;
-                            if (releaseClick) {
-                                release = releaseClick.getAttribute('id') || "noid";
-                            } else {
-                                counter = 0;
-                                break;
-                            }
-                            counter--;
-                        }
-                        if (counter > 0 && release && release.indexOf('box-bo') !== -1) {
-                            let partialID = release.split('box-');
-                            if (partialID && partialID.length > 0) {
-                                let hoverID = partialID[1];
-                                let boxOb = this.props.boxes[this.props.id];
-                                if (boxOb && isSortableContainer(boxOb.container)) {
-                                    let children = this.props.boxes[boxOb.parent].sortableContainers[boxOb.container].children;
-                                    if (children.indexOf(hoverID) !== -1) {
-                                        let newOrder = Object.assign([], children);
-                                        newOrder.splice(newOrder.indexOf(hoverID), 0, newOrder.splice(newOrder.indexOf(boxOb.id), 1)[0]);
-                                        this.props.onBoxesInsideSortableReorder(boxOb.parent, boxOb.container, newOrder);
-                                    }
-                                }
-                            }
-
+                    let hoverID = this.releaseClick(releaseClick, 'box-');
+                    let boxOb = this.props.boxes[this.props.id];
+                    if (boxOb && isSortableContainer(boxOb.container)) {
+                        let children = this.props.boxes[boxOb.parent].sortableContainers[boxOb.container].children;
+                        if (children.indexOf(hoverID) !== -1) {
+                            let newOrder = JSON.parse(JSON.stringify(children));
+                            newOrder.splice(newOrder.indexOf(hoverID), 0, newOrder.splice(newOrder.indexOf(boxOb.id), 1)[0]);
+                            this.props.onBoxesInsideSortableReorder(boxOb.parent, boxOb.container, newOrder);
                         }
                     }
 
-                    // Unhide EditorShortcuts
-
-                    let bar = this.props.containedViewSelected === 0 ?
-                        document.getElementById('editorBoxIcons') :
-                        document.getElementById('contained_editorBoxIcons');
-                    bar.classList.remove('hidden');
-
                     event.stopPropagation();
+
                 },
             })
             .ignoreFrom('input, textarea, .textAreaStyle,  a, .pointerEventsEnabled')
             .resizable({
-                /* snap: { targets: [gridTarget] },*/
+                snap: { targets: targets },
+                snapSize: { targets: [
+                    // snap the width and height to multiples of 5 when the element size
+                    // is 25 pixels away from the target size
+                    { width: SNAP_SIZE, height: SNAP_SIZE, range: SNAP_SIZE },
+                ] },
                 preserveAspectRatio: this.checkAspectRatioValue(),
                 enabled: (box.resizable),
                 restrict: {
-                    restriction: dragRestrictionSelector,
+                    restriction: resizeRestrictionSelector,
                     // elementRect: { top: 0, left: 0, bottom: 0, right: 0 },
                 },
                 edges: { left: true, right: true, bottom: true, top: true },
@@ -798,7 +738,7 @@ export default class EditorBox extends Component {
                     if (box.position.x !== target.style.left || box.position.y !== target.style.top) {
                         target.style.left = (parseFloat(target.style.left) / 100 * target.parentElement.offsetWidth + parseFloat(target.getAttribute('data-x'))) * 100 / target.parentElement.offsetWidth + '%';
                         target.style.top = (parseFloat(target.style.top) / 100 * target.parentElement.offsetHeight + parseFloat(target.getAttribute('data-y'))) * 100 / target.parentElement.offsetHeight + '%';
-                        this.props.onBoxMoved(this.props.id, target.style.left, target.style.top, this.props.boxes[this.props.id].position.type, this.props.parent, this.props.container);
+                        this.props.onBoxMoved(this.props.id, target.style.left, target.style.top, box.position.type, box.parent, box.container);
                     }
                     target.style.webkitTransform = target.style.transform =
                         'translate(0px, 0px)';
@@ -823,6 +763,41 @@ export default class EditorBox extends Component {
     }
 
     /**
+   * Calculate if a click was released on top of any element of a kind
+   * Example: Check if plugin was dropped on top of another plugin. Check in which sortable it was dropped, etc.
+   * @param releaseClick Element where the click was released
+   * @param name Prefix of the className of the parent we are looking for
+   * @returns {*}
+   */
+    releaseClick(releaseClick, name) {
+        if (releaseClick) {
+        // Get element that has been clicked
+            let release = releaseClick.getAttribute('id') || "noid";
+            let counter = 7;
+            // Check recursively the parent of the element clicked to check if any of them is a box
+            while (release && release.indexOf(name) === -1 && counter > 0 && releaseClick.parentNode) {
+                releaseClick = releaseClick.parentNode;
+                if (releaseClick) {
+                    release = releaseClick.getAttribute('id') || "noid";
+                } else {
+                    counter = 0;
+                    break;
+                }
+                counter--;
+            }
+            if (counter > 0 && release && release.indexOf(name) !== -1) {
+                let partialID = release.split(name);
+                if (partialID && partialID.length > 0) {
+                    return partialID[1];
+
+                }
+
+            }
+        }
+        return undefined;
+    }
+
+    /**
      * Calculate element position from left
      * @param left element's left
      * @param width element's width
@@ -839,16 +814,11 @@ export default class EditorBox extends Component {
 
     /**
      * Before component unmounts
-     * Unset interact listeners and destroy current CKEditor instances
+     * Unset interact listeners
      */
     componentWillUnmount() {
         interact(ReactDOM.findDOMNode(this)).unset();
-        if (CKEDITOR.instances[this.props.id]) {
-            if (CKEDITOR.instances[this.props.id].focusManager.hasFocus) {
-                this.blurTextarea();
-            }
-            CKEDITOR.instances[this.props.id].destroy();
-        }
+
     }
 
 }

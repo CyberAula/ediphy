@@ -59,6 +59,8 @@ export const UPLOAD_IMAGE = 'UPLOAD_IMAGE';
 export const DELETE_RICH_MARK = 'DELETE_RICH_MARK';
 export const EDIT_PLUGIN_TEXT = 'EDIT_PLUGIN_TEXT';
 
+export const PASTE_BOX = 'PASTE_BOX';
+
 export function selectIndex(id) {
     return { type: INDEX_SELECT, payload: { id } };
 }
@@ -148,8 +150,8 @@ export function reorderSortableContainer(ids, parent) {
     return { type: REORDER_SORTABLE_CONTAINER, payload: { ids, parent } };
 }
 
-export function dropBox(id, row, col) {
-    return { type: DROP_BOX, payload: { id, row, col } };
+export function dropBox(id, row, col, parent, container) {
+    return { type: DROP_BOX, payload: { id, row, col, parent, container } };
 }
 
 export function verticallyAlignBox(id, verticalAlign) {
@@ -201,6 +203,10 @@ export function selectContainedView(id) {
 
 export function toggleTextEditor(caller, value) {
     return { type: TOGGLE_TEXT_EDITOR, payload: { caller, value } };
+}
+
+export function pasteBox(ids, box, toolbar) {
+    return { type: PASTE_BOX, payload: { ids, box, toolbar } };
 }
 
 export function toggleTitleMode(id, titles) {

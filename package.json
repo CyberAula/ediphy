@@ -9,9 +9,9 @@
     "url": "git://github.com/ging/ediphy.git"
   },
   "scripts": {
-    "build-production": "webpack -p --define process.env.NODE_ENV='\"production\"' --progress --colors",
-    "build": "webpack --config webpack.prod.js",
-    "start": "webpack-dev-server --open --colors --config webpack.dev.js",
+    "build-production": "cat ediphy && webpack -p --define process.env.NODE_ENV='\"production\"' --progress --colors",
+    "build": "cat ediphy && webpack --config webpack.prod.js",
+    "start": "cat ediphy && webpack-dev-server --open --colors --config webpack.dev.js",
     "bundle": "webpack && node bundle_script.js",
     "both": "npm run start-webpack & npm run watch-sass",
     "start-webpack": "webpack-dev-server --progress",
@@ -20,9 +20,9 @@
     "test:verbose": "jest --watch --colors --verbose || true",
     "test:coverage": "jest --watch --colors --coverage --verbose || true",
     "eslint": "eslint . --fix  --ext .js,.jsx,.es6",
-    "doc": "babel-node --presets es2015 doc/scripts/reactdocgenmd.js & node doc/scripts/importComponents.js & webpack --config doc/webpack.doc.prod.js & webpack --config webpack.noserver.js & node doc/scripts/bringtodist.js",
-    "dev-doc": "babel-node --presets es2015  doc/scripts/reactdocgenmd.js & node doc/scripts/importComponents.js &  webpack --config webpack.noserver.js & node doc/scripts/bringtodist.js & webpack-dev-server --open --progress --colors --config doc/webpack.doc.dev.js",
-    "dev-only-doc": "webpack-dev-server --open --progress --colors --config doc/webpack.doc.dev.js",
+    "doc": "cat ediphy && babel-node --presets es2015 doc/scripts/reactdocgenmd.js & node doc/scripts/importComponents.js & webpack --config doc/webpack.doc.prod.js & webpack -p --config webpack.noserver.js & node doc/scripts/bringtodist.js",
+    "dev-doc": "cat ediphy && babel-node --presets es2015  doc/scripts/reactdocgenmd.js & node doc/scripts/importComponents.js &  webpack --config webpack.noserver.js & node doc/scripts/bringtodist.js & webpack-dev-server --open --progress --colors --config doc/webpack.doc.dev.js",
+    "dev-only-doc": "cat ediphy && webpack-dev-server --open --progress --colors --config doc/webpack.doc.dev.js",
     "add-all": "git add ."
   },
   "pre-commit": [
@@ -84,6 +84,7 @@
     "eslint-config-react": "^1.1.7",
     "eslint-loader": "^1.9.0",
     "eslint-plugin-babel": "^4.1.2",
+    "eslint-plugin-jest": "^21.3.2",
     "eslint-plugin-react": "^7.4.0",
     "exports-loader": "^0.6.4",
     "expose-loader": "^0.7.3",

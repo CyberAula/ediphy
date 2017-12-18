@@ -1,4 +1,5 @@
 @import "../../../../sass/general/_variables.scss";
+@import "../../../../sass/general/mixins/_mixins.scss";
 
 /*Whole navbar row*/
 .navBar {
@@ -10,8 +11,9 @@
 /*Navbar Component*/
 #iconBar {
   z-index: 9999;
+  display: flex;
+  justify-content: space-between;
   #dropdown-menu {
-    margin-left: -30px;
     width: 70px;
     .navButton {
       font-size: 12px;
@@ -29,8 +31,7 @@
 
 /*Buttons at right of navBar*/
 .navButtons{
-    float: right;
-    margin-right: 28px;
+  margin-left: auto;
 }
 
 .navButton {
@@ -44,18 +45,22 @@
   height: 60px;
   padding: 0 8px;
   color: $grisadams;
-  background: $lightestgrey;
+  background: transparent; //$lightestgrey;
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none;
   vertical-align: middle;
-  &:hover, &:active {
+  &:active {
     border-bottom: 0px solid $grisclaro;
-    color: #1fc8db;
+    color: white;
     background: $lightestgrey;
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
     box-shadow: none;
+  }
+  &:hover {
+    color: $darkest;
+    @include scale(1.1);
   }
   .material-icons {
     vertical-align: middle;
@@ -78,25 +83,36 @@ button[disabled].navButton {
 /*Gap for course title*/
 .grad1 {
   height: 60px;
-  width: 80px;
+  width: 10px;
   float: left;
-  background: linear-gradient(141deg, #0fb8ad 0%, #1fc8db 51%, #2cb5e8 75%);
+  background: linear-gradient(141deg, $blueprimarydark 0%, #14b6b0 51%, $blueprimary 75%);
   color: white;
   opacity: 0.95;
 }
+.identity{
+  width: 202px;
+  padding: 10px;
+  font-size: 1.8em;
+  color: $grey;
+  .highlight{
+    font-weight: bold;
+    color: #14b6b0;
+  }
+}
 .navBarSpace {
   height: 100%;
-  padding: 10px;
   display: inline-block;
-  width: 20%;
   overflow: hidden;
   text-overflow: ellipsis;
-  font-size: 1.2em;
+  font-size: 1em;
   vertical-align: middle;
   .editIndexTitleIcon {
     font-size: 1em !important;
     margin: 0;
     padding: 4px 16px;
+  }
+  .actualSectionTitle{
+    margin: 10px;
   }
 }
 
@@ -119,25 +135,46 @@ button[disabled].navButton {
   }
 }
 
+.pluginsMenu{
+  width: 40%;
+  background-color: $darkest;
+}
 /*Plugin buttons: Image, Text, Multimedia...*/
 .navButtonPlug {
   @extend .navButton;
+  color: white;
   width: auto;
   min-width: 80px;
+  font-weight: 400;
+  line-height: 1em;
   .material-icons {
     vertical-align: middle;
   }
-  &.active {
-    color: $blueprimary !important;
-    background-color: white;
-    -webkit-box-shadow: inset 0px 0px 15px -3px rgba(179,179,179,1);
-    -moz-box-shadow: inset 0px 0px 15px -3px rgba(179,179,179,1);
-    box-shadow: inset 0px 0px 15px -3px rgba(179,179,179,1);
-    &:after {
-      border-bottom: 8px solid $naranjaadams;
-    }
+  &.active, &.active:hover {
+    background-color: $blueprimary !important;
+    color: $darkest;
+    font-weight: 600;
+  }
+  &:hover {
+    background-color: $greyPanelHeadings;
+    color: white;
+    @include scale(1);
   }
 
+}
+
+.togglePlugins{
+  border: none;
+  align-self: center;
+  background-color: transparent;
+  color: $blueprimary;
+  height: 60px;
+  float: right;
+  padding: 19px 5px;
+  .material-icons{
+    padding: 0 10px;
+    font-size: 1.3em;
+  }
 }
 
 
@@ -148,10 +185,16 @@ button[disabled].navButton {
   vertical-align: middle;
   margin: auto;
 }
+.showonresize{
+  display: none !important;
+}
 
 @media screen and (max-width: 1147px) {
   .hideonresize {
     display: none;
+  }
+  .showonresize{
+    display: block !important;
   }
   .navButtonPlug {
     min-width: 56px;

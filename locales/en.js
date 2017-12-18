@@ -17,6 +17,13 @@ let en = {
         "Block": "Block",
         "Breadcrumb": "Breadcrumb",
         "Cancel": "Cancel",
+        "clipboard": {
+            "copy": "Copy",
+            "cut": "Cut",
+            "paste": "Paste",
+            "to": "to",
+            "msg": "These actions are not available. Use the keyboard shortcuts:",
+        },
         "Container_": "Container",
         "contained_view": "Contained View",
         "CONTAINED_VIEWS": "CONTAINED VIEWS",

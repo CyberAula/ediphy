@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
-import { Button, OverlayTrigger, Popover, Tooltip } from 'react-bootstrap';
+import { Button, OverlayTrigger, Popover, Tooltip, Overlay } from 'react-bootstrap';
 import interact from 'interactjs';
 import Alert from './../../common/alert/Alert';
 import EditorBox from '../editor_box/EditorBox';
@@ -65,22 +65,22 @@ export default class EditorBoxSortable extends Component {
                                     height: container.height === 'auto' ? container.height : container.height + 'px',
                                 }, container.style)
                             }>
-                            <div className="disp_table width100 height100">
+                            <div className="disp_table width100 height100" style={{ minHeight: '100px', height: '1px' }}>
                                 {container.colDistribution.map((col, i) => {
                                     if (container.cols[i]) {
                                         return (<div key={i}
-                                            className="colDist-i height100 disp_table_cell vert_al_top"
+                                            className={"colDist-i height100 disp_table_cell vert_al_top colNum" + i}
                                             style={{ width: col + "%" }}>
                                             {container.cols[i].map((row, j) => {
                                                 return (<div key={j}
-                                                    className="colDist-j width100 pos_relative"
+                                                    className={"colDist-j width100 pos_relative rowNum" + j}
                                                     style={{ height: row + "%" }}
                                                     ref={e => {
                                                         if(e !== null) {
                                                             this.configureDropZone(
                                                                 ReactDOM.findDOMNode(e),
                                                                 "cell",
-                                                                ".rib, .dnd" + idContainer,
+                                                                ".rib, .dnd", // + idContainer,
                                                                 {
                                                                     idContainer: idContainer,
                                                                     i: i,
@@ -113,6 +113,7 @@ export default class EditorBoxSortable extends Component {
                                                                 onBoxesInsideSortableReorder={this.props.onBoxesInsideSortableReorder}
                                                                 onSortableContainerResized={this.props.onSortableContainerResized}
                                                                 onTextEditorToggled={this.props.onTextEditorToggled}
+                                                                onRichMarksModalToggled={this.props.onRichMarksModalToggled}
                                                                 pageType={this.props.pageType}/>);
 
                                                         } else if (ind === container.children.length - 1) {
@@ -137,7 +138,12 @@ export default class EditorBoxSortable extends Component {
                                         <i className="material-icons drag-handle btnOverBar">swap_vert</i>
                                     </OverlayTrigger>
 
-                                    <OverlayTrigger trigger={["focus"]} placement="top" overlay={
+                                    <Overlay rootClose
+                                        show={this.state.show === idContainer}
+                                        placement="top"
+                                        container={this.refs[idContainer]}
+                                        target={() => ReactDOM.findDOMNode(this.refs['btn-' + idContainer])}
+                                        onHide={() => {this.setState({ show: this.state.show === idContainer ? false : this.state.show });}}>
                                         <Popover id="popov" title={i18n.t("delete_container")}>
                                             <i style={{ color: 'yellow', fontSize: '13px', padding: '0 5px' }} className="material-icons">warning</i>
                                             {
@@ -150,19 +156,30 @@ export default class EditorBoxSortable extends Component {
                                                 onClick={e => {
                                                     this.props.onSortableContainerDeleted(idContainer, box.id);
                                                     e.stopPropagation();
-                                                }}>
+                                                    this.setState({ show: false });
+                                                }}
+                                                onTap={e => {
+                                                    this.props.onSortableContainerDeleted(idContainer, box.id);
+                                                    e.stopPropagation();
+                                                    this.setState({ show: false });
+                                                }}
+                                            >
                                                 {i18n.t("Accept")}
                                             </Button>
                                             <Button className="popoverButton"
-                                                style={{ float: 'right' }} >
+                                                style={{ float: 'right' }}
+                                                onClick={() => {this.setState({ show: false });}}>
                                                 {i18n.t("Cancel")}
                                             </Button>
-                                        </Popover>}>
-                                        <OverlayTrigger placement="top" overlay={
-                                            <Tooltip id="deleteTooltip">{i18n.t('delete')}
-                                            </Tooltip>}>
-                                            <Button className="material-icons delete-sortable btnOverBar">delete</Button>
-                                        </OverlayTrigger>
+                                        </Popover>
+                                    </Overlay>
+                                    <OverlayTrigger placement="top" overlay={
+                                        <Tooltip id="deleteTooltip">{i18n.t('delete')}
+                                        </Tooltip>}>
+                                        <Button
+                                            onClick={() => {this.setState({ show: idContainer });}}
+                                            ref={'btn-' + idContainer}
+                                            className="material-icons delete-sortable btnOverBar">delete</Button>
                                     </OverlayTrigger>
 
                                 </div>
@@ -210,11 +227,15 @@ export default class EditorBoxSortable extends Component {
         list.sortable({
             handle: '.drag-handle',
             start: (event, ui) => {
+
                 // Hide EditorShortcuts
                 let bar = this.props.containedViewSelected === 0 ?
                     document.getElementById('editorBoxIcons') :
                     document.getElementById('contained_editorBoxIcons');
-                bar.classList.add('hidden');
+
+                if (bar !== null) {
+                    bar.classList.add('hidden');
+                }
             },
             stop: (event, ui) => {
                 let indexes = [];
@@ -231,7 +252,9 @@ export default class EditorBoxSortable extends Component {
                 let bar = this.props.containedViewSelected === 0 ?
                     document.getElementById('editorBoxIcons') :
                     document.getElementById('contained_editorBoxIcons');
-                bar.classList.remove('hidden');
+                if (bar !== null) {
+                    bar.classList.remove('hidden');
+                }
                 window.dispatchEvent(new Event('resize'));
 
             },
@@ -282,7 +305,6 @@ export default class EditorBoxSortable extends Component {
                 e.target.classList.remove("drop-target");
             },
             ondrop: function(e) {
-
                 if (dropArea === 'cell') {
                     // If element dragged is coming from PluginRibbon, create a new EditorBox
                     if (e.relatedTarget.className.indexOf("rib") !== -1) {
@@ -314,12 +336,25 @@ export default class EditorBoxSortable extends Component {
                     } else {
                         let boxDragged = this.props.boxes[this.props.boxSelected];
                         // If box being dragged is dropped in a different column or row, change it's value
-                        if (boxDragged && (boxDragged.col !== extraParams.i || boxDragged.row !== extraParams.j)) {
-                            this.props.onBoxDropped(this.props.boxSelected, extraParams.j, extraParams.i);
+                        if (boxDragged) { // && (boxDragged.col !== extraParams.i || boxDragged.row !== extraParams.j)) {
+                            this.props.onBoxDropped(this.props.boxSelected,
+                                extraParams.j,
+                                extraParams.i,
+                                boxDragged.parent,
+                                extraParams.idContainer);
                         }
 
                         let clone = document.getElementById('clone');
-                        clone.parentElement.removeChild(clone);
+                        if (clone) {
+                            clone.parentNode.removeChild(clone);
+                        }
+                        for (let b in this.props.boxes) {
+                            let dombox = document.getElementById('box-' + b);
+                            if (dombox) {
+                                dombox.style.opacity = 1;
+                            }
+                        }
+
                     }
                 } else {
                     if (isSortableBox(this.props.id) && Ediphy.Plugins.get(e.relatedTarget.getAttribute("name")).getConfig().limitToOneInstance) {
@@ -355,6 +390,7 @@ export default class EditorBoxSortable extends Component {
                     Ediphy.Plugins.get(e.relatedTarget.getAttribute("name")).getConfig().callback(initialParams, ADD_BOX);
                     e.dragEvent.stopPropagation();
                 }
+
             }.bind(this),
             ondropdeactivate: function(e) {
                 e.target.classList.remove('drop-active');

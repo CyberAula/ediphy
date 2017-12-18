@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
-import { Tooltip, Button, OverlayTrigger, Popover } from 'react-bootstrap';
+import { Tooltip, Button, OverlayTrigger, Popover, Overlay } from 'react-bootstrap';
 import { ID_PREFIX_PAGE, ID_PREFIX_SECTION, ID_PREFIX_SORTABLE_BOX, PAGE_TYPES } from '../../../../common/constants';
 import Section from './../section/Section';
 import EditorIndexTitle from '../editor_index_title/EditorIndexTitle';
@@ -62,7 +63,7 @@ export default class CarrouselList extends Component {
                         <i className="material-icons" style={{ color: "gray", fontSize: "22px" }}>{"arrow_drop_down" }</i> :
                         <i className="material-icons" style={{ color: "gray", fontSize: "15px", marginLeft: "2px", marginRight: "2px" }}>{"play_arrow" }</i>
                     }
-                    <span style={{ color: "white", fontSize: "13px" }}>{i18n.t("COURSE")}</span>
+                    <span style={{ color: "white", fontSize: "11px" }}>{i18n.t("INDEX")}</span>
                 </div>
                 <div ref="sortableList"
                     className="carList connectedSortables"
@@ -128,10 +129,10 @@ export default class CarrouselList extends Component {
                         <i className="material-icons" style={{ color: "gray", fontSize: "22px" }}>{"arrow_drop_down" }</i> :
                         <i className="material-icons" style={{ color: "gray", fontSize: "15px", marginLeft: "2px", marginRight: "2px" }}>{"play_arrow" }</i>
                     }
-                    <span style={{ color: "white", fontSize: "13px" }}>{i18n.t("CONTAINED_VIEWS")}</span>
+                    <span style={{ color: "white", fontSize: "11px" }}>{i18n.t("CONTAINED_VIEWS")}</span>
                 </div>
 
-                <div className="containedViewsList" style={{ height: (this.state.showContainedViews) ? ((this.state.showSortableItems) ? "calc(50% - 122px)" : "calc(100% - 122px)") : "0px",
+                <div className="containedViewsList" style={{ height: (this.state.showContainedViews) ? ((this.state.showSortableItems) ? "calc(50% - 126px)" : "calc(100% - 126px)") : "0px",
                     display: 'block', overflowY: 'auto', overflowX: 'hidden' }}>
                     <div className="empty-info" style={{ display: (containedViewsIncluded) ? "none" : "block" }}>{i18n.t("empty.cv_empty")}</div>
 
@@ -257,7 +258,11 @@ export default class CarrouselList extends Component {
                      </Button>
                      </OverlayTrigger>
                      */}
-                    <OverlayTrigger trigger={["focus"]} placement="top" overlay={
+                    <Overlay rootClose
+                        show={this.state.show}
+                        placement='top'
+                        target={() => ReactDOM.findDOMNode(this.refs.target)}
+                        onHide={() => {this.setState({ show: false });}}>
                         <Popover id="popov" title={
                             isSection(this.props.indexSelected) ? i18n.t("delete_section") :
                                 isContainedView(this.props.indexSelected) ? i18n.t('delete_contained_canvas') :
@@ -269,6 +274,7 @@ export default class CarrouselList extends Component {
                             <br/>
                             <Button className="popoverButton"
                                 disabled={this.props.indexSelected === 0}
+                                onClick={() => {this.setState({ show: false });}}
                                 style={{ float: 'right' }} >
                                 {i18n.t("Cancel")}
                             </Button>
@@ -286,21 +292,24 @@ export default class CarrouselList extends Component {
                                     }
 
                                     this.props.onIndexSelected(0);
+                                    this.setState({ show: false });
                                 }
                                 }>
                                 {i18n.t("Accept")}
                             </Button>
 
-                        </Popover>}>
-                        <OverlayTrigger placement="top" overlay={
-                            <Tooltip id="deleteTooltip">{i18n.t('delete')}
-                            </Tooltip>}>
-                            <Button className="carrouselButton"
-                                disabled={this.props.indexSelected === 0}
-                                style={{ float: 'right' }}>
-                                <i className="material-icons">delete</i>
-                            </Button>
-                        </OverlayTrigger>
+                        </Popover>
+                    </Overlay>
+                    <OverlayTrigger placement="top" overlay={
+                        <Tooltip id="deleteTooltip">{i18n.t('delete')}
+                        </Tooltip>}>
+                        <Button className="carrouselButton"
+                            disabled={this.props.indexSelected === 0}
+                            onClick={() => {this.setState({ show: true });}}
+                            ref="target"
+                            style={{ float: 'right' }}>
+                            <i className="material-icons">delete</i>
+                        </Button>
                     </OverlayTrigger>
                 </div>
             </div>
@@ -313,6 +322,7 @@ export default class CarrouselList extends Component {
      * @returns {*}
      */
     canDeleteContainedView(id) {
+        console.log(id);
         if (id !== 0 && isContainedView(id)) {
             let thisPage = this.props.containedViews[id];
             let boxes = this.props.boxes;

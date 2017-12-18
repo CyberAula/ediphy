@@ -31,7 +31,6 @@ app.get('/getConfig', function(req, res) {
 app.post('/saveConfig', function(req, res) {
     let data = req.body;
     // Print data
-    // console.log(JSON.stringify(data));
     fs.writeFile(__dirname + "/" + "config.json", JSON.stringify(data), 'utf8', function(err) {
         if(err)
         {res.end("Write error");}
@@ -42,7 +41,6 @@ app.post('/saveConfig', function(req, res) {
 
 app.post('/upload', function(req, res) {
     let data = req.body;
-    console.log(data);
 
     setTimeout(function() {
         res.end("https://upload.wikimedia.org/wikipedia/commons/6/66/Polar_Bear_-_Alaska_(cropped).jpg");

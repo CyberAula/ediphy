@@ -1,7 +1,14 @@
-import { ADD_BOX, ADD_RICH_MARK, CHANGE_NAV_ITEM_NAME, DELETE_BOX, DELETE_RICH_MARK, DELETE_CONTAINED_VIEW, ADD_NAV_ITEM, DELETE_NAV_ITEM, DELETE_SORTABLE_CONTAINER, DUPLICATE_BOX,
-    EDIT_RICH_MARK, RESIZE_BOX, RESIZE_SORTABLE_CONTAINER, TOGGLE_TEXT_EDITOR, UPDATE_BOX, UPDATE_TOOLBAR, CHANGE_CONTAINED_VIEW_NAME,
-    VERTICALLY_ALIGN_BOX, IMPORT_STATE } from '../common/actions';
-import Utils, { changeProp, changeProps, deleteProps, isSortableBox, isSortableContainer, isPage, isSlide, isDocument, nextToolbarAvailName } from '../common/utils';
+import {
+    ADD_BOX, ADD_RICH_MARK, CHANGE_NAV_ITEM_NAME, DELETE_BOX, DELETE_RICH_MARK, DELETE_CONTAINED_VIEW, ADD_NAV_ITEM,
+    DELETE_NAV_ITEM, DELETE_SORTABLE_CONTAINER, DUPLICATE_BOX,
+    EDIT_RICH_MARK, RESIZE_BOX, RESIZE_SORTABLE_CONTAINER, TOGGLE_TEXT_EDITOR, UPDATE_BOX, UPDATE_TOOLBAR,
+    CHANGE_CONTAINED_VIEW_NAME,
+    VERTICALLY_ALIGN_BOX, IMPORT_STATE, PASTE_BOX,
+} from '../common/actions';
+import Utils, {
+    changeProp, changeProps, deleteProps, isSortableBox, isSortableContainer, isPage, isSlide, isDocument,
+    nextToolbarAvailName, isSection,
+} from '../common/utils';
 import i18n from 'i18next';
 
 function createAspectRatioButton(controls, config) {
@@ -336,7 +343,12 @@ function toolbarSectionCreator(state, action, isContainedView = false) {
     if(isDocument(type)) {
         doc_type = i18n.t('document');
     }
+
+    if(isSection(id)) {
+        doc_type = i18n.t('section');
+    }
     let pagetitle = i18n.t('Title') + doc_type;
+
     let toolbar = {
         id: id,
         controls: action.payload.toolbar || {
@@ -394,6 +406,7 @@ function toolbarSectionCreator(state, action, isContainedView = false) {
                             display_pagesubtitle: {
                                 __name: i18n.t('subtitle'),
                                 type: 'checkbox',
+                                value: "",
                                 checked: false,
                                 autoManaged: false,
                             },
@@ -649,7 +662,7 @@ export default function(state = {}, action = {}) {
     case ADD_NAV_ITEM:
         return changeProp(state, action.payload.id, toolbarSectionCreator(state, action));
     case ADD_RICH_MARK:
-        newState = Object.assign({}, state);
+        newState = JSON.parse(JSON.stringify(state));
         if(action.payload.mark.connectMode === "new") {
             let modState = changeProp(newState, action.payload.mark.connection.id || action.payload.mark.connection, toolbarSectionCreator(newState, action, true));
             newState = changeProp(modState, action.payload.parent, toolbarReducer(modState[action.payload.parent], action));
@@ -667,7 +680,7 @@ export default function(state = {}, action = {}) {
         return deleteProps(state, children.concat(action.payload.id));
     case DELETE_CONTAINED_VIEW:
         let boxesCV = action.payload.boxes ? action.payload.boxes : [];
-        let newToolbarCV = Object.assign({}, state);
+        let newToolbarCV = JSON.parse(JSON.stringify(state));
         let parents = action.payload.parent ? action.payload.parent : [];
         // Delete all related marks
         Object.keys(parents).forEach((el)=>{
@@ -683,7 +696,7 @@ export default function(state = {}, action = {}) {
     case DELETE_NAV_ITEM:
         let boxes = action.payload.boxes ? action.payload.boxes : [];
         let linkedBoxes = action.payload.linkedBoxes ? action.payload.linkedBoxes : {};
-        let newToolbar = Object.assign({}, state);
+        let newToolbar = JSON.parse(JSON.stringify(state));
         Object.keys(linkedBoxes).forEach((el)=>{
             if (newToolbar[el] && newToolbar[el].state && newToolbar[el].state.__marks) {
                 for (let markId in linkedBoxes[el]) {
@@ -701,7 +714,7 @@ export default function(state = {}, action = {}) {
     case DELETE_SORTABLE_CONTAINER:
         return deleteProps(state, action.payload.children);
     case DUPLICATE_BOX:
-        let replaced = Object.assign({}, state);
+        let replaced = JSON.parse(JSON.stringify(state));
         let newIds = action.payload.newIds;
         // let count = 0;
         Object.keys(newIds).map((box)=> {
@@ -735,6 +748,8 @@ export default function(state = {}, action = {}) {
         return changeProp(state, action.payload.id, toolbarReducer(state[action.payload.id], action));
     case IMPORT_STATE:
         return action.payload.present.toolbarsById || state;
+    case PASTE_BOX:
+        return changeProp(state, action.payload.ids.id, action.payload.toolbar);
     default:
         return state;
     }

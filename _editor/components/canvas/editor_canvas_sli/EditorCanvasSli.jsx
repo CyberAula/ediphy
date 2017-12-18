@@ -13,7 +13,7 @@ import { aspectRatio } from '../../../../common/common_tools';
 import Ediphy from '../../../../core/editor/main';
 import ReactResizeDetector from 'react-resize-detector';
 import i18n from 'i18next';
-
+import { SnapGrid } from './SnapGrid';
 /**
  * EditorCanvasSli component
  * Canvas component to display slides
@@ -64,6 +64,7 @@ export default class EditorCanvasSli extends Component {
         let boxes = itemSelected ? itemSelected.boxes : [];
         let backgroundIsUri = (/data\:/).test(itemSelected.background);
         let isColor = (/rgb[a]?\(\d+\,\d+\,\d+(\,\d)?\)/).test(itemSelected.background);
+        let gridOn = this.props.grid && ((this.props.containedViewSelected !== 0) === this.props.fromCV);
         return (
             <Col id={this.props.fromCV ? 'containedCanvas' : 'canvas'} md={12} xs={12} className="canvasSliClass"
                 style={{ display: this.props.containedViewSelected !== 0 && !this.props.fromCV ? 'none' : 'initial' }}>
@@ -86,19 +87,7 @@ export default class EditorCanvasSli extends Component {
                             backgroundRepeat: itemSelected.background.attr === 'centered' ? 'no-repeat' : 'repeat',
                             backgroundPosition: itemSelected.background.attr === 'centered' || itemSelected.background.attr === 'full' ? 'center center' : '0% 0%' }}>
                         {this.state.alert}
-                        {/* <svg width="100%" height="100%" style={{position:'absolute', top:0, zIndex: 0}} xmlns="http://www.w3.org/2000/svg">
-                           <defs>
-                             <pattern id="smallGrid" width="10" height="10" patternUnits="userSpaceOnUse">
-                               <path d="M 10 0 L 0 0 0 10" fill="none" stroke="gray" strokeWidth="0.5"/>
-                             </pattern>
-                             <pattern id="grid" width="100" height="100" patternUnits="userSpaceOnUse">
-                               <rect width="100" height="100" fill="url(#smallGrid)"/>
-                               <path d="M 100 0 L 0 0 0 100" fill="none" stroke="gray" strokeWidth="1"/>
-                             </pattern>
-                           </defs>
-
-                           <rect width="100%" height="100%" fill="url(#grid)" />
-                         </svg>   */}
+                        {gridOn ? <SnapGrid key={this.props.fromCV}/> : null}
                         <EditorHeader titles={titles}
                             onBoxSelected={this.props.onBoxSelected}
                             courseTitle={this.props.title}
@@ -132,6 +121,7 @@ export default class EditorCanvasSli extends Component {
                             let box = boxes[id];
                             return <EditorBox key={id}
                                 id={id}
+                                grid={gridOn}
                                 addMarkShortcut={this.props.addMarkShortcut}
                                 boxes={this.props.boxes}
                                 boxSelected={this.props.boxSelected}
@@ -147,11 +137,11 @@ export default class EditorCanvasSli extends Component {
                                 onBoxLevelIncreased={this.props.onBoxLevelIncreased}
                                 onBoxMoved={this.props.onBoxMoved}
                                 onBoxResized={this.props.onBoxResized}
-
                                 onSortableContainerResized={this.props.onSortableContainerResized}
                                 onBoxesInsideSortableReorder={this.props.onBoxesInsideSortableReorder}
                                 onBoxDropped={this.props.onBoxDropped}
                                 onVerticallyAlignBox={this.props.onVerticallyAlignBox}
+                                onRichMarksModalToggled={this.props.onRichMarksModalToggled}
                                 onTextEditorToggled={this.props.onTextEditorToggled}
                                 pageType={itemSelected.type || 0}
                             />;
@@ -184,6 +174,7 @@ export default class EditorCanvasSli extends Component {
      * Set up interact in order to enable dragging boxes
      */
     componentDidMount() {
+
         interact(ReactDOM.findDOMNode(this.refs.slideDropZone)).dropzone({
             accept: '.floatingEditorBox',
             overlap: 'pointer',
@@ -388,4 +379,8 @@ EditorCanvasSli.propTypes = {
      * Hace aparecer/desaparecer el CKEditor
      */
     onTextEditorToggled: PropTypes.func.isRequired,
+    /**
+     * Whether or not the grid is activated for slides
+     */
+    grid: PropTypes.bool,
 };

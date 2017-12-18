@@ -141,15 +141,6 @@ export default class PluginToolbar extends Component {
                         className={toolbar.showTextEditor ? 'toolbarButton textediting' : 'toolbarButton'}
                         onClick={() => {
                             this.props.onTextEditorToggled(toolbar.id, !toolbar.showTextEditor);
-                            if (!toolbar.showTextEditor && this.props.box && this.props.box.id) {
-                                // Código duplicado en EditorBox, EditorShortcuts y PluginToolbar. Extraer a common_tools?
-                                let CKstring = CKEDITOR.instances[this.props.box.id].getData();
-                                let initString = "<p>" + i18n.t("text_here") + "</p>\n";
-                                if (CKstring === initString) {
-                                    CKEDITOR.instances[this.props.box.id].setData("");
-
-                                }
-                            }
                         }}>
                         <i className="toolbarIcons material-icons">mode_edit</i>
                         {i18n.t("edit_text")}
@@ -454,7 +445,24 @@ export default class PluginToolbar extends Component {
                 },
             });
             break;
-            // display - subtitle
+        case i18n.t('Title') + i18n.t('section'):
+            let sectionTitle = value ? 'reduced' : 'hidden';
+            this.props.titleModeToggled(this.props.navItemSelected, {
+                elementContent: {
+                    documentTitle: navitem.header.elementContent.documentTitle,
+                    documentSubTitle: navitem.header.elementContent.documentSubTitle,
+                    numPage: navitem.header.elementContent.numPage,
+                },
+                display: {
+                    courseTitle: navitem.header.display.courseTitle,
+                    documentTitle: sectionTitle,
+                    documentSubTitle: navitem.header.display.documentSubTitle,
+                    breadcrumb: navitem.header.display.breadcrumb,
+                    pageNumber: navitem.header.display.pageNumber,
+                },
+            });
+            break;
+        // display - subtitle
         case i18n.t('subtitle'):
             let subTitle = value ? 'reduced' : 'hidden';
             this.props.titleModeToggled(this.props.navItemSelected, {

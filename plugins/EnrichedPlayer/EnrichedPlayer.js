@@ -21,7 +21,7 @@ export function EnrichedPlayer(base) {
                     location: ["main", "__sortable"],
                     defaultValue: true,
                 },
-                marksType: [{ name: i18n.t("EnrichedPlayer.pos"), key: 'value', format: '[x%]', default: '50%', defaultColor: "#1fc8db" }],
+                marksType: [{ name: i18n.t("EnrichedPlayer.pos"), key: 'value', format: '[x%]', default: '50%', defaultColor: "#17CFC8" }],
             };
         },
         getToolbar: function() {

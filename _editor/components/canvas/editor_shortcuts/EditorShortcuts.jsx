@@ -29,7 +29,7 @@ export default class EditorShortcuts extends Component {
         /**
          * Resize function binded
          */
-        this.resize = this.resize.bind(this);
+        this.resizeAndSetState = this.resizeAndSetState.bind(this);
     }
 
     /**
@@ -82,7 +82,7 @@ export default class EditorShortcuts extends Component {
                                 }>
                                 <button className="editorTitleButton"
                                     onClick={(e) => {
-                                        let widthButton = Object.assign({}, toolbar.controls.main.accordions.__sortable.buttons.__width);
+                                        let widthButton = JSON.parse(JSON.stringify(toolbar.controls.main.accordions.__sortable.buttons.__width));
                                         if(widthButton.displayValue === 100 && widthButton.units === "%") {
                                             if(toolbar.config.needsTextEdition) {
                                                 widthButton.displayValue = "auto";
@@ -124,14 +124,6 @@ export default class EditorShortcuts extends Component {
                                 <button className="editorTitleButton"
                                     onClick={(e) => {
                                         this.props.onTextEditorToggled(toolbar.id, !toolbar.showTextEditor);
-                                        if(this.props.box && this.props.box.id) {
-                                            // TODO: Código duplicado en EditorBox, EditorShortcuts y PluginToolbar. Extraer a common_tools?
-                                            let CKstring = CKEDITOR.instances[this.props.box.id].getData();
-                                            let initString = "<p>" + i18n.t("text_here") + "</p>\n";
-                                            if (CKstring === initString) {
-                                                CKEDITOR.instances[this.props.box.id].setData("");
-                                            }
-                                        }
                                         e.stopPropagation();
                                     }}>
                                     <i className="material-icons">mode_edit</i>
@@ -205,6 +197,10 @@ export default class EditorShortcuts extends Component {
         );
     }
 
+    resizeAndSetState(fromUpdate, newProps) {
+        let { width, top, left } = this.resize(fromUpdate, newProps);
+        this.setState({ left: left, top: top, width: width });
+    }
     /**
      * Resize callback for when either the window or the parent container change their size
      * @param fromUpdate
@@ -238,12 +234,14 @@ export default class EditorShortcuts extends Component {
                 } else {
                     width = box.getBoundingClientRect().width;
                 }
-
-                this.setState({ left: left, top: top, width: width });
                 box.classList.remove('norotate');
+
+                return { left, top, width };
+                // this.setState({ left: left, top: top, width: width });
 
             }
         }
+        return { left: 0, top: 0, width: 0 };
     }
 
     /**
@@ -253,8 +251,18 @@ export default class EditorShortcuts extends Component {
     componentWillReceiveProps(nextProps) {
         if (nextProps !== this.props) {
             if (nextProps.box) {
-                this.resize("fromUpdate", nextProps);
+                this.resizeAndSetState("fromUpdate", nextProps);
+                // this.setState({ left: left, top: top, width: width });
             }
+        }
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        let { width, top, left } = this.resize();
+
+        if (this.state.width !== width || this.state.top !== top || this.state.left !== left) {
+            // eslint-disable-next-line react/no-did-update-set-state
+            this.setState({ left: left, top: top, width: width });
         }
     }
 
@@ -290,11 +298,11 @@ export default class EditorShortcuts extends Component {
      * Sets resize listeners
      */
     componentDidMount() {
-        window.addEventListener('resize', this.resize);
+        window.addEventListener('resize', this.resizeAndSetState);
         if (this.props && this.props.box) {
             let boxObj = document.getElementById('box-' + this.props.box.id);
             if(boxObj) {
-                boxObj.addEventListener('resize', this.resize);
+                boxObj.addEventListener('resize', this.resizeAndSetState);
             }
 
         }
@@ -314,11 +322,11 @@ export default class EditorShortcuts extends Component {
             boxEl.classList.remove('pointerEventsEnabled');
         }
 
-        window.removeEventListener('resize', this.resize);
+        window.removeEventListener('resize', this.resizeAndSetState);
         if (this.props && this.props.box) {
             let boxObj = document.getElementById('box-' + this.props.box.id);
             if(boxObj) {
-                boxObj.removeEventListener('resize', this.resize);
+                boxObj.removeEventListener('resize', this.resizeAndSetState);
             }
         }
     }

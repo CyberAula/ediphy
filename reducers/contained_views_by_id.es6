@@ -1,5 +1,5 @@
-import { ADD_BOX, ADD_CONTAINED_VIEW, ADD_RICH_MARK, DELETE_RICH_MARK, EDIT_RICH_MARK, DELETE_BOX, DELETE_CONTAINED_VIEW, CHANGE_CONTAINED_VIEW_NAME, TOGGLE_TITLE_MODE, DELETE_NAV_ITEM, DELETE_SORTABLE_CONTAINER, IMPORT_STATE } from '../common/actions';
-import { changeProp, deleteProps, isContainedView, findNavItemContainingBox } from '../common/utils';
+import { ADD_BOX, ADD_CONTAINED_VIEW, ADD_RICH_MARK, DELETE_RICH_MARK, EDIT_RICH_MARK, DELETE_BOX, DELETE_CONTAINED_VIEW, CHANGE_CONTAINED_VIEW_NAME, TOGGLE_TITLE_MODE, DELETE_NAV_ITEM, DELETE_SORTABLE_CONTAINER, PASTE_BOX, IMPORT_STATE } from '../common/actions';
+import { changeProp, deleteProps, isContainedView, findNavItemContainingBox, isView } from '../common/utils';
 
 function singleContainedViewReducer(state = {}, action = {}) {
     switch (action.type) {
@@ -7,7 +7,7 @@ function singleContainedViewReducer(state = {}, action = {}) {
         return changeProp(state, "boxes", [...state.boxes, action.payload.ids.id]);
     case ADD_RICH_MARK:
         // only fired when new mark is connected to existing cv
-        let oldParents = Object.assign({}, state.parent);
+        let oldParents = JSON.parse(JSON.stringify(state.parent));
         if (!oldParents || Object.keys(oldParents).indexOf(action.payload.parent) === -1) {
             oldParents[action.payload.parent] = [action.payload.mark.id];
         } else {
@@ -16,7 +16,7 @@ function singleContainedViewReducer(state = {}, action = {}) {
         return changeProp(state, "parent", oldParents);
         // return state;
     case DELETE_RICH_MARK:
-        let previousParents = Object.assign({}, state.parent);
+        let previousParents = JSON.parse(JSON.stringify(state.parent));
         let oldMarks = previousParents[action.payload.parent];
         let ind = oldMarks.indexOf(action.payload.id);
         if (ind > -1) {
@@ -30,13 +30,15 @@ function singleContainedViewReducer(state = {}, action = {}) {
         return changeProp(state, "parent", previousParents);
     case DELETE_BOX:
         // TODO: Borrar parent boxes borradas
-        let modState = Object.assign({}, state);
+        let modState = JSON.parse(JSON.stringify(state));
         delete modState.parent[action.payload.id];
         return changeProp(modState, "boxes", modState.boxes.filter(id => action.payload.id !== id));
     case TOGGLE_TITLE_MODE:
         return changeProp(state, "header", action.payload.titles);
     case CHANGE_CONTAINED_VIEW_NAME:
         return changeProp(state, "name", action.payload.title);
+    case PASTE_BOX:
+        return changeProp(state, "boxes", [...state.boxes, action.payload.ids.id]);
     default:
         return state;
     }
@@ -57,11 +59,12 @@ export default function(state = {}, action = {}) {
         if(!action.payload.mark || !action.payload.newConnection) {
             return state;
         }
-        let editState = Object.assign({}, state);
+        let editState = JSON.parse(JSON.stringify(state));
+
         // If the old connection is a contained view, we need to remove the mark from its parent list
         if (isContainedView(action.payload.oldConnection)) {
             if (editState[action.payload.oldConnection] && editState[action.payload.oldConnection].parent[action.payload.parent]) {
-                let ind = editState[action.payload.oldConnection].parent[action.payload.parent].indexOf(action.payload.mark);
+                let ind = editState[action.payload.oldConnection].parent[action.payload.parent].indexOf(action.payload.mark.id || action.payload.mark);
                 if (ind > -1) {
                     editState[action.payload.oldConnection].parent[action.payload.parent].splice(ind, 1);
                     if (editState[action.payload.oldConnection].parent[action.payload.parent].length === 0) {
@@ -100,7 +103,7 @@ export default function(state = {}, action = {}) {
         }
         return state;
     case DELETE_BOX:
-        let modState = Object.assign({}, state);
+        let modState = JSON.parse(JSON.stringify(state));
         // Delete parent reference for contained views that linked to the deleted box
         for (let cv in action.payload.cvs) {
             delete modState[action.payload.cvs[cv]].parent[action.payload.id];
@@ -118,6 +121,7 @@ export default function(state = {}, action = {}) {
     case DELETE_CONTAINED_VIEW:
         return deleteProps(state, action.payload.ids);
     case DELETE_NAV_ITEM:
+
         for (let cv in state) {
             for (let box in action.payload.boxes) {
                 if (state[cv].parent[action.payload.boxes[box]]) {
@@ -145,7 +149,7 @@ export default function(state = {}, action = {}) {
                     );
             }
         }*/
-        let nState = Object.assign({}, state);
+        let nState = JSON.parse(JSON.stringify(state));
         for (let cv in action.payload.cvs) {
             for (let b in action.payload.cvs[cv]) {
                 delete nState[cv].parent[action.payload.cvs[cv][b]];
@@ -158,6 +162,27 @@ export default function(state = {}, action = {}) {
             return changeProp(state, action.payload.id, singleContainedViewReducer(state[action.payload.id], action));
         }
         return state;
+    case PASTE_BOX:
+        let newState = JSON.parse(JSON.stringify(state));
+
+        if (isContainedView(action.payload.ids.parent)) {
+            newState = changeProp(newState, action.payload.ids.parent, singleContainedViewReducer(newState[action.payload.ids.parent], action));
+        }
+        if (action.payload.toolbar && action.payload.toolbar.state && action.payload.toolbar.state.__marks) {
+            let marks = action.payload.toolbar.state.__marks;
+            for (let mark in marks) {
+                if (isContainedView(marks[mark].connection)) {
+                    if (newState[marks[mark].connection]) {
+                        if (!newState[marks[mark].connection].parent[action.payload.ids.id]) {
+                            newState[marks[mark].connection].parent[action.payload.ids.id] = [];
+                        }
+                        newState[marks[mark].connection].parent[action.payload.ids.id].push(mark);
+
+                    }
+                }
+            }
+        }
+        return newState;
     case IMPORT_STATE:
         return action.payload.present.containedViewsById || state;
     default:

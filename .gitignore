@@ -20,6 +20,7 @@ doc/dist/doc-bundle.js
 doc/dist/demo/*bundle.js
 doc/dist/demo/*bundle.min.js
 doc/dist/demo/lib/*
+doc/importMdFiles.es6
 *.map
 nbproject
 dist/lib/scorm/scorm.zip
@@ -27,3 +28,4 @@ dist/lib/visor/dist.zip
 .stylelintrc.json
 *.snap
 coverage
+yarn.lock

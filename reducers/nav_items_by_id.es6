@@ -1,10 +1,9 @@
 import {
-    ADD_BOX, MOVE_BOX, ADD_NAV_ITEM, CHANGE_NAV_ITEM_NAME, CHANGE_UNIT_NUMBER, DELETE_BOX, DUPLICATE_BOX,
-    EXPAND_NAV_ITEM,
+    ADD_BOX, MOVE_BOX, ADD_NAV_ITEM, CHANGE_NAV_ITEM_NAME, CHANGE_NAV_ITEM_BACKGROUND, CHANGE_UNIT_NUMBER, DELETE_BOX, DUPLICATE_BOX, EXPAND_NAV_ITEM,
     REORDER_NAV_ITEM, DELETE_NAV_ITEM, TOGGLE_NAV_ITEM, TOGGLE_TITLE_MODE, UPDATE_NAV_ITEM_EXTRA_FILES,
     DELETE_SORTABLE_CONTAINER,
     ADD_RICH_MARK, EDIT_RICH_MARK, DELETE_RICH_MARK,
-    IMPORT_STATE, CHANGE_NAV_ITEM_BACKGROUND,
+    IMPORT_STATE, PASTE_BOX,
 } from '../common/actions';
 import { ID_PREFIX_BOX } from '../common/constants';
 import { changeProp, changeProps, deleteProp, deleteProps, isView, isSlide, isDocument, findNavItemContainingBox, findDescendantNavItems, isContainedView } from '../common/utils';
@@ -37,9 +36,10 @@ function navItemCreator(state = {}, action = {}) {
 function singleNavItemReducer(state = {}, action = {}) {
     switch (action.type) {
     case ADD_BOX:
+    case PASTE_BOX:
         return changeProp(state, "boxes", [...state.boxes, action.payload.ids.id]);
     case MOVE_BOX:
-        let children = Object.assign([], state.boxes);
+        let children = JSON.parse(JSON.stringify(state.boxes));
         for(let x in children) {
             if (children[x] === action.payload.id) {
                 children.push(children.splice(x, 1)[0]);
@@ -80,7 +80,7 @@ function singleNavItemReducer(state = {}, action = {}) {
         }
         return stateWithoutBox;
     case DELETE_RICH_MARK:
-        let previousParents = Object.assign({}, state.linkedBoxes);
+        let previousParents = JSON.parse(JSON.stringify(state.linkedBoxes));
         let oldMarks = previousParents[action.payload.parent];
         let ind = oldMarks.indexOf(action.payload.id);
         if (ind > -1) {
@@ -132,7 +132,7 @@ function singleNavItemReducer(state = {}, action = {}) {
     case TOGGLE_TITLE_MODE:
         return changeProp(state, "header", action.payload.titles);
     case ADD_RICH_MARK:
-        let oldParents = Object.assign({}, state.linkedBoxes);
+        let oldParents = JSON.parse(JSON.stringify(state.linkedBoxes));
         if(Object.keys(oldParents).indexOf(action.payload.parent) === -1) {
             oldParents[action.payload.parent] = [action.payload.mark.id];
         } else {
@@ -189,22 +189,22 @@ export default function(state = { 0: { id: 0, children: [], boxes: [], level: 0,
     case DELETE_BOX:
         if (isView(action.payload.parent) && action.payload.parent !== 0) {
             /* if(findNavItemContainingBox(state,action.payload.parent).extraFiles.length !== 0){
-                        return changeProp(Object.assign({}, state,
-                                        Object.assign(
-                                            {},
-                                            {
-                                                [findNavItemContainingBox(state, action.payload.parent).id]:
-                                                Object.assign(
-                                                    {},
-                                                    findNavItemContainingBox(state, action.payload.parent),
-                                                    {extraFiles: {}
-                                                    }
-                                                )
-                                            }
-                                        )
-                            ),
-                        action.payload.parent, singleNavItemReducer(state[action.payload.parent], action));
-                    }*/
+                            return changeProp(Object.assign({}, state,
+                                            Object.assign(
+                                                {},
+                                                {
+                                                    [findNavItemContainingBox(state, action.payload.parent).id]:
+                                                    Object.assign(
+                                                        {},
+                                                        findNavItemContainingBox(state, action.payload.parent),
+                                                        {extraFiles: {}
+                                                        }
+                                                    )
+                                                }
+                                            )
+                                ),
+                            action.payload.parent, singleNavItemReducer(state[action.payload.parent], action));
+                        }*/
             return changeProp(state, action.payload.parent, singleNavItemReducer(state[action.payload.parent], action));
         }
 
@@ -213,12 +213,12 @@ export default function(state = { 0: { id: 0, children: [], boxes: [], level: 0,
                 Object.assign({},
                     {
                         [findNavItemContainingBox(state, action.payload.parent).id]:
-                            Object.assign(
-                                {},
-                                findNavItemContainingBox(state, action.payload.parent),
-                                { extraFiles: {},
-                                }
-                            ),
+                                Object.assign(
+                                    {},
+                                    findNavItemContainingBox(state, action.payload.parent),
+                                    { extraFiles: {},
+                                    }
+                                ),
                     }
                 )
             );
@@ -227,29 +227,29 @@ export default function(state = { 0: { id: 0, children: [], boxes: [], level: 0,
         return state;
     case DELETE_SORTABLE_CONTAINER:
         /* let item = findNavItemContainingBox(state, action.payload.parent);
-            if(item) {
-                if(item.extraFiles.length !== 0) {
-                    return Object.assign({}, state,
-                        Object.assign({},
-                            {
-                                [findNavItemContainingBox(state, action.payload.parent).id]:
-                                Object.assign(
-                                    {},
-                                    findNavItemContainingBox(state, action.payload.parent),
-                                    { extraFiles: {},
-                                    }
-                                ),
-                            }
-                        )
-                    );
-                }
-            }*/
-        let nState = Object.assign({}, state);
+                if(item) {
+                    if(item.extraFiles.length !== 0) {
+                        return Object.assign({}, state,
+                            Object.assign({},
+                                {
+                                    [findNavItemContainingBox(state, action.payload.parent).id]:
+                                    Object.assign(
+                                        {},
+                                        findNavItemContainingBox(state, action.payload.parent),
+                                        { extraFiles: {},
+                                        }
+                                    ),
+                                }
+                            )
+                        );
+                    }
+                }*/
+        let nState = JSON.parse(JSON.stringify(state));
         /* for (let cv in action.payload.cvs) {
-            for (let b in action.payload.cvs[cv]) {
-              delete nState[cv].parent[action.payload.cvs[cv][b]];
-            }
-          }*/
+                for (let b in action.payload.cvs[cv]) {
+                  delete nState[cv].parent[action.payload.cvs[cv][b]];
+                }
+              }*/
         return nState;
     case DUPLICATE_BOX:
         if (isView(action.payload.parent)) {
@@ -290,8 +290,8 @@ export default function(state = { 0: { id: 0, children: [], boxes: [], level: 0,
             ]
         );
 
-        // Some properties are inherited from parent (level, hidden, unitNumber, etc.)
-        // We should update item's children with new inherited value
+            // Some properties are inherited from parent (level, hidden, unitNumber, etc.)
+            // We should update item's children with new inherited value
         let descendantsToUpdate = findDescendantNavItems(itemsReordered, action.payload.id);
         // We remove the first element (the item we moved)
         descendantsToUpdate.shift();
@@ -346,7 +346,7 @@ export default function(state = { 0: { id: 0, children: [], boxes: [], level: 0,
         if(!action.payload.mark || !action.payload.newConnection) {
             return state;
         }
-        let editState = Object.assign({}, state);
+        let editState = JSON.parse(JSON.stringify(state));
         if (!isContainedView(action.payload.oldConnection) && action.payload.oldConnection !== 0) {
             if (editState[action.payload.oldConnection] && editState[action.payload.oldConnection].linkedBoxes[action.payload.parent]) {
                 let ind = editState[action.payload.oldConnection].linkedBoxes[action.payload.parent].indexOf(action.payload.mark);
@@ -378,6 +378,28 @@ export default function(state = { 0: { id: 0, children: [], boxes: [], level: 0,
         return changeProp(state, action.payload.id, singleNavItemReducer(state[action.payload.id], action));
     case IMPORT_STATE:
         return action.payload.present.navItemsById || state;
+    case PASTE_BOX:
+
+        let newState = JSON.parse(JSON.stringify(state));
+        if (isView(action.payload.ids.parent) && !isContainedView(action.payload.ids.parent)) {
+            newState = changeProp(newState, action.payload.ids.parent, singleNavItemReducer(newState[action.payload.ids.parent], action));
+        }
+
+        if (action.payload.toolbar && action.payload.toolbar.state && action.payload.toolbar.state.__marks) {
+            let marks = action.payload.toolbar.state.__marks;
+            for (let mark in marks) {
+                if (isView(marks[mark].connection)) {
+                    if (newState[marks[mark].connection]) {
+                        if (!newState[marks[mark].connection].linkedBoxes[action.payload.ids.id]) {
+                            newState[marks[mark].connection].linkedBoxes[action.payload.ids.id] = [];
+                        }
+                        newState[marks[mark].connection].linkedBoxes[action.payload.ids.id].push(mark);
+
+                    }
+                }
+            }
+        }
+        return newState;
     default:
         return state;
     }
