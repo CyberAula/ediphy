@@ -27,7 +27,7 @@ export default class RichMarksModal extends Component {
         this.state = {
             connectMode: "new",
             displayMode: "navigate",
-            newSelected: "",
+            newSelected: this.props.navItems[this.props.navItemSelected] ? this.props.navItems[this.props.navItemSelected].type : "",
             existingSelected: "",
             newType: PAGE_TYPES.SLIDE,
             viewNames: this.returnAllViews(this.props),
@@ -51,7 +51,7 @@ export default class RichMarksModal extends Component {
                     connectMode: current.connectMode || "new",
                     displayMode: current.displayMode || "navigate",
                     newSelected: (current.connectMode === "new" ? current.connection : ""),
-                    newType: PAGE_TYPES.SLIDE,
+                    newType: nextProps.navItems[nextProps.navItemSelected] ? nextProps.navItems[nextProps.navItemSelected].type : "",
                     existingSelected: (current.connectMode === "existing" && this.remapInObject(nextProps.navItems, nextProps.containedViews)[current.connection] ?
                         this.remapInObject(nextProps.navItems, nextProps.containedViews)[current.connection].id : ""),
                 });
@@ -62,7 +62,7 @@ export default class RichMarksModal extends Component {
                     connectMode: "new",
                     displayMode: "navigate",
                     newSelected: "",
-                    newType: PAGE_TYPES.SLIDE,
+                    newType: nextProps.navItems[nextProps.navItemSelected] ? nextProps.navItems[nextProps.navItemSelected].type : "",
                     existingSelected: "",
                 });
             }
@@ -175,6 +175,7 @@ export default class RichMarksModal extends Component {
                                         display: /* this.state.newType === PAGE_TYPES.SLIDE || this.state.newType === PAGE_TYPES.DOCUMENT*/ this.state.newSelected === "" ? "initial" : "none",
                                     }}
                                     onChange={e => {
+                                        console.log(this.state.newType);
                                         this.setState({ newType: e.nativeEvent.target.value });
                                     }}>
                                     <option value={PAGE_TYPES.DOCUMENT}>{i18n.t("marks.new_document")}</option>
@@ -255,7 +256,6 @@ export default class RichMarksModal extends Component {
                         let name = title || nextAvailName(i18n.t('contained_view'), this.props.containedViews);
                         // Mark name
                         title = title || nextAvailName(i18n.t("marks.new_mark"), this.props.pluginToolbar.state.__marks, 'title');
-                        console.log('yay');
                         switch (connectMode) {
                         case "new":
                             connection = current && current.connection && current.connectMode === 'new' ?
