@@ -113,6 +113,7 @@
     border: $boxborderwidth solid transparent;
     vertical-align:top;
     word-wrap: break-word;
+    //border: none;
 
 }
 
@@ -137,7 +138,7 @@
 .basicImageClass, .basicVideoClass{
   left :0px;
   top: 0px;
-  @include box-shadow(1px, 1px, 9px, #ccc, $inset: false);
+  //@include box-shadow(1px, 1px, 9px, #ccc, $inset: false);
 }
 .automaticallySizedBox .basicImageClass{
     position: relative;

@@ -8,18 +8,18 @@ This software is written in Javascript (ES6), making use of React and Redux.
 
 Visit our wiki to see all the available Ediphy Editor instructions.
 
-In order to install this project you will need `node` 6.x.x (latest), `npm` and  git.
+In order to install this project you will need `node` 6.x.x (latest), `yarn` and git.
 First clone the repo and then install the dependencies like so:
 
 ```bash
 git clone https://github.com/ging/ediphy.git
 cd ediphy
-npm install
+yarn install
 ```
 Once everything is installed, you can run the application with the following line:
 
 ```bash
-npm start
+yarn start
 ```
 
 ## Code quality and documentation
@@ -28,12 +28,12 @@ We use ESDoc in order to generate our documentation.
 To regenerate it after a change you need to run:
 
 ```bash
-npm run doc
+yarn run doc
 ```
 We also make use of ESLint in order to guarantee a certain code quality. With the following line you will fix all the formatting errors and view those that can't be automatically fixed:
 
 ```bash
-npm run eslint
+yarn run eslint
 ```
 
 ## Discussion and contribution

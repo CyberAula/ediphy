@@ -1,11 +1,11 @@
 import helper from './test_helper';
 import reducer from '../box_level_selected';
-import { ADD_BOX, INCREASE_LEVEL, SELECT_BOX, SELECT_NAV_ITEM, DELETE_NAV_ITEM } from '../../common/actions';
+import { ADD_BOX, INCREASE_LEVEL, SELECT_BOX, SELECT_NAV_ITEM, DELETE_NAV_ITEM, PASTE_BOX } from '../../common/actions';
 import { ID_PREFIX_SORTABLE_BOX } from '../../common/constants';
 
 let reducerHelper = helper(undefined, reducer);
 
-describe('box_level_selected reducer', () => {
+describe('# box_level_selected reducer', () => {
 
     beforeAll(() => {
         reducerHelper.clean();
@@ -58,4 +58,9 @@ describe('box_level_selected reducer', () => {
         reducerHelper.call({ type: SELECT_NAV_ITEM });
         expect(reducerHelper.state).toEqual(0);
     });
+    test('should handle PASTE_BOX', () => {
+        reducerHelper.call({ type: PASTE_BOX });
+        expect(reducerHelper.state).toEqual(0);
+    });
+
 });

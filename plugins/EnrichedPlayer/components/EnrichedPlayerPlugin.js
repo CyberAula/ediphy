@@ -21,8 +21,6 @@ export default class EnrichedPlayerPlugin extends React.Component {
     }
 
     componentWillUpdate(nextProps, nextState) {
-        console.log(nextState);
-        console.log(nextProps);
         if(nextState.played !== this.state.played) {
             let sudo = this;
 
@@ -80,7 +78,6 @@ export default class EnrichedPlayerPlugin extends React.Component {
     }
 
     setPlaybackRate(e) {
-        console.log(parseFloat(e.target.value));
         this.setState({ playbackRate: parseFloat(e.target.value) });
     }
 
@@ -135,8 +132,8 @@ export default class EnrichedPlayerPlugin extends React.Component {
             return(
                 <OverlayTrigger key={id} text={title} placement="top" overlay={<Tooltip id={id}>{title}</Tooltip>}>
                     <a key={id} style={{ left: value, position: "absolute" }} href="#">
-                        <div style={{ width: "4px", height: "8px", background: color || "#1fc8db" }}>
-                            <i className="material-icons" style={{ color: color || "#1fc8db", position: "relative", top: "-24px", left: "-10px" }}>room</i>
+                        <div style={{ width: "4px", height: "8px", background: color || "#17CFC8" }}>
+                            <i className="material-icons" style={{ color: color || "#17CFC8", position: "relative", top: "-24px", left: "-10px" }}>room</i>
                         </div>
                     </a>
                 </OverlayTrigger>);

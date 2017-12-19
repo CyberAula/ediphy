@@ -27,7 +27,7 @@ export default class XMLConfigModal extends Component {
                         this.props.onXMLEditorToggled();
                     }}>Cancel</Button>
                     <Button bsStyle="primary" onClick={e => {
-                        let state = Object.assign({}, this.props.toolbar.state);
+                        let state = JSON.parse(JSON.stringify(this.props.toolbar.state));
                         let xml = this.generateXMLFromView(state);
                         $.ajax({
                             url: state.__xml_path ? state.__xml_path : Ediphy.Config.xml_path,
