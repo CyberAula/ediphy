@@ -305,9 +305,9 @@ export default class PluginToolbar extends Component {
         case i18n.t('background.background'):
             let isColor = (/rgb[a]?\(\d+\,\d+\,\d+(\,\d)?\)/).test(value.background);
             if(isColor) {
-                this.props.onNavItemBackgroundChanged(this.props.navItemSelected, value.background);
+                this.props.onBackgroundChanged(this.props.navItemSelected, value.background);
             } else {
-                this.props.onNavItemBackgroundChanged(this.props.navItemSelected, value);
+                this.props.onBackgroundChanged(this.props.navItemSelected, value);
             }
             break;
         case "custom_title":

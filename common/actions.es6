@@ -28,7 +28,7 @@ export const EXPAND_NAV_ITEM = 'EXPAND_NAV_ITEM';
 export const DELETE_NAV_ITEM = 'DELETE_NAV_ITEM';
 export const REORDER_NAV_ITEM = 'REORDER_NAV_ITEM';
 export const TOGGLE_NAV_ITEM = 'TOGGLE_NAV_ITEM';
-export const CHANGE_NAV_ITEM_BACKGROUND = 'CHANGE_NAV_ITEM_BACKGROUND';
+export const CHANGE_BACKGROUND = 'CHANGE_BACKGROUND';
 export const UPDATE_NAV_ITEM_EXTRA_FILES = 'UPDATE_NAV_ITEM_EXTRA_FILES';
 export const CHANGE_NAV_ITEM_NAME = 'CHANGE_NAV_ITEM_NAME';
 export const CHANGE_UNIT_NUMBER = 'CHANGE_UNIT_NUMBER';
@@ -105,8 +105,8 @@ export function changeNavItemName(id, title) {
     return { type: CHANGE_NAV_ITEM_NAME, payload: { id, title } };
 }
 
-export function changeNavItemBackground(id, background) {
-    return { type: CHANGE_NAV_ITEM_BACKGROUND, payload: { id, background } };
+export function changeBackground(id, background) {
+    return { type: CHANGE_BACKGROUND, payload: { id, background } };
 }
 
 export function changeContainedViewName(id, title) {

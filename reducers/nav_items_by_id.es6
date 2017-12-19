@@ -1,5 +1,5 @@
 import {
-    ADD_BOX, MOVE_BOX, ADD_NAV_ITEM, CHANGE_NAV_ITEM_NAME, CHANGE_NAV_ITEM_BACKGROUND, CHANGE_UNIT_NUMBER, DELETE_BOX, DUPLICATE_BOX, EXPAND_NAV_ITEM,
+    ADD_BOX, MOVE_BOX, ADD_NAV_ITEM, CHANGE_NAV_ITEM_NAME, CHANGE_BACKGROUND, CHANGE_UNIT_NUMBER, DELETE_BOX, DUPLICATE_BOX, EXPAND_NAV_ITEM,
     REORDER_NAV_ITEM, DELETE_NAV_ITEM, TOGGLE_NAV_ITEM, TOGGLE_TITLE_MODE, UPDATE_NAV_ITEM_EXTRA_FILES,
     DELETE_SORTABLE_CONTAINER,
     ADD_RICH_MARK, EDIT_RICH_MARK, DELETE_RICH_MARK,
@@ -59,7 +59,7 @@ function singleNavItemReducer(state = {}, action = {}) {
         );
     case CHANGE_NAV_ITEM_NAME:
         return changeProp(state, "name", action.payload.title);
-    case CHANGE_NAV_ITEM_BACKGROUND:
+    case CHANGE_BACKGROUND:
         return changeProp(state, "background", action.payload.background);
     case CHANGE_UNIT_NUMBER:
         let finalValue;
@@ -177,8 +177,11 @@ export default function(state = { 0: { id: 0, children: [], boxes: [], level: 0,
         );
     case CHANGE_NAV_ITEM_NAME:
         return changeProp(state, action.payload.id, singleNavItemReducer(state[action.payload.id], action));
-    case CHANGE_NAV_ITEM_BACKGROUND:
-        return changeProp(state, action.payload.id, singleNavItemReducer(state[action.payload.id], action));
+    case CHANGE_BACKGROUND:
+        if(isView(action.payload.id)) {
+            return changeProp(state, action.payload.id, singleNavItemReducer(state[action.payload.id], action));
+        }
+        return state;
     case CHANGE_UNIT_NUMBER:
         let itemsToChange = findDescendantNavItems(state, action.payload.id);
         let newValues = [];
