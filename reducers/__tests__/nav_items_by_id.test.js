@@ -189,11 +189,6 @@ describe('# nav_items_by_id reducer', ()=>{
             // expect(nav_items_by_id(state, {})).toEqual(state);
         });
     });
-    describe('handle DELETE_BOX', ()=>{
-        test('If box deleted', () => {
-            // expect(nav_items_by_id(state, {})).toEqual(state);
-        });
-    });
 
     // describe('handle CHANGE_UNIT_NUMBER *********************** TODO :)', ()=>{
     //     test('If unit number changed', () => {
