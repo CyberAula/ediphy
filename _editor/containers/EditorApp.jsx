@@ -207,7 +207,7 @@ class EditorApp extends Component {
                                 boxSelected={boxes[boxSelected]}
                                 navItemSelected={navItems[navItemSelected]}
                                 navItems={navItems}
-                                containedViewSelected={containedViewSelected}
+                                containedViewSelected={containedViews[containedViewSelected] || containedViewSelected }
                                 category={this.state.pluginTab}
                                 hideTab={this.state.hideTab}
                                 boxes={boxes}

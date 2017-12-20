@@ -6,7 +6,7 @@ import Ediphy from '../../../../core/editor/main';
 import ReactDOM from 'react-dom';
 import i18n from 'i18next';
 import './_pluginRibbon.scss';
-import { isSortableBox, isSlide } from "../../../../common/utils";
+import { isSortableBox, isSlide, isContainedView } from "../../../../common/utils";
 import { ADD_BOX } from "../../../../common/actions";
 import Alert from './../../common/alert/Alert';
 import { ID_PREFIX_SORTABLE_CONTAINER } from "../../../../common/constants";
@@ -223,34 +223,36 @@ export default class PluginRibbon extends Component {
     }
 
     ClickAddBox(event) {
+        let alert = (<Alert className="pageModal"
+            show
+            hasHeader
+            backdrop={false}
+            title={ <span><i className="material-icons" style={{ fontSize: '14px', marginRight: '5px', color: 'yellow' }}>warning</i>{ i18n.t("messages.alert") }</span> }
+            closeButton onClose={()=>{this.setState({ alert: null });}}>
+            <span> {i18n.t('messages.instance_limit')} </span>
+        </Alert>);
 
-        if (isSlide(this.props.navItemSelected.type)) {
+        let cv = this.props.containedViewSelected !== 0 && isContainedView(this.props.containedViewSelected.id) && isSlide(this.props.containedViewSelected.type);
+
+        if (isSlide(this.props.navItemSelected.type) || cv) {
             if (Ediphy.Plugins.get(event.target.getAttribute("name")).getConfig().limitToOneInstance) {
                 for (let child in this.props.boxes) {
-                    if (!isSortableBox(child) && this.props.boxes[child].parent === this.props.navItemSelected.id && this.props.toolbars[child].config.name === event.target.getAttribute("name")) {
-                        let alert = (<Alert className="pageModal"
-                            show
-                            hasHeader
-                            backdrop={false}
-                            title={ <span><i className="material-icons" style={{ fontSize: '14px', marginRight: '5px', color: 'yellow' }}>warning</i>{ i18n.t("messages.alert") }</span> }
-                            closeButton onClose={()=>{this.setState({ alert: null });}}>
-                            <span> {i18n.t('messages.instance_limit')} </span>
-                        </Alert>);
+                    if (!isSortableBox(child) && this.props.boxes[child].parent === this.props.navItemSelected.id || this.props.containedViewSelected.id && this.props.toolbars[child].config.name === event.target.getAttribute("name")) {
                         this.setState({ alert: alert });
                         event.stopPropagation();
                         return;
                     }
                 }
             }
-            let mc = this.props.fromCV ? document.getElementById("contained_maincontent") : document.getElementById('maincontent');
-            let al = this.props.fromCV ? document.getElementById('airlayer_cv') : document.getElementById('airlayer');
+            // let mc = cv ? document.getElementById("contained_maincontent") : document.getElementById('maincontent');
+            // let al = cv ? document.getElementById('airlayer_cv') : document.getElementById('airlayer');
             let position = {
                 x: "20%",
                 y: '20%',
                 type: 'absolute',
             };
             let initialParams = {
-                parent: this.props.fromCV ? this.props.containedViewSelected.id : this.props.navItemSelected.id,
+                parent: cv ? this.props.containedViewSelected.id : this.props.navItemSelected.id,
                 container: 0,
                 position: position,
             };
@@ -263,15 +265,7 @@ export default class PluginRibbon extends Component {
                 for (let child in this.props.boxes) {
 
                     if (!isSortableBox(child) && this.props.boxes[child].parent === this.props.navItemSelected.boxes[0] && this.props.toolbars[child].config.name === event.target.getAttribute("name")) {
-                        let alert = (<Alert className="pageModal"
-                            show
-                            hasHeader
-                            backdrop={false}
-                            title={ <span><i className="material-icons" style={{ fontSize: '14px', marginRight: '5px', color: 'yellow' }}>warning</i>{ i18n.t("messages.alert") }</span> }
-                            closeButton onClose={()=>{this.setState({ alert: null });}}>
-                            <span> {i18n.t('messages.instance_limit')} </span>
-                        </Alert>);
-                        console.log(alert);
+
                         this.setState({ alert: alert });
                         event.stopPropagation();
                         return;
