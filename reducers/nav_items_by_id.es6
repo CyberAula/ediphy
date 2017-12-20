@@ -157,7 +157,7 @@ export default function(state = { 0: { id: 0, children: [], boxes: [], level: 0,
         }
         return state;
     case MOVE_BOX:
-        if (action.payload.container === 0 && action.payload.position === 'absolute') {
+        if (action.payload.container === 0 && action.payload.position === 'absolute' && !isContainedView(action.payload.parent)) {
             return changeProp(state, action.payload.parent, singleNavItemReducer(state[action.payload.parent], action));
         }
         return state;
