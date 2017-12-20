@@ -17,7 +17,7 @@ import indexSelected from './index_selected';
 import navItemsById from './nav_items_by_id';
 import navItemsIds from './nav_items_ids';
 import navItemSelected from './nav_item_selected';
-import toolbarsById from './toolbars_by_id';
+import toolbarsById from './plugin_toolbar_by_id';
 import globalConfig from './global_config';
 
 function changeDisplayMode(state = "", action = {}) {

@@ -1,5 +1,5 @@
 import { testState } from '../../core/store/state.tests.js';
-import toolbars_by_id from '../toolbars_by_id';
+import toolbars_by_id from '../plugin_toolbar_by_id';
 import * as ActionTypes from '../../common/actions';
 
 const state = testState.present.toolbarsById;
