@@ -41,7 +41,7 @@ export default class ActionsRibbon extends Component {
                         (<button key={'-1'} className="navButton ActionBtn" onClick={this.props.onGridToggle}><i
                             className="material-icons">{this.props.grid ? "grid_on" : "grid_off"}</i> <span
                             className="hideonresize">{i18n.t("Grid")}</span></button>),
-                        <span id="vs" />] : null }
+                        <span id="vs" key="-3" />] : null }
                     { actions.map((act, ind)=>{
                         return <button key={ind} className="navButton ActionBtn" onClick={onClick}><i
                             className="material-icons">{"content_" + act}</i> <span
@@ -53,7 +53,7 @@ export default class ActionsRibbon extends Component {
         );
     }
     createAlert(state, callback) {
-        return <Alert show={state} onClose={callback} className="pageModal" >
+        return <Alert show={state} onClose={callback} className="pageModal" key="-2">
             <p>{i18n.t("clipboard.msg")}</p>
             <Col xs={4}>
                 <h2>Ctrl+C</h2>

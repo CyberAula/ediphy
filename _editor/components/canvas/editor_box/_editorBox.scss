@@ -19,7 +19,7 @@
 .boxStyle {
   position: relative;
   word-wrap: break-word;
-  overflow: visible;
+  overflow: hidden;
   pre, pre * {
     word-break: break-all !important;
     white-space: pre-wrap;
@@ -113,7 +113,7 @@
     border: $boxborderwidth solid transparent;
     vertical-align:top;
     word-wrap: break-word;
-    border: none;
+    //border: none;
 
 }
 
