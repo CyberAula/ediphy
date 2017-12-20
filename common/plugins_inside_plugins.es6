@@ -59,6 +59,7 @@ export function parsePluginContainersReact(obj, state) {
             if (!newProps['plugin-data-height']) {
                 newProps['plugin-data-height'] = newProps['plugin-data-initial-height'] || (newProps.hasOwnProperty('plugin-data-resizable') ? "auto" : "auto");
             }
+            console.log(state[obj.props.pluginContainer]);
             if (obj.props.pluginContainer && !state[obj.props.pluginContainer]) {
                 state[newProps.pluginContainer] = {
                     id: newProps.pluginContainer,
@@ -66,6 +67,7 @@ export function parsePluginContainersReact(obj, state) {
                     height: newProps['plugin-data-height'],
                 };
             }
+            console.log(state[newProps.pluginContainer]);
         }
     }
 
@@ -199,6 +201,7 @@ export function addDefaultContainerPluginsReact(eventDetails, obj, boxes) {
                     isDefaultPlugin: true,
                 }, ADD_BOX);
             });
+            console.log(idContainer, obj.props.pluginContainer);
         }
     }
 }

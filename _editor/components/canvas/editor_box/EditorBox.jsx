@@ -43,6 +43,8 @@ export default class EditorBox extends Component {
         let vis = this.props.boxSelected === this.props.id;
         let style = {
             visibility: (toolbar.showTextEditor ? 'hidden' : 'visible'),
+            // overflow: 'hidden',
+
         };
 
         let textareaStyle = {
@@ -260,7 +262,7 @@ export default class EditorBox extends Component {
                 {toolbar.state.__text ? <CKEDitorComponent key={"ck-" + this.props.id} boxSelected={this.props.boxSelected} box={this.props.boxes[this.props.id]}
                     style={textareaStyle} className={classNames + " textAreaStyle"} toolbars={this.props.toolbars} id={this.props.id}
                     onBlur={this.blurTextarea}/> : null}
-
+                {this.props.id}
                 <div className="boxOverlay" style={{ display: showOverlay }} />
                 <MarkCreator
                     addMarkShortcut={this.props.addMarkShortcut}
@@ -456,7 +458,7 @@ export default class EditorBox extends Component {
     componentDidMount() {
         let toolbar = this.props.toolbars[this.props.id];
         let box = this.props.boxes[this.props.id];
-
+        let container = box.container;
         let offsetEl = document.getElementById('maincontent') ? document.getElementById('maincontent').getBoundingClientRect() : {};
         let leftO = offsetEl.left || 0;
         let topO = offsetEl.top || 0;
@@ -488,6 +490,7 @@ export default class EditorBox extends Component {
                     if (this.props.boxSelected !== this.props.id) {
                         this.props.onBoxSelected(this.props.id);
                     }
+                    container = this.props.boxes[this.props.id].container;
                     // If contained in smth different from ContainedCanvas (sortableContainer || PluginPlaceHolder), clone the node and hide the original
                     if (isSortableContainer(box.container)) {
                         let original = event.target;
@@ -645,7 +648,9 @@ export default class EditorBox extends Component {
                     // Stuff to reorder boxes when position is relative
                     let hoverID = this.releaseClick(releaseClick, 'box-');
                     let boxOb = this.props.boxes[this.props.id];
-                    if (boxOb && isSortableContainer(boxOb.container)) {
+                    console.log(boxOb.container, containerId, container, this.props.boxes);
+
+                    if (boxOb && isSortableContainer(boxOb.container) && boxOb.container === containerId) {
                         let children = this.props.boxes[boxOb.parent].sortableContainers[boxOb.container].children;
                         if (children.indexOf(hoverID) !== -1) {
                             let newOrder = JSON.parse(JSON.stringify(children));
@@ -689,8 +694,10 @@ export default class EditorBox extends Component {
                         sb[0].appendChild(span);
 
                     }
+                    event.stopPropagation();
                 },
                 onmove: (event) => {
+                    event.stopPropagation();
                     if (this.props.boxSelected !== this.props.id) {
                         return;
                     }
@@ -776,7 +783,7 @@ export default class EditorBox extends Component {
                     if (span) {
                         span.parentElement.removeChild(span);
                     }
-
+                    console.log(event);
                     event.stopPropagation();
                 },
             });

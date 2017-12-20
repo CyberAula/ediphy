@@ -27,7 +27,7 @@ export default class RichMarksModal extends Component {
         this.state = {
             connectMode: "new",
             displayMode: "navigate",
-            newSelected: "",
+            newSelected: this.props.navItems[this.props.navItemSelected] ? this.props.navItems[this.props.navItemSelected].type : "",
             existingSelected: "",
             newType: PAGE_TYPES.SLIDE,
             viewNames: this.returnAllViews(this.props),
@@ -41,7 +41,6 @@ export default class RichMarksModal extends Component {
      * @param nextProps
      */
     componentWillReceiveProps(nextProps) {
-        console.log(nextProps.currentRichMark);
         let current = nextProps.currentRichMark;
         let allViews = this.returnAllViews(nextProps);
         if (!this.props.visible) {
@@ -52,7 +51,7 @@ export default class RichMarksModal extends Component {
                     connectMode: current.connectMode || "new",
                     displayMode: current.displayMode || "navigate",
                     newSelected: (current.connectMode === "new" ? current.connection : ""),
-                    newType: PAGE_TYPES.SLIDE,
+                    newType: nextProps.navItems[nextProps.navItemSelected] ? nextProps.navItems[nextProps.navItemSelected].type : "",
                     existingSelected: (current.connectMode === "existing" && this.remapInObject(nextProps.navItems, nextProps.containedViews)[current.connection] ?
                         this.remapInObject(nextProps.navItems, nextProps.containedViews)[current.connection].id : ""),
                 });
@@ -63,7 +62,7 @@ export default class RichMarksModal extends Component {
                     connectMode: "new",
                     displayMode: "navigate",
                     newSelected: "",
-                    newType: PAGE_TYPES.SLIDE,
+                    newType: nextProps.navItems[nextProps.navItemSelected] ? nextProps.navItems[nextProps.navItemSelected].type : "",
                     existingSelected: "",
                 });
             }
@@ -176,6 +175,7 @@ export default class RichMarksModal extends Component {
                                         display: /* this.state.newType === PAGE_TYPES.SLIDE || this.state.newType === PAGE_TYPES.DOCUMENT*/ this.state.newSelected === "" ? "initial" : "none",
                                     }}
                                     onChange={e => {
+                                        console.log(this.state.newType);
                                         this.setState({ newType: e.nativeEvent.target.value });
                                     }}>
                                     <option value={PAGE_TYPES.DOCUMENT}>{i18n.t("marks.new_document")}</option>
@@ -188,14 +188,13 @@ export default class RichMarksModal extends Component {
                                 </span>
                             </FormGroup>
                             <FormGroup style={{ display: this.state.connectMode === "existing" ? "initial" : "none" }}>
-                                { this.state.connectMode === "existing" && <Typeahead options={this.returnAllViews(this.props)}
-                                    placeholder="Search view by name"
-                                    ignoreDiacritics={false}
-                                    selected={[selected]}
-                                    onChange={items => {
-                                        this.setState({ existingSelected: items.length !== 0 ? items[0].id : "" });
-                                    }}/>}
+                                {this.state.connectMode === "existing" && <FormControl componentClass="select" onChange={e=>{this.setState({ existingSelected: e.target.value });}}>
+                                    {this.returnAllViews(this.props).map(view=>{
+                                        return <option key={view.id} value={view.id}>{view.label}</option>;
+                                    })}
+                                </FormControl>}
                             </FormGroup>
+
                             <FormGroup style={{ display: this.state.connectMode === "external" ? "initial" : "none" }}>
                                 <FormControl ref="externalSelected"
                                     type="text"
@@ -257,7 +256,6 @@ export default class RichMarksModal extends Component {
                         let name = title || nextAvailName(i18n.t('contained_view'), this.props.containedViews);
                         // Mark name
                         title = title || nextAvailName(i18n.t("marks.new_mark"), this.props.pluginToolbar.state.__marks, 'title');
-                        console.log('yay');
                         switch (connectMode) {
                         case "new":
                             connection = current && current.connection && current.connectMode === 'new' ?

@@ -496,6 +496,7 @@ class EditorApp extends Component {
                 e.detail.state.__pluginContainerIds = newPluginState;
             } else {
                 parsePluginContainersReact(e.detail.content, newPluginState);
+                console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
                 console.log(newPluginState);
 
                 e.detail.state.__pluginContainerIds = newPluginState;
@@ -512,6 +513,7 @@ class EditorApp extends Component {
                     this.severalBoxes = Date.now() + this.index++;
                 }
                 e.detail.ids.id = (this.severalBoxes !== 0) ? ID_PREFIX_BOX + this.severalBoxes++ : ID_PREFIX_BOX + Date.now() + this.index++;
+                console.log(e.detail.ids.container);
                 this.dispatchAndSetState(addBox(
                     {
                         parent: e.detail.ids.parent,
