@@ -1,6 +1,7 @@
 import Ediphy from './main';
 import ReactDOM from 'react-dom';
 import { isSortableContainer } from '../../common/utils';
+import PluginPlaceholder from '../../_editor/components/canvas/plugin_placeholder/PluginPlaceholder';
 let html2json = require('html2json').html2json;
 
 export default function() {
@@ -38,22 +39,51 @@ export default function() {
         }
     };
 
+    let assignPluginContainerIdsReact = function(temp) {
+        console.log('temp');
+        console.log(temp);
+        if (temp.props && temp.props.children) {
+            if(temp.props.children instanceof Array) {
+                for (let i = 0; i < temp.props.children.length; i++) {
+                    assignPluginContainerIdsReact(temp.props.children[i]);
+                }
+            } else {
+                assignPluginContainerIdsReact(temp.props.children);
+            }
+
+        }
+        if (temp.type && temp.type === PluginPlaceholder) {
+            if (!state.__pluginContainerIds) {
+                state.__pluginContainerIds = {};
+            }
+            let key = temp.props['plugin-data-key'];
+            if (!key) {
+                // console.error(temp.type.toString() + " has not defined plugin-data-key");
+            } else if (state.__pluginContainerIds[key]) {
+                console.log(200);
+                temp.props.pluginContainer = state.__pluginContainerIds[key].id;
+                temp.props['plugin-data-display-name'] = state.__pluginContainerIds[key].name;
+                temp.props['plugin-data-height'] = state.__pluginContainerIds[key].height;
+            }
+        }
+    };
+
     let plugin = {
         create: function(obj) {
             descendant = obj;
 
             Object.keys(descendant).map(function(idKey) {
                 if (idKey !== 'init' &&
-                idKey !== 'getConfig' &&
-                idKey !== 'getToolbar' &&
-                idKey !== 'getSections' &&
-                idKey !== 'getInitialState' &&
-                idKey !== 'handleToolbar' &&
-                idKey !== 'afterRender' &&
-                idKey !== 'getConfigTemplate' &&
-                idKey !== 'getRenderTemplate' &&
-                idKey !== 'editRichMark' &&
-                idKey !== 'getLocales') {
+                    idKey !== 'getConfig' &&
+                    idKey !== 'getToolbar' &&
+                    idKey !== 'getSections' &&
+                    idKey !== 'getInitialState' &&
+                    idKey !== 'handleToolbar' &&
+                    idKey !== 'afterRender' &&
+                    idKey !== 'getConfigTemplate' &&
+                    idKey !== 'getRenderTemplate' &&
+                    idKey !== 'editRichMark' &&
+                    idKey !== 'getLocales') {
                     plugin[idKey] = descendant[idKey];
                 }
             });
@@ -142,7 +172,7 @@ export default function() {
                         state.__text = "<p>" + Ediphy.i18n.t("text_here") + "</p>";
                     }
                     if (!descendant.getRenderTemplate) {
-                        descendant.getRenderTemplate = function(stateObj) {
+                        descendant.getRenderTemplate = function(stateObj, props) {
                             return stateObj.__text;
                         };
                     }
@@ -206,8 +236,8 @@ export default function() {
                 initialHeight: initialHeight,
             };
         },
-        getRenderTemplate: function(render_state) {
-            return descendant.getRenderTemplate(render_state);
+        getRenderTemplate: function(render_state, props) {
+            return descendant.getRenderTemplate(render_state, props);
         },
         getToolbar: function() {
             let toolbar;
@@ -339,14 +369,21 @@ export default function() {
                 console.error(this.getConfig().name + " has not defined getRenderTemplate method");
             } else {
 
-                let template = descendant.getRenderTemplate(state);
-                if(template !== null && this.getConfig().flavor !== "react") {
-                    template = html2json(template);
-                    assignPluginContainerIds(template);
+                let template = null;
+                if (this.getConfig().flavor !== "react") {
+                    template = descendant.getRenderTemplate(state, {});
+                    if(template !== null) {
+                        template = html2json(template);
+                        assignPluginContainerIds(template);
+                    }
                 } else{
-                    template = '';
+                    template = descendant.getRenderTemplate(state, {});
+                    assignPluginContainerIdsReact(template);
+
                 }
+
                 if (template !== null) {
+                    console.log('ww');
                     Ediphy.API.renderPlugin(
                         template,
                         this.getToolbar(),

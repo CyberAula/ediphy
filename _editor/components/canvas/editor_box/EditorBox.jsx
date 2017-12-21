@@ -144,9 +144,10 @@ export default class EditorBox extends Component {
         }
         wholeBoxStyle.transform = wholeBoxStyle.WebkitTransform = wholeBoxStyle.MsTransform = rotate;
         // style.transform = style.WebkitTransform = style.MsTransform = rotate;
+        let props = { ...this.props, parentBox: this.props.boxes[this.props.id] };
         let content = toolbar.config.flavor === "react" ? (
             <div style={style} {...attrs} className={"boxStyle " + classNames} ref={"content"}>
-                {Ediphy.Plugins.get(toolbar.config.name).getRenderTemplate(toolbar.state)}
+                {Ediphy.Plugins.get(toolbar.config.name).getRenderTemplate(toolbar.state, props)}
             </div>
         ) : (
             <div style={style} {...attrs} className={"boxStyle " + classNames} ref={"content"}>
@@ -207,31 +208,42 @@ export default class EditorBox extends Component {
         }
         wholeBoxStyle.verticalAlign = verticalAlign;
 
-        /* <MarkCreator/>*/
         return (
             <div className={classes} id={'box-' + this.props.id}
                 onClick={e => {
+
                     // If there's no box selected and current's level is 0 (otherwise, it would select a deeper box)
                     // or -1 (only EditorBoxSortable can have level -1)
                     if((this.props.boxSelected === -1 || this.props.boxLevelSelected === -1) && box.level === 0) {
+                        console.log(1);
                         this.props.onBoxSelected(this.props.id);
                         e.stopPropagation();
                         return;
                     }
                     // Last parent has to be the same, otherwise all boxes with same level would be selectable
                     if(this.props.boxLevelSelected === box.level &&
-                       isAncestorOrSibling(this.props.boxSelected, this.props.id, this.props.boxes)) {
+                 isAncestorOrSibling(this.props.boxSelected, this.props.id, this.props.boxes)) {
+                        console.log(2);
+
                         if(e.nativeEvent.ctrlKey && box.children.length !== 0) {
+                            console.log(3);
+
                             this.props.onBoxLevelIncreased();
                         }else if(this.props.boxSelected !== this.props.id) {
+                            console.log(4);
+
                             this.props.onBoxSelected(this.props.id);
                         }
                     }
                     if(this.props.boxSelected !== -1 && this.props.boxLevelSelected === 0) {
+                        console.log(5);
+
                         this.props.onBoxSelected(this.props.id);
                         e.stopPropagation();
                     }
                     if(box.level === 0) {
+                        console.log(6);
+
                         e.stopPropagation();
                     }
                 }}
@@ -250,16 +262,16 @@ export default class EditorBox extends Component {
                 {toolbar.state.__text ? <CKEDitorComponent key={"ck-" + this.props.id} boxSelected={this.props.boxSelected} box={this.props.boxes[this.props.id]}
                     style={textareaStyle} className={classNames + " textAreaStyle"} toolbars={this.props.toolbars} id={this.props.id}
                     onBlur={this.blurTextarea}/> : null}
-
+                {this.props.id}
                 <div className="boxOverlay" style={{ display: showOverlay }} />
                 <MarkCreator
                     addMarkShortcut={this.props.addMarkShortcut}
+                    deleteMarkCreator={this.props.deleteMarkCreator}
                     onBoxAdded={this.props.onBoxAdded}
                     boxSelected={this.props.boxSelected}
                     content={this.refs.content}
                     containedViews={this.props.containedViews}
                     toolbar={toolbar ? toolbar : {}}
-                    deleteMarkCreator={this.props.deleteMarkCreator}
                     parseRichMarkInput={Ediphy.Plugins.get(toolbar.config.name).parseRichMarkInput}
                     markCreatorId={this.props.markCreatorId}
                     currentId={this.props.id}
@@ -268,6 +280,7 @@ export default class EditorBox extends Component {
                 />
             </div>
         );
+        /* <MarkCreator/>*/
     }
 
     /**
@@ -295,6 +308,9 @@ export default class EditorBox extends Component {
                     parentBox: this.props.boxes[this.props.id],
                     boxes: this.props.boxes,
                     boxSelected: this.props.boxSelected,
+                    markCreatorId: this.props.markCreatorId,
+                    addMarkShortcut: this.props.addMarkShortcut,
+                    deleteMarkCreator: this.props.deleteMarkCreator,
                     boxLevelSelected: this.props.boxLevelSelected,
                     toolbars: this.props.toolbars,
                     lastActionDispatched: this.props.lastActionDispatched,
@@ -304,8 +320,10 @@ export default class EditorBox extends Component {
                     onBoxMoved: this.props.onBoxMoved,
                     onBoxResized: this.props.onBoxResized,
                     onSortableContainerResized: this.props.onSortableContainerResized,
-                    onBoxDeleted: this.props.onBoxDeleted,
                     onBoxDropped: this.props.onBoxDropped,
+                    containedViews: this.props.containedViews,
+                    onBoxAdded: this.props.onBoxAdded,
+                    pageType: this.props.pageType,
                     onVerticallyAlignBox: this.props.onVerticallyAlignBox,
                     onBoxesInsideSortableReorder: this.props.onBoxesInsideSortableReorder,
                     onTextEditorToggled: this.props.onTextEditorToggled,
@@ -440,7 +458,7 @@ export default class EditorBox extends Component {
     componentDidMount() {
         let toolbar = this.props.toolbars[this.props.id];
         let box = this.props.boxes[this.props.id];
-
+        let container = box.container;
         let offsetEl = document.getElementById('maincontent') ? document.getElementById('maincontent').getBoundingClientRect() : {};
         let leftO = offsetEl.left || 0;
         let topO = offsetEl.top || 0;
@@ -468,9 +486,15 @@ export default class EditorBox extends Component {
                 },
                 autoScroll: true,
                 onstart: (event) => {
+                    event.stopPropagation();
+                    if (this.props.boxSelected !== this.props.id) {
+                        this.props.onBoxSelected(this.props.id);
+                    }
+                    container = this.props.boxes[this.props.id].container;
                     // If contained in smth different from ContainedCanvas (sortableContainer || PluginPlaceHolder), clone the node and hide the original
                     if (isSortableContainer(box.container)) {
                         let original = event.target;
+                        console.log(original);
                         let parent = original;
                         // Find real parent to append clone
                         let iterate = true;
@@ -516,10 +540,8 @@ export default class EditorBox extends Component {
                     }
                 },
                 onmove: (event) => {
-                    if (this.props.boxSelected !== this.props.id) {
-                        this.props.onBoxSelected(this.props.id);
-                    }
 
+                    event.stopPropagation();
                     // Hide EditorShortcuts
                     let bar = this.props.containedViewSelected === 0 ?
                         document.getElementById('editorBoxIcons') :
@@ -554,6 +576,7 @@ export default class EditorBox extends Component {
                     }
                 },
                 onend: (event) => {
+                    event.stopPropagation();
                     let bar = this.props.containedViewSelected === 0 ?
                         document.getElementById('editorBoxIcons') :
                         document.getElementById('contained_editorBoxIcons');
@@ -625,7 +648,9 @@ export default class EditorBox extends Component {
                     // Stuff to reorder boxes when position is relative
                     let hoverID = this.releaseClick(releaseClick, 'box-');
                     let boxOb = this.props.boxes[this.props.id];
-                    if (boxOb && isSortableContainer(boxOb.container)) {
+                    console.log(boxOb.container, containerId, container, this.props.boxes);
+
+                    if (boxOb && isSortableContainer(boxOb.container) && boxOb.container === containerId) {
                         let children = this.props.boxes[boxOb.parent].sortableContainers[boxOb.container].children;
                         if (children.indexOf(hoverID) !== -1) {
                             let newOrder = JSON.parse(JSON.stringify(children));
@@ -669,8 +694,10 @@ export default class EditorBox extends Component {
                         sb[0].appendChild(span);
 
                     }
+                    event.stopPropagation();
                 },
                 onmove: (event) => {
+                    event.stopPropagation();
                     if (this.props.boxSelected !== this.props.id) {
                         return;
                     }
@@ -756,7 +783,7 @@ export default class EditorBox extends Component {
                     if (span) {
                         span.parentElement.removeChild(span);
                     }
-
+                    console.log(event);
                     event.stopPropagation();
                 },
             });

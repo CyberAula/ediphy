@@ -4,27 +4,29 @@ import ReactDOM from 'react-dom';
 import interact from 'interactjs';
 import EditorBox from '../editor_box/EditorBox';
 import { RESIZE_SORTABLE_CONTAINER, ADD_BOX } from '../../../../common/actions';
-import { isAncestorOrSibling } from '../../../../common/utils';
+import { isAncestorOrSibling, isSortableContainer } from '../../../../common/utils';
 import Ediphy from '../../../../core/editor/main';
 
 import './_pluginPlaceHolder.scss';
+import { ID_PREFIX_SORTABLE_CONTAINER } from '../../../../common/constants';
 
 /**
  * @deprecated
  */
 export default class PluginPlaceholder extends Component {
     render() {
-        let container = this.props.parentBox.sortableContainers[this.props.pluginContainer];
-        let className = "drg" + this.props.pluginContainer;
+        let container = this.props.parentBox.sortableContainers[this.idConvert(this.props.pluginContainer)] || {};
+        let className = "drg" + this.idConvert(this.props.pluginContainer);
         if(this.props.boxLevelSelected - this.props.parentBox.level === 1 &&
            isAncestorOrSibling(this.props.parentBox.id, this.props.boxSelected, this.props.boxes)) {
             className += " childBoxSelected";
         }
+        container.style = container.style || {};
         return (
             <div style={
                 Object.assign({}, {
                     width: "100%",
-                    height: container.height === 'auto' ? container.height : container.height + 'px',
+                    height: container.height ? (container.height === 'auto' ? container.height : container.height + 'px') : "",
                     minHeight: '35px',
                     textAlign: 'center',
                     lineHeight: '100%',
@@ -33,9 +35,9 @@ export default class PluginPlaceholder extends Component {
                     display: 'table',
                 }, container.style)
             }
-            id={this.props.pluginContainer}
+            id={this.idConvert(this.props.pluginContainer)}
             className={className}>
-                {container.colDistribution.map((col, i) => {
+                {container.colDistribution ? container.colDistribution.map((col, i) => {
                     if (container.cols[i]) {
                         return (<div key={i}
                             style={{ width: col + "%", height: '100%', display: "table-cell", verticalAlign: "top" }}>
@@ -46,7 +48,7 @@ export default class PluginPlaceholder extends Component {
                                         if(e !== null) {
                                             this.configureDropZone(
                                                 ReactDOM.findDOMNode(e),
-                                                ".rib, .dnd" + this.props.pluginContainer,
+                                                ".rib, .dnd" + this.idConvert(this.props.pluginContainer),
                                                 {
                                                     i: i,
                                                     j: j,
@@ -64,13 +66,18 @@ export default class PluginPlaceholder extends Component {
                                                 containedViewSelected={this.props.containedViewSelected}
                                                 toolbars={this.props.toolbars}
                                                 lastActionDispatched={this.props.lastActionDispatched}
+                                                markCreatorId={this.props.markCreatorId}
+                                                addMarkShortcut={this.props.addMarkShortcut}
+                                                deleteMarkCreator={this.props.deleteMarkCreator}
                                                 onBoxSelected={this.props.onBoxSelected}
                                                 onBoxLevelIncreased={this.props.onBoxLevelIncreased}
                                                 onBoxMoved={this.props.onBoxMoved}
                                                 onBoxResized={this.props.onBoxResized}
                                                 onBoxesInsideSortableReorder={this.props.onBoxesInsideSortableReorder}
                                                 onSortableContainerResized={this.props.onSortableContainerResized}
-                                                onBoxDeleted={this.props.onBoxDeleted}
+                                                onBoxAdded={this.props.onBoxAdded}
+                                                pageType={this.props.pageType}
+                                                containedViews={this.props.containedViews}
                                                 onBoxDropped={this.props.onBoxDropped}
                                                 onBoxModalToggled={this.props.onBoxModalToggled}
                                                 onVerticallyAlignBox={this.props.onVerticallyAlignBox}
@@ -86,7 +93,7 @@ export default class PluginPlaceholder extends Component {
                         </div>);
                     }
                     return null;
-                })}
+                }) : <div/>}
             </div>
         );
     }
@@ -109,7 +116,7 @@ export default class PluginPlaceholder extends Component {
                 if (e.relatedTarget.className.indexOf("rib") !== -1) {
                     let initialParams = {
                         parent: this.props.parentBox.id,
-                        container: this.props.pluginContainer,
+                        container: this.idConvert(this.props.pluginContainer),
                         col: extraParams.i,
                         row: extraParams.j,
                     };
@@ -141,11 +148,19 @@ export default class PluginPlaceholder extends Component {
                     event.target.style.height = event.rect.height + 'px';
                 },
                 onend: (event) => {
-                    this.props.onSortableContainerResized(this.props.pluginContainer, this.props.parentBox.id, parseInt(event.target.style.height, 10));
+                    this.props.onSortableContainerResized(this.idConvert(this.props.pluginContainer), this.props.parentBox.id, parseInt(event.target.style.height, 10));
                     let toolbar = this.props.toolbars[this.props.parentBox.id];
                     Ediphy.Plugins.get(toolbar.config.name).forceUpdate(toolbar.state, this.props.parentBox.id, RESIZE_SORTABLE_CONTAINER);
                 },
             });
+    }
+
+    idConvert(id) {
+        if (isSortableContainer(id)) {
+            return id;
+        }
+        return ID_PREFIX_SORTABLE_CONTAINER + id;
+
     }
 }
 
@@ -161,11 +176,11 @@ PluginPlaceholder.propTypes = {
     /**
      * Identificador único de la caja padre
      */
-    parentBox: PropTypes.string.isRequired,
+    parentBox: PropTypes.any,
     /**
      * Diccionario que contiene todas las cajas creadas, accesibles por su *id*
      */
-    boxes: PropTypes.object.isRequired,
+    boxes: PropTypes.object,
     /**
      * Caja seleccionada
      */
@@ -177,7 +192,7 @@ PluginPlaceholder.propTypes = {
     /**
      * Diccionario que contiene todas las toolbars, accesibles por el *id* de su caja o vista
      */
-    toolbars: PropTypes.object.isRequired,
+    toolbars: PropTypes.object,
     /**
      * Última acción de Redux realizada
      */
@@ -185,11 +200,11 @@ PluginPlaceholder.propTypes = {
     /**
      * Selecciona una caja
      */
-    onBoxSelected: PropTypes.func.isRequired,
+    onBoxSelected: PropTypes.func,
     /**
      * Aumenta de nivel de profundidad de selección (plugins dentro de plugins)
      */
-    onBoxLevelIncreased: PropTypes.func.isRequired,
+    onBoxLevelIncreased: PropTypes.func,
     /**
      * Vista contenida seleccionanda
      */
@@ -197,33 +212,53 @@ PluginPlaceholder.propTypes = {
     /**
      * Mueve una caja
      */
-    onBoxMoved: PropTypes.func.isRequired,
+    onBoxMoved: PropTypes.func,
     /**
      * Redimensiona una caja
      */
-    onBoxResized: PropTypes.func.isRequired,
+    onBoxResized: PropTypes.func,
     /**
      * Redimensiona contenedor sortable
      */
-    onSortableContainerResized: PropTypes.func.isRequired,
-    /**
-     * Elimina caja
-     */
-    onBoxDeleted: PropTypes.func.isRequired,
+    onSortableContainerResized: PropTypes.func,
     /**
      * Suelta caja
      */
-    onBoxDropped: PropTypes.func.isRequired,
+    onBoxDropped: PropTypes.func,
     /**
      * Alinea verticalmente una caja
      */
-    onVerticallyAlignBox: PropTypes.func.isRequired,
+    onVerticallyAlignBox: PropTypes.func,
     /**
      * Reordena las cajas de un contenedor
      */
-    onBoxesInsideSortableReorder: PropTypes.func.isRequired,
+    onBoxesInsideSortableReorder: PropTypes.func,
     /**
      * Activa/Desactiva la edición de texto
      */
-    onTextEditorToggled: PropTypes.func.isRequired,
+    onTextEditorToggled: PropTypes.func,
+    /**
+      * Identificador de la caja en la que se va a crear una marca
+      */
+    markCreatorId: PropTypes.any,
+    /**
+      * Añade una marca a la caja
+      */
+    addMarkShortcut: PropTypes.func,
+    /**
+       * Función que oculta el overlay de creación de marcas
+       */
+    deleteMarkCreator: PropTypes.func,
+    /**
+      * Añade una caja
+      */
+    onBoxAdded: PropTypes.func,
+    /**
+       * Indica el tipo de página en el que se encuentra la caja
+       */
+    pageType: PropTypes.string,
+    /**
+   * Diccionario que contiene todas las vistas contenidas, accesibles por su *id*
+   */
+    containedViews: PropTypes.object,
 };

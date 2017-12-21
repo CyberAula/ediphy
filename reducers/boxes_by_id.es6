@@ -337,7 +337,7 @@ export default function(state = {}, action = {}) {
     switch (action.type) {
     case ADD_BOX:
         // if box is contained in sortableContainer, add it as well to its children
-
+        console.log(action.payload);
         if (isSortableContainer(action.payload.ids.container)) {
             return changeProps(
                 state,

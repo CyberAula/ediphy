@@ -110,10 +110,10 @@ export function HotspotImages(base) {
 
             };
         },
-        getRenderTemplate: function(state) {
+        getRenderTemplate: function(state, props) {
             let marks = state.__marks || {};
             let Mark = ({ idKey, title, style, color }) => (
-                <MarkEditor style={style} time={1.5} mark={idKey} base={base} state={state}>
+                <MarkEditor style={style} time={1.5} onRichMarkUpdated={props.onRichMarkUpdated} mark={idKey} base={base} state={state}>
                     <OverlayTrigger key={idKey} text={title} placement="top" overlay={<Tooltip id={idKey}>{title}</Tooltip>}>
                         <a className="mapMarker" href="#">
                             <i key="i" style={{ color: color }} className="material-icons">room</i>

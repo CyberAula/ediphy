@@ -74,7 +74,7 @@ VisorPluginPlaceholder.propTypes = {
     /**
      * Identificador de la caja
      */
-    parentBox: PropTypes.string.isRequired,
+    parentBox: PropTypes.object.isRequired,
     /**
      * Diccionario que contiene todas las cajas
      */

@@ -26,7 +26,6 @@ export function BasicImage(base) {
                 main: {
                     __name: "Main",
                     accordions: {
-
                         style: {
                             __name: Ediphy.i18n.t('BasicImage.box_style'),
                             icon: 'palette',
