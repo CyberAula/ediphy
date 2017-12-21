@@ -32,7 +32,7 @@ export function navView(state) {
     };
 
     let newState = {};
-    state.forEach((element) => { newState.push(deepmerge(element, state));});
+    state.forEach((element) => { newState.push(deepmerge(navItemDefault, element));});
     return newState;
 }
 
@@ -64,12 +64,12 @@ export function boxes(state) {
     };
 
     let newState = {};
-    state.forEach((element) => { newState.push(deepmerge(element, state));});
+    state.forEach((element) => { newState.push(deepmerge(boxesDefault, element));});
     return newState;
 }
 
 /**
- * Function to make sure navView is properly built
+ * Function to make sure containedView is properly built
  * @param recieved state
  * @returns fixed state with new fields that didn't exist before
  */
@@ -96,17 +96,18 @@ export function containedView(state) {
     };
 
     let newState = {};
-    state.forEach((element) => { newState.push(deepmerge(element, state));});
+    state.forEach((element) => { newState.push(deepmerge(containedViewsDefault, element));});
     return newState;
 }
 
 /**
- * Function to make sure navView is properly built
+ * Function to make sure globalConfig is properly built
  * @param recieved state
  * @returns fixed state with new fields that didn't exist before
  */
 export function globalConfig(state) {
-    let globalConfigDefault = { title: "Ediphy",
+    let globalConfigDefault = {
+        title: "Ediphy",
         canvasRatio: 16 / 9,
         visorNav: {
             player: true,
@@ -126,12 +127,12 @@ export function globalConfig(state) {
         difficulty: 'easy',
     };
     let newState = {};
-    state.forEach((element) => { newState.push(deepmerge(element, state));});
+    state.forEach((element) => { newState.push(deepmerge(globalConfigDefault, element));});
     return newState;
 }
 
 /**
- * Function to make sure navView is properly built
+ * Function to make sure toolbarPlugin is properly built
  * @param recieved state
  * @returns fixed state with new fields that didn't exist before
  */
@@ -156,22 +157,22 @@ export function toolbarPlugin(state) {
             needsXMLEdition: false,
         },
         tabs: ['main'],
-        values: {},
+        state: {},
     };
     let newState = {};
-    state.forEach((element) => { newState.push(deepmerge(element, state));});
+    state.forEach((element) => { newState.push(deepmerge(toolbarPluginDefault, element));});
     return newState;
 }
 
 /**
- * Function to make sure navView is properly built
+ * Function to make sure toolbarView is properly built
  * @param recieved state
  * @returns fixed state with new fields that didn't exist before
  */
 export function toolbarView(state) {
     let toolbarViewDefault = {
         tabs: ['main'],
-        values: {
+        state: {
             header: i18n.t('document'),
             display_title: false,
             display_pagetitle: true,
@@ -182,7 +183,7 @@ export function toolbarView(state) {
     };
 
     let newState = {};
-    state.forEach((element) => { newState.push(deepmerge(element, state));});
+    state.forEach((element) => { newState.push(deepmerge(toolbarViewDefault, element));});
     return newState;
 }
 
