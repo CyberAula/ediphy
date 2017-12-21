@@ -247,3 +247,22 @@ img[alt=Índice], img[alt=Toolbar] {
   width: 40%;
   max-width: 170px;
 }
+
+#langSelector {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+}
+.langButton {
+  background: none !important;
+  color: inherit;
+  border: none;
+  padding: 0! important;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit !important;
+  color: #555;
+  &:hover {
+    text-decoration: underline;
+  }
+}

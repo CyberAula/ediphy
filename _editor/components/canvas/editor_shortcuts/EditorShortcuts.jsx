@@ -82,7 +82,7 @@ export default class EditorShortcuts extends Component {
                                 }>
                                 <button className="editorTitleButton"
                                     onClick={(e) => {
-                                        let widthButton = Object.assign({}, toolbar.controls.main.accordions.__sortable.buttons.__width);
+                                        let widthButton = JSON.parse(JSON.stringify(toolbar.controls.main.accordions.__sortable.buttons.__width));
                                         if(widthButton.displayValue === 100 && widthButton.units === "%") {
                                             if(toolbar.config.needsTextEdition) {
                                                 widthButton.displayValue = "auto";

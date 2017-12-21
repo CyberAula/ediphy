@@ -1,21 +1,7 @@
 import { testState } from '../../core/store/state.tests.js';
 import nav_items_by_id from '../nav_items_by_id';
 import * as ActionTypes from '../../common/actions';
-import {
-    changeProp, changeProps, deleteProp, findNavItemContainingBox, isContainedView, isSortableContainer,
-    isView
-} from "../../common/utils";
-import { DELETE_BOX } from "../../common/actions";
-import { DELETE_SORTABLE_CONTAINER } from "../../common/actions";
-import { EXPAND_NAV_ITEM } from "../../common/actions";
-import {DELETE_NAV_ITEM} from "../../common/actions";
-import {REORDER_NAV_ITEM} from "../../common/actions";
-import {TOGGLE_NAV_ITEM} from "../../common/actions";
-import {TOGGLE_TITLE_MODE} from "../../common/actions";
-import {ADD_RICH_MARK} from "../../common/actions";
-import {EDIT_RICH_MARK} from "../../common/actions";
-import {DELETE_RICH_MARK} from "../../common/actions";
-import {UPDATE_NAV_ITEM_EXTRA_FILES} from "../../common/actions";
+import { isContainedView, isSortableContainer, isView } from "../../common/utils";
 
 const state = testState.present.navItemsById;
 
@@ -284,10 +270,10 @@ describe('# nav_items_by_id reducer', ()=>{
                 },
             };
             const newState = JSON.parse(JSON.stringify(state));
-            //Prepare the newState
+            // Prepare the newState
             delete newState[action.payload.ids];
-            //This reducer
-            newState[action.payload.parent].children = [ "pa-1511252952332", "se-1511252954307" ];
+            // This reducer
+            newState[action.payload.parent].children = ["pa-1511252952332", "se-1511252954307"];
             expect(nav_items_by_id(state, action)).toEqual(newState);
         });
     });
@@ -300,7 +286,7 @@ describe('# nav_items_by_id reducer', ()=>{
                     id: 'pa-1511252955865',
                     newParent: 'se-1467887497411',
                     oldParent: 'se-1511252954307',
-                    idsInOrder: ["se-1467887497411", "pa-1497983247795", "pa-1511252955865", "pa-1511252952332", "se-1511252954307", "pa-1511252955321", "pa-1511252985426",],
+                    idsInOrder: ["se-1467887497411", "pa-1497983247795", "pa-1511252955865", "pa-1511252952332", "se-1511252954307", "pa-1511252955321", "pa-1511252985426"],
                     childrenInOrder: ["pa-1497983247795", "pa-1511252955865", "pa-1511252952332", "se-1511252954307"],
                 },
             };
@@ -339,17 +325,17 @@ describe('# nav_items_by_id reducer', ()=>{
                     id: 'pa-1497983247795',
                     titles: {
                         elementContent: {
-                            documentTitle:"",
-                            documentSubTitle:"",
-                            numPage:""
+                            documentTitle: "",
+                            documentSubTitle: "",
+                            numPage: "",
                         },
                         display: {
-                            courseTitle:"reduced",
-                            documentTitle:"expanded",
-                            documentSubTitle:"hidden",
-                            breadcrumb:"reduced",
-                            pageNumber:"hidden"
-                        }
+                            courseTitle: "reduced",
+                            documentTitle: "expanded",
+                            documentSubTitle: "hidden",
+                            breadcrumb: "reduced",
+                            pageNumber: "hidden",
+                        },
                     },
                 },
             };
@@ -360,13 +346,13 @@ describe('# nav_items_by_id reducer', ()=>{
     });
 
     describe('handle ADD_RICH_MARK', () => {
-        //the anv_item_by_id reducer only need test in case mark links with an existing page
+        // the anv_item_by_id reducer only need test in case mark links with an existing page
         test('If rich mark added & connected to an existing page (not a contained view)', () => {
             const action = {
                 type: ActionTypes.ADD_RICH_MARK,
-                    payload: {
+                payload: {
                     parent: 'bo-1511252970033',
-                        mark: { id: "rm-1511786135103",
+                    mark: { id: "rm-1511786135103",
                         title: "new mark",
                         connectMode: "existing",
                         connection: "pa-1497983247795",
@@ -378,7 +364,7 @@ describe('# nav_items_by_id reducer', ()=>{
             };
             const newState = JSON.parse(JSON.stringify(state));
 
-            newState['pa-1497983247795'].linkedBoxes = {'bo-1511252970033': ["rm-1511786135103"]};
+            newState['pa-1497983247795'].linkedBoxes = { 'bo-1511252970033': ["rm-1511786135103"] };
             expect(nav_items_by_id(state, action)).toEqual(newState);
         });
     });
@@ -404,7 +390,7 @@ describe('# nav_items_by_id reducer', ()=>{
                         connection: "pa-1511252955865",
                         displayMode: "navigate",
                         value: "30.95,49.15",
-                        color: "#222222"
+                        color: "#222222",
                     },
                     oldConnection: 'pa-1497983247795',
                     newConnection: 'pa-1511252955865',
@@ -412,7 +398,7 @@ describe('# nav_items_by_id reducer', ()=>{
                 },
             };
             const newState = JSON.parse(JSON.stringify(state));
-            newState['pa-1511252955865'].linkedBoxes = {'bo-1511252970033': ["rm-1511786135103"]};
+            newState['pa-1511252955865'].linkedBoxes = { 'bo-1511252970033': ["rm-1511786135103"] };
             expect(!isContainedView(action.payload.newConnection)).toBeTruthy();
             expect(nav_items_by_id(state, action)).toEqual(newState);
         });
@@ -438,18 +424,17 @@ describe('# nav_items_by_id reducer', ()=>{
 
     describe('handle UPDATE_NAV_ITEM_EXTRA_FILES  ***************** TODO (Adams heritage ??)', () => {
         test('If updated nav items extra files', () => {
-
+        // TODO
             // expect(nav_items_by_id(state, action)).toEqual(newState);
         });
     });
-
 
     describe('handle IMPORT_STATE', () => {
         test('If state imported', () => {
             const action = {
                 type: ActionTypes.IMPORT_STATE,
                 payload: {
-                    present: {}
+                    present: {},
                 },
             };
             expect(nav_items_by_id(state, action)).toEqual(state);

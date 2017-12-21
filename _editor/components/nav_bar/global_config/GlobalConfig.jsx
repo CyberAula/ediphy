@@ -329,7 +329,7 @@ export default class GlobalConfig extends Component {
         // mutate array
         tags.splice(currPos, 1);
         tags.splice(newPos, 0, tag);
-
+        console.log(tags, this.state.keywords);
         // re-render
         this.setState({ modifiedState: true, keywords: tags });
     }

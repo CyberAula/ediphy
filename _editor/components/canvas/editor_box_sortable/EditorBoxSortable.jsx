@@ -114,6 +114,7 @@ export default class EditorBoxSortable extends Component {
                                                                 onBoxesInsideSortableReorder={this.props.onBoxesInsideSortableReorder}
                                                                 onSortableContainerResized={this.props.onSortableContainerResized}
                                                                 onTextEditorToggled={this.props.onTextEditorToggled}
+                                                                onRichMarksModalToggled={this.props.onRichMarksModalToggled}
                                                                 pageType={this.props.pageType}/>);
 
                                                         } else if (ind === container.children.length - 1) {
@@ -139,10 +140,11 @@ export default class EditorBoxSortable extends Component {
                                     </OverlayTrigger>
 
                                     <Overlay rootClose
-                                        show={this.state.show}
+                                        show={this.state.show === idContainer}
                                         placement="top"
-                                        target={() => ReactDOM.findDOMNode(this.refs.target)}
-                                        onHide={() => {this.setState({ show: false });}}>
+                                        container={this.refs[idContainer]}
+                                        target={() => ReactDOM.findDOMNode(this.refs['btn-' + idContainer])}
+                                        onHide={() => {this.setState({ show: this.state.show === idContainer ? false : this.state.show });}}>
                                         <Popover id="popov" title={i18n.t("delete_container")}>
                                             <i style={{ color: 'yellow', fontSize: '13px', padding: '0 5px' }} className="material-icons">warning</i>
                                             {
@@ -176,8 +178,8 @@ export default class EditorBoxSortable extends Component {
                                         <Tooltip id="deleteTooltip">{i18n.t('delete')}
                                         </Tooltip>}>
                                         <Button
-                                            onClick={() => {this.setState({ show: true });}}
-                                            ref="target"
+                                            onClick={() => {this.setState({ show: idContainer });}}
+                                            ref={'btn-' + idContainer}
                                             className="material-icons delete-sortable btnOverBar">delete</Button>
                                     </OverlayTrigger>
 
@@ -339,7 +341,7 @@ export default class EditorBoxSortable extends Component {
                             this.props.onBoxDropped(this.props.boxSelected,
                                 extraParams.j,
                                 extraParams.i,
-                                this.props.boxes[this.props.boxSelected].parent,
+                                boxDragged.parent,
                                 extraParams.idContainer);
                         }
 
@@ -389,6 +391,7 @@ export default class EditorBoxSortable extends Component {
                     Ediphy.Plugins.get(e.relatedTarget.getAttribute("name")).getConfig().callback(initialParams, ADD_BOX);
                     e.dragEvent.stopPropagation();
                 }
+
             }.bind(this),
             ondropdeactivate: function(e) {
                 e.target.classList.remove('drop-active');

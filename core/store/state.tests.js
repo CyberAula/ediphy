@@ -132,7 +132,7 @@ export const testState = { "present":
                 "fragment": {},
                 "children": [],
                 "sortableContainers": {},
-                "containedViews": [],
+                "containedViews": ["cv-1511252975055"],
             },
             'bo-1511443052967': {
                 "id": 'bo-1511443052967',
@@ -315,7 +315,7 @@ export const testState = { "present":
         "containedViewsById": {
             "cv-1511252975055": {
                 "id": "cv-1511252975055",
-                "parent": { "bo-1511252970033": ["rm-1511252975055"] },
+                "parent": { "bo-1511252970033": ["rm-1511252975055"], 'bo-1511443052925': ["rm-1511252975456"] },
                 "name": "prueba",
                 "boxes": ['bo-1511443052968'],
                 "type": "slide",

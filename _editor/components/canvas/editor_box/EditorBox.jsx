@@ -10,6 +10,9 @@ import { isSortableBox, isSortableContainer, isAncestorOrSibling, isContainedVie
 import './_editorBox.scss';
 import { ID_PREFIX_SORTABLE_CONTAINER } from '../../../../common/constants';
 import CKEDitorComponent from './CKEDitorComponent';
+const SNAP_DRAG = 5;
+const SNAP_SIZE = 2;
+
 /**
  * Ediphy Box component.
  * @desc It is the main and more complex component by far. It is the one in charge of painting a plugin's template and therefore it has many parts conditioned to the type of plugin.
@@ -40,6 +43,8 @@ export default class EditorBox extends Component {
         let vis = this.props.boxSelected === this.props.id;
         let style = {
             visibility: (toolbar.showTextEditor ? 'hidden' : 'visible'),
+            // overflow: 'hidden',
+
         };
 
         let textareaStyle = {
@@ -139,7 +144,6 @@ export default class EditorBox extends Component {
         }
         wholeBoxStyle.transform = wholeBoxStyle.WebkitTransform = wholeBoxStyle.MsTransform = rotate;
         // style.transform = style.WebkitTransform = style.MsTransform = rotate;
-
         let content = toolbar.config.flavor === "react" ? (
             <div style={style} {...attrs} className={"boxStyle " + classNames} ref={"content"}>
                 {Ediphy.Plugins.get(toolbar.config.name).getRenderTemplate(toolbar.state)}
@@ -261,6 +265,7 @@ export default class EditorBox extends Component {
                     markCreatorId={this.props.markCreatorId}
                     currentId={this.props.id}
                     pageType={this.props.pageType}
+                    onRichMarksModalToggled={this.props.onRichMarksModalToggled}
                 />
             </div>
         );
@@ -398,19 +403,33 @@ export default class EditorBox extends Component {
         let toolbar = this.props.toolbars[this.props.id];
         let box = this.props.boxes[this.props.id];
         let node = ReactDOM.findDOMNode(this);
+        let offsetEl = document.getElementById('maincontent') ? document.getElementById('maincontent').getBoundingClientRect() : {};
+        let leftO = offsetEl.left || 0;
+        let topO = offsetEl.top || 0;
+        let gridTarget = interact.createSnapGrid({ x: SNAP_DRAG, y: SNAP_DRAG, range: (SNAP_DRAG / 2 + 1), offset: { x: leftO, y: topO } });
+
+        let snap = { targets: [], relativePoints: [{ x: 0, y: 0 }] };
+        let snapSize = {};
+        if (this.props.grid) {
+            snap = { targets: [gridTarget], relativePoints: [{ x: 0, y: 0 }] };
+            snapSize = { targets: [
+                { width: SNAP_SIZE, height: SNAP_SIZE, range: SNAP_SIZE },
+            ] };
+        }
 
         if (prevProps.toolbars[this.props.id] && (toolbar.showTextEditor !== prevProps.toolbars[this.props.id].showTextEditor) && box.draggable) {
-            interact(node).draggable({ enabled: !toolbar.showTextEditor });
+            interact(node).draggable({ enabled: !toolbar.showTextEditor, snap: snap });
+        } else {
+            interact(node).draggable({ snap: snap });
         }
 
         if (box.resizable) {
-            interact(node).resizable({ preserveAspectRatio: this.checkAspectRatioValue() });
+
+            interact(node).resizable({ preserveAspectRatio: this.checkAspectRatioValue(), snap: snap, snapSize: snapSize });
         }
 
         if ((box.level > this.props.boxLevelSelected) && this.props.boxLevelSelected !== -1) {
             interact(node).draggable({ enabled: false });
-        } else {
-            interact(node).draggable({ enabled: box.draggable });
         }
 
     }
@@ -427,21 +446,22 @@ export default class EditorBox extends Component {
         let leftO = offsetEl.left || 0;
         let topO = offsetEl.top || 0;
         offsetEl;
-        let gridTarget = interact.createSnapGrid({ x: 10, y: 10, range: 7.1, offset: { x: leftO, y: topO } });
+        let gridTarget = interact.createSnapGrid({ x: SNAP_DRAG, y: SNAP_DRAG, range: (SNAP_DRAG / 2 + 1), offset: { x: leftO, y: topO } });
+        let targets = this.props.grid ? [gridTarget] : [];
         Ediphy.Plugins.get(toolbar.config.name).getConfig();
         Ediphy.Plugins.get(toolbar.config.name).afterRender(this.refs.content, toolbar.state);
         let dragRestrictionSelector = isSortableContainer(box.container) ? /* ".editorBoxSortableContainer, .drg" + box.container :*/"sortableContainerBox" : "parent";
         let resizeRestrictionSelector = isSortableContainer(box.container) ? ".editorBoxSortableContainer, .drg" + box.container : "parent";
         interact(ReactDOM.findDOMNode(this))
-            /* .snap({
-                actions     : ['resizex', 'resizey', 'resizexy', 'resize', 'drag'],
-                mode        : 'grid'
-            })*/
+            .snap({
+                actions: ['resizex', 'resizey', 'resizexy', 'resize', 'drag'],
+                mode: 'grid',
+            })
             .draggable({
-                /* snap: {
-                    targets: [gridTarget],
-                    relativePoints: [{ x: 0, y: 0 }]
-                },*/
+                snap: {
+                    targets: targets,
+                    relativePoints: [{ x: 0, y: 0 }],
+                },
                 enabled: box.draggable,
                 restrict: {
                     restriction: dragRestrictionSelector,
@@ -609,7 +629,7 @@ export default class EditorBox extends Component {
                     if (boxOb && isSortableContainer(boxOb.container)) {
                         let children = this.props.boxes[boxOb.parent].sortableContainers[boxOb.container].children;
                         if (children.indexOf(hoverID) !== -1) {
-                            let newOrder = Object.assign([], children);
+                            let newOrder = JSON.parse(JSON.stringify(children));
                             newOrder.splice(newOrder.indexOf(hoverID), 0, newOrder.splice(newOrder.indexOf(boxOb.id), 1)[0]);
                             this.props.onBoxesInsideSortableReorder(boxOb.parent, boxOb.container, newOrder);
                         }
@@ -621,7 +641,12 @@ export default class EditorBox extends Component {
             })
             .ignoreFrom('input, textarea, .textAreaStyle,  a, button,.pointerEventsEnabled')
             .resizable({
-                /* snap: { targets: [gridTarget] },*/
+                snap: { targets: targets },
+                snapSize: { targets: [
+                    // snap the width and height to multiples of 5 when the element size
+                    // is 25 pixels away from the target size
+                    { width: SNAP_SIZE, height: SNAP_SIZE, range: SNAP_SIZE },
+                ] },
                 preserveAspectRatio: this.checkAspectRatioValue(),
                 enabled: (box.resizable),
                 restrict: {
