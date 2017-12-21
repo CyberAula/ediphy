@@ -54,7 +54,6 @@ export default class EditorIndexTitle extends Component {
                         ref="titleIndex"
                         className={this.props.id ? "editSectionTitle" : "editTitle"}
                         value={this.state.currentValue}
-                        autoFocus
                         onKeyDown={e=> {
                             if (e.keyCode === 13) { // Enter Key
                                 this.setState({ editing: !this.state.editing });

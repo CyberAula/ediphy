@@ -61,17 +61,14 @@ export default class EditorCarousel extends Component {
                         <div className="navBarSpace" style={{ display: (this.props.carouselShow ? 'block' : 'none') }}>
                             <EditorIndexTitle className="tituloCurso" title={this.props.globalConfig.title} onNameChanged={this.props.onTitleChanged} />
                         </div>
-                        <i style={{
+                        <button className="btnShowFullCarrousel" style={{
                             fontSize: this.props.carouselShow ? "16px" : "32px",
                             position: this.props.carouselShow ? "absolute" : "initial",
                             right: 0,
-                        }}
-                        className="material-icons"
-                        onClick={e => {
-                            this.props.onToggleFull();
-                            e.stopPropagation();
-                        }}>{!this.props.carouselFull ? "keyboard_arrow_right" : "keyboard_arrow_left"}
-                        </i>
+                            top: 0,
+                        }} onClick={e => {this.props.onToggleFull(); e.stopPropagation();}} >
+                            <i className="material-icons">{!this.props.carouselFull ? "keyboard_arrow_right" : "keyboard_arrow_left"}</i>
+                        </button>
                         <div className="clear" />
                     </div>
                     <div id="indice"

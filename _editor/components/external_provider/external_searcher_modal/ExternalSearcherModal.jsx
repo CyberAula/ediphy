@@ -105,6 +105,8 @@ export default class ExternalSearcherModal extends Component {
                                         return (
                                             <img key={index}
                                                 alt="default"
+                                                role="button"
+                                                tabIndex="0"
                                                 src={item.file_url}
                                                 style={{
                                                     width: 160,

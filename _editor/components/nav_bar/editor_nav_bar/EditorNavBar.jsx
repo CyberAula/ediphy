@@ -51,7 +51,7 @@ export default class EditorNavBar extends Component {
             <Col id="iconBar">
                 <div className="grad1" />
                 <div className="identity"><span className="highlight">ED</span>iphy</div>
-                <div className="pluginsMenu" onClick={()=> this.openPlugin("")}>
+                <nav className="pluginsMenu" onClick={()=> this.openPlugin("")}>
                     <button
                         className={ this.props.hideTab === 'show' && this.props.category === 'image' ? 'navButtonPlug active' : 'navButtonPlug' }
                         title={i18n.t("Images")} disabled={false /* disablePlugins*/}
@@ -85,7 +85,7 @@ export default class EditorNavBar extends Component {
                         <span className="hideonresize">{i18n.t("Exercises")}</span>
                     </button>
                     <div className="togglePlugins"><i className="material-icons">widgets</i></div>
-                </div>
+                </nav>
                 <div className="navButtons">
                     <button className="navButton"
                         title={i18n.t("messages.fullscreen")}

@@ -18,6 +18,8 @@ export default class Section extends Component {
         let classIndexSelected = this.props.indexSelected === navItem.id ? ' classIndexSelected' : '';
         return (
             <div id={this.props.id}
+                role="menuitem"
+                tabIndex="0"
                 onMouseDown={e => {
                     this.props.onIndexSelected(navItem.id);
                     e.stopPropagation();
@@ -45,12 +47,7 @@ export default class Section extends Component {
                                 this.props.onIndexSelected(navItem.id);
                                 e.stopPropagation();
                             }}>
-                            <i onClick={e => {
-                                this.props.onIndexSelected(navItem.id); // Confirmar
-                                this.props.onNavItemExpanded(navItem.id, !navItem.isExpanded);
-                                e.stopPropagation();
-                            }}
-                            className={classSelected + '  material-icons'}>
+                            <i className={classSelected + '  material-icons'}>
                                 {navItem.isExpanded ? "keyboard_arrow_down" : "keyboard_arrow_right"}
                             </i>
                         </button>
@@ -92,6 +89,8 @@ export default class Section extends Component {
                             return (
                                 <div key={index}
                                     id={id}
+                                    role="menuitem"
+                                    tabIndex="0"
                                     className={'navItemBlock ' + classSelectedD + classIndexSelectedD}
                                     onMouseDown={e => {
                                         this.props.onIndexSelected(id);

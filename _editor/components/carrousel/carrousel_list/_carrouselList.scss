@@ -42,6 +42,12 @@
             @include scale(1.2);
         }
     }
+    .btnShowFullCarrousel{
+        background: none;
+        border: none;
+        color: white;
+        font-weight: bold;
+    }
 }
 
 /*Section*/

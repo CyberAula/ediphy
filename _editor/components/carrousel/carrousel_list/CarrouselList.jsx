@@ -94,6 +94,8 @@ export default class CarrouselList extends Component {
                             return <div key={index}
                                 id={id}
                                 className={'navItemBlock ' + classSelected + classIndexSelected}
+                                role="button"
+                                tabIndex="0"
                                 onMouseDown={e => {
                                     this.props.onIndexSelected(id);
                                     e.stopPropagation();
@@ -123,7 +125,7 @@ export default class CarrouselList extends Component {
                     })}
                 </div>
 
-                <div style={{ height: "20px", backgroundColor: "black", marginBottom: "2px", paddingLeft: "10px", cursor: 'pointer' }} onClick={()=> {
+                <div style={{ height: "20px", backgroundColor: "black", marginBottom: "2px", paddingLeft: "10px", cursor: 'pointer' }} role="button" tabIndex="0" onClick={()=> {
                     this.setState({ showContainedViews: !this.state.showContainedViews });
                 }}>
                     {(this.state.showContainedViews) ?
@@ -133,7 +135,7 @@ export default class CarrouselList extends Component {
                     <span style={{ color: "white", fontSize: "11px" }}>{i18n.t("CONTAINED_VIEWS")}</span>
                 </div>
 
-                <div className="containedViewsList" style={{ height: (this.state.showContainedViews) ? ((this.state.showSortableItems) ? "calc(50% - 126px)" : "calc(100% - 126px)") : "0px",
+                <div className="containedViewsList" style={{ height: (this.state.showContainedViews) ? ((this.state.showSortableItems) ? "calc(50% - 123px)" : "calc(100% - 123px)") : "0px",
                     display: 'block', overflowY: 'auto', overflowX: 'hidden' }}>
                     <div className="empty-info" style={{ display: (containedViewsIncluded) ? "none" : "block" }}>{i18n.t("empty.cv_empty")}</div>
 
@@ -142,6 +144,8 @@ export default class CarrouselList extends Component {
 
                             return (<div key={id}
                                 className={id === this.props.indexSelected ? 'navItemBlock classIndexSelected' : 'navItemBlock'}
+                                role="button"
+                                tabIndex="0"
                                 style={{
                                     width: "100%",
                                     height: "20px",
