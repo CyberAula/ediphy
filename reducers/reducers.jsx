@@ -17,7 +17,8 @@ import indexSelected from './index_selected';
 import navItemsById from './nav_items_by_id';
 import navItemsIds from './nav_items_ids';
 import navItemSelected from './nav_item_selected';
-import toolbarsById from './plugin_toolbar_by_id';
+import pluginToolbarsById from './plugin_toolbar_by_id';
+import viewToolbarsById from './view_toolbars_by_id';
 import globalConfig from './global_config';
 
 function changeDisplayMode(state = "", action = {}) {
@@ -73,7 +74,8 @@ const GlobalState = undoable(combineReducers({
     containedViewsById: containedViewsById, // {0: containedView0, 1: containedView1}
     containedViewSelected: containedViewSelected, // 0
     displayMode: changeDisplayMode, // "list",
-    toolbarsById: toolbarsById, // {0: toolbar0, 1: toolbar1}
+    pluginToolbarsById: pluginToolbarsById, // {0: toolbar0, 1: toolbar1}
+    viewToolbarsById: viewToolbarsById,
     isBusy: isBusy,
     fetchVishResults: fetchVishResults,
 }), {
