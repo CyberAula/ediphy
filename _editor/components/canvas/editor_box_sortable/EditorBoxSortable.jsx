@@ -325,6 +325,7 @@ export default class EditorBoxSortable extends Component {
                                 }
                             }
                         }
+
                         let initialParams = {
                             parent: this.props.id,
                             container: extraParams.idContainer,
@@ -333,6 +334,7 @@ export default class EditorBoxSortable extends Component {
                         };
                         Ediphy.Plugins.get(e.relatedTarget.getAttribute("name")).getConfig().callback(initialParams, ADD_BOX);
                     } else {
+
                         let boxDragged = this.props.boxes[this.props.boxSelected];
                         // If box being dragged is dropped in a different column or row, change it's value
                         if (boxDragged) { // && (boxDragged.col !== extraParams.i || boxDragged.row !== extraParams.j)) {
@@ -380,6 +382,7 @@ export default class EditorBoxSortable extends Component {
                             container: e.target.getAttribute("data-id"),
                         };
                     } else if (dropArea === 'newContainer') {
+                        console.log(this.props.id);
                         initialParams = {
                             parent: this.props.id,
                             container: ID_PREFIX_SORTABLE_CONTAINER + Date.now(),
