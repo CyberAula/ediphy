@@ -71,18 +71,17 @@ export default class EditorNavBar extends Component {
                         <i className="material-icons showonresize">play_circle_outline</i><span className="hideonresize">{i18n.t("Multimedia")}</span>
                     </button>
                     <button
-                        className={ this.props.hideTab === 'show' && this.props.category === 'animations' ? ' navButtonPlug active' : 'navButtonPlug' }
-                        title={i18n.t("Animations")} disabled={false /* disablePlugins*/}
-                        style={{ display: 'none' }}
-                        onClick={(e) => { this.props.category === 'animations' ? this.openPlugin('') : this.openPlugin('animations'); e.stopPropagation();}}>
-                        <span className="hideonresize">{i18n.t("Animations")}</span>
+                        className={ this.props.hideTab === 'show' && this.props.category === 'objects' ? ' navButtonPlug active' : 'navButtonPlug' }
+                        title={i18n.t("Objects")} disabled={false /* disablePlugins*/}
+                        onClick={(e) => { this.props.category === 'objects' ? this.openPlugin('') : this.openPlugin('objects'); e.stopPropagation();}}>
+                        <span className="hideonresize">{i18n.t("Objects")}</span>
                     </button>
                     <button
-                        className={ this.props.hideTab === 'show' && this.props.category === 'exercises' ? 'navButtonPlug active' : 'navButtonPlug' }
-                        title={i18n.t("Exercises")} disabled={false /* disablePlugins*/}
+                        className={ this.props.hideTab === 'show' && this.props.category === 'evaluation' ? 'navButtonPlug active' : 'navButtonPlug' }
+                        title={i18n.t("Evaluation")} disabled={false /* disablePlugins*/}
                         style={{ display: 'none' }}
-                        onClick={(e) => { this.props.category === 'exercises' ? this.openPlugin('') : this.openPlugin('exercises'); e.stopPropagation(); }}>
-                        <span className="hideonresize">{i18n.t("Exercises")}</span>
+                        onClick={(e) => { this.props.category === 'evaluation' ? this.openPlugin('') : this.openPlugin('evaluation'); e.stopPropagation(); }}>
+                        <span className="hideonresize">{i18n.t("Evaluation")}</span>
                     </button>
                     <div className="togglePlugins"><i className="material-icons">widgets</i></div>
                 </div>

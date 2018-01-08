@@ -13,7 +13,7 @@ module.exports = {
         "opacity": "Opacity",
         "padding": "Padding",
         "pos": "Moment",
-        "PluginName": "Enriched Player",
+        "PluginName": "Video Player",
         "radius": "Radius",
         "source": "Source",
         "message_mark_percentage": "You've chosen an incorrect value. You must introduce a percentage between 0 and 100. E.g.. 45.66%",

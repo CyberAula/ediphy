@@ -1,6 +1,6 @@
 module.exports = {
     "GraficaD3": {
-        "PluginName": "Gráfica",
+        "PluginName": "Gráfico",
         "style": "Estilo",
         "margin": "Margin",
         "left": "Izquierda",

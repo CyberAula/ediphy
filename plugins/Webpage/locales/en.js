@@ -7,7 +7,7 @@ module.exports = {
         "box_style": "Box style",
         "opacity": "Opacity",
         "padding": "Padding",
-        "PluginName": "Web Page",
+        "PluginName": "Embed WebPage",
         "radius": "Radius",
         "source": "Source",
         "URL": "URL",
