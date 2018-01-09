@@ -30,7 +30,6 @@ export const REORDER_NAV_ITEM = 'REORDER_NAV_ITEM';
 export const TOGGLE_NAV_ITEM = 'TOGGLE_NAV_ITEM';
 export const UPDATE_NAV_ITEM_EXTRA_FILES = 'UPDATE_NAV_ITEM_EXTRA_FILES';
 export const CHANGE_NAV_ITEM_NAME = 'CHANGE_NAV_ITEM_NAME';
-export const CHANGE_UNIT_NUMBER = 'CHANGE_UNIT_NUMBER';
 export const INDEX_SELECT = 'INDEX_SELECT';
 
 export const TOGGLE_TEXT_EDITOR = 'TOGGLE_TEXT_EDITOR';
@@ -106,10 +105,6 @@ export function changeNavItemName(id, title) {
 
 export function changeContainedViewName(id, title) {
     return { type: CHANGE_CONTAINED_VIEW_NAME, payload: { id, title } };
-}
-
-export function changeUnitNumber(id, value) {
-    return { type: CHANGE_UNIT_NUMBER, payload: { id, value } };
 }
 
 export function addBox(ids, draggable, resizable, content, toolbar, config, state, initialParams) {
