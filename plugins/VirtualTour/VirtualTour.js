@@ -15,7 +15,7 @@ export function VirtualTour(base) {
             return {
                 name: 'VirtualTour',
                 displayName: Ediphy.i18n.t('VirtualTour.PluginName'),
-                category: 'multimedia',
+                category: 'objects',
                 needsConfigModal: false,
                 flavor: "react",
                 needsTextEdition: false,
