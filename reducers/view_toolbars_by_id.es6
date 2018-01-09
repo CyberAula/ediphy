@@ -30,107 +30,34 @@ function toolbarSectionCreator(state, action, isContainedView = false) {
     let pagetitle = i18n.t('Title') + doc_type;
 
     let toolbar = {
-        id: id,
-        controls: action.payload.toolbar || {
-            main: {
-                __name: "Main",
-                accordions: { // define accordions for section
-                    basic: {
-                        __name: "Generales",
-                        icon: 'settings',
-                        buttons: {
-                            navitem_name: {
-                                __name: i18n.t('NavItem_name'),
-                                type: 'text',
-                                value: isContainedView ? action.payload.mark.connection.name /* nextToolbarAvailName(i18n.t('contained_view'), state)*/ : doc_type,
-                                autoManaged: false,
-                            },
-                        },
-                    },
-                    header: {
-                        __name: i18n.t('Header'),
-                        icon: 'format_color_text',
-                        buttons: {
-                            display_title: {
-                                __name: i18n.t('course_title'),
-                                type: 'checkbox',
-                                checked: false,
-                                autoManaged: false,
-                            },
-                            display_pagetitle: {
-                                __name: pagetitle,
-                                type: 'checkbox',
-                                checked: true,
-                                autoManaged: false,
-                            },
-                            pagetitle_name: {
-                                __name: "custom_title",
-                                type: 'conditionalText',
-                                associatedKey: 'display_pagetitle',
-                                value: "",
-                                autoManaged: false,
-                                display: true,
-                            },
-                            display_pagesubtitle: {
-                                __name: i18n.t('subtitle'),
-                                type: 'checkbox',
-                                value: "",
-                                checked: false,
-                                autoManaged: false,
-                            },
-                            pagesubtitle_name: {
-                                __name: "custom_subtitle",
-                                type: 'conditionalText',
-                                associatedKey: 'display_pagesubtitle',
-                                value: "",
-                                autoManaged: false,
-                                display: true,
-                            },
-
-                        },
-
-                    },
-                },
-            },
+        tabs: ['main'],
+        state: {
+            header: doc_type,
+            display_title: false,
+            display_pagetitle: true,
+            pagetitle_name: { value: pagetitle, display: true },
+            display_pagesubtitle: { value: "", display: true },
+            pagesubtitle_name: { value: "", display: true },
         },
     };
-
-    if (!isContainedView && toolbar.controls && toolbar.controls.main && toolbar.controls.main.accordions.header && toolbar.controls.main.accordions.header.buttons) {
-        toolbar.controls.main.accordions.header.buttons.display_breadcrumb = {
-            __name: i18n.t('Breadcrumb'),
-            type: 'checkbox',
-            checked: true,
-            autoManaged: false,
-        };
-        toolbar.controls.main.accordions.header.buttons.display_pagenumber = {
-            __name: i18n.t('pagenumber'),
-            type: 'checkbox',
-            checked: false,
-            autoManaged: false,
-        };
-        toolbar.controls.main.accordions.header.buttons.pagenumber_name = {
-            __name: "custom_pagenum",
-            type: 'conditionalText',
-            associatedKey: 'display_pagenumber',
-            value: "",
-            autoManaged: false,
-            display: true,
-        };
-    }
-    if (!isContainedView && toolbar.controls && toolbar.controls.main && toolbar.controls.main.accordions.basic && toolbar.controls.main.accordions.basic.buttons) {
-        toolbar.controls.main.accordions.basic.buttons.page_display = {
-            __name: i18n.t('display_page'),
-            type: 'checkbox',
-            checked: true,
-            autoManaged: false };
-    }
-    toolbar.config.displayName = isContainedView ? doc_type + ': ' + i18n.t("contained_view") : doc_type;
-
-    createAliasButton(toolbar.controls, null);
 
     return toolbar;
 }
 
+function toolbarReducer(state, action) {
+    let newState;
+    switch (action.type) {
+    case CHANGE_NAV_ITEM_NAME:
+        return state;
+    case CHANGE_CONTAINED_VIEW_NAME:
+        return state;
+    case UPDATE_TOOLBAR:
+        return newState;
+    default:
+        return state;
+    }
+}
+/*
 function toolbarReducer(state, action) {
     let newState;
     switch (action.type) {
@@ -188,7 +115,7 @@ function toolbarReducer(state, action) {
         return state;
     }
 }
-
+*/
 export default function(state = {}, action = {}) {
     let newState;
     switch (action.type) {

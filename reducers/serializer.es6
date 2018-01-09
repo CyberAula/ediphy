@@ -17,18 +17,6 @@ export function navView(state) {
         unitNumber: 1,
         hidden: false,
         extraFiles: {},
-        header: {
-            elementContent: {
-                documentTitle: '',
-                documentSubTitle: '',
-                numPage: '' },
-            display: {
-                courseTitle: 'hidden',
-                documentTitle: 'expanded',
-                documentSubTitle: 'hidden',
-                breadcrumb: "reduced",
-                pageNumber: "hidden" },
-        },
     };
 
     let newState = {};
@@ -79,20 +67,6 @@ export function containedView(state) {
         boxes: [],
         type: PAGE_TYPES.SLIDE,
         extraFiles: {},
-        header: {
-            elementContent: {
-                documentTitle: i18n.t('contained_view'),
-                documentSubTitle: '',
-                numPage: '',
-            },
-            display: {
-                courseTitle: 'hidden',
-                documentTitle: 'expanded',
-                documentSubTitle: 'hidden',
-                breadcrumb: "reduced",
-                pageNumber: "hidden",
-            },
-        },
     };
 
     let newState = {};

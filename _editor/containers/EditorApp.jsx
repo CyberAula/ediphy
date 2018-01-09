@@ -19,7 +19,7 @@ import ContainedCanvas from '../components/rich_plugins/contained_canvas/Contain
 import EditorCarousel from '../components/carrousel/editor_carrousel/EditorCarousel';
 import PluginConfigModal from '../components/plugin_config_modal/PluginConfigModal';
 import XMLConfigModal from '../components/xml_config_modal/XMLConfigModal';
-import PluginToolbar from '../components/toolbar/plugin_toolbar/PluginToolbar';
+import Toolbar from '../components/toolbar/toolbar/Toolbar';
 import Visor from '../../_visor/containers/Visor';
 import ExternalCatalogModal from '../components/external_provider/ExternalCatalogModal';
 import PluginRibbon from '../components/nav_bar/plugin_ribbon/PluginRibbon';
@@ -391,7 +391,7 @@ class EditorApp extends Component {
                             this.setState({ currentRichMark: null, markCursorValue: null });
                         }
                     }}/>
-                <PluginToolbar top={(60 + ribbonHeight) + 'px'}
+                <Toolbar top={(60 + ribbonHeight) + 'px'}
                     toolbars={toolbars}
                     box={boxes[boxSelected]}
                     boxSelected={boxSelected}
