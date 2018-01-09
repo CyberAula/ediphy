@@ -74,7 +74,7 @@ export default class EditorNavBar extends Component {
                         className={ this.props.hideTab === 'show' && this.props.category === 'objects' ? ' navButtonPlug active' : 'navButtonPlug' }
                         title={i18n.t("Objects")} disabled={false /* disablePlugins*/}
                         onClick={(e) => { this.props.category === 'objects' ? this.openPlugin('') : this.openPlugin('objects'); e.stopPropagation();}}>
-                        <span className="hideonresize">{i18n.t("Objects")}</span>
+                        <i className="material-icons showonresize">unarchive</i><span className="hideonresize">{i18n.t("Objects")}</span>
                     </button>
                     <button
                         className={ this.props.hideTab === 'show' && this.props.category === 'evaluation' ? 'navButtonPlug active' : 'navButtonPlug' }
