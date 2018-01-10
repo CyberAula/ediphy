@@ -58,6 +58,7 @@ export const DELETE_RICH_MARK = 'DELETE_RICH_MARK';
 export const EDIT_PLUGIN_TEXT = 'EDIT_PLUGIN_TEXT';
 
 export const PASTE_BOX = 'PASTE_BOX';
+export const CHANGE_BOX_LAYER = 'CHANGE_BOX_LAYER';
 
 export function selectIndex(id) {
     return { type: INDEX_SELECT, payload: { id } };
@@ -150,6 +151,10 @@ export function verticallyAlignBox(id, verticalAlign) {
 
 export function increaseBoxLevel() {
     return { type: INCREASE_LEVEL, payload: {} };
+}
+
+export function changeBoxLayer(id, layer, parent, container, value) {
+    return { type: CHANGE_BOX_LAYER, payload: { id, layer, parent, container, value } };
 }
 
 export function resizeSortableContainer(id, parent, height) {

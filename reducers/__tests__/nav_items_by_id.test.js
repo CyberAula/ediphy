@@ -177,7 +177,6 @@ describe('# nav_items_by_id reducer', ()=>{
         });
     });
 
-
     describe('handle DELETE_BOX', () => {
         test('If box deleted is in a sortable container', () => {
             const action = {
