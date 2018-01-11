@@ -88,9 +88,13 @@ VisorContainedCanvas.propTypes = {
      */
     title: PropTypes.any,
     /**
-     * Diccionario que contiene todas las toolbars
+     * Diccionario que contiene todas las istas creadas , accesibles por su *id*
      */
-    toolbars: PropTypes.object,
+    viewToolbars: PropTypes.object.isRequired,
+    /**
+     * Diccionario que contiene todos los valores de cajas, accesibles por su *id*
+     */
+    pluginToolbars: PropTypes.object.isRequired,
     /**
      * Lista de marcas en curso o lanzadas
      */

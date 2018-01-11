@@ -39,7 +39,7 @@ export default class EditorBox extends Component {
     render() {
         let cornerSize = 15;
         let box = this.props.boxes[this.props.id];
-        let toolbar = this.props.toolbars[this.props.id];
+        let toolbar = this.props.pluginToolbars[this.props.id];
         let vis = this.props.boxSelected === this.props.id;
         let style = {
             visibility: (toolbar.showTextEditor ? 'hidden' : 'visible'),

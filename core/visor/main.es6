@@ -25,7 +25,7 @@ let parseEJS = function(path, page, state, fromScorm) {
     if (page !== 0 && state.navItemsById[page]) {
         if (Object.keys(state.navItemsById[page].extraFiles).length !== 0) {
             let extraFileBox = Object.keys(state.navItemsById[state.navItemSelected].extraFiles)[0];
-            let extraFileContainer = state.toolbarsById[extraFileBox];
+            let extraFileContainer = state.pluginToolbarsById[extraFileBox];
             return (visor_template({
                 visor_bundle_path: Ediphy.Config.visor_bundle,
                 state: state,
@@ -114,7 +114,7 @@ export default {
     exportPage: function(state) {
         if (Object.keys(state.navItemsById[state.navItemSelected].extraFiles).length !== 0) {
             let extraFileBox = Object.keys(state.navItemsById[state.navItemSelected].extraFiles)[0];
-            let extraFileContainer = state.toolbarsById[extraFileBox];
+            let extraFileContainer = state.pluginToolbarsById[extraFileBox];
             state.fromScorm = false;
             return (visor_template({
                 visor_bundle_path: Ediphy.Config.visor_bundle,
@@ -252,8 +252,8 @@ export default {
                                 async: false,
                                 success: function(response, status, xhr) {
                                     zip.file(path + nombre + "_ejer.xml", xhr.responseText);
-                                    state.toolbarsById[boxKey].state.__xml_path = nombre + "_ejer.xml";
-                                    state.toolbarsById[boxKey].state.isScorm = true;
+                                    state.pluginToolbarsById[boxKey].state.__xml_path = nombre + "_ejer.xml";
+                                    state.pluginToolbarsById[boxKey].state.isScorm = true;
                                 },
                                 error: function(xhr, status) {
                                     console.error("Error while downloading XML file");

@@ -63,7 +63,7 @@ export default class EditorCanvasDoc extends Component {
                         navItems={this.props.navItems}
                         containedView={this.props.containedViewSelected}
                         containedViews={this.props.containedViews}
-                        toolbars={this.props.toolbars}
+                        viewToolbars={this.props.viewToolbars}
                         boxes={this.props.boxes}
                     />
                     <div className="outter canvaseditor" style={{ display: show ? 'block' : 'none' }}>
@@ -121,7 +121,7 @@ export default class EditorCanvasDoc extends Component {
                                             onBoxDropped={this.props.onBoxDropped}
                                             onVerticallyAlignBox={this.props.onVerticallyAlignBox}
                                             onTextEditorToggled={this.props.onTextEditorToggled}
-                                            toolbars={this.props.toolbars}
+                                            pluginToolbars={this.props.pluginToolbars}
                                             onRichMarksModalToggled={this.props.onRichMarksModalToggled}
                                             pageType={itemSelected.type || 0}/>;
                                     }
@@ -133,7 +133,7 @@ export default class EditorCanvasDoc extends Component {
                                         boxLevelSelected={this.props.boxLevelSelected}
                                         containedViews={this.props.containedViews}
                                         containedViewSelected={this.props.containedViewSelected}
-                                        toolbars={this.props.toolbars}
+                                        pluginToolbars={this.props.pluginToolbars}
                                         lastActionDispatched={this.props.lastActionDispatched}
                                         deleteMarkCreator={this.props.deleteMarkCreator}
                                         markCreatorId={this.props.markCreatorId}
@@ -165,9 +165,9 @@ export default class EditorCanvasDoc extends Component {
                     onBoxResized={this.props.onBoxResized}
                     onBoxDeleted={this.props.onBoxDeleted}
                     lastActionDispatched={this.props.lastActionDispatched}
-                    pointerEventsCallback={this.props.toolbars[this.props.boxSelected] && this.props.toolbars[this.props.boxSelected].config && this.props.toolbars[this.props.boxSelected].config.name && Ediphy.Plugins.get(this.props.toolbars[this.props.boxSelected].config.name) ? Ediphy.Plugins.get(this.props.toolbars[this.props.boxSelected].config.name).pointerEventsCallback : null}
+                    pointerEventsCallback={this.props.pluginToolbars[this.props.boxSelected] && this.props.pluginToolbars[this.props.boxSelected].config && this.props.pluginToolbars[this.props.boxSelected].config.name && Ediphy.Plugins.get(this.props.pluginToolbars[this.props.boxSelected].config.name) ? Ediphy.Plugins.get(this.props.pluginToolbars[this.props.boxSelected].config.name).pointerEventsCallback : null}
                     onMarkCreatorToggled={this.props.onMarkCreatorToggled}
-                    toolbar={this.props.toolbars[this.props.boxSelected]}/>
+                    toolbar={this.props.pluginToolbars[this.props.boxSelected]}/>
             </Col>
         );
     }
@@ -255,9 +255,13 @@ EditorCanvasDoc.propTypes = {
      */
     title: PropTypes.string.isRequired,
     /**
-     * Diccionario que contiene todas las cajas y vistas creadas , accesibles por su *id*
+     * Diccionario que contiene todas las istas creadas , accesibles por su *id*
      */
-    toolbars: PropTypes.object.isRequired,
+    viewToolbars: PropTypes.object.isRequired,
+    /**
+     * Diccionario que contiene todos los valores de cajas, accesibles por su *id*
+     */
+    pluginToolbars: PropTypes.object.isRequired,
     /**
      * Última acción realizada en Redux
      */

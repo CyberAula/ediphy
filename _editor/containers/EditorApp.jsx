@@ -77,6 +77,7 @@ class EditorApp extends Component {
             catalogModal: false,
             lastAction: "",
             grid: false,
+            accordions: {},
         };
     }
 
@@ -87,7 +88,7 @@ class EditorApp extends Component {
     render() {
         const { dispatch, boxes, boxesIds, boxSelected, boxLevelSelected, navItemsIds, navItems, navItemSelected,
             containedViews, containedViewSelected, imagesUploaded, indexSelected,
-            undoDisabled, redoDisabled, displayMode, isBusy, toolbars, globalConfig, fetchVishResults } = this.props;
+            undoDisabled, redoDisabled, displayMode, isBusy, pluginToolbars, viewToolbars, globalConfig, fetchVishResults } = this.props;
         let ribbonHeight = this.state.hideTab === 'hide' ? 0 : 50;
         let title = globalConfig.title || '---';
         let canvasRatio = globalConfig.canvasRatio;
@@ -222,7 +223,8 @@ class EditorApp extends Component {
                                 containedViews={containedViews}
                                 containedViewSelected={containedViews[containedViewSelected] || 0}
                                 showCanvas={(navItemSelected !== 0)}
-                                toolbars={toolbars}
+                                pluginToolbars={pluginToolbars}
+                                viewToolbars={viewToolbars}
                                 title={title}
                                 markCreatorId={this.state.markCreatorVisible}
                                 onBoxAdded={(ids, draggable, resizable, content, toolbar, config, state) => this.dispatchAndSetState(addBox(ids, draggable, resizable, content, toolbar, config, state))}
@@ -300,7 +302,8 @@ class EditorApp extends Component {
                                         this.setState({ currentRichMark: null, value: null });
                                     }
                                 }}
-                                toolbars={toolbars}
+                                pluginToolbars={pluginToolbars}
+                                viewToolbars={viewToolbars}
                                 titleModeToggled={(id, value) => this.dispatchAndSetState(toggleTitleMode(id, value))}
                                 lastActionDispatched={this.state.lastAction}
                                 onContainedViewSelected={id => this.dispatchAndSetState(selectContainedView(id))}
@@ -354,9 +357,9 @@ class EditorApp extends Component {
                     visible={this.state.catalogModal}
                     onExternalCatalogToggled={() => this.setState({ catalogModal: !this.state.catalogModal })}/>}
                 <RichMarksModal boxSelected={boxSelected}
-                    pluginToolbar={toolbars[boxSelected]}
+                    pluginToolbar={pluginToolbars[boxSelected]}
                     navItemSelected={navItemSelected}
-                    toolbars={toolbars}
+                    pluginToolbars={pluginToolbars}
                     markCursorValue={this.state.markCursorValue}
                     containedViewSelected={containedViewSelected}
                     containedViews={containedViews}
@@ -364,11 +367,11 @@ class EditorApp extends Component {
                     navItemsIds={navItemsIds}
                     visible={this.state.richMarksVisible}
                     currentRichMark={this.state.currentRichMark}
-                    defaultValueMark={toolbars[boxSelected] && toolbars[boxSelected].config && Ediphy.Plugins.get(toolbars[boxSelected].config.name) ? Ediphy.Plugins.get(toolbars[boxSelected].config.name).getConfig().defaultMarkValue : 0}
-                    validateValueInput={toolbars[boxSelected] && toolbars[boxSelected].config && Ediphy.Plugins.get(toolbars[boxSelected].config.name) ? Ediphy.Plugins.get(toolbars[boxSelected].config.name).validateValueInput : null}
+                    defaultValueMark={pluginToolbars[boxSelected] && pluginToolbars[boxSelected].config && Ediphy.Plugins.get(pluginToolbars[boxSelected].config.name) ? Ediphy.Plugins.get(pluginToolbars[boxSelected].config.name).getConfig().defaultMarkValue : 0}
+                    validateValueInput={pluginToolbars[boxSelected] && pluginToolbars[boxSelected].config && Ediphy.Plugins.get(pluginToolbars[boxSelected].config.name) ? Ediphy.Plugins.get(pluginToolbars[boxSelected].config.name).validateValueInput : null}
                     onBoxAdded={(ids, draggable, resizable, content, toolbar, config, state) => this.dispatchAndSetState(addBox(ids, draggable, resizable, content, toolbar, config, state))}
                     onRichMarkUpdated={(mark, createNew) => {
-                        let toolbar = toolbars[boxSelected];
+                        let toolbar = pluginToolbars[boxSelected];
                         let state = JSON.parse(JSON.stringify(toolbar.state));
                         let oldConnection = state.__marks[mark.id] ? state.__marks[mark.id].connection : 0;
                         state.__marks[mark.id] = JSON.parse(JSON.stringify(mark));
@@ -392,7 +395,8 @@ class EditorApp extends Component {
                         }
                     }}/>
                 <Toolbar top={(60 + ribbonHeight) + 'px'}
-                    toolbars={toolbars}
+                    pluginToolbars={pluginToolbars}
+                    viewToolbars={viewToolbars}
                     box={boxes[boxSelected]}
                     boxSelected={boxSelected}
                     containedViews={containedViews}
@@ -508,7 +512,7 @@ class EditorApp extends Component {
                     containedViewSelected={containedViewSelected}
                     navItems={navItems}
                     containedViews={containedViews}
-                    toolbars={toolbars}
+                    pluginToolbars={pluginToolbars}
                     onTextEditorToggled={(caller, value) => this.dispatchAndSetState(toggleTextEditor(caller, value))}
                     onBoxPasted={(ids, box, toolbar)=>this.dispatchAndSetState(pasteBox(ids, box, toolbar))}
                     onBoxDeleted={(id, parent, container)=> {let bx = this.getDescendantBoxes(boxes[id]); this.dispatchAndSetState(deleteBox(id, parent, container, bx, boxes[id].containedViews /* , this.getDescendantContainedViews(boxes[id])*/));}}
@@ -946,7 +950,9 @@ function mapStateToProps(state) {
         undoDisabled: state.past.length === 0,
         redoDisabled: state.future.length === 0,
         displayMode: state.present.displayMode,
-        toolbars: state.present.toolbarsById,
+        marks: state.present.marksById,
+        pluginToolbars: state.present.pluginToolbarsById,
+        viewToolbars: state.present.viewToolbarsById,
         isBusy: state.present.isBusy,
         fetchVishResults: state.present.fetchVishResults,
     };

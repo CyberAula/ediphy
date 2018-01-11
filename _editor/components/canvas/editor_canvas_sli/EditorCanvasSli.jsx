@@ -89,7 +89,7 @@ export default class EditorCanvasSli extends Component {
                             navItems={this.props.navItems}
                             containedView={this.props.containedViewSelected}
                             containedViews={this.props.containedViews}
-                            toolbars={this.props.toolbars}
+                            viewToolbars={this.props.viewToolbars}
                             boxes={this.props.boxes}
                         />
 
@@ -122,7 +122,7 @@ export default class EditorCanvasSli extends Component {
                                 boxLevelSelected={this.props.boxLevelSelected}
                                 containedViews={this.props.containedViews}
                                 containedViewSelected={this.props.containedViewSelected}
-                                toolbars={this.props.toolbars}
+                                pluginToolbars={this.props.pluginToolbars}
                                 lastActionDispatched={this.props.lastActionDispatched}
                                 deleteMarkCreator={this.props.deleteMarkCreator}
                                 markCreatorId={this.props.markCreatorId}
@@ -155,9 +155,9 @@ export default class EditorCanvasSli extends Component {
                     onTextEditorToggled={this.props.onTextEditorToggled}
                     onBoxResized={this.props.onBoxResized}
                     onBoxDeleted={this.props.onBoxDeleted}
-                    pointerEventsCallback={this.props.toolbars[this.props.boxSelected] && this.props.toolbars[this.props.boxSelected].config && this.props.toolbars[this.props.boxSelected].config.name && Ediphy.Plugins.get(this.props.toolbars[this.props.boxSelected].config.name) ? Ediphy.Plugins.get(this.props.toolbars[this.props.boxSelected].config.name).pointerEventsCallback : null}
+                    pointerEventsCallback={this.props.pluginToolbars[this.props.boxSelected] && this.props.pluginToolbars[this.props.boxSelected].config && this.props.pluginToolbars[this.props.boxSelected].config.name && Ediphy.Plugins.get(this.props.pluginToolbars[this.props.boxSelected].config.name) ? Ediphy.Plugins.get(this.props.pluginToolbars[this.props.boxSelected].config.name).pointerEventsCallback : null}
                     onMarkCreatorToggled={this.props.onMarkCreatorToggled}
-                    toolbar={this.props.toolbars[this.props.boxSelected]}/>
+                    pluginToolbar={this.props.pluginToolbars[this.props.boxSelected]}/>
 
             </Col>
         );
@@ -184,7 +184,7 @@ export default class EditorCanvasSli extends Component {
             ondrop: function(event) {
                 if (Ediphy.Plugins.get(event.relatedTarget.getAttribute("name")).getConfig().limitToOneInstance) {
                     for (let child in this.props.boxes) {
-                        if (!isSortableBox(child) && this.props.boxes[child].parent === this.props.navItemSelected.id && this.props.toolbars[child].config.name === event.relatedTarget.getAttribute("name")) {
+                        if (!isSortableBox(child) && this.props.boxes[child].parent === this.props.navItemSelected.id && this.props.pluginToolbars[child].config.name === event.relatedTarget.getAttribute("name")) {
                             let alert = (<Alert className="pageModal"
                                 show
                                 hasHeader
@@ -294,9 +294,13 @@ EditorCanvasSli.propTypes = {
      */
     title: PropTypes.string.isRequired,
     /**
-     * Diccionario que contiene todas las cajas y vistas creadas , accesibles por su *id*
+     * Diccionario que contiene todas las istas creadas , accesibles por su *id*
      */
-    toolbars: PropTypes.object.isRequired,
+    viewToolbars: PropTypes.object.isRequired,
+    /**
+     * Diccionario que contiene todos los valores de cajas, accesibles por su *id*
+     */
+    pluginToolbars: PropTypes.object.isRequired,
     /**
      * Última acción realizada en Redux
      */

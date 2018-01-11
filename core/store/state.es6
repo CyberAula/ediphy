@@ -62,122 +62,7 @@ export const initialState = (config) => { return config.sections_have_content ?
                 containedViews: [],
             },
         },
-        toolbarsById: {
-            'bs-1467887497412': {
-                id: "bs-1467887497412",
-                state: {},
-                controls: {
-                    main: {
-                        __name: "Main",
-                        accordions: {},
-                    },
-                },
-                config: { displayName: i18n.t('Container_') },
-                showTextEditor: false,
-            },
-            "se-1467887497411": {
-                "id": "se-1467887497411",
-                "controls": {
-                    "main": {
-                        "__name": "Main",
-                        "accordions": {
-                            "basic": {
-                                "__name": "Generales",
-                                "icon": "settings",
-                                "buttons": {
-                                    "page_display": {
-                                        "__name": i18n.t('display_page'),
-                                        "type": "checkbox",
-                                        "checked": true,
-                                        "autoManaged": false,
-                                    },
-                                    "navitem_name": {
-                                        "__name": i18n.t('NavItem_name'),
-                                        "type": "text",
-                                        "autoManaged": false,
-                                        "value": i18n.t('page'),
-                                    },
-                                },
-                            },
-                            "header": {
-                                "__name": i18n.t('Header'),
-                                "icon": "format_color_text",
-                                "buttons": {
-                                    "display_title": {
-                                        "__name": i18n.t('course_title'),
-                                        "type": "checkbox",
-                                        "checked": false,
-                                        "autoManaged": false,
-                                    },
-                                    "display_pagetitle": {
-                                        "__name": i18n.t('Title') + i18n.t('section'),
-                                        "type": "checkbox",
-                                        "checked": true,
-                                        "autoManaged": false,
-                                    },
-                                    "pagetitle_name": {
-                                        "__name": "custom_title",
-                                        "type": "conditionalText",
-                                        "associatedKey": "display_pagetitle",
-                                        "value": "",
-                                        "autoManaged": false,
-                                        "display": true,
-                                    },
-                                    "display_pagesubtitle": {
-                                        "__name": i18n.t('subtitle'),
-                                        "type": "checkbox",
-                                        "checked": false,
-                                        "autoManaged": false,
-                                    },
-                                    "pagesubtitle_name": {
-                                        "__name": "custom_subtitle",
-                                        "type": "conditionalText",
-                                        "associatedKey": "display_pagesubtitle",
-                                        "value": "",
-                                        "autoManaged": false,
-                                        "display": true,
-                                    },
-                                    "display_breadcrumb": {
-                                        "__name": i18n.t('Breadcrumb'),
-                                        "type": "checkbox",
-                                        "checked": true,
-                                        "autoManaged": false,
-                                    },
-                                    "display_pagenumber": {
-                                        "__name": i18n.t('pagenumber'),
-                                        "type": "checkbox",
-                                        "checked": false,
-                                        "autoManaged": false,
-                                    },
-                                    "pagenumber_name": {
-                                        "__name": "custom_pagenum",
-                                        "type": "conditionalText",
-                                        "associatedKey": "display_pagenumber",
-                                        "value": "",
-                                        "autoManaged": false,
-                                        "display": true,
-                                    },
-                                },
-                            },
-                            "z__extra": {
-                                "__name": "Alias",
-                                "icon": "rate_review",
-                                "buttons": {
-                                    "alias": {
-                                        "__name": "Alias",
-                                        "type": "text",
-                                        "value": "",
-                                        "autoManaged": true,
-                                        "isAttribute": true,
-                                    },
-                                },
-                            },
-                        },
-                    },
-                },
-                "config": { displayName: i18n.t('section') },
-                "state": {},
-            },
+        pluginToolbarsById: {
         },
         isBusy: "",
         fetchVishResults: { "results": [] },
@@ -222,6 +107,7 @@ export const initialState = (config) => { return config.sections_have_content ?
         },
         boxSelected: -1,
         boxLevelSelected: 0,
+        marksById: { },
         navItemsIds: ["se-1467887497411", "pa-1497983247795"],
         navItemSelected: "pa-1497983247795",
         navItemsById: {
@@ -293,7 +179,7 @@ export const initialState = (config) => { return config.sections_have_content ?
         containedViewsById: {},
         containedViewSelected: 0,
         displayMode: "list",
-        toolbarsById: {
+        viewToolbarsById: {
             "se-1467887497411": {
                 "id": "se-1467887497411",
                 "controls": {

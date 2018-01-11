@@ -127,18 +127,18 @@ export default class ViewToolbar extends Component {
                     }}/>
                 <div id="tools"
                     style={{
-                        width: this.state.open ? '250px' : '40px',
+                        width: this.props.open ? '250px' : '40px',
                     }}
                     className="toolbox">
                     <OverlayTrigger placement="left"
                         overlay={
-                            <Tooltip className={this.state.open ? 'hidden' : ''}
+                            <Tooltip className={this.props.open ? 'hidden' : ''}
                                 id="tooltip_props">
                                 {i18n.t('Properties')}
                             </Tooltip>
                         }>
                         <div onClick={() => {
-                            this.setState({ open: !this.state.open });
+                            this.setState({ open: !this.props.open });
                         }}
                         style={{ display: this.props.carouselShow ? 'block' : 'block' }}
                         className={this.state.open ? 'carouselListTitle toolbarSpread' : 'carouselListTitle toolbarHide'}>
@@ -153,10 +153,10 @@ export default class ViewToolbar extends Component {
                             </div>
                         </div>
                     </OverlayTrigger>
-                    <div id="insidetools" style={{ display: this.state.open ? 'block' : 'none' }}>
+                    <div id="insidetools" style={{ display: this.props.open ? 'block' : 'none' }}>
                         <div className="toolbarTabs">
-                            {Object.keys(toolbar.controls).map((tabKey, index) => {
-                                let tab = toolbar.controls[tabKey];
+                            {Object.keys(controls).map((tabKey, index) => {
+                                let tab = controls[tabKey];
                                 return (
                                     <div key={'key_' + index} className="toolbarTab">
                                         <PanelGroup>

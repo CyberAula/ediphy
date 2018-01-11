@@ -190,7 +190,7 @@ export default class Visor extends Component {
         let navItems = Ediphy.State.navItemsById;
         let navItemsIds = Ediphy.State.navItemsIds;
         let containedViews = Ediphy.State.containedViewsById;
-        let toolbars = Ediphy.State.toolbarsById;
+        let viewToolbars = Ediphy.State.viewToolbarsById;
         let globalConfig = Ediphy.State.globalConfig;
         let title = globalConfig.title;
         let ratio = globalConfig.canvasRatio;

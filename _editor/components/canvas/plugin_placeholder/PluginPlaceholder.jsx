@@ -62,7 +62,7 @@ export default class PluginPlaceholder extends Component {
                                                 boxSelected={this.props.boxSelected}
                                                 boxLevelSelected={this.props.boxLevelSelected}
                                                 containedViewSelected={this.props.containedViewSelected}
-                                                toolbars={this.props.toolbars}
+                                                pluginToolbars={this.props.pluginToolbars}
                                                 lastActionDispatched={this.props.lastActionDispatched}
                                                 onBoxSelected={this.props.onBoxSelected}
                                                 onBoxLevelIncreased={this.props.onBoxLevelIncreased}
@@ -142,7 +142,7 @@ export default class PluginPlaceholder extends Component {
                 },
                 onend: (event) => {
                     this.props.onSortableContainerResized(this.props.pluginContainer, this.props.parentBox.id, parseInt(event.target.style.height, 10));
-                    let toolbar = this.props.toolbars[this.props.parentBox.id];
+                    let toolbar = this.props.pluginToolbars[this.props.parentBox.id];
                     Ediphy.Plugins.get(toolbar.config.name).forceUpdate(toolbar.state, this.props.parentBox.id, RESIZE_SORTABLE_CONTAINER);
                 },
             });
@@ -175,9 +175,9 @@ PluginPlaceholder.propTypes = {
      */
     boxLevelSelected: PropTypes.any,
     /**
-     * Diccionario que contiene todas las toolbars, accesibles por el *id* de su caja o vista
+     * Diccionario que contiene todos los valores de cajas, accesibles por su *id*
      */
-    toolbars: PropTypes.object.isRequired,
+    pluginToolbars: PropTypes.object.isRequired,
     /**
      * Última acción de Redux realizada
      */

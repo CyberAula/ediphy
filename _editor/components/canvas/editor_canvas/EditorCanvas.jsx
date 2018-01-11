@@ -88,9 +88,13 @@ EditorCanvas.propTypes = {
      */
     title: PropTypes.string.isRequired,
     /**
-     * Diccionario que contiene todas las cajas y vistas creadas , accesibles por su *id*
+     * Diccionario que contiene todas las istas creadas , accesibles por su *id*
      */
-    toolbars: PropTypes.object.isRequired,
+    viewToolbars: PropTypes.object.isRequired,
+    /**
+     * Diccionario que contiene todos los valores de cajas, accesibles por su *id*
+     */
+    pluginToolbars: PropTypes.object.isRequired,
     /**
      * Última acción realizada en Redux
      */

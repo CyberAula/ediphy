@@ -17,6 +17,7 @@ import indexSelected from './index_selected';
 import navItemsById from './nav_items_by_id';
 import navItemsIds from './nav_items_ids';
 import navItemSelected from './nav_item_selected';
+import marksById from './marks_by_id';
 import pluginToolbarsById from './plugin_toolbar_by_id';
 import viewToolbarsById from './view_toolbars_by_id';
 import globalConfig from './global_config';
@@ -68,6 +69,7 @@ const GlobalState = undoable(combineReducers({
     boxSelected: boxSelected, // 0
     boxLevelSelected: boxLevelSelected, // 0
     indexSelected: indexSelected,
+    marksById: marksById, // {0: mark1, 1: mark2}
     navItemsIds: navItemsIds, // [0, 1]
     navItemSelected: navItemSelected, // 0
     navItemsById: navItemsById, // {0: navItem0, 1: navItem1}
