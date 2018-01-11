@@ -38,16 +38,26 @@ export default class ActionsRibbon extends Component {
                 }} ref="holder">
                 <div id="Actions">
                     <button key={'-4'} className="ActionBtn" disabled={this.props.boxSelected === -1} onClick={() => {
-                        this.props.onBoxLayerChanged(this.props.boxSelected, this.props.navItems[this.props.navItemSelected].boxes.length + 1, this.props.navItemSelected, 0, 'front');}}>
+                        this.props.onBoxLayerChanged(this.props.boxSelected, this.props.navItemSelected, 0, 'front');}}>
                         <i className="material-icons">flip_to_front</i>
                         <span className="hideonresize">{i18n.t("order.BringtoFront")}</span>
                     </button>
-                    <button key={'-5'} className="ActionBtn" disabled={this.props.boxSelected === -1}onClick={() => {
-                        this.props.onBoxLayerChanged(this.props.boxSelected, 1, this.props.navItemSelected, 0, 'back');}}>
+                    <button key={'-6'} className="ActionBtn" disabled={this.props.boxSelected === -1} onClick={() => {
+                        this.props.onBoxLayerChanged(this.props.boxSelected, this.props.navItemSelected, 0, 'ahead');}}>
+                        <i className="material-icons">flip_to_front</i>
+                        <span className="hideonresize">{i18n.t("order.Ahead")}</span>
+                    </button>
+                    <button key={'-7'} className="ActionBtn" disabled={this.props.boxSelected === -1} onClick={() => {
+                        this.props.onBoxLayerChanged(this.props.boxSelected, this.props.navItemSelected, 0, 'behind');}}>
+                        <i className="material-icons">flip_to_back</i>
+                        <span className="hideonresize">{i18n.t("order.Behind")}</span>
+                    </button>
+                    <button key={'-5'} className="ActionBtn" disabled={this.props.boxSelected === -1} onClick={() => {
+                        this.props.onBoxLayerChanged(this.props.boxSelected, this.props.navItemSelected, 0, 'back');}}>
                         <i className="material-icons">flip_to_back</i>
                         <span className="hideonresize">{i18n.t("order.SendtoBack")}</span>
                     </button>
-                    <span id="vs" key="-6" />
+                    <span id="vs" key="-8" />
                     { slide ? [
                         (<button key={'-1'} className={this.props.grid ? "ActionBtn active" : "ActionBtn"} onClick={this.props.onGridToggle}><i
                             className="material-icons">grid_on</i> <span

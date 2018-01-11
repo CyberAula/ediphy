@@ -225,6 +225,8 @@ let es = {
         "Open_Catalog": "Ver imágenes subidas",
         "open_conf": "Configuración",
         "order": {
+            "Ahead": "Adelante",
+            "Behind": "Atrás",
             "BringtoFront": "Al frente",
             "SendtoBack": "Al fondo",
         },

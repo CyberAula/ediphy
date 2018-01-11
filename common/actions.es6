@@ -153,8 +153,8 @@ export function increaseBoxLevel() {
     return { type: INCREASE_LEVEL, payload: {} };
 }
 
-export function changeBoxLayer(id, layer, parent, container, value) {
-    return { type: CHANGE_BOX_LAYER, payload: { id, layer, parent, container, value } };
+export function changeBoxLayer(id, parent, container, value) {
+    return { type: CHANGE_BOX_LAYER, payload: { id, parent, container, value } };
 }
 
 export function resizeSortableContainer(id, parent, height) {

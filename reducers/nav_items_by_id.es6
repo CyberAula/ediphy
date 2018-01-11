@@ -28,7 +28,6 @@ function navItemCreator(state = {}, action = {}) {
             elementContent: { documentTitle: '', documentSubTitle: '', numPage: '' },
             display: { courseTitle: 'hidden', documentTitle: 'expanded', documentSubTitle: 'hidden', breadcrumb: "reduced", pageNumber: "hidden" },
         },
-        // titleMode: isSlide(action.payload.type) ? 'hidden' : 'expanded'
     };
 }
 
@@ -37,21 +36,16 @@ function singleNavItemReducer(state = {}, action = {}) {
     case ADD_BOX:
     case PASTE_BOX:
         return changeProp(state, "boxes", [...state.boxes, action.payload.ids.id]);
-    case MOVE_BOX:
-        let children = JSON.parse(JSON.stringify(state.boxes));
-        for(let x in children) {
-            if (children[x] === action.payload.id) {
-                children.push(children.splice(x, 1)[0]);
-            }
-        }
-        return changeProp(state, "boxes", children);
     case CHANGE_BOX_LAYER:
         let boxes = JSON.parse(JSON.stringify(state.boxes));
-        for(let x in boxes) {
-            if (boxes[x] === action.payload.id) {
-                if (action.payload.value === 'front') { boxes.push(boxes.splice(x, 1)[0]); }
-                // if (action.payload.value === 'back'){ boxes.push(boxes.splice(x, 1)[1]);}
-            }
+        let x = boxes.indexOf(action.payload.id);
+        if (action.payload.value === 'front') { boxes.push(boxes.splice(x, 1)[0]); }
+        if (action.payload.value === 'back') { boxes.unshift(boxes.splice(x, 1)[0]);}
+        if (action.payload.value === 'ahead' && x <= boxes.length - 1) {
+            boxes.splice(x + 1, 0, boxes.splice(x, 1)[0]);
+        }
+        if (action.payload.value === 'behind' && x >= 0) {
+            boxes.splice(x - 1, 0, boxes.splice(x, 1)[0]);
         }
         return changeProp(state, "boxes", boxes);
     case ADD_NAV_ITEM:

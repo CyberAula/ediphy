@@ -227,6 +227,8 @@ let en = {
         "Open_Catalog": "View uploaded images",
         "open_conf": "Settings",
         "order": {
+            "Ahead": "Ahead",
+            "Behind": "Behind",
             "BringtoFront": "Front",
             "SendtoBack": "Back",
         },
