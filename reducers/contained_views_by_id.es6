@@ -1,10 +1,26 @@
-import { ADD_BOX, ADD_CONTAINED_VIEW, ADD_RICH_MARK, DELETE_RICH_MARK, EDIT_RICH_MARK, DELETE_BOX, DELETE_CONTAINED_VIEW, CHANGE_CONTAINED_VIEW_NAME, TOGGLE_TITLE_MODE, DELETE_NAV_ITEM, DELETE_SORTABLE_CONTAINER, PASTE_BOX, IMPORT_STATE } from '../common/actions';
+import {
+    ADD_BOX, ADD_CONTAINED_VIEW, ADD_RICH_MARK, DELETE_RICH_MARK, EDIT_RICH_MARK, DELETE_BOX, DELETE_CONTAINED_VIEW,
+    CHANGE_CONTAINED_VIEW_NAME, TOGGLE_TITLE_MODE, DELETE_NAV_ITEM, DELETE_SORTABLE_CONTAINER, PASTE_BOX, IMPORT_STATE,
+    CHANGE_BOX_LAYER,
+} from '../common/actions';
 import { changeProp, deleteProps, isContainedView, findNavItemContainingBox, isView } from '../common/utils';
 
 function singleContainedViewReducer(state = {}, action = {}) {
     switch (action.type) {
     case ADD_BOX:
         return changeProp(state, "boxes", [...state.boxes, action.payload.ids.id]);
+    case CHANGE_BOX_LAYER:
+        let boxes = JSON.parse(JSON.stringify(action.payload.boxes_array));
+        let x = boxes.indexOf(action.payload.id);
+        if (action.payload.value === 'front') { boxes.push(boxes.splice(x, 1)[0]); }
+        if (action.payload.value === 'back') { boxes.unshift(boxes.splice(x, 1)[0]);}
+        if (action.payload.value === 'ahead' && x <= boxes.length - 1) {
+            boxes.splice(x + 1, 0, boxes.splice(x, 1)[0]);
+        }
+        if (action.payload.value === 'behind' && x >= 0) {
+            boxes.splice(x - 1, 0, boxes.splice(x, 1)[0]);
+        }
+        return changeProp(state, "boxes", boxes);
     case ADD_RICH_MARK:
         // only fired when new mark is connected to existing cv
         let oldParents = JSON.parse(JSON.stringify(state.parent));
@@ -52,6 +68,11 @@ export default function(state = {}, action = {}) {
                 state,
                 action.payload.ids.parent,
                 singleContainedViewReducer(state[action.payload.ids.parent], action));
+        }
+        return state;
+    case CHANGE_BOX_LAYER:
+        if (action.payload.container === 0 && isContainedView(action.payload.parent)) {
+            return changeProp(state, action.payload.parent, singleContainedViewReducer(state[action.payload.parent], action));
         }
         return state;
     case EDIT_RICH_MARK:

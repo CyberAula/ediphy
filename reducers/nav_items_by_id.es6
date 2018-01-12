@@ -37,7 +37,7 @@ function singleNavItemReducer(state = {}, action = {}) {
     case PASTE_BOX:
         return changeProp(state, "boxes", [...state.boxes, action.payload.ids.id]);
     case CHANGE_BOX_LAYER:
-        let boxes = JSON.parse(JSON.stringify(state.boxes));
+        let boxes = JSON.parse(JSON.stringify(action.payload.boxes_array));
         let x = boxes.indexOf(action.payload.id);
         if (action.payload.value === 'front') { boxes.push(boxes.splice(x, 1)[0]); }
         if (action.payload.value === 'back') { boxes.unshift(boxes.splice(x, 1)[0]);}

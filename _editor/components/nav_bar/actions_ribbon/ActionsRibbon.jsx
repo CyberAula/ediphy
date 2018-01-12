@@ -4,7 +4,7 @@ import { Col } from 'react-bootstrap';
 import i18n from "i18next";
 import './_ActionsRibbon.scss';
 import Alert from '../../common/alert/Alert';
-import { isSlide } from '../../../../common/utils';
+import { isSlide, isSortableBox } from '../../../../common/utils';
 export default class ActionsRibbon extends Component {
     /**
      * Constructor
@@ -29,6 +29,17 @@ export default class ActionsRibbon extends Component {
             this.props.navItems[this.props.navItemSelected] ? this.props.navItems[this.props.navItemSelected] : null
         );
         let slide = page && isSlide(page.type);
+        let container = 0;
+        let box_layer = page.boxes.indexOf(this.props.boxSelected);
+        let disable_bt = this.props.boxSelected === -1 || page.boxes.length === 1;
+        let boxes = page.boxes;
+        // TODO:revisar este código para que puedan funcionar las capas en los documentos
+        if (!slide && this.props.boxes[this.props.boxSelected] !== undefined && !isSortableBox(this.props.boxSelected)) {
+            container = this.props.boxes[this.props.boxSelected].container;
+            boxes = this.props.boxes[page.boxes[0]].sortableContainers[container].children;
+            box_layer = this.props.boxes[page.boxes[0]].sortableContainers[container].children.indexOf(this.props.boxSelected);
+            disable_bt = this.props.boxSelected === -1 || page.boxes.length === 2;
+        }
 
         return (
             <Col id="ActionRibbon" md={12} xs={12}
@@ -37,23 +48,23 @@ export default class ActionsRibbon extends Component {
                     overflowY: 'hidden',
                 }} ref="holder">
                 <div id="Actions">
-                    <button key={'-4'} className="ActionBtn" disabled={this.props.boxSelected === -1} onClick={() => {
-                        this.props.onBoxLayerChanged(this.props.boxSelected, this.props.navItemSelected, 0, 'front');}}>
+                    <button key={'-4'} className="ActionBtn" disabled={ disable_bt || box_layer === boxes.length - 1 } onClick={() => {
+                        this.props.onBoxLayerChanged(this.props.boxSelected, page.id, 0, 'front', boxes);}}>
                         <i className="material-icons">flip_to_front</i>
                         <span className="hideonresize">{i18n.t("order.BringtoFront")}</span>
                     </button>
-                    <button key={'-6'} className="ActionBtn" disabled={this.props.boxSelected === -1} onClick={() => {
-                        this.props.onBoxLayerChanged(this.props.boxSelected, this.props.navItemSelected, 0, 'ahead');}}>
+                    <button key={'-6'} className="ActionBtn" disabled={disable_bt || box_layer === boxes.length - 1} onClick={() => {
+                        this.props.onBoxLayerChanged(this.props.boxSelected, page.id, 0, 'ahead', boxes);}}>
                         <i className="material-icons">flip_to_front</i>
                         <span className="hideonresize">{i18n.t("order.Ahead")}</span>
                     </button>
-                    <button key={'-7'} className="ActionBtn" disabled={this.props.boxSelected === -1} onClick={() => {
-                        this.props.onBoxLayerChanged(this.props.boxSelected, this.props.navItemSelected, 0, 'behind');}}>
+                    <button key={'-7'} className="ActionBtn" disabled={disable_bt || box_layer === 0} onClick={() => {
+                        this.props.onBoxLayerChanged(this.props.boxSelected, page.id, 0, 'behind', boxes);}}>
                         <i className="material-icons">flip_to_back</i>
                         <span className="hideonresize">{i18n.t("order.Behind")}</span>
                     </button>
-                    <button key={'-5'} className="ActionBtn" disabled={this.props.boxSelected === -1} onClick={() => {
-                        this.props.onBoxLayerChanged(this.props.boxSelected, this.props.navItemSelected, 0, 'back');}}>
+                    <button key={'-5'} className="ActionBtn" disabled={disable_bt || box_layer === 0} onClick={() => {
+                        this.props.onBoxLayerChanged(this.props.boxSelected, page.id, 0, 'back', boxes);}}>
                         <i className="material-icons">flip_to_back</i>
                         <span className="hideonresize">{i18n.t("order.SendtoBack")}</span>
                     </button>

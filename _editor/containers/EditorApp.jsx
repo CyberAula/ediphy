@@ -196,10 +196,11 @@ class EditorApp extends Component {
                         <Row id="actionsRibbon">
                             <ActionsRibbon onGridToggle={()=> {this.setState({ grid: !this.state.grid });}}
                                 grid={this.state.grid}
-                                onBoxLayerChanged={(id, parent, container, value) => this.dispatchAndSetState(changeBoxLayer(id, parent, container, value))}
+                                onBoxLayerChanged={(id, parent, container, value, boxes_array) => this.dispatchAndSetState(changeBoxLayer(id, parent, container, value, boxes_array))}
                                 navItemSelected={navItemSelected}
                                 containedViewSelected={containedViewSelected}
                                 boxSelected={boxSelected}
+                                boxes={boxes}
                                 navItems={navItems}
                                 containedViews={containedViews}
                                 ribbonHeight={ribbonHeight + 'px'}/>
