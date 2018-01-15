@@ -122,6 +122,7 @@ export default class EditorCanvasSli extends Component {
                                 boxLevelSelected={this.props.boxLevelSelected}
                                 containedViews={this.props.containedViews}
                                 containedViewSelected={this.props.containedViewSelected}
+                                accordions={this.props.accordions}
                                 pluginToolbars={this.props.pluginToolbars}
                                 lastActionDispatched={this.props.lastActionDispatched}
                                 deleteMarkCreator={this.props.deleteMarkCreator}
@@ -157,6 +158,7 @@ export default class EditorCanvasSli extends Component {
                     onBoxDeleted={this.props.onBoxDeleted}
                     pointerEventsCallback={this.props.pluginToolbars[this.props.boxSelected] && this.props.pluginToolbars[this.props.boxSelected].config && this.props.pluginToolbars[this.props.boxSelected].config.name && Ediphy.Plugins.get(this.props.pluginToolbars[this.props.boxSelected].config.name) ? Ediphy.Plugins.get(this.props.pluginToolbars[this.props.boxSelected].config.name).pointerEventsCallback : null}
                     onMarkCreatorToggled={this.props.onMarkCreatorToggled}
+                    accordions={this.props.accordions}
                     pluginToolbar={this.props.pluginToolbars[this.props.boxSelected]}/>
 
             </Col>

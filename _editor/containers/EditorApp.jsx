@@ -214,6 +214,7 @@ class EditorApp extends Component {
                         </Row>
                         <Row id="canvasRow" style={{ height: 'calc(100% - ' + ribbonHeight + 'px)' }}>
                             <EditorCanvas boxes={boxes}
+                                accordions={this.state.accordions}
                                 grid={this.state.grid}
                                 canvasRatio={canvasRatio}
                                 boxSelected={boxSelected}
@@ -275,6 +276,7 @@ class EditorApp extends Component {
                                 }}
                                 onMarkCreatorToggled={(id) => this.setState({ markCreatorVisible: id })}/>
                             <ContainedCanvas boxes={boxes}
+                                accordions={this.state.accordions}
                                 grid={this.state.grid}
                                 boxSelected={boxSelected}
                                 canvasRatio={canvasRatio}
@@ -285,7 +287,7 @@ class EditorApp extends Component {
                                 containedViewSelected={containedViews[containedViewSelected] || 0}
                                 markCreatorId={this.state.markCreatorVisible}
                                 addMarkShortcut= {(mark) => {
-                                    let toolbar = toolbars[boxSelected];
+                                    let toolbar = pluginToolbars[boxSelected];
                                     let state = JSON.parse(JSON.stringify(toolbar.state));
                                     state.__marks[mark.id] = JSON.parse(JSON.stringify(mark));
                                     if(mark.connection.id) {
@@ -357,6 +359,7 @@ class EditorApp extends Component {
                     visible={this.state.catalogModal}
                     onExternalCatalogToggled={() => this.setState({ catalogModal: !this.state.catalogModal })}/>}
                 <RichMarksModal boxSelected={boxSelected}
+                    accordions={this.state.accordions}
                     pluginToolbar={pluginToolbars[boxSelected]}
                     navItemSelected={navItemSelected}
                     pluginToolbars={pluginToolbars}
@@ -395,6 +398,7 @@ class EditorApp extends Component {
                         }
                     }}/>
                 <Toolbar top={(60 + ribbonHeight) + 'px'}
+                    accordions={this.state.accordions}
                     pluginToolbars={pluginToolbars}
                     viewToolbars={viewToolbars}
                     box={boxes[boxSelected]}
@@ -507,6 +511,7 @@ class EditorApp extends Component {
                     onFetchVishResources={(query) => this.dispatchAndSetState(fetchVishResourcesAsync(query))}
                 />
                 <Clipboard boxes={boxes}
+                    accordions={this.state.accordions}
                     boxSelected={boxSelected}
                     navItemSelected={navItemSelected}
                     containedViewSelected={containedViewSelected}

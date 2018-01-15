@@ -98,7 +98,7 @@ export default class EditorBoxSortable extends Component {
                                                                 boxLevelSelected={this.props.boxLevelSelected}
                                                                 containedViews={this.props.containedViews}
                                                                 containedViewSelected={this.props.containedViewSelected}
-                                                                toolbars={this.props.toolbars}
+                                                                pluginToolbars={this.props.pluginToolbars}
                                                                 lastActionDispatched={this.props.lastActionDispatched}
                                                                 addMarkShortcut={this.props.addMarkShortcut}
                                                                 deleteMarkCreator={this.props.deleteMarkCreator}
@@ -437,7 +437,7 @@ EditorBoxSortable.propTypes = {
     /**
      * Diccionario que contiene todas las cajas y vistas creadas , accesibles por su *id*
      */
-    toolbars: PropTypes.object.isRequired,
+    pluginToolbars: PropTypes.object.isRequired,
     /**
      * Última acción realizada en Redux
      */

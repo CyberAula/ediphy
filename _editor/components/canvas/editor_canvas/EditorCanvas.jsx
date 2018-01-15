@@ -96,6 +96,10 @@ EditorCanvas.propTypes = {
      */
     pluginToolbars: PropTypes.object.isRequired,
     /**
+     * Diccionario que contiene todos los valores de cajas, accesibles por su *id*
+     */
+    accordions: PropTypes.object.isRequired,
+    /**
      * Última acción realizada en Redux
      */
     lastActionDispatched: PropTypes.any.isRequired,

@@ -104,8 +104,10 @@ export default class EditorHeader extends Component {
                                         {/* NavItem title */}
                                         <h2
                                             style={{ display: (currentStatus.documentTitle === 'hidden') ? 'none' : 'block' }}>{docTitle}{this.props.containedView !== 0 ? (
-                                                <CVInfo containedViews={this.props.containedViews} navItems={this.props.navItems}
-                                                    containedView={this.props.containedView} toolbars={this.props.toolbars}
+                                                <CVInfo containedViews={this.props.containedViews}
+                                                    navItems={this.props.navItems}
+                                                    containedView={this.props.containedView}
+                                                    viewtoolbars={this.props.viewToolbars}
                                                     boxes={this.props.boxes}/>) : null}</h2>
                                         {/* NavItem subtitle */}
                                         <h3

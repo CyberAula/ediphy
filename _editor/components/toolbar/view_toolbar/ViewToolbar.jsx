@@ -23,7 +23,6 @@ export default class ViewToolbar extends Component {
      * @returns {code}
      */
     render() {
-
         let id = this.props.containedViewSelected !== 0 ? this.props.containedViewSelected : this.props.navItemSelected;
         let type = this.props.containedViewSelected !== 0 ? this.props.containedView[this.props.containedViewSelected].type : this.props.navItem[this.props.navItemSelected];
         if (isPage(id)) {
@@ -170,108 +169,6 @@ export default class ViewToolbar extends Component {
                                                 );
                                             })}
                                         </PanelGroup>
-                                    </div>
-                                );
-                            })}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        );
-
-        return (
-            <div id="wrap"
-                className="wrapper"
-                style={{
-                    right: '0px',
-                    top: this.props.top,
-                }}>
-                <div className="pestana"
-                    onClick={() => {
-                        this.props.toggleToolbar();
-                    }}/>
-                <div id="tools"
-                    style={{
-                        width: this.state.open ? '250px' : '40px',
-                    }}
-                    className="toolbox">
-                    <OverlayTrigger placement="left"
-                        overlay={
-                            <Tooltip className={this.state.open ? 'hidden' : ''}
-                                id="tooltip_props">
-                                {i18n.t('Properties')}
-                            </Tooltip>
-                        }>
-                        <div onClick={() => {
-                            this.props.toggleToolbar();
-                        }}
-                        style={{ display: 'block' }}
-                        className={this.props.open ? 'carouselListTitle toolbarSpread' : 'carouselListTitle toolbarHide'}>
-                            <div className="toolbarTitle">
-                                <i className="material-icons">settings</i>
-                                <span className="toolbarTitletxt">
-                                    {i18n.t('Properties')}
-                                </span>
-                            </div>
-                            <div className="pluginTitleInToolbar">
-                                {toolbar.config.displayName || ""}
-                            </div>
-                        </div>
-                    </OverlayTrigger>
-                    <div id="insidetools" style={{ display: this.props.open ? 'block' : 'none' }}>
-                        <div className="toolbarTabs">
-                            {Object.keys(toolbar.controls).map((tabKey, index) => {
-                                let tab = toolbar.controls[tabKey];
-                                return (
-                                    <div key={'key_' + index} className="toolbarTab">
-                                        <PanelGroup>
-                                            {Object.keys(tab.accordions).sort().map((accordionKey, ind) => {
-                                                return this.renderAccordion(
-                                                    tab.accordions[accordionKey],
-                                                    tabKey,
-                                                    [accordionKey],
-                                                    toolbar.state,
-                                                    ind
-                                                );
-                                            })}
-                                            {this.props.box.children.map((id, ind) => {
-                                                let container = this.props.box.sortableContainers[id];
-                                                if (tabKey === "main") {
-                                                    return (
-                                                        <Panel key={'panel_' + id}
-                                                            className="panelPluginToolbar"
-                                                            collapsible
-                                                            onEnter={(panel) => {
-                                                                panel.parentNode.classList.add("extendedPanel");
-                                                            }}
-                                                            onExited={(panel) => {
-                                                                panel.parentNode.classList.remove("extendedPanel");
-                                                            }}
-                                                            header={
-                                                                <span>
-                                                                    <i className="toolbarIcons material-icons">web_asset</i>
-                                                                    {(toolbar.state.__pluginContainerIds && toolbar.state.__pluginContainerIds[container.key].name) ?
-                                                                        toolbar.state.__pluginContainerIds[container.key].name :
-                                                                        (i18n.t('Block') + ' ' + (ind + 1))
-                                                                    }
-                                                                </span>
-                                                            }>
-                                                            <GridConfigurator id={id}
-                                                                parentId={this.props.box.id}
-                                                                container={container}
-                                                                onColsChanged={this.props.onColsChanged}
-                                                                onRowsChanged={this.props.onRowsChanged}
-                                                                sortableProps={this.props.box.sortableContainers[id]}
-                                                                onSortablePropsChanged={this.props.onSortablePropsChanged}
-                                                                onSortableContainerResized={this.props.onSortableContainerResized}/>
-                                                        </Panel>);
-                                                }
-                                                return null;
-                                            })}
-                                        </PanelGroup>
-                                        {textButton}
-                                        {xmlButton}
-                                        {configButton}
                                     </div>
                                 );
                             })}

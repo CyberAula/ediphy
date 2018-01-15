@@ -103,6 +103,7 @@ export default class EditorCanvasDoc extends Component {
                                         return <EditorBox key={id}
                                             id={id}
                                             addMarkShortcut={this.props.addMarkShortcut}
+                                            accordions={this.props.accordions}
                                             boxes={this.props.boxes}
                                             boxSelected={this.props.boxSelected}
                                             boxLevelSelected={this.props.boxLevelSelected}
@@ -128,6 +129,7 @@ export default class EditorCanvasDoc extends Component {
                                     return <EditorBoxSortable key={id}
                                         id={id}
                                         addMarkShortcut={this.props.addMarkShortcut}
+                                        accordions={this.props.accordions}
                                         boxes={this.props.boxes}
                                         boxSelected={this.props.boxSelected}
                                         boxLevelSelected={this.props.boxLevelSelected}
@@ -158,6 +160,7 @@ export default class EditorCanvasDoc extends Component {
                     </div>
                 </div>
                 <EditorShortcuts
+                    accordions={this.props.accordions}
                     box={this.props.boxes[this.props.boxSelected]}
                     containedViewSelected={this.props.containedViewSelected}
                     isContained={this.props.fromCV}
@@ -167,7 +170,7 @@ export default class EditorCanvasDoc extends Component {
                     lastActionDispatched={this.props.lastActionDispatched}
                     pointerEventsCallback={this.props.pluginToolbars[this.props.boxSelected] && this.props.pluginToolbars[this.props.boxSelected].config && this.props.pluginToolbars[this.props.boxSelected].config.name && Ediphy.Plugins.get(this.props.pluginToolbars[this.props.boxSelected].config.name) ? Ediphy.Plugins.get(this.props.pluginToolbars[this.props.boxSelected].config.name).pointerEventsCallback : null}
                     onMarkCreatorToggled={this.props.onMarkCreatorToggled}
-                    toolbar={this.props.pluginToolbars[this.props.boxSelected]}/>
+                    pluginToolbar={this.props.pluginToolbars[this.props.boxSelected]}/>
             </Col>
         );
     }

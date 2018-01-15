@@ -38,7 +38,7 @@ export default class CVInfo extends Component {
                 } else {
                     break;
                 }
-                cvList.push(<span className="cvList" key={id}>{markName}<b>{this.props.toolbars[id].config.displayName}</b> { ' (' + from + ')'}</span>);
+                cvList.push(<span className="cvList" key={id}>{markName}<b>{this.props.viewToolbars[id].config.displayName}</b> { ' (' + from + ')'}</span>);
             }
         }
 
@@ -70,7 +70,7 @@ CVInfo.propTypes = {
     /**
      * Diccionario que contiene todas las toolbars, accesibles por el *id* de su caja/vista
      */
-    toolbars: PropTypes.object.isRequired,
+    viewToolbars: PropTypes.object.isRequired,
     /**
      * Diccionario que contiene todas las cajas creadas, accesibles por su *id*
      */

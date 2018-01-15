@@ -388,7 +388,7 @@ RichMarksModal.propTypes = {
     /**
      * Diccionario que contiene las toolbars
      */
-    toolbars: PropTypes.object.isRequired,
+    pluginToolbars: PropTypes.object.isRequired,
     /**
      * Vista contenida seleccionada
      */
