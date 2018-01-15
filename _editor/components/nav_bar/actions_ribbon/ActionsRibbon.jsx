@@ -33,14 +33,14 @@ export default class ActionsRibbon extends Component {
         let box_layer = page.boxes.indexOf(this.props.boxSelected);
         let disable_bt = this.props.boxSelected === -1 || page.boxes.length === 1;
         let boxes = page.boxes;
-        // TODO:revisar este código para que puedan funcionar las capas en los documentos
-        if (!slide && this.props.boxes[this.props.boxSelected] !== undefined && !isSortableBox(this.props.boxSelected)) {
+        // let index = Object.keys(this.props.boxes).length;
+        // TODO:revisar este código para que puedan funcionar las capas en los documentos (posición absoluta combinada con relativa...mal)
+        /* if (!slide && this.props.boxes[this.props.boxSelected] !== undefined && index > 1) {
             container = this.props.boxes[this.props.boxSelected].container;
             boxes = this.props.boxes[page.boxes[0]].sortableContainers[container].children;
             box_layer = this.props.boxes[page.boxes[0]].sortableContainers[container].children.indexOf(this.props.boxSelected);
             disable_bt = this.props.boxSelected === -1 || page.boxes.length === 2;
-        }
-
+        } */
         return (
             <Col id="ActionRibbon" md={12} xs={12}
                 style={{
@@ -48,28 +48,27 @@ export default class ActionsRibbon extends Component {
                     overflowY: 'hidden',
                 }} ref="holder">
                 <div id="Actions">
-                    <button key={'-4'} className="ActionBtn" disabled={ disable_bt || box_layer === boxes.length - 1 } onClick={() => {
-                        this.props.onBoxLayerChanged(this.props.boxSelected, page.id, 0, 'front', boxes);}}>
+                    { slide ? [<button key={'-4'} className="ActionBtn" disabled={ disable_bt || box_layer === boxes.length - 1 } onClick={() => {
+                        this.props.onBoxLayerChanged(this.props.boxSelected, page.id, container, 'front', boxes);}}>
                         <i className="material-icons">flip_to_front</i>
                         <span className="hideonresize">{i18n.t("order.BringtoFront")}</span>
-                    </button>
+                    </button>,
                     <button key={'-6'} className="ActionBtn" disabled={disable_bt || box_layer === boxes.length - 1} onClick={() => {
-                        this.props.onBoxLayerChanged(this.props.boxSelected, page.id, 0, 'ahead', boxes);}}>
+                        this.props.onBoxLayerChanged(this.props.boxSelected, page.id, container, 'ahead', boxes);}}>
                         <i className="material-icons">flip_to_front</i>
                         <span className="hideonresize">{i18n.t("order.Ahead")}</span>
-                    </button>
+                    </button>,
                     <button key={'-7'} className="ActionBtn" disabled={disable_bt || box_layer === 0} onClick={() => {
-                        this.props.onBoxLayerChanged(this.props.boxSelected, page.id, 0, 'behind', boxes);}}>
+                        this.props.onBoxLayerChanged(this.props.boxSelected, page.id, container, 'behind', boxes);}}>
                         <i className="material-icons">flip_to_back</i>
                         <span className="hideonresize">{i18n.t("order.Behind")}</span>
-                    </button>
+                    </button>,
                     <button key={'-5'} className="ActionBtn" disabled={disable_bt || box_layer === 0} onClick={() => {
-                        this.props.onBoxLayerChanged(this.props.boxSelected, page.id, 0, 'back', boxes);}}>
+                        this.props.onBoxLayerChanged(this.props.boxSelected, page.id, container, 'back', boxes);}}>
                         <i className="material-icons">flip_to_back</i>
                         <span className="hideonresize">{i18n.t("order.SendtoBack")}</span>
-                    </button>
-                    <span id="vs" key="-8" />
-                    { slide ? [
+                    </button>,
+                    <span id="vs" key="-8" />,
                         (<button key={'-1'} className={this.props.grid ? "ActionBtn active" : "ActionBtn"} onClick={this.props.onGridToggle}><i
                             className="material-icons">grid_on</i> <span
                             className="hideonresize">{i18n.t("Grid")}</span></button>),
