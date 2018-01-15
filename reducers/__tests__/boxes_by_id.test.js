@@ -455,7 +455,8 @@ describe('# boxes_by_id reducer', () => {
             };
 
             let newState = { "bs-1511252955322": { "id": "bs-1511252955322", "parent": "pa-1511252955321", "container": 0, "level": -1, "col": 0, "row": 0, "position": { "x": 0, "y": 0, "type": "relative" }, "draggable": false, "resizable": false, "showTextEditor": false, "fragment": {}, "children": [], "sortableContainers": {}, "containedViews": [] },
-                "bo-1511252970033": { "id": "bo-1511252970033", "parent": "pa-1511252955865", "container": 0, "level": 0, "col": 0, "row": 0, "position": { "x": "29.56%", "y": "28.67%", "type": "absolute" }, "content": "", "draggable": true, "resizable": true, "showTextEditor": false, "fragment": {}, "children": [], "sortableContainers": {}, "containedViews": [] },
+                "bo-1511252970033": { "id": "bo-1511252970033", "parent": "pa-1511252955865", "container": 0, "level": 0, "col": 0, "row": 0, "position": { "x": "29.56%", "y": "28.67%", "type": "absolute" }, "content": "", "draggable": true, "resizable": true, "showTextEditor": false, "fragment": {}, "children": [], "sortableContainers": {}, "containedViews": ["cv-1511252975055"] },
+                "bo-1511252970034": { "id": "bo-1511252970034", "parent": "pa-1511252955865", "container": 0, "level": 0, "col": 0, "row": 0, "position": { "x": "29.56%", "y": "28.67%", "type": "absolute" }, "content": "", "draggable": true, "resizable": true, "showTextEditor": false, "fragment": {}, "children": [], "sortableContainers": {}, "containedViews": [] },
                 "bs-1511252985426": { "id": "bs-1511252985426", "parent": "pa-1511252985426", "container": 0, "level": -1, "col": 0, "row": 0, "position": { "x": 0, "y": 0, "type": "relative" }, "draggable": false, "resizable": false, "showTextEditor": false, "fragment": {},
                     "children": ["sc-1511443052922", "sc-1511443052923"],
                     "sortableContainers": {
@@ -565,6 +566,23 @@ describe('# boxes_by_id reducer', () => {
                 },
                 'bo-1511443052968': {
                     "id": 'bo-1511443052968',
+                    "parent": 'cv-1511252975055',
+                    "container": 0,
+                    "level": 0,
+                    "col": 0,
+                    "row": 0,
+                    "position": { x: 0, y: 0, type: 'absolute' },
+                    "content": '',
+                    "draggable": true,
+                    "resizable": true,
+                    "showTextEditor": false,
+                    "fragment": {},
+                    "children": [],
+                    "sortableContainers": {},
+                    "containedViews": [],
+                },
+                'bo-1511443052969': {
+                    "id": 'bo-1511443052969',
                     "parent": 'cv-1511252975055',
                     "container": 0,
                     "level": 0,

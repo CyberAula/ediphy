@@ -6,7 +6,7 @@ import { addNavItem, selectNavItem, expandNavItem, deleteNavItem, reorderNavItem
     changeNavItemName, selectIndex,
     addBox, selectBox, moveBox, resizeBox, updateBox, duplicateBox, deleteBox, reorderSortableContainer, dropBox, increaseBoxLevel,
     resizeSortableContainer, deleteSortableContainer, changeCols, changeRows, changeSortableProps, reorderBoxes, verticallyAlignBox,
-    toggleTextEditor, toggleTitleMode, pasteBox,
+    toggleTextEditor, toggleTitleMode, pasteBox, changeBoxLayer,
     changeDisplayMode, updateToolbar,
     exportStateAsync, importStateAsync, importState, changeGlobalConfig,
     fetchVishResourcesSuccess, fetchVishResourcesAsync, uploadVishResourceAsync,
@@ -196,8 +196,11 @@ class EditorApp extends Component {
                         <Row id="actionsRibbon">
                             <ActionsRibbon onGridToggle={()=> {this.setState({ grid: !this.state.grid });}}
                                 grid={this.state.grid}
+                                onBoxLayerChanged={(id, parent, container, value, boxes_array) => this.dispatchAndSetState(changeBoxLayer(id, parent, container, value, boxes_array))}
                                 navItemSelected={navItemSelected}
                                 containedViewSelected={containedViewSelected}
+                                boxSelected={boxSelected}
+                                boxes={boxes}
                                 navItems={navItems}
                                 containedViews={containedViews}
                                 ribbonHeight={ribbonHeight + 'px'}/>

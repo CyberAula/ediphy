@@ -65,7 +65,7 @@ export default class EditorBoxSortable extends Component {
                                     height: container.height === 'auto' ? container.height : container.height + 'px',
                                 }, container.style)
                             }>
-                            <div className="disp_table width100 height100" style={{ minHeight: '100px', height: '1px' }}>
+                            <div className="disp_table width100 height100" style={{ minHeight: '100px' }}>
                                 {container.colDistribution.map((col, i) => {
                                     if (container.cols[i]) {
                                         return (<div key={i}

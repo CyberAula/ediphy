@@ -30,6 +30,10 @@
   &:hover{
     color: black;
   }
+  &[disabled]{
+    cursor: not-allowed;
+    color: $grismedio;
+  }
 }
 
 .ActionBtn.active{

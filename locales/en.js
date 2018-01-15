@@ -226,6 +226,12 @@ let en = {
         "Open": "Open",
         "Open_Catalog": "View uploaded images",
         "open_conf": "Settings",
+        "order": {
+            "Ahead": "Ahead",
+            "Behind": "Behind",
+            "BringtoFront": "Front",
+            "SendtoBack": "Back",
+        },
         "page": "Page",
         "pagenumber": "Page Number",
         "Pixels": "Pixels",

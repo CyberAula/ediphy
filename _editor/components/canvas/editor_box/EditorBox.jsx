@@ -193,8 +193,7 @@ export default class EditorBox extends Component {
             showOverlay = "initial";
         // If current level selected is the same but this box belongs to another "tree" of boxes, show overlay
         } else if (this.props.boxLevelSelected === box.level &&
-                   box.level !== 0 &&
-                   !isAncestorOrSibling(this.props.boxSelected, this.props.id, this.props.boxes)) {
+                   box.level !== 0) {
             showOverlay = "initial";
         }
         let verticalAlign = "top";
@@ -219,8 +218,7 @@ export default class EditorBox extends Component {
                         return;
                     }
                     // Last parent has to be the same, otherwise all boxes with same level would be selectable
-                    if(this.props.boxLevelSelected === box.level &&
-                       isAncestorOrSibling(this.props.boxSelected, this.props.id, this.props.boxes)) {
+                    if(this.props.boxLevelSelected === box.level) {
                         if(e.nativeEvent.ctrlKey && box.children.length !== 0) {
                             this.props.onBoxLevelIncreased();
                         }else if(this.props.boxSelected !== this.props.id) {
