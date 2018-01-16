@@ -7,6 +7,7 @@ import { isSection } from '../../../../common/utils';
 import Ediphy from '../../../../core/editor/main';
 import './_navBar.scss';
 import screenfull from 'screenfull';
+import ImportFile from "../import_file/ImportFile";
 
 /**
  * Upper navigation bar component
@@ -23,6 +24,7 @@ export default class EditorNavBar extends Component {
          */
         this.state = {
             showGlobalConfig: false,
+            showImportFile: false,
             isFullScreenOn: screenfull.isFullscreen,
 
         };
@@ -186,6 +188,13 @@ export default class EditorNavBar extends Component {
                                 {i18n.t('Save')}
                             </button>
                         </MenuItem>}
+                        <MenuItem disabled={this.props.undoDisabled} eventKey="7" key="7">
+                            <button className="dropdownButton" title="Importar PDF"
+                                disabled={ false }
+                                onClick={() => this.setState({ showImportFile: true })}><i className="material-icons">file_upload</i>
+                                importar PDF
+                            </button>
+                        </MenuItem>
                         <MenuItem disabled={this.props.undoDisabled} eventKey="1" key="1">
                             <button className="dropdownButton" title={i18n.t('messages.export_to_HTML')}
                                 disabled={ (this.props.navItemSelected === 0) || this.props.undoDisabled}
@@ -232,11 +241,12 @@ export default class EditorNavBar extends Component {
                             </MenuItem>]}
                     </Dropdown.Menu>
                 </Dropdown>
-
                 <GlobalConfig show={this.state.showGlobalConfig}
                     globalConfig={this.props.globalConfig}
                     changeGlobalConfig={this.props.changeGlobalConfig}
                     close={()=>{this.setState({ showGlobalConfig: false });}}/>
+                <ImportFile show={this.state.showImportFile}
+                    close={()=>{this.setState({ showImportFile: false });}}/>
             </Col>
         );
     }
