@@ -29,13 +29,12 @@ export default class ImportFile extends Component {
                 </Modal.Header>
                 <Modal.Body className="gcModalBody" style={{ overFlowY: 'auto' }}>
                     <form>
-                        <h4>Selecciona un fichero</h4>
                         <FileInput onChange={this.fileChanged} className="fileInput" accept=".pdf">
                             <div className="fileDrag">
                                 <span style={{ display: 'block' }}><b>{ i18n.t('FileInput.Drag') }</b>{ i18n.t('FileInput.Drag_2') }<b>{ i18n.t('FileInput.Click') }</b></span>
                             </div>
                         </FileInput>
-                        <canvas id='mycanvas'/>
+                        <canvas id='mycanvas' />
                     </form>
                 </Modal.Body>
                 <Modal.Footer>
@@ -51,8 +50,7 @@ export default class ImportFile extends Component {
     }
 
     fileChanged(event) {
-        let files = event.target.files;
-        let file = files[0];
+        let file = event.target.files[0];
         if (file.type === 'application/pdf') {
             pdflib.PDFJS.workerSrc = 'pdf.worker-bundle.js';
             // Loading a document.
@@ -61,16 +59,16 @@ export default class ImportFile extends Component {
                 // Request a first page
                 return pdfDocument.getPage(1).then(function(pdfPage) {
                     // Display page on the existing canvas with 100% scale.
-                    let viewport = pdfPage.getViewport(1.0);
+                    let viewport = pdfPage.getViewport(0.3);
                     let canvas = document.getElementById('mycanvas');
                     canvas.width = viewport.width;
                     canvas.height = viewport.height;
+                    canvas.style.border = '1px solid';
                     let ctx = canvas.getContext('2d');
                     let renderTask = pdfPage.render({
                         canvasContext: ctx,
                         viewport: viewport,
                     });
-                    console.log(canvas);
                     return renderTask.promise;
                 });
             }).catch(function(reason) {
