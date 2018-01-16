@@ -66,11 +66,9 @@ export default class EditorCanvasSli extends Component {
         return (
             <Col id={this.props.fromCV ? 'containedCanvas' : 'canvas'} md={12} xs={12} className="canvasSliClass"
                 style={{ display: this.props.containedViewSelected !== 0 && !this.props.fromCV ? 'none' : 'initial' }}>
-
                 <div id={this.props.fromCV ? 'airlayer_cv' : 'airlayer'}
                     className={'slide_air'}
                     style={{ margin: 'auto', visibility: (this.props.showCanvas ? 'visible' : 'hidden') }}>
-
                     <div id={this.props.fromCV ? "contained_maincontent" : "maincontent"}
                         ref="slideDropZone"
                         onClick={e => {
@@ -80,6 +78,7 @@ export default class EditorCanvasSli extends Component {
                         }}
                         className={'innercanvas sli'}
                         style={{ visibility: (this.props.showCanvas ? 'visible' : 'hidden') }}>
+
                         {this.state.alert}
                         {gridOn ? <SnapGrid key={this.props.fromCV}/> : null}
                         <EditorHeader titles={titles}
