@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import { Modal, Grid, Row, Col, FormGroup, ControlLabel, FormControl, InputGroup, Radio, OverlayTrigger, Popover, Button } from 'react-bootstrap';
 import i18n from 'i18next';
 import FileInput from "../../common/file-input/FileInput";
-import pdflib from 'pdfjs-dist';
-
+import pdflib from 'pdfjs-dist/webpack';
 /**
  * Generic import file modal
  */
@@ -15,6 +14,12 @@ export default class ImportFile extends Component {
      */
     constructor(props) {
         super(props);
+        this.state = {
+            FileLoaded: false,
+            FileName: '',
+            FilePages: 0,
+        };
+        this.fileChanged = this.fileChanged.bind(this);
     }
     /**
      * Renders React component
@@ -29,12 +34,47 @@ export default class ImportFile extends Component {
                 </Modal.Header>
                 <Modal.Body className="gcModalBody" style={{ overFlowY: 'auto' }}>
                     <form>
-                        <FileInput onChange={this.fileChanged} className="fileInput" accept=".pdf">
+                        <FileInput onChange={ this.fileChanged } className="fileInput" accept=".pdf">
                             <div className="fileDrag">
-                                <span style={{ display: 'block' }}><b>{ i18n.t('FileInput.Drag') }</b>{ i18n.t('FileInput.Drag_2') }<b>{ i18n.t('FileInput.Click') }</b></span>
+                                <span style={{ display: this.state.FileLoaded ? 'none' : 'block' }}><b>{ i18n.t('FileInput.Drag') }</b>{ i18n.t('FileInput.Drag_2') }<b>{ i18n.t('FileInput.Click') }</b></span>
+                                <span className="fileUploaded" style={{ display: this.state.FileLoaded ? 'block' : 'none' }}><i className="material-icons">insert_drive_file</i>{ this.state.FileName || '' }</span>
                             </div>
                         </FileInput>
-                        <canvas id='mycanvas' />
+                        <Row style={{ display: this.state.FileLoaded ? 'block' : 'none' }}>
+                            <Col xs={12} md={5} lg={5}><canvas id='mycanvas' /></Col>
+                            <Col xs={12} md={7} lg={7}>
+                                <FormGroup>
+                                    <ControlLabel>Páginas</ControlLabel><br/>
+                                    <Radio name="radioGroup" inline>
+                                        Todas ({ this.state.FilePages })
+                                    </Radio>{' '}
+                                    <br/><br/>
+                                    <Radio name="radioGroup" inline defaultChecked>
+                                        <FormGroup >
+                                            <InputGroup className="inputGroup">
+                                                <InputGroup.Addon>Desde</InputGroup.Addon>
+                                                <FormControl type="number"
+                                                    style={{ minWidth: '55px' }}
+                                                    value={1}
+                                                    min={0}
+                                                    max={this.state.FilePages}
+                                                    onChange={e => {this.setState({ modifiedState: true });}}/>
+                                            </InputGroup>
+                                            <InputGroup className="inputGroup">
+                                                <InputGroup.Addon>Hasta</InputGroup.Addon>
+                                                <FormControl type="number"
+                                                    style={{ minWidth: '55px' }}
+                                                    value={1}
+                                                    min={0}
+                                                    max={this.state.FilePages}
+                                                    onChange={e => {this.setState({ modifiedState: true });}}/>
+                                            </InputGroup>
+                                        </FormGroup>
+                                    </Radio>{' '}
+                                </FormGroup>
+                            </Col>
+                        </Row>
+
                     </form>
                 </Modal.Body>
                 <Modal.Footer>
@@ -50,12 +90,16 @@ export default class ImportFile extends Component {
     }
 
     fileChanged(event) {
+        let process = this;
         let file = event.target.files[0];
+        let pdfURL = URL.createObjectURL(file);
+        // PDFJS.getDocument(data).then(function (doc) {};
+
         if (file.type === 'application/pdf') {
-            pdflib.PDFJS.workerSrc = 'pdf.worker-bundle.js';
-            // Loading a document.
-            let loadingTask = pdflib.getDocument('images/sample.pdf');
+            let loadingTask = pdflib.getDocument(pdfURL);
             loadingTask.promise.then(function(pdfDocument) {
+                let numPages = pdfDocument.numPages;
+                process.setState({ FileLoaded: true, FileName: file.name, FilePages: numPages });
                 // Request a first page
                 return pdfDocument.getPage(1).then(function(pdfPage) {
                     // Display page on the existing canvas with 100% scale.
@@ -69,6 +113,7 @@ export default class ImportFile extends Component {
                         canvasContext: ctx,
                         viewport: viewport,
                     });
+
                     return renderTask.promise;
                 });
             }).catch(function(reason) {

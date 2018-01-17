@@ -13,7 +13,6 @@ module.exports = merge.smart(common, {
             './index.jsx',
         ], // Appʼs entry point
         'visor': path.join(__dirname, '/_visor/containers/VisorApp.jsx'),
-        'pdf.worker': 'pdfjs-dist/build/pdf.worker.entry',
     },
     output: {
         path: path.join(__dirname, '/dist'),
