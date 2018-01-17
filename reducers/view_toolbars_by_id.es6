@@ -48,10 +48,27 @@ function toolbarReducer(state, action) {
     let newState;
     switch (action.type) {
     case CHANGE_NAV_ITEM_NAME:
-        return state;
+        newState = {
+            ...state,
+            state: {
+                ...state.pagetitle_name,
+                pagetitle_name: action.payload.value,
+            },
+        };
+        return newState;
     case CHANGE_CONTAINED_VIEW_NAME:
-        return state;
+        newState = {
+            ...state,
+            state: {
+                ...state.pagetitle_name,
+                pagetitle_name: action.payload.value,
+            },
+        };
+        return newState;
     case UPDATE_TOOLBAR:
+        newState = {
+            ...state, state:
+            action.payload.value };
         return newState;
     default:
         return state;
@@ -127,42 +144,13 @@ export default function(state = {}, action = {}) {
     case CHANGE_CONTAINED_VIEW_NAME:
         return changeProp(state, action.payload.id, toolbarReducer(state[action.payload.id], action));
     case DELETE_CONTAINED_VIEW:
-        let boxesCV = action.payload.boxes ? action.payload.boxes : [];
-        let newToolbarCV = JSON.parse(JSON.stringify(state));
-        let parents = action.payload.parent ? action.payload.parent : [];
-        // Delete all related marks
-        Object.keys(parents).forEach((el)=>{
-            if (newToolbarCV[el] && newToolbarCV[el].state && newToolbarCV[el].state.__marks) {
-                parents[el].forEach((mark)=>{
-                    if (newToolbarCV[el].state.__marks[mark] && newToolbarCV[el].state.__marks[mark].connection === action.payload.ids[0]) {
-                        delete newToolbarCV[el].state.__marks[mark];
-                    }
-                });
-            }
-        });
         return deleteProps(newToolbarCV, boxesCV.concat(action.payload.ids[0]));
     case DELETE_NAV_ITEM:
-        let boxes = action.payload.boxes ? action.payload.boxes : [];
-        let linkedBoxes = action.payload.linkedBoxes ? action.payload.linkedBoxes : {};
-        let newToolbar = JSON.parse(JSON.stringify(state));
-        Object.keys(linkedBoxes).forEach((el)=>{
-            if (newToolbar[el] && newToolbar[el].state && newToolbar[el].state.__marks) {
-                for (let markId in linkedBoxes[el]) {
-                    let mark = linkedBoxes[el][markId];
-                    action.payload.ids.forEach((id)=>{
-                        if (newToolbar[el].state.__marks[mark] && newToolbar[el].state.__marks[mark].connection === id) {
-                            delete newToolbar[el].state.__marks[mark];
-                        }
-                    });
-
-                }
-            }
-        });
         return deleteProps(newToolbar, boxes.concat(action.payload.ids));
     case UPDATE_TOOLBAR:
         return changeProp(state, action.payload.id, toolbarReducer(state[action.payload.id], action));
     case IMPORT_STATE:
-        return action.payload.present.toolbarsById || state;
+        return action.payload.present.pluginToolbarsById || state;
     default:
         return state;
     }

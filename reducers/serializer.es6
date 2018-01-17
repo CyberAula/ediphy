@@ -138,6 +138,10 @@ export function toolbarPlugin(state) {
     return newState;
 }
 
+export function marks(state) {
+    return {};
+}
+
 /**
  * Function to make sure toolbarView is properly built
  * @param recieved state

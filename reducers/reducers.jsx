@@ -18,7 +18,7 @@ import navItemsById from './nav_items_by_id';
 import navItemsIds from './nav_items_ids';
 import navItemSelected from './nav_item_selected';
 import marksById from './marks_by_id';
-import pluginToolbarsById from './plugin_toolbar_by_id';
+import pluginToolbarsById from './plugin_toolbars_by_id';
 import viewToolbarsById from './view_toolbars_by_id';
 import globalConfig from './global_config';
 

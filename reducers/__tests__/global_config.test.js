@@ -2,9 +2,9 @@ import { testState } from '../../core/store/state.tests.js';
 import global_config from '../global_config';
 import * as ActionTypes from '../../common/actions';
 
-const state = testState.present.globalConfig;
-
 describe('# global_config reducer', ()=>{
+    const state = testState.present.globalConfig;
+
     describe('DEFAULT', ()=>{
         test('Should return test.state as default', () => {
             expect(global_config(state, {})).toEqual(state);
