@@ -102,7 +102,7 @@ describe('# boxes_by_id reducer', () => {
         });
     });
 
-    // describe('handle DUPLICATE_BOX  **************************************** TODO copy & paste', () => {
+    // describe('handle 1  **************************************** TODO copy & paste', () => {
     //     test('If duplicated box', () => {
     //         // expect(boxes_by_id(state, {})).toEqual(state);
     //     });
