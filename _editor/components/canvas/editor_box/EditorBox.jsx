@@ -635,7 +635,8 @@ export default class EditorBox extends Component {
                     }
                     let containerId = hoverSortableContainer || box.container;
                     let disposition = { col: col || 0, row: row || 0 };
-                    this.props.onBoxMoved(
+                    // TODO Comentar?
+                    /* this.props.onBoxMoved(
                         this.props.id,
                         isSortableContainer(box.container) ? left : absoluteLeft,
                         isSortableContainer(box.container) ? top : absoluteTop,
@@ -643,14 +644,15 @@ export default class EditorBox extends Component {
                         box.parent,
                         containerId,
                         disposition
-                    );
+                    );*/
 
                     // Stuff to reorder boxes when position is relative
                     let hoverID = this.releaseClick(releaseClick, 'box-');
                     let boxOb = this.props.boxes[this.props.id];
                     console.log(boxOb.container, containerId, container, this.props.boxes);
+                    console.log(box.container, boxOb.container, containerId);
+                    if (boxOb && isSortableContainer(boxOb.container) && box.container === containerId) {
 
-                    if (boxOb && isSortableContainer(boxOb.container) && boxOb.container === containerId) {
                         let children = this.props.boxes[boxOb.parent].sortableContainers[boxOb.container].children;
                         if (children.indexOf(hoverID) !== -1) {
                             let newOrder = JSON.parse(JSON.stringify(children));
@@ -763,6 +765,7 @@ export default class EditorBox extends Component {
                     target.style.width = widthButton.displayValue === 'auto' ? 'auto' : widthButton.value + widthButton.units;
                     target.style.height = heightButton.displayValue === 'auto' ? 'auto' : heightButton.value + heightButton.units;
                     this.props.onBoxResized(this.props.id, widthButton, heightButton);
+
                     if (box.position.x !== target.style.left || box.position.y !== target.style.top) {
                         target.style.left = (parseFloat(target.style.left) / 100 * target.parentElement.offsetWidth + parseFloat(target.getAttribute('data-x'))) * 100 / target.parentElement.offsetWidth + '%';
                         target.style.top = (parseFloat(target.style.top) / 100 * target.parentElement.offsetHeight + parseFloat(target.getAttribute('data-y'))) * 100 / target.parentElement.offsetHeight + '%';
