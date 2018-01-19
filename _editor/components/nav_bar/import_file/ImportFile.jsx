@@ -4,6 +4,14 @@ import { Modal, Grid, Row, Col, FormGroup, ControlLabel, FormControl, InputGroup
 import i18n from 'i18next';
 import FileInput from "../../common/file-input/FileInput";
 import pdflib from 'pdfjs-dist/webpack';
+import { ADD_BOX } from "../../../../common/actions";
+import { isSlide } from "../../../../common/utils";
+import { randomPositionGenerator } from "../../clipboard/clipboard.utils";
+import { ID_PREFIX_SORTABLE_CONTAINER } from "../../../../common/constants";
+import Ediphy from "../../../../core/editor/main";
+// styles
+import './_ImportFile.scss';
+
 /**
  * Generic import file modal
  */
@@ -18,8 +26,10 @@ export default class ImportFile extends Component {
             FileLoaded: false,
             FileName: '',
             FilePages: 0,
+            FileType: '',
+            ImportAs: '',
         };
-        this.fileChanged = this.fileChanged.bind(this);
+        this.fileLoad = this.fileLoad.bind(this);
     }
     /**
      * Renders React component
@@ -27,29 +37,30 @@ export default class ImportFile extends Component {
      */
     render() {
         return (
-            <Modal className="pageModal"
+            <Modal className="pageModal" id="ImportFileModal"
                 show={this.props.show}>
                 <Modal.Header>
-                    <Modal.Title><span id="previewTitle">Importar fichero</span></Modal.Title>
+                    <Modal.Title><span id="previewTitle">Importar fichero {this.state.FileType}</span></Modal.Title>
                 </Modal.Header>
                 <Modal.Body className="gcModalBody" style={{ overFlowY: 'auto' }}>
                     <form>
-                        <FileInput onChange={ this.fileChanged } className="fileInput" accept=".pdf">
-                            <div className="fileDrag">
-                                <span style={{ display: this.state.FileLoaded ? 'none' : 'block' }}><b>{ i18n.t('FileInput.Drag') }</b>{ i18n.t('FileInput.Drag_2') }<b>{ i18n.t('FileInput.Click') }</b></span>
-                                <span className="fileUploaded" style={{ display: this.state.FileLoaded ? 'block' : 'none' }}><i className="material-icons">insert_drive_file</i>{ this.state.FileName || '' }</span>
+                        <FileInput onChange={ this.fileLoad } className="fileInput" accept=".pdf">
+                            <div className="fileDrag" style={{ display: this.state.FileLoaded ? 'none' : 'block' }}>
+                                <span><b>{ i18n.t('FileInput.Drag') }</b>{ i18n.t('FileInput.Drag_2') }<b>{ i18n.t('FileInput.Click') }</b></span>
                             </div>
                         </FileInput>
+                        <div className="fileLoaded" style={{ display: this.state.FileLoaded ? 'block' : 'none' }}>
+                            <div className="fileUploaded" ><i className="material-icons">insert_drive_file</i><span>{ this.state.FileName || '' }</span></div>
+                        </div>
                         <Row style={{ display: this.state.FileLoaded ? 'block' : 'none' }}>
-                            <Col xs={12} md={5} lg={5}><canvas id='mycanvas' /></Col>
-                            <Col xs={12} md={7} lg={7}>
+                            <Col xs={12} md={6} lg={6}><canvas id='FilePreview' /></Col>
+                            <Col xs={12} md={6} lg={6}>
                                 <FormGroup>
-                                    <ControlLabel>Páginas</ControlLabel><br/>
-                                    <Radio name="radioGroup" inline>
+                                    <ControlLabel>Páginas</ControlLabel>
+                                    <Radio name="radioPages" inline>
                                         Todas ({ this.state.FilePages })
-                                    </Radio>{' '}
-                                    <br/><br/>
-                                    <Radio name="radioGroup" inline defaultChecked>
+                                    </Radio>
+                                    <Radio name="radioPages" inline defaultChecked>
                                         <FormGroup >
                                             <InputGroup className="inputGroup">
                                                 <InputGroup.Addon>Desde</InputGroup.Addon>
@@ -70,7 +81,22 @@ export default class ImportFile extends Component {
                                                     onChange={e => {this.setState({ modifiedState: true });}}/>
                                             </InputGroup>
                                         </FormGroup>
-                                    </Radio>{' '}
+                                    </Radio>
+                                </FormGroup>
+                                <FormGroup>
+                                    <ControlLabel>Importar como</ControlLabel>
+                                    <Radio name="radioImport" inline onChange={e => {this.setState({ ImportAs: 'DocBackground' });}}>
+                                       Fondo en documento
+                                    </Radio>
+                                    <Radio name="radioImport" inline onChange={e => {this.setState({ ImportAs: 'SliBackground' });}}>
+                                        Fondo en diapositiva
+                                    </Radio>
+                                    <Radio name="radioImport" inline defaultChecked onChange={e => {this.setState({ ImportAs: 'Image' });}}>
+                                        Imágenes
+                                    </Radio>
+                                    <Radio name="radioImport" inline onChange={e => {this.setState({ ImportAs: 'Custom' });}}>
+                                        Ajustar al tamaño del fichero
+                                    </Radio>
                                 </FormGroup>
                             </Col>
                         </Row>
@@ -78,33 +104,75 @@ export default class ImportFile extends Component {
                     </form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button bsStyle="default" id="import_file_button" onClick={e => {
+                    <Button bsStyle="default" id="import_file_button" onClick={ e => {
                         this.cancel(); e.preventDefault();
                     }}>cancelar</Button>
-                    <Button bsStyle="primary" id="cancel_button" onClick={e => {
-                        console.log('import file');
+                    <Button bsStyle="primary" id="cancel_button" onClick={ (e) => {
+                        this.ImportFile(e); e.preventDefault();
                     }}>Aceptar</Button>
                 </Modal.Footer>
             </Modal>
         );
     }
 
-    fileChanged(event) {
+    ImportFile() {
+        switch(this.state.FileType) {
+        case '(.pdf)':
+            let canvas = document.getElementById('FilePreview');
+            let dataURL = canvas.toDataURL("image/jpeg", 1.0);
+            let initialParams;
+            console.log(this.props.navItemSelected);
+            // If slide
+            if (isSlide(this.props.navItemSelected)) {
+                let position = {
+                    x: randomPositionGenerator(20, 40),
+                    y: randomPositionGenerator(20, 40),
+                    type: 'absolute',
+                };
+                initialParams = {
+                    parent: this.props.navItemSelected,
+                    container: 0,
+                    position: position,
+                };
+            } else {
+                initialParams = {
+                    parent: this.props.navItems[this.props.navItemSelected].boxes[0],
+                    container: ID_PREFIX_SORTABLE_CONTAINER + Date.now(),
+                    url: dataURL,
+                };
+            }
+            Ediphy.Plugins.get('HotspotImages').getConfig().callback(initialParams, ADD_BOX);
+        }
+        this.setState({
+            FileLoaded: false,
+            FileName: '',
+            FilePages: 0,
+            FileType: '',
+            ImportAs: '',
+        });
+        this.props.close();
+    }
+
+    fileLoad(event) {
         let process = this;
         let file = event.target.files[0];
         let pdfURL = URL.createObjectURL(file);
-        // PDFJS.getDocument(data).then(function (doc) {};
 
         if (file.type === 'application/pdf') {
             let loadingTask = pdflib.getDocument(pdfURL);
             loadingTask.promise.then(function(pdfDocument) {
                 let numPages = pdfDocument.numPages;
-                process.setState({ FileLoaded: true, FileName: file.name, FilePages: numPages });
+                process.setState({
+                    FileLoaded: true,
+                    FileName: file.name,
+                    FilePages: numPages,
+                    FileType: '(.pdf)',
+                    ImportAs: 'Image' });
                 // Request a first page
                 return pdfDocument.getPage(1).then(function(pdfPage) {
                     // Display page on the existing canvas with 100% scale.
-                    let viewport = pdfPage.getViewport(0.3);
-                    let canvas = document.getElementById('mycanvas');
+                    let viewport = pdfPage.getViewport(0.5);
+                    let canvas = document.getElementById('FilePreview');
                     canvas.width = viewport.width;
                     canvas.height = viewport.height;
                     canvas.style.border = '1px solid';
@@ -125,6 +193,14 @@ export default class ImportFile extends Component {
      * Close modal
      */
     cancel() {
+        this.setState({
+            FileLoaded: false,
+            FileName: '',
+            FilePages: 0,
+            FileType: '',
+            ImportAs: '',
+        });
+
         this.props.close();
     }
 }

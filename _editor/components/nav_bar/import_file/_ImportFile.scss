@@ -1,0 +1,17 @@
+#ImportFileModal{
+  .modal-dialog{
+    min-width: 780px;
+  }
+  .gcModalBody{
+    .fileLoaded{
+      margin-bottom: 10px;
+    }
+    .form-group{
+      .radio-inline{
+        width: 100%;
+        margin: 8px 0;
+
+      }
+    }
+  }
+}

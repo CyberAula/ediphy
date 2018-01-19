@@ -11,7 +11,6 @@ import { ADD_BOX } from "../../../../common/actions";
 import Alert from './../../common/alert/Alert';
 import { ID_PREFIX_SORTABLE_CONTAINER } from "../../../../common/constants";
 import { randomPositionGenerator } from './../../clipboard/clipboard.utils';
-
 /**
  * Plugin ribbon inside toolbar
  */
