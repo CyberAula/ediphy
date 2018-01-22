@@ -121,9 +121,10 @@ export default class ImportFile extends Component {
             let canvas = document.getElementById('FilePreview');
             let dataURL = canvas.toDataURL("image/jpeg", 1.0);
             let initialParams;
-            console.log(this.props.navItemSelected);
+
             // If slide
-            if (isSlide(this.props.navItemSelected)) {
+            if (isSlide(this.props.navItems[this.props.navItemSelected].type)) {
+                console.log('is a slide');
                 let position = {
                     x: randomPositionGenerator(20, 40),
                     y: randomPositionGenerator(20, 40),
@@ -133,8 +134,10 @@ export default class ImportFile extends Component {
                     parent: this.props.navItemSelected,
                     container: 0,
                     position: position,
+                    url: dataURL,
                 };
             } else {
+                console.log('is not a slide');
                 initialParams = {
                     parent: this.props.navItems[this.props.navItemSelected].boxes[0],
                     container: ID_PREFIX_SORTABLE_CONTAINER + Date.now(),
