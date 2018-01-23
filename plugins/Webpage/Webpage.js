@@ -5,7 +5,7 @@ export function Webpage(base) {
             return {
                 name: 'Webpage',
                 displayName: Ediphy.i18n.t('Webpage.PluginName'),
-                category: 'multimedia',
+                category: 'objects',
                 icon: 'public',
                 initialWidth: '70%',
                 initialHeight: "300px",

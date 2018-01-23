@@ -30,7 +30,6 @@ export const REORDER_NAV_ITEM = 'REORDER_NAV_ITEM';
 export const TOGGLE_NAV_ITEM = 'TOGGLE_NAV_ITEM';
 export const UPDATE_NAV_ITEM_EXTRA_FILES = 'UPDATE_NAV_ITEM_EXTRA_FILES';
 export const CHANGE_NAV_ITEM_NAME = 'CHANGE_NAV_ITEM_NAME';
-export const CHANGE_UNIT_NUMBER = 'CHANGE_UNIT_NUMBER';
 export const INDEX_SELECT = 'INDEX_SELECT';
 
 export const TOGGLE_TEXT_EDITOR = 'TOGGLE_TEXT_EDITOR';
@@ -59,6 +58,7 @@ export const DELETE_RICH_MARK = 'DELETE_RICH_MARK';
 export const EDIT_PLUGIN_TEXT = 'EDIT_PLUGIN_TEXT';
 
 export const PASTE_BOX = 'PASTE_BOX';
+export const CHANGE_BOX_LAYER = 'CHANGE_BOX_LAYER';
 
 export function selectIndex(id) {
     return { type: INDEX_SELECT, payload: { id } };
@@ -108,10 +108,6 @@ export function changeContainedViewName(id, title) {
     return { type: CHANGE_CONTAINED_VIEW_NAME, payload: { id, title } };
 }
 
-export function changeUnitNumber(id, value) {
-    return { type: CHANGE_UNIT_NUMBER, payload: { id, value } };
-}
-
 export function addBox(ids, draggable, resizable, content, toolbar, config, state, initialParams) {
     return { type: ADD_BOX, payload: { ids, draggable, resizable, content, toolbar, config, state, initialParams } };
 }
@@ -155,6 +151,10 @@ export function verticallyAlignBox(id, verticalAlign) {
 
 export function increaseBoxLevel() {
     return { type: INCREASE_LEVEL, payload: {} };
+}
+
+export function changeBoxLayer(id, parent, container, value, boxes_array) {
+    return { type: CHANGE_BOX_LAYER, payload: { id, parent, container, value, boxes_array } };
 }
 
 export function resizeSortableContainer(id, parent, height) {

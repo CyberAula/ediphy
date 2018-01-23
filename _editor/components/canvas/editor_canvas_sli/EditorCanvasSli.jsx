@@ -185,6 +185,7 @@ export default class EditorCanvasSli extends Component {
             ondrop: function(event) {
                 if (Ediphy.Plugins.get(event.relatedTarget.getAttribute("name")).getConfig().limitToOneInstance) {
                     for (let child in this.props.boxes) {
+                        console.log(this.props.boxes);
                         if (!isSortableBox(child) && this.props.boxes[child].parent === this.props.navItemSelected.id && this.props.toolbars[child].config.name === event.relatedTarget.getAttribute("name")) {
                             let alert = (<Alert className="pageModal"
                                 show

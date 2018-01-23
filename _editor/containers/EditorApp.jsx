@@ -3,10 +3,10 @@ import { connect } from 'react-redux';
 import { ActionCreators } from 'redux-undo';
 import { Grid, Col, Row } from 'react-bootstrap';
 import { addNavItem, selectNavItem, expandNavItem, deleteNavItem, reorderNavItem, toggleNavItem, updateNavItemExtraFiles,
-    changeNavItemName, changeUnitNumber, selectIndex,
+    changeNavItemName, selectIndex,
     addBox, selectBox, moveBox, resizeBox, updateBox, duplicateBox, deleteBox, reorderSortableContainer, dropBox, increaseBoxLevel,
     resizeSortableContainer, deleteSortableContainer, changeCols, changeRows, changeSortableProps, reorderBoxes, verticallyAlignBox,
-    toggleTextEditor, toggleTitleMode, pasteBox,
+    toggleTextEditor, toggleTitleMode, pasteBox, changeBoxLayer,
     changeDisplayMode, updateToolbar,
     exportStateAsync, importStateAsync, importState, changeGlobalConfig,
     fetchVishResourcesSuccess, fetchVishResourcesAsync, uploadVishResourceAsync,
@@ -203,19 +203,26 @@ class EditorApp extends Component {
                         <Row id="actionsRibbon">
                             <ActionsRibbon onGridToggle={()=> {this.setState({ grid: !this.state.grid });}}
                                 grid={this.state.grid}
+                                onBoxLayerChanged={(id, parent, container, value, boxes_array) => this.dispatchAndSetState(changeBoxLayer(id, parent, container, value, boxes_array))}
                                 navItemSelected={navItemSelected}
                                 containedViewSelected={containedViewSelected}
+                                boxSelected={boxSelected}
+                                boxes={boxes}
                                 navItems={navItems}
                                 containedViews={containedViews}
                                 ribbonHeight={ribbonHeight + 'px'}/>
                         </Row>
-                        <Row id="ribbonRow" style={{ left: (this.state.carouselShow ? '15px' : '147px') }}>
+
+                        <Row id="ribbonRow" style={{ top: '-1px', left: (this.state.carouselShow ? '15px' : '147px') }}>
                             <PluginRibbon disabled={navItemSelected === 0 || (!Ediphy.Config.sections_have_content && navItemSelected && isSection(navItemSelected)) || hasExerciseBox(navItemSelected, navItems, this.state, boxes)} // ADD condition navItemSelected There are extrafiles
                                 boxSelected={boxes[boxSelected]}
                                 navItemSelected={navItems[navItemSelected]}
-                                containedViewSelected={containedViewSelected}
+                                navItems={navItems}
+                                containedViewSelected={containedViews[containedViewSelected] || containedViewSelected }
                                 category={this.state.pluginTab}
                                 hideTab={this.state.hideTab}
+                                boxes={boxes}
+                                toolbars={toolbars}
                                 ribbonHeight={ribbonHeight + 'px'} />
                         </Row>
                         <Row id="canvasRow" style={{ height: 'calc(100% - ' + ribbonHeight + 'px)' }}>
@@ -255,7 +262,6 @@ class EditorApp extends Component {
                                 onBoxDeleted={(id, parent, container)=> {let bx = this.getDescendantBoxes(boxes[id]); this.dispatchAndSetState(deleteBox(id, parent, container, bx, boxes[id].containedViews /* , this.getDescendantContainedViews(boxes[id])*/));}}
                                 onContainedViewSelected={id => this.dispatchAndSetState(selectContainedView(id))}
                                 onVerticallyAlignBox={(id, verticalAlign)=>this.dispatchAndSetState(verticallyAlignBox(id, verticalAlign))}
-                                // onUnitNumberChanged={(id, value) => this.dispatchAndSetState(changeUnitNumber(id, value))}
                                 onTextEditorToggled={(caller, value) => this.dispatchAndSetState(toggleTextEditor(caller, value))}
                                 onBoxesInsideSortableReorder={(parent, container, order) => {this.dispatchAndSetState(reorderBoxes(parent, container, order));}}
                                 titleModeToggled={(id, value) => this.dispatchAndSetState(toggleTitleMode(id, value))}
@@ -802,6 +808,7 @@ class EditorApp extends Component {
             this.dispatchAndSetState(addRichMark(boxSelected, mark, state));
         } else {
             this.dispatchAndSetState(editRichMark(boxSelected, state, mark, oldConnection, newConnection));
+
         }
 
     }

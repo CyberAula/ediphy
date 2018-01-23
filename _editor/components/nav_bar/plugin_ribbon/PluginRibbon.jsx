@@ -6,6 +6,11 @@ import Ediphy from '../../../../core/editor/main';
 import ReactDOM from 'react-dom';
 import i18n from 'i18next';
 import './_pluginRibbon.scss';
+import { isSortableBox, isSlide, isContainedView } from "../../../../common/utils";
+import { ADD_BOX } from "../../../../common/actions";
+import Alert from './../../common/alert/Alert';
+import { ID_PREFIX_SORTABLE_CONTAINER } from "../../../../common/constants";
+import { randomPositionGenerator } from './../../clipboard/clipboard.utils';
 
 /**
  * Plugin ribbon inside toolbar
@@ -21,6 +26,7 @@ export default class PluginRibbon extends Component {
             buttons: [],
             clipboardAlert: false,
             showed: true,
+            alert: null,
         };
     }
 
@@ -33,6 +39,7 @@ export default class PluginRibbon extends Component {
             <Col id="ribbon" md={12} xs={12} ref="holder" >
                 <div id="insideribbon">
                     <div id="ribbonList">
+                        {this.state.alert}
                         {this.state.buttons.map((item, index) => {
                             let button = this.state.buttons[index];
                             if (button.category === this.props.category || this.props.category === 'all') {
@@ -44,6 +51,9 @@ export default class PluginRibbon extends Component {
                                         name={item.name}
                                         bsSize="large"
                                         draggable="false"
+                                        onClick={(event) => {
+                                            this.ClickAddBox(event);
+                                        }}
                                         style={(button.iconFromUrl) ? {
                                             padding: '8px 8px 8px 45px',
                                             backgroundImage: 'url(' + clase + ')',
@@ -213,6 +223,67 @@ export default class PluginRibbon extends Component {
         interact('.rib').unset();
     }
 
+    ClickAddBox(event) {
+        let alert = (<Alert className="pageModal"
+            show
+            hasHeader
+            backdrop={false}
+            title={ <span><i className="material-icons" style={{ fontSize: '14px', marginRight: '5px', color: 'yellow' }}>warning</i>{ i18n.t("messages.alert") }</span> }
+            closeButton onClose={()=>{this.setState({ alert: null });}}>
+            <span> {i18n.t('messages.instance_limit')} </span>
+        </Alert>);
+
+        let cv = this.props.containedViewSelected !== 0 && isContainedView(this.props.containedViewSelected.id) && isSlide(this.props.containedViewSelected.type);
+        let cvdoc = this.props.containedViewSelected !== 0 && isContainedView(this.props.containedViewSelected.id) && !isSlide(this.props.containedViewSelected.type);
+
+        if (isSlide(this.props.navItemSelected.type) || cv) {
+
+            let SelectedNav = cv ? this.props.containedViewSelected.id : this.props.navItemSelected.id;
+            if (Ediphy.Plugins.get(event.target.getAttribute("name")).getConfig().limitToOneInstance) {
+                for (let child in this.props.boxes) {
+                    if (!isSortableBox(child) && this.props.boxes[child].parent === SelectedNav && this.props.toolbars[child].config.name === event.target.getAttribute("name")) {
+                        this.setState({ alert: alert });
+                        event.stopPropagation();
+                        return;
+                    }
+                }
+            }
+            let position = {
+                x: randomPositionGenerator(20, 40),
+                y: randomPositionGenerator(20, 40),
+                type: 'absolute',
+            };
+            let initialParams = {
+                parent: SelectedNav,
+                container: 0,
+                position: position,
+            };
+            Ediphy.Plugins.get(event.target.getAttribute("name")).getConfig().callback(initialParams, ADD_BOX);
+            event.stopPropagation();
+        } else {
+            let parentBox = cvdoc ? this.props.containedViewSelected.boxes[0] : this.props.navItemSelected.boxes[0];
+
+            // Check if there is a limit in the number of plugin instances
+            if (isSortableBox(parentBox) && Ediphy.Plugins.get(event.target.getAttribute("name")).getConfig().limitToOneInstance) {
+                for (let child in this.props.boxes) {
+
+                    if (!isSortableBox(child) && this.props.boxes[child].parent === parentBox && this.props.toolbars[child].config.name === event.target.getAttribute("name")) {
+
+                        this.setState({ alert: alert });
+                        event.stopPropagation();
+                        return;
+                    }
+                }
+            }
+            let initialParams = {
+                parent: parentBox,
+                container: ID_PREFIX_SORTABLE_CONTAINER + Date.now(),
+            };
+            Ediphy.Plugins.get(event.target.getAttribute("name")).getConfig().callback(initialParams, ADD_BOX);
+            event.stopPropagation();
+        }
+
+    }
 }
 
 /** *

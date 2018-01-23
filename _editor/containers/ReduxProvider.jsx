@@ -19,6 +19,7 @@ export default class ReduxProvider extends Component {
                 <div style={{ height: '100%' }}>
                     <EditorApp id="app" store={this.store}/>
                     <DevTools/>
+
                 </div>
             </Provider>
         );
