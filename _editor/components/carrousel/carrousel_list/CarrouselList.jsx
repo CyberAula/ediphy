@@ -322,7 +322,6 @@ export default class CarrouselList extends Component {
      * @returns {*}
      */
     canDeleteContainedView(id) {
-        console.log(id);
         if (id !== 0 && isContainedView(id)) {
             let thisPage = this.props.containedViews[id];
             let boxes = this.props.boxes;

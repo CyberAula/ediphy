@@ -3,7 +3,7 @@ import i18n from 'i18next';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import MarkEditor from '../../_editor/components/rich_plugins/mark_editor/MarkEditor';
 import img_broken from './../../dist/images/broken_link.png';
-import img_placeholder from './../../dist/images/placeholder.png';
+import img_placeholder from './../../dist/images/placeholder.svg';
 export function HotspotImages(base) {
     return {
         getConfig: function() {

@@ -8,7 +8,7 @@ module.exports = {
         "Coords": "Coordinates",
         "opacity": "Opacity",
         "padding": "Padding",
-        "PluginName": "Virtual Tour",
+        "PluginName": "Google map",
         "radius": "Radius",
         "center": "Center",
         "Zoom": "Zoom",

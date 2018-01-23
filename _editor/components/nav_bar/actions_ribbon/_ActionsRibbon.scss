@@ -15,19 +15,34 @@
   float: right;
 }
 .ActionBtn {
-  height: 47px !important;
-  background-color: transparent !important;
+  height: 40px;
+  background-color: transparent;
+  border: none;
+  margin: 5px;
+  padding: 0 5px;
   .material-icons {
     font-size: 16px;
   }
   span {
     display: block;
-    margin:0px;
+    margin: -3px 0;
+  }
+  &:hover{
+    color: black;
+  }
+  &[disabled]{
+    cursor: not-allowed;
+    color: $grismedio;
   }
 }
 
+.ActionBtn.active{
+  background-color: $blueprimary !important;
+  color: white !important;
+  border-radius: 3px;
+}
 #vs {
-  height: 60px;
-  width:5px;
-  border-right: 2px solid #999;
+  //height: 60px;
+  width: 5px;
+  border-right: 1px solid #999;
 }
