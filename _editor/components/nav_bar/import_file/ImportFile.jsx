@@ -28,6 +28,8 @@ export default class ImportFile extends Component {
             FilePages: 0,
             FileType: '',
             ImportAs: '',
+            PagesFrom: 1,
+            PagesTo: 1,
         };
         this.fileLoad = this.fileLoad.bind(this);
     }
@@ -57,7 +59,7 @@ export default class ImportFile extends Component {
                             <Col xs={12} md={6} lg={6}>
                                 <FormGroup>
                                     <ControlLabel>Páginas</ControlLabel>
-                                    <Radio name="radioPages" inline>
+                                    <Radio name="radioPages" inline onChange={e => {this.setState({ PagesFrom: 1, PagesTo: this.state.FilePages });}}>
                                         Todas ({ this.state.FilePages })
                                     </Radio>
                                     <Radio name="radioPages" inline defaultChecked>
@@ -66,19 +68,19 @@ export default class ImportFile extends Component {
                                                 <InputGroup.Addon>Desde</InputGroup.Addon>
                                                 <FormControl type="number"
                                                     style={{ minWidth: '55px' }}
-                                                    value={1}
+                                                    value={ this.state.PagesFrom }
                                                     min={0}
                                                     max={this.state.FilePages}
-                                                    onChange={e => {this.setState({ modifiedState: true });}}/>
+                                                    onChange={e => {this.setState({ PagesFrom: e.target.value });}}/>
                                             </InputGroup>
                                             <InputGroup className="inputGroup">
                                                 <InputGroup.Addon>Hasta</InputGroup.Addon>
                                                 <FormControl type="number"
                                                     style={{ minWidth: '55px' }}
-                                                    value={1}
+                                                    value={this.state.PagesTo}
                                                     min={0}
                                                     max={this.state.FilePages}
-                                                    onChange={e => {this.setState({ modifiedState: true });}}/>
+                                                    onChange={e => {this.setState({ PagesTo: e.target.value });}}/>
                                             </InputGroup>
                                         </FormGroup>
                                     </Radio>
@@ -118,10 +120,14 @@ export default class ImportFile extends Component {
     ImportFile() {
         switch(this.state.FileType) {
         case '(.pdf)':
-            let canvas = document.getElementById('FilePreview');
+
+            if (this.state.PagesFrom === 1 && this.state.PagesTo === 1) {
+                let canvas = document.getElementById('FilePreview');
+            } else {
+
+            }
             let dataURL = canvas.toDataURL("image/jpeg", 1.0);
             let initialParams;
-
             // If slide
             if (isSlide(this.props.navItems[this.props.navItemSelected].type)) {
                 console.log('is a slide');
