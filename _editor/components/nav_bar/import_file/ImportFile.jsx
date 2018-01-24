@@ -32,6 +32,7 @@ export default class ImportFile extends Component {
             PagesFrom: 1,
             PagesTo: 1,
         };
+        this.AddPlugins = this.AddPlugins.bind(this);
         this.fileLoad = this.fileLoad.bind(this);
         this.ImportFile = this.ImportFile.bind(this);
     }
@@ -89,10 +90,10 @@ export default class ImportFile extends Component {
                                 </FormGroup>
                                 <FormGroup>
                                     <ControlLabel>Importar como</ControlLabel>
-                                    <Radio name="radioImport" inline onChange={e => {this.setState({ ImportAs: 'DocBackground' });}}>
-                                       Fondo en documento
-                                    </Radio>
-                                    <Radio name="radioImport" inline onChange={e => {this.setState({ ImportAs: 'SliBackground' });}}>
+                                    {/* <Radio name="radioImport" inline onChange={e => {this.setState({ ImportAs: 'DocBackground' });}}>
+                                        Fondo en documento
+                                        </Radio> */}
+                                    <Radio name="radioImport" inline onChange={e => {this.setState({ ImportAs: 'SliBackground' });}} >
                                         Fondo en diapositiva
                                     </Radio>
                                     <Radio name="radioImport" inline defaultChecked onChange={e => {this.setState({ ImportAs: 'Image' });}}>
@@ -122,42 +123,23 @@ export default class ImportFile extends Component {
     ImportFile() {
         switch(this.state.FileType) {
         case '(.pdf)':
-            // insert image plugins
-            for (let i = this.state.PagesFrom; i <= this.state.PagesTo; i++) {
-                let canvas = document.getElementById('can' + i);
-                let dataURL = canvas.toDataURL("image/jpeg", 1.0);
-                let initialParams;
-                // If slide
-                if (isSlide(this.props.navItems[this.props.navItemSelected].type)) {
-                    let position = {
-                        x: randomPositionGenerator(20, 40),
-                        y: randomPositionGenerator(20, 40),
-                        type: 'absolute',
-                    };
-                    initialParams = {
-                        parent: this.props.navItemSelected,
-                        container: 0,
-                        position: position,
-                        url: dataURL,
-                    };
-                } else {
-                    initialParams = {
-                        parent: this.props.navItems[this.props.navItemSelected].boxes[0],
-                        container: ID_PREFIX_SORTABLE_CONTAINER + Date.now(),
-                        url: dataURL,
-                    };
-                }
-                Ediphy.Plugins.get('HotspotImages').getConfig().callback(initialParams, ADD_BOX);
-            }
-            // delete canvas preview util
-            for (let i = 1; i <= this.state.FilePages - 1; i++) {
-                let canvas = document.getElementById('can' + i);
-                document.body.removeChild(canvas);
+            switch(this.state.ImportAs) {
+            case 'Image':
+                this.AddPlugins();
+
+            case 'SliBackground':
+                console.log("add to slide background");
             }
 
         }
         // TODO:
         // rest of cases (files)
+
+        // delete canvas preview util
+        for (let i = 1; i <= this.state.FilePages; i++) {
+            let canvas = document.getElementById('can' + i);
+            document.body.removeChild(canvas);
+        }
 
         // reset state
         this.setState({
@@ -172,6 +154,37 @@ export default class ImportFile extends Component {
         });
 
         this.props.close();
+    }
+
+    AddPlugins() {
+        // insert image plugins
+        for (let i = this.state.PagesFrom; i <= this.state.PagesTo; i++) {
+            let canvas = document.getElementById('can' + i);
+            let dataURL = canvas.toDataURL("image/jpeg", 1.0);
+            let initialParams;
+            // If slide
+            if (isSlide(this.props.navItems[this.props.navItemSelected].type)) {
+                let position = {
+                    x: randomPositionGenerator(20, 40),
+                    y: randomPositionGenerator(20, 40),
+                    type: 'absolute',
+                };
+                initialParams = {
+                    parent: this.props.navItemSelected,
+                    container: 0,
+                    position: position,
+                    url: dataURL,
+                };
+            } else {
+                initialParams = {
+                    parent: this.props.navItems[this.props.navItemSelected].boxes[0],
+                    container: ID_PREFIX_SORTABLE_CONTAINER + Date.now(),
+                    url: dataURL,
+                };
+            }
+            Ediphy.Plugins.get('HotspotImages').getConfig().callback(initialParams, ADD_BOX);
+        }
+
     }
 
     fileLoad(event) {
@@ -219,7 +232,7 @@ export default class ImportFile extends Component {
                         }
                         return renderTask.promise;
                     });
-                    if (i === numPages - 1) { return page; }
+                    if (i === numPages) { return page; }
                 }
 
             }).catch(function(reason) {

@@ -189,10 +189,10 @@ export default class EditorNavBar extends Component {
                             </button>
                         </MenuItem>}
                         <MenuItem disabled={this.props.undoDisabled} eventKey="7" key="7">
-                            <button className="dropdownButton" title="Importar PDF"
+                            <button className="dropdownButton" title="Importar archivo"
                                 disabled={ false }
                                 onClick={() => this.setState({ showImportFile: true })}><i className="material-icons">file_upload</i>
-                                importar PDF
+                                Importar archivo
                             </button>
                         </MenuItem>
                         <MenuItem disabled={this.props.undoDisabled} eventKey="1" key="1">
