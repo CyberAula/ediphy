@@ -21,6 +21,7 @@ export const initialState = (config) => { return config.sections_have_content ?
                 level: 1,
                 type: "section",
                 extraFiles: {},
+                background: "rgb(255, 255, 255)",
                 header: {
                     elementContent: {
                         documentTitle: '',
@@ -96,6 +97,18 @@ export const initialState = (config) => { return config.sections_have_content ?
                                         "type": "text",
                                         "autoManaged": false,
                                         "value": i18n.t('page'),
+                                    },
+                                },
+                            },
+                            "background": {
+                                "__name": "Fondo",
+                                "icon": "image",
+                                "buttons": {
+                                    "background": {
+                                        "__name": i18n.t('background.background'),
+                                        "value": 'rgb(255,255,255)',
+                                        "type": 'background_picker',
+                                        "autoManaged": false,
                                     },
                                 },
                             },
@@ -246,6 +259,7 @@ export const initialState = (config) => { return config.sections_have_content ?
                 level: 1,
                 type: "section",
                 extraFiles: {},
+                background: "rgb(255,255,255)",
                 header: {
                     elementContent: {
                         documentTitle: "",
@@ -274,6 +288,7 @@ export const initialState = (config) => { return config.sections_have_content ?
                 unitNumber: 1,
                 hidden: false,
                 extraFiles: {},
+                background: "rgb(255,255,255)",
                 header: {
                     elementContent: {
                         documentTitle: "",
@@ -315,6 +330,18 @@ export const initialState = (config) => { return config.sections_have_content ?
                                         "type": "text",
                                         "autoManaged": false,
                                         "value": i18n.t('page'),
+                                    },
+                                },
+                            },
+                            "background": {
+                                "__name": "Fondo",
+                                "icon": "image",
+                                "buttons": {
+                                    "background": {
+                                        "__name": i18n.t('background.background'),
+                                        "type": 'background_picker',
+                                        "value": { "background": "rgb(255,255,255)", "attr": "full" },
+                                        "autoManaged": false,
                                     },
                                 },
                             },
@@ -417,6 +444,18 @@ export const initialState = (config) => { return config.sections_have_content ?
                                         "__name": i18n.t('NavItem_name'),
                                         "value": i18n.t('page'),
                                         "type": "text",
+                                        "autoManaged": false,
+                                    },
+                                },
+                            },
+                            "background": {
+                                "__name": "Fondo",
+                                "icon": "image",
+                                "buttons": {
+                                    "background": {
+                                        "__name": i18n.t('background.background'),
+                                        "type": 'background_picker',
+                                        "value": { "background": "rgb(255,255,255)", "attr": "full" },
                                         "autoManaged": false,
                                     },
                                 },
