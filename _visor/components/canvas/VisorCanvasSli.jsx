@@ -37,6 +37,8 @@ export default class VisorCanvasSli extends Component {
         // aspectRatio(this.props.aspectRatio);
         let boxes = isCV ? this.props.containedViews[this.props.currentView].boxes || [] : this.props.navItems[this.props.currentView].boxes || [];
         let thisView = this.props.viewsArray && this.props.viewsArray.length > 1 ? (i18n.t('messages.go_back_to') + (isContainedView(this.props.viewsArray[this.props.viewsArray.length - 2]) ? this.props.containedViews[this.props.viewsArray[this.props.viewsArray.length - 2]].name : this.props.navItems[this.props.viewsArray[this.props.viewsArray.length - 2]].name)) : i18n.t('messages.go_back');
+        let backgroundIsUri = (/data\:/).test(itemSelected.background);
+        let isColor = (/rgb[a]?\(\d+\,\d+\,\d+(\,\d)?\)/).test(itemSelected.background);
 
         const tooltip = (
             <Tooltip id="tooltip">{thisView}</Tooltip>
@@ -55,7 +57,12 @@ export default class VisorCanvasSli extends Component {
                             this.setState({ showTitle: false });
                         }}
                         className={'innercanvas sli'}
-                        style={{ visibility: (this.props.showCanvas ? 'visible' : 'hidden') }}>
+                        style={{ visibility: (this.props.showCanvas ? 'visible' : 'hidden'),
+                            background: isColor ? itemSelected.background : '',
+                            backgroundImage: !isColor ? 'url(' + itemSelected.background.background + ')' : '',
+                            backgroundSize: itemSelected.background.attr === 'full' ? 'cover' : 'auto',
+                            backgroundRepeat: itemSelected.background.attr === 'centered' ? 'no-repeat' : 'repeat',
+                            backgroundPosition: itemSelected.background.attr === 'centered' || itemSelected.background.attr === 'full' ? 'center center' : '0% 0%' }}>
                         {isCV ? (< OverlayTrigger placement="bottom" overlay={tooltip}>
                             <a href="#" className="btnOverBar cvBackButton" style={{ pointerEvents: this.props.viewsArray.length > 1 ? 'initial' : 'none', color: this.props.viewsArray.length > 1 ? 'black' : 'gray' }} onClick={a => {
                                 document.getElementById("containedCanvas").classList.add("exitCanvas");

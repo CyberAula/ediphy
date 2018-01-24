@@ -77,6 +77,7 @@ describe('# nav_items_by_id reducer', ()=>{
             const newSection = { boxes: [],
                 children: [],
                 extraFiles: {},
+                background: "rgb(255,255,255)",
                 header: {
                     display: {
                         breadcrumb: "reduced",
@@ -141,6 +142,7 @@ describe('# nav_items_by_id reducer', ()=>{
                 level: 2,
                 linkedBoxes: {},
                 name: "Página",
+                background: "rgb(255,255,255)",
                 parent: "se-1467887497411",
                 type: "document",
                 "unitNumber": 1 };
@@ -177,6 +179,23 @@ describe('# nav_items_by_id reducer', ()=>{
             expect(nav_items_by_id(state, action)).toEqual(newState);
         });
     });
+
+    describe('handle CHANGE_NAV_ITEM_BACKGROOUND', ()=>{
+        test('If nav item background changed', () => {
+            // expect(nav_items_by_id(state, {})).toEqual(state);
+        });
+    });
+    describe('handle CHANGE_UNIT_NUMBER', ()=>{
+        test('If unit number changed', () => {
+            // expect(nav_items_by_id(state, {})).toEqual(state);
+        });
+    });
+
+    // describe('handle CHANGE_UNIT_NUMBER *********************** TODO :)', ()=>{
+    //     test('If unit number changed', () => {
+    //         // expect(nav_items_by_id(state, {})).toEqual(state);
+    //     });
+    // });
 
     describe('handle DELETE_BOX', () => {
         test('If box deleted is in a sortable container', () => {
@@ -566,5 +585,4 @@ describe('# nav_items_by_id reducer', ()=>{
             expect(nav_items_by_id(state, action)).toEqual(newState);
         });
     });
-
 });
