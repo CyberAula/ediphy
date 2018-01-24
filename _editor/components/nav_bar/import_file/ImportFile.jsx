@@ -23,6 +23,7 @@ export default class ImportFile extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            FileURL: '',
             FileLoaded: false,
             FileName: '',
             FilePages: 0,
@@ -32,6 +33,7 @@ export default class ImportFile extends Component {
             PagesTo: 1,
         };
         this.fileLoad = this.fileLoad.bind(this);
+        this.ImportFile = this.ImportFile.bind(this);
     }
     /**
      * Renders React component
@@ -69,7 +71,7 @@ export default class ImportFile extends Component {
                                                 <FormControl type="number"
                                                     style={{ minWidth: '55px' }}
                                                     value={ this.state.PagesFrom }
-                                                    min={0}
+                                                    min={1}
                                                     max={this.state.FilePages}
                                                     onChange={e => {this.setState({ PagesFrom: e.target.value });}}/>
                                             </InputGroup>
@@ -78,7 +80,7 @@ export default class ImportFile extends Component {
                                                 <FormControl type="number"
                                                     style={{ minWidth: '55px' }}
                                                     value={this.state.PagesTo}
-                                                    min={0}
+                                                    min={1}
                                                     max={this.state.FilePages}
                                                     onChange={e => {this.setState({ PagesTo: e.target.value });}}/>
                                             </InputGroup>
@@ -107,7 +109,7 @@ export default class ImportFile extends Component {
                 </Modal.Body>
                 <Modal.Footer>
                     <Button bsStyle="default" id="import_file_button" onClick={ e => {
-                        this.cancel(); e.preventDefault();
+                        this.closeModal(); e.preventDefault();
                     }}>cancelar</Button>
                     <Button bsStyle="primary" id="cancel_button" onClick={ (e) => {
                         this.ImportFile(e); e.preventDefault();
@@ -120,45 +122,55 @@ export default class ImportFile extends Component {
     ImportFile() {
         switch(this.state.FileType) {
         case '(.pdf)':
-
-            if (this.state.PagesFrom === 1 && this.state.PagesTo === 1) {
-                let canvas = document.getElementById('FilePreview');
-            } else {
-
+            // insert image plugins
+            for (let i = this.state.PagesFrom; i <= this.state.PagesTo; i++) {
+                let canvas = document.getElementById('can' + i);
+                let dataURL = canvas.toDataURL("image/jpeg", 1.0);
+                let initialParams;
+                // If slide
+                if (isSlide(this.props.navItems[this.props.navItemSelected].type)) {
+                    let position = {
+                        x: randomPositionGenerator(20, 40),
+                        y: randomPositionGenerator(20, 40),
+                        type: 'absolute',
+                    };
+                    initialParams = {
+                        parent: this.props.navItemSelected,
+                        container: 0,
+                        position: position,
+                        url: dataURL,
+                    };
+                } else {
+                    initialParams = {
+                        parent: this.props.navItems[this.props.navItemSelected].boxes[0],
+                        container: ID_PREFIX_SORTABLE_CONTAINER + Date.now(),
+                        url: dataURL,
+                    };
+                }
+                Ediphy.Plugins.get('HotspotImages').getConfig().callback(initialParams, ADD_BOX);
             }
-            let dataURL = canvas.toDataURL("image/jpeg", 1.0);
-            let initialParams;
-            // If slide
-            if (isSlide(this.props.navItems[this.props.navItemSelected].type)) {
-                console.log('is a slide');
-                let position = {
-                    x: randomPositionGenerator(20, 40),
-                    y: randomPositionGenerator(20, 40),
-                    type: 'absolute',
-                };
-                initialParams = {
-                    parent: this.props.navItemSelected,
-                    container: 0,
-                    position: position,
-                    url: dataURL,
-                };
-            } else {
-                console.log('is not a slide');
-                initialParams = {
-                    parent: this.props.navItems[this.props.navItemSelected].boxes[0],
-                    container: ID_PREFIX_SORTABLE_CONTAINER + Date.now(),
-                    url: dataURL,
-                };
+            // delete canvas preview util
+            for (let i = 1; i <= this.state.FilePages - 1; i++) {
+                let canvas = document.getElementById('can' + i);
+                document.body.removeChild(canvas);
             }
-            Ediphy.Plugins.get('HotspotImages').getConfig().callback(initialParams, ADD_BOX);
+
         }
+        // TODO:
+        // rest of cases (files)
+
+        // reset state
         this.setState({
+            FileURL: '',
             FileLoaded: false,
             FileName: '',
             FilePages: 0,
             FileType: '',
             ImportAs: '',
+            PagesFrom: 1,
+            PagesTo: 1,
         });
+
         this.props.close();
     }
 
@@ -172,27 +184,44 @@ export default class ImportFile extends Component {
             loadingTask.promise.then(function(pdfDocument) {
                 let numPages = pdfDocument.numPages;
                 process.setState({
+                    FileURL: pdfURL,
                     FileLoaded: true,
                     FileName: file.name,
                     FilePages: numPages,
                     FileType: '(.pdf)',
                     ImportAs: 'Image' });
-                // Request a first page
-                return pdfDocument.getPage(1).then(function(pdfPage) {
-                    // Display page on the existing canvas with 100% scale.
-                    let viewport = pdfPage.getViewport(0.5);
-                    let canvas = document.getElementById('FilePreview');
-                    canvas.width = viewport.width;
-                    canvas.height = viewport.height;
-                    canvas.style.border = '1px solid';
-                    let ctx = canvas.getContext('2d');
-                    let renderTask = pdfPage.render({
-                        canvasContext: ctx,
-                        viewport: viewport,
+                // Request pages
+                for (let i = 1; i <= numPages; i++) {
+                    let page = pdfDocument.getPage(i).then(function(pdfPage) {
+                        // Display page on the existing canvas with 100% scale.
+                        let viewport = pdfPage.getViewport(0.5);
+                        let canvas = document.createElement('canvas');
+                        document.body.appendChild(canvas);
+                        canvas.id = "can" + i;
+                        canvas.style.visibility = "hidden";
+                        canvas.width = viewport.width;
+                        canvas.height = viewport.height;
+                        let ctx = canvas.getContext('2d');
+                        let renderTask = pdfPage.render({
+                            canvasContext: ctx,
+                            viewport: viewport,
+                        });
+                        if (i === 1) {
+                            renderTask.promise.then(() => {
+                                let newCanvas = document.getElementById('FilePreview');
+                                let newCanvasCtx = newCanvas.getContext('2d');
+                                let oldCanvas = document.getElementById('can1');
+                                newCanvas.width = viewport.width;
+                                newCanvas.height = viewport.height;
+                                newCanvas.style.border = '1px solid';
+                                newCanvasCtx.drawImage(oldCanvas, 0, 0, oldCanvas.width, oldCanvas.height);
+                            });
+                        }
+                        return renderTask.promise;
                     });
+                    if (i === numPages - 1) { return page; }
+                }
 
-                    return renderTask.promise;
-                });
             }).catch(function(reason) {
                 console.error('Error: ' + reason);
             });
@@ -201,13 +230,20 @@ export default class ImportFile extends Component {
     /**
      * Close modal
      */
-    cancel() {
+    closeModal() {
+        // delete canvas preview util
+        for (let i = 1; i <= this.state.FilePages - 1; i++) {
+            let canvas = document.getElementById('can' + i);
+            document.body.removeChild(canvas);
+        }
         this.setState({
             FileLoaded: false,
             FileName: '',
             FilePages: 0,
             FileType: '',
             ImportAs: '',
+            PagesFrom: 1,
+            PagesTo: 1,
         });
 
         this.props.close();
