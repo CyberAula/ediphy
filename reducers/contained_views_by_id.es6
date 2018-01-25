@@ -1,8 +1,10 @@
+
 import {
     ADD_BOX, ADD_CONTAINED_VIEW, ADD_RICH_MARK, DELETE_RICH_MARK, EDIT_RICH_MARK, DELETE_BOX, DELETE_CONTAINED_VIEW,
     CHANGE_CONTAINED_VIEW_NAME, TOGGLE_TITLE_MODE, DELETE_NAV_ITEM, DELETE_SORTABLE_CONTAINER, PASTE_BOX, IMPORT_STATE,
-    CHANGE_BOX_LAYER,
+    CHANGE_BOX_LAYER, CHANGE_BACKGROUND,
 } from '../common/actions';
+
 import { changeProp, deleteProps, isContainedView, findNavItemContainingBox, isView } from '../common/utils';
 
 function singleContainedViewReducer(state = {}, action = {}) {
@@ -31,6 +33,8 @@ function singleContainedViewReducer(state = {}, action = {}) {
         }
         return changeProp(state, "parent", oldParents);
         // return state;
+    case CHANGE_BACKGROUND:
+        return changeProp(state, "background", action.payload.background);
     case DELETE_RICH_MARK:
         let previousParents = JSON.parse(JSON.stringify(state.parent));
         let oldMarks = previousParents[action.payload.parent];
@@ -73,6 +77,11 @@ export default function(state = {}, action = {}) {
     case CHANGE_BOX_LAYER:
         if (action.payload.container === 0 && isContainedView(action.payload.parent)) {
             return changeProp(state, action.payload.parent, singleContainedViewReducer(state[action.payload.parent], action));
+        }
+        return state;
+    case CHANGE_BACKGROUND:
+        if(isContainedView(action.payload.id)) {
+            return changeProp(state, action.payload.id, singleContainedViewReducer(state[action.payload.id], action));
         }
         return state;
     case EDIT_RICH_MARK:

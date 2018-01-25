@@ -5,7 +5,7 @@ import { Grid, Col, Row } from 'react-bootstrap';
 import { addNavItem, selectNavItem, expandNavItem, deleteNavItem, reorderNavItem, toggleNavItem, updateNavItemExtraFiles,
     changeNavItemName, selectIndex,
     addBox, selectBox, moveBox, resizeBox, updateBox, duplicateBox, deleteBox, reorderSortableContainer, dropBox, increaseBoxLevel,
-    resizeSortableContainer, deleteSortableContainer, changeCols, changeRows, changeSortableProps, reorderBoxes, verticallyAlignBox,
+    resizeSortableContainer, deleteSortableContainer, changeCols, changeRows, changeBackground, changeSortableProps, reorderBoxes, verticallyAlignBox,
     toggleTextEditor, toggleTitleMode, pasteBox, changeBoxLayer,
     changeDisplayMode, updateToolbar,
     exportStateAsync, importStateAsync, importState, changeGlobalConfig,
@@ -408,6 +408,7 @@ class EditorApp extends Component {
                     fetchResults={fetchVishResults}
                     titleModeToggled={(id, value) => this.dispatchAndSetState(toggleTitleMode(id, value))}
                     onContainedViewNameChanged={(id, titleStr) => this.dispatchAndSetState(changeContainedViewName(id, titleStr))}
+                    onBackgroundChanged={(id, background) => this.dispatchAndSetState(changeBackground(id, background))}
                     onNavItemToggled={ id => this.dispatchAndSetState(toggleNavItem(navItemSelected)) }
                     onNavItemSelected={id => this.dispatchAndSetState(selectNavItem(id))}
                     onNavItemNameChanged={(id, titleStr) => this.dispatchAndSetState(changeNavItemName(id, titleStr))}

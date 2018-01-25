@@ -62,6 +62,8 @@ export default class EditorCanvasSli extends Component {
 
         let overlayHeight = actualHeight ? actualHeight : '100%';
         let boxes = itemSelected ? itemSelected.boxes : [];
+        let backgroundIsUri = (/data\:/).test(itemSelected.background);
+        let isColor = (/rgb[a]?\(\d+\,\d+\,\d+(\,\d)?\)/).test(itemSelected.background);
         let gridOn = this.props.grid && ((this.props.containedViewSelected !== 0) === this.props.fromCV);
         return (
             <Col id={this.props.fromCV ? 'containedCanvas' : 'canvas'} md={12} xs={12} className="canvasSliClass"
@@ -79,7 +81,11 @@ export default class EditorCanvasSli extends Component {
                             e.stopPropagation();
                         }}
                         className={'innercanvas sli'}
-                        style={{ visibility: (this.props.showCanvas ? 'visible' : 'hidden') }}>
+                        style={{ visibility: (this.props.showCanvas ? 'visible' : 'hidden'), background: isColor ? itemSelected.background : '',
+                            backgroundImage: !isColor ? 'url(' + itemSelected.background.background + ')' : '',
+                            backgroundSize: itemSelected.background.attr === 'full' ? 'cover' : 'auto',
+                            backgroundRepeat: itemSelected.background.attr === 'centered' ? 'no-repeat' : 'repeat',
+                            backgroundPosition: itemSelected.background.attr === 'centered' || itemSelected.background.attr === 'full' ? 'center center' : '0% 0%' }}>
                         {this.state.alert}
                         {gridOn ? <SnapGrid key={this.props.fromCV}/> : null}
                         <EditorHeader titles={titles}

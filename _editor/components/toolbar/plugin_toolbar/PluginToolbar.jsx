@@ -1,5 +1,18 @@
 import React, { Component } from 'react';
-import { Tooltip, FormControl, OverlayTrigger, Popover, InputGroup, FormGroup, Radio, ControlLabel, Checkbox, Button, PanelGroup, Panel } from 'react-bootstrap';
+import {
+    Tooltip,
+    FormControl,
+    OverlayTrigger,
+    Popover,
+    InputGroup,
+    FormGroup,
+    Radio,
+    ControlLabel,
+    Checkbox,
+    Button,
+    PanelGroup,
+    Panel,
+} from 'react-bootstrap';
 import GridConfigurator from '../grid_configurator/GridConfigurator.jsx';
 import RadioButtonFormGroup from '../radio_button_form_group/RadioButtonFormGroup.jsx';
 import Select from 'react-select';
@@ -10,9 +23,10 @@ import ColorPicker from './../../common/color-picker/ColorPicker';
 import ToggleSwitch from '@trendmicro/react-toggle-switch';
 import '@trendmicro/react-toggle-switch/dist/react-toggle-switch.css';
 import { UPDATE_TOOLBAR, UPDATE_BOX } from '../../../../common/actions';
-import { isSortableContainer, isCanvasElement, isContainedView, isSlide } from '../../../../common/utils';
+import { isSortableContainer, isCanvasElement, isContainedView, isSlide, isDocument } from '../../../../common/utils';
 import i18n from 'i18next';
 import './_pluginToolbar.scss';
+import FileInput from "../../common/file-input/FileInput";
 
 /**
  * Toolbar component for configuring boxes or pages
@@ -45,7 +59,7 @@ export default class PluginToolbar extends Component {
                     style={{
                         top: this.props.top,
                     }}>
-                    <div id="tools" className="toolbox" />
+                    <div id="tools" className="toolbox"/>
                 </div>
             );
         }
@@ -62,7 +76,7 @@ export default class PluginToolbar extends Component {
                     <div className="pestana"
                         onClick={() => {
                             this.setState({ open: !this.state.open });
-                        }} />
+                        }}/>
                     <div id="tools"
                         style={{
                             width: this.state.open ? '250px' : '40px',
@@ -127,7 +141,6 @@ export default class PluginToolbar extends Component {
                         className={toolbar.showTextEditor ? 'toolbarButton textediting' : 'toolbarButton'}
                         onClick={() => {
                             this.props.onTextEditorToggled(toolbar.id, !toolbar.showTextEditor);
-
                         }}>
                         <i className="toolbarIcons material-icons">mode_edit</i>
                         {i18n.t("edit_text")}
@@ -186,7 +199,7 @@ export default class PluginToolbar extends Component {
                 <div className="pestana"
                     onClick={() => {
                         this.setState({ open: !this.state.open });
-                    }} />
+                    }}/>
                 <div id="tools"
                     style={{
                         width: this.state.open ? '250px' : '40px',
@@ -289,6 +302,14 @@ export default class PluginToolbar extends Component {
         let toolbar = this.props.toolbars[this.props.navItemSelected].controls.main.accordions;
         switch (name) {
         // change page/slide title
+        case i18n.t('background.background'):
+            let isColor = (/rgb[a]?\(\d+\,\d+\,\d+(\,\d)?\)/).test(value.background);
+            if(isColor) {
+                this.props.onBackgroundChanged(this.props.navItemSelected, value.background);
+            } else {
+                this.props.onBackgroundChanged(this.props.navItemSelected, value);
+            }
+            break;
         case "custom_title":
             this.props.titleModeToggled(this.props.navItemSelected, {
                 elementContent: {
@@ -339,11 +360,11 @@ export default class PluginToolbar extends Component {
                 },
             });
             break;
-        // preview / export document
+            // preview / export document
         case i18n.t('display_page'):
             this.props.onNavItemToggled(this.props.navItemSelected);
             break;
-        // change document(navitem) name
+            // change document(navitem) name
         case i18n.t('NavItem_name'):
             if (isContainedView(this.props.navItemSelected)) {
                 this.props.onContainedViewNameChanged(this.props.navItemSelected, value);
@@ -351,7 +372,7 @@ export default class PluginToolbar extends Component {
                 this.props.onNavItemNameChanged(this.props.navItemSelected, value);
             }
             break;
-        // display - course title
+            // display - course title
         case i18n.t('course_title'):
             let courseTitle = value ? 'reduced' : 'hidden';
             this.props.titleModeToggled(this.props.navItemSelected, {
@@ -387,7 +408,7 @@ export default class PluginToolbar extends Component {
             });
 
             break;
-        // display - page title
+            // display - page title
         case i18n.t('Title') + i18n.t('page'):
             let pageTitle = value ? 'reduced' : 'hidden';
             this.props.titleModeToggled(this.props.navItemSelected, {
@@ -406,7 +427,7 @@ export default class PluginToolbar extends Component {
             });
 
             break;
-        // display - slide title
+            // display - slide title
         case i18n.t('Title') + i18n.t('slide'):
             let slideTitle = value ? 'reduced' : 'hidden';
             this.props.titleModeToggled(this.props.navItemSelected, {
@@ -459,7 +480,7 @@ export default class PluginToolbar extends Component {
                 },
             });
             break;
-        // display - breadcrumb
+            // display - breadcrumb
         case i18n.t('Breadcrumb'):
             let breadcrumb = value ? 'reduced' : 'hidden';
             this.props.titleModeToggled(this.props.navItemSelected, {
@@ -477,7 +498,7 @@ export default class PluginToolbar extends Component {
                 },
             });
             break;
-        // display - pagenumber
+            // display - pagenumber
         case i18n.t('pagenumber'):
             let pagenumber = value ? 'reduced' : 'hidden';
             this.props.titleModeToggled(this.props.navItemSelected, {
@@ -549,7 +570,7 @@ export default class PluginToolbar extends Component {
                 let buttonWidth = (buttonKeys[i] === '__width' || buttonKeys[i] === '__height') ? '60%' : '100%';
                 let buttonMargin = (buttonKeys[i] === '__width' || buttonKeys[i] === '__height') ? '5%' : '0px';
                 children.push(
-                    <div key={'div_' + i }
+                    <div key={'div_' + i}
                         style={{
                             width: buttonWidth,
                             marginRight: buttonMargin,
@@ -590,9 +611,9 @@ export default class PluginToolbar extends Component {
         let button = accordion.buttons[buttonKey];
         let children = null;
         let id;
-        if(this.props.boxSelected === -1) {
+        if (this.props.boxSelected === -1) {
             id = this.props.navItemSelected;
-        }else{
+        } else {
             id = this.props.box.id;
         }
 
@@ -622,7 +643,7 @@ export default class PluginToolbar extends Component {
             },
             onChange: e => {
                 let value;
-                if(typeof e.target !== 'undefined') {
+                if (typeof e.target !== 'undefined') {
                     value = e.target.value;
                 } else {
                     value = e.value;
@@ -667,21 +688,21 @@ export default class PluginToolbar extends Component {
                         }
                         break;
                     }
-                    if(accordion.buttons.__aspectRatio && accordion.buttons.__aspectRatio.checked) {
+                    if (accordion.buttons.__aspectRatio && accordion.buttons.__aspectRatio.checked) {
                         otherButton.value = otherButton.value * newButton.value / button.value;
-                        if(!otherButton.auto) {
+                        if (!otherButton.auto) {
                             otherButton.displayValue = otherButton.value;
                         }
                     }
 
                     // If next values are going to be over 100%, prevent action
-                    if((newButton.units === "%" && newButton.value > 100) || (otherButton.units === "%" && otherButton.value > 100)) {
+                    if ((newButton.units === "%" && newButton.value > 100) || (otherButton.units === "%" && otherButton.value > 100)) {
                         return;
                     }
 
-                    if(buttonKey === "__width") {
+                    if (buttonKey === "__width") {
                         this.props.onBoxResized(id, newButton, otherButton);
-                    }else{
+                    } else {
                         this.props.onBoxResized(id, otherButton, newButton);
                     }
                     return;
@@ -698,9 +719,87 @@ export default class PluginToolbar extends Component {
 
                 }
 
+                if (button.type === 'button') {
+                    value = button.value;
+                }
+
+                if (button.type === 'image_file') {
+                    if (e.target.files.length === 1) {
+                        let file = e.target.files[0];
+                        let reader = new FileReader();
+                        reader.onload = () => {
+                            let img = new Image();
+                            let data = reader.result;
+                            img.onload = () => {
+                                let canvas = document.createElement('canvas');
+                                let ctx = canvas.getContext('2d');
+                                ctx.drawImage(img, 0, 0, 1200, 1200);
+                                this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, canvas.toDataURL("image/jpeg"));
+                                if (!button.autoManaged) {
+                                    if (!button.callback) {
+                                        this.handlecanvasToolbar(button.__name, data);
+                                    } else {
+                                        button.callback(state, buttonKey, data, id, UPDATE_TOOLBAR);
+                                    }
+                                }
+                            };
+                            img.src = data;
+                        };
+                        reader.readAsDataURL(file);
+                        return;
+                    }
+                }
+
+                if (button.type === 'background_picker') {
+                    if(e.color) {
+                        value = { background: e.color, attr: 'full' };
+                        if (!value) {
+                            return;
+                        }
+                    }
+
+                    if(e.target && e.target.type === "radio") {
+                        value = { background: button.value.background, attr: e.target.value };
+                    }
+
+                    if(e.target && e.target.type === "text") {
+                        value = { background: e.target.value, attr: 'full' };
+                    }
+
+                    if(e.currentTarget && e.currentTarget.type === "button") {
+                        value = { background: e.currentTarget.value, attr: 'full' };
+                    }
+
+                    if (e.target && e.target.files && e.target.files.length === 1) {
+                        let file = e.target.files[0];
+                        let reader = new FileReader();
+                        reader.onload = () => {
+                            let img = new Image();
+                            let data = reader.result;
+                            img.onload = () => {
+                                let canvas = document.createElement('canvas');
+                                let ctx = canvas.getContext('2d');
+                                ctx.drawImage(img, 0, 0, 1200, 1200);
+                                this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, { background: data, attr: 'full' });
+                                if (!button.autoManaged) {
+                                    if (!button.callback) {
+                                        this.handlecanvasToolbar(button.__name, { background: data, attr: 'full' });
+                                    } else {
+                                        button.callback(state, buttonKey, data, id, UPDATE_TOOLBAR);
+                                    }
+                                }
+                            };
+                            img.src = data;
+                        };
+                        reader.readAsDataURL(file);
+                        return;
+                    }
+                }
+
                 if (button.type === 'checkbox') {
                     value = !button.checked;
                 }
+
                 if (button.type === 'radio') {
                     value = button.options[value];
                     if (buttonKey === '__position') {
@@ -726,15 +825,17 @@ export default class PluginToolbar extends Component {
                 }
                 if (button.type === 'color') {
                     value = e.color;
-                    if (!value) {return;}
+                    if (!value) {
+                        return;
+                    }
                 }
 
                 this.props.onToolbarUpdated(id, tabKey, accordionKeys, buttonKey, value);
 
                 if (!button.autoManaged) {
-                    if(!button.callback) {
+                    if (!button.callback) {
                         this.handlecanvasToolbar(button.__name, value);
-                    }else{
+                    } else {
                         button.callback(state, buttonKey, value, id, UPDATE_TOOLBAR);
                     }
 
@@ -763,6 +864,142 @@ export default class PluginToolbar extends Component {
                 ]);
 
         }
+
+        if (button.type === "image_file") {
+            let isURI = (/data\:/).test(props.value);
+            return React.createElement(
+                FormGroup,
+                { key: button.__name }, [
+                    React.createElement(
+                        ControlLabel,
+                        { key: 'label_' + button.__name, value: button.value },
+                        button.__name),
+                    React.createElement('div', { key: 'container_' + button.__name, style: { display: 'block' } },
+                        React.createElement(
+                            FileInput, {
+                                key: 'fileinput_' + props.label,
+                                value: props.value,
+                                onChange: props.onChange,
+                                style: { width: '100%' },
+                            },
+                            React.createElement('div', {
+                                style: { backgroundImage: isURI ? 'url(' + props.value + ')' : 'none' },
+                                key: "inside_" + props.label,
+                                className: 'fileDrag_toolbar',
+                            }, isURI ? null : [
+                                React.createElement('span', { key: props.label + "1" }, i18n.t('FileInput.Drag')),
+                                React.createElement('span', { key: props.label + "2", className: "fileUploaded" }, [
+                                    React.createElement('i', {
+                                        key: 'icon_' + button.__name,
+                                        className: 'material-icons',
+                                    }, 'insert_drive_file'),
+                                ]),
+                            ])
+                        )
+                    ),
+                ]);
+        }
+
+        if (button.type === "background_picker") {
+            let isURI = (/data\:/).test(props.value.background);
+            let isColor = (/rgb[a]?\(\d+\,\d+\,\d+(\,\d)?\)/).test(props.value.background);
+            let default_background = "rgb(255,255,255)";
+            let isSli = isSlide(this.props.navItems[this.props.navItemSelected].type);
+
+            return React.createElement(
+                FormGroup,
+                { key: button.__name },
+                [
+                    React.createElement(
+                        ControlLabel,
+                        { key: 'label1_' + button.__name },
+                        i18n.t('background.background_color')),
+                    React.createElement(
+                        ColorPicker, { key: "cpicker_" + props.label, value: isColor ? props.value.background : default_background, onChange: props.onChange },
+                        []),
+                    isSli && React.createElement(
+                        ControlLabel,
+                        { key: 'label2_' + button.__name, value: button.value.background },
+                        i18n.t('background.background_image')),
+                    isSli && React.createElement('div',
+                        { key: 'container_' + button.__name, style: { display: 'block' } },
+                        [React.createElement(
+                            FileInput, {
+                                key: 'fileinput_' + props.label,
+                                value: props.value.background,
+                                onChange: props.onChange,
+                                style: { width: '100%' },
+                            },
+                            React.createElement('div', {
+                                style: { backgroundImage: isURI ? 'url(' + props.value.background + ')' : 'none' },
+                                key: "inside_" + props.label,
+                                className: 'fileDrag_toolbar',
+                            }, isURI ? null : [
+                                React.createElement('span', { key: props.label + "1" }, i18n.t('FileInput.Drag')),
+                                React.createElement('span', { key: props.label + "2", className: "fileUploaded" }, [
+                                    React.createElement('i', {
+                                        key: 'icon_' + button.__name,
+                                        className: 'material-icons',
+                                    }, 'insert_drive_file'),
+                                ]),
+                            ])
+                        ),
+                        React.createElement(
+                            FormGroup,
+                            { key: button.__name },
+                            [
+                                React.createElement(
+                                    ControlLabel,
+                                    { key: 'labelurlinput_' + button.__name },
+                                    i18n.t('background.background_input_url')),
+                                React.createElement(FormControl,
+                                    {
+                                        key: 'urlinput_' + props.label,
+                                        value: isURI || isColor ? '' : props.value.background,
+                                        onChange: props.onChange,
+                                    }, null),
+                            ]),
+                        (!isColor) && React.createElement(Radio, { key: 'full_', name: 'image_display', checked: props.value.attr === 'full', onChange: props.onChange, value: 'full' }, 'full'),
+                        (!isColor) && React.createElement(Radio, { key: 'repeat', name: 'image_display', checked: props.value.attr === 'repeat', onChange: props.onChange, value: 'repeat' }, 'repeat'),
+                        (!isColor) && React.createElement(Radio, { key: 'centered', name: 'image_display', checked: props.value.attr === 'centered', onChange: props.onChange, value: 'centered' }, 'centered'),
+                        ]
+                    ),
+                    React.createElement(
+                        ControlLabel,
+                        { key: 'label_' + button.__name },
+                        i18n.t('background.reset_background')),
+                    React.createElement(
+                        Button, {
+                            value: default_background,
+                            key: 'button_' + button.__name,
+                            onClick: props.onChange,
+                            className: "toolbarButton",
+                        },
+                        React.createElement("div", { key: props.label }, "Reset"),
+                    ),
+                ]);
+        }
+
+        if (button.type === "button") {
+            return React.createElement(
+                FormGroup,
+                { key: button.__name }, [
+                    React.createElement(
+                        ControlLabel,
+                        { key: 'label_' + button.__name },
+                        button.__name),
+                    React.createElement(
+                        Button, {
+                            key: 'button_' + button.__name,
+                            onClick: props.onChange,
+                            className: "toolbarButton",
+                        },
+                        [
+                            React.createElement("div", { key: props.label }, button.displayLabel),
+                        ]),
+                ]);
+        }
+
         if (button.options) {
             if (button.type === "colorOptions") {
                 props.options = button.options;
@@ -874,7 +1111,8 @@ export default class PluginToolbar extends Component {
                 [React.createElement(
                     ToggleSwitch,
                     props,
-                    button.__name), <label key={buttonKey + 'label'} style={{ display: 'inline-block' }}>{props.label}</label>]
+                    button.__name),
+                <label key={buttonKey + 'label'} style={{ display: 'inline-block' }}>{props.label}</label>]
             );
         }
 
@@ -884,7 +1122,10 @@ export default class PluginToolbar extends Component {
 
             return React.createElement(
                 FormGroup,
-                { key: button.__name, style: { display: accordion.buttons[button.associatedKey].checked ? "block" : "none" } },
+                {
+                    key: button.__name,
+                    style: { display: accordion.buttons[button.associatedKey].checked ? "block" : "none" },
+                },
                 [
                     React.createElement(
                         "span",
@@ -921,7 +1162,7 @@ export default class PluginToolbar extends Component {
                     {i18n.t("Auto")} <br/>
                     {/* Disable px size in slides*/}
                     {isSlide(this.props.navItems[this.props.navItemSelected].type) ?
-                        (<span />) :
+                        (<span/>) :
                         (<div><br/>
                             <ControlLabel>{i18n.t("Units")}</ControlLabel>
                             <FormControl componentClass='select'
@@ -961,7 +1202,7 @@ export default class PluginToolbar extends Component {
                 </FormGroup>
             );
         }
-        if(button.type === 'range') {
+        if (button.type === 'range') {
             props.className = "rangeInput";
             return React.createElement(
                 FormGroup,
@@ -1005,12 +1246,12 @@ export default class PluginToolbar extends Component {
      */
     renderOption(option) {
         return (
-            <span>{option.label}<i style={{ color: option.color, float: 'right' }} className="fa fa-stop" /></span>
+            <span>{option.label}<i style={{ color: option.color, float: 'right' }} className="fa fa-stop"/></span>
         );
     }
 
     /**
-     * Rende option value
+     * Render option value
      * @param option Option object wihth its label
      * @returns {code}
      */
@@ -1018,6 +1259,14 @@ export default class PluginToolbar extends Component {
         return (
             <span>{option.label}</span>
         );
+    }
+
+    onDropImage(event) {
+        let files = event.target.files;
+
+        if (event.target.files.length === 1) {
+            this.setState({ file: event.target.files[0] });
+        }
     }
 
 }
